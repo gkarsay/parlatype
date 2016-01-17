@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.16.1 -->
+<interface>
+  <requires lib="gtk+" version="3.10"/>
+  <object class="GtkHeaderBar" id="headerbar">
+    <property name="visible">True</property>
+    <property name="title" translatable="yes">Parlatype</property>
+    <property name="show-close-button">True</property>
+    <!--<signal name="button-press-event" handler="headerbar_button_pressed_cb" swapped="no"/>-->
+            <child>
+              <object class="GtkToggleButton" id="button_play">
+                <property name="label">gtk-media-play</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="has_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_underline">True</property>
+                <property name="use_stock">True</property>
+                <property name="always_show_image">True</property>
+                <signal name="toggled" handler="play_button_toggled_cb" swapped="no"/>
+              </object>
+              <packing>
+                <property name="pack-type">start</property>
+              </packing>
+            </child>
+      <child>
+      <object class="GtkMenuButton" id="menu_button">
+        <property name="visible">True</property>
+        <property name="sensitive">True</property>
+        <property name="direction">none</property>
+        <!--<accelerator key="F10" signal="clicked"/>-->
+        <style>
+          <class name="image-button"/>
+        </style>
+        <child>
+          <object class="GtkImage" id="menu-icon">
+            <property name="visible">True</property>
+            <property name="icon-name">emblem-system-symbolic</property>
+            <property name="icon-size">1</property>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="pack-type">end</property>
+      </packing>
+    </child>
+  </object>
+</interface>

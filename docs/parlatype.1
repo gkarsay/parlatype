@@ -1,0 +1,56 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" (C) Copyright 2016 Gabor Karsay <gabor.karsay@gmx.at>,
+.\"
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.TH PARLATYPE 1 "January 14, 2016"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7)
+.SH NAME
+parlatype \- minimal audio player for manual speech transcription
+.SH SYNOPSIS
+.B parlatype
+.RI [ options ] 
+.RI [ file ]
+.SH DESCRIPTION
+.B parlatype
+is an audio player for the GNOME desktop environment.
+It's main purpose is the manual transcription of spoken audio files.
+.SH OPTIONS
+.B parlatype
+follows the usual GNU command line syntax, with long
+options starting with two dashes (`-').
+.TP
+.B \-h, \-\-help
+Show summary of options.
+.TP
+.B \-v, \-\-version
+Show version of program and exit.
+.TP
+.B file
+Specifies the file to open when
+.B parlatype
+starts. Only one file will be opened, any other file will be ignored.
+.SH RETURN VALUE
+.TP
+.B 0
+normal termination
+.TP
+.B 1
+invoked with unknown options
+.TP
+.B 2
+GStreamer backend couldn't be initialized
+.SH AUTHOR
+Gabor Karsay (gabor.karsay@gmx.at)   

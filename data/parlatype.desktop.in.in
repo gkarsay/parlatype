@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+_Name=Parlatype
+_Comment=Transcription utility
+_Keywords=
+Exec=parlatype %U
+Icon=parlatype
+Terminal=false
+Type=Application
+DBusActivatable=false
+StartupNotify=true
+Categories=Utility;
+MimeType=application/x-ogg;application/ogg;audio/x-vorbis+ogg;audio/x-scpls;audio/x-mp3;audio/x-mpeg;audio/mpeg;audio/x-mpegurl;audio/x-flac;audio/mp4;x-scheme-handler/itms;x-scheme-handler/itmss;

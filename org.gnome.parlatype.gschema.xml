@@ -1,0 +1,22 @@
+<schemalist>
+	<schema id="org.gnome.parlatype" path="/org/gnome/parlatype/">
+		<key name="rewind-on-pause" type="i">
+			<range min="0" max="10"/>
+			<default>2</default>
+			<summary>Rewind on pause</summary>
+			<description>Value in seconds</description>
+		</key>
+		<key name="jump-back" type="i">
+			<range min="1" max="60"/>
+			<default>10</default>
+			<summary>Jump back</summary>
+			<description>Value in seconds</description>
+		</key>
+		<key name="jump-forward" type="i">
+			<range min="1" max="60"/>
+			<default>10</default>
+			<summary>Jump forward</summary>
+			<description>Value in seconds</description>
+		</key>
+	</schema>
+</schemalist>

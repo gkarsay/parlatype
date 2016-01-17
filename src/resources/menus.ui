@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<interface>
+  <!-- interface-requires gtk+ 3.0 -->
+  <menu id="appmenu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Open File</attribute>
+        <attribute name="action">app.open</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Recent Files</attribute>
+        <attribute name="action">app.recent</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Preferences</attribute>
+        <attribute name="action">app.prefs</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Info</attribute>
+        <attribute name="action">app.about</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Quit</attribute>
+        <attribute name="action">app.quit</attribute>
+      </item>
+    </section>
+  </menu>
+  <menu id="winmenu">
+      <item>
+        <attribute name="label" translatable="yes">Copy timestamp</attribute>
+        <attribute name="action">win.copy</attribute>
+      </item>
+  </menu>
+</interface>
