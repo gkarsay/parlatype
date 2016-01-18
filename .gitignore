@@ -21,11 +21,11 @@ Makefile.in
 /install-sh
 /m4/
 /missing
-/org.gnome.parlatype.gschema.valid
 /stamp-h1
 
 /data/parlatype.desktop
 /data/parlatype.desktop.in
+/data/org.gnome.parlatype.gschema.valid
 
 /po/*.gmo
 /po/*.pot
