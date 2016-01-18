@@ -82,8 +82,6 @@ static void
 pt_player_seek (PtPlayer *player,
 		gint64    position)
 {
-	g_return_if_fail (PT_IS_PLAYER (player));
-
 	gst_element_seek (
 		player->priv->pipeline,
 		player->priv->speed,
@@ -266,7 +264,7 @@ pt_player_open_file_finish (PtPlayer      *player,
 			    GAsyncResult  *result,
 			    GError       **error)
 {
-	g_return_val_if_fail (g_task_is_valid (result, player), NULL);
+	g_return_val_if_fail (g_task_is_valid (result, player), FALSE);
 
 	return g_task_propagate_boolean (G_TASK (result), error);
 }
@@ -335,6 +333,10 @@ pt_player_open_uri (PtPlayer  *player,
 	   pause the player and look for the last known position in metadata.
 	   This sets it to position 0 if no metadata is found. */
 
+	g_return_val_if_fail (PT_IS_PLAYER (player), FALSE);
+	g_return_val_if_fail (uri != NULL, FALSE);
+	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
 	g_debug ("open uri");
 
 	gboolean      result;
@@ -342,9 +344,6 @@ pt_player_open_uri (PtPlayer  *player,
 	GMainContext *context;
 	GstBus	     *bus;
 	guint	      bus_watch_id;
-
-	g_return_if_fail (PT_IS_PLAYER (player));
-	g_return_if_fail (uri != NULL);
 
 	/* Only one message bus possible, we remove any previous bus */
 	if (player->priv->bus_watch_id > 0)
@@ -430,6 +429,7 @@ pt_player_jump_to_permille (PtPlayer *player,
 			    guint     permille)
 {
 	g_return_if_fail (PT_IS_PLAYER (player));
+	g_return_if_fail (permille <= 1000);
 
 	gint64 new;
 
@@ -440,7 +440,7 @@ pt_player_jump_to_permille (PtPlayer *player,
 gint
 pt_player_get_permille (PtPlayer *player)
 {
-	g_return_if_fail (PT_IS_PLAYER (player));
+	g_return_val_if_fail (PT_IS_PLAYER (player), -1);
 
 	gint64 pos;
 	gfloat frac;
@@ -457,8 +457,7 @@ pt_player_set_speed (PtPlayer *player,
 		     gdouble   speed)
 {
 	g_return_if_fail (PT_IS_PLAYER (player));
-	if (speed <= 0)
-		return;
+	g_return_if_fail (speed >= 0);
 
 	gint64 pos;
 
@@ -475,8 +474,7 @@ pt_player_set_volume (PtPlayer *player,
 		      gdouble   volume)
 {
 	g_return_if_fail (PT_IS_PLAYER (player));
-	if (volume < 0 || volume > 1)
-		return;
+	g_return_if_fail (volume >= 0 && volume <= 1);
 
 	g_object_set (G_OBJECT (player->priv->volume), "volume", volume, NULL);
 }
@@ -544,6 +542,8 @@ pt_player_fast_forward (PtPlayer *player,
 gchar*
 pt_player_get_uri (PtPlayer *player)
 {
+	g_return_val_if_fail (PT_IS_PLAYER (player), NULL);
+
 	gchar *uri = NULL;
 	GFile *file = NULL;
 
@@ -559,7 +559,7 @@ pt_player_get_uri (PtPlayer *player)
 gchar*
 pt_player_get_filename (PtPlayer *player)
 {
-	g_return_if_fail (PT_IS_PLAYER (player));
+	g_return_val_if_fail (PT_IS_PLAYER (player), NULL);
 
 	GError	    *error = NULL;
 	const gchar *filename = NULL;
@@ -627,7 +627,7 @@ pt_player_get_time_string (PtPlayer *player,
 gchar*
 pt_player_get_current_time_string (PtPlayer *player)
 {
-	g_return_if_fail (PT_IS_PLAYER (player));
+	g_return_val_if_fail (PT_IS_PLAYER (player), NULL);
 
 	gint64 time;
 
@@ -640,7 +640,7 @@ pt_player_get_current_time_string (PtPlayer *player)
 gchar*
 pt_player_get_duration_time_string (PtPlayer *player)
 {
-	g_return_if_fail (PT_IS_PLAYER (player));
+	g_return_val_if_fail (PT_IS_PLAYER (player), NULL);
 
 	gint64 time;
 
