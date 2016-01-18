@@ -12,7 +12,7 @@ import subprocess
 
 INKSCAPE = '/usr/bin/inkscape'
 OPTIPNG = '/usr/bin/optipng'
-SRC = os.path.join('.', 'src', 'resources', 'icons')
+SRC = os.path.join('..', '..', 'src', 'resources', 'icons')
 
 inkscape_process = None
 
@@ -126,7 +126,7 @@ class ContentHandler(xml.sax.ContentHandler):
                 height = rect['height']
                 id = rect['id']
 
-                dir = os.path.join("data", "icons", "%sx%s" % (width, height), self.context)
+                dir = os.path.join("%sx%s" % (width, height), self.context)
                 outfile = os.path.join(dir, self.icon_name+'.png')
                 if not os.path.exists(dir):
                     os.makedirs(dir)
