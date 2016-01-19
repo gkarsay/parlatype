@@ -202,32 +202,42 @@ pt_app_startup (GApplication *app)
 	GtkBuilder *builder;
 	GMenuModel *app_menu;
 
-	const gchar *quit_accels[2] = { "<Primary>Q", NULL };
-	const gchar *open_accels[2] = { "<Primary>O", NULL };
-	const gchar *copy_accels[2] = { "<Primary>C", NULL };
-	const gchar *recent_accels[2] = { "<Primary>R", NULL };
-
 	G_APPLICATION_CLASS (pt_app_parent_class)->startup (app);
 
 	g_action_map_add_action_entries (G_ACTION_MAP (app),
 	                                 app_actions, G_N_ELEMENTS (app_actions),
 	                                 app);
 
-	gtk_application_set_accels_for_action (GTK_APPLICATION (app),
-                                         "app.quit",
-                                         quit_accels);
+#if GTK_CHECK_VERSION(3,12,0)
+	const gchar *quit_accels[2] = { "<Primary>Q", NULL };
+	const gchar *open_accels[2] = { "<Primary>O", NULL };
+	const gchar *copy_accels[2] = { "<Primary>C", NULL };
+	const gchar *recent_accels[2] = { "<Primary>R", NULL };
 
 	gtk_application_set_accels_for_action (GTK_APPLICATION (app),
-                                         "app.open",
-                                         open_accels);
+			"app.quit", quit_accels);
 
 	gtk_application_set_accels_for_action (GTK_APPLICATION (app),
-                                         "app.recent",
-                                         recent_accels);
+			"app.open", open_accels);
 
 	gtk_application_set_accels_for_action (GTK_APPLICATION (app),
-                                         "win.copy",
-                                         copy_accels);
+			"app.recent", recent_accels);
+
+	gtk_application_set_accels_for_action (GTK_APPLICATION (app),
+			"win.copy", copy_accels);
+#else
+	gtk_application_add_accelerator (GTK_APPLICATION (app),
+			"<Primary>Q", "app.quit", NULL);
+
+	gtk_application_add_accelerator (GTK_APPLICATION (app),
+			"<Primary>O", "app.open", NULL);
+
+	gtk_application_add_accelerator (GTK_APPLICATION (app),
+			"<Primary>C", "win.copy", NULL);
+
+	gtk_application_add_accelerator (GTK_APPLICATION (app),
+			"<Primary>R", "app.recent", NULL);
+#endif
 
 	builder = gtk_builder_new_from_resource ("/org/gnome/parlatype/menus.ui");
 	app_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "appmenu"));
