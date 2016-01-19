@@ -20,7 +20,7 @@ Parlatype is fully translatable, currently there is an English and a German vers
 ### Dependencies
 
 To install Parlatype from source you need the basic building infrastructure with make, autotools and intltool.
-Then you need libgtk-3 (minimum version 3.12) and libgstreamer1.0.
+Then you need libgtk-3 (minimum version 3.10) and libgstreamer1.0.
 
 On a Debian based distro you can install these with:
 
@@ -28,7 +28,7 @@ On a Debian based distro you can install these with:
 $ sudo apt-get install build-essential autotools-dev intltool libgtk-3-dev libgstreamer1.0-dev
 ```
 
-In order to run it needs at least Gtk+ 3.12 and GStreamer 1.0 with the set of "good" plugins.
+In order to run it needs at least Gtk+ 3.10 and GStreamer 1.0 with the set of "good" plugins.
 The Debian based command is:
 ```
 $ sudo apt-get install libgtk-3-0 libgstreamer1.0-0 gstreamer1.0-plugins-good
