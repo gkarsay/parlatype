@@ -296,7 +296,6 @@ pt_player_open_file_async (PtPlayer	       *player,
 				_("URI not valid: %s"), uri);
 
 		g_object_unref (task);
-		g_main_loop_quit (user_data);
 		return;
 	}
 
