@@ -67,7 +67,7 @@ copy_timestamp (GSimpleAction *action,
 	GtkClipboard *clip;
 	const gchar  *text = NULL;
 
-	text = pt_player_get_current_time_string (win->priv->player);
+	text = pt_player_get_current_time_string (win->priv->player, 0);
 
 	if (text) {
 		clip = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
@@ -98,7 +98,7 @@ static void
 update_duration_label (PtWindow *win)
 {
 	gchar *text;
-	text = pt_player_get_duration_time_string (win->priv->player);
+	text = pt_player_get_duration_time_string (win->priv->player, 0);
 	if (text) {
 		gtk_label_set_text (GTK_LABEL (win->priv->dur_label), text);
 		g_debug ("duration: %s", text);
@@ -112,7 +112,7 @@ update_time (PtWindow *win)
 	gint   permille;
 	gchar *text;
 
-	text = pt_player_get_current_time_string (win->priv->player);
+	text = pt_player_get_current_time_string (win->priv->player, 0);
 	permille = pt_player_get_permille (win->priv->player);
 
 	if (permille == -1 || text == NULL)
@@ -209,7 +209,7 @@ pt_window_open_file (PtWindow *win,
 		gtk_window_set_title (GTK_WINDOW (win), display_name);
 		g_free (display_name);
 	}
-	win->priv->timer = g_timeout_add (200, (GSourceFunc) update_time, win);
+	win->priv->timer = g_timeout_add (10, (GSourceFunc) update_time, win);
 }
 
 void
@@ -220,7 +220,7 @@ play_button_toggled_cb (GtkToggleButton *button,
 		pt_player_play (win->priv->player);
 	} else {
 		pt_player_pause (win->priv->player);
-		pt_player_jump_relative (win->priv->player, win->priv->pause * -1);
+		pt_player_jump_relative (win->priv->player, win->priv->pause * -1000);
 	}
 }
 
@@ -228,14 +228,14 @@ void
 jump_back_button_clicked_cb (GtkButton *button,
 			     PtWindow  *win)
 {
-	pt_player_jump_relative (win->priv->player, win->priv->back * -1);
+	pt_player_jump_relative (win->priv->player, win->priv->back * -1000);
 }
 
 void
 jump_forward_button_clicked_cb (GtkButton *button,
 			        PtWindow  *win)
 {
-	pt_player_jump_relative (win->priv->player, win->priv->forward);
+	pt_player_jump_relative (win->priv->player, win->priv->forward * 1000);
 }
 
 /* currently not used */
