@@ -21,6 +21,7 @@
 #include "pt-player.h"
 #include "pt-mediakeys.h"
 #include "pt-window.h"
+#include "pt-window-dnd.h"
 #include "pt-window-private.h"
 
 
@@ -403,7 +404,8 @@ pt_window_init (PtWindow *win)
 	setup_settings (win);
 	setup_player (win);
 	setup_accels_actions_headerbar (win);
-	setup_mediakeys (win); /* this is in pt_mediakeys.c */
+	setup_mediakeys (win);		/* this is in pt_mediakeys.c */
+	pt_window_setup_dnd (win);	/* this is in pt_window_dnd.c */
 	win->priv->recent = gtk_recent_manager_get_default ();
 	pt_window_set_sensitive (win, FALSE);
 }

@@ -33,6 +33,8 @@ parlatype_SOURCES = \
 		pt-preferences.h	\
 		pt-window.c	\
 		pt-window.h	\
+		pt-window-dnd.c	\
+		pt-window-dnd.h	\
 		pt-window-private.h
 
 parlatype_LDFLAGS = $(PACKAGE_LDFLAGS)
