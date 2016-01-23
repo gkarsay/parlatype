@@ -122,10 +122,10 @@ metadata_save_position (PtPlayer *player)
 	if (!pt_player_query_position (player, &pos))
 		return;
 	
-	pos = pos / GST_SECOND;
+	pos = pos / GST_MSECOND;
 
 	info = g_file_info_new ();
-	g_snprintf (value, sizeof (value), "%ld", pos);
+	g_snprintf (value, sizeof (value), "%" G_GINT64_FORMAT, pos);
 
 	g_file_info_set_attribute_string (info, METADATA_POSITION, value);
 
@@ -207,10 +207,8 @@ open_file_bus_handler (GstBus     *bus,
 {
 	GTask    *task = (GTask *) data;
 	PtPlayer *player = g_task_get_source_object (task);
-	GstState  state;
-	gint64    pos = 0;
 	
-	//g_debug ("Message: %s; sent by: %s", GST_MESSAGE_TYPE_NAME (msg), GST_MESSAGE_SRC_NAME (msg));
+	g_debug ("Message: %s; sent by: %s", GST_MESSAGE_TYPE_NAME (msg), GST_MESSAGE_SRC_NAME (msg));
 
 	switch (GST_MESSAGE_TYPE (msg)) {
 	case GST_MESSAGE_ERROR: {
@@ -226,16 +224,19 @@ open_file_bus_handler (GstBus     *bus,
 		}
 
 	case GST_MESSAGE_DURATION_CHANGED:
+		/* I have absolutely no idea why querying duration is sometimes not
+		   working. I checked the state, still didn't help in some cases.
+		   Althoug duration-changed signal is emitted, querying fails.
+		   So lets take the sledgehammer approach. */
 		
-	case GST_MESSAGE_ASYNC_DONE:
-		pt_player_query_duration (player, &pos);
-		gst_element_get_state (player->priv->pipeline, &state, NULL, -1);
-		if (pos > 0 && state == GST_STATE_PLAYING) {
-			g_task_return_boolean (task, TRUE);
-			g_object_unref (task);
-			return FALSE;
+		while (TRUE) {
+			if (pt_player_query_duration (player, NULL)) {
+				g_task_return_boolean (task, TRUE);
+				g_object_unref (task);
+				return FALSE;
+			}
 		}
-			
+
 	default:
 		break;
 	}
@@ -296,7 +297,6 @@ pt_player_open_file_async (PtPlayer	       *player,
 				_("URI not valid: %s"), uri);
 
 		g_object_unref (task);
-		g_main_loop_quit (user_data);
 		return;
 	}
 
@@ -337,7 +337,7 @@ pt_player_open_uri (PtPlayer  *player,
 	g_return_val_if_fail (uri != NULL, FALSE);
 	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
-	g_debug ("open uri");
+	g_debug ("pt_player_open_uri");
 
 	gboolean      result;
 	SyncData      data;
@@ -385,7 +385,7 @@ pt_player_open_uri (PtPlayer  *player,
 
 void
 pt_player_jump_relative (PtPlayer *player,
-			 gint      seconds)
+			 gint      milliseconds)
 {
 	g_return_if_fail (PT_IS_PLAYER (player));
 
@@ -394,8 +394,11 @@ pt_player_jump_relative (PtPlayer *player,
 	if (!pt_player_query_position (player, &pos))
 		return;
 	
-	new = pos + GST_SECOND * (gint64) seconds;
-	g_debug ("jump relative:\ndur = %ld\nnew = %ld", player->priv->dur, new);
+	new = pos + GST_MSECOND * (gint64) milliseconds;
+	g_debug ("jump relative:\n"
+			"dur = %" G_GINT64_FORMAT "\n"
+			"new = %" G_GINT64_FORMAT,
+			player->priv->dur, new);
 
 	if (new > player->priv->dur)
 		new = player->priv->dur;
@@ -408,16 +411,19 @@ pt_player_jump_relative (PtPlayer *player,
 
 void
 pt_player_jump_to_position (PtPlayer *player,
-			    gint      seconds)
+			    gint      milliseconds)
 {
 	g_return_if_fail (PT_IS_PLAYER (player));
 
 	gint64 pos;
 
-	pos = GST_SECOND * (gint64) seconds;
+	pos = GST_MSECOND * (gint64) milliseconds;
 
 	if (pos > player->priv->dur || pos < 0) {
-		g_debug ("jump to position failed\ndur = %ld\npos = %ld", player->priv->dur, pos);
+		g_debug ("jump to position failed\n"
+				"dur = %" G_GINT64_FORMAT "\n"
+				"pos = %" G_GINT64_FORMAT,
+				player->priv->dur, pos);
 		return;
 	}
 
@@ -605,49 +611,94 @@ pt_player_get_filename (PtPlayer *player)
 
 static gchar*
 pt_player_get_time_string (PtPlayer *player,
-			   gint64    time)
+			   gint64    time,
+			   guint     digits)
 {
 	gchar *result;
-	gint   h, m, s, mod;
+	gint   h, m, s, ms, mod;
 
-	s = GST_TIME_AS_SECONDS (time);
-	h = s / 3600;
-	mod = s % 3600;
-	m = mod / 60;
-	s = s % 60;
+	ms = GST_TIME_AS_MSECONDS (time);
+	h = ms / 3600000;
+	mod = ms % 3600000;
+	m = mod / 60000;
+	ms = ms % 60000;
+	s = ms / 1000;
+	ms = ms % 1000;
 
 	if (GST_TIME_AS_SECONDS (player->priv->dur) > 3600)
 		result = g_strdup_printf ("%d:%02d:%02d", h, m, s);
 	else
 		result = g_strdup_printf ("%02d:%02d", m, s);
 
+	switch (digits) {
+	case (1):
+		result = g_strdup_printf ("%s-%d", result, ms / 100);
+		break;
+	case (2):
+		result = g_strdup_printf ("%s-%02d", result, ms / 10);
+		break;
+	case (3):
+		result = g_strdup_printf ("%s-%03d", result, ms);
+		break;
+	default:
+		break;
+	}
+
 	return result;	
 }
 
 gchar*
-pt_player_get_current_time_string (PtPlayer *player)
+pt_player_get_current_time_string (PtPlayer *player,
+				   guint     digits)
 {
 	g_return_val_if_fail (PT_IS_PLAYER (player), NULL);
+	g_return_val_if_fail (digits <= 3, NULL);
 
 	gint64 time;
 
 	if (!pt_player_query_position (player, &time))
 		return NULL;
 
-	return pt_player_get_time_string (player, time);
+	return pt_player_get_time_string (player, time, digits);
 }
 
 gchar*
-pt_player_get_duration_time_string (PtPlayer *player)
+pt_player_get_duration_time_string (PtPlayer *player,
+				    guint     digits)
 {
 	g_return_val_if_fail (PT_IS_PLAYER (player), NULL);
+	g_return_val_if_fail (digits <= 3, NULL);
 
 	gint64 time;
 
 	if (!pt_player_query_duration (player, &time))
 		return NULL;
 
-	return pt_player_get_time_string (player, time);
+	return pt_player_get_time_string (player, time, digits);
+}
+
+gchar*
+pt_player_get_timestamp (PtPlayer *player)
+{
+	g_return_val_if_fail (PT_IS_PLAYER (player), NULL);
+
+	gchar *tmp;
+	gchar *timestamp;
+	gint64 time;
+
+	if (!pt_player_query_position (player, &time))
+		return NULL;
+
+	tmp = NULL;
+	timestamp = NULL;
+
+	tmp = pt_player_get_time_string (player, time, 1);
+	if (tmp) {
+		timestamp = g_strdup_printf ("#%s#", tmp);
+		g_free (tmp);
+	}
+
+	return timestamp;
 }
 
 static gboolean

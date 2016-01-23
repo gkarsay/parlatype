@@ -29,7 +29,7 @@
       position if found.
    3. Play around with play, pause etc. Unlike pt_player_open_uri() these
       methods are not synchronous and might take a little while until they are done.
-   4. Our time unit are full seconds. For scale-widgets we use per mille (1/1000).
+   4. Our time unit are milliseconds. For scale-widgets we use per mille (1/1000).
    5. While playing it emits these signals:
       - duration-changed: The duration is an estimate, that's why it can change
                           during playback.
@@ -80,9 +80,9 @@ gboolean	pt_player_open_uri		(PtPlayer  *player,
 						 gchar     *uri,
 						 GError   **error);
 void		pt_player_jump_relative		(PtPlayer *player,
-						 gint      seconds);
+						 gint      milliseconds);
 void		pt_player_jump_to_position	(PtPlayer *player,
-						 gint      seconds);
+						 gint      milliseconds);
 void		pt_player_jump_to_permille	(PtPlayer *player,
 						 guint     permille);
 gint		pt_player_get_permille		(PtPlayer *player);
@@ -98,8 +98,11 @@ void		pt_player_fast_forward		(PtPlayer *player,
 						 gdouble   speed);
 gchar*		pt_player_get_uri		(PtPlayer *player);
 gchar*		pt_player_get_filename		(PtPlayer *player);
-gchar*		pt_player_get_current_time_string	(PtPlayer *player);
-gchar*		pt_player_get_duration_time_string	(PtPlayer *player);
+gchar*		pt_player_get_current_time_string	(PtPlayer *player,
+							 guint     digits);
+gchar*		pt_player_get_duration_time_string	(PtPlayer *player,
+							 guint     digits);
+gchar*		pt_player_get_timestamp		(PtPlayer *player);
 
 PtPlayer	*pt_player_new			(gdouble   speed,
 						 GError  **error);
