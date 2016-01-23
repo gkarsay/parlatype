@@ -125,7 +125,7 @@ metadata_save_position (PtPlayer *player)
 	pos = pos / GST_MSECOND;
 
 	info = g_file_info_new ();
-	g_snprintf (value, sizeof (value), "%ld", pos);
+	g_snprintf (value, sizeof (value), "%" G_GINT64_FORMAT, pos);
 
 	g_file_info_set_attribute_string (info, METADATA_POSITION, value);
 
@@ -395,7 +395,10 @@ pt_player_jump_relative (PtPlayer *player,
 		return;
 	
 	new = pos + GST_MSECOND * (gint64) milliseconds;
-	g_debug ("jump relative:\ndur = %ld\nnew = %ld", player->priv->dur, new);
+	g_debug ("jump relative:\n"
+			"dur = %" G_GINT64_FORMAT "\n"
+			"new = %" G_GINT64_FORMAT,
+			player->priv->dur, new);
 
 	if (new > player->priv->dur)
 		new = player->priv->dur;
@@ -417,7 +420,10 @@ pt_player_jump_to_position (PtPlayer *player,
 	pos = GST_MSECOND * (gint64) milliseconds;
 
 	if (pos > player->priv->dur || pos < 0) {
-		g_debug ("jump to position failed\ndur = %ld\npos = %ld", player->priv->dur, pos);
+		g_debug ("jump to position failed\n"
+				"dur = %" G_GINT64_FORMAT "\n"
+				"pos = %" G_GINT64_FORMAT,
+				player->priv->dur, pos);
 		return;
 	}
 
