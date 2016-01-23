@@ -207,10 +207,8 @@ open_file_bus_handler (GstBus     *bus,
 {
 	GTask    *task = (GTask *) data;
 	PtPlayer *player = g_task_get_source_object (task);
-	GstState  state;
-	gint64    pos = 0;
 	
-	//g_debug ("Message: %s; sent by: %s", GST_MESSAGE_TYPE_NAME (msg), GST_MESSAGE_SRC_NAME (msg));
+	g_debug ("Message: %s; sent by: %s", GST_MESSAGE_TYPE_NAME (msg), GST_MESSAGE_SRC_NAME (msg));
 
 	switch (GST_MESSAGE_TYPE (msg)) {
 	case GST_MESSAGE_ERROR: {
@@ -226,16 +224,19 @@ open_file_bus_handler (GstBus     *bus,
 		}
 
 	case GST_MESSAGE_DURATION_CHANGED:
+		/* I have absolutely no idea why querying duration is sometimes not
+		   working. I checked the state, still didn't help in some cases.
+		   Althoug duration-changed signal is emitted, querying fails.
+		   So lets take the sledgehammer approach. */
 		
-	case GST_MESSAGE_ASYNC_DONE:
-		pt_player_query_duration (player, &pos);
-		gst_element_get_state (player->priv->pipeline, &state, NULL, -1);
-		if (pos > 0 && state == GST_STATE_PLAYING) {
-			g_task_return_boolean (task, TRUE);
-			g_object_unref (task);
-			return FALSE;
+		while (TRUE) {
+			if (pt_player_query_duration (player, NULL)) {
+				g_task_return_boolean (task, TRUE);
+				g_object_unref (task);
+				return FALSE;
+			}
 		}
-			
+
 	default:
 		break;
 	}
@@ -336,7 +337,7 @@ pt_player_open_uri (PtPlayer  *player,
 	g_return_val_if_fail (uri != NULL, FALSE);
 	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
-	g_debug ("open uri");
+	g_debug ("pt_player_open_uri");
 
 	gboolean      result;
 	SyncData      data;
