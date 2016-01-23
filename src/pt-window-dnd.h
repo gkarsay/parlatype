@@ -21,13 +21,15 @@
 #include <gtk/gtk.h>
 #include "pt-window.h"
 
-/* Drag and Drop */
+
 enum {
-	TARGET_STRING,
+	TARGET_STRING,		/* most GNOME apps */
+	TARGET_UTF8_STRING	/* from LibreOffice */
 };
 
 static const GtkTargetEntry drag_target_string[] = {
-	{ "STRING", GTK_TARGET_OTHER_APP, TARGET_STRING }
+	{ "STRING", GTK_TARGET_OTHER_APP, TARGET_STRING } ,
+	{ "UTF8_STRING", GTK_TARGET_OTHER_APP, TARGET_UTF8_STRING }
 };
 
 

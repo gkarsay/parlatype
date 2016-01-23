@@ -24,7 +24,7 @@
 
 static gboolean
 handle_timestamp (PtWindow *win,
-		  gchar *data)
+		  gchar    *data)
 {
 	/* Timestamp can have a short or long format:
 	          h:mm:ss-digit
@@ -77,7 +77,7 @@ handle_timestamp (PtWindow *win,
 
 static gboolean
 handle_uri (PtWindow *win,
-	    gchar *data)
+	    gchar    *data)
 {
 	GFile   *file;
 	gchar  **split = NULL;
@@ -128,7 +128,7 @@ handle_uri (PtWindow *win,
 
 static gboolean
 handle_filename (PtWindow *win,
-		 gchar *data)
+		 gchar    *data)
 {
 	gboolean       success;
 	GList	      *list;
@@ -181,66 +181,71 @@ handle_dnd_data (PtWindow *win,
 }
 
 static gboolean
-win_dnd_drop_cb (GtkWidget *widget,
+win_dnd_drop_cb (GtkWidget	*widget,
 		 GdkDragContext *context,
-		 gint x,
-		 gint y,
-		 guint time,
-		 gpointer user_data)
+		 gint		 x,
+		 gint		 y,
+		 guint		 time,
+		 gpointer	 user_data)
 {
 	gboolean  is_valid_drop_site;
 	GdkAtom   target_type;
 	GList	 *iterate;
-	gboolean  have_string;
+	gboolean  have_target;
 
 	/* Check to see if (x,y) is a valid drop site within widget */
 	is_valid_drop_site = TRUE;
-	have_string = FALSE;
+	have_target = FALSE;
 
 	/* Choose the best target type */
 	iterate = gdk_drag_context_list_targets (context);
 	while (iterate != NULL) {
+		g_debug ("atom string: %s", gdk_atom_name (iterate->data));
 		if (iterate->data == gdk_atom_intern ("STRING", TRUE)) {
-			have_string = TRUE;
+			target_type = gdk_atom_intern ("STRING", TRUE);
+			have_target = TRUE;
+			break;
+		}
+		if (iterate->data == gdk_atom_intern ("UTF8_STRING", TRUE)) {
+			target_type = gdk_atom_intern ("UTF8_STRING", TRUE);
+			have_target = TRUE;
 			break;
 		}
 		iterate = g_list_next (iterate);
 	}
 
-	if (have_string) {
-		target_type = gdk_atom_intern ("STRING", TRUE);
+	if (have_target) {
 
                 /* Request the data from the source. */
                 gtk_drag_get_data (widget,	/* will receive 'drag-data-received' signal */
 				   context,	/* represents the current state of the DnD */
-				   target_type,	/* the target type we want */
-				   time);            /* time stamp */
+				   target_type,
+				   time);
         } else {
 	        /* No target offered by source => error */
-                is_valid_drop_site = FALSE;
+		is_valid_drop_site = FALSE;
         }
 
         return  is_valid_drop_site;
 }
 
 static void
-win_dnd_received_cb (GtkWidget *widget,
-		     GdkDragContext *context,
-		     int x,
-		     int y,
+win_dnd_received_cb (GtkWidget	      *widget,
+		     GdkDragContext   *context,
+		     int	       x,
+		     int	       y,
 		     GtkSelectionData *seldata,
-		     guint info,
-		     guint time,
-		     gpointer user_data)
+		     guint	       info,
+		     guint	       time,
+		     gpointer	       user_data)
 {
 	PtWindow *win = user_data;
 	gchar	 *data;
 	gboolean  success;
-	GError 	 *error = NULL;
 
 	if ((seldata == NULL) ||
 	    (gtk_selection_data_get_length (seldata) == 0) ||
-	    (info != TARGET_STRING)) {
+	    (info != TARGET_STRING && info != TARGET_UTF8_STRING)) {
 		gtk_drag_finish (context,
 				 FALSE,		/* success */
 				 FALSE,		/* delete source */
@@ -257,13 +262,45 @@ win_dnd_received_cb (GtkWidget *widget,
 			 time);
 }
 
+static gboolean
+win_dnd_motion_cb (GtkWidget	  *widget,
+		   GdkDragContext *context,
+		   gint		   x,
+		   gint		   y,
+		   guint	   info,
+		   guint	   time,
+		   gpointer	   user_data)
+{
+	/* We handle this signal ourselves, because using GTK_DEST_DEFAULT_MOTION
+	   drags with source LibreOffice show an icon indicating drag is not
+	   possible. */
+
+	GdkAtom target_atom;
+
+	target_atom = gtk_drag_dest_find_target (widget, context, NULL);
+	if (target_atom != GDK_NONE) {
+		gdk_drag_status (context, GDK_ACTION_COPY, time);
+		return TRUE;
+	}
+
+	gdk_drag_status (context, 0, time);
+
+	return FALSE;
+}
+
 void
 pt_window_setup_dnd (PtWindow *win)
 {
 	gtk_drag_dest_set (GTK_WIDGET (win),
-				GTK_DEST_DEFAULT_MOTION,
-				drag_target_string, 1,
+				0,	/* no default behavior flags set, we do everything ourselves */
+				drag_target_string,
+				G_N_ELEMENTS (drag_target_string),
 				GDK_ACTION_COPY);
+
+	g_signal_connect (GTK_WIDGET (win),
+				"drag_motion",
+				G_CALLBACK (win_dnd_motion_cb),
+				win);
 
 	g_signal_connect (GTK_WIDGET (win),
 				"drag_data_received",
