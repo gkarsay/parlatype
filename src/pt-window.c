@@ -65,13 +65,13 @@ copy_timestamp (GSimpleAction *action,
 	win = PT_WINDOW (user_data);
 
 	GtkClipboard *clip;
-	const gchar  *text = NULL;
+	const gchar  *timestamp = NULL;
 
-	text = pt_player_get_current_time_string (win->priv->player, 0);
+	timestamp = pt_player_get_timestamp (win->priv->player);
 
-	if (text) {
+	if (timestamp) {
 		clip = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
-		gtk_clipboard_set_text (clip, text, -1);
+		gtk_clipboard_set_text (clip, timestamp, -1);
 	}
 }
 

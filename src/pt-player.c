@@ -671,6 +671,30 @@ pt_player_get_duration_time_string (PtPlayer *player,
 	return pt_player_get_time_string (player, time, digits);
 }
 
+gchar*
+pt_player_get_timestamp (PtPlayer *player)
+{
+	g_return_val_if_fail (PT_IS_PLAYER (player), NULL);
+
+	gchar *tmp;
+	gchar *timestamp;
+	gint64 time;
+
+	if (!pt_player_query_position (player, &time))
+		return NULL;
+
+	tmp = NULL;
+	timestamp = NULL;
+
+	tmp = pt_player_get_time_string (player, time, 1);
+	if (tmp) {
+		timestamp = g_strdup_printf ("#%s#", tmp);
+		g_free (tmp);
+	}
+
+	return timestamp;
+}
+
 static gboolean
 bus_call (GstBus     *bus,
           GstMessage *msg,

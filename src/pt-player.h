@@ -102,6 +102,7 @@ gchar*		pt_player_get_current_time_string	(PtPlayer *player,
 							 guint     digits);
 gchar*		pt_player_get_duration_time_string	(PtPlayer *player,
 							 guint     digits);
+gchar*		pt_player_get_timestamp		(PtPlayer *player);
 
 PtPlayer	*pt_player_new			(gdouble   speed,
 						 GError  **error);
