@@ -130,6 +130,23 @@ update_time (PtWindow *win)
 }
 
 static void
+add_timer (PtWindow *win)
+{
+	if (win->priv->timer == 0) {
+		win->priv->timer = g_timeout_add (10, (GSourceFunc) update_time, win);
+	}
+}
+
+static void
+remove_timer (PtWindow *win)
+{
+	if (win->priv->timer > 0) {
+		g_source_remove (win->priv->timer);
+		win->priv->timer = 0;
+	}
+}
+
+static void
 pt_window_set_sensitive (PtWindow *win,
 			 gboolean  state)
 {
@@ -150,8 +167,10 @@ pt_window_set_sensitive (PtWindow *win,
 		gtk_label_set_text (GTK_LABEL (win->priv->dur_label), "00:00");
 		gtk_label_set_text (GTK_LABEL (win->priv->pos_label), "00:00");
 		gtk_window_set_title (GTK_WINDOW (win), "Parlatype");
+		remove_timer (win);
 	}
 
+	/* Play button always on Pause-state */
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (win->priv->button_play), FALSE);
 }
 
@@ -209,7 +228,8 @@ pt_window_open_file (PtWindow *win,
 		gtk_window_set_title (GTK_WINDOW (win), display_name);
 		g_free (display_name);
 	}
-	win->priv->timer = g_timeout_add (10, (GSourceFunc) update_time, win);
+
+	add_timer (win);
 }
 
 void
@@ -407,6 +427,7 @@ pt_window_init (PtWindow *win)
 	setup_mediakeys (win);		/* this is in pt_mediakeys.c */
 	pt_window_setup_dnd (win);	/* this is in pt_window_dnd.c */
 	win->priv->recent = gtk_recent_manager_get_default ();
+	win->priv->timer = 0;
 	pt_window_set_sensitive (win, FALSE);
 }
 
@@ -416,6 +437,7 @@ pt_window_dispose (GObject *object)
 	PtWindow *win;
 	win = PT_WINDOW (object);
 
+	remove_timer (win);
 	g_clear_object (&win->priv->editor);
 	g_clear_object (&win->priv->proxy);
 	g_clear_object (&win->priv->player);
