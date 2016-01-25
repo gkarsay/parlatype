@@ -27,12 +27,12 @@ handle_timestamp (PtWindow *win,
 		  gchar    *data)
 {
 	/* Timestamp can have a short or long format:
-	          h:mm:ss-digit
+	          h:mm:ss-tenthsecond
 	   short:   00:00-0
 	   long:  0:00:00-0
 
-	   h can have several digits, m and s have always 2 digits in long format.
-	   m can have 1 or 2 digits in short format.
+	   h can have several digits, m and s have always 2 digits.
+	   In short format we also accept only 1 digit for m.
 	   Additionally it may be surrounded by #, e.g. #00:00-0#   */
 
 	gint     h, m, s, digit, pos;
