@@ -14,36 +14,6 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* PtPlayer is the GStreamer backend for Parlatype.
-
-   1. Call pt_player_new(). This is a failable constructor. It fails, if
-      GStreamer doesn't init or a plugin is missing. In this case NULL is returned,
-      error is set.
-   2. Call pt_player_open_uri(). Works only with local files.
-      Returns success as a boolean and an error if it fails.
-      Only one file can be open at a time, playlists are not supported by the
-      backend. Opening a new file will close the previous one.
-      When closing a file or on object destruction PtPlayer tries to write the
-      last position into the file's metadata.
-      On opening a file it reads the metadata and jumps to the last known
-      position if found.
-   3. Play around with play, pause etc. Unlike pt_player_open_uri() these
-      methods are not synchronous and might take a little while until they are done.
-   4. Our time unit are milliseconds. For scale-widgets we use per mille (1/1000).
-   5. While playing it emits these signals:
-      - duration-changed: The duration is an estimate, that's why it can change
-                          during playback.
-      - end-of-stream: End of file reached, in the GUI you might want to jump
-     		       to the beginning, reset play button etc.
-      - error: A fatal error occured, the player is reset. There's an error message.
-   6. Speed is a double from 0.5 to 1.5. 1.0 is normal playback, < 1.0 is slower,
-      > 1.0 is faster. Changing the "speed" property doesn't change playback though.
-      Use the method instead.
-      Volume is a double from 0 to 1. It can be set via the method or setting
-      the "volume" property.
-   7. After use g_object_unref() it.
- */
-
 
 #ifndef PT_PLAYER_H
 #define PT_PLAYER_H

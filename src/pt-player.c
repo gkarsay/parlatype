@@ -53,6 +53,34 @@ G_DEFINE_TYPE_WITH_CODE (PtPlayer, pt_player, G_TYPE_OBJECT,
 						pt_player_initable_iface_init))
 
 
+/**
+ * SECTION: pt-player
+ * @short_description: The GStreamer backend for Parlatype.
+ *
+ * PtPlayer is the GStreamer backend for Parlatype. Construct it with #pt_player_new().
+ * Then you have to open a file with pt_player_open_uri(). Now you can play around
+ * with the various controls.
+ *
+ * The internal time unit in PtPlayer are milliseconds and for scale widgets there
+ * is a scale from 0 to 1000. Use it to jump to a position or to update your widget.
+ *
+ * While playing PtPlayer emits these signals:
+ * - duration-changed: The duration is an estimate, that's why it can change
+ *                         during playback.
+ * - end-of-stream: End of file reached, in the GUI you might want to jump
+ *    		       to the beginning, reset play button etc.
+ * - error: A fatal error occured, the player is reset. There's an error message.
+ *
+ * PtPlayer has two properties:
+ * - speed: is a double from 0.5 to 1.5. 1.0 is normal playback, < 1.0 is slower,
+ *     > 1.0 is faster. Changing the "speed" property doesn't change playback though.
+ *     Use the method instead.
+ * - Volume is a double from 0 to 1. It can be set via the method or setting
+      the "volume" property.
+ */
+
+
+
 /* -------------------------- static helpers -------------------------------- */
 
 static gboolean
@@ -344,6 +372,32 @@ pt_player_open_file_async (PtPlayer	       *player,
 
 /* Reference for myself: async stuff is modeled on: https://git.gnome.org/browse/glib/tree/gio/gdbusconnection.c
    g_dbus_connection_send_message_with_reply_sync() */
+
+/**
+ * pt_player_open_uri:
+ * @player: a #PtPlayer
+ * @uri: the URI of the file
+ * @error: (allow-none): return location for an error, or NULL
+ *
+ * Opens a local audio file for playback. It doesn't work with videos or streams.
+ * Only one file can be open at a time, playlists are not supported by the
+ * backend. Opening a new file will close the previous one.
+ *
+ * When closing a file or on object destruction PtPlayer tries to write the
+ * last position into the file's metadata. On opening a file it reads the
+ * metadata and jumps to the last known position if found.
+ *
+ * The player is set to the paused state and ready for playback. To start
+ * playback use @pt_player_play().
+ *
+ * This is a synchronous method and will return an error on failure. Please note
+ * that all other player controls are asynchronous. If you call e.g. pt_player_play(),
+ * it will take a short time until it really starts playing.
+ *
+ * Possible errors are file not found or kind of stream not recognized.
+ *
+ * Return value: TRUE on success, FALSE on error
+ */
 gboolean
 pt_player_open_uri (PtPlayer  *player,
 		    gchar     *uri,
@@ -410,7 +464,13 @@ pt_player_open_uri (PtPlayer  *player,
 
 /* ------------------------- Basic controls --------------------------------- */
 
-
+/**
+ * pt_player_pause:
+ * @player: a #PtPlayer
+ *
+ * Sets the player to the paused state, meaning it stops playback and doesn't
+ * change position. To resume playback use @pt_player_play().
+ */
 void
 pt_player_pause (PtPlayer *player)
 {
@@ -419,6 +479,12 @@ pt_player_pause (PtPlayer *player)
 	gst_element_set_state (player->priv->pipeline, GST_STATE_PAUSED);
 }
 
+/**
+ * pt_player_play:
+ * @player: a #PtPlayer
+ *
+ * Starts playback at the defined speed until it reaches the end of stream.
+ */
 void
 pt_player_play (PtPlayer *player)
 {
@@ -479,6 +545,16 @@ pt_player_fast_forward (PtPlayer *player,
 
 /* -------------------- Positioning, speed, volume -------------------------- */
 
+/**
+ * pt_player_jump_relative:
+ * @player: a #PtPlayer
+ * @milliseconds: time in milliseconds to jump
+ *
+ * Skips @milliseconds in stream. A positive value means jumping ahead. If the
+ * resulting position would be beyond then end of stream, it goes to the end of
+ * stream. A negative value means jumping back. If the resulting position would
+ * be negative, it jumps to position 0:00.
+ */
 void
 pt_player_jump_relative (PtPlayer *player,
 			 gint      milliseconds)
@@ -505,6 +581,15 @@ pt_player_jump_relative (PtPlayer *player,
 	pt_player_seek (player, new);
 }
 
+/**
+ * pt_player_jump_to_position:
+ * @player: a #PtPlayer
+ * @milliseconds: position in milliseconds
+ *
+ * Jumps to a given position in stream. The position is given in @milliseconds
+ * starting from position 0:00. A position beyond the duration of stream is
+ * ignored.
+ */
 void
 pt_player_jump_to_position (PtPlayer *player,
 			    gint      milliseconds)
@@ -526,6 +611,16 @@ pt_player_jump_to_position (PtPlayer *player,
 	pt_player_seek (player, pos);
 }
 
+/**
+ * pt_player_jump_to_permille:
+ * @player: a #PtPlayer
+ * @permille: scale position between 0 and 1000
+ *
+ * This is used for scale widgets. Start of stream is at 0, end of stream is
+ * at 1000. This will jump to the given position. If your widget uses a different
+ * scale, it's up to you to convert it to 1/1000. Values beyond 1000 are not
+ * allowed.
+ */
 void
 pt_player_jump_to_permille (PtPlayer *player,
 			    guint     permille)
@@ -539,6 +634,18 @@ pt_player_jump_to_permille (PtPlayer *player,
 	pt_player_seek (player, new);
 }
 
+/**
+ * pt_player_get_permille:
+ * @player: a #PtPlayer
+ *
+ * This is used for scale widgets. If the scale has to synchronize with the
+ * current position in stream, this gives the position on a scale between 0 and
+ * 1000.
+ *
+ * Failure in querying the position returns -1.
+ *
+ * Return value: a scale position between 0 and 1000 or -1 on failure
+ */
 gint
 pt_player_get_permille (PtPlayer *player)
 {
@@ -553,7 +660,21 @@ pt_player_get_permille (PtPlayer *player)
 	return (gfloat) pos / (gfloat) player->priv->dur * 1000;
 }
 
-/* Setting this on the player's "speed" property is missing the seek event */
+/**
+ * pt_player_set_speed:
+ * @player: a #PtPlayer
+ * @speed: speed
+ *
+ * Sets the speed of playback in the paused state as well as during playback.
+ * Normal speed is 1.0, everything above that is faster, everything below slower.
+ * A speed of 0 is not allowed, use pt_player_pause() instead.
+ * Recommended speed is starting from 0.5 as quality is rather poor below that.
+ * Parlatype doesn't change the pitch during slower or faster playback.
+ *
+ * Note: If you want to change the speed during playback, you have to use this
+ * method. Changing the "speed" property of PtPlayer, will take effect only
+ * later.
+ */
 void
 pt_player_set_speed (PtPlayer *player,
 		     gdouble   speed)
@@ -570,7 +691,14 @@ pt_player_set_speed (PtPlayer *player,
 	pt_player_seek (player, pos);
 }
 
-/* This can also be set on the player's "volume" property */
+/**
+ * pt_player_set_volume:
+ * @player: a #PtPlayer
+ * @volume: volume
+ *
+ * Sets the volume on a scale between 0 and 1. Instead of using this method
+ * you could set the "volume" property.
+ */
 void
 pt_player_set_volume (PtPlayer *player,
 		      gdouble   volume)
@@ -581,7 +709,14 @@ pt_player_set_volume (PtPlayer *player,
 	g_object_set (G_OBJECT (player->priv->volume), "volume", volume, NULL);
 }
 
-/* Remembers volume level, we don't have to keep track of the old value */
+/**
+ * pt_player_mute_volume:
+ * @player: a #PtPlayer
+ * @mute: a gboolean
+ *
+ * Mute the player (with TRUE) or set it back to normal volume (with FALSE).
+ * This remembers the volume level, so you don't have to keep track of the old value.
+ */
 void
 pt_player_mute_volume (PtPlayer *player,
 		       gboolean  mute)
@@ -593,6 +728,14 @@ pt_player_mute_volume (PtPlayer *player,
 
 /* --------------------- File utilities ------------------------------------- */
 
+/**
+ * pt_player_get_uri:
+ * @player: a #PtPlayer
+ *
+ * Returns the URI of the currently open file or NULL if it can't be determined.
+ *
+ * Return value: (transfer full): the uri
+ */
 gchar*
 pt_player_get_uri (PtPlayer *player)
 {
@@ -610,6 +753,14 @@ pt_player_get_uri (PtPlayer *player)
 	return uri;
 }
 
+/**
+ * pt_player_get_filename:
+ * @player: a #PtPlayer
+ *
+ * Returns the display name of the currently open file or NULL if it can't be determined.
+ *
+ * Return value: (transfer full): the file name
+ */
 gchar*
 pt_player_get_filename (PtPlayer *player)
 {
@@ -697,6 +848,20 @@ pt_player_get_time_string (PtPlayer *player,
 	return result;	
 }
 
+/**
+ * pt_player_get_current_time_string:
+ * @player: a #PtPlayer
+ * @digits: precision of string
+ *
+ * Returns the current position of the stream as a string for display to the user.
+ * The precision is determined by @digits with a value from 0 to 3. 0 is showing
+ * full seconds, 1 one tenth of a second, 2 one hundredth of a second and 3 is
+ * showing milliseconds.
+ *
+ * If the current position can not be determined, NULL is returned.
+ *
+ * Return value: (transfer full): the time string
+ */
 gchar*
 pt_player_get_current_time_string (PtPlayer *player,
 				   guint     digits)
@@ -712,6 +877,20 @@ pt_player_get_current_time_string (PtPlayer *player,
 	return pt_player_get_time_string (player, time, digits);
 }
 
+/**
+ * pt_player_get_duration_time_string:
+ * @player: a #PtPlayer
+ * @digits: precision of string
+ *
+ * Returns the duration of the stream as a string for display to the user.
+ * The precision is determined by @digits with a value from 0 to 3. 0 is showing
+ * full seconds, 1 one tenth of a second, 2 one hundredth of a second and 3 is
+ * showing milliseconds.
+ *
+ * If the duration can not be determined, NULL is returned.
+ *
+ * Return value: (transfer full): the time string
+ */
 gchar*
 pt_player_get_duration_time_string (PtPlayer *player,
 				    guint     digits)
@@ -727,6 +906,16 @@ pt_player_get_duration_time_string (PtPlayer *player,
 	return pt_player_get_time_string (player, time, digits);
 }
 
+/**
+ * pt_player_get_timestamp:
+ * @player: a #PtPlayer
+ *
+ * Returns the current timestamp as a string. The format of timestamps can not be changed.
+ *
+ * If the current position can not be determined, NULL is returned.
+ *
+ * Return value: (transfer full): the timestamp
+ */
 gchar*
 pt_player_get_timestamp (PtPlayer *player)
 {
@@ -1010,6 +1199,11 @@ pt_player_class_init (PtPlayerClass *klass)
 		      G_TYPE_NONE,
 		      1, G_TYPE_STRING);
 
+	/**
+	* PtPlayer:speed:
+	*
+	* The speed for playback.
+	*/
 	obj_properties[PROP_SPEED] =
 	g_param_spec_double (
 			"speed",
@@ -1020,6 +1214,11 @@ pt_player_class_init (PtPlayerClass *klass)
 			1.0,
 			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
 
+	/**
+	* PtPlayer:volume:
+	*
+	* The volume for playback.
+	*/
 	obj_properties[PROP_VOLUME] =
 	g_param_spec_double (
 			"volume",
@@ -1042,6 +1241,18 @@ pt_player_initable_iface_init (GInitableIface *iface)
 	iface->init = pt_player_initable_init;
 }
 
+/**
+ * pt_player_new:
+ * @speed: initial speed
+ * @error: (allow-none): return location for an error, or NULL
+ *
+ * This is a failable constructor. It fails, if GStreamer doesn't init or a
+ * plugin is missing. In this case NULL is returned, error is set.
+ *
+ * After use g_object_unref() it.
+ *
+ * Return value: (transfer full): a new pt_player
+ */
 PtPlayer *
 pt_player_new (gdouble   speed,
 	       GError  **error)
