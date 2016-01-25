@@ -46,13 +46,14 @@ static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
 #define METADATA_POSITION "metadata::parlatype::position"
 
 static void pt_player_initable_iface_init (GInitableIface *iface);
-static gboolean bus_call (GstBus *bus, GstMessage *msg, gpointer data);
 
 G_DEFINE_TYPE_WITH_CODE (PtPlayer, pt_player, G_TYPE_OBJECT,
 			 G_ADD_PRIVATE (PtPlayer)
 			 G_IMPLEMENT_INTERFACE (G_TYPE_INITABLE,
 						pt_player_initable_iface_init))
 
+
+/* -------------------------- static helpers -------------------------------- */
 
 static gboolean
 pt_player_query_position (PtPlayer *player,
@@ -183,22 +184,46 @@ metadata_get_position (PtPlayer *player)
 	g_object_unref (info);
 }
 
-void
-pt_player_pause (PtPlayer *player)
+static gboolean
+bus_call (GstBus     *bus,
+          GstMessage *msg,
+          gpointer    data)
 {
-	g_return_if_fail (PT_IS_PLAYER (player));
+	PtPlayer *player = (PtPlayer *) data;
 
-	gst_element_set_state (player->priv->pipeline, GST_STATE_PAUSED);
+	//g_debug ("Message: %s; sent by: %s", GST_MESSAGE_TYPE_NAME (msg), GST_MESSAGE_SRC_NAME (msg));
+
+	switch (GST_MESSAGE_TYPE (msg)) {
+	case GST_MESSAGE_EOS:
+		g_signal_emit_by_name (player, "end-of-stream");
+		break;
+
+	case GST_MESSAGE_ERROR: {
+		gchar  *debug;
+		GError *error;
+
+		gst_message_parse_error (msg, &error, &debug);
+		g_debug ("ERROR from element %s: %s", GST_OBJECT_NAME (msg->src), error->message);
+		g_debug ("Debugging info: %s", (debug) ? debug : "none");
+		g_free (debug);
+		g_signal_emit_by_name (player, "error", error->message);
+		g_error_free (error);
+		pt_player_clear (player);
+
+		break;
+		}
+	case GST_MESSAGE_DURATION_CHANGED:
+		pt_player_query_duration (player, &player->priv->dur);
+		g_signal_emit_by_name (player, "duration-changed");
+		break;
+	default:
+		break;
+	}
+
+	return TRUE;
 }
 
-void
-pt_player_play (PtPlayer *player)
-{
-	g_return_if_fail (PT_IS_PLAYER (player));
-
-	gst_element_set_state (player->priv->pipeline, GST_STATE_PLAYING);
-}
-
+/* -------------------------- opening files --------------------------------- */
 
 static gboolean
 open_file_bus_handler (GstBus     *bus,
@@ -383,6 +408,77 @@ pt_player_open_uri (PtPlayer  *player,
 	return result;
 }
 
+/* ------------------------- Basic controls --------------------------------- */
+
+
+void
+pt_player_pause (PtPlayer *player)
+{
+	g_return_if_fail (PT_IS_PLAYER (player));
+
+	gst_element_set_state (player->priv->pipeline, GST_STATE_PAUSED);
+}
+
+void
+pt_player_play (PtPlayer *player)
+{
+	g_return_if_fail (PT_IS_PLAYER (player));
+
+	gst_element_set_state (player->priv->pipeline, GST_STATE_PLAYING);
+}
+
+void
+pt_player_rewind (PtPlayer *player,
+		  gdouble   speed)
+{
+	/* FIXME Doesn't work at all!!! */
+
+	g_return_if_fail (PT_IS_PLAYER (player));
+
+	gint64 pos;
+
+	if (!pt_player_query_position (player, &pos))
+		return;
+
+	gst_element_seek (
+		player->priv->pipeline,
+		-1.0,
+		GST_FORMAT_TIME,
+		GST_SEEK_FLAG_SKIP,
+		GST_SEEK_TYPE_NONE,
+		0,
+		GST_SEEK_TYPE_SET,
+		pos);
+
+	pt_player_play (player);
+}
+
+void
+pt_player_fast_forward (PtPlayer *player,
+			gdouble   speed)
+{
+	g_return_if_fail (PT_IS_PLAYER (player));
+
+	gint64 pos;
+
+	if (!pt_player_query_position (player, &pos))
+		return;
+
+	gst_element_seek (
+		player->priv->pipeline,
+		speed,
+		GST_FORMAT_TIME,
+		GST_SEEK_FLAG_SKIP,
+		GST_SEEK_TYPE_SET,
+		pos,
+		GST_SEEK_TYPE_NONE,
+		-1);
+
+	pt_player_play (player);
+}
+
+/* -------------------- Positioning, speed, volume -------------------------- */
+
 void
 pt_player_jump_relative (PtPlayer *player,
 			 gint      milliseconds)
@@ -495,55 +591,7 @@ pt_player_mute_volume (PtPlayer *player,
 	g_object_set (G_OBJECT (player->priv->volume), "mute", mute, NULL);
 }
 
-void
-pt_player_rewind (PtPlayer *player,
-		  gdouble   speed)
-{
-	/* FIXME Doesn't work at all!!! */
-
-	g_return_if_fail (PT_IS_PLAYER (player));
-
-	gint64 pos;
-
-	if (!pt_player_query_position (player, &pos))
-		return;
-
-	gst_element_seek (
-		player->priv->pipeline,
-		-1.0,
-		GST_FORMAT_TIME,
-		GST_SEEK_FLAG_SKIP,
-		GST_SEEK_TYPE_NONE,
-		0,
-		GST_SEEK_TYPE_SET,
-		pos);
-
-	pt_player_play (player);
-}
-
-void
-pt_player_fast_forward (PtPlayer *player,
-			gdouble   speed)
-{
-	g_return_if_fail (PT_IS_PLAYER (player));
-
-	gint64 pos;
-
-	if (!pt_player_query_position (player, &pos))
-		return;
-
-	gst_element_seek (
-		player->priv->pipeline,
-		speed,
-		GST_FORMAT_TIME,
-		GST_SEEK_FLAG_SKIP,
-		GST_SEEK_TYPE_SET,
-		pos,
-		GST_SEEK_TYPE_NONE,
-		-1);
-
-	pt_player_play (player);
-}
+/* --------------------- File utilities ------------------------------------- */
 
 gchar*
 pt_player_get_uri (PtPlayer *player)
@@ -608,6 +656,8 @@ pt_player_get_filename (PtPlayer *player)
 
 	return result;
 }
+
+/* --------------------- Time strings and timestamps ------------------------ */
 
 static gchar*
 pt_player_get_time_string (PtPlayer *player,
@@ -701,44 +751,7 @@ pt_player_get_timestamp (PtPlayer *player)
 	return timestamp;
 }
 
-static gboolean
-bus_call (GstBus     *bus,
-          GstMessage *msg,
-          gpointer    data)
-{
-	PtPlayer *player = (PtPlayer *) data;
-	
-	//g_debug ("Message: %s; sent by: %s", GST_MESSAGE_TYPE_NAME (msg), GST_MESSAGE_SRC_NAME (msg));
-
-	switch (GST_MESSAGE_TYPE (msg)) {
-	case GST_MESSAGE_EOS:
-		g_signal_emit_by_name (player, "end-of-stream");
-		break;
-
-	case GST_MESSAGE_ERROR: {
-		gchar  *debug;
-		GError *error;
-
-		gst_message_parse_error (msg, &error, &debug);
-		g_debug ("ERROR from element %s: %s", GST_OBJECT_NAME (msg->src), error->message);
-		g_debug ("Debugging info: %s", (debug) ? debug : "none");
-		g_free (debug);
-		g_signal_emit_by_name (player, "error", error->message);
-		g_error_free (error);
-		pt_player_clear (player);
-
-		break;
-		}
-	case GST_MESSAGE_DURATION_CHANGED:
-		pt_player_query_duration (player, &player->priv->dur);
-		g_signal_emit_by_name (player, "duration-changed");
-		break;
-	default:
-		break;
-	}
-
-	return TRUE;
-}
+/* --------------------- Init and GObject management ------------------------ */
 
 static void
 pt_player_init (PtPlayer *player)
