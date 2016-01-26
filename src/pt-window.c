@@ -346,6 +346,19 @@ setup_settings (PtWindow *win)
 	   - Add a default speed option to preferences dialog
 	   - Save last known speed in metadata for each file */
 	win->priv->speed = 1.0;
+
+	if (g_settings_get_boolean (win->priv->editor, "start-on-top")) {
+		gtk_window_set_keep_above (GTK_WINDOW (win), TRUE);
+	}
+
+	if (g_settings_get_boolean (win->priv->editor, "remember-position")) {
+		gtk_window_move (GTK_WINDOW (win),
+				 g_settings_get_int (win->priv->editor, "x-pos"),
+				 g_settings_get_int (win->priv->editor, "y-pos"));
+		gtk_window_resize (GTK_WINDOW (win),
+				   g_settings_get_int (win->priv->editor, "width"),
+				   g_settings_get_int (win->priv->editor, "height"));
+	}
 }
 
 static void
@@ -436,6 +449,17 @@ pt_window_dispose (GObject *object)
 {
 	PtWindow *win;
 	win = PT_WINDOW (object);
+
+	if (win->priv->editor) {
+		gint x;
+		gint y;
+		gtk_window_get_position (GTK_WINDOW (win), &x, &y);
+		g_settings_set_int (win->priv->editor, "x-pos", x);
+		g_settings_set_int (win->priv->editor, "y-pos", y);
+		gtk_window_get_size (GTK_WINDOW (win), &x, &y);
+		g_settings_set_int (win->priv->editor, "width", x);
+		g_settings_set_int (win->priv->editor, "height", y);
+	}
 
 	remove_timer (win);
 	g_clear_object (&win->priv->editor);
