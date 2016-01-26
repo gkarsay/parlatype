@@ -23,59 +23,6 @@
 
 
 static gboolean
-handle_timestamp (PtWindow *win,
-		  gchar    *data)
-{
-	/* Timestamp can have a short or long format:
-	          h:mm:ss-tenthsecond
-	   short:   00:00-0
-	   long:  0:00:00-0
-
-	   h can have several digits, m and s have always 2 digits.
-	   In short format we also accept only 1 digit for m.
-	   Additionally it may be surrounded by #, e.g. #00:00-0#   */
-
-	gint     h, m, s, digit, pos;
-	gchar  **split;
-	gchar   *tmp = NULL;
-
-	if (g_regex_match_simple ("^#?[0-9][0-9]?:[0-9][0-9]-[0-9]#?$", data, 0, 0)) {
-		/* this is a short format, we add 0 for hours,
-		   we want only one delimiter, either # or : */
-		if (g_str_has_prefix (data, "#")) {
-			tmp = g_strdup_printf ("0%s", data);
-		} else {
-			tmp = g_strdup_printf ("0:%s", data);
-		}
-	}
-
-	if (g_regex_match_simple ("^#?[0-9]+:[0-9][0-9]:[0-9][0-9]-[0-9]#?$", data, 0, 0)) {
-		tmp = g_strdup (data);
-	}
-
-	if (!tmp)
-		return FALSE;
-
-	split = g_strsplit_set (tmp, "#:-", -1);
-
-	h = g_ascii_strtoll (split[0], NULL, 0);
-	m = g_ascii_strtoll (split[1], NULL, 0);
-	s = g_ascii_strtoll (split[2], NULL, 0);
-	digit = g_ascii_strtoll (split[3], NULL, 0);
-
-	g_strfreev (split);
-	g_free (tmp);
-
-	if (s > 59 || m > 59)
-		return FALSE;
-
-	pos = ((h * 3600 + m * 60 + s) * 10 + digit ) * 100;
-	pt_player_jump_to_position (win->priv->player, pos);
-
-	return TRUE;
-}
-
-static gboolean
 handle_uri (PtWindow *win,
 	    gchar    *data)
 {
@@ -168,7 +115,7 @@ handle_dnd_data (PtWindow *win,
 {
 	g_debug ("Received drag and drop: '%s'", data);
 
-	if (handle_timestamp (win, data))
+	if (pt_player_goto_timestamp (win->priv->player, data))
 		return TRUE;
 
 	if (handle_uri (win, data))

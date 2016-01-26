@@ -44,6 +44,8 @@ enum
 static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
 
 #define METADATA_POSITION "metadata::parlatype::position"
+#define TIMESTAMP_REGEX_SHORT "^#?[0-9][0-9]?:[0-9][0-9]-[0-9]#?$"
+#define TIMESTAMP_REGEX_LONG "^#?[0-9]+:[0-9][0-9]:[0-9][0-9]-[0-9]#?$"
 
 static void pt_player_initable_iface_init (GInitableIface *iface);
 
@@ -938,6 +940,111 @@ pt_player_get_timestamp (PtPlayer *player)
 	}
 
 	return timestamp;
+}
+
+static gint
+pt_player_get_timestamp_position (PtPlayer *player,
+				  gchar    *timestamp)
+{
+	/* Timestamp can have a short or long format:
+	          h:mm:ss-tenthsecond
+	   short:   00:00-0
+	   long:  0:00:00-0
+
+	   h can have several digits, m and s have always 2 digits.
+	   In short format we also accept only 1 digit for m.
+	   Additionally it may or may not be surrounded by #, e.g. #00:00-0#  */
+
+	gint     h, m, s, digit, result;
+	gchar  **split;
+	gchar   *tmp = NULL;
+
+	if (g_regex_match_simple (TIMESTAMP_REGEX_SHORT, timestamp, 0, 0)) {
+		/* for short format we add 0 for hours,
+		   we want only one delimiter, either # or : */
+		if (g_str_has_prefix (timestamp, "#")) {
+			tmp = g_strdup_printf ("0%s", timestamp);
+		} else {
+			tmp = g_strdup_printf ("0:%s", timestamp);
+		}
+	}
+
+	if (g_regex_match_simple (TIMESTAMP_REGEX_LONG, timestamp, 0, 0)) {
+		tmp = g_strdup (timestamp);
+	}
+
+	if (!tmp)
+		return -1;
+
+	split = g_strsplit_set (tmp, "#:-", -1);
+
+	h = g_ascii_strtoll (split[0], NULL, 0);
+	m = g_ascii_strtoll (split[1], NULL, 0);
+	s = g_ascii_strtoll (split[2], NULL, 0);
+	digit = g_ascii_strtoll (split[3], NULL, 0);
+
+	g_strfreev (split);
+	g_free (tmp);
+
+	if (s > 59 || m > 59)
+		return -1;
+
+	result = ((h * 3600 + m * 60 + s) * 10 + digit ) * 100;
+
+	if (GST_MSECOND * (gint64) result > player->priv->dur)
+		return -1;
+
+	return result;
+}
+
+/**
+ * pt_player_string_is_timestamp:
+ * @player: a #PtPlayer
+ * @timestamp: the string to be checked
+ *
+ * Returns whether the given string is a valid timestamp.
+ *
+ * See also pt_player_goto_timestamp() if you want to go to the timestamp's
+ * position immediately after.
+ *
+ * Return value: TRUE if the timestamp is valid, FALSE if not
+ */
+gboolean
+pt_player_string_is_timestamp (PtPlayer *player,
+			       gchar    *timestamp)
+{
+	g_return_val_if_fail (PT_IS_PLAYER (player), FALSE);
+	g_return_val_if_fail (timestamp != NULL, FALSE);
+
+	return (pt_player_get_timestamp_position (player, timestamp) != -1);
+}
+
+/**
+ * pt_player_goto_timestamp:
+ * @player: a #PtPlayer
+ * @timestamp: the timestamp to go to
+ *
+ * Goes to the position of the timestamp. Returns false, if it's not a
+ * valid timestamp.
+ *
+ * Return value: TRUE on success, FALSE if the timestamp is not valid
+ */
+gboolean
+pt_player_goto_timestamp (PtPlayer *player,
+			  gchar    *timestamp)
+{
+	g_return_val_if_fail (PT_IS_PLAYER (player), FALSE);
+	g_return_val_if_fail (timestamp != NULL, FALSE);
+
+	gint pos;
+
+	pos = pt_player_get_timestamp_position (player, timestamp);
+
+	if (pos == -1)
+		return FALSE;
+
+	pt_player_jump_to_position (player, pos);
+	return TRUE;
 }
 
 /* --------------------- Init and GObject management ------------------------ */

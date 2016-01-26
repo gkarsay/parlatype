@@ -73,6 +73,10 @@ gchar*		pt_player_get_current_time_string	(PtPlayer *player,
 gchar*		pt_player_get_duration_time_string	(PtPlayer *player,
 							 guint     digits);
 gchar*		pt_player_get_timestamp		(PtPlayer *player);
+gboolean	pt_player_string_is_timestamp	(PtPlayer *player,
+						 gchar    *timestamp);
+gboolean	pt_player_goto_timestamp	(PtPlayer *player,
+						 gchar    *timestamp);
 
 PtPlayer	*pt_player_new			(gdouble   speed,
 						 GError  **error);
