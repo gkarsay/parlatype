@@ -1091,24 +1091,6 @@ decodebin_newpad_cb (GstElement *decodebin,
 	g_object_unref (audiopad);
 }
 
-static GstElement *
-pt_player_create_element (const gchar *type,
-			  const gchar *name,
-			  GError      **error)
-{
-	GstElement *element = gst_element_factory_make (type, name);
-
-	if (!element) {
-		g_set_error (error,
-			     GST_CORE_ERROR,
-			     GST_CORE_ERROR_MISSING_PLUGIN,
-			     _("Failed to load a plugin of type %s."), type);
-		g_warning ("Failed to create element %s of type %s", name, type);
-	}
-
-	return element;
-}
-
 static gboolean
 pt_player_initable_init (GInitable     *initable,
 			 GCancellable  *cancellable,
