@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 0.99\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 21:59+0100\n"
+"POT-Creation-Date: 2016-01-26 17:06+0100\n"
 "PO-Revision-Date: 2016-01-03 13:54+0100\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gmx.at>\n"
 "Language-Team: German\n"
@@ -88,7 +88,7 @@ msgstr "Ein einfaches Transkriptionsprogramm"
 msgid "translator-credits"
 msgstr "Gabor Karsay <gabor.karsay@gmx.at>"
 
-#: ../src/pt-app.c:265
+#: ../src/pt-app.c:276
 #, c-format
 msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
@@ -97,17 +97,17 @@ msgstr ""
 "Warnung: Parlatype öffnet nur eine Datei auf einmal. Weitere Dateien werden "
 "ignoriert.\n"
 
-#: ../src/pt-player.c:298
+#: ../src/pt-player.c:352
 #, c-format
 msgid "URI not valid: %s"
 msgstr "URI nicht gültig: %s"
 
-#: ../src/pt-player.c:745
+#: ../src/pt-player.c:1105
 #, c-format
 msgid "Failed to load a plugin of type %s."
 msgstr "Ein Plugin vom Typ %s konnte nicht geladen werden."
 
-#: ../src/pt-player.c:807
+#: ../src/pt-player.c:1167
 #, c-format
 msgid "Failed to load a plugin."
 msgstr "Ein Plugin konnte nicht geladen werden."
@@ -151,6 +151,22 @@ msgstr "Zurückspringen:"
 #: ../src/resources/preferences.ui.h:5
 msgid "Jump forward:"
 msgstr "Vorwärts springen:"
+
+#: ../src/resources/preferences.ui.h:6
+msgid "Controls"
+msgstr "Steuerung"
+
+#: ../src/resources/preferences.ui.h:7
+msgid "Remember position:"
+msgstr "Position des Fensters merken:"
+
+#: ../src/resources/preferences.ui.h:8
+msgid "Start on top:"
+msgstr "»Immer im Vordergrund« starten:"
+
+#: ../src/resources/preferences.ui.h:9
+msgid "Window"
+msgstr "Fenster"
 
 #: ../src/resources/window.ui.h:2
 msgid "Speed:"
