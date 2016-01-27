@@ -156,6 +156,30 @@ prefs_cb (GSimpleAction *action,
 }
 
 static void
+help_cb (GSimpleAction *action,
+	 GVariant      *parameter,
+	 gpointer       app)
+{
+	GtkWindow *win;
+	win = gtk_application_get_active_window (app);
+
+	GError *error = NULL;
+	gchar  *errmsg;
+
+	gtk_show_uri (gtk_widget_get_screen (GTK_WIDGET (win)),
+	              "help:parlatype",
+	              GDK_CURRENT_TIME,
+	              &error);
+
+	if (error) {
+		errmsg = g_strdup_printf (_("Error opening help: %s"), error->message);
+		pt_error_message (PT_WINDOW (win), errmsg);
+		g_free (errmsg);
+		g_error_free (error);
+	}
+}
+
+static void
 about_cb (GSimpleAction *action,
 	  GVariant      *parameter,
 	  gpointer       app)
@@ -192,6 +216,7 @@ const GActionEntry app_actions[] = {
 	{ "open", open_cb, NULL, NULL, NULL },
 	{ "recent", recent_cb, NULL, NULL, NULL },
 	{ "prefs", prefs_cb, NULL, NULL, NULL },
+	{ "help", help_cb, NULL, NULL, NULL },
 	{ "about", about_cb, NULL, NULL, NULL },
 	{ "quit", quit_cb, NULL, NULL, NULL }
 };
@@ -213,6 +238,7 @@ pt_app_startup (GApplication *app)
 	const gchar *open_accels[2] = { "<Primary>O", NULL };
 	const gchar *copy_accels[2] = { "<Primary>C", NULL };
 	const gchar *recent_accels[2] = { "<Primary>R", NULL };
+	const gchar *help_accels[2] = { "F1", NULL };
 
 	gtk_application_set_accels_for_action (GTK_APPLICATION (app),
 			"app.quit", quit_accels);
@@ -225,6 +251,9 @@ pt_app_startup (GApplication *app)
 
 	gtk_application_set_accels_for_action (GTK_APPLICATION (app),
 			"win.copy", copy_accels);
+
+	gtk_application_set_accels_for_action (GTK_APPLICATION (app),
+			"app.help", help_accels);
 #else
 	gtk_application_add_accelerator (GTK_APPLICATION (app),
 			"<Primary>Q", "app.quit", NULL);
@@ -237,6 +266,9 @@ pt_app_startup (GApplication *app)
 
 	gtk_application_add_accelerator (GTK_APPLICATION (app),
 			"<Primary>R", "app.recent", NULL);
+
+	gtk_application_add_accelerator (GTK_APPLICATION (app),
+			"F1", "app.help", NULL);
 #endif
 
 	builder = gtk_builder_new_from_resource ("/org/gnome/parlatype/menus.ui");

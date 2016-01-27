@@ -39,7 +39,7 @@ static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
 G_DEFINE_TYPE_WITH_PRIVATE (PtWindow, pt_window, GTK_TYPE_APPLICATION_WINDOW)
 
 
-static void
+void
 pt_error_message (PtWindow    *parent,
 		  const gchar *message)
 {

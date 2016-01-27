@@ -28,6 +28,8 @@ AC_CHECK_FUNCS([setlocale])
 GLIB_GSETTINGS                 
 AC_PATH_PROG(GLIB_COMPILE_RESOURCES, glib-compile-resources)
 
+YELP_HELP_INIT
+
 GTK_MIN_VERSION=3.10.0
 PKG_CHECK_MODULES(GTK, [gtk+-3.0 >= $GTK_MIN_VERSION, gmodule-2.0, gstreamer-1.0])
 PACKAGE_CFLAGS="-std=c99 $GTK_CFLAGS"
@@ -43,6 +45,7 @@ AC_CONFIG_FILES([Makefile
 		 data/parlatype.desktop.in
 		 data/icons/Makefile
 		 docs/Makefile
+		 help/Makefile
 		 po/Makefile.in
                  src/Makefile])
 AC_OUTPUT
