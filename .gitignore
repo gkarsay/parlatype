@@ -27,6 +27,10 @@ Makefile.in
 /data/parlatype.desktop.in
 /data/org.gnome.parlatype.gschema.valid
 
+/help/parlatype.pot
+/help/de/de.mo
+/help/de/de.stamp
+
 /po/*.gmo
 /po/*.pot
 /po/.intltool-merge-cache
