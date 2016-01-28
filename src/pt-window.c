@@ -147,8 +147,9 @@ remove_timer (PtWindow *win)
 }
 
 static void
-pt_window_set_ready (PtWindow *win,
-		     gboolean  state)
+player_state_changed_cb (PtPlayer *player,
+			 gboolean  state,
+			 PtWindow *win)
 {
 	/* Set up widget sensitivity/visibility, actions, labels, window title
 	   and timer according to the state of PtPlayer (ready to play or not) */
@@ -173,14 +174,14 @@ pt_window_set_ready (PtWindow *win,
 
 	if (state) {
 		update_duration_label (win);
-		display_name = pt_player_get_filename (win->priv->player);
+		display_name = pt_player_get_filename (player);
 		if (display_name) {
 			gtk_window_set_title (GTK_WINDOW (win), display_name);
 			g_free (display_name);
 		}
 		gtk_recent_manager_add_item (
 				win->priv->recent,
-				pt_player_get_uri (win->priv->player));
+				pt_player_get_uri (player));
 		add_timer (win);
 	} else {
 		gtk_label_set_text (GTK_LABEL (win->priv->dur_label), "00:00");
@@ -212,8 +213,6 @@ player_error_cb (PtPlayer *player,
 		 PtWindow *win)
 {
 	/* Fatal error, playback is stopped */
-	g_debug ("error_cb: %s", message);
-	pt_window_set_ready (win, FALSE);
 	pt_error_message (win, message);
 }
 
@@ -222,11 +221,8 @@ pt_window_open_file (PtWindow *win,
 		     gchar    *uri)
 {
 	GError   *error = NULL;
-	gboolean  success;
 
-	success = pt_player_open_uri (win->priv->player, uri, &error);
-
-	pt_window_set_ready (win, success);
+	pt_player_open_uri (win->priv->player, uri, &error);
 
 	if (error) {
 		pt_error_message (win, error->message);
@@ -368,6 +364,11 @@ setup_player (PtWindow *win)
 {
 	/* Already tested in main.c, we don't check for errors here anymore */
 	win->priv->player = pt_player_new (win->priv->speed, NULL);
+
+	g_signal_connect (win->priv->player,
+			"player-state-changed",
+			G_CALLBACK (player_state_changed_cb),
+			win);
 
 	g_signal_connect (win->priv->player,
 			"duration-changed",

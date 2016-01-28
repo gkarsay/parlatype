@@ -106,6 +106,7 @@ pt_player_query_duration (PtPlayer *player,
 static void
 pt_player_clear (PtPlayer *player)
 {
+	g_signal_emit_by_name (player, "player-state-changed", FALSE);
 	gst_element_set_state (player->priv->pipeline, GST_STATE_NULL);
 }
 
@@ -287,6 +288,7 @@ open_file_bus_handler (GstBus     *bus,
 		while (TRUE) {
 			if (pt_player_query_duration (player, NULL)) {
 				g_task_return_boolean (task, TRUE);
+				g_signal_emit_by_name (player, "player-state-changed", TRUE);
 				g_object_unref (task);
 				return FALSE;
 			}
@@ -1257,6 +1259,16 @@ pt_player_class_init (PtPlayerClass *klass)
 	G_OBJECT_CLASS (klass)->set_property = pt_player_set_property;
 	G_OBJECT_CLASS (klass)->get_property = pt_player_get_property;
 	G_OBJECT_CLASS (klass)->dispose = pt_player_dispose;
+
+	g_signal_new ("player-state-changed",
+		      G_TYPE_OBJECT,
+		      G_SIGNAL_RUN_FIRST,
+		      0,
+		      NULL,
+		      NULL,
+		      g_cclosure_marshal_VOID__BOOLEAN,
+		      G_TYPE_NONE,
+		      1, G_TYPE_BOOLEAN);
 
 	g_signal_new ("duration-changed",
 		      G_TYPE_OBJECT,
