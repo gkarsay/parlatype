@@ -155,6 +155,10 @@ pt_window_set_sensitive (PtWindow *win,
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "copy");
 	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
 
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (win->priv->button_play), FALSE);
+	gtk_widget_set_visible (win->priv->button_play, state);
+	gtk_widget_set_visible (win->priv->button_open, !state);
+
 	gtk_widget_set_sensitive (win->priv->button_play, state);
 	gtk_widget_set_sensitive (win->priv->button_fast_back, state);
 	gtk_widget_set_sensitive (win->priv->button_fast_forward, state);
@@ -169,9 +173,6 @@ pt_window_set_sensitive (PtWindow *win,
 		gtk_window_set_title (GTK_WINDOW (win), "Parlatype");
 		remove_timer (win);
 	}
-
-	/* Play button always on Pause-state */
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (win->priv->button_play), FALSE);
 }
 
 static void
@@ -404,6 +405,7 @@ setup_accels_actions_headerbar (PtWindow *win)
 
 	builder = gtk_builder_new_from_resource ("/org/gnome/parlatype/window-headerbar.ui");
 	hbar = GTK_WIDGET (gtk_builder_get_object (builder, "headerbar"));
+	win->priv->button_open = GTK_WIDGET (gtk_builder_get_object (builder, "button_open"));
 	win->priv->button_play = GTK_WIDGET (gtk_builder_get_object (builder, "button_play"));
 	menu_button = GTK_WIDGET (gtk_builder_get_object (builder, "menu_button"));
 	gtk_window_set_titlebar (GTK_WINDOW (win), hbar);

@@ -28,6 +28,7 @@ struct _PtWindowPrivate
 	GtkRecentManager *recent;
 	PtPlayer	 *player;
 
+	GtkWidget  *button_open;
 	GtkWidget  *button_play;
 	GtkWidget  *button_fast_back;	  // not used
 	GtkWidget  *button_fast_forward;  // not used
