@@ -46,9 +46,8 @@ GType		pt_player_get_type		(void) G_GNUC_CONST;
 
 void		pt_player_pause			(PtPlayer *player);
 void		pt_player_play			(PtPlayer *player);
-gboolean	pt_player_open_uri		(PtPlayer  *player,
-						 gchar     *uri,
-						 GError   **error);
+void		pt_player_open_uri		(PtPlayer  *player,
+						 gchar     *uri);
 void		pt_player_jump_relative		(PtPlayer *player,
 						 gint      milliseconds);
 void		pt_player_jump_to_position	(PtPlayer *player,

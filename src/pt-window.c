@@ -154,8 +154,9 @@ player_state_changed_cb (PtPlayer *player,
 	/* Set up widget sensitivity/visibility, actions, labels, window title
 	   and timer according to the state of PtPlayer (ready to play or not) */
 
-	GAction *action;
-	gchar   *display_name = NULL;
+	GAction   *action;
+	gchar     *display_name = NULL;
+	GdkWindow *gdkwin;
 
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "copy");
 	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
@@ -183,6 +184,10 @@ player_state_changed_cb (PtPlayer *player,
 				win->priv->recent,
 				pt_player_get_uri (player));
 		add_timer (win);
+
+		gdkwin = gtk_widget_get_window (GTK_WIDGET (win));
+		gdk_window_set_cursor (gdkwin, NULL);
+
 	} else {
 		gtk_label_set_text (GTK_LABEL (win->priv->dur_label), "00:00");
 		gtk_label_set_text (GTK_LABEL (win->priv->pos_label), "00:00");
@@ -209,25 +214,33 @@ player_end_of_stream_cb (PtPlayer *player,
 
 static void
 player_error_cb (PtPlayer *player,
-		 gchar*    message,
+		 GError   *error,
 		 PtWindow *win)
 {
-	/* Fatal error, playback is stopped */
-	pt_error_message (win, message);
+	GdkWindow  *gdkwin;
+
+	gdkwin = gtk_widget_get_window (GTK_WIDGET (win));
+	gdk_window_set_cursor (gdkwin, NULL);
+
+	pt_error_message (win, error->message);
 }
 
 void
 pt_window_open_file (PtWindow *win,
 		     gchar    *uri)
 {
-	GError   *error = NULL;
+	GdkWindow  *gdkwin;
+	GdkDisplay *display;
+	GdkCursor  *cur;
 
-	pt_player_open_uri (win->priv->player, uri, &error);
+	gdkwin = gtk_widget_get_window (GTK_WIDGET (win));
+	display = gdk_window_get_display (gdkwin);
+	cur = gdk_cursor_new_from_name (display, "watch");
+	gdk_window_set_cursor (gdkwin, cur);
+	if (cur)
+		g_object_unref (cur);
 
-	if (error) {
-		pt_error_message (win, error->message);
-		g_error_free (error);
-	}
+	pt_player_open_uri (win->priv->player, uri);
 }
 
 void

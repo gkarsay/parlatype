@@ -31,6 +31,8 @@ struct _PtPlayerPrivate
 
 	gint64	    dur;
 	gdouble	    speed;
+
+	gboolean    opening;
 };
 
 enum
@@ -48,6 +50,8 @@ static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
 #define TIMESTAMP_REGEX_LONG "^#?[0-9]+:[0-9][0-9]:[0-9][0-9]-[0-9]#?$"
 
 static void pt_player_initable_iface_init (GInitableIface *iface);
+static gboolean bus_call (GstBus *bus, GstMessage *msg, gpointer data);
+static void remove_message_bus (PtPlayer *player);
 
 G_DEFINE_TYPE_WITH_CODE (PtPlayer, pt_player, G_TYPE_OBJECT,
 			 G_ADD_PRIVATE (PtPlayer)
@@ -106,6 +110,7 @@ pt_player_query_duration (PtPlayer *player,
 static void
 pt_player_clear (PtPlayer *player)
 {
+	remove_message_bus (player);
 	g_signal_emit_by_name (player, "player-state-changed", FALSE);
 	gst_element_set_state (player->priv->pipeline, GST_STATE_NULL);
 }
@@ -215,6 +220,26 @@ metadata_get_position (PtPlayer *player)
 	g_object_unref (info);
 }
 
+static void
+remove_message_bus (PtPlayer *player)
+{
+	if (player->priv->bus_watch_id > 0) {
+		g_source_remove (player->priv->bus_watch_id);
+		player->priv->bus_watch_id = 0;
+	}
+}
+
+static void
+add_message_bus (PtPlayer *player)
+{
+	GstBus *bus;
+
+	remove_message_bus (player);
+	bus = gst_pipeline_get_bus (GST_PIPELINE (player->priv->pipeline));
+	player->priv->bus_watch_id = gst_bus_add_watch (bus, bus_call, player);
+	gst_object_unref (bus);
+}
+
 static gboolean
 bus_call (GstBus     *bus,
           GstMessage *msg,
@@ -222,7 +247,9 @@ bus_call (GstBus     *bus,
 {
 	PtPlayer *player = (PtPlayer *) data;
 
-	//g_debug ("Message: %s; sent by: %s", GST_MESSAGE_TYPE_NAME (msg), GST_MESSAGE_SRC_NAME (msg));
+	g_debug ("Message: %s; sent by: %s",
+			GST_MESSAGE_TYPE_NAME (msg),
+			GST_MESSAGE_SRC_NAME (msg));
 
 	switch (GST_MESSAGE_TYPE (msg)) {
 	case GST_MESSAGE_EOS:
@@ -237,15 +264,38 @@ bus_call (GstBus     *bus,
 		g_debug ("ERROR from element %s: %s", GST_OBJECT_NAME (msg->src), error->message);
 		g_debug ("Debugging info: %s", (debug) ? debug : "none");
 		g_free (debug);
-		g_signal_emit_by_name (player, "error", error->message);
+
+		g_signal_emit_by_name (player, "error", error);
 		g_error_free (error);
 		pt_player_clear (player);
+
+		if (player->priv->opening) {
+			pt_player_mute_volume (player, FALSE);
+		}
 
 		break;
 		}
 	case GST_MESSAGE_DURATION_CHANGED:
+		/* I have absolutely no idea why querying duration is sometimes not
+		   working. I checked the state, still didn't help in some cases.
+		   Althoug duration-changed signal is emitted, querying fails.
+		   So lets take the sledgehammer approach. */
+		
+		while (player->priv->opening) {
+			if (pt_player_query_duration (player, NULL)) {
+				pt_player_query_duration (player, &player->priv->dur);
+				pt_player_pause (player);
+				pt_player_mute_volume (player, FALSE);
+				metadata_get_position (player);
+				g_signal_emit_by_name (player, "player-state-changed", TRUE);
+				player->priv->opening = FALSE;
+				return TRUE;
+			}
+		}
+
 		pt_player_query_duration (player, &player->priv->dur);
 		g_signal_emit_by_name (player, "duration-changed");
+
 		break;
 	default:
 		break;
@@ -257,125 +307,22 @@ bus_call (GstBus     *bus,
 /* -------------------------- opening files --------------------------------- */
 
 static gboolean
-open_file_bus_handler (GstBus     *bus,
-		       GstMessage *msg,
-		       gpointer    data)
+timeout_cb (PtPlayer *player)
 {
-	GTask    *task = (GTask *) data;
-	PtPlayer *player = g_task_get_source_object (task);
-	
-	g_debug ("Message: %s; sent by: %s", GST_MESSAGE_TYPE_NAME (msg), GST_MESSAGE_SRC_NAME (msg));
+	GError *error;
 
-	switch (GST_MESSAGE_TYPE (msg)) {
-	case GST_MESSAGE_ERROR: {
-		gchar    *debug;
-		GError   *error;
-		gst_message_parse_error (msg, &error, &debug);
-		g_debug ("ERROR from element %s: %s", GST_OBJECT_NAME (msg->src), error->message);
-		g_debug ("Debugging info: %s", (debug) ? debug : "none");
-		g_free (debug);
-		g_task_return_error (task, error);
+	if (player->priv->opening) {
 		pt_player_clear (player);
-		return FALSE;
-		}
-
-	case GST_MESSAGE_DURATION_CHANGED:
-		/* I have absolutely no idea why querying duration is sometimes not
-		   working. I checked the state, still didn't help in some cases.
-		   Althoug duration-changed signal is emitted, querying fails.
-		   So lets take the sledgehammer approach. */
-		
-		while (TRUE) {
-			if (pt_player_query_duration (player, NULL)) {
-				g_task_return_boolean (task, TRUE);
-				g_signal_emit_by_name (player, "player-state-changed", TRUE);
-				g_object_unref (task);
-				return FALSE;
-			}
-		}
-
-	default:
-		break;
-	}
-
-	return TRUE;
-}
-
-typedef struct
-{
-	GAsyncResult *res;
-	GMainLoop    *loop;
-} SyncData;
-
-static void
-quit_loop_cb (PtPlayer	   *player,
-	      GAsyncResult *res,
-	      gpointer      user_data)
-{
-	SyncData *data = user_data;
-	data->res = g_object_ref (res);
-	g_main_loop_quit (data->loop);
-}
-
-static gboolean
-pt_player_open_file_finish (PtPlayer      *player,
-			    GAsyncResult  *result,
-			    GError       **error)
-{
-	g_return_val_if_fail (g_task_is_valid (result, player), FALSE);
-
-	return g_task_propagate_boolean (G_TASK (result), error);
-}
-
-static void
-pt_player_open_file_async (PtPlayer	       *player,
-			   gchar	       *uri,
-			   GCancellable	       *cancellable,
-			   GAsyncReadyCallback  callback,
-			   gpointer		user_data)
-{
-	GTask  *task;
-	GFile  *file;
-	gchar  *location = NULL;
-	GstBus *bus;
-
-	task = g_task_new (player, cancellable, callback, user_data);
-
-	/* Change uri to location */
-	file = g_file_new_for_uri (uri);
-	location = g_file_get_path (file);
-	g_object_unref (file);
-	
-	if (!location) {
-		g_task_return_new_error (
-				task,
+		error = g_error_new (
 				GST_RESOURCE_ERROR,
-				GST_RESOURCE_ERROR_NOT_FOUND,
-				_("URI not valid: %s"), uri);
-
-		g_object_unref (task);
-		return;
+				GST_RESOURCE_ERROR_SEEK,
+				_("Timeout: Can't read resource"));
+		g_signal_emit_by_name (player, "error", error);
+		pt_player_mute_volume (player, FALSE);
 	}
 
-	/* If we had an open file before, remember its position */
-	metadata_save_position (player);
-
-	/* Reset any open streams and set new location*/
-	pt_player_clear (player);
-	g_object_set (G_OBJECT (player->priv->source), "location", location, NULL);
-	g_free (location);
-
-	/* setup message handler */
-	bus = gst_pipeline_get_bus (GST_PIPELINE (player->priv->pipeline));
-	player->priv->bus_watch_id = gst_bus_add_watch (bus, open_file_bus_handler, task);
-	gst_object_unref (bus);
-
-	player->priv->dur = -1;
-	pt_player_play (player);
+	return G_SOURCE_REMOVE;
 }
-
-/* Reference for myself: async stuff is modeled on: https://git.gnome.org/browse/glib/tree/gio/gdbusconnection.c
-   g_dbus_connection_send_message_with_reply_sync() */
 
 /**
  * pt_player_open_uri:
@@ -402,10 +349,9 @@ pt_player_open_file_async (PtPlayer	       *player,
  *
  * Return value: TRUE on success, FALSE on error
  */
-gboolean
+void
 pt_player_open_uri (PtPlayer  *player,
-		    gchar     *uri,
-		    GError   **error)
+		    gchar     *uri)
 {
 	/* A file is opened. We play it until we get a duration-changed signal,
 	   blocking in a g_main_loop. Reason: On some files PAUSED state is not
@@ -418,52 +364,47 @@ pt_player_open_uri (PtPlayer  *player,
 
 	g_return_val_if_fail (PT_IS_PLAYER (player), FALSE);
 	g_return_val_if_fail (uri != NULL, FALSE);
-	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
 	g_debug ("pt_player_open_uri");
 
-	gboolean      result;
-	SyncData      data;
-	GMainContext *context;
-	GstBus	     *bus;
-	guint	      bus_watch_id;
+	GFile  *file;
+	gchar  *location = NULL;
+	GError *error;
 
-	/* Only one message bus possible, we remove any previous bus */
-	if (player->priv->bus_watch_id > 0)
-		g_source_remove (player->priv->bus_watch_id);
+	player->priv->opening = TRUE;
 
-	context = g_main_context_new ();
-	g_main_context_push_thread_default (context);
+	/* Change uri to location */
+	file = g_file_new_for_uri (uri);
+	location = g_file_get_path (file);
+	g_object_unref (file);
 	
-	data.loop = g_main_loop_new (context, FALSE);
-	data.res = NULL;
-
-	pt_player_mute_volume (player, TRUE);
-	pt_player_open_file_async (player, uri, NULL, (GAsyncReadyCallback) quit_loop_cb, &data);
-	g_main_loop_run (data.loop);
-
-	
-	result = pt_player_open_file_finish (player, data.res, error);
-
-	g_main_loop_unref (data.loop);
-	g_main_context_pop_thread_default (context);
-	g_main_context_unref (context);
-	if (data.res)
-		g_object_unref (data.res);
-
-	if (result) {
-		bus = gst_pipeline_get_bus (GST_PIPELINE (player->priv->pipeline));
-		player->priv->bus_watch_id = gst_bus_add_watch (bus, bus_call, player);
-		gst_object_unref (bus);
-
-		pt_player_query_duration (player, &player->priv->dur);
-		pt_player_pause (player);
-		metadata_get_position (player);
+	if (!location) {
+		error = g_error_new (
+				GST_RESOURCE_ERROR,
+				GST_RESOURCE_ERROR_NOT_FOUND,
+				_("URI not valid: %s"), uri);
+		g_signal_emit_by_name (player, "error", error);
+		g_object_unref (file);
+		return;
 	}
 
-	pt_player_mute_volume (player, FALSE);
+	/* If we had an open file before, remember its position */
+	metadata_save_position (player);
 
-	return result;
+	/* Reset any open streams */
+	pt_player_clear (player);
+	player->priv->dur = -1;
+
+	/* setup message handler */
+	add_message_bus (player);
+
+	g_object_set (G_OBJECT (player->priv->source), "location", location, NULL);
+	g_free (location);
+
+	pt_player_mute_volume (player, TRUE);
+
+	g_timeout_add_seconds (5, (GSourceFunc) timeout_cb, player);
+	pt_player_play (player);
 }
 
 /* ------------------------- Basic controls --------------------------------- */
@@ -1296,9 +1237,9 @@ pt_player_class_init (PtPlayerClass *klass)
 		      0,
 		      NULL,
 		      NULL,
-		      g_cclosure_marshal_VOID__STRING,
+		      g_cclosure_marshal_VOID__BOXED,
 		      G_TYPE_NONE,
-		      1, G_TYPE_STRING);
+		      1, G_TYPE_ERROR);
 
 	/**
 	* PtPlayer:speed:
