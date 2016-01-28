@@ -83,9 +83,9 @@ window_state_event_cb (GtkWidget	    *widget,
 		       GdkEventWindowState  *event,
 		       PtWindow		    *win)
 {
-	if (event->new_window_state != GDK_WINDOW_STATE_FOCUSED)
+	if (!(event->new_window_state & GDK_WINDOW_STATE_FOCUSED))
 		return FALSE;
-	
+
 	g_dbus_proxy_call (
 			win->priv->proxy,
 			"GrabMediaPlayerKeys",
