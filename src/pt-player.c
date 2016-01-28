@@ -64,18 +64,20 @@ G_DEFINE_TYPE_WITH_CODE (PtPlayer, pt_player, G_TYPE_OBJECT,
  * @short_description: The GStreamer backend for Parlatype.
  *
  * PtPlayer is the GStreamer backend for Parlatype. Construct it with #pt_player_new().
- * Then you have to open a file with pt_player_open_uri(). Now you can play around
- * with the various controls.
+ * Then you have to open a file with pt_player_open_uri(). Listen to the player-
+ * state-changed signal. On TRUE you can start playing around with the various controls.
  *
  * The internal time unit in PtPlayer are milliseconds and for scale widgets there
  * is a scale from 0 to 1000. Use it to jump to a position or to update your widget.
  *
  * While playing PtPlayer emits these signals:
  * - duration-changed: The duration is an estimate, that's why it can change
- *                         during playback.
+ *                     during playback.
  * - end-of-stream: End of file reached, in the GUI you might want to jump
  *    		       to the beginning, reset play button etc.
  * - error: A fatal error occured, the player is reset. There's an error message.
+ * - player-state-changed: indicates with a boolean whether the player is ready
+ * to play or not. This happens after opening a file or on error.
  *
  * PtPlayer has two properties:
  * - speed: is a double from 0.5 to 1.5. 1.0 is normal playback, < 1.0 is slower,
@@ -328,7 +330,6 @@ timeout_cb (PtPlayer *player)
  * pt_player_open_uri:
  * @player: a #PtPlayer
  * @uri: the URI of the file
- * @error: (allow-none): return location for an error, or NULL
  *
  * Opens a local audio file for playback. It doesn't work with videos or streams.
  * Only one file can be open at a time, playlists are not supported by the
@@ -341,23 +342,20 @@ timeout_cb (PtPlayer *player)
  * The player is set to the paused state and ready for playback. To start
  * playback use @pt_player_play().
  *
- * This is a synchronous method and will return an error on failure. Please note
- * that all other player controls are asynchronous. If you call e.g. pt_player_play(),
- * it will take a short time until it really starts playing.
- *
- * Possible errors are file not found or kind of stream not recognized.
- *
- * Return value: TRUE on success, FALSE on error
+ * This is an asynchronous method. Listen to player-state-changed and error signals.
+ * The other methods like @pt_player_play() and so on are async, too and it
+ * might take a short while until they really start. Opening is slower though
+ * and might take a few seconds. There is a timeout after 5 seconds, emitting
+ * an error.
  */
 void
 pt_player_open_uri (PtPlayer  *player,
 		    gchar     *uri)
 {
-	/* A file is opened. We play it until we get a duration-changed signal,
-	   blocking in a g_main_loop. Reason: On some files PAUSED state is not
-	   enough to get a duration, even Playing and setting to PAUSED
-	   immediately might be not enough. We are really waiting until we have
-	   a duration.
+	/* A file is opened. We play it until we get a duration-changed signal.
+	   Reason: On some files PAUSED state is not enough to get a duration,
+	   even Playing and setting to PAUSED immediately might be not enough.
+	   We are really waiting until we have a duration.
 	   That's why we mute the volume and reset it later. In the end we
 	   pause the player and look for the last known position in metadata.
 	   This sets it to position 0 if no metadata is found. */
@@ -1201,6 +1199,16 @@ pt_player_class_init (PtPlayerClass *klass)
 	G_OBJECT_CLASS (klass)->get_property = pt_player_get_property;
 	G_OBJECT_CLASS (klass)->dispose = pt_player_dispose;
 
+	/**
+	* PtPlayer::player-state-changed:
+	* @player: the player emitting the signal
+	* @state: the new state, TRUE is ready, FALSE is not ready
+	*
+	* The ::player-state-changed signal is emitted when the @player changes
+	* its state to ready to play (a file was opened) or not ready to play
+	* (an error occured). If the player is ready, a duration of the stream
+	* is available.
+	*/
 	g_signal_new ("player-state-changed",
 		      G_TYPE_OBJECT,
 		      G_SIGNAL_RUN_FIRST,
@@ -1211,6 +1219,14 @@ pt_player_class_init (PtPlayerClass *klass)
 		      G_TYPE_NONE,
 		      1, G_TYPE_BOOLEAN);
 
+	/**
+	* PtPlayer::duration-changed:
+	* @player: the player emitting the signal
+	*
+	* The ::duration-changed signal is emitted when the duration of the stream
+	* changed after opening the file. This can happen because the duration
+	* is just an estimate.
+	*/
 	g_signal_new ("duration-changed",
 		      G_TYPE_OBJECT,
 		      G_SIGNAL_RUN_FIRST,
@@ -1221,6 +1237,12 @@ pt_player_class_init (PtPlayerClass *klass)
 		      G_TYPE_NONE,
 		      0);
 
+	/**
+	* PtPlayer::end-of-stream:
+	* @player: the player emitting the signal
+	*
+	* The ::end-of-stream signal is emitted when the stream is at its end.
+	*/
 	g_signal_new ("end-of-stream",
 		      G_TYPE_OBJECT,
 		      G_SIGNAL_RUN_FIRST,
@@ -1231,6 +1253,14 @@ pt_player_class_init (PtPlayerClass *klass)
 		      G_TYPE_NONE,
 		      0);
 
+	/**
+	* PtPlayer::error:
+	* @player: the player emitting the signal
+	* @error: a GError
+	*
+	* The ::error signal is emitted on errors opening the file or during
+	* playback. It's a severe error and the player is always reset.
+	*/
 	g_signal_new ("error",
 		      G_TYPE_OBJECT,
 		      G_SIGNAL_RUN_FIRST,

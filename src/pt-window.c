@@ -152,7 +152,9 @@ player_state_changed_cb (PtPlayer *player,
 			 PtWindow *win)
 {
 	/* Set up widget sensitivity/visibility, actions, labels, window title
-	   and timer according to the state of PtPlayer (ready to play or not) */
+	   and timer according to the state of PtPlayer (ready to play or not).
+	   Resetting cursor from waiting to normal only if player is ready as
+	   the state changes to FALSE immediately before a file is opened. */
 
 	GAction   *action;
 	gchar     *display_name = NULL;
@@ -217,6 +219,9 @@ player_error_cb (PtPlayer *player,
 		 GError   *error,
 		 PtWindow *win)
 {
+	/* Resetting the cursor from waiting to normal. We don't know if this
+	   error is from opening or anything else, just do it */
+
 	GdkWindow  *gdkwin;
 
 	gdkwin = gtk_widget_get_window (GTK_WIDGET (win));
