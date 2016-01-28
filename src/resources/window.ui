@@ -60,6 +60,7 @@
             <child>
               <object class="GtkScale" id="time_scale">
                 <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="adjustment">time_adj</property>
                 <property name="draw_value">False</property>
@@ -104,6 +105,7 @@
                 <child>
                   <object class="GtkButton" id="button_jump_back">
                     <property name="visible">True</property>
+                    <property name="sensitive">False</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="halign">start</property>
@@ -185,6 +187,7 @@
                 <child>
                   <object class="GtkButton" id="button_jump_forward">
                     <property name="visible">True</property>
+                    <property name="sensitive">False</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="halign">start</property>
@@ -255,6 +258,7 @@ audio-volume-medium</property>
               <object class="GtkScale" id="speed_scale">
                 <property name="width_request">110</property>
                 <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="halign">end</property>
                 <property name="adjustment">speed_adj</property>

@@ -147,10 +147,14 @@ remove_timer (PtWindow *win)
 }
 
 static void
-pt_window_set_sensitive (PtWindow *win,
-			 gboolean  state)
+pt_window_set_ready (PtWindow *win,
+		     gboolean  state)
 {
+	/* Set up widget sensitivity/visibility, actions, labels, window title
+	   and timer according to the state of PtPlayer (ready to play or not) */
+
 	GAction *action;
+	gchar   *display_name = NULL;
 
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "copy");
 	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
@@ -167,7 +171,18 @@ pt_window_set_sensitive (PtWindow *win,
 	gtk_widget_set_sensitive (win->priv->time_scale, state);
 	gtk_widget_set_sensitive (win->priv->speed_scale, state);
 
-	if (!state) {
+	if (state) {
+		update_duration_label (win);
+		display_name = pt_player_get_filename (win->priv->player);
+		if (display_name) {
+			gtk_window_set_title (GTK_WINDOW (win), display_name);
+			g_free (display_name);
+		}
+		gtk_recent_manager_add_item (
+				win->priv->recent,
+				pt_player_get_uri (win->priv->player));
+		add_timer (win);
+	} else {
 		gtk_label_set_text (GTK_LABEL (win->priv->dur_label), "00:00");
 		gtk_label_set_text (GTK_LABEL (win->priv->pos_label), "00:00");
 		gtk_window_set_title (GTK_WINDOW (win), "Parlatype");
@@ -198,7 +213,7 @@ player_error_cb (PtPlayer *player,
 {
 	/* Fatal error, playback is stopped */
 	g_debug ("error_cb: %s", message);
-	pt_window_set_sensitive (win, FALSE);
+	pt_window_set_ready (win, FALSE);
 	pt_error_message (win, message);
 }
 
@@ -206,31 +221,17 @@ void
 pt_window_open_file (PtWindow *win,
 		     gchar    *uri)
 {
-	GError *error = NULL;
-	gchar  *display_name = NULL;
+	GError   *error = NULL;
+	gboolean  success;
 
-	pt_player_open_uri (win->priv->player, uri, &error);
+	success = pt_player_open_uri (win->priv->player, uri, &error);
+
+	pt_window_set_ready (win, success);
 
 	if (error) {
-		pt_window_set_sensitive (win, FALSE);
 		pt_error_message (win, error->message);
 		g_error_free (error);
-		return;
 	}
-
-	g_debug ("opening success cb");
-
-	pt_window_set_sensitive (win, TRUE);
-	update_duration_label (win);
-	gtk_recent_manager_add_item (win->priv->recent, pt_player_get_uri (win->priv->player));
-
-	display_name = pt_player_get_filename (win->priv->player);
-	if (display_name) {
-		gtk_window_set_title (GTK_WINDOW (win), display_name);
-		g_free (display_name);
-	}
-
-	add_timer (win);
 }
 
 void
@@ -443,7 +444,6 @@ pt_window_init (PtWindow *win)
 	pt_window_setup_dnd (win);	/* this is in pt_window_dnd.c */
 	win->priv->recent = gtk_recent_manager_get_default ();
 	win->priv->timer = 0;
-	pt_window_set_sensitive (win, FALSE);
 }
 
 static void
