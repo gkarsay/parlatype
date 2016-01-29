@@ -1,24 +1,24 @@
 # German translations for parlatype package.
 # Copyright (C) 2016 THE parlatype'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the parlatype package.
-# Gabor Karsay <gabor.karsay@gmx.at>, 2016.
+# Gabor Karsay <gabor.karsay@gxm.at>, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 0.99\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-26 17:06+0100\n"
-"PO-Revision-Date: 2016-01-03 13:54+0100\n"
-"Last-Translator: Gabor Karsay <gabor.karsay@gmx.at>\n"
-"Language-Team: German\n"
+"POT-Creation-Date: 2016-01-29 10:00+0100\n"
+"PO-Revision-Date: 2016-01-29 09:59+0100\n"
+"Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
+"Language-Team: Deutsch <>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
-#. parent window
-#: ../data/parlatype.desktop.in.in.h:1 ../src/pt-app.c:66 ../src/pt-app.c:171
+#: ../data/parlatype.desktop.in.in.h:1 ../src/pt-app.c:66 ../src/pt-app.c:195
 #: ../src/resources/window.ui.h:1 ../src/resources/window-headerbar.ui.h:1
 msgid "Parlatype"
 msgstr "Parlatype"
@@ -47,12 +47,11 @@ msgstr ""
 "Plugins« (Good Plugins) installiert sind.\n"
 "Parlatype wird nun beendet, es hat folgende Fehlermeldung erhalten: %s"
 
-#. Get command line options
-#: ../src/main.c:81
+#: ../src/main.c:80
 msgid "[FILE]"
 msgstr "[DATEI]"
 
-#: ../src/main.c:84
+#: ../src/main.c:83
 msgid "Minimal audio player for manual speech transcription"
 msgstr "Minimalistischer Audioplayer für manuelle Sprachtranskription"
 
@@ -80,15 +79,20 @@ msgstr "Audio-Datei öffnen"
 msgid "Audio files"
 msgstr "Audio-Dateien"
 
-#: ../src/pt-app.c:174
+#: ../src/pt-app.c:175
+#, c-format
+msgid "Error opening help: %s"
+msgstr "Fehler beim Öffnen der Hilfe: %s"
+
+#: ../src/pt-app.c:198
 msgid "A basic transcription utility"
 msgstr "Ein einfaches Transkriptionsprogramm"
 
-#: ../src/pt-app.c:177
+#: ../src/pt-app.c:201
 msgid "translator-credits"
 msgstr "Gabor Karsay <gabor.karsay@gmx.at>"
 
-#: ../src/pt-app.c:276
+#: ../src/pt-app.c:308
 #, c-format
 msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
@@ -97,17 +101,17 @@ msgstr ""
 "Warnung: Parlatype öffnet nur eine Datei auf einmal. Weitere Dateien werden "
 "ignoriert.\n"
 
-#: ../src/pt-player.c:352
+#: ../src/pt-player.c:322
+#, c-format
+msgid "Timeout: Can't read resource"
+msgstr "Zeitüberschreitung: Resource konnte nicht gelesen werden"
+
+#: ../src/pt-player.c:384
 #, c-format
 msgid "URI not valid: %s"
 msgstr "URI nicht gültig: %s"
 
-#: ../src/pt-player.c:1105
-#, c-format
-msgid "Failed to load a plugin of type %s."
-msgstr "Ein Plugin vom Typ %s konnte nicht geladen werden."
-
-#: ../src/pt-player.c:1167
+#: ../src/pt-player.c:1091
 #, c-format
 msgid "Failed to load a plugin."
 msgstr "Ein Plugin konnte nicht geladen werden."
@@ -121,14 +125,18 @@ msgid "Preferences"
 msgstr "Einstellungen"
 
 #: ../src/resources/menus.ui.h:4
+msgid "Help"
+msgstr "Hilfe"
+
+#: ../src/resources/menus.ui.h:5
 msgid "Info"
 msgstr "Info"
 
-#: ../src/resources/menus.ui.h:5
+#: ../src/resources/menus.ui.h:6
 msgid "Quit"
 msgstr "Beenden"
 
-#: ../src/resources/menus.ui.h:6
+#: ../src/resources/menus.ui.h:7
 msgid "Copy timestamp"
 msgstr "Zeitstempel kopieren"
 
@@ -171,6 +179,9 @@ msgstr "Fenster"
 #: ../src/resources/window.ui.h:2
 msgid "Speed:"
 msgstr "Geschwindigkeit:"
+
+#~ msgid "Failed to load a plugin of type %s."
+#~ msgstr "Ein Plugin vom Typ %s konnte nicht geladen werden."
 
 #~ msgid "Go to"
 #~ msgstr "Gehe zu"

@@ -1,16 +1,533 @@
+#
+# Gabor Karsay <gabor.karsay@gxm.at>, 2016.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-01-26 18:16+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2016-01-29 11:43+0100\n"
+"PO-Revision-Date: 2016-01-29 11:44+0100\n"
+"Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
+"Language-Team: Deutsch <>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"X-Generator: Gtranslator 2.91.6\n"
+
+#. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
+msgctxt "_"
+msgid "translator-credits"
+msgstr "Gabor Karsay <gabor.karsay@gmx.at>"
+
+#. (itstool) path: info/title
+#: C/index.page:6
+msgctxt "text"
+msgid "Parlatype"
+msgstr "Parlatype"
+
+#. (itstool) path: info/title
+#: C/index.page:7
+msgctxt "link"
+msgid "Parlatype"
+msgstr "Parlatype"
+
+#. (itstool) path: title/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/index.page:11
+msgctxt "_"
+msgid ""
+"external ref='figures/parlatype-icon.png' "
+"md5='1131d700f27fefe4d909a4c1cf36d922'"
+msgstr "übersetzt"
 
 #. (itstool) path: page/title
-#: C/index.page:4
-msgid "Parlatype Help"
-msgstr "Parlatype"
+#: C/index.page:10
+msgid ""
+"<media type=\"image\" mime=\"image/png\" src=\"figures/parlatype-icon.png\"/"
+"> Parlatype"
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/index.page:15
+msgid ""
+"Welcome to the <app>Parlatype</app> help guide. For a quick overview have a "
+"look at <link xref=\"first-steps\"/>. Other topics are covered below."
+msgstr ""
+"Willkommen bei den Hilfeseiten von <app>Parlatype</app>. Für einen schnellen "
+"Überblick gehen Sie zu <link xref=\"first-steps\"/>. Andere Themen sind "
+"weiter unten behandelt."
+
+#. (itstool) path: info/desc
+#: C/control.page:6
+msgid "How to control Parlatype"
+msgstr "Wie Sie Parlatype steuern können"
+
+#. (itstool) path: page/title
+#. (itstool) path: section/title
+#: C/control.page:8 C/preferences.page:13
+msgid "Controls"
+msgstr "Steuerung"
+
+#. (itstool) path: page/p
+#: C/control.page:10
+msgid ""
+"Of course <app>Parlatype</app> can be controled with a mouse or pointer "
+"device, however it is more convenient to use the keyboard or even a foot "
+"pedal."
+msgstr ""
+"Natürlich kann <app>Parlatype</app> mit einer Maus oder einem Touchpad "
+"gesteuert werden, viel einfacher geht es aber mit der Tastatur oder gar "
+"einem Fußpedal."
+
+#. (itstool) path: page/p
+#: C/control.page:12
+msgid ""
+"<app>Parlatype</app>'s basic buttons can be controlled with the so called "
+"<em>media keys</em>. Media keys are used system wide to control media "
+"players and they are working even if the media player, <app>Parlatype</app> "
+"in this case, is not in focus or even in the background."
+msgstr ""
+"<app>Parlatype</app>s grundlegende Knöpfe können mit den sogenannten "
+"<em>Medientasten</em> gesteuert werden. Medientasten werden systemweit "
+"verwendet, um Medienspieler zu steuern, und sie funktionieren selbst dann, "
+"wenn der Medienspieler, in diesem Fall <app>Parlatype</app>, nicht im Fokus "
+"oder gar im Hintergrund ist."
+
+#. (itstool) path: page/p
+#: C/control.page:14
+msgid ""
+"You can change the media keys in GNOME settings. You can use dedicated keys "
+"from a multimedia keyboard or use any other key or combination of keys."
+msgstr ""
+"Sie können die Medientasten in den Einstellungen von GNOME ändern. Sie "
+"können entweder dezidierte Tasten von einer Multimediatastatur verwenden "
+"oder eine beliebige andere Taste oder Tastenkombination zuweisen."
+
+#. (itstool) path: note/p
+#: C/control.page:17
+msgid ""
+"This will affect other media players, e.g. <app>Totem</app> or "
+"<app>Rhythmbox</app>, as well."
+msgstr ""
+"Das wirkt sich auch auf andere Medienspieler aus, wie zum Beispiel "
+"<app>Totem</app> oder <app>Rhythmbox</app>."
+
+#. (itstool) path: page/p
+#: C/control.page:20
+msgid "<app>Parlatype</app> listens to these key strokes:"
+msgstr "<app>Parlatype</app> reagiert auf diese Tastenanschläge:"
+
+#. (itstool) path: item/p
+#: C/control.page:22
+msgid ""
+"<key>Play</key>, <key>Pause</key>, <key>Stop</key>: Each of these keys "
+"toggles between playing and pause."
+msgstr ""
+"<key>Wiedergabe</key>, <key>Wiedergabe unterbrechen</key>, <key>Wiedergabe "
+"anhalten</key>: Jede dieser Tasten schaltet zwischen Wiedergabe und Pause um."
+
+#. (itstool) path: item/p
+#: C/control.page:23
+msgid ""
+"<key>Rewind</key>, <key>Previous</key>: Each of these keys will jump back "
+"the time you selected in Preferences."
+msgstr ""
+"<key>Zurückspulen</key>, <key>Vorheriger Titel</key>: Jede dieser Tasten "
+"wird um so viele Sekunden zurückspringen, wie Sie in den Einstellungen "
+"eingestellt haben."
+
+#. (itstool) path: item/p
+#: C/control.page:24
+msgid ""
+"<key>Fast Forward</key>, <key>Next</key>: Each of these keys will jump ahead "
+"the time you selected in Preferences."
+msgstr ""
+"<key>Vorspulen</key>, <key>Nächster Titel</key>: Jede dieser Tasten wird so "
+"viele Sekunden vorwärtsspringen, wie Sie in den Einstellungen eingestellt "
+"haben."
+
+#. (itstool) path: note/p
+#: C/control.page:28
+msgid ""
+"For detailed instructions how to change keyboard shortcuts in GNOME see the "
+"<link href=\"help:gnome-help/keyboard-shortcuts-set\">official "
+"documentation</link>."
+msgstr ""
+"Für eine genaue Anleitung, wie Sie die Tastenkürzel in GNOME ändern können, "
+"sehen Sie bitte in der <link href=\"help:gnome-help/keyboard-shortcuts-set"
+"\">offiziellen Dokumentation</link> nach."
+
+#. (itstool) path: page/p
+#: C/control.page:31
+msgid ""
+"If you are using a dedicated foot pedal, it should be possible to map the "
+"foot pedal signals to any of the keys. This is not well tested, however. Any "
+"feedback regarding foot pedals is welcome."
+msgstr ""
+"Wenn Sie Fußpedal für die Transkription verwenden, müsste es möglich sein, "
+"die Fußpedalsignale den entsprechenden Tasten zuzuweisen. Das ist aber noch "
+"nicht ausgiebig getestet worden. Rückmeldungen dazu sind willkommen."
+
+#. (itstool) path: info/desc
+#: C/drag-and-drop.page:6
+msgid "Drag and drop to Parlatype"
+msgstr "Etwas auf Parlatype ablegen"
+
+#. (itstool) path: page/title
+#: C/drag-and-drop.page:8
+msgid "Drag and Drop"
+msgstr "Ziehen und ablegen"
+
+#. (itstool) path: page/p
+#: C/drag-and-drop.page:10
+msgid "<app>Parlatype</app> accepts several kinds of drops on its window."
+msgstr ""
+"Sie können Verschiedenes auf das Fenster von <app>Parlatype</app> ziehen und "
+"ablegen:"
+
+#. (itstool) path: section/title
+#: C/drag-and-drop.page:13
+msgid "From a file manager"
+msgstr "Von einem Dateimanager"
+
+#. (itstool) path: section/p
+#: C/drag-and-drop.page:14
+msgid ""
+"If you drag and drop a file from a file manager, e.g. <app>Files</app>, on "
+"<app>Parlatype</app>, it will open that file."
+msgstr ""
+"Wenn Sie eine Datei aus einem Dateimanager, wie zum Beispiel <app>Dateien</"
+"app>, zu <app>Parlatype</app> hinüberziehen, wird diese Datei geöffnet."
+
+#. (itstool) path: section/title
+#: C/drag-and-drop.page:18
+msgid "From a word processor"
+msgstr "Von einer Textverarbeitung"
+
+#. (itstool) path: section/p
+#: C/drag-and-drop.page:19
+msgid ""
+"You can drag and drop from a word processor, e.g. <app>Libre Office</app>."
+msgstr ""
+"Sie können markierten Text von einer Textverarbeitung, wie zum Beispiel "
+"<app>Libre Office</app>, ins <app>Parlatype</app>-Fenster hinüberziehen."
+
+#. (itstool) path: item/p
+#: C/drag-and-drop.page:21
+msgid ""
+"Timestamps: Select a timestamp, drop it on <app>Parlatype</app> and it will "
+"jump to that position."
+msgstr ""
+"Zeitstempel: Markieren Sie einen Zeitstempel, ziehen Sie ihn ins "
+"<app>Parlatype</app>-Fenster und das Programm springt zur Position des "
+"Zeitstempels."
+
+#. (itstool) path: item/p
+#: C/drag-and-drop.page:22
+msgid ""
+"File paths: Select a full path of a file, drop it on <app>Parlatype</app> "
+"and it will open that file."
+msgstr ""
+"Dateipfade: Markieren Sie einen vollständigen Dateipfad, ziehen Sie ihn ins "
+"<app>Parlatype</app>-Fenster hinüber und die Datei wird geöffnet."
+
+#. (itstool) path: item/p
+#: C/drag-and-drop.page:23
+msgid ""
+"File names: Select a file name and drop it on <app>Parlatype</app>. "
+"<app>Parlatype</app> will look up its full path in the list of recent files "
+"and open it if it can find it in that list."
+msgstr ""
+"Dateinamen: Markieren Sie einen Dateinamen und ziehen Sie ihn ins "
+"<app>Parlatype</app>-Fenster. <app>Parlatype</app> vergleicht diesen Namen "
+"mit den Einträgen in der Liste der zuletzt benützten Dateien und wenn es "
+"dort den vollen Pfad findet, öffnet es die Datei."
+
+#. (itstool) path: info/desc
+#. (itstool) path: page/title
+#: C/first-steps.page:6 C/first-steps.page:8
+msgid "First steps with Parlatype"
+msgstr "Erste Schritte mit Parlatype"
+
+#. (itstool) path: page/p
+#: C/first-steps.page:10
+msgid ""
+"<app>Parlatype</app> is a minimal audio player to help you transcribing or "
+"annotating recorded speech. You need to run a word processor, e.g. "
+"<app>Libre Office</app>, too. Launch <app>Parlatype</app> and open an audio "
+"file by clicking on the <gui>Open</gui> button in the upper left corner."
+msgstr ""
+"<app>Parlatype</app> ist ein minimalistischer Audiospieler, der Ihnen hilft, "
+"aufgenommene Sprache zu transkribieren oder zu kommentieren. Sie brauchen "
+"dazu auch eine Textverarbeitung wie zum Beispiel <app>Libre Office</app>. "
+"Starten Sie <app>Parlatype</app> und öffnen Sie eine Audiodatei, indem Sie "
+"auf den <gui>Öffnen</gui>-Knopf in der linken oberen Ecke drücken."
+
+#. (itstool) path: note/p
+#: C/first-steps.page:13
+msgid ""
+"You can also drag and drop a file on <app>Parlatype</app> or open the "
+"recently used files in the Application menu."
+msgstr ""
+"Sie können auch eine Datei ins <app>Parlatype</app>-Fenster ziehen oder die "
+"Liste der zuletzt benützten Dateien im Anwendungsmenü einsehen."
+
+#. (itstool) path: page/p
+#: C/first-steps.page:16
+msgid ""
+"Now in the upper left corner there is a <gui>Play</gui> button which toggles "
+"between play and pause. Whenever you pause, <app>Parlatype</app> rewinds a "
+"few seconds to make it easier to resume. This can be changed in the <link "
+"xref=\"preferences\"/>."
+msgstr ""
+"Nun sehen Sie in der linken oberen Ecke einen <gui>Wiedergabe</gui>-Knopf, "
+"der zwischen Wiedergabe und Pause hin und her schaltet. Immer, wenn Sie die "
+"Wiedergabe unterbrechenn, spult <app>Parlatype</app> einige Sekunden zurück, "
+"damit Sie besser in den Text zurückfinden. Das kann in den <link xref="
+"\"preferences\"/> geändert werden."
+
+#. (itstool) path: page/p
+#: C/first-steps.page:18
+msgid ""
+"The buttons <gui>Jump back</gui> and <gui>Jump forward</gui> in the lower "
+"left corner skip a few seconds back or ahead. The amount of time can be "
+"changed in the <link xref=\"preferences\"/>."
+msgstr ""
+"Die Knöpfe <gui>Zurückspringen</gui> und <gui>Vorwärts springen</gui> in der "
+"linken unteren Ecke springen einige Sekunden zurück oder vorwärts. Wie viel, "
+"kann in den <link xref=\"preferences\"/> geändert werden."
+
+#. (itstool) path: page/p
+#: C/first-steps.page:20
+msgid "You can also click on the <gui>time scale</gui> to change the position."
+msgstr ""
+"Sie können auch auch auf den <gui>Zeit-Schieberegler</gui> klicken, um die "
+"Position zu ändern."
+
+#. (itstool) path: page/p
+#: C/first-steps.page:22
+msgid ""
+"The <gui>speed scale</gui> next to the <gui>volume</gui> button in the lower "
+"right corner lets you adjust the speed of playback. A value of 1 means "
+"normal speed, everything lower (down to 0.5) is slower, everything above is "
+"faster."
+msgstr ""
+"Der <gui>Geschwindigkeits-Schieberegler</gui> neben dem <gui>Lautstärke</"
+"gui>-Knopf in der rechten unteren Ecke stellt die Wiedergabegeschwindigkeit "
+"ein. Der Wert 1 bedeutet normale Geschwindigkeit, alles darunter (bis 0,5) "
+"ist langsamer, alles darüber ist schneller."
+
+#. (itstool) path: info/desc
+#: C/keyboard-shortcuts.page:6
+msgid "Standard keyboard shortcuts in Parlatype"
+msgstr "Standard-Tastaturkürzel in Parlatype"
+
+#. (itstool) path: page/title
+#: C/keyboard-shortcuts.page:8
+msgid "Keyboard shortcuts"
+msgstr "Tastaturkürzel"
+
+#. (itstool) path: page/p
+#: C/keyboard-shortcuts.page:10
+msgid ""
+"Keyboard shortcuts for <app>Parlatype</app> control, like <key>Play</key>, "
+"are described in <link xref=\"control\"/>. Shortcut keys for the window are "
+"listed below."
+msgstr ""
+"Tastaturkürzel zur Steuerung der Wiedergabe, wie etwa <key>Wiedergabe</key>, "
+"sind in <link xref=\"control\"/> beschrieben. Tastaturkürzel für das "
+"<app>Parlatype</app>-Fenster sind unten aufgelistet."
+
+#. (itstool) path: table/title
+#: C/keyboard-shortcuts.page:13
+msgid "Standard Shortcut keys"
+msgstr "Standard-Tastaturkürzel"
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:16
+msgid "To Do This"
+msgstr "Um das zu erreichen …"
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:17
+msgid "Press This"
+msgstr "… drücken Sie das"
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:22
+msgid "Show help"
+msgstr "Hilfe anzeigen"
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:23
+msgid "<key>F1</key>"
+msgstr "<key>F1</key>"
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:26
+msgid "Open file"
+msgstr "Datei öffnen"
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:27
+msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
+msgstr "<keyseq><key>Strg</key><key>o</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:30
+msgid "Open recent files"
+msgstr "Zuletzt benutzte Dateien öffnen"
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:31
+msgid "<keyseq><key>Ctrl</key><key>r</key></keyseq>"
+msgstr "<keyseq><key>Strg</key><key>r</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:34
+msgid "Copy timestamp"
+msgstr "Zeitstempel kopieren"
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:35
+msgid "<keyseq><key>Ctrl</key><key>c</key></keyseq>"
+msgstr "<keyseq><key>Strg</key><key>c</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:38
+msgid "Quit"
+msgstr "Beenden"
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:39
+msgid "<keyseq><key>Ctrl</key><key>q</key></keyseq>"
+msgstr "<keyseq><key>Strg</key><key>q</key></keyseq>"
+
+#. (itstool) path: info/desc
+#: C/preferences.page:6
+msgid "How to customize Parlatype"
+msgstr "Wie Sie Parlatype anpassen könnnen"
+
+#. (itstool) path: page/title
+#: C/preferences.page:8
+msgid "Preferences"
+msgstr "Einstellungen"
+
+#. (itstool) path: page/p
+#: C/preferences.page:10
+msgid ""
+"You can reach the preferences window in the Application Menu (next to "
+"<gui>Activities</gui> in the top left corner. There are two tabs: "
+"<gui>Controls</gui> and <gui>Window</gui>."
+msgstr ""
+"Sie können das Einstellungsfenster über das Anwendungsmenü (neben den "
+"<gui>Aktivitäten</gui> in der linken oberen Ecke) erreichen. Es gibt zwei "
+"Reiter: <gui>Steuerung</gui> und <gui>Fenster</gui>."
+
+#. (itstool) path: item/p
+#: C/preferences.page:15
+msgid ""
+"Jump back on pause: <app>Parlatype</app> will rewind a few seconds on each "
+"pause, this way you can easier resume typing. Set this value to 0 if you "
+"don't want this behaviour."
+msgstr ""
+"Bei Pause zurückspulen: <app>Parlatype</app> spult bei jeder "
+"Wiedergabeunterbrechung einige Sekunden zurück, auf diese Weise können Sie "
+"Ihre Arbeit leichter wiederaufnehmen. Setzen Sie diesen Wert auf 0, wenn Sie "
+"dieses Verhalten nicht wünschen."
+
+#. (itstool) path: item/p
+#: C/preferences.page:16
+msgid ""
+"Jump back: Configures how many seconds to skip when the <gui>Jump back</gui> "
+"button is pressed."
+msgstr ""
+"Zurückspringen: Legt fest, wie viele Sekunden übersprungen werden sollen, "
+"wenn der <gui>Zurückspringen</gui>-Knopf gedrückt wird."
+
+#. (itstool) path: item/p
+#: C/preferences.page:17
+msgid ""
+"Jump forward: Configures how many seconds to skip when the <gui>Jump "
+"forward</gui> button is pressed."
+msgstr ""
+"Vorwärts springen: Legt fest, wie viele Sekunden übersprungen werden, wenn "
+"der <gui>Vorwärts springen</gui>-Knopf gedrückt wird."
+
+#. (itstool) path: section/title
+#: C/preferences.page:22
+msgid "Window"
+msgstr "Fenster"
+
+#. (itstool) path: item/p
+#: C/preferences.page:24
+msgid ""
+"Remember position: On start-up <app>Parlatype</app> can position its window "
+"where you had it when you closed <app>Parlatype</app> last time. This also "
+"remembers the window's size."
+msgstr ""
+"Position des Fensters merken: Beim Starten kann <app>Parlatype</app> das "
+"Fenster dort positionieren, wo es sich befand, als Sie <app>Parlatype</app> "
+"das letzte Mal geschlossen haben. Dabei wird auch die Fenstergröße "
+"gespeichert."
+
+#. (itstool) path: item/p
+#: C/preferences.page:25
+msgid ""
+"Start on top: This will put <app>Parlatype</app> on start-up on top of other "
+"windows. This might be useful if you are working with a maximized word "
+"processor and still want to see the <app>Parlatype</app> window."
+msgstr ""
+"»Immer im Vordergrund« starten: Dadurch wird <app>Parlatype</app> beim "
+"Starten über andere Fenster in den Vordergrund gelegt. Das kann nützlich "
+"sein, wenn Sie mit einer maximierten Textverarbeitung arbeiten und trotzdem "
+"das <app>Parlatype</app>-Fenster sehen wollen."
+
+#. (itstool) path: info/desc
+#: C/timestamps.page:6
+msgid "About Timestamps"
+msgstr "Über Zeitstempel"
+
+#. (itstool) path: page/title
+#: C/timestamps.page:8
+msgid "Timestamps"
+msgstr "Zeitstempel"
+
+#. (itstool) path: page/p
+#: C/timestamps.page:10
+msgid ""
+"Timestamps help you to navigate in your transcription. First make sure, the "
+"<app>Parlatype</app> window has focus. With the key sequence "
+"<keyseq><key>Ctrl</key><key>c</key></keyseq> the current timestamp is copied "
+"to the clipboard. Changing to the word processor you can insert now the "
+"timestamp."
+msgstr ""
+"Zeitstempel helfen Ihnen beim Navigieren in Ihrer Transkription. Stellen Sie "
+"zuerst sicher, dass das <app>Parlatype</app>-Fenster den Eingabefokus hat. "
+"Mit der Tastenkombination <keyseq><key>Ctrl</key><key>c</key></keyseq> "
+"können Sie den aktuellen Zeitstempel in die Zwischenablage kopieren. Wenn "
+"Sie nun zu Ihrer Textverarbeitung wechseln, können Sie den Zeitstempel aus "
+"der Zwischenablage einfügen."
+
+#. (itstool) path: page/p
+#: C/timestamps.page:12
+msgid ""
+"If you select the timestamp in the word processor, you can drag and drop it "
+"on the <app>Parlatype</app> window and it will go to that position."
+msgstr ""
+"Wenn Sie einen Zeitstempel in Ihrer Textverarbeitung markieren, können Sie "
+"ihn mit der Maus ins <app>Parlatype</app>-Fenster hinüberziehen und das "
+"Programm wird zu dieser Position springen."
+
+#. (itstool) path: note/p
+#: C/timestamps.page:15
+msgid ""
+"Timestamps look like this: #03:45-2#. You can select them with or without "
+"the number signs."
+msgstr ""
+"Zeitstempel sehen so aus: #03:45-2#. Sie können Sie mit oder ohne die "
+"Rautezeichen markieren."

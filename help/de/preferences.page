@@ -2,26 +2,26 @@
 <page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences" xml:lang="de">
 <info>
   <link type="guide" xref="index"/>
-  <desc>How to customize Parlatype</desc>
+  <desc>Wie Sie Parlatype anpassen könnnen</desc>
 </info>
-<title>Preferences</title>
+<title>Einstellungen</title>
 
-<p>You can reach the preferences window in the Application Menu (next to <gui>Activities</gui> in the top left corner. There are two tabs: <gui>Controls</gui> and <gui>Window</gui>.</p>
+<p>Sie können das Einstellungsfenster über das Anwendungsmenü (neben den <gui>Aktivitäten</gui> in der linken oberen Ecke) erreichen. Es gibt zwei Reiter: <gui>Steuerung</gui> und <gui>Fenster</gui>.</p>
 
 <section id="controls">
-<title>Controls</title>
+<title>Steuerung</title>
 <list>
-<item><p>Jump back on pause: <app>Parlatype</app> will rewind a few seconds on each pause, this way you can easier resume typing. Set this value to 0 if you don't want this behaviour.</p></item>
-<item><p>Jump back: Configures how many seconds to skip when the jump back button is pressed.</p></item>
-<item><p>Jump forward: Configures how many seconds to skip when the jump forward button is pressed.</p></item>
+<item><p>Bei Pause zurückspulen: <app>Parlatype</app> spult bei jeder Wiedergabeunterbrechung einige Sekunden zurück, auf diese Weise können Sie Ihre Arbeit leichter wiederaufnehmen. Setzen Sie diesen Wert auf 0, wenn Sie dieses Verhalten nicht wünschen.</p></item>
+<item><p>Zurückspringen: Legt fest, wie viele Sekunden übersprungen werden sollen, wenn der <gui>Zurückspringen</gui>-Knopf gedrückt wird.</p></item>
+<item><p>Vorwärts springen: Legt fest, wie viele Sekunden übersprungen werden, wenn der <gui>Vorwärts springen</gui>-Knopf gedrückt wird.</p></item>
 </list>
 </section>
 
 <section id="window">
-<title>Window</title>
+<title>Fenster</title>
 <list>
-<item><p>Remember position: On start-up <app>Parlatype</app> can position its window where you had it when you closed <app>Parlatype</app> last time. This also remembers the window's size.</p></item>
-<item><p>Start on top: This will put <app>Parlatype</app> on start-up on top of other windows. This might be useful if you are working with a maximized word processor and still want to see the <app>Parlatype</app> window.</p></item>
+<item><p>Position des Fensters merken: Beim Starten kann <app>Parlatype</app> das Fenster dort positionieren, wo es sich befand, als Sie <app>Parlatype</app> das letzte Mal geschlossen haben. Dabei wird auch die Fenstergröße gespeichert.</p></item>
+<item><p>»Immer im Vordergrund« starten: Dadurch wird <app>Parlatype</app> beim Starten über andere Fenster in den Vordergrund gelegt. Das kann nützlich sein, wenn Sie mit einer maximierten Textverarbeitung arbeiten und trotzdem das <app>Parlatype</app>-Fenster sehen wollen.</p></item>
 </list>
 </section>
 

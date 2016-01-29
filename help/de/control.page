@@ -2,32 +2,32 @@
 <page xmlns="http://projectmallard.org/1.0/" type="topic" id="control" xml:lang="de">
 <info>
   <link type="guide" xref="index"/>
-  <desc>How to control Parlatype</desc>
+  <desc>Wie Sie Parlatype steuern können</desc>
 </info>
-<title>Controls</title>
+<title>Steuerung</title>
 
-<p>Of course <app>Parlatype</app> can be controled with a mouse or pointer device, however it is more convenient to use the keyboard or even a foot pedal.</p>
+<p>Natürlich kann <app>Parlatype</app> mit einer Maus oder einem Touchpad gesteuert werden, viel einfacher geht es aber mit der Tastatur oder gar einem Fußpedal.</p>
 
-<p><app>Parlatype</app>'s basic buttons can be controlled with the so called <em>media keys</em>. Media keys are used system wide to control media players and they are working even if the media player, Parlatype in this case, is not in focus or even in the background.</p>
+<p><app>Parlatype</app>s grundlegende Knöpfe können mit den sogenannten <em>Medientasten</em> gesteuert werden. Medientasten werden systemweit verwendet, um Medienspieler zu steuern, und sie funktionieren selbst dann, wenn der Medienspieler, in diesem Fall <app>Parlatype</app>, nicht im Fokus oder gar im Hintergrund ist.</p>
 
-<p>You can change the media keys in GNOME settings. You can use dedicated keys from a multimedia keyboard or use any other key or combination of keys.</p>
+<p>Sie können die Medientasten in den Einstellungen von GNOME ändern. Sie können entweder dezidierte Tasten von einer Multimediatastatur verwenden oder eine beliebige andere Taste oder Tastenkombination zuweisen.</p>
 
 <note>
-<p>This will affect other media players, e.g. <app>Totem</app> or <app>Rhythmbox</app>, as well.</p>
+<p>Das wirkt sich auch auf andere Medienspieler aus, wie zum Beispiel <app>Totem</app> oder <app>Rhythmbox</app>.</p>
 </note>
 
-<p><app>Parlatype</app> listens to these key strokes:</p>
+<p><app>Parlatype</app> reagiert auf diese Tastenanschläge:</p>
 <list>
-<item><p><key>Play</key>, <key>Pause</key>, <key>Stop</key>: Each of these keys toggles between playing and pause.</p></item>
-<item><p><key>Rewind</key>, <key>Previous</key>: Each of these keys will jump back the time you selected in Preferences.</p></item>
-<item><p><key>Fast Forward</key>, <key>Next</key>: Each of these keys will jump ahead the time you selected in Preferences.</p></item>
+<item><p><key>Wiedergabe</key>, <key>Wiedergabe unterbrechen</key>, <key>Wiedergabe anhalten</key>: Jede dieser Tasten schaltet zwischen Wiedergabe und Pause um.</p></item>
+<item><p><key>Zurückspulen</key>, <key>Vorheriger Titel</key>: Jede dieser Tasten wird um so viele Sekunden zurückspringen, wie Sie in den Einstellungen eingestellt haben.</p></item>
+<item><p><key>Vorspulen</key>, <key>Nächster Titel</key>: Jede dieser Tasten wird so viele Sekunden vorwärtsspringen, wie Sie in den Einstellungen eingestellt haben.</p></item>
 </list>
 
 <note>
-<p>For detailed instructions how to change keyboard shortcuts in GNOME see the <link href="help:gnome-help/keyboard-shortcuts-set">official documentation</link>.</p>
+<p>Für eine genaue Anleitung, wie Sie die Tastenkürzel in GNOME ändern können, sehen Sie bitte in der <link href="help:gnome-help/keyboard-shortcuts-set">offiziellen Dokumentation</link> nach.</p>
 </note>
 
-<p>If you are using a dedicated foot pedal, it should be possible to map the foot pedal signals to any of the keys. This is not well tested, however. Any feedback regarding foot pedals is welcome.</p>
+<p>Wenn Sie Fußpedal für die Transkription verwenden, müsste es möglich sein, die Fußpedalsignale den entsprechenden Tasten zuzuweisen. Das ist aber noch nicht ausgiebig getestet worden. Rückmeldungen dazu sind willkommen.</p>
 
 
 </page>

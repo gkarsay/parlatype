@@ -2,21 +2,21 @@
 <page xmlns="http://projectmallard.org/1.0/" type="topic" id="first-steps" xml:lang="de">
 <info>
   <!--  <link type="guide" xref="index"/> -->
-  <desc>First steps with Parlatype</desc>
+  <desc>Erste Schritte mit Parlatype</desc>
 </info>
-<title>First steps with Parlatype</title>
+<title>Erste Schritte mit Parlatype</title>
 
-<p><app>Parlatype</app> is a minimal audio player to help you transcribing or annotating recorded speech. You need to run a word processor, e.g. <app>Libre Office</app>, too. Launch <app>Parlatype</app> and open an audio file by clicking on the <gui>Open</gui> button in the upper left corner.</p>
+<p><app>Parlatype</app> ist ein minimalistischer Audiospieler, der Ihnen hilft, aufgenommene Sprache zu transkribieren oder zu kommentieren. Sie brauchen dazu auch eine Textverarbeitung wie zum Beispiel <app>Libre Office</app>. Starten Sie <app>Parlatype</app> und öffnen Sie eine Audiodatei, indem Sie auf den <gui>Öffnen</gui>-Knopf in der linken oberen Ecke drücken.</p>
 
 <note>
-<p>You can also drag and drop a file on <app>Parlatype</app> or open the recently used files in the Application menu.</p>
+<p>Sie können auch eine Datei ins <app>Parlatype</app>-Fenster ziehen oder die Liste der zuletzt benützten Dateien im Anwendungsmenü einsehen.</p>
 </note>
 
-<p>Now in the upper left corner there is a <gui>Play</gui> button which toggles between play and pause. Whenever you pause, <app>Parlatype</app> rewinds a few seconds to make it easier to resume. This can be changed in the <link xref="preferences"/>.</p>
+<p>Nun sehen Sie in der linken oberen Ecke einen <gui>Wiedergabe</gui>-Knopf, der zwischen Wiedergabe und Pause hin und her schaltet. Immer, wenn Sie die Wiedergabe unterbrechenn, spult <app>Parlatype</app> einige Sekunden zurück, damit Sie besser in den Text zurückfinden. Das kann in den <link xref="preferences"/> geändert werden.</p>
 
-<p>The buttons <gui>Jump back</gui> and <gui>Jump forward</gui> in the lower left corner skip a few seconds back or ahead. The amount of time can be changed in the <link xref="preferences"/>.</p>
+<p>Die Knöpfe <gui>Zurückspringen</gui> und <gui>Vorwärts springen</gui> in der linken unteren Ecke springen einige Sekunden zurück oder vorwärts. Wie viel, kann in den <link xref="preferences"/> geändert werden.</p>
 
-<p>You can also click on the <gui>time scale</gui> to change the position.</p>
+<p>Sie können auch auch auf den <gui>Zeit-Schieberegler</gui> klicken, um die Position zu ändern.</p>
 
-<p>The <gui>speed scale</gui> next to the <gui>volume</gui> button in the lower right corner lets you adjust the speed of playback. A value of 1 means normal speed, everything lower (down to 0.5) is slower, everything above is faster.</p>
+<p>Der <gui>Geschwindigkeits-Schieberegler</gui> neben dem <gui>Lautstärke</gui>-Knopf in der rechten unteren Ecke stellt die Wiedergabegeschwindigkeit ein. Der Wert 1 bedeutet normale Geschwindigkeit, alles darunter (bis 0,5) ist langsamer, alles darüber ist schneller.</p>
 </page>
