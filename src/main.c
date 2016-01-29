@@ -77,7 +77,6 @@ int main (int argc, char *argv[])
 	GOptionContext *context;
 	PtPlayer       *testplayer;
 
-	/* Get command line options */
 	context = g_option_context_new (_("[FILE]"));
 	g_option_context_add_main_entries (context, options, PACKAGE);
 	g_option_context_add_group (context, gtk_get_option_group (TRUE));

@@ -191,7 +191,7 @@ about_cb (GSimpleAction *action,
 	};
 
 	gtk_show_about_dialog (
-			gtk_application_get_active_window (app),  /* parent window */
+			gtk_application_get_active_window (app),
 			"program_name", _("Parlatype"),
 			"version", PACKAGE_VERSION,
 			"copyright", "© Gabor Karsay 2016",
