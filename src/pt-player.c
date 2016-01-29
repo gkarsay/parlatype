@@ -272,6 +272,7 @@ bus_call (GstBus     *bus,
 		pt_player_clear (player);
 
 		if (player->priv->opening) {
+			player->priv->opening = FALSE;
 			pt_player_mute_volume (player, FALSE);
 		}
 
@@ -1136,11 +1137,10 @@ pt_player_dispose (GObject *object)
 		/* remember position */
 		metadata_save_position (player);
 		
-		pt_player_clear (player);
+		gst_element_set_state (player->priv->pipeline, GST_STATE_NULL);
 		gst_object_unref (GST_OBJECT (player->priv->pipeline));
 		player->priv->pipeline = NULL;
-		if (player->priv->bus_watch_id > 0)
-			g_source_remove (player->priv->bus_watch_id);
+		remove_message_bus (player);
 	}
 
 	G_OBJECT_CLASS (pt_player_parent_class)->dispose (object);
