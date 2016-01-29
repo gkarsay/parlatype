@@ -1,0 +1,29 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="preferences">
+<info>
+  <link type="guide" xref="index"/>
+  <desc>How to customize Parlatype</desc>
+</info>
+<title>Preferences</title>
+
+<p>You can reach the preferences window in the Application Menu (next to <gui>Activities</gui> in the top left corner. There are two tabs: <gui>Controls</gui> and <gui>Window</gui>.</p>
+
+<section id="controls">
+<title>Controls</title>
+<list>
+<item><p>Jump back on pause: <app>Parlatype</app> will rewind a few seconds on each pause, this way you can easier resume typing. Set this value to 0 if you don't want this behaviour.</p></item>
+<item><p>Jump back: Configures how many seconds to skip when the jump back button is pressed.</p></item>
+<item><p>Jump forward: Configures how many seconds to skip when the jump forward button is pressed.</p></item>
+</list>
+</section>
+
+<section id="window">
+<title>Window</title>
+<list>
+<item><p>Remember position: On start-up <app>Parlatype</app> can position its window where you had it when you closed <app>Parlatype</app> last time. This also remembers the window's size.</p></item>
+<item><p>Start on top: This will put <app>Parlatype</app> on start-up on top of other windows. This might be useful if you are working with a maximized word processor and still want to see the <app>Parlatype</app> window.</p></item>
+</list>
+</section>
+
+</page>

@@ -1,0 +1,27 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="drag-and-drop">
+<info>
+  <link type="guide" xref="index"/>
+  <desc>Drag and drop to Parlatype</desc>
+</info>
+<title>Drag and Drop</title>
+
+<p><app>Parlatype</app> accepts several kinds of drops on its window.</p>
+
+<section id="from-files">
+<title>From a file manager</title>
+<p>If you drag and drop a file from a file manager, e.g. <app>Files</app>, on <app>Parlatype</app>, it will open that file.</p>
+</section>
+
+<section id="from-text">
+<title>From a word processor</title>
+<p>You can drag and drop from a word processor, e.g. <app>Libre Office</app>.</p>
+<list>
+<item><p>Timestamps: Select a timestamp, drop it on <app>Parlatype</app> and it will jump to that position.</p></item>
+<item><p>File paths: Select a full path of a file, drop it on <app>Parlatype</app> and it will open that file.</p></item>
+<item><p>File names: Select a file name and drop it on <app>Parlatype</app>. <app>Parlatype</app> will look up its full path in the list of recent files and open it if it can find it in that list.</p></item>
+</list>
+</section>
+
+</page>

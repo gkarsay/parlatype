@@ -1,5 +1,17 @@
 <page xmlns="http://projectmallard.org/1.0/"
-      type="guide"
+      type="guide" style="2column task"
       id="index">
-<title>Parlatype Help</title>
+
+<info>
+<title type="text">Parlatype</title>
+<title type="link">Parlatype</title>
+</info>
+
+<title>
+  <media type="image" mime="image/png" src="figures/parlatype-icon.png" />
+  Parlatype
+</title>
+
+<p>Welcome to the <app>Parlatype</app> help guide. For a quick overview have a look at <link xref="first-steps" />. Other topics are covered below.</p>
+
 </page>

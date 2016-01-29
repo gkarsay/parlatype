@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="timestamps" xml:lang="de">
+<info>
+  <link type="guide" xref="index"/>
+  <desc>About Timestamps</desc>
+</info>
+<title>Timestamps</title>
+
+<p>Timestamps help you to navigate in your transcription. First make sure, the <app>Parlatype</app> window has focus. With the key sequence <keyseq><key>Ctrl</key><key>c</key></keyseq> the current timestamp is copied to the clipboard. Changing to the word processor you can insert now the timestamp.</p>
+
+<p>If you select the timestamp in the word processor, you can drag and drop it on the <app>Parlatype</app> window and it will go to that position.</p>
+
+<note>
+<p>Timestamps look like this: #03:45-2#. You can select them with or without the number signs.</p>
+</note>
+
+</page>

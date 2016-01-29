@@ -1,0 +1,23 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="first-steps">
+<info>
+  <!--  <link type="guide" xref="index"/> -->
+  <desc>First steps with Parlatype</desc>
+</info>
+<title>First steps with Parlatype</title>
+
+<p><app>Parlatype</app> is a minimal audio player to help you transcribing or annotating recorded speech. You need to run a word processor, e.g. <app>Libre Office</app>, too. Launch <app>Parlatype</app> and open an audio file by clicking on the <gui>Open</gui> button in the upper left corner.</p>
+
+<note>
+<p>You can also drag and drop a file on <app>Parlatype</app> or open the recently used files in the Application menu.</p>
+</note>
+
+<p>Now in the upper left corner there is a <gui>Play</gui> button which toggles between play and pause. Whenever you pause, <app>Parlatype</app> rewinds a few seconds to make it easier to resume. This can be changed in the <link xref="preferences" />.</p>
+
+<p>The buttons <gui>Jump back</gui> and <gui>Jump forward</gui> in the lower left corner skip a few seconds back or ahead. The amount of time can be changed in the <link xref="preferences" />.</p>
+
+<p>You can also click on the <gui>time scale</gui> to change the position.</p>
+
+<p>The <gui>speed scale</gui> next to the <gui>volume</gui> button in the lower right corner lets you adjust the speed of playback. A value of 1 means normal speed, everything lower (down to 0.5) is slower, everything above is faster.</p>
+</page>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="keyboard-shortcuts" xml:lang="de">
+<info>
+  <link type="guide" xref="index"/>
+  <desc>Standard keyboard shortcuts in Parlatype</desc>
+</info>
+<title>Keyboard shortcuts</title>
+
+<p>Keyboard shortcuts for <app>Parlatype</app> control, like <key>Play</key>, are described in <link xref="control"/>. Shortcut keys for the window are listed below.</p>
+
+    <table rules="rows" frame="top bottom">
+    <title>Standard Shortcut keys</title>
+      <thead>
+        <tr>
+          <td><p>To Do This</p></td>
+          <td><p>Press This</p></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><p>Show help</p></td>
+          <td><p><key>F1</key></p></td>
+        </tr>
+        <tr>
+          <td><p>Open file</p></td>
+          <td><p><keyseq><key>Ctrl</key><key>o</key></keyseq></p></td>
+        </tr>
+        <tr>
+          <td><p>Open recent files</p></td>
+          <td><p><keyseq><key>Ctrl</key><key>r</key></keyseq></p></td>
+        </tr>
+        <tr>
+          <td><p>Copy timestamp</p></td>
+          <td><p><keyseq><key>Ctrl</key><key>c</key></keyseq></p></td>
+        </tr>
+        <tr>
+          <td><p>Quit</p></td>
+          <td><p><keyseq><key>Ctrl</key><key>q</key></keyseq></p></td>
+        </tr>
+      </tbody>
+    </table>
+
+</page>
