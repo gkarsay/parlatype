@@ -17,6 +17,7 @@
 
 #include "config.h"
 #include <gtk/gtk.h>
+#include <glib/gi18n.h>
 #include "pt-app.h"
 #include "pt-player.h"
 #include "pt-mediakeys.h"
@@ -147,12 +148,63 @@ remove_timer (PtWindow *win)
 }
 
 static void
+change_jump_back_tooltip (PtWindow *win)
+{
+	gchar *back;
+
+	back = g_strdup_printf (
+			ngettext ("Jump back 1 second",
+				  "Jump back %d seconds",
+				  win->priv->back),
+			win->priv->back);
+
+	gtk_widget_set_tooltip_text (win->priv->button_jump_back, back);
+}
+
+static void
+change_jump_forward_tooltip (PtWindow *win)
+{
+	gchar *forward;
+
+	forward = g_strdup_printf (
+			ngettext ("Jump forward 1 second",
+				  "Jump forward %d seconds",
+				  win->priv->forward),
+			win->priv->forward);
+
+	gtk_widget_set_tooltip_text (win->priv->button_jump_forward, forward);
+}
+
+static void
+change_play_button_tooltip (PtWindow *win)
+{
+	gchar *play;
+
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->priv->button_play))) {
+		if (win->priv->pause == 0) {
+			play = _("Pause");
+		} else {
+			play = g_strdup_printf (
+					ngettext ("Pause and rewind 1 second",
+						  "Pause and rewind %d seconds",
+						  win->priv->pause),
+					win->priv->pause);
+		}
+	} else {
+		play = _("Start playing");
+	}
+
+	gtk_widget_set_tooltip_text (win->priv->button_play, play);
+}
+
+static void
 player_state_changed_cb (PtPlayer *player,
 			 gboolean  state,
 			 PtWindow *win)
 {
 	/* Set up widget sensitivity/visibility, actions, labels, window title
 	   and timer according to the state of PtPlayer (ready to play or not).
+	   Reset tooltips for insensitive widgets.
 	   Resetting cursor from waiting to normal only if player is ready as
 	   the state changes to FALSE immediately before a file is opened. */
 
@@ -185,6 +237,11 @@ player_state_changed_cb (PtPlayer *player,
 		gtk_recent_manager_add_item (
 				win->priv->recent,
 				pt_player_get_uri (player));
+
+		change_play_button_tooltip (win);
+		change_jump_back_tooltip (win);
+		change_jump_forward_tooltip (win);
+
 		add_timer (win);
 
 		gdkwin = gtk_widget_get_window (GTK_WIDGET (win));
@@ -194,6 +251,8 @@ player_state_changed_cb (PtPlayer *player,
 		gtk_label_set_text (GTK_LABEL (win->priv->dur_label), "00:00");
 		gtk_label_set_text (GTK_LABEL (win->priv->pos_label), "00:00");
 		gtk_window_set_title (GTK_WINDOW (win), "Parlatype");
+		gtk_widget_set_tooltip_text (win->priv->button_jump_back, NULL);
+		gtk_widget_set_tooltip_text (win->priv->button_jump_forward, NULL);
 		remove_timer (win);
 	}
 }
@@ -258,6 +317,8 @@ play_button_toggled_cb (GtkToggleButton *button,
 		pt_player_pause (win->priv->player);
 		pt_player_jump_relative (win->priv->player, win->priv->pause * -1000);
 	}
+
+	change_play_button_tooltip (win);
 }
 
 void
@@ -337,6 +398,27 @@ speed_changed_cb (GtkRange *range,
 }
 
 static void
+settings_changed_cb (GSettings *settings,
+		     gchar     *key,
+		     PtWindow  *win)
+{
+	if (g_strcmp0 (key, "rewind-on-pause") == 0) {
+		change_play_button_tooltip (win);
+		return;
+	}
+
+	if (g_strcmp0 (key, "jump-back") == 0) {
+		change_jump_back_tooltip (win);
+		return;
+	}
+
+	if (g_strcmp0 (key, "jump-forward") == 0) {
+		change_jump_forward_tooltip (win);
+		return;
+	}
+}
+
+static void
 setup_settings (PtWindow *win)
 {
 	win->priv->editor = g_settings_new ("org.gnome.parlatype");
@@ -355,6 +437,13 @@ setup_settings (PtWindow *win)
 			win->priv->editor, "jump-forward",
 			win, "forward",
 			G_SETTINGS_BIND_GET);
+
+	/* connect to tooltip changer */
+
+	g_signal_connect (
+			win->priv->editor, "changed",
+			G_CALLBACK (settings_changed_cb),
+			win);
 
 	/* Default speed
 	   Other solutions would be
