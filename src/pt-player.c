@@ -16,6 +16,7 @@
 
 
 #include "config.h"
+#include <stdio.h>	/* sscanf */
 #include <gio/gio.h>
 #include <glib/gi18n.h>	
 #include <gst/gst.h>
@@ -670,6 +671,48 @@ pt_player_mute_volume (PtPlayer *player,
 	g_object_set (G_OBJECT (player->priv->volume), "mute", mute, NULL);
 }
 
+/**
+ * pt_player_get_position:
+ * @player: a #PtPlayer
+ *
+ * Returns the current position in stream.
+ *
+ * Return value: position in milliseconds or -1 on failure
+ */
+gint
+pt_player_get_position (PtPlayer *player)
+{
+	g_return_val_if_fail (PT_IS_PLAYER (player), -1);
+
+	gint64 time;
+
+	if (!pt_player_query_position (player, &time))
+		return -1;
+
+	return GST_TIME_AS_MSECONDS (time);
+}
+
+/**
+ * pt_player_get_duration:
+ * @player: a #PtPlayer
+ *
+ * Returns the duration of stream.
+ *
+ * Return value: duration in milliseconds or -1 on failure
+ */
+gint
+pt_player_get_duration (PtPlayer *player)
+{
+	g_return_val_if_fail (PT_IS_PLAYER (player), -1);
+
+	gint64 time;
+
+	if (!pt_player_query_duration (player, &time))
+		return -1;
+
+	return GST_TIME_AS_MSECONDS (time);
+}
+
 /* --------------------- File utilities ------------------------------------- */
 
 /**
@@ -754,11 +797,28 @@ pt_player_get_filename (PtPlayer *player)
 
 /* --------------------- Time strings and timestamps ------------------------ */
 
+/**
+ * pt_player_get_time_string:
+ * @time: time in milliseconds to converse
+ * @duration: duration of stream (max time)
+ * @digits: precision of string
+ *
+ * Returns the given time as a string for display to the user. Format type is
+ * determined by @duration, e.g. if duration is long format, it returns a string
+ * in long format, too.
+ * The precision is determined by @digits with a value from 0 to 2. 0 is showing
+ * full seconds, 1 one tenth of a second, 2 one hundredth of a second.
+ *
+ * Return value: (transfer full): the time string
+ */
 static gchar*
-pt_player_get_time_string (PtPlayer *player,
-			   gint64    time,
-			   guint     digits)
+pt_player_get_time_string (gint64 time,
+			   gint64 duration,
+			   guint  digits)
 {
+	g_return_val_if_fail (time <= duration, NULL);
+	g_return_val_if_fail (digits <= 2, NULL);
+
 	gchar *result;
 	gint   h, m, s, ms, mod;
 
@@ -770,23 +830,70 @@ pt_player_get_time_string (PtPlayer *player,
 	s = ms / 1000;
 	ms = ms % 1000;
 
-	if (GST_TIME_AS_SECONDS (player->priv->dur) > 3600)
-		result = g_strdup_printf ("%d:%02d:%02d", h, m, s);
-	else
-		result = g_strdup_printf ("%02d:%02d", m, s);
-
-	switch (digits) {
-	case (1):
-		result = g_strdup_printf ("%s-%d", result, ms / 100);
-		break;
-	case (2):
-		result = g_strdup_printf ("%s-%02d", result, ms / 10);
-		break;
-	case (3):
-		result = g_strdup_printf ("%s-%03d", result, ms);
-		break;
-	default:
-		break;
+	/* Short or long format depends on total duration */
+	if (GST_TIME_AS_SECONDS (duration) >= 3600) {
+		if (digits == 0) {
+		/* Translators: This is a time format, like "2:05:30" for 2
+		 * hours, 5 minutes, and 30 seconds. You may change ":" to
+		 * the separator that your locale uses or use "%Id" instead
+		 * of "%d" if your locale uses localized digits. */
+			result = g_strdup_printf (C_("long time format", "%d:%02d:%02d"), h, m, s);
+		} else if (digits == 1) {
+		/* Translators: This is a time format, like "2:05:30-1" for 2
+		 * hours, 5 minutes, 30 seconds, and 1 tenthsecond. You may
+		 * change ":" or "-" to the separator that your locale uses or
+		 * use "%Id" instead of "%d" if your locale uses localized digits. */
+			result = g_strdup_printf (C_("long time format, 1 digit", "%d:%02d:%02d-%d"), h, m, s, ms / 100);
+		} else if (digits == 2) {
+		/* Translators: This is a time format, like "2:05:30-12" for 2
+		 * hours, 5 minutes, 30 seconds, and 12 hundrethseconds. You may
+		 * change ":" or "-" to the separator that your locale uses or
+		 * use "%Id" instead of "%d" if your locale uses localized digits. */
+			result = g_strdup_printf (C_("long time format, 2 digits", "%d:%02d:%02d-%02d"), h, m, s, ms / 10);
+		}
+	} else {
+		if (GST_TIME_AS_SECONDS (duration) >= 600) {
+			if (digits == 0) {
+			/* Translators: This is a time format, like "05:30" for 
+			 * 5 minutes, and 30 seconds. You may change ":" to
+			 * the separator that your locale uses or use "%I02d" instead
+			 * of "%02d" if your locale uses localized digits. */
+				result = g_strdup_printf (C_("short time format", "%02d:%02d"), m, s);
+			} else if (digits == 1) {
+			/* Translators: This is a time format, like "05:30-1" for 
+			 * 5 minutes, 30 seconds, and 1 tenthsecond. You may change
+			 * ":" or "-" to the separator that your locale uses or
+			 * use "%Id" instead of "%d" if your locale uses localized digits. */
+				result = g_strdup_printf (C_("short time format, 1 digit", "%02d:%02d-%d"), m, s, ms / 100);
+			} else if (digits == 2) {
+			/* Translators: This is a time format, like "05:30-12" for 
+			 * 5 minutes, 30 seconds, and 12 hundrethseconds. You may change
+			 * ":" or "-" to the separator that your locale uses or
+			 * use "%Id" instead of "%d" if your locale uses localized digits. */
+				result = g_strdup_printf (C_("short time format, 2 digits", "%02d:%02d-%02d"), m, s, ms / 10);
+			}
+		} else {
+			if (digits == 0) {
+			/* minutes:seconds */
+			/* Translators: This is a time format, like "5:30" for 
+			 * 5 minutes, and 30 seconds. You may change ":" to
+			 * the separator that your locale uses or use "%Id" instead
+			 * of "%d" if your locale uses localized digits. */
+				result = g_strdup_printf (C_("shortest time format", "%d:%02d"), m, s);
+			} else if (digits == 1) {
+			/* Translators: This is a time format, like "05:30-1" for 
+			 * 5 minutes, 30 seconds, and 1 tenthsecond. You may change
+			 * ":" or "-" to the separator that your locale uses or
+			 * use "%Id" instead of "%d" if your locale uses localized digits. */
+				result = g_strdup_printf (C_("shortest time format, 1 digit", "%d:%02d-%d"), m, s, ms / 100);
+			} else if (digits == 2) {
+			/* Translators: This is a time format, like "05:30-12" for 
+			 * 5 minutes, 30 seconds, and 12 hundrethseconds. You may change
+			 * ":" or "-" to the separator that your locale uses or
+			 * use "%Id" instead of "%d" if your locale uses localized digits. */
+				result = g_strdup_printf (C_("shortest time format, 2 digits", "%d:%02d-%02d"), m, s, ms / 10);
+			}
+		}
 	}
 
 	return result;	
@@ -798,9 +905,8 @@ pt_player_get_time_string (PtPlayer *player,
  * @digits: precision of string
  *
  * Returns the current position of the stream as a string for display to the user.
- * The precision is determined by @digits with a value from 0 to 3. 0 is showing
- * full seconds, 1 one tenth of a second, 2 one hundredth of a second and 3 is
- * showing milliseconds.
+ * The precision is determined by @digits with a value from 0 to 2. 0 is showing
+ * full seconds, 1 one tenth of a second, 2 one hundredth of a second.
  *
  * If the current position can not be determined, NULL is returned.
  *
@@ -811,14 +917,14 @@ pt_player_get_current_time_string (PtPlayer *player,
 				   guint     digits)
 {
 	g_return_val_if_fail (PT_IS_PLAYER (player), NULL);
-	g_return_val_if_fail (digits <= 3, NULL);
+	g_return_val_if_fail (digits <= 2, NULL);
 
 	gint64 time;
 
 	if (!pt_player_query_position (player, &time))
 		return NULL;
 
-	return pt_player_get_time_string (player, time, digits);
+	return pt_player_get_time_string (time, player->priv->dur, digits);
 }
 
 /**
@@ -827,9 +933,8 @@ pt_player_get_current_time_string (PtPlayer *player,
  * @digits: precision of string
  *
  * Returns the duration of the stream as a string for display to the user.
- * The precision is determined by @digits with a value from 0 to 3. 0 is showing
- * full seconds, 1 one tenth of a second, 2 one hundredth of a second and 3 is
- * showing milliseconds.
+ * The precision is determined by @digits with a value from 0 to 2. 0 is showing
+ * full seconds, 1 one tenth of a second, 2 one hundredth of a second.
  *
  * If the duration can not be determined, NULL is returned.
  *
@@ -840,14 +945,14 @@ pt_player_get_duration_time_string (PtPlayer *player,
 				    guint     digits)
 {
 	g_return_val_if_fail (PT_IS_PLAYER (player), NULL);
-	g_return_val_if_fail (digits <= 3, NULL);
+	g_return_val_if_fail (digits <= 2, NULL);
 
 	gint64 time;
 
 	if (!pt_player_query_duration (player, &time))
 		return NULL;
 
-	return pt_player_get_time_string (player, time, digits);
+	return pt_player_get_time_string (time, time, digits);
 }
 
 /**
@@ -875,7 +980,7 @@ pt_player_get_timestamp (PtPlayer *player)
 	tmp = NULL;
 	timestamp = NULL;
 
-	tmp = pt_player_get_time_string (player, time, 1);
+	tmp = pt_player_get_time_string (time, player->priv->dur, 1);
 	if (tmp) {
 		timestamp = g_strdup_printf ("#%s#", tmp);
 		g_free (tmp);
@@ -888,45 +993,28 @@ static gint
 pt_player_get_timestamp_position (PtPlayer *player,
 				  gchar    *timestamp)
 {
-	/* Timestamp can have a short or long format:
-	          h:mm:ss-tenthsecond
-	   short:   00:00-0
-	   long:  0:00:00-0
+	gint     h, m, s, digit, args, result;
+	gboolean nsign;
 
-	   h can have several digits, m and s have always 2 digits.
-	   In short format we also accept only 1 digit for m.
-	   Additionally it may or may not be surrounded by #, e.g. #00:00-0#  */
+	nsign = g_str_has_prefix (timestamp, "#");
 
-	gint     h, m, s, digit, result;
-	gchar  **split;
-	gchar   *tmp = NULL;
+	if (nsign) {
+		args = sscanf (timestamp, C_("long time format, 1 digit", "#%d:%02d:%02d-%d#"), &h, &m, &s, &digit);
+	} else {
+		args = sscanf (timestamp, C_("long time format, 1 digit", "%d:%02d:%02d-%d"), &h, &m, &s, &digit);
+	}
 
-	if (g_regex_match_simple (TIMESTAMP_REGEX_SHORT, timestamp, 0, 0)) {
-		/* for short format we add 0 for hours,
-		   we want only one delimiter, either # or : */
-		if (g_str_has_prefix (timestamp, "#")) {
-			tmp = g_strdup_printf ("0%s", timestamp);
+	if (args != 4) {
+		h = 0;
+		if (nsign) {
+			args = sscanf (timestamp, C_("shortest time format, 1 digit", "#%d:%02d-%d#"), &m, &s, &digit);
 		} else {
-			tmp = g_strdup_printf ("0:%s", timestamp);
+			args = sscanf (timestamp, C_("shortest time format, 1 digit", "%d:%02d-%d"), &m, &s, &digit);
+		}
+		if (args != 3) {
+			return -1;
 		}
 	}
-
-	if (g_regex_match_simple (TIMESTAMP_REGEX_LONG, timestamp, 0, 0)) {
-		tmp = g_strdup (timestamp);
-	}
-
-	if (!tmp)
-		return -1;
-
-	split = g_strsplit_set (tmp, "#:-", -1);
-
-	h = g_ascii_strtoll (split[0], NULL, 0);
-	m = g_ascii_strtoll (split[1], NULL, 0);
-	s = g_ascii_strtoll (split[2], NULL, 0);
-	digit = g_ascii_strtoll (split[3], NULL, 0);
-
-	g_strfreev (split);
-	g_free (tmp);
 
 	if (s > 59 || m > 59)
 		return -1;
