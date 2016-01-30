@@ -20,6 +20,7 @@
 #include <glib/gi18n.h>
 #include "pt-app.h"
 #include "pt-player.h"
+#include "pt-goto-dialog.h"
 #include "pt-mediakeys.h"
 #include "pt-window.h"
 #include "pt-window-dnd.h"
@@ -76,8 +77,32 @@ copy_timestamp (GSimpleAction *action,
 	}
 }
 
+void
+goto_position (GSimpleAction *action,
+	       GVariant      *parameter,
+	       gpointer       user_data)
+{
+	PtWindow *win;
+	win = PT_WINDOW (user_data);
+
+	PtGotoDialog *dlg;
+	gint	      pos;
+
+	dlg = pt_goto_dialog_new (GTK_WINDOW (win));
+	pt_goto_dialog_set_pos (dlg, pt_player_get_position (win->priv->player) / 1000);
+	pt_goto_dialog_set_max (dlg, pt_player_get_duration (win->priv->player) / 1000);
+
+	if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK) {
+		pos = pt_goto_dialog_get_pos (dlg);
+		pt_player_jump_to_position (win->priv->player, pos * 1000);
+	}
+
+	gtk_widget_destroy (GTK_WIDGET (dlg));
+}
+
 const GActionEntry win_actions[] = {
-	{ "copy", copy_timestamp, NULL, NULL, NULL }
+	{ "copy", copy_timestamp, NULL, NULL, NULL },
+	{ "goto", goto_position, NULL, NULL, NULL }
 };
 
 void
@@ -198,6 +223,19 @@ change_play_button_tooltip (PtWindow *win)
 }
 
 static void
+enable_win_actions (PtWindow *win,
+		    gboolean  state)
+{
+	GAction   *action;
+
+	action = g_action_map_lookup_action (G_ACTION_MAP (win), "copy");
+	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
+
+	action = g_action_map_lookup_action (G_ACTION_MAP (win), "goto");
+	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
+}
+
+static void
 player_state_changed_cb (PtPlayer *player,
 			 gboolean  state,
 			 PtWindow *win)
@@ -208,13 +246,10 @@ player_state_changed_cb (PtPlayer *player,
 	   Resetting cursor from waiting to normal only if player is ready as
 	   the state changes to FALSE immediately before a file is opened. */
 
-	GAction   *action;
 	gchar     *display_name = NULL;
 	GdkWindow *gdkwin;
 
-	action = g_action_map_lookup_action (G_ACTION_MAP (win), "copy");
-	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
-
+	enable_win_actions (win, state);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (win->priv->button_play), FALSE);
 	gtk_widget_set_visible (win->priv->button_play, state);
 	gtk_widget_set_visible (win->priv->button_open, !state);
@@ -504,6 +539,8 @@ setup_accels_actions_headerbar (PtWindow *win)
 				win_actions,
 				G_N_ELEMENTS (win_actions),
 				win);
+
+	enable_win_actions (win, FALSE);
 
 	/* GtkHeader workaround for glade 3.16 + Menu button */
 	GtkBuilder    *builder;

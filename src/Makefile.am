@@ -25,6 +25,8 @@ parlatype_SOURCES = \
 		main.c		\
 		pt-app.c	\
 		pt-app.h	\
+		pt-goto-dialog.c	\
+		pt-goto-dialog.h	\
 		pt-mediakeys.c	\
 		pt-mediakeys.h	\
 		pt-player.c	\

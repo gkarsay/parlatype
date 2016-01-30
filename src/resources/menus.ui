@@ -38,5 +38,9 @@
         <attribute name="label" translatable="yes">Copy timestamp</attribute>
         <attribute name="action">win.copy</attribute>
       </item>
+      <item>
+        <attribute name="label" translatable="yes">Go to ...</attribute>
+        <attribute name="action">win.goto</attribute>
+      </item>
   </menu>
 </interface>
