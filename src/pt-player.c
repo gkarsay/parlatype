@@ -998,28 +998,36 @@ static gint
 pt_player_get_timestamp_position (PtPlayer *player,
 				  gchar    *timestamp)
 {
-	gint     h, m, s, digit, args, result;
-	gboolean nsign;
+	gint      h, m, s, digit, args, result;
+	gchar    *cmp = NULL;
+	gchar   **split = NULL;
 
-	nsign = g_str_has_prefix (timestamp, "#");
-
-	if (nsign) {
-		args = sscanf (timestamp, C_("long time format, 1 digit", "#%d:%02d:%02d-%d#"), &h, &m, &s, &digit);
+	if (g_str_has_prefix (timestamp, "#")) {
+		split = g_strsplit (timestamp, "#", -1);
+		if (split[1]) {
+			cmp = g_strdup (split[1]);
+		}
+		if (split) {
+			g_strfreev (split);
+		}
+		if (!cmp) {
+			return -1;
+		}
 	} else {
-		args = sscanf (timestamp, C_("long time format, 1 digit", "%d:%02d:%02d-%d"), &h, &m, &s, &digit);
+		cmp = g_strdup (timestamp);
 	}
+
+	args = sscanf (cmp, C_("long time format, 1 digit", "%d:%02d:%02d-%d"), &h, &m, &s, &digit);
 
 	if (args != 4) {
 		h = 0;
-		if (nsign) {
-			args = sscanf (timestamp, C_("shortest time format, 1 digit", "#%d:%02d-%d#"), &m, &s, &digit);
-		} else {
-			args = sscanf (timestamp, C_("shortest time format, 1 digit", "%d:%02d-%d"), &m, &s, &digit);
-		}
+		args = sscanf (cmp, C_("shortest time format, 1 digit", "%d:%02d-%d"), &m, &s, &digit);
 		if (args != 3) {
+			g_free (cmp);
 			return -1;
 		}
 	}
+	g_free (cmp);
 
 	if (s > 59 || m > 59)
 		return -1;
