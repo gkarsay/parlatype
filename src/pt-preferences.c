@@ -30,12 +30,44 @@ struct _PtPreferencesDialogPrivate
 	GtkWidget *spin_pause;
 	GtkWidget *spin_back;
 	GtkWidget *spin_forward;
+	GtkWidget *label_pause;
+	GtkWidget *label_back;
+	GtkWidget *label_forward;
 	GtkWidget *check_pos;
 	GtkWidget *check_top;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PtPreferencesDialog, pt_preferences_dialog, GTK_TYPE_DIALOG)
 
+void
+spin_back_changed_cb (GtkSpinButton	   *spin,
+		      PtPreferencesDialog  *dlg)
+{
+	gtk_label_set_label (
+			GTK_LABEL (dlg->priv->label_back),
+			ngettext ("second", "seconds",
+				  (int) gtk_spin_button_get_value_as_int (spin)));
+}
+
+void
+spin_forward_changed_cb (GtkSpinButton	      *spin,
+			 PtPreferencesDialog  *dlg)
+{
+	gtk_label_set_label (
+			GTK_LABEL (dlg->priv->label_forward),
+			ngettext ("second", "seconds",
+				  (int) gtk_spin_button_get_value_as_int (spin)));
+}
+
+void
+spin_pause_changed_cb (GtkSpinButton	    *spin,
+		       PtPreferencesDialog  *dlg)
+{
+	gtk_label_set_label (
+			GTK_LABEL (dlg->priv->label_pause),
+			ngettext ("second", "seconds",
+				  (int) gtk_spin_button_get_value_as_int (spin)));
+}
 
 static void
 pt_preferences_dialog_init (PtPreferencesDialog *dlg)
@@ -95,6 +127,9 @@ pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, spin_forward);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, check_pos);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, check_top);
+	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, label_pause);
+	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, label_back);
+	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, label_forward);
 }
 
 void
