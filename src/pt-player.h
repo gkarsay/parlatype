@@ -69,6 +69,9 @@ gint		pt_player_get_position		(PtPlayer *player);
 gint		pt_player_get_duration		(PtPlayer *player);
 gchar*		pt_player_get_uri		(PtPlayer *player);
 gchar*		pt_player_get_filename		(PtPlayer *player);
+gchar*		pt_player_get_time_string	(gint  time,
+						 gint  duration,
+						 guint digits);
 gchar*		pt_player_get_current_time_string	(PtPlayer *player,
 							 guint     digits);
 gchar*		pt_player_get_duration_time_string	(PtPlayer *player,

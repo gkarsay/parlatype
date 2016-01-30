@@ -800,7 +800,7 @@ pt_player_get_filename (PtPlayer *player)
 /**
  * pt_player_get_time_string:
  * @time: time in milliseconds to converse
- * @duration: duration of stream (max time)
+ * @duration: duration of stream in milliseconds (max time)
  * @digits: precision of string
  *
  * Returns the given time as a string for display to the user. Format type is
@@ -811,10 +811,10 @@ pt_player_get_filename (PtPlayer *player)
  *
  * Return value: (transfer full): the time string
  */
-static gchar*
-pt_player_get_time_string (gint64 time,
-			   gint64 duration,
-			   guint  digits)
+gchar*
+pt_player_get_time_string (gint  time,
+			   gint  duration,
+			   guint digits)
 {
 	g_return_val_if_fail (time <= duration, NULL);
 	g_return_val_if_fail (digits <= 2, NULL);
@@ -822,16 +822,15 @@ pt_player_get_time_string (gint64 time,
 	gchar *result;
 	gint   h, m, s, ms, mod;
 
-	ms = GST_TIME_AS_MSECONDS (time);
-	h = ms / 3600000;
-	mod = ms % 3600000;
+	h = time / 3600000;
+	mod = time % 3600000;
 	m = mod / 60000;
-	ms = ms % 60000;
+	ms = time % 60000;
 	s = ms / 1000;
 	ms = ms % 1000;
 
 	/* Short or long format depends on total duration */
-	if (GST_TIME_AS_SECONDS (duration) >= 3600) {
+	if ((duration / 1000) >= 3600) {
 		if (digits == 0) {
 		/* Translators: This is a time format, like "2:05:30" for 2
 		 * hours, 5 minutes, and 30 seconds. You may change ":" to
@@ -852,7 +851,7 @@ pt_player_get_time_string (gint64 time,
 			result = g_strdup_printf (C_("long time format, 2 digits", "%d:%02d:%02d-%02d"), h, m, s, ms / 10);
 		}
 	} else {
-		if (GST_TIME_AS_SECONDS (duration) >= 600) {
+		if ((duration / 1000) >= 600) {
 			if (digits == 0) {
 			/* Translators: This is a time format, like "05:30" for 
 			 * 5 minutes, and 30 seconds. You may change ":" to
@@ -924,7 +923,10 @@ pt_player_get_current_time_string (PtPlayer *player,
 	if (!pt_player_query_position (player, &time))
 		return NULL;
 
-	return pt_player_get_time_string (time, player->priv->dur, digits);
+	return pt_player_get_time_string (
+			GST_TIME_AS_MSECONDS (time),
+			GST_TIME_AS_MSECONDS (player->priv->dur),
+			digits);
 }
 
 /**
@@ -952,7 +954,10 @@ pt_player_get_duration_time_string (PtPlayer *player,
 	if (!pt_player_query_duration (player, &time))
 		return NULL;
 
-	return pt_player_get_time_string (time, time, digits);
+	return pt_player_get_time_string (
+			GST_TIME_AS_MSECONDS (time),
+			GST_TIME_AS_MSECONDS (time),
+			digits);
 }
 
 /**
