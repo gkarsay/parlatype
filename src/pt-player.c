@@ -816,7 +816,8 @@ pt_player_get_time_string (gint  time,
 			   gint  duration,
 			   guint digits)
 {
-	g_return_val_if_fail (time <= duration, NULL);
+	/* Don't assert time <= duration because duration is not exact */
+
 	g_return_val_if_fail (digits <= 2, NULL);
 
 	gchar *result;
