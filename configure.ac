@@ -46,6 +46,7 @@ AC_CONFIG_FILES([Makefile
 		 data/icons/Makefile
 		 docs/Makefile
 		 help/Makefile
+		 libreoffice/Makefile
 		 po/Makefile.in
                  src/Makefile])
 AC_OUTPUT
@@ -56,7 +57,12 @@ echo "
         Parlatype $VERSION
         ==========================
 
-        prefix:         ${prefix}
+        prefix: ${prefix}"
 
+if test "${prefix}" != "/usr"; then
+	echo "        Note:   The libreoffice integration
+                works only with prefix: /usr"
+fi
+echo "
         Now type 'make' to build $PACKAGE
 "

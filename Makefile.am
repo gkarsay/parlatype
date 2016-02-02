@@ -1,4 +1,4 @@
-SUBDIRS = data docs help po src
+SUBDIRS = data docs help libreoffice po src
 
 ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
 
