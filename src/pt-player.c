@@ -985,7 +985,10 @@ pt_player_get_timestamp (PtPlayer *player)
 	tmp = NULL;
 	timestamp = NULL;
 
-	tmp = pt_player_get_time_string (time, player->priv->dur, 1);
+	tmp = pt_player_get_time_string (
+			GST_TIME_AS_MSECONDS (time),
+			GST_TIME_AS_MSECONDS (player->priv->dur),
+			1);
 	if (tmp) {
 		timestamp = g_strdup_printf ("#%s#", tmp);
 		g_free (tmp);
