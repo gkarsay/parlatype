@@ -14,41 +14,14 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PT_WINDOW_PRIVATE_H
-#define PT_WINDOW_PRIVATE_H
+#ifndef PT_DBUS_SERVICE_H
+#define PT_DBUS_SERVICE_H
 
 #include "config.h"
-#include <gtk/gtk.h>
-#include "pt-player.h"
+#include "pt-window.h"
 
-struct _PtWindowPrivate
-{
-	GSettings	 *editor;
-	GDBusProxy	 *proxy;
-	GtkRecentManager *recent;
-	PtPlayer	 *player;
 
-	GtkWidget  *button_open;
-	GtkWidget  *button_play;
-	GtkWidget  *button_fast_back;	  // not used
-	GtkWidget  *button_fast_forward;  // not used
-	GtkWidget  *button_jump_back;
-	GtkWidget  *button_jump_forward;
-	GtkWidget  *volumebutton;
-	GtkWidget  *pos_label;
-	GtkWidget  *dur_label;
-	GtkWidget  *time_scale;
-	GtkWidget  *time_adj;
-	GtkWidget  *speed_scale;
-
-	gint	    timer;
-	gdouble	    speed;
-
-	gint	    pause;
-	gint	    back;
-	gint	    forward;
-
-	guint	    owner_id;
-};
+void	setup_dbus_service	(PtWindow *win);
+void	close_dbus_service	(PtWindow *win);
 
 #endif

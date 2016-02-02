@@ -20,6 +20,7 @@
 #include <glib/gi18n.h>
 #include "pt-app.h"
 #include "pt-player.h"
+#include "pt-dbus-service.h"
 #include "pt-goto-dialog.h"
 #include "pt-mediakeys.h"
 #include "pt-window.h"
@@ -587,6 +588,7 @@ pt_window_init (PtWindow *win)
 	setup_accels_actions_headerbar (win);
 	setup_mediakeys (win);		/* this is in pt_mediakeys.c */
 	pt_window_setup_dnd (win);	/* this is in pt_window_dnd.c */
+	setup_dbus_service (win);	/* this is in pt_dbus_service.c */
 	win->priv->recent = gtk_recent_manager_get_default ();
 	win->priv->timer = 0;
 }
@@ -596,6 +598,8 @@ pt_window_dispose (GObject *object)
 {
 	PtWindow *win;
 	win = PT_WINDOW (object);
+
+	close_dbus_service (win);
 
 	if (win->priv->editor) {
 		gint x;
