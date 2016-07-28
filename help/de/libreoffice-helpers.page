@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its" type="topic" id="libreoffice-helpers" xml:lang="de">
+<info>
+  <link type="guide" xref="index"/>
+  <desc>Makros für LibreOffice</desc>
+</info>
+<title>LibreOffice-Helfer</title>
+
+<p>Die LibreOffice-Makros sind ein optionaler Teil von <app>Parlatype</app>. Wenn sie installiert sind, müssen Sie den Makros noch Tastenkombinationen zuweisen, um sie nutzen zu können.</p>
+
+<p>Gehen Sie in <app>LibreOffice</app> ins Menü <gui>Extras</gui>, wählen Sie <gui>Anpassen</gui> und dort den Reiter <gui>Tastatur</gui>.</p>
+
+<p>Im unteren Teil, <gui>Funktionen</gui>, ist eine Liste namens <gui>Bereich</gui>. Am Ende dieser Liste finden Sie den Eintrag <gui>LibreOffice Macros</gui>. Dort gibt es eine Unterkategorie <gui>share</gui>, die wiederum eine Unterkategorie <gui>Parlatype</gui> enthält. Wenn Sie <gui>Parlatype</gui> auswählen, sehen Sie im Fenster <gui>Funktion</gui> eine Liste der Parlatype-Makros. Wählen Sie die Funktion, die Sie benützen möchten, suchen Sie sich dafür aus der Liste <gui>Tastenkombinationen</gui> darüber eine Tastenkombination aus und klicken Sie auf <gui>Ändern</gui>.</p>
+
+<p>Sie können aus diesen Funktionen wählen:</p>
+
+    <table rules="rows" frame="top bottom">
+    <title>LibreOffice-Helfer</title>
+      <thead>
+        <tr>
+          <td><p>Name</p></td>
+          <td><p>Was das Makro macht</p></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><p its:translate="no">PlayPause</p></td>
+          <td><p>Schaltet zwischen Wiedergabe und Pause hin und her. Abhängig von Ihren Einstellungen in <app>Parlatype</app>, wird bei Pause einige Sekunden zurückgespult.</p></td>
+        </tr>
+        <tr>
+          <td><p its:translate="no">JumpBack</p></td>
+          <td><p>Springt einige Sekunden zurück, abhängig von Ihren Einstellungen in <app>Parlatype</app>.</p></td>
+        </tr>
+        <tr>
+          <td><p its:translate="no">JumpForward</p></td>
+          <td><p>Springt einige Sekunden vor, abhängig von Ihren Einstellungen in <app>Parlatype</app>.</p></td>
+        </tr>
+        <tr>
+          <td><p its:translate="no">InsertTimestamp</p></td>
+          <td><p>Fügt den aktuellen Zeitstempel an der Cursorposition ein. Markierungen werden nicht überschrieben.</p></td>
+        </tr>
+        <tr>
+          <td><p its:translate="no">InsertTimestampOnNewLine</p></td>
+          <td><p>Wie oben, aber auf einer neuen Zeile.</p></td>
+        </tr>
+        <tr>
+          <td><p its:translate="no">GotoTimestamp</p></td>
+          <td><p>Wenn der Cursor auf einem Zeitstempel gesetzt ist, springt <app>Parlatype</app> an diese Position. Der Cursor muss dazu irgendwo zwischen den beiden Rautezeichen (#) sein. Markieren Sie nicht den Zeitstempel, sondern setzen Sie den Cursor hinein.</p></td>
+        </tr>
+        <tr>
+          <td><p its:translate="no">IncreaseSpeed</p></td>
+          <td><p>Erhöht die Wiedergabegeschwindigkeit.</p></td>
+        </tr>
+        <tr>
+          <td><p its:translate="no">DecreaseSpeed</p></td>
+          <td><p>Verringert die Wiedergabegeschwindigkeit.</p></td>
+        </tr>
+      </tbody>
+    </table>
+
+</page>

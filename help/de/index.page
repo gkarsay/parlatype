@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<page xmlns="http://projectmallard.org/1.0/" type="guide" style="2column task" id="index" xml:lang="de">
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its" type="guide" style="2column task" id="index" xml:lang="de">
 
 <info>
 <title type="text">Parlatype</title>
@@ -7,7 +7,7 @@
 </info>
 
 <title>
-  <media type="image" mime="image/png" src="figures/parlatype-icon.png"/>
+  <media type="image" mime="image/png" src="figures/parlatype-icon.png" its:translate="no"/>
   Parlatype
 </title>
 
