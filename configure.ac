@@ -40,6 +40,14 @@ AC_SUBST([PACKAGE_CFLAGS])
 AC_SUBST([PACKAGE_LIBS])
 AC_SUBST([PACKAGE_LDFLAGS])
 
+AC_ARG_WITH([lo],
+            [AS_HELP_STRING([--without-lo],
+              [don't install LibreOffice macros])],
+            [],
+            [with_lo=yes])
+
+AM_CONDITIONAL([LO], [test "$with_lo" = "yes"])
+
 AC_CONFIG_FILES([Makefile
                  data/Makefile
 		 data/parlatype.desktop.in
@@ -57,11 +65,14 @@ echo "
         Parlatype $VERSION
         ==========================
 
-        prefix: ${prefix}"
+        prefix ....: ${prefix}
+	with-lo ...: $with_lo"
 
-if test "${prefix}" != "/usr"; then
-	echo "        Note:   The libreoffice integration
-                works only with prefix: /usr"
+if test "${prefix}" != "/usr" -a "$with_lo" == "yes"; then
+echo "
+        Note: Consider using --without-lo for prefixes
+        other than /usr and copying the script manually to:
+        /usr/lib/libreoffice/share/Scripts/python/Parlatype.py"
 fi
 echo "
         Now type 'make' to build $PACKAGE
