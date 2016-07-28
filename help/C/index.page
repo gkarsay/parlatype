@@ -1,4 +1,5 @@
 <page xmlns="http://projectmallard.org/1.0/"
+      xmlns:its="http://www.w3.org/2005/11/its"
       type="guide" style="2column task"
       id="index">
 
@@ -8,7 +9,7 @@
 </info>
 
 <title>
-  <media type="image" mime="image/png" src="figures/parlatype-icon.png" />
+  <media type="image" mime="image/png" src="figures/parlatype-icon.png" its:translate="no" />
   Parlatype
 </title>
 
