@@ -28,6 +28,7 @@ Makefile.in
 /data/org.gnome.parlatype.gschema.valid
 
 /help/parlatype.pot
+/help/de/*.page
 /help/de/de.mo
 /help/de/de.stamp
 
