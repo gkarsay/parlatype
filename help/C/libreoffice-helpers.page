@@ -31,11 +31,11 @@
         </tr>
         <tr>
           <td><p its:translate="no">JumpBack</p></td>
-          <td><p>Jumps back a few seconds, depending on the preferences you set in <app>Parlatype</app></p></td>
+          <td><p>Jumps back a few seconds, depending on the preferences you set in <app>Parlatype</app>.</p></td>
         </tr>
         <tr>
           <td><p its:translate="no">JumpForward</p></td>
-          <td><p>Jumps forward a few seconds, depending on the preferences you set in <app>Parlatype</app></p></td>
+          <td><p>Jumps forward a few seconds, depending on the preferences you set in <app>Parlatype</app>.</p></td>
         </tr>
         <tr>
           <td><p its:translate="no">InsertTimestamp</p></td>
