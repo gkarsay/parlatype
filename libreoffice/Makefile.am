@@ -1,6 +1,6 @@
-lodir = $(libdir)/libreoffice/share/Scripts/python
+lodir = $(prefix)/lib/libreoffice/share/Scripts/python
 
 if LO
-dist_lo_SCRIPTS = Parlatype.py
+dist_lo_DATA = Parlatype.py
 endif
 
