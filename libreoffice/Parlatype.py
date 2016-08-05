@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 '''
-/* Parlytype.py is part of Parlatype.
+/* Parlatype.py is part of Parlatype.
  *
  * Copyright (C) Gabor Karsay 2016 <gabor.karsay@gmx.at>
  *
