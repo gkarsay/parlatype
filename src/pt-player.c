@@ -362,8 +362,8 @@ pt_player_open_uri (PtPlayer  *player,
 	   pause the player and look for the last known position in metadata.
 	   This sets it to position 0 if no metadata is found. */
 
-	g_return_val_if_fail (PT_IS_PLAYER (player), FALSE);
-	g_return_val_if_fail (uri != NULL, FALSE);
+	g_return_if_fail (PT_IS_PLAYER (player));
+	g_return_if_fail (uri != NULL);
 
 	g_debug ("pt_player_open_uri");
 
