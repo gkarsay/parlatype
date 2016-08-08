@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-07-28 18:32+0200\n"
-"PO-Revision-Date: 2016-07-28 18:35+0200\n"
+"POT-Creation-Date: 2016-08-08 18:45+0200\n"
+"PO-Revision-Date: 2016-08-08 18:47+0200\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
 "Language-Team: Deutsch <>\n"
 "Language: \n"
@@ -35,7 +35,7 @@ msgstr "Parlatype"
 #. (itstool) path: page/title
 #: C/index.page:11
 msgid "<_:media-1/> Parlatype"
-msgstr ""
+msgstr "<_:media-1/> Parlatype"
 
 #. (itstool) path: page/p
 #: C/index.page:16
@@ -276,8 +276,20 @@ msgstr ""
 "damit Sie besser in den Text zurückfinden. Das kann in den <link xref="
 "\"preferences\"/> geändert werden."
 
-#. (itstool) path: page/p
+#. (itstool) path: page/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
 #: C/first-steps.page:18
+msgctxt "_"
+msgid ""
+"external ref='figures/parlatype-main-window.png' "
+"md5='1a336912b25bb4b6797b977a2a9386a2'"
+msgstr "übersetzt"
+
+#. (itstool) path: page/p
+#: C/first-steps.page:20
 msgid ""
 "The buttons <gui>Jump back</gui> and <gui>Jump forward</gui> in the lower "
 "left corner skip a few seconds back or ahead. The amount of time can be "
@@ -288,14 +300,14 @@ msgstr ""
 "kann in den <link xref=\"preferences\"/> geändert werden."
 
 #. (itstool) path: page/p
-#: C/first-steps.page:20
+#: C/first-steps.page:22
 msgid "You can also click on the <gui>time scale</gui> to change the position."
 msgstr ""
 "Sie können auch auch auf den <gui>Zeit-Schieberegler</gui> klicken, um die "
 "Position zu ändern."
 
 #. (itstool) path: page/p
-#: C/first-steps.page:22
+#: C/first-steps.page:24
 msgid ""
 "The <gui>speed scale</gui> next to the <gui>volume</gui> button in the lower "
 "right corner lets you adjust the speed of playback. A value of 1 means "
@@ -647,12 +659,6 @@ msgid ""
 msgstr ""
 "Zeitstempel sehen so aus: #03:45-2#. Sie können Sie mit oder ohne die "
 "Rautezeichen markieren."
-
-#~ msgctxt "_"
-#~ msgid ""
-#~ "external ref='figures/parlatype-icon.png' "
-#~ "md5='1131d700f27fefe4d909a4c1cf36d922'"
-#~ msgstr "übersetzt"
 
 #, fuzzy
 #~ msgid "InsertTimestamp"
