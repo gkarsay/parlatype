@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-08-08 18:45+0200\n"
-"PO-Revision-Date: 2016-08-08 18:47+0200\n"
+"POT-Creation-Date: 2016-08-08 22:07+0200\n"
+"PO-Revision-Date: 2016-08-08 22:11+0200\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
 "Language-Team: Deutsch <>\n"
 "Language: \n"
@@ -412,7 +412,7 @@ msgstr "Makros für LibreOffice"
 
 #. (itstool) path: page/title
 #. (itstool) path: table/title
-#: C/libreoffice-helpers.page:9 C/libreoffice-helpers.page:20
+#: C/libreoffice-helpers.page:9 C/libreoffice-helpers.page:24
 msgid "LibreOffice Helpers"
 msgstr "LibreOffice-Helfer"
 
@@ -430,49 +430,76 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/libreoffice-helpers.page:13
 msgid ""
-"In <app>LibreOffice</app> go to menu <gui>Tools</gui>, select "
-"<gui>Customize</gui>, go to tab <gui>Keyboard</gui>."
+"In <app>LibreOffice</app> go to menu <gui>Tools</gui> and select "
+"<gui>Customize</gui>."
 msgstr ""
-"Gehen Sie in <app>LibreOffice</app> ins Menü <gui>Extras</gui>, wählen Sie "
-"<gui>Anpassen</gui> und dort den Reiter <gui>Tastatur</gui>."
+"Gehen Sie in <app>LibreOffice</app> ins Menü <gui>Extras</gui> und wählen "
+"Sie <gui>Anpassen</gui>."
 
-#. (itstool) path: page/p
+#. (itstool) path: page/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
 #: C/libreoffice-helpers.page:15
+msgctxt "_"
 msgid ""
-"In the lower part, <gui>Functions</gui>, there is a list called "
-"<gui>Category</gui>. At the end of that list you'll find the entry "
-"<gui>LibreOffice Macros</gui>. There is a subcategory <gui>share</gui> which "
-"has a subcategory <gui>Parlatype</gui>. After selecting <gui>Parlatype</gui> "
-"there will be a list of functions in the <gui>Functions</gui> list. Choose "
-"the function you'd like to use, select from the list <gui>Shortcut keys</"
-"gui> above a shortcut and click on the button <gui>Modify</gui>."
-msgstr ""
-"Im unteren Teil, <gui>Funktionen</gui>, ist eine Liste namens <gui>Bereich</"
-"gui>. Am Ende dieser Liste finden Sie den Eintrag <gui>LibreOffice Macros</"
-"gui>. Dort gibt es eine Unterkategorie <gui>share</gui>, die wiederum eine "
-"Unterkategorie <gui>Parlatype</gui> enthält. Wenn Sie <gui>Parlatype</gui> "
-"auswählen, sehen Sie im Fenster <gui>Funktion</gui> eine Liste der Parlatype-"
-"Makros. Wählen Sie die Funktion, die Sie benützen möchten, suchen Sie sich "
-"dafür aus der Liste <gui>Tastenkombinationen</gui> darüber eine "
-"Tastenkombination aus und klicken Sie auf <gui>Ändern</gui>."
+"external ref='figures/lo-menu.png' md5='4dd86affb0353b6bdfa2dcfbbeadd494'"
+msgstr "übersetzt"
 
 #. (itstool) path: page/p
 #: C/libreoffice-helpers.page:17
+msgid ""
+"Go to tab <gui>Keyboard</gui>. In the lower part, <gui>Functions</gui>, "
+"there is a list called <gui>Category</gui>. At the end of that list you'll "
+"find the entry <gui>LibreOffice Macros</gui>. There is a subcategory "
+"<gui>share</gui> which has a subcategory <gui>Parlatype</gui>. After "
+"selecting <gui>Parlatype</gui> there will be a list of functions in the "
+"<gui>Functions</gui> list. Choose the function you'd like to use, select "
+"from the list <gui>Shortcut keys</gui> above a shortcut and click on the "
+"button <gui>Modify</gui>."
+msgstr ""
+"Wählen Sie den den Reiter <gui>Tastatur</gui>. Im unteren Teil, "
+"<gui>Funktionen</gui>, ist eine Liste namens <gui>Bereich</gui>. Am Ende "
+"dieser Liste finden Sie den Eintrag <gui>LibreOffice Macros</gui>. Dort gibt "
+"es eine Unterkategorie <gui>share</gui>, die wiederum eine Unterkategorie "
+"<gui>Parlatype</gui> enthält. Wenn Sie <gui>Parlatype</gui> auswählen, sehen "
+"Sie im Fenster <gui>Funktion</gui> eine Liste der Parlatype-Makros. Wählen "
+"Sie die Funktion, die Sie benützen möchten, suchen Sie sich dafür aus der "
+"Liste <gui>Tastenkombinationen</gui> darüber eine Tastenkombination aus und "
+"klicken Sie auf <gui>Ändern</gui>."
+
+#. (itstool) path: page/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/libreoffice-helpers.page:19
+msgctxt "_"
+msgid ""
+"external ref='figures/lo-customize.png' "
+"md5='081564921275129bee7bbd10220547e7'"
+msgstr ""
+"external ref='figures/lo-customize.png' "
+"md5='081564921275129bee7bbd10220547e7'"
+
+#. (itstool) path: page/p
+#: C/libreoffice-helpers.page:21
 msgid "You can select any of these functions:"
 msgstr "Sie können aus diesen Funktionen wählen:"
 
 #. (itstool) path: td/p
-#: C/libreoffice-helpers.page:23
+#: C/libreoffice-helpers.page:27
 msgid "Helper's name"
 msgstr "Name"
 
 #. (itstool) path: td/p
-#: C/libreoffice-helpers.page:24
+#: C/libreoffice-helpers.page:28
 msgid "What it does"
 msgstr "Was das Makro macht"
 
 #. (itstool) path: td/p
-#: C/libreoffice-helpers.page:30
+#: C/libreoffice-helpers.page:34
 msgid ""
 "Toggles between play and pause. Depending on your preferences set in "
 "<app>Parlatype</app> it will rewind a few seconds on pause."
@@ -482,7 +509,7 @@ msgstr ""
 "zurückgespult."
 
 #. (itstool) path: td/p
-#: C/libreoffice-helpers.page:34
+#: C/libreoffice-helpers.page:38
 msgid ""
 "Jumps back a few seconds, depending on the preferences you set in "
 "<app>Parlatype</app>."
@@ -491,7 +518,7 @@ msgstr ""
 "<app>Parlatype</app>."
 
 #. (itstool) path: td/p
-#: C/libreoffice-helpers.page:38
+#: C/libreoffice-helpers.page:42
 msgid ""
 "Jumps forward a few seconds, depending on the preferences you set in "
 "<app>Parlatype</app>."
@@ -500,7 +527,7 @@ msgstr ""
 "<app>Parlatype</app>."
 
 #. (itstool) path: td/p
-#: C/libreoffice-helpers.page:42
+#: C/libreoffice-helpers.page:46
 msgid ""
 "Inserts the current timestamp at the cursor's position. It does not "
 "overwrite any selection."
@@ -509,12 +536,12 @@ msgstr ""
 "werden nicht überschrieben."
 
 #. (itstool) path: td/p
-#: C/libreoffice-helpers.page:46
+#: C/libreoffice-helpers.page:50
 msgid "The same as above, but on a new line."
 msgstr "Wie oben, aber auf einer neuen Zeile."
 
 #. (itstool) path: td/p
-#: C/libreoffice-helpers.page:50
+#: C/libreoffice-helpers.page:54
 msgid ""
 "If the cursor is set on a timestamp, it will jump to that position. The "
 "cursor has to be somewhere between the two number signs (#). Don't select "
@@ -526,12 +553,12 @@ msgstr ""
 "Sie den Cursor hinein."
 
 #. (itstool) path: td/p
-#: C/libreoffice-helpers.page:54
+#: C/libreoffice-helpers.page:58
 msgid "Increases playback speed."
 msgstr "Erhöht die Wiedergabegeschwindigkeit."
 
 #. (itstool) path: td/p
-#: C/libreoffice-helpers.page:58
+#: C/libreoffice-helpers.page:62
 msgid "Decreases playback speed."
 msgstr "Verringert die Wiedergabegeschwindigkeit."
 
