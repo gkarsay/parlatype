@@ -279,11 +279,13 @@ bus_call (GstBus     *bus,
 
 		break;
 		}
-	case GST_MESSAGE_DURATION_CHANGED:
-		/* I have absolutely no idea why querying duration is sometimes not
-		   working. I checked the state, still didn't help in some cases.
-		   Althoug duration-changed signal is emitted, querying fails.
-		   So lets take the sledgehammer approach. */
+
+	case GST_MESSAGE_NEW_CLOCK:
+		/* We query duration after getting a new clock.
+		   The proper way would be to query after the player's async-done
+		   message, however it didn't always work with one single query.
+		   We loop until we get something, the loop will be stopped after
+		   a timeout of 5 seconds. */
 		
 		while (player->priv->opening) {
 			if (pt_player_query_duration (player, NULL)) {
@@ -297,8 +299,11 @@ bus_call (GstBus     *bus,
 			}
 		}
 
-		pt_player_query_duration (player, &player->priv->dur);
-		g_signal_emit_by_name (player, "duration-changed");
+		break;
+
+	case GST_MESSAGE_DURATION_CHANGED:
+		if (pt_player_query_duration (player, &player->priv->dur))
+			g_signal_emit_by_name (player, "duration-changed");
 
 		break;
 	default:
