@@ -443,6 +443,7 @@ pt_player_rewind (PtPlayer *player,
 		  gdouble   speed)
 {
 	/* FIXME Doesn't work at all!!! */
+	/* Maybe because of: https://bugzilla.gnome.org/show_bug.cgi?id=757033 */
 
 	g_return_if_fail (PT_IS_PLAYER (player));
 
