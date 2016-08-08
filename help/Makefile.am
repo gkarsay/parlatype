@@ -6,6 +6,8 @@ HELP_MEDIA = \
 	figures/parlatype-icon.png	\
 	figures/lo-customize.png	\
 	figures/lo-menu.png	\
+	figures/parlatype-prefs-controls.png	\
+	figures/parlatype-prefs-window.png	\
 	figures/parlatype-main-window.png
 
 HELP_FILES = \
