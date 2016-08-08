@@ -10,9 +10,13 @@
 
 <p>LibreOffice Helpers are an optional part of <app>Parlatype</app>. If you have them installed you still have to assign keyboard shortcuts to be able to use them.</p>
 
-<p>In <app>LibreOffice</app> go to menu <gui>Tools</gui>, select <gui>Customize</gui>, go to tab <gui>Keyboard</gui>.</p>
+<p>In <app>LibreOffice</app> go to menu <gui>Tools</gui> and select <gui>Customize</gui>.</p>
 
-<p>In the lower part, <gui>Functions</gui>, there is a list called <gui>Category</gui>. At the end of that list you'll find the entry <gui>LibreOffice Macros</gui>. There is a subcategory <gui>share</gui> which has a subcategory <gui>Parlatype</gui>. After selecting <gui>Parlatype</gui> there will be a list of functions in the <gui>Functions</gui> list. Choose the function you'd like to use, select from the list <gui>Shortcut keys</gui> above a shortcut and click on the button <gui>Modify</gui>.</p>
+<media type="image" src="figures/lo-menu.png"/>
+
+<p>Go to tab <gui>Keyboard</gui>. In the lower part, <gui>Functions</gui>, there is a list called <gui>Category</gui>. At the end of that list you'll find the entry <gui>LibreOffice Macros</gui>. There is a subcategory <gui>share</gui> which has a subcategory <gui>Parlatype</gui>. After selecting <gui>Parlatype</gui> there will be a list of functions in the <gui>Functions</gui> list. Choose the function you'd like to use, select from the list <gui>Shortcut keys</gui> above a shortcut and click on the button <gui>Modify</gui>.</p>
+
+<media type="image" src="figures/lo-customize.png"/>
 
 <p>You can select any of these functions:</p>
 

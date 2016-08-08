@@ -4,6 +4,8 @@ HELP_ID = parlatype
 
 HELP_MEDIA = \
 	figures/parlatype-icon.png	\
+	figures/lo-customize.png	\
+	figures/lo-menu.png	\
 	figures/parlatype-main-window.png
 
 HELP_FILES = \
