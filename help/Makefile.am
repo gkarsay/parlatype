@@ -3,7 +3,8 @@
 HELP_ID = parlatype
 
 HELP_MEDIA = \
-	figures/parlatype-icon.png
+	figures/parlatype-icon.png	\
+	figures/parlatype-main-window.png
 
 HELP_FILES = \
 	index.page		\
