@@ -149,6 +149,8 @@ pt_player_get_file (PtPlayer *player)
 static void
 metadata_save_position (PtPlayer *player)
 {
+	/* Saves current position in milliseconds as metadata to file */
+
 	GError	  *error = NULL;
 	GFile	  *file = NULL;
 	GFileInfo *info;
@@ -188,6 +190,10 @@ metadata_save_position (PtPlayer *player)
 static void
 metadata_get_position (PtPlayer *player)
 {
+	/* Queries position stored in metadata from file.
+	   Sets position to that value or to 0, because we start playing a file
+	   when opening it and stop on successfull duration query. */
+
 	GError	  *error = NULL;
 	GFile	  *file = NULL;
 	GFileInfo *info;
@@ -359,10 +365,10 @@ void
 pt_player_open_uri (PtPlayer  *player,
 		    gchar     *uri)
 {
-	/* A file is opened. We play it until we get a duration-changed signal.
+	/* A file is opened. We play it until we get a new-clock signal.
 	   Reason: On some files PAUSED state is not enough to get a duration,
 	   even Playing and setting to PAUSED immediately might be not enough.
-	   We are really waiting until we have a duration.
+	   In PLAYING state we loop a duration query.
 	   That's why we mute the volume and reset it later. In the end we
 	   pause the player and look for the last known position in metadata.
 	   This sets it to position 0 if no metadata is found. */
@@ -406,8 +412,9 @@ pt_player_open_uri (PtPlayer  *player,
 	g_object_set (G_OBJECT (player->priv->source), "location", location, NULL);
 	g_free (location);
 
+	/* mute player and start playing with a timeout of 5 seconds
+	   on successfull duration query it's stopped and position is set */
 	pt_player_mute_volume (player, TRUE);
-
 	g_timeout_add_seconds (5, (GSourceFunc) timeout_cb, player);
 	pt_player_play (player);
 }
