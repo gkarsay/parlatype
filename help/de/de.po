@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-08-08 22:07+0200\n"
-"PO-Revision-Date: 2016-08-08 22:11+0200\n"
+"POT-Creation-Date: 2016-08-09 11:20+0200\n"
+"PO-Revision-Date: 2016-08-09 11:22+0200\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
 "Language-Team: Deutsch <>\n"
 "Language: \n"
@@ -387,21 +387,31 @@ msgstr "<keyseq><key>Strg</key><key>r</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:34
+msgid "Go to …"
+msgstr "Gehe zu …"
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:35
+msgid "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
+msgstr "<keyseq><key>Strg</key><key>o</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:38
 msgid "Copy timestamp"
 msgstr "Zeitstempel kopieren"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:35
+#: C/keyboard-shortcuts.page:39
 msgid "<keyseq><key>Ctrl</key><key>c</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>c</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:38
+#: C/keyboard-shortcuts.page:42
 msgid "Quit"
 msgstr "Beenden"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:39
+#: C/keyboard-shortcuts.page:43
 msgid "<keyseq><key>Ctrl</key><key>q</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>q</key></keyseq>"
 
@@ -583,8 +593,20 @@ msgstr ""
 "<gui>Aktivitäten</gui> in der linken oberen Ecke) erreichen. Es gibt zwei "
 "Reiter: <gui>Steuerung</gui> und <gui>Fenster</gui>."
 
-#. (itstool) path: item/p
+#. (itstool) path: section/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
 #: C/preferences.page:15
+msgctxt "_"
+msgid ""
+"external ref='figures/parlatype-prefs-controls.png' "
+"md5='3a27cf15d3572e6eec9922bd1e500176'"
+msgstr "übersetzt"
+
+#. (itstool) path: item/p
+#: C/preferences.page:18
 msgid ""
 "Jump back on pause: <app>Parlatype</app> will rewind a few seconds on each "
 "pause, this way you can easier resume typing. Set this value to 0 if you "
@@ -596,7 +618,7 @@ msgstr ""
 "dieses Verhalten nicht wünschen."
 
 #. (itstool) path: item/p
-#: C/preferences.page:16
+#: C/preferences.page:19
 msgid ""
 "Jump back: Configures how many seconds to skip when the <gui>Jump back</gui> "
 "button is pressed."
@@ -605,7 +627,7 @@ msgstr ""
 "wenn der <gui>Zurückspringen</gui>-Knopf gedrückt wird."
 
 #. (itstool) path: item/p
-#: C/preferences.page:17
+#: C/preferences.page:20
 msgid ""
 "Jump forward: Configures how many seconds to skip when the <gui>Jump "
 "forward</gui> button is pressed."
@@ -614,12 +636,24 @@ msgstr ""
 "der <gui>Vorwärts springen</gui>-Knopf gedrückt wird."
 
 #. (itstool) path: section/title
-#: C/preferences.page:22
+#: C/preferences.page:25
 msgid "Window"
 msgstr "Fenster"
 
+#. (itstool) path: section/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/preferences.page:27
+msgctxt "_"
+msgid ""
+"external ref='figures/parlatype-prefs-window.png' "
+"md5='4d438cac095ba63961d6e7f3ffc54cab'"
+msgstr "übersetzt"
+
 #. (itstool) path: item/p
-#: C/preferences.page:24
+#: C/preferences.page:30
 msgid ""
 "Remember position: On start-up <app>Parlatype</app> can position its window "
 "where you had it when you closed <app>Parlatype</app> last time. This also "
@@ -631,7 +665,7 @@ msgstr ""
 "gespeichert."
 
 #. (itstool) path: item/p
-#: C/preferences.page:25
+#: C/preferences.page:31
 msgid ""
 "Start on top: This will put <app>Parlatype</app> on start-up on top of other "
 "windows. This might be useful if you are working with a maximized word "
