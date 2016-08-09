@@ -31,6 +31,10 @@
           <td><p><keyseq><key>Ctrl</key><key>r</key></keyseq></p></td>
         </tr>
         <tr>
+          <td><p>Go to …</p></td>
+          <td><p><keyseq><key>Ctrl</key><key>g</key></keyseq></p></td>
+        </tr>
+        <tr>
           <td><p>Copy timestamp</p></td>
           <td><p><keyseq><key>Ctrl</key><key>c</key></keyseq></p></td>
         </tr>
