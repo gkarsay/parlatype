@@ -16,7 +16,7 @@
 
 <section id="from-text">
 <title>From a word processor</title>
-<p>You can drag and drop from a word processor, e.g. <app>Libre Office</app>.</p>
+<p>You can drag and drop from a word processor, e.g. <app>LibreOffice</app>.</p>
 <list>
 <item><p>Timestamps: Select a timestamp, drop it on <app>Parlatype</app> and it will jump to that position.</p></item>
 <item><p>File paths: Select a full path of a file, drop it on <app>Parlatype</app> and it will open that file.</p></item>

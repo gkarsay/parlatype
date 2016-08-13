@@ -7,7 +7,7 @@
 </info>
 <title>First steps with Parlatype</title>
 
-<p><app>Parlatype</app> is a minimal audio player to help you transcribing or annotating recorded speech. You need to run a word processor, e.g. <app>Libre Office</app>, too. Launch <app>Parlatype</app> and open an audio file by clicking on the <gui>Open</gui> button in the upper left corner.</p>
+<p><app>Parlatype</app> is a minimal audio player to help you transcribing or annotating recorded speech. You need to run a word processor, e.g. <app>LibreOffice</app>, too. Launch <app>Parlatype</app> and open an audio file by clicking on the <gui>Open</gui> button in the upper left corner.</p>
 
 <note>
 <p>You can also drag and drop a file on <app>Parlatype</app> or open the recently used files in the Application menu.</p>
