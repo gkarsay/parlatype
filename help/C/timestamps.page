@@ -7,7 +7,11 @@
 </info>
 <title>Timestamps</title>
 
-<p>Timestamps help you to navigate in your transcription. First make sure, the <app>Parlatype</app> window has focus. With the key sequence <keyseq><key>Ctrl</key><key>c</key></keyseq> the current timestamp is copied to the clipboard. Changing to the word processor you can insert now the timestamp.</p>
+<p>Timestamps help you to navigate in your transcription.</p>
+
+<p>The easiest way to use them in <app>LibreOffice</app> are <app>Parlatype's</app> own <link xref="libreoffice-helpers" />.</p>
+
+<p>In other programs you have to switch between your word processor and  <app>Parlatype</app>. First make sure, the <app>Parlatype</app> window has focus. With the key sequence <keyseq><key>Ctrl</key><key>c</key></keyseq> the current timestamp is copied to the clipboard. Changing to the word processor you can insert now the timestamp.</p>
 
 <p>If you select the timestamp in the word processor, you can drag and drop it on the <app>Parlatype</app> window and it will go to that position.</p>
 
