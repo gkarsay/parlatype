@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-08-09 11:20+0200\n"
-"PO-Revision-Date: 2016-08-09 11:22+0200\n"
+"POT-Creation-Date: 2016-08-13 08:36+0200\n"
+"PO-Revision-Date: 2016-08-13 08:36+0200\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
 "Language-Team: Deutsch <>\n"
 "Language: \n"
@@ -197,10 +197,10 @@ msgstr "Von einer Textverarbeitung"
 #. (itstool) path: section/p
 #: C/drag-and-drop.page:19
 msgid ""
-"You can drag and drop from a word processor, e.g. <app>Libre Office</app>."
+"You can drag and drop from a word processor, e.g. <app>LibreOffice</app>."
 msgstr ""
 "Sie können markierten Text von einer Textverarbeitung, wie zum Beispiel "
-"<app>Libre Office</app>, ins <app>Parlatype</app>-Fenster hinüberziehen."
+"<app>LibreOffice</app>, ins <app>Parlatype</app>-Fenster hinüberziehen."
 
 #. (itstool) path: item/p
 #: C/drag-and-drop.page:21
@@ -244,12 +244,12 @@ msgstr "Erste Schritte mit Parlatype"
 msgid ""
 "<app>Parlatype</app> is a minimal audio player to help you transcribing or "
 "annotating recorded speech. You need to run a word processor, e.g. "
-"<app>Libre Office</app>, too. Launch <app>Parlatype</app> and open an audio "
+"<app>LibreOffice</app>, too. Launch <app>Parlatype</app> and open an audio "
 "file by clicking on the <gui>Open</gui> button in the upper left corner."
 msgstr ""
 "<app>Parlatype</app> ist ein minimalistischer Audiospieler, der Ihnen hilft, "
 "aufgenommene Sprache zu transkribieren oder zu kommentieren. Sie brauchen "
-"dazu auch eine Textverarbeitung wie zum Beispiel <app>Libre Office</app>. "
+"dazu auch eine Textverarbeitung wie zum Beispiel <app>LibreOffice</app>. "
 "Starten Sie <app>Parlatype</app> und öffnen Sie eine Audiodatei, indem Sie "
 "auf den <gui>Öffnen</gui>-Knopf in der linken oberen Ecke drücken."
 
@@ -688,22 +688,37 @@ msgstr "Zeitstempel"
 
 #. (itstool) path: page/p
 #: C/timestamps.page:10
-msgid ""
-"Timestamps help you to navigate in your transcription. First make sure, the "
-"<app>Parlatype</app> window has focus. With the key sequence "
-"<keyseq><key>Ctrl</key><key>c</key></keyseq> the current timestamp is copied "
-"to the clipboard. Changing to the word processor you can insert now the "
-"timestamp."
-msgstr ""
-"Zeitstempel helfen Ihnen beim Navigieren in Ihrer Transkription. Stellen Sie "
-"zuerst sicher, dass das <app>Parlatype</app>-Fenster den Eingabefokus hat. "
-"Mit der Tastenkombination <keyseq><key>Ctrl</key><key>c</key></keyseq> "
-"können Sie den aktuellen Zeitstempel in die Zwischenablage kopieren. Wenn "
-"Sie nun zu Ihrer Textverarbeitung wechseln, können Sie den Zeitstempel aus "
-"der Zwischenablage einfügen."
+msgid "Timestamps help you to navigate in your transcription."
+msgstr "Zeitstempel helfen Ihnen beim Navigieren in Ihrer Transkription."
 
 #. (itstool) path: page/p
 #: C/timestamps.page:12
+msgid ""
+"The easiest way to use them in <app>LibreOffice</app> are <app>Parlatype's</"
+"app> own <link xref=\"libreoffice-helpers\"/>."
+msgstr ""
+"Die einfachste Möglichkeit sie in <app>LibreOffice</app> zu nützen, sind "
+"<app>Parlatypes</app> eigene <link xref=\"libreoffice-helpers\"/>."
+
+#. (itstool) path: page/p
+#: C/timestamps.page:14
+msgid ""
+"In other programs you have to switch between your word processor and "
+"<app>Parlatype</app>. First make sure, the <app>Parlatype</app> window has "
+"focus. With the key sequence <keyseq><key>Ctrl</key><key>c</key></keyseq> "
+"the current timestamp is copied to the clipboard. Changing to the word "
+"processor you can insert now the timestamp."
+msgstr ""
+"In anderen Programmen müssen Sie zwischen Ihrer Textverarbeitung und "
+"<app>Parlatype</app> hin und her wechseln. Stellen Sie zuerst sicher, dass "
+"das <app>Parlatype</app>-Fenster den Eingabefokus hat. Mit der "
+"Tastenkombination <keyseq><key>Ctrl</key><key>c</key></keyseq> können Sie "
+"den aktuellen Zeitstempel in die Zwischenablage kopieren. Wenn Sie nun zu "
+"Ihrer Textverarbeitung wechseln, können Sie den Zeitstempel aus der "
+"Zwischenablage einfügen."
+
+#. (itstool) path: page/p
+#: C/timestamps.page:16
 msgid ""
 "If you select the timestamp in the word processor, you can drag and drop it "
 "on the <app>Parlatype</app> window and it will go to that position."
@@ -713,7 +728,7 @@ msgstr ""
 "Programm wird zu dieser Position springen."
 
 #. (itstool) path: note/p
-#: C/timestamps.page:15
+#: C/timestamps.page:19
 msgid ""
 "Timestamps look like this: #03:45-2#. You can select them with or without "
 "the number signs."
