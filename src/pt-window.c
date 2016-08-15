@@ -26,6 +26,7 @@
 #include "pt-window.h"
 #include "pt-window-dnd.h"
 #include "pt-window-private.h"
+#include "waveform-viewer.h"
 
 
 enum
@@ -152,6 +153,10 @@ update_time (PtWindow *win)
 	g_signal_handlers_block_by_func (win->priv->time_scale, time_scale_changed_cb, win);
 	gtk_adjustment_set_value (GTK_ADJUSTMENT (win->priv->time_adj), permille);
 	g_signal_handlers_unblock_by_func (win->priv->time_scale, time_scale_changed_cb, win);
+
+	gint pos;
+	pos = pt_player_get_position (win->priv->player);
+	g_object_set (win->priv->waveslider, "playback-cursor", pos * 100, NULL);
 
 	return TRUE;
 }
@@ -282,6 +287,8 @@ player_state_changed_cb (PtPlayer *player,
 
 		gdkwin = gtk_widget_get_window (GTK_WIDGET (win));
 		gdk_window_set_cursor (gdkwin, NULL);
+
+		bt_wave_load_from_uri (player, win->priv->waveslider);
 
 	} else {
 		gtk_label_set_text (GTK_LABEL (win->priv->dur_label), "00:00");
@@ -591,6 +598,10 @@ pt_window_init (PtWindow *win)
 	setup_dbus_service (win);	/* this is in pt_dbus_service.c */
 	win->priv->recent = gtk_recent_manager_get_default ();
 	win->priv->timer = 0;
+
+	win->priv->waveslider = bt_waveform_viewer_new ();
+	gtk_grid_attach (GTK_GRID (win->priv->main_grid), win->priv->waveslider, 0, 0, 1, 1);
+	gtk_widget_show (win->priv->waveslider);
 }
 
 static void
@@ -687,6 +698,7 @@ pt_window_class_init (PtWindowClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, time_scale);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, time_adj);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, speed_scale);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, main_grid);
 
 	obj_properties[PROP_PAUSE] =
 	g_param_spec_int (
