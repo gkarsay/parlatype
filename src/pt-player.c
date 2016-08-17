@@ -341,7 +341,7 @@ propagate_progress_cb (PtWaveloader *wl,
 		       gint	     progress,
 		       PtPlayer     *player)
 {
-	g_signal_emit_by_name (player, "progress", progress);
+	g_signal_emit_by_name (player, "load-progress", progress);
 }
 
 void
@@ -1372,7 +1372,7 @@ pt_player_class_init (PtPlayerClass *klass)
 	* (an error occured). If the player is ready, a duration of the stream
 	* is available.
 	*/
-	g_signal_new ("progress",
+	g_signal_new ("load-progress",
 		      G_TYPE_OBJECT,
 		      G_SIGNAL_RUN_FIRST,
 		      0,
