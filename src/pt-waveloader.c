@@ -40,6 +40,8 @@ struct _PtWaveloaderPrivate
 	gint	    rate;
 	guint64	    length;
 
+	guint	    progress;
+
 	gint	    fd;
 	FILE	   *tf;
 };
@@ -125,6 +127,29 @@ setup_pipeline (PtWaveloader *wl)
 }
 
 static gboolean
+check_progress (PtWaveloader *wl)
+{
+	gint64 dur;
+	gint64 pos;
+	guint  temp;
+
+	if (!gst_element_query_position (wl->priv->pipeline, GST_FORMAT_TIME, &pos))
+		return TRUE;
+
+	if (!gst_element_query_duration (wl->priv->pipeline, GST_FORMAT_TIME, &dur))
+		return TRUE;
+
+	temp = pos * 1000 / dur;
+
+	if (temp > wl->priv->progress && temp < 1000) {
+		wl->priv->progress = temp;
+		g_signal_emit_by_name (wl, "progress", wl->priv->progress);
+	}
+
+	return TRUE;
+}
+
+static gboolean
 run_pipeline (PtWaveloader *wl)
 {
 	gboolean res = TRUE, done = FALSE;
@@ -145,6 +170,9 @@ run_pipeline (PtWaveloader *wl)
 	} else {
 		GST_INFO_OBJECT (wl->priv->pipeline, "loading sample ...");
 	}
+
+	gint timeout;
+	timeout = g_timeout_add (30, (GSourceFunc) check_progress, wl);
 
 	/* load wave in sync mode, loading them async causes troubles in the 
 	 * persistence code and makes testing complicated */
@@ -179,6 +207,10 @@ run_pipeline (PtWaveloader *wl)
 			}
 		gst_message_unref (msg);
 	}
+
+	g_source_remove (timeout);
+	if (res)
+		g_signal_emit_by_name (wl, "progress", 1000);
 
 	gst_object_unref (bus);
 	return res;
@@ -313,6 +345,7 @@ pt_waveloader_init (PtWaveloader *wl)
 
 	wl->priv->pipeline = NULL;
 	wl->priv->fd = -1;
+	wl->priv->progress = 0;
 }
 
 static void

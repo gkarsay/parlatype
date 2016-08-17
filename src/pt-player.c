@@ -335,6 +335,15 @@ bus_call (GstBus     *bus,
  * and might take a few seconds. There is a timeout after 5 seconds, emitting
  * an error.
  */
+
+static void
+propagate_progress_cb (PtWaveloader *wl,
+		       gint	     progress,
+		       PtPlayer     *player)
+{
+	g_signal_emit_by_name (player, "progress", progress);
+}
+
 void
 pt_player_open_uri (PtPlayer  *player,
 		    gchar     *uri)
@@ -389,6 +398,11 @@ pt_player_open_uri (PtPlayer  *player,
 	gboolean success;
 
 	player->priv->wl = pt_waveloader_new (uri);
+	g_signal_connect (player->priv->wl,
+			 "progress",
+			 G_CALLBACK (propagate_progress_cb),
+			 player);
+
 	success = pt_waveloader_load (player->priv->wl, NULL);
 
 	if (!success) {
@@ -1346,6 +1360,26 @@ pt_player_class_init (PtPlayerClass *klass)
 	G_OBJECT_CLASS (klass)->set_property = pt_player_set_property;
 	G_OBJECT_CLASS (klass)->get_property = pt_player_get_property;
 	G_OBJECT_CLASS (klass)->dispose = pt_player_dispose;
+
+	/**
+	* PtPlayer::player-state-changed:
+	* @player: the player emitting the signal
+	* @state: the new state, TRUE is ready, FALSE is not ready
+	*
+	* The ::player-state-changed signal is emitted when the @player changes
+	* its state to ready to play (a file was opened) or not ready to play
+	* (an error occured). If the player is ready, a duration of the stream
+	* is available.
+	*/
+	g_signal_new ("progress",
+		      G_TYPE_OBJECT,
+		      G_SIGNAL_RUN_FIRST,
+		      0,
+		      NULL,
+		      NULL,
+		      g_cclosure_marshal_VOID__INT,
+		      G_TYPE_NONE,
+		      1, G_TYPE_INT);
 
 	/**
 	* PtPlayer::player-state-changed:
