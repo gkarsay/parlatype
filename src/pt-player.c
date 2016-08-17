@@ -1303,7 +1303,8 @@ pt_player_dispose (GObject *object)
 		remove_message_bus (player);
 	}
 
-	g_object_unref (player->priv->wl);
+	if (player->priv->wl)
+		g_object_unref (player->priv->wl);
 
 	G_OBJECT_CLASS (pt_player_parent_class)->dispose (object);
 }
