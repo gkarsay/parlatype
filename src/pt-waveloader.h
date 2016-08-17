@@ -55,7 +55,7 @@ gint64		pt_waveloader_get_duration	(PtWaveloader *wl);
 
 gint		pt_waveloader_get_channels	(PtWaveloader *wl);
 
-guint64		pt_waveloader_get_length	(PtWaveloader *wl);
+gint		pt_waveloader_get_rate		(PtWaveloader *wl);
 
 gint16		*pt_waveloader_get_data		(PtWaveloader *wl);
 

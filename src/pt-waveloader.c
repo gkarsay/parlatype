@@ -37,6 +37,7 @@ struct _PtWaveloaderPrivate
 	gchar      *uri;
 	gint64	    duration;
 	gint	    channels;
+	gint	    rate;
 	guint64	    length;
 
 	gint	    fd;
@@ -197,6 +198,7 @@ pt_waveloader_load (PtWaveloader *wl,
 		    GError      **error)
 {
 	gboolean res = TRUE;
+	GstPad *pad;
 
 	/* setup file descriptor */
 	if (!(wl->priv->tf = tmpfile ())) {
@@ -212,10 +214,6 @@ pt_waveloader_load (PtWaveloader *wl,
 	if (!run_pipeline (wl))
 		return FALSE;
 
-	GstPad *pad;
-	guint64 length = 0;
-	gint channels = 1, rate = GST_AUDIO_DEF_RATE;
-
 	// query length and convert to samples
 	if (!gst_element_query_duration (wl->priv->pipeline, GST_FORMAT_TIME, &wl->priv->duration)) {
 		GST_WARNING ("getting sample duration failed");
@@ -226,15 +224,13 @@ pt_waveloader_load (PtWaveloader *wl,
 		if (caps && GST_CAPS_IS_SIMPLE (caps)) {
 			GstStructure *structure = gst_caps_get_structure (caps, 0);
 
-			gst_structure_get_int (structure, "channels", &channels);
-			gst_structure_get_int (structure, "rate", &rate);
-			length = gst_util_uint64_scale (wl->priv->duration, (guint64) rate, GST_SECOND);
-			wl->priv->channels = channels;
-			wl->priv->length = length;
-			g_debug ("duration: %ld", wl->priv->duration);
-			g_debug ("length: %ld", wl->priv->length);
+			gst_structure_get_int (structure, "channels", &wl->priv->channels);
+			gst_structure_get_int (structure, "rate", &wl->priv->rate);
+
 		} else {
 			GST_WARNING ("No caps or format has not been fixed.");
+			wl->priv->channels = 1;
+			wl->priv->rate = GST_AUDIO_DEF_RATE;
 		}
 		if (caps)
 			gst_caps_unref (caps);
@@ -242,7 +238,7 @@ pt_waveloader_load (PtWaveloader *wl,
 	}
 
 	g_debug ("sample decoded: channels=%d, rate=%d, length=%" GST_TIME_FORMAT,
-		channels, rate, GST_TIME_ARGS (wl->priv->duration));
+		wl->priv->channels, wl->priv->rate, GST_TIME_ARGS (wl->priv->duration));
 
 	return res;
 }
@@ -274,10 +270,10 @@ pt_waveloader_get_channels (PtWaveloader *wl)
 	return wl->priv->channels;
 }
 
-guint64
-pt_waveloader_get_length (PtWaveloader *wl)
+gint
+pt_waveloader_get_rate (PtWaveloader *wl)
 {
-	return wl->priv->length;
+	return wl->priv->rate;
 }
 
 gint16 *
