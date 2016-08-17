@@ -20,7 +20,6 @@
 
 #include "config.h"
 #include <gio/gio.h>
-#include <gtk/gtk.h>
 
 #define PT_PLAYER_TYPE		(pt_player_get_type())
 #define PT_PLAYER(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), PT_PLAYER_TYPE, PtPlayer))
@@ -45,9 +44,10 @@ struct _PtPlayerClass
 
 GType		pt_player_get_type		(void) G_GNUC_CONST;
 
-gboolean	bt_wave_load_from_uri		(PtPlayer *player,
-						 GtkWidget *waveslider);
-
+gint		pt_player_get_channels		(PtPlayer *player);
+guint64		pt_player_get_length		(PtPlayer *player);
+guint64		pt_player_wave_pos		(PtPlayer *player);
+gint16 		*pt_player_get_data		(PtPlayer *player);
 
 void		pt_player_pause			(PtPlayer *player);
 void		pt_player_play			(PtPlayer *player);

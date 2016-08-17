@@ -20,11 +20,8 @@
 #include <gio/gio.h>
 #include <glib/gi18n.h>	
 #include <gst/gst.h>
-
-#include <gtk/gtk.h>
 #include "pt-waveloader.h"
 #include "waveform-viewer.h"
-
 #include "pt-player.h"
 
 struct _PtPlayerPrivate
@@ -40,9 +37,7 @@ struct _PtPlayerPrivate
 
 	gboolean    opening;
 
-	/* wave loader */
-	gint fd, ext_fd;
-	FILE *tf, *ext_tf;
+	PtWaveloader *wl;
 };
 
 enum
@@ -114,9 +109,12 @@ static gboolean
 pt_player_query_duration (PtPlayer *player,
 			  gpointer  position)
 {
-	gboolean result;
+	/*gboolean result;
 	result = gst_element_query_duration (player->priv->pipeline, GST_FORMAT_TIME, position);
-	return result;
+	return result;*/
+	gint64 *pos = position;
+	*pos = player->priv->dur;
+	return TRUE;
 }
 
 static void
@@ -295,32 +293,15 @@ bus_call (GstBus     *bus,
 		break;
 		}
 
-	case GST_MESSAGE_NEW_CLOCK:
-		/* We query duration after getting a new clock.
-		   The proper way would be to query after the player's async-done
-		   message, however it didn't always work with one single query.
-		   We loop until we get something, the loop will be stopped after
-		   a timeout of 5 seconds. */
-		
-		while (player->priv->opening) {
-			if (pt_player_query_duration (player, NULL)) {
-				pt_player_query_duration (player, &player->priv->dur);
-				pt_player_pause (player);
-				pt_player_mute_volume (player, FALSE);
-				metadata_get_position (player);
-				g_signal_emit_by_name (player, "player-state-changed", TRUE);
-				player->priv->opening = FALSE;
-				return TRUE;
-			}
+	case GST_MESSAGE_ASYNC_DONE:
+		if (player->priv->opening) {
+			metadata_get_position (player);
+			g_signal_emit_by_name (player, "player-state-changed", TRUE);
+			player->priv->opening = FALSE;
 		}
 
 		break;
 
-	case GST_MESSAGE_DURATION_CHANGED:
-		if (pt_player_query_duration (player, &player->priv->dur))
-			g_signal_emit_by_name (player, "duration-changed");
-
-		break;
 	default:
 		break;
 	}
@@ -328,53 +309,9 @@ bus_call (GstBus     *bus,
 	return TRUE;
 }
 
-gboolean
-bt_wave_load_from_uri (PtPlayer *player, GtkWidget *waveslider)
-{
-	g_debug ("bt_wave_load_from_uri");
-
-	PtWaveloader *wl;
-	gchar *uri;
-	gboolean success;
-
-	uri = pt_player_get_uri (player);
-	wl = pt_waveloader_new (uri);
-	success = pt_waveloader_load (wl, NULL);
-
-	if (success) {
-		g_debug ("length: %ld", pt_waveloader_get_length (wl));
-
-		bt_waveform_viewer_set_wave (BT_WAVEFORM_VIEWER (waveslider),
-					     pt_waveloader_get_data (wl),
-					     pt_waveloader_get_channels (wl),
-					     pt_waveloader_get_length (wl));
-	}
-
-	g_free (uri);
-	g_object_unref (wl);
-
-	return success;
-}
 
 /* -------------------------- opening files --------------------------------- */
 
-static gboolean
-timeout_cb (PtPlayer *player)
-{
-	GError *error;
-
-	if (player->priv->opening) {
-		pt_player_clear (player);
-		error = g_error_new (
-				GST_RESOURCE_ERROR,
-				GST_RESOURCE_ERROR_SEEK,
-				_("Timeout: Can't read resource"));
-		g_signal_emit_by_name (player, "error", error);
-		pt_player_mute_volume (player, FALSE);
-	}
-
-	return G_SOURCE_REMOVE;
-}
 
 /**
  * pt_player_open_uri:
@@ -449,12 +386,67 @@ pt_player_open_uri (PtPlayer  *player,
 	g_object_set (G_OBJECT (player->priv->source), "location", location, NULL);
 	g_free (location);
 
-	/* mute player and start playing with a timeout of 5 seconds
-	   on successfull duration query it's stopped and position is set */
-	pt_player_mute_volume (player, TRUE);
-	g_timeout_add_seconds (5, (GSourceFunc) timeout_cb, player);
-	pt_player_play (player);
+	gboolean success;
+
+	player->priv->wl = pt_waveloader_new (uri);
+	success = pt_waveloader_load (player->priv->wl, NULL);
+
+	if (!success) {
+		error = g_error_new (
+				GST_RESOURCE_ERROR,
+				GST_RESOURCE_ERROR_SEEK,
+				_("Can't read resource"));
+		g_signal_emit_by_name (player, "error", error);
+		return;
+	}
+
+	player->priv->opening = TRUE;
+	player->priv->dur = pt_waveloader_get_duration (player->priv->wl);
+
+	pt_player_pause (player);
 }
+
+/* ------------------------- Waveform stuff --------------------------------- */
+
+gint
+pt_player_get_channels (PtPlayer *player)
+{
+	return pt_waveloader_get_channels (player->priv->wl);
+}
+
+guint64
+pt_player_get_length (PtPlayer *player)
+{
+	guint64 length;
+	length = gst_util_uint64_scale (player->priv->dur,
+				        (guint64) pt_waveloader_get_rate (player->priv->wl),
+				        GST_SECOND);
+	return length;
+}
+
+guint64
+pt_player_wave_pos (PtPlayer *player)
+{
+	guint64 length;
+
+	gint64 pos;
+
+	if (!pt_player_query_position (player, &pos))
+		return 0;
+
+	length = gst_util_uint64_scale (pos,
+				        (guint64) pt_waveloader_get_rate (player->priv->wl),
+				        GST_SECOND);
+	return length;
+}
+
+gint16 *
+pt_player_get_data (PtPlayer *player)
+{
+	return pt_waveloader_get_data (player->priv->wl);
+}
+
+
 
 /* ------------------------- Basic controls --------------------------------- */
 
@@ -1278,9 +1270,6 @@ pt_player_initable_init (GInitable     *initable,
 	gst_object_unref (GST_OBJECT (audiopad));
 	gst_bin_add (GST_BIN (player->priv->pipeline), player->priv->audio);
 
-	player->priv->fd = -1;
-	player->priv->ext_fd = -1;
-
 	return TRUE;
 }
 
@@ -1299,6 +1288,8 @@ pt_player_dispose (GObject *object)
 		player->priv->pipeline = NULL;
 		remove_message_bus (player);
 	}
+
+	g_object_unref (player->priv->wl);
 
 	G_OBJECT_CLASS (pt_player_parent_class)->dispose (object);
 }
