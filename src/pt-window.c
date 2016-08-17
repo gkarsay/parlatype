@@ -154,9 +154,10 @@ update_time (PtWindow *win)
 	gtk_adjustment_set_value (GTK_ADJUSTMENT (win->priv->time_adj), permille);
 	g_signal_handlers_unblock_by_func (win->priv->time_scale, time_scale_changed_cb, win);
 
-	gint pos;
-	pos = pt_player_get_position (win->priv->player);
-	g_object_set (win->priv->waveslider, "playback-cursor", pos * 100, NULL);
+	g_object_set (win->priv->waveslider,
+		      "playback-cursor",
+		      pt_player_wave_pos (win->priv->player),
+		      NULL);
 
 	return TRUE;
 }
@@ -288,7 +289,10 @@ player_state_changed_cb (PtPlayer *player,
 		gdkwin = gtk_widget_get_window (GTK_WIDGET (win));
 		gdk_window_set_cursor (gdkwin, NULL);
 
-		bt_wave_load_from_uri (player, win->priv->waveslider);
+		bt_waveform_viewer_set_wave (BT_WAVEFORM_VIEWER (win->priv->waveslider),
+					     pt_player_get_data (player),
+					     pt_player_get_channels (player),
+					     pt_player_get_length (player));
 
 	} else {
 		gtk_label_set_text (GTK_LABEL (win->priv->dur_label), "00:00");
