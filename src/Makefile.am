@@ -35,6 +35,8 @@ parlatype_SOURCES = \
 		pt-player.h	\
 		pt-preferences.c	\
 		pt-preferences.h	\
+		pt-waveloader.c	\
+		pt-waveloader.h	\
 		pt-window.c	\
 		pt-window.h	\
 		pt-window-dnd.c	\

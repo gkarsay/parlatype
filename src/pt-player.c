@@ -15,17 +15,14 @@
  */
 
 
-#define _POSIX_SOURCE
-
 #include "config.h"
 #include <stdio.h>	/* sscanf */
 #include <gio/gio.h>
 #include <glib/gi18n.h>	
 #include <gst/gst.h>
-#include <gst/audio/audio.h>
 
-#include <sys/stat.h>	/* fstat */
 #include <gtk/gtk.h>
+#include "pt-waveloader.h"
 #include "waveform-viewer.h"
 
 #include "pt-player.h"
@@ -331,244 +328,32 @@ bus_call (GstBus     *bus,
 	return TRUE;
 }
 
-static void
-wave_io_free (PtPlayer *self)
-{
-	if (self->priv->ext_tf) {
-		// ext_fd is fileno() of a ext_tf
-		fclose (self->priv->ext_tf);
-		self->priv->ext_tf = NULL;
-		self->priv->ext_fd = -1;
-	} else if (self->priv->ext_fd != -1) {
-		close (self->priv->ext_fd);
-		self->priv->ext_fd = -1;
-	}
-	if (self->priv->tf) {
-		// fd is fileno() of a tf
-		fclose (self->priv->tf);
-		self->priv->tf = NULL;
-		self->priv->fd = -1;
-	} else if (self->priv->fd != -1) {
-		close (self->priv->fd);
-		self->priv->fd = -1;
-	}
-}
-
-static void
-on_wave_loader_new_pad (GstElement * bin, GstPad * pad, gpointer user_data)
-{
-	// TODO(ensonic): if we pass the pad in user_data we can use gst_pad_link()
-	if (!gst_element_link (bin, GST_ELEMENT (user_data))) {
-		GST_WARNING ("Can't link output of wave decoder to converter.");
-	}
-}
-
-/* source: wave.c
- * bt_wave_load_from_uri:
- * @self: the wave to load
- * @uri: the location to load from
- *
- * Load the wavedata from the @uri.
- *
- * Returns: %TRUE if the wavedata could be loaded
- */
 gboolean
 bt_wave_load_from_uri (PtPlayer *player, GtkWidget *waveslider)
 {
 	g_debug ("bt_wave_load_from_uri");
-	gchar *uri = pt_player_get_uri (player);
-	gboolean res = TRUE, done = FALSE;
-	GstElement *pipeline;
-	GstElement *src, *dec, *conv, *fmt, *sink;
-	GstBus *bus = NULL;
-	GstCaps *caps;
-	GstMessage *msg;
 
-	GST_INFO ("about to load sample %s", uri);
-	// this leaks!
-	//GST_INFO("current dir is %s", g_get_current_dir());
+	PtWaveloader *wl;
+	gchar *uri;
+	gboolean success;
 
-	// check if the url is valid
-	// if(!uri) goto invalid_uri;
+	uri = pt_player_get_uri (player);
+	wl = pt_waveloader_new (uri);
+	success = pt_waveloader_load (wl, NULL);
 
-	// create loader pipeline
-	pipeline = gst_pipeline_new ("wave-loader");
-	src = gst_element_make_from_uri (GST_URI_SRC, uri, NULL, NULL);
-	dec = gst_element_factory_make ("decodebin", NULL);
-	conv = gst_element_factory_make ("audioconvert", NULL);
-	fmt = gst_element_factory_make ("capsfilter", NULL);
-	sink = gst_element_factory_make ("fdsink", NULL);
+	if (success) {
+		g_debug ("length: %ld", pt_waveloader_get_length (wl));
 
-	// configure elements
-	caps = gst_caps_new_simple ("audio/x-raw",
-				"format", G_TYPE_STRING, GST_AUDIO_NE (S16),
-				"layout", G_TYPE_STRING, "interleaved",
-				"rate", GST_TYPE_INT_RANGE, 1, G_MAXINT,
-				"channels", GST_TYPE_INT_RANGE, 1, 2, NULL);
-	g_object_set (fmt, "caps", caps, NULL);
-	gst_caps_unref (caps);
-
-	if (!(player->priv->tf = tmpfile ())) {
-		res = FALSE;
-		GST_WARNING ("Can't create tempfile.");
-		goto Error;
-	}
-	player->priv->fd = fileno (player->priv->tf);
-	g_object_set (sink, "fd", player->priv->fd, "sync", FALSE, NULL);
-
-	// add and link
-	gst_bin_add_many (GST_BIN (pipeline), src, dec, conv, fmt, sink, NULL);
-	res = gst_element_link (src, dec);
-	if (!res) {
-		GST_WARNING_OBJECT (pipeline,
-			"Can't link wave loader pipeline (src ! dec ! conv ! fmt ! sink).");
-		goto Error;
-	}
-	res = gst_element_link_many (conv, fmt, sink, NULL);
-	if (!res) {
-		GST_WARNING_OBJECT (pipeline,
-			"Can't link wave loader pipeline (conf ! fmt ! sink).");
-		goto Error;
-	}
-	g_signal_connect (dec, "pad-added", G_CALLBACK (on_wave_loader_new_pad),
-			(gpointer) conv);
-
-	/* TODO(ensonic): during loading wave-data (into wavelevels)
-	 * - use statusbar for loader progress ("status" property like in song_io)
-	 * - should we do some size checks to avoid unpacking the audio track of a full
-	 *   video on a machine with low memory
-	 *   - if so, how to get real/virtual memory sizes?
-	 *     mallinfo() not enough, sysconf()?
-	 */
-
-	bus = gst_element_get_bus (pipeline);
-
-	// play and wait for EOS
-	if (gst_element_set_state (pipeline,
-			GST_STATE_PLAYING) == GST_STATE_CHANGE_FAILURE) {
-		GST_WARNING_OBJECT (pipeline,
-			"Can't set wave loader pipeline for %s to playing", uri);
-		gst_element_set_state (pipeline, GST_STATE_NULL);
-		res = FALSE;
-		goto Error;
-	} else {
-		GST_INFO_OBJECT (pipeline, "loading sample ...");
+		bt_waveform_viewer_set_wave (BT_WAVEFORM_VIEWER (waveslider),
+					     pt_waveloader_get_data (wl),
+					     pt_waveloader_get_channels (wl),
+					     pt_waveloader_get_length (wl));
 	}
 
-	/* load wave in sync mode, loading them async causes troubles in the 
-	 * persistence code and makes testing complicated */
-	while (!done) {
-		msg = gst_bus_poll (bus,
-			GST_MESSAGE_EOS | GST_MESSAGE_ERROR | GST_MESSAGE_TAG,
-			GST_CLOCK_TIME_NONE);
-		if (!msg)
-			break;
+	g_free (uri);
+	g_object_unref (wl);
 
-		switch (msg->type) {
-			case GST_MESSAGE_EOS:
-				res = done = TRUE;
-				break;
-			case GST_MESSAGE_ERROR:{
-				GError *err;
-				gchar *desc, *dbg = NULL;
-
-				gst_message_parse_error (msg, &err, &dbg);
-				desc = gst_error_get_message (err->domain, err->code);
-				GST_WARNING_OBJECT (GST_MESSAGE_SRC (msg), "ERROR: %s (%s) (%s)",
-					err->message, desc, (dbg ? dbg : "no debug"));
-				g_error_free (err);
-				g_free (dbg);
-				g_free (desc);
-				res = FALSE;
-				done = TRUE;
-				break;
-			}
-			case GST_MESSAGE_TAG:{
-				GstTagList *tags;
-
-				gst_message_parse_tag (msg, &tags);
-				gst_tag_list_unref (tags);
-				break;
-			}
-			default:
-				break;
-			}
-		gst_message_unref (msg);
-		}
-
-	if (res) {
-		GstPad *pad;
-		gint64 duration;
-		guint64 length = 0;
-		gint channels = 1, rate = GST_AUDIO_DEF_RATE;
-		gpointer data = NULL;
-		struct stat buf;
-
-		res = FALSE;
-		g_debug ("sample loaded");
-
-		// query length and convert to samples
-		if (!gst_element_query_duration (pipeline, GST_FORMAT_TIME, &duration)) {
-			GST_WARNING ("getting sample duration failed");
-		}
-		// get caps for sample rate and channels
-		if ((pad = gst_element_get_static_pad (fmt, "src"))) {
-			GstCaps *caps = gst_pad_get_current_caps (pad);
-			if (caps && GST_CAPS_IS_SIMPLE (caps)) {
-				GstStructure *structure = gst_caps_get_structure (caps, 0);
-
-				gst_structure_get_int (structure, "channels", &channels);
-				gst_structure_get_int (structure, "rate", &rate);
-				length = gst_util_uint64_scale (duration, (guint64) rate, GST_SECOND);
-			} else {
-				GST_WARNING ("No caps or format has not been fixed.");
-			}
-			if (caps)
-				gst_caps_unref (caps);
-			gst_object_unref (pad);
-		}
-
-		g_debug ("sample decoded: channels=%d, rate=%d, length=%" GST_TIME_FORMAT,
-			channels, rate, GST_TIME_ARGS (duration));
-
-		if (!(fstat (player->priv->fd, &buf))) {
-			if ((data = g_try_malloc (buf.st_size))) {
-				/* mmap is unsave for removable drives :(
-				 * gpointer data=mmap(void *start, buf->st_size, PROT_READ, MAP_SHARED, self->priv->fd, 0);
-				 */
-				if (lseek (player->priv->fd, 0, SEEK_SET) == 0) {
-					ssize_t bytes = read (player->priv->fd, data, buf.st_size);
-
-					//wavelevel = bt_wavelevel_new (self->priv->song, self, root_note,
-					//    (gulong) length, 0, length, rate, (gconstpointer) data);
-
-					bt_waveform_viewer_set_wave (BT_WAVEFORM_VIEWER (waveslider), data, channels, length);
-					g_debug ("sample loaded (%" G_GSSIZE_FORMAT "/%ld bytes)", bytes,
-						buf.st_size);
-					res = TRUE;
-				} else {
-					GST_WARNING ("can't seek to start of sample data");
-				}
-			} else {
-				GST_WARNING
-					("sample is too long or empty (%ld bytes), not trying to load",
-					buf.st_size);
-			}
-		} else {
-			GST_WARNING ("can't stat() sample");
-		}
-	}
-
-Error:
-	if (bus)
-		gst_object_unref (bus);
-	if (pipeline) {
-		gst_element_set_state (pipeline, GST_STATE_NULL);
-		gst_object_unref (pipeline);
-	}
-	if (!res)
-		wave_io_free (player);
-	return (res);
+	return success;
 }
 
 /* -------------------------- opening files --------------------------------- */
