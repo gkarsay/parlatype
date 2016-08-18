@@ -243,6 +243,99 @@ enable_win_actions (PtWindow *win,
 }
 
 static void
+set_cursor (PtWindow    *win,
+	    const gchar *name)
+{
+	GdkWindow  *gdkwin;
+	GdkDisplay *display;
+	GdkCursor  *cur;
+
+	gdkwin = gtk_widget_get_window (GTK_WIDGET (win));
+	display = gdk_window_get_display (gdkwin);
+	cur = gdk_cursor_new_from_name (display, name);
+	gdk_window_set_cursor (gdkwin, cur);
+	if (cur)
+		g_object_unref (cur);
+}
+
+static void
+reset_cursor (PtWindow *win)
+{
+	GdkWindow  *gdkwin;
+
+	gdkwin = gtk_widget_get_window (GTK_WIDGET (win));
+	gdk_window_set_cursor (gdkwin, NULL);
+}
+
+static void
+progress_changed_cb (PtPlayer  *player,
+		     gint       progress,
+		     GtkWidget *progress_bar)
+{
+	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (progress_bar), (gdouble) progress / 1000);
+}
+
+static void
+destroy_progress_dlg (PtWindow *win)
+{
+	if (win->priv->progress_dlg) {
+		g_signal_handler_disconnect (win->priv->player, win->priv->progress_handler_id);
+		gtk_widget_destroy (win->priv->progress_dlg);
+		win->priv->progress_dlg = NULL;
+	}
+}
+
+static void
+progress_response_cb (GtkWidget *dialog,
+		      gint       response,
+		      PtWindow  *win)
+{
+	if (response == GTK_RESPONSE_CANCEL) {
+		g_print ("cancelled!\n");
+		reset_cursor (win);
+		pt_player_cancel (win->priv->player);
+	}
+	destroy_progress_dlg (win);
+}
+
+static void
+show_progress_dlg (PtWindow *win)
+{
+	if (win->priv->progress_dlg) {
+		/* actually this should never happen */
+		gtk_window_present (GTK_WINDOW (win->priv->progress_dlg));
+		return;
+	}
+
+	GtkWidget *content;
+	GtkWidget *progress_bar;
+	win->priv->progress_dlg = gtk_dialog_new_with_buttons
+					(_("Loading file..."),
+					GTK_WINDOW (win),
+					GTK_DIALOG_DESTROY_WITH_PARENT,
+					_("_Cancel"),
+					GTK_RESPONSE_CANCEL,
+					NULL);
+
+	progress_bar = gtk_progress_bar_new ();
+	content = gtk_dialog_get_content_area (GTK_DIALOG (win->priv->progress_dlg));
+	gtk_container_add (GTK_CONTAINER (content), progress_bar);
+	gtk_container_set_border_width (GTK_CONTAINER (content), 6);
+
+	g_signal_connect (win->priv->progress_dlg,
+			  "response",
+			  G_CALLBACK (progress_response_cb),
+			  win);
+	win->priv->progress_handler_id =
+		g_signal_connect (win->priv->player,
+				  "load-progress",
+				  G_CALLBACK (progress_changed_cb),
+				  progress_bar);
+
+	gtk_widget_show_all (win->priv->progress_dlg);
+}
+
+static void
 player_state_changed_cb (PtPlayer *player,
 			 gboolean  state,
 			 PtWindow *win)
@@ -254,7 +347,6 @@ player_state_changed_cb (PtPlayer *player,
 	   the state changes to FALSE immediately before a file is opened. */
 
 	gchar     *display_name = NULL;
-	GdkWindow *gdkwin;
 
 	enable_win_actions (win, state);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (win->priv->button_play), FALSE);
@@ -270,6 +362,7 @@ player_state_changed_cb (PtPlayer *player,
 	gtk_widget_set_sensitive (win->priv->speed_scale, state);
 
 	if (state) {
+		destroy_progress_dlg (win);
 		update_duration_label (win);
 		display_name = pt_player_get_filename (player);
 		if (display_name) {
@@ -285,9 +378,7 @@ player_state_changed_cb (PtPlayer *player,
 		change_jump_forward_tooltip (win);
 
 		add_timer (win);
-
-		gdkwin = gtk_widget_get_window (GTK_WIDGET (win));
-		gdk_window_set_cursor (gdkwin, NULL);
+		reset_cursor (win);
 
 		bt_waveform_viewer_set_wave (BT_WAVEFORM_VIEWER (win->priv->waveslider),
 					     pt_player_get_data (player),
@@ -328,11 +419,7 @@ player_error_cb (PtPlayer *player,
 	/* Resetting the cursor from waiting to normal. We don't know if this
 	   error is from opening or anything else, just do it */
 
-	GdkWindow  *gdkwin;
-
-	gdkwin = gtk_widget_get_window (GTK_WIDGET (win));
-	gdk_window_set_cursor (gdkwin, NULL);
-
+	reset_cursor (win);
 	pt_error_message (win, error->message);
 }
 
@@ -340,17 +427,8 @@ void
 pt_window_open_file (PtWindow *win,
 		     gchar    *uri)
 {
-	GdkWindow  *gdkwin;
-	GdkDisplay *display;
-	GdkCursor  *cur;
-
-	gdkwin = gtk_widget_get_window (GTK_WIDGET (win));
-	display = gdk_window_get_display (gdkwin);
-	cur = gdk_cursor_new_from_name (display, "watch");
-	gdk_window_set_cursor (gdkwin, cur);
-	if (cur)
-		g_object_unref (cur);
-
+	set_cursor (win, "watch");
+	show_progress_dlg (win);
 	pt_player_open_uri (win->priv->player, uri);
 }
 
@@ -602,6 +680,7 @@ pt_window_init (PtWindow *win)
 	setup_dbus_service (win);	/* this is in pt_dbus_service.c */
 	win->priv->recent = gtk_recent_manager_get_default ();
 	win->priv->timer = 0;
+	win->priv->progress_dlg = NULL;
 
 	win->priv->waveslider = bt_waveform_viewer_new ();
 	gtk_grid_attach (GTK_GRID (win->priv->main_grid), win->priv->waveslider, 0, 0, 1, 1);
@@ -631,6 +710,7 @@ pt_window_dispose (GObject *object)
 	g_clear_object (&win->priv->editor);
 	g_clear_object (&win->priv->proxy);
 	g_clear_object (&win->priv->player);
+	destroy_progress_dlg (win);
 
 	G_OBJECT_CLASS (pt_window_parent_class)->dispose (object);
 }

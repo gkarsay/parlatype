@@ -420,6 +420,13 @@ pt_player_open_uri (PtPlayer  *player,
 	pt_player_pause (player);
 }
 
+void
+pt_player_cancel (PtPlayer *player)
+{
+	pt_waveloader_cancel (player->priv->wl);
+	g_signal_emit_by_name (player, "player-state-changed", FALSE);
+}
+
 /* ------------------------- Waveform stuff --------------------------------- */
 
 gint
