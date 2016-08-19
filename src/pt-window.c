@@ -134,6 +134,17 @@ update_duration_label (PtWindow *win)
 	}
 }
 
+static void
+update_time_scale_blocking (PtWindow *win,
+			    gint      value)
+{
+	/* Blocks signals and prevents endless signal loop */
+
+	g_signal_handlers_block_by_func (win->priv->time_scale, time_scale_changed_cb, win);
+	gtk_adjustment_set_value (GTK_ADJUSTMENT (win->priv->time_adj), value);
+	g_signal_handlers_unblock_by_func (win->priv->time_scale, time_scale_changed_cb, win);
+}
+
 static gboolean
 update_time (PtWindow *win)
 {
@@ -149,10 +160,7 @@ update_time (PtWindow *win)
 	gtk_label_set_text (GTK_LABEL (win->priv->pos_label), text);
 	g_free (text);
 
-	/* update time_scale but block any signals */
-	g_signal_handlers_block_by_func (win->priv->time_scale, time_scale_changed_cb, win);
-	gtk_adjustment_set_value (GTK_ADJUSTMENT (win->priv->time_adj), permille);
-	g_signal_handlers_unblock_by_func (win->priv->time_scale, time_scale_changed_cb, win);
+	update_time_scale_blocking (win, permille);
 
 	g_object_set (win->priv->waveslider,
 		      "playback-cursor",
@@ -391,10 +399,7 @@ player_state_changed_cb (PtPlayer *player,
 		gtk_widget_set_tooltip_text (win->priv->button_jump_back, NULL);
 		gtk_widget_set_tooltip_text (win->priv->button_jump_forward, NULL);
 		remove_timer (win);
-		/* update time_scale but block any signals */
-		g_signal_handlers_block_by_func (win->priv->time_scale, time_scale_changed_cb, win);
-		gtk_adjustment_set_value (GTK_ADJUSTMENT (win->priv->time_adj), 0);
-		g_signal_handlers_unblock_by_func (win->priv->time_scale, time_scale_changed_cb, win);
+		update_time_scale_blocking (win, 0);
 		bt_waveform_viewer_set_wave (BT_WAVEFORM_VIEWER (win->priv->waveslider),
 					     NULL,
 					     0,
