@@ -147,9 +147,10 @@ check_progress (GTask *task)
 	guint  temp;
 
 	if (g_cancellable_is_cancelled (g_task_get_cancellable (task))) {
-		gst_element_set_state (wl->priv->pipeline, GST_STATE_PAUSED);
+		gst_element_set_state (wl->priv->pipeline, GST_STATE_NULL);
 		g_source_remove (wl->priv->bus_watch_id);
 		wl->priv->bus_watch_id = 0;
+		wl->priv->progress_timeout = 0;
 		g_task_return_boolean (task, FALSE);
 		return FALSE;
 	}

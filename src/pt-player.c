@@ -361,6 +361,7 @@ load_cb (PtWaveloader *wl,
 	} else {
 		g_signal_emit_by_name (player, "error", error);
                 g_error_free (error);
+                g_clear_object (&wl);
 	}
 }
 
