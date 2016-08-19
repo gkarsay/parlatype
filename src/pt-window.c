@@ -251,31 +251,6 @@ enable_win_actions (PtWindow *win,
 }
 
 static void
-set_cursor (PtWindow    *win,
-	    const gchar *name)
-{
-	GdkWindow  *gdkwin;
-	GdkDisplay *display;
-	GdkCursor  *cur;
-
-	gdkwin = gtk_widget_get_window (GTK_WIDGET (win));
-	display = gdk_window_get_display (gdkwin);
-	cur = gdk_cursor_new_from_name (display, name);
-	gdk_window_set_cursor (gdkwin, cur);
-	if (cur)
-		g_object_unref (cur);
-}
-
-static void
-reset_cursor (PtWindow *win)
-{
-	GdkWindow  *gdkwin;
-
-	gdkwin = gtk_widget_get_window (GTK_WIDGET (win));
-	gdk_window_set_cursor (gdkwin, NULL);
-}
-
-static void
 progress_changed_cb (PtPlayer  *player,
 		     gint       progress,
 		     GtkWidget *progress_bar)
@@ -298,10 +273,9 @@ progress_response_cb (GtkWidget *dialog,
 		      gint       response,
 		      PtWindow  *win)
 {
-	if (response == GTK_RESPONSE_CANCEL) {
-		/* cancel emits error message, which resets cursor */
+	if (response == GTK_RESPONSE_CANCEL)
 		pt_player_cancel (win->priv->player);
-	}
+
 	destroy_progress_dlg (win);
 }
 
@@ -349,9 +323,7 @@ player_state_changed_cb (PtPlayer *player,
 {
 	/* Set up widget sensitivity/visibility, actions, labels, window title
 	   and timer according to the state of PtPlayer (ready to play or not).
-	   Reset tooltips for insensitive widgets.
-	   Resetting cursor from waiting to normal only if player is ready as
-	   the state changes to FALSE immediately before a file is opened. */
+	   Reset tooltips for insensitive widgets. */
 
 	gchar     *display_name = NULL;
 
@@ -383,10 +355,7 @@ player_state_changed_cb (PtPlayer *player,
 		change_play_button_tooltip (win);
 		change_jump_back_tooltip (win);
 		change_jump_forward_tooltip (win);
-
 		add_timer (win);
-		reset_cursor (win);
-
 		bt_waveform_viewer_set_wave (BT_WAVEFORM_VIEWER (win->priv->waveslider),
 					     pt_player_get_data (player),
 					     pt_player_get_channels (player),
@@ -428,10 +397,6 @@ player_error_cb (PtPlayer *player,
 		 GError   *error,
 		 PtWindow *win)
 {
-	/* Resetting the cursor from waiting to normal. We don't know if this
-	   error is from opening or anything else, just do it */
-
-	reset_cursor (win);
 	pt_error_message (win, error->message);
 }
 
@@ -439,7 +404,6 @@ void
 pt_window_open_file (PtWindow *win,
 		     gchar    *uri)
 {
-	set_cursor (win, "watch");
 	show_progress_dlg (win);
 	pt_player_open_uri (win->priv->player, uri);
 }
