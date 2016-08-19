@@ -291,7 +291,7 @@ progress_response_cb (GtkWidget *dialog,
 		      PtWindow  *win)
 {
 	if (response == GTK_RESPONSE_CANCEL) {
-		reset_cursor (win);
+		/* cancel emits error message, which resets cursor */
 		pt_player_cancel (win->priv->player);
 	}
 	destroy_progress_dlg (win);
@@ -391,6 +391,14 @@ player_state_changed_cb (PtPlayer *player,
 		gtk_widget_set_tooltip_text (win->priv->button_jump_back, NULL);
 		gtk_widget_set_tooltip_text (win->priv->button_jump_forward, NULL);
 		remove_timer (win);
+		/* update time_scale but block any signals */
+		g_signal_handlers_block_by_func (win->priv->time_scale, time_scale_changed_cb, win);
+		gtk_adjustment_set_value (GTK_ADJUSTMENT (win->priv->time_adj), 0);
+		g_signal_handlers_unblock_by_func (win->priv->time_scale, time_scale_changed_cb, win);
+		bt_waveform_viewer_set_wave (BT_WAVEFORM_VIEWER (win->priv->waveslider),
+					     NULL,
+					     0,
+					     0);
 	}
 }
 
@@ -683,6 +691,7 @@ pt_window_init (PtWindow *win)
 
 	win->priv->waveslider = bt_waveform_viewer_new ();
 	gtk_grid_attach (GTK_GRID (win->priv->main_grid), win->priv->waveslider, 0, 0, 1, 1);
+	player_state_changed_cb (win->priv->player, FALSE, win);
 	gtk_widget_show (win->priv->waveslider);
 }
 
