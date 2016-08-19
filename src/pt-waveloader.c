@@ -41,7 +41,9 @@ struct _PtWaveloaderPrivate
 	guint64	    length;
 
 	guint	    progress;
+	gint	    bus_watch_id;
 
+	gint	    progress_timeout;
 	gint	    fd;
 	FILE	   *tf;
 };
@@ -65,6 +67,15 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtWaveloader, pt_waveloader, G_TYPE_OBJECT)
  * Here is the long description.
  *
  */
+
+static void
+remove_timeout (PtWaveloader *wl)
+{
+	if (wl->priv->progress_timeout > 0) {
+		g_source_remove (wl->priv->progress_timeout);
+		wl->priv->progress_timeout = 0;
+	}
+}
 
 
 static void
@@ -127,11 +138,21 @@ setup_pipeline (PtWaveloader *wl)
 }
 
 static gboolean
-check_progress (PtWaveloader *wl)
+check_progress (GTask *task)
 {
+	PtWaveloader *wl = g_task_get_source_object (task);
+
 	gint64 dur;
 	gint64 pos;
 	guint  temp;
+
+	if (g_cancellable_is_cancelled (g_task_get_cancellable (task))) {
+		gst_element_set_state (wl->priv->pipeline, GST_STATE_PAUSED);
+		g_source_remove (wl->priv->bus_watch_id);
+		wl->priv->bus_watch_id = 0;
+		g_task_return_boolean (task, FALSE);
+		return FALSE;
+	}
 
 	if (!gst_element_query_position (wl->priv->pipeline, GST_FORMAT_TIME, &pos))
 		return TRUE;
@@ -150,74 +171,81 @@ check_progress (PtWaveloader *wl)
 }
 
 static gboolean
-run_pipeline (PtWaveloader *wl)
+bus_handler (GstBus     *bus,
+	     GstMessage *msg,
+	     gpointer    data)
 {
-	gboolean res = TRUE, done = FALSE;
-	GstBus *bus = NULL;
-	GstMessage *msg;
+	GTask *task = (GTask *) data;
+	PtWaveloader *wl = g_task_get_source_object (task);
 
-	bus = gst_element_get_bus (wl->priv->pipeline);
+	g_debug ("Message: %s; sent by: %s", GST_MESSAGE_TYPE_NAME (msg), GST_MESSAGE_SRC_NAME (msg));
 
-	// play and wait for EOS
-	if (gst_element_set_state (wl->priv->pipeline,
-			GST_STATE_PLAYING) == GST_STATE_CHANGE_FAILURE) {
-		GST_WARNING_OBJECT (wl->priv->pipeline,
-			"Can't set wave loader pipeline for %s to playing", wl->priv->uri);
-		gst_element_set_state (wl->priv->pipeline, GST_STATE_NULL);
-		gst_object_unref (bus);
+	switch (GST_MESSAGE_TYPE (msg)) {
+	case GST_MESSAGE_ERROR: {
+		gchar    *debug;
+		GError   *error;
+
+		remove_timeout (wl);
+		gst_message_parse_error (msg, &error, &debug);
+		g_debug ("ERROR from element %s: %s", GST_OBJECT_NAME (msg->src), error->message);
+		g_debug ("Debugging info: %s", (debug) ? debug : "none");
+		g_free (debug);
+		g_task_return_error (task, error);
 		return FALSE;
+		}
 
-	} else {
-		GST_INFO_OBJECT (wl->priv->pipeline, "loading sample ...");
+	case GST_MESSAGE_EOS: {
+		GstPad *pad;
+		// query length and convert to samples
+		if (!gst_element_query_duration (wl->priv->pipeline, GST_FORMAT_TIME, &wl->priv->duration)) {
+			GST_WARNING ("getting sample duration failed");
+		}
+		// get caps for sample rate and channels
+		if ((pad = gst_element_get_static_pad (wl->priv->fmt, "src"))) {
+			GstCaps *caps = gst_pad_get_current_caps (pad);
+			if (caps && GST_CAPS_IS_SIMPLE (caps)) {
+				GstStructure *structure = gst_caps_get_structure (caps, 0);
+
+				gst_structure_get_int (structure, "channels", &wl->priv->channels);
+				gst_structure_get_int (structure, "rate", &wl->priv->rate);
+
+			} else {
+				GST_WARNING ("No caps or format has not been fixed.");
+				wl->priv->channels = 1;
+				wl->priv->rate = GST_AUDIO_DEF_RATE;
+			}
+			if (caps)
+				gst_caps_unref (caps);
+			gst_object_unref (pad);
+		}
+
+		g_debug ("sample decoded: channels=%d, rate=%d, length=%" GST_TIME_FORMAT,
+			wl->priv->channels, wl->priv->rate, GST_TIME_ARGS (wl->priv->duration));
+		remove_timeout (wl);
+		g_task_return_boolean (task, TRUE);
+		return FALSE;
+		}
+	case GST_MESSAGE_DURATION_CHANGED:
+		break;
+	default:
+		break;
 	}
 
-	gint timeout;
-	timeout = g_timeout_add (30, (GSourceFunc) check_progress, wl);
+	return TRUE;
+}
 
-	/* load wave in sync mode, loading them async causes troubles in the 
-	 * persistence code and makes testing complicated */
-	while (!done) {
-		msg = gst_bus_poll (bus,
-			GST_MESSAGE_EOS | GST_MESSAGE_ERROR | GST_MESSAGE_TAG,
-			GST_CLOCK_TIME_NONE);
-		if (!msg)
-			break;
+gboolean
+pt_waveloader_load_finish (PtWaveloader  *wl,
+			   GAsyncResult  *result,
+			   GError       **error)
+{
+	g_return_val_if_fail (g_task_is_valid (result, wl), FALSE);
 
-		switch (msg->type) {
-			case GST_MESSAGE_EOS:
-				res = done = TRUE;
-				break;
-			case GST_MESSAGE_ERROR:{
-				GError *err;
-				gchar *desc, *dbg = NULL;
-
-				gst_message_parse_error (msg, &err, &dbg);
-				desc = gst_error_get_message (err->domain, err->code);
-				GST_WARNING_OBJECT (GST_MESSAGE_SRC (msg), "ERROR: %s (%s) (%s)",
-					err->message, desc, (dbg ? dbg : "no debug"));
-				g_error_free (err);
-				g_free (dbg);
-				g_free (desc);
-				res = FALSE;
-				done = TRUE;
-				break;
-			}
-			default:
-				break;
-			}
-		gst_message_unref (msg);
-	}
-
-	g_source_remove (timeout);
-	if (res)
-		g_signal_emit_by_name (wl, "progress", 1000);
-
-	gst_object_unref (bus);
-	return res;
+	return g_task_propagate_boolean (G_TASK (result), error);
 }
 
 /* 
- * pt_waveloader_load:
+ * pt_waveloader_load_async:
  * @self: the wave to load
  * @uri: the location to load from
  *
@@ -225,63 +253,61 @@ run_pipeline (PtWaveloader *wl)
  *
  * Returns: %TRUE if the wavedata could be loaded
  */
-gboolean
-pt_waveloader_load (PtWaveloader *wl,
-		    GError      **error)
+void
+pt_waveloader_load_async (PtWaveloader	       *wl,
+			  GCancellable	       *cancellable,
+			  GAsyncReadyCallback   callback,
+			  gpointer		user_data)
 {
-	gboolean res = TRUE;
-	GstPad *pad;
+	GTask  *task;
+	GstBus *bus;
+
+	task = g_task_new (wl, cancellable, callback, user_data);
 
 	/* setup file descriptor */
 	if (!(wl->priv->tf = tmpfile ())) {
-		GST_WARNING ("Can't create tempfile.");
-		return FALSE;
+		g_task_return_new_error (
+				task,
+				GST_RESOURCE_ERROR,
+				GST_RESOURCE_ERROR_NOT_FOUND,
+				_("xxx"));
+
+		g_object_unref (task);
+		return;
 	}
 	wl->priv->fd = fileno (wl->priv->tf);
-	
+
 	/* setup and run pipeline */
-	if (!setup_pipeline (wl))
-		return FALSE;
+	if (!setup_pipeline (wl)) {
+		g_task_return_new_error (
+				task,
+				GST_RESOURCE_ERROR,
+				GST_RESOURCE_ERROR_NOT_FOUND,
+				_("xxx"));
 
-	if (!run_pipeline (wl))
-		return FALSE;
-
-	// query length and convert to samples
-	if (!gst_element_query_duration (wl->priv->pipeline, GST_FORMAT_TIME, &wl->priv->duration)) {
-		GST_WARNING ("getting sample duration failed");
-	}
-	// get caps for sample rate and channels
-	if ((pad = gst_element_get_static_pad (wl->priv->fmt, "src"))) {
-		GstCaps *caps = gst_pad_get_current_caps (pad);
-		if (caps && GST_CAPS_IS_SIMPLE (caps)) {
-			GstStructure *structure = gst_caps_get_structure (caps, 0);
-
-			gst_structure_get_int (structure, "channels", &wl->priv->channels);
-			gst_structure_get_int (structure, "rate", &wl->priv->rate);
-
-		} else {
-			GST_WARNING ("No caps or format has not been fixed.");
-			wl->priv->channels = 1;
-			wl->priv->rate = GST_AUDIO_DEF_RATE;
-		}
-		if (caps)
-			gst_caps_unref (caps);
-		gst_object_unref (pad);
+		g_object_unref (task);
+		return;
 	}
 
-	g_debug ("sample decoded: channels=%d, rate=%d, length=%" GST_TIME_FORMAT,
-		wl->priv->channels, wl->priv->rate, GST_TIME_ARGS (wl->priv->duration));
+	/* setup message handler */
+	bus = gst_pipeline_get_bus (GST_PIPELINE (wl->priv->pipeline));
+	wl->priv->bus_watch_id = gst_bus_add_watch (bus, bus_handler, task);
+	gst_object_unref (bus);
 
-	return res;
-}
-
-void
-pt_waveloader_cancel (PtWaveloader *wl)
-{
-	if (wl->priv->pipeline) {
+	if (gst_element_set_state (wl->priv->pipeline,
+			GST_STATE_PLAYING) == GST_STATE_CHANGE_FAILURE) {
 		gst_element_set_state (wl->priv->pipeline, GST_STATE_NULL);
-		gst_object_unref (wl->priv->pipeline);
+		g_task_return_new_error (
+				task,
+				GST_RESOURCE_ERROR,
+				GST_RESOURCE_ERROR_NOT_FOUND,
+				_("xxx"));
+
+		g_object_unref (task);
+		return;
 	}
+
+	wl->priv->progress_timeout = g_timeout_add (30, (GSourceFunc) check_progress, task);
 }
 
 gchar *
@@ -346,6 +372,8 @@ pt_waveloader_init (PtWaveloader *wl)
 	wl->priv->pipeline = NULL;
 	wl->priv->fd = -1;
 	wl->priv->progress = 0;
+	wl->priv->bus_watch_id = 0;
+	wl->priv->progress_timeout = 0;
 }
 
 static void
@@ -366,12 +394,18 @@ pt_waveloader_dispose (GObject *object)
 		wl->priv->fd = -1;
 	}
 
+	if (wl->priv->bus_watch_id > 0) {
+		g_source_remove (wl->priv->bus_watch_id);
+		wl->priv->bus_watch_id = 0;
+	}
+
+	remove_timeout (wl);
+
 	if (wl->priv->pipeline) {
 		
 		gst_element_set_state (wl->priv->pipeline, GST_STATE_NULL);
 		gst_object_unref (GST_OBJECT (wl->priv->pipeline));
 		wl->priv->pipeline = NULL;
-		//remove_message_bus (player);
 	}
 
 	G_OBJECT_CLASS (pt_waveloader_parent_class)->dispose (object);

@@ -291,7 +291,6 @@ progress_response_cb (GtkWidget *dialog,
 		      PtWindow  *win)
 {
 	if (response == GTK_RESPONSE_CANCEL) {
-		g_print ("cancelled!\n");
 		reset_cursor (win);
 		pt_player_cancel (win->priv->player);
 	}

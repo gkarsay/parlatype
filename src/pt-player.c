@@ -35,6 +35,7 @@ struct _PtPlayerPrivate
 	gint64	    dur;
 	gdouble	    speed;
 
+	GCancellable *c;
 	gboolean    opening;
 
 	PtWaveloader *wl;
@@ -344,6 +345,25 @@ propagate_progress_cb (PtWaveloader *wl,
 	g_signal_emit_by_name (player, "load-progress", progress);
 }
 
+static void
+load_cb (PtWaveloader *wl,
+	 GAsyncResult *res,
+	 PtPlayer     *player)
+{
+	GError *error = NULL;
+
+	if (pt_waveloader_load_finish (wl, res, &error)) {
+		player->priv->opening = TRUE;
+		player->priv->dur = pt_waveloader_get_duration (player->priv->wl);
+
+		pt_player_pause (player);
+
+	} else {
+		g_signal_emit_by_name (player, "error", error);
+                g_error_free (error);
+	}
+}
+
 void
 pt_player_open_uri (PtPlayer  *player,
 		    gchar     *uri)
@@ -395,36 +415,23 @@ pt_player_open_uri (PtPlayer  *player,
 	g_object_set (G_OBJECT (player->priv->source), "location", location, NULL);
 	g_free (location);
 
-	gboolean success;
-
 	player->priv->wl = pt_waveloader_new (uri);
 	g_signal_connect (player->priv->wl,
 			 "progress",
 			 G_CALLBACK (propagate_progress_cb),
 			 player);
 
-	success = pt_waveloader_load (player->priv->wl, NULL);
-
-	if (!success) {
-		error = g_error_new (
-				GST_RESOURCE_ERROR,
-				GST_RESOURCE_ERROR_SEEK,
-				_("Can't read resource"));
-		g_signal_emit_by_name (player, "error", error);
-		return;
-	}
-
-	player->priv->opening = TRUE;
-	player->priv->dur = pt_waveloader_get_duration (player->priv->wl);
-
-	pt_player_pause (player);
+	player->priv->c = g_cancellable_new ();
+	pt_waveloader_load_async (player->priv->wl,
+				  player->priv->c,
+				  (GAsyncReadyCallback) load_cb,
+				  player);
 }
 
 void
 pt_player_cancel (PtPlayer *player)
 {
-	pt_waveloader_cancel (player->priv->wl);
-	g_signal_emit_by_name (player, "player-state-changed", FALSE);
+	g_cancellable_cancel (player->priv->c);
 }
 
 /* ------------------------- Waveform stuff --------------------------------- */
@@ -1310,8 +1317,7 @@ pt_player_dispose (GObject *object)
 		remove_message_bus (player);
 	}
 
-	if (player->priv->wl)
-		g_object_unref (player->priv->wl);
+	g_clear_object (&player->priv->wl);
 
 	G_OBJECT_CLASS (pt_player_parent_class)->dispose (object);
 }

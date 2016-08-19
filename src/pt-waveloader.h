@@ -44,10 +44,14 @@ struct _PtWaveloaderClass
 
 GType		pt_waveloader_get_type		(void) G_GNUC_CONST;
 
-gboolean	pt_waveloader_load		(PtWaveloader *wl,
-						 GError      **error);
+gboolean	pt_waveloader_load_finish	(PtWaveloader  *wl,
+						 GAsyncResult  *result,
+						 GError       **error);
 
-void		pt_waveloader_cancel		(PtWaveloader *wl);
+void		pt_waveloader_load_async	(PtWaveloader	     *wl,
+						 GCancellable	     *cancellable,
+						 GAsyncReadyCallback  callback,
+						 gpointer	      user_data);
 
 gchar		*pt_waveloader_get_uri		(PtWaveloader *wl);
 
