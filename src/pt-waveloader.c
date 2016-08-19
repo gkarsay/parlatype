@@ -40,10 +40,10 @@ struct _PtWaveloaderPrivate
 	gint	    rate;
 	guint64	    length;
 
-	guint	    progress;
 	gint	    bus_watch_id;
-
 	gint	    progress_timeout;
+	guint	    progress;
+
 	gint	    fd;
 	FILE	   *tf;
 };
@@ -83,7 +83,6 @@ on_wave_loader_new_pad (GstElement *bin,
 			GstPad	   *pad,
 			gpointer    user_data)
 {
-	// TODO(ensonic): if we pass the pad in user_data we can use gst_pad_link()
 	if (!gst_element_link (bin, GST_ELEMENT (user_data))) {
 		GST_WARNING ("Can't link output of wave decoder to converter.");
 	}
@@ -96,7 +95,7 @@ setup_pipeline (PtWaveloader *wl)
 	GstElement *src, *dec, *conv, *sink;
 	GstCaps *caps;
 
-	// create loader pipeline
+	/* create loader pipeline */
 	wl->priv->pipeline = gst_pipeline_new ("wave-loader");
 	src 		   = gst_element_make_from_uri (GST_URI_SRC, wl->priv->uri, NULL, NULL);
 	dec 		   = gst_element_factory_make ("decodebin", NULL);
@@ -104,7 +103,7 @@ setup_pipeline (PtWaveloader *wl)
 	wl->priv->fmt 	   = gst_element_factory_make ("capsfilter", NULL);
 	sink 		   = gst_element_factory_make ("fdsink", NULL);
 
-	// configure elements
+	/* configure elements */
 	caps = gst_caps_new_simple ("audio/x-raw",
 				    "format", G_TYPE_STRING, GST_AUDIO_NE (S16),
 				    "layout", G_TYPE_STRING, "interleaved",
@@ -115,7 +114,7 @@ setup_pipeline (PtWaveloader *wl)
 
 	g_object_set (sink, "fd", wl->priv->fd, "sync", FALSE, NULL);
 
-	// add and link
+	/* add and link */
 	gst_bin_add_many (GST_BIN (wl->priv->pipeline), src, dec, conv, wl->priv->fmt, sink, NULL);
 	result = gst_element_link (src, dec);
 	if (!result) {
@@ -140,6 +139,9 @@ setup_pipeline (PtWaveloader *wl)
 static gboolean
 check_progress (GTask *task)
 {
+	/* 1) Query position and emit progress signal
+	   2) Check if task was cancelled and reset pipeline */
+
 	PtWaveloader *wl = g_task_get_source_object (task);
 
 	gint64 dur;
@@ -197,11 +199,11 @@ bus_handler (GstBus     *bus,
 
 	case GST_MESSAGE_EOS: {
 		GstPad *pad;
-		// query length and convert to samples
+		/* query length and convert to samples */
 		if (!gst_element_query_duration (wl->priv->pipeline, GST_FORMAT_TIME, &wl->priv->duration)) {
 			GST_WARNING ("getting sample duration failed");
 		}
-		// get caps for sample rate and channels
+		/* get caps for sample rate and channels */
 		if ((pad = gst_element_get_static_pad (wl->priv->fmt, "src"))) {
 			GstCaps *caps = gst_pad_get_current_caps (pad);
 			if (caps && GST_CAPS_IS_SIMPLE (caps)) {
@@ -235,6 +237,16 @@ bus_handler (GstBus     *bus,
 	return TRUE;
 }
 
+/*
+ * pt_waveloader_load_finish:
+ * @wl: a #PtWaveloader
+ * @result:
+ * @error:
+ *
+ * Some description
+ *
+ * Return value:
+ */
 gboolean
 pt_waveloader_load_finish (PtWaveloader  *wl,
 			   GAsyncResult  *result,
@@ -245,14 +257,14 @@ pt_waveloader_load_finish (PtWaveloader  *wl,
 	return g_task_propagate_boolean (G_TASK (result), error);
 }
 
-/* 
+/*
  * pt_waveloader_load_async:
- * @self: the wave to load
- * @uri: the location to load from
+ * @wl: a #PtWaveloader
+ * @cancellable:
+ * @callback:
+ * @user_data:
  *
- * Load the wavedata from the @uri.
- *
- * Returns: %TRUE if the wavedata could be loaded
+ * Some description
  */
 void
 pt_waveloader_load_async (PtWaveloader	       *wl,
@@ -278,7 +290,7 @@ pt_waveloader_load_async (PtWaveloader	       *wl,
 	}
 	wl->priv->fd = fileno (wl->priv->tf);
 
-	/* setup and run pipeline */
+	/* setup pipeline */
 	if (!setup_pipeline (wl)) {
 		g_task_return_new_error (
 				task,
@@ -295,6 +307,7 @@ pt_waveloader_load_async (PtWaveloader	       *wl,
 	wl->priv->bus_watch_id = gst_bus_add_watch (bus, bus_handler, task);
 	gst_object_unref (bus);
 
+	/* run pipeline and start progress (and cancel) timeout */
 	if (gst_element_set_state (wl->priv->pipeline,
 			GST_STATE_PLAYING) == GST_STATE_CHANGE_FAILURE) {
 		gst_element_set_state (wl->priv->pipeline, GST_STATE_NULL);
@@ -311,30 +324,70 @@ pt_waveloader_load_async (PtWaveloader	       *wl,
 	wl->priv->progress_timeout = g_timeout_add (30, (GSourceFunc) check_progress, task);
 }
 
+/*
+ * pt_waveloader_get_uri:
+ * @wl: a #PtWaveloader
+ *
+ * Some description
+ *
+ * Return value:
+ */
 gchar *
 pt_waveloader_get_uri (PtWaveloader *wl)
 {
 	return wl->priv->uri;
 }
 
+/*
+ * pt_waveloader_get_duration:
+ * @wl: a #PtWaveloader
+ *
+ * Some description
+ *
+ * Return value:
+ */
 gint64
 pt_waveloader_get_duration (PtWaveloader *wl)
 {
 	return wl->priv->duration;
 }
 
+/*
+ * pt_waveloader_get_channels:
+ * @wl: a #PtWaveloader
+ *
+ * Some description
+ *
+ * Return value:
+ */
 gint
 pt_waveloader_get_channels (PtWaveloader *wl)
 {
 	return wl->priv->channels;
 }
 
+/*
+ * pt_waveloader_get_rate:
+ * @wl: a #PtWaveloader
+ *
+ * Some description
+ *
+ * Return value:
+ */
 gint
 pt_waveloader_get_rate (PtWaveloader *wl)
 {
 	return wl->priv->rate;
 }
 
+/*
+ * pt_waveloader_get_data:
+ * @wl: a #PtWaveloader
+ *
+ * Some description
+ *
+ * Return value:
+ */
 gint16 *
 pt_waveloader_get_data (PtWaveloader *wl)
 {
@@ -460,14 +513,11 @@ pt_waveloader_class_init (PtWaveloaderClass *klass)
 	G_OBJECT_CLASS (klass)->dispose = pt_waveloader_dispose;
 
 	/**
-	* PtPlayer::player-state-changed:
-	* @player: the player emitting the signal
-	* @state: the new state, TRUE is ready, FALSE is not ready
+	* PtWaveloader::progress:
+	* @wl: the waveloader emitting the signal
+	* @progress: the new progress state
 	*
-	* The ::player-state-changed signal is emitted when the @player changes
-	* its state to ready to play (a file was opened) or not ready to play
-	* (an error occured). If the player is ready, a duration of the stream
-	* is available.
+	* Some description
 	*/
 	g_signal_new ("progress",
 		      G_TYPE_OBJECT,
@@ -507,7 +557,7 @@ pt_waveloader_class_init (PtWaveloaderClass *klass)
  *
  * After use g_object_unref() it.
  *
- * Return value: (transfer full): a new PtWaveloader
+ * Return value: (transfer full): a new #PtWaveloader
  */
 PtWaveloader *
 pt_waveloader_new (gchar *uri)
