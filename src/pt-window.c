@@ -722,8 +722,8 @@ pt_window_dispose (GObject *object)
 	remove_timer (win);
 	g_clear_object (&win->priv->editor);
 	g_clear_object (&win->priv->proxy);
-	g_clear_object (&win->priv->player);
 	destroy_progress_dlg (win);
+	g_clear_object (&win->priv->player);
 
 	G_OBJECT_CLASS (pt_window_parent_class)->dispose (object);
 }
