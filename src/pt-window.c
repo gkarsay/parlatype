@@ -290,18 +290,18 @@ show_progress_dlg (PtWindow *win)
 
 	GtkWidget *content;
 	GtkWidget *progress_bar;
-	win->priv->progress_dlg = gtk_dialog_new_with_buttons
-					(_("Loading file..."),
-					GTK_WINDOW (win),
+	char	  *message = _("Loading file...");
+
+	win->priv->progress_dlg = gtk_message_dialog_new
+					(GTK_WINDOW (win),
 					GTK_DIALOG_DESTROY_WITH_PARENT,
-					_("_Cancel"),
-					GTK_RESPONSE_CANCEL,
-					NULL);
+					GTK_MESSAGE_OTHER,
+					GTK_BUTTONS_CANCEL,
+					"%s", message);
 
 	progress_bar = gtk_progress_bar_new ();
-	content = gtk_dialog_get_content_area (GTK_DIALOG (win->priv->progress_dlg));
+	content = gtk_message_dialog_get_message_area (GTK_MESSAGE_DIALOG (win->priv->progress_dlg));
 	gtk_container_add (GTK_CONTAINER (content), progress_bar);
-	gtk_container_set_border_width (GTK_CONTAINER (content), 6);
 
 	g_signal_connect (win->priv->progress_dlg,
 			  "response",
