@@ -42,7 +42,7 @@ struct _PtWaveloaderPrivate
 
 	gint	    bus_watch_id;
 	gint	    progress_timeout;
-	guint	    progress;
+	gdouble	    progress;
 
 	gint	    fd;
 	FILE	   *tf;
@@ -144,9 +144,9 @@ check_progress (GTask *task)
 
 	PtWaveloader *wl = g_task_get_source_object (task);
 
-	gint64 dur;
-	gint64 pos;
-	guint  temp;
+	gint64  dur;
+	gint64  pos;
+	gdouble temp;
 
 	if (g_cancellable_is_cancelled (g_task_get_cancellable (task))) {
 		gst_element_set_state (wl->priv->pipeline, GST_STATE_NULL);
@@ -163,9 +163,9 @@ check_progress (GTask *task)
 	if (!gst_element_query_duration (wl->priv->pipeline, GST_FORMAT_TIME, &dur))
 		return TRUE;
 
-	temp = pos * 1000 / dur;
+	temp = (gdouble) pos / dur;
 
-	if (temp > wl->priv->progress && temp < 1000) {
+	if (temp > wl->priv->progress && temp < 1) {
 		wl->priv->progress = temp;
 		g_signal_emit_by_name (wl, "progress", wl->priv->progress);
 	}
@@ -525,9 +525,9 @@ pt_waveloader_class_init (PtWaveloaderClass *klass)
 		      0,
 		      NULL,
 		      NULL,
-		      g_cclosure_marshal_VOID__INT,
+		      g_cclosure_marshal_VOID__DOUBLE,
 		      G_TYPE_NONE,
-		      1, G_TYPE_INT);
+		      1, G_TYPE_DOUBLE);
 
 
 	/**

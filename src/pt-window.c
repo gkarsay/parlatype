@@ -252,10 +252,10 @@ enable_win_actions (PtWindow *win,
 
 static void
 progress_changed_cb (PtPlayer  *player,
-		     gint       progress,
+		     gdouble    progress,
 		     GtkWidget *progress_bar)
 {
-	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (progress_bar), (gdouble) progress / 1000);
+	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (progress_bar), progress);
 }
 
 static void

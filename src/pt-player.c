@@ -339,7 +339,7 @@ bus_call (GstBus     *bus,
 
 static void
 propagate_progress_cb (PtWaveloader *wl,
-		       gint	     progress,
+		       gdouble	     progress,
 		       PtPlayer     *player)
 {
 	g_signal_emit_by_name (player, "load-progress", progress);
@@ -1392,9 +1392,9 @@ pt_player_class_init (PtPlayerClass *klass)
 		      0,
 		      NULL,
 		      NULL,
-		      g_cclosure_marshal_VOID__INT,
+		      g_cclosure_marshal_VOID__DOUBLE,
 		      G_TYPE_NONE,
-		      1, G_TYPE_INT);
+		      1, G_TYPE_DOUBLE);
 
 	/**
 	* PtPlayer::player-state-changed:
