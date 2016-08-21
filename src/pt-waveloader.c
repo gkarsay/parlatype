@@ -281,9 +281,9 @@ pt_waveloader_load_async (PtWaveloader	       *wl,
 	if (!(wl->priv->tf = tmpfile ())) {
 		g_task_return_new_error (
 				task,
-				GST_RESOURCE_ERROR,
-				GST_RESOURCE_ERROR_NOT_FOUND,
-				_("xxx"));
+				G_FILE_ERROR,
+				G_FILE_ERROR_FAILED,
+				_("Failed to open temporary file."));
 
 		g_object_unref (task);
 		return;
@@ -294,9 +294,9 @@ pt_waveloader_load_async (PtWaveloader	       *wl,
 	if (!setup_pipeline (wl)) {
 		g_task_return_new_error (
 				task,
-				GST_RESOURCE_ERROR,
-				GST_RESOURCE_ERROR_NOT_FOUND,
-				_("xxx"));
+				GST_CORE_ERROR,
+				GST_CORE_ERROR_FAILED,
+				_("Failed to setup GStreamer pipeline."));
 
 		g_object_unref (task);
 		return;
@@ -313,9 +313,9 @@ pt_waveloader_load_async (PtWaveloader	       *wl,
 		gst_element_set_state (wl->priv->pipeline, GST_STATE_NULL);
 		g_task_return_new_error (
 				task,
-				GST_RESOURCE_ERROR,
-				GST_RESOURCE_ERROR_NOT_FOUND,
-				_("xxx"));
+				GST_CORE_ERROR,
+				GST_CORE_ERROR_STATE_CHANGE,
+				_("Failed to start GStreamer pipeline."));
 
 		g_object_unref (task);
 		return;
