@@ -391,7 +391,6 @@ pt_player_open_uri (PtPlayer  *player,
 	/* Change uri to location */
 	file = g_file_new_for_uri (uri);
 	location = g_file_get_path (file);
-	g_object_unref (file);
 	
 	if (!location) {
 		error = g_error_new (
@@ -400,6 +399,17 @@ pt_player_open_uri (PtPlayer  *player,
 				_("URI not valid: %s"), uri);
 		g_signal_emit_by_name (player, "error", error);
 		g_object_unref (file);
+		return;
+	}
+
+	if (!g_file_query_exists (file, NULL)) {
+		error = g_error_new (
+				GST_RESOURCE_ERROR,
+				GST_RESOURCE_ERROR_NOT_FOUND,
+				_("File not found: %s"), location);
+		g_signal_emit_by_name (player, "error", error);
+		g_object_unref (file);
+		g_free (location);
 		return;
 	}
 
@@ -414,6 +424,8 @@ pt_player_open_uri (PtPlayer  *player,
 	add_message_bus (player);
 
 	g_object_set (G_OBJECT (player->priv->source), "location", location, NULL);
+
+	g_object_unref (file);
 	g_free (location);
 
 	player->priv->wl = pt_waveloader_new (uri);
