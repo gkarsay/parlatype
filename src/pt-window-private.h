@@ -29,6 +29,7 @@ struct _PtWindowPrivate
 	PtPlayer	 *player;
 
 	GtkWidget  *progress_dlg;
+	GtkWidget  *progress_bar;
 	gint	    progress_handler_id;
 
 	GtkWidget  *button_open;

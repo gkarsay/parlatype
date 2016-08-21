@@ -251,14 +251,6 @@ enable_win_actions (PtWindow *win,
 }
 
 static void
-progress_changed_cb (PtPlayer  *player,
-		     gdouble    progress,
-		     GtkWidget *progress_bar)
-{
-	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (progress_bar), progress);
-}
-
-static void
 destroy_progress_dlg (PtWindow *win)
 {
 	if (win->priv->progress_dlg) {
@@ -275,8 +267,7 @@ progress_response_cb (GtkWidget *dialog,
 {
 	if (response == GTK_RESPONSE_CANCEL)
 		pt_player_cancel (win->priv->player);
-
-	destroy_progress_dlg (win);
+		/* This will trigger an error */
 }
 
 static void
@@ -289,7 +280,6 @@ show_progress_dlg (PtWindow *win)
 	}
 
 	GtkWidget *content;
-	GtkWidget *progress_bar;
 	char	  *message = _("Loading file...");
 
 	win->priv->progress_dlg = gtk_message_dialog_new
@@ -299,21 +289,27 @@ show_progress_dlg (PtWindow *win)
 					GTK_BUTTONS_CANCEL,
 					"%s", message);
 
-	progress_bar = gtk_progress_bar_new ();
+	win->priv->progress_bar = gtk_progress_bar_new ();
 	content = gtk_message_dialog_get_message_area (GTK_MESSAGE_DIALOG (win->priv->progress_dlg));
-	gtk_container_add (GTK_CONTAINER (content), progress_bar);
+	gtk_container_add (GTK_CONTAINER (content), win->priv->progress_bar);
 
 	g_signal_connect (win->priv->progress_dlg,
 			  "response",
 			  G_CALLBACK (progress_response_cb),
 			  win);
-	win->priv->progress_handler_id =
-		g_signal_connect (win->priv->player,
-				  "load-progress",
-				  G_CALLBACK (progress_changed_cb),
-				  progress_bar);
 
 	gtk_widget_show_all (win->priv->progress_dlg);
+}
+
+static void
+progress_changed_cb (PtPlayer  *player,
+		     gdouble    progress,
+		     PtWindow  *win)
+{
+	if (!win->priv->progress_dlg)
+		show_progress_dlg (win);
+	else
+		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (win->priv->progress_bar), progress);
 }
 
 static void
@@ -397,6 +393,7 @@ player_error_cb (PtPlayer *player,
 		 GError   *error,
 		 PtWindow *win)
 {
+	destroy_progress_dlg (win);
 	pt_error_message (win, error->message);
 }
 
@@ -404,7 +401,16 @@ void
 pt_window_open_file (PtWindow *win,
 		     gchar    *uri)
 {
-	show_progress_dlg (win);
+	/* We don't start progress dialog immediately but wait for first
+	   progress signals. Before actual loading starts, some tests might
+	   fail, resulting in an error message. This way we don't show error
+	   message and progress dialog together. */
+	win->priv->progress_handler_id =
+		g_signal_connect (win->priv->player,
+				  "load-progress",
+				  G_CALLBACK (progress_changed_cb),
+				  win);
+
 	pt_player_open_uri (win->priv->player, uri);
 }
 
