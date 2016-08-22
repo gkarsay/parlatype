@@ -135,7 +135,7 @@ bt_waveform_viewer_draw (GtkWidget * widget, cairo_t * cr)
   gtk_render_frame (style_ctx, cr, 0, 0, width, height);
 
   if (!peaks) {
-	g_debug ("draw, no peaks");
+	//_debug ("draw, no peaks");
     return FALSE;
   }
 
@@ -217,7 +217,7 @@ bt_waveform_viewer_draw (GtkWidget * widget, cairo_t * cr)
     cairo_line_to (cr, x, top + height / 2 - MARKER_BOX_H);
     cairo_fill (cr);
   }
-	g_debug ("draw end");
+	//g_debug ("draw end");
   return FALSE;
 }
 
@@ -485,14 +485,18 @@ bt_waveform_viewer_set_wave (BtWaveformViewer * self, gint16 * data,
   self->peaks_size = length < DEF_PEAK_SIZE ? length : DEF_PEAK_SIZE;
   self->peaks = g_malloc (sizeof (gfloat) * channels * self->peaks_size);
 
-  for (i = 0; i < self->peaks_size; i++) {
+  for (i = 0; i < self->peaks_size-1; i++) {
+  /* TODO had to add -1 in the line above because of intermittant segfaults.
+     Didn't show up every time even for the same file.
+     Examine: is my length calculation buggy or is it Buzztrax? */
+    //g_debug ("gen. peak[%d]", i * cc + c);
     gint p1 = len * i / self->peaks_size;
     gint p2 = len * (i + 1) / self->peaks_size;
     for (c = 0; c < self->channels; c++) {
       // get min max for peak slot
       gfloat vmin = data[p1 * cc + c], vmax = data[p1 * cc + c];
       for (p = p1 + 1; p < p2; p++) {
-        gfloat d = data[p * cc + c];
+        gfloat d = data[p * cc + c]; /* TODO had a segfault in this line, why? */
         if (d < vmin)
           vmin = d;
         if (d > vmax)
@@ -503,11 +507,12 @@ bt_waveform_viewer_set_wave (BtWaveformViewer * self, gint16 * data,
       else if (vmin < 0 && vmax < 0)
         vmax = 0;
       self->peaks[i * cc + c] = (vmax - vmin) / 32768.0;
-      g_debug ("peak[%d] = %f", i * cc + c, self->peaks[i * cc + c]);
+      //g_debug ("peak[%d] = %f", i * cc + c, self->peaks[i * cc + c]);
     }
   }
+  //g_debug ("before draw");
   gtk_widget_queue_draw (GTK_WIDGET (self));
-  g_debug ("set wave end");
+  //g_debug ("set wave end");
 }
 
 /**
