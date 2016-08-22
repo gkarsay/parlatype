@@ -193,6 +193,7 @@ bus_handler (GstBus     *bus,
 		g_debug ("ERROR from element %s: %s", GST_OBJECT_NAME (msg->src), error->message);
 		g_debug ("Debugging info: %s", (debug) ? debug : "none");
 		g_free (debug);
+		wl->priv->bus_watch_id = 0;
 		g_task_return_error (task, error);
 		return FALSE;
 		}
