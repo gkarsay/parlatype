@@ -35,6 +35,8 @@ struct _PtWaveloaderPrivate
 	GstElement *fmt;
 
 	gchar      *uri;
+	gboolean    downmix;
+
 	gint64	    duration;
 	gint	    channels;
 	gint	    rate;
@@ -52,6 +54,7 @@ enum
 {
 	PROP_0,
 	PROP_URI,
+	PROP_DOWNMIX,
 	N_PROPERTIES
 };
 
@@ -107,8 +110,13 @@ setup_pipeline (PtWaveloader *wl)
 	caps = gst_caps_new_simple ("audio/x-raw",
 				    "format", G_TYPE_STRING, GST_AUDIO_NE (S16),
 				    "layout", G_TYPE_STRING, "interleaved",
-				    "rate", GST_TYPE_INT_RANGE, 1, G_MAXINT,
-				    "channels", GST_TYPE_INT_RANGE, 1, 2, NULL);
+				    "rate", GST_TYPE_INT_RANGE, 1, G_MAXINT, NULL);
+
+	if (wl->priv->downmix)
+		gst_caps_set_simple (caps, "channels", G_TYPE_INT, 1, NULL);
+	else
+		gst_caps_set_simple (caps, "channels", GST_TYPE_INT_RANGE, 1, 2, NULL);
+
 	g_object_set (wl->priv->fmt, "caps", caps, NULL);
 	gst_caps_unref (caps);
 
@@ -479,6 +487,9 @@ pt_waveloader_set_property (GObject      *object,
 		g_free (wl->priv->uri);
 		wl->priv->uri = g_value_dup_string (value);
 		break;
+	case PROP_DOWNMIX:
+		wl->priv->downmix = g_value_get_boolean (value);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -498,6 +509,9 @@ pt_waveloader_get_property (GObject    *object,
 	switch (property_id) {
 	case PROP_URI:
 		g_value_set_string (value, wl->priv->uri);
+		break;
+	case PROP_DOWNMIX:
+		g_value_set_boolean (value, wl->priv->downmix);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -531,7 +545,6 @@ pt_waveloader_class_init (PtWaveloaderClass *klass)
 		      G_TYPE_NONE,
 		      1, G_TYPE_DOUBLE);
 
-
 	/**
 	* PtWaveloader:uri:
 	*
@@ -543,6 +556,19 @@ pt_waveloader_class_init (PtWaveloaderClass *klass)
 			"URI to load from",
 			"URI to load from",
 			"",
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+
+	/**
+	* PtWaveloader:downmix:
+	*
+	* Whether to downmix stream to mono.
+	*/
+	obj_properties[PROP_DOWNMIX] =
+	g_param_spec_boolean (
+			"downmix",
+			"Downmix to mono",
+			"Downmix to mono",
+			TRUE,
 			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
 
 	g_object_class_install_properties (
