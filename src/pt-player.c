@@ -314,29 +314,6 @@ bus_call (GstBus     *bus,
 /* -------------------------- opening files --------------------------------- */
 
 
-/**
- * pt_player_open_uri:
- * @player: a #PtPlayer
- * @uri: the URI of the file
- *
- * Opens a local audio file for playback. It doesn't work with videos or streams.
- * Only one file can be open at a time, playlists are not supported by the
- * backend. Opening a new file will close the previous one.
- *
- * When closing a file or on object destruction PtPlayer tries to write the
- * last position into the file's metadata. On opening a file it reads the
- * metadata and jumps to the last known position if found.
- *
- * The player is set to the paused state and ready for playback. To start
- * playback use @pt_player_play().
- *
- * This is an asynchronous method. Listen to player-state-changed and error signals.
- * The other methods like @pt_player_play() and so on are async, too and it
- * might take a short while until they really start. Opening is slower though
- * and might take a few seconds. There is a timeout after 5 seconds, emitting
- * an error.
- */
-
 static void
 propagate_progress_cb (PtWaveloader *wl,
 		       gdouble	     progress,
@@ -365,18 +342,37 @@ load_cb (PtWaveloader *wl,
 	}
 }
 
+/**
+ * pt_player_open_uri:
+ * @player: a #PtPlayer
+ * @uri: the URI of the file
+ *
+ * Opens a local audio file for playback. It doesn't work with videos or streams.
+ * Only one file can be open at a time, playlists are not supported by the
+ * backend. Opening a new file will close the previous one.
+ *
+ * When closing a file or on object destruction PtPlayer tries to write the
+ * last position into the file's metadata. On opening a file it reads the
+ * metadata and jumps to the last known position if found.
+ *
+ * The player is set to the paused state and ready for playback. To start
+ * playback use @pt_player_play().
+ *
+ * This is an asynchronous operation, to get the result listen for the
+ * player-state-changed signal and error signals.
+ *
+ * player-state-changed emits immediately FALSE at the beginning of the
+ * operation (because the previous file will be closed) and TRUE on success.
+ * For a failure listen to the error signal.
+ *
+ * While loading the file there is a progress signal emitted which stops before
+ * reaching 100%. The operation is only finished after the player-state-changed
+ * to TRUE.
+ */
 void
 pt_player_open_uri (PtPlayer  *player,
 		    gchar     *uri)
 {
-	/* A file is opened. We play it until we get a new-clock signal.
-	   Reason: On some files PAUSED state is not enough to get a duration,
-	   even Playing and setting to PAUSED immediately might be not enough.
-	   In PLAYING state we loop a duration query.
-	   That's why we mute the volume and reset it later. In the end we
-	   pause the player and look for the last known position in metadata.
-	   This sets it to position 0 if no metadata is found. */
-
 	g_return_if_fail (PT_IS_PLAYER (player));
 	g_return_if_fail (uri != NULL);
 
@@ -441,52 +437,17 @@ pt_player_open_uri (PtPlayer  *player,
 				  player);
 }
 
+/**
+ * pt_player_cancel:
+ * @player: a #PtPlayer
+ *
+ * Cancels the file opening operation, which triggers an error message.
+ */
 void
 pt_player_cancel (PtPlayer *player)
 {
 	g_cancellable_cancel (player->priv->c);
 }
-
-/* ------------------------- Waveform stuff --------------------------------- */
-
-gint
-pt_player_get_channels (PtPlayer *player)
-{
-	return pt_waveloader_get_channels (player->priv->wl);
-}
-
-guint64
-pt_player_get_length (PtPlayer *player)
-{
-	guint64 length;
-	length = gst_util_uint64_scale (player->priv->dur,
-				        (guint64) pt_waveloader_get_rate (player->priv->wl),
-				        GST_SECOND);
-	return length;
-}
-
-guint64
-pt_player_wave_pos (PtPlayer *player)
-{
-	guint64 length;
-
-	gint64 pos;
-
-	if (!pt_player_query_position (player, &pos))
-		return 0;
-
-	length = gst_util_uint64_scale (pos,
-				        (guint64) pt_waveloader_get_rate (player->priv->wl),
-				        GST_SECOND);
-	return length;
-}
-
-gint16 *
-pt_player_get_data (PtPlayer *player)
-{
-	return pt_waveloader_get_data (player->priv->wl);
-}
-
 
 
 /* ------------------------- Basic controls --------------------------------- */
@@ -795,6 +756,83 @@ pt_player_get_duration (PtPlayer *player)
 
 	return GST_TIME_AS_MSECONDS (time);
 }
+
+
+/* ------------------------- Waveform stuff --------------------------------- */
+
+/*
+ * pt_player_get_channels:
+ * @player: a #PtPlayer
+ *
+ * Get the number of channels for the stream. We accept only mono (1 channel)
+ * or stereo (2 channels).
+ *
+ * Return value: number of channels (1 or 2)
+ */
+gint
+pt_player_get_channels (PtPlayer *player)
+{
+	return pt_waveloader_get_channels (player->priv->wl);
+}
+
+/*
+ * pt_player_get_length:
+ * @player: a #PtPlayer
+ *
+ * Get the total number of samples from data.
+ *
+ * Return value: number of samples in data array
+ */
+guint64
+pt_player_get_length (PtPlayer *player)
+{
+	guint64 length;
+	length = gst_util_uint64_scale (player->priv->dur,
+				        (guint64) pt_waveloader_get_rate (player->priv->wl),
+				        GST_SECOND);
+	return length;
+}
+
+/*
+ * pt_player_wave_pos:
+ * @player: a #PtPlayer
+ *
+ * Translates the current position in stream into a sample number that can be
+ * used by a wave viewer widget.
+ *
+ * Return value: index of the data array
+ */
+guint64
+pt_player_wave_pos (PtPlayer *player)
+{
+	guint64 length;
+
+	gint64 pos;
+
+	if (!pt_player_query_position (player, &pos))
+		return 0;
+
+	length = gst_util_uint64_scale (pos,
+				        (guint64) pt_waveloader_get_rate (player->priv->wl),
+				        GST_SECOND);
+	return length;
+}
+
+/*
+ * pt_player_get_data:
+ * @player: a #PtPlayer
+ *
+ * Returns all samples for visual representation. The raw data is only useful
+ * with additional information about the number of channels and the length.
+ *
+ * Return value: an array of all samples
+ */
+gint16 *
+pt_player_get_data (PtPlayer *player)
+{
+	return pt_waveloader_get_data (player->priv->wl);
+}
+
 
 /* --------------------- File utilities ------------------------------------- */
 
@@ -1389,14 +1427,13 @@ pt_player_class_init (PtPlayerClass *klass)
 	G_OBJECT_CLASS (klass)->dispose = pt_player_dispose;
 
 	/**
-	* PtPlayer::player-state-changed:
+	* PtPlayer::load-progress:
 	* @player: the player emitting the signal
-	* @state: the new state, TRUE is ready, FALSE is not ready
+	* @progress: the new progress state, ranging from 0.0 to 1.0
 	*
-	* The ::player-state-changed signal is emitted when the @player changes
-	* its state to ready to play (a file was opened) or not ready to play
-	* (an error occured). If the player is ready, a duration of the stream
-	* is available.
+	* Indicates progress on a scale from 0.0 to 1.0, however it does not
+	* emit the value 0.0 nor 1.0. Wait for a TRUE player-state-changed
+	* signal or an error signal to dismiss a gui element showing progress.
 	*/
 	g_signal_new ("load-progress",
 		      G_TYPE_OBJECT,

@@ -53,8 +53,6 @@ void		pt_waveloader_load_async	(PtWaveloader	     *wl,
 						 GAsyncReadyCallback  callback,
 						 gpointer	      user_data);
 
-gchar		*pt_waveloader_get_uri		(PtWaveloader *wl);
-
 gint64		pt_waveloader_get_duration	(PtWaveloader *wl);
 
 gint		pt_waveloader_get_channels	(PtWaveloader *wl);

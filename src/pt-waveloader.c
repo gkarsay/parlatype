@@ -64,8 +64,8 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtWaveloader, pt_waveloader, G_TYPE_OBJECT)
  * SECTION: pt-waveloader
  * @short_description: Loads the waveform for a given file.
  *
- * Here is the long description.
- *
+ * An object to load waveform data from an audio file. The raw data can be
+ * used by a widget to visually represent a waveform.
  */
 
 static void
@@ -240,12 +240,13 @@ bus_handler (GstBus     *bus,
 /*
  * pt_waveloader_load_finish:
  * @wl: a #PtWaveloader
- * @result:
- * @error:
+ * @result: the #GAsyncResult passed to your #GAsyncReadyCallback
+ * @error: a pointer to a NULL #GError, or NULL
  *
- * Some description
+ * Gives the result of the async load operation. A cancelled operation results
+ * in an error, too.
  *
- * Return value:
+ * Return value: TRUE if successful, or FALSE with error set
  */
 gboolean
 pt_waveloader_load_finish (PtWaveloader  *wl,
@@ -260,11 +261,19 @@ pt_waveloader_load_finish (PtWaveloader  *wl,
 /*
  * pt_waveloader_load_async:
  * @wl: a #PtWaveloader
- * @cancellable:
- * @callback:
- * @user_data:
+ * @cancellable: a #GCancellable or NULL
+ * @callback: a #GAsyncReadyCallback to call when the operation is complete
+ * @user_data: user_data for callback
  *
- * Some description
+ * Writes the raw sample data to a temporary file and also gets the number of
+ * channels, the bit rate and the exact duration. Load only once and on success
+ * the data and information can be retrieved. It's a programmer's error trying
+ * to retrieve the data without prior loading.
+ *
+ * Emits a progress signal while saving the temporary file.
+ *
+ * In your callback call #pt_waveloader_load_finish to get the result of the
+ * operation.
  */
 void
 pt_waveloader_load_async (PtWaveloader	       *wl,
@@ -325,26 +334,13 @@ pt_waveloader_load_async (PtWaveloader	       *wl,
 }
 
 /*
- * pt_waveloader_get_uri:
- * @wl: a #PtWaveloader
- *
- * Some description
- *
- * Return value:
- */
-gchar *
-pt_waveloader_get_uri (PtWaveloader *wl)
-{
-	return wl->priv->uri;
-}
-
-/*
  * pt_waveloader_get_duration:
  * @wl: a #PtWaveloader
  *
- * Some description
+ * Returns the duration of stream. As the whole stream is scanned, this is
+ * supposed to be an exact duration, not an estimate.
  *
- * Return value:
+ * Return value: duration in nanoseconds as used by GStreamer
  */
 gint64
 pt_waveloader_get_duration (PtWaveloader *wl)
@@ -356,9 +352,10 @@ pt_waveloader_get_duration (PtWaveloader *wl)
  * pt_waveloader_get_channels:
  * @wl: a #PtWaveloader
  *
- * Some description
+ * Get the number of channels for the stream. We accept only mono (1 channel)
+ * or stereo (2 channels).
  *
- * Return value:
+ * Return value: number of channels (1 or 2)
  */
 gint
 pt_waveloader_get_channels (PtWaveloader *wl)
@@ -370,9 +367,10 @@ pt_waveloader_get_channels (PtWaveloader *wl)
  * pt_waveloader_get_rate:
  * @wl: a #PtWaveloader
  *
- * Some description
+ * Returns the bit rate (samples per second), or in the context of a visual
+ * representation pixels per second.
  *
- * Return value:
+ * Return value: the bit rate
  */
 gint
 pt_waveloader_get_rate (PtWaveloader *wl)
@@ -384,9 +382,10 @@ pt_waveloader_get_rate (PtWaveloader *wl)
  * pt_waveloader_get_data:
  * @wl: a #PtWaveloader
  *
- * Some description
+ * Returns all samples for visual representation. The raw data is only useful
+ * with additional information about the number of channels and the bit rate.
  *
- * Return value:
+ * Return value: an array of all samples
  */
 gint16 *
 pt_waveloader_get_data (PtWaveloader *wl)
@@ -515,9 +514,11 @@ pt_waveloader_class_init (PtWaveloaderClass *klass)
 	/**
 	* PtWaveloader::progress:
 	* @wl: the waveloader emitting the signal
-	* @progress: the new progress state
+	* @progress: the new progress state, ranging from 0.0 to 1.0
 	*
-	* Some description
+	* Indicates progress on a scale from 0.0 to 1.0, however it does not
+	* emit the value 0.0 nor 1.0. Wait for a successful operation until
+	* any gui element showing progress is dismissed.
 	*/
 	g_signal_new ("progress",
 		      G_TYPE_OBJECT,
@@ -551,9 +552,9 @@ pt_waveloader_class_init (PtWaveloaderClass *klass)
 
 /**
  * pt_waveloader_new:
- * @uri: 
+ * @uri: URI of the audio file to load
  *
- * Some description
+ * Returns a new #PtWaveloader.
  *
  * After use g_object_unref() it.
  *
