@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-29 00:32+0200\n"
-"PO-Revision-Date: 2016-08-05 16:23+0200\n"
+"POT-Creation-Date: 2016-08-22 09:19+0200\n"
+"PO-Revision-Date: 2016-08-22 09:22+0200\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
 "Language-Team: Deutsch <>\n"
 "Language: de\n"
@@ -105,7 +105,7 @@ msgstr ""
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
 #. the separator that your locale uses or use "%Id" instead
 #. of "%d" if your locale uses localized digits.
-#: ../src/pt-goto-dialog.c:46 ../src/pt-player.c:840
+#: ../src/pt-goto-dialog.c:46 ../src/pt-player.c:961
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
@@ -122,21 +122,21 @@ msgstr[1] "Sekunden"
 msgid "_Close"
 msgstr "_Schließen"
 
-#: ../src/pt-player.c:323
-#, c-format
-msgid "Timeout: Can't read resource"
-msgstr "Zeitüberschreitung: Resource konnte nicht gelesen werden"
-
-#: ../src/pt-player.c:385
+#: ../src/pt-player.c:395
 #, c-format
 msgid "URI not valid: %s"
 msgstr "URI nicht gültig: %s"
+
+#: ../src/pt-player.c:405
+#, c-format
+msgid "File not found: %s"
+msgstr "Datei nicht gefunden: %s"
 
 #. Translators: This is a time format, like "2:05:30-1" for 2
 #. hours, 5 minutes, 30 seconds, and 1 tenthsecond. You may
 #. change ":" or "-" to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: ../src/pt-player.c:846 ../src/pt-player.c:1023
+#: ../src/pt-player.c:967 ../src/pt-player.c:1144
 #, c-format
 msgctxt "long time format, 1 digit"
 msgid "%d:%02d:%02d-%d"
@@ -146,7 +146,7 @@ msgstr "%d:%02d:%02d-%d"
 #. hours, 5 minutes, 30 seconds, and 12 hundrethseconds. You may
 #. change ":" or "-" to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: ../src/pt-player.c:852
+#: ../src/pt-player.c:973
 #, c-format
 msgctxt "long time format, 2 digits"
 msgid "%d:%02d:%02d-%02d"
@@ -156,7 +156,7 @@ msgstr "%d:%02d:%02d-%02d"
 #. 5 minutes, and 30 seconds. You may change ":" to
 #. the separator that your locale uses or use "%I02d" instead
 #. of "%02d" if your locale uses localized digits.
-#: ../src/pt-player.c:861
+#: ../src/pt-player.c:982
 #, c-format
 msgctxt "short time format"
 msgid "%02d:%02d"
@@ -166,7 +166,7 @@ msgstr "%02d:%02d"
 #. 5 minutes, 30 seconds, and 1 tenthsecond. You may change
 #. ":" or "-" to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: ../src/pt-player.c:867
+#: ../src/pt-player.c:988
 #, c-format
 msgctxt "short time format, 1 digit"
 msgid "%02d:%02d-%d"
@@ -176,7 +176,7 @@ msgstr "%02d:%02d-%d"
 #. 5 minutes, 30 seconds, and 12 hundrethseconds. You may change
 #. ":" or "-" to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: ../src/pt-player.c:873
+#: ../src/pt-player.c:994
 #, c-format
 msgctxt "short time format, 2 digits"
 msgid "%02d:%02d-%02d"
@@ -186,7 +186,7 @@ msgstr "%02d:%02d-%02d"
 #. 5 minutes, and 30 seconds. You may change ":" to
 #. the separator that your locale uses or use "%Id" instead
 #. of "%d" if your locale uses localized digits.
-#: ../src/pt-player.c:881
+#: ../src/pt-player.c:1002
 #, c-format
 msgctxt "shortest time format"
 msgid "%d:%02d"
@@ -196,7 +196,7 @@ msgstr "%d:%02d"
 #. 5 minutes, 30 seconds, and 1 tenthsecond. You may change
 #. ":" or "-" to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: ../src/pt-player.c:887 ../src/pt-player.c:1027
+#: ../src/pt-player.c:1008 ../src/pt-player.c:1148
 #, c-format
 msgctxt "shortest time format, 1 digit"
 msgid "%d:%02d-%d"
@@ -206,45 +206,61 @@ msgstr "%d:%02d-%d"
 #. 5 minutes, 30 seconds, and 12 hundrethseconds. You may change
 #. ":" or "-" to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: ../src/pt-player.c:893
+#: ../src/pt-player.c:1014
 #, c-format
 msgctxt "shortest time format, 2 digits"
 msgid "%d:%02d-%02d"
 msgstr "%d:%02d-%02d"
 
-#: ../src/pt-player.c:1195
+#: ../src/pt-player.c:1316
 #, c-format
 msgid "Failed to load a plugin."
 msgstr "Ein Plugin konnte nicht geladen werden."
 
-#: ../src/pt-window.c:182
+#: ../src/pt-waveloader.c:295
+msgid "Failed to open temporary file."
+msgstr "Die temporäre Datei konnte nicht geöffnet werden."
+
+#: ../src/pt-waveloader.c:308
+msgid "Failed to setup GStreamer pipeline."
+msgstr "Die GStreamer-Pipeline konnte nicht eingerichtet werden."
+
+#: ../src/pt-waveloader.c:327
+msgid "Failed to start GStreamer pipeline."
+msgstr "Die GStreamer-Pipeline konnte nicht gestartet werden."
+
+#: ../src/pt-window.c:196
 #, c-format
 msgid "Jump back 1 second"
 msgid_plural "Jump back %d seconds"
 msgstr[0] "Eine Sekunde zurückspringen"
 msgstr[1] "%d Sekunden zurückspringen"
 
-#: ../src/pt-window.c:196
+#: ../src/pt-window.c:210
 #, c-format
 msgid "Jump forward 1 second"
 msgid_plural "Jump forward %d seconds"
 msgstr[0] "1 Sekunde vorwärtsspringen"
 msgstr[1] "%d Sekunden vorwärtsspringen"
 
-#: ../src/pt-window.c:211
+#: ../src/pt-window.c:225
 msgid "Pause"
 msgstr "Wiedergabe unterbrechen"
 
-#: ../src/pt-window.c:214
+#: ../src/pt-window.c:228
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
 msgstr[0] "Wiedergabe unterbrechen und 1 Sekunde zurückspulen"
 msgstr[1] "Wiedergabe unterbrechen und %d Sekunden zurückspulen"
 
-#: ../src/pt-window.c:220
+#: ../src/pt-window.c:234
 msgid "Start playing"
 msgstr "Wiedergabe starten"
+
+#: ../src/pt-window.c:283
+msgid "Loading file..."
+msgstr "Lade Datei …"
 
 #: ../src/resources/goto-dialog.ui.h:1 ../src/resources/menus.ui.h:8
 msgid "Go to ..."
@@ -321,6 +337,9 @@ msgstr "Geschwindigkeit:"
 #: ../src/resources/window-headerbar.ui.h:2
 msgid "Open a file"
 msgstr "Eine Datei öffnen"
+
+#~ msgid "Timeout: Can't read resource"
+#~ msgstr "Zeitüberschreitung: Resource konnte nicht gelesen werden"
 
 #~ msgctxt "long time format, 1 digit"
 #~ msgid "#%d:%02d:%02d-%d#"
