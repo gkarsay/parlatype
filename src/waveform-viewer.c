@@ -48,75 +48,76 @@ G_DEFINE_TYPE (BtWaveformViewer, bt_waveform_viewer, GTK_TYPE_WIDGET);
 
 
 static void
-bt_waveform_viewer_realize (GtkWidget * widget)
+bt_waveform_viewer_realize (GtkWidget *widget)
 {
-  BtWaveformViewer *self = BT_WAVEFORM_VIEWER (widget);
-  GdkWindow *window;
-  GtkAllocation allocation;
-  GdkWindowAttr attributes;
-  gint attributes_mask;
+	BtWaveformViewer *self = BT_WAVEFORM_VIEWER (widget);
+	GdkWindow *window;
+	GtkAllocation allocation;
+	GdkWindowAttr attributes;
+	gint attributes_mask;
 
-  gtk_widget_set_realized (widget, TRUE);
+	gtk_widget_set_realized (widget, TRUE);
 
-  window = gtk_widget_get_parent_window (widget);
-  gtk_widget_set_window (widget, window);
-  g_object_ref (window);
+	window = gtk_widget_get_parent_window (widget);
+	gtk_widget_set_window (widget, window);
+	g_object_ref (window);
 
-  gtk_widget_get_allocation (widget, &allocation);
+	gtk_widget_get_allocation (widget, &allocation);
 
-  attributes.window_type = GDK_WINDOW_CHILD;
-  attributes.x = allocation.x;
-  attributes.y = allocation.y;
-  attributes.width = allocation.width;
-  attributes.height = allocation.height;
-  attributes.wclass = GDK_INPUT_ONLY;
-  attributes.event_mask = gtk_widget_get_events (widget);
-  attributes.event_mask |= (GDK_EXPOSURE_MASK |
-      GDK_BUTTON_PRESS_MASK |
-      GDK_BUTTON_RELEASE_MASK |
-      GDK_BUTTON_MOTION_MASK |
-      GDK_ENTER_NOTIFY_MASK |
-      GDK_LEAVE_NOTIFY_MASK |
-      GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK);
-  attributes_mask = GDK_WA_X | GDK_WA_Y;
+	attributes.window_type = GDK_WINDOW_CHILD;
+	attributes.x = allocation.x;
+	attributes.y = allocation.y;
+	attributes.width = allocation.width;
+	attributes.height = allocation.height;
+	attributes.wclass = GDK_INPUT_ONLY;
+	attributes.event_mask = gtk_widget_get_events (widget);
+	attributes.event_mask |= (GDK_EXPOSURE_MASK |
+		GDK_BUTTON_PRESS_MASK |
+		GDK_BUTTON_RELEASE_MASK |
+		GDK_BUTTON_MOTION_MASK |
+		GDK_ENTER_NOTIFY_MASK |
+		GDK_LEAVE_NOTIFY_MASK |
+		GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK);
+	attributes_mask = GDK_WA_X | GDK_WA_Y;
 
-  self->window = gdk_window_new (window, &attributes, attributes_mask);
-  gtk_widget_register_window (widget, self->window);
+	self->window = gdk_window_new (window, &attributes, attributes_mask);
+	gtk_widget_register_window (widget, self->window);
 }
 
 static void
-bt_waveform_viewer_unrealize (GtkWidget * widget)
+bt_waveform_viewer_unrealize (GtkWidget *widget)
 {
-  BtWaveformViewer *self = BT_WAVEFORM_VIEWER (widget);
+	BtWaveformViewer *self = BT_WAVEFORM_VIEWER (widget);
 
-  gtk_widget_unregister_window (widget, self->window);
-  gdk_window_destroy (self->window);
-  self->window = NULL;
-  GTK_WIDGET_CLASS (bt_waveform_viewer_parent_class)->unrealize (widget);
+	gtk_widget_unregister_window (widget, self->window);
+	gdk_window_destroy (self->window);
+	self->window = NULL;
+	GTK_WIDGET_CLASS (bt_waveform_viewer_parent_class)->unrealize (widget);
 }
 
 static void
-bt_waveform_viewer_map (GtkWidget * widget)
+bt_waveform_viewer_map (GtkWidget *widget)
 {
-  BtWaveformViewer *self = BT_WAVEFORM_VIEWER (widget);
+	BtWaveformViewer *self = BT_WAVEFORM_VIEWER (widget);
 
-  gdk_window_show (self->window);
+	gdk_window_show (self->window);
 
-  GTK_WIDGET_CLASS (bt_waveform_viewer_parent_class)->map (widget);
+	GTK_WIDGET_CLASS (bt_waveform_viewer_parent_class)->map (widget);
 }
 
 static void
-bt_waveform_viewer_unmap (GtkWidget * widget)
+bt_waveform_viewer_unmap (GtkWidget *widget)
 {
-  BtWaveformViewer *self = BT_WAVEFORM_VIEWER (widget);
+	BtWaveformViewer *self = BT_WAVEFORM_VIEWER (widget);
 
-  gdk_window_hide (self->window);
+	gdk_window_hide (self->window);
 
-  GTK_WIDGET_CLASS (bt_waveform_viewer_parent_class)->unmap (widget);
+	GTK_WIDGET_CLASS (bt_waveform_viewer_parent_class)->unmap (widget);
 }
 
 static gboolean
-bt_waveform_viewer_draw (GtkWidget * widget, cairo_t * cr)
+bt_waveform_viewer_draw (GtkWidget *widget,
+			 cairo_t   *cr)
 {
 	BtWaveformViewer *self = BT_WAVEFORM_VIEWER (widget);
 	GtkStyleContext *style_ctx;
@@ -206,164 +207,173 @@ bt_waveform_viewer_draw (GtkWidget * widget, cairo_t * cr)
 }
 
 static void
-bt_waveform_viewer_size_allocate (GtkWidget * widget,
-    GtkAllocation * allocation)
+bt_waveform_viewer_size_allocate (GtkWidget	*widget,
+				  GtkAllocation *allocation)
 {
-  BtWaveformViewer *self = BT_WAVEFORM_VIEWER (widget);
-  GtkStyleContext *context;
-  GtkStateFlags state;
+	BtWaveformViewer *self = BT_WAVEFORM_VIEWER (widget);
+	GtkStyleContext *context;
+	GtkStateFlags state;
 
-  gtk_widget_set_allocation (widget, allocation);
+	gtk_widget_set_allocation (widget, allocation);
 
-  if (gtk_widget_get_realized (widget))
-    gdk_window_move_resize (self->window,
-        allocation->x, allocation->y, allocation->width, allocation->height);
+	if (gtk_widget_get_realized (widget))
+		gdk_window_move_resize (self->window,
+			allocation->x, allocation->y, allocation->width, allocation->height);
 
-  context = gtk_widget_get_style_context (widget);
-  state = gtk_widget_get_state_flags (widget);
-  gtk_style_context_get_border (context, state, &self->border);
+	context = gtk_widget_get_style_context (widget);
+	state = gtk_widget_get_state_flags (widget);
+	gtk_style_context_get_border (context, state, &self->border);
 }
 
 static void
-bt_waveform_viewer_get_preferred_width (GtkWidget * widget,
-    gint * minimal_width, gint * natural_width)
+bt_waveform_viewer_get_preferred_width (GtkWidget *widget,
+					gint	  *minimal_width,
+					gint	  *natural_width)
 {
-  BtWaveformViewer *self = BT_WAVEFORM_VIEWER (widget);
-  gint border_padding = self->border.left + self->border.right;
+	BtWaveformViewer *self = BT_WAVEFORM_VIEWER (widget);
+	gint border_padding = self->border.left + self->border.right;
 
-  *minimal_width = MIN_W + border_padding;
-  *natural_width = (MIN_W * 6) + border_padding;
+	*minimal_width = MIN_W + border_padding;
+	*natural_width = (MIN_W * 6) + border_padding;
 }
 
 static void
-bt_waveform_viewer_get_preferred_height (GtkWidget * widget,
-    gint * minimal_height, gint * natural_height)
+bt_waveform_viewer_get_preferred_height (GtkWidget *widget,
+					 gint	   *minimal_height,
+					 gint	   *natural_height)
 {
-  BtWaveformViewer *self = BT_WAVEFORM_VIEWER (widget);
-  gint border_padding = self->border.top + self->border.bottom;
+	BtWaveformViewer *self = BT_WAVEFORM_VIEWER (widget);
+	gint border_padding = self->border.top + self->border.bottom;
 
-  *minimal_height = MIN_H + border_padding;
-  *natural_height = (MIN_H * 4) + border_padding;
+	*minimal_height = MIN_H + border_padding;
+	*natural_height = (MIN_H * 4) + border_padding;
 }
 
 static gboolean
-bt_waveform_viewer_button_press (GtkWidget * widget, GdkEventButton * event)
+bt_waveform_viewer_button_press (GtkWidget	*widget,
+				 GdkEventButton *event)
 {
-  BtWaveformViewer *self = BT_WAVEFORM_VIEWER (widget);
-  const gint ox = 1, oy = 1;
-  const gint sx = gtk_widget_get_allocated_width (widget) - 2;
+	BtWaveformViewer *self = BT_WAVEFORM_VIEWER (widget);
+	const gint ox = 1, oy = 1;
+	const gint sx = gtk_widget_get_allocated_width (widget) - 2;
 
-  return FALSE;
+	return FALSE;
 }
 
 static gboolean
-bt_waveform_viewer_button_release (GtkWidget * widget, GdkEventButton * event)
+bt_waveform_viewer_button_release (GtkWidget	  *widget,
+				   GdkEventButton *event)
 {
-  BtWaveformViewer *self = BT_WAVEFORM_VIEWER (widget);
+	BtWaveformViewer *self = BT_WAVEFORM_VIEWER (widget);
 
-  return FALSE;
+	return FALSE;
 }
 
 static gboolean
-bt_waveform_viewer_motion_notify (GtkWidget * widget, GdkEventMotion * event)
+bt_waveform_viewer_motion_notify (GtkWidget	 *widget,
+				  GdkEventMotion *event)
 {
-  BtWaveformViewer *self = BT_WAVEFORM_VIEWER (widget);
-  const gint ox = 1;
-  const gint sx = gtk_widget_get_allocated_width (widget) - 2;
-  gint64 pos = (event->x - ox) * (gdouble) self->wave_length / sx;
+	BtWaveformViewer *self = BT_WAVEFORM_VIEWER (widget);
+	const gint ox = 1;
+	const gint sx = gtk_widget_get_allocated_width (widget) - 2;
+	gint64 pos = (event->x - ox) * (gdouble) self->wave_length / sx;
 
-  pos = CLAMP (pos, 0, self->wave_length);
+	pos = CLAMP (pos, 0, self->wave_length);
 
-  return FALSE;
+	return FALSE;
 }
 
 static void
-bt_waveform_viewer_finalize (GObject * object)
+bt_waveform_viewer_finalize (GObject *object)
 {
-  BtWaveformViewer *self = BT_WAVEFORM_VIEWER (object);
+	BtWaveformViewer *self = BT_WAVEFORM_VIEWER (object);
 
-  g_free (self->peaks);
+	g_free (self->peaks);
 
-  G_OBJECT_CLASS (bt_waveform_viewer_parent_class)->finalize (object);
+	G_OBJECT_CLASS (bt_waveform_viewer_parent_class)->finalize (object);
 }
 
 static void
-bt_waveform_viewer_get_property (GObject * object,
-    guint property_id, GValue * value, GParamSpec * pspec)
+bt_waveform_viewer_get_property (GObject    *object,
+				 guint	     property_id,
+				 GValue     *value,
+				 GParamSpec *pspec)
 {
-  BtWaveformViewer *self = BT_WAVEFORM_VIEWER (object);
+	BtWaveformViewer *self = BT_WAVEFORM_VIEWER (object);
 
-  switch (property_id) {
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-      break;
+	switch (property_id) {
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
   }
 }
 
 static void
-bt_waveform_viewer_set_property (GObject * object,
-    guint property_id, const GValue * value, GParamSpec * pspec)
+bt_waveform_viewer_set_property (GObject      *object,
+				 guint	       property_id,
+				 const GValue *value,
+				 GParamSpec   *pspec)
 {
-  BtWaveformViewer *self = BT_WAVEFORM_VIEWER (object);
+	BtWaveformViewer *self = BT_WAVEFORM_VIEWER (object);
 
-  switch (property_id) {
-    case WAVE_VIEWER_PLAYBACK_CURSOR:
-      self->playback_cursor = g_value_get_int64 (value) / 441;
-      if (gtk_widget_get_realized (GTK_WIDGET (self))) {
-        gtk_widget_queue_draw (GTK_WIDGET (self));
-      }
-      break;
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-      break;
-  }
+	switch (property_id) {
+	case WAVE_VIEWER_PLAYBACK_CURSOR:
+		self->playback_cursor = g_value_get_int64 (value) / 441;
+		if (gtk_widget_get_realized (GTK_WIDGET (self))) {
+			gtk_widget_queue_draw (GTK_WIDGET (self));
+		}
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
 }
 
 static void
-bt_waveform_viewer_class_init (BtWaveformViewerClass * klass)
+bt_waveform_viewer_class_init (BtWaveformViewerClass *klass)
 {
-  GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
-  widget_class->realize = bt_waveform_viewer_realize;
-  widget_class->unrealize = bt_waveform_viewer_unrealize;
-  widget_class->map = bt_waveform_viewer_map;
-  widget_class->unmap = bt_waveform_viewer_unmap;
-  widget_class->draw = bt_waveform_viewer_draw;
-  widget_class->get_preferred_width = bt_waveform_viewer_get_preferred_width;
-  widget_class->get_preferred_height = bt_waveform_viewer_get_preferred_height;
-  widget_class->size_allocate = bt_waveform_viewer_size_allocate;
-  widget_class->button_press_event = bt_waveform_viewer_button_press;
-  widget_class->button_release_event = bt_waveform_viewer_button_release;
-  widget_class->motion_notify_event = bt_waveform_viewer_motion_notify;
+	widget_class->realize = bt_waveform_viewer_realize;
+	widget_class->unrealize = bt_waveform_viewer_unrealize;
+	widget_class->map = bt_waveform_viewer_map;
+	widget_class->unmap = bt_waveform_viewer_unmap;
+	widget_class->draw = bt_waveform_viewer_draw;
+	widget_class->get_preferred_width = bt_waveform_viewer_get_preferred_width;
+	widget_class->get_preferred_height = bt_waveform_viewer_get_preferred_height;
+	widget_class->size_allocate = bt_waveform_viewer_size_allocate;
+	widget_class->button_press_event = bt_waveform_viewer_button_press;
+	widget_class->button_release_event = bt_waveform_viewer_button_release;
+	widget_class->motion_notify_event = bt_waveform_viewer_motion_notify;
 
-  gobject_class->set_property = bt_waveform_viewer_set_property;
-  gobject_class->get_property = bt_waveform_viewer_get_property;
-  gobject_class->finalize = bt_waveform_viewer_finalize;
+	gobject_class->set_property = bt_waveform_viewer_set_property;
+	gobject_class->get_property = bt_waveform_viewer_get_property;
+	gobject_class->finalize = bt_waveform_viewer_finalize;
 
-  g_object_class_install_property (gobject_class, WAVE_VIEWER_PLAYBACK_CURSOR,
-      g_param_spec_int64 ("playback-cursor",
-          "playback cursor position",
-          "Current playback position within a waveform or -1 if sample is not played",
-          -1, G_MAXINT64, -1, G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS));
+	g_object_class_install_property (gobject_class, WAVE_VIEWER_PLAYBACK_CURSOR,
+		g_param_spec_int64 ("playback-cursor",
+			"playback cursor position",
+			"Current playback position within a waveform or -1 if sample is not played",
+			-1, G_MAXINT64, -1, G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS));
 }
 
 static void
-bt_waveform_viewer_init (BtWaveformViewer * self)
+bt_waveform_viewer_init (BtWaveformViewer *self)
 {
-  GtkStyleContext *context;
+	GtkStyleContext *context;
 
-  self->channels = 2;
-  self->peaks_size = DEF_PEAK_SIZE;
-  self->peaks = g_malloc (sizeof (gfloat) * self->channels * self->peaks_size);
-  self->wave_length = 0;
-  self->playback_cursor = -1;
+	self->channels = 2;
+	self->peaks_size = DEF_PEAK_SIZE;
+	self->peaks = g_malloc (sizeof (gfloat) * self->channels * self->peaks_size);
+	self->wave_length = 0;
+	self->playback_cursor = -1;
 
-  context = gtk_widget_get_style_context (GTK_WIDGET (self));
-  gtk_style_context_add_class (context, GTK_STYLE_CLASS_FRAME);
-  gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
+	context = gtk_widget_get_style_context (GTK_WIDGET (self));
+	gtk_style_context_add_class (context, GTK_STYLE_CLASS_FRAME);
+	gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
 
-  gtk_widget_set_has_window (GTK_WIDGET (self), FALSE);
+	gtk_widget_set_has_window (GTK_WIDGET (self), FALSE);
 }
 
 /**
@@ -376,8 +386,10 @@ bt_waveform_viewer_init (BtWaveformViewer * self)
  * Set wave data to show in the widget.
  */
 void
-bt_waveform_viewer_set_wave (BtWaveformViewer * self, gint16 * data,
-    gint channels, gint length)
+bt_waveform_viewer_set_wave (BtWaveformViewer *self,
+			     gint16	      *data,
+			     gint	       channels,
+			     gint	       length)
 {
 	/* Create 100 data pairs (minimum and maximum value) per second
 	   from raw data. Input must be mono, at a bit rate of 44100.
@@ -436,5 +448,5 @@ bt_waveform_viewer_set_wave (BtWaveformViewer * self, gint16 * data,
 GtkWidget *
 bt_waveform_viewer_new (void)
 {
-  return GTK_WIDGET (g_object_new (BT_TYPE_WAVEFORM_VIEWER, NULL));
+	return GTK_WIDGET (g_object_new (BT_TYPE_WAVEFORM_VIEWER, NULL));
 }
