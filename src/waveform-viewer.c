@@ -118,79 +118,91 @@ bt_waveform_viewer_unmap (GtkWidget * widget)
 static gboolean
 bt_waveform_viewer_draw (GtkWidget * widget, cairo_t * cr)
 {
-  BtWaveformViewer *self = BT_WAVEFORM_VIEWER (widget);
-  GtkStyleContext *style_ctx;
-  gint width, height, left, top;
-  gint i, ch, x;
-  gdouble xscl;
-  gfloat *peaks = self->peaks;
+	BtWaveformViewer *self = BT_WAVEFORM_VIEWER (widget);
+	GtkStyleContext *style_ctx;
+	gint width, height, left, top, middle, half;
+	gint i, x;
+	gfloat *peaks = self->peaks;
+	gdouble min, max;
+	gint offset;
 
-  width = gtk_widget_get_allocated_width (widget);
-  height = gtk_widget_get_allocated_height (widget);
-  style_ctx = gtk_widget_get_style_context (widget);
+	width = gtk_widget_get_allocated_width (widget);
+	height = gtk_widget_get_allocated_height (widget);
+	style_ctx = gtk_widget_get_style_context (widget);
 
-  /* draw border */
-  gtk_render_background (style_ctx, cr, 0, 0, width, height);
-  gtk_render_frame (style_ctx, cr, 0, 0, width, height);
+	/* draw border */
+	gtk_render_background (style_ctx, cr, 0, 0, width, height);
+	gtk_render_frame (style_ctx, cr, 0, 0, width, height);
 
-  if (!peaks) {
-	//_debug ("draw, no peaks");
-    return FALSE;
-  }
+	if (!peaks) {
+		g_debug ("draw, no peaks");
+		return FALSE;
+	}
 
-  left = self->border.left;
-  top = self->border.top;
-  width -= self->border.left + self->border.right;
-  height -= self->border.top + self->border.bottom;
+	left = self->border.left;
+	top = self->border.top;
+	width -= self->border.left + self->border.right;
+	height -= self->border.top + self->border.bottom;
+	middle = top + height / 2;
+	half = height / 2 - 1;
 
-  cairo_set_line_join (cr, CAIRO_LINE_JOIN_ROUND);
-  cairo_set_line_width (cr, 1.0);
+	cairo_set_line_join (cr, CAIRO_LINE_JOIN_ROUND);
+	cairo_set_line_width (cr, 1.0);
 
-  // waveform
-  //gtk_style_context_lookup_color (style_ctx, "wave_color", &wave_color);
-  //gtk_style_context_lookup_color (style_ctx, "peak_color", &peak_color);
-  GdkRGBA wave_color = {0.3, 0.3, 0.3, 1.0};
-  GdkRGBA peak_color = {0.7, 0.7, 0.7, 1.0};
-  GdkRGBA line_color = {1, 0, 0, 1};
+	//gtk_style_context_lookup_color (style_ctx, "wave_color", &wave_color);
+	//gtk_style_context_lookup_color (style_ctx, "peak_color", &peak_color);
+	GdkRGBA wave_color = {0.3, 0.3, 0.3, 1.0};
+	GdkRGBA peak_color = {0.8, 0.8, 0.8, 1.0};
+	GdkRGBA line_color = {1, 0, 0, 1};
 
-  for (i = 0; i < 4 * width; i++) {
-    gint imirror = i < 2 * width ? i : 4 * width - 1 - i;
-    // peaks has all channel-data interleaved in one buffer
-    gint ix =
-        (imirror * self->peaks_size / (2 * width));
-    gint sign = i < 2 * width ? +1 : -1;
-    gdouble y = (top + height / 2 - (height / 2 - 1) * sign * peaks[ix]);
-    if (y < top)
-      y = top;
-    if (y >= top + height)
-      y = top + height - 1;
-    if (i)
-      cairo_line_to (cr, left + imirror * 0.5, y);
-    else
-      cairo_move_to (cr, left, y);
-  }
+	offset = self->playback_cursor * 2 - width;
 
-  gdk_cairo_set_source_rgba (cr, &wave_color);
-  cairo_fill_preserve (cr);
-  gdk_cairo_set_source_rgba (cr, &peak_color);
-  cairo_stroke (cr);
+	/* before waveform */
+	gdk_cairo_set_source_rgba (cr, &peak_color);
+	if (offset < 0) {
+		cairo_rectangle (cr, left, top, offset /2 * -1, height);
+		cairo_fill (cr);
+	}
 
-  xscl = (gdouble) width / self->wave_length;
-  if (self->playback_cursor != -1) {
-    //gtk_style_context_lookup_color (style_ctx, "playline_color", &line_color);
-    gdk_cairo_set_source_rgba (cr, &line_color);
-    x = (gint) (left + self->playback_cursor * xscl) - 1;
-    cairo_move_to (cr, x, top + height);
-    cairo_line_to (cr, x, top);
-    cairo_stroke (cr);
-    cairo_move_to (cr, x, top + height / 2 - MARKER_BOX_H);
-    cairo_line_to (cr, x, top + height / 2 + MARKER_BOX_H);
-    cairo_line_to (cr, x + MARKER_BOX_W, top + height / 2);
-    cairo_line_to (cr, x, top + height / 2 - MARKER_BOX_H);
-    cairo_fill (cr);
-  }
+	/* beyond waveform */
+	gint diff = offset + width * 2 - self->peaks_size;
+	if (diff > 0) {
+		cairo_rectangle (cr, left + width - diff / 2, top, diff / 2, height);
+		cairo_fill (cr);
+	}
 
-  return FALSE;
+	/* waveform */
+	for (i = 0; i < 2 * width; i += 2) {
+		if (offset + i < 0)
+			continue;
+		if (offset + i > self->peaks_size)
+			break;
+		gint x = left + i / 2;
+		min = (middle + half * peaks[offset + i + 1] * -1);
+		max = (middle - half * peaks[offset + i + 2]);
+		cairo_move_to (cr, x, min);
+		cairo_line_to (cr, x, max);
+	}
+
+	gdk_cairo_set_source_rgba (cr, &wave_color);
+	cairo_stroke (cr);
+
+	/* cursor */
+	if (self->playback_cursor != -1) {
+		//gtk_style_context_lookup_color (style_ctx, "playline_color", &line_color);
+		gdk_cairo_set_source_rgba (cr, &line_color);
+		x = (gint) (left + width / 2) - 1;
+		cairo_move_to (cr, x, top + height);
+		cairo_line_to (cr, x, top);
+		cairo_stroke (cr);
+		cairo_move_to (cr, x, top + height / 2 - MARKER_BOX_H);
+		cairo_line_to (cr, x, top + height / 2 + MARKER_BOX_H);
+		cairo_line_to (cr, x + MARKER_BOX_W, top + height / 2);
+		cairo_line_to (cr, x, top + height / 2 - MARKER_BOX_H);
+		cairo_fill (cr);
+	}
+
+	return FALSE;
 }
 
 static void
@@ -296,7 +308,7 @@ bt_waveform_viewer_set_property (GObject * object,
 
   switch (property_id) {
     case WAVE_VIEWER_PLAYBACK_CURSOR:
-      self->playback_cursor = g_value_get_int64 (value);
+      self->playback_cursor = g_value_get_int64 (value) / 441;
       if (gtk_widget_get_realized (GTK_WIDGET (self))) {
         gtk_widget_queue_draw (GTK_WIDGET (self));
       }
@@ -367,51 +379,50 @@ void
 bt_waveform_viewer_set_wave (BtWaveformViewer * self, gint16 * data,
     gint channels, gint length)
 {
-  gint i, c, p, cc = channels;
-  gint64 len = length;
+	/* Create 100 data pairs (minimum and maximum value) per second
+	   from raw data. Input must be mono, at a bit rate of 44100.
+	   Move this later to the waveloader. */
 
-  self->channels = channels;
-  self->wave_length = length;
+	gint i, p;
+	gint64 len = length; /* number of samples */
+	gint rate = 44100;   /* for reference */
 
-  g_free (self->peaks);
-  self->peaks = NULL;
+	self->wave_length = length;
 
-  if (!data || !length) {
-    gtk_widget_queue_draw (GTK_WIDGET (self));
-    return;
-  }
-  // calculate peak data
-  self->peaks_size = length < DEF_PEAK_SIZE ? length : DEF_PEAK_SIZE;
-  self->peaks = g_malloc (sizeof (gfloat) * channels * self->peaks_size);
+	g_free (self->peaks);
+	self->peaks = NULL;
 
-  for (i = 0; i < self->peaks_size-1; i++) {
-  /* TODO had to add -1 in the line above because of intermittant segfaults.
-     Didn't show up every time even for the same file.
-     Examine: is my length calculation buggy or is it Buzztrax? */
-    //g_debug ("gen. peak[%d]", i * cc + c);
-    gint p1 = len * i / self->peaks_size;
-    gint p2 = len * (i + 1) / self->peaks_size;
-    for (c = 0; c < self->channels; c++) {
-      // get min max for peak slot
-      gfloat vmin = data[p1 * cc + c], vmax = data[p1 * cc + c];
-      for (p = p1 + 1; p < p2; p++) {
-        gfloat d = data[p * cc + c]; /* TODO had a segfault in this line, why? */
-        if (d < vmin)
-          vmin = d;
-        if (d > vmax)
-          vmax = d;
-      }
-      if (vmin > 0 && vmax > 0)
-        vmin = 0;
-      else if (vmin < 0 && vmax < 0)
-        vmax = 0;
-      self->peaks[i * cc + c] = (vmax - vmin) / 32768.0;
-      //g_debug ("peak[%d] = %f", i * cc + c, self->peaks[i * cc + c]);
-    }
-  }
-  //g_debug ("before draw");
-  gtk_widget_queue_draw (GTK_WIDGET (self));
-  //g_debug ("set wave end");
+	if (!data || !length) {
+		gtk_widget_queue_draw (GTK_WIDGET (self));
+		return;
+	}
+
+	/* calculate peak data */
+	self->peaks_size = length / 441 * 2;
+	self->peaks = g_malloc (sizeof (gfloat) * self->peaks_size - 2);
+
+	for (i = 0; i < self->peaks_size -2 ; i += 2) {
+		gint p1 = len * i / self->peaks_size;
+		gint p2 = len * (i + 1) / self->peaks_size;
+
+		/* get min max for peak slot */
+		gfloat vmin = data[p1 + 1], vmax = data[p1 + 1];
+		for (p = p1 + 1; p < p2; p++) {
+			gfloat d = data[p + 1];
+			if (d < vmin)
+				vmin = d;
+			if (d > vmax)
+				vmax = d;
+		}
+		if (vmin > 0 && vmax > 0)
+			vmin = 0;
+		else if (vmin < 0 && vmax < 0)
+			vmax = 0;
+		self->peaks[i + 1] = vmin / 32768.0;
+		self->peaks[i + 2] = vmax / 32768.0;
+	}
+
+	gtk_widget_queue_draw (GTK_WIDGET (self));
 }
 
 /**
