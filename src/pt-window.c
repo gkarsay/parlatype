@@ -385,7 +385,13 @@ player_end_of_stream_cb (PtPlayer *player,
 			 PtWindow *win)
 {
 	g_debug ("end_of_stream_cb");
+
+	/* Don't jump back */
+	gint temp;
+	temp = win->priv->pause;
+	win->priv->pause = 0;
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (win->priv->button_play), FALSE);
+	win->priv->pause = temp;
 }
 
 static void
