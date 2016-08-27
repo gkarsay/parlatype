@@ -140,11 +140,10 @@ pt_waveslider_draw (GtkWidget *widget,
 	cairo_set_line_join (cr, CAIRO_LINE_JOIN_ROUND);
 	cairo_set_line_width (cr, 1.0);
 
-	//gtk_style_context_lookup_color (style_ctx, "wave_color", &wave_color);
-	//gtk_style_context_lookup_color (style_ctx, "peak_color", &peak_color);
-	GdkRGBA wave_color = {0.3, 0.3, 0.3, 1.0};
-	GdkRGBA peak_color = {0.8, 0.8, 0.8, 1.0};
-	GdkRGBA line_color = {1, 0, 0, 1};
+	GdkRGBA wave_color, peak_color, line_color;
+	gtk_style_context_lookup_color (style_ctx, "wave_color", &wave_color);
+	gtk_style_context_lookup_color (style_ctx, "peak_color", &peak_color);
+	gtk_style_context_lookup_color (style_ctx, "line_color", &line_color);
 
 	offset = self->playback_cursor * 2 - width;
 
@@ -180,7 +179,6 @@ pt_waveslider_draw (GtkWidget *widget,
 
 	/* cursor */
 	if (self->playback_cursor != -1) {
-		//gtk_style_context_lookup_color (style_ctx, "playline_color", &line_color);
 		gdk_cairo_set_source_rgba (cr, &line_color);
 		x = (gint) (left + width / 2) - 1;
 		cairo_move_to (cr, x, top + height);
@@ -389,6 +387,10 @@ static void
 pt_waveslider_init (PtWaveslider *self)
 {
 	GtkStyleContext *context;
+	GtkCssProvider  *provider;
+	GtkSettings     *settings;
+	gboolean	 dark;
+	GFile		*file;
 
 	self->channels = 2;
 	self->peaks_size = DEF_PEAK_SIZE;
@@ -396,11 +398,28 @@ pt_waveslider_init (PtWaveslider *self)
 	self->wave_length = 0;
 	self->playback_cursor = -1;
 
+	gtk_widget_set_has_window (GTK_WIDGET (self), FALSE);
+
+	settings = gtk_settings_get_default ();
+	g_object_get (settings, "gtk-application-prefer-dark-theme", &dark, NULL);
+
+	if (dark)
+		file = g_file_new_for_uri ("resource:///org/gnome/parlatype/pt-waveslider-dark.css");
+	else
+		file = g_file_new_for_uri ("resource:///org/gnome/parlatype/pt-waveslider.css");
+
+	provider = gtk_css_provider_new ();
+	gtk_css_provider_load_from_file (provider, file, NULL);
+	g_object_unref (file);
+
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
 	gtk_style_context_add_class (context, GTK_STYLE_CLASS_FRAME);
 	gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
+	gtk_style_context_add_provider (context,
+					GTK_STYLE_PROVIDER (provider),
+					GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
-	gtk_widget_set_has_window (GTK_WIDGET (self), FALSE);
+	/* Remove and unref provider? Where? */
 }
 
 /**
