@@ -123,6 +123,16 @@ time_scale_changed_cb (GtkRange *range,
 }
 
 static void
+cursor_changed_cb (GtkWidget *widget,
+		   gint64     pos,
+		   PtWindow  *win)
+{
+	/* triggered only by user */
+
+	pt_player_jump_to_position (win->priv->player, pos);
+}
+
+static void
 update_duration_label (PtWindow *win)
 {
 	gchar *text;
@@ -672,6 +682,11 @@ pt_window_init (PtWindow *win)
 
 	win->priv->waveslider = bt_waveform_viewer_new ();
 	gtk_grid_attach (GTK_GRID (win->priv->main_grid), win->priv->waveslider, 0, 0, 1, 1);
+	g_signal_connect (win->priv->waveslider,
+			"cursor-changed",
+			G_CALLBACK (cursor_changed_cb),
+			win);
+
 	player_state_changed_cb (win->priv->player, FALSE, win);
 	gtk_widget_show (win->priv->waveslider);
 }

@@ -254,8 +254,28 @@ bt_waveform_viewer_button_press (GtkWidget	*widget,
 				 GdkEventButton *event)
 {
 	BtWaveformViewer *self = BT_WAVEFORM_VIEWER (widget);
-	const gint ox = 1, oy = 1;
-	const gint sx = gtk_widget_get_allocated_width (widget) - 2;
+
+	const gint width = gtk_widget_get_allocated_width (widget) - 2;
+
+	gint left;	/* the first sample in the view */
+	gint clicked;	/* the sample clicked on */
+	gint64 pos;	/* clicked sample's position in milliseconds */
+
+	left = self->playback_cursor - width * 0.5;
+	clicked = left + (gint) event->x;
+	pos = clicked * 10;
+
+	if (clicked < 0 || clicked > self->peaks_size / 2) {
+		g_debug ("click outside");
+		return FALSE;
+	}
+
+	/* Single left click */
+	if (event->type == GDK_BUTTON_PRESS && event->button == GDK_BUTTON_PRIMARY) {
+		g_signal_emit_by_name (widget, "cursor-changed", pos);
+		g_debug ("click, jump to: %d ms", pos);
+		return TRUE;
+	}
 
 	return FALSE;
 }
@@ -350,6 +370,23 @@ bt_waveform_viewer_class_init (BtWaveformViewerClass *klass)
 	gobject_class->set_property = bt_waveform_viewer_set_property;
 	gobject_class->get_property = bt_waveform_viewer_get_property;
 	gobject_class->finalize = bt_waveform_viewer_finalize;
+
+	/**
+	* PtWaveslider::cursor-changed:
+	* @ws: the waveslider emitting the signal
+	* @position: the position in stream in milliseconds
+	*
+	* Some description.
+	*/
+	g_signal_new ("cursor-changed",
+		      G_TYPE_OBJECT,
+		      G_SIGNAL_RUN_FIRST,
+		      0,
+		      NULL,
+		      NULL,
+		      g_cclosure_marshal_VOID__INT, /* int <> int64? */
+		      G_TYPE_NONE,
+		      1, G_TYPE_INT64);
 
 	g_object_class_install_property (gobject_class, WAVE_VIEWER_PLAYBACK_CURSOR,
 		g_param_spec_int64 ("playback-cursor",
