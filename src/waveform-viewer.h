@@ -15,52 +15,57 @@
  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BT_WAVEFORM_VIEWER_H
-#define BT_WAVEFORM_VIEWER_H
+#ifndef PT_WAVESLIDER_H
+#define PT_WAVESLIDER_H
 
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
-#define BT_TYPE_WAVEFORM_VIEWER          (bt_waveform_viewer_get_type ())
-#define BT_WAVEFORM_VIEWER(obj)          (G_TYPE_CHECK_INSTANCE_CAST ((obj), BT_TYPE_WAVEFORM_VIEWER, BtWaveformViewer))
-#define BT_IS_WAVEFORM_VIEWER(obj)       (G_TYPE_CHECK_INSTANCE_TYPE ((obj), BT_TYPE_WAVEFORM_VIEWER))
-#define BT_WAVEFORM_VIEWER_CLASS(klass)  (G_TYPE_CHECK_CLASS_CAST ((klass),  BT_TYPE_WAVEFORM_VIEWER, BtWaveformViewerClass))
-#define BT_IS_WAVEFORM_VIEWER_CLASS(obj) (G_TYPE_CHECK_CLASS_TYPE ((klass),  BT_TYPE_WAVEFORM_VIEWER))
+#define PT_TYPE_WAVESLIDER          (pt_waveslider_get_type ())
+#define PT_WAVESLIDER(obj)          (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_TYPE_WAVESLIDER, PtWaveslider))
+#define PT_IS_WAVESLIDER(obj)       (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_TYPE_WAVESLIDER))
+#define PT_WAVESLIDER_CLASS(klass)  (G_TYPE_CHECK_CLASS_CAST ((klass),  PT_TYPE_WAVESLIDER, PtWavesliderClass))
+#define PT_IS_WAVESLIDER_CLASS(obj) (G_TYPE_CHECK_CLASS_TYPE ((klass),  PT_TYPE_WAVESLIDER))
 
-typedef struct _BtWaveformViewer      BtWaveformViewer;
-typedef struct _BtWaveformViewerClass BtWaveformViewerClass;
+typedef struct _PtWaveslider      PtWaveslider;
+typedef struct _PtWavesliderClass PtWavesliderClass;
 
 /**
- * BtWaveformViewer:
+ * PtWaveslider:
  *
  * waveform view widget
  */
-struct _BtWaveformViewer {
-  GtkWidget parent;
+struct _PtWaveslider {
+	GtkWidget parent;
 
-  gfloat *peaks;
-  gint peaks_size;
-  gint channels;
+	gfloat	 *peaks;
+	gint	  peaks_size;
+	gint	  channels;
     
-  gint64 wave_length;
-  gint64 playback_cursor;
+	gint64	  wave_length;
+	gint64	  playback_cursor;
   
-  /* state */
-  GdkWindow *window;
-  GtkBorder border;
+	/* state */
+	GdkWindow *window;
+	GtkBorder  border;
 };
 
-struct _BtWaveformViewerClass {
-  GtkWidgetClass klass;
+struct _PtWavesliderClass {
+	GtkWidgetClass klass;
 };
 
-GtkWidget *bt_waveform_viewer_new(void);
+GType		pt_waveslider_get_type	(void) G_GNUC_CONST;
 
-void bt_waveform_viewer_set_wave(BtWaveformViewer *self, gint16 *data, gint channels, gint length);
+void		pt_waveslider_set_wave	(PtWaveslider *self,
+					 gint16	      *data,
+					 gint	       channels,
+					 gint	       length);
 
-GType bt_waveform_viewer_get_type(void) G_GNUC_CONST;
+GtkWidget	*pt_waveslider_new	(void);
+
+
 
 G_END_DECLS
 
-#endif // BT_WAVEFORM_VIEWER_H
+#endif // PT_WAVESLIDER_H

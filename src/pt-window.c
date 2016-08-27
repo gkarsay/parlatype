@@ -362,10 +362,10 @@ player_state_changed_cb (PtPlayer *player,
 		change_jump_back_tooltip (win);
 		change_jump_forward_tooltip (win);
 		add_timer (win);
-		bt_waveform_viewer_set_wave (BT_WAVEFORM_VIEWER (win->priv->waveslider),
-					     pt_player_get_data (player),
-					     pt_player_get_channels (player),
-					     pt_player_get_length (player));
+		pt_waveslider_set_wave (PT_WAVESLIDER (win->priv->waveslider),
+					pt_player_get_data (player),
+					pt_player_get_channels (player),
+					pt_player_get_length (player));
 
 	} else {
 		gtk_label_set_text (GTK_LABEL (win->priv->dur_label), "00:00");
@@ -375,10 +375,8 @@ player_state_changed_cb (PtPlayer *player,
 		gtk_widget_set_tooltip_text (win->priv->button_jump_forward, NULL);
 		remove_timer (win);
 		update_time_scale_blocking (win, 0);
-		bt_waveform_viewer_set_wave (BT_WAVEFORM_VIEWER (win->priv->waveslider),
-					     NULL,
-					     0,
-					     0);
+		pt_waveslider_set_wave (PT_WAVESLIDER (win->priv->waveslider),
+					NULL, 0, 0);
 	}
 }
 
@@ -680,7 +678,7 @@ pt_window_init (PtWindow *win)
 	win->priv->timer = 0;
 	win->priv->progress_dlg = NULL;
 
-	win->priv->waveslider = bt_waveform_viewer_new ();
+	win->priv->waveslider = pt_waveslider_new ();
 	gtk_grid_attach (GTK_GRID (win->priv->main_grid), win->priv->waveslider, 0, 0, 1, 1);
 	g_signal_connect (win->priv->waveslider,
 			"cursor-changed",
