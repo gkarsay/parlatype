@@ -45,7 +45,9 @@ struct _PtWaveslider {
     
 	gint64	  wave_length;
 	gint64	  playback_cursor;
-  
+
+	GdkRGBA wave_color, invalid_color, line_color;
+
 	/* state */
 	GdkWindow *window;
 	GtkBorder  border;

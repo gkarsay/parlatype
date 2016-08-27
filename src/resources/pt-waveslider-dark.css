@@ -1,6 +1,11 @@
-/* custom styles for PtWaveslider */
+/* custom styles for PtWaveslider, dark variant */
 
-@define-color wave_color #cccccc;
-@define-color peak_color #4d4d4d;
-@define-color line_color #ff0000;
+/* colors for focused widget */
+@define-color wave_color @theme_fg_color;
+@define-color invalid_color @theme_bg_color;
+@define-color line_color #cc0000;
 
+/* colors for unfocused widget */
+@define-color wave_color_uf @theme_unfocused_fg_color;
+@define-color invalid_color_uf @theme_unfocused_bg_color;
+@define-color line_color_uf #cc6060;

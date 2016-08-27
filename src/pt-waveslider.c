@@ -140,15 +140,10 @@ pt_waveslider_draw (GtkWidget *widget,
 	cairo_set_line_join (cr, CAIRO_LINE_JOIN_ROUND);
 	cairo_set_line_width (cr, 1.0);
 
-	GdkRGBA wave_color, peak_color, line_color;
-	gtk_style_context_lookup_color (style_ctx, "wave_color", &wave_color);
-	gtk_style_context_lookup_color (style_ctx, "peak_color", &peak_color);
-	gtk_style_context_lookup_color (style_ctx, "line_color", &line_color);
-
 	offset = self->playback_cursor * 2 - width;
 
 	/* before waveform */
-	gdk_cairo_set_source_rgba (cr, &peak_color);
+	gdk_cairo_set_source_rgba (cr, &self->invalid_color);
 	if (offset < 0) {
 		cairo_rectangle (cr, left, top, offset /2 * -1, height);
 		cairo_fill (cr);
@@ -174,12 +169,12 @@ pt_waveslider_draw (GtkWidget *widget,
 		cairo_line_to (cr, x, max);
 	}
 
-	gdk_cairo_set_source_rgba (cr, &wave_color);
+	gdk_cairo_set_source_rgba (cr, &self->wave_color);
 	cairo_stroke (cr);
 
 	/* cursor */
 	if (self->playback_cursor != -1) {
-		gdk_cairo_set_source_rgba (cr, &line_color);
+		gdk_cairo_set_source_rgba (cr, &self->line_color);
 		x = (gint) (left + width / 2) - 1;
 		cairo_move_to (cr, x, top + height);
 		cairo_line_to (cr, x, top);
@@ -292,6 +287,31 @@ pt_waveslider_motion_notify (GtkWidget	 *widget,
 }
 
 static void
+pt_waveslider_state_flags_changed (GtkWidget	 *widget,
+				   GtkStateFlags  flags)
+{
+	/* Change colors depending on window state focused/not focused */
+
+	PtWaveslider *self = PT_WAVESLIDER (widget);
+
+	GtkStyleContext *style_ctx;
+	GdkWindow *window;
+
+	window = gtk_widget_get_parent_window (widget);
+	style_ctx = gtk_widget_get_style_context (widget);
+
+	if (gdk_window_get_state (window) & GDK_WINDOW_STATE_FOCUSED) {
+		gtk_style_context_lookup_color (style_ctx, "wave_color", &self->wave_color);
+		gtk_style_context_lookup_color (style_ctx, "invalid_color", &self->invalid_color);
+		gtk_style_context_lookup_color (style_ctx, "line_color", &self->line_color);
+	} else {
+		gtk_style_context_lookup_color (style_ctx, "wave_color_uf", &self->wave_color);
+		gtk_style_context_lookup_color (style_ctx, "invalid_color_uf", &self->invalid_color);
+		gtk_style_context_lookup_color (style_ctx, "line_color_uf", &self->line_color);
+	}
+}
+
+static void
 pt_waveslider_finalize (GObject *object)
 {
 	PtWaveslider *self = PT_WAVESLIDER (object);
@@ -354,6 +374,7 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 	widget_class->button_press_event = pt_waveslider_button_press;
 	widget_class->button_release_event = pt_waveslider_button_release;
 	widget_class->motion_notify_event = pt_waveslider_motion_notify;
+	widget_class->state_flags_changed = pt_waveslider_state_flags_changed;
 
 	gobject_class->set_property = pt_waveslider_set_property;
 	gobject_class->get_property = pt_waveslider_get_property;
