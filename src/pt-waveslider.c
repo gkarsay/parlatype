@@ -16,7 +16,7 @@
  */
 
 #include <string.h>
-#include "waveform-viewer.h"
+#include "pt-waveslider.h"
 
 enum
 {

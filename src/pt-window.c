@@ -23,10 +23,10 @@
 #include "pt-dbus-service.h"
 #include "pt-goto-dialog.h"
 #include "pt-mediakeys.h"
+#include "pt-waveslider.h"
 #include "pt-window.h"
 #include "pt-window-dnd.h"
 #include "pt-window-private.h"
-#include "waveform-viewer.h"
 
 
 enum

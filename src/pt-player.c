@@ -21,7 +21,7 @@
 #include <glib/gi18n.h>	
 #include <gst/gst.h>
 #include "pt-waveloader.h"
-#include "waveform-viewer.h"
+#include "pt-waveslider.h"
 #include "pt-player.h"
 
 struct _PtPlayerPrivate

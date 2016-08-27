@@ -37,13 +37,13 @@ parlatype_SOURCES = \
 		pt-preferences.h	\
 		pt-waveloader.c	\
 		pt-waveloader.h	\
+		pt-waveslider.c	\
+		pt-waveslider.h	\
 		pt-window.c	\
 		pt-window.h	\
 		pt-window-dnd.c	\
 		pt-window-dnd.h	\
-		pt-window-private.h	\
-		waveform-viewer.c	\
-		waveform-viewer.h
+		pt-window-private.h
 
 parlatype_LDFLAGS = $(PACKAGE_LDFLAGS)
 
