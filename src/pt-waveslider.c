@@ -440,6 +440,10 @@ pt_waveslider_init (PtWaveslider *self)
 					GTK_STYLE_PROVIDER (provider),
 					GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
+	gtk_style_context_lookup_color (context, "wave_color", &self->wave_color);
+	gtk_style_context_lookup_color (context, "invalid_color", &self->invalid_color);
+	gtk_style_context_lookup_color (context, "line_color", &self->line_color);
+
 	/* Remove and unref provider? Where? */
 }
 
