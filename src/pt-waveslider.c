@@ -247,8 +247,8 @@ pt_waveslider_button_press (GtkWidget	*widget,
 
 	const gint width = gtk_widget_get_allocated_width (widget) - 2;
 
-	gint left;	/* the first sample in the view */
-	gint clicked;	/* the sample clicked on */
+	gint64 left;	/* the first sample in the view */
+	gint64 clicked;	/* the sample clicked on */
 	gint64 pos;	/* clicked sample's position in milliseconds */
 
 	left = self->playback_cursor - width * 0.5;
@@ -374,7 +374,7 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 		      0,
 		      NULL,
 		      NULL,
-		      g_cclosure_marshal_VOID__INT, /* int <> int64? */
+		      g_cclosure_marshal_VOID__INT,
 		      G_TYPE_NONE,
 		      1, G_TYPE_INT64);
 
