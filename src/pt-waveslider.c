@@ -430,7 +430,6 @@ pt_waveslider_init (PtWaveslider *self)
 
 	provider = gtk_css_provider_new ();
 	gtk_css_provider_load_from_file (provider, file, NULL);
-	g_object_unref (file);
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
 	gtk_style_context_add_class (context, GTK_STYLE_CLASS_FRAME);
@@ -443,7 +442,8 @@ pt_waveslider_init (PtWaveslider *self)
 	gtk_style_context_lookup_color (context, "invalid_color", &self->invalid_color);
 	gtk_style_context_lookup_color (context, "line_color", &self->line_color);
 
-	/* Remove and unref provider? Where? */
+	g_object_unref (file);
+	g_object_unref (provider);
 }
 
 /**
