@@ -364,7 +364,6 @@ player_state_changed_cb (PtPlayer *player,
 		add_timer (win);
 		pt_waveslider_set_wave (PT_WAVESLIDER (win->priv->waveslider),
 					pt_player_get_data (player),
-					pt_player_get_channels (player),
 					pt_player_get_length (player));
 
 	} else {
@@ -375,8 +374,7 @@ player_state_changed_cb (PtPlayer *player,
 		gtk_widget_set_tooltip_text (win->priv->button_jump_forward, NULL);
 		remove_timer (win);
 		update_time_scale_blocking (win, 0);
-		pt_waveslider_set_wave (PT_WAVESLIDER (win->priv->waveslider),
-					NULL, 0, 0);
+		pt_waveslider_set_wave (PT_WAVESLIDER (win->priv->waveslider), NULL, 0);
 	}
 }
 

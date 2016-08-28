@@ -761,21 +761,6 @@ pt_player_get_duration (PtPlayer *player)
 /* ------------------------- Waveform stuff --------------------------------- */
 
 /*
- * pt_player_get_channels:
- * @player: a #PtPlayer
- *
- * Get the number of channels for the stream. We accept only mono (1 channel)
- * or stereo (2 channels).
- *
- * Return value: number of channels (1 or 2)
- */
-gint
-pt_player_get_channels (PtPlayer *player)
-{
-	return pt_waveloader_get_channels (player->priv->wl);
-}
-
-/*
  * pt_player_get_length:
  * @player: a #PtPlayer
  *

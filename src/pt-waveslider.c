@@ -413,9 +413,8 @@ pt_waveslider_init (PtWaveslider *self)
 	gboolean	 dark;
 	GFile		*file;
 
-	self->channels = 2;
 	self->peaks_size = DEF_PEAK_SIZE;
-	self->peaks = g_malloc (sizeof (gfloat) * self->channels * self->peaks_size);
+	self->peaks = g_malloc (sizeof (gfloat) * self->peaks_size);
 	self->wave_length = 0;
 	self->playback_cursor = -1;
 
@@ -450,8 +449,7 @@ pt_waveslider_init (PtWaveslider *self)
 /**
  * pt_waveslider_set_wave:
  * @self: the widget
- * @data: memory block of samples (interleaved for channels>1)
- * @channels: number channels
+ * @data: memory block of samples
  * @length: number samples per channel
  *
  * Set wave data to show in the widget.
@@ -459,7 +457,6 @@ pt_waveslider_init (PtWaveslider *self)
 void
 pt_waveslider_set_wave (PtWaveslider *self,
 			gint16       *data,
-			gint	      channels,
 			gint	      length)
 {
 	/* Create 100 data pairs (minimum and maximum value) per second

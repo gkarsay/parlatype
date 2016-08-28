@@ -41,7 +41,6 @@ struct _PtWaveslider {
 
 	gfloat	 *peaks;
 	gint	  peaks_size;
-	gint	  channels;
     
 	gint64	  wave_length;
 	gint64	  playback_cursor;
@@ -61,7 +60,6 @@ GType		pt_waveslider_get_type	(void) G_GNUC_CONST;
 
 void		pt_waveslider_set_wave	(PtWaveslider *self,
 					 gint16	      *data,
-					 gint	       channels,
 					 gint	       length);
 
 GtkWidget	*pt_waveslider_new	(void);

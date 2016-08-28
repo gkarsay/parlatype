@@ -44,7 +44,6 @@ struct _PtPlayerClass
 
 GType		pt_player_get_type		(void) G_GNUC_CONST;
 
-gint		pt_player_get_channels		(PtPlayer *player);
 guint64		pt_player_get_length		(PtPlayer *player);
 guint64		pt_player_wave_pos		(PtPlayer *player);
 gint16 		*pt_player_get_data		(PtPlayer *player);
