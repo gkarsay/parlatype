@@ -83,8 +83,17 @@ window_state_event_cb (GtkWidget	    *widget,
 		       GdkEventWindowState  *event,
 		       PtWindow		    *win)
 {
-	if (!(event->new_window_state & GDK_WINDOW_STATE_FOCUSED))
+	if (!(event->new_window_state & GDK_WINDOW_STATE_FOCUSED)) {
+		/* Window state changed to not focused.
+		   We are not interested in that, return FALSE and the signal
+		   can be processed further.
+		   However, if we'd return TRUE, the window would always stay
+		   in focus, it's colors would not change to unfocused state.
+		   That might be desirable having the word processor and
+		   parlatype open at the same time.
+		   Maybe we offer that later as a user preference. */
 		return FALSE;
+	}
 
 	g_dbus_proxy_call (
 			win->priv->proxy,
