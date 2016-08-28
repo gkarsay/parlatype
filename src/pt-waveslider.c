@@ -107,7 +107,7 @@ pt_waveslider_unmap (GtkWidget *widget)
 
 static gboolean
 pt_waveslider_draw (GtkWidget *widget,
-			 cairo_t   *cr)
+		    cairo_t   *cr)
 {
 	PtWaveslider *self = PT_WAVESLIDER (widget);
 	GtkStyleContext *style_ctx;
@@ -190,8 +190,8 @@ pt_waveslider_draw (GtkWidget *widget,
 }
 
 static void
-pt_waveslider_size_allocate (GtkWidget	*widget,
-				  GtkAllocation *allocation)
+pt_waveslider_size_allocate (GtkWidget	   *widget,
+			     GtkAllocation *allocation)
 {
 	PtWaveslider *self = PT_WAVESLIDER (widget);
 	GtkStyleContext *context;
@@ -210,8 +210,8 @@ pt_waveslider_size_allocate (GtkWidget	*widget,
 
 static void
 pt_waveslider_get_preferred_width (GtkWidget *widget,
-					gint	  *minimal_width,
-					gint	  *natural_width)
+				   gint	     *minimal_width,
+				   gint	     *natural_width)
 {
 	PtWaveslider *self = PT_WAVESLIDER (widget);
 	gint border_padding = self->border.left + self->border.right;
@@ -222,8 +222,8 @@ pt_waveslider_get_preferred_width (GtkWidget *widget,
 
 static void
 pt_waveslider_get_preferred_height (GtkWidget *widget,
-					 gint	   *minimal_height,
-					 gint	   *natural_height)
+				    gint      *minimal_height,
+				    gint      *natural_height)
 {
 	PtWaveslider *self = PT_WAVESLIDER (widget);
 	gint border_padding = self->border.top + self->border.bottom;
@@ -233,8 +233,8 @@ pt_waveslider_get_preferred_height (GtkWidget *widget,
 }
 
 static gboolean
-pt_waveslider_button_press (GtkWidget	*widget,
-				 GdkEventButton *event)
+pt_waveslider_button_press (GtkWidget	   *widget,
+			    GdkEventButton *event)
 {
 	PtWaveslider *self = PT_WAVESLIDER (widget);
 
@@ -264,8 +264,8 @@ pt_waveslider_button_press (GtkWidget	*widget,
 }
 
 static gboolean
-pt_waveslider_button_release (GtkWidget	  *widget,
-				   GdkEventButton *event)
+pt_waveslider_button_release (GtkWidget	     *widget,
+			      GdkEventButton *event)
 {
 	PtWaveslider *self = PT_WAVESLIDER (widget);
 
@@ -273,8 +273,8 @@ pt_waveslider_button_release (GtkWidget	  *widget,
 }
 
 static gboolean
-pt_waveslider_motion_notify (GtkWidget	 *widget,
-				  GdkEventMotion *event)
+pt_waveslider_motion_notify (GtkWidget	    *widget,
+			     GdkEventMotion *event)
 {
 	PtWaveslider *self = PT_WAVESLIDER (widget);
 	const gint ox = 1;
@@ -323,9 +323,9 @@ pt_waveslider_finalize (GObject *object)
 
 static void
 pt_waveslider_get_property (GObject    *object,
-				 guint	     property_id,
-				 GValue     *value,
-				 GParamSpec *pspec)
+			    guint       property_id,
+			    GValue     *value,
+			    GParamSpec *pspec)
 {
 	PtWaveslider *self = PT_WAVESLIDER (object);
 
@@ -338,9 +338,9 @@ pt_waveslider_get_property (GObject    *object,
 
 static void
 pt_waveslider_set_property (GObject      *object,
-				 guint	       property_id,
-				 const GValue *value,
-				 GParamSpec   *pspec)
+			    guint	  property_id,
+			    const GValue *value,
+			    GParamSpec   *pspec)
 {
 	PtWaveslider *self = PT_WAVESLIDER (object);
 
@@ -458,9 +458,9 @@ pt_waveslider_init (PtWaveslider *self)
  */
 void
 pt_waveslider_set_wave (PtWaveslider *self,
-			     gint16	      *data,
-			     gint	       channels,
-			     gint	       length)
+			gint16       *data,
+			gint	      channels,
+			gint	      length)
 {
 	/* Create 100 data pairs (minimum and maximum value) per second
 	   from raw data. Input must be mono, at a bit rate of 44100.
