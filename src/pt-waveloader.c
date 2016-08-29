@@ -36,6 +36,7 @@ struct _PtWaveloaderPrivate
 
 	gchar      *uri;
 	gboolean    downmix;
+	gboolean    pps;
 
 	gint64	    duration;
 	gint	    channels;
@@ -55,10 +56,10 @@ enum
 	PROP_0,
 	PROP_URI,
 	PROP_DOWNMIX,
+	PROP_PPS,
 	N_PROPERTIES
 };
 
-#define SAMPLES_PER_SECOND 100
 
 static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
 
@@ -251,7 +252,7 @@ bus_handler (GstBus     *bus,
 			return FALSE;
 		}
 
-		gint chunk_size = wl->priv->rate / SAMPLES_PER_SECOND;
+		gint chunk_size = wl->priv->rate / wl->priv->pps;
 		wl->priv->data_size = buf.st_size / chunk_size;
 		g_debug ("samples: %d", wl->priv->data_size);
 
@@ -444,7 +445,7 @@ pt_waveloader_get_data (PtWaveloader *wl)
 	gint chunk_size;
 	gint chunk_bytes;
 
-	chunk_size = wl->priv->rate / SAMPLES_PER_SECOND;
+	chunk_size = wl->priv->rate / wl->priv->pps;
 	chunk_bytes = 2 * chunk_size;
 
 	/* FIXME out of sync for bitrate 22050 */
@@ -551,6 +552,9 @@ pt_waveloader_set_property (GObject      *object,
 	case PROP_DOWNMIX:
 		wl->priv->downmix = g_value_get_boolean (value);
 		break;
+	case PROP_PPS:
+		wl->priv->pps = g_value_get_int (value);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -573,6 +577,9 @@ pt_waveloader_get_property (GObject    *object,
 		break;
 	case PROP_DOWNMIX:
 		g_value_set_boolean (value, wl->priv->downmix);
+		break;
+	case PROP_PPS:
+		g_value_set_int (value, wl->priv->pps);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -630,6 +637,21 @@ pt_waveloader_class_init (PtWaveloaderClass *klass)
 			"Downmix to mono",
 			"Downmix to mono",
 			TRUE,
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+
+	/**
+	* PtWaveloader:pixels_per_sec:
+	*
+	* Requested resolution.
+	*/
+	obj_properties[PROP_PPS] =
+	g_param_spec_int (
+			"pixels_per_sec",
+			"Pixels per second",
+			"Pixels per second",
+			10,	/* min */
+			1000,	/* max */
+			100,	/* default */
 			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
 
 	g_object_class_install_properties (
