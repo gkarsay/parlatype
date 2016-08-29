@@ -140,6 +140,7 @@ pt_waveslider_draw (GtkWidget *widget,
 	cairo_set_line_join (cr, CAIRO_LINE_JOIN_ROUND);
 	cairo_set_line_width (cr, 1.0);
 
+	/* offset = pixel at the left in peaks array */
 	offset = self->playback_cursor * 2 - width;
 
 	/* before waveform */
@@ -346,7 +347,7 @@ pt_waveslider_set_property (GObject      *object,
 
 	switch (property_id) {
 	case PROP_PLAYBACK_CURSOR:
-		self->playback_cursor = g_value_get_int64 (value) / 441;
+		self->playback_cursor = g_value_get_int64 (value);
 		if (gtk_widget_get_realized (GTK_WIDGET (self))) {
 			gtk_widget_queue_draw (GTK_WIDGET (self));
 		}
@@ -456,16 +457,14 @@ pt_waveslider_init (PtWaveslider *self)
  */
 void
 pt_waveslider_set_wave (PtWaveslider *self,
-			gint16       *data,
-			gint	      length)
+			gfloat       *data,
+			gint64	      length)
 {
 	/* Create 100 data pairs (minimum and maximum value) per second
 	   from raw data. Input must be mono, at a bit rate of 44100.
 	   Move this later to the waveloader. */
 
-	gint i, p;
 	gint64 len = length; /* number of samples */
-	gint rate = 44100;   /* for reference */
 
 	self->wave_length = length;
 
@@ -477,30 +476,9 @@ pt_waveslider_set_wave (PtWaveslider *self,
 		return;
 	}
 
-	/* calculate peak data */
-	self->peaks_size = length / 441 * 2;
-	self->peaks = g_malloc (sizeof (gfloat) * self->peaks_size - 2);
-
-	for (i = 0; i < self->peaks_size -2 ; i += 2) {
-		gint p1 = len * i / self->peaks_size;
-		gint p2 = len * (i + 1) / self->peaks_size;
-
-		/* get min max for peak slot */
-		gfloat vmin = data[p1 + 1], vmax = data[p1 + 1];
-		for (p = p1 + 1; p < p2; p++) {
-			gfloat d = data[p + 1];
-			if (d < vmin)
-				vmin = d;
-			if (d > vmax)
-				vmax = d;
-		}
-		if (vmin > 0 && vmax > 0)
-			vmin = 0;
-		else if (vmin < 0 && vmax < 0)
-			vmax = 0;
-		self->peaks[i + 1] = vmin / 32768.0;
-		self->peaks[i + 2] = vmax / 32768.0;
-	}
+	self->peaks_size = length;
+	self->peaks = g_malloc (sizeof (gfloat) * self->peaks_size);
+	self->peaks = data;
 
 	gtk_widget_queue_draw (GTK_WIDGET (self));
 }

@@ -768,14 +768,10 @@ pt_player_get_duration (PtPlayer *player)
  *
  * Return value: number of samples in data array
  */
-guint64
+gint64
 pt_player_get_length (PtPlayer *player)
 {
-	guint64 length;
-	length = gst_util_uint64_scale (player->priv->dur,
-				        (guint64) pt_waveloader_get_rate (player->priv->wl),
-				        GST_SECOND);
-	return length;
+	return pt_waveloader_get_data_size (player->priv->wl);
 }
 
 /*
@@ -787,20 +783,15 @@ pt_player_get_length (PtPlayer *player)
  *
  * Return value: index of the data array
  */
-guint64
+gint64
 pt_player_wave_pos (PtPlayer *player)
 {
-	guint64 length;
-
 	gint64 pos;
 
 	if (!pt_player_query_position (player, &pos))
 		return 0;
 
-	length = gst_util_uint64_scale (pos,
-				        (guint64) pt_waveloader_get_rate (player->priv->wl),
-				        GST_SECOND);
-	return length;
+	return pos / 10000000;
 }
 
 /*
@@ -812,7 +803,7 @@ pt_player_wave_pos (PtPlayer *player)
  *
  * Return value: an array of all samples
  */
-gint16 *
+gfloat *
 pt_player_get_data (PtPlayer *player)
 {
 	return pt_waveloader_get_data (player->priv->wl);

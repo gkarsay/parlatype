@@ -59,7 +59,10 @@ gint		pt_waveloader_get_channels	(PtWaveloader *wl);
 
 gint		pt_waveloader_get_rate		(PtWaveloader *wl);
 
-gint16		*pt_waveloader_get_data		(PtWaveloader *wl);
+gint64		pt_waveloader_get_data_size	(PtWaveloader *wl);
+
+
+gfloat		*pt_waveloader_get_data		(PtWaveloader *wl);
 
 PtWaveloader	*pt_waveloader_new		(gchar *uri);
 

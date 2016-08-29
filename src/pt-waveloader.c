@@ -40,7 +40,7 @@ struct _PtWaveloaderPrivate
 	gint64	    duration;
 	gint	    channels;
 	gint	    rate;
-	guint64	    length;
+	gint64	    data_size;
 
 	gint	    bus_watch_id;
 	gint	    progress_timeout;
@@ -57,6 +57,8 @@ enum
 	PROP_DOWNMIX,
 	N_PROPERTIES
 };
+
+#define SAMPLES_PER_SECOND 100
 
 static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
 
@@ -212,6 +214,7 @@ bus_handler (GstBus     *bus,
 		if (!gst_element_query_duration (wl->priv->pipeline, GST_FORMAT_TIME, &wl->priv->duration)) {
 			GST_WARNING ("getting sample duration failed");
 		}
+
 		/* get caps for sample rate and channels */
 		if ((pad = gst_element_get_static_pad (wl->priv->fmt, "src"))) {
 			GstCaps *caps = gst_pad_get_current_caps (pad);
@@ -233,6 +236,25 @@ bus_handler (GstBus     *bus,
 
 		g_debug ("sample decoded: channels=%d, rate=%d, length=%" GST_TIME_FORMAT,
 			wl->priv->channels, wl->priv->rate, GST_TIME_ARGS (wl->priv->duration));
+
+		/* stat temp file, query size in bytes and compute number of samples */
+		struct stat buf;
+
+		if (fstat (wl->priv->fd, &buf) != 0) {
+			g_task_return_new_error (
+					task,
+					G_FILE_ERROR,
+					G_FILE_ERROR_FAILED,
+					_("Failed to open temporary file."));
+
+			remove_timeout (wl);
+			return FALSE;
+		}
+
+		gint chunk_size = wl->priv->rate / SAMPLES_PER_SECOND;
+		wl->priv->data_size = buf.st_size / chunk_size;
+		g_debug ("samples: %d", wl->priv->data_size);
+
 		remove_timeout (wl);
 		g_task_return_boolean (task, TRUE);
 		return FALSE;
@@ -388,6 +410,21 @@ pt_waveloader_get_rate (PtWaveloader *wl)
 }
 
 /*
+ * pt_waveloader_get_rate:
+ * @wl: a #PtWaveloader
+ *
+ * Returns the bit rate (samples per second), or in the context of a visual
+ * representation pixels per second.
+ *
+ * Return value: the bit rate
+ */
+gint64
+pt_waveloader_get_data_size (PtWaveloader *wl)
+{
+	return wl->priv->data_size;
+}
+
+/*
  * pt_waveloader_get_data:
  * @wl: a #PtWaveloader
  *
@@ -396,31 +433,54 @@ pt_waveloader_get_rate (PtWaveloader *wl)
  *
  * Return value: an array of all samples
  */
-gint16 *
+gfloat *
 pt_waveloader_get_data (PtWaveloader *wl)
 {
-	struct stat buf;
-	gint16 *data = NULL;
+	gfloat *data = NULL;
+	gint64 i;
+	gint k;
+	gfloat d, vmin, vmax;
 
-	if (!(fstat (wl->priv->fd, &buf))) {
-		if ((data = g_try_malloc (buf.st_size))) {
-			if (lseek (wl->priv->fd, 0, SEEK_SET) == 0) {
-				ssize_t bytes = read (wl->priv->fd, data, buf.st_size);
+	gint chunk_size;
+	gint chunk_bytes;
 
-				g_debug ("sample loaded (%" G_GSSIZE_FORMAT "/%ld bytes)", bytes,
-					buf.st_size);
-				return data;
-			} else {
-				GST_WARNING ("can't seek to start of sample data");
-			}
-		} else {
-			GST_WARNING
-				("sample is too long or empty (%ld bytes), not trying to load",
-				buf.st_size);
-		}
-	} else {
-		GST_WARNING ("can't stat() sample");
+	chunk_size = wl->priv->rate / SAMPLES_PER_SECOND;
+	chunk_bytes = 2 * chunk_size;
+
+	/* FIXME out of sync for bitrate 22050 */
+
+	gint16 temp[chunk_size];
+
+	if (!(data = g_try_malloc (sizeof (gfloat) * wl->priv->data_size * 2))) {
+		g_debug	("sample is too long or empty");
+		return NULL;
 	}
+
+	if (lseek (wl->priv->fd, 0, SEEK_SET) != 0) {
+		g_debug ("sample not loaded!!!");
+		return NULL;
+	}
+
+	for (i = 0; i <  wl->priv->data_size; i++) {
+		ssize_t bytes = read (wl->priv->fd, temp, chunk_bytes);
+		vmin = 0;
+		vmax = 0;
+		for (k = 0; k < chunk_size; k++) {
+			d = temp[k];
+			if (d < vmin)
+				vmin = d;
+			if (d > vmax)
+				vmax = d;
+		}
+		if (vmin > 0 && vmax > 0)
+			vmin = 0;
+		else if (vmin < 0 && vmax < 0)
+			vmax = 0;
+		data[i*2] = vmin / 32768.0;
+		data[i*2+1] = vmax / 32768.0;
+	}
+
+	return data;
 }
 
 
@@ -436,6 +496,7 @@ pt_waveloader_init (PtWaveloader *wl)
 	wl->priv->progress = 0;
 	wl->priv->bus_watch_id = 0;
 	wl->priv->progress_timeout = 0;
+	wl->priv->data_size = 0;
 }
 
 static void
