@@ -18,6 +18,12 @@
 #include <string.h>
 #include "pt-waveslider.h"
 
+
+#define MARKER_BOX_W 6
+#define MARKER_BOX_H 5
+#define MIN_W 24
+#define MIN_H 16
+
 enum
 {
 	PROP_0,
@@ -25,13 +31,8 @@ enum
 	N_PROPERTIES
 };
 
-#define MARKER_BOX_W 6
-#define MARKER_BOX_H 5
-#define MIN_W 24
-#define MIN_H 16
 
-
-//-- the class
+static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
 
 G_DEFINE_TYPE (PtWaveslider, pt_waveslider, GTK_TYPE_WIDGET);
 
@@ -410,11 +411,25 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 		      G_TYPE_NONE,
 		      1, G_TYPE_INT64);
 
-	g_object_class_install_property (gobject_class, PROP_PLAYBACK_CURSOR,
-		g_param_spec_int64 ("playback-cursor",
+	/**
+	* PtWaveslider:playback-cursor:
+	*
+	* Current playback position
+	*/
+	obj_properties[PROP_PLAYBACK_CURSOR] =
+	g_param_spec_int64 (
+			"playback-cursor",
 			"playback cursor position",
 			"Current playback position within a waveform or -1 if sample is not played",
-			-1, G_MAXINT64, -1, G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS));
+			-1,
+			G_MAXINT64,
+			-1,
+			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (
+			G_OBJECT_CLASS (klass),
+			N_PROPERTIES,
+			obj_properties);
 }
 
 static void
