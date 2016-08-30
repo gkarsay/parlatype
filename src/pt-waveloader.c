@@ -252,8 +252,19 @@ bus_handler (GstBus     *bus,
 			return FALSE;
 		}
 
+		/* Adjust pixel per second ratio if there's a remainder */
+		gint i;
+		for (i = wl->priv->pps; i > 10; i--) {
+			if (wl->priv->rate % i == 0) {
+				wl->priv->pps = i;
+				break;
+			}
+		}
+
 		gint chunk_size = wl->priv->rate / wl->priv->pps;
 		wl->priv->data_size = buf.st_size / chunk_size;
+
+		g_debug ("pixels per sec: %d", wl->priv->pps);
 		g_debug ("samples: %d", wl->priv->data_size);
 
 		remove_timeout (wl);
@@ -385,7 +396,7 @@ pt_waveloader_get_duration (PtWaveloader *wl)
  * @wl: a #PtWaveloader
  *
  * Get the number of channels for the stream. We accept only mono (1 channel)
- * or stereo (2 channels).
+ * or stereo (2 channels). As of now, only mono is implemented.
  *
  * Return value: number of channels (1 or 2)
  */
@@ -396,28 +407,27 @@ pt_waveloader_get_channels (PtWaveloader *wl)
 }
 
 /*
- * pt_waveloader_get_rate:
+ * pt_waveloader_get_px_per_sec:
  * @wl: a #PtWaveloader
  *
- * Returns the bit rate (samples per second), or in the context of a visual
- * representation pixels per second.
+ * Returns the bit rate or samples/pixels per second.
  *
- * Return value: the bit rate
+ * Return value: pixels per second
  */
 gint
-pt_waveloader_get_rate (PtWaveloader *wl)
+pt_waveloader_get_px_per_sec (PtWaveloader *wl)
 {
-	return wl->priv->rate;
+	return wl->priv->pps;
 }
 
 /*
- * pt_waveloader_get_rate:
+ * pt_waveloader_get_data_size:
  * @wl: a #PtWaveloader
  *
- * Returns the bit rate (samples per second), or in the context of a visual
- * representation pixels per second.
+ * Returns the number of elements in the data array. This is twice the number
+ * of samples, as each sample consists of 2 elements (min and max value).
  *
- * Return value: the bit rate
+ * Return value: number of elements
  */
 gint64
 pt_waveloader_get_data_size (PtWaveloader *wl)
@@ -429,8 +439,13 @@ pt_waveloader_get_data_size (PtWaveloader *wl)
  * pt_waveloader_get_data:
  * @wl: a #PtWaveloader
  *
- * Returns all samples for visual representation. The raw data is only useful
- * with additional information about the number of channels and the bit rate.
+ * Returns all samples for visual representation as raw data. Each sample
+ * contains a minimum followed by a maximum peak value. Minimum values range
+ * from -1.0 to 0, maximum values from 0 to 1.0.
+ *
+ * The raw data is only useful with additional information, first of all the
+ * number of elements in the array, the number of channels (as for now it's
+ * always mono) and the pixel per second ratio.
  *
  * Return value: an array of all samples
  */
@@ -447,8 +462,6 @@ pt_waveloader_get_data (PtWaveloader *wl)
 
 	chunk_size = wl->priv->rate / wl->priv->pps;
 	chunk_bytes = 2 * chunk_size;
-
-	/* FIXME out of sync for bitrate 22050 */
 
 	gint16 temp[chunk_size];
 
@@ -630,6 +643,7 @@ pt_waveloader_class_init (PtWaveloaderClass *klass)
 	* PtWaveloader:downmix:
 	*
 	* Whether to downmix stream to mono.
+	* This is not fully implemented yet, it MUST be mono for now.
 	*/
 	obj_properties[PROP_DOWNMIX] =
 	g_param_spec_boolean (
@@ -642,7 +656,9 @@ pt_waveloader_class_init (PtWaveloaderClass *klass)
 	/**
 	* PtWaveloader:pixels_per_sec:
 	*
-	* Requested resolution.
+	* Set it to the requested resolution in pixels per second.
+	* Parlatype might not be able to use exactly that value and will
+	* adjust it. Always re-check this value after loading a file.
 	*/
 	obj_properties[PROP_PPS] =
 	g_param_spec_int (

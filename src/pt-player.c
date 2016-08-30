@@ -764,9 +764,10 @@ pt_player_get_duration (PtPlayer *player)
  * pt_player_get_length:
  * @player: a #PtPlayer
  *
- * Get the total number of samples from data.
+ * Returns the number of elements in the data array. This is twice the number
+ * of samples, as each sample consists of 2 elements (min and max value).
  *
- * Return value: number of samples in data array
+ * Return value: number of elements
  */
 gint64
 pt_player_get_length (PtPlayer *player)
@@ -795,11 +796,29 @@ pt_player_wave_pos (PtPlayer *player)
 }
 
 /*
+ * pt_player_get_px_per_sec:
+ * @player: a #PtPlayer
+ *
+ * Returns the bit rate or samples/pixels per second.
+ *
+ * Return value: pixels per second
+ */
+gint
+pt_player_get_px_per_sec (PtPlayer *player)
+{
+	return pt_waveloader_get_px_per_sec (player->priv->wl);
+}
+
+/*
  * pt_player_get_data:
  * @player: a #PtPlayer
  *
- * Returns all samples for visual representation. The raw data is only useful
- * with additional information about the number of channels and the length.
+ * Returns all samples for visual representation as raw data. Each sample
+ * contains a minimum followed by a maximum peak value. Minimum values range
+ * from -1.0 to 0, maximum values from 0 to 1.0.
+ *
+ * The raw data is only useful with additional information, first of all the
+ * number of elements in the array and the pixel per second ratio.
  *
  * Return value: an array of all samples
  */

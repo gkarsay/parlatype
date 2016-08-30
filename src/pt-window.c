@@ -364,7 +364,8 @@ player_state_changed_cb (PtPlayer *player,
 		add_timer (win);
 		pt_waveslider_set_wave (PT_WAVESLIDER (win->priv->waveslider),
 					pt_player_get_data (player),
-					pt_player_get_length (player));
+					pt_player_get_length (player),
+					pt_player_get_px_per_sec (player));
 
 	} else {
 		gtk_label_set_text (GTK_LABEL (win->priv->dur_label), "00:00");
@@ -374,7 +375,7 @@ player_state_changed_cb (PtPlayer *player,
 		gtk_widget_set_tooltip_text (win->priv->button_jump_forward, NULL);
 		remove_timer (win);
 		update_time_scale_blocking (win, 0);
-		pt_waveslider_set_wave (PT_WAVESLIDER (win->priv->waveslider), NULL, 0);
+		pt_waveslider_set_wave (PT_WAVESLIDER (win->priv->waveslider), NULL, 0, 0);
 	}
 }
 

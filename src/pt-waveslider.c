@@ -104,6 +104,30 @@ pt_waveslider_unmap (GtkWidget *widget)
 	GTK_WIDGET_CLASS (pt_waveslider_parent_class)->unmap (widget);
 }
 
+static gint64
+time_to_pixel (gint64 ms, gint pix_per_sec)
+{
+	/* Convert a time in milliseconds to the closest position in samples array */
+	gint64 result;
+
+	result = ms * pix_per_sec;
+	result = result / 1000;
+
+	return result;
+}
+
+static gint64
+pixel_to_time (gint64 pixel, gint pix_per_sec)
+{
+	/* Convert a position in samples array to time in milliseconds */
+	gint64 result;
+
+	result = pixel * 1000;
+	result = result / pix_per_sec;
+
+	return result;
+}
+
 static gboolean
 pt_waveslider_draw (GtkWidget *widget,
 		    cairo_t   *cr)
@@ -140,7 +164,7 @@ pt_waveslider_draw (GtkWidget *widget,
 	cairo_set_line_width (cr, 1.0);
 
 	/* offset = pixel at the left in peaks array */
-	offset = self->playback_cursor * 2 - width;
+	offset = time_to_pixel (self->playback_cursor * 10, self->px_per_sec) * 2 - width;
 
 	/* before waveform */
 	gdk_cairo_set_source_rgba (cr, &self->invalid_color);
@@ -244,9 +268,13 @@ pt_waveslider_button_press (GtkWidget	   *widget,
 	gint64 clicked;	/* the sample clicked on */
 	gint64 pos;	/* clicked sample's position in milliseconds */
 
-	left = self->playback_cursor - width * 0.5;
+	left = time_to_pixel (self->playback_cursor * 10, self->px_per_sec) - (width * 0.5);
 	clicked = left + (gint) event->x;
-	pos = clicked * 10;
+	pos = pixel_to_time (clicked, self->px_per_sec);
+
+	g_debug ("left: %d", left);
+	g_debug ("clicked: %d", clicked);
+	g_debug ("pos: %d", pos);
 
 	if (clicked < 0 || clicked > self->peaks_size / 2) {
 		g_debug ("click outside");
@@ -440,7 +468,8 @@ pt_waveslider_init (PtWaveslider *self)
 void
 pt_waveslider_set_wave (PtWaveslider *self,
 			gfloat       *data,
-			gint64	      length)
+			gint64	      length,
+			gint	      px_per_sec)
 {
 	g_free (self->peaks);
 	self->peaks = NULL;
@@ -450,6 +479,7 @@ pt_waveslider_set_wave (PtWaveslider *self,
 		return;
 	}
 
+	self->px_per_sec = px_per_sec;
 	self->peaks_size = length;
 	self->peaks = g_malloc (sizeof (gfloat) * self->peaks_size);
 	self->peaks = data;
