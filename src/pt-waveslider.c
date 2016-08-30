@@ -30,7 +30,6 @@ enum
 #define MIN_W 24
 #define MIN_H 16
 
-#define DEF_PEAK_SIZE 1000
 
 //-- the class
 
@@ -273,20 +272,6 @@ pt_waveslider_button_release (GtkWidget	     *widget,
 	return FALSE;
 }
 
-static gboolean
-pt_waveslider_motion_notify (GtkWidget	    *widget,
-			     GdkEventMotion *event)
-{
-	PtWaveslider *self = PT_WAVESLIDER (widget);
-	const gint ox = 1;
-	const gint sx = gtk_widget_get_allocated_width (widget) - 2;
-	gint64 pos = (event->x - ox) * (gdouble) self->wave_length / sx;
-
-	pos = CLAMP (pos, 0, self->wave_length);
-
-	return FALSE;
-}
-
 static void
 pt_waveslider_state_flags_changed (GtkWidget	 *widget,
 				   GtkStateFlags  flags)
@@ -374,7 +359,6 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 	widget_class->size_allocate = pt_waveslider_size_allocate;
 	widget_class->button_press_event = pt_waveslider_button_press;
 	widget_class->button_release_event = pt_waveslider_button_release;
-	widget_class->motion_notify_event = pt_waveslider_motion_notify;
 	widget_class->state_flags_changed = pt_waveslider_state_flags_changed;
 
 	gobject_class->set_property = pt_waveslider_set_property;
@@ -414,9 +398,7 @@ pt_waveslider_init (PtWaveslider *self)
 	gboolean	 dark;
 	GFile		*file;
 
-	self->peaks_size = DEF_PEAK_SIZE;
-	self->peaks = g_malloc (sizeof (gfloat) * self->peaks_size);
-	self->wave_length = 0;
+	self->peaks_size = 0;
 	self->playback_cursor = -1;
 
 	gtk_widget_set_has_window (GTK_WIDGET (self), FALSE);
@@ -450,8 +432,8 @@ pt_waveslider_init (PtWaveslider *self)
 /**
  * pt_waveslider_set_wave:
  * @self: the widget
- * @data: memory block of samples
- * @length: number samples per channel
+ * @data: memory block of samples, min and max value for each sample
+ * @length: number of elements in data array
  *
  * Set wave data to show in the widget.
  */
@@ -460,14 +442,6 @@ pt_waveslider_set_wave (PtWaveslider *self,
 			gfloat       *data,
 			gint64	      length)
 {
-	/* Create 100 data pairs (minimum and maximum value) per second
-	   from raw data. Input must be mono, at a bit rate of 44100.
-	   Move this later to the waveloader. */
-
-	gint64 len = length; /* number of samples */
-
-	self->wave_length = length;
-
 	g_free (self->peaks);
 	self->peaks = NULL;
 
