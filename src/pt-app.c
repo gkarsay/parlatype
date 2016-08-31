@@ -184,6 +184,13 @@ about_cb (GSimpleAction *action,
 	  GVariant      *parameter,
 	  gpointer       app)
 {
+	const gchar *authors[] = {
+		"Gabor Karsay <gabor.karsay@gmx.at>",
+		"Buzztrax team <buzztrax-devel@buzztrax.org>",
+		"Philip Withnall <philip@tecnocode.co.uk>",
+		NULL
+	};
+
 	const gchar *artists[] = {
 		"GNOME Project http://www.gnome.org",
 		"Gabor Karsay <gabor.karsay@gmx.at>",
@@ -197,6 +204,7 @@ about_cb (GSimpleAction *action,
 			"copyright", "© Gabor Karsay 2016",
 			"comments", _("A basic transcription utility"),
 			"logo-icon-name", "parlatype",
+			"authors", authors,
 			"artists", artists,
 			"translator-credits", _("translator-credits"),
 			"license-type", GTK_LICENSE_GPL_3_0,
