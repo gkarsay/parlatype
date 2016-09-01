@@ -23,6 +23,7 @@
 #include "pt-waveslider.h"
 
 
+#define CURSOR_POSITION 0.5
 #define MARKER_BOX_W 6
 #define MARKER_BOX_H 5
 #define MIN_W 24
@@ -133,6 +134,26 @@ pixel_to_time (gint64 pixel, gint pix_per_sec)
 	return result;
 }
 
+static gint
+get_left_pixel (PtWaveslider *self,
+		gint width,
+	        gint cursor_pixel)
+{
+	gint left;
+	gint last_pixel;
+
+	last_pixel = self->peaks_size / 2;
+	left = cursor_pixel - width * CURSOR_POSITION;
+
+	if (width * CURSOR_POSITION > cursor_pixel)
+		left = 0;
+
+	if (width * (1 - CURSOR_POSITION) > last_pixel - cursor_pixel)
+		left = last_pixel - width;
+
+	return left;
+}
+
 static gboolean
 pt_waveslider_draw (GtkWidget *widget,
 		    cairo_t   *cr)
@@ -168,22 +189,9 @@ pt_waveslider_draw (GtkWidget *widget,
 	cairo_set_line_join (cr, CAIRO_LINE_JOIN_ROUND);
 	cairo_set_line_width (cr, 1.0);
 
+	gint cursor_pixel = time_to_pixel (self->playback_cursor * 10, self->px_per_sec);
 	/* offset = pixel at the left in peaks array */
-	offset = time_to_pixel (self->playback_cursor * 10, self->px_per_sec) * 2 - width;
-
-	/* before waveform */
-	gdk_cairo_set_source_rgba (cr, &self->invalid_color);
-	if (offset < 0) {
-		cairo_rectangle (cr, left, top, offset /2 * -1, height);
-		cairo_fill (cr);
-	}
-
-	/* beyond waveform */
-	gint diff = offset + width * 2 - self->peaks_size;
-	if (diff > 0) {
-		cairo_rectangle (cr, left + width - diff / 2, top, diff / 2, height);
-		cairo_fill (cr);
-	}
+	offset = get_left_pixel (self, width, cursor_pixel) * 2;
 
 	/* waveform */
 	for (i = 0; i < 2 * width; i += 2) {
@@ -204,7 +212,7 @@ pt_waveslider_draw (GtkWidget *widget,
 	/* cursor */
 	if (self->playback_cursor != -1) {
 		gdk_cairo_set_source_rgba (cr, &self->line_color);
-		x = (gint) (left + width / 2) - 1;
+		x = cursor_pixel - offset / 2;
 		cairo_move_to (cr, x, top + height);
 		cairo_line_to (cr, x, top);
 		cairo_stroke (cr);
@@ -269,11 +277,13 @@ pt_waveslider_button_press (GtkWidget	   *widget,
 
 	const gint width = gtk_widget_get_allocated_width (widget) - 2;
 
+	gint64 cursor_pixel;
 	gint64 left;	/* the first sample in the view */
 	gint64 clicked;	/* the sample clicked on */
 	gint64 pos;	/* clicked sample's position in milliseconds */
 
-	left = time_to_pixel (self->playback_cursor * 10, self->px_per_sec) - (width * 0.5);
+	cursor_pixel = time_to_pixel (self->playback_cursor * 10, self->px_per_sec);
+	left = get_left_pixel (self, width, cursor_pixel);
 	clicked = left + (gint) event->x;
 	pos = pixel_to_time (clicked, self->px_per_sec);
 
