@@ -151,6 +151,9 @@ get_left_pixel (PtWaveslider *self,
 	if (width * (1 - CURSOR_POSITION) > last_pixel - cursor_pixel)
 		left = last_pixel - width;
 
+	if (last_pixel < width)
+		left = 0;
+
 	return left;
 }
 
