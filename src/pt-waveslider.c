@@ -214,7 +214,7 @@ pt_waveslider_draw (GtkWidget *widget,
 
 	/* cursor */
 	if (self->playback_cursor != -1) {
-		gdk_cairo_set_source_rgba (cr, &self->line_color);
+		gdk_cairo_set_source_rgba (cr, &self->cursor_color);
 		x = cursor_pixel - offset / 2;
 		cairo_move_to (cr, x, top + height);
 		cairo_line_to (cr, x, top);
@@ -334,12 +334,10 @@ pt_waveslider_state_flags_changed (GtkWidget	 *widget,
 
 	if (gdk_window_get_state (window) & GDK_WINDOW_STATE_FOCUSED) {
 		gtk_style_context_lookup_color (style_ctx, "wave_color", &self->wave_color);
-		gtk_style_context_lookup_color (style_ctx, "invalid_color", &self->invalid_color);
-		gtk_style_context_lookup_color (style_ctx, "line_color", &self->line_color);
+		gtk_style_context_lookup_color (style_ctx, "cursor_color", &self->cursor_color);
 	} else {
 		gtk_style_context_lookup_color (style_ctx, "wave_color_uf", &self->wave_color);
-		gtk_style_context_lookup_color (style_ctx, "invalid_color_uf", &self->invalid_color);
-		gtk_style_context_lookup_color (style_ctx, "line_color_uf", &self->line_color);
+		gtk_style_context_lookup_color (style_ctx, "cursor_color_uf", &self->cursor_color);
 	}
 }
 
@@ -482,8 +480,7 @@ pt_waveslider_init (PtWaveslider *self)
 					GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
 	gtk_style_context_lookup_color (context, "wave_color", &self->wave_color);
-	gtk_style_context_lookup_color (context, "invalid_color", &self->invalid_color);
-	gtk_style_context_lookup_color (context, "line_color", &self->line_color);
+	gtk_style_context_lookup_color (context, "cursor_color", &self->cursor_color);
 
 	g_object_unref (file);
 	g_object_unref (provider);
