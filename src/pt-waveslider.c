@@ -213,18 +213,16 @@ pt_waveslider_draw (GtkWidget *widget,
 	cairo_stroke (cr);
 
 	/* cursor */
-	if (self->playback_cursor != -1) {
-		gdk_cairo_set_source_rgba (cr, &self->cursor_color);
-		x = cursor_pixel - offset / 2;
-		cairo_move_to (cr, x, top + height);
-		cairo_line_to (cr, x, top);
-		cairo_stroke (cr);
-		cairo_move_to (cr, x, top + height / 2 - MARKER_BOX_H);
-		cairo_line_to (cr, x, top + height / 2 + MARKER_BOX_H);
-		cairo_line_to (cr, x + MARKER_BOX_W, top + height / 2);
-		cairo_line_to (cr, x, top + height / 2 - MARKER_BOX_H);
-		cairo_fill (cr);
-	}
+	gdk_cairo_set_source_rgba (cr, &self->cursor_color);
+	x = cursor_pixel - offset / 2;
+	cairo_move_to (cr, x, top + height);
+	cairo_line_to (cr, x, top);
+	cairo_stroke (cr);
+	cairo_move_to (cr, x, top + height / 2 - MARKER_BOX_H);
+	cairo_line_to (cr, x, top + height / 2 + MARKER_BOX_H);
+	cairo_line_to (cr, x + MARKER_BOX_W, top + height / 2);
+	cairo_line_to (cr, x, top + height / 2 - MARKER_BOX_H);
+	cairo_fill (cr);
 
 	return FALSE;
 }
@@ -429,16 +427,16 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 	/**
 	* PtWaveslider:playback-cursor:
 	*
-	* Current playback position
+	* Current playback position in 1/100 seconds.
 	*/
 	obj_properties[PROP_PLAYBACK_CURSOR] =
 	g_param_spec_int64 (
 			"playback-cursor",
 			"playback cursor position",
-			"Current playback position within a waveform or -1 if sample is not played",
-			-1,
+			"Current playback position within a waveform",
+			0,
 			G_MAXINT64,
-			-1,
+			0,
 			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
 
 	g_object_class_install_properties (
@@ -457,7 +455,7 @@ pt_waveslider_init (PtWaveslider *self)
 	GFile		*file;
 
 	self->peaks_size = 0;
-	self->playback_cursor = -1;
+	self->playback_cursor = 0;
 
 	gtk_widget_set_has_window (GTK_WIDGET (self), FALSE);
 
