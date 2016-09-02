@@ -214,7 +214,9 @@ pt_waveslider_draw (GtkWidget *widget,
 
 	/* cursor */
 	gdk_cairo_set_source_rgba (cr, &self->cursor_color);
-	x = cursor_pixel - offset / 2;
+	x = left + cursor_pixel - offset / 2;
+	if (x > left + width)
+		x = left + width;
 	cairo_move_to (cr, x, top + height);
 	cairo_line_to (cr, x, top);
 	cairo_stroke (cr);
