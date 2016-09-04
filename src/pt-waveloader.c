@@ -265,7 +265,7 @@ bus_handler (GstBus     *bus,
 		wl->priv->data_size = buf.st_size / chunk_size;
 
 		g_debug ("pixels per sec: %d", wl->priv->pps);
-		g_debug ("samples: %d", wl->priv->data_size);
+		g_debug ("samples: %" G_GINT64_FORMAT " ", wl->priv->data_size);
 
 		remove_timeout (wl);
 		g_task_return_boolean (task, TRUE);
