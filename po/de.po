@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-31 19:08+0200\n"
-"PO-Revision-Date: 2016-08-22 09:22+0200\n"
+"POT-Creation-Date: 2016-09-04 11:43+0200\n"
+"PO-Revision-Date: 2016-09-04 11:44+0200\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
 "Language-Team: Deutsch <>\n"
 "Language: de\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "X-Generator: Gtranslator 2.91.6\n"
 
-#: ../data/parlatype.desktop.in.in.h:1 ../src/pt-app.c:66 ../src/pt-app.c:202
+#: ../data/parlatype.desktop.in.in.h:1 ../src/pt-app.c:66 ../src/pt-app.c:203
 #: ../src/resources/window.ui.h:1 ../src/resources/window-headerbar.ui.h:1
 msgid "Parlatype"
 msgstr "Parlatype"
@@ -84,15 +84,19 @@ msgstr "Audio-Dateien"
 msgid "Error opening help: %s"
 msgstr "Fehler beim Öffnen der Hilfe: %s"
 
-#: ../src/pt-app.c:205
+#: ../src/pt-app.c:189
+msgid "Including code from other projects:"
+msgstr "Aus anderen Projekten übernommener Code:"
+
+#: ../src/pt-app.c:206
 msgid "A basic transcription utility"
 msgstr "Ein einfaches Transkriptionsprogramm"
 
-#: ../src/pt-app.c:209
+#: ../src/pt-app.c:210
 msgid "translator-credits"
 msgstr "Gabor Karsay <gabor.karsay@gmx.at>"
 
-#: ../src/pt-app.c:323
+#: ../src/pt-app.c:324
 #, c-format
 msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
