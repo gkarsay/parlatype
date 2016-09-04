@@ -23,6 +23,7 @@
 #include "pt-dbus-service.h"
 #include "pt-goto-dialog.h"
 #include "pt-mediakeys.h"
+#include "pt-waveslider.h"
 #include "pt-window.h"
 #include "pt-window-dnd.h"
 #include "pt-window-private.h"
@@ -122,6 +123,16 @@ time_scale_changed_cb (GtkRange *range,
 }
 
 static void
+cursor_changed_cb (GtkWidget *widget,
+		   gint64     pos,
+		   PtWindow  *win)
+{
+	/* triggered only by user */
+
+	pt_player_jump_to_position (win->priv->player, pos);
+}
+
+static void
 update_duration_label (PtWindow *win)
 {
 	gchar *text;
@@ -131,6 +142,17 @@ update_duration_label (PtWindow *win)
 		g_debug ("duration: %s", text);
 		g_free (text);
 	}
+}
+
+static void
+update_time_scale_blocking (PtWindow *win,
+			    gint      value)
+{
+	/* Blocks signals and prevents endless signal loop */
+
+	g_signal_handlers_block_by_func (win->priv->time_scale, time_scale_changed_cb, win);
+	gtk_adjustment_set_value (GTK_ADJUSTMENT (win->priv->time_adj), value);
+	g_signal_handlers_unblock_by_func (win->priv->time_scale, time_scale_changed_cb, win);
 }
 
 static gboolean
@@ -148,10 +170,12 @@ update_time (PtWindow *win)
 	gtk_label_set_text (GTK_LABEL (win->priv->pos_label), text);
 	g_free (text);
 
-	/* update time_scale but block any signals */
-	g_signal_handlers_block_by_func (win->priv->time_scale, time_scale_changed_cb, win);
-	gtk_adjustment_set_value (GTK_ADJUSTMENT (win->priv->time_adj), permille);
-	g_signal_handlers_unblock_by_func (win->priv->time_scale, time_scale_changed_cb, win);
+	update_time_scale_blocking (win, permille);
+
+	g_object_set (win->priv->waveslider,
+		      "playback-cursor",
+		      pt_player_wave_pos (win->priv->player),
+		      NULL);
 
 	return TRUE;
 }
@@ -237,18 +261,77 @@ enable_win_actions (PtWindow *win,
 }
 
 static void
+destroy_progress_dlg (PtWindow *win)
+{
+	if (win->priv->progress_dlg) {
+		g_signal_handler_disconnect (win->priv->player, win->priv->progress_handler_id);
+		gtk_widget_destroy (win->priv->progress_dlg);
+		win->priv->progress_dlg = NULL;
+	}
+}
+
+static void
+progress_response_cb (GtkWidget *dialog,
+		      gint       response,
+		      PtWindow  *win)
+{
+	if (response == GTK_RESPONSE_CANCEL)
+		pt_player_cancel (win->priv->player);
+		/* This will trigger an error */
+}
+
+static void
+show_progress_dlg (PtWindow *win)
+{
+	if (win->priv->progress_dlg) {
+		/* actually this should never happen */
+		gtk_window_present (GTK_WINDOW (win->priv->progress_dlg));
+		return;
+	}
+
+	GtkWidget *content;
+	char	  *message = _("Loading file...");
+
+	win->priv->progress_dlg = gtk_message_dialog_new
+					(GTK_WINDOW (win),
+					GTK_DIALOG_DESTROY_WITH_PARENT,
+					GTK_MESSAGE_OTHER,
+					GTK_BUTTONS_CANCEL,
+					"%s", message);
+
+	win->priv->progress_bar = gtk_progress_bar_new ();
+	content = gtk_message_dialog_get_message_area (GTK_MESSAGE_DIALOG (win->priv->progress_dlg));
+	gtk_container_add (GTK_CONTAINER (content), win->priv->progress_bar);
+
+	g_signal_connect (win->priv->progress_dlg,
+			  "response",
+			  G_CALLBACK (progress_response_cb),
+			  win);
+
+	gtk_widget_show_all (win->priv->progress_dlg);
+}
+
+static void
+progress_changed_cb (PtPlayer  *player,
+		     gdouble    progress,
+		     PtWindow  *win)
+{
+	if (!win->priv->progress_dlg)
+		show_progress_dlg (win);
+	else
+		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (win->priv->progress_bar), progress);
+}
+
+static void
 player_state_changed_cb (PtPlayer *player,
 			 gboolean  state,
 			 PtWindow *win)
 {
 	/* Set up widget sensitivity/visibility, actions, labels, window title
 	   and timer according to the state of PtPlayer (ready to play or not).
-	   Reset tooltips for insensitive widgets.
-	   Resetting cursor from waiting to normal only if player is ready as
-	   the state changes to FALSE immediately before a file is opened. */
+	   Reset tooltips for insensitive widgets. */
 
 	gchar     *display_name = NULL;
-	GdkWindow *gdkwin;
 
 	enable_win_actions (win, state);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (win->priv->button_play), FALSE);
@@ -264,6 +347,7 @@ player_state_changed_cb (PtPlayer *player,
 	gtk_widget_set_sensitive (win->priv->speed_scale, state);
 
 	if (state) {
+		destroy_progress_dlg (win);
 		update_duration_label (win);
 		display_name = pt_player_get_filename (player);
 		if (display_name) {
@@ -277,11 +361,11 @@ player_state_changed_cb (PtPlayer *player,
 		change_play_button_tooltip (win);
 		change_jump_back_tooltip (win);
 		change_jump_forward_tooltip (win);
-
 		add_timer (win);
-
-		gdkwin = gtk_widget_get_window (GTK_WIDGET (win));
-		gdk_window_set_cursor (gdkwin, NULL);
+		pt_waveslider_set_wave (PT_WAVESLIDER (win->priv->waveslider),
+					pt_player_get_data (player),
+					pt_player_get_length (player),
+					pt_player_get_px_per_sec (player));
 
 	} else {
 		gtk_label_set_text (GTK_LABEL (win->priv->dur_label), "00:00");
@@ -290,6 +374,8 @@ player_state_changed_cb (PtPlayer *player,
 		gtk_widget_set_tooltip_text (win->priv->button_jump_back, NULL);
 		gtk_widget_set_tooltip_text (win->priv->button_jump_forward, NULL);
 		remove_timer (win);
+		update_time_scale_blocking (win, 0);
+		pt_waveslider_set_wave (PT_WAVESLIDER (win->priv->waveslider), NULL, 0, 0);
 	}
 }
 
@@ -306,7 +392,13 @@ player_end_of_stream_cb (PtPlayer *player,
 			 PtWindow *win)
 {
 	g_debug ("end_of_stream_cb");
+
+	/* Don't jump back */
+	gint temp;
+	temp = win->priv->pause;
+	win->priv->pause = 0;
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (win->priv->button_play), FALSE);
+	win->priv->pause = temp;
 }
 
 static void
@@ -314,14 +406,7 @@ player_error_cb (PtPlayer *player,
 		 GError   *error,
 		 PtWindow *win)
 {
-	/* Resetting the cursor from waiting to normal. We don't know if this
-	   error is from opening or anything else, just do it */
-
-	GdkWindow  *gdkwin;
-
-	gdkwin = gtk_widget_get_window (GTK_WIDGET (win));
-	gdk_window_set_cursor (gdkwin, NULL);
-
+	destroy_progress_dlg (win);
 	pt_error_message (win, error->message);
 }
 
@@ -329,16 +414,15 @@ void
 pt_window_open_file (PtWindow *win,
 		     gchar    *uri)
 {
-	GdkWindow  *gdkwin;
-	GdkDisplay *display;
-	GdkCursor  *cur;
-
-	gdkwin = gtk_widget_get_window (GTK_WIDGET (win));
-	display = gdk_window_get_display (gdkwin);
-	cur = gdk_cursor_new_from_name (display, "watch");
-	gdk_window_set_cursor (gdkwin, cur);
-	if (cur)
-		g_object_unref (cur);
+	/* We don't start progress dialog immediately but wait for first
+	   progress signals. Before actual loading starts, some tests might
+	   fail, resulting in an error message. This way we don't show error
+	   message and progress dialog together. */
+	win->priv->progress_handler_id =
+		g_signal_connect (win->priv->player,
+				  "load-progress",
+				  G_CALLBACK (progress_changed_cb),
+				  win);
 
 	pt_player_open_uri (win->priv->player, uri);
 }
@@ -591,6 +675,17 @@ pt_window_init (PtWindow *win)
 	setup_dbus_service (win);	/* this is in pt_dbus_service.c */
 	win->priv->recent = gtk_recent_manager_get_default ();
 	win->priv->timer = 0;
+	win->priv->progress_dlg = NULL;
+
+	win->priv->waveslider = pt_waveslider_new ();
+	gtk_grid_attach (GTK_GRID (win->priv->main_grid), win->priv->waveslider, 0, 0, 1, 1);
+	g_signal_connect (win->priv->waveslider,
+			"cursor-changed",
+			G_CALLBACK (cursor_changed_cb),
+			win);
+
+	player_state_changed_cb (win->priv->player, FALSE, win);
+	gtk_widget_show (win->priv->waveslider);
 }
 
 static void
@@ -615,6 +710,7 @@ pt_window_dispose (GObject *object)
 	remove_timer (win);
 	g_clear_object (&win->priv->editor);
 	g_clear_object (&win->priv->proxy);
+	destroy_progress_dlg (win);
 	g_clear_object (&win->priv->player);
 
 	G_OBJECT_CLASS (pt_window_parent_class)->dispose (object);
@@ -687,6 +783,7 @@ pt_window_class_init (PtWindowClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, time_scale);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, time_adj);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, speed_scale);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, main_grid);
 
 	obj_properties[PROP_PAUSE] =
 	g_param_spec_int (

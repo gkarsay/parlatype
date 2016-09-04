@@ -44,10 +44,16 @@ struct _PtPlayerClass
 
 GType		pt_player_get_type		(void) G_GNUC_CONST;
 
+gint64		pt_player_get_length		(PtPlayer *player);
+gint64		pt_player_wave_pos		(PtPlayer *player);
+gint		pt_player_get_px_per_sec	(PtPlayer *player);
+gfloat 		*pt_player_get_data		(PtPlayer *player);
+
 void		pt_player_pause			(PtPlayer *player);
 void		pt_player_play			(PtPlayer *player);
 void		pt_player_open_uri		(PtPlayer  *player,
 						 gchar     *uri);
+void		pt_player_cancel		(PtPlayer *player);
 void		pt_player_jump_relative		(PtPlayer *player,
 						 gint      milliseconds);
 void		pt_player_jump_to_position	(PtPlayer *player,

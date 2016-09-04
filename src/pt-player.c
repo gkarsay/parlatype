@@ -20,6 +20,8 @@
 #include <gio/gio.h>
 #include <glib/gi18n.h>	
 #include <gst/gst.h>
+#include "pt-waveloader.h"
+#include "pt-waveslider.h"
 #include "pt-player.h"
 
 struct _PtPlayerPrivate
@@ -33,7 +35,10 @@ struct _PtPlayerPrivate
 	gint64	    dur;
 	gdouble	    speed;
 
+	GCancellable *c;
 	gboolean    opening;
+
+	PtWaveloader *wl;
 };
 
 enum
@@ -105,9 +110,12 @@ static gboolean
 pt_player_query_duration (PtPlayer *player,
 			  gpointer  position)
 {
-	gboolean result;
+	/*gboolean result;
 	result = gst_element_query_duration (player->priv->pipeline, GST_FORMAT_TIME, position);
-	return result;
+	return result;*/
+	gint64 *pos = position;
+	*pos = player->priv->dur;
+	return TRUE;
 }
 
 static void
@@ -286,32 +294,15 @@ bus_call (GstBus     *bus,
 		break;
 		}
 
-	case GST_MESSAGE_NEW_CLOCK:
-		/* We query duration after getting a new clock.
-		   The proper way would be to query after the player's async-done
-		   message, however it didn't always work with one single query.
-		   We loop until we get something, the loop will be stopped after
-		   a timeout of 5 seconds. */
-		
-		while (player->priv->opening) {
-			if (pt_player_query_duration (player, NULL)) {
-				pt_player_query_duration (player, &player->priv->dur);
-				pt_player_pause (player);
-				pt_player_mute_volume (player, FALSE);
-				metadata_get_position (player);
-				g_signal_emit_by_name (player, "player-state-changed", TRUE);
-				player->priv->opening = FALSE;
-				return TRUE;
-			}
+	case GST_MESSAGE_ASYNC_DONE:
+		if (player->priv->opening) {
+			metadata_get_position (player);
+			g_signal_emit_by_name (player, "player-state-changed", TRUE);
+			player->priv->opening = FALSE;
 		}
 
 		break;
 
-	case GST_MESSAGE_DURATION_CHANGED:
-		if (pt_player_query_duration (player, &player->priv->dur))
-			g_signal_emit_by_name (player, "duration-changed");
-
-		break;
 	default:
 		break;
 	}
@@ -319,24 +310,36 @@ bus_call (GstBus     *bus,
 	return TRUE;
 }
 
+
 /* -------------------------- opening files --------------------------------- */
 
-static gboolean
-timeout_cb (PtPlayer *player)
+
+static void
+propagate_progress_cb (PtWaveloader *wl,
+		       gdouble	     progress,
+		       PtPlayer     *player)
 {
-	GError *error;
+	g_signal_emit_by_name (player, "load-progress", progress);
+}
 
-	if (player->priv->opening) {
-		pt_player_clear (player);
-		error = g_error_new (
-				GST_RESOURCE_ERROR,
-				GST_RESOURCE_ERROR_SEEK,
-				_("Timeout: Can't read resource"));
+static void
+load_cb (PtWaveloader *wl,
+	 GAsyncResult *res,
+	 PtPlayer     *player)
+{
+	GError *error = NULL;
+
+	if (pt_waveloader_load_finish (wl, res, &error)) {
+		player->priv->opening = TRUE;
+		player->priv->dur = pt_waveloader_get_duration (player->priv->wl);
+
+		pt_player_pause (player);
+
+	} else {
 		g_signal_emit_by_name (player, "error", error);
-		pt_player_mute_volume (player, FALSE);
+                g_error_free (error);
+                g_clear_object (&wl);
 	}
-
-	return G_SOURCE_REMOVE;
 }
 
 /**
@@ -355,24 +358,21 @@ timeout_cb (PtPlayer *player)
  * The player is set to the paused state and ready for playback. To start
  * playback use @pt_player_play().
  *
- * This is an asynchronous method. Listen to player-state-changed and error signals.
- * The other methods like @pt_player_play() and so on are async, too and it
- * might take a short while until they really start. Opening is slower though
- * and might take a few seconds. There is a timeout after 5 seconds, emitting
- * an error.
+ * This is an asynchronous operation, to get the result listen for the
+ * player-state-changed signal and error signals.
+ *
+ * player-state-changed emits immediately FALSE at the beginning of the
+ * operation (because the previous file will be closed) and TRUE on success.
+ * For a failure listen to the error signal.
+ *
+ * While loading the file there is a progress signal emitted which stops before
+ * reaching 100%. The operation is only finished after the player-state-changed
+ * to TRUE.
  */
 void
 pt_player_open_uri (PtPlayer  *player,
 		    gchar     *uri)
 {
-	/* A file is opened. We play it until we get a new-clock signal.
-	   Reason: On some files PAUSED state is not enough to get a duration,
-	   even Playing and setting to PAUSED immediately might be not enough.
-	   In PLAYING state we loop a duration query.
-	   That's why we mute the volume and reset it later. In the end we
-	   pause the player and look for the last known position in metadata.
-	   This sets it to position 0 if no metadata is found. */
-
 	g_return_if_fail (PT_IS_PLAYER (player));
 	g_return_if_fail (uri != NULL);
 
@@ -387,7 +387,6 @@ pt_player_open_uri (PtPlayer  *player,
 	/* Change uri to location */
 	file = g_file_new_for_uri (uri);
 	location = g_file_get_path (file);
-	g_object_unref (file);
 	
 	if (!location) {
 		error = g_error_new (
@@ -396,6 +395,17 @@ pt_player_open_uri (PtPlayer  *player,
 				_("URI not valid: %s"), uri);
 		g_signal_emit_by_name (player, "error", error);
 		g_object_unref (file);
+		return;
+	}
+
+	if (!g_file_query_exists (file, NULL)) {
+		error = g_error_new (
+				GST_RESOURCE_ERROR,
+				GST_RESOURCE_ERROR_NOT_FOUND,
+				_("File not found: %s"), location);
+		g_signal_emit_by_name (player, "error", error);
+		g_object_unref (file);
+		g_free (location);
 		return;
 	}
 
@@ -410,14 +420,35 @@ pt_player_open_uri (PtPlayer  *player,
 	add_message_bus (player);
 
 	g_object_set (G_OBJECT (player->priv->source), "location", location, NULL);
+
+	g_object_unref (file);
 	g_free (location);
 
-	/* mute player and start playing with a timeout of 5 seconds
-	   on successfull duration query it's stopped and position is set */
-	pt_player_mute_volume (player, TRUE);
-	g_timeout_add_seconds (5, (GSourceFunc) timeout_cb, player);
-	pt_player_play (player);
+	player->priv->wl = pt_waveloader_new (uri);
+	g_signal_connect (player->priv->wl,
+			 "progress",
+			 G_CALLBACK (propagate_progress_cb),
+			 player);
+
+	player->priv->c = g_cancellable_new ();
+	pt_waveloader_load_async (player->priv->wl,
+				  player->priv->c,
+				  (GAsyncReadyCallback) load_cb,
+				  player);
 }
+
+/**
+ * pt_player_cancel:
+ * @player: a #PtPlayer
+ *
+ * Cancels the file opening operation, which triggers an error message.
+ */
+void
+pt_player_cancel (PtPlayer *player)
+{
+	g_cancellable_cancel (player->priv->c);
+}
+
 
 /* ------------------------- Basic controls --------------------------------- */
 
@@ -725,6 +756,78 @@ pt_player_get_duration (PtPlayer *player)
 
 	return GST_TIME_AS_MSECONDS (time);
 }
+
+
+/* ------------------------- Waveform stuff --------------------------------- */
+
+/*
+ * pt_player_get_length:
+ * @player: a #PtPlayer
+ *
+ * Returns the number of elements in the data array. This is twice the number
+ * of samples, as each sample consists of 2 elements (min and max value).
+ *
+ * Return value: number of elements
+ */
+gint64
+pt_player_get_length (PtPlayer *player)
+{
+	return pt_waveloader_get_data_size (player->priv->wl);
+}
+
+/*
+ * pt_player_wave_pos:
+ * @player: a #PtPlayer
+ *
+ * Translates the current position in stream into a sample number that can be
+ * used by a wave viewer widget.
+ *
+ * Return value: index of the data array
+ */
+gint64
+pt_player_wave_pos (PtPlayer *player)
+{
+	gint64 pos;
+
+	if (!pt_player_query_position (player, &pos))
+		return 0;
+
+	return pos / 10000000;
+}
+
+/*
+ * pt_player_get_px_per_sec:
+ * @player: a #PtPlayer
+ *
+ * Returns the bit rate or samples/pixels per second.
+ *
+ * Return value: pixels per second
+ */
+gint
+pt_player_get_px_per_sec (PtPlayer *player)
+{
+	return pt_waveloader_get_px_per_sec (player->priv->wl);
+}
+
+/*
+ * pt_player_get_data:
+ * @player: a #PtPlayer
+ *
+ * Returns all samples for visual representation as raw data. Each sample
+ * contains a minimum followed by a maximum peak value. Minimum values range
+ * from -1.0 to 0, maximum values from 0 to 1.0.
+ *
+ * The raw data is only useful with additional information, first of all the
+ * number of elements in the array and the pixel per second ratio.
+ *
+ * Return value: an array of all samples
+ */
+gfloat *
+pt_player_get_data (PtPlayer *player)
+{
+	return pt_waveloader_get_data (player->priv->wl);
+}
+
 
 /* --------------------- File utilities ------------------------------------- */
 
@@ -1260,6 +1363,8 @@ pt_player_dispose (GObject *object)
 		remove_message_bus (player);
 	}
 
+	g_clear_object (&player->priv->wl);
+
 	G_OBJECT_CLASS (pt_player_parent_class)->dispose (object);
 }
 
@@ -1315,6 +1420,25 @@ pt_player_class_init (PtPlayerClass *klass)
 	G_OBJECT_CLASS (klass)->set_property = pt_player_set_property;
 	G_OBJECT_CLASS (klass)->get_property = pt_player_get_property;
 	G_OBJECT_CLASS (klass)->dispose = pt_player_dispose;
+
+	/**
+	* PtPlayer::load-progress:
+	* @player: the player emitting the signal
+	* @progress: the new progress state, ranging from 0.0 to 1.0
+	*
+	* Indicates progress on a scale from 0.0 to 1.0, however it does not
+	* emit the value 0.0 nor 1.0. Wait for a TRUE player-state-changed
+	* signal or an error signal to dismiss a gui element showing progress.
+	*/
+	g_signal_new ("load-progress",
+		      G_TYPE_OBJECT,
+		      G_SIGNAL_RUN_FIRST,
+		      0,
+		      NULL,
+		      NULL,
+		      g_cclosure_marshal_VOID__DOUBLE,
+		      G_TYPE_NONE,
+		      1, G_TYPE_DOUBLE);
 
 	/**
 	* PtPlayer::player-state-changed:

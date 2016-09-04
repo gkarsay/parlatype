@@ -1,0 +1,9 @@
+/* custom styles for PtWaveslider, dark variant */
+
+/* colors for focused widget */
+@define-color wave_color @theme_fg_color;
+@define-color cursor_color #cc0000;
+
+/* colors for unfocused widget */
+@define-color wave_color_uf @theme_unfocused_fg_color;
+@define-color cursor_color_uf #cc6060;

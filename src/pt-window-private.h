@@ -28,6 +28,10 @@ struct _PtWindowPrivate
 	GtkRecentManager *recent;
 	PtPlayer	 *player;
 
+	GtkWidget  *progress_dlg;
+	GtkWidget  *progress_bar;
+	gint	    progress_handler_id;
+
 	GtkWidget  *button_open;
 	GtkWidget  *button_play;
 	GtkWidget  *button_fast_back;	  // not used
@@ -40,6 +44,8 @@ struct _PtWindowPrivate
 	GtkWidget  *time_scale;
 	GtkWidget  *time_adj;
 	GtkWidget  *speed_scale;
+	GtkWidget  *main_grid;
+	GtkWidget  *waveslider;
 
 	gint	    timer;
 	gdouble	    speed;
