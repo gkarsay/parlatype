@@ -186,6 +186,7 @@ about_cb (GSimpleAction *action,
 {
 	const gchar *authors[] = {
 		"Gabor Karsay <gabor.karsay@gmx.at>",
+		_("Including code from other projects:"),
 		"Buzztrax team <buzztrax-devel@buzztrax.org>",
 		"Philip Withnall <philip@tecnocode.co.uk>",
 		NULL
