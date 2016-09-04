@@ -476,7 +476,7 @@ pt_waveloader_get_data (PtWaveloader *wl)
 	}
 
 	for (i = 0; i <  wl->priv->data_size; i++) {
-		ssize_t bytes = read (wl->priv->fd, temp, chunk_bytes);
+		read (wl->priv->fd, temp, chunk_bytes);
 		vmin = 0;
 		vmax = 0;
 		for (k = 0; k < chunk_size; k++) {
@@ -582,7 +582,6 @@ pt_waveloader_get_property (GObject    *object,
 {
 	PtWaveloader *wl;
 	wl = PT_WAVELOADER (object);
-	gdouble tmp;
 
 	switch (property_id) {
 	case PROP_URI:
