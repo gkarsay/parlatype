@@ -313,8 +313,6 @@ static gboolean
 pt_waveslider_button_release (GtkWidget	     *widget,
 			      GdkEventButton *event)
 {
-	PtWaveslider *self = PT_WAVESLIDER (widget);
-
 	return FALSE;
 }
 
@@ -357,8 +355,6 @@ pt_waveslider_get_property (GObject    *object,
 			    GValue     *value,
 			    GParamSpec *pspec)
 {
-	PtWaveslider *self = PT_WAVESLIDER (object);
-
 	switch (property_id) {
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
