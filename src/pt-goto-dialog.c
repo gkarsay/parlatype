@@ -27,8 +27,6 @@
 #include "pt-goto-dialog.h"
 
 
-static GtkWidget *goto_dialog = NULL;
-
 struct _PtGotoDialogPrivate
 {
 	GtkWidget *spin;
@@ -104,20 +102,9 @@ pt_goto_dialog_init (PtGotoDialog *dlg)
 }
 
 static void
-pt_goto_dialog_dispose (GObject *object)
-{
-	PtGotoDialog *dlg = PT_GOTO_DIALOG (object);
-
-	G_OBJECT_CLASS (pt_goto_dialog_parent_class)->dispose (object);
-}
-
-static void
 pt_goto_dialog_class_init (PtGotoDialogClass *klass)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
-
-	object_class->dispose = pt_goto_dialog_dispose;
 
 	/* Bind class to template */
 	gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/parlatype/goto-dialog.ui");
