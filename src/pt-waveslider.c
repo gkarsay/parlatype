@@ -290,9 +290,9 @@ pt_waveslider_button_press (GtkWidget	   *widget,
 	clicked = left + (gint) event->x;
 	pos = pixel_to_time (clicked, self->px_per_sec);
 
-	g_debug ("left: %d", left);
-	g_debug ("clicked: %d", clicked);
-	g_debug ("pos: %d", pos);
+	g_debug ("left: %" G_GINT64_FORMAT, left);
+	g_debug ("clicked: %" G_GINT64_FORMAT, clicked);
+	g_debug ("pos: %" G_GINT64_FORMAT, pos);
 
 	if (clicked < 0 || clicked > self->peaks_size / 2) {
 		g_debug ("click outside");
@@ -302,7 +302,7 @@ pt_waveslider_button_press (GtkWidget	   *widget,
 	/* Single left click */
 	if (event->type == GDK_BUTTON_PRESS && event->button == GDK_BUTTON_PRIMARY) {
 		g_signal_emit_by_name (widget, "cursor-changed", pos);
-		g_debug ("click, jump to: %d ms", pos);
+		g_debug ("click, jump to: %" G_GINT64_FORMAT "ms", pos);
 		return TRUE;
 	}
 
