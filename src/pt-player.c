@@ -641,7 +641,6 @@ pt_player_get_permille (PtPlayer *player)
 	g_return_val_if_fail (PT_IS_PLAYER (player), -1);
 
 	gint64 pos;
-	gfloat frac;
 
 	if (!pt_player_query_position (player, &pos))
 		return -1;
