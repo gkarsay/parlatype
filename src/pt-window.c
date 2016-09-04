@@ -114,7 +114,7 @@ time_scale_changed_cb (GtkRange *range,
 	/* triggered only by user */
 
 	GtkAdjustment *adj;
-	gdouble        pos, new;
+	gdouble        pos;
 
 	adj = gtk_range_get_adjustment (range);
 	pos = gtk_adjustment_get_value (adj);
@@ -631,7 +631,6 @@ setup_accels_actions_headerbar (PtWindow *win)
 	GtkBuilder    *builder;
 	GMenuModel    *model;
 	GtkWidget     *hbar;
-	GtkWidget     *add_button;
 	GtkWidget     *menu_button;
 
 	builder = gtk_builder_new_from_resource ("/org/gnome/parlatype/window-headerbar.ui");
