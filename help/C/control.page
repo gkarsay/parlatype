@@ -4,7 +4,13 @@
 <info>
   <link type="guide" xref="index"/>
   <desc>How to control Parlatype</desc>
+  <credit type="author">
+    <name>Gabor Karsay</name>
+  <email>gabor.karsay@gmx.at</email>
+  </credit>
+  <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
 </info>
+
 <title>Controls</title>
 
 <p>Of course <app>Parlatype</app> can be controled with a mouse or pointer device, however it is more convenient to use the keyboard or even a foot pedal.</p>

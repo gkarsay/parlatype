@@ -16,6 +16,7 @@ HELP_FILES = \
 	drag-and-drop.page	\
 	first-steps.page	\
 	keyboard-shortcuts.page	\
+	legal.xml	\
 	libreoffice-helpers.page	\
 	preferences.page	\
 	timestamps.page

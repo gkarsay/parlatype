@@ -32,6 +32,7 @@ Makefile.in
 /help/de/*.page
 /help/de/de.mo
 /help/de/de.stamp
+/help/de/legal.xml
 
 /po/*.gmo
 /po/*.pot

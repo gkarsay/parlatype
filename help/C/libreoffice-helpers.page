@@ -5,7 +5,13 @@
 <info>
   <link type="guide" xref="index"/>
   <desc>Helpers for LibreOffice</desc>
+  <credit type="author">
+    <name>Gabor Karsay</name>
+    <email>gabor.karsay@gmx.at</email>
+  </credit>
+  <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
 </info>
+
 <title>LibreOffice Helpers</title>
 
 <p>LibreOffice Helpers are an optional part of <app>Parlatype</app>. If you have them installed you still have to assign keyboard shortcuts to be able to use them.</p>

@@ -6,6 +6,11 @@
 <info>
 <title type="text">Parlatype</title>
 <title type="link">Parlatype</title>
+<credit type="author">
+  <name>Gabor Karsay</name>
+  <email>gabor.karsay@gmx.at</email>
+</credit>
+<include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
 </info>
 
 <title>
