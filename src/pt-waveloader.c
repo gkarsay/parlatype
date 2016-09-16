@@ -475,8 +475,9 @@ pt_waveloader_get_data (PtWaveloader *wl)
 		return NULL;
 	}
 
+	ssize_t bytes __attribute__ ((unused));
 	for (i = 0; i <  wl->priv->data_size; i++) {
-		read (wl->priv->fd, temp, chunk_bytes);
+		bytes = read (wl->priv->fd, temp, chunk_bytes);
 		vmin = 0;
 		vmax = 0;
 		for (k = 0; k < chunk_size; k++) {
