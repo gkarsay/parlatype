@@ -19,7 +19,7 @@
 
 #include "config.h"
 #include <gtk/gtk.h>
-#include "pt-player.h"
+#include <libparlatype/pt-player.h>
 
 struct _PtWindowPrivate
 {

@@ -12,6 +12,14 @@ AC_SUBST([GETTEXT_PACKAGE], AC_PACKAGE_NAME)
 IT_PROG_INTLTOOL(0.50.2)
 AM_SILENT_RULES([yes])
 
+LT_INIT([disable-static])
+# Define these substitions here to keep all version information in one place.
+# For information on how to properly maintain the library version information,
+# refer to the libtool manual, section "Updating library version information":
+# http://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html
+AC_SUBST([PARLATYPE_SO_VERSION], [1:0:0])
+AC_SUBST([PARLATYPE_API_VERSION], [1.0])
+
 # Checks for programs.
 AC_PROG_CC
 
@@ -54,6 +62,7 @@ AC_CONFIG_FILES([Makefile
 		 data/icons/Makefile
 		 docs/Makefile
 		 help/Makefile
+		 libparlatype/Makefile
 		 libreoffice/Makefile
 		 po/Makefile.in
                  src/Makefile])

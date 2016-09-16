@@ -31,14 +31,8 @@ parlatype_SOURCES = \
 		pt-goto-dialog.h	\
 		pt-mediakeys.c	\
 		pt-mediakeys.h	\
-		pt-player.c	\
-		pt-player.h	\
 		pt-preferences.c	\
 		pt-preferences.h	\
-		pt-waveloader.c	\
-		pt-waveloader.h	\
-		pt-waveslider.c	\
-		pt-waveslider.h	\
 		pt-window.c	\
 		pt-window.h	\
 		pt-window-dnd.c	\
@@ -46,6 +40,8 @@ parlatype_SOURCES = \
 		pt-window-private.h
 
 parlatype_LDFLAGS = $(PACKAGE_LDFLAGS)
+
+LDADD = ../libparlatype/libparlatype-1.0.la
 
 parlatype_LDADD = 	\
 	$(LDADD)	\

@@ -1,7 +1,13 @@
 *.o
+*.lo
+*.la
 *~
+
 Makefile
 Makefile.in
+
+.deps/
+.libs/
 
 /*.tar.gz
 /ABOUT-NLS
@@ -20,6 +26,8 @@ Makefile.in
 /debian/
 /depcomp
 /install-sh
+/libtool
+/ltmain.sh
 /m4/
 /missing
 /stamp-h1
