@@ -67,6 +67,7 @@ AC_CONFIG_FILES([Makefile
 		 docs/reference/version.xml
 		 help/Makefile
 		 libparlatype/Makefile
+		 libparlatype/libparlatype.pc
 		 libreoffice/Makefile
 		 po/Makefile.in
                  src/Makefile])

@@ -52,6 +52,8 @@ Makefile.in
 /help/de/de.stamp
 /help/de/legal.xml
 
+/libparlatype/libparlatype.pc
+
 /po/*.gmo
 /po/*.pot
 /po/.intltool-merge-cache
