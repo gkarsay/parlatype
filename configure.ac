@@ -56,11 +56,15 @@ AC_ARG_WITH([lo],
 
 AM_CONDITIONAL([LO], [test "$with_lo" = "yes"])
 
+GTK_DOC_CHECK([1.14],[--flavour no-tmpl])
+
 AC_CONFIG_FILES([Makefile
                  data/Makefile
 		 data/parlatype.desktop.in
 		 data/icons/Makefile
 		 docs/Makefile
+		 docs/reference/Makefile
+		 docs/reference/version.xml
 		 help/Makefile
 		 libparlatype/Makefile
 		 libreoffice/Makefile
@@ -74,8 +78,9 @@ echo "
         Parlatype $VERSION
         ==========================
 
-        prefix ....: ${prefix}
-	with-lo ...: $with_lo"
+        prefix .......: ${prefix}
+        enable-gtk-doc: $enable_gtk_doc
+	with-lo ......: $with_lo"
 
 if test "${prefix}" != "/usr" -a "$with_lo" == "yes"; then
 echo "

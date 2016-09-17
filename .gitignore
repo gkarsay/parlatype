@@ -25,6 +25,7 @@ Makefile.in
 /configure
 /debian/
 /depcomp
+/gtk-doc.make
 /install-sh
 /libtool
 /ltmain.sh
@@ -35,6 +36,15 @@ Makefile.in
 /data/parlatype.desktop
 /data/parlatype.desktop.in
 /data/org.gnome.parlatype.gschema.valid
+
+/docs/reference/*.stamp
+/docs/reference/version.xml
+/docs/reference/parlatype.*
+/docs/reference/parlatype-decl*.txt
+/docs/reference/parlatype-overrides.txt
+/docs/reference/parlatype-un*.txt
+/docs/reference/html*
+/docs/reference/xml/
 
 /help/parlatype.pot
 /help/de/*.page

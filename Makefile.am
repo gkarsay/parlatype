@@ -1,4 +1,4 @@
-SUBDIRS = data docs help libparlatype libreoffice po src
+SUBDIRS = data help libparlatype docs libreoffice po src # docs must be after libparlatype
 
 ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
 

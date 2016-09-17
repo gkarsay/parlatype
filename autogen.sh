@@ -27,6 +27,8 @@ if test -z $GNOMEDOC; then
 fi
 
 mkdir -p m4
+
+gtkdocize --copy || exit 1
 intltoolize --force --automake --copy
 autoreconf --force --install --verbose
 
