@@ -487,6 +487,7 @@ pt_waveslider_init (PtWaveslider *self)
  * @self: the widget
  * @data: memory block of samples, min and max value for each sample
  * @length: number of elements in data array
+ * @px_per_sec: how many peaks/pixels are one second
  *
  * Set wave data to show in the widget.
  */
