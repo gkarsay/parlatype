@@ -18,7 +18,6 @@
 #ifndef PT_WAVELOADER_H
 #define PT_WAVELOADER_H
 
-#include "config.h"
 #include <gio/gio.h>
 
 #define PT_WAVELOADER_TYPE		(pt_waveloader_get_type())

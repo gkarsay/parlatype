@@ -18,7 +18,6 @@
 #ifndef PT_PLAYER_H
 #define PT_PLAYER_H
 
-#include "config.h"
 #include <gio/gio.h>
 
 #define PT_PLAYER_TYPE		(pt_player_get_type())
