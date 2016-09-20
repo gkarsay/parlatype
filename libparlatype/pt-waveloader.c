@@ -69,6 +69,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtWaveloader, pt_waveloader, G_TYPE_OBJECT)
 /**
  * SECTION: pt-waveloader
  * @short_description: Loads the waveform for a given file.
+ * @include: parlatype-1.0/pt-waveloader.h
  *
  * An object to load waveform data from an audio file. The raw data can be
  * used by a widget to visually represent a waveform.
@@ -280,7 +281,7 @@ bus_handler (GstBus     *bus,
 	return TRUE;
 }
 
-/*
+/**
  * pt_waveloader_load_finish:
  * @wl: a #PtWaveloader
  * @result: the #GAsyncResult passed to your #GAsyncReadyCallback
@@ -301,7 +302,7 @@ pt_waveloader_load_finish (PtWaveloader  *wl,
 	return g_task_propagate_boolean (G_TASK (result), error);
 }
 
-/*
+/**
  * pt_waveloader_load_async:
  * @wl: a #PtWaveloader
  * @cancellable: a #GCancellable or NULL
@@ -376,7 +377,7 @@ pt_waveloader_load_async (PtWaveloader	       *wl,
 	wl->priv->progress_timeout = g_timeout_add (30, (GSourceFunc) check_progress, task);
 }
 
-/*
+/**
  * pt_waveloader_get_duration:
  * @wl: a #PtWaveloader
  *
@@ -391,7 +392,7 @@ pt_waveloader_get_duration (PtWaveloader *wl)
 	return wl->priv->duration;
 }
 
-/*
+/**
  * pt_waveloader_get_channels:
  * @wl: a #PtWaveloader
  *
@@ -406,7 +407,7 @@ pt_waveloader_get_channels (PtWaveloader *wl)
 	return wl->priv->channels;
 }
 
-/*
+/**
  * pt_waveloader_get_px_per_sec:
  * @wl: a #PtWaveloader
  *
@@ -420,7 +421,7 @@ pt_waveloader_get_px_per_sec (PtWaveloader *wl)
 	return wl->priv->pps;
 }
 
-/*
+/**
  * pt_waveloader_get_data_size:
  * @wl: a #PtWaveloader
  *
@@ -435,7 +436,7 @@ pt_waveloader_get_data_size (PtWaveloader *wl)
 	return wl->priv->data_size;
 }
 
-/*
+/**
  * pt_waveloader_get_data:
  * @wl: a #PtWaveloader
  *
@@ -617,7 +618,7 @@ pt_waveloader_class_init (PtWaveloaderClass *klass)
 	* any gui element showing progress is dismissed.
 	*/
 	g_signal_new ("progress",
-		      G_TYPE_OBJECT,
+		      PT_TYPE_WAVELOADER,
 		      G_SIGNAL_RUN_FIRST,
 		      0,
 		      NULL,
@@ -689,7 +690,7 @@ pt_waveloader_class_init (PtWaveloaderClass *klass)
 PtWaveloader *
 pt_waveloader_new (gchar *uri)
 {
-	return g_object_new (PT_WAVELOADER_TYPE,
+	return g_object_new (PT_TYPE_WAVELOADER,
 			     "uri", uri,
 			     NULL);
 }

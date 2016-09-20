@@ -68,6 +68,7 @@ G_DEFINE_TYPE_WITH_CODE (PtPlayer, pt_player, G_TYPE_OBJECT,
 /**
  * SECTION: pt-player
  * @short_description: The GStreamer backend for Parlatype.
+ * @include: parlatype-1.0/pt-player.h
  *
  * PtPlayer is the GStreamer backend for Parlatype. Construct it with #pt_player_new().
  * Then you have to open a file with pt_player_open_uri(). Listen to the player-
@@ -359,14 +360,14 @@ load_cb (PtWaveloader *wl,
  * playback use @pt_player_play().
  *
  * This is an asynchronous operation, to get the result listen for the
- * player-state-changed signal and error signals.
+ * #PtPlayer::player-state-changed signal and #PtPlayer::error signals.
  *
- * player-state-changed emits immediately FALSE at the beginning of the
+ * #PtPlayer::player-state-changed emits immediately FALSE at the beginning of the
  * operation (because the previous file will be closed) and TRUE on success.
- * For a failure listen to the error signal.
+ * For a failure listen to the #PtPlayer::error signal.
  *
- * While loading the file there is a progress signal emitted which stops before
- * reaching 100%. The operation is only finished after the player-state-changed
+ * While loading the file there is a #PtPlayer::load-progress signal emitted which stops before
+ * reaching 100%. The operation is only finished after the #PtPlayer::player-state-changed
  * to TRUE.
  */
 void
@@ -481,6 +482,13 @@ pt_player_play (PtPlayer *player)
 	gst_element_set_state (player->priv->pipeline, GST_STATE_PLAYING);
 }
 
+/**
+ * pt_player_rewind:
+ * @player: a #PtPlayer
+ * @speed: the speed
+ *
+ * Rewinds at the given speed.
+ */
 void
 pt_player_rewind (PtPlayer *player,
 		  gdouble   speed)
@@ -508,6 +516,13 @@ pt_player_rewind (PtPlayer *player,
 	pt_player_play (player);
 }
 
+/**
+ * pt_player_fast_forward:
+ * @player: a #PtPlayer
+ * @speed: the speed
+ *
+ * Play fast forward at the given speed.
+ */
 void
 pt_player_fast_forward (PtPlayer *player,
 			gdouble   speed)
@@ -759,7 +774,7 @@ pt_player_get_duration (PtPlayer *player)
 
 /* ------------------------- Waveform stuff --------------------------------- */
 
-/*
+/**
  * pt_player_get_length:
  * @player: a #PtPlayer
  *
@@ -774,7 +789,7 @@ pt_player_get_length (PtPlayer *player)
 	return pt_waveloader_get_data_size (player->priv->wl);
 }
 
-/*
+/**
  * pt_player_wave_pos:
  * @player: a #PtPlayer
  *
@@ -794,7 +809,7 @@ pt_player_wave_pos (PtPlayer *player)
 	return pos / 10000000;
 }
 
-/*
+/**
  * pt_player_get_px_per_sec:
  * @player: a #PtPlayer
  *
@@ -808,7 +823,7 @@ pt_player_get_px_per_sec (PtPlayer *player)
 	return pt_waveloader_get_px_per_sec (player->priv->wl);
 }
 
-/*
+/**
  * pt_player_get_data:
  * @player: a #PtPlayer
  *
@@ -1430,7 +1445,7 @@ pt_player_class_init (PtPlayerClass *klass)
 	* signal or an error signal to dismiss a gui element showing progress.
 	*/
 	g_signal_new ("load-progress",
-		      G_TYPE_OBJECT,
+		      PT_TYPE_PLAYER,
 		      G_SIGNAL_RUN_FIRST,
 		      0,
 		      NULL,
@@ -1444,13 +1459,13 @@ pt_player_class_init (PtPlayerClass *klass)
 	* @player: the player emitting the signal
 	* @state: the new state, TRUE is ready, FALSE is not ready
 	*
-	* The ::player-state-changed signal is emitted when the @player changes
+	* The #PtPlayer::player-state-changed signal is emitted when the @player changes
 	* its state to ready to play (a file was opened) or not ready to play
 	* (an error occured). If the player is ready, a duration of the stream
 	* is available.
 	*/
 	g_signal_new ("player-state-changed",
-		      G_TYPE_OBJECT,
+		      PT_TYPE_PLAYER,
 		      G_SIGNAL_RUN_FIRST,
 		      0,
 		      NULL,
@@ -1463,12 +1478,12 @@ pt_player_class_init (PtPlayerClass *klass)
 	* PtPlayer::duration-changed:
 	* @player: the player emitting the signal
 	*
-	* The ::duration-changed signal is emitted when the duration of the stream
+	* The #PtPlayer::duration-changed signal is emitted when the duration of the stream
 	* changed after opening the file. This can happen because the duration
 	* is just an estimate.
 	*/
 	g_signal_new ("duration-changed",
-		      G_TYPE_OBJECT,
+		      PT_TYPE_PLAYER,
 		      G_SIGNAL_RUN_FIRST,
 		      0,
 		      NULL,
@@ -1481,10 +1496,10 @@ pt_player_class_init (PtPlayerClass *klass)
 	* PtPlayer::end-of-stream:
 	* @player: the player emitting the signal
 	*
-	* The ::end-of-stream signal is emitted when the stream is at its end.
+	* The #PtPlayer::end-of-stream signal is emitted when the stream is at its end.
 	*/
 	g_signal_new ("end-of-stream",
-		      G_TYPE_OBJECT,
+		      PT_TYPE_PLAYER,
 		      G_SIGNAL_RUN_FIRST,
 		      0,
 		      NULL,
@@ -1498,11 +1513,11 @@ pt_player_class_init (PtPlayerClass *klass)
 	* @player: the player emitting the signal
 	* @error: a GError
 	*
-	* The ::error signal is emitted on errors opening the file or during
+	* The #PtPlayer::error signal is emitted on errors opening the file or during
 	* playback. It's a severe error and the player is always reset.
 	*/
 	g_signal_new ("error",
-		      G_TYPE_OBJECT,
+		      PT_TYPE_PLAYER,
 		      G_SIGNAL_RUN_FIRST,
 		      0,
 		      NULL,
@@ -1569,7 +1584,7 @@ PtPlayer *
 pt_player_new (gdouble   speed,
 	       GError  **error)
 {
-	return g_initable_new (PT_PLAYER_TYPE,
+	return g_initable_new (PT_TYPE_PLAYER,
 			NULL,	/* cancellable */
 			error,
 			"speed", speed,

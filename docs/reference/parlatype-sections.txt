@@ -1,15 +1,12 @@
 <SECTION>
 <FILE>pt-player</FILE>
 <TITLE>PtPlayer</TITLE>
-PT_PLAYER_TYPE
-pt_player_get_length
-pt_player_wave_pos
-pt_player_get_px_per_sec
-pt_player_get_data
-pt_player_pause
-pt_player_play
+PtPlayer
+pt_player_new
 pt_player_open_uri
 pt_player_cancel
+pt_player_play
+pt_player_pause
 pt_player_jump_relative
 pt_player_jump_to_position
 pt_player_jump_to_permille
@@ -29,11 +26,14 @@ pt_player_get_duration_time_string
 pt_player_get_timestamp
 pt_player_string_is_timestamp
 pt_player_goto_timestamp
-pt_player_new
+pt_player_get_length
+pt_player_wave_pos
+pt_player_get_px_per_sec
+pt_player_get_data
 <SUBSECTION Standard>
 PT_IS_PLAYER
 PT_PLAYER
-PtPlayer
+PT_TYPE_PLAYER
 PtPlayerClass
 PtPlayerPrivate
 pt_player_get_type
@@ -42,7 +42,8 @@ pt_player_get_type
 <SECTION>
 <FILE>pt-waveloader</FILE>
 <TITLE>PtWaveloader</TITLE>
-PT_WAVELOADER_TYPE
+PtWaveloader
+pt_waveloader_new
 pt_waveloader_load_finish
 pt_waveloader_load_async
 pt_waveloader_get_duration
@@ -50,11 +51,10 @@ pt_waveloader_get_channels
 pt_waveloader_get_px_per_sec
 pt_waveloader_get_data_size
 pt_waveloader_get_data
-pt_waveloader_new
 <SUBSECTION Standard>
 PT_IS_WAVELOADER
+PT_TYPE_WAVELOADER
 PT_WAVELOADER
-PtWaveloader
 PtWaveloaderClass
 PtWaveloaderPrivate
 pt_waveloader_get_type
@@ -64,8 +64,8 @@ pt_waveloader_get_type
 <FILE>pt-waveslider</FILE>
 <TITLE>PtWaveslider</TITLE>
 PtWaveslider
-pt_waveslider_set_wave
 pt_waveslider_new
+pt_waveslider_set_wave
 <SUBSECTION Standard>
 PT_IS_WAVESLIDER
 PT_IS_WAVESLIDER_CLASS

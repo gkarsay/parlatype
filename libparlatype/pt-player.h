@@ -20,14 +20,19 @@
 
 #include <gio/gio.h>
 
-#define PT_PLAYER_TYPE		(pt_player_get_type())
-#define PT_PLAYER(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), PT_PLAYER_TYPE, PtPlayer))
-#define PT_IS_PLAYER(obj)	(G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_PLAYER_TYPE))
+#define PT_TYPE_PLAYER		(pt_player_get_type())
+#define PT_PLAYER(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), PT_TYPE_PLAYER, PtPlayer))
+#define PT_IS_PLAYER(obj)	(G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_TYPE_PLAYER))
 
 typedef struct _PtPlayer	PtPlayer;
 typedef struct _PtPlayerClass	PtPlayerClass;
 typedef struct _PtPlayerPrivate PtPlayerPrivate;
 
+/**
+ * PtPlayer:
+ *
+ * The #PtPlayer contains only private fields and should not be directly accessed.
+ */
 struct _PtPlayer
 {
 	GObject parent;

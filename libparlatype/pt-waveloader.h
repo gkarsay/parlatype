@@ -20,14 +20,19 @@
 
 #include <gio/gio.h>
 
-#define PT_WAVELOADER_TYPE		(pt_waveloader_get_type())
-#define PT_WAVELOADER(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), PT_WAVELOADER_TYPE, PtWaveloader))
-#define PT_IS_WAVELOADER(obj)	(G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_WAVELOADER_TYPE))
+#define PT_TYPE_WAVELOADER		(pt_waveloader_get_type())
+#define PT_WAVELOADER(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), PT_TYPE_WAVELOADER, PtWaveloader))
+#define PT_IS_WAVELOADER(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_TYPE_WAVELOADER))
 
 typedef struct _PtWaveloader		PtWaveloader;
 typedef struct _PtWaveloaderClass	PtWaveloaderClass;
 typedef struct _PtWaveloaderPrivate	PtWaveloaderPrivate;
 
+/**
+ * PtWaveloader:
+ *
+ * The #PtWaveloader contains only private fields and should not be directly accessed.
+ */
 struct _PtWaveloader
 {
 	GObject parent;

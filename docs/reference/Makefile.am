@@ -29,7 +29,7 @@ SCANGOBJ_OPTIONS=
 
 # Extra options to supply to gtkdoc-scan.
 # e.g. SCAN_OPTIONS=--deprecated-guards="GTK_DISABLE_DEPRECATED"
-SCAN_OPTIONS=
+SCAN_OPTIONS=--source-dir=$(top_srcdir)/libparlatype --rebuild-types
 
 # Extra options to supply to gtkdoc-mkdb.
 # e.g. MKDB_OPTIONS=--xml-mode --output-format=xml
@@ -78,8 +78,13 @@ expand_content_files=
 # signals and properties.
 # e.g. GTKDOC_CFLAGS=-I$(top_srcdir) -I$(top_builddir) $(GTK_DEBUG_FLAGS)
 # e.g. GTKDOC_LIBS=$(top_builddir)/gtk/$(gtktargetlib)
-GTKDOC_CFLAGS=-I$(top_srcdir) -I$(top_builddir) $(GOBJECT_CFLAGS)
-GTKDOC_LIBS=$(top_builddir)/libparlatype/libparlatype-1.0.la
+GTKDOC_CFLAGS= \
+	-I$(top_srcdir)/libparlatype	\
+	-I$(top_builddir)	\
+	$(PACKAGE_CFLAGS)
+GTKDOC_LIBS= \
+	$(top_srcdir)/libparlatype/libparlatype-1.0.la	\
+	$(PACKAGE_LIBS)
 
 # This includes the standard gtk-doc make rules, copied by gtkdocize.
 include $(top_srcdir)/gtk-doc.make

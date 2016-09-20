@@ -36,10 +36,24 @@ enum
 	N_PROPERTIES
 };
 
+enum {
+	CURSOR_CHANGED,
+	LAST_SIGNAL
+};
 
 static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
+static guint signals[LAST_SIGNAL] = { 0 };
+
 
 G_DEFINE_TYPE (PtWaveslider, pt_waveslider, GTK_TYPE_WIDGET);
+
+/**
+ * SECTION: pt-waveslider
+ * @short_description: A GtkWidget to display a waveform.
+ * @include: parlatype-1.0/pt-waveslider.h
+ *
+ * Displays a waveform provided by PtWaveloader or PtPlayer.
+ */
 
 
 static void
@@ -408,12 +422,13 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 	/**
 	* PtWaveslider::cursor-changed:
 	* @ws: the waveslider emitting the signal
-	* @position: the position in stream in milliseconds
+	* @position: the new position in stream in milliseconds
 	*
-	* Some description.
+	* Signals that the cursor's position has changed.
 	*/
+	signals[CURSOR_CHANGED] = 
 	g_signal_new ("cursor-changed",
-		      G_TYPE_OBJECT,
+		      PT_TYPE_WAVESLIDER,
 		      G_SIGNAL_RUN_FIRST,
 		      0,
 		      NULL,
@@ -427,6 +442,7 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 	*
 	* Current playback position in 1/100 seconds.
 	*/
+
 	obj_properties[PROP_PLAYBACK_CURSOR] =
 	g_param_spec_int64 (
 			"playback-cursor",

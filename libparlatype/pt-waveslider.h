@@ -34,11 +34,12 @@ typedef struct _PtWavesliderClass PtWavesliderClass;
 /**
  * PtWaveslider:
  *
- * waveform view widget
+ * The #PtWaveslider contains only private fields and should not be directly accessed.
  */
 struct _PtWaveslider {
 	GtkWidget parent;
 
+	/* private */
 	gfloat	 *peaks;
 	gint64	  peaks_size;
 	gint	  px_per_sec;
