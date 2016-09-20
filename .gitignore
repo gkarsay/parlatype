@@ -53,6 +53,8 @@ Makefile.in
 /help/de/legal.xml
 
 /libparlatype/libparlatype.pc
+/libparlatype/*.gir
+/libparlatype/*.typelib
 
 /po/*.gmo
 /po/*.pot

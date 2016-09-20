@@ -57,6 +57,7 @@ AC_ARG_WITH([lo],
 AM_CONDITIONAL([LO], [test "$with_lo" = "yes"])
 
 GTK_DOC_CHECK([1.14],[--flavour no-tmpl])
+GOBJECT_INTROSPECTION_CHECK([1.30.0])
 
 AC_CONFIG_FILES([Makefile
                  data/Makefile

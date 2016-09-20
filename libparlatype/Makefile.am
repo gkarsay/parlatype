@@ -28,7 +28,7 @@ libparlatype_@PARLATYPE_API_VERSION@_la_LIBADD = $(PACKAGE_LIBS)
 ## in _HEADERS variables are normally included in the distribution, but the
 ## configuration header file is generated at configure time and should not be
 ## shipped with the source tarball.
-parlatype_libincludedir = $(libdir)/parlatype-$(PARLATYPE_API_VERSION)/include
+parlatype_libincludedir = $(libdir)/parlatype-$(PARLATYPE_API_VERSION)/parlatype
 #nodist_parlatype_libinclude_HEADERS = xxx.h
 
 ## Install the generated pkg-config file (.pc) into the expected location for
@@ -43,3 +43,30 @@ pkgconfig_DATA = libparlatype.pc
 ## the noinst_ prefix.
 #dist_noinst_SCRIPTS = autogen.sh
 
+-include $(INTROSPECTION_MAKEFILE)
+INTROSPECTION_GIRS =
+INTROSPECTION_SCANNER_ARGS = --add-include-path=$(srcdir) --warn-all --symbol-prefix=pt --identifier-prefix=Pt #--accept-unprefixed
+INTROSPECTION_COMPILER_ARGS = --includedir=$(srcdir)
+
+if HAVE_INTROSPECTION
+introspection_sources = $(libparlatype_@PARLATYPE_API_VERSION@_la_SOURCES) \
+			$(parlatype_include_HEADERS)
+
+Parlatype-1.0.gir: libparlatype-1.0.la
+Parlatype_1_0_gir_INCLUDES = GObject-2.0 Gtk-3.0
+Parlatype_1_0_gir_CFLAGS = \
+	-I$(top_srcdir) \
+	$(INCLUDES)
+Parlatype_1_0_gir_LIBS = libparlatype-1.0.la
+Parlatype_1_0_gir_FILES = $(introspection_sources)
+#Parlatype_1_0_gir_NAMESPACE = Pt
+INTROSPECTION_GIRS += Parlatype-1.0.gir
+
+girdir = $(datadir)/gir-1.0
+gir_DATA = $(INTROSPECTION_GIRS)
+
+typelibdir = $(libdir)/girepository-1.0
+typelib_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
+
+CLEANFILES = $(gir_DATA) $(typelib_DATA)
+endif
