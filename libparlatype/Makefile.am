@@ -43,6 +43,27 @@ pkgconfig_DATA = libparlatype.pc
 ## the noinst_ prefix.
 #dist_noinst_SCRIPTS = autogen.sh
 
+# Install gladeui catalog file
+glade_catalogdir = $(GLADE_CAT_DIR)
+glade_catalog_DATA = pt-glade-catalog.xml
+
+gladept_LTLIBRARIES = libgladept.la
+gladeptdir = $(GLADE_MOD_DIR)
+
+libgladept_la_CPPFLAGS =   \
+	-I$(top_srcdir)    \
+	-I$(top_builddir)  \
+	$(GTK_CFLAGS)	               \
+	$(AM_CPPFLAGS)
+
+libgladept_la_CFLAGS = $(AM_CFLAGS)
+libgladept_la_SOURCES = pt-waveslider.c
+libgladept_la_LDFLAGS = -module -avoid-version $(AM_LDFLAGS)
+libgladept_la_LIBADD = $(GTK_LIBS)
+
+#noinst_HEADERS = pt-waveslider.h
+
+
 -include $(INTROSPECTION_MAKEFILE)
 INTROSPECTION_GIRS =
 INTROSPECTION_SCANNER_ARGS = --add-include-path=$(srcdir) --warn-all --symbol-prefix=pt --identifier-prefix=Pt #--accept-unprefixed
@@ -70,3 +91,6 @@ typelib_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
 
 CLEANFILES = $(gir_DATA) $(typelib_DATA)
 endif
+
+EXTRA_DIST = 					\
+	pt-glade-catalog.xml

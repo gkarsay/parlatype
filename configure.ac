@@ -39,7 +39,7 @@ AC_PATH_PROG(GLIB_COMPILE_RESOURCES, glib-compile-resources)
 YELP_HELP_INIT
 
 GTK_MIN_VERSION=3.10.0
-PKG_CHECK_MODULES(GTK, [gtk+-3.0 >= $GTK_MIN_VERSION, gmodule-2.0, gstreamer-1.0])
+PKG_CHECK_MODULES([GTK], [gtk+-3.0 >= $GTK_MIN_VERSION, gmodule-2.0, gstreamer-1.0])
 PACKAGE_CFLAGS="-std=c99 -Wall $GTK_CFLAGS"
 PACKAGE_LIBS="$GTK_LIBS"
 PACKAGE_LDFLAGS="$GTK_LDFLAGS"
@@ -58,6 +58,13 @@ AM_CONDITIONAL([LO], [test "$with_lo" = "yes"])
 
 GTK_DOC_CHECK([1.14],[--flavour no-tmpl])
 GOBJECT_INTROSPECTION_CHECK([1.30.0])
+
+# Gladeui catalog file
+PKG_CHECK_MODULES([GLADEUI],[gladeui-2.0])
+glade_catalog_dir=`$PKG_CONFIG --variable=catalogdir gladeui-2.0`
+glade_module_dir=`$PKG_CONFIG --variable=moduledir gladeui-2.0`
+AC_SUBST(GLADE_MOD_DIR, $glade_module_dir)
+AC_SUBST(GLADE_CAT_DIR, $glade_catalog_dir)
 
 AC_CONFIG_FILES([Makefile
                  data/Makefile
