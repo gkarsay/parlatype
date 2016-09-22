@@ -24,6 +24,7 @@
 #include "pt-dbus-service.h"
 #include "pt-goto-dialog.h"
 #include "pt-mediakeys.h"
+#include "pt-progress-dialog.h"
 #include "pt-window.h"
 #include "pt-window-dnd.h"
 #include "pt-window-private.h"
@@ -289,19 +290,7 @@ show_progress_dlg (PtWindow *win)
 		return;
 	}
 
-	GtkWidget *content;
-	char	  *message = _("Loading file...");
-
-	win->priv->progress_dlg = gtk_message_dialog_new
-					(GTK_WINDOW (win),
-					GTK_DIALOG_DESTROY_WITH_PARENT,
-					GTK_MESSAGE_OTHER,
-					GTK_BUTTONS_CANCEL,
-					"%s", message);
-
-	win->priv->progress_bar = gtk_progress_bar_new ();
-	content = gtk_message_dialog_get_message_area (GTK_MESSAGE_DIALOG (win->priv->progress_dlg));
-	gtk_container_add (GTK_CONTAINER (content), win->priv->progress_bar);
+	win->priv->progress_dlg = GTK_WIDGET (pt_progress_dialog_new (GTK_WINDOW (win)));
 
 	g_signal_connect (win->priv->progress_dlg,
 			  "response",
@@ -319,7 +308,7 @@ progress_changed_cb (PtPlayer  *player,
 	if (!win->priv->progress_dlg)
 		show_progress_dlg (win);
 	else
-		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (win->priv->progress_bar), progress);
+		pt_progress_dialog_set_progress (PT_PROGRESS_DIALOG (win->priv->progress_dlg), progress);
 }
 
 static void
