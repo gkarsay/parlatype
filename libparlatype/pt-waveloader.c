@@ -55,7 +55,6 @@ enum
 {
 	PROP_0,
 	PROP_URI,
-	PROP_DOWNMIX,
 	PROP_PPS,
 	N_PROPERTIES
 };
@@ -513,6 +512,7 @@ pt_waveloader_init (PtWaveloader *wl)
 	wl->priv->bus_watch_id = 0;
 	wl->priv->progress_timeout = 0;
 	wl->priv->data_size = 0;
+	wl->priv->downmix = TRUE; /* we support only mono for now */
 }
 
 static void
@@ -564,9 +564,6 @@ pt_waveloader_set_property (GObject      *object,
 		g_free (wl->priv->uri);
 		wl->priv->uri = g_value_dup_string (value);
 		break;
-	case PROP_DOWNMIX:
-		wl->priv->downmix = g_value_get_boolean (value);
-		break;
 	case PROP_PPS:
 		wl->priv->pps = g_value_get_int (value);
 		break;
@@ -588,9 +585,6 @@ pt_waveloader_get_property (GObject    *object,
 	switch (property_id) {
 	case PROP_URI:
 		g_value_set_string (value, wl->priv->uri);
-		break;
-	case PROP_DOWNMIX:
-		g_value_set_boolean (value, wl->priv->downmix);
 		break;
 	case PROP_PPS:
 		g_value_set_int (value, wl->priv->pps);
@@ -638,20 +632,6 @@ pt_waveloader_class_init (PtWaveloaderClass *klass)
 			"URI to load from",
 			"URI to load from",
 			"",
-			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
-
-	/**
-	* PtWaveloader:downmix:
-	*
-	* Whether to downmix stream to mono.
-	* This is not fully implemented yet, it MUST be mono for now.
-	*/
-	obj_properties[PROP_DOWNMIX] =
-	g_param_spec_boolean (
-			"downmix",
-			"Downmix to mono",
-			"Downmix to mono",
-			TRUE,
 			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
 
 	/**
