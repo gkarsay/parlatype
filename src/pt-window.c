@@ -140,7 +140,6 @@ update_duration_label (PtWindow *win)
 	text = pt_player_get_duration_time_string (win->priv->player, 0);
 	if (text) {
 		gtk_label_set_text (GTK_LABEL (win->priv->dur_label), text);
-		g_debug ("duration: %s", text);
 		g_free (text);
 	}
 }
@@ -372,14 +371,6 @@ player_state_changed_cb (PtPlayer *player,
 }
 
 static void
-player_duration_changed_cb (PtPlayer *player,
-			    PtWindow *win)
-{
-	g_debug ("duration_changed_cb");
-	update_duration_label (win);
-}
-
-static void
 player_end_of_stream_cb (PtPlayer *player,
 			 PtWindow *win)
 {
@@ -578,11 +569,6 @@ setup_player (PtWindow *win)
 	g_signal_connect (win->priv->player,
 			"player-state-changed",
 			G_CALLBACK (player_state_changed_cb),
-			win);
-
-	g_signal_connect (win->priv->player,
-			"duration-changed",
-			G_CALLBACK (player_duration_changed_cb),
 			win);
 
 	g_signal_connect (win->priv->player,
