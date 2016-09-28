@@ -123,7 +123,7 @@ time_scale_changed_cb (GtkRange *range,
 	pt_player_jump_to_permille (win->priv->player, pos);
 }
 
-static void
+void
 cursor_changed_cb (GtkWidget *widget,
 		   gint64     pos,
 		   PtWindow  *win)
@@ -660,15 +660,7 @@ pt_window_init (PtWindow *win)
 	win->priv->progress_dlg = NULL;
 	win->priv->progress_handler_id = 0;
 
-	win->priv->waveslider = pt_waveslider_new ();
-	gtk_grid_attach (GTK_GRID (win->priv->main_grid), win->priv->waveslider, 0, 0, 1, 1);
-	g_signal_connect (win->priv->waveslider,
-			"cursor-changed",
-			G_CALLBACK (cursor_changed_cb),
-			win);
-
 	player_state_changed_cb (win->priv->player, FALSE, win);
-	gtk_widget_show (win->priv->waveslider);
 }
 
 static void
@@ -766,7 +758,7 @@ pt_window_class_init (PtWindowClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, time_scale);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, time_adj);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, speed_scale);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, main_grid);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, waveslider);
 
 	obj_properties[PROP_PAUSE] =
 	g_param_spec_int (

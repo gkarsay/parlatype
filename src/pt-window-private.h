@@ -43,7 +43,6 @@ struct _PtWindowPrivate
 	GtkWidget  *time_scale;
 	GtkWidget  *time_adj;
 	GtkWidget  *speed_scale;
-	GtkWidget  *main_grid;
 	GtkWidget  *waveslider;
 
 	gint	    timer;
