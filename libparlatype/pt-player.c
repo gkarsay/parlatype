@@ -109,7 +109,6 @@ static void
 pt_player_clear (PtPlayer *player)
 {
 	remove_message_bus (player);
-	g_signal_emit_by_name (player, "player-state-changed", FALSE);
 	gst_element_set_state (player->priv->pipeline, GST_STATE_NULL);
 }
 
@@ -233,13 +232,14 @@ remove_message_bus (PtPlayer *player)
 }
 
 static void
-add_message_bus (PtPlayer *player)
+add_message_bus (GTask *task)
 {
 	GstBus *bus;
+	PtPlayer *player = g_task_get_source_object (task);
 
 	remove_message_bus (player);
 	bus = gst_pipeline_get_bus (GST_PIPELINE (player->priv->pipeline));
-	player->priv->bus_watch_id = gst_bus_add_watch (bus, bus_call, player);
+	player->priv->bus_watch_id = gst_bus_add_watch (bus, bus_call, task);
 	gst_object_unref (bus);
 }
 
@@ -248,11 +248,12 @@ bus_call (GstBus     *bus,
           GstMessage *msg,
           gpointer    data)
 {
-	PtPlayer *player = (PtPlayer *) data;
+	GTask	 *task = (GTask *) data;
+	PtPlayer *player = g_task_get_source_object (task);
 
-	g_debug ("Message: %s; sent by: %s",
+	/*g_debug ("Message: %s; sent by: %s",
 			GST_MESSAGE_TYPE_NAME (msg),
-			GST_MESSAGE_SRC_NAME (msg));
+			GST_MESSAGE_SRC_NAME (msg));*/
 
 	switch (GST_MESSAGE_TYPE (msg)) {
 	case GST_MESSAGE_EOS:
@@ -268,23 +269,23 @@ bus_call (GstBus     *bus,
 		g_debug ("Debugging info: %s", (debug) ? debug : "none");
 		g_free (debug);
 
-		g_signal_emit_by_name (player, "error", error);
-		g_error_free (error);
+		if (player->priv->opening) {
+			g_task_return_error (task, error);
+		} else {
+			g_signal_emit_by_name (player, "error", error);
+			g_error_free (error);
+		}
+
 		pt_player_clear (player);
-
-		if (player->priv->opening)
-			player->priv->opening = FALSE;
-
 		break;
 		}
 
 	case GST_MESSAGE_ASYNC_DONE:
 		if (player->priv->opening) {
 			metadata_get_position (player);
-			g_signal_emit_by_name (player, "player-state-changed", TRUE);
 			player->priv->opening = FALSE;
+			g_task_return_boolean (task, TRUE);
 		}
-
 		break;
 
 	default:
@@ -309,21 +310,45 @@ propagate_progress_cb (PtWaveloader *wl,
 static void
 load_cb (PtWaveloader *wl,
 	 GAsyncResult *res,
-	 PtPlayer     *player)
+	 gpointer     *data)
 {
-	GError *error = NULL;
+	GTask	 *task = (GTask *) data;
+	PtPlayer *player = g_task_get_source_object (task);
+	GError	 *error = NULL;
 
 	if (pt_waveloader_load_finish (wl, res, &error)) {
-		player->priv->opening = TRUE;
 		player->priv->dur = pt_waveloader_get_duration (player->priv->wl);
+
+		/* setup message handler */
+		add_message_bus (task);
 
 		pt_player_pause (player);
 
 	} else {
-		g_signal_emit_by_name (player, "error", error);
-                g_error_free (error);
                 g_clear_object (&wl);
+		g_task_return_error (task, error);
 	}
+}
+
+/**
+ * pt_player_open_uri_finish:
+ * @player: a #PtPlayer
+ * @result: the #GAsyncResult passed to your #GAsyncReadyCallback
+ * @error: a pointer to a NULL #GError, or NULL
+ *
+ * Gives the result of the async opening operation. A cancelled operation results
+ * in an error, too.
+ *
+ * Return value: TRUE if successful, or FALSE with error set
+ */
+gboolean
+pt_player_open_uri_finish (PtPlayer	 *player,
+			   GAsyncResult  *result,
+			   GError       **error)
+{
+	g_return_val_if_fail (g_task_is_valid (result, player), FALSE);
+
+	return g_task_propagate_boolean (G_TASK (result), error);
 }
 
 /**
@@ -354,18 +379,20 @@ load_cb (PtWaveloader *wl,
  * to TRUE.
  */
 void
-pt_player_open_uri (PtPlayer  *player,
-		    gchar     *uri)
+pt_player_open_uri_async (PtPlayer	      *player,
+			  gchar		      *uri,
+			  GCancellable	      *cancellable,
+			  GAsyncReadyCallback  callback,
+			  gpointer	       user_data)
 {
 	g_return_if_fail (PT_IS_PLAYER (player));
 	g_return_if_fail (uri != NULL);
 
-	g_debug ("pt_player_open_uri");
-
+	GTask  *task;
 	GFile  *file;
 	gchar  *location = NULL;
-	GError *error;
 
+	task = g_task_new (player, cancellable, callback, user_data);
 	player->priv->opening = TRUE;
 
 	/* Change uri to location */
@@ -373,23 +400,25 @@ pt_player_open_uri (PtPlayer  *player,
 	location = g_file_get_path (file);
 	
 	if (!location) {
-		error = g_error_new (
+		g_task_return_new_error (
+				task,
 				GST_RESOURCE_ERROR,
 				GST_RESOURCE_ERROR_NOT_FOUND,
 				_("URI not valid: %s"), uri);
-		g_signal_emit_by_name (player, "error", error);
 		g_object_unref (file);
+		g_object_unref (task);
 		return;
 	}
 
 	if (!g_file_query_exists (file, NULL)) {
-		error = g_error_new (
+		g_task_return_new_error (
+				task,
 				GST_RESOURCE_ERROR,
 				GST_RESOURCE_ERROR_NOT_FOUND,
 				_("File not found: %s"), location);
-		g_signal_emit_by_name (player, "error", error);
 		g_object_unref (file);
 		g_free (location);
+		g_object_unref (task);
 		return;
 	}
 
@@ -400,11 +429,7 @@ pt_player_open_uri (PtPlayer  *player,
 	pt_player_clear (player);
 	player->priv->dur = -1;
 
-	/* setup message handler */
-	add_message_bus (player);
-
 	g_object_set (G_OBJECT (player->priv->source), "location", location, NULL);
-
 	g_object_unref (file);
 	g_free (location);
 
@@ -418,7 +443,7 @@ pt_player_open_uri (PtPlayer  *player,
 	pt_waveloader_load_async (player->priv->wl,
 				  player->priv->c,
 				  (GAsyncReadyCallback) load_cb,
-				  player);
+				  task);
 }
 
 /**
@@ -1426,26 +1451,6 @@ pt_player_class_init (PtPlayerClass *klass)
 		      g_cclosure_marshal_VOID__DOUBLE,
 		      G_TYPE_NONE,
 		      1, G_TYPE_DOUBLE);
-
-	/**
-	* PtPlayer::player-state-changed:
-	* @player: the player emitting the signal
-	* @state: the new state, TRUE is ready, FALSE is not ready
-	*
-	* The #PtPlayer::player-state-changed signal is emitted when the @player changes
-	* its state to ready to play (a file was opened) or not ready to play
-	* (an error occured). If the player is ready, a duration of the stream
-	* is available.
-	*/
-	g_signal_new ("player-state-changed",
-		      PT_TYPE_PLAYER,
-		      G_SIGNAL_RUN_FIRST,
-		      0,
-		      NULL,
-		      NULL,
-		      g_cclosure_marshal_VOID__BOOLEAN,
-		      G_TYPE_NONE,
-		      1, G_TYPE_BOOLEAN);
 
 	/**
 	* PtPlayer::end-of-stream:

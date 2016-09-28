@@ -314,9 +314,8 @@ show_progress_dlg (PtWindow *win)
 }
 
 static void
-player_state_changed_cb (PtPlayer *player,
-			 gboolean  state,
-			 PtWindow *win)
+pt_window_ready_to_play (PtWindow *win,
+			 gboolean  state)
 {
 	/* Set up widget sensitivity/visibility, actions, labels, window title
 	   and timer according to the state of PtPlayer (ready to play or not).
@@ -340,23 +339,23 @@ player_state_changed_cb (PtPlayer *player,
 	if (state) {
 		destroy_progress_dlg (win);
 		update_duration_label (win);
-		display_name = pt_player_get_filename (player);
+		display_name = pt_player_get_filename (win->priv->player);
 		if (display_name) {
 			gtk_window_set_title (GTK_WINDOW (win), display_name);
 			g_free (display_name);
 		}
 		gtk_recent_manager_add_item (
 				win->priv->recent,
-				pt_player_get_uri (player));
+				pt_player_get_uri (win->priv->player));
 
 		change_play_button_tooltip (win);
 		change_jump_back_tooltip (win);
 		change_jump_forward_tooltip (win);
 		add_timer (win);
 		pt_waveslider_set_wave (PT_WAVESLIDER (win->priv->waveslider),
-					pt_player_get_data (player),
-					pt_player_get_length (player),
-					pt_player_get_px_per_sec (player));
+					pt_player_get_data (win->priv->player),
+					pt_player_get_length (win->priv->player),
+					pt_player_get_px_per_sec (win->priv->player));
 
 	} else {
 		gtk_label_set_text (GTK_LABEL (win->priv->dur_label), "00:00");
@@ -390,7 +389,27 @@ player_error_cb (PtPlayer *player,
 		 PtWindow *win)
 {
 	destroy_progress_dlg (win);
+	pt_window_ready_to_play (win, FALSE);
 	pt_error_message (win, error->message);
+}
+
+static void
+open_cb (PtPlayer     *player,
+	 GAsyncResult *res,
+	 gpointer     *data)
+{
+	PtWindow *win = (PtWindow *) data;
+	GError	 *error = NULL;
+
+	destroy_progress_dlg (win);
+
+	if (!pt_player_open_uri_finish (player, res, &error)) {
+		pt_error_message (win, error->message);
+		g_error_free (error);
+		return;
+	}
+
+	pt_window_ready_to_play (win, TRUE);
 }
 
 void
@@ -398,7 +417,12 @@ pt_window_open_file (PtWindow *win,
 		     gchar    *uri)
 {
 	show_progress_dlg (win);
-	pt_player_open_uri (win->priv->player, uri);
+	pt_window_ready_to_play (win, FALSE);
+	pt_player_open_uri_async (win->priv->player,
+				  uri,
+				  NULL,	/* cancellable */
+				  (GAsyncReadyCallback) open_cb,
+				  win);
 }
 
 void
@@ -567,11 +591,6 @@ setup_player (PtWindow *win)
 	win->priv->player = pt_player_new (NULL);
 
 	g_signal_connect (win->priv->player,
-			"player-state-changed",
-			G_CALLBACK (player_state_changed_cb),
-			win);
-
-	g_signal_connect (win->priv->player,
 			"end-of-stream",
 			G_CALLBACK (player_end_of_stream_cb),
 			win);
@@ -646,7 +665,7 @@ pt_window_init (PtWindow *win)
 	win->priv->progress_dlg = NULL;
 	win->priv->progress_handler_id = 0;
 
-	player_state_changed_cb (win->priv->player, FALSE, win);
+	pt_window_ready_to_play (win, FALSE);
 }
 
 static void
@@ -672,7 +691,7 @@ pt_window_dispose (GObject *object)
 	g_clear_object (&win->priv->editor);
 	g_clear_object (&win->priv->proxy);
 	destroy_progress_dlg (win);
-	g_clear_object (&win->priv->player);
+	g_object_unref (win->priv->player);
 
 	G_OBJECT_CLASS (pt_window_parent_class)->dispose (object);
 }

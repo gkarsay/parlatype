@@ -55,8 +55,14 @@ gfloat 		*pt_player_get_data		(PtPlayer *player);
 
 void		pt_player_pause			(PtPlayer *player);
 void		pt_player_play			(PtPlayer *player);
-void		pt_player_open_uri		(PtPlayer  *player,
-						 gchar     *uri);
+gboolean	pt_player_open_uri_finish	(PtPlayer      *player,
+						 GAsyncResult  *result,
+						 GError       **error);
+void		pt_player_open_uri_async	(PtPlayer	     *player,
+						 gchar		     *uri,
+						 GCancellable	     *cancellable,
+						 GAsyncReadyCallback  callback,
+						 gpointer	      user_data);
 void		pt_player_cancel		(PtPlayer *player);
 void		pt_player_jump_relative		(PtPlayer *player,
 						 gint      milliseconds);
