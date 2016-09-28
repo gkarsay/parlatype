@@ -264,10 +264,13 @@ enable_win_actions (PtWindow *win,
 static void
 destroy_progress_dlg (PtWindow *win)
 {
-	if (win->priv->progress_dlg) {
+	if (win->priv->progress_handler_id > 0) {
 		g_signal_handler_disconnect (win->priv->player, win->priv->progress_handler_id);
+		win->priv->progress_handler_id = 0;
+	}
+
+	if (win->priv->progress_dlg) {
 		gtk_widget_destroy (win->priv->progress_dlg);
-		win->priv->progress_dlg = NULL;
 	}
 }
 
@@ -293,22 +296,22 @@ show_progress_dlg (PtWindow *win)
 	win->priv->progress_dlg = GTK_WIDGET (pt_progress_dialog_new (GTK_WINDOW (win)));
 
 	g_signal_connect (win->priv->progress_dlg,
+			  "destroy",
+			  G_CALLBACK (gtk_widget_destroyed),
+			  &win->priv->progress_dlg);
+
+	g_signal_connect (win->priv->progress_dlg,
 			  "response",
 			  G_CALLBACK (progress_response_cb),
 			  win);
 
-	gtk_widget_show_all (win->priv->progress_dlg);
-}
+	win->priv->progress_handler_id =
+		g_signal_connect_swapped (win->priv->player,
+					  "load-progress",
+					  G_CALLBACK (pt_progress_dialog_set_progress),
+					  PT_PROGRESS_DIALOG (win->priv->progress_dlg));
 
-static void
-progress_changed_cb (PtPlayer  *player,
-		     gdouble    progress,
-		     PtWindow  *win)
-{
-	if (!win->priv->progress_dlg)
-		show_progress_dlg (win);
-	else
-		pt_progress_dialog_set_progress (PT_PROGRESS_DIALOG (win->priv->progress_dlg), progress);
+	gtk_widget_show_all (win->priv->progress_dlg);
 }
 
 static void
@@ -403,16 +406,7 @@ void
 pt_window_open_file (PtWindow *win,
 		     gchar    *uri)
 {
-	/* We don't start progress dialog immediately but wait for first
-	   progress signals. Before actual loading starts, some tests might
-	   fail, resulting in an error message. This way we don't show error
-	   message and progress dialog together. */
-	win->priv->progress_handler_id =
-		g_signal_connect (win->priv->player,
-				  "load-progress",
-				  G_CALLBACK (progress_changed_cb),
-				  win);
-
+	show_progress_dlg (win);
 	pt_player_open_uri (win->priv->player, uri);
 }
 
@@ -664,6 +658,7 @@ pt_window_init (PtWindow *win)
 	win->priv->recent = gtk_recent_manager_get_default ();
 	win->priv->timer = 0;
 	win->priv->progress_dlg = NULL;
+	win->priv->progress_handler_id = 0;
 
 	win->priv->waveslider = pt_waveslider_new ();
 	gtk_grid_attach (GTK_GRID (win->priv->main_grid), win->priv->waveslider, 0, 0, 1, 1);
