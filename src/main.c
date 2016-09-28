@@ -87,7 +87,7 @@ int main (int argc, char *argv[])
 	}
 
 	/* Test the backend */
-	testplayer = pt_player_new (1.0, &error);
+	testplayer = pt_player_new (&error);
 	if (error) {
 		fatal_error_message (error->message);
 		return 2;

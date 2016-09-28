@@ -92,7 +92,6 @@ gboolean	pt_player_string_is_timestamp	(PtPlayer *player,
 gboolean	pt_player_goto_timestamp	(PtPlayer *player,
 						 gchar    *timestamp);
 
-PtPlayer	*pt_player_new			(gdouble   speed,
-						 GError  **error);
+PtPlayer	*pt_player_new			(GError **error);
 
 #endif

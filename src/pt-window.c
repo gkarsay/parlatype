@@ -564,7 +564,7 @@ static void
 setup_player (PtWindow *win)
 {
 	/* Already tested in main.c, we don't check for errors here anymore */
-	win->priv->player = pt_player_new (win->priv->speed, NULL);
+	win->priv->player = pt_player_new (NULL);
 
 	g_signal_connect (win->priv->player,
 			"player-state-changed",

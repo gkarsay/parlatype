@@ -1527,7 +1527,6 @@ pt_player_initable_iface_init (GInitableIface *iface)
 
 /**
  * pt_player_new:
- * @speed: initial speed
  * @error: (allow-none): return location for an error, or NULL
  *
  * This is a failable constructor. It fails, if GStreamer doesn't init or a
@@ -1538,12 +1537,10 @@ pt_player_initable_iface_init (GInitableIface *iface)
  * Return value: (transfer full): a new pt_player
  */
 PtPlayer *
-pt_player_new (gdouble   speed,
-	       GError  **error)
+pt_player_new (GError **error)
 {
 	return g_initable_new (PT_TYPE_PLAYER,
 			NULL,	/* cancellable */
 			error,
-			"speed", speed,
 			NULL);
 }
