@@ -78,8 +78,6 @@ G_DEFINE_TYPE_WITH_CODE (PtPlayer, pt_player, G_TYPE_OBJECT,
  * is a scale from 0 to 1000. Use it to jump to a position or to update your widget.
  *
  * While playing PtPlayer emits these signals:
- * - duration-changed: The duration is an estimate, that's why it can change
- *                     during playback.
  * - end-of-stream: End of file reached, in the GUI you might want to jump
  *    		       to the beginning, reset play button etc.
  * - error: A fatal error occured, the player is reset. There's an error message.
@@ -105,18 +103,6 @@ pt_player_query_position (PtPlayer *player,
 	gboolean result;
 	result = gst_element_query_position (player->priv->pipeline, GST_FORMAT_TIME, position);
 	return result;
-}
-
-static gboolean
-pt_player_query_duration (PtPlayer *player,
-			  gpointer  position)
-{
-	/*gboolean result;
-	result = gst_element_query_duration (player->priv->pipeline, GST_FORMAT_TIME, position);
-	return result;*/
-	gint64 *pos = position;
-	*pos = player->priv->dur;
-	return TRUE;
 }
 
 static void
@@ -200,8 +186,7 @@ static void
 metadata_get_position (PtPlayer *player)
 {
 	/* Queries position stored in metadata from file.
-	   Sets position to that value or to 0, because we start playing a file
-	   when opening it and stop on successfull duration query. */
+	   Sets position to that value or to 0 */
 
 	GError	  *error = NULL;
 	GFile	  *file = NULL;
@@ -756,19 +741,14 @@ pt_player_get_position (PtPlayer *player)
  *
  * Returns the duration of stream.
  *
- * Return value: duration in milliseconds or -1 on failure
+ * Return value: duration in milliseconds
  */
 gint
 pt_player_get_duration (PtPlayer *player)
 {
 	g_return_val_if_fail (PT_IS_PLAYER (player), -1);
 
-	gint64 time;
-
-	if (!pt_player_query_duration (player, &time))
-		return -1;
-
-	return GST_TIME_AS_MSECONDS (time);
+	return GST_TIME_AS_MSECONDS (player->priv->dur);
 }
 
 
@@ -1079,14 +1059,9 @@ pt_player_get_duration_time_string (PtPlayer *player,
 	g_return_val_if_fail (PT_IS_PLAYER (player), NULL);
 	g_return_val_if_fail (digits <= 2, NULL);
 
-	gint64 time;
-
-	if (!pt_player_query_duration (player, &time))
-		return NULL;
-
 	return pt_player_get_time_string (
-			GST_TIME_AS_MSECONDS (time),
-			GST_TIME_AS_MSECONDS (time),
+			GST_TIME_AS_MSECONDS (player->priv->dur),
+			GST_TIME_AS_MSECONDS (player->priv->dur),
 			digits);
 }
 
@@ -1473,24 +1448,6 @@ pt_player_class_init (PtPlayerClass *klass)
 		      g_cclosure_marshal_VOID__BOOLEAN,
 		      G_TYPE_NONE,
 		      1, G_TYPE_BOOLEAN);
-
-	/**
-	* PtPlayer::duration-changed:
-	* @player: the player emitting the signal
-	*
-	* The #PtPlayer::duration-changed signal is emitted when the duration of the stream
-	* changed after opening the file. This can happen because the duration
-	* is just an estimate.
-	*/
-	g_signal_new ("duration-changed",
-		      PT_TYPE_PLAYER,
-		      G_SIGNAL_RUN_FIRST,
-		      0,
-		      NULL,
-		      NULL,
-		      g_cclosure_marshal_VOID__POINTER,
-		      G_TYPE_NONE,
-		      0);
 
 	/**
 	* PtPlayer::end-of-stream:
