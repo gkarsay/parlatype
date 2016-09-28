@@ -272,10 +272,8 @@ bus_call (GstBus     *bus,
 		g_error_free (error);
 		pt_player_clear (player);
 
-		if (player->priv->opening) {
+		if (player->priv->opening)
 			player->priv->opening = FALSE;
-			pt_player_mute_volume (player, FALSE);
-		}
 
 		break;
 		}
