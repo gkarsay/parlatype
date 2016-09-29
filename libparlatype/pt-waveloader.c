@@ -18,10 +18,10 @@
  */
 
 
-#define _POSIX_SOURCE
+#define _POSIX_SOURCE	/* fileno */
 
 #include "config.h"
-#include <stdio.h>	/* sscanf */
+#include <stdio.h>	/* FILE, tmpfile, fileno, fclose */
 #include <gio/gio.h>
 #include <glib/gi18n.h>	
 #include <gst/gst.h>
