@@ -489,8 +489,8 @@ pt_player_open_uri (PtPlayer *player,
 		    gchar    *uri,
 		    GError  **error)
 {
-	g_return_if_fail (PT_IS_PLAYER (player));
-	g_return_if_fail (uri != NULL);
+	g_return_val_if_fail (PT_IS_PLAYER (player), FALSE);
+	g_return_val_if_fail (uri != NULL, FALSE);
 	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
 	gboolean      result;
