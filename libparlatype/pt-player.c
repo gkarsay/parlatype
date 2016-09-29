@@ -81,8 +81,6 @@ G_DEFINE_TYPE_WITH_CODE (PtPlayer, pt_player, G_TYPE_OBJECT,
  * - end-of-stream: End of file reached, in the GUI you might want to jump
  *    		       to the beginning, reset play button etc.
  * - error: A fatal error occured, the player is reset. There's an error message.
- * - player-state-changed: indicates with a boolean whether the player is ready
- * to play or not. This happens after opening a file or on error.
  *
  * PtPlayer has two properties:
  * - speed: is a double from 0.5 to 1.5. 1.0 is normal playback, < 1.0 is slower,
@@ -352,7 +350,7 @@ pt_player_open_uri_finish (PtPlayer	 *player,
 }
 
 /**
- * pt_player_open_uri:
+ * pt_player_open_uri_async:
  * @player: a #PtPlayer
  * @uri: the URI of the file
  *
@@ -367,16 +365,11 @@ pt_player_open_uri_finish (PtPlayer	 *player,
  * The player is set to the paused state and ready for playback. To start
  * playback use @pt_player_play().
  *
- * This is an asynchronous operation, to get the result listen for the
- * #PtPlayer::player-state-changed signal and #PtPlayer::error signals.
- *
- * #PtPlayer::player-state-changed emits immediately FALSE at the beginning of the
- * operation (because the previous file will be closed) and TRUE on success.
- * For a failure listen to the #PtPlayer::error signal.
+ * This is an asynchronous operation, to get the result call
+ * pt_player_open_uri_finish().
  *
  * While loading the file there is a #PtPlayer::load-progress signal emitted which stops before
- * reaching 100%. The operation is only finished after the #PtPlayer::player-state-changed
- * to TRUE.
+ * reaching 100%. Don't use it to determine whether the operation is finished.
  */
 void
 pt_player_open_uri_async (PtPlayer	      *player,
@@ -444,6 +437,74 @@ pt_player_open_uri_async (PtPlayer	      *player,
 				  player->priv->c,
 				  (GAsyncReadyCallback) load_cb,
 				  task);
+}
+
+typedef struct
+{
+	GAsyncResult *res;
+	GMainLoop    *loop;
+} SyncData;
+
+static void
+quit_loop_cb (PtPlayer	   *player,
+	      GAsyncResult *res,
+	      gpointer      user_data)
+{
+	SyncData *data = user_data;
+	data->res = g_object_ref (res);
+	g_main_loop_quit (data->loop);
+}
+
+/**
+ * pt_player_open_uri:
+ * @player: a #PtPlayer
+ * @uri: the URI of the file
+ * @error: (allow-none): return location for an error, or NULL
+ *
+ * Opens a local audio file for playback. It doesn't work with videos or streams.
+ * Only one file can be open at a time, playlists are not supported by the
+ * backend. Opening a new file will close the previous one.
+ *
+ * When closing a file or on object destruction PtPlayer tries to write the
+ * last position into the file's metadata. On opening a file it reads the
+ * metadata and jumps to the last known position if found.
+ *
+ * The player is set to the paused state and ready for playback. To start
+ * playback use @pt_player_play().
+ *
+ * This operation blocks until it is finished. It returns TRUE on success or
+ * FALSE and and error.
+ *
+ * While loading the file there is a #PtPlayer::load-progress signal emitted.
+ * However, it doesn't emit 100%, the operation is finished when TRUE is returned.
+ *
+ * Return value: TRUE if successful, or FALSE with error set
+ */
+gboolean
+pt_player_open_uri (PtPlayer *player,
+		    gchar    *uri,
+		    GError  **error)
+{
+	g_return_if_fail (PT_IS_PLAYER (player));
+	g_return_if_fail (uri != NULL);
+	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+	gboolean      result;
+	SyncData      data;
+	GMainContext *context;
+
+	context = g_main_context_new ();
+	g_main_context_push_thread_default (context);
+
+	data.loop = g_main_loop_new (context, FALSE);
+	data.res = NULL;
+
+	pt_player_open_uri_async (player, uri, NULL, (GAsyncReadyCallback) quit_loop_cb, &data);
+	g_main_loop_run (data.loop);
+
+	result = pt_player_open_uri_finish (player, data.res, error);
+
+	return result;
 }
 
 /**
