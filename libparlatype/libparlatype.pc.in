@@ -1,0 +1,12 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: libparlatype
+Version: @PACKAGE_VERSION@
+Description: libparlatype, core support for parlatype
+Requires.private: gtk+-3.0
+Requires: 
+Libs: -L${libdir} -lparlatype-@PARLATYPE_API_VERSION@
+Cflags: -I${includedir}/parlatype-@PARLATYPE_API_VERSION@

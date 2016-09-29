@@ -19,8 +19,8 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>	
 #include <stdlib.h>		/* exit() */
+#include <libparlatype/pt-player.h>
 #include "pt-app.h"
-#include "pt-player.h"
 
 static gboolean G_GNUC_NORETURN
 option_version_cb (const gchar *option_name,
@@ -87,7 +87,7 @@ int main (int argc, char *argv[])
 	}
 
 	/* Test the backend */
-	testplayer = pt_player_new (1.0, &error);
+	testplayer = pt_player_new (&error);
 	if (error) {
 		fatal_error_message (error->message);
 		return 2;

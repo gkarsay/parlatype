@@ -18,7 +18,7 @@
 #include "config.h"
 #include <gio/gio.h>
 #include <glib/gi18n.h>
-#include "pt-player.h"
+#include <libparlatype/pt-player.h>
 #include "pt-window.h"
 #include "pt-window-private.h"
 

@@ -18,12 +18,13 @@
 #include "config.h"
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
+#include <libparlatype/pt-player.h>
+#include <libparlatype/pt-waveslider.h>
 #include "pt-app.h"
-#include "pt-player.h"
 #include "pt-dbus-service.h"
 #include "pt-goto-dialog.h"
 #include "pt-mediakeys.h"
-#include "pt-waveslider.h"
+#include "pt-progress-dialog.h"
 #include "pt-window.h"
 #include "pt-window-dnd.h"
 #include "pt-window-private.h"
@@ -122,7 +123,7 @@ time_scale_changed_cb (GtkRange *range,
 	pt_player_jump_to_permille (win->priv->player, pos);
 }
 
-static void
+void
 cursor_changed_cb (GtkWidget *widget,
 		   gint64     pos,
 		   PtWindow  *win)
@@ -139,7 +140,6 @@ update_duration_label (PtWindow *win)
 	text = pt_player_get_duration_time_string (win->priv->player, 0);
 	if (text) {
 		gtk_label_set_text (GTK_LABEL (win->priv->dur_label), text);
-		g_debug ("duration: %s", text);
 		g_free (text);
 	}
 }
@@ -263,10 +263,13 @@ enable_win_actions (PtWindow *win,
 static void
 destroy_progress_dlg (PtWindow *win)
 {
-	if (win->priv->progress_dlg) {
+	if (win->priv->progress_handler_id > 0) {
 		g_signal_handler_disconnect (win->priv->player, win->priv->progress_handler_id);
+		win->priv->progress_handler_id = 0;
+	}
+
+	if (win->priv->progress_dlg) {
 		gtk_widget_destroy (win->priv->progress_dlg);
-		win->priv->progress_dlg = NULL;
 	}
 }
 
@@ -289,43 +292,30 @@ show_progress_dlg (PtWindow *win)
 		return;
 	}
 
-	GtkWidget *content;
-	char	  *message = _("Loading file...");
+	win->priv->progress_dlg = GTK_WIDGET (pt_progress_dialog_new (GTK_WINDOW (win)));
 
-	win->priv->progress_dlg = gtk_message_dialog_new
-					(GTK_WINDOW (win),
-					GTK_DIALOG_DESTROY_WITH_PARENT,
-					GTK_MESSAGE_OTHER,
-					GTK_BUTTONS_CANCEL,
-					"%s", message);
-
-	win->priv->progress_bar = gtk_progress_bar_new ();
-	content = gtk_message_dialog_get_message_area (GTK_MESSAGE_DIALOG (win->priv->progress_dlg));
-	gtk_container_add (GTK_CONTAINER (content), win->priv->progress_bar);
+	g_signal_connect (win->priv->progress_dlg,
+			  "destroy",
+			  G_CALLBACK (gtk_widget_destroyed),
+			  &win->priv->progress_dlg);
 
 	g_signal_connect (win->priv->progress_dlg,
 			  "response",
 			  G_CALLBACK (progress_response_cb),
 			  win);
 
+	win->priv->progress_handler_id =
+		g_signal_connect_swapped (win->priv->player,
+					  "load-progress",
+					  G_CALLBACK (pt_progress_dialog_set_progress),
+					  PT_PROGRESS_DIALOG (win->priv->progress_dlg));
+
 	gtk_widget_show_all (win->priv->progress_dlg);
 }
 
 static void
-progress_changed_cb (PtPlayer  *player,
-		     gdouble    progress,
-		     PtWindow  *win)
-{
-	if (!win->priv->progress_dlg)
-		show_progress_dlg (win);
-	else
-		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (win->priv->progress_bar), progress);
-}
-
-static void
-player_state_changed_cb (PtPlayer *player,
-			 gboolean  state,
-			 PtWindow *win)
+pt_window_ready_to_play (PtWindow *win,
+			 gboolean  state)
 {
 	/* Set up widget sensitivity/visibility, actions, labels, window title
 	   and timer according to the state of PtPlayer (ready to play or not).
@@ -349,23 +339,23 @@ player_state_changed_cb (PtPlayer *player,
 	if (state) {
 		destroy_progress_dlg (win);
 		update_duration_label (win);
-		display_name = pt_player_get_filename (player);
+		display_name = pt_player_get_filename (win->priv->player);
 		if (display_name) {
 			gtk_window_set_title (GTK_WINDOW (win), display_name);
 			g_free (display_name);
 		}
 		gtk_recent_manager_add_item (
 				win->priv->recent,
-				pt_player_get_uri (player));
+				pt_player_get_uri (win->priv->player));
 
 		change_play_button_tooltip (win);
 		change_jump_back_tooltip (win);
 		change_jump_forward_tooltip (win);
 		add_timer (win);
 		pt_waveslider_set_wave (PT_WAVESLIDER (win->priv->waveslider),
-					pt_player_get_data (player),
-					pt_player_get_length (player),
-					pt_player_get_px_per_sec (player));
+					pt_player_get_data (win->priv->player),
+					pt_player_get_length (win->priv->player),
+					pt_player_get_px_per_sec (win->priv->player));
 
 	} else {
 		gtk_label_set_text (GTK_LABEL (win->priv->dur_label), "00:00");
@@ -377,14 +367,6 @@ player_state_changed_cb (PtPlayer *player,
 		update_time_scale_blocking (win, 0);
 		pt_waveslider_set_wave (PT_WAVESLIDER (win->priv->waveslider), NULL, 0, 0);
 	}
-}
-
-static void
-player_duration_changed_cb (PtPlayer *player,
-			    PtWindow *win)
-{
-	g_debug ("duration_changed_cb");
-	update_duration_label (win);
 }
 
 static void
@@ -407,24 +389,40 @@ player_error_cb (PtPlayer *player,
 		 PtWindow *win)
 {
 	destroy_progress_dlg (win);
+	pt_window_ready_to_play (win, FALSE);
 	pt_error_message (win, error->message);
+}
+
+static void
+open_cb (PtPlayer     *player,
+	 GAsyncResult *res,
+	 gpointer     *data)
+{
+	PtWindow *win = (PtWindow *) data;
+	GError	 *error = NULL;
+
+	destroy_progress_dlg (win);
+
+	if (!pt_player_open_uri_finish (player, res, &error)) {
+		pt_error_message (win, error->message);
+		g_error_free (error);
+		return;
+	}
+
+	pt_window_ready_to_play (win, TRUE);
 }
 
 void
 pt_window_open_file (PtWindow *win,
 		     gchar    *uri)
 {
-	/* We don't start progress dialog immediately but wait for first
-	   progress signals. Before actual loading starts, some tests might
-	   fail, resulting in an error message. This way we don't show error
-	   message and progress dialog together. */
-	win->priv->progress_handler_id =
-		g_signal_connect (win->priv->player,
-				  "load-progress",
-				  G_CALLBACK (progress_changed_cb),
+	show_progress_dlg (win);
+	pt_window_ready_to_play (win, FALSE);
+	pt_player_open_uri_async (win->priv->player,
+				  uri,
+				  NULL,	/* cancellable */
+				  (GAsyncReadyCallback) open_cb,
 				  win);
-
-	pt_player_open_uri (win->priv->player, uri);
 }
 
 void
@@ -590,17 +588,7 @@ static void
 setup_player (PtWindow *win)
 {
 	/* Already tested in main.c, we don't check for errors here anymore */
-	win->priv->player = pt_player_new (win->priv->speed, NULL);
-
-	g_signal_connect (win->priv->player,
-			"player-state-changed",
-			G_CALLBACK (player_state_changed_cb),
-			win);
-
-	g_signal_connect (win->priv->player,
-			"duration-changed",
-			G_CALLBACK (player_duration_changed_cb),
-			win);
+	win->priv->player = pt_player_new (NULL);
 
 	g_signal_connect (win->priv->player,
 			"end-of-stream",
@@ -675,16 +663,9 @@ pt_window_init (PtWindow *win)
 	win->priv->recent = gtk_recent_manager_get_default ();
 	win->priv->timer = 0;
 	win->priv->progress_dlg = NULL;
+	win->priv->progress_handler_id = 0;
 
-	win->priv->waveslider = pt_waveslider_new ();
-	gtk_grid_attach (GTK_GRID (win->priv->main_grid), win->priv->waveslider, 0, 0, 1, 1);
-	g_signal_connect (win->priv->waveslider,
-			"cursor-changed",
-			G_CALLBACK (cursor_changed_cb),
-			win);
-
-	player_state_changed_cb (win->priv->player, FALSE, win);
-	gtk_widget_show (win->priv->waveslider);
+	pt_window_ready_to_play (win, FALSE);
 }
 
 static void
@@ -710,7 +691,7 @@ pt_window_dispose (GObject *object)
 	g_clear_object (&win->priv->editor);
 	g_clear_object (&win->priv->proxy);
 	destroy_progress_dlg (win);
-	g_clear_object (&win->priv->player);
+	g_object_unref (win->priv->player);
 
 	G_OBJECT_CLASS (pt_window_parent_class)->dispose (object);
 }
@@ -782,7 +763,7 @@ pt_window_class_init (PtWindowClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, time_scale);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, time_adj);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, speed_scale);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, main_grid);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, waveslider);
 
 	obj_properties[PROP_PAUSE] =
 	g_param_spec_int (

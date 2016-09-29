@@ -21,7 +21,6 @@
 #include <glib/gi18n.h>	
 #include <gst/gst.h>
 #include "pt-waveloader.h"
-#include "pt-waveslider.h"
 #include "pt-player.h"
 
 struct _PtPlayerPrivate
@@ -36,7 +35,7 @@ struct _PtPlayerPrivate
 	gdouble	    speed;
 
 	GCancellable *c;
-	gboolean    opening;
+	gboolean      opening;
 
 	PtWaveloader *wl;
 };
@@ -68,22 +67,19 @@ G_DEFINE_TYPE_WITH_CODE (PtPlayer, pt_player, G_TYPE_OBJECT,
 /**
  * SECTION: pt-player
  * @short_description: The GStreamer backend for Parlatype.
+ * @include: parlatype-1.0/pt-player.h
  *
  * PtPlayer is the GStreamer backend for Parlatype. Construct it with #pt_player_new().
- * Then you have to open a file with pt_player_open_uri(). Listen to the player-
- * state-changed signal. On TRUE you can start playing around with the various controls.
+ * Then you have to open a file, either with pt_player_open_uri_async() or
+ * pt_player_open_uri(), the blocking version.
  *
  * The internal time unit in PtPlayer are milliseconds and for scale widgets there
  * is a scale from 0 to 1000. Use it to jump to a position or to update your widget.
  *
  * While playing PtPlayer emits these signals:
- * - duration-changed: The duration is an estimate, that's why it can change
- *                     during playback.
  * - end-of-stream: End of file reached, in the GUI you might want to jump
  *    		       to the beginning, reset play button etc.
  * - error: A fatal error occured, the player is reset. There's an error message.
- * - player-state-changed: indicates with a boolean whether the player is ready
- * to play or not. This happens after opening a file or on error.
  *
  * PtPlayer has two properties:
  * - speed: is a double from 0.5 to 1.5. 1.0 is normal playback, < 1.0 is slower,
@@ -106,23 +102,10 @@ pt_player_query_position (PtPlayer *player,
 	return result;
 }
 
-static gboolean
-pt_player_query_duration (PtPlayer *player,
-			  gpointer  position)
-{
-	/*gboolean result;
-	result = gst_element_query_duration (player->priv->pipeline, GST_FORMAT_TIME, position);
-	return result;*/
-	gint64 *pos = position;
-	*pos = player->priv->dur;
-	return TRUE;
-}
-
 static void
 pt_player_clear (PtPlayer *player)
 {
 	remove_message_bus (player);
-	g_signal_emit_by_name (player, "player-state-changed", FALSE);
 	gst_element_set_state (player->priv->pipeline, GST_STATE_NULL);
 }
 
@@ -199,8 +182,7 @@ static void
 metadata_get_position (PtPlayer *player)
 {
 	/* Queries position stored in metadata from file.
-	   Sets position to that value or to 0, because we start playing a file
-	   when opening it and stop on successfull duration query. */
+	   Sets position to that value or to 0 */
 
 	GError	  *error = NULL;
 	GFile	  *file = NULL;
@@ -247,13 +229,14 @@ remove_message_bus (PtPlayer *player)
 }
 
 static void
-add_message_bus (PtPlayer *player)
+add_message_bus (GTask *task)
 {
 	GstBus *bus;
+	PtPlayer *player = g_task_get_source_object (task);
 
 	remove_message_bus (player);
 	bus = gst_pipeline_get_bus (GST_PIPELINE (player->priv->pipeline));
-	player->priv->bus_watch_id = gst_bus_add_watch (bus, bus_call, player);
+	player->priv->bus_watch_id = gst_bus_add_watch (bus, bus_call, task);
 	gst_object_unref (bus);
 }
 
@@ -262,11 +245,12 @@ bus_call (GstBus     *bus,
           GstMessage *msg,
           gpointer    data)
 {
-	PtPlayer *player = (PtPlayer *) data;
+	GTask	 *task = (GTask *) data;
+	PtPlayer *player = g_task_get_source_object (task);
 
-	g_debug ("Message: %s; sent by: %s",
+	/*g_debug ("Message: %s; sent by: %s",
 			GST_MESSAGE_TYPE_NAME (msg),
-			GST_MESSAGE_SRC_NAME (msg));
+			GST_MESSAGE_SRC_NAME (msg));*/
 
 	switch (GST_MESSAGE_TYPE (msg)) {
 	case GST_MESSAGE_EOS:
@@ -282,25 +266,23 @@ bus_call (GstBus     *bus,
 		g_debug ("Debugging info: %s", (debug) ? debug : "none");
 		g_free (debug);
 
-		g_signal_emit_by_name (player, "error", error);
-		g_error_free (error);
-		pt_player_clear (player);
-
 		if (player->priv->opening) {
-			player->priv->opening = FALSE;
-			pt_player_mute_volume (player, FALSE);
+			g_task_return_error (task, error);
+		} else {
+			g_signal_emit_by_name (player, "error", error);
+			g_error_free (error);
 		}
 
+		pt_player_clear (player);
 		break;
 		}
 
 	case GST_MESSAGE_ASYNC_DONE:
 		if (player->priv->opening) {
 			metadata_get_position (player);
-			g_signal_emit_by_name (player, "player-state-changed", TRUE);
 			player->priv->opening = FALSE;
+			g_task_return_boolean (task, TRUE);
 		}
-
 		break;
 
 	default:
@@ -325,27 +307,54 @@ propagate_progress_cb (PtWaveloader *wl,
 static void
 load_cb (PtWaveloader *wl,
 	 GAsyncResult *res,
-	 PtPlayer     *player)
+	 gpointer     *data)
 {
-	GError *error = NULL;
+	GTask	 *task = (GTask *) data;
+	PtPlayer *player = g_task_get_source_object (task);
+	GError	 *error = NULL;
 
 	if (pt_waveloader_load_finish (wl, res, &error)) {
-		player->priv->opening = TRUE;
 		player->priv->dur = pt_waveloader_get_duration (player->priv->wl);
+
+		/* setup message handler */
+		add_message_bus (task);
 
 		pt_player_pause (player);
 
 	} else {
-		g_signal_emit_by_name (player, "error", error);
-                g_error_free (error);
                 g_clear_object (&wl);
+		g_task_return_error (task, error);
 	}
 }
 
 /**
- * pt_player_open_uri:
+ * pt_player_open_uri_finish:
+ * @player: a #PtPlayer
+ * @result: the #GAsyncResult passed to your #GAsyncReadyCallback
+ * @error: a pointer to a NULL #GError, or NULL
+ *
+ * Gives the result of the async opening operation. A cancelled operation results
+ * in an error, too.
+ *
+ * Return value: TRUE if successful, or FALSE with error set
+ */
+gboolean
+pt_player_open_uri_finish (PtPlayer	 *player,
+			   GAsyncResult  *result,
+			   GError       **error)
+{
+	g_return_val_if_fail (g_task_is_valid (result, player), FALSE);
+
+	return g_task_propagate_boolean (G_TASK (result), error);
+}
+
+/**
+ * pt_player_open_uri_async:
  * @player: a #PtPlayer
  * @uri: the URI of the file
+ * @cancellable: a #GCancellable or NULL
+ * @callback: a #GAsyncReadyCallback to call when the operation is complete
+ * @user_data: user_data for callback
  *
  * Opens a local audio file for playback. It doesn't work with videos or streams.
  * Only one file can be open at a time, playlists are not supported by the
@@ -358,30 +367,28 @@ load_cb (PtWaveloader *wl,
  * The player is set to the paused state and ready for playback. To start
  * playback use @pt_player_play().
  *
- * This is an asynchronous operation, to get the result listen for the
- * player-state-changed signal and error signals.
+ * This is an asynchronous operation, to get the result call
+ * pt_player_open_uri_finish() in your callback. For the blocking version see
+ * pt_player_open_uri().
  *
- * player-state-changed emits immediately FALSE at the beginning of the
- * operation (because the previous file will be closed) and TRUE on success.
- * For a failure listen to the error signal.
- *
- * While loading the file there is a progress signal emitted which stops before
- * reaching 100%. The operation is only finished after the player-state-changed
- * to TRUE.
+ * While loading the file there is a #PtPlayer::load-progress signal emitted which stops before
+ * reaching 100%. Don't use it to determine whether the operation is finished.
  */
 void
-pt_player_open_uri (PtPlayer  *player,
-		    gchar     *uri)
+pt_player_open_uri_async (PtPlayer	      *player,
+			  gchar		      *uri,
+			  GCancellable	      *cancellable,
+			  GAsyncReadyCallback  callback,
+			  gpointer	       user_data)
 {
 	g_return_if_fail (PT_IS_PLAYER (player));
 	g_return_if_fail (uri != NULL);
 
-	g_debug ("pt_player_open_uri");
-
+	GTask  *task;
 	GFile  *file;
 	gchar  *location = NULL;
-	GError *error;
 
+	task = g_task_new (player, cancellable, callback, user_data);
 	player->priv->opening = TRUE;
 
 	/* Change uri to location */
@@ -389,23 +396,25 @@ pt_player_open_uri (PtPlayer  *player,
 	location = g_file_get_path (file);
 	
 	if (!location) {
-		error = g_error_new (
+		g_task_return_new_error (
+				task,
 				GST_RESOURCE_ERROR,
 				GST_RESOURCE_ERROR_NOT_FOUND,
 				_("URI not valid: %s"), uri);
-		g_signal_emit_by_name (player, "error", error);
 		g_object_unref (file);
+		g_object_unref (task);
 		return;
 	}
 
 	if (!g_file_query_exists (file, NULL)) {
-		error = g_error_new (
+		g_task_return_new_error (
+				task,
 				GST_RESOURCE_ERROR,
 				GST_RESOURCE_ERROR_NOT_FOUND,
 				_("File not found: %s"), location);
-		g_signal_emit_by_name (player, "error", error);
 		g_object_unref (file);
 		g_free (location);
+		g_object_unref (task);
 		return;
 	}
 
@@ -416,11 +425,7 @@ pt_player_open_uri (PtPlayer  *player,
 	pt_player_clear (player);
 	player->priv->dur = -1;
 
-	/* setup message handler */
-	add_message_bus (player);
-
 	g_object_set (G_OBJECT (player->priv->source), "location", location, NULL);
-
 	g_object_unref (file);
 	g_free (location);
 
@@ -434,7 +439,76 @@ pt_player_open_uri (PtPlayer  *player,
 	pt_waveloader_load_async (player->priv->wl,
 				  player->priv->c,
 				  (GAsyncReadyCallback) load_cb,
-				  player);
+				  task);
+}
+
+typedef struct
+{
+	GAsyncResult *res;
+	GMainLoop    *loop;
+} SyncData;
+
+static void
+quit_loop_cb (PtPlayer	   *player,
+	      GAsyncResult *res,
+	      gpointer      user_data)
+{
+	SyncData *data = user_data;
+	data->res = g_object_ref (res);
+	g_main_loop_quit (data->loop);
+}
+
+/**
+ * pt_player_open_uri:
+ * @player: a #PtPlayer
+ * @uri: the URI of the file
+ * @error: (allow-none): return location for an error, or NULL
+ *
+ * Opens a local audio file for playback. It doesn't work with videos or streams.
+ * Only one file can be open at a time, playlists are not supported by the
+ * backend. Opening a new file will close the previous one.
+ *
+ * When closing a file or on object destruction PtPlayer tries to write the
+ * last position into the file's metadata. On opening a file it reads the
+ * metadata and jumps to the last known position if found.
+ *
+ * The player is set to the paused state and ready for playback. To start
+ * playback use @pt_player_play().
+ *
+ * This operation blocks until it is finished. It returns TRUE on success or
+ * FALSE and an error. For the asynchronous version see
+ * pt_player_open_uri_async().
+ *
+ * While loading the file there is a #PtPlayer::load-progress signal emitted.
+ * However, it doesn't emit 100%, the operation is finished when TRUE is returned.
+ *
+ * Return value: TRUE if successful, or FALSE with error set
+ */
+gboolean
+pt_player_open_uri (PtPlayer *player,
+		    gchar    *uri,
+		    GError  **error)
+{
+	g_return_if_fail (PT_IS_PLAYER (player));
+	g_return_if_fail (uri != NULL);
+	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+	gboolean      result;
+	SyncData      data;
+	GMainContext *context;
+
+	context = g_main_context_new ();
+	g_main_context_push_thread_default (context);
+
+	data.loop = g_main_loop_new (context, FALSE);
+	data.res = NULL;
+
+	pt_player_open_uri_async (player, uri, NULL, (GAsyncReadyCallback) quit_loop_cb, &data);
+	g_main_loop_run (data.loop);
+
+	result = pt_player_open_uri_finish (player, data.res, error);
+
+	return result;
 }
 
 /**
@@ -481,6 +555,13 @@ pt_player_play (PtPlayer *player)
 	gst_element_set_state (player->priv->pipeline, GST_STATE_PLAYING);
 }
 
+/**
+ * pt_player_rewind:
+ * @player: a #PtPlayer
+ * @speed: the speed
+ *
+ * Rewinds at the given speed.
+ */
 void
 pt_player_rewind (PtPlayer *player,
 		  gdouble   speed)
@@ -508,6 +589,13 @@ pt_player_rewind (PtPlayer *player,
 	pt_player_play (player);
 }
 
+/**
+ * pt_player_fast_forward:
+ * @player: a #PtPlayer
+ * @speed: the speed
+ *
+ * Play fast forward at the given speed.
+ */
 void
 pt_player_fast_forward (PtPlayer *player,
 			gdouble   speed)
@@ -741,25 +829,20 @@ pt_player_get_position (PtPlayer *player)
  *
  * Returns the duration of stream.
  *
- * Return value: duration in milliseconds or -1 on failure
+ * Return value: duration in milliseconds
  */
 gint
 pt_player_get_duration (PtPlayer *player)
 {
 	g_return_val_if_fail (PT_IS_PLAYER (player), -1);
 
-	gint64 time;
-
-	if (!pt_player_query_duration (player, &time))
-		return -1;
-
-	return GST_TIME_AS_MSECONDS (time);
+	return GST_TIME_AS_MSECONDS (player->priv->dur);
 }
 
 
 /* ------------------------- Waveform stuff --------------------------------- */
 
-/*
+/**
  * pt_player_get_length:
  * @player: a #PtPlayer
  *
@@ -774,7 +857,7 @@ pt_player_get_length (PtPlayer *player)
 	return pt_waveloader_get_data_size (player->priv->wl);
 }
 
-/*
+/**
  * pt_player_wave_pos:
  * @player: a #PtPlayer
  *
@@ -794,7 +877,7 @@ pt_player_wave_pos (PtPlayer *player)
 	return pos / 10000000;
 }
 
-/*
+/**
  * pt_player_get_px_per_sec:
  * @player: a #PtPlayer
  *
@@ -808,7 +891,7 @@ pt_player_get_px_per_sec (PtPlayer *player)
 	return pt_waveloader_get_px_per_sec (player->priv->wl);
 }
 
-/*
+/**
  * pt_player_get_data:
  * @player: a #PtPlayer
  *
@@ -1064,14 +1147,9 @@ pt_player_get_duration_time_string (PtPlayer *player,
 	g_return_val_if_fail (PT_IS_PLAYER (player), NULL);
 	g_return_val_if_fail (digits <= 2, NULL);
 
-	gint64 time;
-
-	if (!pt_player_query_duration (player, &time))
-		return NULL;
-
 	return pt_player_get_time_string (
-			GST_TIME_AS_MSECONDS (time),
-			GST_TIME_AS_MSECONDS (time),
+			GST_TIME_AS_MSECONDS (player->priv->dur),
+			GST_TIME_AS_MSECONDS (player->priv->dur),
 			digits);
 }
 
@@ -1430,7 +1508,7 @@ pt_player_class_init (PtPlayerClass *klass)
 	* signal or an error signal to dismiss a gui element showing progress.
 	*/
 	g_signal_new ("load-progress",
-		      G_TYPE_OBJECT,
+		      PT_TYPE_PLAYER,
 		      G_SIGNAL_RUN_FIRST,
 		      0,
 		      NULL,
@@ -1440,51 +1518,13 @@ pt_player_class_init (PtPlayerClass *klass)
 		      1, G_TYPE_DOUBLE);
 
 	/**
-	* PtPlayer::player-state-changed:
-	* @player: the player emitting the signal
-	* @state: the new state, TRUE is ready, FALSE is not ready
-	*
-	* The ::player-state-changed signal is emitted when the @player changes
-	* its state to ready to play (a file was opened) or not ready to play
-	* (an error occured). If the player is ready, a duration of the stream
-	* is available.
-	*/
-	g_signal_new ("player-state-changed",
-		      G_TYPE_OBJECT,
-		      G_SIGNAL_RUN_FIRST,
-		      0,
-		      NULL,
-		      NULL,
-		      g_cclosure_marshal_VOID__BOOLEAN,
-		      G_TYPE_NONE,
-		      1, G_TYPE_BOOLEAN);
-
-	/**
-	* PtPlayer::duration-changed:
-	* @player: the player emitting the signal
-	*
-	* The ::duration-changed signal is emitted when the duration of the stream
-	* changed after opening the file. This can happen because the duration
-	* is just an estimate.
-	*/
-	g_signal_new ("duration-changed",
-		      G_TYPE_OBJECT,
-		      G_SIGNAL_RUN_FIRST,
-		      0,
-		      NULL,
-		      NULL,
-		      g_cclosure_marshal_VOID__POINTER,
-		      G_TYPE_NONE,
-		      0);
-
-	/**
 	* PtPlayer::end-of-stream:
 	* @player: the player emitting the signal
 	*
-	* The ::end-of-stream signal is emitted when the stream is at its end.
+	* The #PtPlayer::end-of-stream signal is emitted when the stream is at its end.
 	*/
 	g_signal_new ("end-of-stream",
-		      G_TYPE_OBJECT,
+		      PT_TYPE_PLAYER,
 		      G_SIGNAL_RUN_FIRST,
 		      0,
 		      NULL,
@@ -1498,11 +1538,11 @@ pt_player_class_init (PtPlayerClass *klass)
 	* @player: the player emitting the signal
 	* @error: a GError
 	*
-	* The ::error signal is emitted on errors opening the file or during
+	* The #PtPlayer::error signal is emitted on errors opening the file or during
 	* playback. It's a severe error and the player is always reset.
 	*/
 	g_signal_new ("error",
-		      G_TYPE_OBJECT,
+		      PT_TYPE_PLAYER,
 		      G_SIGNAL_RUN_FIRST,
 		      0,
 		      NULL,
@@ -1555,7 +1595,6 @@ pt_player_initable_iface_init (GInitableIface *iface)
 
 /**
  * pt_player_new:
- * @speed: initial speed
  * @error: (allow-none): return location for an error, or NULL
  *
  * This is a failable constructor. It fails, if GStreamer doesn't init or a
@@ -1566,12 +1605,10 @@ pt_player_initable_iface_init (GInitableIface *iface)
  * Return value: (transfer full): a new pt_player
  */
 PtPlayer *
-pt_player_new (gdouble   speed,
-	       GError  **error)
+pt_player_new (GError **error)
 {
-	return g_initable_new (PT_PLAYER_TYPE,
+	return g_initable_new (PT_TYPE_PLAYER,
 			NULL,	/* cancellable */
 			error,
-			"speed", speed,
 			NULL);
 }

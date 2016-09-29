@@ -1,7 +1,13 @@
 *.o
+*.lo
+*.la
 *~
+
 Makefile
 Makefile.in
+
+.deps/
+.libs/
 
 /*.tar.gz
 /ABOUT-NLS
@@ -19,7 +25,10 @@ Makefile.in
 /configure
 /debian/
 /depcomp
+/gtk-doc.make
 /install-sh
+/libtool
+/ltmain.sh
 /m4/
 /missing
 /stamp-h1
@@ -28,11 +37,25 @@ Makefile.in
 /data/parlatype.desktop.in
 /data/org.gnome.parlatype.gschema.valid
 
+/docs/reference/*.stamp
+/docs/reference/version.xml
+/docs/reference/parlatype.*
+/docs/reference/parlatype-decl*.txt
+/docs/reference/parlatype-overrides.txt
+/docs/reference/parlatype-un*.txt
+/docs/reference/html*
+/docs/reference/xml/
+
 /help/parlatype.pot
 /help/de/*.page
 /help/de/de.mo
 /help/de/de.stamp
 /help/de/legal.xml
+
+/libparlatype/libparlatype.pc
+/libparlatype/pt-resources.*
+/libparlatype/*.gir
+/libparlatype/*.typelib
 
 /po/*.gmo
 /po/*.pot

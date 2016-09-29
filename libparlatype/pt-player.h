@@ -18,17 +18,21 @@
 #ifndef PT_PLAYER_H
 #define PT_PLAYER_H
 
-#include "config.h"
 #include <gio/gio.h>
 
-#define PT_PLAYER_TYPE		(pt_player_get_type())
-#define PT_PLAYER(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), PT_PLAYER_TYPE, PtPlayer))
-#define PT_IS_PLAYER(obj)	(G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_PLAYER_TYPE))
+#define PT_TYPE_PLAYER		(pt_player_get_type())
+#define PT_PLAYER(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), PT_TYPE_PLAYER, PtPlayer))
+#define PT_IS_PLAYER(obj)	(G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_TYPE_PLAYER))
 
 typedef struct _PtPlayer	PtPlayer;
 typedef struct _PtPlayerClass	PtPlayerClass;
 typedef struct _PtPlayerPrivate PtPlayerPrivate;
 
+/**
+ * PtPlayer:
+ *
+ * The #PtPlayer contains only private fields and should not be directly accessed.
+ */
 struct _PtPlayer
 {
 	GObject parent;
@@ -51,8 +55,17 @@ gfloat 		*pt_player_get_data		(PtPlayer *player);
 
 void		pt_player_pause			(PtPlayer *player);
 void		pt_player_play			(PtPlayer *player);
-void		pt_player_open_uri		(PtPlayer  *player,
-						 gchar     *uri);
+gboolean	pt_player_open_uri_finish	(PtPlayer      *player,
+						 GAsyncResult  *result,
+						 GError       **error);
+void		pt_player_open_uri_async	(PtPlayer	     *player,
+						 gchar		     *uri,
+						 GCancellable	     *cancellable,
+						 GAsyncReadyCallback  callback,
+						 gpointer	      user_data);
+gboolean	pt_player_open_uri		(PtPlayer *player,
+						 gchar    *uri,
+						 GError  **error);
 void		pt_player_cancel		(PtPlayer *player);
 void		pt_player_jump_relative		(PtPlayer *player,
 						 gint      milliseconds);
@@ -88,7 +101,6 @@ gboolean	pt_player_string_is_timestamp	(PtPlayer *player,
 gboolean	pt_player_goto_timestamp	(PtPlayer *player,
 						 gchar    *timestamp);
 
-PtPlayer	*pt_player_new			(gdouble   speed,
-						 GError  **error);
+PtPlayer	*pt_player_new			(GError **error);
 
 #endif

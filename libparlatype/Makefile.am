@@ -1,0 +1,126 @@
+lib_LTLIBRARIES = libparlatype-@PARLATYPE_API_VERSION@.la
+
+resource_xml = $(srcdir)/resources/libparlatype.gresource.xml
+resource_files = $(shell glib-compile-resources --sourcedir=$(srcdir)/resources --generate-dependencies $(resource_xml))
+pt-resources.c: $(resource_xml) $(resource_files)
+	$(AM_V_GEN)glib-compile-resources	\
+		--target=$@			\
+		--sourcedir=$(srcdir)/resources	\
+		--generate-source		\
+		--c-name parlatype $(resource_xml)
+pt-resources.h: $(resource_xml) $(resource_files)
+	$(AM_V_GEN)glib-compile-resources 	\
+		--target=$@			\
+		--sourcedir=$(srcdir)/resources	\
+		--generate-header		\
+		--c-name parlatype $(resource_xml)
+
+BUILT_SOURCES = \
+	pt-resources.c		\
+	pt-resources.h		\
+	$(NULL)
+
+libparlatype_@PARLATYPE_API_VERSION@_la_SOURCES = \
+		$(BUILT_SOURCES) \
+		pt-player.c	\
+		pt-waveloader.c	\
+		pt-waveslider.c
+
+parlatype_includedir=$(includedir)/parlatype-$(PARLATYPE_API_VERSION)
+parlatype_include_HEADERS = \
+		pt-player.h	\
+		pt-waveloader.h	\
+		pt-waveslider.h
+
+AM_CPPFLAGS = $(PACKAGE_CFLAGS)		\
+	      -DUIDIR=\"$(pkgdatadir)\" \
+	      -DLOCALEDIR=\"$(localedir)\"
+
+libparlatype_@PARLATYPE_API_VERSION@_la_LDFLAGS = -version-info $(PARLATYPE_SO_VERSION)
+libparlatype_@PARLATYPE_API_VERSION@_la_LIBADD = $(PACKAGE_LIBS)
+
+## The generated configuration header is installed in its own subdirectory of
+## $(libdir).  The reason for this is that the configuration information put
+## into this header file describes the target platform the installed library
+## has been built for.  Thus the file must not be installed into a location
+## intended for architecture-independent files, as defined by the Filesystem
+## Hierarchy Standard (FHS).
+## The nodist_ prefix instructs Automake to not generate rules for including
+## the listed files in the distribution on 'make dist'.  Files that are listed
+## in _HEADERS variables are normally included in the distribution, but the
+## configuration header file is generated at configure time and should not be
+## shipped with the source tarball.
+parlatype_libincludedir = $(libdir)/parlatype-$(PARLATYPE_API_VERSION)/parlatype
+#nodist_parlatype_libinclude_HEADERS = xxx.h
+
+## Install the generated pkg-config file (.pc) into the expected location for
+## architecture-dependent package configuration information.  Occasionally,
+## pkg-config files are also used for architecture-independent data packages,
+## in which case the correct install location would be $(datadir)/pkgconfig.
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = libparlatype.pc
+
+## Define an independent executable script for inclusion in the distribution
+## archive.  However, it will not be installed on an end user's system due to
+## the noinst_ prefix.
+#dist_noinst_SCRIPTS = autogen.sh
+
+# Install gladeui catalog file
+glade_catalogdir = $(GLADE_CAT_DIR)
+glade_catalog_DATA = pt-glade-catalog.xml
+
+gladept_LTLIBRARIES = libgladept.la
+gladeptdir = $(GLADE_MOD_DIR)
+
+libgladept_la_CPPFLAGS =   \
+	-I$(top_srcdir)    \
+	-I$(top_builddir)  \
+	$(GTK_CFLAGS)	               \
+	$(AM_CPPFLAGS)
+
+libgladept_la_CFLAGS = $(AM_CFLAGS)
+libgladept_la_SOURCES = pt-waveslider.c
+libgladept_la_LDFLAGS = -module -avoid-version $(AM_LDFLAGS)
+libgladept_la_LIBADD = $(GTK_LIBS)
+
+#noinst_HEADERS = pt-waveslider.h
+
+
+-include $(INTROSPECTION_MAKEFILE)
+INTROSPECTION_GIRS =
+INTROSPECTION_SCANNER_ARGS = --add-include-path=$(srcdir) --warn-all --symbol-prefix=pt --identifier-prefix=Pt #--accept-unprefixed
+INTROSPECTION_COMPILER_ARGS = --includedir=$(srcdir)
+
+if HAVE_INTROSPECTION
+
+# introspection sources without built sources, so not using
+# $(libparlatype_@PARLATYPE_API_VERSION@_la_SOURCES)
+introspection_sources = \
+		pt-player.c	\
+		pt-waveloader.c	\
+		pt-waveslider.c	\
+		$(parlatype_include_HEADERS)
+
+Parlatype-1.0.gir: libparlatype-1.0.la
+Parlatype_1_0_gir_INCLUDES = GObject-2.0 Gtk-3.0
+Parlatype_1_0_gir_CFLAGS = \
+	-I$(top_srcdir) \
+	$(INCLUDES)
+Parlatype_1_0_gir_LIBS = libparlatype-1.0.la
+Parlatype_1_0_gir_FILES = $(introspection_sources)
+#Parlatype_1_0_gir_NAMESPACE = Pt
+INTROSPECTION_GIRS += Parlatype-1.0.gir
+
+girdir = $(datadir)/gir-1.0
+gir_DATA = $(INTROSPECTION_GIRS)
+
+typelibdir = $(libdir)/girepository-1.0
+typelib_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
+
+CLEANFILES = $(gir_DATA) $(typelib_DATA) $(BUILT_SOURCES)
+endif
+
+EXTRA_DIST = 			\
+	$(resource_files)	\
+	$(resource_xml)		\
+	pt-glade-catalog.xml

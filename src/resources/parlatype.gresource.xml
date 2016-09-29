@@ -6,7 +6,5 @@
     <file preprocess="xml-stripblanks">goto-dialog.ui</file>
     <file preprocess="xml-stripblanks">preferences.ui</file>
     <file preprocess="xml-stripblanks">window-headerbar.ui</file>
-    <file>pt-waveslider.css</file>
-    <file>pt-waveslider-dark.css</file>
   </gresource>
 </gresources>

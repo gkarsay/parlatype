@@ -28,30 +28,20 @@ G_BEGIN_DECLS
 #define PT_WAVESLIDER_CLASS(klass)  (G_TYPE_CHECK_CLASS_CAST ((klass),  PT_TYPE_WAVESLIDER, PtWavesliderClass))
 #define PT_IS_WAVESLIDER_CLASS(obj) (G_TYPE_CHECK_CLASS_TYPE ((klass),  PT_TYPE_WAVESLIDER))
 
-typedef struct _PtWaveslider      PtWaveslider;
-typedef struct _PtWavesliderClass PtWavesliderClass;
+typedef struct _PtWaveslider		PtWaveslider;
+typedef struct _PtWavesliderClass	PtWavesliderClass;
+typedef struct _PtWavesliderPrivate	PtWavesliderPrivate;
 
 /**
  * PtWaveslider:
  *
- * waveform view widget
+ * The #PtWaveslider contains only private fields and should not be directly accessed.
  */
 struct _PtWaveslider {
 	GtkWidget parent;
 
-	gfloat	 *peaks;
-	gint64	  peaks_size;
-	gint	  px_per_sec;
-    
-	gint64	  wave_length;
-	gint64	  playback_cursor;
-
-	GdkRGBA	  wave_color;
-	GdkRGBA	  cursor_color;
-
-	/* state */
-	GdkWindow *window;
-	GtkBorder  border;
+	/*< private > */
+	PtWavesliderPrivate *priv;
 };
 
 struct _PtWavesliderClass {

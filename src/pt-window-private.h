@@ -19,7 +19,7 @@
 
 #include "config.h"
 #include <gtk/gtk.h>
-#include "pt-player.h"
+#include <libparlatype/pt-player.h>
 
 struct _PtWindowPrivate
 {
@@ -29,7 +29,6 @@ struct _PtWindowPrivate
 	PtPlayer	 *player;
 
 	GtkWidget  *progress_dlg;
-	GtkWidget  *progress_bar;
 	gint	    progress_handler_id;
 
 	GtkWidget  *button_open;
@@ -44,7 +43,6 @@ struct _PtWindowPrivate
 	GtkWidget  *time_scale;
 	GtkWidget  *time_adj;
 	GtkWidget  *speed_scale;
-	GtkWidget  *main_grid;
 	GtkWidget  *waveslider;
 
 	gint	    timer;
