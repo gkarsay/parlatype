@@ -496,9 +496,9 @@ pt_waveslider_init (PtWaveslider *self)
 	g_object_get (settings, "gtk-application-prefer-dark-theme", &dark, NULL);
 
 	if (dark)
-		file = g_file_new_for_uri ("resource:///org/gnome/parlatype/pt-waveslider-dark.css");
+		file = g_file_new_for_uri ("resource:///org/gnome/libparlatype/pt-waveslider-dark.css");
 	else
-		file = g_file_new_for_uri ("resource:///org/gnome/parlatype/pt-waveslider.css");
+		file = g_file_new_for_uri ("resource:///org/gnome/libparlatype/pt-waveslider.css");
 
 	provider = gtk_css_provider_new ();
 	gtk_css_provider_load_from_file (provider, file, NULL);

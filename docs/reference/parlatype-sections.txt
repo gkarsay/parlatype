@@ -75,6 +75,8 @@ PT_TYPE_WAVESLIDER
 PT_WAVESLIDER
 PT_WAVESLIDER_CLASS
 PtWavesliderClass
+PtWavesliderPrivate
 pt_waveslider_get_type
+parlatype_get_resource
 </SECTION>
 

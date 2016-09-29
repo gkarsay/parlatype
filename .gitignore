@@ -53,6 +53,7 @@ Makefile.in
 /help/de/legal.xml
 
 /libparlatype/libparlatype.pc
+/libparlatype/pt-resources.*
 /libparlatype/*.gir
 /libparlatype/*.typelib
 

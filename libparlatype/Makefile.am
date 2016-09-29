@@ -1,5 +1,27 @@
 lib_LTLIBRARIES = libparlatype-@PARLATYPE_API_VERSION@.la
+
+resource_xml = $(srcdir)/resources/libparlatype.gresource.xml
+resource_files = $(shell glib-compile-resources --sourcedir=$(srcdir)/resources --generate-dependencies $(resource_xml))
+pt-resources.c: $(resource_xml) $(resource_files)
+	$(AM_V_GEN)glib-compile-resources	\
+		--target=$@			\
+		--sourcedir=$(srcdir)/resources	\
+		--generate-source		\
+		--c-name parlatype $(resource_xml)
+pt-resources.h: $(resource_xml) $(resource_files)
+	$(AM_V_GEN)glib-compile-resources 	\
+		--target=$@			\
+		--sourcedir=$(srcdir)/resources	\
+		--generate-header		\
+		--c-name parlatype $(resource_xml)
+
+BUILT_SOURCES = \
+	pt-resources.c		\
+	pt-resources.h		\
+	$(NULL)
+
 libparlatype_@PARLATYPE_API_VERSION@_la_SOURCES = \
+		$(BUILT_SOURCES) \
 		pt-player.c	\
 		pt-waveloader.c	\
 		pt-waveslider.c
@@ -70,8 +92,14 @@ INTROSPECTION_SCANNER_ARGS = --add-include-path=$(srcdir) --warn-all --symbol-pr
 INTROSPECTION_COMPILER_ARGS = --includedir=$(srcdir)
 
 if HAVE_INTROSPECTION
-introspection_sources = $(libparlatype_@PARLATYPE_API_VERSION@_la_SOURCES) \
-			$(parlatype_include_HEADERS)
+
+# introspection sources without built sources, so not using
+# $(libparlatype_@PARLATYPE_API_VERSION@_la_SOURCES)
+introspection_sources = \
+		pt-player.c	\
+		pt-waveloader.c	\
+		pt-waveslider.c	\
+		$(parlatype_include_HEADERS)
 
 Parlatype-1.0.gir: libparlatype-1.0.la
 Parlatype_1_0_gir_INCLUDES = GObject-2.0 Gtk-3.0
@@ -89,8 +117,10 @@ gir_DATA = $(INTROSPECTION_GIRS)
 typelibdir = $(libdir)/girepository-1.0
 typelib_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
 
-CLEANFILES = $(gir_DATA) $(typelib_DATA)
+CLEANFILES = $(gir_DATA) $(typelib_DATA) $(BUILT_SOURCES)
 endif
 
-EXTRA_DIST = 					\
+EXTRA_DIST = 			\
+	$(resource_files)	\
+	$(resource_xml)		\
 	pt-glade-catalog.xml
