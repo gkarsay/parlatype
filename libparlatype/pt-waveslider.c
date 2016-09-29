@@ -29,6 +29,23 @@
 #define MIN_W 24
 #define MIN_H 16
 
+
+struct _PtWavesliderPrivate {
+	gfloat	 *peaks;
+	gint64	  peaks_size;
+	gint	  px_per_sec;
+
+	gint64	  wave_length;
+	gint64	  playback_cursor;
+
+	GdkRGBA	  wave_color;
+	GdkRGBA	  cursor_color;
+
+	/* state */
+	GdkWindow *window;
+	GtkBorder  border;
+};
+
 enum
 {
 	PROP_0,
@@ -45,7 +62,7 @@ static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE (PtWaveslider, pt_waveslider, GTK_TYPE_WIDGET);
+G_DEFINE_TYPE_WITH_PRIVATE (PtWaveslider, pt_waveslider, GTK_TYPE_WIDGET);
 
 /**
  * SECTION: pt-waveslider
@@ -89,8 +106,8 @@ pt_waveslider_realize (GtkWidget *widget)
 		GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK);
 	attributes_mask = GDK_WA_X | GDK_WA_Y;
 
-	self->window = gdk_window_new (window, &attributes, attributes_mask);
-	gtk_widget_register_window (widget, self->window);
+	self->priv->window = gdk_window_new (window, &attributes, attributes_mask);
+	gtk_widget_register_window (widget, self->priv->window);
 }
 
 static void
@@ -98,9 +115,9 @@ pt_waveslider_unrealize (GtkWidget *widget)
 {
 	PtWaveslider *self = PT_WAVESLIDER (widget);
 
-	gtk_widget_unregister_window (widget, self->window);
-	gdk_window_destroy (self->window);
-	self->window = NULL;
+	gtk_widget_unregister_window (widget, self->priv->window);
+	gdk_window_destroy (self->priv->window);
+	self->priv->window = NULL;
 	GTK_WIDGET_CLASS (pt_waveslider_parent_class)->unrealize (widget);
 }
 
@@ -109,7 +126,7 @@ pt_waveslider_map (GtkWidget *widget)
 {
 	PtWaveslider *self = PT_WAVESLIDER (widget);
 
-	gdk_window_show (self->window);
+	gdk_window_show (self->priv->window);
 
 	GTK_WIDGET_CLASS (pt_waveslider_parent_class)->map (widget);
 }
@@ -119,7 +136,7 @@ pt_waveslider_unmap (GtkWidget *widget)
 {
 	PtWaveslider *self = PT_WAVESLIDER (widget);
 
-	gdk_window_hide (self->window);
+	gdk_window_hide (self->priv->window);
 
 	GTK_WIDGET_CLASS (pt_waveslider_parent_class)->unmap (widget);
 }
@@ -156,7 +173,7 @@ get_left_pixel (PtWaveslider *self,
 	gint left;
 	gint last_pixel;
 
-	last_pixel = self->peaks_size / 2;
+	last_pixel = self->priv->peaks_size / 2;
 	left = cursor_pixel - width * CURSOR_POSITION;
 
 	if (width * CURSOR_POSITION > cursor_pixel)
@@ -179,7 +196,7 @@ pt_waveslider_draw (GtkWidget *widget,
 	GtkStyleContext *style_ctx;
 	gint width, height, left, top, middle, half;
 	gint i, x;
-	gfloat *peaks = self->peaks;
+	gfloat *peaks = self->priv->peaks;
 	gdouble min, max;
 	gint offset;
 
@@ -196,17 +213,17 @@ pt_waveslider_draw (GtkWidget *widget,
 		return FALSE;
 	}
 
-	left = self->border.left;
-	top = self->border.top;
-	width -= self->border.left + self->border.right;
-	height -= self->border.top + self->border.bottom;
+	left = self->priv->border.left;
+	top = self->priv->border.top;
+	width -= self->priv->border.left + self->priv->border.right;
+	height -= self->priv->border.top + self->priv->border.bottom;
 	middle = top + height / 2;
 	half = height / 2 - 1;
 
 	cairo_set_line_join (cr, CAIRO_LINE_JOIN_ROUND);
 	cairo_set_line_width (cr, 1.0);
 
-	gint cursor_pixel = time_to_pixel (self->playback_cursor * 10, self->px_per_sec);
+	gint cursor_pixel = time_to_pixel (self->priv->playback_cursor * 10, self->priv->px_per_sec);
 	/* offset = pixel at the left in peaks array */
 	offset = get_left_pixel (self, width, cursor_pixel) * 2;
 
@@ -214,7 +231,7 @@ pt_waveslider_draw (GtkWidget *widget,
 	for (i = 0; i < 2 * width; i += 2) {
 		if (offset + i < 0)
 			continue;
-		if (offset + i > self->peaks_size)
+		if (offset + i > self->priv->peaks_size)
 			break;
 		gint x = left + i / 2;
 		min = (middle + half * peaks[offset + i + 1] * -1);
@@ -223,11 +240,11 @@ pt_waveslider_draw (GtkWidget *widget,
 		cairo_line_to (cr, x, max);
 	}
 
-	gdk_cairo_set_source_rgba (cr, &self->wave_color);
+	gdk_cairo_set_source_rgba (cr, &self->priv->wave_color);
 	cairo_stroke (cr);
 
 	/* cursor */
-	gdk_cairo_set_source_rgba (cr, &self->cursor_color);
+	gdk_cairo_set_source_rgba (cr, &self->priv->cursor_color);
 	x = left + cursor_pixel - offset / 2;
 	if (x > left + width)
 		x = left + width;
@@ -254,12 +271,12 @@ pt_waveslider_size_allocate (GtkWidget	   *widget,
 	gtk_widget_set_allocation (widget, allocation);
 
 	if (gtk_widget_get_realized (widget))
-		gdk_window_move_resize (self->window,
+		gdk_window_move_resize (self->priv->window,
 			allocation->x, allocation->y, allocation->width, allocation->height);
 
 	context = gtk_widget_get_style_context (widget);
 	state = gtk_widget_get_state_flags (widget);
-	gtk_style_context_get_border (context, state, &self->border);
+	gtk_style_context_get_border (context, state, &self->priv->border);
 }
 
 static void
@@ -268,7 +285,7 @@ pt_waveslider_get_preferred_width (GtkWidget *widget,
 				   gint	     *natural_width)
 {
 	PtWaveslider *self = PT_WAVESLIDER (widget);
-	gint border_padding = self->border.left + self->border.right;
+	gint border_padding = self->priv->border.left + self->priv->border.right;
 
 	*minimal_width = MIN_W + border_padding;
 	*natural_width = (MIN_W * 6) + border_padding;
@@ -280,7 +297,7 @@ pt_waveslider_get_preferred_height (GtkWidget *widget,
 				    gint      *natural_height)
 {
 	PtWaveslider *self = PT_WAVESLIDER (widget);
-	gint border_padding = self->border.top + self->border.bottom;
+	gint border_padding = self->priv->border.top + self->priv->border.bottom;
 
 	*minimal_height = MIN_H + border_padding;
 	*natural_height = (MIN_H * 4) + border_padding;
@@ -299,16 +316,16 @@ pt_waveslider_button_press (GtkWidget	   *widget,
 	gint64 clicked;	/* the sample clicked on */
 	gint64 pos;	/* clicked sample's position in milliseconds */
 
-	cursor_pixel = time_to_pixel (self->playback_cursor * 10, self->px_per_sec);
+	cursor_pixel = time_to_pixel (self->priv->playback_cursor * 10, self->priv->px_per_sec);
 	left = get_left_pixel (self, width, cursor_pixel);
 	clicked = left + (gint) event->x;
-	pos = pixel_to_time (clicked, self->px_per_sec);
+	pos = pixel_to_time (clicked, self->priv->px_per_sec);
 
 	g_debug ("left: %" G_GINT64_FORMAT, left);
 	g_debug ("clicked: %" G_GINT64_FORMAT, clicked);
 	g_debug ("pos: %" G_GINT64_FORMAT, pos);
 
-	if (clicked < 0 || clicked > self->peaks_size / 2) {
+	if (clicked < 0 || clicked > self->priv->peaks_size / 2) {
 		g_debug ("click outside");
 		return FALSE;
 	}
@@ -345,11 +362,11 @@ pt_waveslider_state_flags_changed (GtkWidget	 *widget,
 	style_ctx = gtk_widget_get_style_context (widget);
 
 	if (gdk_window_get_state (window) & GDK_WINDOW_STATE_FOCUSED) {
-		gtk_style_context_lookup_color (style_ctx, "wave_color", &self->wave_color);
-		gtk_style_context_lookup_color (style_ctx, "cursor_color", &self->cursor_color);
+		gtk_style_context_lookup_color (style_ctx, "wave_color", &self->priv->wave_color);
+		gtk_style_context_lookup_color (style_ctx, "cursor_color", &self->priv->cursor_color);
 	} else {
-		gtk_style_context_lookup_color (style_ctx, "wave_color_uf", &self->wave_color);
-		gtk_style_context_lookup_color (style_ctx, "cursor_color_uf", &self->cursor_color);
+		gtk_style_context_lookup_color (style_ctx, "wave_color_uf", &self->priv->wave_color);
+		gtk_style_context_lookup_color (style_ctx, "cursor_color_uf", &self->priv->cursor_color);
 	}
 }
 
@@ -358,7 +375,7 @@ pt_waveslider_finalize (GObject *object)
 {
 	PtWaveslider *self = PT_WAVESLIDER (object);
 
-	g_free (self->peaks);
+	g_free (self->priv->peaks);
 
 	G_OBJECT_CLASS (pt_waveslider_parent_class)->finalize (object);
 }
@@ -386,7 +403,7 @@ pt_waveslider_set_property (GObject      *object,
 
 	switch (property_id) {
 	case PROP_PLAYBACK_CURSOR:
-		self->playback_cursor = g_value_get_int64 (value);
+		self->priv->playback_cursor = g_value_get_int64 (value);
 		if (gtk_widget_get_realized (GTK_WIDGET (self))) {
 			gtk_widget_queue_draw (GTK_WIDGET (self));
 		}
@@ -462,14 +479,16 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 static void
 pt_waveslider_init (PtWaveslider *self)
 {
+	self->priv = pt_waveslider_get_instance_private (self);
+
 	GtkStyleContext *context;
 	GtkCssProvider  *provider;
 	GtkSettings     *settings;
 	gboolean	 dark;
 	GFile		*file;
 
-	self->peaks_size = 0;
-	self->playback_cursor = 0;
+	self->priv->peaks_size = 0;
+	self->priv->playback_cursor = 0;
 
 	gtk_widget_set_has_window (GTK_WIDGET (self), FALSE);
 
@@ -491,8 +510,8 @@ pt_waveslider_init (PtWaveslider *self)
 					GTK_STYLE_PROVIDER (provider),
 					GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
-	gtk_style_context_lookup_color (context, "wave_color", &self->wave_color);
-	gtk_style_context_lookup_color (context, "cursor_color", &self->cursor_color);
+	gtk_style_context_lookup_color (context, "wave_color", &self->priv->wave_color);
+	gtk_style_context_lookup_color (context, "cursor_color", &self->priv->cursor_color);
 
 	g_object_unref (file);
 	g_object_unref (provider);
@@ -513,18 +532,18 @@ pt_waveslider_set_wave (PtWaveslider *self,
 			gint64	      length,
 			gint	      px_per_sec)
 {
-	g_free (self->peaks);
-	self->peaks = NULL;
+	g_free (self->priv->peaks);
+	self->priv->peaks = NULL;
 
 	if (!data || !length) {
 		gtk_widget_queue_draw (GTK_WIDGET (self));
 		return;
 	}
 
-	self->px_per_sec = px_per_sec;
-	self->peaks_size = length;
-	self->peaks = g_malloc (sizeof (gfloat) * self->peaks_size);
-	self->peaks = data;
+	self->priv->px_per_sec = px_per_sec;
+	self->priv->peaks_size = length;
+	self->priv->peaks = g_malloc (sizeof (gfloat) * self->priv->peaks_size);
+	self->priv->peaks = data;
 
 	gtk_widget_queue_draw (GTK_WIDGET (self));
 }
