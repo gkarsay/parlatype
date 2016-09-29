@@ -36,7 +36,7 @@ struct _PtPlayerPrivate
 	gdouble	    speed;
 
 	GCancellable *c;
-	gboolean    opening;
+	gboolean      opening;
 
 	PtWaveloader *wl;
 };
@@ -71,8 +71,8 @@ G_DEFINE_TYPE_WITH_CODE (PtPlayer, pt_player, G_TYPE_OBJECT,
  * @include: parlatype-1.0/pt-player.h
  *
  * PtPlayer is the GStreamer backend for Parlatype. Construct it with #pt_player_new().
- * Then you have to open a file with pt_player_open_uri(). Listen to the player-
- * state-changed signal. On TRUE you can start playing around with the various controls.
+ * Then you have to open a file, either with pt_player_open_uri_async() or
+ * pt_player_open_uri(), the blocking version.
  *
  * The internal time unit in PtPlayer are milliseconds and for scale widgets there
  * is a scale from 0 to 1000. Use it to jump to a position or to update your widget.
@@ -353,6 +353,9 @@ pt_player_open_uri_finish (PtPlayer	 *player,
  * pt_player_open_uri_async:
  * @player: a #PtPlayer
  * @uri: the URI of the file
+ * @cancellable: a #GCancellable or NULL
+ * @callback: a #GAsyncReadyCallback to call when the operation is complete
+ * @user_data: user_data for callback
  *
  * Opens a local audio file for playback. It doesn't work with videos or streams.
  * Only one file can be open at a time, playlists are not supported by the
@@ -366,7 +369,8 @@ pt_player_open_uri_finish (PtPlayer	 *player,
  * playback use @pt_player_play().
  *
  * This is an asynchronous operation, to get the result call
- * pt_player_open_uri_finish().
+ * pt_player_open_uri_finish() in your callback. For the blocking version see
+ * pt_player_open_uri().
  *
  * While loading the file there is a #PtPlayer::load-progress signal emitted which stops before
  * reaching 100%. Don't use it to determine whether the operation is finished.
@@ -473,7 +477,8 @@ quit_loop_cb (PtPlayer	   *player,
  * playback use @pt_player_play().
  *
  * This operation blocks until it is finished. It returns TRUE on success or
- * FALSE and and error.
+ * FALSE and an error. For the asynchronous version see
+ * pt_player_open_uri_async().
  *
  * While loading the file there is a #PtPlayer::load-progress signal emitted.
  * However, it doesn't emit 100%, the operation is finished when TRUE is returned.
