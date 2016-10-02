@@ -309,6 +309,9 @@ pt_waveslider_button_press (GtkWidget	   *widget,
 {
 	PtWaveslider *self = PT_WAVESLIDER (widget);
 
+	if (!self->priv->peaks)
+		return FALSE;
+
 	const gint width = gtk_widget_get_allocated_width (widget) - 2;
 
 	gint64 cursor_pixel;
@@ -487,6 +490,7 @@ pt_waveslider_init (PtWaveslider *self)
 	gboolean	 dark;
 	GFile		*file;
 
+	self->priv->peaks = NULL;
 	self->priv->peaks_size = 0;
 	self->priv->playback_cursor = 0;
 
