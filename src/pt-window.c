@@ -691,7 +691,12 @@ pt_window_dispose (GObject *object)
 	g_clear_object (&win->priv->editor);
 	g_clear_object (&win->priv->proxy);
 	destroy_progress_dlg (win);
-	g_object_unref (win->priv->player);
+	/* Using g_clear_object or g_object_unref + win->priv->player = NULL
+	   doesn't dispose the object properly, it doesn't remember last
+	   position (called in dispose). Don't know why. This solution seems to work. */
+	if (G_IS_OBJECT (win->priv->player)) {
+		g_object_unref (win->priv->player);
+	}
 
 	G_OBJECT_CLASS (pt_window_parent_class)->dispose (object);
 }
