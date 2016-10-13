@@ -296,7 +296,9 @@ audio-volume-medium</property>
         <child>
           <object class="PtWaveslider" id="waveslider">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can_focus">True</property>
+            <property name="hexpand">True</property>
+            <property name="vexpand">True</property>
             <signal name="cursor-changed" handler="cursor_changed_cb" swapped="no"/>
           </object>
           <packing>

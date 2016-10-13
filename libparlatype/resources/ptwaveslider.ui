@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.18.3 -->
+<interface>
+  <requires lib="gtk+" version="3.12"/>
+  <template class="PtWaveslider" parent="GtkScrolledWindow">
+    <property name="visible">True</property>
+    <property name="can_focus">True</property>
+    <property name="hscrollbar_policy">always</property>
+    <property name="vscrollbar_policy">never</property>
+    <property name="shadow_type">in</property>
+    <property name="min_content_height">20</property>
+    <child>
+      <object class="GtkViewport" id="viewport1">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkDrawingArea" id="drawarea">
+            <property name="height_request">20</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <signal name="button-press-event" handler="button_press_event_cb" swapped="no"/>
+            <signal name="draw" handler="draw_cb" swapped="no"/>
+            <signal name="size-allocate" handler="size_allocate_cb" swapped="no"/>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

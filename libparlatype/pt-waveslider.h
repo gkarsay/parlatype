@@ -38,14 +38,14 @@ typedef struct _PtWavesliderPrivate	PtWavesliderPrivate;
  * The #PtWaveslider contains only private fields and should not be directly accessed.
  */
 struct _PtWaveslider {
-	GtkWidget parent;
+	GtkScrolledWindow parent;
 
 	/*< private > */
 	PtWavesliderPrivate *priv;
 };
 
 struct _PtWavesliderClass {
-	GtkWidgetClass klass;
+	GtkScrolledWindowClass klass;
 };
 
 GType		pt_waveslider_get_type	(void) G_GNUC_CONST;

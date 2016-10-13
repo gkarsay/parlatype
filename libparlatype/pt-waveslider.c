@@ -26,8 +26,6 @@
 #define CURSOR_POSITION 0.5
 #define MARKER_BOX_W 6
 #define MARKER_BOX_H 5
-#define MIN_W 24
-#define MIN_H 16
 
 
 struct _PtWavesliderPrivate {
@@ -35,15 +33,14 @@ struct _PtWavesliderPrivate {
 	gint64	  peaks_size;
 	gint	  px_per_sec;
 
-	gint64	  wave_length;
 	gint64	  playback_cursor;
 
 	GdkRGBA	  wave_color;
 	GdkRGBA	  cursor_color;
 
-	/* state */
-	GdkWindow *window;
-	GtkBorder  border;
+	GtkWidget       *drawarea;
+	GtkAdjustment   *adj;
+	cairo_surface_t *cursor;
 };
 
 enum
@@ -62,93 +59,16 @@ static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PtWaveslider, pt_waveslider, GTK_TYPE_WIDGET);
-
-/**
- * SECTION: pt-waveslider
- * @short_description: A GtkWidget to display a waveform.
- * @include: parlatype-1.0/pt-waveslider.h
- *
- * Displays a waveform provided by PtWaveloader or PtPlayer.
- */
-
-
-static void
-pt_waveslider_realize (GtkWidget *widget)
-{
-	PtWaveslider *self = PT_WAVESLIDER (widget);
-	GdkWindow *window;
-	GtkAllocation allocation;
-	GdkWindowAttr attributes;
-	gint attributes_mask;
-
-	gtk_widget_set_realized (widget, TRUE);
-
-	window = gtk_widget_get_parent_window (widget);
-	gtk_widget_set_window (widget, window);
-	g_object_ref (window);
-
-	gtk_widget_get_allocation (widget, &allocation);
-
-	attributes.window_type = GDK_WINDOW_CHILD;
-	attributes.x = allocation.x;
-	attributes.y = allocation.y;
-	attributes.width = allocation.width;
-	attributes.height = allocation.height;
-	attributes.wclass = GDK_INPUT_ONLY;
-	attributes.event_mask = gtk_widget_get_events (widget);
-	attributes.event_mask |= (GDK_EXPOSURE_MASK |
-		GDK_BUTTON_PRESS_MASK |
-		GDK_BUTTON_RELEASE_MASK |
-		GDK_BUTTON_MOTION_MASK |
-		GDK_ENTER_NOTIFY_MASK |
-		GDK_LEAVE_NOTIFY_MASK |
-		GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK);
-	attributes_mask = GDK_WA_X | GDK_WA_Y;
-
-	self->priv->window = gdk_window_new (window, &attributes, attributes_mask);
-	gtk_widget_register_window (widget, self->priv->window);
-}
-
-static void
-pt_waveslider_unrealize (GtkWidget *widget)
-{
-	PtWaveslider *self = PT_WAVESLIDER (widget);
-
-	gtk_widget_unregister_window (widget, self->priv->window);
-	gdk_window_destroy (self->priv->window);
-	self->priv->window = NULL;
-	GTK_WIDGET_CLASS (pt_waveslider_parent_class)->unrealize (widget);
-}
-
-static void
-pt_waveslider_map (GtkWidget *widget)
-{
-	PtWaveslider *self = PT_WAVESLIDER (widget);
-
-	gdk_window_show (self->priv->window);
-
-	GTK_WIDGET_CLASS (pt_waveslider_parent_class)->map (widget);
-}
-
-static void
-pt_waveslider_unmap (GtkWidget *widget)
-{
-	PtWaveslider *self = PT_WAVESLIDER (widget);
-
-	gdk_window_hide (self->priv->window);
-
-	GTK_WIDGET_CLASS (pt_waveslider_parent_class)->unmap (widget);
-}
+G_DEFINE_TYPE_WITH_PRIVATE (PtWaveslider, pt_waveslider, GTK_TYPE_SCROLLED_WINDOW);
 
 static gint64
 time_to_pixel (gint64 ms, gint pix_per_sec)
 {
-	/* Convert a time in milliseconds to the closest position in samples array */
+	/* Convert a time in 1/100 seconds to the closest position in samples array */
 	gint64 result;
 
 	result = ms * pix_per_sec;
-	result = result / 1000;
+	result = result / 100;
 
 	return result;
 }
@@ -165,188 +85,127 @@ pixel_to_time (gint64 pixel, gint pix_per_sec)
 	return result;
 }
 
-static gint
-get_left_pixel (PtWaveslider *self,
-		gint width,
-	        gint cursor_pixel)
+static void
+draw_cursor (PtWaveslider *self)
 {
-	gint left;
-	gint last_pixel;
+	if (!gtk_widget_get_realized (GTK_WIDGET (self)))
+		return;
 
-	last_pixel = self->priv->peaks_size / 2;
-	left = cursor_pixel - width * CURSOR_POSITION;
+	if (self->priv->cursor)
+		cairo_surface_destroy (self->priv->cursor);
 
-	if (width * CURSOR_POSITION > cursor_pixel)
-		left = 0;
+	cairo_t *cr;
+	gint height = gtk_widget_get_allocated_height (self->priv->drawarea);
 
-	if (width * (1 - CURSOR_POSITION) > last_pixel - cursor_pixel)
-		left = last_pixel - width;
 
-	if (last_pixel < width)
-		left = 0;
+	self->priv->cursor = gdk_window_create_similar_surface (gtk_widget_get_window (GTK_WIDGET (self)),
+	                                             CAIRO_CONTENT_COLOR_ALPHA,
+	                                             MARKER_BOX_W,
+	                                             height);
 
-	return left;
+	cr = cairo_create (self->priv->cursor);
+
+	gdk_cairo_set_source_rgba (cr, &self->priv->cursor_color);
+
+	cairo_move_to (cr, 0, height);
+	cairo_line_to (cr, 0, 0);
+	cairo_stroke (cr);
+	cairo_move_to (cr, 0, height / 2 - MARKER_BOX_H);
+	cairo_line_to (cr, 0, height / 2 + MARKER_BOX_H);
+	cairo_line_to (cr, 0 + MARKER_BOX_W, height / 2);
+	cairo_line_to (cr, 0, height / 2 - MARKER_BOX_H);
+	cairo_fill (cr);
+
+	cairo_destroy (cr);
 }
 
-static gboolean
-pt_waveslider_draw (GtkWidget *widget,
-		    cairo_t   *cr)
+void
+size_allocate_cb (GtkWidget     *widget,
+                  GtkAllocation *rectangle,
+                  gpointer       data)
 {
-	PtWaveslider *self = PT_WAVESLIDER (widget);
-	GtkStyleContext *style_ctx;
-	gint width, height, left, top, middle, half;
-	gint i, x;
+	/* When size of widget changed, we have to change the cursor's size, too */
+
+	PtWaveslider *self = (PtWaveslider *) data;
+	draw_cursor (self);
+}
+
+gboolean
+draw_cb (GtkWidget *widget,
+         cairo_t   *cr,
+         gpointer   data)
+{
+	/* Redraw screen, cairo_t is already clipped to only draw the exposed
+	   areas of the drawing area */
+
+	g_debug ("draw_cb");
+
+	PtWaveslider *self = (PtWaveslider *) data;
+
 	gfloat *peaks = self->priv->peaks;
-	gdouble min, max;
-	gint offset;
-
-	width = gtk_widget_get_allocated_width (widget);
-	height = gtk_widget_get_allocated_height (widget);
-	style_ctx = gtk_widget_get_style_context (widget);
-
-	/* draw border */
-	gtk_render_background (style_ctx, cr, 0, 0, width, height);
-	gtk_render_frame (style_ctx, cr, 0, 0, width, height);
-
-	if (!peaks) {
-		g_debug ("draw, no peaks");
+	if (!peaks)
 		return FALSE;
-	}
 
-	left = self->priv->border.left;
-	top = self->priv->border.top;
-	width -= self->priv->border.left + self->priv->border.right;
-	height -= self->priv->border.top + self->priv->border.bottom;
-	middle = top + height / 2;
-	half = height / 2 - 1;
+	gint visible_first;
+	gint visible_last;
 
-	cairo_set_line_join (cr, CAIRO_LINE_JOIN_ROUND);
-	cairo_set_line_width (cr, 1.0);
+	gint i;
+	gdouble min, max;
 
-	gint cursor_pixel = time_to_pixel (self->priv->playback_cursor * 10, self->priv->px_per_sec);
-	/* offset = pixel at the left in peaks array */
-	offset = get_left_pixel (self, width, cursor_pixel) * 2;
+	gint height = gtk_widget_get_allocated_height (widget);
+	gint half = height / 2 - 1;
+	gint middle = height / 2;
 
-	/* waveform */
-	for (i = 0; i < 2 * width; i += 2) {
-		if (offset + i < 0)
-			continue;
-		if (offset + i > self->priv->peaks_size)
-			break;
-		gint x = left + i / 2;
-		min = (middle + half * peaks[offset + i + 1] * -1);
-		max = (middle - half * peaks[offset + i + 2]);
-		cairo_move_to (cr, x, min);
-		cairo_line_to (cr, x, max);
-	}
+	visible_first = (gint) gtk_adjustment_get_value (self->priv->adj);
+	visible_last = visible_first + (gint) gtk_adjustment_get_page_size (self->priv->adj);
+
+	g_debug ("visible area: %d–%d", visible_first, visible_last);
 
 	gdk_cairo_set_source_rgba (cr, &self->priv->wave_color);
-	cairo_stroke (cr);
 
-	/* cursor */
-	gdk_cairo_set_source_rgba (cr, &self->priv->cursor_color);
-	x = left + cursor_pixel - offset / 2;
-	if (x > left + width)
-		x = left + width;
-	cairo_move_to (cr, x, top + height);
-	cairo_line_to (cr, x, top);
-	cairo_stroke (cr);
-	cairo_move_to (cr, x, top + height / 2 - MARKER_BOX_H);
-	cairo_line_to (cr, x, top + height / 2 + MARKER_BOX_H);
-	cairo_line_to (cr, x + MARKER_BOX_W, top + height / 2);
-	cairo_line_to (cr, x, top + height / 2 - MARKER_BOX_H);
-	cairo_fill (cr);
+	/* paint waveform */
+	for (i = visible_first; i <= visible_last; i += 1) {
+		min = (middle + half * peaks[i * 2] * -1);
+		max = (middle - half * peaks[i * 2 + 1]);
+		cairo_move_to (cr, i, min);
+		cairo_line_to (cr, i, max);
+		/* cairo_stroke also possible after loop, but then slower */
+		cairo_stroke (cr);
+	}
+
+	/* paint cursor */
+	cairo_set_source_surface (cr,
+	                          self->priv->cursor,
+	                          time_to_pixel (self->priv->playback_cursor,
+	                                         self->priv->px_per_sec),
+	                          0);
+	cairo_paint (cr);
 
 	return FALSE;
 }
 
-static void
-pt_waveslider_size_allocate (GtkWidget	   *widget,
-			     GtkAllocation *allocation)
+gboolean
+button_press_event_cb (GtkWidget      *widget,
+		       GdkEventButton *event,
+		       gpointer        data)
 {
-	PtWaveslider *self = PT_WAVESLIDER (widget);
-	GtkStyleContext *context;
-	GtkStateFlags state;
+	PtWaveslider *slider = PT_WAVESLIDER (data);
 
-	gtk_widget_set_allocation (widget, allocation);
-
-	if (gtk_widget_get_realized (widget))
-		gdk_window_move_resize (self->priv->window,
-			allocation->x, allocation->y, allocation->width, allocation->height);
-
-	context = gtk_widget_get_style_context (widget);
-	state = gtk_widget_get_state_flags (widget);
-	gtk_style_context_get_border (context, state, &self->priv->border);
-}
-
-static void
-pt_waveslider_get_preferred_width (GtkWidget *widget,
-				   gint	     *minimal_width,
-				   gint	     *natural_width)
-{
-	PtWaveslider *self = PT_WAVESLIDER (widget);
-	gint border_padding = self->priv->border.left + self->priv->border.right;
-
-	*minimal_width = MIN_W + border_padding;
-	*natural_width = (MIN_W * 6) + border_padding;
-}
-
-static void
-pt_waveslider_get_preferred_height (GtkWidget *widget,
-				    gint      *minimal_height,
-				    gint      *natural_height)
-{
-	PtWaveslider *self = PT_WAVESLIDER (widget);
-	gint border_padding = self->priv->border.top + self->priv->border.bottom;
-
-	*minimal_height = MIN_H + border_padding;
-	*natural_height = (MIN_H * 4) + border_padding;
-}
-
-static gboolean
-pt_waveslider_button_press (GtkWidget	   *widget,
-			    GdkEventButton *event)
-{
-	PtWaveslider *self = PT_WAVESLIDER (widget);
-
-	if (!self->priv->peaks)
+	if (!slider->priv->peaks)
 		return FALSE;
 
-	const gint width = gtk_widget_get_allocated_width (widget) - 2;
-
-	gint64 cursor_pixel;
-	gint64 left;	/* the first sample in the view */
 	gint64 clicked;	/* the sample clicked on */
 	gint64 pos;	/* clicked sample's position in milliseconds */
 
-	cursor_pixel = time_to_pixel (self->priv->playback_cursor * 10, self->priv->px_per_sec);
-	left = get_left_pixel (self, width, cursor_pixel);
-	clicked = left + (gint) event->x;
-	pos = pixel_to_time (clicked, self->priv->px_per_sec);
-
-	g_debug ("left: %" G_GINT64_FORMAT, left);
-	g_debug ("clicked: %" G_GINT64_FORMAT, clicked);
-	g_debug ("pos: %" G_GINT64_FORMAT, pos);
-
-	if (clicked < 0 || clicked > self->priv->peaks_size / 2) {
-		g_debug ("click outside");
-		return FALSE;
-	}
+	clicked = (gint) event->x;
+	pos = pixel_to_time (clicked, slider->priv->px_per_sec);
 
 	/* Single left click */
 	if (event->type == GDK_BUTTON_PRESS && event->button == GDK_BUTTON_PRIMARY) {
-		g_signal_emit_by_name (widget, "cursor-changed", pos);
-		g_debug ("click, jump to: %" G_GINT64_FORMAT "ms", pos);
+		g_signal_emit_by_name (slider, "cursor-changed", pos);
 		return TRUE;
 	}
 
-	return FALSE;
-}
-
-static gboolean
-pt_waveslider_button_release (GtkWidget	     *widget,
-			      GdkEventButton *event)
-{
 	return FALSE;
 }
 
@@ -362,7 +221,7 @@ pt_waveslider_state_flags_changed (GtkWidget	 *widget,
 	GdkWindow *window;
 
 	window = gtk_widget_get_parent_window (widget);
-	style_ctx = gtk_widget_get_style_context (widget);
+	style_ctx = gtk_widget_get_style_context (self->priv->drawarea);
 
 	if (gdk_window_get_state (window) & GDK_WINDOW_STATE_FOCUSED) {
 		gtk_style_context_lookup_color (style_ctx, "wave_color", &self->priv->wave_color);
@@ -371,6 +230,8 @@ pt_waveslider_state_flags_changed (GtkWidget	 *widget,
 		gtk_style_context_lookup_color (style_ctx, "wave_color_uf", &self->priv->wave_color);
 		gtk_style_context_lookup_color (style_ctx, "cursor_color_uf", &self->priv->cursor_color);
 	}
+
+	draw_cursor (self);
 }
 
 static void
@@ -393,7 +254,7 @@ pt_waveslider_get_property (GObject    *object,
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
-  }
+	}
 }
 
 static void
@@ -408,7 +269,13 @@ pt_waveslider_set_property (GObject      *object,
 	case PROP_PLAYBACK_CURSOR:
 		self->priv->playback_cursor = g_value_get_int64 (value);
 		if (gtk_widget_get_realized (GTK_WIDGET (self))) {
-			gtk_widget_queue_draw (GTK_WIDGET (self));
+			gint cursor_pos = time_to_pixel (self->priv->playback_cursor, self->priv->px_per_sec);
+			gint width = (gint) gtk_adjustment_get_page_size (self->priv->adj);
+			gint offset = width * CURSOR_POSITION;
+			gint scroll;
+			scroll = cursor_pos - offset;
+			gtk_adjustment_set_value (self->priv->adj, scroll);
+			gtk_widget_queue_draw (GTK_WIDGET (self->priv->drawarea));
 		}
 		break;
 	default:
@@ -417,27 +284,114 @@ pt_waveslider_set_property (GObject      *object,
 	}
 }
 
+void
+pt_waveslider_set_wave (PtWaveslider *self,
+			gfloat       *data,
+			gint64	      length,
+			gint	      px_per_sec)
+{
+	g_debug ("set wave");
+
+	g_free (self->priv->peaks);
+	self->priv->peaks = NULL;
+
+	if (!data || !length) {
+		gtk_widget_queue_draw (GTK_WIDGET (self));
+		return;
+	}
+
+	self->priv->px_per_sec = px_per_sec;
+	self->priv->peaks_size = length;
+	self->priv->peaks = g_malloc (sizeof (gfloat) * self->priv->peaks_size);
+	self->priv->peaks = data;
+	gtk_widget_set_size_request (self->priv->drawarea, length / 2, -1);
+
+	gtk_widget_queue_draw (GTK_WIDGET (self));
+}
+
+static void
+adj_cb (GtkAdjustment *adj,
+	gpointer      *data)
+{
+	g_debug ("adjustment changed");
+
+	/* GtkScrolledWindow draws itself mostly automatically, but some
+	   adjustment changes are not propagated for reasons I don't understand.
+	   Probably we're doing some draws twice */
+	PtWaveslider *self = PT_WAVESLIDER (data);
+	gtk_widget_queue_draw (GTK_WIDGET (self->priv->drawarea));
+}
+
+static void
+pt_waveslider_constructed (GObject *object)
+{
+	g_debug ("waveslider constructed");
+
+	PtWaveslider *self = PT_WAVESLIDER (object);
+	self->priv->adj = gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (self));
+	g_signal_connect (self->priv->adj, "value-changed", G_CALLBACK (adj_cb), self);
+}
+
+static void
+pt_waveslider_init (PtWaveslider *self)
+{
+	self->priv = pt_waveslider_get_instance_private (self);
+
+	gtk_widget_init_template (GTK_WIDGET (self));
+
+	GtkStyleContext *context;
+	GtkCssProvider  *provider;
+	GtkSettings     *settings;
+	gboolean	 dark;
+	GFile		*file;
+
+	self->priv->peaks = NULL;
+	self->priv->peaks_size = 0;
+	self->priv->playback_cursor = 0;
+
+	settings = gtk_settings_get_default ();
+	g_object_get (settings, "gtk-application-prefer-dark-theme", &dark, NULL);
+
+	if (dark)
+		file = g_file_new_for_uri ("resource:///org/gnome/libparlatype/pt-waveslider-dark.css");
+	else
+		file = g_file_new_for_uri ("resource:///org/gnome/libparlatype/pt-waveslider.css");
+
+	provider = gtk_css_provider_new ();
+	gtk_css_provider_load_from_file (provider, file, NULL);
+
+	context = gtk_widget_get_style_context (GTK_WIDGET (self->priv->drawarea));
+	gtk_style_context_add_class (context, GTK_STYLE_CLASS_FRAME);
+	gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
+	gtk_style_context_add_provider (context,
+					GTK_STYLE_PROVIDER (provider),
+					GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+	gtk_style_context_lookup_color (context, "wave_color", &self->priv->wave_color);
+	gtk_style_context_lookup_color (context, "cursor_color", &self->priv->cursor_color);
+
+	g_object_unref (file);
+	g_object_unref (provider);
+
+	gtk_widget_set_events (self->priv->drawarea, gtk_widget_get_events (self->priv->drawarea)
+                                     | GDK_BUTTON_PRESS_MASK);
+}
+
 static void
 pt_waveslider_class_init (PtWavesliderClass *klass)
 {
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
-	widget_class->realize = pt_waveslider_realize;
-	widget_class->unrealize = pt_waveslider_unrealize;
-	widget_class->map = pt_waveslider_map;
-	widget_class->unmap = pt_waveslider_unmap;
-	widget_class->draw = pt_waveslider_draw;
-	widget_class->get_preferred_width = pt_waveslider_get_preferred_width;
-	widget_class->get_preferred_height = pt_waveslider_get_preferred_height;
-	widget_class->size_allocate = pt_waveslider_size_allocate;
-	widget_class->button_press_event = pt_waveslider_button_press;
-	widget_class->button_release_event = pt_waveslider_button_release;
-	widget_class->state_flags_changed = pt_waveslider_state_flags_changed;
-
 	gobject_class->set_property = pt_waveslider_set_property;
 	gobject_class->get_property = pt_waveslider_get_property;
+	gobject_class->constructed = pt_waveslider_constructed;
 	gobject_class->finalize = pt_waveslider_finalize;
+
+	gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (klass), "/org/gnome/libparlatype/ptwaveslider.ui");
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWaveslider, drawarea);
+	widget_class->state_flags_changed = pt_waveslider_state_flags_changed;
+
 
 	/**
 	* PtWaveslider::cursor-changed:
@@ -446,7 +400,7 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 	*
 	* Signals that the cursor's position has changed.
 	*/
-	signals[CURSOR_CHANGED] = 
+	signals[CURSOR_CHANGED] =
 	g_signal_new ("cursor-changed",
 		      PT_TYPE_WAVESLIDER,
 		      G_SIGNAL_RUN_FIRST,
@@ -479,87 +433,6 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 			obj_properties);
 }
 
-static void
-pt_waveslider_init (PtWaveslider *self)
-{
-	self->priv = pt_waveslider_get_instance_private (self);
-
-	GtkStyleContext *context;
-	GtkCssProvider  *provider;
-	GtkSettings     *settings;
-	gboolean	 dark;
-	GFile		*file;
-
-	self->priv->peaks = NULL;
-	self->priv->peaks_size = 0;
-	self->priv->playback_cursor = 0;
-
-	gtk_widget_set_has_window (GTK_WIDGET (self), FALSE);
-
-	settings = gtk_settings_get_default ();
-	g_object_get (settings, "gtk-application-prefer-dark-theme", &dark, NULL);
-
-	if (dark)
-		file = g_file_new_for_uri ("resource:///org/gnome/libparlatype/pt-waveslider-dark.css");
-	else
-		file = g_file_new_for_uri ("resource:///org/gnome/libparlatype/pt-waveslider.css");
-
-	provider = gtk_css_provider_new ();
-	gtk_css_provider_load_from_file (provider, file, NULL);
-
-	context = gtk_widget_get_style_context (GTK_WIDGET (self));
-	gtk_style_context_add_class (context, GTK_STYLE_CLASS_FRAME);
-	gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
-	gtk_style_context_add_provider (context,
-					GTK_STYLE_PROVIDER (provider),
-					GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-
-	gtk_style_context_lookup_color (context, "wave_color", &self->priv->wave_color);
-	gtk_style_context_lookup_color (context, "cursor_color", &self->priv->cursor_color);
-
-	g_object_unref (file);
-	g_object_unref (provider);
-}
-
-/**
- * pt_waveslider_set_wave:
- * @self: the widget
- * @data: memory block of samples, min and max value for each sample
- * @length: number of elements in data array
- * @px_per_sec: how many peaks/pixels are one second
- *
- * Set wave data to show in the widget.
- */
-void
-pt_waveslider_set_wave (PtWaveslider *self,
-			gfloat       *data,
-			gint64	      length,
-			gint	      px_per_sec)
-{
-	g_free (self->priv->peaks);
-	self->priv->peaks = NULL;
-
-	if (!data || !length) {
-		gtk_widget_queue_draw (GTK_WIDGET (self));
-		return;
-	}
-
-	self->priv->px_per_sec = px_per_sec;
-	self->priv->peaks_size = length;
-	self->priv->peaks = g_malloc (sizeof (gfloat) * self->priv->peaks_size);
-	self->priv->peaks = data;
-
-	gtk_widget_queue_draw (GTK_WIDGET (self));
-}
-
-/**
- * pt_waveslider_new:
- *
- * Create a new waveform viewer widget. Use pt_waveslider_set_wave() to
- * pass wave data.
- *
- * Returns: the widget
- */
 GtkWidget *
 pt_waveslider_new (void)
 {
