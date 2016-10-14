@@ -402,7 +402,7 @@ pt_waveslider_set_wave (PtWaveslider *self,
 	self->priv->peaks_size = length;
 	self->priv->peaks = g_malloc (sizeof (gfloat) * self->priv->peaks_size);
 	self->priv->peaks = data;
-	gtk_widget_set_size_request (self->priv->drawarea, length / 2, -1);
+	gtk_widget_set_size_request (self->priv->drawarea, length / 2, 20);
 
 	gtk_widget_queue_draw (GTK_WIDGET (self));
 }
