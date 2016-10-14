@@ -39,9 +39,6 @@ struct _PtWindowPrivate
 	GtkWidget  *button_jump_forward;
 	GtkWidget  *volumebutton;
 	GtkWidget  *pos_label;
-	GtkWidget  *dur_label;
-	GtkWidget  *time_scale;
-	GtkWidget  *time_adj;
 	GtkWidget  *speed_scale;
 	GtkWidget  *waveslider;
 
