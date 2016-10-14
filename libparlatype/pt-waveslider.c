@@ -63,6 +63,16 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PtWaveslider, pt_waveslider, GTK_TYPE_SCROLLED_WINDOW);
 
+
+/**
+ * SECTION: pt-waveslider
+ * @short_description: A GtkWidget to display a waveform.
+ * @include: parlatype-1.0/pt-waveslider.h
+ *
+ * Displays a waveform provided by PtWaveloader or PtPlayer.
+ */
+
+
 static gint64
 time_to_pixel (gint64 ms, gint pix_per_sec)
 {
@@ -329,28 +339,56 @@ scrollbar_cb (GtkWidget      *widget,
 	return FALSE;
 }
 
+/**
+ * pt_waveslider_get_follow_cursor:
+ * @self: the widget
+ *
+ * Get follow-cursor option.
+ *
+ * Return value: TRUE if cursor is followed, else FALSE
+ */
 gboolean
 pt_waveslider_get_follow_cursor (PtWaveslider *self)
 {
+	g_return_val_if_fail (PT_IS_WAVESLIDER (self), FALSE);
+
 	return self->priv->follow_cursor;
 }
 
+/**
+ * pt_waveslider_set_follow_cursor:
+ * @self: the widget
+ * @follow: new value
+ *
+ * Set follow-cursor option to TRUE or FALSE.
+ */
 void
 pt_waveslider_set_follow_cursor (PtWaveslider *self,
 				 gboolean      follow)
 {
+	g_return_if_fail (PT_IS_WAVESLIDER (self));
+
 	self->priv->follow_cursor = follow;
 	if (follow)
 		scroll_to_cursor (self);
 }
 
+/**
+ * pt_waveslider_set_wave:
+ * @self: the widget
+ * @data: memory block of samples, min and max value for each sample
+ * @length: number of elements in data array
+ * @px_per_sec: how many peaks/pixels are one second
+ *
+ * Set wave data to show in the widget.
+ */
 void
 pt_waveslider_set_wave (PtWaveslider *self,
 			gfloat       *data,
 			gint64	      length,
 			gint	      px_per_sec)
 {
-	g_debug ("set wave");
+	g_return_if_fail (PT_IS_WAVESLIDER (self));
 
 	g_free (self->priv->peaks);
 	self->priv->peaks = NULL;
@@ -558,6 +596,14 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 			obj_properties);
 }
 
+/**
+ * pt_waveslider_new:
+ *
+ * Create a new waveform viewer widget. Use pt_waveslider_set_wave() to
+ * pass wave data.
+ *
+ * Returns: the widget
+ */
 GtkWidget *
 pt_waveslider_new (void)
 {
