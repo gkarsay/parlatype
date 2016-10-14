@@ -274,6 +274,101 @@ pt_waveslider_state_flags_changed (GtkWidget	 *widget,
 	draw_cursor (self);
 }
 
+gboolean
+scroll_child_cb (GtkScrolledWindow *self,
+                 GtkScrollType      scroll,
+                 gboolean           horizontal,
+                 gpointer           data)
+{
+	PtWaveslider *slider = PT_WAVESLIDER (data);
+
+	if (!horizontal)
+		return FALSE;
+
+	if (scroll == GTK_SCROLL_PAGE_BACKWARD ||
+	    scroll == GTK_SCROLL_PAGE_FORWARD ||
+	    scroll == GTK_SCROLL_PAGE_LEFT ||
+	    scroll == GTK_SCROLL_PAGE_RIGHT ||
+	    scroll == GTK_SCROLL_STEP_BACKWARD ||
+	    scroll == GTK_SCROLL_STEP_FORWARD ||
+	    scroll == GTK_SCROLL_STEP_LEFT ||
+	    scroll == GTK_SCROLL_STEP_RIGHT ||
+	    scroll == GTK_SCROLL_START ||
+	    scroll == GTK_SCROLL_END ) {
+		slider->priv->follow_cursor = FALSE;
+	}
+
+	return FALSE;
+}
+
+static void
+adj_cb (GtkAdjustment *adj,
+	gpointer      *data)
+{
+	g_debug ("adjustment changed");
+
+	/* GtkScrolledWindow draws itself mostly automatically, but some
+	   adjustment changes are not propagated for reasons I don't understand.
+	   Probably we're doing some draws twice */
+	PtWaveslider *self = PT_WAVESLIDER (data);
+	gtk_widget_queue_draw (GTK_WIDGET (self->priv->drawarea));
+}
+
+static gboolean
+scrollbar_cb (GtkWidget      *widget,
+	      GdkEventButton *event,
+	      gpointer        data)
+{
+	/* If user clicks on scrollbar don't follow cursor anymore.
+	   Otherwise it would scroll immediately back again. */
+
+	PtWaveslider *slider = PT_WAVESLIDER (data);
+	slider->priv->follow_cursor = FALSE;
+
+	/* Propagate signal */
+	return FALSE;
+}
+
+gboolean
+pt_waveslider_get_follow_cursor (PtWaveslider *self)
+{
+	return self->priv->follow_cursor;
+}
+
+void
+pt_waveslider_set_follow_cursor (PtWaveslider *self,
+				 gboolean      follow)
+{
+	self->priv->follow_cursor = follow;
+	if (follow)
+		scroll_to_cursor (self);
+}
+
+void
+pt_waveslider_set_wave (PtWaveslider *self,
+			gfloat       *data,
+			gint64	      length,
+			gint	      px_per_sec)
+{
+	g_debug ("set wave");
+
+	g_free (self->priv->peaks);
+	self->priv->peaks = NULL;
+
+	if (!data || !length) {
+		gtk_widget_queue_draw (GTK_WIDGET (self));
+		return;
+	}
+
+	self->priv->px_per_sec = px_per_sec;
+	self->priv->peaks_size = length;
+	self->priv->peaks = g_malloc (sizeof (gfloat) * self->priv->peaks_size);
+	self->priv->peaks = data;
+	gtk_widget_set_size_request (self->priv->drawarea, length / 2, -1);
+
+	gtk_widget_queue_draw (GTK_WIDGET (self));
+}
+
 static void
 pt_waveslider_finalize (GObject *object)
 {
@@ -328,101 +423,6 @@ pt_waveslider_set_property (GObject      *object,
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
-}
-
-gboolean
-pt_waveslider_get_follow_cursor (PtWaveslider *self)
-{
-	return self->priv->follow_cursor;
-}
-
-void
-pt_waveslider_set_follow_cursor (PtWaveslider *self,
-				 gboolean      follow)
-{
-	self->priv->follow_cursor = follow;
-	if (follow)
-		scroll_to_cursor (self);
-}
-
-gboolean
-scroll_child_cb (GtkScrolledWindow *self,
-                 GtkScrollType      scroll,
-                 gboolean           horizontal,
-                 gpointer           data)
-{
-	PtWaveslider *slider = PT_WAVESLIDER (data);
-
-	if (!horizontal)
-		return FALSE;
-
-	if (scroll == GTK_SCROLL_PAGE_BACKWARD ||
-	    scroll == GTK_SCROLL_PAGE_FORWARD ||
-	    scroll == GTK_SCROLL_PAGE_LEFT ||
-	    scroll == GTK_SCROLL_PAGE_RIGHT ||
-	    scroll == GTK_SCROLL_STEP_BACKWARD ||
-	    scroll == GTK_SCROLL_STEP_FORWARD ||
-	    scroll == GTK_SCROLL_STEP_LEFT ||
-	    scroll == GTK_SCROLL_STEP_RIGHT ||
-	    scroll == GTK_SCROLL_START ||
-	    scroll == GTK_SCROLL_END ) {
-		slider->priv->follow_cursor = FALSE;
-	}
-
-	return FALSE;
-}
-
-void
-pt_waveslider_set_wave (PtWaveslider *self,
-			gfloat       *data,
-			gint64	      length,
-			gint	      px_per_sec)
-{
-	g_debug ("set wave");
-
-	g_free (self->priv->peaks);
-	self->priv->peaks = NULL;
-
-	if (!data || !length) {
-		gtk_widget_queue_draw (GTK_WIDGET (self));
-		return;
-	}
-
-	self->priv->px_per_sec = px_per_sec;
-	self->priv->peaks_size = length;
-	self->priv->peaks = g_malloc (sizeof (gfloat) * self->priv->peaks_size);
-	self->priv->peaks = data;
-	gtk_widget_set_size_request (self->priv->drawarea, length / 2, -1);
-
-	gtk_widget_queue_draw (GTK_WIDGET (self));
-}
-
-static void
-adj_cb (GtkAdjustment *adj,
-	gpointer      *data)
-{
-	g_debug ("adjustment changed");
-
-	/* GtkScrolledWindow draws itself mostly automatically, but some
-	   adjustment changes are not propagated for reasons I don't understand.
-	   Probably we're doing some draws twice */
-	PtWaveslider *self = PT_WAVESLIDER (data);
-	gtk_widget_queue_draw (GTK_WIDGET (self->priv->drawarea));
-}
-
-gboolean
-scrollbar_cb (GtkWidget      *widget,
-	      GdkEventButton *event,
-	      gpointer        data)
-{
-	/* If user clicks on scrollbar don't follow cursor anymore.
-	   Otherwise it would scroll immediately back again. */
-
-	PtWaveslider *slider = PT_WAVESLIDER (data);
-	slider->priv->follow_cursor = FALSE;
-
-	/* Propagate signal */
-	return FALSE;
 }
 
 static void
