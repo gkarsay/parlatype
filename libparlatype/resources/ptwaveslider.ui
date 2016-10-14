@@ -9,6 +9,7 @@
     <property name="vscrollbar_policy">never</property>
     <property name="shadow_type">in</property>
     <property name="min_content_height">20</property>
+    <signal name="scroll-child" handler="scroll_child_cb" swapped="no"/>
     <child>
       <object class="GtkViewport" id="viewport1">
         <property name="visible">True</property>
@@ -20,6 +21,7 @@
             <property name="can_focus">False</property>
             <signal name="button-press-event" handler="button_press_event_cb" swapped="no"/>
             <signal name="draw" handler="draw_cb" swapped="no"/>
+            <signal name="motion-notify-event" handler="motion_notify_event_cb" swapped="no"/>
             <signal name="size-allocate" handler="size_allocate_cb" swapped="no"/>
           </object>
         </child>

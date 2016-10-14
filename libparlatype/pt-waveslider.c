@@ -34,6 +34,7 @@ struct _PtWavesliderPrivate {
 	gint	  px_per_sec;
 
 	gint64	  playback_cursor;
+	gboolean  follow_cursor;
 
 	GdkRGBA	  wave_color;
 	GdkRGBA	  cursor_color;
@@ -47,6 +48,7 @@ enum
 {
 	PROP_0,
 	PROP_PLAYBACK_CURSOR,
+	PROP_FOLLOW_CURSOR,
 	N_PROPERTIES
 };
 
@@ -117,6 +119,20 @@ draw_cursor (PtWaveslider *self)
 	cairo_fill (cr);
 
 	cairo_destroy (cr);
+}
+
+static void
+scroll_to_cursor (PtWaveslider *self)
+{
+	gint cursor_pos;
+	gint page_width;
+	gint offset;
+
+	cursor_pos = time_to_pixel (self->priv->playback_cursor, self->priv->px_per_sec);
+	page_width = (gint) gtk_adjustment_get_page_size (self->priv->adj);
+	offset = page_width * CURSOR_POSITION;
+
+	gtk_adjustment_set_value (self->priv->adj, cursor_pos - offset);
 }
 
 void
@@ -209,6 +225,30 @@ button_press_event_cb (GtkWidget      *widget,
 	return FALSE;
 }
 
+gboolean
+motion_notify_event_cb (GtkWidget      *widget,
+                        GdkEventMotion *event,
+                        gpointer        data)
+{
+	PtWaveslider *slider = PT_WAVESLIDER (data);
+
+	if (!slider->priv->peaks)
+		return FALSE;
+
+	gint64 clicked;	/* the sample clicked on */
+	gint64 pos;	/* clicked sample's position in milliseconds */
+
+	clicked = (gint) event->x;
+	pos = pixel_to_time (clicked, slider->priv->px_per_sec);
+
+	if (event->state & GDK_BUTTON1_MASK) {
+		g_signal_emit_by_name (slider, "cursor-changed", pos);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 static void
 pt_waveslider_state_flags_changed (GtkWidget	 *widget,
 				   GtkStateFlags  flags)
@@ -250,7 +290,12 @@ pt_waveslider_get_property (GObject    *object,
 			    GValue     *value,
 			    GParamSpec *pspec)
 {
+	PtWaveslider *self = PT_WAVESLIDER (object);
+
 	switch (property_id) {
+	case PROP_FOLLOW_CURSOR:
+		g_value_set_boolean (value, self->priv->follow_cursor);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -267,21 +312,64 @@ pt_waveslider_set_property (GObject      *object,
 
 	switch (property_id) {
 	case PROP_PLAYBACK_CURSOR:
+		if (self->priv->playback_cursor == g_value_get_int64 (value))
+			break;
 		self->priv->playback_cursor = g_value_get_int64 (value);
 		if (gtk_widget_get_realized (GTK_WIDGET (self))) {
-			gint cursor_pos = time_to_pixel (self->priv->playback_cursor, self->priv->px_per_sec);
-			gint width = (gint) gtk_adjustment_get_page_size (self->priv->adj);
-			gint offset = width * CURSOR_POSITION;
-			gint scroll;
-			scroll = cursor_pos - offset;
-			gtk_adjustment_set_value (self->priv->adj, scroll);
+			if (self->priv->follow_cursor)
+				scroll_to_cursor (self);
 			gtk_widget_queue_draw (GTK_WIDGET (self->priv->drawarea));
 		}
+		break;
+	case PROP_FOLLOW_CURSOR:
+		self->priv->follow_cursor = g_value_get_boolean (value);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
+}
+
+gboolean
+pt_waveslider_get_follow_cursor (PtWaveslider *self)
+{
+	return self->priv->follow_cursor;
+}
+
+void
+pt_waveslider_set_follow_cursor (PtWaveslider *self,
+				 gboolean      follow)
+{
+	self->priv->follow_cursor = follow;
+	if (follow)
+		scroll_to_cursor (self);
+}
+
+gboolean
+scroll_child_cb (GtkScrolledWindow *self,
+                 GtkScrollType      scroll,
+                 gboolean           horizontal,
+                 gpointer           data)
+{
+	PtWaveslider *slider = PT_WAVESLIDER (data);
+
+	if (!horizontal)
+		return FALSE;
+
+	if (scroll == GTK_SCROLL_PAGE_BACKWARD ||
+	    scroll == GTK_SCROLL_PAGE_FORWARD ||
+	    scroll == GTK_SCROLL_PAGE_LEFT ||
+	    scroll == GTK_SCROLL_PAGE_RIGHT ||
+	    scroll == GTK_SCROLL_STEP_BACKWARD ||
+	    scroll == GTK_SCROLL_STEP_FORWARD ||
+	    scroll == GTK_SCROLL_STEP_LEFT ||
+	    scroll == GTK_SCROLL_STEP_RIGHT ||
+	    scroll == GTK_SCROLL_START ||
+	    scroll == GTK_SCROLL_END ) {
+		slider->priv->follow_cursor = FALSE;
+	}
+
+	return FALSE;
 }
 
 void
@@ -322,6 +410,21 @@ adj_cb (GtkAdjustment *adj,
 	gtk_widget_queue_draw (GTK_WIDGET (self->priv->drawarea));
 }
 
+gboolean
+scrollbar_cb (GtkWidget      *widget,
+	      GdkEventButton *event,
+	      gpointer        data)
+{
+	/* If user clicks on scrollbar don't follow cursor anymore.
+	   Otherwise it would scroll immediately back again. */
+
+	PtWaveslider *slider = PT_WAVESLIDER (data);
+	slider->priv->follow_cursor = FALSE;
+
+	/* Propagate signal */
+	return FALSE;
+}
+
 static void
 pt_waveslider_constructed (GObject *object)
 {
@@ -330,6 +433,11 @@ pt_waveslider_constructed (GObject *object)
 	PtWaveslider *self = PT_WAVESLIDER (object);
 	self->priv->adj = gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (self));
 	g_signal_connect (self->priv->adj, "value-changed", G_CALLBACK (adj_cb), self);
+
+	g_signal_connect (gtk_scrolled_window_get_hscrollbar (GTK_SCROLLED_WINDOW (self)),
+			  "button_press_event",
+			  G_CALLBACK (scrollbar_cb),
+			  self);
 }
 
 static void
@@ -348,6 +456,7 @@ pt_waveslider_init (PtWaveslider *self)
 	self->priv->peaks = NULL;
 	self->priv->peaks_size = 0;
 	self->priv->playback_cursor = 0;
+	self->priv->follow_cursor = TRUE;
 
 	settings = gtk_settings_get_default ();
 	g_object_get (settings, "gtk-application-prefer-dark-theme", &dark, NULL);
@@ -374,7 +483,8 @@ pt_waveslider_init (PtWaveslider *self)
 	g_object_unref (provider);
 
 	gtk_widget_set_events (self->priv->drawarea, gtk_widget_get_events (self->priv->drawarea)
-                                     | GDK_BUTTON_PRESS_MASK);
+                                     | GDK_BUTTON_PRESS_MASK
+				     | GDK_POINTER_MOTION_MASK);
 }
 
 static void
@@ -426,6 +536,21 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 			G_MAXINT64,
 			0,
 			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
+
+	/**
+	* PtWaveslider:follow-cursor:
+	*
+	* If the widget follows the cursor, it scrolls automatically to the
+	* cursor's position.
+	*/
+
+	obj_properties[PROP_FOLLOW_CURSOR] =
+	g_param_spec_boolean (
+			"follow-cursor",
+			"follow cursor",
+			"Scroll automatically to current cursor position",
+			TRUE,
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
 
 	g_object_class_install_properties (
 			G_OBJECT_CLASS (klass),
