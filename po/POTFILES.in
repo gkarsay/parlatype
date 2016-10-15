@@ -7,6 +7,7 @@ src/main.c
 src/pt-app.c
 src/pt-goto-dialog.c
 src/pt-preferences.c
+src/pt-progress-dialog.c
 src/pt-window.c
 [type: gettext/glade]src/resources/goto-dialog.ui
 [type: gettext/glade]src/resources/menus.ui

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-15 12:09+0200\n"
+"POT-Creation-Date: 2016-10-15 12:13+0200\n"
 "PO-Revision-Date: 2016-10-15 12:09+0200\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
 "Language-Team: Deutsch <>\n"
@@ -245,6 +245,10 @@ msgstr[1] "Sekunden"
 msgid "_Close"
 msgstr "_Schließen"
 
+#: ../src/pt-progress-dialog.c:65
+msgid "Loading file..."
+msgstr "Lade Datei …"
+
 #: ../src/pt-window.c:166
 #, c-format
 msgid "Jump back 1 second"
@@ -353,9 +357,6 @@ msgstr "Geschwindigkeit:"
 #: ../src/resources/window-headerbar.ui.h:2
 msgid "Open a file"
 msgstr "Eine Datei öffnen"
-
-#~ msgid "Loading file..."
-#~ msgstr "Lade Datei …"
 
 #~ msgid "Timeout: Can't read resource"
 #~ msgstr "Zeitüberschreitung: Resource konnte nicht gelesen werden"
