@@ -305,7 +305,7 @@ scroll_child_cb (GtkScrolledWindow *self,
 	    scroll == GTK_SCROLL_STEP_RIGHT ||
 	    scroll == GTK_SCROLL_START ||
 	    scroll == GTK_SCROLL_END ) {
-		slider->priv->follow_cursor = FALSE;
+		pt_waveslider_set_follow_cursor (slider, FALSE);
 	}
 
 	return FALSE;
@@ -333,7 +333,7 @@ scrollbar_cb (GtkWidget      *widget,
 	   Otherwise it would scroll immediately back again. */
 
 	PtWaveslider *slider = PT_WAVESLIDER (data);
-	slider->priv->follow_cursor = FALSE;
+	pt_waveslider_set_follow_cursor (slider, FALSE);
 
 	/* Propagate signal */
 	return FALSE;
@@ -368,7 +368,11 @@ pt_waveslider_set_follow_cursor (PtWaveslider *self,
 {
 	g_return_if_fail (PT_IS_WAVESLIDER (self));
 
-	self->priv->follow_cursor = follow;
+	if (self->priv->follow_cursor != follow) {
+		self->priv->follow_cursor = follow;
+		g_object_notify_by_pspec (G_OBJECT (self),
+					  obj_properties[PROP_FOLLOW_CURSOR]);
+	}
 	if (follow)
 		scroll_to_cursor (self);
 }
