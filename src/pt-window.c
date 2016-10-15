@@ -617,6 +617,29 @@ setup_accels_actions_headerbar (PtWindow *win)
 }
 
 static void
+pos_label_set_pango_attrs (GtkLabel *label)
+{
+	/* This is a workaround for glade 3.18.3 which can't handle decimal
+	   places on my machine.
+	   See https://bugzilla.gnome.org/show_bug.cgi?id=742969
+	   Remove after fix released */
+
+	PangoAttrList  *attr_list;
+	PangoAttribute *scale;
+	PangoAttribute *weight;
+
+	attr_list = pango_attr_list_new ();
+	scale = pango_attr_scale_new (1.5);
+	weight = pango_attr_weight_new (PANGO_WEIGHT_SEMIBOLD);
+
+	pango_attr_list_insert (attr_list, weight);
+	pango_attr_list_insert (attr_list, scale);
+	gtk_label_set_attributes (label, attr_list);
+
+	pango_attr_list_unref (attr_list);
+}
+
+static void
 pt_window_init (PtWindow *win)
 {
 	win->priv = pt_window_get_instance_private (win);
@@ -633,6 +656,7 @@ pt_window_init (PtWindow *win)
 	win->priv->timer = 0;
 	win->priv->progress_dlg = NULL;
 	win->priv->progress_handler_id = 0;
+	pos_label_set_pango_attrs (GTK_LABEL (win->priv->pos_label));
 
 	pt_window_ready_to_play (win, FALSE);
 }
