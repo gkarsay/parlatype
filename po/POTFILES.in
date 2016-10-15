@@ -1,12 +1,12 @@
 # List of source files which contain translatable strings.
 
 data/parlatype.desktop.in.in
+libparlatype/pt-player.c
+libparlatype/pt-waveloader.c
 src/main.c
 src/pt-app.c
 src/pt-goto-dialog.c
 src/pt-preferences.c
-src/pt-player.c
-src/pt-waveloader.c
 src/pt-window.c
 [type: gettext/glade]src/resources/goto-dialog.ui
 [type: gettext/glade]src/resources/menus.ui
