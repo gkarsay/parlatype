@@ -36,7 +36,10 @@ AM_CPPFLAGS = $(PACKAGE_CFLAGS)		\
 	      -DUIDIR=\"$(pkgdatadir)\" \
 	      -DLOCALEDIR=\"$(localedir)\"
 
-libparlatype_@PARLATYPE_API_VERSION@_la_LDFLAGS = -version-info $(PARLATYPE_SO_VERSION)
+libparlatype_@PARLATYPE_API_VERSION@_la_LDFLAGS = \
+		-version-info $(PARLATYPE_SO_VERSION)	\
+		-export-symbols-regex '^pt_'
+
 libparlatype_@PARLATYPE_API_VERSION@_la_LIBADD = $(PACKAGE_LIBS)
 
 ## The generated configuration header is installed in its own subdirectory of
