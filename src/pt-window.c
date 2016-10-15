@@ -389,6 +389,7 @@ label_press_cb (GtkWidget      *widget,
 	        gpointer        data)
 {
 	PtWindow *win = PT_WINDOW (data);
+
 	pt_waveslider_set_follow_cursor (PT_WAVESLIDER (win->priv->waveslider), TRUE);
 	return FALSE;
 }
@@ -570,7 +571,7 @@ setup_player (PtWindow *win)
 			win);
 
 	g_object_bind_property (win->priv->volumebutton, "value",
-			win->priv->player, "volume",G_BINDING_DEFAULT);
+			win->priv->player, "volume", G_BINDING_DEFAULT);
 }
 
 static void
@@ -656,7 +657,11 @@ pt_window_init (PtWindow *win)
 	win->priv->timer = 0;
 	win->priv->progress_dlg = NULL;
 	win->priv->progress_handler_id = 0;
+
 	pos_label_set_pango_attrs (GTK_LABEL (win->priv->pos_label));
+	g_object_bind_property (win->priv->waveslider, "follow-cursor",
+				win->priv->pos_label, "has_tooltip",
+				G_BINDING_INVERT_BOOLEAN | G_BINDING_SYNC_CREATE);
 
 	pt_window_ready_to_play (win, FALSE);
 }

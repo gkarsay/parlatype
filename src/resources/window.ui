@@ -190,6 +190,7 @@
                   <object class="GtkLabel" id="pos_label">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="tooltip_text" translatable="yes">Click here to jump to cursor</property>
                     <property name="margin_left">12</property>
                     <property name="margin_right">12</property>
                     <property name="label">00:00</property>
