@@ -68,6 +68,8 @@ pt_waveloader_get_type
 PtWaveslider
 pt_waveslider_new
 pt_waveslider_set_wave
+pt_waveslider_set_follow_cursor
+pt_waveslider_get_follow_cursor
 <SUBSECTION Standard>
 PT_IS_WAVESLIDER
 PT_IS_WAVESLIDER_CLASS

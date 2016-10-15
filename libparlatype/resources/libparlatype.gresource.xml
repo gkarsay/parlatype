@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/org/gnome/libparlatype">
+    <file preprocess="xml-stripblanks">ptwaveslider.ui</file>
     <file>pt-waveslider.css</file>
     <file>pt-waveslider-dark.css</file>
   </gresource>

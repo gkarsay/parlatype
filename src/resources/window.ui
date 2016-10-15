@@ -44,47 +44,13 @@
             <property name="can_focus">False</property>
             <property name="hexpand">True</property>
             <child>
-              <object class="GtkLabel" id="pos_label">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label">00:00</property>
-                <property name="single_line_mode">True</property>
-                <property name="lines">1</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
+              <placeholder/>
             </child>
             <child>
-              <object class="GtkScale" id="time_scale">
-                <property name="visible">True</property>
-                <property name="sensitive">False</property>
-                <property name="can_focus">True</property>
-                <property name="adjustment">time_adj</property>
-                <property name="draw_value">False</property>
-                <signal name="value-changed" handler="time_scale_changed_cb" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
+              <placeholder/>
             </child>
             <child>
-              <object class="GtkLabel" id="dur_label">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label">00:00</property>
-                <property name="single_line_mode">True</property>
-                <property name="lines">1</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">2</property>
-              </packing>
+              <placeholder/>
             </child>
           </object>
           <packing>
@@ -212,7 +178,37 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="position">4</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <signal name="button-press-event" handler="label_press_cb" swapped="no"/>
+                <child>
+                  <object class="GtkLabel" id="pos_label">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="tooltip_text" translatable="yes">Click here to jump to cursor</property>
+                    <property name="margin_left">12</property>
+                    <property name="margin_right">12</property>
+                    <property name="label">00:00</property>
+                    <property name="single_line_mode">True</property>
+                    <property name="lines">1</property>
+                    <attributes>
+                      <attribute name="font-desc" value="&lt;Geben Sie den Wert ein&gt; 10"/>
+                      <attribute name="weight" value="semibold"/>
+                      <attribute name="stretch" value="normal"/>
+                      <attribute name="scale" value="2"/>
+                    </attributes>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
               </packing>
             </child>
             <child>
@@ -250,7 +246,7 @@ audio-volume-medium</property>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
                 <property name="pack_type">end</property>
-                <property name="position">4</property>
+                <property name="position">2</property>
               </packing>
             </child>
             <child>
@@ -296,7 +292,9 @@ audio-volume-medium</property>
         <child>
           <object class="PtWaveslider" id="waveslider">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can_focus">True</property>
+            <property name="hexpand">True</property>
+            <property name="vexpand">True</property>
             <signal name="cursor-changed" handler="cursor_changed_cb" swapped="no"/>
           </object>
           <packing>

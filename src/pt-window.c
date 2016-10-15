@@ -109,68 +109,28 @@ const GActionEntry win_actions[] = {
 };
 
 void
-time_scale_changed_cb (GtkRange *range,
-		       PtWindow *win)
-{
-	/* triggered only by user */
-
-	GtkAdjustment *adj;
-	gdouble        pos;
-
-	adj = gtk_range_get_adjustment (range);
-	pos = gtk_adjustment_get_value (adj);
-	
-	pt_player_jump_to_permille (win->priv->player, pos);
-}
-
-void
 cursor_changed_cb (GtkWidget *widget,
 		   gint64     pos,
 		   PtWindow  *win)
 {
 	/* triggered only by user */
 
+	pt_waveslider_set_follow_cursor (PT_WAVESLIDER (win->priv->waveslider), TRUE);
 	pt_player_jump_to_position (win->priv->player, pos);
-}
-
-static void
-update_duration_label (PtWindow *win)
-{
-	gchar *text;
-	text = pt_player_get_duration_time_string (win->priv->player, 0);
-	if (text) {
-		gtk_label_set_text (GTK_LABEL (win->priv->dur_label), text);
-		g_free (text);
-	}
-}
-
-static void
-update_time_scale_blocking (PtWindow *win,
-			    gint      value)
-{
-	/* Blocks signals and prevents endless signal loop */
-
-	g_signal_handlers_block_by_func (win->priv->time_scale, time_scale_changed_cb, win);
-	gtk_adjustment_set_value (GTK_ADJUSTMENT (win->priv->time_adj), value);
-	g_signal_handlers_unblock_by_func (win->priv->time_scale, time_scale_changed_cb, win);
 }
 
 static gboolean
 update_time (PtWindow *win)
 {
-	gint   permille;
 	gchar *text;
 
-	text = pt_player_get_current_time_string (win->priv->player, 0);
-	permille = pt_player_get_permille (win->priv->player);
+	text = pt_player_get_current_time_string (win->priv->player, 1);
 
-	if (permille == -1 || text == NULL)
+	if (text == NULL)
 		return TRUE;
 
 	gtk_label_set_text (GTK_LABEL (win->priv->pos_label), text);
 	g_free (text);
-
-	update_time_scale_blocking (win, permille);
 
 	g_object_set (win->priv->waveslider,
 		      "playback-cursor",
@@ -333,12 +293,10 @@ pt_window_ready_to_play (PtWindow *win,
 	gtk_widget_set_sensitive (win->priv->button_fast_forward, state);
 	gtk_widget_set_sensitive (win->priv->button_jump_back, state);
 	gtk_widget_set_sensitive (win->priv->button_jump_forward, state);
-	gtk_widget_set_sensitive (win->priv->time_scale, state);
 	gtk_widget_set_sensitive (win->priv->speed_scale, state);
 
 	if (state) {
 		destroy_progress_dlg (win);
-		update_duration_label (win);
 		display_name = pt_player_get_filename (win->priv->player);
 		if (display_name) {
 			gtk_window_set_title (GTK_WINDOW (win), display_name);
@@ -351,20 +309,20 @@ pt_window_ready_to_play (PtWindow *win,
 		change_play_button_tooltip (win);
 		change_jump_back_tooltip (win);
 		change_jump_forward_tooltip (win);
-		add_timer (win);
+		pt_waveslider_set_follow_cursor (PT_WAVESLIDER (win->priv->waveslider), TRUE);
 		pt_waveslider_set_wave (PT_WAVESLIDER (win->priv->waveslider),
 					pt_player_get_data (win->priv->player),
 					pt_player_get_length (win->priv->player),
 					pt_player_get_px_per_sec (win->priv->player));
+		/* add timer after waveslider, didn't update cursor otherwise sometimes */
+		add_timer (win);
 
 	} else {
-		gtk_label_set_text (GTK_LABEL (win->priv->dur_label), "00:00");
-		gtk_label_set_text (GTK_LABEL (win->priv->pos_label), "00:00");
+		gtk_label_set_text (GTK_LABEL (win->priv->pos_label), "00:00.0");
 		gtk_window_set_title (GTK_WINDOW (win), "Parlatype");
 		gtk_widget_set_tooltip_text (win->priv->button_jump_back, NULL);
 		gtk_widget_set_tooltip_text (win->priv->button_jump_forward, NULL);
 		remove_timer (win);
-		update_time_scale_blocking (win, 0);
 		pt_waveslider_set_wave (PT_WAVESLIDER (win->priv->waveslider), NULL, 0, 0);
 	}
 }
@@ -425,11 +383,23 @@ pt_window_open_file (PtWindow *win,
 				  win);
 }
 
+gboolean
+label_press_cb (GtkWidget      *widget,
+	        GdkEventButton *event,
+	        gpointer        data)
+{
+	PtWindow *win = PT_WINDOW (data);
+
+	pt_waveslider_set_follow_cursor (PT_WAVESLIDER (win->priv->waveslider), TRUE);
+	return FALSE;
+}
+
 void
 play_button_toggled_cb (GtkToggleButton *button,
 			PtWindow	*win)
 {
 	if (gtk_toggle_button_get_active (button)) {
+		pt_waveslider_set_follow_cursor (PT_WAVESLIDER (win->priv->waveslider), TRUE);
 		pt_player_play (win->priv->player);
 	} else {
 		pt_player_pause (win->priv->player);
@@ -601,7 +571,7 @@ setup_player (PtWindow *win)
 			win);
 
 	g_object_bind_property (win->priv->volumebutton, "value",
-			win->priv->player, "volume",G_BINDING_DEFAULT);
+			win->priv->player, "volume", G_BINDING_DEFAULT);
 }
 
 static void
@@ -648,6 +618,29 @@ setup_accels_actions_headerbar (PtWindow *win)
 }
 
 static void
+pos_label_set_pango_attrs (GtkLabel *label)
+{
+	/* This is a workaround for glade 3.18.3 which can't handle decimal
+	   places on my machine.
+	   See https://bugzilla.gnome.org/show_bug.cgi?id=742969
+	   Remove after fix released */
+
+	PangoAttrList  *attr_list;
+	PangoAttribute *scale;
+	PangoAttribute *weight;
+
+	attr_list = pango_attr_list_new ();
+	scale = pango_attr_scale_new (1.5);
+	weight = pango_attr_weight_new (PANGO_WEIGHT_SEMIBOLD);
+
+	pango_attr_list_insert (attr_list, weight);
+	pango_attr_list_insert (attr_list, scale);
+	gtk_label_set_attributes (label, attr_list);
+
+	pango_attr_list_unref (attr_list);
+}
+
+static void
 pt_window_init (PtWindow *win)
 {
 	win->priv = pt_window_get_instance_private (win);
@@ -664,6 +657,11 @@ pt_window_init (PtWindow *win)
 	win->priv->timer = 0;
 	win->priv->progress_dlg = NULL;
 	win->priv->progress_handler_id = 0;
+
+	pos_label_set_pango_attrs (GTK_LABEL (win->priv->pos_label));
+	g_object_bind_property (win->priv->waveslider, "follow-cursor",
+				win->priv->pos_label, "has_tooltip",
+				G_BINDING_INVERT_BOOLEAN | G_BINDING_SYNC_CREATE);
 
 	pt_window_ready_to_play (win, FALSE);
 }
@@ -764,9 +762,6 @@ pt_window_class_init (PtWindowClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, button_jump_forward);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, volumebutton);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, pos_label);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, dur_label);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, time_scale);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, time_adj);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, speed_scale);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, waveslider);
 

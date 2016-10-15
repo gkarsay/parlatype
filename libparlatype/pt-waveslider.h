@@ -38,17 +38,22 @@ typedef struct _PtWavesliderPrivate	PtWavesliderPrivate;
  * The #PtWaveslider contains only private fields and should not be directly accessed.
  */
 struct _PtWaveslider {
-	GtkWidget parent;
+	GtkScrolledWindow parent;
 
 	/*< private > */
 	PtWavesliderPrivate *priv;
 };
 
 struct _PtWavesliderClass {
-	GtkWidgetClass klass;
+	GtkScrolledWindowClass klass;
 };
 
 GType		pt_waveslider_get_type	(void) G_GNUC_CONST;
+
+gboolean	pt_waveslider_get_follow_cursor (PtWaveslider *self);
+
+void		pt_waveslider_set_follow_cursor (PtWaveslider *self,
+						 gboolean      follow);
 
 void		pt_waveslider_set_wave	(PtWaveslider *self,
 					 gfloat	      *data,
