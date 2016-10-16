@@ -42,7 +42,8 @@ GTK_MIN_VERSION=3.10.0
 PKG_CHECK_MODULES([GTK], [gtk+-3.0 >= $GTK_MIN_VERSION, gmodule-2.0])
 PKG_CHECK_MODULES([GSTREAMER], [gstreamer-1.0])
 
-WARN_CFLAGS="-std=c99 -Wall"
+WARN_CFLAGS="-Wall"
+CFLAGS="$CFLAGS $WARN_CFLAGS"
 
 AC_ARG_WITH([lo],
             [AS_HELP_STRING([--without-lo],
