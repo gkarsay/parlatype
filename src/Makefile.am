@@ -41,13 +41,11 @@ parlatype_SOURCES = \
 		pt-window-dnd.h	\
 		pt-window-private.h
 
-parlatype_LDFLAGS = $(PACKAGE_LDFLAGS)
-
 parlatype_LDADD = 	\
 	$(top_builddir)/libparlatype/libparlatype-1.0.la	\
-	$(PACKAGE_LIBS)
+	$(GTK_LIBS)
 
-AM_CPPFLAGS = $(PACKAGE_CFLAGS)		\
+AM_CPPFLAGS = $(GTK_CFLAGS)		\
 	      -DUIDIR=\"$(pkgdatadir)\" \
 	      -DLOCALEDIR=\"$(localedir)\"
 
