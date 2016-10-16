@@ -35,6 +35,7 @@ parlatype_include_HEADERS = \
 	pt-waveslider.h
 
 AM_CPPFLAGS = \
+	$(WARNINGCFLAGS)	\
 	$(GTK_CFLAGS)		\
 	$(GSTREAMER_CFLAGS)	\
 	-DUIDIR=\"$(pkgdatadir)\" \

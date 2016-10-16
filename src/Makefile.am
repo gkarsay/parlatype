@@ -46,6 +46,7 @@ parlatype_LDADD = \
 	$(GTK_LIBS)
 
 AM_CPPFLAGS = \
+	$(WARNINGCFLAGS)	\
 	$(GTK_CFLAGS)		\
 	-DUIDIR=\"$(pkgdatadir)\" \
 	-DLOCALEDIR=\"$(localedir)\"
