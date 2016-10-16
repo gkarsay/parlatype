@@ -39,12 +39,12 @@ Choose your distro and architecture (amd64 or i386) and that’s it. The package
 
 ### Dependencies
 
-To install Parlatype from source you need the basic building infrastructure with make, autotools, intltool and yelp-tools and finally libgtk-3 (minimum version 3.10) and libgstreamer1.0 with base plugins.
+To install Parlatype from source you need these packages: make, autotools, intltool, gobject-introspection-1.0, gladeui-2.0, gtk-doc-tools, yelp-tools and finally gtk+-3.0 (minimum version 3.10) and gstreamer-1.0 with base plugins.
 
 On a Debian based distro you can install these with:
 
 ```
-$ sudo apt-get install build-essential automake autoconf intltool yelp-tools libgtk-3-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+$ sudo apt-get install build-essential automake autoconf intltool libgirepository1.0-dev, libgladeui-dev, gtk-doc-tools, yelp-tools libgtk-3-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 ```
 
 In order to run it needs at least Gtk+ 3.10 and GStreamer 1.0 with the set of “good” plugins.
