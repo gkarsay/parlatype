@@ -37,9 +37,7 @@ parlatype_include_HEADERS = \
 AM_CPPFLAGS = \
 	$(WARNINGCFLAGS)	\
 	$(GTK_CFLAGS)		\
-	$(GSTREAMER_CFLAGS)	\
-	-DUIDIR=\"$(pkgdatadir)\" \
-	-DLOCALEDIR=\"$(localedir)\"
+	$(GSTREAMER_CFLAGS)
 
 libparlatype_@PARLATYPE_API_VERSION@_la_LDFLAGS = \
 	-version-info $(PARLATYPE_SO_VERSION)	\
