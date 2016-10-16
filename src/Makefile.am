@@ -21,33 +21,34 @@ BUILT_SOURCES = \
 	$(NULL)
 
 parlatype_SOURCES = \
-		$(BUILT_SOURCES) \
-		main.c		\
-		pt-app.c	\
-		pt-app.h	\
-		pt-dbus-service.c	\
-		pt-dbus-service.h	\
-		pt-goto-dialog.c	\
-		pt-goto-dialog.h	\
-		pt-mediakeys.c	\
-		pt-mediakeys.h	\
-		pt-preferences.c	\
-		pt-preferences.h	\
-		pt-progress-dialog.c	\
-		pt-progress-dialog.h	\
-		pt-window.c	\
-		pt-window.h	\
-		pt-window-dnd.c	\
-		pt-window-dnd.h	\
-		pt-window-private.h
+	$(BUILT_SOURCES) \
+	main.c		\
+	pt-app.c	\
+	pt-app.h	\
+	pt-dbus-service.c	\
+	pt-dbus-service.h	\
+	pt-goto-dialog.c	\
+	pt-goto-dialog.h	\
+	pt-mediakeys.c	\
+	pt-mediakeys.h	\
+	pt-preferences.c	\
+	pt-preferences.h	\
+	pt-progress-dialog.c	\
+	pt-progress-dialog.h	\
+	pt-window.c	\
+	pt-window.h	\
+	pt-window-dnd.c	\
+	pt-window-dnd.h	\
+	pt-window-private.h
 
-parlatype_LDADD = 	\
+parlatype_LDADD = \
 	$(top_builddir)/libparlatype/libparlatype-1.0.la	\
 	$(GTK_LIBS)
 
-AM_CPPFLAGS = $(GTK_CFLAGS)		\
-	      -DUIDIR=\"$(pkgdatadir)\" \
-	      -DLOCALEDIR=\"$(localedir)\"
+AM_CPPFLAGS = \
+	$(GTK_CFLAGS)		\
+	-DUIDIR=\"$(pkgdatadir)\" \
+	-DLOCALEDIR=\"$(localedir)\"
 
 EXTRA_DIST = \
 	$(resource_files) \

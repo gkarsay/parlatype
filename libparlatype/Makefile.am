@@ -21,32 +21,32 @@ BUILT_SOURCES = \
 	$(NULL)
 
 libparlatype_@PARLATYPE_API_VERSION@_la_SOURCES = \
-		$(BUILT_SOURCES) \
-		pt-player.c	\
-		pt-waveloader.c	\
-		pt-waveslider.c
+	$(BUILT_SOURCES) \
+	pt-player.c	\
+	pt-waveloader.c	\
+	pt-waveslider.c
 
 parlatype_includedir= \
-		$(includedir)/parlatype-$(PARLATYPE_API_VERSION)
+	$(includedir)/parlatype-$(PARLATYPE_API_VERSION)
 
 parlatype_include_HEADERS = \
-		pt-player.h	\
-		pt-waveloader.h	\
-		pt-waveslider.h
+	pt-player.h	\
+	pt-waveloader.h	\
+	pt-waveslider.h
 
 AM_CPPFLAGS = \
-		$(GTK_CFLAGS)		\
-		$(GSTREAMER_CFLAGS)	\
-		-DUIDIR=\"$(pkgdatadir)\" \
-		-DLOCALEDIR=\"$(localedir)\"
+	$(GTK_CFLAGS)		\
+	$(GSTREAMER_CFLAGS)	\
+	-DUIDIR=\"$(pkgdatadir)\" \
+	-DLOCALEDIR=\"$(localedir)\"
 
 libparlatype_@PARLATYPE_API_VERSION@_la_LDFLAGS = \
-		-version-info $(PARLATYPE_SO_VERSION)	\
-		-export-symbols-regex '^pt_'
+	-version-info $(PARLATYPE_SO_VERSION)	\
+	-export-symbols-regex '^pt_'
 
 libparlatype_@PARLATYPE_API_VERSION@_la_LIBADD = \
-		$(GTK_LIBS)	\
-		$(GSTREAMER_LIBS)
+	$(GTK_LIBS)	\
+	$(GSTREAMER_LIBS)
 
 ## The generated configuration header is installed in its own subdirectory of
 ## $(libdir).  The reason for this is that the configuration information put
@@ -59,29 +59,30 @@ libparlatype_@PARLATYPE_API_VERSION@_la_LIBADD = \
 ## in _HEADERS variables are normally included in the distribution, but the
 ## configuration header file is generated at configure time and should not be
 ## shipped with the source tarball.
-parlatype_libincludedir = $(libdir)/parlatype-$(PARLATYPE_API_VERSION)/parlatype
+parlatype_libincludedir = \
+	 $(libdir)/parlatype-$(PARLATYPE_API_VERSION)/parlatype
 #nodist_parlatype_libinclude_HEADERS = xxx.h
 
-pkgconfigdir = $(libdir)/pkgconfig
+pkgconfigdir   = $(libdir)/pkgconfig
 pkgconfig_DATA = libparlatype.pc
 
 # Install gladeui catalog file
-glade_catalogdir = $(GLADE_CAT_DIR)
+glade_catalogdir   = $(GLADE_CAT_DIR)
 glade_catalog_DATA = pt-glade-catalog.xml
 
 gladept_LTLIBRARIES = libgladept.la
 gladeptdir = $(GLADE_MOD_DIR)
 
-libgladept_la_CPPFLAGS =   \
-	-I$(top_srcdir)    \
-	-I$(top_builddir)  \
-	$(GTK_CFLAGS)	               \
+libgladept_la_CPPFLAGS = \
+	-I$(top_srcdir)		\
+	-I$(top_builddir)	\
+	$(GTK_CFLAGS)		\
 	$(AM_CPPFLAGS)
 
-libgladept_la_CFLAGS = $(AM_CFLAGS)
+libgladept_la_CFLAGS  = $(AM_CFLAGS)
 libgladept_la_SOURCES = pt-waveslider.c
 libgladept_la_LDFLAGS = -module -avoid-version $(AM_LDFLAGS)
-libgladept_la_LIBADD = $(GTK_LIBS)
+libgladept_la_LIBADD  = $(GTK_LIBS)
 
 #noinst_HEADERS = pt-waveslider.h
 
@@ -108,13 +109,12 @@ Parlatype_1_0_gir_CFLAGS = \
 	$(INCLUDES)
 Parlatype_1_0_gir_LIBS = libparlatype-1.0.la
 Parlatype_1_0_gir_FILES = $(introspection_sources)
-#Parlatype_1_0_gir_NAMESPACE = Pt
 INTROSPECTION_GIRS += Parlatype-1.0.gir
 
-girdir = $(datadir)/gir-1.0
+girdir   = $(datadir)/gir-1.0
 gir_DATA = $(INTROSPECTION_GIRS)
 
-typelibdir = $(libdir)/girepository-1.0
+typelibdir   = $(libdir)/girepository-1.0
 typelib_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
 
 CLEANFILES = $(gir_DATA) $(typelib_DATA) $(BUILT_SOURCES)
