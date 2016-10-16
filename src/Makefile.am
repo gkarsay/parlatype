@@ -43,10 +43,8 @@ parlatype_SOURCES = \
 
 parlatype_LDFLAGS = $(PACKAGE_LDFLAGS)
 
-LDADD = ../libparlatype/libparlatype-1.0.la
-
 parlatype_LDADD = 	\
-	$(LDADD)	\
+	$(top_builddir)/libparlatype/libparlatype-1.0.la	\
 	$(PACKAGE_LIBS)
 
 AM_CPPFLAGS = $(PACKAGE_CFLAGS)		\
