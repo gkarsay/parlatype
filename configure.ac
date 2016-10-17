@@ -56,11 +56,9 @@ AM_CONDITIONAL([LO], [test "$with_lo" = "yes"])
 GTK_DOC_CHECK([1.14],[--flavour no-tmpl])
 GOBJECT_INTROSPECTION_CHECK([1.30.0])
 
-# Gladeui catalog file
-PKG_CHECK_MODULES([GLADEUI],[gladeui-2.0])
+# Gladeui catalog file, lib can be installed in system libdir since 3.12.2
+PKG_CHECK_MODULES([GLADEUI],[gladeui-2.0 >= 3.12.2])
 glade_catalog_dir=`$PKG_CONFIG --variable=catalogdir gladeui-2.0`
-glade_module_dir=`$PKG_CONFIG --variable=moduledir gladeui-2.0`
-AC_SUBST(GLADE_MOD_DIR, $glade_module_dir)
 AC_SUBST(GLADE_CAT_DIR, $glade_catalog_dir)
 
 AC_CONFIG_FILES([Makefile
@@ -73,6 +71,7 @@ AC_CONFIG_FILES([Makefile
 		 help/Makefile
 		 libparlatype/Makefile
 		 libparlatype/libparlatype.pc
+		 libparlatype/pt-glade-catalog.xml
 		 libreoffice/Makefile
 		 po/Makefile.in
                  src/Makefile])
