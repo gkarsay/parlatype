@@ -59,7 +59,9 @@ GOBJECT_INTROSPECTION_CHECK([1.30.0])
 # Gladeui catalog file, lib can be installed in system libdir since 3.12.2
 PKG_CHECK_MODULES([GLADEUI],[gladeui-2.0 >= 3.12.2])
 glade_catalog_dir=`$PKG_CONFIG --variable=catalogdir gladeui-2.0`
-AC_SUBST(GLADE_CAT_DIR, $glade_catalog_dir)
+glade_pixmap_dir=`$PKG_CONFIG --variable=pixmapdir gladeui-2.0`
+AC_SUBST(GLADE_CATALOG_DIR, $glade_catalog_dir)
+AC_SUBST(GLADE_PIXMAP_DIR, $glade_pixmap_dir)
 
 AC_CONFIG_FILES([Makefile
                  data/Makefile

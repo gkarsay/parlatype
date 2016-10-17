@@ -2,7 +2,7 @@
 <glade-catalog name="parlatype" library="libparlatype-@PARLATYPE_API_VERSION@" book="parlatype" depends="gtk+">
 
   <glade-widget-classes>
-    <glade-widget-class name="PtWaveslider" generic-name="waveslider" icon-name="ptwaveslider" title="PtWaveslider"/>
+    <glade-widget-class name="PtWaveslider" generic-name="waveslider" icon-name="widget-pt-waveslider" title="PtWaveslider"/>
   </glade-widget-classes>
 
   <glade-widget-group name="parlatype-widgets" title="Parlatype Widgets">

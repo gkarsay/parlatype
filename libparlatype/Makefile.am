@@ -41,7 +41,8 @@ AM_CPPFLAGS = \
 
 libparlatype_@PARLATYPE_API_VERSION@_la_LDFLAGS = \
 	-version-info $(PARLATYPE_SO_VERSION)	\
-	-export-symbols-regex '^pt_'
+	-export-symbols-regex '^pt_'	\
+	-export-dynamic
 
 libparlatype_@PARLATYPE_API_VERSION@_la_LIBADD = \
 	$(GTK_LIBS)	\
@@ -65,9 +66,12 @@ parlatype_libincludedir = \
 pkgconfigdir   = $(libdir)/pkgconfig
 pkgconfig_DATA = libparlatype.pc
 
-# Install gladeui catalog file
-glade_catalogdir   = $(GLADE_CAT_DIR)
+# Install gladeui catalog file (for icons see ../data/icons/)
+glade_catalogdir   = $(GLADE_CATALOG_DIR)
 glade_catalog_DATA = pt-glade-catalog.xml
+
+validate: $(glade_catalog_DATA)
+	xmllint --dtdvalid $(GLADE_CATALOG_DIR)/glade-catalog.dtd --noout $<
 
 -include $(INTROSPECTION_MAKEFILE)
 INTROSPECTION_GIRS =
