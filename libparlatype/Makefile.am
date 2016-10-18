@@ -41,7 +41,6 @@ AM_CPPFLAGS = \
 
 libparlatype_@PARLATYPE_API_VERSION@_la_LDFLAGS = \
 	-version-info $(PARLATYPE_SO_VERSION)	\
-	-export-symbols-regex '^pt_'	\
 	-export-dynamic
 
 libparlatype_@PARLATYPE_API_VERSION@_la_LIBADD = \
