@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<glade-catalog name="parlatype" library="libparlatype-@PARLATYPE_API_VERSION@" book="parlatype" depends="gtk+">
+<glade-catalog name="parlatype" library="parlatype-@PARLATYPE_API_VERSION@" book="parlatype" depends="gtk+">
 
   <glade-widget-classes>
     <glade-widget-class name="PtWaveslider" generic-name="waveslider" icon-name="widget-pt-waveslider" title="PtWaveslider"/>
