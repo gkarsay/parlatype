@@ -17,7 +17,9 @@ LT_INIT([disable-static])
 # For information on how to properly maintain the library version information,
 # refer to the libtool manual, section "Updating library version information":
 # http://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html
-AC_SUBST([PARLATYPE_SO_VERSION], [1:0:0])
+AC_SUBST([PARLATYPE_SO_VERSION], [0:0:0])
+
+# Parlatype is unstable, we don't use API version yet
 AC_SUBST([PARLATYPE_API_VERSION], [1.0])
 
 # Checks for programs.
@@ -72,7 +74,7 @@ AC_CONFIG_FILES([Makefile
 		 docs/reference/version.xml
 		 help/Makefile
 		 libparlatype/Makefile
-		 libparlatype/libparlatype.pc
+		 libparlatype/parlatype.pc
 		 libparlatype/pt-glade-catalog.xml
 		 libreoffice/Makefile
 		 po/Makefile.in

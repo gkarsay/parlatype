@@ -67,7 +67,8 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtWaveslider, pt_waveslider, GTK_TYPE_SCROLLED_WINDO
 /**
  * SECTION: pt-waveslider
  * @short_description: A GtkWidget to display a waveform.
- * @include: parlatype-1.0/pt-waveslider.h
+ * @stability: Unstable
+ * @include: parlatype/pt-waveslider.h
  *
  * Displays a waveform provided by PtWaveloader or PtPlayer.
  */

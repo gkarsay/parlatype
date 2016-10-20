@@ -1,4 +1,4 @@
-lib_LTLIBRARIES = libparlatype-@PARLATYPE_API_VERSION@.la
+lib_LTLIBRARIES = libparlatype.la
 
 resource_xml = $(srcdir)/resources/libparlatype.gresource.xml
 resource_files = $(shell glib-compile-resources --sourcedir=$(srcdir)/resources --generate-dependencies $(resource_xml))
@@ -20,14 +20,14 @@ BUILT_SOURCES = \
 	pt-resources.h		\
 	$(NULL)
 
-libparlatype_@PARLATYPE_API_VERSION@_la_SOURCES = \
+libparlatype_la_SOURCES = \
 	$(BUILT_SOURCES) \
 	pt-player.c	\
 	pt-waveloader.c	\
 	pt-waveslider.c
 
 parlatype_includedir= \
-	$(includedir)/parlatype-$(PARLATYPE_API_VERSION)
+	$(includedir)/parlatype
 
 parlatype_include_HEADERS = \
 	pt-player.h	\
@@ -39,11 +39,11 @@ AM_CPPFLAGS = \
 	$(GTK_CFLAGS)		\
 	$(GSTREAMER_CFLAGS)
 
-libparlatype_@PARLATYPE_API_VERSION@_la_LDFLAGS = \
+libparlatype_la_LDFLAGS = \
 	-version-info $(PARLATYPE_SO_VERSION)	\
 	-export-dynamic
 
-libparlatype_@PARLATYPE_API_VERSION@_la_LIBADD = \
+libparlatype_la_LIBADD = \
 	$(GTK_LIBS)	\
 	$(GSTREAMER_LIBS)
 
@@ -59,11 +59,11 @@ libparlatype_@PARLATYPE_API_VERSION@_la_LIBADD = \
 ## configuration header file is generated at configure time and should not be
 ## shipped with the source tarball.
 parlatype_libincludedir = \
-	 $(libdir)/parlatype-$(PARLATYPE_API_VERSION)/parlatype
+	 $(libdir)/parlatype
 #nodist_parlatype_libinclude_HEADERS = xxx.h
 
 pkgconfigdir   = $(libdir)/pkgconfig
-pkgconfig_DATA = libparlatype.pc
+pkgconfig_DATA = parlatype.pc
 
 # Install gladeui catalog file (for icons see ../data/icons/)
 glade_catalogdir   = $(GLADE_CATALOG_DIR)
@@ -80,19 +80,19 @@ INTROSPECTION_COMPILER_ARGS = --includedir=$(srcdir)
 if HAVE_INTROSPECTION
 
 # introspection sources without built sources, so not using
-# $(libparlatype_@PARLATYPE_API_VERSION@_la_SOURCES)
+# $(libparlatype_la_SOURCES)
 introspection_sources = \
 		pt-player.c	\
 		pt-waveloader.c	\
 		pt-waveslider.c	\
 		$(parlatype_include_HEADERS)
 
-Parlatype-1.0.gir: libparlatype-1.0.la
+Parlatype-1.0.gir: libparlatype.la
 Parlatype_1_0_gir_INCLUDES = GObject-2.0 Gtk-3.0
 Parlatype_1_0_gir_CFLAGS = \
 	-I$(top_srcdir) \
 	$(INCLUDES)
-Parlatype_1_0_gir_LIBS = libparlatype-1.0.la
+Parlatype_1_0_gir_LIBS = libparlatype.la
 Parlatype_1_0_gir_FILES = $(introspection_sources)
 INTROSPECTION_GIRS += Parlatype-1.0.gir
 

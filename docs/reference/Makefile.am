@@ -83,7 +83,7 @@ GTKDOC_CFLAGS= \
 	-I$(top_builddir)	\
 	$(PACKAGE_CFLAGS)
 GTKDOC_LIBS= \
-	$(top_builddir)/libparlatype/libparlatype-1.0.la	\
+	$(top_builddir)/libparlatype/libparlatype.la	\
 	$(PACKAGE_LIBS)
 
 # This includes the standard gtk-doc make rules, copied by gtkdocize.

@@ -52,7 +52,7 @@ Makefile.in
 /help/de/de.stamp
 /help/de/legal.xml
 
-/libparlatype/libparlatype.pc
+/libparlatype/parlatype.pc
 /libparlatype/pt-glade-catalog.xml
 /libparlatype/pt-resources.*
 /libparlatype/*.gir

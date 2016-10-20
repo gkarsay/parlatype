@@ -65,7 +65,8 @@ G_DEFINE_TYPE_WITH_CODE (PtPlayer, pt_player, G_TYPE_OBJECT,
 /**
  * SECTION: pt-player
  * @short_description: The GStreamer backend for Parlatype.
- * @include: parlatype-1.0/pt-player.h
+ * @stability: Unstable
+ * @include: parlatype/pt-player.h
  *
  * PtPlayer is the GStreamer backend for Parlatype. Construct it with #pt_player_new().
  * Then you have to open a file, either with pt_player_open_uri_async() or

@@ -42,7 +42,7 @@ parlatype_SOURCES = \
 	pt-window-private.h
 
 parlatype_LDADD = \
-	$(top_builddir)/libparlatype/libparlatype-1.0.la	\
+	$(top_builddir)/libparlatype/libparlatype.la	\
 	$(GTK_LIBS)
 
 AM_CPPFLAGS = \
