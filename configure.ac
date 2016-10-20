@@ -77,6 +77,7 @@ AC_CONFIG_FILES([Makefile
 		 libparlatype/parlatype.pc
 		 libparlatype/parlatype.xml
 		 libreoffice/Makefile
+		 libreoffice/Parlatype.py
 		 po/Makefile.in
                  src/Makefile])
 AC_OUTPUT

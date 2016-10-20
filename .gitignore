@@ -58,6 +58,8 @@ Makefile.in
 /libparlatype/*.gir
 /libparlatype/*.typelib
 
+/libreoffice/Parlatype.py
+
 /po/*.gmo
 /po/*.pot
 /po/.intltool-merge-cache
