@@ -75,7 +75,7 @@ AC_CONFIG_FILES([Makefile
 		 help/Makefile
 		 libparlatype/Makefile
 		 libparlatype/parlatype.pc
-		 libparlatype/pt-glade-catalog.xml
+		 libparlatype/parlatype.xml
 		 libreoffice/Makefile
 		 po/Makefile.in
                  src/Makefile])

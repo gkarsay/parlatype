@@ -67,7 +67,7 @@ pkgconfig_DATA = parlatype.pc
 
 # Install gladeui catalog file (for icons see ../data/icons/)
 glade_catalogdir   = $(GLADE_CATALOG_DIR)
-glade_catalog_DATA = pt-glade-catalog.xml
+glade_catalog_DATA = parlatype.xml
 
 validate: $(glade_catalog_DATA)
 	xmllint --dtdvalid $(GLADE_CATALOG_DIR)/glade-catalog.dtd --noout $<
