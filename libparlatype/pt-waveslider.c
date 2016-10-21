@@ -146,7 +146,7 @@ scroll_to_cursor (PtWaveslider *self)
 	gtk_adjustment_set_value (self->priv->adj, cursor_pos - offset);
 }
 
-void
+static void
 size_allocate_cb (GtkWidget     *widget,
                   GtkAllocation *rectangle,
                   gpointer       data)
@@ -157,7 +157,7 @@ size_allocate_cb (GtkWidget     *widget,
 	draw_cursor (self);
 }
 
-gboolean
+static gboolean
 draw_cb (GtkWidget *widget,
          cairo_t   *cr,
          gpointer   data)
@@ -211,7 +211,7 @@ draw_cb (GtkWidget *widget,
 	return FALSE;
 }
 
-gboolean
+static gboolean
 button_press_event_cb (GtkWidget      *widget,
 		       GdkEventButton *event,
 		       gpointer        data)
@@ -236,7 +236,7 @@ button_press_event_cb (GtkWidget      *widget,
 	return FALSE;
 }
 
-gboolean
+static gboolean
 motion_notify_event_cb (GtkWidget      *widget,
                         GdkEventMotion *event,
                         gpointer        data)
@@ -285,7 +285,7 @@ pt_waveslider_state_flags_changed (GtkWidget	 *widget,
 	draw_cursor (self);
 }
 
-gboolean
+static gboolean
 scroll_child_cb (GtkScrolledWindow *self,
                  GtkScrollType      scroll,
                  gboolean           horizontal,
@@ -524,6 +524,31 @@ pt_waveslider_init (PtWaveslider *self)
 
 	g_object_unref (file);
 	g_object_unref (provider);
+
+	g_signal_connect (GTK_SCROLLED_WINDOW (self),
+			  "scroll-child",
+			  G_CALLBACK (scroll_child_cb),
+			  self);
+
+	g_signal_connect (self->priv->drawarea,
+			  "button-press-event",
+			  G_CALLBACK (button_press_event_cb),
+			  self);
+
+	g_signal_connect (self->priv->drawarea,
+			  "draw",
+			  G_CALLBACK (draw_cb),
+			  self);
+
+	g_signal_connect (self->priv->drawarea,
+			  "motion-notify-event",
+			  G_CALLBACK (motion_notify_event_cb),
+			  self);
+
+	g_signal_connect (self->priv->drawarea,
+			  "size-allocate",
+			  G_CALLBACK (size_allocate_cb),
+			  self);
 
 	gtk_widget_set_events (self->priv->drawarea, gtk_widget_get_events (self->priv->drawarea)
                                      | GDK_BUTTON_PRESS_MASK
