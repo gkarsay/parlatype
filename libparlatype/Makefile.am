@@ -23,6 +23,7 @@ BUILT_SOURCES = \
 libparlatype_la_SOURCES = \
 	$(BUILT_SOURCES) \
 	pt-player.c	\
+	pt-progress-dialog.c	\
 	pt-waveloader.c	\
 	pt-waveslider.c
 
@@ -31,6 +32,7 @@ parlatype_includedir= \
 
 parlatype_include_HEADERS = \
 	pt-player.h	\
+	pt-progress-dialog.h	\
 	pt-waveloader.h	\
 	pt-waveslider.h
 
@@ -84,6 +86,7 @@ if HAVE_INTROSPECTION
 # $(libparlatype_la_SOURCES)
 introspection_sources = \
 		pt-player.c	\
+		pt-progress-dialog.c	\
 		pt-waveloader.c	\
 		pt-waveslider.c	\
 		$(parlatype_include_HEADERS)

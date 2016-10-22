@@ -19,12 +19,12 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <libparlatype/pt-player.h>
+#include <libparlatype/pt-progress-dialog.h>
 #include <libparlatype/pt-waveslider.h>
 #include "pt-app.h"
 #include "pt-dbus-service.h"
 #include "pt-goto-dialog.h"
 #include "pt-mediakeys.h"
-#include "pt-progress-dialog.h"
 #include "pt-window.h"
 #include "pt-window-dnd.h"
 #include "pt-window-private.h"

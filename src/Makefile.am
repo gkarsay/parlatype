@@ -33,8 +33,6 @@ parlatype_SOURCES = \
 	pt-mediakeys.h	\
 	pt-preferences.c	\
 	pt-preferences.h	\
-	pt-progress-dialog.c	\
-	pt-progress-dialog.h	\
 	pt-window.c	\
 	pt-window.h	\
 	pt-window-dnd.c	\
