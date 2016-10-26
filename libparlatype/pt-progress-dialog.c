@@ -15,8 +15,10 @@
  */
 
 
+#include "config.h"
 #include <gtk/gtk.h>
-#include <glib/gi18n.h>
+#define GETTEXT_PACKAGE PACKAGE
+#include <glib/gi18n-lib.h>
 #include "pt-progress-dialog.h"
 
 

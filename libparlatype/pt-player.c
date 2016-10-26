@@ -18,7 +18,8 @@
 #include "config.h"
 #include <stdio.h>	/* sscanf */
 #include <gio/gio.h>
-#include <glib/gi18n.h>	
+#define GETTEXT_PACKAGE PACKAGE
+#include <glib/gi18n-lib.h>
 #include <gst/gst.h>
 #include "pt-waveloader.h"
 #include "pt-player.h"
