@@ -894,16 +894,11 @@ pt_player_get_px_per_sec (PtPlayer *player)
  * pt_player_get_data:
  * @player: a #PtPlayer
  *
- * Returns all samples for visual representation as raw data. Each sample
- * contains a minimum followed by a maximum peak value. Minimum values range
- * from -1.0 to 0, maximum values from 0 to 1.0.
+ * Returns all data for visual representation.
  *
- * The raw data is only useful with additional information, first of all the
- * number of elements in the array and the pixel per second ratio.
- *
- * Return value: an array of all samples
+ * Return value: (transfer full): the #PtWavedata
  */
-gfloat *
+PtWavedata*
 pt_player_get_data (PtPlayer *player)
 {
 	return pt_waveloader_get_data (player->priv->wl);

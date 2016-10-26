@@ -19,6 +19,7 @@
 #define PT_WAVESLIDER_H
 
 #include <gtk/gtk.h>
+#include "pt-wavedata.h"
 
 G_BEGIN_DECLS
 
@@ -56,9 +57,7 @@ void		pt_waveslider_set_follow_cursor (PtWaveslider *self,
 						 gboolean      follow);
 
 void		pt_waveslider_set_wave	(PtWaveslider *self,
-					 gfloat	      *data,
-					 gint64        length,
-					 gint	       px_per_sec);
+					 PtWavedata   *data);
 
 GtkWidget	*pt_waveslider_new	(void);
 

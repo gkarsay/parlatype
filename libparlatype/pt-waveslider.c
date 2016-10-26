@@ -381,34 +381,46 @@ pt_waveslider_set_follow_cursor (PtWaveslider *self,
 /**
  * pt_waveslider_set_wave:
  * @self: the widget
- * @data: memory block of samples, min and max value for each sample
- * @length: number of elements in data array
- * @px_per_sec: how many peaks/pixels are one second
+ * @data: (nullable): a #PtWavedata
  *
  * Set wave data to show in the widget.
  */
 void
 pt_waveslider_set_wave (PtWaveslider *self,
-			gfloat       *data,
-			gint64	      length,
-			gint	      px_per_sec)
+			PtWavedata   *data)
 {
 	g_return_if_fail (PT_IS_WAVESLIDER (self));
 
-	g_free (self->priv->peaks);
-	self->priv->peaks = NULL;
+	g_debug ("set_wave");
 
-	if (!data || !length) {
+	if (self->priv->peaks) {
+		g_free (self->priv->peaks);
+		self->priv->peaks = NULL;
+	}
+
+	if (!data) {
 		gtk_widget_queue_draw (GTK_WIDGET (self));
 		return;
 	}
 
-	self->priv->px_per_sec = px_per_sec;
-	self->priv->peaks_size = length;
-	self->priv->peaks = g_malloc (sizeof (gfloat) * self->priv->peaks_size);
-	self->priv->peaks = data;
-	gtk_widget_set_size_request (self->priv->drawarea, length / 2, 20);
+	if (!data->array || !data->length) {
+		gtk_widget_queue_draw (GTK_WIDGET (self));
+		return;
+	}
 
+	/* Copy array. If wiget is not owner of its data, bad things can happen
+	   with bindings. */
+	if (!(self->priv->peaks = g_malloc (sizeof (gfloat) * data->length))) {
+		g_debug	("waveslider failed to allocate memory");
+		gtk_widget_queue_draw (GTK_WIDGET (self));
+		return;
+	}
+
+	memcpy (self->priv->peaks, data->array, sizeof(gfloat) * data->length);
+	self->priv->peaks_size = data->length;
+	self->priv->px_per_sec = data->px_per_sec;
+
+	gtk_widget_set_size_request (self->priv->drawarea, data->length / 2, 20);
 	gtk_widget_queue_draw (GTK_WIDGET (self));
 }
 

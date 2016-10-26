@@ -19,6 +19,7 @@
 #define PT_PLAYER_H
 
 #include <gio/gio.h>
+#include "pt-wavedata.h"
 
 #define PT_TYPE_PLAYER		(pt_player_get_type())
 #define PT_PLAYER(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), PT_TYPE_PLAYER, PtPlayer))
@@ -51,7 +52,7 @@ GType		pt_player_get_type		(void) G_GNUC_CONST;
 gint64		pt_player_get_length		(PtPlayer *player);
 gint64		pt_player_wave_pos		(PtPlayer *player);
 gint		pt_player_get_px_per_sec	(PtPlayer *player);
-gfloat 		*pt_player_get_data		(PtPlayer *player);
+PtWavedata*	pt_player_get_data		(PtPlayer *player);
 
 void		pt_player_pause			(PtPlayer *player);
 void		pt_player_play			(PtPlayer *player);
@@ -101,6 +102,6 @@ gboolean	pt_player_string_is_timestamp	(PtPlayer *player,
 gboolean	pt_player_goto_timestamp	(PtPlayer *player,
 						 gchar    *timestamp);
 
-PtPlayer	*pt_player_new			(GError **error);
+PtPlayer*	pt_player_new			(GError **error);
 
 #endif

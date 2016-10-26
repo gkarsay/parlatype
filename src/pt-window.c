@@ -310,10 +310,9 @@ pt_window_ready_to_play (PtWindow *win,
 		change_jump_back_tooltip (win);
 		change_jump_forward_tooltip (win);
 		pt_waveslider_set_follow_cursor (PT_WAVESLIDER (win->priv->waveslider), TRUE);
+		win->priv->wavedata = pt_player_get_data (win->priv->player);
 		pt_waveslider_set_wave (PT_WAVESLIDER (win->priv->waveslider),
-					pt_player_get_data (win->priv->player),
-					pt_player_get_length (win->priv->player),
-					pt_player_get_px_per_sec (win->priv->player));
+					win->priv->wavedata);
 		/* add timer after waveslider, didn't update cursor otherwise sometimes */
 		add_timer (win);
 
@@ -323,7 +322,10 @@ pt_window_ready_to_play (PtWindow *win,
 		gtk_widget_set_tooltip_text (win->priv->button_jump_back, NULL);
 		gtk_widget_set_tooltip_text (win->priv->button_jump_forward, NULL);
 		remove_timer (win);
-		pt_waveslider_set_wave (PT_WAVESLIDER (win->priv->waveslider), NULL, 0, 0);
+		pt_wavedata_free (win->priv->wavedata);
+		win->priv->wavedata = NULL;
+		pt_waveslider_set_wave (PT_WAVESLIDER (win->priv->waveslider),
+					win->priv->wavedata);
 	}
 }
 
@@ -657,6 +659,7 @@ pt_window_init (PtWindow *win)
 	win->priv->timer = 0;
 	win->priv->progress_dlg = NULL;
 	win->priv->progress_handler_id = 0;
+	win->priv->wavedata = NULL;
 
 	pos_label_set_pango_attrs (GTK_LABEL (win->priv->pos_label));
 	g_object_bind_property (win->priv->waveslider, "follow-cursor",
@@ -694,6 +697,10 @@ pt_window_dispose (GObject *object)
 	   position (called in dispose). Don't know why. This solution seems to work. */
 	if (G_IS_OBJECT (win->priv->player)) {
 		g_object_unref (win->priv->player);
+	}
+	if (win->priv->wavedata) {
+		pt_wavedata_free (win->priv->wavedata);
+		win->priv->wavedata = NULL;
 	}
 
 	G_OBJECT_CLASS (pt_window_parent_class)->dispose (object);

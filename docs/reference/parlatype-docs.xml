@@ -19,6 +19,8 @@
     <title>Parlatype</title>
         <xi:include href="xml/pt-player.xml"/>
     <xi:include href="xml/pt-waveloader.xml"/>
+    <xi:include href="xml/pt-wavedata.xml"/>
+    <xi:include href="xml/pt-progress-dialog.xml"/>
     <xi:include href="xml/pt-waveslider.xml"/>
 
   </chapter>

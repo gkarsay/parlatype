@@ -19,6 +19,7 @@
 #define PT_WAVELOADER_H
 
 #include <gio/gio.h>
+#include "pt-wavedata.h"
 
 #define PT_TYPE_WAVELOADER		(pt_waveloader_get_type())
 #define PT_WAVELOADER(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), PT_TYPE_WAVELOADER, PtWaveloader))
@@ -27,6 +28,7 @@
 typedef struct _PtWaveloader		PtWaveloader;
 typedef struct _PtWaveloaderClass	PtWaveloaderClass;
 typedef struct _PtWaveloaderPrivate	PtWaveloaderPrivate;
+
 
 /**
  * PtWaveloader:
@@ -66,7 +68,7 @@ gint		pt_waveloader_get_px_per_sec	(PtWaveloader *wl);
 gint64		pt_waveloader_get_data_size	(PtWaveloader *wl);
 
 
-gfloat		*pt_waveloader_get_data		(PtWaveloader *wl);
+PtWavedata*	pt_waveloader_get_data		(PtWaveloader *wl);
 
 PtWaveloader	*pt_waveloader_new		(gchar *uri);
 

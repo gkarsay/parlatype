@@ -20,6 +20,7 @@
 #include "config.h"
 #include <gtk/gtk.h>
 #include <libparlatype/pt-player.h>
+#include <libparlatype/pt-wavedata.h>
 
 struct _PtWindowPrivate
 {
@@ -41,6 +42,8 @@ struct _PtWindowPrivate
 	GtkWidget  *pos_label;
 	GtkWidget  *speed_scale;
 	GtkWidget  *waveslider;
+
+	PtWavedata *wavedata;
 
 	gint	    timer;
 	gdouble	    speed;

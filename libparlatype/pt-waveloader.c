@@ -440,33 +440,27 @@ pt_waveloader_get_data_size (PtWaveloader *wl)
  * pt_waveloader_get_data:
  * @wl: a #PtWaveloader
  *
- * Returns all samples for visual representation as raw data. Each sample
- * contains a minimum followed by a maximum peak value. Minimum values range
- * from -1.0 to 0, maximum values from 0 to 1.0.
+ * Returns wave data needed for visual representation as raw data.
  *
- * The raw data is only useful with additional information, first of all the
- * number of elements in the array, the number of channels (as for now it's
- * always mono) and the pixel per second ratio.
- *
- * Return value: an array of all samples
+ * Return value: (transfer full): the #PtWavedata
  */
-gfloat *
+PtWavedata*
 pt_waveloader_get_data (PtWaveloader *wl)
 {
-	gfloat *data = NULL;
+	gfloat *array = NULL;
 	gint64 i;
 	gint k;
 	gfloat d, vmin, vmax;
-
 	gint chunk_size;
 	gint chunk_bytes;
+	ssize_t bytes __attribute__ ((unused));
 
 	chunk_size = wl->priv->rate / wl->priv->pps;
 	chunk_bytes = 2 * chunk_size;
 
 	gint16 temp[chunk_size];
 
-	if (!(data = g_try_malloc (sizeof (gfloat) * wl->priv->data_size * 2))) {
+	if (!(array = g_try_malloc (sizeof (gfloat) * wl->priv->data_size))) {
 		g_debug	("sample is too long or empty");
 		return NULL;
 	}
@@ -476,8 +470,7 @@ pt_waveloader_get_data (PtWaveloader *wl)
 		return NULL;
 	}
 
-	ssize_t bytes __attribute__ ((unused));
-	for (i = 0; i <  wl->priv->data_size; i++) {
+	for (i = 0; i <  wl->priv->data_size / 2; i++) {
 		bytes = read (wl->priv->fd, temp, chunk_bytes);
 		vmin = 0;
 		vmax = 0;
@@ -492,10 +485,17 @@ pt_waveloader_get_data (PtWaveloader *wl)
 			vmin = 0;
 		else if (vmin < 0 && vmax < 0)
 			vmax = 0;
-		data[i*2] = vmin / 32768.0;
-		data[i*2+1] = vmax / 32768.0;
+		array[i*2] = vmin / 32768.0;
+		array[i*2+1] = vmax / 32768.0;
 	}
 
+	PtWavedata *data = pt_wavedata_new (array,
+					    wl->priv->data_size,
+					    wl->priv->channels,
+					    wl->priv->pps);
+
+	g_free (array);
+	g_debug ("waveloader get data finished");
 	return data;
 }
 
@@ -506,6 +506,12 @@ static void
 pt_waveloader_init (PtWaveloader *wl)
 {
 	wl->priv = pt_waveloader_get_instance_private (wl);
+
+	GError *gst_error = NULL;
+	gst_init_check (NULL, NULL, &gst_error);
+	if (gst_error) {
+		g_debug (_("PtWaveloader failed to init GStreamer"));
+	}
 
 	wl->priv->pipeline = NULL;
 	wl->priv->fd = -1;

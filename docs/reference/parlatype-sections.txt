@@ -82,3 +82,30 @@ pt_waveslider_get_type
 parlatype_get_resource
 </SECTION>
 
+<SECTION>
+<FILE>pt-progress-dialog</FILE>
+<TITLE>PtProgressDialog</TITLE>
+PtProgressDialog
+pt_progress_dialog_new
+pt_progress_dialog_set_progress
+<SUBSECTION Standard>
+PT_IS_PROGRESS_DIALOG
+PT_PROGRESS_DIALOG
+PT_TYPE_PROGRESS_DIALOG
+PtProgressDialogClass
+PtProgressDialogPrivate
+pt_progress_dialog_get_type
+</SECTION>
+
+<SECTION>
+<FILE>pt-wavedata</FILE>
+<TITLE>PtWavedata</TITLE>
+PtWavedata
+pt_wavedata_new
+pt_wavedata_copy
+pt_wavedata_free
+<SUBSECTION Standard>
+PT_TYPE_WAVEDATA
+pt_wavedata_get_type
+</SECTION>
+
