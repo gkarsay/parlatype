@@ -28,6 +28,11 @@ typedef struct _PtProgressDialog	PtProgressDialog;
 typedef struct _PtProgressDialogClass	PtProgressDialogClass;
 typedef struct _PtProgressDialogPrivate	PtProgressDialogPrivate;
 
+/**
+ * PtProgressDialog:
+ *
+ * The #PtProgressDialog contains only private fields and should not be directly accessed.
+ */
 struct _PtProgressDialog 
 {
 	GtkMessageDialog dialog;

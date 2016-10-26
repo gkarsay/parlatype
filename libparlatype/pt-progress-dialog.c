@@ -27,6 +27,26 @@ struct _PtProgressDialogPrivate
 
 G_DEFINE_TYPE_WITH_PRIVATE (PtProgressDialog, pt_progress_dialog, GTK_TYPE_MESSAGE_DIALOG)
 
+/**
+ * SECTION: pt-progress-dialog
+ * @short_description: Progress dialog while loading wave data.
+ * @stability: Unstable
+ * @include: parlatype/pt-progress-dialog.h
+ *
+ * PtProgressDialog is a ready to use dialog, intended to show progress while
+ * loading wave data. Note, that it is supposed to be shown via
+ * gtk_widget_show_all() and loading wave data should be done asynchronously.
+ * Using the synchronous version the dialog will not show up.
+ */
+
+
+/**
+ * pt_progress_dialog_set_progress:
+ * @dlg: the dialog
+ * @progress: the new value for the progress bar, ranging from 0.0 to 1.0
+ *
+ * Sets the progress bar to the new value.
+ */
 void
 pt_progress_dialog_set_progress (PtProgressDialog *dlg,
 				 gdouble	   progress)
@@ -53,6 +73,21 @@ pt_progress_dialog_class_init (PtProgressDialogClass *klass)
 {
 	/* We don't do anything here */
 }
+
+/**
+ * pt_progress_dialog_new:
+ * @win: (allow-none): parent window, NULL is allowed, but discouraged
+ *
+ * A #GtkMessageDialog with a label "Loading file...", a progress bar and a
+ * cancel button.
+ *
+ * After use gtk_widget_destroy() it.
+ *
+ * Return value: (transfer none): a new #PtProgressDialog
+ */
+
+/* Note on return value: There is a transfer but memory management is done
+   by the user with gtk_widget_destroy() and not automatically by the binding. */
 
 PtProgressDialog *
 pt_progress_dialog_new (GtkWindow *win)
