@@ -28,9 +28,7 @@ pt_player_get_duration_time_string
 pt_player_get_timestamp
 pt_player_string_is_timestamp
 pt_player_goto_timestamp
-pt_player_get_length
 pt_player_wave_pos
-pt_player_get_px_per_sec
 pt_player_get_data
 <SUBSECTION Standard>
 PT_IS_PLAYER
@@ -49,9 +47,6 @@ pt_waveloader_new
 pt_waveloader_load_finish
 pt_waveloader_load_async
 pt_waveloader_get_duration
-pt_waveloader_get_channels
-pt_waveloader_get_px_per_sec
-pt_waveloader_get_data_size
 pt_waveloader_get_data
 <SUBSECTION Standard>
 PT_IS_WAVELOADER

@@ -842,21 +842,6 @@ pt_player_get_duration (PtPlayer *player)
 /* ------------------------- Waveform stuff --------------------------------- */
 
 /**
- * pt_player_get_length:
- * @player: a #PtPlayer
- *
- * Returns the number of elements in the data array. This is twice the number
- * of samples, as each sample consists of 2 elements (min and max value).
- *
- * Return value: number of elements
- */
-gint64
-pt_player_get_length (PtPlayer *player)
-{
-	return pt_waveloader_get_data_size (player->priv->wl);
-}
-
-/**
  * pt_player_wave_pos:
  * @player: a #PtPlayer
  *
@@ -874,20 +859,6 @@ pt_player_wave_pos (PtPlayer *player)
 		return 0;
 
 	return pos / 10000000;
-}
-
-/**
- * pt_player_get_px_per_sec:
- * @player: a #PtPlayer
- *
- * Returns the bit rate or samples/pixels per second.
- *
- * Return value: pixels per second
- */
-gint
-pt_player_get_px_per_sec (PtPlayer *player)
-{
-	return pt_waveloader_get_px_per_sec (player->priv->wl);
 }
 
 /**

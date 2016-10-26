@@ -311,7 +311,7 @@ pt_waveloader_load_finish (PtWaveloader  *wl,
  *
  * Writes the raw sample data to a temporary file and also gets the number of
  * channels, the bit rate and the exact duration. Load only once and on success
- * the data and information can be retrieved. It's a programmer's error trying
+ * the data can be retrieved as a #PtWavedata. It's a programmer's error trying
  * to retrieve the data without prior loading.
  *
  * Emits a progress signal while saving the temporary file.
@@ -390,50 +390,6 @@ gint64
 pt_waveloader_get_duration (PtWaveloader *wl)
 {
 	return wl->priv->duration;
-}
-
-/**
- * pt_waveloader_get_channels:
- * @wl: a #PtWaveloader
- *
- * Get the number of channels for the stream. We accept only mono (1 channel)
- * or stereo (2 channels). As of now, only mono is implemented.
- *
- * Return value: number of channels (1 or 2)
- */
-gint
-pt_waveloader_get_channels (PtWaveloader *wl)
-{
-	return wl->priv->channels;
-}
-
-/**
- * pt_waveloader_get_px_per_sec:
- * @wl: a #PtWaveloader
- *
- * Returns the bit rate or samples/pixels per second.
- *
- * Return value: pixels per second
- */
-gint
-pt_waveloader_get_px_per_sec (PtWaveloader *wl)
-{
-	return wl->priv->pps;
-}
-
-/**
- * pt_waveloader_get_data_size:
- * @wl: a #PtWaveloader
- *
- * Returns the number of elements in the data array. This is twice the number
- * of samples, as each sample consists of 2 elements (min and max value).
- *
- * Return value: number of elements
- */
-gint64
-pt_waveloader_get_data_size (PtWaveloader *wl)
-{
-	return wl->priv->data_size;
 }
 
 /**

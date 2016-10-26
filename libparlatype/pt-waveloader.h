@@ -61,15 +61,8 @@ void		pt_waveloader_load_async	(PtWaveloader	     *wl,
 
 gint64		pt_waveloader_get_duration	(PtWaveloader *wl);
 
-gint		pt_waveloader_get_channels	(PtWaveloader *wl);
-
-gint		pt_waveloader_get_px_per_sec	(PtWaveloader *wl);
-
-gint64		pt_waveloader_get_data_size	(PtWaveloader *wl);
-
-
 PtWavedata*	pt_waveloader_get_data		(PtWaveloader *wl);
 
-PtWaveloader	*pt_waveloader_new		(gchar *uri);
+PtWaveloader*	pt_waveloader_new		(gchar *uri);
 
 #endif
