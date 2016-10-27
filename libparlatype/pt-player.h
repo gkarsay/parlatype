@@ -59,7 +59,6 @@ gboolean	pt_player_open_uri_finish	(PtPlayer      *player,
 						 GError       **error);
 void		pt_player_open_uri_async	(PtPlayer	     *player,
 						 gchar		     *uri,
-						 GCancellable	     *cancellable,
 						 GAsyncReadyCallback  callback,
 						 gpointer	      user_data);
 gboolean	pt_player_open_uri		(PtPlayer *player,

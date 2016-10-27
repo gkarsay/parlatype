@@ -380,7 +380,6 @@ pt_window_open_file (PtWindow *win,
 	pt_window_ready_to_play (win, FALSE);
 	pt_player_open_uri_async (win->priv->player,
 				  uri,
-				  NULL,	/* cancellable */
 				  (GAsyncReadyCallback) open_cb,
 				  win);
 }

@@ -352,7 +352,6 @@ pt_player_open_uri_finish (PtPlayer	 *player,
  * pt_player_open_uri_async:
  * @player: a #PtPlayer
  * @uri: the URI of the file
- * @cancellable: a #GCancellable or NULL
  * @callback: a #GAsyncReadyCallback to call when the operation is complete
  * @user_data: user_data for callback
  *
@@ -377,7 +376,6 @@ pt_player_open_uri_finish (PtPlayer	 *player,
 void
 pt_player_open_uri_async (PtPlayer	      *player,
 			  gchar		      *uri,
-			  GCancellable	      *cancellable,
 			  GAsyncReadyCallback  callback,
 			  gpointer	       user_data)
 {
@@ -388,7 +386,7 @@ pt_player_open_uri_async (PtPlayer	      *player,
 	GFile  *file;
 	gchar  *location = NULL;
 
-	task = g_task_new (player, cancellable, callback, user_data);
+	task = g_task_new (player, NULL, callback, user_data);
 	player->priv->opening = TRUE;
 
 	/* Change uri to location */
@@ -503,7 +501,7 @@ pt_player_open_uri (PtPlayer *player,
 	data.loop = g_main_loop_new (context, FALSE);
 	data.res = NULL;
 
-	pt_player_open_uri_async (player, uri, NULL, (GAsyncReadyCallback) quit_loop_cb, &data);
+	pt_player_open_uri_async (player, uri, (GAsyncReadyCallback) quit_loop_cb, &data);
 	g_main_loop_run (data.loop);
 
 	result = pt_player_open_uri_finish (player, data.res, error);
