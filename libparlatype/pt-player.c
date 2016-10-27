@@ -963,24 +963,22 @@ pt_player_get_filename (PtPlayer *player)
  * pt_player_get_time_string:
  * @time: time in milliseconds to converse
  * @duration: duration of stream in milliseconds (max time)
- * @digits: precision of string
+ * @precision: a #PtPrecisionType
  *
  * Returns the given time as a string for display to the user. Format type is
  * determined by @duration, e.g. if duration is long format, it returns a string
  * in long format, too.
- * The precision is determined by @digits with a value from 0 to 2. 0 is showing
- * full seconds, 1 one tenth of a second, 2 one hundredth of a second.
  *
  * Return value: (transfer full): the time string
  */
 gchar*
 pt_player_get_time_string (gint  time,
 			   gint  duration,
-			   guint digits)
+			   PtPrecisionType precision)
 {
 	/* Don't assert time <= duration because duration is not exact */
 
-	g_return_val_if_fail (digits <= 2, NULL);
+	g_return_val_if_fail (precision < PT_PRECISION_INVALID, NULL);
 
 	gchar *result;
 	gint   h, m, s, ms, mod;
@@ -994,19 +992,19 @@ pt_player_get_time_string (gint  time,
 
 	/* Short or long format depends on total duration */
 	if ((duration / 1000) >= 3600) {
-		if (digits == 0) {
+		if (precision == PT_PRECISION_SECOND) {
 		/* Translators: This is a time format, like "2:05:30" for 2
 		   hours, 5 minutes, and 30 seconds. You may change ":" to
 		   the separator that your locale uses or use "%Id" instead
 		   of "%d" if your locale uses localized digits. */
 			result = g_strdup_printf (C_("long time format", "%d:%02d:%02d"), h, m, s);
-		} else if (digits == 1) {
+		} else if (precision == PT_PRECISION_SECOND_10TH) {
 		/* Translators: This is a time format, like "2:05:30.1" for 2
 		   hours, 5 minutes, 30 seconds, and 1 tenthsecond. You may
 		   change ":" or "." to the separator that your locale uses or
 		   use "%Id" instead of "%d" if your locale uses localized digits. */
 			result = g_strdup_printf (C_("long time format, 1 digit", "%d:%02d:%02d.%d"), h, m, s, ms / 100);
-		} else if (digits == 2) {
+		} else if (precision == PT_PRECISION_SECOND_100TH) {
 		/* Translators: This is a time format, like "2:05:30.12" for 2
 		   hours, 5 minutes, 30 seconds, and 12 hundrethseconds. You may
 		   change ":" or "." to the separator that your locale uses or
@@ -1015,19 +1013,19 @@ pt_player_get_time_string (gint  time,
 		}
 	} else {
 		if ((duration / 1000) >= 600) {
-			if (digits == 0) {
+			if (precision == PT_PRECISION_SECOND) {
 			/* Translators: This is a time format, like "05:30" for 
 			   5 minutes, and 30 seconds. You may change ":" to
 			   the separator that your locale uses or use "%I02d" instead
 			   of "%02d" if your locale uses localized digits. */
 				result = g_strdup_printf (C_("short time format", "%02d:%02d"), m, s);
-			} else if (digits == 1) {
+			} else if (precision == PT_PRECISION_SECOND_10TH) {
 			/* Translators: This is a time format, like "05:30.1" for
 			   5 minutes, 30 seconds, and 1 tenthsecond. You may change
 			   ":" or "." to the separator that your locale uses or
 			   use "%Id" instead of "%d" if your locale uses localized digits. */
 				result = g_strdup_printf (C_("short time format, 1 digit", "%02d:%02d.%d"), m, s, ms / 100);
-			} else if (digits == 2) {
+			} else if (precision == PT_PRECISION_SECOND_100TH) {
 			/* Translators: This is a time format, like "05:30.12" for
 			   5 minutes, 30 seconds, and 12 hundrethseconds. You may change
 			   ":" or "." to the separator that your locale uses or
@@ -1035,19 +1033,19 @@ pt_player_get_time_string (gint  time,
 				result = g_strdup_printf (C_("short time format, 2 digits", "%02d:%02d.%02d"), m, s, ms / 10);
 			}
 		} else {
-			if (digits == 0) {
+			if (precision == PT_PRECISION_SECOND) {
 			/* Translators: This is a time format, like "5:30" for 
 			   5 minutes, and 30 seconds. You may change ":" to
 			   the separator that your locale uses or use "%Id" instead
 			   of "%d" if your locale uses localized digits. */
 				result = g_strdup_printf (C_("shortest time format", "%d:%02d"), m, s);
-			} else if (digits == 1) {
+			} else if (precision == PT_PRECISION_SECOND_10TH) {
 			/* Translators: This is a time format, like "05:30.1" for
 			   5 minutes, 30 seconds, and 1 tenthsecond. You may change
 			   ":" or "." to the separator that your locale uses or
 			   use "%Id" instead of "%d" if your locale uses localized digits. */
 				result = g_strdup_printf (C_("shortest time format, 1 digit", "%d:%02d.%d"), m, s, ms / 100);
-			} else if (digits == 2) {
+			} else if (precision == PT_PRECISION_SECOND_100TH) {
 			/* Translators: This is a time format, like "05:30.12" for
 			   5 minutes, 30 seconds, and 12 hundrethseconds. You may change
 			   ":" or "." to the separator that your locale uses or
@@ -1063,11 +1061,9 @@ pt_player_get_time_string (gint  time,
 /**
  * pt_player_get_current_time_string:
  * @player: a #PtPlayer
- * @digits: precision of string
+ * @precision: a #PtPrecisionType
  *
  * Returns the current position of the stream as a string for display to the user.
- * The precision is determined by @digits with a value from 0 to 2. 0 is showing
- * full seconds, 1 one tenth of a second, 2 one hundredth of a second.
  *
  * If the current position can not be determined, NULL is returned.
  *
@@ -1075,10 +1071,10 @@ pt_player_get_time_string (gint  time,
  */
 gchar*
 pt_player_get_current_time_string (PtPlayer *player,
-				   guint     digits)
+				   PtPrecisionType precision)
 {
 	g_return_val_if_fail (PT_IS_PLAYER (player), NULL);
-	g_return_val_if_fail (digits <= 2, NULL);
+	g_return_val_if_fail (precision < PT_PRECISION_INVALID, NULL);
 
 	gint64 time;
 
@@ -1088,17 +1084,15 @@ pt_player_get_current_time_string (PtPlayer *player,
 	return pt_player_get_time_string (
 			GST_TIME_AS_MSECONDS (time),
 			GST_TIME_AS_MSECONDS (player->priv->dur),
-			digits);
+			precision);
 }
 
 /**
  * pt_player_get_duration_time_string:
  * @player: a #PtPlayer
- * @digits: precision of string
+ * @precision: a #PtPrecisionType
  *
  * Returns the duration of the stream as a string for display to the user.
- * The precision is determined by @digits with a value from 0 to 2. 0 is showing
- * full seconds, 1 one tenth of a second, 2 one hundredth of a second.
  *
  * If the duration can not be determined, NULL is returned.
  *
@@ -1106,15 +1100,15 @@ pt_player_get_current_time_string (PtPlayer *player,
  */
 gchar*
 pt_player_get_duration_time_string (PtPlayer *player,
-				    guint     digits)
+				    PtPrecisionType precision)
 {
 	g_return_val_if_fail (PT_IS_PLAYER (player), NULL);
-	g_return_val_if_fail (digits <= 2, NULL);
+	g_return_val_if_fail (precision < PT_PRECISION_INVALID, NULL);
 
 	return pt_player_get_time_string (
 			GST_TIME_AS_MSECONDS (player->priv->dur),
 			GST_TIME_AS_MSECONDS (player->priv->dur),
-			digits);
+			precision);
 }
 
 /**

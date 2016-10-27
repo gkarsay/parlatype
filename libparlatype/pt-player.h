@@ -47,6 +47,24 @@ struct _PtPlayerClass
 	GObjectClass parent_class;
 };
 
+
+/**
+ * PtPrecisionType:
+ * @PT_PRECISION_SECOND: Rounds to full seconds, e.g. 1:23 (1 minute, 23 seconds)
+ * @PT_PRECISION_SECOND_10TH: Round to 1/10 seconds, e.g. 1:23.4
+ * @PT_PRECISION_SECOND_100TH: Round to 1/100 seconds, e.g. 1:23.45
+ *
+ * Enum values indicating desired precision of time strings.
+ */
+typedef enum {
+	PT_PRECISION_SECOND,
+	PT_PRECISION_SECOND_10TH,
+	PT_PRECISION_SECOND_100TH,
+	/*< private >*/
+	PT_PRECISION_INVALID
+} PtPrecisionType;
+
+
 GType		pt_player_get_type		(void) G_GNUC_CONST;
 
 gint64		pt_player_wave_pos		(PtPlayer *player);
@@ -88,11 +106,11 @@ gchar*		pt_player_get_uri		(PtPlayer *player);
 gchar*		pt_player_get_filename		(PtPlayer *player);
 gchar*		pt_player_get_time_string	(gint  time,
 						 gint  duration,
-						 guint digits);
+						 PtPrecisionType precision);
 gchar*		pt_player_get_current_time_string	(PtPlayer *player,
-							 guint     digits);
+							 PtPrecisionType precision);
 gchar*		pt_player_get_duration_time_string	(PtPlayer *player,
-							 guint     digits);
+							 PtPrecisionType precision);
 gchar*		pt_player_get_timestamp		(PtPlayer *player);
 gboolean	pt_player_string_is_timestamp	(PtPlayer *player,
 						 gchar    *timestamp);

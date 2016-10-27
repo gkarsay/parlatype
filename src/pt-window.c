@@ -124,7 +124,7 @@ update_time (PtWindow *win)
 {
 	gchar *text;
 
-	text = pt_player_get_current_time_string (win->priv->player, 1);
+	text = pt_player_get_current_time_string (win->priv->player, PT_PRECISION_SECOND_10TH);
 
 	if (text == NULL)
 		return TRUE;
