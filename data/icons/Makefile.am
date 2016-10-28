@@ -16,12 +16,6 @@ icon48_DATA = 48x48/apps/parlatype.png
 icon256dir = $(datadir)/icons/hicolor/256x256/apps
 icon256_DATA = 256x256/apps/parlatype.png
 
-iconglade16dir = $(GLADE_PIXMAP_DIR)/hicolor/16x16/actions
-iconglade16_DATA = 16x16/actions/widget-pt-waveslider.png
-
-iconglade22dir = $(GLADE_PIXMAP_DIR)/hicolor/22x22/actions
-iconglade22_DATA = 22x22/actions/widget-pt-waveslider.png
-
 gtk_update_icon_cache = gtk-update-icon-cache -f -t $(datadir)/icons/hicolor
 
 install-data-hook: update-icon-cache
@@ -41,7 +35,5 @@ EXTRA_DIST = \
 	$(icon24_DATA)  	\
 	$(icon32_DATA)  	\
 	$(icon48_DATA)  	\
-	$(icon256_DATA)		\
-	$(iconglade16_DATA)	\
-	$(iconglade22_DATA)
+	$(icon256_DATA)
 

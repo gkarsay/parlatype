@@ -1,8 +1,6 @@
-SUBDIRS = data help libparlatype docs libreoffice po src # docs must be after libparlatype
+SUBDIRS = libparlatype data docs help libreoffice po src
 
 ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
-
-DISTCHECK_CONFIGURE_FLAGS = --enable-introspection
 
 EXTRA_DIST = \
 	config.rpath	\

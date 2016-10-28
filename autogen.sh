@@ -30,6 +30,14 @@ mkdir -p m4
 
 gtkdocize --copy || exit 1
 intltoolize --force --automake --copy
+
+# libparlatype is a nested package
+cd libparlatype
+mkdir -p m4
+gtkdocize --copy || exit 1
+intltoolize --force --automake --copy
+cd ..
+
 autoreconf --force --install --verbose
 
 cd $OLDDIR

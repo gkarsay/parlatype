@@ -19,7 +19,7 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>	
 #include <stdlib.h>		/* exit() */
-#include <libparlatype/pt-player.h>
+#include <libparlatype/src/pt-player.h>
 #include "pt-app.h"
 
 static gboolean G_GNUC_NORETURN

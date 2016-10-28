@@ -2,9 +2,10 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([parlatype], [1.3], [gabor.karsay@gmx.at])
+AC_INIT([libparlatype], [1.3], [gabor.karsay@gmx.at])
+AC_CONFIG_AUX_DIR([.])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign -Wno-portability])
-AC_CONFIG_SRCDIR([src/main.c])
+AC_CONFIG_SRCDIR([src/pt-player.c])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
 
@@ -13,6 +14,14 @@ IT_PROG_INTLTOOL(0.50.2)
 AM_SILENT_RULES([yes])
 
 LT_INIT([disable-static])
+# Define these substitions here to keep all version information in one place.
+# For information on how to properly maintain the library version information,
+# refer to the libtool manual, section "Updating library version information":
+# http://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html
+AC_SUBST([PARLATYPE_SO_VERSION], [0:0:0])
+
+# Parlatype is unstable, we don't use API version yet
+AC_SUBST([PARLATYPE_API_VERSION], [1.0])
 
 # Checks for programs.
 AC_PROG_CC
@@ -30,54 +39,44 @@ AC_CHECK_FUNCS([setlocale])
 GLIB_GSETTINGS                 
 AC_PATH_PROG(GLIB_COMPILE_RESOURCES, glib-compile-resources)
 
-YELP_HELP_INIT
-
 GTK_MIN_VERSION=3.10.0
 PKG_CHECK_MODULES([GTK], [gtk+-3.0 >= $GTK_MIN_VERSION, gmodule-2.0])
+PKG_CHECK_MODULES([GSTREAMER], [gstreamer-1.0])
 
 WARNINGCFLAGS="-Wall"
 AC_SUBST([WARNINGCFLAGS])
 
-AC_ARG_WITH([lo],
-            [AS_HELP_STRING([--without-lo],
-              [don't install LibreOffice macros])],
-            [],
-            [with_lo=yes])
-
-AM_CONDITIONAL([LO], [test "$with_lo" = "yes"])
-
-# needed?
 GTK_DOC_CHECK([1.14],[--flavour no-tmpl])
+GOBJECT_INTROSPECTION_CHECK([1.30.0])
+
+# Gladeui catalog file, lib can be installed in system libdir since 3.12.2
+PKG_CHECK_MODULES([GLADEUI],[gladeui-2.0 >= 3.12.2])
+glade_catalog_dir=`$PKG_CONFIG --variable=catalogdir gladeui-2.0`
+glade_pixmap_dir=`$PKG_CONFIG --variable=pixmapdir gladeui-2.0`
+AC_SUBST(GLADE_CATALOG_DIR, $glade_catalog_dir)
+AC_SUBST(GLADE_PIXMAP_DIR, $glade_pixmap_dir)
 
 AC_CONFIG_FILES([Makefile
                  data/Makefile
-		 data/parlatype.desktop.in
+		 data/parlatype.pc
+		 data/parlatype.xml
 		 data/icons/Makefile
 		 docs/Makefile
-		 help/Makefile
-		 libreoffice/Makefile
-		 libreoffice/Parlatype.py
+		 docs/reference/Makefile
+		 docs/reference/version.xml
 		 po/Makefile.in
                  src/Makefile])
 
-AC_CONFIG_SUBDIRS([libparlatype])
 AC_OUTPUT
 
 dnl ==========================================================================
 echo "
 
-        Parlatype $VERSION
+        libparlatype $VERSION
         ==========================
 
         prefix .......: ${prefix}
-	with-lo ......: $with_lo"
+        enable-gtk-doc: $enable_gtk_doc
 
-if test "${prefix}" != "/usr" -a "$with_lo" == "yes"; then
-echo "
-        Note: Consider using --without-lo for prefixes
-        other than /usr and copying the script manually to:
-        /usr/lib/libreoffice/share/Scripts/python/Parlatype.py"
-fi
-echo "
         Now type 'make' to build $PACKAGE
 "
