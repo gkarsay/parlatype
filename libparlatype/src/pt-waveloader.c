@@ -467,7 +467,7 @@ pt_waveloader_init (PtWaveloader *wl)
 	GError *gst_error = NULL;
 	gst_init_check (NULL, NULL, &gst_error);
 	if (gst_error) {
-		g_debug (_("PtWaveloader failed to init GStreamer"));
+		g_debug ("PtWaveloader failed to init GStreamer");
 	}
 
 	wl->priv->pipeline = NULL;
