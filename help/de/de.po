@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-09-16 17:21+0200\n"
-"PO-Revision-Date: 2016-09-16 17:21+0200\n"
+"POT-Creation-Date: 2016-10-28 13:35+0200\n"
+"PO-Revision-Date: 2016-10-28 13:41+0200\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
 "Language-Team: Deutsch <>\n"
 "Language: \n"
@@ -292,8 +292,10 @@ msgstr ""
 msgctxt "_"
 msgid ""
 "external ref='figures/parlatype-main-window.png' "
-"md5='9531fb49212ad8fe19ebee6d5db750b9'"
-msgstr "übersetzt"
+"md5='4d4c5bc3942ce7586ce797ef650ca28b'"
+msgstr ""
+"external ref='figures/parlatype-main-window.png' "
+"md5='4d4c5bc3942ce7586ce797ef650ca28b'"
 
 #. (itstool) path: page/p
 #: C/first-steps.page:26
@@ -308,13 +310,39 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/first-steps.page:28
-msgid "You can also click on the <gui>time scale</gui> to change the position."
+msgid ""
+"The view scrolls automatically so that the cursor is always visible. You can "
+"scroll manually by clicking on or dragging the scroll bar or using the "
+"standard keybindings. Automatic scrolling is stopped then."
 msgstr ""
-"Sie können auch auch auf den <gui>Zeit-Schieberegler</gui> klicken, um die "
-"Position zu ändern."
+"Die Anzeigeausschnitt verschiebt sich automatisch mit, sodass der Cursor "
+"immer sichtbar bleibt. Sie können den Ausschnitt selber verschieben, indem "
+"Sie auf den Schiebebalken klicken, ihn ziehen oder die "
+"Standardtastaturkürzel verwenden. Die Anzeige hört dann auf, automatisch zu "
+"scrollen."
+
+#. (itstool) path: note/p
+#: C/first-steps.page:31
+msgid ""
+"To get back to the cursor's position and let the view scroll automatically "
+"again, click on the time label. The <gui>Play</gui> button has the same "
+"effect."
+msgstr ""
+"Um zur aktuellen Cursorposition zurückzukehren und das automatische Scrollen "
+"wieder zu aktivieren, klicken Sie auf die Zeitanzeige. Der <gui>Wiedergabe</"
+"gui>-Knopf hat denselben Effekt."
 
 #. (itstool) path: page/p
-#: C/first-steps.page:30
+#: C/first-steps.page:34
+msgid ""
+"Clicking in the view will put the cursor there, also holding the mouse "
+"button pressed and moving it."
+msgstr ""
+"Wenn Sie auf die Anzeige klicken, wird der Cursor an diese Stelle gesetzt. "
+"Das gilt auch, wenn Sie die Maustaste gedrückt halten und die Maus bewegen."
+
+#. (itstool) path: page/p
+#: C/first-steps.page:36
 msgid ""
 "The <gui>speed scale</gui> next to the <gui>volume</gui> button in the lower "
 "right corner lets you adjust the speed of playback. A value of 1 means "
@@ -754,6 +782,12 @@ msgid ""
 msgstr ""
 "Zeitstempel sehen so aus: #03:45-2#. Sie können Sie mit oder ohne die "
 "Rautezeichen markieren."
+
+#~ msgid ""
+#~ "You can also click on the <gui>time scale</gui> to change the position."
+#~ msgstr ""
+#~ "Sie können auch auch auf den <gui>Zeit-Schieberegler</gui> klicken, um "
+#~ "die Position zu ändern."
 
 #, fuzzy
 #~ msgid "InsertTimestamp"
