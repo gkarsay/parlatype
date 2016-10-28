@@ -40,16 +40,18 @@ parlatype_SOURCES = \
 	pt-window-private.h
 
 parlatype_LDADD = \
-	$(top_builddir)/libparlatype/libparlatype.la	\
+	$(top_builddir)/libparlatype/src/libparlatype.la	\
 	$(GTK_LIBS)
 
 AM_CPPFLAGS = \
-	-I$(top_srcdir)			\
-	-I$(top_builddir)			\
-	-I$(top_srcdir)/libparlatype			\
-	-I$(top_builddir)/libparlatype			\
-	$(WARNINGCFLAGS)	\
-	$(GTK_CFLAGS)		\
+	-I$(top_srcdir)/			\
+	-I$(top_builddir)/			\
+	-I$(top_srcdir)/libparlatype		\
+	-I$(top_builddir)/libparlatype		\
+	-I$(top_srcdir)/libparlatype/src	\
+	-I$(top_builddir)/libparlatype/src	\
+	$(WARNINGCFLAGS)			\
+	$(GTK_CFLAGS)				\
 	-DLOCALEDIR=\"$(localedir)\"
 
 EXTRA_DIST = \

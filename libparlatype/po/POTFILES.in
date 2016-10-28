@@ -1,0 +1,5 @@
+# List of source files which contain translatable strings.
+
+src/pt-player.c
+src/pt-progress-dialog.c
+src/pt-waveloader.c

@@ -18,9 +18,9 @@
 #include "config.h"
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libparlatype/pt-player.h>
-#include <libparlatype/pt-progress-dialog.h>
-#include <libparlatype/pt-waveslider.h>
+#include <libparlatype/src/pt-player.h>
+#include <libparlatype/src/pt-progress-dialog.h>
+#include <libparlatype/src/pt-waveslider.h>
 #include "pt-app.h"
 #include "pt-dbus-service.h"
 #include "pt-goto-dialog.h"
