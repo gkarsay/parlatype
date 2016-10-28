@@ -59,22 +59,22 @@ stamp-h1
 
 /libreoffice/Parlatype.py
 
-po/*.gmo
-po/*.pot
-po/.intltool-merge-cache
-po/boldquot.sed
-po/ChangeLog
-po/en@boldquot.header
-po/en@quot.header
-po/insert-header.sin
-po/Makefile.in.in
-po/Makevars.template
-po/missing
-po/POTFILES
-po/quot.sed
-po/remove-potcdate.sin
-po/Rules-quot
-po/stamp-it
+**/po/*.gmo
+**/po/*.pot
+**/po/.intltool-merge-cache
+**/po/boldquot.sed
+**/po/ChangeLog
+**/po/en@boldquot.header
+**/po/en@quot.header
+**/po/insert-header.sin
+**/po/Makefile.in.in
+**/po/Makevars.template
+**/po/missing
+**/po/POTFILES
+**/po/quot.sed
+**/po/remove-potcdate.sin
+**/po/Rules-quot
+**/po/stamp-it
 
 /src/.deps/
 /src/parlatype
