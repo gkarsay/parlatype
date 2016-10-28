@@ -27,12 +27,18 @@ typedef struct _PtWavedata PtWavedata;
 
 /**
  * PtWavedata:
- * @array: (array length=length): array of min/max values
+ * @array: (array length=length): array of min/max values. One single sample is
+ * represented by a min value ranging from -1.0 to 0.0 and a max value ranging
+ * from 0.0 to 1.0. This is a simplified approach, as a sample is not a single
+ * point in time, but a min and a max value in a certain amount of time, by
+ * default 10 ms.
  * @length: number of elements in array
- * @channels: number of channels for future use
- * @px_per_sec: pixels/samples per second
+ * @channels: number of channels for future use, currently it's always 1.
+ * @px_per_sec: pixels/samples per second, by default 100. One second in time
+ * is then 100 pixels wide.
  *
- * Contains all information about the wave.
+ * Contains all information about the wave. Usually you don't have to access
+ * the struct's members.
  */
 struct _PtWavedata
 {

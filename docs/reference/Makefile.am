@@ -62,7 +62,9 @@ IGNORE_HFILES=
 
 # Images to copy into HTML directory.
 # e.g. HTML_IMAGES=$(top_srcdir)/gtk/stock-icons/stock_about_24.png
-HTML_IMAGES=
+HTML_IMAGES=\
+	$(srcdir)/images/pt-progress-dialog.png	\
+	$(srcdir)/images/pt-waveslider.png
 
 # Extra SGML files that are included by $(DOC_MAIN_SGML_FILE).
 # e.g. content_files=running.sgml building.sgml changes-2.0.sgml
@@ -91,12 +93,17 @@ include $(top_srcdir)/gtk-doc.make
 
 # Other files to distribute
 # e.g. EXTRA_DIST += version.xml.in
-EXTRA_DIST += version.xml.in
+EXTRA_DIST+=\
+	version.xml.in	\
+	introduction.xml	\
+	using_library.xml	\
+	python_example.xml	\
+	parlatype-example.py
 
 # Files not to distribute
 # for --rebuild-types in $(SCAN_OPTIONS), e.g. $(DOC_MODULE).types
 # for --rebuild-sections in $(SCAN_OPTIONS) e.g. $(DOC_MODULE)-sections.txt
-#DISTCLEANFILES +=
+#DISTCLEANFILES += $(DOC_MODULE).types
 
 # Comment this out if you want 'make check' to test you doc status
 # and run some sanity checks

@@ -399,7 +399,7 @@ pt_waveloader_get_duration (PtWaveloader *wl)
  *
  * Returns wave data needed for visual representation as raw data.
  *
- * Return value: (transfer full): the #PtWavedata
+ * Return value: (transfer full): the #PtWavedata, after use free with pt_wavedata_free()
  */
 PtWavedata*
 pt_waveloader_get_data (PtWaveloader *wl)
@@ -588,7 +588,7 @@ pt_waveloader_class_init (PtWaveloaderClass *klass)
 	/**
 	* PtWaveloader:uri:
 	*
-	* URI to load from.
+	* URI of the audio file.
 	*/
 	obj_properties[PROP_URI] =
 	g_param_spec_string (
@@ -599,15 +599,15 @@ pt_waveloader_class_init (PtWaveloaderClass *klass)
 			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
 
 	/**
-	* PtWaveloader:pixels_per_sec:
+	* PtWaveloader:pixels-per-sec:
 	*
 	* Set it to the requested resolution in pixels per second.
 	* Parlatype might not be able to use exactly that value and will
-	* adjust it. Always re-check this value after loading a file.
+	* adjust it. The returned #PtWavedata will store the used value.
 	*/
 	obj_properties[PROP_PPS] =
 	g_param_spec_int (
-			"pixels_per_sec",
+			"pixels-per-sec",
 			"Pixels per second",
 			"Pixels per second",
 			10,	/* min */
@@ -625,7 +625,8 @@ pt_waveloader_class_init (PtWaveloaderClass *klass)
  * pt_waveloader_new:
  * @uri: URI of the audio file to load
  *
- * Returns a new #PtWaveloader.
+ * Returns a new #PtWaveloader. The @uri is not checked on construction, but
+ * calling pt_waveloader_load_async() will fail with an error message.
  *
  * After use g_object_unref() it.
  *

@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+]>
+
+<chapter id="using_library" xmlns:xi="http://www.w3.org/2003/XInclude">
+  <title>Using the library</title>
+
+  <para>
+    Programs using libparlatype written in C can be compiled with GCC using:
+    <literallayout>
+      <literal>gcc `pkg-config --cflags parlatype` -o example example.c `pkg-config --libs parlatype`</literal>
+    </literallayout>
+  </para>
+
+  <para>
+    There are bindings for other languages, e.g. in Python Parlatype can be
+    imported like this:
+    <literallayout>
+      <literal>from gi.repository import Parlatype</literal>
+    </literallayout>
+  </para>
+
+  <para>There is a glade catalog for PtWaveslider so you can include it in your
+  glade projects.</para>
+</chapter>

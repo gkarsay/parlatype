@@ -70,7 +70,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtWaveslider, pt_waveslider, GTK_TYPE_SCROLLED_WINDO
  * @stability: Unstable
  * @include: parlatype/pt-waveslider.h
  *
- * Displays a waveform provided by PtWaveloader or PtPlayer.
+ * Displays a waveform provided by #PtPlayer or #PtWaveloader.
  */
 
 
@@ -361,7 +361,7 @@ pt_waveslider_get_follow_cursor (PtWaveslider *self)
  * @self: the widget
  * @follow: new value
  *
- * Set follow-cursor option to TRUE or FALSE.
+ * Set follow-cursor option to TRUE or FALSE. See also #PtWaveslider:follow-cursor.
  */
 void
 pt_waveslider_set_follow_cursor (PtWaveslider *self,
@@ -383,7 +383,9 @@ pt_waveslider_set_follow_cursor (PtWaveslider *self,
  * @self: the widget
  * @data: (nullable): a #PtWavedata
  *
- * Set wave data to show in the widget.
+ * Set wave data to show in the widget. The data is copied internally and may
+ * be freed immediately after calling this function. If @data is NULL, a blank
+ * widget is drawn.
  */
 void
 pt_waveslider_set_wave (PtWaveslider *self,
@@ -588,7 +590,7 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 	* @ws: the waveslider emitting the signal
 	* @position: the new position in stream in milliseconds
 	*
-	* Signals that the cursor's position has changed.
+	* Signals that the cursor's position was changed by the user.
 	*/
 	signals[CURSOR_CHANGED] =
 	g_signal_new ("cursor-changed",
@@ -621,7 +623,8 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 	* PtWaveslider:follow-cursor:
 	*
 	* If the widget follows the cursor, it scrolls automatically to the
-	* cursor's position.
+	* cursor's position. Note that the widget will change this property to
+	* FALSE if the user scrolls the widget manually.
 	*/
 
 	obj_properties[PROP_FOLLOW_CURSOR] =
@@ -641,8 +644,10 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 /**
  * pt_waveslider_new:
  *
- * Create a new waveform viewer widget. Use pt_waveslider_set_wave() to
- * pass wave data.
+ * Create a new, initially blank waveform viewer widget. Use
+ * pt_waveslider_set_wave() to pass wave data.
+ *
+ * After use gtk_widget_destroy() it.
  *
  * Returns: the widget
  */

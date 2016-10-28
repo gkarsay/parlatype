@@ -26,7 +26,20 @@
  * @include: parlatype/pt-wavedata.h
  *
  * Contains all information needed to show a wave form. It's produced by
- * #PtWaveloader or #PtPlayer. Pass it to #PtWaveslider to visualize the wave.
+ * #PtPlayer or #PtWaveloader. Pass it to #PtWaveslider to visualize the wave.
+ * #PtWaveslider copies the data, you can free it immediately with pt_wavedata_free().
+ *
+ * There is no need to access the struct members.
+ *
+ * Assuming you have set up a PtPlayer *player, typical usage would be:
+ * |[<!-- language="C" -->
+ * ...
+ * PtWavedata *data;
+ * data = pt_player_get_data (player);
+ * pt_waveslider_set_wave (PT_WAVESLIDER (waveslider), data);
+ * pt_wavedata_free (data);
+ * ...
+ * ]|
  */
 
 G_DEFINE_BOXED_TYPE (PtWavedata, pt_wavedata, pt_wavedata_copy, pt_wavedata_free);
@@ -37,7 +50,7 @@ G_DEFINE_BOXED_TYPE (PtWavedata, pt_wavedata, pt_wavedata_copy, pt_wavedata_free
  *
  * Creates a copy of @data.
  *
- * Return value: a new #PtWavedata
+ * Return value: a new #PtWavedata, free after use with pt_wavedata_free()
  */
 PtWavedata*
 pt_wavedata_copy (PtWavedata *data)
@@ -82,7 +95,9 @@ void pt_wavedata_free (PtWavedata *data)
  * @channels: number of channels
  * @px_per_sec: rate
  *
- * Returns: (transfer full): new data
+ * Constructs a new #PtWavedata.
+ *
+ * Returns: (transfer full): new data, free after use with pt_wavedata_free()
  */
 PtWavedata*
 pt_wavedata_new (gfloat *array,

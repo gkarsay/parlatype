@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+]>
+
+<chapter id="introduction" xmlns:xi="http://www.w3.org/2003/XInclude">
+  <title>Introduction</title>
+
+  <para>Parlatype (that is libparlatype) is the core library for
+  the Parlatype program, a basic audio player intended for speech transcription.
+  The library is published separately as it might be useful for other applicatons
+  as well.</para>
+  
+  <para>PtPlayer is the core GStreamer backend that can be used as an audio
+  player. It uses internally PtWaveloader to extract the wave form from a given
+  file. This data is boxed in a PtWavedata struct that can be passed to
+  PtWaveslider, a GtkWidget showing the wave form.</para>
+  
+  <para>This is the first public release of Parlatype, it is still unstable and
+  might change with the next minor release.</para>
+</chapter>

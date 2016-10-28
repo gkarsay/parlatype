@@ -5,25 +5,47 @@
   <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
   <!ENTITY version SYSTEM "version.xml">
 ]>
-<book id="index">
-  <bookinfo>
-    <title>Parlatype Reference Manual</title>
-    <releaseinfo>
+<book lang="en" id="parlatype">
+	<bookinfo>
+		<title>Parlatype Reference Manual</title>
+		<releaseinfo>
       for parlatype &version;.
       <!-- The latest version of this documentation can be found on-line at
       <ulink role="online-location" url="http://[SERVER]/parlatype/index.html">http://[SERVER]/parlatype/</ulink>. -->
-    </releaseinfo>
-  </bookinfo>
+		</releaseinfo>
+		<authorgroup>
+			<author>
+				<firstname>Gabor</firstname>
+				<surname>Karsay</surname>
+			</author>
+		</authorgroup>
+	</bookinfo>
 
-  <chapter>
-    <title>Parlatype</title>
-        <xi:include href="xml/pt-player.xml"/>
-    <xi:include href="xml/pt-waveloader.xml"/>
-    <xi:include href="xml/pt-wavedata.xml"/>
+	<part>
+		<title>Overview</title>
+		<xi:include href="introduction.xml"/>
+		<xi:include href="using_library.xml"/>
+		<xi:include href="python_example.xml"/>
+	</part>
+
+	<part>
+		<title>Main backend: PtPlayer</title>
+    <xi:include href="xml/pt-player.xml"/>
+  </part>
+
+	<part>
+		<title>GtkWidgets</title>
+		<xi:include href="gallery.xml"/>
     <xi:include href="xml/pt-progress-dialog.xml"/>
     <xi:include href="xml/pt-waveslider.xml"/>
+	</part>
 
-  </chapter>
+  <part>
+    <title>Internals: Get Wavedata</title>
+    <xi:include href="xml/pt-wavedata.xml"/>
+    <xi:include href="xml/pt-waveloader.xml"/>
+  </part>
+
   <chapter id="object-tree">
     <title>Object Hierarchy</title>
      <xi:include href="xml/tree_index.sgml"/>

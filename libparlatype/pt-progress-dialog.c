@@ -39,6 +39,53 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtProgressDialog, pt_progress_dialog, GTK_TYPE_MESSA
  * loading wave data. Note, that it is supposed to be shown via
  * gtk_widget_show_all() and loading wave data should be done asynchronously.
  * Using the synchronous version the dialog will not show up.
+ *
+ * Assuming you have set up a PtPlayer *player, typical usage would be:
+ * |[<!-- language="C" -->
+ * static void
+ * progress_response_cb (GtkWidget *dialog,
+ *                       gint       response,
+ *                       gpointer  *user_data)
+ * {
+ *     PtPlayer *player = (PtPlayer *) user_data;
+ *
+ *     if (response == GTK_RESPONSE_CANCEL)
+ *         pt_player_cancel (player);
+ * }
+ *
+ * ...
+ *
+ * static void
+ * open_cb (PtPlayer     *player,
+ *          GAsyncResult *res,
+ *          gpointer     *user_data)
+ * {
+ *     PtProgressDialog *dlg = (PtProgressDialog *) user_data;
+ *     gtk_widget_destroy (GTK_WIDGET (dlg));
+ *     ...
+ * }
+ *
+ * ...
+ *
+ * progress_dlg = GTK_WIDGET (pt_progress_dialog_new (GTK_WINDOW (parent)));
+ *
+ * g_signal_connect (progress_dlg,
+ *                   "response",
+ *                   G_CALLBACK (progress_response_cb),
+ *                   player);
+ *
+ * g_signal_connect_swapped (player,
+ *                           "load-progress",
+ *                           G_CALLBACK (pt_progress_dialog_set_progress),
+ *                           PT_PROGRESS_DIALOG (progress_dlg));
+ *
+ * gtk_widget_show_all (win->priv->progress_dlg);
+ * pt_player_open_uri_async (player,
+ *                           uri,
+ *                           (GAsyncReadyCallback) open_cb,
+ *                           progress_dlg);
+ *
+ * ]|
  */
 
 
