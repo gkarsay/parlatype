@@ -95,7 +95,7 @@ $ cp libreoffice/Parlatype.py ~/.config/libreoffice/4/user/Scripts/python/
 
 The idea and initial design of Parlatype is based on Frederik Elwert’s program *transcribe*.
 
-The display of the audio wave form is based on *Buzztrax*. I probably wouldn't have managed to realize this feature without using and modifying that code.
+The display of the audio wave form started with code from *Buzztrax*.
 
 The icon is based on work from the GNOME team.
 
