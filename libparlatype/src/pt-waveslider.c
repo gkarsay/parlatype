@@ -381,7 +381,7 @@ pt_waveslider_set_follow_cursor (PtWaveslider *self,
 /**
  * pt_waveslider_set_wave:
  * @self: the widget
- * @data: (nullable): a #PtWavedata
+ * @data: (allow-none): a #PtWavedata
  *
  * Set wave data to show in the widget. The data is copied internally and may
  * be freed immediately after calling this function. If @data is NULL, a blank
