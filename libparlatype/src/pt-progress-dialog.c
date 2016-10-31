@@ -148,5 +148,8 @@ pt_progress_dialog_new (GtkWindow *win)
 			"text", _("Loading file..."),
 			"modal", TRUE,
 			"transient-for", win,
+			"image", NULL,	/* needed for Ubuntu only, property exists
+					   on vanilla GTK+ including 3.22, but is
+					   not used, Ubuntu's GTK+ patches use it */
 			NULL);
 }
