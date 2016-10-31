@@ -24,7 +24,7 @@ Parlatype is just an audio player, you still need another program, where you wri
 
 ## Translations
 
-Parlatype is fully translatable, currently there is an English and a German version. Any help in translations is welcome, please leave a message, if you’re willing to contribute.
+Parlatype is translated at https://translations.launchpad.net/parlatype. Currently there is an English and a German version. Any help in translations is welcome!
 
 ## Installation
 
