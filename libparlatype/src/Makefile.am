@@ -15,41 +15,41 @@ pt-resources.h: $(resource_xml) $(resource_files)
 		--generate-header		\
 		--c-name parlatype $(resource_xml)
 
-BUILT_SOURCES = \
-	pt-resources.c		\
-	pt-resources.h		\
+BUILT_SOURCES =		\
+	pt-resources.c	\
+	pt-resources.h	\
 	$(NULL)
 
-libparlatype_la_SOURCES = \
-	$(BUILT_SOURCES) \
-	pt-player.c	\
+libparlatype_la_SOURCES =	\
+	$(BUILT_SOURCES)	\
+	pt-player.c		\
 	pt-progress-dialog.c	\
-	pt-wavedata.c	\
-	pt-waveloader.c	\
+	pt-wavedata.c		\
+	pt-waveloader.c		\
 	pt-waveslider.c
 
 parlatype_includedir= \
 	$(includedir)/parlatype
 
-parlatype_include_HEADERS = \
-	pt-player.h	\
+parlatype_include_HEADERS =	\
+	pt-player.h		\
 	pt-progress-dialog.h	\
-	pt-wavedata.h	\
-	pt-waveloader.h	\
+	pt-wavedata.h		\
+	pt-waveloader.h		\
 	pt-waveslider.h
 
-AM_CPPFLAGS = \
+AM_CPPFLAGS =			\
 	$(WARNINGCFLAGS)	\
 	$(GTK_CFLAGS)		\
 	$(GSTREAMER_CFLAGS)
 
-libparlatype_la_LDFLAGS = \
+libparlatype_la_LDFLAGS =			\
 	-version-info $(PARLATYPE_SO_VERSION)	\
-	-export-symbols-regex '^pt_'    \
+	-export-symbols-regex '^pt_'		\
 	-export-dynamic
 
-libparlatype_la_LIBADD = \
-	$(GTK_LIBS)	\
+libparlatype_la_LIBADD =	\
+	$(GTK_LIBS)		\
 	$(GSTREAMER_LIBS)
 
 ## The generated configuration header is installed in its own subdirectory of
@@ -77,12 +77,12 @@ if HAVE_INTROSPECTION
 
 # introspection sources without built sources, so not using
 # $(libparlatype_la_SOURCES)
-introspection_sources = \
-		pt-player.c	\
+introspection_sources =			\
+		pt-player.c		\
 		pt-progress-dialog.c	\
-		pt-wavedata.c	\
-		pt-waveloader.c	\
-		pt-waveslider.c	\
+		pt-wavedata.c		\
+		pt-waveloader.c		\
+		pt-waveslider.c		\
 		$(parlatype_include_HEADERS)
 
 Parlatype-1.0.gir: libparlatype.la
