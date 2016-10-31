@@ -51,7 +51,6 @@ stamp-h1
 /libparlatype/src/*.gir
 /libparlatype/src/*.typelib
 
-/help/parlatype.pot
 /help/de/*.page
 /help/de/de.mo
 /help/de/de.stamp
@@ -60,7 +59,6 @@ stamp-h1
 /libreoffice/Parlatype.py
 
 **/po/*.gmo
-**/po/*.pot
 **/po/.intltool-merge-cache
 **/po/boldquot.sed
 **/po/ChangeLog
@@ -79,4 +77,3 @@ stamp-h1
 /src/.deps/
 /src/parlatype
 /src/pt-resources.*
-
