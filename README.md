@@ -30,12 +30,8 @@ Parlatype is fully translatable, currently there is an English and a German vers
 
 ### Packages
 
-In the release section you’ll find packages for
-* Ubuntu 14.04 “Trusty”
-* Ubuntu 16.04 “Xenial”
-* Debian 8 “Jessie”
-
-Choose your distro and architecture (amd64 or i386) and that’s it. The package with the LibreOffice helpers is architecture independent.
+* Ubuntu: There is a PPA with stable releases of Parlatype at https://launchpad.net/~gabor-karsay/+archive/ubuntu/parlatype.
+* Debian: At https://github.com/gkarsay/parlatype/releases you’ll find packages to download for Debian 8 “Jessie”.
 
 ### Dependencies
 
