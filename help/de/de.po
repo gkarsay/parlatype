@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.4\n"
 "POT-Creation-Date: 2016-10-28 13:35+0200\n"
-"PO-Revision-Date: 2016-10-28 13:41+0200\n"
+"PO-Revision-Date: 2016-11-03 19:21+0100\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
 "Language-Team: Deutsch <>\n"
 "Language: \n"
@@ -73,8 +73,8 @@ msgid ""
 "pedal."
 msgstr ""
 "Natürlich kann <app>Parlatype</app> mit einer Maus oder einem Touchpad "
-"gesteuert werden, viel einfacher geht es aber mit der Tastatur oder gar "
-"einem Fußpedal."
+"gesteuert werden, viel einfacher geht es aber mit der Tastatur oder einem "
+"Fußpedal."
 
 #. (itstool) path: page/p
 #: C/control.page:18
@@ -161,9 +161,9 @@ msgid ""
 "foot pedal signals to any of the keys. This is not well tested, however. Any "
 "feedback regarding foot pedals is welcome."
 msgstr ""
-"Wenn Sie Fußpedal für die Transkription verwenden, müsste es möglich sein, "
-"die Fußpedalsignale den entsprechenden Tasten zuzuweisen. Das ist aber noch "
-"nicht ausgiebig getestet worden. Rückmeldungen dazu sind willkommen."
+"Wenn Sie ein Fußpedal für die Transkription verwenden, müsste es möglich "
+"sein, die Fußpedalsignale den entsprechenden Tasten zuzuweisen. Das ist aber "
+"noch nicht ausgiebig getestet worden. Rückmeldungen dazu sind willkommen."
 
 #. (itstool) path: info/desc
 #: C/drag-and-drop.page:6
@@ -279,7 +279,7 @@ msgid ""
 msgstr ""
 "Nun sehen Sie in der linken oberen Ecke einen <gui>Wiedergabe</gui>-Knopf, "
 "der zwischen Wiedergabe und Pause hin und her schaltet. Immer, wenn Sie die "
-"Wiedergabe unterbrechenn, spult <app>Parlatype</app> einige Sekunden zurück, "
+"Wiedergabe unterbrechen, spult <app>Parlatype</app> einige Sekunden zurück, "
 "damit Sie besser in den Text zurückfinden. Das kann in den <link xref="
 "\"preferences\"/> geändert werden."
 
@@ -428,7 +428,7 @@ msgstr "Gehe zu …"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:41
 msgid "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
-msgstr "<keyseq><key>Strg</key><key>o</key></keyseq>"
+msgstr "<keyseq><key>Strg</key><key>g</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:44
@@ -744,7 +744,7 @@ msgid ""
 "The easiest way to use them in <app>LibreOffice</app> are <app>Parlatype's</"
 "app> own <link xref=\"libreoffice-helpers\"/>."
 msgstr ""
-"Die einfachste Möglichkeit sie in <app>LibreOffice</app> zu nützen, sind "
+"Die einfachste Möglichkeit, sie in <app>LibreOffice</app> zu nützen, sind "
 "<app>Parlatypes</app> eigene <link xref=\"libreoffice-helpers\"/>."
 
 #. (itstool) path: page/p
