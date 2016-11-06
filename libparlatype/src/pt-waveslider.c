@@ -26,6 +26,8 @@
 #define CURSOR_POSITION 0.5
 #define MARKER_BOX_W 6
 #define MARKER_BOX_H 5
+#define WAVE_MIN_HEIGHT 20
+#define RULER_HEIGHT 15
 
 
 struct _PtWavesliderPrivate {
@@ -38,6 +40,7 @@ struct _PtWavesliderPrivate {
 
 	GdkRGBA	  wave_color;
 	GdkRGBA	  cursor_color;
+	GdkRGBA	  ruler_color;
 
 	GtkWidget       *drawarea;
 	GtkAdjustment   *adj;
@@ -179,7 +182,7 @@ draw_cb (GtkWidget *widget,
 	gint i;
 	gdouble min, max;
 
-	gint height = gtk_widget_get_allocated_height (widget);
+	gint height = gtk_widget_get_allocated_height (widget) - RULER_HEIGHT;
 	gint half = height / 2 - 1;
 	gint middle = height / 2;
 
@@ -198,6 +201,41 @@ draw_cb (GtkWidget *widget,
 		cairo_line_to (cr, i, max);
 		/* cairo_stroke also possible after loop, but then slower */
 		cairo_stroke (cr);
+	}
+
+	/* ruler background */
+	gdk_cairo_set_source_rgba (cr, &self->priv->ruler_color);
+	cairo_rectangle (cr, 0, height, i, RULER_HEIGHT);
+	cairo_fill (cr);
+
+	/* ruler marks */
+	gchar *text;
+	PangoLayout *layout;
+	PangoRectangle rect;
+
+	cairo_set_font_size (cr, 12);
+	gdk_cairo_set_source_rgba (cr, &self->priv->wave_color);
+	for (i = visible_first; i <= visible_last; i += 1) {
+		if (i % self->priv->px_per_sec == 0) {
+			min = (middle + half * peaks[i * 2] * -1);
+			max = (middle - half * peaks[i * 2 + 1]);
+			cairo_move_to (cr, i, height + RULER_HEIGHT);
+			cairo_line_to (cr, i, height + RULER_HEIGHT - 8);
+			text = g_strdup_printf ("%d:%02d",
+						i/self->priv->px_per_sec/60,
+						i/self->priv->px_per_sec % 60);
+			layout = gtk_widget_create_pango_layout (GTK_WIDGET (self), text);
+			pango_cairo_update_layout (cr, layout);
+			pango_layout_get_pixel_extents (layout, NULL, &rect);
+			g_debug ("font y, height, ascent: %d, %d, %d", rect.y, rect.height, PANGO_ASCENT(rect));
+			cairo_move_to (cr,
+				       i + 3,	/* 3 pixels right of mark */
+				       height + RULER_HEIGHT - rect.height + 3); /* +3 is a hack for unknown descent */
+			pango_cairo_show_layout (cr, layout);
+			cairo_stroke (cr);
+			g_free (text);
+			g_object_unref (layout);
+		}
 	}
 
 	/* paint cursor */
@@ -277,9 +315,11 @@ pt_waveslider_state_flags_changed (GtkWidget	 *widget,
 	if (gdk_window_get_state (window) & GDK_WINDOW_STATE_FOCUSED) {
 		gtk_style_context_lookup_color (style_ctx, "wave_color", &self->priv->wave_color);
 		gtk_style_context_lookup_color (style_ctx, "cursor_color", &self->priv->cursor_color);
+		gtk_style_context_lookup_color (style_ctx, "ruler_color", &self->priv->ruler_color);
 	} else {
 		gtk_style_context_lookup_color (style_ctx, "wave_color_uf", &self->priv->wave_color);
 		gtk_style_context_lookup_color (style_ctx, "cursor_color_uf", &self->priv->cursor_color);
+		gtk_style_context_lookup_color (style_ctx, "ruler_color_uf", &self->priv->ruler_color);
 	}
 
 	draw_cursor (self);
@@ -422,7 +462,7 @@ pt_waveslider_set_wave (PtWaveslider *self,
 	self->priv->peaks_size = data->length;
 	self->priv->px_per_sec = data->px_per_sec;
 
-	gtk_widget_set_size_request (self->priv->drawarea, data->length / 2, 20);
+	gtk_widget_set_size_request (self->priv->drawarea, data->length / 2, WAVE_MIN_HEIGHT + RULER_HEIGHT);
 	gtk_widget_queue_draw (GTK_WIDGET (self));
 }
 
@@ -535,6 +575,7 @@ pt_waveslider_init (PtWaveslider *self)
 
 	gtk_style_context_lookup_color (context, "wave_color", &self->priv->wave_color);
 	gtk_style_context_lookup_color (context, "cursor_color", &self->priv->cursor_color);
+	gtk_style_context_lookup_color (context, "ruler_color", &self->priv->ruler_color);
 
 	g_object_unref (file);
 	g_object_unref (provider);
