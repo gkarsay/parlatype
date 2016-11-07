@@ -39,6 +39,7 @@ struct _PtWavesliderPrivate {
 
 	gint64	  playback_cursor;
 	gboolean  follow_cursor;
+	gboolean  show_ruler;
 
 	GdkRGBA	  wave_color;
 	GdkRGBA	  cursor_color;
@@ -61,6 +62,7 @@ enum
 	PROP_0,
 	PROP_PLAYBACK_CURSOR,
 	PROP_FOLLOW_CURSOR,
+	PROP_SHOW_RULER,
 	N_PROPERTIES
 };
 
@@ -169,61 +171,26 @@ size_allocate_cb (GtkWidget     *widget,
 	draw_cursor (self);
 }
 
-static gboolean
-draw_cb (GtkWidget *widget,
-         cairo_t   *cr,
-         gpointer   data)
+static void
+paint_ruler (PtWaveslider *self,
+	     cairo_t      *cr,
+	     gint          height,
+	     gint          visible_first,
+	     gint          visible_last)
 {
-	/* Redraw screen, cairo_t is already clipped to only draw the exposed
-	   areas of the drawing area */
-
-	g_debug ("draw_cb");
-
-	PtWaveslider *self = (PtWaveslider *) data;
-
-	gfloat *peaks = self->priv->peaks;
-	if (!peaks)
-		return FALSE;
-
-	gint visible_first;
-	gint visible_last;
-
-	gint i;
-	gdouble min, max;
-
-	gint height = gtk_widget_get_allocated_height (widget) - self->priv->ruler_height;
-	gint half = height / 2 - 1;
-	gint middle = height / 2;
-
-	visible_first = (gint) gtk_adjustment_get_value (self->priv->adj);
-	visible_last = visible_first + (gint) gtk_adjustment_get_page_size (self->priv->adj);
-
-	g_debug ("visible area: %d–%d", visible_first, visible_last);
-
-	gdk_cairo_set_source_rgba (cr, &self->priv->wave_color);
-
-	/* paint waveform */
-	for (i = visible_first; i <= visible_last; i += 1) {
-		min = (middle + half * peaks[i * 2] * -1);
-		max = (middle - half * peaks[i * 2 + 1]);
-		cairo_move_to (cr, i, min);
-		cairo_line_to (cr, i, max);
-		/* cairo_stroke also possible after loop, but then slower */
-		cairo_stroke (cr);
-	}
-
-	/* ruler background */
-	gdk_cairo_set_source_rgba (cr, &self->priv->ruler_color);
-	cairo_rectangle (cr, 0, height, i, self->priv->ruler_height);
-	cairo_fill (cr);
-
-	/* ruler marks */
+	gint	        i;
 	gchar          *text;
 	PangoLayout    *layout;
 	PangoRectangle  rect;
 	gint            x_offset;
 	gint            tmp_time;
 
+	/* ruler background */
+	gdk_cairo_set_source_rgba (cr, &self->priv->ruler_color);
+	cairo_rectangle (cr, 0, height, visible_last, self->priv->ruler_height);
+	cairo_fill (cr);
+
+	/* ruler marks */
 	gdk_cairo_set_source_rgba (cr, &self->priv->mark_color);
 
 	/* Case: secondary ruler marks for tenth seconds.
@@ -231,7 +198,6 @@ draw_cb (GtkWidget *widget,
 	   add 10th seconds until we are at the end of the view */
 	if (self->priv->primary_modulo == 1) {
 		tmp_time = pixel_to_time (visible_first, self->priv->px_per_sec) / 100 * 10;
-		/* round with / 10 * 10 */
 		i = time_to_pixel (tmp_time, self->priv->px_per_sec);
 		while (i <= visible_last) {
 			cairo_move_to (cr, i, height);
@@ -289,6 +255,59 @@ draw_cb (GtkWidget *widget,
 			g_object_unref (layout);
 		}
 	}
+}
+
+static gboolean
+draw_cb (GtkWidget *widget,
+         cairo_t   *cr,
+         gpointer   data)
+{
+	/* Redraw screen, cairo_t is already clipped to only draw the exposed
+	   areas of the drawing area */
+
+	g_debug ("draw_cb");
+
+	PtWaveslider *self = (PtWaveslider *) data;
+
+	gfloat *peaks = self->priv->peaks;
+	if (!peaks)
+		return FALSE;
+
+	gint visible_first;
+	gint visible_last;
+
+	gint i;
+	gdouble min, max;
+
+	gint height = gtk_widget_get_allocated_height (widget);
+
+	if (self->priv->show_ruler)
+		height = height - self->priv->ruler_height;
+
+	gint half = height / 2 - 1;
+	gint middle = height / 2;
+
+	visible_first = (gint) gtk_adjustment_get_value (self->priv->adj);
+	visible_last = visible_first + (gint) gtk_adjustment_get_page_size (self->priv->adj);
+
+	g_debug ("visible area: %d–%d", visible_first, visible_last);
+
+	gdk_cairo_set_source_rgba (cr, &self->priv->wave_color);
+
+	/* paint waveform */
+	for (i = visible_first; i <= visible_last; i += 1) {
+		min = (middle + half * peaks[i * 2] * -1);
+		max = (middle - half * peaks[i * 2 + 1]);
+		cairo_move_to (cr, i, min);
+		cairo_line_to (cr, i, max);
+		/* cairo_stroke also possible after loop, but then slower */
+		cairo_stroke (cr);
+	}
+
+	/* paint ruler */
+	if (self->priv->show_ruler)
+		paint_ruler (self, cr, height, visible_first, visible_last);
+
 
 	/* paint cursor */
 	cairo_set_source_surface (cr,
@@ -572,7 +591,10 @@ pt_waveslider_set_wave (PtWaveslider *self,
 	cairo_destroy (cr);
 	cairo_surface_destroy (surface);
 
-	gtk_widget_set_size_request (self->priv->drawarea, data->length / 2, WAVE_MIN_HEIGHT + self->priv->ruler_height);
+	if (self->priv->show_ruler)
+		gtk_widget_set_size_request (self->priv->drawarea, data->length / 2, WAVE_MIN_HEIGHT + self->priv->ruler_height);
+	else
+		gtk_widget_set_size_request (self->priv->drawarea, data->length / 2, WAVE_MIN_HEIGHT);
 	gtk_widget_queue_draw (GTK_WIDGET (self));
 }
 
@@ -597,6 +619,9 @@ pt_waveslider_get_property (GObject    *object,
 	switch (property_id) {
 	case PROP_FOLLOW_CURSOR:
 		g_value_set_boolean (value, self->priv->follow_cursor);
+		break;
+	case PROP_SHOW_RULER:
+		g_value_set_boolean (value, self->priv->show_ruler);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -625,6 +650,9 @@ pt_waveslider_set_property (GObject      *object,
 		break;
 	case PROP_FOLLOW_CURSOR:
 		self->priv->follow_cursor = g_value_get_boolean (value);
+		break;
+	case PROP_SHOW_RULER:
+		self->priv->show_ruler = g_value_get_boolean (value);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -784,6 +812,20 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 			"follow-cursor",
 			"follow cursor",
 			"Scroll automatically to current cursor position",
+			TRUE,
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+
+	/**
+	* PtWaveslider:show-ruler:
+	*
+	* Whether the ruler is shown (TRUE) or not (FALSE).
+	*/
+
+	obj_properties[PROP_SHOW_RULER] =
+	g_param_spec_boolean (
+			"show-ruler",
+			"show ruler",
+			"Show the ruler with time marks",
 			TRUE,
 			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
 
