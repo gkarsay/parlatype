@@ -19,7 +19,10 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
 #include <string.h>
+#define GETTEXT_PACKAGE PACKAGE
+#include <glib/gi18n-lib.h>
 #include "pt-waveslider.h"
 
 
@@ -27,7 +30,6 @@
 #define MARKER_BOX_W 6
 #define MARKER_BOX_H 5
 #define WAVE_MIN_HEIGHT 20
-#define RULER_HEIGHT 15
 
 
 struct _PtWavesliderPrivate {
@@ -41,10 +43,17 @@ struct _PtWavesliderPrivate {
 	GdkRGBA	  wave_color;
 	GdkRGBA	  cursor_color;
 	GdkRGBA	  ruler_color;
+	GdkRGBA	  mark_color;
 
 	GtkWidget       *drawarea;
 	GtkAdjustment   *adj;
 	cairo_surface_t *cursor;
+
+	gboolean  time_format_long;
+	gint      time_string_width;
+	gint      ruler_height;
+	gint      primary_modulo;
+	gint      secondary_modulo;
 };
 
 enum
@@ -182,7 +191,7 @@ draw_cb (GtkWidget *widget,
 	gint i;
 	gdouble min, max;
 
-	gint height = gtk_widget_get_allocated_height (widget) - RULER_HEIGHT;
+	gint height = gtk_widget_get_allocated_height (widget) - self->priv->ruler_height;
 	gint half = height / 2 - 1;
 	gint middle = height / 2;
 
@@ -205,33 +214,76 @@ draw_cb (GtkWidget *widget,
 
 	/* ruler background */
 	gdk_cairo_set_source_rgba (cr, &self->priv->ruler_color);
-	cairo_rectangle (cr, 0, height, i, RULER_HEIGHT);
+	cairo_rectangle (cr, 0, height, i, self->priv->ruler_height);
 	cairo_fill (cr);
 
 	/* ruler marks */
-	gchar *text;
-	PangoLayout *layout;
-	PangoRectangle rect;
+	gchar          *text;
+	PangoLayout    *layout;
+	PangoRectangle  rect;
+	gint            x_offset;
+	gint            tmp_time;
 
-	cairo_set_font_size (cr, 12);
-	gdk_cairo_set_source_rgba (cr, &self->priv->wave_color);
+	gdk_cairo_set_source_rgba (cr, &self->priv->mark_color);
+
+	/* Case: secondary ruler marks for tenth seconds.
+	   Get time of leftmost pixel, convert it to rounded 10th second,
+	   add 10th seconds until we are at the end of the view */
+	if (self->priv->primary_modulo == 1) {
+		tmp_time = pixel_to_time (visible_first, self->priv->px_per_sec) / 100 * 10;
+		/* round with / 10 * 10 */
+		i = time_to_pixel (tmp_time, self->priv->px_per_sec);
+		while (i <= visible_last) {
+			cairo_move_to (cr, i, height);
+			cairo_line_to (cr, i, height + 4);
+			cairo_stroke (cr);
+			tmp_time += 10;
+			i = time_to_pixel (tmp_time, self->priv->px_per_sec);
+		}
+	}
+
+	/* Case: secondary ruler marks for full seconds.
+	   Use secondary_modulo. */
+	if (self->priv->primary_modulo > 1) {
+		for (i = visible_first; i <= visible_last; i += 1) {
+			if (i % (self->priv->px_per_sec * self->priv->secondary_modulo) == 0) {
+				cairo_move_to (cr, i, height);
+				cairo_line_to (cr, i, height + 4);
+				cairo_stroke (cr);
+			}
+		}
+	}
+
+	/* Primary marks and time strings */
 	for (i = visible_first; i <= visible_last; i += 1) {
-		if (i % self->priv->px_per_sec == 0) {
-			min = (middle + half * peaks[i * 2] * -1);
-			max = (middle - half * peaks[i * 2 + 1]);
-			cairo_move_to (cr, i, height + RULER_HEIGHT);
-			cairo_line_to (cr, i, height + RULER_HEIGHT - 8);
-			text = g_strdup_printf ("%d:%02d",
-						i/self->priv->px_per_sec/60,
-						i/self->priv->px_per_sec % 60);
+		if (i % (self->priv->px_per_sec * self->priv->primary_modulo) == 0) {
+			gdk_cairo_set_source_rgba (cr, &self->priv->mark_color);
+			cairo_move_to (cr, i, height);
+			cairo_line_to (cr, i, height + 8);
+			cairo_stroke (cr);
+			gdk_cairo_set_source_rgba (cr, &self->priv->wave_color);
+			if (self->priv->time_format_long) {
+				text = g_strdup_printf (C_("long time format", "%d:%02d:%02d"),
+							i/self->priv->px_per_sec / 3600,
+							(i/self->priv->px_per_sec % 3600) / 60,
+							i/self->priv->px_per_sec % 60);
+			} else {
+				text = g_strdup_printf (C_("shortest time format", "%d:%02d"),
+							i/self->priv->px_per_sec/60,
+							i/self->priv->px_per_sec % 60);
+			}
 			layout = gtk_widget_create_pango_layout (GTK_WIDGET (self), text);
 			pango_cairo_update_layout (cr, layout);
-			pango_layout_get_pixel_extents (layout, NULL, &rect);
-			g_debug ("font y, height, ascent: %d, %d, %d", rect.y, rect.height, PANGO_ASCENT(rect));
-			cairo_move_to (cr,
-				       i + 3,	/* 3 pixels right of mark */
-				       height + RULER_HEIGHT - rect.height + 3); /* +3 is a hack for unknown descent */
-			pango_cairo_show_layout (cr, layout);
+			pango_layout_get_pixel_extents (layout, &rect, NULL);
+			x_offset = (rect.x + rect.width) / 2;
+
+			/* don't display time if it is not fully visible */
+			if (i - x_offset > 0 && i + x_offset < self->priv->peaks_size / 2) {
+				cairo_move_to (cr,
+					       i - x_offset,	/* center at mark */
+					       height + self->priv->ruler_height - rect.y - rect.height -3); /* +3 px above border */
+				pango_cairo_show_layout (cr, layout);
+			}
 			cairo_stroke (cr);
 			g_free (text);
 			g_object_unref (layout);
@@ -462,7 +514,65 @@ pt_waveslider_set_wave (PtWaveslider *self,
 	self->priv->peaks_size = data->length;
 	self->priv->px_per_sec = data->px_per_sec;
 
-	gtk_widget_set_size_request (self->priv->drawarea, data->length / 2, WAVE_MIN_HEIGHT + RULER_HEIGHT);
+	/* Calculate ruler height and time string width*/
+	cairo_t         *cr;
+	cairo_surface_t *surface;
+	PangoLayout     *layout;
+	PangoRectangle   rect;
+	gchar           *time_format;
+
+	surface = gdk_window_create_similar_surface (gtk_widget_get_window (GTK_WIDGET (self)),
+	                                             CAIRO_CONTENT_COLOR,
+	                                             100, 100);
+	cr = cairo_create (surface);
+
+	self->priv->time_format_long = (self->priv->peaks_size / 2 / self->priv->px_per_sec >= 3600);
+
+	if (self->priv->time_format_long)
+		time_format = g_strdup_printf (C_("long time format", "%d:%02d:%02d"), 88, 0, 0);
+	else
+		time_format = g_strdup_printf (C_("shortest time format", "%d:%02d"), 88, 0);
+
+	layout = gtk_widget_create_pango_layout (GTK_WIDGET (self), time_format);
+	pango_cairo_update_layout (cr, layout);
+	pango_layout_get_pixel_extents (layout, &rect, NULL);
+
+	/* Ruler height = font height + 3px padding below + 3px padding above + 5px for marks */
+	self->priv->ruler_height = rect.y + rect.height + 3 + 3 + 5;
+
+	/* Does the time string fit into 1 second?
+	   Define primary and secondary modulo (for primary and secondary marks */
+	self->priv->time_string_width = rect.x + rect.width;
+	if (self->priv->time_string_width < self->priv->px_per_sec) {
+		self->priv->primary_modulo = 1;
+		/* In fact this would be 0.1, it's handled later as a special case */
+		self->priv->secondary_modulo = 1;
+	} else if (self->priv->time_string_width < self->priv->px_per_sec * 5) {
+		self->priv->primary_modulo = 5;
+		self->priv->secondary_modulo = 1;
+	} else if (self->priv->time_string_width < self->priv->px_per_sec * 10) {
+		self->priv->primary_modulo = 10;
+		self->priv->secondary_modulo = 1;
+	} else if (self->priv->time_string_width < self->priv->px_per_sec * 60) {
+		self->priv->primary_modulo = 60;
+		self->priv->secondary_modulo = 10;
+	} else if (self->priv->time_string_width < self->priv->px_per_sec * 300) {
+		self->priv->primary_modulo = 300;
+		self->priv->secondary_modulo = 60;
+	} else if (self->priv->time_string_width < self->priv->px_per_sec * 600) {
+		self->priv->primary_modulo = 600;
+		self->priv->secondary_modulo = 60;
+	} else {
+		self->priv->primary_modulo = 3600;
+		self->priv->secondary_modulo = 600;
+	}
+
+	g_free (time_format);
+	g_object_unref (layout);
+	cairo_destroy (cr);
+	cairo_surface_destroy (surface);
+
+	gtk_widget_set_size_request (self->priv->drawarea, data->length / 2, WAVE_MIN_HEIGHT + self->priv->ruler_height);
 	gtk_widget_queue_draw (GTK_WIDGET (self));
 }
 
@@ -576,6 +686,7 @@ pt_waveslider_init (PtWaveslider *self)
 	gtk_style_context_lookup_color (context, "wave_color", &self->priv->wave_color);
 	gtk_style_context_lookup_color (context, "cursor_color", &self->priv->cursor_color);
 	gtk_style_context_lookup_color (context, "ruler_color", &self->priv->ruler_color);
+	gtk_style_context_lookup_color (context, "mark_color", &self->priv->mark_color);
 
 	g_object_unref (file);
 	g_object_unref (provider);
