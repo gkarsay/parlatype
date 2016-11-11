@@ -39,6 +39,7 @@ struct _PtWavesliderPrivate {
 
 	gint64	  playback_cursor;
 	gboolean  follow_cursor;
+	gboolean  fixed_cursor;
 	gboolean  show_ruler;
 
 	GdkRGBA	  wave_color;
@@ -62,6 +63,7 @@ enum
 	PROP_0,
 	PROP_PLAYBACK_CURSOR,
 	PROP_FOLLOW_CURSOR,
+	PROP_FIXED_CURSOR,
 	PROP_SHOW_RULER,
 	N_PROPERTIES
 };
@@ -620,6 +622,9 @@ pt_waveslider_get_property (GObject    *object,
 	case PROP_FOLLOW_CURSOR:
 		g_value_set_boolean (value, self->priv->follow_cursor);
 		break;
+	case PROP_FIXED_CURSOR:
+		g_value_set_boolean (value, self->priv->fixed_cursor);
+		break;
 	case PROP_SHOW_RULER:
 		g_value_set_boolean (value, self->priv->show_ruler);
 		break;
@@ -650,6 +655,9 @@ pt_waveslider_set_property (GObject      *object,
 		break;
 	case PROP_FOLLOW_CURSOR:
 		self->priv->follow_cursor = g_value_get_boolean (value);
+		break;
+	case PROP_FIXED_CURSOR:
+		self->priv->fixed_cursor = g_value_get_boolean (value);
 		break;
 	case PROP_SHOW_RULER:
 		self->priv->show_ruler = g_value_get_boolean (value);
@@ -812,6 +820,23 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 			"follow-cursor",
 			"follow cursor",
 			"Scroll automatically to current cursor position",
+			TRUE,
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+
+	/**
+	* PtWaveslider:fixed-cursor:
+	*
+	* If TRUE, in follow-cursor mode the cursor is at a fixed position and the
+	* waveform is scrolling. If FALSE the cursor is moving.
+	*
+	* If #PtWaveslider:follow-cursor is FALSE, this has no effect.
+	*/
+
+	obj_properties[PROP_FIXED_CURSOR] =
+	g_param_spec_boolean (
+			"fixed-cursor",
+			"fixed cursor",
+			"In follow-cursor mode the cursor is at a fixed position",
 			TRUE,
 			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
 
