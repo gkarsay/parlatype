@@ -152,14 +152,25 @@ static void
 scroll_to_cursor (PtWaveslider *self)
 {
 	gint cursor_pos;
+	gint first_visible;
 	gint page_width;
 	gint offset;
 
 	cursor_pos = time_to_pixel (self->priv->playback_cursor, self->priv->px_per_sec);
+	first_visible = (gint) gtk_adjustment_get_value (self->priv->adj);
 	page_width = (gint) gtk_adjustment_get_page_size (self->priv->adj);
-	offset = page_width * CURSOR_POSITION;
 
-	gtk_adjustment_set_value (self->priv->adj, cursor_pos - offset);
+	/* Fixed cursor: always scroll,
+	   non-fixed cursor: only scroll if cursor is not visible */
+
+	if (self->priv->fixed_cursor) {
+		offset = page_width * CURSOR_POSITION;
+		gtk_adjustment_set_value (self->priv->adj, cursor_pos - offset);
+	} else {
+		if (cursor_pos < first_visible || cursor_pos > first_visible + page_width) {
+			gtk_adjustment_set_value (self->priv->adj, cursor_pos);
+		}
+	}
 }
 
 static void
@@ -487,8 +498,6 @@ pt_waveslider_set_follow_cursor (PtWaveslider *self,
 		g_object_notify_by_pspec (G_OBJECT (self),
 					  obj_properties[PROP_FOLLOW_CURSOR]);
 	}
-	if (follow)
-		scroll_to_cursor (self);
 }
 
 /**
