@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-31 11:11+0100\n"
+"POT-Creation-Date: 2016-11-13 13:22+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,12 +17,14 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/pt-player.c:401
+#. Translators: %s is a detailed error message.
+#: ../src/pt-player.c:402
 #, c-format
 msgid "URI not valid: %s"
 msgstr ""
 
-#: ../src/pt-player.c:412
+#. Translators: %s is a detailed error message.
+#: ../src/pt-player.c:414
 #, c-format
 msgid "File not found: %s"
 msgstr ""
@@ -31,7 +33,8 @@ msgstr ""
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
 #. the separator that your locale uses or use "%Id" instead
 #. of "%d" if your locale uses localized digits.
-#: ../src/pt-player.c:1000
+#: ../src/pt-player.c:1002 ../src/pt-waveslider.c:245
+#: ../src/pt-waveslider.c:562
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
@@ -41,7 +44,7 @@ msgstr ""
 #. hours, 5 minutes, 30 seconds, and 1 tenthsecond. You may
 #. change ":" or "." to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: ../src/pt-player.c:1006
+#: ../src/pt-player.c:1008
 #, c-format
 msgctxt "long time format, 1 digit"
 msgid "%d:%02d:%02d.%d"
@@ -51,7 +54,7 @@ msgstr ""
 #. hours, 5 minutes, 30 seconds, and 12 hundrethseconds. You may
 #. change ":" or "." to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: ../src/pt-player.c:1012
+#: ../src/pt-player.c:1014
 #, c-format
 msgctxt "long time format, 2 digits"
 msgid "%d:%02d:%02d.%02d"
@@ -61,7 +64,7 @@ msgstr ""
 #. 5 minutes, and 30 seconds. You may change ":" to
 #. the separator that your locale uses or use "%I02d" instead
 #. of "%02d" if your locale uses localized digits.
-#: ../src/pt-player.c:1021
+#: ../src/pt-player.c:1023
 #, c-format
 msgctxt "short time format"
 msgid "%02d:%02d"
@@ -71,7 +74,7 @@ msgstr ""
 #. 5 minutes, 30 seconds, and 1 tenthsecond. You may change
 #. ":" or "." to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: ../src/pt-player.c:1027
+#: ../src/pt-player.c:1029
 #, c-format
 msgctxt "short time format, 1 digit"
 msgid "%02d:%02d.%d"
@@ -81,7 +84,7 @@ msgstr ""
 #. 5 minutes, 30 seconds, and 12 hundrethseconds. You may change
 #. ":" or "." to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: ../src/pt-player.c:1033
+#: ../src/pt-player.c:1035
 #, c-format
 msgctxt "short time format, 2 digits"
 msgid "%02d:%02d.%02d"
@@ -91,7 +94,8 @@ msgstr ""
 #. 5 minutes, and 30 seconds. You may change ":" to
 #. the separator that your locale uses or use "%Id" instead
 #. of "%d" if your locale uses localized digits.
-#: ../src/pt-player.c:1041
+#: ../src/pt-player.c:1043 ../src/pt-waveslider.c:250
+#: ../src/pt-waveslider.c:564
 #, c-format
 msgctxt "shortest time format"
 msgid "%d:%02d"
@@ -101,7 +105,7 @@ msgstr ""
 #. 5 minutes, 30 seconds, and 1 tenthsecond. You may change
 #. ":" or "." to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: ../src/pt-player.c:1047
+#: ../src/pt-player.c:1049
 #, c-format
 msgctxt "shortest time format, 1 digit"
 msgid "%d:%02d.%d"
@@ -111,25 +115,25 @@ msgstr ""
 #. 5 minutes, 30 seconds, and 12 hundrethseconds. You may change
 #. ":" or "." to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: ../src/pt-player.c:1053
+#: ../src/pt-player.c:1055
 #, c-format
 msgctxt "shortest time format, 2 digits"
 msgid "%d:%02d.%02d"
 msgstr ""
 
-#: ../src/pt-player.c:1174
+#: ../src/pt-player.c:1176
 #, c-format
 msgctxt "long time format, 1 digit"
 msgid "%d:%02d:%02d.%01d"
 msgstr ""
 
-#: ../src/pt-player.c:1178
+#: ../src/pt-player.c:1180
 #, c-format
 msgctxt "shortest time format, 1 digit"
 msgid "%d:%02d.%01d"
 msgstr ""
 
-#: ../src/pt-player.c:1346
+#: ../src/pt-player.c:1348
 #, c-format
 msgid "Failed to load a plugin."
 msgstr ""

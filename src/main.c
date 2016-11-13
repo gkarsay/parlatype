@@ -77,6 +77,10 @@ int main (int argc, char *argv[])
 	GOptionContext *context;
 	PtPlayer       *testplayer;
 
+	/* Translators: This is part of the output if you type `parlatype --help`
+	   in terminal. The square brackets indicate that a file (filename) is
+	   an optional argument for parlatype. Arguments in help output are usually
+	   uppercase. */
 	context = g_option_context_new (_("[FILE]"));
 	g_option_context_add_main_entries (context, options, PACKAGE);
 	g_option_context_add_group (context, gtk_get_option_group (TRUE));

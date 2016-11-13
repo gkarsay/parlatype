@@ -186,6 +186,10 @@ about_cb (GSimpleAction *action,
 {
 	const gchar *authors[] = {
 		"Gabor Karsay <gabor.karsay@gmx.at>",
+		/* Translators: This is part of the about box, followed by the
+		   copyright holders of code from other projects. Instead of
+		   "including" it could also say "with" or just "Code from
+		   other projects:" */
 		_("Including code from other projects:"),
 		"Buzztrax team <buzztrax-devel@buzztrax.org>",
 		"Philip Withnall <philip@tecnocode.co.uk>",

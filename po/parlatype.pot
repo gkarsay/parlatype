@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-31 11:10+0100\n"
+"POT-Creation-Date: 2016-11-13 13:22+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: ../data/parlatype.desktop.in.in.h:1 ../src/pt-app.c:66 ../src/pt-app.c:203
+#: ../data/parlatype.desktop.in.in.h:1 ../src/pt-app.c:66 ../src/pt-app.c:207
 #: ../src/resources/window.ui.h:1 ../src/resources/window-headerbar.ui.h:1
 msgid "Parlatype"
 msgstr ""
@@ -43,11 +43,15 @@ msgid ""
 "Parlatype will quit now, it received this error message: %s"
 msgstr ""
 
-#: ../src/main.c:80
+#. Translators: This is part of the output if you type `parlatype --help`
+#. in terminal. The square brackets indicate that a file (filename) is
+#. an optional argument for parlatype. Arguments in help output are usually
+#. uppercase.
+#: ../src/main.c:84
 msgid "[FILE]"
 msgstr ""
 
-#: ../src/main.c:83
+#: ../src/main.c:87
 msgid "Minimal audio player for manual speech transcription"
 msgstr ""
 
@@ -80,19 +84,23 @@ msgstr ""
 msgid "Error opening help: %s"
 msgstr ""
 
-#: ../src/pt-app.c:189
+#. Translators: This is part of the about box, followed by the
+#. copyright holders of code from other projects. Instead of
+#. "including" it could also say "with" or just "Code from
+#. other projects:"
+#: ../src/pt-app.c:193
 msgid "Including code from other projects:"
 msgstr ""
 
-#: ../src/pt-app.c:206
+#: ../src/pt-app.c:210
 msgid "A basic transcription utility"
 msgstr ""
 
-#: ../src/pt-app.c:210
+#: ../src/pt-app.c:214
 msgid "translator-credits"
 msgstr ""
 
-#: ../src/pt-app.c:324
+#: ../src/pt-app.c:328
 #, c-format
 msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "

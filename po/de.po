@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-28 16:35+0200\n"
+"POT-Creation-Date: 2016-11-13 13:22+0100\n"
 "PO-Revision-Date: 2016-10-15 12:09+0200\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
 "Language-Team: Deutsch <>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "X-Generator: Gtranslator 2.91.6\n"
 
-#: ../data/parlatype.desktop.in.in.h:1 ../src/pt-app.c:66 ../src/pt-app.c:203
+#: ../data/parlatype.desktop.in.in.h:1 ../src/pt-app.c:66 ../src/pt-app.c:207
 #: ../src/resources/window.ui.h:1 ../src/resources/window-headerbar.ui.h:1
 msgid "Parlatype"
 msgstr "Parlatype"
@@ -47,11 +47,15 @@ msgstr ""
 "Plugins« (Good Plugins) installiert sind.\n"
 "Parlatype wird nun beendet, es hat folgende Fehlermeldung erhalten: %s"
 
-#: ../src/main.c:80
+#. Translators: This is part of the output if you type `parlatype --help`
+#. in terminal. The square brackets indicate that a file (filename) is
+#. an optional argument for parlatype. Arguments in help output are usually
+#. uppercase.
+#: ../src/main.c:84
 msgid "[FILE]"
 msgstr "[DATEI]"
 
-#: ../src/main.c:83
+#: ../src/main.c:87
 msgid "Minimal audio player for manual speech transcription"
 msgstr "Minimalistischer Audioplayer für manuelle Sprachtranskription"
 
@@ -84,19 +88,23 @@ msgstr "Audio-Dateien"
 msgid "Error opening help: %s"
 msgstr "Fehler beim Öffnen der Hilfe: %s"
 
-#: ../src/pt-app.c:189
+#. Translators: This is part of the about box, followed by the
+#. copyright holders of code from other projects. Instead of
+#. "including" it could also say "with" or just "Code from
+#. other projects:"
+#: ../src/pt-app.c:193
 msgid "Including code from other projects:"
 msgstr "Aus anderen Projekten übernommener Code:"
 
-#: ../src/pt-app.c:206
+#: ../src/pt-app.c:210
 msgid "A basic transcription utility"
 msgstr "Ein einfaches Transkriptionsprogramm"
 
-#: ../src/pt-app.c:210
+#: ../src/pt-app.c:214
 msgid "translator-credits"
 msgstr "Gabor Karsay <gabor.karsay@gmx.at>"
 
-#: ../src/pt-app.c:324
+#: ../src/pt-app.c:328
 #, c-format
 msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "

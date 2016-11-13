@@ -398,6 +398,7 @@ pt_player_open_uri_async (PtPlayer	      *player,
 				task,
 				GST_RESOURCE_ERROR,
 				GST_RESOURCE_ERROR_NOT_FOUND,
+				/* Translators: %s is a detailed error message. */
 				_("URI not valid: %s"), uri);
 		g_object_unref (file);
 		g_object_unref (task);
@@ -409,6 +410,7 @@ pt_player_open_uri_async (PtPlayer	      *player,
 				task,
 				GST_RESOURCE_ERROR,
 				GST_RESOURCE_ERROR_NOT_FOUND,
+				/* Translators: %s is a detailed error message. */
 				_("File not found: %s"), location);
 		g_object_unref (file);
 		g_free (location);
