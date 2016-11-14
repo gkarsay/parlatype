@@ -674,7 +674,7 @@ pt_waveslider_set_property (GObject      *object,
 			   before and were it will be next. */
 
 			if (self->priv->fixed_cursor) {
-				gtk_widget_queue_draw (GTK_WIDGET (self->priv->drawarea));
+				gtk_widget_queue_draw (self->priv->drawarea);
 			} else {
 				gint height = gtk_widget_get_allocated_height (self->priv->drawarea);
 				gint old_x = time_to_pixel (old_value, self->priv->px_per_sec);
@@ -704,6 +704,8 @@ pt_waveslider_set_property (GObject      *object,
 		break;
 	case PROP_SHOW_RULER:
 		self->priv->show_ruler = g_value_get_boolean (value);
+		draw_cursor (self);
+		gtk_widget_queue_draw (self->priv->drawarea);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);

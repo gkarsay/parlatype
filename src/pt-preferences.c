@@ -35,6 +35,8 @@ struct _PtPreferencesDialogPrivate
 	GtkWidget *label_forward;
 	GtkWidget *check_pos;
 	GtkWidget *check_top;
+	GtkWidget *ruler_switch;
+	GtkWidget *fixed_cursor_switch;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PtPreferencesDialog, pt_preferences_dialog, GTK_TYPE_DIALOG)
@@ -101,6 +103,16 @@ pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 			dlg->priv->check_top, "active",
 			G_SETTINGS_BIND_DEFAULT);
 
+	g_settings_bind (
+			dlg->priv->editor, "show-ruler",
+			dlg->priv->ruler_switch, "active",
+			G_SETTINGS_BIND_DEFAULT);
+
+	g_settings_bind (
+			dlg->priv->editor, "fixed-cursor",
+			dlg->priv->fixed_cursor_switch, "active",
+			G_SETTINGS_BIND_DEFAULT);
+
 #if GTK_CHECK_VERSION(3,12,0)
 #else
 	gtk_dialog_add_button (GTK_DIALOG (dlg), _("_Close"), -6);
@@ -136,6 +148,8 @@ pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, label_pause);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, label_back);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, label_forward);
+	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, ruler_switch);
+	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, fixed_cursor_switch);
 }
 
 void

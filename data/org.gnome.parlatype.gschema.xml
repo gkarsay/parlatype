@@ -48,5 +48,15 @@
 			<summary>Start window on top</summary>
 			<description>Start window on top</description>
 		</key>
+		<key name="show-ruler" type="b">
+			<default>true</default>
+			<summary>Show ruler</summary>
+			<description>Show ruler</description>
+		</key>
+		<key name="fixed-cursor" type="b">
+			<default>false</default>
+			<summary>Fixed cursor</summary>
+			<description>Fixed cursor</description>
+		</key>
 	</schema>
 </schemalist>

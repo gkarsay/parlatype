@@ -2,26 +2,6 @@
 <!-- Generated with glade 3.18.3 -->
 <interface>
   <requires lib="gtk+" version="3.10"/>
-  <object class="GtkAdjustment" id="adj_back">
-    <property name="lower">1</property>
-    <property name="upper">60</property>
-    <property name="value">10</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adj_forward">
-    <property name="lower">1</property>
-    <property name="upper">60</property>
-    <property name="value">10</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adj_pause">
-    <property name="upper">10</property>
-    <property name="value">2</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">1</property>
-  </object>
   <template class="PtPreferencesDialog" parent="GtkDialog">
     <property name="height_request">200</property>
     <property name="can_focus">False</property>
@@ -54,6 +34,71 @@
             <property name="can_focus">True</property>
             <property name="show_border">False</property>
             <child>
+              <object class="GtkGrid" id="grid3">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_top">12</property>
+                <property name="margin_bottom">12</property>
+                <property name="border_width">12</property>
+                <property name="row_spacing">6</property>
+                <property name="column_spacing">6</property>
+                <child>
+                  <object class="GtkLabel" id="label3">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="xalign">1</property>
+                    <property name="label" translatable="yes">Show ruler:</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label4">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="xalign">1</property>
+                    <property name="label" translatable="yes">Fixed cursor:</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSwitch" id="ruler_switch">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSwitch" id="fixed_cursor_switch">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">1</property>
+                  </packing>
+                </child>
+              </object>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel" id="label2">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Display</property>
+              </object>
+              <packing>
+                <property name="tab_fill">False</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkGrid" id="grid1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -79,8 +124,10 @@
                   <object class="GtkSpinButton" id="spin_pause">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="text" translatable="yes">2</property>
                     <property name="adjustment">adj_pause</property>
                     <property name="numeric">True</property>
+                    <property name="value">2</property>
                     <signal name="value-changed" handler="spin_pause_changed_cb" swapped="no"/>
                   </object>
                   <packing>
@@ -128,6 +175,7 @@
                   <object class="GtkSpinButton" id="spin_back">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="text" translatable="yes">2</property>
                     <property name="adjustment">adj_back</property>
                     <property name="numeric">True</property>
                     <property name="value">2</property>
@@ -142,6 +190,7 @@
                   <object class="GtkSpinButton" id="spin_forward">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="text" translatable="yes">2</property>
                     <property name="adjustment">adj_forward</property>
                     <property name="numeric">True</property>
                     <property name="value">2</property>
@@ -177,6 +226,9 @@
                   </packing>
                 </child>
               </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
             </child>
             <child type="tab">
               <object class="GtkLabel" id="label7">
@@ -185,6 +237,7 @@
                 <property name="label" translatable="yes">Controls</property>
               </object>
               <packing>
+                <property name="position">1</property>
                 <property name="tab_fill">False</property>
               </packing>
             </child>
@@ -228,9 +281,6 @@
                     <property name="receives_default">False</property>
                     <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
-                    <child>
-                      <placeholder/>
-                    </child>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -244,9 +294,6 @@
                     <property name="receives_default">False</property>
                     <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
-                    <child>
-                      <placeholder/>
-                    </child>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -255,7 +302,7 @@
                 </child>
               </object>
               <packing>
-                <property name="position">1</property>
+                <property name="position">2</property>
               </packing>
             </child>
             <child type="tab">
@@ -265,15 +312,9 @@
                 <property name="label" translatable="yes">Window</property>
               </object>
               <packing>
-                <property name="position">1</property>
+                <property name="position">2</property>
                 <property name="tab_fill">False</property>
               </packing>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child type="tab">
-              <placeholder/>
             </child>
           </object>
           <packing>
@@ -285,4 +326,24 @@
       </object>
     </child>
   </template>
+  <object class="GtkAdjustment" id="adj_back">
+    <property name="lower">1</property>
+    <property name="upper">60</property>
+    <property name="value">10</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adj_forward">
+    <property name="lower">1</property>
+    <property name="upper">60</property>
+    <property name="value">10</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adj_pause">
+    <property name="upper">10</property>
+    <property name="value">2</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">1</property>
+  </object>
 </interface>

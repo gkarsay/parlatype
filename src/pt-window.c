@@ -527,6 +527,16 @@ setup_settings (PtWindow *win)
 			win, "forward",
 			G_SETTINGS_BIND_GET);
 
+	g_settings_bind (
+			win->priv->editor, "show-ruler",
+			win->priv->waveslider, "show-ruler",
+			G_SETTINGS_BIND_GET);
+
+	g_settings_bind (
+			win->priv->editor, "fixed-cursor",
+			win->priv->waveslider, "fixed-cursor",
+			G_SETTINGS_BIND_GET);
+
 	/* connect to tooltip changer */
 
 	g_signal_connect (
