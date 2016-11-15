@@ -33,8 +33,8 @@ struct _PtPreferencesDialogPrivate
 	GtkWidget *label_pause;
 	GtkWidget *label_back;
 	GtkWidget *label_forward;
-	GtkWidget *check_pos;
-	GtkWidget *check_top;
+	GtkWidget *pos_switch;
+	GtkWidget *top_switch;
 	GtkWidget *ruler_switch;
 	GtkWidget *fixed_cursor_switch;
 };
@@ -95,12 +95,12 @@ pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 
 	g_settings_bind (
 			dlg->priv->editor, "remember-position",
-			dlg->priv->check_pos, "active",
+			dlg->priv->pos_switch, "active",
 			G_SETTINGS_BIND_DEFAULT);
 
 	g_settings_bind (
 			dlg->priv->editor, "start-on-top",
-			dlg->priv->check_top, "active",
+			dlg->priv->top_switch, "active",
 			G_SETTINGS_BIND_DEFAULT);
 
 	g_settings_bind (
@@ -143,8 +143,8 @@ pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, spin_pause);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, spin_back);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, spin_forward);
-	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, check_pos);
-	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, check_top);
+	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, pos_switch);
+	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, top_switch);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, label_pause);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, label_back);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, label_forward);
