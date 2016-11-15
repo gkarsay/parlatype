@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-13 13:22+0100\n"
+"POT-Creation-Date: 2016-11-15 16:49+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -113,14 +113,14 @@ msgctxt "long time format"
 msgid "%d:%02d:%02d"
 msgstr ""
 
-#: ../src/pt-preferences.c:48 ../src/pt-preferences.c:58
-#: ../src/pt-preferences.c:68
+#: ../src/pt-preferences.c:50 ../src/pt-preferences.c:60
+#: ../src/pt-preferences.c:70
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/pt-preferences.c:106
+#: ../src/pt-preferences.c:118
 msgid "_Close"
 msgstr ""
 
@@ -161,7 +161,7 @@ msgstr ""
 msgid "Go to position:"
 msgstr ""
 
-#: ../src/resources/goto-dialog.ui.h:3 ../src/resources/preferences.ui.h:3
+#: ../src/resources/goto-dialog.ui.h:3 ../src/resources/preferences.ui.h:6
 msgid "seconds"
 msgstr ""
 
@@ -194,30 +194,42 @@ msgid "Parlatype Preferences"
 msgstr ""
 
 #: ../src/resources/preferences.ui.h:2
-msgid "Jump back on pause:"
+msgid "Show _time scale:"
+msgstr ""
+
+#: ../src/resources/preferences.ui.h:3
+msgid "_Fixed cursor:"
 msgstr ""
 
 #: ../src/resources/preferences.ui.h:4
-msgid "Jump back:"
+msgid "Display"
 msgstr ""
 
 #: ../src/resources/preferences.ui.h:5
-msgid "Jump forward:"
-msgstr ""
-
-#: ../src/resources/preferences.ui.h:6
-msgid "Controls"
+msgid "Jump back on _pause:"
 msgstr ""
 
 #: ../src/resources/preferences.ui.h:7
-msgid "Remember position:"
+msgid "Jump _back:"
 msgstr ""
 
 #: ../src/resources/preferences.ui.h:8
-msgid "Start on top:"
+msgid "Jump _forward:"
 msgstr ""
 
 #: ../src/resources/preferences.ui.h:9
+msgid "Controls"
+msgstr ""
+
+#: ../src/resources/preferences.ui.h:10
+msgid "Remember _position:"
+msgstr ""
+
+#: ../src/resources/preferences.ui.h:11
+msgid "Start on _top:"
+msgstr ""
+
+#: ../src/resources/preferences.ui.h:12
 msgid "Window"
 msgstr ""
 

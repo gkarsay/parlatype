@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-13 13:22+0100\n"
-"PO-Revision-Date: 2016-10-15 12:09+0200\n"
+"POT-Creation-Date: 2016-11-15 16:49+0100\n"
+"PO-Revision-Date: 2016-11-15 16:49+0100\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
 "Language-Team: Deutsch <>\n"
 "Language: de\n"
@@ -119,14 +119,14 @@ msgctxt "long time format"
 msgid "%d:%02d:%02d"
 msgstr "%d:%02d:%02d"
 
-#: ../src/pt-preferences.c:48 ../src/pt-preferences.c:58
-#: ../src/pt-preferences.c:68
+#: ../src/pt-preferences.c:50 ../src/pt-preferences.c:60
+#: ../src/pt-preferences.c:70
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "Sekunde"
 msgstr[1] "Sekunden"
 
-#: ../src/pt-preferences.c:106
+#: ../src/pt-preferences.c:118
 msgid "_Close"
 msgstr "_Schließen"
 
@@ -167,7 +167,7 @@ msgstr "Gehe zu …"
 msgid "Go to position:"
 msgstr "Gehe zu Position:"
 
-#: ../src/resources/goto-dialog.ui.h:3 ../src/resources/preferences.ui.h:3
+#: ../src/resources/goto-dialog.ui.h:3 ../src/resources/preferences.ui.h:6
 msgid "seconds"
 msgstr "Sekunden"
 
@@ -200,30 +200,42 @@ msgid "Parlatype Preferences"
 msgstr "Einstellungen für Parlatype"
 
 #: ../src/resources/preferences.ui.h:2
-msgid "Jump back on pause:"
-msgstr "Bei Pause zurückspulen:"
+msgid "Show _time scale:"
+msgstr "_Zeitskala anzeigen:"
+
+#: ../src/resources/preferences.ui.h:3
+msgid "_Fixed cursor:"
+msgstr "Cursor _fixieren:"
 
 #: ../src/resources/preferences.ui.h:4
-msgid "Jump back:"
-msgstr "Zurückspringen:"
+msgid "Display"
+msgstr "Anzeige"
 
 #: ../src/resources/preferences.ui.h:5
-msgid "Jump forward:"
-msgstr "Vorwärts springen:"
+msgid "Jump back on _pause:"
+msgstr "Bei _Pause zurückspulen:"
 
-#: ../src/resources/preferences.ui.h:6
+#: ../src/resources/preferences.ui.h:7
+msgid "Jump _back:"
+msgstr "_Zurückspringen:"
+
+#: ../src/resources/preferences.ui.h:8
+msgid "Jump _forward:"
+msgstr "_Vorwärts springen:"
+
+#: ../src/resources/preferences.ui.h:9
 msgid "Controls"
 msgstr "Steuerung"
 
-#: ../src/resources/preferences.ui.h:7
-msgid "Remember position:"
-msgstr "Position des Fensters merken:"
+#: ../src/resources/preferences.ui.h:10
+msgid "Remember _position:"
+msgstr "_Position des Fensters merken:"
 
-#: ../src/resources/preferences.ui.h:8
-msgid "Start on top:"
-msgstr "»Immer im Vordergrund« starten:"
+#: ../src/resources/preferences.ui.h:11
+msgid "Start on _top:"
+msgstr "»Immer im _Vordergrund« starten:"
 
-#: ../src/resources/preferences.ui.h:9
+#: ../src/resources/preferences.ui.h:12
 msgid "Window"
 msgstr "Fenster"
 
