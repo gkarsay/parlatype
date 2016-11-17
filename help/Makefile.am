@@ -21,4 +21,4 @@ HELP_FILES = \
 	preferences.page	\
 	timestamps.page
 
-HELP_LINGUAS = de
+HELP_LINGUAS = de he
