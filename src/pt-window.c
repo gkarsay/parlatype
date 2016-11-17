@@ -670,6 +670,10 @@ pt_window_init (PtWindow *win)
 	win->priv->progress_handler_id = 0;
 	win->priv->wavedata = NULL;
 
+	/* Flip speed scale for right to left layouts */
+	if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
+		gtk_scale_set_value_pos (GTK_SCALE (win->priv->speed_scale), GTK_POS_LEFT);
+
 	pos_label_set_pango_attrs (GTK_LABEL (win->priv->pos_label));
 	g_object_bind_property (win->priv->waveslider, "follow-cursor",
 				win->priv->pos_label, "has_tooltip",
