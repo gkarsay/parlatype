@@ -91,25 +91,33 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtWaveslider, pt_waveslider, GTK_TYPE_SCROLLED_WINDO
 
 
 static gint64
-time_to_pixel (gint64 ms, gint pix_per_sec)
+time_to_pixel (PtWaveslider *self,
+	       gint64 ms)
 {
-	/* Convert a time in 1/100 seconds to the closest position in samples array */
+	/* Convert a time in 1/100 seconds to the closest pixel in the drawing area */
 	gint64 result;
 
-	result = ms * pix_per_sec;
+	result = ms * self->priv->px_per_sec;
 	result = result / 100;
+
+	if (RTL)
+		result = self->priv->peaks_size / 2 - result;
 
 	return result;
 }
 
 static gint64
-pixel_to_time (gint64 pixel, gint pix_per_sec)
+pixel_to_time (PtWaveslider *self,
+	       gint64 pixel)
 {
-	/* Convert a position in samples array to time in milliseconds */
+	/* Convert a position in the drawing area to time in milliseconds */
 	gint64 result;
 
+	if (RTL)
+		pixel = self->priv->peaks_size / 2 - pixel;
+
 	result = pixel * 1000;
-	result = result / pix_per_sec;
+	result = result / self->priv->px_per_sec;
 
 	return result;
 }
@@ -158,7 +166,7 @@ scroll_to_cursor (PtWaveslider *self)
 	gint page_width;
 	gint offset;
 
-	cursor_pos = time_to_pixel (self->priv->playback_cursor, self->priv->px_per_sec);
+	cursor_pos = time_to_pixel (self, self->priv->playback_cursor);
 	first_visible = (gint) gtk_adjustment_get_value (self->priv->adj);
 	page_width = (gint) gtk_adjustment_get_page_size (self->priv->adj);
 
@@ -170,7 +178,10 @@ scroll_to_cursor (PtWaveslider *self)
 		gtk_adjustment_set_value (self->priv->adj, cursor_pos - offset);
 	} else {
 		if (cursor_pos < first_visible || cursor_pos > first_visible + page_width) {
-			gtk_adjustment_set_value (self->priv->adj, cursor_pos);
+			if (RTL)
+				gtk_adjustment_set_value (self->priv->adj, cursor_pos - page_width);
+			else
+				gtk_adjustment_set_value (self->priv->adj, cursor_pos);
 		}
 	}
 }
@@ -223,14 +234,17 @@ paint_ruler (PtWaveslider *self,
 	   Get time of leftmost pixel, convert it to rounded 10th second,
 	   add 10th seconds until we are at the end of the view */
 	if (self->priv->primary_modulo == 1) {
-		tmp_time = pixel_to_time (visible_first, self->priv->px_per_sec) / 100 * 10;
-		i = time_to_pixel (tmp_time, self->priv->px_per_sec);
+		tmp_time = pixel_to_time (self, visible_first) / 100 * 10;
+		i = time_to_pixel (self, tmp_time);
 		while (i <= visible_last) {
 			cairo_move_to (cr, i, height);
 			cairo_line_to (cr, i, height + 4);
 			cairo_stroke (cr);
-			tmp_time += 10;
-			i = time_to_pixel (tmp_time, self->priv->px_per_sec);
+			if (RTL)
+				tmp_time -= 10;
+			else
+				tmp_time += 10;
+			i = time_to_pixel (self, tmp_time);
 		}
 	}
 
@@ -238,7 +252,8 @@ paint_ruler (PtWaveslider *self,
 	   Use secondary_modulo. */
 	if (self->priv->primary_modulo > 1) {
 		for (i = visible_first; i <= visible_last; i += 1) {
-			if (i % (self->priv->px_per_sec * self->priv->secondary_modulo) == 0) {
+			array = pixel_to_array (self, i) / 2;
+			if (array % (self->priv->px_per_sec * self->priv->secondary_modulo) == 0) {
 				cairo_move_to (cr, i, height);
 				cairo_line_to (cr, i, height + 4);
 				cairo_stroke (cr);
@@ -341,8 +356,7 @@ draw_cb (GtkWidget *widget,
 	/* paint cursor */
 	cairo_set_source_surface (cr,
 	                          self->priv->cursor,
-	                          time_to_pixel (self->priv->playback_cursor,
-	                                         self->priv->px_per_sec) - MARKER_BOX_W / 2,
+	                          time_to_pixel (self, self->priv->playback_cursor) - MARKER_BOX_W / 2,
 	                          0);
 	cairo_paint (cr);
 
@@ -372,7 +386,7 @@ button_press_event_cb (GtkWidget      *widget,
 	gint64 pos;	/* clicked sample's position in milliseconds */
 
 	clicked = (gint) event->x;
-	pos = pixel_to_time (clicked, slider->priv->px_per_sec);
+	pos = pixel_to_time (slider, clicked);
 
 	/* Single left click */
 	if (event->type == GDK_BUTTON_PRESS && event->button == GDK_BUTTON_PRIMARY) {
@@ -397,7 +411,7 @@ motion_notify_event_cb (GtkWidget      *widget,
 	gint64 pos;	/* clicked sample's position in milliseconds */
 
 	clicked = (gint) event->x;
-	pos = pixel_to_time (clicked, slider->priv->px_per_sec);
+	pos = pixel_to_time (slider, clicked);
 
 	if (event->state & GDK_BUTTON1_MASK) {
 		g_signal_emit_by_name (slider, "cursor-changed", pos);
@@ -702,8 +716,8 @@ pt_waveslider_set_property (GObject      *object,
 			gtk_widget_queue_draw (self->priv->drawarea);
 		} else {
 			gint height = gtk_widget_get_allocated_height (self->priv->drawarea);
-			gint old_x = time_to_pixel (old_value, self->priv->px_per_sec) - MARKER_BOX_W / 2;
-			gint new_x = time_to_pixel (self->priv->playback_cursor, self->priv->px_per_sec) - MARKER_BOX_W / 2;
+			gint old_x = time_to_pixel (self, old_value) - MARKER_BOX_W / 2;
+			gint new_x = time_to_pixel (self, self->priv->playback_cursor) - MARKER_BOX_W / 2;
 
 			if (self->priv->show_ruler)
 				height = height - self->priv->ruler_height;
