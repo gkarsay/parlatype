@@ -30,7 +30,6 @@
 #define MARKER_BOX_W 10
 #define MARKER_BOX_H 8
 #define WAVE_MIN_HEIGHT 20
-#define RTL TRUE
 
 struct _PtWavesliderPrivate {
 	gfloat	 *peaks;
@@ -50,6 +49,8 @@ struct _PtWavesliderPrivate {
 	GtkWidget       *drawarea;
 	GtkAdjustment   *adj;
 	cairo_surface_t *cursor;
+
+	gboolean  rtl;
 
 	gboolean  time_format_long;
 	gint      time_string_width;
@@ -100,7 +101,7 @@ time_to_pixel (PtWaveslider *self,
 	result = ms * self->priv->px_per_sec;
 	result = result / 100;
 
-	if (RTL)
+	if (self->priv->rtl)
 		result = self->priv->peaks_size / 2 - result;
 
 	return result;
@@ -113,7 +114,7 @@ pixel_to_time (PtWaveslider *self,
 	/* Convert a position in the drawing area to time in milliseconds */
 	gint64 result;
 
-	if (RTL)
+	if (self->priv->rtl)
 		pixel = self->priv->peaks_size / 2 - pixel;
 
 	result = pixel * 1000;
@@ -178,7 +179,7 @@ scroll_to_cursor (PtWaveslider *self)
 		gtk_adjustment_set_value (self->priv->adj, cursor_pos - offset);
 	} else {
 		if (cursor_pos < first_visible || cursor_pos > first_visible + page_width) {
-			if (RTL)
+			if (self->priv->rtl)
 				gtk_adjustment_set_value (self->priv->adj, cursor_pos - page_width);
 			else
 				gtk_adjustment_set_value (self->priv->adj, cursor_pos);
@@ -201,7 +202,7 @@ static gint64
 pixel_to_array (PtWaveslider *self,
 		gint64	      pixel)
 {
-	if (RTL)
+	if (self->priv->rtl)
 		return ((self->priv->peaks_size/2 - pixel) * 2);
 	else
 		return (pixel * 2);
@@ -240,7 +241,7 @@ paint_ruler (PtWaveslider *self,
 			cairo_move_to (cr, i, height);
 			cairo_line_to (cr, i, height + 4);
 			cairo_stroke (cr);
-			if (RTL)
+			if (self->priv->rtl)
 				tmp_time -= 10;
 			else
 				tmp_time += 10;
@@ -783,6 +784,11 @@ pt_waveslider_init (PtWaveslider *self)
 	self->priv->peaks_size = 0;
 	self->priv->playback_cursor = 0;
 	self->priv->follow_cursor = TRUE;
+
+	if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
+		self->priv->rtl = TRUE;
+	else
+		self->priv->rtl = FALSE;
 
 	settings = gtk_settings_get_default ();
 	g_object_get (settings, "gtk-application-prefer-dark-theme", &dark, NULL);
