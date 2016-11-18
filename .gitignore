@@ -51,10 +51,10 @@ stamp-h1
 /libparlatype/src/*.gir
 /libparlatype/src/*.typelib
 
-/help/de/*.page
-/help/de/de.mo
-/help/de/de.stamp
-/help/de/legal.xml
+/help/??/*.page
+/help/??/*.mo
+/help/??/*.stamp
+/help/??/legal.xml
 
 /libreoffice/Parlatype.py
 

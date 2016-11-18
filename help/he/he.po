@@ -1,0 +1,522 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.4.1\n"
+"POT-Creation-Date: 2016-10-28 13:35+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: he\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
+msgctxt "_"
+msgid "translator-credits"
+msgstr ""
+
+#. (itstool) path: info/title
+#: C/index.page:7
+msgctxt "text"
+msgid "Parlatype"
+msgstr ""
+
+#. (itstool) path: info/title
+#: C/index.page:8
+msgctxt "link"
+msgid "Parlatype"
+msgstr ""
+
+#. (itstool) path: credit/name
+#: C/index.page:10
+#: C/control.page:8
+#: C/drag-and-drop.page:8
+#: C/first-steps.page:8
+#: C/keyboard-shortcuts.page:8
+#: C/libreoffice-helpers.page:9
+#: C/preferences.page:8
+#: C/timestamps.page:8
+msgid "Gabor Karsay"
+msgstr ""
+
+#. (itstool) path: page/title
+#: C/index.page:16
+msgid "<_:media-1/> Parlatype"
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/index.page:21
+msgid "Welcome to the <app>Parlatype</app> help guide. For a quick overview have a look at <link xref=\"first-steps\"/>. Other topics are covered below."
+msgstr ""
+
+#. (itstool) path: info/desc
+#: C/control.page:6
+msgid "How to control Parlatype"
+msgstr ""
+
+#. (itstool) path: page/title
+#. (itstool) path: section/title
+#: C/control.page:14
+#: C/preferences.page:19
+msgid "Controls"
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/control.page:16
+msgid "Of course <app>Parlatype</app> can be controled with a mouse or pointer device, however it is more convenient to use the keyboard or even a foot pedal."
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/control.page:18
+msgid "<app>Parlatype</app>'s basic buttons can be controlled with the so called <em>media keys</em>. Media keys are used system wide to control media players and they are working even if the media player, <app>Parlatype</app> in this case, is not in focus or even in the background."
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/control.page:20
+msgid "You can change the media keys in GNOME settings. You can use dedicated keys from a multimedia keyboard or use any other key or combination of keys."
+msgstr ""
+
+#. (itstool) path: note/p
+#: C/control.page:23
+msgid "This will affect other media players, e.g. <app>Totem</app> or <app>Rhythmbox</app>, as well."
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/control.page:26
+msgid "<app>Parlatype</app> listens to these key strokes:"
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/control.page:28
+msgid "<key>Play</key>, <key>Pause</key>, <key>Stop</key>: Each of these keys toggles between playing and pause."
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/control.page:29
+msgid "<key>Rewind</key>, <key>Previous</key>: Each of these keys will jump back the time you selected in Preferences."
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/control.page:30
+msgid "<key>Fast Forward</key>, <key>Next</key>: Each of these keys will jump ahead the time you selected in Preferences."
+msgstr ""
+
+#. (itstool) path: note/p
+#: C/control.page:34
+msgid "For detailed instructions how to change keyboard shortcuts in GNOME see the <link href=\"help:gnome-help/keyboard-shortcuts-set\">official documentation</link>."
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/control.page:37
+msgid "If you are using a dedicated foot pedal, it should be possible to map the foot pedal signals to any of the keys. This is not well tested, however. Any feedback regarding foot pedals is welcome."
+msgstr ""
+
+#. (itstool) path: info/desc
+#: C/drag-and-drop.page:6
+msgid "Drag and drop to Parlatype"
+msgstr ""
+
+#. (itstool) path: page/title
+#: C/drag-and-drop.page:14
+msgid "Drag and Drop"
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/drag-and-drop.page:16
+msgid "<app>Parlatype</app> accepts several kinds of drops on its window."
+msgstr ""
+
+#. (itstool) path: section/title
+#: C/drag-and-drop.page:19
+msgid "From a file manager"
+msgstr ""
+
+#. (itstool) path: section/p
+#: C/drag-and-drop.page:20
+msgid "If you drag and drop a file from a file manager, e.g. <app>Files</app>, on <app>Parlatype</app>, it will open that file."
+msgstr ""
+
+#. (itstool) path: section/title
+#: C/drag-and-drop.page:24
+msgid "From a word processor"
+msgstr ""
+
+#. (itstool) path: section/p
+#: C/drag-and-drop.page:25
+msgid "You can drag and drop from a word processor, e.g. <app>LibreOffice</app>."
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/drag-and-drop.page:27
+msgid "Timestamps: Select a timestamp, drop it on <app>Parlatype</app> and it will jump to that position."
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/drag-and-drop.page:28
+msgid "File paths: Select a full path of a file, drop it on <app>Parlatype</app> and it will open that file."
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/drag-and-drop.page:29
+msgid "File names: Select a file name and drop it on <app>Parlatype</app>. <app>Parlatype</app> will look up its full path in the list of recent files and open it if it can find it in that list."
+msgstr ""
+
+#. (itstool) path: info/desc
+#. (itstool) path: page/title
+#: C/first-steps.page:6
+#: C/first-steps.page:14
+msgid "First steps with Parlatype"
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/first-steps.page:16
+msgid "<app>Parlatype</app> is a minimal audio player to help you transcribing or annotating recorded speech. You need to run a word processor, e.g. <app>LibreOffice</app>, too. Launch <app>Parlatype</app> and open an audio file by clicking on the <gui>Open</gui> button in the upper left corner."
+msgstr ""
+
+#. (itstool) path: note/p
+#: C/first-steps.page:19
+msgid "You can also drag and drop a file on <app>Parlatype</app> or open the recently used files in the Application menu."
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/first-steps.page:22
+msgid "Now in the upper left corner there is a <gui>Play</gui> button which toggles between play and pause. Whenever you pause, <app>Parlatype</app> rewinds a few seconds to make it easier to resume. This can be changed in the <link xref=\"preferences\"/>."
+msgstr ""
+
+#. (itstool) path: page/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/first-steps.page:24
+msgctxt "_"
+msgid "external ref='figures/parlatype-main-window.png' md5='4d4c5bc3942ce7586ce797ef650ca28b'"
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/first-steps.page:26
+msgid "The buttons <gui>Jump back</gui> and <gui>Jump forward</gui> in the lower left corner skip a few seconds back or ahead. The amount of time can be changed in the <link xref=\"preferences\"/>."
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/first-steps.page:28
+msgid "The view scrolls automatically so that the cursor is always visible. You can scroll manually by clicking on or dragging the scroll bar or using the standard keybindings. Automatic scrolling is stopped then."
+msgstr ""
+
+#. (itstool) path: note/p
+#: C/first-steps.page:31
+msgid "To get back to the cursor's position and let the view scroll automatically again, click on the time label. The <gui>Play</gui> button has the same effect."
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/first-steps.page:34
+msgid "Clicking in the view will put the cursor there, also holding the mouse button pressed and moving it."
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/first-steps.page:36
+msgid "The <gui>speed scale</gui> next to the <gui>volume</gui> button in the lower right corner lets you adjust the speed of playback. A value of 1 means normal speed, everything lower (down to 0.5) is slower, everything above is faster."
+msgstr ""
+
+#. (itstool) path: info/desc
+#: C/keyboard-shortcuts.page:6
+msgid "Standard keyboard shortcuts in Parlatype"
+msgstr ""
+
+#. (itstool) path: page/title
+#: C/keyboard-shortcuts.page:14
+msgid "Keyboard shortcuts"
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/keyboard-shortcuts.page:16
+msgid "Keyboard shortcuts for <app>Parlatype</app> control, like <key>Play</key>, are described in <link xref=\"control\"/>. Shortcut keys for the window are listed below."
+msgstr ""
+
+#. (itstool) path: table/title
+#: C/keyboard-shortcuts.page:19
+msgid "Standard Shortcut keys"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:22
+msgid "To Do This"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:23
+msgid "Press This"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:28
+msgid "Show help"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:29
+msgid "<key>F1</key>"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:32
+msgid "Open file"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:33
+msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:36
+msgid "Open recent files"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:37
+msgid "<keyseq><key>Ctrl</key><key>r</key></keyseq>"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:40
+msgid "Go to …"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:41
+msgid "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:44
+msgid "Copy timestamp"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:45
+msgid "<keyseq><key>Ctrl</key><key>c</key></keyseq>"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:48
+msgid "Quit"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:49
+msgid "<keyseq><key>Ctrl</key><key>q</key></keyseq>"
+msgstr ""
+
+#. (itstool) path: p/link
+#: C/legal.xml:5
+msgid "Creative Commons Attribution-ShareAlike 4.0 International"
+msgstr ""
+
+#. (itstool) path: license/p
+#: C/legal.xml:4
+msgid "This work is licensed under a <_:link-1/> license."
+msgstr ""
+
+#. (itstool) path: info/desc
+#: C/libreoffice-helpers.page:7
+msgid "Helpers for LibreOffice"
+msgstr ""
+
+#. (itstool) path: page/title
+#. (itstool) path: table/title
+#: C/libreoffice-helpers.page:15
+#: C/libreoffice-helpers.page:30
+msgid "LibreOffice Helpers"
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/libreoffice-helpers.page:17
+msgid "LibreOffice Helpers are an optional part of <app>Parlatype</app>. If you have them installed you still have to assign keyboard shortcuts to be able to use them."
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/libreoffice-helpers.page:19
+msgid "In <app>LibreOffice</app> go to menu <gui>Tools</gui> and select <gui>Customize</gui>."
+msgstr ""
+
+#. (itstool) path: page/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/libreoffice-helpers.page:21
+msgctxt "_"
+msgid "external ref='figures/lo-menu.png' md5='4dd86affb0353b6bdfa2dcfbbeadd494'"
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/libreoffice-helpers.page:23
+msgid "Go to tab <gui>Keyboard</gui>. In the lower part, <gui>Functions</gui>, there is a list called <gui>Category</gui>. At the end of that list you'll find the entry <gui>LibreOffice Macros</gui>. There is a subcategory <gui>share</gui> which has a subcategory <gui>Parlatype</gui>. After selecting <gui>Parlatype</gui> there will be a list of functions in the <gui>Functions</gui> list. Choose the function you'd like to use, select from the list <gui>Shortcut keys</gui> above a shortcut and click on the button <gui>Modify</gui>."
+msgstr ""
+
+#. (itstool) path: page/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/libreoffice-helpers.page:25
+msgctxt "_"
+msgid "external ref='figures/lo-customize.png' md5='081564921275129bee7bbd10220547e7'"
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/libreoffice-helpers.page:27
+msgid "You can select any of these functions:"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/libreoffice-helpers.page:33
+msgid "Helper's name"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/libreoffice-helpers.page:34
+msgid "What it does"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/libreoffice-helpers.page:40
+msgid "Toggles between play and pause. Depending on your preferences set in <app>Parlatype</app> it will rewind a few seconds on pause."
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/libreoffice-helpers.page:44
+msgid "Jumps back a few seconds, depending on the preferences you set in <app>Parlatype</app>."
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/libreoffice-helpers.page:48
+msgid "Jumps forward a few seconds, depending on the preferences you set in <app>Parlatype</app>."
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/libreoffice-helpers.page:52
+msgid "Inserts the current timestamp at the cursor's position. It does not overwrite any selection."
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/libreoffice-helpers.page:56
+msgid "The same as above, but on a new line."
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/libreoffice-helpers.page:60
+msgid "If the cursor is set on a timestamp, it will jump to that position. The cursor has to be somewhere between the two number signs (#). Don't select the timestamp, just put the cursor inside."
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/libreoffice-helpers.page:64
+msgid "Increases playback speed."
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/libreoffice-helpers.page:68
+msgid "Decreases playback speed."
+msgstr ""
+
+#. (itstool) path: info/desc
+#: C/preferences.page:6
+msgid "How to customize Parlatype"
+msgstr ""
+
+#. (itstool) path: page/title
+#: C/preferences.page:14
+msgid "Preferences"
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/preferences.page:16
+msgid "You can reach the preferences window in the Application Menu (next to <gui>Activities</gui> in the top left corner. There are two tabs: <gui>Controls</gui> and <gui>Window</gui>."
+msgstr ""
+
+#. (itstool) path: section/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/preferences.page:21
+msgctxt "_"
+msgid "external ref='figures/parlatype-prefs-controls.png' md5='3a27cf15d3572e6eec9922bd1e500176'"
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/preferences.page:24
+msgid "Jump back on pause: <app>Parlatype</app> will rewind a few seconds on each pause, this way you can easier resume typing. Set this value to 0 if you don't want this behaviour."
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/preferences.page:25
+msgid "Jump back: Configures how many seconds to skip when the <gui>Jump back</gui> button is pressed."
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/preferences.page:26
+msgid "Jump forward: Configures how many seconds to skip when the <gui>Jump forward</gui> button is pressed."
+msgstr ""
+
+#. (itstool) path: section/title
+#: C/preferences.page:31
+msgid "Window"
+msgstr ""
+
+#. (itstool) path: section/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/preferences.page:33
+msgctxt "_"
+msgid "external ref='figures/parlatype-prefs-window.png' md5='4d438cac095ba63961d6e7f3ffc54cab'"
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/preferences.page:36
+msgid "Remember position: On start-up <app>Parlatype</app> can position its window where you had it when you closed <app>Parlatype</app> last time. This also remembers the window's size."
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/preferences.page:37
+msgid "Start on top: This will put <app>Parlatype</app> on start-up on top of other windows. This might be useful if you are working with a maximized word processor and still want to see the <app>Parlatype</app> window."
+msgstr ""
+
+#. (itstool) path: info/desc
+#: C/timestamps.page:6
+msgid "About Timestamps"
+msgstr ""
+
+#. (itstool) path: page/title
+#: C/timestamps.page:14
+msgid "Timestamps"
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/timestamps.page:16
+msgid "Timestamps help you to navigate in your transcription."
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/timestamps.page:18
+msgid "The easiest way to use them in <app>LibreOffice</app> are <app>Parlatype's</app> own <link xref=\"libreoffice-helpers\"/>."
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/timestamps.page:20
+msgid "In other programs you have to switch between your word processor and <app>Parlatype</app>. First make sure, the <app>Parlatype</app> window has focus. With the key sequence <keyseq><key>Ctrl</key><key>c</key></keyseq> the current timestamp is copied to the clipboard. Changing to the word processor you can insert now the timestamp."
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/timestamps.page:22
+msgid "If you select the timestamp in the word processor, you can drag and drop it on the <app>Parlatype</app> window and it will go to that position."
+msgstr ""
+
+#. (itstool) path: note/p
+#: C/timestamps.page:25
+msgid "Timestamps look like this: #03:45-2#. You can select them with or without the number signs."
+msgstr ""
+
