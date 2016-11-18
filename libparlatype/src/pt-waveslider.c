@@ -92,6 +92,13 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtWaveslider, pt_waveslider, GTK_TYPE_SCROLLED_WINDO
 
 
 static gint64
+flip_pixel (PtWaveslider *self,
+	    gint64        pixel)
+{
+	return (self->priv->peaks_size / 2 - pixel);
+}
+
+static gint64
 time_to_pixel (PtWaveslider *self,
 	       gint64 ms)
 {
@@ -102,7 +109,7 @@ time_to_pixel (PtWaveslider *self,
 	result = result / 100;
 
 	if (self->priv->rtl)
-		result = self->priv->peaks_size / 2 - result;
+		result = flip_pixel (self, result);
 
 	return result;
 }
@@ -115,7 +122,7 @@ pixel_to_time (PtWaveslider *self,
 	gint64 result;
 
 	if (self->priv->rtl)
-		pixel = self->priv->peaks_size / 2 - pixel;
+		pixel = flip_pixel (self, pixel);
 
 	result = pixel * 1000;
 	result = result / self->priv->px_per_sec;
@@ -164,12 +171,14 @@ scroll_to_cursor (PtWaveslider *self)
 {
 	gint cursor_pos;
 	gint first_visible;
+	gint last_visible;
 	gint page_width;
 	gint offset;
 
 	cursor_pos = time_to_pixel (self, self->priv->playback_cursor);
 	first_visible = (gint) gtk_adjustment_get_value (self->priv->adj);
 	page_width = (gint) gtk_adjustment_get_page_size (self->priv->adj);
+	last_visible = first_visible + page_width;
 
 	/* Fixed cursor: always scroll,
 	   non-fixed cursor: only scroll if cursor is not visible */
@@ -178,10 +187,12 @@ scroll_to_cursor (PtWaveslider *self)
 		offset = page_width * CURSOR_POSITION;
 		gtk_adjustment_set_value (self->priv->adj, cursor_pos - offset);
 	} else {
-		if (cursor_pos < first_visible || cursor_pos > first_visible + page_width) {
+		if (cursor_pos < first_visible || cursor_pos > last_visible) {
 			if (self->priv->rtl)
+				/* cursor visible far right */
 				gtk_adjustment_set_value (self->priv->adj, cursor_pos - page_width);
 			else
+				/* cursor visible far left */
 				gtk_adjustment_set_value (self->priv->adj, cursor_pos);
 		}
 	}
@@ -202,10 +213,13 @@ static gint64
 pixel_to_array (PtWaveslider *self,
 		gint64	      pixel)
 {
+	/* Convert a position in the drawing area to an index in the peaks array.
+	   The returned index is the peak's min value, +1 is the max value */
+
 	if (self->priv->rtl)
-		return ((self->priv->peaks_size/2 - pixel) * 2);
-	else
-		return (pixel * 2);
+		pixel = flip_pixel (self, pixel);
+
+	return (pixel * 2);
 }
 
 static void
@@ -215,8 +229,8 @@ paint_ruler (PtWaveslider *self,
 	     gint          visible_first,
 	     gint          visible_last)
 {
-	gint	        i;
-	gint		array;
+	gint	        i;		/* counter, pixel on x-axis in the view */
+	gint		sample;		/* sample in the array */
 	gchar          *text;
 	PangoLayout    *layout;
 	PangoRectangle  rect;
@@ -253,8 +267,10 @@ paint_ruler (PtWaveslider *self,
 	   Use secondary_modulo. */
 	if (self->priv->primary_modulo > 1) {
 		for (i = visible_first; i <= visible_last; i += 1) {
-			array = pixel_to_array (self, i) / 2;
-			if (array % (self->priv->px_per_sec * self->priv->secondary_modulo) == 0) {
+			sample = i;
+			if (self->priv->rtl)
+				sample = flip_pixel (self, sample);
+			if (sample % (self->priv->px_per_sec * self->priv->secondary_modulo) == 0) {
 				cairo_move_to (cr, i, height);
 				cairo_line_to (cr, i, height + 4);
 				cairo_stroke (cr);
@@ -264,8 +280,10 @@ paint_ruler (PtWaveslider *self,
 
 	/* Primary marks and time strings */
 	for (i = visible_first; i <= visible_last; i += 1) {
-		array = pixel_to_array (self, i) / 2;
-		if (array % (self->priv->px_per_sec * self->priv->primary_modulo) == 0) {
+		sample = i;
+		if (self->priv->rtl)
+			sample = flip_pixel (self, sample);
+		if (sample % (self->priv->px_per_sec * self->priv->primary_modulo) == 0) {
 			gdk_cairo_set_source_rgba (cr, &self->priv->mark_color);
 			cairo_move_to (cr, i, height);
 			cairo_line_to (cr, i, height + 8);
@@ -273,13 +291,13 @@ paint_ruler (PtWaveslider *self,
 			gdk_cairo_set_source_rgba (cr, &self->priv->wave_color);
 			if (self->priv->time_format_long) {
 				text = g_strdup_printf (C_("long time format", "%d:%02d:%02d"),
-							array/self->priv->px_per_sec / 3600,
-							(array/self->priv->px_per_sec % 3600) / 60,
-							array/self->priv->px_per_sec % 60);
+							sample/self->priv->px_per_sec / 3600,
+							(sample/self->priv->px_per_sec % 3600) / 60,
+							sample/self->priv->px_per_sec % 60);
 			} else {
 				text = g_strdup_printf (C_("shortest time format", "%d:%02d"),
-							array/self->priv->px_per_sec/60,
-							array/self->priv->px_per_sec % 60);
+							sample/self->priv->px_per_sec/60,
+							sample/self->priv->px_per_sec % 60);
 			}
 			layout = gtk_widget_create_pango_layout (GTK_WIDGET (self), text);
 			pango_cairo_update_layout (cr, layout);
@@ -455,6 +473,9 @@ scroll_child_cb (GtkScrolledWindow *self,
                  gboolean           horizontal,
                  gpointer           data)
 {
+	/* If user scrolls with keybindings don't follow cursor anymore.
+	   Otherwise it would scroll immediately back again. */
+
 	PtWaveslider *slider = PT_WAVESLIDER (data);
 
 	if (!horizontal)
@@ -476,19 +497,6 @@ scroll_child_cb (GtkScrolledWindow *self,
 	return FALSE;
 }
 
-static void
-adj_cb (GtkAdjustment *adj,
-	gpointer      *data)
-{
-	g_debug ("adjustment changed");
-
-	/* GtkScrolledWindow draws itself mostly automatically, but some
-	   adjustment changes are not propagated for reasons I don't understand.
-	   Probably we're doing some draws twice */
-	PtWaveslider *self = PT_WAVESLIDER (data);
-	gtk_widget_queue_draw (GTK_WIDGET (self->priv->drawarea));
-}
-
 static gboolean
 scrollbar_cb (GtkWidget      *widget,
 	      GdkEventButton *event,
@@ -502,6 +510,19 @@ scrollbar_cb (GtkWidget      *widget,
 
 	/* Propagate signal */
 	return FALSE;
+}
+
+static void
+adj_cb (GtkAdjustment *adj,
+	gpointer      *data)
+{
+	g_debug ("adjustment changed");
+
+	/* GtkScrolledWindow draws itself mostly automatically, but some
+	   adjustment changes are not propagated for reasons I don't understand.
+	   Probably we're doing some draws twice */
+	PtWaveslider *self = PT_WAVESLIDER (data);
+	gtk_widget_queue_draw (GTK_WIDGET (self->priv->drawarea));
 }
 
 /**
@@ -889,8 +910,8 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 	obj_properties[PROP_PLAYBACK_CURSOR] =
 	g_param_spec_int64 (
 			"playback-cursor",
-			"playback cursor position",
-			"Current playback position within a waveform",
+			"Cursor position",
+			"Cursor's position in 1/100 seconds",
 			0,
 			G_MAXINT64,
 			0,
@@ -907,10 +928,10 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 	obj_properties[PROP_FOLLOW_CURSOR] =
 	g_param_spec_boolean (
 			"follow-cursor",
-			"follow cursor",
-			"Scroll automatically to current cursor position",
+			"Follow cursor",
+			"Scroll automatically to the cursor's position",
 			TRUE,
-			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
 	/**
 	* PtWaveslider:fixed-cursor:
@@ -924,10 +945,11 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 	obj_properties[PROP_FIXED_CURSOR] =
 	g_param_spec_boolean (
 			"fixed-cursor",
-			"fixed cursor",
-			"In follow-cursor mode the cursor is at a fixed position",
+			"Fixed cursor",
+			"If TRUE, the cursor is in a fixed position and the waveform is moving.\n"
+			"If FALSE, the cursor is moving.",
 			TRUE,
-			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
 	/**
 	* PtWaveslider:show-ruler:
@@ -938,10 +960,10 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 	obj_properties[PROP_SHOW_RULER] =
 	g_param_spec_boolean (
 			"show-ruler",
-			"show ruler",
-			"Show the ruler with time marks",
+			"Show ruler",
+			"Show the time scale with time marks",
 			TRUE,
-			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
 	g_object_class_install_properties (
 			G_OBJECT_CLASS (klass),
