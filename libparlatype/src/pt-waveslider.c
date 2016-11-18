@@ -95,6 +95,10 @@ static gint64
 flip_pixel (PtWaveslider *self,
 	    gint64        pixel)
 {
+	/* In ltr layouts each pixel on the x-axis corresponds to a sample in the array.
+	   In rtl layouts this is flipped, e.g. the first pixel corresponds to
+	   the last sample in the array. */
+
 	return (self->priv->peaks_size / 2 - pixel);
 }
 
@@ -379,6 +383,7 @@ draw_cb (GtkWidget *widget,
 	                          0);
 	cairo_paint (cr);
 
+	/* render focus */
 	if (gtk_widget_has_focus (GTK_WIDGET (self->priv->drawarea))) {
 		gtk_render_focus (gtk_widget_get_style_context (GTK_WIDGET (self->priv->drawarea)),
 				  cr,
