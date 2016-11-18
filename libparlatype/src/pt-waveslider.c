@@ -204,6 +204,7 @@ paint_ruler (PtWaveslider *self,
 	     gint          visible_last)
 {
 	gint	        i;
+	gint		array;
 	gchar          *text;
 	PangoLayout    *layout;
 	PangoRectangle  rect;
@@ -247,7 +248,8 @@ paint_ruler (PtWaveslider *self,
 
 	/* Primary marks and time strings */
 	for (i = visible_first; i <= visible_last; i += 1) {
-		if (i % (self->priv->px_per_sec * self->priv->primary_modulo) == 0) {
+		array = pixel_to_array (self, i) / 2;
+		if (array % (self->priv->px_per_sec * self->priv->primary_modulo) == 0) {
 			gdk_cairo_set_source_rgba (cr, &self->priv->mark_color);
 			cairo_move_to (cr, i, height);
 			cairo_line_to (cr, i, height + 8);
@@ -255,13 +257,13 @@ paint_ruler (PtWaveslider *self,
 			gdk_cairo_set_source_rgba (cr, &self->priv->wave_color);
 			if (self->priv->time_format_long) {
 				text = g_strdup_printf (C_("long time format", "%d:%02d:%02d"),
-							i/self->priv->px_per_sec / 3600,
-							(i/self->priv->px_per_sec % 3600) / 60,
-							i/self->priv->px_per_sec % 60);
+							array/self->priv->px_per_sec / 3600,
+							(array/self->priv->px_per_sec % 3600) / 60,
+							array/self->priv->px_per_sec % 60);
 			} else {
 				text = g_strdup_printf (C_("shortest time format", "%d:%02d"),
-							i/self->priv->px_per_sec/60,
-							i/self->priv->px_per_sec % 60);
+							array/self->priv->px_per_sec/60,
+							array/self->priv->px_per_sec % 60);
 			}
 			layout = gtk_widget_create_pango_layout (GTK_WIDGET (self), text);
 			pango_cairo_update_layout (cr, layout);
