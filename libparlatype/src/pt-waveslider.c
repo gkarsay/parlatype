@@ -30,7 +30,7 @@
 #define MARKER_BOX_W 10
 #define MARKER_BOX_H 8
 #define WAVE_MIN_HEIGHT 20
-
+#define RTL TRUE
 
 struct _PtWavesliderPrivate {
 	gfloat	 *peaks;
@@ -186,6 +186,16 @@ size_allocate_cb (GtkWidget     *widget,
 	draw_cursor (self);
 }
 
+static gint64
+pixel_to_array (PtWaveslider *self,
+		gint64	      pixel)
+{
+	if (RTL)
+		return ((self->priv->peaks_size/2 - pixel) * 2);
+	else
+		return (pixel * 2);
+}
+
 static void
 paint_ruler (PtWaveslider *self,
 	     cairo_t      *cr,
@@ -291,7 +301,8 @@ draw_cb (GtkWidget *widget,
 	gint visible_first;
 	gint visible_last;
 
-	gint i;
+	gint pixel;
+	gint array;
 	gdouble min, max;
 
 	gint height = gtk_widget_get_allocated_height (widget);
@@ -310,11 +321,12 @@ draw_cb (GtkWidget *widget,
 	gdk_cairo_set_source_rgba (cr, &self->priv->wave_color);
 
 	/* paint waveform */
-	for (i = visible_first; i <= visible_last; i += 1) {
-		min = (middle + half * peaks[i * 2] * -1);
-		max = (middle - half * peaks[i * 2 + 1]);
-		cairo_move_to (cr, i, min);
-		cairo_line_to (cr, i, max);
+	for (pixel = visible_first; pixel <= visible_last; pixel += 1) {
+		array = pixel_to_array (self, pixel);
+		min = (middle + half * peaks[array] * -1);
+		max = (middle - half * peaks[array + 1]);
+		cairo_move_to (cr, pixel, min);
+		cairo_line_to (cr, pixel, max);
 		/* cairo_stroke also possible after loop, but then slower */
 		cairo_stroke (cr);
 	}
