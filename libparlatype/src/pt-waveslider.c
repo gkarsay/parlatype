@@ -27,8 +27,8 @@
 
 
 #define CURSOR_POSITION 0.5
-#define MARKER_BOX_W 6
-#define MARKER_BOX_H 5
+#define MARKER_BOX_W 10
+#define MARKER_BOX_H 8
 #define WAVE_MIN_HEIGHT 20
 
 
@@ -138,13 +138,13 @@ draw_cursor (PtWaveslider *self)
 
 	gdk_cairo_set_source_rgba (cr, &self->priv->cursor_color);
 
-	cairo_move_to (cr, 0, height);
-	cairo_line_to (cr, 0, 0);
+	cairo_move_to (cr, 0 + MARKER_BOX_W / 2, height);
+	cairo_line_to (cr, 0 + MARKER_BOX_W / 2, 0);
 	cairo_stroke (cr);
-	cairo_move_to (cr, 0, height / 2 - MARKER_BOX_H);
-	cairo_line_to (cr, 0, height / 2 + MARKER_BOX_H);
-	cairo_line_to (cr, 0 + MARKER_BOX_W, height / 2);
-	cairo_line_to (cr, 0, height / 2 - MARKER_BOX_H);
+	cairo_move_to (cr, 0, 0);
+	cairo_line_to (cr, 0 + MARKER_BOX_W, 0);
+	cairo_line_to (cr, 0 + MARKER_BOX_W / 2 , 0 + MARKER_BOX_H);
+	cairo_line_to (cr, 0, 0);
 	cairo_fill (cr);
 
 	cairo_destroy (cr);
@@ -328,7 +328,7 @@ draw_cb (GtkWidget *widget,
 	cairo_set_source_surface (cr,
 	                          self->priv->cursor,
 	                          time_to_pixel (self->priv->playback_cursor,
-	                                         self->priv->px_per_sec),
+	                                         self->priv->px_per_sec) - MARKER_BOX_W / 2,
 	                          0);
 	cairo_paint (cr);
 
@@ -688,8 +688,8 @@ pt_waveslider_set_property (GObject      *object,
 			gtk_widget_queue_draw (self->priv->drawarea);
 		} else {
 			gint height = gtk_widget_get_allocated_height (self->priv->drawarea);
-			gint old_x = time_to_pixel (old_value, self->priv->px_per_sec);
-			gint new_x = time_to_pixel (self->priv->playback_cursor, self->priv->px_per_sec);
+			gint old_x = time_to_pixel (old_value, self->priv->px_per_sec) - MARKER_BOX_W / 2;
+			gint new_x = time_to_pixel (self->priv->playback_cursor, self->priv->px_per_sec) - MARKER_BOX_W / 2;
 
 			if (self->priv->show_ruler)
 				height = height - self->priv->ruler_height;
