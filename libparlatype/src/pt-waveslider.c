@@ -332,6 +332,15 @@ draw_cb (GtkWidget *widget,
 	                          0);
 	cairo_paint (cr);
 
+	if (gtk_widget_has_focus (GTK_WIDGET (self->priv->drawarea))) {
+		gtk_render_focus (gtk_widget_get_style_context (GTK_WIDGET (self->priv->drawarea)),
+				  cr,
+				  visible_first + 1,
+				  1,
+				  (gint) gtk_adjustment_get_page_size (self->priv->adj) - 2,
+				  gtk_widget_get_allocated_height (widget) - 2);
+	}
+
 	return FALSE;
 }
 
