@@ -672,37 +672,38 @@ pt_waveslider_set_property (GObject      *object,
 		self->priv->playback_cursor = g_value_get_int64 (value);
 
 		/* ignore if we're not realized yet, widget is in construction */
-		if (gtk_widget_get_realized (GTK_WIDGET (self))) {
-			if (self->priv->follow_cursor)
-				scroll_to_cursor (self);
+		if (!gtk_widget_get_realized (GTK_WIDGET (self)))
+			break;
 
-			/* In fixed cursor mode we do an expensive redraw (this is recalculation)
-			   of the whole visible area. There is plenty room for improvements here,
-			   e.g. for some kind of caching.
-			   In non-fixed cursor mode we invalidate the region where the cursor was
-			   before and were it will be next. */
+		if (self->priv->follow_cursor)
+			scroll_to_cursor (self);
 
-			if (self->priv->fixed_cursor) {
-				gtk_widget_queue_draw (self->priv->drawarea);
-			} else {
-				gint height = gtk_widget_get_allocated_height (self->priv->drawarea);
-				gint old_x = time_to_pixel (old_value, self->priv->px_per_sec);
-				gint new_x = time_to_pixel (self->priv->playback_cursor, self->priv->px_per_sec);
+		/* In fixed cursor mode we do an expensive redraw (this is recalculation)
+		   of the whole visible area. There is plenty room for improvements here,
+		   e.g. for some kind of caching.
+		   In non-fixed cursor mode we invalidate the region where the cursor was
+		   before and were it will be next. */
 
-				if (self->priv->show_ruler)
-					height = height - self->priv->ruler_height;
+		if (self->priv->fixed_cursor) {
+			gtk_widget_queue_draw (self->priv->drawarea);
+		} else {
+			gint height = gtk_widget_get_allocated_height (self->priv->drawarea);
+			gint old_x = time_to_pixel (old_value, self->priv->px_per_sec);
+			gint new_x = time_to_pixel (self->priv->playback_cursor, self->priv->px_per_sec);
 
-				gtk_widget_queue_draw_area (self->priv->drawarea,
-							    old_x,
-							    0,
-							    MARKER_BOX_W,
-							    height);
-				gtk_widget_queue_draw_area (self->priv->drawarea,
-							    new_x,
-							    0,
-							    MARKER_BOX_W,
-							    height);
-			}
+			if (self->priv->show_ruler)
+				height = height - self->priv->ruler_height;
+
+			gtk_widget_queue_draw_area (self->priv->drawarea,
+						    old_x,
+						    0,
+						    MARKER_BOX_W,
+						    height);
+			gtk_widget_queue_draw_area (self->priv->drawarea,
+						    new_x,
+						    0,
+						    MARKER_BOX_W,
+						    height);
 		}
 		break;
 	case PROP_FOLLOW_CURSOR:
