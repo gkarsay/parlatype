@@ -26,6 +26,7 @@
 #include "pt-waveslider.h"
 
 
+#define ALL_ACCELS_MASK	(GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK)
 #define CURSOR_POSITION 0.5
 #define MARKER_BOX_W 10
 #define MARKER_BOX_H 8
@@ -51,6 +52,7 @@ struct _PtWavesliderPrivate {
 	cairo_surface_t *cursor;
 
 	gboolean  rtl;
+	gboolean  focus_on_cursor;
 
 	gboolean  time_format_long;
 	gint      time_string_width;
@@ -106,11 +108,11 @@ static gint64
 time_to_pixel (PtWaveslider *self,
 	       gint64 ms)
 {
-	/* Convert a time in 1/100 seconds to the closest pixel in the drawing area */
+	/* Convert a time in 1/1000 seconds to the closest pixel in the drawing area */
 	gint64 result;
 
 	result = ms * self->priv->px_per_sec;
-	result = result / 100;
+	result = result / 1000;
 
 	if (self->priv->rtl)
 		result = flip_pixel (self, result);
@@ -253,16 +255,16 @@ paint_ruler (PtWaveslider *self,
 	   Get time of leftmost pixel, convert it to rounded 10th second,
 	   add 10th seconds until we are at the end of the view */
 	if (self->priv->primary_modulo == 1) {
-		tmp_time = pixel_to_time (self, visible_first) / 100 * 10;
+		tmp_time = pixel_to_time (self, visible_first) / 1000 * 100;
 		i = time_to_pixel (self, tmp_time);
 		while (i <= visible_last) {
 			cairo_move_to (cr, i, height);
 			cairo_line_to (cr, i, height + 4);
 			cairo_stroke (cr);
 			if (self->priv->rtl)
-				tmp_time -= 10;
+				tmp_time -= 100;
 			else
-				tmp_time += 10;
+				tmp_time += 100;
 			i = time_to_pixel (self, tmp_time);
 		}
 	}
@@ -385,12 +387,61 @@ draw_cb (GtkWidget *widget,
 
 	/* render focus */
 	if (gtk_widget_has_focus (GTK_WIDGET (self->priv->drawarea))) {
-		gtk_render_focus (gtk_widget_get_style_context (GTK_WIDGET (self->priv->drawarea)),
-				  cr,
-				  visible_first + 1,
-				  1,
-				  (gint) gtk_adjustment_get_page_size (self->priv->adj) - 2,
-				  gtk_widget_get_allocated_height (widget) - 2);
+		if (self->priv->focus_on_cursor) {
+			gtk_render_focus (gtk_widget_get_style_context (GTK_WIDGET (self->priv->drawarea)),
+					  cr,
+					  time_to_pixel (self, self->priv->playback_cursor) - MARKER_BOX_W / 2 - 2,
+					  1,
+					  MARKER_BOX_W + 4,
+					  height - 2);
+		} else {
+			gtk_render_focus (gtk_widget_get_style_context (GTK_WIDGET (self->priv->drawarea)),
+					  cr,
+					  visible_first + 1,
+					  1,
+					  (gint) gtk_adjustment_get_page_size (self->priv->adj) - 2,
+					  gtk_widget_get_allocated_height (widget) - 2);
+		}
+	}
+
+	return FALSE;
+}
+
+static gboolean
+key_press_event_cb (GtkWidget   *widget,
+		    GdkEventKey *event,
+		    gpointer     data)
+{
+	PtWaveslider *slider = PT_WAVESLIDER (data);
+	gint64 cursor_pos;
+	gint   one_pixel;
+
+	if (event->type != GDK_KEY_PRESS)
+		return FALSE;
+
+	if (!slider->priv->peaks)
+		return FALSE;
+
+	if (!slider->priv->focus_on_cursor)
+		return FALSE;
+
+	/* no modifier pressed */
+	if (!(event->state & ALL_ACCELS_MASK)) {
+
+		cursor_pos = time_to_pixel (slider, slider->priv->playback_cursor);
+		one_pixel = 1000 / slider->priv->px_per_sec;
+		switch (event->keyval) {
+		case GDK_KEY_Left:
+			if (cursor_pos == 0)
+				return FALSE;
+			g_signal_emit_by_name (slider, "cursor-changed", slider->priv->playback_cursor - 2 * one_pixel);
+			return TRUE;
+		case GDK_KEY_Right:
+			if (cursor_pos == slider->priv->peaks_size / 2)
+				return FALSE;
+			g_signal_emit_by_name (slider, "cursor-changed", slider->priv->playback_cursor + 2 * one_pixel);
+			return TRUE;
+		}
 	}
 
 	return FALSE;
@@ -519,7 +570,7 @@ scrollbar_cb (GtkWidget      *widget,
 
 static void
 adj_cb (GtkAdjustment *adj,
-	gpointer      *data)
+	gpointer       data)
 {
 	g_debug ("adjustment changed");
 
@@ -528,6 +579,51 @@ adj_cb (GtkAdjustment *adj,
 	   Probably we're doing some draws twice */
 	PtWaveslider *self = PT_WAVESLIDER (data);
 	gtk_widget_queue_draw (GTK_WIDGET (self->priv->drawarea));
+}
+
+static gboolean
+focus_cb (GtkWidget        *widget,
+          GtkDirectionType  direction,
+          gpointer          data)
+{
+	PtWaveslider *self = PT_WAVESLIDER (data);
+
+	/* Focus chain forward: no-focus -> focus-whole-widget -> focus-cursor -> no-focus */
+	if (gtk_widget_has_focus (widget)) {
+		/* We have already focus, decide whether to stay in focus or not */
+		if (direction == GTK_DIR_TAB_FORWARD || direction == GTK_DIR_DOWN) {
+			if (self->priv->focus_on_cursor) {
+				self->priv->focus_on_cursor = FALSE;
+				/* focus lost */
+			} else {
+				self->priv->focus_on_cursor = TRUE;
+				/* focus on cursor */
+				gtk_widget_queue_draw (GTK_WIDGET (self->priv->drawarea));
+				return TRUE;
+			}
+		}
+		if (direction == GTK_DIR_TAB_BACKWARD || direction == GTK_DIR_UP) {
+			if (self->priv->focus_on_cursor) {
+				self->priv->focus_on_cursor = FALSE;
+				/* focus on whole widget */
+				gtk_widget_queue_draw (GTK_WIDGET (self->priv->drawarea));
+				return TRUE;
+			} else {
+				/* focus lost */
+			}
+		}
+	} else {
+		/* We had no focus before, decide which part to focus on */
+		if (direction == GTK_DIR_TAB_FORWARD || direction == GTK_DIR_DOWN || direction == GTK_DIR_RIGHT) {
+			self->priv->focus_on_cursor = FALSE;
+			/* focus on whole widget */
+		} else {
+			self->priv->focus_on_cursor = TRUE;
+			/* focus on cursor */
+		}
+	}
+
+	return FALSE;
 }
 
 /**
@@ -810,6 +906,7 @@ pt_waveslider_init (PtWaveslider *self)
 	self->priv->peaks_size = 0;
 	self->priv->playback_cursor = 0;
 	self->priv->follow_cursor = TRUE;
+	self->priv->focus_on_cursor = FALSE;
 
 	if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
 		self->priv->rtl = TRUE;
@@ -867,9 +964,20 @@ pt_waveslider_init (PtWaveslider *self)
 			  G_CALLBACK (size_allocate_cb),
 			  self);
 
+	g_signal_connect (self->priv->drawarea,
+			  "focus",
+			  G_CALLBACK (focus_cb),
+			  self);
+
+	g_signal_connect (self->priv->drawarea,
+			  "key-press-event",
+			  G_CALLBACK (key_press_event_cb),
+			  self);
+
 	gtk_widget_set_events (self->priv->drawarea, gtk_widget_get_events (self->priv->drawarea)
                                      | GDK_BUTTON_PRESS_MASK
-				     | GDK_POINTER_MOTION_MASK);
+				     | GDK_POINTER_MOTION_MASK
+				     | GDK_KEY_PRESS_MASK);
 }
 
 static void
@@ -916,7 +1024,7 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 	g_param_spec_int64 (
 			"playback-cursor",
 			"Cursor position",
-			"Cursor's position in 1/100 seconds",
+			"Cursor's position in 1/1000 seconds",
 			0,
 			G_MAXINT64,
 			0,

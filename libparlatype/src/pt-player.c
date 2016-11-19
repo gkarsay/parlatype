@@ -859,7 +859,7 @@ pt_player_wave_pos (PtPlayer *player)
 	if (!pt_player_query_position (player, &pos))
 		return 0;
 
-	return pos / 10000000;
+	return GST_TIME_AS_MSECONDS (pos);
 }
 
 /**
