@@ -407,14 +407,31 @@ draw_cb (GtkWidget *widget,
 	return FALSE;
 }
 
+static gint64
+add_subtract_time (PtWaveslider *self,
+		   gint          pixel)
+{
+	/* add time to the cursor's time so that the cursor is moved x pixels */
+
+	gint64 result;
+	gint   one_pixel;
+
+	one_pixel = 1000 / self->priv->px_per_sec;
+	if (self->priv->rtl)
+		one_pixel = one_pixel * -1;
+	result = self->priv->playback_cursor + pixel * one_pixel;
+	if (result < 0)
+		result = 0;
+
+	return result;
+}
+
 static gboolean
 key_press_event_cb (GtkWidget   *widget,
 		    GdkEventKey *event,
 		    gpointer     data)
 {
 	PtWaveslider *slider = PT_WAVESLIDER (data);
-	gint64 cursor_pos;
-	gint   one_pixel;
 
 	if (event->type != GDK_KEY_PRESS)
 		return FALSE;
@@ -425,21 +442,43 @@ key_press_event_cb (GtkWidget   *widget,
 	if (!slider->priv->focus_on_cursor)
 		return FALSE;
 
+	/* only Control is pressed, not together with Shift or Alt */
+	if ((event->state & ALL_ACCELS_MASK) == GDK_CONTROL_MASK) {
+
+		switch (event->keyval) {
+		case GDK_KEY_Left:
+		case GDK_KEY_Right:
+		case GDK_KEY_Page_Up:
+		case GDK_KEY_Page_Down:
+		case GDK_KEY_Home:
+		case GDK_KEY_End:
+			/* override default scroll bindings if cursor is focused */
+			return TRUE;
+		}
+	}
+
 	/* no modifier pressed */
 	if (!(event->state & ALL_ACCELS_MASK)) {
 
-		cursor_pos = time_to_pixel (slider, slider->priv->playback_cursor);
-		one_pixel = 1000 / slider->priv->px_per_sec;
 		switch (event->keyval) {
 		case GDK_KEY_Left:
-			if (cursor_pos == 0)
-				return FALSE;
-			g_signal_emit_by_name (slider, "cursor-changed", slider->priv->playback_cursor - 2 * one_pixel);
+			g_signal_emit_by_name (slider, "cursor-changed", add_subtract_time (slider, -2));
 			return TRUE;
 		case GDK_KEY_Right:
-			if (cursor_pos == slider->priv->peaks_size / 2)
-				return FALSE;
-			g_signal_emit_by_name (slider, "cursor-changed", slider->priv->playback_cursor + 2 * one_pixel);
+			g_signal_emit_by_name (slider, "cursor-changed", add_subtract_time (slider, 2));
+			return TRUE;
+		case GDK_KEY_Page_Up:
+			g_signal_emit_by_name (slider, "cursor-changed", add_subtract_time (slider, -20));
+			return TRUE;
+		case GDK_KEY_Page_Down:
+			g_signal_emit_by_name (slider, "cursor-changed", add_subtract_time (slider, 20));
+			return TRUE;
+		case GDK_KEY_Home:
+			g_signal_emit_by_name (slider, "cursor-changed", 0);
+			return TRUE;
+		case GDK_KEY_End:
+			/* array size / 2 = samples; samples / pix per sec = seconds / * 1000 / + rounding errors */
+			g_signal_emit_by_name (slider, "cursor-changed", slider->priv->peaks_size * 500 / slider->priv->px_per_sec + 10);
 			return TRUE;
 		}
 	}
