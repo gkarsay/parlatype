@@ -255,7 +255,9 @@ paint_ruler (PtWaveslider *self,
 	   Get time of leftmost pixel, convert it to rounded 10th second,
 	   add 10th seconds until we are at the end of the view */
 	if (self->priv->primary_modulo == 1) {
-		tmp_time = pixel_to_time (self, visible_first) / 1000 * 100;
+		tmp_time = pixel_to_time (self, visible_first) / 100 * 100;
+		if (self->priv->rtl)
+			tmp_time += 100; /* round up */
 		i = time_to_pixel (self, tmp_time);
 		while (i <= visible_last) {
 			cairo_move_to (cr, i, height);
@@ -432,14 +434,15 @@ key_press_event_cb (GtkWidget   *widget,
 		    gpointer     data)
 {
 	PtWaveslider *slider = PT_WAVESLIDER (data);
+	gdouble step;
+	gdouble page;
+	gdouble value;
+	gdouble upper;
 
 	if (event->type != GDK_KEY_PRESS)
 		return FALSE;
 
 	if (!slider->priv->peaks)
-		return FALSE;
-
-	if (!slider->priv->focus_on_cursor)
 		return FALSE;
 
 	/* only Control is pressed, not together with Shift or Alt */
@@ -452,34 +455,82 @@ key_press_event_cb (GtkWidget   *widget,
 		case GDK_KEY_Page_Down:
 		case GDK_KEY_Home:
 		case GDK_KEY_End:
-			/* override default scroll bindings if cursor is focused */
+			/* override default scroll bindings  */
 			return TRUE;
 		}
 	}
 
-	/* no modifier pressed */
-	if (!(event->state & ALL_ACCELS_MASK)) {
+	if (slider->priv->focus_on_cursor) {
 
-		switch (event->keyval) {
-		case GDK_KEY_Left:
-			g_signal_emit_by_name (slider, "cursor-changed", add_subtract_time (slider, -2));
-			return TRUE;
-		case GDK_KEY_Right:
-			g_signal_emit_by_name (slider, "cursor-changed", add_subtract_time (slider, 2));
-			return TRUE;
-		case GDK_KEY_Page_Up:
-			g_signal_emit_by_name (slider, "cursor-changed", add_subtract_time (slider, -20));
-			return TRUE;
-		case GDK_KEY_Page_Down:
-			g_signal_emit_by_name (slider, "cursor-changed", add_subtract_time (slider, 20));
-			return TRUE;
-		case GDK_KEY_Home:
-			g_signal_emit_by_name (slider, "cursor-changed", 0);
-			return TRUE;
-		case GDK_KEY_End:
-			/* array size / 2 = samples; samples / pix per sec = seconds / * 1000 / + rounding errors */
-			g_signal_emit_by_name (slider, "cursor-changed", slider->priv->peaks_size * 500 / slider->priv->px_per_sec + 10);
-			return TRUE;
+		/* no modifier pressed */
+		if (!(event->state & ALL_ACCELS_MASK)) {
+
+			switch (event->keyval) {
+			case GDK_KEY_Left:
+				g_signal_emit_by_name (slider, "cursor-changed", add_subtract_time (slider, -2));
+				return TRUE;
+			case GDK_KEY_Right:
+				g_signal_emit_by_name (slider, "cursor-changed", add_subtract_time (slider, 2));
+				return TRUE;
+			case GDK_KEY_Page_Up:
+				g_signal_emit_by_name (slider, "cursor-changed", add_subtract_time (slider, -20));
+				return TRUE;
+			case GDK_KEY_Page_Down:
+				g_signal_emit_by_name (slider, "cursor-changed", add_subtract_time (slider, 20));
+				return TRUE;
+			case GDK_KEY_Home:
+				g_signal_emit_by_name (slider, "cursor-changed", 0);
+				return TRUE;
+			case GDK_KEY_End:
+				/* array size / 2 = samples; samples / pix per sec = seconds / * 1000 / + rounding errors */
+				g_signal_emit_by_name (slider, "cursor-changed", slider->priv->peaks_size * 500 / slider->priv->px_per_sec + 10);
+				return TRUE;
+			}
+		}
+	} else {
+
+		/* no modifier pressed */
+		if (!(event->state & ALL_ACCELS_MASK)) {
+
+			step = gtk_adjustment_get_step_increment (slider->priv->adj);
+			page = gtk_adjustment_get_page_increment (slider->priv->adj);
+			value = gtk_adjustment_get_value (slider->priv->adj);
+			upper = gtk_adjustment_get_upper (slider->priv->adj);
+
+			/* We scroll ourselves because we want to do it without modifier,
+			   however it's not as smooth as the "real" scrolling */
+			switch (event->keyval) {
+			case GDK_KEY_Left:
+				gtk_adjustment_set_value (slider->priv->adj, value - step);
+				pt_waveslider_set_follow_cursor (slider, FALSE);
+				return TRUE;
+			case GDK_KEY_Right:
+				gtk_adjustment_set_value (slider->priv->adj, value + step);
+				pt_waveslider_set_follow_cursor (slider, FALSE);
+				return TRUE;
+			case GDK_KEY_Page_Up:
+				gtk_adjustment_set_value (slider->priv->adj, value - page);
+				pt_waveslider_set_follow_cursor (slider, FALSE);
+				return TRUE;
+			case GDK_KEY_Page_Down:
+				gtk_adjustment_set_value (slider->priv->adj, value + page);
+				pt_waveslider_set_follow_cursor (slider, FALSE);
+				return TRUE;
+			case GDK_KEY_Home:
+				if (slider->priv->rtl)
+					gtk_adjustment_set_value (slider->priv->adj, upper);
+				else
+					gtk_adjustment_set_value (slider->priv->adj, 0);
+				pt_waveslider_set_follow_cursor (slider, FALSE);
+				return TRUE;
+			case GDK_KEY_End:
+				if (slider->priv->rtl)
+					gtk_adjustment_set_value (slider->priv->adj, 0);
+				else
+					gtk_adjustment_set_value (slider->priv->adj, upper);
+				pt_waveslider_set_follow_cursor (slider, FALSE);
+				return TRUE;
+			}
 		}
 	}
 
@@ -560,36 +611,6 @@ pt_waveslider_state_flags_changed (GtkWidget	 *widget,
 	}
 
 	draw_cursor (self);
-}
-
-static gboolean
-scroll_child_cb (GtkScrolledWindow *self,
-                 GtkScrollType      scroll,
-                 gboolean           horizontal,
-                 gpointer           data)
-{
-	/* If user scrolls with keybindings don't follow cursor anymore.
-	   Otherwise it would scroll immediately back again. */
-
-	PtWaveslider *slider = PT_WAVESLIDER (data);
-
-	if (!horizontal)
-		return FALSE;
-
-	if (scroll == GTK_SCROLL_PAGE_BACKWARD ||
-	    scroll == GTK_SCROLL_PAGE_FORWARD ||
-	    scroll == GTK_SCROLL_PAGE_LEFT ||
-	    scroll == GTK_SCROLL_PAGE_RIGHT ||
-	    scroll == GTK_SCROLL_STEP_BACKWARD ||
-	    scroll == GTK_SCROLL_STEP_FORWARD ||
-	    scroll == GTK_SCROLL_STEP_LEFT ||
-	    scroll == GTK_SCROLL_STEP_RIGHT ||
-	    scroll == GTK_SCROLL_START ||
-	    scroll == GTK_SCROLL_END ) {
-		pt_waveslider_set_follow_cursor (slider, FALSE);
-	}
-
-	return FALSE;
 }
 
 static gboolean
@@ -977,11 +998,6 @@ pt_waveslider_init (PtWaveslider *self)
 
 	g_object_unref (file);
 	g_object_unref (provider);
-
-	g_signal_connect (GTK_SCROLLED_WINDOW (self),
-			  "scroll-child",
-			  G_CALLBACK (scroll_child_cb),
-			  self);
 
 	g_signal_connect (self->priv->drawarea,
 			  "button-press-event",
