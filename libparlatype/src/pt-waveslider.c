@@ -20,6 +20,7 @@
  */
 
 #include "config.h"
+#include <math.h>	/* fabs */
 #include <string.h>
 #define GETTEXT_PACKAGE PACKAGE
 #include <glib/gi18n-lib.h>
@@ -41,6 +42,12 @@ struct _PtWavesliderPrivate {
 	gboolean  follow_cursor;
 	gboolean  fixed_cursor;
 	gboolean  show_ruler;
+
+	gint64    sel_start;
+	gint64    sel_end;
+	gint64    dragstart;
+	gint64    dragend;
+	GdkCursor *arrows;
 
 	GdkRGBA	  wave_color;
 	GdkRGBA	  cursor_color;
@@ -375,6 +382,17 @@ draw_cb (GtkWidget *widget,
 		cairo_stroke (cr);
 	}
 
+	/* paint selection */
+	if (self->priv->sel_start != self->priv->sel_end) {
+		gint start = time_to_pixel (self, self->priv->sel_start);
+		gint end = time_to_pixel (self, self->priv->sel_end) - start;
+		GdkRGBA sel_color;
+		gdk_rgba_parse (&sel_color, "rgba(90%,50%,50%,0.5)");
+		gdk_cairo_set_source_rgba (cr, &sel_color);
+		cairo_rectangle (cr, start, 0, end, height);
+		cairo_fill (cr);
+	}
+
 	/* paint ruler */
 	if (self->priv->show_ruler)
 		paint_ruler (self, cr, height, visible_first, visible_last);
@@ -537,6 +555,43 @@ key_press_event_cb (GtkWidget   *widget,
 	return FALSE;
 }
 
+static void
+set_selection (PtWaveslider *slider)
+{
+	if (slider->priv->dragstart == slider->priv->dragend) {
+		slider->priv->sel_start = 0;
+		slider->priv->sel_end = 0;
+		return;
+	}
+
+	if (slider->priv->dragstart < slider->priv->dragend) {
+		slider->priv->sel_start = slider->priv->dragstart;
+		slider->priv->sel_end = slider->priv->dragend;
+	} else {
+		slider->priv->sel_start = slider->priv->dragend;
+		slider->priv->sel_end = slider->priv->dragstart;
+	}
+}
+
+static gboolean
+pointer_in_range (PtWaveslider *slider,
+		  gdouble       pointer,
+		  gint64        pos)
+{
+	/* Returns TRUE if @pointer (event->x) is not more than 3 pixels away from @pos */
+
+	return (fabs (pointer - (double) time_to_pixel (slider, pos)) < 3.0);
+}
+
+static void
+set_cursor (GtkWidget *widget,
+	    GdkCursor *cursor)
+{
+	GdkWindow  *gdkwin;
+	gdkwin = gtk_widget_get_window (widget);
+	gdk_window_set_cursor (gdkwin, cursor);
+}
+
 static gboolean
 button_press_event_cb (GtkWidget      *widget,
 		       GdkEventButton *event,
@@ -553,8 +608,41 @@ button_press_event_cb (GtkWidget      *widget,
 	clicked = (gint) event->x;
 	pos = pixel_to_time (slider, clicked);
 
+	slider->priv->dragstart = slider->priv->dragend = pos;
+	/* Snap to selection border */
+	if (pointer_in_range (slider, event->x, slider->priv->sel_start)) {
+		slider->priv->dragstart = slider->priv->sel_end;
+		slider->priv->dragend = slider->priv->sel_start;
+	} else if (pointer_in_range (slider, event->x, slider->priv->sel_end)) {
+		slider->priv->dragstart = slider->priv->sel_start;
+		slider->priv->dragend = slider->priv->sel_end;
+	}
+
 	/* Single left click */
-	if (event->type == GDK_BUTTON_PRESS && event->button == GDK_BUTTON_PRIMARY) {
+	if (event->type == GDK_BUTTON_PRESS && event->button == GDK_BUTTON_PRIMARY && !(event->state & ALL_ACCELS_MASK)) {
+		set_cursor (widget, slider->priv->arrows);
+		/* clear any previous selections */
+		set_selection (slider);
+		gtk_widget_queue_draw (GTK_WIDGET (slider->priv->drawarea));
+		return TRUE;
+	}
+
+	/* Single left click with Shift pressed and existing selection */
+	if (event->type == GDK_BUTTON_PRESS
+	    && event->button == GDK_BUTTON_PRIMARY
+	    && (event->state & ALL_ACCELS_MASK) == GDK_SHIFT_MASK
+	    && slider->priv->sel_start != slider->priv->sel_end) {
+
+		if (pos < slider->priv->sel_start)
+			slider->priv->sel_start = pos;
+		if (pos > slider->priv->sel_end)
+			slider->priv->sel_end = pos;
+		gtk_widget_queue_draw (GTK_WIDGET (slider->priv->drawarea));
+		return TRUE;
+	}
+
+	/* Single right click */
+	if (event->type == GDK_BUTTON_PRESS && event->button == GDK_BUTTON_SECONDARY) {
 		g_signal_emit_by_name (slider, "cursor-changed", pos);
 		return TRUE;
 	}
@@ -578,11 +666,36 @@ motion_notify_event_cb (GtkWidget      *widget,
 	clicked = (gint) event->x;
 	pos = pixel_to_time (slider, clicked);
 
-	if (event->state & GDK_BUTTON1_MASK) {
+	if (event->state & GDK_BUTTON3_MASK) {
 		g_signal_emit_by_name (slider, "cursor-changed", pos);
 		return TRUE;
 	}
 
+	if (event->state & GDK_BUTTON1_MASK) {
+		slider->priv->dragend = pos;
+		set_selection (slider);
+		gtk_widget_queue_draw (GTK_WIDGET (slider->priv->drawarea));
+		return TRUE;
+	}
+
+	if (slider->priv->sel_start != slider->priv->sel_end) {
+		if (pointer_in_range (slider, event->x, slider->priv->sel_start)
+		    || pointer_in_range (slider, event->x, slider->priv->sel_end)) {
+			set_cursor (widget, slider->priv->arrows);
+		} else {
+			set_cursor (widget, NULL);
+		}
+	}
+
+	return FALSE;
+}
+
+static gboolean
+button_release_event_cb (GtkWidget      *widget,
+		         GdkEventButton *event,
+		         gpointer        data)
+{
+	set_cursor (widget, NULL);
 	return FALSE;
 }
 
@@ -837,6 +950,7 @@ pt_waveslider_finalize (GObject *object)
 	PtWaveslider *self = PT_WAVESLIDER (object);
 
 	g_free (self->priv->peaks);
+	g_clear_object (&self->priv->arrows);
 
 	G_OBJECT_CLASS (pt_waveslider_parent_class)->finalize (object);
 }
@@ -967,6 +1081,9 @@ pt_waveslider_init (PtWaveslider *self)
 	self->priv->playback_cursor = 0;
 	self->priv->follow_cursor = TRUE;
 	self->priv->focus_on_cursor = FALSE;
+	self->priv->sel_start = 0;
+	self->priv->sel_end = 0;
+	self->priv->arrows = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
 
 	if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
 		self->priv->rtl = TRUE;
@@ -1005,6 +1122,11 @@ pt_waveslider_init (PtWaveslider *self)
 			  self);
 
 	g_signal_connect (self->priv->drawarea,
+			  "button-release-event",
+			  G_CALLBACK (button_release_event_cb),
+			  self);
+
+	g_signal_connect (self->priv->drawarea,
 			  "draw",
 			  G_CALLBACK (draw_cb),
 			  self);
@@ -1031,6 +1153,7 @@ pt_waveslider_init (PtWaveslider *self)
 
 	gtk_widget_set_events (self->priv->drawarea, gtk_widget_get_events (self->priv->drawarea)
                                      | GDK_BUTTON_PRESS_MASK
+                                     | GDK_BUTTON_RELEASE_MASK
 				     | GDK_POINTER_MOTION_MASK
 				     | GDK_KEY_PRESS_MASK);
 }
