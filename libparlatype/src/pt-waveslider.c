@@ -1078,8 +1078,8 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 	obj_properties[PROP_PLAYBACK_CURSOR] =
 	g_param_spec_int64 (
 			"playback-cursor",
-			"Cursor position",
-			"Cursor's position in 1/1000 seconds",
+			_("Cursor position"),
+			_("Cursor's position in 1/1000 seconds"),
 			0,
 			G_MAXINT64,
 			0,
@@ -1096,8 +1096,8 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 	obj_properties[PROP_FOLLOW_CURSOR] =
 	g_param_spec_boolean (
 			"follow-cursor",
-			"Follow cursor",
-			"Scroll automatically to the cursor's position",
+			_("Follow cursor"),
+			_("Scroll automatically to the cursor's position"),
 			TRUE,
 			G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
@@ -1113,9 +1113,9 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 	obj_properties[PROP_FIXED_CURSOR] =
 	g_param_spec_boolean (
 			"fixed-cursor",
-			"Fixed cursor",
-			"If TRUE, the cursor is in a fixed position and the waveform is moving.\n"
-			"If FALSE, the cursor is moving.",
+			_("Fixed cursor"),
+			_("If TRUE, the cursor is in a fixed position and the waveform is moving.\n"
+			"If FALSE, the cursor is moving."),
 			TRUE,
 			G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
@@ -1128,8 +1128,8 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 	obj_properties[PROP_SHOW_RULER] =
 	g_param_spec_boolean (
 			"show-ruler",
-			"Show ruler",
-			"Show the time scale with time marks",
+			_("Show ruler"),
+			_("Show the time scale with time marks"),
 			TRUE,
 			G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
