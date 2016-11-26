@@ -34,38 +34,44 @@
 #define WAVE_MIN_HEIGHT 20
 
 struct _PtWavesliderPrivate {
+	/* Wavedata */
 	gfloat	 *peaks;
 	gint64	  peaks_size;
 	gint	  px_per_sec;
 
+	/* Properties */
 	gint64	  playback_cursor;
 	gboolean  follow_cursor;
 	gboolean  fixed_cursor;
 	gboolean  show_ruler;
+	gboolean  has_selection;
 
+	/* Selections */
 	gint64    sel_start;
 	gint64    sel_end;
 	gint64    dragstart;
 	gint64    dragend;
 	GdkCursor *arrows;
 
-	GdkRGBA	  wave_color;
-	GdkRGBA	  cursor_color;
-	GdkRGBA	  ruler_color;
-	GdkRGBA	  mark_color;
-
+	/* Drawing area */
 	GtkWidget       *drawarea;
 	GtkAdjustment   *adj;
 	cairo_surface_t *cursor;
+	gboolean         rtl;
+	gboolean         focus_on_cursor;
 
-	gboolean  rtl;
-	gboolean  focus_on_cursor;
-
+	/* Ruler marks */
 	gboolean  time_format_long;
 	gint      time_string_width;
 	gint      ruler_height;
 	gint      primary_modulo;
 	gint      secondary_modulo;
+
+	/* Colors */
+	GdkRGBA	  wave_color;
+	GdkRGBA	  cursor_color;
+	GdkRGBA	  ruler_color;
+	GdkRGBA	  mark_color;
 };
 
 enum
@@ -75,6 +81,7 @@ enum
 	PROP_FOLLOW_CURSOR,
 	PROP_FIXED_CURSOR,
 	PROP_SHOW_RULER,
+	PROP_HAS_SELECTION,
 	N_PROPERTIES
 };
 
@@ -561,6 +568,11 @@ set_selection (PtWaveslider *slider)
 	if (slider->priv->dragstart == slider->priv->dragend) {
 		slider->priv->sel_start = 0;
 		slider->priv->sel_end = 0;
+		if (slider->priv->has_selection) {
+			slider->priv->has_selection = FALSE;
+			g_object_notify_by_pspec (G_OBJECT (slider),
+						  obj_properties[PROP_HAS_SELECTION]);
+		}
 		return;
 	}
 
@@ -570,6 +582,12 @@ set_selection (PtWaveslider *slider)
 	} else {
 		slider->priv->sel_start = slider->priv->dragend;
 		slider->priv->sel_end = slider->priv->dragstart;
+	}
+
+	if (!slider->priv->has_selection) {
+		slider->priv->has_selection = TRUE;
+		g_object_notify_by_pspec (G_OBJECT (slider),
+					  obj_properties[PROP_HAS_SELECTION]);
 	}
 }
 
@@ -973,6 +991,9 @@ pt_waveslider_get_property (GObject    *object,
 	case PROP_SHOW_RULER:
 		g_value_set_boolean (value, self->priv->show_ruler);
 		break;
+	case PROP_HAS_SELECTION:
+		g_value_set_boolean (value, self->priv->has_selection);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -1255,6 +1276,20 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 			_("Show the time scale with time marks"),
 			TRUE,
 			G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
+
+	/**
+	* PtWaveslider:has-selection:
+	*
+	* Whether something is selected (TRUE) or not (FALSE).
+	*/
+
+	obj_properties[PROP_HAS_SELECTION] =
+	g_param_spec_boolean (
+			"has-selection",
+			"Has selection",
+			"Indicates whether something is selected",
+			FALSE,
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
 	g_object_class_install_properties (
 			G_OBJECT_CLASS (klass),
