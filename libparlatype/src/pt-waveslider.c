@@ -850,6 +850,8 @@ pt_waveslider_set_follow_cursor (PtWaveslider *self,
 		self->priv->follow_cursor = follow;
 		g_object_notify_by_pspec (G_OBJECT (self),
 					  obj_properties[PROP_FOLLOW_CURSOR]);
+		if (follow)
+			scroll_to_cursor (self);
 	}
 }
 
@@ -1054,6 +1056,8 @@ pt_waveslider_set_property (GObject      *object,
 		break;
 	case PROP_FOLLOW_CURSOR:
 		self->priv->follow_cursor = g_value_get_boolean (value);
+		if (gtk_widget_get_realized (GTK_WIDGET (self)) && self->priv->follow_cursor)
+			scroll_to_cursor (self);
 		break;
 	case PROP_FIXED_CURSOR:
 		self->priv->fixed_cursor = g_value_get_boolean (value);
