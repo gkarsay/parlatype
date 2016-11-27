@@ -103,9 +103,32 @@ goto_position (GSimpleAction *action,
 	gtk_widget_destroy (GTK_WIDGET (dlg));
 }
 
+void
+play_selection (GSimpleAction *action,
+	        GVariant      *parameter,
+	        gpointer       user_data)
+{
+	PtWindow *win;
+	win = PT_WINDOW (user_data);
+
+	gint64 start, end;
+
+	g_object_get (win->priv->waveslider,
+		      "selection-start", &start,
+		      "selection-end", &end,
+		      NULL);
+
+	pt_player_set_selection (win->priv->player, start, end);
+	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->priv->button_play)))
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (win->priv->button_play), TRUE);
+
+	win->priv->playing_selection = TRUE;
+}
+
 const GActionEntry win_actions[] = {
 	{ "copy", copy_timestamp, NULL, NULL, NULL },
-	{ "goto", goto_position, NULL, NULL, NULL }
+	{ "goto", goto_position, NULL, NULL, NULL },
+	{ "play_selection", play_selection, NULL, NULL, NULL }
 };
 
 void
@@ -117,6 +140,16 @@ cursor_changed_cb (GtkWidget *widget,
 
 	pt_waveslider_set_follow_cursor (PT_WAVESLIDER (win->priv->waveslider), TRUE);
 	pt_player_jump_to_position (win->priv->player, pos);
+}
+
+void
+selection_changed_cb (GtkWidget *widget,
+		      PtWindow  *win)
+{
+	if (win->priv->playing_selection) {
+		pt_player_clear_selection (win->priv->player);
+		win->priv->playing_selection = FALSE;
+	}
 }
 
 static gboolean
@@ -669,6 +702,7 @@ pt_window_init (PtWindow *win)
 	win->priv->progress_dlg = NULL;
 	win->priv->progress_handler_id = 0;
 	win->priv->wavedata = NULL;
+	win->priv->playing_selection = FALSE;
 
 	/* Flip speed scale for right to left layouts */
 	if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
@@ -678,6 +712,13 @@ pt_window_init (PtWindow *win)
 	g_object_bind_property (win->priv->waveslider, "follow-cursor",
 				win->priv->pos_label, "has_tooltip",
 				G_BINDING_INVERT_BOOLEAN | G_BINDING_SYNC_CREATE);
+
+
+	GAction *action;
+	action = g_action_map_lookup_action (G_ACTION_MAP (win), "play_selection");
+	g_object_bind_property (win->priv->waveslider, "has-selection",
+				action, "enabled",
+				G_BINDING_SYNC_CREATE);
 
 	pt_window_ready_to_play (win, FALSE);
 }

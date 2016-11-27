@@ -296,6 +296,7 @@ audio-volume-medium</property>
             <property name="hexpand">True</property>
             <property name="vexpand">True</property>
             <signal name="cursor-changed" handler="cursor_changed_cb" swapped="no"/>
+            <signal name="selection-changed" handler="selection_changed_cb" swapped="no"/>
           </object>
           <packing>
             <property name="left_attach">0</property>

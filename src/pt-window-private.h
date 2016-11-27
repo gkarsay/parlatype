@@ -52,6 +52,8 @@ struct _PtWindowPrivate
 	gint	    back;
 	gint	    forward;
 
+	gboolean    playing_selection;
+
 	guint	    owner_id;
 };
 
