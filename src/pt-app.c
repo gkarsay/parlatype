@@ -193,6 +193,7 @@ about_cb (GSimpleAction *action,
 		_("Including code from other projects:"),
 		"Buzztrax team <buzztrax-devel@buzztrax.org>",
 		"Philip Withnall <philip@tecnocode.co.uk>",
+		"Magnus Hjorth, mhWaveEdit",
 		NULL
 	};
 
