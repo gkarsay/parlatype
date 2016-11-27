@@ -35,6 +35,9 @@ struct _PtPlayerPrivate
 	gint64	    dur;
 	gdouble	    speed;
 
+	gint64      segstart;
+	gint64      segend;
+
 	GCancellable *c;
 	gboolean      opening;
 
@@ -253,6 +256,12 @@ bus_call (GstBus     *bus,
 			GST_MESSAGE_SRC_NAME (msg));*/
 
 	switch (GST_MESSAGE_TYPE (msg)) {
+	case GST_MESSAGE_SEGMENT_DONE:
+		/* From GStreamer documentation:
+		   When performing a segment seek: after the playback of the segment completes,
+		   no EOS will be emitted by the element that performed the seek, but a
+		   GST_MESSAGE_SEGMENT_DONE message will be posted on the bus by the element. */
+
 	case GST_MESSAGE_EOS:
 		g_signal_emit_by_name (player, "end-of-stream");
 		break;
@@ -314,7 +323,8 @@ load_cb (PtWaveloader *wl,
 	GError	 *error = NULL;
 
 	if (pt_waveloader_load_finish (wl, res, &error)) {
-		player->priv->dur = pt_waveloader_get_duration (player->priv->wl);
+		player->priv->dur = player->priv->segend = pt_waveloader_get_duration (player->priv->wl);
+		player->priv->segstart = 0;
 
 		/* setup message handler */
 		add_message_bus (task);
@@ -545,7 +555,8 @@ pt_player_pause (PtPlayer *player)
  * pt_player_play:
  * @player: a #PtPlayer
  *
- * Starts playback at the defined speed until it reaches the end of stream.
+ * Starts playback at the defined speed until it reaches the end of stream (or
+ * the end of the selection)..
  */
 void
 pt_player_play (PtPlayer *player)
@@ -553,6 +564,68 @@ pt_player_play (PtPlayer *player)
 	g_return_if_fail (PT_IS_PLAYER (player));
 
 	gst_element_set_state (player->priv->pipeline, GST_STATE_PLAYING);
+}
+
+/**
+ * pt_player_set_selection:
+ * @player: a #PtPlayer
+ * @start: selection start time in milliseconds
+ * @end: selection end time in milliseconds
+ *
+ * Set a selection. Sets the cursor to the start position. Playing will end at
+ * the stop position and it's not possible to jump out of the selection until
+ * it is cleared with #pt_player_clear_selection.
+ */
+void
+pt_player_set_selection (PtPlayer *player,
+		         gint64    start,
+		         gint64    end)
+{
+	g_return_if_fail (PT_IS_PLAYER (player));
+	g_return_if_fail (start < end);
+
+	player->priv->segstart = GST_MSECOND * start;
+	player->priv->segend = GST_MSECOND * end;
+
+	gst_element_seek (
+		player->priv->pipeline,
+		player->priv->speed,
+		GST_FORMAT_TIME,
+		GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE,
+		GST_SEEK_TYPE_SET,
+		player->priv->segstart,
+		GST_SEEK_TYPE_SET,
+		player->priv->segend);
+}
+
+/**
+ * pt_player_clear_selection:
+ * @player: a #PtPlayer
+ *
+ * Clear and reset any selection.
+ */
+void
+pt_player_clear_selection (PtPlayer *player)
+{
+	g_return_if_fail (PT_IS_PLAYER (player));
+
+	gint64 pos;
+
+	if (!pt_player_query_position (player, &pos))
+		return;
+
+	player->priv->segstart = 0;
+	player->priv->segend = player->priv->dur;
+
+	gst_element_seek (
+		player->priv->pipeline,
+		player->priv->speed,
+		GST_FORMAT_TIME,
+		GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE,
+		GST_SEEK_TYPE_SET,
+		pos,
+		GST_SEEK_TYPE_SET,
+		-1);
 }
 
 /**
@@ -628,9 +701,10 @@ pt_player_fast_forward (PtPlayer *player,
  * @milliseconds: time in milliseconds to jump
  *
  * Skips @milliseconds in stream. A positive value means jumping ahead. If the
- * resulting position would be beyond then end of stream, it goes to the end of
- * stream. A negative value means jumping back. If the resulting position would
- * be negative, it jumps to position 0:00.
+ * resulting position would be beyond the end of stream (or selection), it goes
+ * to the end of stream (or selection). A negative value means jumping back.
+ * If the resulting position would be negative (or before the selection), it
+ * jumps to position 0:00 (or to the start of the selection).
  */
 void
 pt_player_jump_relative (PtPlayer *player,
@@ -649,11 +723,11 @@ pt_player_jump_relative (PtPlayer *player,
 			"new = %" G_GINT64_FORMAT,
 			player->priv->dur, new);
 
-	if (new > player->priv->dur)
-		new = player->priv->dur;
+	if (new > player->priv->segend)
+		new = player->priv->segend;
 
-	if (new < 0)
-		new = 0;
+	if (new < player->priv->segstart)
+		new = player->priv->segstart;
 
 	pt_player_seek (player, new);
 }
@@ -664,8 +738,8 @@ pt_player_jump_relative (PtPlayer *player,
  * @milliseconds: position in milliseconds
  *
  * Jumps to a given position in stream. The position is given in @milliseconds
- * starting from position 0:00. A position beyond the duration of stream is
- * ignored.
+ * starting from position 0:00. A position beyond the duration of stream (or
+ * outside the selection) is ignored.
  */
 void
 pt_player_jump_to_position (PtPlayer *player,
@@ -677,7 +751,7 @@ pt_player_jump_to_position (PtPlayer *player,
 
 	pos = GST_MSECOND * (gint64) milliseconds;
 
-	if (pos > player->priv->dur || pos < 0) {
+	if (pos > player->priv->segend || pos < player->priv->segstart) {
 		g_debug ("jump to position failed\n"
 				"dur = %" G_GINT64_FORMAT "\n"
 				"pos = %" G_GINT64_FORMAT,
@@ -696,7 +770,7 @@ pt_player_jump_to_position (PtPlayer *player,
  * This is used for scale widgets. Start of stream is at 0, end of stream is
  * at 1000. This will jump to the given position. If your widget uses a different
  * scale, it's up to you to convert it to 1/1000. Values beyond 1000 are not
- * allowed.
+ * allowed, values outside the selection are ignored.
  */
 void
 pt_player_jump_to_permille (PtPlayer *player,
@@ -708,6 +782,9 @@ pt_player_jump_to_permille (PtPlayer *player,
 	gint64 new;
 
 	new = player->priv->dur * (gint64) permille / 1000;
+	if (new > player->priv->segend || new < player->priv->segstart)
+		return;
+
 	pt_player_seek (player, new);
 }
 
@@ -1481,7 +1558,8 @@ pt_player_class_init (PtPlayerClass *klass)
 	* PtPlayer::end-of-stream:
 	* @player: the player emitting the signal
 	*
-	* The #PtPlayer::end-of-stream signal is emitted when the stream is at its end.
+	* The #PtPlayer::end-of-stream signal is emitted when the stream is at its end
+	* or when the end of selection is reached.
 	*/
 	g_signal_new ("end-of-stream",
 		      PT_TYPE_PLAYER,
