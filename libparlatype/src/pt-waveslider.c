@@ -82,11 +82,14 @@ enum
 	PROP_FIXED_CURSOR,
 	PROP_SHOW_RULER,
 	PROP_HAS_SELECTION,
+	PROP_SELECTION_START,
+	PROP_SELECTION_END,
 	N_PROPERTIES
 };
 
 enum {
 	CURSOR_CHANGED,
+	SELECTION_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -572,14 +575,21 @@ set_selection (PtWaveslider *slider)
 			slider->priv->has_selection = FALSE;
 			g_object_notify_by_pspec (G_OBJECT (slider),
 						  obj_properties[PROP_HAS_SELECTION]);
+			g_signal_emit_by_name (slider, "selection-changed");
+
 		}
 		return;
 	}
 
+
 	if (slider->priv->dragstart < slider->priv->dragend) {
+		if (slider->priv->sel_start != slider->priv->dragstart || slider->priv->sel_end != slider->priv->dragend)
+			g_signal_emit_by_name (slider, "selection-changed");
 		slider->priv->sel_start = slider->priv->dragstart;
 		slider->priv->sel_end = slider->priv->dragend;
 	} else {
+		if (slider->priv->sel_start != slider->priv->dragend || slider->priv->sel_end != slider->priv->dragstart)
+			g_signal_emit_by_name (slider, "selection-changed");
 		slider->priv->sel_start = slider->priv->dragend;
 		slider->priv->sel_end = slider->priv->dragstart;
 	}
@@ -996,6 +1006,12 @@ pt_waveslider_get_property (GObject    *object,
 	case PROP_HAS_SELECTION:
 		g_value_set_boolean (value, self->priv->has_selection);
 		break;
+	case PROP_SELECTION_START:
+		g_value_set_int64 (value, self->priv->sel_start);
+		break;
+	case PROP_SELECTION_END:
+		g_value_set_int64 (value, self->priv->sel_end);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -1218,9 +1234,28 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 		      1, G_TYPE_INT64);
 
 	/**
+	* PtWaveslider::selection-changed:
+	* @ws: the waveslider emitting the signal
+	*
+	* Signals that the selection was changed (or unselected) by the user.
+	* To query the new selection see #PtWaveslider:has-selection,
+	* #PtWaveslider:selection-start and #PtWaveslider:selection-end.
+	*/
+	signals[SELECTION_CHANGED] =
+	g_signal_new ("selection-changed",
+		      PT_TYPE_WAVESLIDER,
+		      G_SIGNAL_RUN_FIRST,
+		      0,
+		      NULL,
+		      NULL,
+		      g_cclosure_marshal_VOID__POINTER,
+		      G_TYPE_NONE,
+		      0);
+
+	/**
 	* PtWaveslider:playback-cursor:
 	*
-	* Current playback position in 1/100 seconds.
+	* Current playback position in milliseconds.
 	*/
 
 	obj_properties[PROP_PLAYBACK_CURSOR] =
@@ -1293,6 +1328,40 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 			"Has selection",
 			"Indicates whether something is selected",
 			FALSE,
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+
+	/**
+	* PtWaveslider:selection-start:
+	*
+	* Start time of selection in milliseconds. If it's equal to the end
+	* time, there is no selection. See also #PtWaveslider:has-selection.
+	*/
+
+	obj_properties[PROP_SELECTION_START] =
+	g_param_spec_int64 (
+			"selection-start",
+			"Start time of selection",
+			"Start time of selection",
+			0,
+			G_MAXINT64,
+			0,
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+
+	/**
+	* PtWaveslider:selection-end:
+	*
+	* End time of selection in milliseconds. If it's equal to the start
+	* time, there is no selection. See also #PtWaveslider:has-selection.
+	*/
+
+	obj_properties[PROP_SELECTION_END] =
+	g_param_spec_int64 (
+			"selection-end",
+			"End time of selection",
+			"End time of selection",
+			0,
+			G_MAXINT64,
+			0,
 			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
 	g_object_class_install_properties (
