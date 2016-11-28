@@ -489,6 +489,41 @@ add_subtract_time (PtWaveslider *self,
 	return result;
 }
 
+static void
+set_selection (PtWaveslider *slider)
+{
+	if (slider->priv->dragstart == slider->priv->dragend) {
+		slider->priv->sel_start = 0;
+		slider->priv->sel_end = 0;
+		if (slider->priv->has_selection) {
+			slider->priv->has_selection = FALSE;
+			g_object_notify_by_pspec (G_OBJECT (slider),
+						  obj_properties[PROP_HAS_SELECTION]);
+			g_signal_emit_by_name (slider, "selection-changed");
+
+		}
+		return;
+	}
+
+	if (slider->priv->dragstart < slider->priv->dragend) {
+		if (slider->priv->sel_start != slider->priv->dragstart || slider->priv->sel_end != slider->priv->dragend)
+			g_signal_emit_by_name (slider, "selection-changed");
+		slider->priv->sel_start = slider->priv->dragstart;
+		slider->priv->sel_end = slider->priv->dragend;
+	} else {
+		if (slider->priv->sel_start != slider->priv->dragend || slider->priv->sel_end != slider->priv->dragstart)
+			g_signal_emit_by_name (slider, "selection-changed");
+		slider->priv->sel_start = slider->priv->dragend;
+		slider->priv->sel_end = slider->priv->dragstart;
+	}
+
+	if (!slider->priv->has_selection) {
+		slider->priv->has_selection = TRUE;
+		g_object_notify_by_pspec (G_OBJECT (slider),
+					  obj_properties[PROP_HAS_SELECTION]);
+	}
+}
+
 static gboolean
 key_press_event_cb (GtkWidget   *widget,
 		    GdkEventKey *event,
@@ -505,6 +540,17 @@ key_press_event_cb (GtkWidget   *widget,
 
 	if (!slider->priv->peaks)
 		return FALSE;
+
+	/* no modifier pressed */
+	if (!(event->state & ALL_ACCELS_MASK)) {
+		switch (event->keyval) {
+		case GDK_KEY_Escape:
+			slider->priv->dragstart = slider->priv->dragend = 0;
+			set_selection (slider);
+			gtk_widget_queue_draw (GTK_WIDGET (slider->priv->drawarea));
+			return TRUE;
+		}
+	}
 
 	if (slider->priv->focus_on_cursor) {
 
@@ -605,41 +651,6 @@ key_press_event_cb (GtkWidget   *widget,
 	}
 
 	return FALSE;
-}
-
-static void
-set_selection (PtWaveslider *slider)
-{
-	if (slider->priv->dragstart == slider->priv->dragend) {
-		slider->priv->sel_start = 0;
-		slider->priv->sel_end = 0;
-		if (slider->priv->has_selection) {
-			slider->priv->has_selection = FALSE;
-			g_object_notify_by_pspec (G_OBJECT (slider),
-						  obj_properties[PROP_HAS_SELECTION]);
-			g_signal_emit_by_name (slider, "selection-changed");
-
-		}
-		return;
-	}
-
-	if (slider->priv->dragstart < slider->priv->dragend) {
-		if (slider->priv->sel_start != slider->priv->dragstart || slider->priv->sel_end != slider->priv->dragend)
-			g_signal_emit_by_name (slider, "selection-changed");
-		slider->priv->sel_start = slider->priv->dragstart;
-		slider->priv->sel_end = slider->priv->dragend;
-	} else {
-		if (slider->priv->sel_start != slider->priv->dragend || slider->priv->sel_end != slider->priv->dragstart)
-			g_signal_emit_by_name (slider, "selection-changed");
-		slider->priv->sel_start = slider->priv->dragend;
-		slider->priv->sel_end = slider->priv->dragstart;
-	}
-
-	if (!slider->priv->has_selection) {
-		slider->priv->has_selection = TRUE;
-		g_object_notify_by_pspec (G_OBJECT (slider),
-					  obj_properties[PROP_HAS_SELECTION]);
-	}
 }
 
 static gboolean
