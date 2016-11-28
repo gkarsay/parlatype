@@ -702,10 +702,15 @@ button_press_event_cb (GtkWidget      *widget,
 	    && (event->state & ALL_ACCELS_MASK) == GDK_SHIFT_MASK
 	    && slider->priv->sel_start != slider->priv->sel_end) {
 
+		slider->priv->dragend = pos;
+
 		if (pos < slider->priv->sel_start)
-			slider->priv->sel_start = pos;
-		if (pos > slider->priv->sel_end)
-			slider->priv->sel_end = pos;
+			slider->priv->dragstart = slider->priv->sel_end;
+		else
+			slider->priv->dragstart = slider->priv->sel_start;
+
+		set_cursor (widget, slider->priv->arrows);
+		set_selection (slider);
 		gtk_widget_queue_draw (GTK_WIDGET (slider->priv->drawarea));
 		return TRUE;
 	}
@@ -740,7 +745,7 @@ motion_notify_event_cb (GtkWidget      *widget,
 		return TRUE;
 	}
 
-	if (event->state & GDK_BUTTON1_MASK) {
+	if (event->state & GDK_BUTTON1_MASK || event->state & GDK_BUTTON1_MASK & GDK_SHIFT_MASK) {
 		slider->priv->dragend = pos;
 		set_selection (slider);
 		gtk_widget_queue_draw (GTK_WIDGET (slider->priv->drawarea));
