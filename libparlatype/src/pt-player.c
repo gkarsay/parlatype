@@ -711,6 +711,8 @@ pt_player_jump_relative (PtPlayer *player,
 			 gint      milliseconds)
 {
 	g_return_if_fail (PT_IS_PLAYER (player));
+	if (milliseconds == 0)
+		return;
 
 	gint64 pos, new;
 
