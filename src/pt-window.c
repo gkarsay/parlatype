@@ -432,7 +432,26 @@ void
 play_button_toggled_cb (GtkToggleButton *button,
 			PtWindow	*win)
 {
+	gint64 start, end, current, dur;
+
 	if (gtk_toggle_button_get_active (button)) {
+
+		/* If we're at the end of stream or selection, jump to start */
+
+		current = pt_player_get_position (win->priv->player);
+		if (win->priv->playing_selection) {
+			g_object_get (win->priv->waveslider,
+				      "selection-start", &start,
+				      "selection-end", &end,
+				      NULL);
+			if (current == end)
+				pt_player_jump_to_position (win->priv->player, start);
+		} else {
+			dur = pt_player_get_duration (win->priv->player);
+			/* We are usually not (never?) at the exact duration */
+			if (dur - current < 100)
+				pt_player_jump_to_position (win->priv->player, 0);
+		}
 		pt_waveslider_set_follow_cursor (PT_WAVESLIDER (win->priv->waveslider), TRUE);
 		pt_player_play (win->priv->player);
 	} else {
