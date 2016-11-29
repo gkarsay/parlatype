@@ -490,8 +490,11 @@ add_subtract_time (PtWaveslider *self,
 }
 
 static void
-set_selection (PtWaveslider *slider)
+update_selection (PtWaveslider *slider)
 {
+	/* Check if drag positions are different from selection.
+	   If yes, set new selection, emit signals and redraw widget. */
+
 	gboolean changed = FALSE;
 
 	/* Is anything selected at all? */
@@ -503,7 +506,7 @@ set_selection (PtWaveslider *slider)
 			g_object_notify_by_pspec (G_OBJECT (slider),
 						  obj_properties[PROP_HAS_SELECTION]);
 			g_signal_emit_by_name (slider, "selection-changed");
-
+			gtk_widget_queue_draw (GTK_WIDGET (slider->priv->drawarea));
 		}
 		return;
 	}
@@ -524,7 +527,6 @@ set_selection (PtWaveslider *slider)
 	}
 
 	if (changed) {
-		g_signal_emit_by_name (slider, "selection-changed");
 
 		/* Update has-selection property */
 		if (!slider->priv->has_selection) {
@@ -532,6 +534,9 @@ set_selection (PtWaveslider *slider)
 			g_object_notify_by_pspec (G_OBJECT (slider),
 						  obj_properties[PROP_HAS_SELECTION]);
 		}
+
+		g_signal_emit_by_name (slider, "selection-changed");
+		gtk_widget_queue_draw (GTK_WIDGET (slider->priv->drawarea));
 	}
 }
 
@@ -557,8 +562,7 @@ key_press_event_cb (GtkWidget   *widget,
 		switch (event->keyval) {
 		case GDK_KEY_Escape:
 			slider->priv->dragstart = slider->priv->dragend = 0;
-			set_selection (slider);
-			gtk_widget_queue_draw (GTK_WIDGET (slider->priv->drawarea));
+			update_selection (slider);
 			return TRUE;
 		}
 	}
@@ -699,26 +703,29 @@ button_press_event_cb (GtkWidget      *widget,
 	clicked = (gint) event->x;
 	pos = pixel_to_time (slider, clicked);
 
-	slider->priv->dragstart = slider->priv->dragend = pos;
-	/* Snap to selection border */
-	if (pointer_in_range (slider, event->x, slider->priv->sel_start)) {
-		slider->priv->dragstart = slider->priv->sel_end;
-		slider->priv->dragend = slider->priv->sel_start;
-	} else if (pointer_in_range (slider, event->x, slider->priv->sel_end)) {
-		slider->priv->dragstart = slider->priv->sel_start;
-		slider->priv->dragend = slider->priv->sel_end;
-	}
 
-	/* Single left click */
-	if (event->type == GDK_BUTTON_PRESS && event->button == GDK_BUTTON_PRIMARY && !(event->state & ALL_ACCELS_MASK)) {
+	/* Single left click, no other keys pressed: new selection or changing selection */
+	if (event->type == GDK_BUTTON_PRESS
+	    && event->button == GDK_BUTTON_PRIMARY
+	    && !(event->state & ALL_ACCELS_MASK)) {
+		/* set position as start and end point, for new selection */
+		slider->priv->dragstart = slider->priv->dragend = pos;
+
+		/* if over selection border: snap to selection border, changing selection */
+		if (pointer_in_range (slider, event->x, slider->priv->sel_start)) {
+			slider->priv->dragstart = slider->priv->sel_end;
+			slider->priv->dragend = slider->priv->sel_start;
+		} else if (pointer_in_range (slider, event->x, slider->priv->sel_end)) {
+			slider->priv->dragstart = slider->priv->sel_start;
+			slider->priv->dragend = slider->priv->sel_end;
+		}
+
 		set_cursor (widget, slider->priv->arrows);
-		/* clear any previous selections */
-		set_selection (slider);
-		gtk_widget_queue_draw (GTK_WIDGET (slider->priv->drawarea));
+		update_selection (slider);
 		return TRUE;
 	}
 
-	/* Single left click with Shift pressed and existing selection */
+	/* Single left click with Shift pressed and existing selection: enlarge selection */
 	if (event->type == GDK_BUTTON_PRESS
 	    && event->button == GDK_BUTTON_PRIMARY
 	    && (event->state & ALL_ACCELS_MASK) == GDK_SHIFT_MASK
@@ -732,12 +739,11 @@ button_press_event_cb (GtkWidget      *widget,
 			slider->priv->dragstart = slider->priv->sel_start;
 
 		set_cursor (widget, slider->priv->arrows);
-		set_selection (slider);
-		gtk_widget_queue_draw (GTK_WIDGET (slider->priv->drawarea));
+		update_selection (slider);
 		return TRUE;
 	}
 
-	/* Single right click */
+	/* Single right click: change cursor */
 	if (event->type == GDK_BUTTON_PRESS && event->button == GDK_BUTTON_SECONDARY) {
 		g_signal_emit_by_name (slider, "cursor-changed", pos);
 		return TRUE;
@@ -762,18 +768,20 @@ motion_notify_event_cb (GtkWidget      *widget,
 	clicked = (gint) event->x;
 	pos = pixel_to_time (slider, clicked);
 
+	/* Right mouse button sets cursor */
 	if (event->state & GDK_BUTTON3_MASK) {
 		g_signal_emit_by_name (slider, "cursor-changed", pos);
 		return TRUE;
 	}
 
+	/* Left mouse button (with or without Shift key) sets selection */
 	if (event->state & GDK_BUTTON1_MASK || event->state & GDK_BUTTON1_MASK & GDK_SHIFT_MASK) {
 		slider->priv->dragend = pos;
-		set_selection (slider);
-		gtk_widget_queue_draw (GTK_WIDGET (slider->priv->drawarea));
+		update_selection (slider);
 		return TRUE;
 	}
 
+	/* No button or any other button: change pointer cursor over selection border */
 	if (slider->priv->sel_start != slider->priv->sel_end) {
 		if (pointer_in_range (slider, event->x, slider->priv->sel_start)
 		    || pointer_in_range (slider, event->x, slider->priv->sel_end)) {
