@@ -572,9 +572,10 @@ pt_player_play (PtPlayer *player)
  * @start: selection start time in milliseconds
  * @end: selection end time in milliseconds
  *
- * Set a selection. Sets the cursor to the start position. Playing will end at
- * the stop position and it's not possible to jump out of the selection until
- * it is cleared with #pt_player_clear_selection.
+ * Set a selection. If the current position is outside the selection, it will
+ * be set to the selection's start position, otherwise the current position is
+ * not changed. Playing will end at the stop position and it's not possible to
+ * jump out of the selection until it is cleared with #pt_player_clear_selection.
  */
 void
 pt_player_set_selection (PtPlayer *player,
@@ -587,13 +588,21 @@ pt_player_set_selection (PtPlayer *player,
 	player->priv->segstart = GST_MSECOND * start;
 	player->priv->segend = GST_MSECOND * end;
 
+	gint64 pos;
+
+	if (!pt_player_query_position (player, &pos))
+		return;
+
+	if (pos < player->priv->segstart || pos > player->priv->segend)
+		pos = player->priv->segstart;
+
 	gst_element_seek (
 		player->priv->pipeline,
 		player->priv->speed,
 		GST_FORMAT_TIME,
 		GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE,
 		GST_SEEK_TYPE_SET,
-		player->priv->segstart,
+		pos,
 		GST_SEEK_TYPE_SET,
 		player->priv->segend);
 }
@@ -755,9 +764,10 @@ pt_player_jump_to_position (PtPlayer *player,
 
 	if (pos > player->priv->segend || pos < player->priv->segstart) {
 		g_debug ("jump to position failed\n"
-				"dur = %" G_GINT64_FORMAT "\n"
-				"pos = %" G_GINT64_FORMAT,
-				player->priv->dur, pos);
+				"start = %" G_GINT64_FORMAT "\n"
+				"pos   = %" G_GINT64_FORMAT "\n"
+				"end   = %" G_GINT64_FORMAT,
+				player->priv->segstart, pos, player->priv->segend);
 		return;
 	}
 
