@@ -492,6 +492,9 @@ add_subtract_time (PtWaveslider *self,
 static void
 set_selection (PtWaveslider *slider)
 {
+	gboolean changed = FALSE;
+
+	/* Is anything selected at all? */
 	if (slider->priv->dragstart == slider->priv->dragend) {
 		slider->priv->sel_start = 0;
 		slider->priv->sel_end = 0;
@@ -505,22 +508,30 @@ set_selection (PtWaveslider *slider)
 		return;
 	}
 
+	/* Sort start/end, check for changes (no changes on vertical movement), update selection */
 	if (slider->priv->dragstart < slider->priv->dragend) {
-		if (slider->priv->sel_start != slider->priv->dragstart || slider->priv->sel_end != slider->priv->dragend)
-			g_signal_emit_by_name (slider, "selection-changed");
-		slider->priv->sel_start = slider->priv->dragstart;
-		slider->priv->sel_end = slider->priv->dragend;
+		if (slider->priv->sel_start != slider->priv->dragstart || slider->priv->sel_end != slider->priv->dragend) {
+			slider->priv->sel_start = slider->priv->dragstart;
+			slider->priv->sel_end = slider->priv->dragend;
+			changed = TRUE;
+		}
 	} else {
-		if (slider->priv->sel_start != slider->priv->dragend || slider->priv->sel_end != slider->priv->dragstart)
-			g_signal_emit_by_name (slider, "selection-changed");
-		slider->priv->sel_start = slider->priv->dragend;
-		slider->priv->sel_end = slider->priv->dragstart;
+		if (slider->priv->sel_start != slider->priv->dragend || slider->priv->sel_end != slider->priv->dragstart) {
+			slider->priv->sel_start = slider->priv->dragend;
+			slider->priv->sel_end = slider->priv->dragstart;
+			changed = TRUE;
+		}
 	}
 
-	if (!slider->priv->has_selection) {
-		slider->priv->has_selection = TRUE;
-		g_object_notify_by_pspec (G_OBJECT (slider),
-					  obj_properties[PROP_HAS_SELECTION]);
+	if (changed) {
+		g_signal_emit_by_name (slider, "selection-changed");
+
+		/* Update has-selection property */
+		if (!slider->priv->has_selection) {
+			slider->priv->has_selection = TRUE;
+			g_object_notify_by_pspec (G_OBJECT (slider),
+						  obj_properties[PROP_HAS_SELECTION]);
+		}
 	}
 }
 
