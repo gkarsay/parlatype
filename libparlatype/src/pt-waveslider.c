@@ -1,9 +1,13 @@
 /* Copyright (C) 2006-2008 Buzztrax team <buzztrax-devel@buzztrax.org>
- * Copyright (C) Gabor Karsay 2016 <gabor.karsay@gmx.at>
+ * Copyright (C) 2002 2003 2004 2005 2007 2008 2009 2010, Magnus Hjorth
+ * Copyright (C) 2016 Gabor Karsay <gabor.karsay@gmx.at>
  *
- * Original source name waveform-viewer.c, taken from Buzztrax and modified.
- * Original source licenced under LGPL 2 or later. As it's currently not a
- * library anymore this file is licenced under the GPL 3 or later.
+ * Original source name waveform-viewer.c, taken from Buzztrax and heavily
+ * modified. Original source licenced under LGPL 2 or later.
+ *
+ * Small bits of selection stuff taken from mhWaveEdit 1.4.23 (Magnus Hjorth)
+ * in files src/chunkview.c and src/document.c. Original source licenced under
+ * GPL 2 or later.
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -20,6 +24,7 @@
  */
 
 #include "config.h"
+#include <math.h>	/* fabs */
 #include <string.h>
 #define GETTEXT_PACKAGE PACKAGE
 #include <glib/gi18n-lib.h>
@@ -33,32 +38,44 @@
 #define WAVE_MIN_HEIGHT 20
 
 struct _PtWavesliderPrivate {
+	/* Wavedata */
 	gfloat	 *peaks;
 	gint64	  peaks_size;
 	gint	  px_per_sec;
 
+	/* Properties */
 	gint64	  playback_cursor;
 	gboolean  follow_cursor;
 	gboolean  fixed_cursor;
 	gboolean  show_ruler;
+	gboolean  has_selection;
 
-	GdkRGBA	  wave_color;
-	GdkRGBA	  cursor_color;
-	GdkRGBA	  ruler_color;
-	GdkRGBA	  mark_color;
+	/* Selections */
+	gint64    sel_start;
+	gint64    sel_end;
+	gint64    dragstart;
+	gint64    dragend;
+	GdkCursor *arrows;
 
+	/* Drawing area */
 	GtkWidget       *drawarea;
 	GtkAdjustment   *adj;
 	cairo_surface_t *cursor;
+	gboolean         rtl;
+	gboolean         focus_on_cursor;
 
-	gboolean  rtl;
-	gboolean  focus_on_cursor;
-
+	/* Ruler marks */
 	gboolean  time_format_long;
 	gint      time_string_width;
 	gint      ruler_height;
 	gint      primary_modulo;
 	gint      secondary_modulo;
+
+	/* Colors */
+	GdkRGBA	  wave_color;
+	GdkRGBA	  cursor_color;
+	GdkRGBA	  ruler_color;
+	GdkRGBA	  mark_color;
 };
 
 enum
@@ -68,11 +85,15 @@ enum
 	PROP_FOLLOW_CURSOR,
 	PROP_FIXED_CURSOR,
 	PROP_SHOW_RULER,
+	PROP_HAS_SELECTION,
+	PROP_SELECTION_START,
+	PROP_SELECTION_END,
 	N_PROPERTIES
 };
 
 enum {
 	CURSOR_CHANGED,
+	SELECTION_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -375,6 +396,17 @@ draw_cb (GtkWidget *widget,
 		cairo_stroke (cr);
 	}
 
+	/* paint selection */
+	if (self->priv->sel_start != self->priv->sel_end) {
+		gint start = time_to_pixel (self, self->priv->sel_start);
+		gint end = time_to_pixel (self, self->priv->sel_end) - start;
+		GdkRGBA sel_color;
+		gdk_rgba_parse (&sel_color, "rgba(90%,50%,50%,0.5)");
+		gdk_cairo_set_source_rgba (cr, &sel_color);
+		cairo_rectangle (cr, start, 0, end, height);
+		cairo_fill (cr);
+	}
+
 	/* paint ruler */
 	if (self->priv->show_ruler)
 		paint_ruler (self, cr, height, visible_first, visible_last);
@@ -410,8 +442,24 @@ draw_cb (GtkWidget *widget,
 }
 
 static gint64
+calculate_duration (PtWaveslider *self)
+{
+	gint64 result;
+	gint64 samples;
+	gint one_pixel;
+
+	one_pixel = 1000 / self->priv->px_per_sec;
+	samples = self->priv->peaks_size / 2;
+	result = samples / self->priv->px_per_sec * 1000; /* = full seconds */
+	result += (samples % self->priv->px_per_sec) * one_pixel;
+
+	return result;
+}
+
+static gint64
 add_subtract_time (PtWaveslider *self,
-		   gint          pixel)
+		   gint          pixel,
+		   gboolean      stay_in_selection)
 {
 	/* add time to the cursor's time so that the cursor is moved x pixels */
 
@@ -422,10 +470,74 @@ add_subtract_time (PtWaveslider *self,
 	if (self->priv->rtl)
 		one_pixel = one_pixel * -1;
 	result = self->priv->playback_cursor + pixel * one_pixel;
-	if (result < 0)
-		result = 0;
+
+	/* Check range */
+	if (stay_in_selection) {
+		if (result < self->priv->sel_start)
+			result = self->priv->sel_start;
+		else if (result > self->priv->sel_end)
+			result = self->priv->sel_end;
+	} else {
+		gint64 dur;
+		dur = calculate_duration (self);
+		if (result < 0)
+			result = 0;
+		else if (result > dur)
+			result = dur;
+	}
 
 	return result;
+}
+
+static void
+update_selection (PtWaveslider *slider)
+{
+	/* Check if drag positions are different from selection.
+	   If yes, set new selection, emit signals and redraw widget. */
+
+	gboolean changed = FALSE;
+
+	/* Is anything selected at all? */
+	if (slider->priv->dragstart == slider->priv->dragend) {
+		slider->priv->sel_start = 0;
+		slider->priv->sel_end = 0;
+		if (slider->priv->has_selection) {
+			slider->priv->has_selection = FALSE;
+			g_object_notify_by_pspec (G_OBJECT (slider),
+						  obj_properties[PROP_HAS_SELECTION]);
+			g_signal_emit_by_name (slider, "selection-changed");
+			gtk_widget_queue_draw (GTK_WIDGET (slider->priv->drawarea));
+		}
+		return;
+	}
+
+	/* Sort start/end, check for changes (no changes on vertical movement), update selection */
+	if (slider->priv->dragstart < slider->priv->dragend) {
+		if (slider->priv->sel_start != slider->priv->dragstart || slider->priv->sel_end != slider->priv->dragend) {
+			slider->priv->sel_start = slider->priv->dragstart;
+			slider->priv->sel_end = slider->priv->dragend;
+			changed = TRUE;
+		}
+	} else {
+		if (slider->priv->sel_start != slider->priv->dragend || slider->priv->sel_end != slider->priv->dragstart) {
+			slider->priv->sel_start = slider->priv->dragend;
+			slider->priv->sel_end = slider->priv->dragstart;
+			changed = TRUE;
+		}
+	}
+
+	if (changed) {
+
+		/* Update has-selection property */
+		if (!slider->priv->has_selection) {
+			slider->priv->has_selection = TRUE;
+			g_object_notify_by_pspec (G_OBJECT (slider),
+						  obj_properties[PROP_HAS_SELECTION]);
+		}
+
+		g_signal_emit_by_name (slider, "selection-changed");
+		gtk_widget_queue_draw (GTK_WIDGET (slider->priv->drawarea));
+	}
 }
 
 static gboolean
@@ -445,17 +557,12 @@ key_press_event_cb (GtkWidget   *widget,
 	if (!slider->priv->peaks)
 		return FALSE;
 
-	/* only Control is pressed, not together with Shift or Alt */
-	if ((event->state & ALL_ACCELS_MASK) == GDK_CONTROL_MASK) {
-
+	/* no modifier pressed */
+	if (!(event->state & ALL_ACCELS_MASK)) {
 		switch (event->keyval) {
-		case GDK_KEY_Left:
-		case GDK_KEY_Right:
-		case GDK_KEY_Page_Up:
-		case GDK_KEY_Page_Down:
-		case GDK_KEY_Home:
-		case GDK_KEY_End:
-			/* override default scroll bindings  */
+		case GDK_KEY_Escape:
+			slider->priv->dragstart = slider->priv->dragend = 0;
+			update_selection (slider);
 			return TRUE;
 		}
 	}
@@ -467,23 +574,47 @@ key_press_event_cb (GtkWidget   *widget,
 
 			switch (event->keyval) {
 			case GDK_KEY_Left:
-				g_signal_emit_by_name (slider, "cursor-changed", add_subtract_time (slider, -2));
+				g_signal_emit_by_name (slider, "cursor-changed", add_subtract_time (slider, -2, FALSE));
 				return TRUE;
 			case GDK_KEY_Right:
-				g_signal_emit_by_name (slider, "cursor-changed", add_subtract_time (slider, 2));
+				g_signal_emit_by_name (slider, "cursor-changed", add_subtract_time (slider, 2, FALSE));
 				return TRUE;
 			case GDK_KEY_Page_Up:
-				g_signal_emit_by_name (slider, "cursor-changed", add_subtract_time (slider, -20));
+				g_signal_emit_by_name (slider, "cursor-changed", add_subtract_time (slider, -20, FALSE));
 				return TRUE;
 			case GDK_KEY_Page_Down:
-				g_signal_emit_by_name (slider, "cursor-changed", add_subtract_time (slider, 20));
+				g_signal_emit_by_name (slider, "cursor-changed", add_subtract_time (slider, 20, FALSE));
 				return TRUE;
 			case GDK_KEY_Home:
 				g_signal_emit_by_name (slider, "cursor-changed", 0);
 				return TRUE;
 			case GDK_KEY_End:
-				/* array size / 2 = samples; samples / pix per sec = seconds / * 1000 / + rounding errors */
-				g_signal_emit_by_name (slider, "cursor-changed", slider->priv->peaks_size * 500 / slider->priv->px_per_sec + 10);
+				g_signal_emit_by_name (slider, "cursor-changed", calculate_duration (slider));
+				return TRUE;
+			}
+		}
+		/* Only Control is pressed, not together with Shift or Alt
+		   Here we override the default horizontal scroll bindings */
+		else if ((event->state & ALL_ACCELS_MASK) == GDK_CONTROL_MASK) {
+
+			switch (event->keyval) {
+			case GDK_KEY_Left:
+				g_signal_emit_by_name (slider, "cursor-changed", add_subtract_time (slider, -2, TRUE));
+				return TRUE;
+			case GDK_KEY_Right:
+				g_signal_emit_by_name (slider, "cursor-changed", add_subtract_time (slider, 2, TRUE));
+				return TRUE;
+			case GDK_KEY_Page_Up:
+				g_signal_emit_by_name (slider, "cursor-changed", add_subtract_time (slider, -20, TRUE));
+				return TRUE;
+			case GDK_KEY_Page_Down:
+				g_signal_emit_by_name (slider, "cursor-changed", add_subtract_time (slider, 20, TRUE));
+				return TRUE;
+			case GDK_KEY_Home:
+				g_signal_emit_by_name (slider, "cursor-changed", slider->priv->sel_start);
+				return TRUE;
+			case GDK_KEY_End:
+				g_signal_emit_by_name (slider, "cursor-changed", slider->priv->sel_end);
 				return TRUE;
 			}
 		}
@@ -538,6 +669,25 @@ key_press_event_cb (GtkWidget   *widget,
 }
 
 static gboolean
+pointer_in_range (PtWaveslider *slider,
+		  gdouble       pointer,
+		  gint64        pos)
+{
+	/* Returns TRUE if @pointer (event->x) is not more than 3 pixels away from @pos */
+
+	return (fabs (pointer - (double) time_to_pixel (slider, pos)) < 3.0);
+}
+
+static void
+set_cursor (GtkWidget *widget,
+	    GdkCursor *cursor)
+{
+	GdkWindow  *gdkwin;
+	gdkwin = gtk_widget_get_window (widget);
+	gdk_window_set_cursor (gdkwin, cursor);
+}
+
+static gboolean
 button_press_event_cb (GtkWidget      *widget,
 		       GdkEventButton *event,
 		       gpointer        data)
@@ -553,8 +703,48 @@ button_press_event_cb (GtkWidget      *widget,
 	clicked = (gint) event->x;
 	pos = pixel_to_time (slider, clicked);
 
-	/* Single left click */
-	if (event->type == GDK_BUTTON_PRESS && event->button == GDK_BUTTON_PRIMARY) {
+
+	/* Single left click, no other keys pressed: new selection or changing selection */
+	if (event->type == GDK_BUTTON_PRESS
+	    && event->button == GDK_BUTTON_PRIMARY
+	    && !(event->state & ALL_ACCELS_MASK)) {
+		/* set position as start and end point, for new selection */
+		slider->priv->dragstart = slider->priv->dragend = pos;
+
+		/* if over selection border: snap to selection border, changing selection */
+		if (pointer_in_range (slider, event->x, slider->priv->sel_start)) {
+			slider->priv->dragstart = slider->priv->sel_end;
+			slider->priv->dragend = slider->priv->sel_start;
+		} else if (pointer_in_range (slider, event->x, slider->priv->sel_end)) {
+			slider->priv->dragstart = slider->priv->sel_start;
+			slider->priv->dragend = slider->priv->sel_end;
+		}
+
+		set_cursor (widget, slider->priv->arrows);
+		update_selection (slider);
+		return TRUE;
+	}
+
+	/* Single left click with Shift pressed and existing selection: enlarge selection */
+	if (event->type == GDK_BUTTON_PRESS
+	    && event->button == GDK_BUTTON_PRIMARY
+	    && (event->state & ALL_ACCELS_MASK) == GDK_SHIFT_MASK
+	    && slider->priv->sel_start != slider->priv->sel_end) {
+
+		slider->priv->dragend = pos;
+
+		if (pos < slider->priv->sel_start)
+			slider->priv->dragstart = slider->priv->sel_end;
+		else
+			slider->priv->dragstart = slider->priv->sel_start;
+
+		set_cursor (widget, slider->priv->arrows);
+		update_selection (slider);
+		return TRUE;
+	}
+
+	/* Single right click: change cursor */
+	if (event->type == GDK_BUTTON_PRESS && event->button == GDK_BUTTON_SECONDARY) {
 		g_signal_emit_by_name (slider, "cursor-changed", pos);
 		return TRUE;
 	}
@@ -578,11 +768,38 @@ motion_notify_event_cb (GtkWidget      *widget,
 	clicked = (gint) event->x;
 	pos = pixel_to_time (slider, clicked);
 
-	if (event->state & GDK_BUTTON1_MASK) {
+	/* Right mouse button sets cursor */
+	if (event->state & GDK_BUTTON3_MASK) {
 		g_signal_emit_by_name (slider, "cursor-changed", pos);
 		return TRUE;
 	}
 
+	/* Left mouse button (with or without Shift key) sets selection */
+	if (event->state & GDK_BUTTON1_MASK || event->state & GDK_BUTTON1_MASK & GDK_SHIFT_MASK) {
+		slider->priv->dragend = pos;
+		update_selection (slider);
+		return TRUE;
+	}
+
+	/* No button or any other button: change pointer cursor over selection border */
+	if (slider->priv->sel_start != slider->priv->sel_end) {
+		if (pointer_in_range (slider, event->x, slider->priv->sel_start)
+		    || pointer_in_range (slider, event->x, slider->priv->sel_end)) {
+			set_cursor (widget, slider->priv->arrows);
+		} else {
+			set_cursor (widget, NULL);
+		}
+	}
+
+	return FALSE;
+}
+
+static gboolean
+button_release_event_cb (GtkWidget      *widget,
+		         GdkEventButton *event,
+		         gpointer        data)
+{
+	set_cursor (widget, NULL);
 	return FALSE;
 }
 
@@ -719,6 +936,8 @@ pt_waveslider_set_follow_cursor (PtWaveslider *self,
 		self->priv->follow_cursor = follow;
 		g_object_notify_by_pspec (G_OBJECT (self),
 					  obj_properties[PROP_FOLLOW_CURSOR]);
+		if (follow)
+			scroll_to_cursor (self);
 	}
 }
 
@@ -837,6 +1056,7 @@ pt_waveslider_finalize (GObject *object)
 	PtWaveslider *self = PT_WAVESLIDER (object);
 
 	g_free (self->priv->peaks);
+	g_clear_object (&self->priv->arrows);
 
 	G_OBJECT_CLASS (pt_waveslider_parent_class)->finalize (object);
 }
@@ -858,6 +1078,15 @@ pt_waveslider_get_property (GObject    *object,
 		break;
 	case PROP_SHOW_RULER:
 		g_value_set_boolean (value, self->priv->show_ruler);
+		break;
+	case PROP_HAS_SELECTION:
+		g_value_set_boolean (value, self->priv->has_selection);
+		break;
+	case PROP_SELECTION_START:
+		g_value_set_int64 (value, self->priv->sel_start);
+		break;
+	case PROP_SELECTION_END:
+		g_value_set_int64 (value, self->priv->sel_end);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -919,6 +1148,8 @@ pt_waveslider_set_property (GObject      *object,
 		break;
 	case PROP_FOLLOW_CURSOR:
 		self->priv->follow_cursor = g_value_get_boolean (value);
+		if (gtk_widget_get_realized (GTK_WIDGET (self)) && self->priv->follow_cursor)
+			scroll_to_cursor (self);
 		break;
 	case PROP_FIXED_CURSOR:
 		self->priv->fixed_cursor = g_value_get_boolean (value);
@@ -967,6 +1198,9 @@ pt_waveslider_init (PtWaveslider *self)
 	self->priv->playback_cursor = 0;
 	self->priv->follow_cursor = TRUE;
 	self->priv->focus_on_cursor = FALSE;
+	self->priv->sel_start = 0;
+	self->priv->sel_end = 0;
+	self->priv->arrows = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
 
 	if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
 		self->priv->rtl = TRUE;
@@ -1005,6 +1239,11 @@ pt_waveslider_init (PtWaveslider *self)
 			  self);
 
 	g_signal_connect (self->priv->drawarea,
+			  "button-release-event",
+			  G_CALLBACK (button_release_event_cb),
+			  self);
+
+	g_signal_connect (self->priv->drawarea,
 			  "draw",
 			  G_CALLBACK (draw_cb),
 			  self);
@@ -1031,6 +1270,7 @@ pt_waveslider_init (PtWaveslider *self)
 
 	gtk_widget_set_events (self->priv->drawarea, gtk_widget_get_events (self->priv->drawarea)
                                      | GDK_BUTTON_PRESS_MASK
+                                     | GDK_BUTTON_RELEASE_MASK
 				     | GDK_POINTER_MOTION_MASK
 				     | GDK_KEY_PRESS_MASK);
 }
@@ -1070,9 +1310,28 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 		      1, G_TYPE_INT64);
 
 	/**
+	* PtWaveslider::selection-changed:
+	* @ws: the waveslider emitting the signal
+	*
+	* Signals that the selection was changed (or unselected) by the user.
+	* To query the new selection see #PtWaveslider:has-selection,
+	* #PtWaveslider:selection-start and #PtWaveslider:selection-end.
+	*/
+	signals[SELECTION_CHANGED] =
+	g_signal_new ("selection-changed",
+		      PT_TYPE_WAVESLIDER,
+		      G_SIGNAL_RUN_FIRST,
+		      0,
+		      NULL,
+		      NULL,
+		      g_cclosure_marshal_VOID__POINTER,
+		      G_TYPE_NONE,
+		      0);
+
+	/**
 	* PtWaveslider:playback-cursor:
 	*
-	* Current playback position in 1/100 seconds.
+	* Current playback position in milliseconds.
 	*/
 
 	obj_properties[PROP_PLAYBACK_CURSOR] =
@@ -1132,6 +1391,54 @@ pt_waveslider_class_init (PtWavesliderClass *klass)
 			_("Show the time scale with time marks"),
 			TRUE,
 			G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
+
+	/**
+	* PtWaveslider:has-selection:
+	*
+	* Whether something is selected (TRUE) or not (FALSE).
+	*/
+
+	obj_properties[PROP_HAS_SELECTION] =
+	g_param_spec_boolean (
+			"has-selection",
+			"Has selection",
+			"Indicates whether something is selected",
+			FALSE,
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+
+	/**
+	* PtWaveslider:selection-start:
+	*
+	* Start time of selection in milliseconds. If it's equal to the end
+	* time, there is no selection. See also #PtWaveslider:has-selection.
+	*/
+
+	obj_properties[PROP_SELECTION_START] =
+	g_param_spec_int64 (
+			"selection-start",
+			"Start time of selection",
+			"Start time of selection",
+			0,
+			G_MAXINT64,
+			0,
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+
+	/**
+	* PtWaveslider:selection-end:
+	*
+	* End time of selection in milliseconds. If it's equal to the start
+	* time, there is no selection. See also #PtWaveslider:has-selection.
+	*/
+
+	obj_properties[PROP_SELECTION_END] =
+	g_param_spec_int64 (
+			"selection-end",
+			"End time of selection",
+			"End time of selection",
+			0,
+			G_MAXINT64,
+			0,
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
 	g_object_class_install_properties (
 			G_OBJECT_CLASS (klass),

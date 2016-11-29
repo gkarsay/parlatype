@@ -119,6 +119,27 @@ cursor_changed_cb (GtkWidget *widget,
 	pt_player_jump_to_position (win->priv->player, pos);
 }
 
+void
+selection_changed_cb (GtkWidget *widget,
+		      PtWindow  *win)
+{
+	gint64 start, end, current;
+	if (win->priv->playing_selection) {
+
+		current = pt_player_get_position (win->priv->player);
+		g_object_get (win->priv->waveslider,
+			      "selection-start", &start,
+			      "selection-end", &end,
+			      NULL);
+		if (start <= current && current <= end) {
+			pt_player_set_selection (win->priv->player, start, end);
+		} else {
+			pt_player_clear_selection (win->priv->player);
+			win->priv->playing_selection = FALSE;
+		}
+	}
+}
+
 static gboolean
 update_time (PtWindow *win)
 {
@@ -399,7 +420,36 @@ void
 play_button_toggled_cb (GtkToggleButton *button,
 			PtWindow	*win)
 {
+	gint64 start, end, current, dur;
+	gboolean selection;
+
 	if (gtk_toggle_button_get_active (button)) {
+
+		/* If there is a selection, play it */
+		g_object_get (win->priv->waveslider,
+			      "selection-start", &start,
+			      "selection-end", &end,
+			      "has-selection", &selection,
+			      NULL);
+
+		if (!win->priv->playing_selection && selection) {
+			/* Note: changes position if outside selection */
+			pt_player_set_selection (win->priv->player, start, end);
+			win->priv->playing_selection = TRUE;
+		}
+
+		/* If we're at the end of stream or selection goto start */
+		current = pt_player_get_position (win->priv->player);
+		if (win->priv->playing_selection) {
+			if (current == end)
+				pt_player_jump_to_position (win->priv->player, start);
+		} else {
+			dur = pt_player_get_duration (win->priv->player);
+			/* We are usually not (never?) at the exact duration */
+			if (dur - current < 100)
+				pt_player_jump_to_position (win->priv->player, 0);
+		}
+
 		pt_waveslider_set_follow_cursor (PT_WAVESLIDER (win->priv->waveslider), TRUE);
 		pt_player_play (win->priv->player);
 	} else {
@@ -669,6 +719,7 @@ pt_window_init (PtWindow *win)
 	win->priv->progress_dlg = NULL;
 	win->priv->progress_handler_id = 0;
 	win->priv->wavedata = NULL;
+	win->priv->playing_selection = FALSE;
 
 	/* Flip speed scale for right to left layouts */
 	if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
