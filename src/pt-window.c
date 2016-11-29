@@ -103,32 +103,9 @@ goto_position (GSimpleAction *action,
 	gtk_widget_destroy (GTK_WIDGET (dlg));
 }
 
-void
-play_selection (GSimpleAction *action,
-	        GVariant      *parameter,
-	        gpointer       user_data)
-{
-	PtWindow *win;
-	win = PT_WINDOW (user_data);
-
-	gint64 start, end;
-
-	g_object_get (win->priv->waveslider,
-		      "selection-start", &start,
-		      "selection-end", &end,
-		      NULL);
-
-	pt_player_set_selection (win->priv->player, start, end);
-	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->priv->button_play)))
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (win->priv->button_play), TRUE);
-
-	win->priv->playing_selection = TRUE;
-}
-
 const GActionEntry win_actions[] = {
 	{ "copy", copy_timestamp, NULL, NULL, NULL },
-	{ "goto", goto_position, NULL, NULL, NULL },
-	{ "play_selection", play_selection, NULL, NULL, NULL }
+	{ "goto", goto_position, NULL, NULL, NULL }
 };
 
 void
@@ -752,13 +729,6 @@ pt_window_init (PtWindow *win)
 	g_object_bind_property (win->priv->waveslider, "follow-cursor",
 				win->priv->pos_label, "has_tooltip",
 				G_BINDING_INVERT_BOOLEAN | G_BINDING_SYNC_CREATE);
-
-
-	GAction *action;
-	action = g_action_map_lookup_action (G_ACTION_MAP (win), "play_selection");
-	g_object_bind_property (win->priv->waveslider, "has-selection",
-				action, "enabled",
-				G_BINDING_SYNC_CREATE);
 
 	pt_window_ready_to_play (win, FALSE);
 }
