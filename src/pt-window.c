@@ -146,9 +146,20 @@ void
 selection_changed_cb (GtkWidget *widget,
 		      PtWindow  *win)
 {
+	gint64 start, end, current;
 	if (win->priv->playing_selection) {
-		pt_player_clear_selection (win->priv->player);
-		win->priv->playing_selection = FALSE;
+
+		current = pt_player_get_position (win->priv->player);
+		g_object_get (win->priv->waveslider,
+			      "selection-start", &start,
+			      "selection-end", &end,
+			      NULL);
+		if (start <= current && current <= end) {
+			pt_player_set_selection (win->priv->player, start, end);
+		} else {
+			pt_player_clear_selection (win->priv->player);
+			win->priv->playing_selection = FALSE;
+		}
 	}
 }
 
@@ -433,17 +444,26 @@ play_button_toggled_cb (GtkToggleButton *button,
 			PtWindow	*win)
 {
 	gint64 start, end, current, dur;
+	gboolean selection;
 
 	if (gtk_toggle_button_get_active (button)) {
 
-		/* If we're at the end of stream or selection, jump to start */
+		/* If there is a selection, play it */
+		g_object_get (win->priv->waveslider,
+			      "selection-start", &start,
+			      "selection-end", &end,
+			      "has-selection", &selection,
+			      NULL);
 
+		if (!win->priv->playing_selection && selection) {
+			/* Note: changes position if outside selection */
+			pt_player_set_selection (win->priv->player, start, end);
+			win->priv->playing_selection = TRUE;
+		}
+
+		/* If we're at the end of stream or selection goto start */
 		current = pt_player_get_position (win->priv->player);
 		if (win->priv->playing_selection) {
-			g_object_get (win->priv->waveslider,
-				      "selection-start", &start,
-				      "selection-end", &end,
-				      NULL);
 			if (current == end)
 				pt_player_jump_to_position (win->priv->player, start);
 		} else {
@@ -452,6 +472,7 @@ play_button_toggled_cb (GtkToggleButton *button,
 			if (dur - current < 100)
 				pt_player_jump_to_position (win->priv->player, 0);
 		}
+
 		pt_waveslider_set_follow_cursor (PT_WAVESLIDER (win->priv->waveslider), TRUE);
 		pt_player_play (win->priv->player);
 	} else {
