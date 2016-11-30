@@ -186,6 +186,25 @@ check_progress (GTask *task)
 	return TRUE;
 }
 
+static gint64
+calculate_duration (gint64 data_size,
+		    gint   px_per_sec)
+{
+	/* Calculates streams duration from data size exactly the way
+	   pt-waveslider.c does */
+
+	gint64 result;
+	gint64 samples;
+	gint   one_pixel;
+
+	samples = data_size / 2;
+	one_pixel = 1000 / px_per_sec;
+	result = samples / px_per_sec * 1000; /* = full seconds */
+	result += (samples % px_per_sec) * one_pixel;
+
+	return result;
+}
+
 static gboolean
 bus_handler (GstBus     *bus,
 	     GstMessage *msg,
@@ -266,8 +285,15 @@ bus_handler (GstBus     *bus,
 		gint chunk_size = wl->priv->rate / wl->priv->pps;
 		wl->priv->data_size = buf.st_size / chunk_size;
 
+		/* Data size should match exactly duration or less, but sometimes it doesn't ... */
+		while (calculate_duration (wl->priv->data_size, wl->priv->pps) > GST_TIME_AS_MSECONDS (wl->priv->duration)) {
+			g_debug ("adjusting array size");
+			wl->priv->data_size -= 2 * wl->priv->channels;
+		}
+
+		g_debug ("array size: %" G_GINT64_FORMAT " ", wl->priv->data_size);
+		g_debug ("samples: %" G_GINT64_FORMAT " ", wl->priv->data_size / 2 * wl->priv->channels);
 		g_debug ("pixels per sec: %d", wl->priv->pps);
-		g_debug ("samples: %" G_GINT64_FORMAT " ", wl->priv->data_size);
 
 		remove_timeout (wl);
 		g_task_return_boolean (task, TRUE);
