@@ -259,42 +259,6 @@ bus_handler (GstBus     *bus,
 		g_debug ("sample decoded: channels=%d, rate=%d, length=%" GST_TIME_FORMAT,
 			wl->priv->channels, wl->priv->rate, GST_TIME_ARGS (wl->priv->duration));
 
-		/* stat temp file, query size in bytes and compute number of samples */
-		struct stat buf;
-
-		if (fstat (wl->priv->fd, &buf) != 0) {
-			g_task_return_new_error (
-					task,
-					G_FILE_ERROR,
-					G_FILE_ERROR_FAILED,
-					_("Failed to open temporary file."));
-
-			remove_timeout (wl);
-			return FALSE;
-		}
-
-		/* Adjust pixel per second ratio if there's a remainder */
-		gint i;
-		for (i = wl->priv->pps; i > 10; i--) {
-			if (wl->priv->rate % i == 0) {
-				wl->priv->pps = i;
-				break;
-			}
-		}
-
-		gint chunk_size = wl->priv->rate / wl->priv->pps;
-		wl->priv->data_size = buf.st_size / chunk_size;
-
-		/* Data size should match exactly duration or less, but sometimes it doesn't ... */
-		while (calculate_duration (wl->priv->data_size, wl->priv->pps) > GST_TIME_AS_MSECONDS (wl->priv->duration)) {
-			g_debug ("adjusting array size");
-			wl->priv->data_size -= 2 * wl->priv->channels;
-		}
-
-		g_debug ("array size: %" G_GINT64_FORMAT " ", wl->priv->data_size);
-		g_debug ("samples: %" G_GINT64_FORMAT " ", wl->priv->data_size / 2 * wl->priv->channels);
-		g_debug ("pixels per sec: %d", wl->priv->pps);
-
 		remove_timeout (wl);
 		g_task_return_boolean (task, TRUE);
 		return FALSE;
@@ -428,7 +392,8 @@ pt_waveloader_get_duration (PtWaveloader *wl)
  * Return value: (transfer full): the #PtWavedata, after use free with pt_wavedata_free()
  */
 PtWavedata*
-pt_waveloader_get_data (PtWaveloader *wl)
+pt_waveloader_get_data (PtWaveloader *wl,
+			gint          pps)
 {
 	gfloat *array = NULL;
 	gint64 i;
@@ -438,8 +403,36 @@ pt_waveloader_get_data (PtWaveloader *wl)
 	gint chunk_bytes;
 	ssize_t bytes __attribute__ ((unused));
 
-	chunk_size = wl->priv->rate / wl->priv->pps;
+	/* stat temp file, query size in bytes and compute number of samples */
+	struct stat buf;
+
+	g_debug ("breakpoint 1");
+	if (fstat (wl->priv->fd, &buf) != 0) {
+		g_debug (_("Failed to open temporary file."));
+		return NULL;
+	}
+
+	/* Adjust pixel per second ratio if there's a remainder */
+	for (i = pps; i > 10; i--) {
+		if (wl->priv->rate % i == 0) {
+			pps = i;
+			break;
+		}
+	}
+
+	chunk_size = wl->priv->rate / pps;
 	chunk_bytes = 2 * chunk_size;
+	wl->priv->data_size = buf.st_size / chunk_size;
+
+	/* Data size should match exactly duration or less, but sometimes it doesn't ... */
+	while (calculate_duration (wl->priv->data_size, pps) > GST_TIME_AS_MSECONDS (wl->priv->duration)) {
+		g_debug ("adjusting array size");
+		wl->priv->data_size -= 2 * wl->priv->channels;
+	}
+
+	g_debug ("array size: %" G_GINT64_FORMAT " ", wl->priv->data_size);
+	g_debug ("samples: %" G_GINT64_FORMAT " ", wl->priv->data_size / 2 * wl->priv->channels);
+	g_debug ("pixels per sec: %d", pps);
 
 	gint16 temp[chunk_size];
 
@@ -475,7 +468,7 @@ pt_waveloader_get_data (PtWaveloader *wl)
 	PtWavedata *data = pt_wavedata_new (array,
 					    wl->priv->data_size,
 					    wl->priv->channels,
-					    wl->priv->pps);
+					    pps);
 
 	g_free (array);
 	g_debug ("waveloader get data finished");

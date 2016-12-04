@@ -331,7 +331,8 @@ pt_window_ready_to_play (PtWindow *win,
 		change_jump_back_tooltip (win);
 		change_jump_forward_tooltip (win);
 		pt_waveslider_set_follow_cursor (PT_WAVESLIDER (win->priv->waveslider), TRUE);
-		win->priv->wavedata = pt_player_get_data (win->priv->player);
+		win->priv->wavedata = pt_player_get_data (win->priv->player,
+							  g_settings_get_int (win->priv->editor, "pps"));
 		pt_waveslider_set_wave (PT_WAVESLIDER (win->priv->waveslider),
 					win->priv->wavedata);
 		/* add timer after waveslider, didn't update cursor otherwise sometimes */
@@ -553,6 +554,19 @@ settings_changed_cb (GSettings *settings,
 
 	if (g_strcmp0 (key, "jump-forward") == 0) {
 		change_jump_forward_tooltip (win);
+		return;
+	}
+
+	if (g_strcmp0 (key, "pps") == 0) {
+		gchar *uri;
+		uri = pt_player_get_uri (win->priv->player);
+		if (uri) {
+			win->priv->wavedata = pt_player_get_data (win->priv->player,
+								  g_settings_get_int (win->priv->editor, "pps"));
+			pt_waveslider_set_wave (PT_WAVESLIDER (win->priv->waveslider),
+						win->priv->wavedata);
+			g_free (uri);
+		}
 		return;
 	}
 }

@@ -960,9 +960,10 @@ pt_player_wave_pos (PtPlayer *player)
  * Return value: (transfer full): the #PtWavedata
  */
 PtWavedata*
-pt_player_get_data (PtPlayer *player)
+pt_player_get_data (PtPlayer *player,
+		    gint      pps)
 {
-	return pt_waveloader_get_data (player->priv->wl);
+	return pt_waveloader_get_data (player->priv->wl, pps);
 }
 
 
@@ -985,10 +986,10 @@ pt_player_get_uri (PtPlayer *player)
 	GFile *file = NULL;
 
 	file = pt_player_get_file (player);
-	if (file)
+	if (file) {
 		uri = g_file_get_uri (file);
-
-	g_object_unref (file);
+		g_object_unref (file);
+	}
 
 	return uri;
 }
