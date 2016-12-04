@@ -1,39 +1,39 @@
-# German translations for parlatype package.
-# Copyright (C) 2016 Gabor Karsay
-# This file is distributed under the same license as the parlatype package.
-# Gabor Karsay <gabor.karsay@gxm.at>, 2016.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: parlatype 1.4\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-12-04 15:45+0100\n"
-"PO-Revision-Date: 2016-12-04 15:47+0100\n"
-"Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
-"Language-Team: Deutsch <>\n"
-"Language: de\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #: ../data/parlatype.desktop.in.in.h:1 ../src/pt-app.c:66 ../src/pt-app.c:208
 #: ../src/resources/window.ui.h:1 ../src/resources/window-headerbar.ui.h:1
 msgid "Parlatype"
-msgstr "Parlatype"
+msgstr ""
 
 #: ../data/parlatype.desktop.in.in.h:2
 msgid "Transcription utility"
-msgstr "Transkriptions-Helfer"
+msgstr ""
 
 #: ../src/main.c:42
 msgid "Show the application's version"
-msgstr "Version der Anwendung anzeigen"
+msgstr ""
 
 #: ../src/main.c:58
 msgid "Fatal error"
-msgstr "Fataler Fehler"
+msgstr ""
 
 #: ../src/main.c:62
 #, c-format
@@ -42,10 +42,6 @@ msgid ""
 "GStreamer and make sure you have the \"Good Plugins\" installed.\n"
 "Parlatype will quit now, it received this error message: %s"
 msgstr ""
-"Parlatype braucht GStreamer 1.x, um zu funktionieren. Bitte überprüfen Sie "
-"Ihre GStreamer-Installation und stellen Sie sicher, dass auch die »Guten "
-"Plugins« (Good Plugins) installiert sind.\n"
-"Parlatype wird nun beendet, es hat folgende Fehlermeldung erhalten: %s"
 
 #. Translators: This is part of the output if you type `parlatype --help`
 #. in terminal. The square brackets indicate that a file (filename) is
@@ -53,40 +49,40 @@ msgstr ""
 #. uppercase.
 #: ../src/main.c:84
 msgid "[FILE]"
-msgstr "[DATEI]"
+msgstr ""
 
 #: ../src/main.c:87
 msgid "Minimal audio player for manual speech transcription"
-msgstr "Minimalistischer Audioplayer für manuelle Sprachtranskription"
+msgstr ""
 
 #: ../src/pt-app.c:57 ../src/resources/menus.ui.h:2
 msgid "Recent Files"
-msgstr "Zuletzt geöffnete Dateien"
+msgstr ""
 
 #: ../src/pt-app.c:59 ../src/pt-app.c:116
 msgid "_Cancel"
-msgstr "_Abbrechen"
+msgstr ""
 
 #: ../src/pt-app.c:60 ../src/pt-app.c:117
 msgid "_Open"
-msgstr "_Öffnen"
+msgstr ""
 
 #: ../src/pt-app.c:72 ../src/pt-app.c:128
 msgid "All files"
-msgstr "Alle Dateien"
+msgstr ""
 
 #: ../src/pt-app.c:113
 msgid "Open Audio File"
-msgstr "Audio-Datei öffnen"
+msgstr ""
 
 #: ../src/pt-app.c:127
 msgid "Audio files"
-msgstr "Audio-Dateien"
+msgstr ""
 
 #: ../src/pt-app.c:175
 #, c-format
 msgid "Error opening help: %s"
-msgstr "Fehler beim Öffnen der Hilfe: %s"
+msgstr ""
 
 #. Translators: This is part of the about box, followed by the
 #. copyright holders of code from other projects. Instead of
@@ -94,15 +90,15 @@ msgstr "Fehler beim Öffnen der Hilfe: %s"
 #. other projects:"
 #: ../src/pt-app.c:193
 msgid "Including code from other projects:"
-msgstr "Aus anderen Projekten übernommener Code:"
+msgstr ""
 
 #: ../src/pt-app.c:211
 msgid "A basic transcription utility"
-msgstr "Ein einfaches Transkriptionsprogramm"
+msgstr ""
 
 #: ../src/pt-app.c:215
 msgid "translator-credits"
-msgstr "Gabor Karsay <gabor.karsay@gmx.at>"
+msgstr ""
 
 #: ../src/pt-app.c:329
 #, c-format
@@ -110,159 +106,157 @@ msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
 "ignored.\n"
 msgstr ""
-"Warnung: Parlatype öffnet nur eine Datei auf einmal. Weitere Dateien werden "
-"ignoriert.\n"
 
 #: ../src/pt-goto-dialog.c:44
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
-msgstr "%d:%02d:%02d"
+msgstr ""
 
 #: ../src/pt-preferences.c:51 ../src/pt-preferences.c:61
 #: ../src/pt-preferences.c:71
 msgid "second"
 msgid_plural "seconds"
-msgstr[0] "Sekunde"
-msgstr[1] "Sekunden"
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../src/pt-preferences.c:160
 msgid "_Close"
-msgstr "_Schließen"
+msgstr ""
 
 #: ../src/pt-window.c:187
 #, c-format
 msgid "Jump back 1 second"
 msgid_plural "Jump back %d seconds"
-msgstr[0] "Eine Sekunde zurückspringen"
-msgstr[1] "%d Sekunden zurückspringen"
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../src/pt-window.c:201
 #, c-format
 msgid "Jump forward 1 second"
 msgid_plural "Jump forward %d seconds"
-msgstr[0] "1 Sekunde vorwärtsspringen"
-msgstr[1] "%d Sekunden vorwärtsspringen"
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../src/pt-window.c:216
 msgid "Pause"
-msgstr "Wiedergabe unterbrechen"
+msgstr ""
 
 #: ../src/pt-window.c:219
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
-msgstr[0] "Wiedergabe unterbrechen und 1 Sekunde zurückspulen"
-msgstr[1] "Wiedergabe unterbrechen und %d Sekunden zurückspulen"
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../src/pt-window.c:225
 msgid "Start playing"
-msgstr "Wiedergabe starten"
+msgstr ""
 
 #: ../src/resources/goto-dialog.ui.h:1 ../src/resources/menus.ui.h:8
 msgid "Go to ..."
-msgstr "Gehe zu …"
+msgstr ""
 
 #: ../src/resources/goto-dialog.ui.h:2
 msgid "Go to position:"
-msgstr "Gehe zu Position:"
+msgstr ""
 
 #: ../src/resources/goto-dialog.ui.h:3 ../src/resources/preferences.ui.h:10
 msgid "seconds"
-msgstr "Sekunden"
+msgstr ""
 
 #: ../src/resources/menus.ui.h:1
 msgid "Open File"
-msgstr "Datei öffnen"
+msgstr ""
 
 #: ../src/resources/menus.ui.h:3
 msgid "Preferences"
-msgstr "Einstellungen"
+msgstr ""
 
 #: ../src/resources/menus.ui.h:4
 msgid "Help"
-msgstr "Hilfe"
+msgstr ""
 
 #: ../src/resources/menus.ui.h:5
 msgid "Info"
-msgstr "Info"
+msgstr ""
 
 #: ../src/resources/menus.ui.h:6
 msgid "Quit"
-msgstr "Beenden"
+msgstr ""
 
 #: ../src/resources/menus.ui.h:7
 msgid "Copy timestamp"
-msgstr "Zeitstempel kopieren"
+msgstr ""
 
 #: ../src/resources/preferences.ui.h:1
 msgid "Parlatype Preferences"
-msgstr "Einstellungen für Parlatype"
+msgstr ""
 
 #: ../src/resources/preferences.ui.h:2
 msgid "_Pixels per second:"
-msgstr "_Pixel pro Sekunde:"
+msgstr ""
 
 #: ../src/resources/preferences.ui.h:3
 msgid "Show _time scale"
-msgstr "_Zeitskala anzeigen"
+msgstr ""
 
 #: ../src/resources/preferences.ui.h:4
 msgid "Resolution"
-msgstr "Auflösung"
+msgstr ""
 
 #: ../src/resources/preferences.ui.h:5
 msgid "Display"
-msgstr "Anzeige"
+msgstr ""
 
 #: ../src/resources/preferences.ui.h:6
 msgid "_Moving cursor"
-msgstr "Cursor _bewegt sich"
+msgstr ""
 
 #: ../src/resources/preferences.ui.h:7
 msgid "_Fixed cursor"
-msgstr "Cursor ist _fixiert"
+msgstr ""
 
 #: ../src/resources/preferences.ui.h:8
 msgid "Waveform"
-msgstr "Wellenform"
+msgstr ""
 
 #: ../src/resources/preferences.ui.h:9
 msgid "Jump back on _pause:"
-msgstr "Bei _Pause zurückspulen:"
+msgstr ""
 
 #: ../src/resources/preferences.ui.h:11
 msgid "Jump _back:"
-msgstr "_Zurückspringen:"
+msgstr ""
 
 #: ../src/resources/preferences.ui.h:12
 msgid "Jump _forward:"
-msgstr "_Vorwärts springen:"
+msgstr ""
 
 #: ../src/resources/preferences.ui.h:13
 msgid "Controls"
-msgstr "Steuerung"
+msgstr ""
 
 #: ../src/resources/preferences.ui.h:14
 msgid "Remember _position"
-msgstr "_Position des Fensters merken"
+msgstr ""
 
 #: ../src/resources/preferences.ui.h:15
 msgid "Start on _top"
-msgstr "»Immer im _Vordergrund« starten"
+msgstr ""
 
 #: ../src/resources/preferences.ui.h:16
 msgid "Window"
-msgstr "Fenster"
+msgstr ""
 
 #: ../src/resources/window.ui.h:2
 msgid "Click here to jump to cursor"
-msgstr "Hier klicken, um zum Cursor zurückzuspringen"
+msgstr ""
 
 #: ../src/resources/window.ui.h:3
 msgid "Speed:"
-msgstr "Geschwindigkeit:"
+msgstr ""
 
 #: ../src/resources/window-headerbar.ui.h:2
 msgid "Open a file"
-msgstr "Eine Datei öffnen"
+msgstr ""

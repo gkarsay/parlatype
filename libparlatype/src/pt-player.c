@@ -954,15 +954,21 @@ pt_player_wave_pos (PtPlayer *player)
 /**
  * pt_player_get_data:
  * @player: a #PtPlayer
+ * @pps: the requested pixel per second ratio
  *
- * Returns all data for visual representation.
+ * Returns wave data needed for visual representation as raw data. The
+ * requested resolution is given as pixel per seconds, e.g. 100 means one second
+ * is represented by 100 samples, is 100 pixels wide. The returned resolution
+ * doesn't have to be necessarily exactly the requested resolution, it might be
+ * a bit differnt, depending on the bit rate.
  *
  * Return value: (transfer full): the #PtWavedata
  */
 PtWavedata*
-pt_player_get_data (PtPlayer *player)
+pt_player_get_data (PtPlayer *player,
+		    gint      pps)
 {
-	return pt_waveloader_get_data (player->priv->wl);
+	return pt_waveloader_get_data (player->priv->wl, pps);
 }
 
 
@@ -985,10 +991,10 @@ pt_player_get_uri (PtPlayer *player)
 	GFile *file = NULL;
 
 	file = pt_player_get_file (player);
-	if (file)
+	if (file) {
 		uri = g_file_get_uri (file);
-
-	g_object_unref (file);
+		g_object_unref (file);
+	}
 
 	return uri;
 }

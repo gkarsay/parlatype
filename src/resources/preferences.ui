@@ -22,6 +22,13 @@
     <property name="step_increment">1</property>
     <property name="page_increment">1</property>
   </object>
+  <object class="GtkAdjustment" id="adj_pps">
+    <property name="lower">1</property>
+    <property name="upper">8</property>
+    <property name="value">4</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">1</property>
+  </object>
   <template class="PtPreferencesDialog" parent="GtkDialog">
     <property name="height_request">200</property>
     <property name="can_focus">False</property>
@@ -63,13 +70,63 @@
                 <property name="row_spacing">6</property>
                 <property name="column_spacing">6</property>
                 <child>
+                  <object class="GtkLabel" id="label9">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_left">6</property>
+                    <property name="xalign">0</property>
+                    <property name="label" translatable="yes">_Pixels per second:</property>
+                    <property name="use_underline">True</property>
+                    <property name="mnemonic_widget">pps_scale</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkScale" id="pps_scale">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="hexpand">True</property>
+                    <property name="adjustment">adj_pps</property>
+                    <property name="restrict_to_fill_level">False</property>
+                    <property name="fill_level">0</property>
+                    <property name="round_digits">0</property>
+                    <property name="digits">0</property>
+                    <property name="value_pos">right</property>
+                    <signal name="format-value" handler="format_value_cb" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkCheckButton" id="ruler_check">
+                    <property name="label" translatable="yes">Show _time scale</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="margin_left">6</property>
+                    <property name="use_underline">True</property>
+                    <property name="xalign">0</property>
+                    <property name="draw_indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">5</property>
+                  </packing>
+                </child>
+                <child>
                   <object class="GtkLabel" id="label3">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="xalign">1</property>
-                    <property name="label" translatable="yes">Show _time scale:</property>
-                    <property name="use_underline">True</property>
-                    <property name="mnemonic_widget">ruler_switch</property>
+                    <property name="xalign">0</property>
+                    <property name="label" translatable="yes">Resolution</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                    </attributes>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
@@ -80,35 +137,66 @@
                   <object class="GtkLabel" id="label4">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="xalign">1</property>
-                    <property name="label" translatable="yes">_Fixed cursor:</property>
-                    <property name="use_underline">True</property>
-                    <property name="mnemonic_widget">fixed_cursor_switch</property>
+                    <property name="xalign">0</property>
+                    <property name="label" translatable="yes">Display</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                    </attributes>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
-                    <property name="top_attach">1</property>
+                    <property name="top_attach">2</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkSwitch" id="ruler_switch">
+                  <object class="GtkRadioButton" id="moving_cursor_radio">
+                    <property name="label" translatable="yes">_Moving cursor</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="margin_left">6</property>
+                    <property name="use_underline">True</property>
+                    <property name="xalign">0</property>
+                    <property name="active">True</property>
+                    <property name="draw_indicator">True</property>
                   </object>
                   <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">0</property>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">4</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkSwitch" id="fixed_cursor_switch">
+                  <object class="GtkRadioButton" id="fixed_cursor_radio">
+                    <property name="label" translatable="yes">_Fixed cursor</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="margin_left">6</property>
+                    <property name="use_underline">True</property>
+                    <property name="xalign">0</property>
+                    <property name="active">True</property>
+                    <property name="draw_indicator">True</property>
+                    <property name="group">moving_cursor_radio</property>
                   </object>
                   <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">1</property>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">3</property>
                   </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
                 </child>
               </object>
             </child>
@@ -116,7 +204,7 @@
               <object class="GtkLabel" id="label2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Display</property>
+                <property name="label" translatable="yes">Waveform</property>
               </object>
               <packing>
                 <property name="tab_fill">False</property>
@@ -278,13 +366,14 @@
                 <property name="row_spacing">6</property>
                 <property name="column_spacing">6</property>
                 <child>
-                  <object class="GtkLabel" id="label10">
+                  <object class="GtkCheckButton" id="pos_check">
+                    <property name="label" translatable="yes">Remember _position</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="xalign">1</property>
-                    <property name="label" translatable="yes">Remember _position:</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
                     <property name="use_underline">True</property>
-                    <property name="mnemonic_widget">pos_switch</property>
+                    <property name="xalign">0</property>
+                    <property name="draw_indicator">True</property>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
@@ -292,36 +381,17 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="label14">
+                  <object class="GtkCheckButton" id="top_check">
+                    <property name="label" translatable="yes">Start on _top</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="xalign">1</property>
-                    <property name="label" translatable="yes">Start on _top:</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
                     <property name="use_underline">True</property>
-                    <property name="mnemonic_widget">top_switch</property>
+                    <property name="xalign">0</property>
+                    <property name="draw_indicator">True</property>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
-                    <property name="top_attach">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSwitch" id="pos_switch">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSwitch" id="top_switch">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
                     <property name="top_attach">1</property>
                   </packing>
                 </child>
