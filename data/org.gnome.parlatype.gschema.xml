@@ -18,6 +18,12 @@
 			<summary>Jump forward</summary>
 			<description>Value in seconds</description>
 		</key>
+		<key name="pps" type="i">
+			<range min="10" max="200"/>
+			<default>100</default>
+			<summary>Pixels per second</summary>
+			<description>Pixels per second</description>
+		</key>
 		<key name="x-pos" type="i">
 			<default>100</default>
 			<summary>Window's horizontal position</summary>
