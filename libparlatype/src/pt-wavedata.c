@@ -35,7 +35,7 @@
  * |[<!-- language="C" -->
  * ...
  * PtWavedata *data;
- * data = pt_player_get_data (player);
+ * data = pt_player_get_data (player, 100);
  * pt_waveslider_set_wave (PT_WAVESLIDER (waveslider), data);
  * pt_wavedata_free (data);
  * ...
