@@ -1,34 +1,33 @@
-# German translations for parlatype package.
-# Copyright (C) 2016 THE Gabor Karsay
-# This file is distributed under the same license as the parlatype package.
-# Gabor Karsay <gabor.karsay@gxm.at>, 2016.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: parlatype 1.4\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-12-04 15:47+0100\n"
-"PO-Revision-Date: 2016-12-04 15:50+0100\n"
-"Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
-"Language-Team: Deutsch <>\n"
-"Language: de\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Gtranslator 2.91.6\n"
 
 #. Translators: %s is a detailed error message.
 #: ../src/pt-player.c:412
 #, c-format
 msgid "URI not valid: %s"
-msgstr "URI nicht gültig: %s"
+msgstr ""
 
 #. Translators: %s is a detailed error message.
 #: ../src/pt-player.c:424
 #, c-format
 msgid "File not found: %s"
-msgstr "Datei nicht gefunden: %s"
+msgstr ""
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
@@ -39,7 +38,7 @@ msgstr "Datei nicht gefunden: %s"
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
-msgstr "%d:%02d:%02d"
+msgstr ""
 
 #. Translators: This is a time format, like "2:05:30.1" for 2
 #. hours, 5 minutes, 30 seconds, and 1 tenthsecond. You may
@@ -49,7 +48,7 @@ msgstr "%d:%02d:%02d"
 #, c-format
 msgctxt "long time format, 1 digit"
 msgid "%d:%02d:%02d.%d"
-msgstr "%d:%02d:%02d.%d"
+msgstr ""
 
 #. Translators: This is a time format, like "2:05:30.12" for 2
 #. hours, 5 minutes, 30 seconds, and 12 hundrethseconds. You may
@@ -59,7 +58,7 @@ msgstr "%d:%02d:%02d.%d"
 #, c-format
 msgctxt "long time format, 2 digits"
 msgid "%d:%02d:%02d.%02d"
-msgstr "%d:%02d:%02d.%02d"
+msgstr ""
 
 #. Translators: This is a time format, like "05:30" for
 #. 5 minutes, and 30 seconds. You may change ":" to
@@ -69,7 +68,7 @@ msgstr "%d:%02d:%02d.%02d"
 #, c-format
 msgctxt "short time format"
 msgid "%02d:%02d"
-msgstr "%02d:%02d"
+msgstr ""
 
 #. Translators: This is a time format, like "05:30.1" for
 #. 5 minutes, 30 seconds, and 1 tenthsecond. You may change
@@ -79,7 +78,7 @@ msgstr "%02d:%02d"
 #, c-format
 msgctxt "short time format, 1 digit"
 msgid "%02d:%02d.%d"
-msgstr "%02d:%02d.%d"
+msgstr ""
 
 #. Translators: This is a time format, like "05:30.12" for
 #. 5 minutes, 30 seconds, and 12 hundrethseconds. You may change
@@ -89,7 +88,7 @@ msgstr "%02d:%02d.%d"
 #, c-format
 msgctxt "short time format, 2 digits"
 msgid "%02d:%02d.%02d"
-msgstr "%02d:%02d.%02d"
+msgstr ""
 
 #. Translators: This is a time format, like "5:30" for
 #. 5 minutes, and 30 seconds. You may change ":" to
@@ -100,7 +99,7 @@ msgstr "%02d:%02d.%02d"
 #, c-format
 msgctxt "shortest time format"
 msgid "%d:%02d"
-msgstr "%d:%02d"
+msgstr ""
 
 #. Translators: This is a time format, like "05:30.1" for
 #. 5 minutes, 30 seconds, and 1 tenthsecond. You may change
@@ -110,7 +109,7 @@ msgstr "%d:%02d"
 #, c-format
 msgctxt "shortest time format, 1 digit"
 msgid "%d:%02d.%d"
-msgstr "%d:%02d.%d"
+msgstr ""
 
 #. Translators: This is a time format, like "05:30.12" for
 #. 5 minutes, 30 seconds, and 12 hundrethseconds. You may change
@@ -120,74 +119,71 @@ msgstr "%d:%02d.%d"
 #, c-format
 msgctxt "shortest time format, 2 digits"
 msgid "%d:%02d.%02d"
-msgstr "%d:%02d.%02d"
+msgstr ""
 
 #: ../src/pt-player.c:1271
 #, c-format
 msgctxt "long time format, 1 digit"
 msgid "%d:%02d:%02d.%01d"
-msgstr "%d:%02d:%02d.%01d"
+msgstr ""
 
 #: ../src/pt-player.c:1275
 #, c-format
 msgctxt "shortest time format, 1 digit"
 msgid "%d:%02d.%01d"
-msgstr "%d:%02d.%01d"
+msgstr ""
 
 #: ../src/pt-player.c:1443
 #, c-format
 msgid "Failed to load a plugin."
-msgstr "Ein Plugin konnte nicht geladen werden."
+msgstr ""
 
 #: ../src/pt-progress-dialog.c:148
 msgid "Loading file..."
-msgstr "Lade Datei …"
+msgstr ""
 
 #: ../src/pt-waveloader.c:328 ../src/pt-waveloader.c:414
 msgid "Failed to open temporary file."
-msgstr "Die temporäre Datei konnte nicht geöffnet werden."
+msgstr ""
 
 #: ../src/pt-waveloader.c:341
 msgid "Failed to setup GStreamer pipeline."
-msgstr "Die GStreamer-Pipeline konnte nicht eingerichtet werden."
+msgstr ""
 
 #: ../src/pt-waveloader.c:360
 msgid "Failed to start GStreamer pipeline."
-msgstr "Die GStreamer-Pipeline konnte nicht gestartet werden."
+msgstr ""
 
 #: ../src/pt-waveslider.c:1340
 msgid "Cursor position"
-msgstr "Cursorposition"
+msgstr ""
 
 #: ../src/pt-waveslider.c:1341
 msgid "Cursor's position in 1/1000 seconds"
-msgstr "Position des Cursors in 1/1000 Sekunden"
+msgstr ""
 
 #: ../src/pt-waveslider.c:1358
 msgid "Follow cursor"
-msgstr "Cursor folgen"
+msgstr ""
 
 #: ../src/pt-waveslider.c:1359
 msgid "Scroll automatically to the cursor's position"
-msgstr "Scrollt automatisch zur Cursorposition"
+msgstr ""
 
 #: ../src/pt-waveslider.c:1375
 msgid "Fixed cursor"
-msgstr "Fixierter Cursor"
+msgstr ""
 
 #: ../src/pt-waveslider.c:1376
 msgid ""
 "If TRUE, the cursor is in a fixed position and the waveform is moving.\n"
 "If FALSE, the cursor is moving."
 msgstr ""
-"Wenn WAHR, befindet sich der Cursor an einer festen Position und die "
-"Wellenform bewegt sich.\n"
-"Wenn FALSCH, bewegt sich der Cursor."
 
 #: ../src/pt-waveslider.c:1390
 msgid "Show ruler"
-msgstr "Zeitskala anzeigen"
+msgstr ""
 
 #: ../src/pt-waveslider.c:1391
 msgid "Show the time scale with time marks"
-msgstr "Zeigt die Zeitskala mit Zeitmarkierungen"
+msgstr ""
