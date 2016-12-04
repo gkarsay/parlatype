@@ -37,7 +37,6 @@ struct _PtWaveloaderPrivate
 
 	gchar      *uri;
 	gboolean    downmix;
-	gboolean    pps;
 
 	gint64	    duration;
 	gint	    channels;
@@ -56,7 +55,6 @@ enum
 {
 	PROP_0,
 	PROP_URI,
-	PROP_PPS,
 	N_PROPERTIES
 };
 
@@ -386,8 +384,13 @@ pt_waveloader_get_duration (PtWaveloader *wl)
 /**
  * pt_waveloader_get_data:
  * @wl: a #PtWaveloader
+ * @pps: the requested pixel per second ratio
  *
- * Returns wave data needed for visual representation as raw data.
+ * Returns wave data needed for visual representation as raw data. The
+ * requested resolution is given as pixel per seconds, e.g. 100 means one second
+ * is represented by 100 samples, is 100 pixels wide. The returned resolution
+ * doesn't have to be necessarily exactly the requested resolution, it might be
+ * a bit differnt, depending on the bit rate.
  *
  * Return value: (transfer full): the #PtWavedata, after use free with pt_wavedata_free()
  */
@@ -547,9 +550,6 @@ pt_waveloader_set_property (GObject      *object,
 		g_free (wl->priv->uri);
 		wl->priv->uri = g_value_dup_string (value);
 		break;
-	case PROP_PPS:
-		wl->priv->pps = g_value_get_int (value);
-		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -568,9 +568,6 @@ pt_waveloader_get_property (GObject    *object,
 	switch (property_id) {
 	case PROP_URI:
 		g_value_set_string (value, wl->priv->uri);
-		break;
-	case PROP_PPS:
-		g_value_set_int (value, wl->priv->pps);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -615,23 +612,6 @@ pt_waveloader_class_init (PtWaveloaderClass *klass)
 			"URI to load from",
 			"URI to load from",
 			"",
-			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
-
-	/**
-	* PtWaveloader:pixels-per-sec:
-	*
-	* Set it to the requested resolution in pixels per second.
-	* Parlatype might not be able to use exactly that value and will
-	* adjust it. The returned #PtWavedata will store the used value.
-	*/
-	obj_properties[PROP_PPS] =
-	g_param_spec_int (
-			"pixels-per-sec",
-			"Pixels per second",
-			"Pixels per second",
-			10,	/* min */
-			1000,	/* max */
-			100,	/* default */
 			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
 
 	g_object_class_install_properties (
