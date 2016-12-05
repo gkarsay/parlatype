@@ -985,6 +985,16 @@ pt_waveslider_set_wave (PtWaveslider *self,
 	self->priv->peaks_size = data->length;
 	self->priv->px_per_sec = data->px_per_sec;
 
+	/* Reset previous selections */
+	self->priv->sel_start = self->priv->sel_end = 0;
+	self->priv->has_selection = FALSE;
+	g_object_notify_by_pspec (G_OBJECT (self),
+				  obj_properties[PROP_SELECTION_START]);
+	g_object_notify_by_pspec (G_OBJECT (self),
+				  obj_properties[PROP_SELECTION_END]);
+	g_object_notify_by_pspec (G_OBJECT (self),
+				  obj_properties[PROP_HAS_SELECTION]);
+
 	/* Calculate ruler height and time string width*/
 	cairo_t         *cr;
 	cairo_surface_t *surface;
