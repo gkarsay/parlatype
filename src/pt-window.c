@@ -108,6 +108,27 @@ const GActionEntry win_actions[] = {
 	{ "goto", goto_position, NULL, NULL, NULL }
 };
 
+static gboolean
+update_time (PtWindow *win)
+{
+	gchar *text;
+
+	text = pt_player_get_current_time_string (win->priv->player, PT_PRECISION_SECOND_10TH);
+
+	if (text == NULL)
+		return TRUE;
+
+	gtk_label_set_text (GTK_LABEL (win->priv->pos_label), text);
+	g_free (text);
+
+	g_object_set (win->priv->waveslider,
+		      "playback-cursor",
+		      pt_player_wave_pos (win->priv->player),
+		      NULL);
+
+	return TRUE;
+}
+
 void
 cursor_changed_cb (GtkWidget *widget,
 		   gint64     pos,
@@ -115,8 +136,9 @@ cursor_changed_cb (GtkWidget *widget,
 {
 	/* triggered only by user */
 
-	pt_waveslider_set_follow_cursor (PT_WAVESLIDER (win->priv->waveslider), TRUE);
 	pt_player_jump_to_position (win->priv->player, pos);
+	update_time (win);
+	pt_waveslider_set_follow_cursor (PT_WAVESLIDER (win->priv->waveslider), TRUE);
 }
 
 void
@@ -138,27 +160,6 @@ selection_changed_cb (GtkWidget *widget,
 			win->priv->playing_selection = FALSE;
 		}
 	}
-}
-
-static gboolean
-update_time (PtWindow *win)
-{
-	gchar *text;
-
-	text = pt_player_get_current_time_string (win->priv->player, PT_PRECISION_SECOND_10TH);
-
-	if (text == NULL)
-		return TRUE;
-
-	gtk_label_set_text (GTK_LABEL (win->priv->pos_label), text);
-	g_free (text);
-
-	g_object_set (win->priv->waveslider,
-		      "playback-cursor",
-		      pt_player_wave_pos (win->priv->player),
-		      NULL);
-
-	return TRUE;
 }
 
 static void
@@ -451,6 +452,8 @@ play_button_toggled_cb (GtkToggleButton *button,
 				pt_player_jump_to_position (win->priv->player, 0);
 		}
 
+		/* before following cursor update time, not to jump back and forth */
+		update_time (win);
 		pt_waveslider_set_follow_cursor (PT_WAVESLIDER (win->priv->waveslider), TRUE);
 		pt_player_play (win->priv->player);
 	} else {
