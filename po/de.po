@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-04 15:45+0100\n"
-"PO-Revision-Date: 2016-12-04 15:47+0100\n"
+"POT-Creation-Date: 2016-12-06 20:22+0100\n"
+"PO-Revision-Date: 2016-12-06 20:22+0100\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
 "Language-Team: Deutsch <>\n"
 "Language: de\n"
@@ -104,7 +104,7 @@ msgstr "Ein einfaches Transkriptionsprogramm"
 msgid "translator-credits"
 msgstr "Gabor Karsay <gabor.karsay@gmx.at>"
 
-#: ../src/pt-app.c:329
+#: ../src/pt-app.c:347
 #, c-format
 msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
@@ -194,6 +194,18 @@ msgstr "Beenden"
 #: ../src/resources/menus.ui.h:7
 msgid "Copy timestamp"
 msgstr "Zeitstempel kopieren"
+
+#: ../src/resources/menus.ui.h:9
+msgid "_File"
+msgstr "_Datei"
+
+#: ../src/resources/menus.ui.h:10
+msgid "_Edit"
+msgstr "_Bearbeiten"
+
+#: ../src/resources/menus.ui.h:11
+msgid "_Help"
+msgstr "_Hilfe"
 
 #: ../src/resources/preferences.ui.h:1
 msgid "Parlatype Preferences"

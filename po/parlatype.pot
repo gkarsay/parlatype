@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-04 15:45+0100\n"
+"POT-Creation-Date: 2016-12-06 20:22+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -100,7 +100,7 @@ msgstr ""
 msgid "translator-credits"
 msgstr ""
 
-#: ../src/pt-app.c:329
+#: ../src/pt-app.c:347
 #, c-format
 msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
@@ -187,6 +187,18 @@ msgstr ""
 
 #: ../src/resources/menus.ui.h:7
 msgid "Copy timestamp"
+msgstr ""
+
+#: ../src/resources/menus.ui.h:9
+msgid "_File"
+msgstr ""
+
+#: ../src/resources/menus.ui.h:10
+msgid "_Edit"
+msgstr ""
+
+#: ../src/resources/menus.ui.h:11
+msgid "_Help"
 msgstr ""
 
 #: ../src/resources/preferences.ui.h:1
