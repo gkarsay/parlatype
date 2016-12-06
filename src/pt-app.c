@@ -240,6 +240,7 @@ pt_app_startup (GApplication *app)
 {
 	GtkBuilder *builder;
 	GMenuModel *app_menu;
+	GMenuModel *menubar;
 
 	G_APPLICATION_CLASS (pt_app_parent_class)->startup (app);
 
@@ -293,8 +294,25 @@ pt_app_startup (GApplication *app)
 #endif
 
 	builder = gtk_builder_new_from_resource ("/org/gnome/parlatype/menus.ui");
-	app_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "appmenu"));
-	gtk_application_set_app_menu (GTK_APPLICATION (app), app_menu);
+
+#if GTK_CHECK_VERSION(3,14,0)
+	if (gtk_application_prefers_app_menu (GTK_APPLICATION (app))) {
+#else
+	gboolean show_menubar;
+
+	g_object_get (gtk_settings_get_default(),
+		      "gtk-shell-shows-menubar", &show_menubar,
+		      NULL);
+
+	if (show_menubar) {
+#endif
+		app_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "appmenu"));
+		gtk_application_set_app_menu (GTK_APPLICATION (app), app_menu);
+	} else {
+		menubar = G_MENU_MODEL (gtk_builder_get_object (builder, "alternative-menu"));
+		gtk_application_set_menubar (GTK_APPLICATION (app), menubar);
+	}
+
 	g_object_unref (builder);
 }
 
