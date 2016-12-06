@@ -125,6 +125,12 @@ pt_player_seek (PtPlayer *player,
 		position,
 		GST_SEEK_TYPE_NONE,
 		-1);
+
+	/* Block until state changed */
+	gst_element_get_state (
+		player->priv->pipeline,
+		NULL, NULL,
+		GST_CLOCK_TIME_NONE);
 }
 
 static GFile*
@@ -615,6 +621,12 @@ pt_player_set_selection (PtPlayer *player,
 		pos,
 		GST_SEEK_TYPE_SET,
 		player->priv->segend);
+
+	/* Block until state changed */
+	gst_element_get_state (
+		player->priv->pipeline,
+		NULL, NULL,
+		GST_CLOCK_TIME_NONE);
 }
 
 /**
