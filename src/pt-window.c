@@ -772,9 +772,12 @@ pt_window_dispose (GObject *object)
 	destroy_progress_dlg (win);
 	/* Using g_clear_object or g_object_unref + win->priv->player = NULL
 	   doesn't dispose the object properly, it doesn't remember last
-	   position (called in dispose). Don't know why. This solution seems to work. */
-	if (G_IS_OBJECT (win->priv->player)) {
-		g_object_unref (win->priv->player);
+	   position (called in dispose). Don't know why.
+	   We run here dispose, but language bindings won't ... */
+
+	if (win->priv->player) {
+		g_object_run_dispose (G_OBJECT (win->priv->player));
+		g_clear_object (&win->priv->player);
 	}
 	if (win->priv->wavedata) {
 		pt_wavedata_free (win->priv->wavedata);
