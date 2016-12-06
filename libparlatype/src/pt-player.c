@@ -250,6 +250,7 @@ bus_call (GstBus     *bus,
 {
 	GTask	 *task = (GTask *) data;
 	PtPlayer *player = g_task_get_source_object (task);
+	gint64    pos;
 
 	/*g_debug ("Message: %s; sent by: %s",
 			GST_MESSAGE_TYPE_NAME (msg),
@@ -263,6 +264,15 @@ bus_call (GstBus     *bus,
 		   GST_MESSAGE_SEGMENT_DONE message will be posted on the bus by the element. */
 
 	case GST_MESSAGE_EOS:
+		/* We rely on that SEGMENT_DONE/EOS is exactly at the end of segment.
+		   This works in Debian 8, but not Ubuntu 16.04 (because of newer GStreamer?)
+		   with mp3s. Jump to the real end. */
+		pt_player_query_position (player, &pos);
+		if (pos != player->priv->segend) {
+			g_debug ("correcting EOS position: %" G_GINT64_FORMAT " ms",
+				 GST_TIME_AS_MSECONDS (player->priv->segend - pos));
+			pt_player_seek (player, player->priv->segend);
+		}
 		g_signal_emit_by_name (player, "end-of-stream");
 		break;
 
