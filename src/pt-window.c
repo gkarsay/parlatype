@@ -407,17 +407,6 @@ pt_window_open_file (PtWindow *win,
 				  win);
 }
 
-gboolean
-label_press_cb (GtkWidget      *widget,
-	        GdkEventButton *event,
-	        gpointer        data)
-{
-	PtWindow *win = PT_WINDOW (data);
-
-	pt_waveslider_set_follow_cursor (PT_WAVESLIDER (win->priv->waveslider), TRUE);
-	return FALSE;
-}
-
 void
 play_button_toggled_cb (GtkToggleButton *button,
 			PtWindow	*win)
@@ -749,9 +738,16 @@ pt_window_init (PtWindow *win)
 		gtk_scale_set_value_pos (GTK_SCALE (win->priv->speed_scale), GTK_POS_LEFT);
 
 	pos_label_set_pango_attrs (GTK_LABEL (win->priv->pos_label));
-	g_object_bind_property (win->priv->waveslider, "follow-cursor",
-				win->priv->pos_label, "has_tooltip",
-				G_BINDING_INVERT_BOOLEAN | G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
+			win->priv->waveslider, "follow-cursor",
+			win->priv->goto_button, "has_tooltip",
+			G_BINDING_INVERT_BOOLEAN | G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
+			win->priv->waveslider, "follow-cursor",
+			win->priv->goto_button, "active",
+			G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
 
 	pt_window_ready_to_play (win, FALSE);
 }
@@ -859,6 +855,7 @@ pt_window_class_init (PtWindowClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, button_jump_forward);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, volumebutton);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, pos_label);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, goto_button);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, speed_scale);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, waveslider);
 
