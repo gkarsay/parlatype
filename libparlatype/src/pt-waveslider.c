@@ -1211,8 +1211,14 @@ pt_waveslider_init (PtWaveslider *self)
 	self->priv->focus_on_cursor = FALSE;
 	self->priv->sel_start = 0;
 	self->priv->sel_end = 0;
+
+	/* Try a few cursors for selections */
 	display = gdk_display_get_default ();
 	self->priv->arrows = gdk_cursor_new_from_name (display, "ew-resize");
+	if (!self->priv->arrows)
+		self->priv->arrows = gdk_cursor_new_from_name (display, "col-resize");
+	if (!self->priv->arrows)
+		self->priv->arrows = gdk_cursor_new_for_display (display, GDK_SB_H_DOUBLE_ARROW);
 
 	if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
 		self->priv->rtl = TRUE;
