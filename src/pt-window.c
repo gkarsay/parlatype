@@ -698,9 +698,10 @@ pos_label_set_pango_attrs (GtkLabel *label)
 	PangoAttribute *font;
 
 	attr_list = pango_attr_list_new ();
-	scale = pango_attr_scale_new (1.5);
+	scale = pango_attr_scale_new (1.4);
 	weight = pango_attr_weight_new (PANGO_WEIGHT_SEMIBOLD);
-	font = pango_attr_family_new ("monospace");
+	/* Cantarell has monospace digits */
+	font = pango_attr_family_new ("cantarell,monospace");
 
 	pango_attr_list_insert (attr_list, weight);
 	pango_attr_list_insert (attr_list, scale);
