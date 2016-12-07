@@ -741,6 +741,9 @@ pt_window_init (PtWindow *win)
 	win->priv->wavedata = NULL;
 	win->priv->playing_selection = FALSE;
 
+	/* Used e.g. by Xfce */
+	gtk_window_set_default_icon_name ("parlatype");
+
 	/* Flip speed scale for right to left layouts */
 	if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
 		gtk_scale_set_value_pos (GTK_SCALE (win->priv->speed_scale), GTK_POS_LEFT);
