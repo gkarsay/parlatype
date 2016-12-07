@@ -706,13 +706,16 @@ pos_label_set_pango_attrs (GtkLabel *label)
 	PangoAttrList  *attr_list;
 	PangoAttribute *scale;
 	PangoAttribute *weight;
+	PangoAttribute *font;
 
 	attr_list = pango_attr_list_new ();
 	scale = pango_attr_scale_new (1.5);
 	weight = pango_attr_weight_new (PANGO_WEIGHT_SEMIBOLD);
+	font = pango_attr_family_new ("monospace");
 
 	pango_attr_list_insert (attr_list, weight);
 	pango_attr_list_insert (attr_list, scale);
+	pango_attr_list_insert (attr_list, font);
 	gtk_label_set_attributes (label, attr_list);
 
 	pango_attr_list_unref (attr_list);
