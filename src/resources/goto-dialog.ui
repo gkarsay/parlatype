@@ -83,6 +83,7 @@
                 <property name="adjustment">adj_spin</property>
                 <signal name="input" handler="input_cb" swapped="no"/>
                 <signal name="output" handler="output_cb" swapped="no"/>
+                <signal name="value-changed" handler="value_changed_cb" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -91,10 +92,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="label1">
+              <object class="GtkLabel" id="seconds_label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">seconds</property>
+                <property name="label">seconds</property>
               </object>
               <packing>
                 <property name="expand">False</property>

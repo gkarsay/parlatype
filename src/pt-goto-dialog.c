@@ -30,6 +30,7 @@
 struct _PtGotoDialogPrivate
 {
 	GtkWidget *spin;
+	GtkWidget *seconds_label;
 	gint	   max;
 };
 
@@ -56,6 +57,22 @@ string_to_time (const char *time_string)
 		/* Error! */
 		return -1;
 	}
+}
+
+void
+value_changed_cb (GtkSpinButton *spin,
+		  gpointer       data)
+{
+	PtGotoDialog  *dlg = (PtGotoDialog *) data;
+	GtkAdjustment *adj;
+	gint	       value;
+
+	adj = gtk_spin_button_get_adjustment (spin);
+	value = (gint) gtk_adjustment_get_value (adj);
+
+	gtk_label_set_label (
+			GTK_LABEL (dlg->priv->seconds_label),
+			ngettext ("second", "seconds", value));
 }
 
 gboolean
@@ -109,6 +126,7 @@ pt_goto_dialog_class_init (PtGotoDialogClass *klass)
 	/* Bind class to template */
 	gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/parlatype/goto-dialog.ui");
 	gtk_widget_class_bind_template_child_private (widget_class, PtGotoDialog, spin);
+	gtk_widget_class_bind_template_child_private (widget_class, PtGotoDialog, seconds_label);
 }
 
 gint
