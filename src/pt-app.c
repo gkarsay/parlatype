@@ -172,6 +172,7 @@ help_cb (GSimpleAction *action,
 	              &error);
 
 	if (error) {
+		/* Translators: %s is a detailed error message */
 		errmsg = g_strdup_printf (_("Error opening help: %s"), error->message);
 		pt_error_message (PT_WINDOW (win), errmsg);
 		g_free (errmsg);
