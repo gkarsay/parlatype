@@ -1,0 +1,24 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="selections">
+<info>
+  <link type="guide" xref="index"/>
+  <desc>Selections and loops</desc>
+  <credit type="author">
+    <name>Gabor Karsay</name>
+    <email>gabor.karsay@gmx.at</email>
+  </credit>
+  <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+</info>
+
+<title>Selections and loops</title>
+
+<p>You can select a piece of the waveform and <app>Parlatype</app> will play only the selection when you press <gui>Play</gui> next time. If you press <gui>Play</gui> at the end of the selection again, it will loop the selection once.</p>
+
+<note><p>When in selection mode, you can not exit the selection anymore until you deselect it.</p></note>
+
+<p>Selections can be made with the mouse (or pointer device) with a left click, holding the mouse button and dragging the pointer. If you click with <key>Shift</key> key pressed, an already existing selection will be enlarged to that point.</p>
+
+<p>To deselect click once with the left button into the waveform. If the waveform has keyboard focus, you can press <key>Escape</key>.</p>
+
+</page>
