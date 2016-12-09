@@ -13,7 +13,19 @@
 
 <title>Preferences</title>
 
-<p>You can reach the preferences window in the Application Menu (next to <gui>Activities</gui> in the top left corner. There are two tabs: <gui>Controls</gui> and <gui>Window</gui>.</p>
+<p>You can reach the preferences window in the Application Menu (next to <gui>Activities</gui> in the top left corner. There are three tabs: <gui>Waveform</gui>, <gui>Controls</gui> and <gui>Window</gui>.</p>
+
+<section id="waveform">
+<title>Waveform</title>
+
+<media type="image" src="figures/parlatype-prefs-waveform.png"/>
+
+<list>
+<item><p>Resolution: The resolution of the waveform image is given in pixels per second, e.g. the default resolution of 100 means, that one second is shown with a width of 100 pixels.</p></item>
+<item><p>Fixed vs. moving cursor: There are two modes, how to follow the cursor. On slower systems a moving cursor might be smoother.</p></item>
+<item><p>Show time scale: Turn the time scale on or off.</p></item>
+</list>
+</section>
 
 <section id="controls">
 <title>Controls</title>
