@@ -3,8 +3,8 @@
       type="topic"
       id="libreoffice-helpers">
 <info>
-  <link type="guide" xref="index"/>
-  <desc>Helpers for LibreOffice</desc>
+  <link type="guide" xref="index#topics"/>
+  <desc>Use Parlatype with LibreOffice</desc>
   <credit type="author">
     <name>Gabor Karsay</name>
     <email>gabor.karsay@gmx.at</email>
@@ -14,9 +14,9 @@
 
 <title>LibreOffice Helpers</title>
 
-<p>LibreOffice Helpers are an optional part of <app>Parlatype</app>. If you have them installed you still have to assign keyboard shortcuts to be able to use them.</p>
+<p>LibreOffice Helpers let you control <app>Parlatype</app> from <app>LibreOffice</app>. For example, you can jump easily to timestamps.</p>
 
-<p>In <app>LibreOffice</app> go to menu <gui>Tools</gui> and select <gui>Customize</gui>.</p>
+<p>To use them, you have to assign keyboard shortcuts in <app>LibreOffice</app> itself. To do this, open <app>LibreOffice</app>, go to menu <gui>Tools</gui> and select <gui>Customize</gui>.</p>
 
 <media type="image" src="figures/lo-menu.png"/>
 

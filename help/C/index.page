@@ -11,6 +11,8 @@
   <email>gabor.karsay@gmx.at</email>
 </credit>
 <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+<desc><app>Parlatype</app> is an easy to use media player. It's main purpose is to help you transcribing speech.</desc>
+
 </info>
 
 <title>
@@ -18,6 +20,11 @@
   Parlatype
 </title>
 
-<p>Welcome to the <app>Parlatype</app> help guide. For a quick overview have a look at <link xref="first-steps" />. Other topics are covered below.</p>
+<p><app>Parlatype</app> is an easy to use media player. It's main purpose is to help you transcribing speech.</p>
+<p>For a quick overview have a look at <link xref="first-steps" />. Other topics are covered below.</p>
+
+<section id="topics" style="2column">
+  <title>Help topics</title>
+</section>
 
 </page>

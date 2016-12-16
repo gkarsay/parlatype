@@ -2,8 +2,8 @@
       type="topic"
       id="selections">
 <info>
-  <link type="guide" xref="index"/>
-  <desc>Selections and loops</desc>
+  <link type="guide" xref="index#topics"/>
+  <desc>How to play and repeat a selection</desc>
   <credit type="author">
     <name>Gabor Karsay</name>
     <email>gabor.karsay@gmx.at</email>
@@ -11,9 +11,9 @@
   <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
 </info>
 
-<title>Selections and loops</title>
+<title>Selections</title>
 
-<p>You can select a piece of the waveform and <app>Parlatype</app> will play only the selection when you press <gui>Play</gui> next time. If you press <gui>Play</gui> at the end of the selection again, it will loop the selection once.</p>
+<p>You can select a piece of the waveform with the mouse. Next time you press <gui>Play</gui>, it will play the selection only. When it is finished and you press <gui>Play</gui> again, it will loop the selection once.</p>
 
 <note><p>When in selection mode, you can not exit the selection anymore until you deselect it.</p></note>
 

@@ -2,7 +2,7 @@
       type="topic"
       id="keyboard-shortcuts">
 <info>
-  <link type="guide" xref="index"/>
+  <link type="guide" xref="index#topics"/>
   <desc>Standard keyboard shortcuts in Parlatype</desc>
   <credit type="author">
     <name>Gabor Karsay</name>

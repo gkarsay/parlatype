@@ -2,7 +2,7 @@
       type="topic"
       id="first-steps">
 <info>
-  <!--  <link type="guide" xref="index"/> -->
+  <!--<link type="guide" xref="index#topics"/>-->
   <desc>First steps with Parlatype</desc>
   <credit type="author">
     <name>Gabor Karsay</name>
@@ -13,7 +13,7 @@
 
 <title>First steps with Parlatype</title>
 
-<p><app>Parlatype</app> is a minimal audio player to help you transcribing or annotating recorded speech. You need to run a word processor, e.g. <app>LibreOffice</app>, too. Launch <app>Parlatype</app> and open an audio file by clicking on the <gui>Open</gui> button in the upper left corner.</p>
+<p><app>Parlatype</app> is an easy to use audio player to help you transcribing or annotating recorded speech. You need to run a word processor, e.g. <app>LibreOffice</app>, too. Launch <app>Parlatype</app> and open an audio file by clicking on the <gui>Open</gui> button in the upper left corner.</p>
 
 <note>
 <p>You can also drag and drop a file on <app>Parlatype</app> or open the recently used files in the Application menu.</p>
@@ -31,7 +31,7 @@
 <p>To get back to the cursor's position and let the view scroll automatically again, click on the time label. The <gui>Play</gui> button has the same effect.</p>
 </note>
 
-<p>Clicking in the view will put the cursor there, also holding the mouse button pressed and moving it.</p>
+<p>Clicking in the view with the right mouse button will put the cursor there, also holding the right mouse button pressed and moving it. The left mouse button is for <link xref="selections" />.</p>
 
 <p>The <gui>speed scale</gui> next to the <gui>volume</gui> button in the lower right corner lets you adjust the speed of playback. A value of 1 means normal speed, everything lower (down to 0.5) is slower, everything above is faster.</p>
 </page>

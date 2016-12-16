@@ -2,8 +2,8 @@
       type="topic"
       id="control">
 <info>
-  <link type="guide" xref="index"/>
-  <desc>How to control Parlatype</desc>
+  <link type="guide" xref="index#topics"/>
+  <desc>How to control Parlatype with media keys</desc>
   <credit type="author">
     <name>Gabor Karsay</name>
   <email>gabor.karsay@gmx.at</email>
@@ -11,11 +11,9 @@
   <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
 </info>
 
-<title>Controls</title>
+<title>Media keys</title>
 
-<p>Of course <app>Parlatype</app> can be controled with a mouse or pointer device, however it is more convenient to use the keyboard or even a foot pedal.</p>
-
-<p><app>Parlatype</app>'s basic buttons can be controlled with the so called <em>media keys</em>. Media keys are used system wide to control media players and they are working even if the media player, <app>Parlatype</app> in this case, is not in focus or even in the background.</p>
+<p><app>Parlatype</app>'s basic functions can be controlled with so called <em>media keys</em>. Media keys are used system wide to control media players and they are working even if the media player is not in focus or in the background.</p>
 
 <p>You can change the media keys in GNOME settings. You can use dedicated keys from a multimedia keyboard or use any other key or combination of keys.</p>
 
@@ -35,6 +33,5 @@
 </note>
 
 <p>If you are using a dedicated foot pedal, it should be possible to map the foot pedal signals to any of the keys. This is not well tested, however. Any feedback regarding foot pedals is welcome.</p>
-
 
 </page>

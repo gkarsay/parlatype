@@ -2,7 +2,7 @@
       type="topic"
       id="preferences">
 <info>
-  <link type="guide" xref="index"/>
+  <link type="guide" xref="index#topics"/>
   <desc>How to customize Parlatype</desc>
   <credit type="author">
     <name>Gabor Karsay</name>
