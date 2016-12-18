@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-06 20:22+0100\n"
-"PO-Revision-Date: 2016-12-06 20:22+0100\n"
+"POT-Creation-Date: 2016-12-18 15:00+0100\n"
+"PO-Revision-Date: 2016-12-18 15:01+0100\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
 "Language-Team: Deutsch <>\n"
 "Language: de\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "X-Generator: Gtranslator 2.91.6\n"
 
-#: ../data/parlatype.desktop.in.in.h:1 ../src/pt-app.c:66 ../src/pt-app.c:208
+#: ../data/parlatype.desktop.in.in.h:1 ../src/pt-app.c:66 ../src/pt-app.c:209
 #: ../src/resources/window.ui.h:1 ../src/resources/window-headerbar.ui.h:1
 msgid "Parlatype"
 msgstr "Parlatype"
@@ -83,7 +83,8 @@ msgstr "Audio-Datei öffnen"
 msgid "Audio files"
 msgstr "Audio-Dateien"
 
-#: ../src/pt-app.c:175
+#. Translators: %s is a detailed error message
+#: ../src/pt-app.c:176
 #, c-format
 msgid "Error opening help: %s"
 msgstr "Fehler beim Öffnen der Hilfe: %s"
@@ -92,19 +93,19 @@ msgstr "Fehler beim Öffnen der Hilfe: %s"
 #. copyright holders of code from other projects. Instead of
 #. "including" it could also say "with" or just "Code from
 #. other projects:"
-#: ../src/pt-app.c:193
+#: ../src/pt-app.c:194
 msgid "Including code from other projects:"
 msgstr "Aus anderen Projekten übernommener Code:"
 
-#: ../src/pt-app.c:211
+#: ../src/pt-app.c:212
 msgid "A basic transcription utility"
 msgstr "Ein einfaches Transkriptionsprogramm"
 
-#: ../src/pt-app.c:215
+#: ../src/pt-app.c:216
 msgid "translator-credits"
 msgstr "Gabor Karsay <gabor.karsay@gmx.at>"
 
-#: ../src/pt-app.c:347
+#: ../src/pt-app.c:348
 #, c-format
 msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
@@ -113,14 +114,14 @@ msgstr ""
 "Warnung: Parlatype öffnet nur eine Datei auf einmal. Weitere Dateien werden "
 "ignoriert.\n"
 
-#: ../src/pt-goto-dialog.c:44
+#: ../src/pt-goto-dialog.c:45
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
 msgstr "%d:%02d:%02d"
 
-#: ../src/pt-preferences.c:51 ../src/pt-preferences.c:61
-#: ../src/pt-preferences.c:71
+#: ../src/pt-goto-dialog.c:75 ../src/pt-preferences.c:51
+#: ../src/pt-preferences.c:61 ../src/pt-preferences.c:71
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "Sekunde"
@@ -130,34 +131,42 @@ msgstr[1] "Sekunden"
 msgid "_Close"
 msgstr "_Schließen"
 
-#: ../src/pt-window.c:187
+#: ../src/pt-window.c:188
 #, c-format
 msgid "Jump back 1 second"
 msgid_plural "Jump back %d seconds"
 msgstr[0] "Eine Sekunde zurückspringen"
 msgstr[1] "%d Sekunden zurückspringen"
 
-#: ../src/pt-window.c:201
+#: ../src/pt-window.c:202
 #, c-format
 msgid "Jump forward 1 second"
 msgid_plural "Jump forward %d seconds"
 msgstr[0] "1 Sekunde vorwärtsspringen"
 msgstr[1] "%d Sekunden vorwärtsspringen"
 
-#: ../src/pt-window.c:216
+#: ../src/pt-window.c:217
 msgid "Pause"
 msgstr "Wiedergabe unterbrechen"
 
-#: ../src/pt-window.c:219
+#: ../src/pt-window.c:220
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
 msgstr[0] "Wiedergabe unterbrechen und 1 Sekunde zurückspulen"
 msgstr[1] "Wiedergabe unterbrechen und %d Sekunden zurückspulen"
 
-#: ../src/pt-window.c:225
+#: ../src/pt-window.c:226
 msgid "Start playing"
 msgstr "Wiedergabe starten"
+
+#: ../src/pt-window.c:721
+msgid "View follows cursor"
+msgstr "Ansicht folgt dem Cursor"
+
+#: ../src/pt-window.c:723
+msgid "Click to follow cursor"
+msgstr "Klicken Sie hier, um dem Cursor zu folgen"
 
 #: ../src/resources/goto-dialog.ui.h:1 ../src/resources/menus.ui.h:8
 msgid "Go to ..."
@@ -166,10 +175,6 @@ msgstr "Gehe zu …"
 #: ../src/resources/goto-dialog.ui.h:2
 msgid "Go to position:"
 msgstr "Gehe zu Position:"
-
-#: ../src/resources/goto-dialog.ui.h:3 ../src/resources/preferences.ui.h:10
-msgid "seconds"
-msgstr "Sekunden"
 
 #: ../src/resources/menus.ui.h:1
 msgid "Open File"
@@ -219,62 +224,63 @@ msgstr "_Pixel pro Sekunde:"
 msgid "Show _time scale"
 msgstr "_Zeitskala anzeigen"
 
-#: ../src/resources/preferences.ui.h:4
+#. Resolution of the waveform image
+#: ../src/resources/preferences.ui.h:5
 msgid "Resolution"
 msgstr "Auflösung"
 
-#: ../src/resources/preferences.ui.h:5
+#. A section in preferences, how to display the waveform.
+#: ../src/resources/preferences.ui.h:7
 msgid "Display"
 msgstr "Anzeige"
 
-#: ../src/resources/preferences.ui.h:6
+#: ../src/resources/preferences.ui.h:8
 msgid "_Moving cursor"
 msgstr "Cursor _bewegt sich"
 
-#: ../src/resources/preferences.ui.h:7
+#: ../src/resources/preferences.ui.h:9
 msgid "_Fixed cursor"
 msgstr "Cursor ist _fixiert"
 
-#: ../src/resources/preferences.ui.h:8
+#: ../src/resources/preferences.ui.h:10
 msgid "Waveform"
 msgstr "Wellenform"
 
-#: ../src/resources/preferences.ui.h:9
+#: ../src/resources/preferences.ui.h:11
 msgid "Jump back on _pause:"
 msgstr "Bei _Pause zurückspulen:"
 
-#: ../src/resources/preferences.ui.h:11
+#: ../src/resources/preferences.ui.h:12
 msgid "Jump _back:"
 msgstr "_Zurückspringen:"
 
-#: ../src/resources/preferences.ui.h:12
+#: ../src/resources/preferences.ui.h:13
 msgid "Jump _forward:"
 msgstr "_Vorwärts springen:"
 
-#: ../src/resources/preferences.ui.h:13
+#: ../src/resources/preferences.ui.h:14
 msgid "Controls"
 msgstr "Steuerung"
 
-#: ../src/resources/preferences.ui.h:14
+#: ../src/resources/preferences.ui.h:15
 msgid "Remember _position"
 msgstr "_Position des Fensters merken"
 
-#: ../src/resources/preferences.ui.h:15
+#: ../src/resources/preferences.ui.h:16
 msgid "Start on _top"
 msgstr "»Immer im _Vordergrund« starten"
 
-#: ../src/resources/preferences.ui.h:16
+#: ../src/resources/preferences.ui.h:17
 msgid "Window"
 msgstr "Fenster"
 
 #: ../src/resources/window.ui.h:2
-msgid "Click here to jump to cursor"
-msgstr "Hier klicken, um zum Cursor zurückzuspringen"
-
-#: ../src/resources/window.ui.h:3
 msgid "Speed:"
 msgstr "Geschwindigkeit:"
 
 #: ../src/resources/window-headerbar.ui.h:2
 msgid "Open a file"
 msgstr "Eine Datei öffnen"
+
+#~ msgid "seconds"
+#~ msgstr "Sekunden"

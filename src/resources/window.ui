@@ -210,7 +210,7 @@
                     </child>
                     <child>
                       <object class="GtkToggleButton" id="goto_button">
-                        <property name="label" translatable="yes">togglebutton</property>
+                        <property name="label">togglebutton</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-09 11:32+0100\n"
+"POT-Creation-Date: 2016-12-18 15:04+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -154,6 +154,14 @@ msgstr[1] ""
 msgid "Start playing"
 msgstr ""
 
+#: ../src/pt-window.c:721
+msgid "View follows cursor"
+msgstr ""
+
+#: ../src/pt-window.c:723
+msgid "Click to follow cursor"
+msgstr ""
+
 #: ../src/resources/goto-dialog.ui.h:1 ../src/resources/menus.ui.h:8
 msgid "Go to ..."
 msgstr ""
@@ -261,10 +269,6 @@ msgid "Window"
 msgstr ""
 
 #: ../src/resources/window.ui.h:2
-msgid "Click here to jump to cursor"
-msgstr ""
-
-#: ../src/resources/window.ui.h:3
 msgid "Speed:"
 msgstr ""
 
