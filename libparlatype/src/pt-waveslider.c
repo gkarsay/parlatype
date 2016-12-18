@@ -806,22 +806,25 @@ pt_waveslider_state_flags_changed (GtkWidget	 *widget,
 
 	PtWaveslider *self = PT_WAVESLIDER (widget);
 
-	GtkStyleContext *style_ctx;
-	GdkWindow *window;
+	GtkStyleContext *context;
+	GdkWindow       *window;
 
 	window = gtk_widget_get_parent_window (widget);
-	style_ctx = gtk_widget_get_style_context (self->priv->drawarea);
+	context = gtk_widget_get_style_context (widget);
+	gtk_style_context_save (context);
+	gtk_style_context_add_class (context, "cursor");
 
 	if (gdk_window_get_state (window) & GDK_WINDOW_STATE_FOCUSED) {
-		gtk_style_context_lookup_color (style_ctx, "wave_color", &self->priv->wave_color);
-		gtk_style_context_lookup_color (style_ctx, "cursor_color", &self->priv->cursor_color);
-		gtk_style_context_lookup_color (style_ctx, "ruler_color", &self->priv->ruler_color);
+		gtk_style_context_get_color (context, GTK_STATE_FLAG_NORMAL, &self->priv->cursor_color);
+		gtk_style_context_lookup_color (context, "wave_color", &self->priv->wave_color);
+		gtk_style_context_lookup_color (context, "ruler_color", &self->priv->ruler_color);
 	} else {
-		gtk_style_context_lookup_color (style_ctx, "wave_color_uf", &self->priv->wave_color);
-		gtk_style_context_lookup_color (style_ctx, "cursor_color_uf", &self->priv->cursor_color);
-		gtk_style_context_lookup_color (style_ctx, "ruler_color_uf", &self->priv->ruler_color);
+		gtk_style_context_get_color (context, GTK_STATE_FLAG_BACKDROP, &self->priv->cursor_color);
+		gtk_style_context_lookup_color (context, "wave_color_uf", &self->priv->wave_color);
+		gtk_style_context_lookup_color (context, "ruler_color_uf", &self->priv->ruler_color);
 	}
 
+	gtk_style_context_restore (context);
 	draw_cursor (self);
 }
 
@@ -1234,12 +1237,14 @@ pt_waveslider_init (PtWaveslider *self)
 	context = gtk_widget_get_style_context (GTK_WIDGET (self->priv->drawarea));
 	gtk_style_context_add_class (context, GTK_STYLE_CLASS_FRAME);
 	gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
-	gtk_style_context_add_provider (context,
-					GTK_STYLE_PROVIDER (provider),
-					GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	gtk_style_context_add_class (context, "cursor");
+	gtk_style_context_add_provider_for_screen (
+			gdk_screen_get_default (),
+			GTK_STYLE_PROVIDER (provider),
+			GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
+	gtk_style_context_get_color (context, GTK_STATE_FLAG_NORMAL, &self->priv->cursor_color);
 	gtk_style_context_lookup_color (context, "wave_color", &self->priv->wave_color);
-	gtk_style_context_lookup_color (context, "cursor_color", &self->priv->cursor_color);
 	gtk_style_context_lookup_color (context, "ruler_color", &self->priv->ruler_color);
 
 	g_object_unref (file);
