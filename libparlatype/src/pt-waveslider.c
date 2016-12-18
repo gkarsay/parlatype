@@ -75,7 +75,6 @@ struct _PtWavesliderPrivate {
 	GdkRGBA	  wave_color;
 	GdkRGBA	  cursor_color;
 	GdkRGBA	  ruler_color;
-	GdkRGBA	  mark_color;
 };
 
 enum
@@ -263,6 +262,11 @@ paint_ruler (PtWaveslider *self,
 	PangoRectangle  rect;
 	gint            x_offset;
 	gint            tmp_time;
+	GtkStyleContext *context;
+
+	context = gtk_widget_get_style_context (GTK_WIDGET (self));
+	gtk_style_context_save (context);
+	gtk_style_context_add_class (context, GTK_STYLE_CLASS_MARK);
 
 	/* ruler background */
 	gdk_cairo_set_source_rgba (cr, &self->priv->ruler_color);
@@ -270,7 +274,6 @@ paint_ruler (PtWaveslider *self,
 	cairo_fill (cr);
 
 	/* ruler marks */
-	gdk_cairo_set_source_rgba (cr, &self->priv->mark_color);
 
 	/* Case: secondary ruler marks for tenth seconds.
 	   Get time of leftmost pixel, convert it to rounded 10th second,
@@ -281,9 +284,7 @@ paint_ruler (PtWaveslider *self,
 			tmp_time += 100; /* round up */
 		i = time_to_pixel (self, tmp_time);
 		while (i <= visible_last) {
-			cairo_move_to (cr, i, height);
-			cairo_line_to (cr, i, height + 4);
-			cairo_stroke (cr);
+			gtk_render_line (context, cr, i, height, i, height + 4);
 			if (self->priv->rtl)
 				tmp_time -= 100;
 			else
@@ -299,11 +300,8 @@ paint_ruler (PtWaveslider *self,
 			sample = i;
 			if (self->priv->rtl)
 				sample = flip_pixel (self, sample);
-			if (sample % (self->priv->px_per_sec * self->priv->secondary_modulo) == 0) {
-				cairo_move_to (cr, i, height);
-				cairo_line_to (cr, i, height + 4);
-				cairo_stroke (cr);
-			}
+			if (sample % (self->priv->px_per_sec * self->priv->secondary_modulo) == 0)
+				gtk_render_line (context, cr, i, height, i, height + 4);
 		}
 	}
 
@@ -313,10 +311,7 @@ paint_ruler (PtWaveslider *self,
 		if (self->priv->rtl)
 			sample = flip_pixel (self, sample);
 		if (sample % (self->priv->px_per_sec * self->priv->primary_modulo) == 0) {
-			gdk_cairo_set_source_rgba (cr, &self->priv->mark_color);
-			cairo_move_to (cr, i, height);
-			cairo_line_to (cr, i, height + 8);
-			cairo_stroke (cr);
+			gtk_render_line (context, cr, i, height, i, height + 8);
 			gdk_cairo_set_source_rgba (cr, &self->priv->wave_color);
 			if (self->priv->time_format_long) {
 				text = g_strdup_printf (C_("long time format", "%d:%02d:%02d"),
@@ -340,11 +335,11 @@ paint_ruler (PtWaveslider *self,
 					       height + self->priv->ruler_height - rect.y - rect.height -3); /* +3 px above border */
 				pango_cairo_show_layout (cr, layout);
 			}
-			cairo_stroke (cr);
 			g_free (text);
 			g_object_unref (layout);
 		}
 	}
+	gtk_style_context_restore (context);
 }
 
 static gboolean
@@ -1246,7 +1241,6 @@ pt_waveslider_init (PtWaveslider *self)
 	gtk_style_context_lookup_color (context, "wave_color", &self->priv->wave_color);
 	gtk_style_context_lookup_color (context, "cursor_color", &self->priv->cursor_color);
 	gtk_style_context_lookup_color (context, "ruler_color", &self->priv->ruler_color);
-	gtk_style_context_lookup_color (context, "mark_color", &self->priv->mark_color);
 
 	g_object_unref (file);
 	g_object_unref (provider);
