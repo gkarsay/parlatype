@@ -712,6 +712,20 @@ pos_label_set_pango_attrs (GtkLabel *label)
 }
 
 static void
+goto_toggled_cb (GtkToggleButton *button,
+		 gpointer         data)
+{
+	gchar *tooltip;
+
+	if (gtk_toggle_button_get_active (button))
+		tooltip = _("View follows cursor");
+	else
+		tooltip = _("Click to follow cursor");
+
+	gtk_widget_set_tooltip_text (GTK_WIDGET (button), tooltip);
+}
+
+static void
 pt_window_init (PtWindow *win)
 {
 	win->priv = pt_window_get_instance_private (win);
@@ -740,15 +754,20 @@ pt_window_init (PtWindow *win)
 
 	pos_label_set_pango_attrs (GTK_LABEL (win->priv->pos_label));
 
-	g_object_bind_property (
-			win->priv->waveslider, "follow-cursor",
-			win->priv->goto_button, "has_tooltip",
-			G_BINDING_INVERT_BOOLEAN | G_BINDING_SYNC_CREATE);
+	g_signal_connect (win->priv->goto_button,
+			"toggled",
+			G_CALLBACK (goto_toggled_cb),
+			win);
 
 	g_object_bind_property (
 			win->priv->waveslider, "follow-cursor",
 			win->priv->goto_button, "active",
 			G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+
+	GtkWidget *image;
+	image = gtk_image_new_from_resource ("/org/gnome/parlatype/icons/cursor.png");
+	gtk_button_set_label (GTK_BUTTON (win->priv->goto_button), NULL);
+	gtk_button_set_image (GTK_BUTTON (win->priv->goto_button), image);
 
 	pt_window_ready_to_play (win, FALSE);
 }
