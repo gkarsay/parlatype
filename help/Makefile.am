@@ -13,12 +13,12 @@ HELP_MEDIA = 					\
 
 HELP_FILES = 					\
 	index.page				\
-	control.page				\
 	drag-and-drop.page			\
 	first-steps.page			\
 	keyboard-shortcuts.page			\
 	legal.xml				\
 	libreoffice-helpers.page		\
+	media-keys.page				\
 	preferences.page			\
 	selections.page				\
 	timestamps.page
