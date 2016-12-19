@@ -75,6 +75,7 @@ struct _PtWavesliderPrivate {
 	GdkRGBA	  wave_color;
 	GdkRGBA	  cursor_color;
 	GdkRGBA	  ruler_color;
+	GdkRGBA	  selection_color;
 };
 
 enum
@@ -395,9 +396,7 @@ draw_cb (GtkWidget *widget,
 	if (self->priv->sel_start != self->priv->sel_end) {
 		gint start = time_to_pixel (self, self->priv->sel_start);
 		gint end = time_to_pixel (self, self->priv->sel_end) - start;
-		GdkRGBA sel_color;
-		gdk_rgba_parse (&sel_color, "rgba(90%,50%,50%,0.5)");
-		gdk_cairo_set_source_rgba (cr, &sel_color);
+		gdk_cairo_set_source_rgba (cr, &self->priv->selection_color);
 		cairo_rectangle (cr, start, 0, end, height);
 		cairo_fill (cr);
 	}
@@ -1237,13 +1236,15 @@ pt_waveslider_init (PtWaveslider *self)
 	context = gtk_widget_get_style_context (GTK_WIDGET (self->priv->drawarea));
 	gtk_style_context_add_class (context, GTK_STYLE_CLASS_FRAME);
 	gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
-	gtk_style_context_add_class (context, "cursor");
 	gtk_style_context_add_provider_for_screen (
 			gdk_screen_get_default (),
 			GTK_STYLE_PROVIDER (provider),
 			GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
+	gtk_style_context_add_class (context, "cursor");
 	gtk_style_context_get_color (context, GTK_STATE_FLAG_NORMAL, &self->priv->cursor_color);
+	gtk_style_context_add_class (context, "selection");
+	gtk_style_context_get_color (context, GTK_STATE_FLAG_NORMAL, &self->priv->selection_color);
 	gtk_style_context_lookup_color (context, "wave_color", &self->priv->wave_color);
 	gtk_style_context_lookup_color (context, "ruler_color", &self->priv->ruler_color);
 

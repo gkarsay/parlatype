@@ -16,3 +16,7 @@
 .cursor:backdrop {
 	color: #cc6060;
 }
+
+.selection {
+	color: rgba(90%,50%,50%,0.5);
+}
