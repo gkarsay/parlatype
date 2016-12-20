@@ -10,6 +10,7 @@ Parlatype is a minimal audio player for manual speech transcription, written for
 
 Parlatype can start on top of other windows. If you are working with a maximized text application, you can still see the Parlatype window.
 
+![alt text](help/C/figures/parlatype-prefs-waveform.png "Parlatype Preferences")
 ![alt text](help/C/figures/parlatype-prefs-controls.png "Parlatype Preferences")
 ![alt text](help/C/figures/parlatype-prefs-window.png "Parlatype Preferences")
 
@@ -50,33 +51,38 @@ $ sudo apt-get install libgtk-3-0 libgstreamer1.0-0 gstreamer1.0-plugins-good
 ```
 
 ### Building 
-Building from git requires running autogen.sh:
+
+#### Configure options
+* --enable-gtk-doc: install library documentation (default: no)
+* --enable-introspection: install gobject introspection (default: yes)
+* --enable-glade-catalog: install a glade catalog (default: no)
+* --with-lo: install LibreOffice macros (default: yes)
+
+#### From git
+Clone the repository and run autogen.sh. Assuming you want the program only:
 ```
 $ git clone https://github.com/gkarsay/parlatype.git
 $ cd parlatype
-$ ./autogen.sh
+$ ./autogen.sh --prefix=/usr --disable-introspection
 $ make
 $ sudo make install
 ```
-Building from tarball: Download a release tarball, extract it and run:
+
+#### From tarball
+Download a release tarball, extract it and run:
 ```
 $ autoreconf # might be necessary
-$ ./configure
+$ ./configure --prefix=/usr --disable-introspection
 $ make
 $ sudo make install
 ```
 
 ### LibreOffice helpers
-The LibreOffice helpers/macros are installed together with Parlatype.
-However, this works only fine with
-```
-$ ./configure --prefix=/usr
-```
-If you use a different prefix, it’s recommended to
+The LibreOffice helpers/macros are installed together with Parlatype. However, this works only fine with --prefix=/usr. If you use a different prefix, it’s recommended to
 ```
 $ ./configure --without-lo
 ```
-In the latter case, please copy the macros manually:
+In this case, please copy the macros manually:
 ```
 $ sudo cp libreoffice/Parlatype.py /usr/lib/libreoffice/share/Scripts/python/
 ```
@@ -84,8 +90,7 @@ If you don’t want to install them system-wide, you can put them in your home d
 ```
 $ cp libreoffice/Parlatype.py ~/.config/libreoffice/4/user/Scripts/python/
 ```
-
-
+There is an integrated help in Parlatype with a page describing how to use the LibreOffice helpers.
 
 ## Credits
 
