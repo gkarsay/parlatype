@@ -9,6 +9,15 @@ EXTRA_DIST = \
 
 DISTCLEANFILES = `find . -mindepth 1 -iname "*~"`
 
+# Distcheck flags for libparlatype:
+# without glade catalog, because glade catalog is installed into a detected dir
+# that we have no permissions for.
+DISTCHECK_CONFIGURE_FLAGS = \
+	--enable-introspection	\
+	--enable-gtk-doc	\
+	--disable-glade-catalog
+
+
 # A few maintainer make targets
 
 .PHONY: gtk-check help pot todo

@@ -50,11 +50,26 @@ GTK_DOC_CHECK([1.14],[--flavour no-tmpl])
 GOBJECT_INTROSPECTION_CHECK([1.30.0])
 
 # Gladeui catalog file, lib can be installed in system libdir since 3.12.2
-PKG_CHECK_MODULES([GLADEUI],[gladeui-2.0 >= 3.12.2])
-glade_catalog_dir=`$PKG_CONFIG --variable=catalogdir gladeui-2.0`
-glade_pixmap_dir=`$PKG_CONFIG --variable=pixmapdir gladeui-2.0`
-AC_SUBST(GLADE_CATALOG_DIR, $glade_catalog_dir)
-AC_SUBST(GLADE_PIXMAP_DIR, $glade_pixmap_dir)
+AC_MSG_CHECKING([whether to install glade catalog])
+AC_ARG_ENABLE([glade-catalog],
+	[AS_HELP_STRING([--enable-glade-catalog],
+		[install a glade catalog file [default=no]])],
+	[glade_catalog=$enableval],
+	[glade_catalog=no])
+AC_MSG_RESULT([$glade_catalog])
+
+AM_CONDITIONAL([GLADE_CATALOG], [ test "$glade_catalog" = "yes" ])
+
+AS_IF([ test "$glade_catalog" = "yes" ],
+	[PKG_CHECK_MODULES(GLADE, [gladeui-2.0 >= 3.12.2])
+	 AC_MSG_CHECKING([where to install glade catalog])
+	 GLADE_CATALOG_DIR=`$PKG_CONFIG --variable=catalogdir gladeui-2.0`
+	 AC_MSG_RESULT([$GLADE_CATALOG_DIR])
+	 AC_MSG_CHECKING([where to install glade icons])
+	 GLADE_PIXMAP_DIR=`$PKG_CONFIG --variable=pixmapdir gladeui-2.0`
+	 AC_MSG_RESULT([$GLADE_PIXMAP_DIR])
+	 AC_SUBST(GLADE_PIXMAP_DIR)
+	 AC_SUBST(GLADE_CATALOG_DIR)])
 
 AC_CONFIG_FILES([Makefile
                  data/Makefile
@@ -75,8 +90,10 @@ echo "
         libparlatype $VERSION
         ==========================
 
-        prefix .......: ${prefix}
-        enable-gtk-doc: $enable_gtk_doc
+        prefix .............: ${prefix}
+        enable-introspection: $enable_introspection
+        enable-glade-catalog: ${glade_catalog}
+        enable-gtk-doc .....: $enable_gtk_doc
 
         Now type 'make' to build $PACKAGE
 "
