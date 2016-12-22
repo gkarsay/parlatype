@@ -699,6 +699,26 @@ goto_toggled_cb (GtkToggleButton *button,
 }
 
 static void
+setup_goto_button (PtWindow *win)
+{
+	GtkWidget *image;
+
+	image = gtk_image_new_from_resource ("/org/gnome/parlatype/icons/cursor.png");
+	gtk_button_set_label (GTK_BUTTON (win->priv->goto_button), NULL);
+	gtk_button_set_image (GTK_BUTTON (win->priv->goto_button), image);
+
+	g_signal_connect (win->priv->goto_button,
+			"toggled",
+			G_CALLBACK (goto_toggled_cb),
+			win);
+
+	g_object_bind_property (
+			win->priv->waveslider, "follow-cursor",
+			win->priv->goto_button, "active",
+			G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+}
+
+static void
 pt_window_init (PtWindow *win)
 {
 	win->priv = pt_window_get_instance_private (win);
@@ -708,6 +728,7 @@ pt_window_init (PtWindow *win)
 	setup_settings (win);
 	setup_player (win);
 	setup_accels_actions_headerbar (win);
+	setup_goto_button (win);
 	setup_mediakeys (win);		/* this is in pt_mediakeys.c */
 	pt_window_setup_dnd (win);	/* this is in pt_window_dnd.c */
 	setup_dbus_service (win);	/* this is in pt_dbus_service.c */
@@ -724,21 +745,6 @@ pt_window_init (PtWindow *win)
 	/* Flip speed scale for right to left layouts */
 	if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
 		gtk_scale_set_value_pos (GTK_SCALE (win->priv->speed_scale), GTK_POS_LEFT);
-
-	g_signal_connect (win->priv->goto_button,
-			"toggled",
-			G_CALLBACK (goto_toggled_cb),
-			win);
-
-	g_object_bind_property (
-			win->priv->waveslider, "follow-cursor",
-			win->priv->goto_button, "active",
-			G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
-
-	GtkWidget *image;
-	image = gtk_image_new_from_resource ("/org/gnome/parlatype/icons/cursor.png");
-	gtk_button_set_label (GTK_BUTTON (win->priv->goto_button), NULL);
-	gtk_button_set_image (GTK_BUTTON (win->priv->goto_button), image);
 
 	pt_window_ready_to_play (win, FALSE);
 }
