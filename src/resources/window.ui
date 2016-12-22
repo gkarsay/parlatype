@@ -211,6 +211,7 @@
                     <child>
                       <object class="GtkToggleButton" id="goto_button">
                         <property name="label">togglebutton</property>
+                        <property name="name">goto_cursor_button</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>

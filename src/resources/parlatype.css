@@ -1,0 +1,6 @@
+/* custom styles for PtWindow */
+
+/* make goto button smaller */
+#goto_cursor_button {
+	padding: 2px;
+}
