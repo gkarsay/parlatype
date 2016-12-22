@@ -4,3 +4,11 @@
 #goto_cursor_button {
 	padding: 2px;
 }
+
+#time_label {
+	/* Tried Cantarell first, but digits are not always monospace:
+	   They are on Debian 8, but not on Ubuntu 16.4 */
+	font-family: monospace;
+	font-size: 150%;
+	font-weight: 600;
+}

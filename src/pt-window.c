@@ -685,33 +685,6 @@ setup_accels_actions_headerbar (PtWindow *win)
 }
 
 static void
-pos_label_set_pango_attrs (GtkLabel *label)
-{
-	/* This is a workaround for glade 3.18.3 which can't handle decimal
-	   places on my machine.
-	   See https://bugzilla.gnome.org/show_bug.cgi?id=742969
-	   Remove after fix released */
-
-	PangoAttrList  *attr_list;
-	PangoAttribute *scale;
-	PangoAttribute *weight;
-	PangoAttribute *font;
-
-	attr_list = pango_attr_list_new ();
-	scale = pango_attr_scale_new (1.4);
-	weight = pango_attr_weight_new (PANGO_WEIGHT_SEMIBOLD);
-	/* Cantarell has monospace digits */
-	font = pango_attr_family_new ("cantarell,monospace");
-
-	pango_attr_list_insert (attr_list, weight);
-	pango_attr_list_insert (attr_list, scale);
-	pango_attr_list_insert (attr_list, font);
-	gtk_label_set_attributes (label, attr_list);
-
-	pango_attr_list_unref (attr_list);
-}
-
-static void
 goto_toggled_cb (GtkToggleButton *button,
 		 gpointer         data)
 {
@@ -751,8 +724,6 @@ pt_window_init (PtWindow *win)
 	/* Flip speed scale for right to left layouts */
 	if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
 		gtk_scale_set_value_pos (GTK_SCALE (win->priv->speed_scale), GTK_POS_LEFT);
-
-	pos_label_set_pango_attrs (GTK_LABEL (win->priv->pos_label));
 
 	g_signal_connect (win->priv->goto_button,
 			"toggled",
