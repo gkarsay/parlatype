@@ -189,7 +189,7 @@ calculate_duration (gint64 data_size,
 		    gint   px_per_sec)
 {
 	/* Calculates streams duration from data size exactly the way
-	   pt-waveslider.c does */
+	   pt-waveviewer.c does */
 
 	gint64 result;
 	gint64 samples;

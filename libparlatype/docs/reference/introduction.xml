@@ -14,7 +14,7 @@
   <para>PtPlayer is the core GStreamer backend that can be used as an audio
   player. It uses internally PtWaveloader to extract the wave form from a given
   file. This data is boxed in a PtWavedata struct that can be passed to
-  PtWaveslider, a GtkWidget showing the wave form.</para>
+  PtWaveviewer, a GtkWidget showing the wave form.</para>
   
   <para>This is the first public release of Parlatype, it is still unstable and
   might change with the next minor release.</para>

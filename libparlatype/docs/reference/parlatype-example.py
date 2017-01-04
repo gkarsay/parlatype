@@ -38,19 +38,19 @@ def player_end_of_stream (player):
 	button.set_active(False)
 
 """ The two main functions are Pt.Player.play() and Pt.Player.pause().
-    PtWaveslider scrolls to cursor (follow-cursor) by default but if the user
+    PtWaveviewer scrolls to cursor (follow-cursor) by default but if the user
     has scrolled manually follow-cursor is set to False. Here we assume that on
     play the user wants to follow cursor again. """
 def button_toggled (button):
 	if button.get_active():
-		slider.set_property("follow-cursor", True)
+		viewer.set_property("follow-cursor", True)
 		player.play()
 	else:
 		player.pause()
 
 """ In this timeout callback we update cursor position and time label. """
 def update_cursor ():
-	slider.set_property("playback-cursor", player.wave_pos())
+	viewer.set_property("playback-cursor", player.wave_pos())
 	text = player.get_current_time_string(Pt.PrecisionType.SECOND_10TH)
 	# Sometimes the position can't be retrieved and None is returned.
 	if (text):
@@ -58,23 +58,23 @@ def update_cursor ():
 	# Continue updating
 	return True
 
-""" PtWaveslider's cursor-changed signal.
+""" PtWaveviewer's cursor-changed signal.
     This means the user clicked on the widget to change cursor position.
     We have to inform the PtPlayer. We set the follow-cursor property, too. """
-def cursor_changed (slider, position):
+def cursor_changed (viewer, position):
 	player.jump_to_position (position)
-	slider.set_property("follow-cursor", True)
+	viewer.set_property("follow-cursor", True)
 
 """ Player's open async callback.
     Destroy progress dialog and get result. On success get wave data and pass it
-    to the PtWaveslider. Add a timeout of 10 ms to update cursor position and
+    to the PtWaveviewer. Add a timeout of 10 ms to update cursor position and
     time label. """
 def open_callback (player, result):
 	progress.destroy()
 	try:
 		player.open_uri_finish(result)
 		data = player.get_data()
-		slider.set_wave(data)
+		viewer.set_wave(data)
 		GObject.timeout_add(10,update_cursor)
 	except Exception as err:
 		error_message (err.args[0],win)
@@ -106,14 +106,14 @@ player.connect("end-of-stream", player_end_of_stream)
 # For the PtProgressDialog we have to use the async opening function
 player.open_uri_async (testfile, open_callback);
 
-# Now create the window with play button, PtWaveslider and time label.
+# Now create the window with play button, PtWaveviewer and time label.
 win = Gtk.Window()
 win.set_border_width(12)
 win.set_default_size(500,80)
 win.connect("delete-event", Gtk.main_quit)
 
-slider = Pt.Waveslider.new()
-slider.connect("cursor-changed", cursor_changed)
+viewer = Pt.Waveviewer.new()
+viewer.connect("cursor-changed", cursor_changed)
 
 button = Gtk.ToggleButton.new_with_label("Play")
 button.connect("toggled", button_toggled)
@@ -122,7 +122,7 @@ label = Gtk.Label("0:00.0")
 
 hbox = Gtk.Box(spacing=6)
 hbox.pack_start(button, False, False, 0)
-hbox.pack_start(slider, True, True, 0)
+hbox.pack_start(viewer, True, True, 0)
 hbox.pack_start(label, False, False, 0)
 win.add(hbox)
 win.show_all()

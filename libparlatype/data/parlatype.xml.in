@@ -2,11 +2,11 @@
 <glade-catalog name="parlatype" library="parlatype" book="parlatype" depends="gtk+">
 
   <glade-widget-classes>
-    <glade-widget-class name="PtWaveslider" generic-name="waveslider" icon-name="widget-pt-waveslider" title="PtWaveslider"/>
+    <glade-widget-class name="PtWaveviewer" generic-name="waveviewer" icon-name="widget-pt-waveviewer" title="PtWaveviewer"/>
   </glade-widget-classes>
 
   <glade-widget-group name="parlatype-widgets" title="Parlatype Widgets">
-    <glade-widget-class-ref name="PtWaveslider"/>
+    <glade-widget-class-ref name="PtWaveviewer"/>
   </glade-widget-group>
 
 </glade-catalog>

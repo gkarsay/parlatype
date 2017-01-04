@@ -42,7 +42,7 @@ struct _PtWindowPrivate
 	GtkWidget  *pos_label;
 	GtkWidget  *goto_button;
 	GtkWidget  *speed_scale;
-	GtkWidget  *waveslider;
+	GtkWidget  *waveviewer;
 
 	PtWavedata *wavedata;
 

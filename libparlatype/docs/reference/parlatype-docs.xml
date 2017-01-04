@@ -37,7 +37,7 @@
 		<title>GtkWidgets</title>
 		<xi:include href="gallery.xml"/>
     <xi:include href="xml/pt-progress-dialog.xml"/>
-    <xi:include href="xml/pt-waveslider.xml"/>
+    <xi:include href="xml/pt-waveviewer.xml"/>
 	</part>
 
   <part>

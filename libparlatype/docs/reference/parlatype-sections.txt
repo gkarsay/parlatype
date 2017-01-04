@@ -61,22 +61,22 @@ pt_waveloader_get_type
 </SECTION>
 
 <SECTION>
-<FILE>pt-waveslider</FILE>
-<TITLE>PtWaveslider</TITLE>
-PtWaveslider
-pt_waveslider_new
-pt_waveslider_set_wave
-pt_waveslider_set_follow_cursor
-pt_waveslider_get_follow_cursor
+<FILE>pt-waveviewer</FILE>
+<TITLE>PtWaveviewer</TITLE>
+PtWaveviewer
+pt_waveviewer_new
+pt_waveviewer_set_wave
+pt_waveviewer_set_follow_cursor
+pt_waveviewer_get_follow_cursor
 <SUBSECTION Standard>
-PT_IS_WAVESLIDER
-PT_IS_WAVESLIDER_CLASS
-PT_TYPE_WAVESLIDER
-PT_WAVESLIDER
-PT_WAVESLIDER_CLASS
-PtWavesliderClass
-PtWavesliderPrivate
-pt_waveslider_get_type
+PT_IS_WAVEVIEWER
+PT_IS_WAVEVIEWER_CLASS
+PT_TYPE_WAVEVIEWER
+PT_WAVEVIEWER
+PT_WAVEVIEWER_CLASS
+PtWaveviewerClass
+PtWaveviewerPrivate
+pt_waveviewer_get_type
 parlatype_get_resource
 </SECTION>
 

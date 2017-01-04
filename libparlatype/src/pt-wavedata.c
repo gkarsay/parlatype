@@ -26,8 +26,8 @@
  * @include: parlatype/pt-wavedata.h
  *
  * Contains all information needed to show a wave form. It's produced by
- * #PtPlayer or #PtWaveloader. Pass it to #PtWaveslider to visualize the wave.
- * #PtWaveslider copies the data, you can free it immediately with pt_wavedata_free().
+ * #PtPlayer or #PtWaveloader. Pass it to #PtWaveviewer to visualize the wave.
+ * #PtWaveviewer copies the data, you can free it immediately with pt_wavedata_free().
  *
  * There is no need to access the struct members.
  *
@@ -36,7 +36,7 @@
  * ...
  * PtWavedata *data;
  * data = pt_player_get_data (player, 100);
- * pt_waveslider_set_wave (PT_WAVESLIDER (waveslider), data);
+ * pt_waveviewer_set_wave (PT_WAVEVIEWER (waveviewer), data);
  * pt_wavedata_free (data);
  * ...
  * ]|

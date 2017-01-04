@@ -26,7 +26,7 @@ libparlatype_la_SOURCES =	\
 	pt-progress-dialog.c	\
 	pt-wavedata.c		\
 	pt-waveloader.c		\
-	pt-waveslider.c
+	pt-waveviewer.c
 
 parlatype_includedir= \
 	$(includedir)/parlatype
@@ -36,7 +36,7 @@ parlatype_include_HEADERS =	\
 	pt-progress-dialog.h	\
 	pt-wavedata.h		\
 	pt-waveloader.h		\
-	pt-waveslider.h
+	pt-waveviewer.h
 
 AM_CPPFLAGS =			\
 	$(WARNINGCFLAGS)	\
@@ -82,7 +82,7 @@ introspection_sources =			\
 		pt-progress-dialog.c	\
 		pt-wavedata.c		\
 		pt-waveloader.c		\
-		pt-waveslider.c		\
+		pt-waveviewer.c		\
 		$(parlatype_include_HEADERS)
 
 Parlatype-1.0.gir: libparlatype.la

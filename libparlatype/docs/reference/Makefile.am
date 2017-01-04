@@ -64,7 +64,7 @@ IGNORE_HFILES=
 # e.g. HTML_IMAGES=$(top_srcdir)/gtk/stock-icons/stock_about_24.png
 HTML_IMAGES=\
 	$(srcdir)/images/pt-progress-dialog.png	\
-	$(srcdir)/images/pt-waveslider.png
+	$(srcdir)/images/pt-waveviewer.png
 
 # Extra SGML files that are included by $(DOC_MAIN_SGML_FILE).
 # e.g. content_files=running.sgml building.sgml changes-2.0.sgml

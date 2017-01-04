@@ -20,7 +20,7 @@
 #include <glib/gi18n.h>
 #include <libparlatype/src/pt-player.h>
 #include <libparlatype/src/pt-progress-dialog.h>
-#include <libparlatype/src/pt-waveslider.h>
+#include <libparlatype/src/pt-waveviewer.h>
 #include "pt-app.h"
 #include "pt-dbus-service.h"
 #include "pt-goto-dialog.h"
@@ -121,7 +121,7 @@ update_time (PtWindow *win)
 	gtk_label_set_text (GTK_LABEL (win->priv->pos_label), text);
 	g_free (text);
 
-	g_object_set (win->priv->waveslider,
+	g_object_set (win->priv->waveviewer,
 		      "playback-cursor",
 		      pt_player_wave_pos (win->priv->player),
 		      NULL);
@@ -138,7 +138,7 @@ cursor_changed_cb (GtkWidget *widget,
 
 	pt_player_jump_to_position (win->priv->player, pos);
 	update_time (win);
-	pt_waveslider_set_follow_cursor (PT_WAVESLIDER (win->priv->waveslider), TRUE);
+	pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
 }
 
 void
@@ -149,7 +149,7 @@ selection_changed_cb (GtkWidget *widget,
 	if (win->priv->playing_selection) {
 
 		current = pt_player_get_position (win->priv->player);
-		g_object_get (win->priv->waveslider,
+		g_object_get (win->priv->waveviewer,
 			      "selection-start", &start,
 			      "selection-end", &end,
 			      NULL);
@@ -331,12 +331,12 @@ pt_window_ready_to_play (PtWindow *win,
 		change_play_button_tooltip (win);
 		change_jump_back_tooltip (win);
 		change_jump_forward_tooltip (win);
-		pt_waveslider_set_follow_cursor (PT_WAVESLIDER (win->priv->waveslider), TRUE);
+		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
 		win->priv->wavedata = pt_player_get_data (win->priv->player,
 							  g_settings_get_int (win->priv->editor, "pps"));
-		pt_waveslider_set_wave (PT_WAVESLIDER (win->priv->waveslider),
+		pt_waveviewer_set_wave (PT_WAVEVIEWER (win->priv->waveviewer),
 					win->priv->wavedata);
-		/* add timer after waveslider, didn't update cursor otherwise sometimes */
+		/* add timer after waveviewer, didn't update cursor otherwise sometimes */
 		add_timer (win);
 
 	} else {
@@ -347,7 +347,7 @@ pt_window_ready_to_play (PtWindow *win,
 		remove_timer (win);
 		pt_wavedata_free (win->priv->wavedata);
 		win->priv->wavedata = NULL;
-		pt_waveslider_set_wave (PT_WAVESLIDER (win->priv->waveslider),
+		pt_waveviewer_set_wave (PT_WAVEVIEWER (win->priv->waveviewer),
 					win->priv->wavedata);
 	}
 }
@@ -417,7 +417,7 @@ play_button_toggled_cb (GtkToggleButton *button,
 	if (gtk_toggle_button_get_active (button)) {
 
 		/* If there is a selection, play it */
-		g_object_get (win->priv->waveslider,
+		g_object_get (win->priv->waveviewer,
 			      "selection-start", &start,
 			      "selection-end", &end,
 			      "has-selection", &selection,
@@ -443,7 +443,7 @@ play_button_toggled_cb (GtkToggleButton *button,
 
 		/* before following cursor update time, not to jump back and forth */
 		update_time (win);
-		pt_waveslider_set_follow_cursor (PT_WAVESLIDER (win->priv->waveslider), TRUE);
+		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
 		pt_player_play (win->priv->player);
 	} else {
 		pt_player_pause (win->priv->player);
@@ -555,7 +555,7 @@ settings_changed_cb (GSettings *settings,
 		if (uri) {
 			win->priv->wavedata = pt_player_get_data (win->priv->player,
 								  g_settings_get_int (win->priv->editor, "pps"));
-			pt_waveslider_set_wave (PT_WAVESLIDER (win->priv->waveslider),
+			pt_waveviewer_set_wave (PT_WAVEVIEWER (win->priv->waveviewer),
 						win->priv->wavedata);
 			g_free (uri);
 		}
@@ -585,12 +585,12 @@ setup_settings (PtWindow *win)
 
 	g_settings_bind (
 			win->priv->editor, "show-ruler",
-			win->priv->waveslider, "show-ruler",
+			win->priv->waveviewer, "show-ruler",
 			G_SETTINGS_BIND_GET);
 
 	g_settings_bind (
 			win->priv->editor, "fixed-cursor",
-			win->priv->waveslider, "fixed-cursor",
+			win->priv->waveviewer, "fixed-cursor",
 			G_SETTINGS_BIND_GET);
 
 	/* connect to tooltip changer */
@@ -713,7 +713,7 @@ setup_goto_button (PtWindow *win)
 			win);
 
 	g_object_bind_property (
-			win->priv->waveslider, "follow-cursor",
+			win->priv->waveviewer, "follow-cursor",
 			win->priv->goto_button, "active",
 			G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
 }
@@ -854,7 +854,7 @@ pt_window_class_init (PtWindowClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, pos_label);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, goto_button);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, speed_scale);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, waveslider);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, waveviewer);
 
 	obj_properties[PROP_PAUSE] =
 	g_param_spec_int (
