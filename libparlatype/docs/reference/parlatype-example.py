@@ -73,7 +73,8 @@ def open_callback (player, result):
 	progress.destroy()
 	try:
 		player.open_uri_finish(result)
-		data = player.get_data()
+		# Get data at a resolution of 100 px per second
+		data = player.get_data(100)
 		viewer.set_wave(data)
 		GObject.timeout_add(10,update_cursor)
 	except Exception as err:
