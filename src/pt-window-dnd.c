@@ -31,11 +31,6 @@ handle_uri (PtWindow *win,
 	gchar   *uri;
 	gboolean success = FALSE;
 
-	if (gtk_widget_is_sensitive (win->priv->button_play)) {
-		/* We don't want to close any open files */
-		return success;
-	}
-
 	if (g_regex_match_simple ("^file:///.*", data, 0, 0)) {
 
 		/* Nautilus gives us a \r\n separated list */
