@@ -3,6 +3,5 @@
   <gresource prefix="/org/gnome/libparlatype">
     <file preprocess="xml-stripblanks">ptwaveviewer.ui</file>
     <file>pt-waveviewer.css</file>
-    <file>pt-waveviewer-dark.css</file>
   </gresource>
 </gresources>

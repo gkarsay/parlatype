@@ -1197,9 +1197,7 @@ pt_waveviewer_init (PtWaveviewer *self)
 	GdkDisplay      *display;
 	GtkStyleContext *context;
 	GtkCssProvider  *provider;
-	GtkSettings     *settings;
-	gboolean	 dark;
-	GFile		*file;
+	GFile		*css_file;
 
 	self->priv->peaks = NULL;
 	self->priv->peaks_size = 0;
@@ -1222,16 +1220,9 @@ pt_waveviewer_init (PtWaveviewer *self)
 	else
 		self->priv->rtl = FALSE;
 
-	settings = gtk_settings_get_default ();
-	g_object_get (settings, "gtk-application-prefer-dark-theme", &dark, NULL);
-
-	if (dark)
-		file = g_file_new_for_uri ("resource:///org/gnome/libparlatype/pt-waveviewer-dark.css");
-	else
-		file = g_file_new_for_uri ("resource:///org/gnome/libparlatype/pt-waveviewer.css");
-
+	css_file = g_file_new_for_uri ("resource:///org/gnome/libparlatype/pt-waveviewer.css");
 	provider = gtk_css_provider_new ();
-	gtk_css_provider_load_from_file (provider, file, NULL);
+	gtk_css_provider_load_from_file (provider, css_file, NULL);
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (self->priv->drawarea));
 	gtk_style_context_add_class (context, GTK_STYLE_CLASS_FRAME);
@@ -1248,7 +1239,7 @@ pt_waveviewer_init (PtWaveviewer *self)
 	gtk_style_context_lookup_color (context, "wave_color", &self->priv->wave_color);
 	gtk_style_context_lookup_color (context, "ruler_color", &self->priv->ruler_color);
 
-	g_object_unref (file);
+	g_object_unref (css_file);
 	g_object_unref (provider);
 
 	g_signal_connect (self->priv->drawarea,
