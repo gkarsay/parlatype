@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.4.1\n"
-"POT-Creation-Date: 2016-12-13 22:24+0100\n"
+"POT-Creation-Date: 2017-01-04 19:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,9 +28,9 @@ msgid "Parlatype"
 msgstr ""
 
 #. (itstool) path: credit/name
-#: C/index.page:10 C/control.page:8 C/drag-and-drop.page:8
-#: C/first-steps.page:8 C/keyboard-shortcuts.page:8
-#: C/libreoffice-helpers.page:9 C/preferences.page:8 C/selections.page:8
+#: C/index.page:10 C/drag-and-drop.page:8 C/first-steps.page:8
+#: C/keyboard-shortcuts.page:8 C/libreoffice-helpers.page:9
+#: C/media-keys.page:8 C/preferences.page:8 C/selections.page:8
 #: C/timestamps.page:8
 msgid "Gabor Karsay"
 msgstr ""
@@ -58,81 +58,6 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/index.page:27
 msgid "Help topics"
-msgstr ""
-
-#. (itstool) path: info/desc
-#: C/control.page:6
-msgid "How to control Parlatype with media keys"
-msgstr ""
-
-#. (itstool) path: page/title
-#: C/control.page:14
-msgid "Media keys"
-msgstr ""
-
-#. (itstool) path: page/p
-#: C/control.page:16
-msgid ""
-"<app>Parlatype</app>'s basic functions can be controlled with so called "
-"<em>media keys</em>. Media keys are used system wide to control media "
-"players and they are working even if the media player is not in focus or in "
-"the background."
-msgstr ""
-
-#. (itstool) path: page/p
-#: C/control.page:18
-msgid ""
-"You can change the media keys in GNOME settings. You can use dedicated keys "
-"from a multimedia keyboard or use any other key or combination of keys."
-msgstr ""
-
-#. (itstool) path: note/p
-#: C/control.page:21
-msgid ""
-"This will affect other media players, e.g. <app>Totem</app> or "
-"<app>Rhythmbox</app>, as well."
-msgstr ""
-
-#. (itstool) path: page/p
-#: C/control.page:24
-msgid "<app>Parlatype</app> listens to these key strokes:"
-msgstr ""
-
-#. (itstool) path: item/p
-#: C/control.page:26
-msgid ""
-"<key>Play</key>, <key>Pause</key>, <key>Stop</key>: Each of these keys "
-"toggles between playing and pause."
-msgstr ""
-
-#. (itstool) path: item/p
-#: C/control.page:27
-msgid ""
-"<key>Rewind</key>, <key>Previous</key>: Each of these keys will jump back "
-"the time you selected in Preferences."
-msgstr ""
-
-#. (itstool) path: item/p
-#: C/control.page:28
-msgid ""
-"<key>Fast Forward</key>, <key>Next</key>: Each of these keys will jump ahead "
-"the time you selected in Preferences."
-msgstr ""
-
-#. (itstool) path: note/p
-#: C/control.page:32
-msgid ""
-"For detailed instructions how to change keyboard shortcuts in GNOME see the "
-"<link href=\"help:gnome-help/keyboard-shortcuts-set\">official "
-"documentation</link>."
-msgstr ""
-
-#. (itstool) path: page/p
-#: C/control.page:35
-msgid ""
-"If you are using a dedicated foot pedal, it should be possible to map the "
-"foot pedal signals to any of the keys. This is not well tested, however. Any "
-"feedback regarding foot pedals is welcome."
 msgstr ""
 
 #. (itstool) path: info/desc
@@ -217,7 +142,7 @@ msgstr ""
 msgctxt "_"
 msgid ""
 "external ref='figures/parlatype-main-window.png' "
-"md5='d90307157cd5c79caca20ce475589bd5'"
+"md5='1e21a2ddc61fda06238b6b1537191cb3'"
 msgstr ""
 
 #. (itstool) path: page/p
@@ -236,16 +161,16 @@ msgid ""
 "standard keybindings. Automatic scrolling is stopped then."
 msgstr ""
 
-#. (itstool) path: note/p
-#: C/first-steps.page:31
+#. (itstool) path: page/p
+#: C/first-steps.page:30
 msgid ""
 "To get back to the cursor's position and let the view scroll automatically "
-"again, click on the time label. The <gui>Play</gui> button has the same "
-"effect."
+"again, click on the <gui>Go to</gui> button next to the time label. Clicking "
+"on the <gui>Play</gui> button also turns automatic scrolling on."
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/first-steps.page:34
+#: C/first-steps.page:32
 msgid ""
 "Clicking in the view with the right mouse button will put the cursor there, "
 "also holding the right mouse button pressed and moving it. The left mouse "
@@ -253,7 +178,7 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/first-steps.page:36
+#: C/first-steps.page:34
 msgid ""
 "The <gui>speed scale</gui> next to the <gui>volume</gui> button in the lower "
 "right corner lets you adjust the speed of playback. A value of 1 means "
@@ -490,6 +415,81 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/libreoffice-helpers.page:68
 msgid "Decreases playback speed."
+msgstr ""
+
+#. (itstool) path: info/desc
+#: C/media-keys.page:6
+msgid "How to control Parlatype with media keys"
+msgstr ""
+
+#. (itstool) path: page/title
+#: C/media-keys.page:14
+msgid "Media keys"
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/media-keys.page:16
+msgid ""
+"<app>Parlatype</app>'s basic functions can be controlled with so called "
+"<em>media keys</em>. Media keys are used system wide to control media "
+"players and they are working even if the media player is not in focus or in "
+"the background."
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/media-keys.page:18
+msgid ""
+"You can change the media keys in GNOME settings. You can use dedicated keys "
+"from a multimedia keyboard or use any other key or combination of keys."
+msgstr ""
+
+#. (itstool) path: note/p
+#: C/media-keys.page:21
+msgid ""
+"This will affect other media players, e.g. <app>Totem</app> or "
+"<app>Rhythmbox</app>, as well."
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/media-keys.page:24
+msgid "<app>Parlatype</app> listens to these key strokes:"
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/media-keys.page:26
+msgid ""
+"<key>Play</key>, <key>Pause</key>, <key>Stop</key>: Each of these keys "
+"toggles between playing and pause."
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/media-keys.page:27
+msgid ""
+"<key>Rewind</key>, <key>Previous</key>: Each of these keys will jump back "
+"the time you selected in Preferences."
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/media-keys.page:28
+msgid ""
+"<key>Fast Forward</key>, <key>Next</key>: Each of these keys will jump ahead "
+"the time you selected in Preferences."
+msgstr ""
+
+#. (itstool) path: note/p
+#: C/media-keys.page:32
+msgid ""
+"For detailed instructions how to change keyboard shortcuts in GNOME see the "
+"<link href=\"help:gnome-help/keyboard-shortcuts-set\">official "
+"documentation</link>."
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/media-keys.page:35
+msgid ""
+"If you are using a dedicated foot pedal, it should be possible to map the "
+"foot pedal signals to any of the keys. This is not well tested, however. Any "
+"feedback regarding foot pedals is welcome."
 msgstr ""
 
 #. (itstool) path: info/desc

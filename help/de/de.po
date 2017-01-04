@@ -1,11 +1,11 @@
 #
-# Gabor Karsay <gabor.karsay@gxm.at>, 2016.
+# Gabor Karsay <gabor.karsay@gxm.at>, 2016, 2017.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: parlatype 1.4\n"
-"POT-Creation-Date: 2016-12-13 22:24+0100\n"
-"PO-Revision-Date: 2016-12-13 22:25+0100\n"
+"Project-Id-Version: parlatype 1.5\n"
+"POT-Creation-Date: 2017-01-04 19:01+0100\n"
+"PO-Revision-Date: 2017-01-04 19:04+0100\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
 "Language-Team: Deutsch <>\n"
 "Language: \n"
@@ -33,9 +33,9 @@ msgid "Parlatype"
 msgstr "Parlatype"
 
 #. (itstool) path: credit/name
-#: C/index.page:10 C/control.page:8 C/drag-and-drop.page:8
-#: C/first-steps.page:8 C/keyboard-shortcuts.page:8
-#: C/libreoffice-helpers.page:9 C/preferences.page:8 C/selections.page:8
+#: C/index.page:10 C/drag-and-drop.page:8 C/first-steps.page:8
+#: C/keyboard-shortcuts.page:8 C/libreoffice-helpers.page:9
+#: C/media-keys.page:8 C/preferences.page:8 C/selections.page:8
 #: C/timestamps.page:8
 msgid "Gabor Karsay"
 msgstr "Gabor Karsay"
@@ -69,104 +69,6 @@ msgstr ""
 #: C/index.page:27
 msgid "Help topics"
 msgstr "Hilfethemen"
-
-#. (itstool) path: info/desc
-#: C/control.page:6
-msgid "How to control Parlatype with media keys"
-msgstr "Parlatype mit Medientasten steuern"
-
-#. (itstool) path: page/title
-#: C/control.page:14
-msgid "Media keys"
-msgstr "Medientasten"
-
-#. (itstool) path: page/p
-#: C/control.page:16
-msgid ""
-"<app>Parlatype</app>'s basic functions can be controlled with so called "
-"<em>media keys</em>. Media keys are used system wide to control media "
-"players and they are working even if the media player is not in focus or in "
-"the background."
-msgstr ""
-"<app>Parlatype</app>s grundlegende Funktionen können mit den sogenannten "
-"<em>Medientasten</em> gesteuert werden. Medientasten werden systemweit "
-"verwendet, um Medienspieler zu steuern, und sie funktionieren selbst dann, "
-"wenn der Medienspieler nicht im Fokus oder im Hintergrund ist."
-
-#. (itstool) path: page/p
-#: C/control.page:18
-msgid ""
-"You can change the media keys in GNOME settings. You can use dedicated keys "
-"from a multimedia keyboard or use any other key or combination of keys."
-msgstr ""
-"Sie können die Medientasten in den Einstellungen von GNOME ändern. Sie "
-"können entweder dezidierte Tasten von einer Multimediatastatur verwenden "
-"oder eine beliebige andere Taste oder Tastenkombination zuweisen."
-
-#. (itstool) path: note/p
-#: C/control.page:21
-msgid ""
-"This will affect other media players, e.g. <app>Totem</app> or "
-"<app>Rhythmbox</app>, as well."
-msgstr ""
-"Das wirkt sich auch auf andere Medienspieler aus, wie zum Beispiel "
-"<app>Totem</app> oder <app>Rhythmbox</app>."
-
-#. (itstool) path: page/p
-#: C/control.page:24
-msgid "<app>Parlatype</app> listens to these key strokes:"
-msgstr "<app>Parlatype</app> reagiert auf diese Tastenanschläge:"
-
-#. (itstool) path: item/p
-#: C/control.page:26
-msgid ""
-"<key>Play</key>, <key>Pause</key>, <key>Stop</key>: Each of these keys "
-"toggles between playing and pause."
-msgstr ""
-"<key>Wiedergabe</key>, <key>Wiedergabe unterbrechen</key>, <key>Wiedergabe "
-"anhalten</key>: Jede dieser Tasten schaltet zwischen Wiedergabe und Pause um."
-
-#. (itstool) path: item/p
-#: C/control.page:27
-msgid ""
-"<key>Rewind</key>, <key>Previous</key>: Each of these keys will jump back "
-"the time you selected in Preferences."
-msgstr ""
-"<key>Zurückspulen</key>, <key>Vorheriger Titel</key>: Jede dieser Tasten "
-"wird um so viele Sekunden zurückspringen, wie Sie in den Einstellungen "
-"eingestellt haben."
-
-#. (itstool) path: item/p
-#: C/control.page:28
-msgid ""
-"<key>Fast Forward</key>, <key>Next</key>: Each of these keys will jump ahead "
-"the time you selected in Preferences."
-msgstr ""
-"<key>Vorspulen</key>, <key>Nächster Titel</key>: Jede dieser Tasten wird so "
-"viele Sekunden vorwärtsspringen, wie Sie in den Einstellungen eingestellt "
-"haben."
-
-#. (itstool) path: note/p
-#: C/control.page:32
-msgid ""
-"For detailed instructions how to change keyboard shortcuts in GNOME see the "
-"<link href=\"help:gnome-help/keyboard-shortcuts-set\">official "
-"documentation</link>."
-msgstr ""
-"Für eine genaue Anleitung, wie Sie die Tastenkürzel in GNOME ändern können, "
-"sehen Sie bitte in der <link href=\"help:gnome-help/keyboard-shortcuts-set"
-"\">offiziellen Dokumentation</link> nach."
-
-#. (itstool) path: page/p
-#: C/control.page:35
-msgid ""
-"If you are using a dedicated foot pedal, it should be possible to map the "
-"foot pedal signals to any of the keys. This is not well tested, however. Any "
-"feedback regarding foot pedals is welcome."
-msgstr ""
-"Wenn Sie ein Fußpedal für die Transkription verwenden, müsste es möglich "
-"sein, die Fußpedalsignale den entsprechenden Tasten zuzuweisen. Das ist aber "
-"noch nicht ausgiebig getestet worden. Rückmeldungen dazu sind willkommen."
 
 #. (itstool) path: info/desc
 #: C/drag-and-drop.page:6
@@ -277,7 +179,7 @@ msgstr ""
 msgctxt "_"
 msgid ""
 "external ref='figures/parlatype-main-window.png' "
-"md5='d90307157cd5c79caca20ce475589bd5'"
+"md5='1e21a2ddc61fda06238b6b1537191cb3'"
 msgstr ""
 "external ref='figures/parlatype-main-window.png' "
 "md5='4d4c5bc3942ce7586ce797ef650ca28b'"
@@ -306,19 +208,20 @@ msgstr ""
 "Standardtastaturkürzel verwenden. Die Anzeige hört dann auf, automatisch zu "
 "scrollen."
 
-#. (itstool) path: note/p
-#: C/first-steps.page:31
+#. (itstool) path: page/p
+#: C/first-steps.page:30
 msgid ""
 "To get back to the cursor's position and let the view scroll automatically "
-"again, click on the time label. The <gui>Play</gui> button has the same "
-"effect."
+"again, click on the <gui>Go to</gui> button next to the time label. Clicking "
+"on the <gui>Play</gui> button also turns automatic scrolling on."
 msgstr ""
 "Um zur aktuellen Cursorposition zurückzukehren und das automatische Scrollen "
-"wieder zu aktivieren, klicken Sie auf die Zeitanzeige. Der <gui>Wiedergabe</"
-"gui>-Knopf hat denselben Effekt."
+"wieder zu aktivieren, klicken Sie auf den <gui>Gehe-zu</gui>-Knopf neben der "
+"Zeitanzeige. Wenn Sie den <gui>Wiedergabe</gui>-Knopf drücken, wird das "
+"automatische Scrollen auch wieder aktiviert."
 
 #. (itstool) path: page/p
-#: C/first-steps.page:34
+#: C/first-steps.page:32
 msgid ""
 "Clicking in the view with the right mouse button will put the cursor there, "
 "also holding the right mouse button pressed and moving it. The left mouse "
@@ -330,7 +233,7 @@ msgstr ""
 "\"selections\"/>."
 
 #. (itstool) path: page/p
-#: C/first-steps.page:36
+#: C/first-steps.page:34
 msgid ""
 "The <gui>speed scale</gui> next to the <gui>volume</gui> button in the lower "
 "right corner lets you adjust the speed of playback. A value of 1 means "
@@ -609,6 +512,104 @@ msgid "Decreases playback speed."
 msgstr "Verringert die Wiedergabegeschwindigkeit."
 
 #. (itstool) path: info/desc
+#: C/media-keys.page:6
+msgid "How to control Parlatype with media keys"
+msgstr "Parlatype mit Medientasten steuern"
+
+#. (itstool) path: page/title
+#: C/media-keys.page:14
+msgid "Media keys"
+msgstr "Medientasten"
+
+#. (itstool) path: page/p
+#: C/media-keys.page:16
+msgid ""
+"<app>Parlatype</app>'s basic functions can be controlled with so called "
+"<em>media keys</em>. Media keys are used system wide to control media "
+"players and they are working even if the media player is not in focus or in "
+"the background."
+msgstr ""
+"<app>Parlatype</app>s grundlegende Funktionen können mit den sogenannten "
+"<em>Medientasten</em> gesteuert werden. Medientasten werden systemweit "
+"verwendet, um Medienspieler zu steuern, und sie funktionieren selbst dann, "
+"wenn der Medienspieler nicht im Fokus oder im Hintergrund ist."
+
+#. (itstool) path: page/p
+#: C/media-keys.page:18
+msgid ""
+"You can change the media keys in GNOME settings. You can use dedicated keys "
+"from a multimedia keyboard or use any other key or combination of keys."
+msgstr ""
+"Sie können die Medientasten in den Einstellungen von GNOME ändern. Sie "
+"können entweder dezidierte Tasten von einer Multimediatastatur verwenden "
+"oder eine beliebige andere Taste oder Tastenkombination zuweisen."
+
+#. (itstool) path: note/p
+#: C/media-keys.page:21
+msgid ""
+"This will affect other media players, e.g. <app>Totem</app> or "
+"<app>Rhythmbox</app>, as well."
+msgstr ""
+"Das wirkt sich auch auf andere Medienspieler aus, wie zum Beispiel "
+"<app>Totem</app> oder <app>Rhythmbox</app>."
+
+#. (itstool) path: page/p
+#: C/media-keys.page:24
+msgid "<app>Parlatype</app> listens to these key strokes:"
+msgstr "<app>Parlatype</app> reagiert auf diese Tastenanschläge:"
+
+#. (itstool) path: item/p
+#: C/media-keys.page:26
+msgid ""
+"<key>Play</key>, <key>Pause</key>, <key>Stop</key>: Each of these keys "
+"toggles between playing and pause."
+msgstr ""
+"<key>Wiedergabe</key>, <key>Wiedergabe unterbrechen</key>, <key>Wiedergabe "
+"anhalten</key>: Jede dieser Tasten schaltet zwischen Wiedergabe und Pause um."
+
+#. (itstool) path: item/p
+#: C/media-keys.page:27
+msgid ""
+"<key>Rewind</key>, <key>Previous</key>: Each of these keys will jump back "
+"the time you selected in Preferences."
+msgstr ""
+"<key>Zurückspulen</key>, <key>Vorheriger Titel</key>: Jede dieser Tasten "
+"wird um so viele Sekunden zurückspringen, wie Sie in den Einstellungen "
+"eingestellt haben."
+
+#. (itstool) path: item/p
+#: C/media-keys.page:28
+msgid ""
+"<key>Fast Forward</key>, <key>Next</key>: Each of these keys will jump ahead "
+"the time you selected in Preferences."
+msgstr ""
+"<key>Vorspulen</key>, <key>Nächster Titel</key>: Jede dieser Tasten wird so "
+"viele Sekunden vorwärtsspringen, wie Sie in den Einstellungen eingestellt "
+"haben."
+
+#. (itstool) path: note/p
+#: C/media-keys.page:32
+msgid ""
+"For detailed instructions how to change keyboard shortcuts in GNOME see the "
+"<link href=\"help:gnome-help/keyboard-shortcuts-set\">official "
+"documentation</link>."
+msgstr ""
+"Für eine genaue Anleitung, wie Sie die Tastenkürzel in GNOME ändern können, "
+"sehen Sie bitte in der <link href=\"help:gnome-help/keyboard-shortcuts-set"
+"\">offiziellen Dokumentation</link> nach."
+
+#. (itstool) path: page/p
+#: C/media-keys.page:35
+msgid ""
+"If you are using a dedicated foot pedal, it should be possible to map the "
+"foot pedal signals to any of the keys. This is not well tested, however. Any "
+"feedback regarding foot pedals is welcome."
+msgstr ""
+"Wenn Sie ein Fußpedal für die Transkription verwenden, müsste es möglich "
+"sein, die Fußpedalsignale den entsprechenden Tasten zuzuweisen. Das ist aber "
+"noch nicht ausgiebig getestet worden. Rückmeldungen dazu sind willkommen."
+
+#. (itstool) path: info/desc
 #: C/preferences.page:6
 msgid "How to customize Parlatype"
 msgstr "Wie Sie Parlatype anpassen können"
@@ -874,65 +875,3 @@ msgid ""
 msgstr ""
 "Zeitstempel sehen so aus: #03:45-2#. Sie können Sie mit oder ohne die "
 "Rautezeichen markieren."
-
-#~ msgid ""
-#~ "Of course <app>Parlatype</app> can be controled with a mouse or pointer "
-#~ "device, however it is more convenient to use the keyboard or even a foot "
-#~ "pedal."
-#~ msgstr ""
-#~ "Natürlich kann <app>Parlatype</app> mit einer Maus oder einem Touchpad "
-#~ "gesteuert werden, viel einfacher geht es aber mit der Tastatur oder einem "
-#~ "Fußpedal."
-
-#~ msgid "Drag and drop to Parlatype"
-#~ msgstr "Etwas auf Parlatype ablegen"
-
-#~ msgid "<app>Parlatype</app> accepts several kinds of drops on its window."
-#~ msgstr ""
-#~ "Sie können Verschiedenes auf das Fenster von <app>Parlatype</app> ziehen "
-#~ "und ablegen:"
-
-#~ msgid "From a file manager"
-#~ msgstr "Von einem Dateimanager"
-
-#~ msgid "From a word processor"
-#~ msgstr "Von einer Textverarbeitung"
-
-#~ msgid ""
-#~ "You can drag and drop from a word processor, e.g. <app>LibreOffice</app>."
-#~ msgstr ""
-#~ "Sie können markierten Text von einer Textverarbeitung, wie zum Beispiel "
-#~ "<app>LibreOffice</app>, ins <app>Parlatype</app>-Fenster hinüberziehen."
-
-#~ msgid ""
-#~ "File paths: Select a full path of a file, drop it on <app>Parlatype</app> "
-#~ "and it will open that file."
-#~ msgstr ""
-#~ "Dateipfade: Markieren Sie einen vollständigen Dateipfad, ziehen Sie ihn "
-#~ "ins <app>Parlatype</app>-Fenster hinüber und die Datei wird geöffnet."
-
-#~ msgid "Navigate in your recording with timestamps"
-#~ msgstr "Zeitstempel in der Aufnahme setzen und hingehen"
-
-#~ msgid ""
-#~ "LibreOffice Helpers are an optional part of <app>Parlatype</app>. If you "
-#~ "have them installed you still have to assign keyboard shortcuts to be "
-#~ "able to use them."
-#~ msgstr ""
-#~ "Die LibreOffice-Makros sind ein optionaler Teil von <app>Parlatype</app>. "
-#~ "Wenn sie installiert sind, müssen Sie den Makros noch Tastenkombinationen "
-#~ "zuweisen, um sie nutzen zu können."
-
-#~ msgid ""
-#~ "You can also click on the <gui>time scale</gui> to change the position."
-#~ msgstr ""
-#~ "Sie können auch auch auf den <gui>Zeit-Schieberegler</gui> klicken, um "
-#~ "die Position zu ändern."
-
-#, fuzzy
-#~ msgid "InsertTimestamp"
-#~ msgstr "Zeitstempel"
-
-#, fuzzy
-#~ msgid "GotoTimestamp"
-#~ msgstr "Zeitstempel"
