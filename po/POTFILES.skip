@@ -1,4 +1,3 @@
-data/parlatype.desktop.in
 libparlatype/src/pt-player.c
 libparlatype/src/pt-progress-dialog.c
 libparlatype/src/pt-waveloader.c

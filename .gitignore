@@ -35,7 +35,6 @@ stamp-h1
 
 /data/parlatype.appdata.xml
 /data/parlatype.desktop
-/data/parlatype.desktop.in
 /data/org.gnome.parlatype.gschema.valid
 
 /libparlatype/test-driver

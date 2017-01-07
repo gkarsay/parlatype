@@ -22,10 +22,9 @@ check-local: $(desktop_DATA) $(appdata_DATA)
 
 CLEANFILES = \
 	$(appdata_DATA)		\
-	$(desktop_in_files)	\
 	$(desktop_DATA)
 
 EXTRA_DIST = \
 	org.gnome.parlatype.gschema.xml	\
-	parlatype.desktop.in.in		\
+	$(desktop_in_files)		\
 	$(appdata_in_files)

@@ -53,7 +53,6 @@ GTK_DOC_CHECK([1.14],[--flavour no-tmpl])
 
 AC_CONFIG_FILES([Makefile
                  data/Makefile
-		 data/parlatype.desktop.in
 		 data/icons/Makefile
 		 docs/Makefile
 		 help/Makefile
