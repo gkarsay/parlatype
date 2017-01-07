@@ -29,6 +29,8 @@ AC_CHECK_FUNCS([setlocale])
 
 GLIB_GSETTINGS                 
 AC_PATH_PROG(GLIB_COMPILE_RESOURCES, glib-compile-resources)
+AC_PATH_PROG([DESKTOP_FILE_VALIDATE], [desktop-file-validate], [/bin/true])
+AC_PATH_PROG([APPDATA_VALIDATE], [appstream-util], [/bin/true])
 
 YELP_HELP_INIT
 

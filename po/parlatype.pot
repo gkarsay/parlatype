@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-18 15:04+0100\n"
+"POT-Creation-Date: 2017-01-06 22:56+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,9 +18,20 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: ../data/parlatype.desktop.in.in.h:1 ../src/pt-app.c:66 ../src/pt-app.c:209
-#: ../src/resources/window.ui.h:1 ../src/resources/window-headerbar.ui.h:1
+#: ../data/parlatype.appdata.xml.in.h:1 ../data/parlatype.desktop.in.in.h:1
+#: ../src/pt-app.c:66 ../src/pt-app.c:209 ../src/resources/window.ui.h:1
+#: ../src/resources/window-headerbar.ui.h:1
 msgid "Parlatype"
+msgstr ""
+
+#: ../data/parlatype.appdata.xml.in.h:2
+msgid "Media player for manual speech transcription"
+msgstr ""
+
+#: ../data/parlatype.appdata.xml.in.h:3
+msgid ""
+"Parlatype is an easy to use media player. It's main purpose is to help you "
+"transcribing speech."
 msgstr ""
 
 #: ../data/parlatype.desktop.in.in.h:2
@@ -101,7 +112,7 @@ msgstr ""
 msgid "translator-credits"
 msgstr ""
 
-#: ../src/pt-app.c:348
+#: ../src/pt-app.c:362
 #, c-format
 msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
@@ -154,11 +165,11 @@ msgstr[1] ""
 msgid "Start playing"
 msgstr ""
 
-#: ../src/pt-window.c:721
+#: ../src/pt-window.c:694
 msgid "View follows cursor"
 msgstr ""
 
-#: ../src/pt-window.c:723
+#: ../src/pt-window.c:696
 msgid "Click to follow cursor"
 msgstr ""
 

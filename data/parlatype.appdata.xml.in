@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2017 Gabor Karsay <gabor.karsay@gmx.at> -->
+<component type="desktop">
+  <id>parlatype.desktop</id>
+​  <metadata_license>CC-BY-SA-4.0</metadata_license>
+​  <project_license>GPL-3.0+</project_license>
+​  <_name>Parlatype</_name>
+​  <_summary>Media player for manual speech transcription</_summary>
+​
+​  <description>
+​    <_p>Parlatype is an easy to use media player. It's main purpose is to help
+      you transcribing speech.</_p>
+​  </description>
+​
+​  <!-- FIXME: screenshot doesn't validate with network access: 
+              <image> has vertical alpha padding
+              <image> has horizontal alpha padding
+  -->
+  <screenshots>
+​    <screenshot type="default">https://raw.githubusercontent.com/gkarsay/parlatype/master/help/C/figures/parlatype-main-window.png</screenshot>
+  </screenshots>
+​
+​  <url type="homepage">https://github.com/gkarsay/parlatype</url>
+​  <project_group>GNOME</project_group>
+​
+​  <provides>
+​    <binary>parlatype</binary>
+​  </provides>
+​
+  <updatecontact>gabor.karsay@gmx.at</updatecontact>
+
+​</component>
