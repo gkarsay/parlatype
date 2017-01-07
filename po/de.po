@@ -1,14 +1,14 @@
 # German translations for parlatype package.
 # Copyright (C) 2016 Gabor Karsay
 # This file is distributed under the same license as the parlatype package.
-# Gabor Karsay <gabor.karsay@gxm.at>, 2016.
+# Gabor Karsay <gabor.karsay@gxm.at>, 2016, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-18 15:00+0100\n"
-"PO-Revision-Date: 2016-12-18 15:01+0100\n"
+"POT-Creation-Date: 2017-01-06 22:56+0100\n"
+"PO-Revision-Date: 2017-01-06 22:58+0100\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
 "Language-Team: Deutsch <>\n"
 "Language: de\n"
@@ -18,10 +18,24 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "X-Generator: Gtranslator 2.91.6\n"
 
-#: ../data/parlatype.desktop.in.in.h:1 ../src/pt-app.c:66 ../src/pt-app.c:209
-#: ../src/resources/window.ui.h:1 ../src/resources/window-headerbar.ui.h:1
+#: ../data/parlatype.appdata.xml.in.h:1 ../data/parlatype.desktop.in.in.h:1
+#: ../src/pt-app.c:66 ../src/pt-app.c:209 ../src/resources/window.ui.h:1
+#: ../src/resources/window-headerbar.ui.h:1
 msgid "Parlatype"
 msgstr "Parlatype"
+
+#: ../data/parlatype.appdata.xml.in.h:2
+msgid "Media player for manual speech transcription"
+msgstr "Medienwiedergabe für manuelle Sprachtranskription"
+
+#: ../data/parlatype.appdata.xml.in.h:3
+msgid ""
+"Parlatype is an easy to use media player. It's main purpose is to help you "
+"transcribing speech."
+msgstr ""
+"Parlatype ist ein einfach zu bedienender Medienspieler. Er dient "
+"hauptsächlich dazu, Sie beim Transkribieren von gesprochener Sprache zu "
+"unterstützen."
 
 #: ../data/parlatype.desktop.in.in.h:2
 msgid "Transcription utility"
@@ -105,7 +119,7 @@ msgstr "Ein einfaches Transkriptionsprogramm"
 msgid "translator-credits"
 msgstr "Gabor Karsay <gabor.karsay@gmx.at>"
 
-#: ../src/pt-app.c:348
+#: ../src/pt-app.c:362
 #, c-format
 msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
@@ -160,11 +174,11 @@ msgstr[1] "Wiedergabe unterbrechen und %d Sekunden zurückspulen"
 msgid "Start playing"
 msgstr "Wiedergabe starten"
 
-#: ../src/pt-window.c:721
+#: ../src/pt-window.c:694
 msgid "View follows cursor"
 msgstr "Ansicht folgt dem Cursor"
 
-#: ../src/pt-window.c:723
+#: ../src/pt-window.c:696
 msgid "Click to follow cursor"
 msgstr "Klicken Sie hier, um dem Cursor zu folgen"
 
