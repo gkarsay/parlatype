@@ -25,16 +25,19 @@ AC_SUBST([PARLATYPE_API_VERSION], [1.0])
 
 # Checks for programs.
 AC_PROG_CC
+AC_PROG_CXX
+AC_PROG_RANLIB
 
 # Checks for libraries.
 
 # Checks for header files.
-AC_CHECK_HEADERS([stdlib.h])
+AC_CHECK_HEADERS([string.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
+AC_TYPE_SSIZE_T
 
 # Checks for library functions.
-AC_CHECK_FUNCS([setlocale])
+AC_CHECK_FUNCS([atexit])
 
 GLIB_GSETTINGS                 
 AC_PATH_PROG(GLIB_COMPILE_RESOURCES, glib-compile-resources)
@@ -94,6 +97,4 @@ echo "
         enable-introspection: $enable_introspection
         enable-glade-catalog: ${glade_catalog}
         enable-gtk-doc .....: $enable_gtk_doc
-
-        Now type 'make' to build $PACKAGE
 "

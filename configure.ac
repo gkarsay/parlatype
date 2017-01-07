@@ -16,6 +16,8 @@ LT_INIT([disable-static])
 
 # Checks for programs.
 AC_PROG_CC
+AC_PROG_CXX
+AC_PROG_RANLIB
 
 # Checks for libraries.
 
@@ -25,7 +27,7 @@ AC_CHECK_HEADERS([stdlib.h])
 # Checks for typedefs, structures, and compiler characteristics.
 
 # Checks for library functions.
-AC_CHECK_FUNCS([setlocale])
+AC_CHECK_FUNCS([atexit setlocale])
 
 GLIB_GSETTINGS                 
 AC_PATH_PROG(GLIB_COMPILE_RESOURCES, glib-compile-resources)
@@ -71,7 +73,8 @@ echo "
         ==========================
 
         prefix .......: ${prefix}
-	with-lo ......: $with_lo"
+	with-lo ......: $with_lo
+"
 
 if test "${prefix}" != "/usr" -a "$with_lo" == "yes"; then
 echo "
@@ -79,6 +82,3 @@ echo "
         other than /usr and copying the script manually to:
         /usr/lib/libreoffice/share/Scripts/python/Parlatype.py"
 fi
-echo "
-        Now type 'make' to build $PACKAGE
-"
