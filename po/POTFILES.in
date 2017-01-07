@@ -1,7 +1,7 @@
 # List of source files which contain translatable strings.
 
-data/parlatype.appdata.xml.in
-data/parlatype.desktop.in
+data/org.gnome.parlatype.appdata.xml.in
+data/org.gnome.parlatype.desktop.in
 src/main.c
 src/pt-app.c
 src/pt-goto-dialog.c
