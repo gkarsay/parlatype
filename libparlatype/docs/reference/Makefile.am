@@ -115,7 +115,7 @@ EXTRA_DIST+=\
 # Comment this out if you want 'make check' to test you doc status
 # and run some sanity checks
 if ENABLE_GTK_DOC
-TESTS_ENVIRONMENT = cd $(srcdir) && \
+TESTS_ENVIRONMENT = \
   DOC_MODULE=$(DOC_MODULE) DOC_MAIN_SGML_FILE=$(DOC_MAIN_SGML_FILE) \
   SRCDIR=$(abs_srcdir) BUILDDIR=$(abs_builddir)
 TESTS = $(GTKDOC_CHECK)
