@@ -37,9 +37,12 @@ stamp-h1
 /data/parlatype.desktop.in
 /data/org.gnome.parlatype.gschema.valid
 
+/libparlatype/test-driver
 /libparlatype/data/parlatype.pc
 /libparlatype/data/parlatype.xml
 /libparlatype/docs/reference/*.stamp
+/libparlatype/docs/reference/gtkdoc-check.*
+/libparlatype/docs/reference/test-suite.log
 /libparlatype/docs/reference/version.xml
 /libparlatype/docs/reference/parlatype.*
 /libparlatype/docs/reference/parlatype-decl*.txt
