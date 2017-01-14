@@ -4,7 +4,7 @@
 
 Parlatype is a minimal audio player for manual speech transcription, written for the GNOME desktop environment. It plays audio sources to transcribe them in your favourite text application.
 
-![alt text](help/C/figures/parlatype-main-window.png "Parlatype")
+![Screenshot of main window]({{ site.url }}/images/parlatype-main-window.png)
 
  You can control the speed of playback, playing slowly as you type, playing fast for editing. The pitch is not altered, there is no “chipmunk” effect. Whenever you pause playback, it will rewind a few seconds, so that you can easier resume. Of course you can change how much it rewinds or whether it rewinds at all.
 
