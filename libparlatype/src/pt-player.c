@@ -55,6 +55,8 @@ enum
 static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
 
 #define METADATA_POSITION "metadata::parlatype::position"
+#define ONE_HOUR 3600000
+#define TEN_MINUTES 600000
 
 static void pt_player_initable_iface_init (GInitableIface *iface);
 static gboolean bus_call (GstBus *bus, GstMessage *msg, gpointer data);
@@ -1110,67 +1112,90 @@ pt_player_get_time_string (gint  time,
 	ms = ms % 1000;
 
 	/* Short or long format depends on total duration */
-	if ((duration / 1000) >= 3600) {
-		if (precision == PT_PRECISION_SECOND) {
+	if (duration >= ONE_HOUR) {
+		switch (precision) {
+		case PT_PRECISION_SECOND:
 		/* Translators: This is a time format, like "2:05:30" for 2
 		   hours, 5 minutes, and 30 seconds. You may change ":" to
 		   the separator that your locale uses or use "%Id" instead
 		   of "%d" if your locale uses localized digits. */
 			result = g_strdup_printf (C_("long time format", "%d:%02d:%02d"), h, m, s);
-		} else if (precision == PT_PRECISION_SECOND_10TH) {
+			break;
+		case PT_PRECISION_SECOND_10TH:
 		/* Translators: This is a time format, like "2:05:30.1" for 2
 		   hours, 5 minutes, 30 seconds, and 1 tenthsecond. You may
 		   change ":" or "." to the separator that your locale uses or
 		   use "%Id" instead of "%d" if your locale uses localized digits. */
 			result = g_strdup_printf (C_("long time format, 1 digit", "%d:%02d:%02d.%d"), h, m, s, ms / 100);
-		} else if (precision == PT_PRECISION_SECOND_100TH) {
+			break;
+		case PT_PRECISION_SECOND_100TH:
 		/* Translators: This is a time format, like "2:05:30.12" for 2
 		   hours, 5 minutes, 30 seconds, and 12 hundrethseconds. You may
 		   change ":" or "." to the separator that your locale uses or
 		   use "%Id" instead of "%d" if your locale uses localized digits. */
 			result = g_strdup_printf (C_("long time format, 2 digits", "%d:%02d:%02d.%02d"), h, m, s, ms / 10);
+			break;
+		default:
+			g_return_val_if_reached (NULL);
+			break;
+		}
+
+		return result;
+	}
+
+	if (duration >= TEN_MINUTES) {
+		switch (precision) {
+		case PT_PRECISION_SECOND:
+		/* Translators: This is a time format, like "05:30" for
+		   5 minutes, and 30 seconds. You may change ":" to
+		   the separator that your locale uses or use "%I02d" instead
+		   of "%02d" if your locale uses localized digits. */
+			result = g_strdup_printf (C_("short time format", "%02d:%02d"), m, s);
+			break;
+		case PT_PRECISION_SECOND_10TH:
+		/* Translators: This is a time format, like "05:30.1" for
+		   5 minutes, 30 seconds, and 1 tenthsecond. You may change
+		   ":" or "." to the separator that your locale uses or
+		   use "%Id" instead of "%d" if your locale uses localized digits. */
+			result = g_strdup_printf (C_("short time format, 1 digit", "%02d:%02d.%d"), m, s, ms / 100);
+			break;
+		case PT_PRECISION_SECOND_100TH:
+		/* Translators: This is a time format, like "05:30.12" for
+		   5 minutes, 30 seconds, and 12 hundrethseconds. You may change
+		   ":" or "." to the separator that your locale uses or
+		   use "%Id" instead of "%d" if your locale uses localized digits. */
+			result = g_strdup_printf (C_("short time format, 2 digits", "%02d:%02d.%02d"), m, s, ms / 10);
+			break;
+		default:
+			g_return_val_if_reached (NULL);
+			break;
 		}
 	} else {
-		if ((duration / 1000) >= 600) {
-			if (precision == PT_PRECISION_SECOND) {
-			/* Translators: This is a time format, like "05:30" for 
-			   5 minutes, and 30 seconds. You may change ":" to
-			   the separator that your locale uses or use "%I02d" instead
-			   of "%02d" if your locale uses localized digits. */
-				result = g_strdup_printf (C_("short time format", "%02d:%02d"), m, s);
-			} else if (precision == PT_PRECISION_SECOND_10TH) {
-			/* Translators: This is a time format, like "05:30.1" for
-			   5 minutes, 30 seconds, and 1 tenthsecond. You may change
-			   ":" or "." to the separator that your locale uses or
-			   use "%Id" instead of "%d" if your locale uses localized digits. */
-				result = g_strdup_printf (C_("short time format, 1 digit", "%02d:%02d.%d"), m, s, ms / 100);
-			} else if (precision == PT_PRECISION_SECOND_100TH) {
-			/* Translators: This is a time format, like "05:30.12" for
-			   5 minutes, 30 seconds, and 12 hundrethseconds. You may change
-			   ":" or "." to the separator that your locale uses or
-			   use "%Id" instead of "%d" if your locale uses localized digits. */
-				result = g_strdup_printf (C_("short time format, 2 digits", "%02d:%02d.%02d"), m, s, ms / 10);
-			}
-		} else {
-			if (precision == PT_PRECISION_SECOND) {
-			/* Translators: This is a time format, like "5:30" for 
-			   5 minutes, and 30 seconds. You may change ":" to
-			   the separator that your locale uses or use "%Id" instead
-			   of "%d" if your locale uses localized digits. */
-				result = g_strdup_printf (C_("shortest time format", "%d:%02d"), m, s);
-			} else if (precision == PT_PRECISION_SECOND_10TH) {
-			/* Translators: This is a time format, like "05:30.1" for
-			   5 minutes, 30 seconds, and 1 tenthsecond. You may change
-			   ":" or "." to the separator that your locale uses or
-			   use "%Id" instead of "%d" if your locale uses localized digits. */
-				result = g_strdup_printf (C_("shortest time format, 1 digit", "%d:%02d.%d"), m, s, ms / 100);
-			} else if (precision == PT_PRECISION_SECOND_100TH) {
-			/* Translators: This is a time format, like "05:30.12" for
-			   5 minutes, 30 seconds, and 12 hundrethseconds. You may change
-			   ":" or "." to the separator that your locale uses or
-			   use "%Id" instead of "%d" if your locale uses localized digits. */
-				result = g_strdup_printf (C_("shortest time format, 2 digits", "%d:%02d.%02d"), m, s, ms / 10);
-			}
+		switch (precision) {
+		case PT_PRECISION_SECOND:
+		/* Translators: This is a time format, like "5:30" for
+		   5 minutes, and 30 seconds. You may change ":" to
+		   the separator that your locale uses or use "%Id" instead
+		   of "%d" if your locale uses localized digits. */
+			result = g_strdup_printf (C_("shortest time format", "%d:%02d"), m, s);
+			break;
+		case PT_PRECISION_SECOND_10TH:
+		/* Translators: This is a time format, like "05:30.1" for
+		   5 minutes, 30 seconds, and 1 tenthsecond. You may change
+		   ":" or "." to the separator that your locale uses or
+		   use "%Id" instead of "%d" if your locale uses localized digits. */
+			result = g_strdup_printf (C_("shortest time format, 1 digit", "%d:%02d.%d"), m, s, ms / 100);
+			break;
+		case PT_PRECISION_SECOND_100TH:
+		/* Translators: This is a time format, like "05:30.12" for
+		   5 minutes, 30 seconds, and 12 hundrethseconds. You may change
+		   ":" or "." to the separator that your locale uses or
+		   use "%Id" instead of "%d" if your locale uses localized digits. */
+			result = g_strdup_printf (C_("shortest time format, 2 digits", "%d:%02d.%02d"), m, s, ms / 10);
+			break;
+		default:
+			g_return_val_if_reached (NULL);
+			break;
 		}
 	}
 
@@ -1245,23 +1270,29 @@ pt_player_get_timestamp (PtPlayer *player)
 {
 	g_return_val_if_fail (PT_IS_PLAYER (player), NULL);
 
-	gchar *tmp;
-	gchar *timestamp;
 	gint64 time;
+	gint   duration;
+	gint   h, m, s, ms, mod;
+	gchar *timestamp;
 
 	if (!pt_player_query_position (player, &time))
 		return NULL;
 
-	tmp = NULL;
 	timestamp = NULL;
+	time = GST_TIME_AS_MSECONDS (time);
+	duration = GST_TIME_AS_MSECONDS (player->priv->dur);
+	/* This is the same code as in pt_player_get_timestring() */
+	h = time / 3600000;
+	mod = time % 3600000;
+	m = mod / 60000;
+	ms = time % 60000;
+	s = ms / 1000;
+	ms = ms % 1000;
 
-	tmp = pt_player_get_time_string (
-			GST_TIME_AS_MSECONDS (time),
-			GST_TIME_AS_MSECONDS (player->priv->dur),
-			1);
-	if (tmp) {
-		timestamp = g_strdup_printf ("#%s#", tmp);
-		g_free (tmp);
+	if (duration >= ONE_HOUR) {
+		timestamp = g_strdup_printf ("#%d:%02d:%02d.%d#", h, m, s, ms / 100);
+	} else {
+		timestamp = g_strdup_printf ("#%d:%02d.%d#", m, s, ms / 100);
 	}
 
 	return timestamp;
@@ -1290,11 +1321,11 @@ pt_player_get_timestamp_position (PtPlayer *player,
 		cmp = g_strdup (timestamp);
 	}
 
-	args = sscanf (cmp, C_("long time format, 1 digit", "%d:%02d:%02d.%01d"), &h, &m, &s, &digit);
+	args = sscanf (cmp, "%d:%02d:%02d.%01d", &h, &m, &s, &digit);
 
 	if (args != 4) {
 		h = 0;
-		args = sscanf (cmp, C_("shortest time format, 1 digit", "%d:%02d.%01d"), &m, &s, &digit);
+		args = sscanf (cmp, "%d:%02d.%01d", &m, &s, &digit);
 		if (args != 3) {
 			g_free (cmp);
 			return -1;
