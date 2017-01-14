@@ -25,14 +25,14 @@ Parlatype is just an audio player, you still need another program, where you wri
 
 ## Translations
 
-Parlatype is translated at https://translations.launchpad.net/parlatype. Currently there is an English and a German version. Any help in translations is welcome!
+Parlatype is translated at [[https://translations.launchpad.net/parlatype]]. Currently there is an English and a German version. Any help in translations is welcome!
 
 ## Installation
 
 ### Packages
 
-* Ubuntu: There is a PPA with stable releases of Parlatype at https://launchpad.net/~gabor-karsay/+archive/ubuntu/parlatype.
-* Debian: At https://github.com/gkarsay/parlatype/releases you’ll find packages to download for Debian 8 “Jessie”.
+* Ubuntu: There is a PPA with stable releases of Parlatype at [[https://launchpad.net/~gabor-karsay/+archive/ubuntu/parlatype]].
+* Debian: At [[https://github.com/gkarsay/parlatype/releases]] you’ll find packages to download for Debian 8 “Jessie”.
 
 ### Dependencies
 
