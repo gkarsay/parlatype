@@ -1,38 +1,8 @@
 # Parlatype
 
-## What is it?
-
-Parlatype is a minimal audio player for manual speech transcription, written for the GNOME desktop environment. It plays audio sources to transcribe them in your favourite text application.
-
-![alt text](help/C/figures/parlatype-main-window.png "Parlatype")
-
- You can control the speed of playback, playing slowly as you type, playing fast for editing. The pitch is not altered, there is no “chipmunk” effect. Whenever you pause playback, it will rewind a few seconds, so that you can easier resume. Of course you can change how much it rewinds or whether it rewinds at all.
-
-Parlatype can start on top of other windows. If you are working with a maximized text application, you can still see the Parlatype window.
-
-![alt text](help/C/figures/parlatype-prefs-waveform.png "Parlatype Preferences")
-![alt text](help/C/figures/parlatype-prefs-controls.png "Parlatype Preferences")
-![alt text](help/C/figures/parlatype-prefs-window.png "Parlatype Preferences")
-
-Parlatype can be controlled with the “Play” button from your multimedia keyboard. This way it doesn’t have to have focus to control it. You can type in your text application and still have some (basic) control over Parlatype.
-
-A powerful feature of Parlatype is a set of LibreOffice helpers (macros). For example you can insert a time stamp into your document with a shortcut of your choice. If you put the cursor on such a time stamp and use another shortcut, Parlatype will jump to that position.
-
-
-## What it’s not
-
-Parlatype is just an audio player, you still need another program, where you write your transcription to, e.g. LibreOffice. It doesn’t work with videos or streaming media. It’s not a tool for scientific transcription, rather for your personal use. There is no speech recognition, you have to type yourself.
-
-## Translations
-
-Parlatype is translated at https://translations.launchpad.net/parlatype. Currently there is an English and a German version. Any help in translations is welcome!
+For a screenshot, an overview what Parlatype actually is and packages please visit http://gkarsay.github.io/parlatype/.
 
 ## Installation
-
-### Packages
-
-* Ubuntu: There is a PPA with stable releases of Parlatype at https://launchpad.net/~gabor-karsay/+archive/ubuntu/parlatype.
-* Debian: At https://github.com/gkarsay/parlatype/releases you’ll find packages to download for Debian 8 “Jessie”.
 
 ### Dependencies
 
@@ -53,10 +23,15 @@ $ sudo apt-get install libgtk-3-0 libgstreamer1.0-0 gstreamer1.0-plugins-good
 ### Building 
 
 #### Configure options
-* --enable-gtk-doc: install library documentation (default: no)
-* --enable-introspection: install gobject introspection (default: yes)
-* --enable-glade-catalog: install a glade catalog (default: no)
-* --with-lo: install LibreOffice macros (default: yes)
+
+Parlatype ships its own library, libparlatype. Developers might be interested in having a library documentation, gobject introspection and a glade catalog for the widgets. These are the configure options:
+
+* `--enable-gtk-doc`: install library documentation (default: no)
+* `--enable-introspection`: install gobject introspection (default: yes)
+* `--enable-glade-catalog`: install a glade catalog (default: no)
+* `--with-lo`: install LibreOffice macros (default: yes)
+
+If you want the program only, you would use `--prefix=/usr --disable-introspection`.
 
 #### From git
 Clone the repository and run autogen.sh. Assuming you want the program only:
@@ -69,8 +44,11 @@ $ sudo make install
 ```
 
 #### From tarball
-Download a release tarball, extract it and run:
+Download the latest release tarball from https://github.com/gkarsay/parlatype/releases/latest. Assuming it's version 1.4.1 and you want the program only:
 ```
+$ wget https://github.com/gkarsay/parlatype/releases/download/v1.4.1/parlatype-1.4.1.tar.gz
+$ tar -zxvf parlatype-1.4.1.tar.gz
+$ cd parlatype-1.4.1/
 $ autoreconf # might be necessary
 $ ./configure --prefix=/usr --disable-introspection
 $ make
@@ -92,11 +70,6 @@ $ cp libreoffice/Parlatype.py ~/.config/libreoffice/4/user/Scripts/python/
 ```
 There is an integrated help in Parlatype with a page describing how to use the LibreOffice helpers.
 
-## Credits
-
-The idea and initial design of Parlatype is based on Frederik Elwert’s program *transcribe*.
-
-The display of the audio wave form started with code from *Buzztrax*.
-
-The icon is based on work from the GNOME team.
+## Bugs
+Please report bugs at https://github.com/gkarsay/parlatype/issues.
 
