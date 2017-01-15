@@ -32,18 +32,18 @@ Parlatype can start on top of other windows. If you are working with a maximized
 Parlatype is easy to use nevertheless everything is documented in the help pages.
 
 ## International
-The user interface is fully translatable. Currently there is an English and a German version. Any help in translations is welcome! Parlatype is translated at [Launchpad](https://translations.launchpad.net/parlatype).
+The user interface is fully translatable. Currently there is an English and a German version. Any help in translations is welcome! Parlatype is translated at [https://translations.launchpad.net/parlatype](https://translations.launchpad.net/parlatype).
 
-<!--
-![Screenshot of Parlatype preferences](/parlatype/images/parlatype-prefs-waveform.png)
-![Screenshot of Parlatype preferences](/parlatype/images/parlatype-prefs-controls.png)
-![Screenshot of Parlatype preferences](/parlatype/images/parlatype-prefs-window.png)
--->
+## For developers
+Parlatype ships its own library, libparlatype, which provides a GStreamer backend (PtPlayer) and a waveviewer widget (PtWaveviewer) which is a GtkWidget. It is fully documented, however the API is not stable yet.
 
 # Installation
 
-* Ubuntu: There is a PPA with stable releases of Parlatype at [Launchpad](https://launchpad.net/~gabor-karsay/+archive/ubuntu/parlatype).
-* Other distros: You have to install Parlatype from source, see instructions on [https://github.com/gkarsay/parlatype](https://github.com/gkarsay/parlatype).
+## Ubuntu
+There is a PPA with stable releases of Parlatype at [https://launchpad.net/~gabor-karsay/+archive/ubuntu/parlatype](https://launchpad.net/~gabor-karsay/+archive/ubuntu/parlatype).
+
+## Other distros
+You have to install Parlatype from source, see instructions on [https://github.com/gkarsay/parlatype](https://github.com/gkarsay/parlatype).
 
 # Credits
 
