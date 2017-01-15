@@ -4,33 +4,37 @@ Parlatype is a minimal audio player for manual speech transcription, written for
 
 ![Screenshot of main window](/parlatype/images/parlatype-main-window.png)
 
- You can control the speed of playback, playing slowly as you type, playing fast for editing. The pitch is not altered, there is no “chipmunk” effect. Whenever you pause playback, it will rewind a few seconds, so that you can easier resume. Of course you can change how much it rewinds or whether it rewinds at all.
-
+## Waveform
+The waveform makes it easy to navigate in your audio file. You see what comes next and spot silence.
+## Adjustable speed
+You can control the speed of playback, playing slowly as you type, playing fast for editing. The pitch is not altered, there is no “chipmunk” effect.
+## Rewind on pause
+Whenever you pause playback, it will rewind a few seconds, so that you can easier resume. Of course you can change how much it rewinds or whether it rewinds at all.
+## Timestamps
+Parlatype produces timestamps which you can insert in your transcription. Parlatype will jump to that position at your will (drag 'n' drop or with LibreOffice Helpers).
+## LibreOffice Helpers
+Parlatype recommends to use LibreOffice. A set of helpers (macros) can be assigned to key bindings. E.g. insert timestamps or jump to timestamps.
+## Plays almost every audio file
+Parlatype is using the GStreamer framework which supports – with plugins – almost any audio file on your disk. Streaming media is not supported, you have to download it first.
+## Media keys and foot pedals
+Parlatype can be controlled with the “Play” button from your multimedia keyboard. This way it doesn’t have to have focus to control it. You can type in your text application and still have some (basic) control over Parlatype. Foot pedals can be assigned to the play button.
+## Start on top
 Parlatype can start on top of other windows. If you are working with a maximized text application, you can still see the Parlatype window.
+## Help pages
+Parlatype is easy to use nevertheless everything is documented in the help pages.
+## International
+The user interface is fully translatable. Currently there is an English and a German version. Any help in translations is welcome! Parlatype is translated at [Launchpad](https://translations.launchpad.net/parlatype).
 
+<!--
 ![Screenshot of Parlatype preferences](/parlatype/images/parlatype-prefs-waveform.png)
 ![Screenshot of Parlatype preferences](/parlatype/images/parlatype-prefs-controls.png)
 ![Screenshot of Parlatype preferences](/parlatype/images/parlatype-prefs-window.png)
-
-Parlatype can be controlled with the “Play” button from your multimedia keyboard. This way it doesn’t have to have focus to control it. You can type in your text application and still have some (basic) control over Parlatype.
-
-A powerful feature of Parlatype is a set of LibreOffice helpers (macros). For example you can insert a time stamp into your document with a shortcut of your choice. If you put the cursor on such a time stamp and use another shortcut, Parlatype will jump to that position.
-
-
-# What it’s not
-
-Parlatype is just an audio player, you still need another program, where you write your transcription to, e.g. LibreOffice. It doesn’t work with videos or streaming media. It’s not a tool for scientific transcription, rather for your personal use. There is no speech recognition, you have to type yourself.
-
-# Translations
-
-Parlatype is translated at [Launchpad](https://translations.launchpad.net/parlatype). Currently there is an English and a German version. Any help in translations is welcome!
+-->
 
 # Installation
 
-## Packages
-
 * Ubuntu: There is a PPA with stable releases of Parlatype at [Launchpad](https://launchpad.net/~gabor-karsay/+archive/ubuntu/parlatype).
-
+* Other distros: You have to install Parlatype from source, see instructions on [https://github.com/gkarsay/parlatype](https://github.com/gkarsay/parlatype).
 
 # Credits
 
