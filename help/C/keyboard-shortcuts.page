@@ -45,6 +45,10 @@
           <td><p><keyseq><key>Ctrl</key><key>c</key></keyseq></p></td>
         </tr>
         <tr>
+          <td><p>Insert timestamp</p></td>
+          <td><p><keyseq><key>Ctrl</key><key>v</key></keyseq></p></td>
+        </tr>
+        <tr>
           <td><p>Quit</p></td>
           <td><p><keyseq><key>Ctrl</key><key>q</key></keyseq></p></td>
         </tr>

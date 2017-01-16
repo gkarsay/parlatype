@@ -15,14 +15,23 @@
 
 <p>Timestamps help you to navigate in your transcription.</p>
 
+<note>
+<p>Timestamps look like this: #03:45.2#. You can select them with or without the number signs.</p>
+</note>
+
 <p>The easiest way to use them in <app>LibreOffice</app> are <app>Parlatype's</app> own <link xref="libreoffice-helpers" />.</p>
 
-<p>In other programs you have to switch between your word processor and  <app>Parlatype</app>. First make sure, the <app>Parlatype</app> window has focus. With the key sequence <keyseq><key>Ctrl</key><key>c</key></keyseq> the current timestamp is copied to the clipboard. Changing to the word processor you can insert now the timestamp.</p>
+<section id="timestamps-dnd">
+<title>Drag and drop</title>
 
-<p>If you select the timestamp in the word processor, you can drag and drop it on the <app>Parlatype</app> window and it will go to that position.</p>
+<p>If you select the timestamp in the word processor, you can drag and drop it on the <app>Parlatype</app> window and it will go to that position. This is also possible the other way round: Drag the time label from <app>Parlatype</app> to a word processor and drop it there to insert it.</p>
+</section>
 
-<note>
-<p>Timestamps look like this: #03:45-2#. You can select them with or without the number signs.</p>
-</note>
+<section id="timestamps-clipboard">
+<title>Using the clipboard</title>
+
+<p>First make sure, the <app>Parlatype</app> window has focus. With the key sequence <keyseq><key>Ctrl</key><key>c</key></keyseq> the current timestamp is copied to the clipboard. Changing to the word processor you can insert now the timestamp in your transcription.</p>
+<p>To go to a timestamp position, copy the timestamp in the word processor to the clipboard. Once you have changed focus to <app>Parlatype</app> press <keyseq><key>Ctrl</key><key>v</key></keyseq>.</p>
+</section>
 
 </page>
