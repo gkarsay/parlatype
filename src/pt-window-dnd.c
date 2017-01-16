@@ -17,6 +17,7 @@
 
 #include "config.h"
 #include <gtk/gtk.h>
+#include <string.h>	/* strlen */
 #include "pt-window.h"
 #include "pt-window-private.h"
 #include "pt-window-dnd.h"
@@ -230,9 +231,37 @@ win_dnd_motion_cb (GtkWidget	  *widget,
 	return FALSE;
 }
 
+static void
+label_dnd_get_cb (GtkWidget	   *widget,
+		  GdkDragContext   *context,
+		  GtkSelectionData *data,
+		  guint	            info,
+		  guint	            time,
+		  gpointer	    user_data)
+{
+	PtWindow *win = user_data;
+	gchar *timestamp = NULL;
+
+	/* Note: timestamp when drag ended, maybe it would be better to produce
+	   the timestamp when drag starts. */
+	timestamp = pt_player_get_timestamp (win->priv->player);
+
+	if (!timestamp || (info != TARGET_STRING && info != TARGET_UTF8_STRING))
+		return;
+
+	gtk_selection_data_set (data,
+				gtk_selection_data_get_target (data),
+				8,	/* byte */
+				(guchar*) timestamp,
+				strlen (timestamp));
+	g_free (timestamp);
+}
+
 void
 pt_window_setup_dnd (PtWindow *win)
 {
+	/* The whole window is a destination for timestamp drops */
+
 	gtk_drag_dest_set (GTK_WIDGET (win),
 				0,	/* no default behavior flags set, we do everything ourselves */
 				drag_target_string,
@@ -253,6 +282,17 @@ pt_window_setup_dnd (PtWindow *win)
 				"drag_drop",
 				G_CALLBACK (win_dnd_drop_cb),
 				win);
+
+	/* The time label (its event box) is a source for timestamp drags */
+
+	gtk_drag_source_set (win->priv->label_box,
+				GDK_BUTTON1_MASK,
+				drag_target_string,
+				G_N_ELEMENTS (drag_target_string),
+				GDK_ACTION_COPY);
+
+	g_signal_connect (win->priv->label_box,
+				"drag_data_get",
+				G_CALLBACK (label_dnd_get_cb),
+				win);
 }
-
-

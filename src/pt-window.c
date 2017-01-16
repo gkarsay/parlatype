@@ -852,6 +852,7 @@ pt_window_class_init (PtWindowClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, button_jump_forward);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, volumebutton);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, pos_label);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, label_box);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, goto_button);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, speed_scale);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, waveviewer);
