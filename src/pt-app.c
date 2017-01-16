@@ -253,6 +253,7 @@ pt_app_startup (GApplication *app)
 	const gchar *quit_accels[2] = { "<Primary>Q", NULL };
 	const gchar *open_accels[2] = { "<Primary>O", NULL };
 	const gchar *copy_accels[2] = { "<Primary>C", NULL };
+	const gchar *insert_accels[2] = { "<Primary>V", NULL };
 	const gchar *goto_accels[2] = { "<Primary>G", NULL };
 	const gchar *recent_accels[2] = { "<Primary>R", NULL };
 	const gchar *help_accels[2] = { "F1", NULL };
@@ -270,6 +271,9 @@ pt_app_startup (GApplication *app)
 			"win.copy", copy_accels);
 
 	gtk_application_set_accels_for_action (GTK_APPLICATION (app),
+			"win.insert", insert_accels);
+
+	gtk_application_set_accels_for_action (GTK_APPLICATION (app),
 			"win.goto", goto_accels);
 
 	gtk_application_set_accels_for_action (GTK_APPLICATION (app),
@@ -283,6 +287,9 @@ pt_app_startup (GApplication *app)
 
 	gtk_application_add_accelerator (GTK_APPLICATION (app),
 			"<Primary>C", "win.copy", NULL);
+
+	gtk_application_add_accelerator (GTK_APPLICATION (app),
+			"<Primary>V", "win.insert", NULL);
 
 	gtk_application_add_accelerator (GTK_APPLICATION (app),
 			"<Primary>G", "win.goto", NULL);

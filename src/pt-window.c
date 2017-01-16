@@ -80,6 +80,35 @@ copy_timestamp (GSimpleAction *action,
 	}
 }
 
+static void
+clip_text_cb (GtkClipboard *clip,
+	      const gchar  *text,
+	      gpointer      data)
+{
+	PtPlayer *player = (PtPlayer *) data;
+	gchar *timestamp;
+
+	if (text) {
+		timestamp = g_strdup (text);
+		pt_player_goto_timestamp (player, timestamp);
+		g_free (timestamp);
+	}
+}
+
+void
+insert_timestamp (GSimpleAction *action,
+		  GVariant      *parameter,
+		  gpointer       user_data)
+{
+	PtWindow *win;
+	win = PT_WINDOW (user_data);
+
+	GtkClipboard *clip;
+
+	clip = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+	gtk_clipboard_request_text (clip, clip_text_cb, win->priv->player);
+}
+
 void
 goto_position (GSimpleAction *action,
 	       GVariant      *parameter,
@@ -105,6 +134,7 @@ goto_position (GSimpleAction *action,
 
 const GActionEntry win_actions[] = {
 	{ "copy", copy_timestamp, NULL, NULL, NULL },
+	{ "insert", insert_timestamp, NULL, NULL, NULL },
 	{ "goto", goto_position, NULL, NULL, NULL }
 };
 
@@ -236,6 +266,9 @@ enable_win_actions (PtWindow *win,
 	GAction   *action;
 
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "copy");
+	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
+
+	action = g_action_map_lookup_action (G_ACTION_MAP (win), "insert");
 	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
 
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "goto");
