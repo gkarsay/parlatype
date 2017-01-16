@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.4.1\n"
-"POT-Creation-Date: 2017-01-04 19:01+0100\n"
+"POT-Creation-Date: 2017-01-16 21:18+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -97,9 +97,11 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/drag-and-drop.page:21
 msgid ""
-"Timestamps: Select a timestamp from a word processor, e.g. <app>LibreOffice</"
-"app>, drop the selected text on <app>Parlatype</app> and it will jump to "
-"that position."
+"Timestamps: You can drag and drop timestamps in both directions. Select a "
+"timestamp from a word processor, e.g. <app>LibreOffice</app>, drop the "
+"selected text on <app>Parlatype</app> and it will jump to that position. Or "
+"you click on <app>Parlatype</app>'s time label and drag it to a word "
+"processor to insert it there."
 msgstr ""
 
 #. (itstool) path: info/desc
@@ -271,11 +273,21 @@ msgstr ""
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:48
-msgid "Quit"
+msgid "Insert timestamp"
 msgstr ""
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:49
+msgid "<keyseq><key>Ctrl</key><key>v</key></keyseq>"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:52
+msgid "Quit"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:53
 msgid "<keyseq><key>Ctrl</key><key>q</key></keyseq>"
 msgstr ""
 
@@ -675,33 +687,52 @@ msgstr ""
 msgid "Timestamps help you to navigate in your transcription."
 msgstr ""
 
-#. (itstool) path: page/p
-#: C/timestamps.page:18
+#. (itstool) path: note/p
+#: C/timestamps.page:19
 msgid ""
-"The easiest way to use them in <app>LibreOffice</app> are <app>Parlatype's</"
-"app> own <link xref=\"libreoffice-helpers\"/>."
-msgstr ""
-
-#. (itstool) path: page/p
-#: C/timestamps.page:20
-msgid ""
-"In other programs you have to switch between your word processor and "
-"<app>Parlatype</app>. First make sure, the <app>Parlatype</app> window has "
-"focus. With the key sequence <keyseq><key>Ctrl</key><key>c</key></keyseq> "
-"the current timestamp is copied to the clipboard. Changing to the word "
-"processor you can insert now the timestamp."
+"Timestamps look like this: #03:45.2#. You can select them with or without "
+"the number signs."
 msgstr ""
 
 #. (itstool) path: page/p
 #: C/timestamps.page:22
 msgid ""
-"If you select the timestamp in the word processor, you can drag and drop it "
-"on the <app>Parlatype</app> window and it will go to that position."
+"The easiest way to use them in <app>LibreOffice</app> are <app>Parlatype's</"
+"app> own <link xref=\"libreoffice-helpers\"/>."
 msgstr ""
 
-#. (itstool) path: note/p
+#. (itstool) path: section/title
 #: C/timestamps.page:25
+msgid "Drag and drop"
+msgstr ""
+
+#. (itstool) path: section/p
+#: C/timestamps.page:27
 msgid ""
-"Timestamps look like this: #03:45-2#. You can select them with or without "
-"the number signs."
+"If you select the timestamp in the word processor, you can drag and drop it "
+"on the <app>Parlatype</app> window and it will go to that position. This is "
+"also possible the other way round: Drag the time label from <app>Parlatype</"
+"app> to a word processor and drop it there to insert it."
+msgstr ""
+
+#. (itstool) path: section/title
+#: C/timestamps.page:31
+msgid "Using the clipboard"
+msgstr ""
+
+#. (itstool) path: section/p
+#: C/timestamps.page:33
+msgid ""
+"First make sure, the <app>Parlatype</app> window has focus. With the key "
+"sequence <keyseq><key>Ctrl</key><key>c</key></keyseq> the current timestamp "
+"is copied to the clipboard. Changing to the word processor you can insert "
+"now the timestamp in your transcription."
+msgstr ""
+
+#. (itstool) path: section/p
+#: C/timestamps.page:34
+msgid ""
+"To go to a timestamp position, copy the timestamp in the word processor to "
+"the clipboard. Once you have changed focus to <app>Parlatype</app> press "
+"<keyseq><key>Ctrl</key><key>v</key></keyseq>."
 msgstr ""

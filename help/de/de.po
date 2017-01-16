@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
-"POT-Creation-Date: 2017-01-04 19:01+0100\n"
-"PO-Revision-Date: 2017-01-04 19:04+0100\n"
+"POT-Creation-Date: 2017-01-16 21:18+0100\n"
+"PO-Revision-Date: 2017-01-16 21:25+0100\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
 "Language-Team: Deutsch <>\n"
 "Language: \n"
@@ -119,13 +119,18 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/drag-and-drop.page:21
 msgid ""
-"Timestamps: Select a timestamp from a word processor, e.g. <app>LibreOffice</"
-"app>, drop the selected text on <app>Parlatype</app> and it will jump to "
-"that position."
+"Timestamps: You can drag and drop timestamps in both directions. Select a "
+"timestamp from a word processor, e.g. <app>LibreOffice</app>, drop the "
+"selected text on <app>Parlatype</app> and it will jump to that position. Or "
+"you click on <app>Parlatype</app>'s time label and drag it to a word "
+"processor to insert it there."
 msgstr ""
-"Zeitstempel: Markieren Sie einen Zeitstempel in Ihrer Textverarbeitung, wie "
-"zum Beispiel <app>LibreOffice</app>, ziehen Sie ihn ins <app>Parlatype</app>-"
-"Fenster und das Programm springt zur Position des Zeitstempels."
+"Zeitstempel: Sie können Zeitstempel in beide Richtungen ziehen und ablegen. "
+"Markieren Sie einen Zeitstempel in Ihrer Textverarbeitung, wie zum Beispiel "
+"<app>LibreOffice</app>, ziehen Sie ihn ins <app>Parlatype</app>-Fenster und "
+"das Programm springt zur Position des Zeitstempels. Oder Sie klicken auf die "
+"Zeitanzeige in <app>Parlatype</app> und ziehen sie in die Textverarbeitung, "
+"um den Zeitstempel dort einzufügen."
 
 #. (itstool) path: info/desc
 #. (itstool) path: page/title
@@ -333,11 +338,21 @@ msgstr "<keyseq><key>Strg</key><key>c</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:48
+msgid "Insert timestamp"
+msgstr "Zeitstempel einfügen"
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:49
+msgid "<keyseq><key>Ctrl</key><key>v</key></keyseq>"
+msgstr "<keyseq><key>Strg</key><key>v</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:52
 msgid "Quit"
 msgstr "Beenden"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:49
+#: C/keyboard-shortcuts.page:53
 msgid "<keyseq><key>Ctrl</key><key>q</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>q</key></keyseq>"
 
@@ -831,8 +846,17 @@ msgstr "Zeitstempel"
 msgid "Timestamps help you to navigate in your transcription."
 msgstr "Zeitstempel helfen Ihnen beim Navigieren in Ihrer Transkription."
 
+#. (itstool) path: note/p
+#: C/timestamps.page:19
+msgid ""
+"Timestamps look like this: #03:45.2#. You can select them with or without "
+"the number signs."
+msgstr ""
+"Zeitstempel sehen so aus: #03:45.2#. Sie können Sie mit oder ohne die "
+"Rautezeichen markieren."
+
 #. (itstool) path: page/p
-#: C/timestamps.page:18
+#: C/timestamps.page:22
 msgid ""
 "The easiest way to use them in <app>LibreOffice</app> are <app>Parlatype's</"
 "app> own <link xref=\"libreoffice-helpers\"/>."
@@ -840,38 +864,52 @@ msgstr ""
 "Die einfachste Möglichkeit, sie in <app>LibreOffice</app> zu nützen, sind "
 "<app>Parlatypes</app> eigene <link xref=\"libreoffice-helpers\"/>."
 
-#. (itstool) path: page/p
-#: C/timestamps.page:20
-msgid ""
-"In other programs you have to switch between your word processor and "
-"<app>Parlatype</app>. First make sure, the <app>Parlatype</app> window has "
-"focus. With the key sequence <keyseq><key>Ctrl</key><key>c</key></keyseq> "
-"the current timestamp is copied to the clipboard. Changing to the word "
-"processor you can insert now the timestamp."
-msgstr ""
-"In anderen Programmen müssen Sie zwischen Ihrer Textverarbeitung und "
-"<app>Parlatype</app> hin und her wechseln. Stellen Sie zuerst sicher, dass "
-"das <app>Parlatype</app>-Fenster den Eingabefokus hat. Mit der "
-"Tastenkombination <keyseq><key>Ctrl</key><key>c</key></keyseq> können Sie "
-"den aktuellen Zeitstempel in die Zwischenablage kopieren. Wenn Sie nun zu "
-"Ihrer Textverarbeitung wechseln, können Sie den Zeitstempel aus der "
-"Zwischenablage einfügen."
+#. (itstool) path: section/title
+#: C/timestamps.page:25
+msgid "Drag and drop"
+msgstr "Ziehen und ablegen"
 
-#. (itstool) path: page/p
-#: C/timestamps.page:22
+#. (itstool) path: section/p
+#: C/timestamps.page:27
 msgid ""
 "If you select the timestamp in the word processor, you can drag and drop it "
-"on the <app>Parlatype</app> window and it will go to that position."
+"on the <app>Parlatype</app> window and it will go to that position. This is "
+"also possible the other way round: Drag the time label from <app>Parlatype</"
+"app> to a word processor and drop it there to insert it."
 msgstr ""
 "Wenn Sie einen Zeitstempel in Ihrer Textverarbeitung markieren, können Sie "
 "ihn mit der Maus ins <app>Parlatype</app>-Fenster hinüberziehen und das "
-"Programm wird zu dieser Position springen."
+"Programm wird zu dieser Position springen. Das ist auch andersrum möglich: "
+"Ziehen Sie die Zeitanzeige aus dem <app>Parlatype</app>-Fenster in die "
+"Textverarbeitung, um den Zeitstempel dort einzufügen."
 
-#. (itstool) path: note/p
-#: C/timestamps.page:25
+#. (itstool) path: section/title
+#: C/timestamps.page:31
+msgid "Using the clipboard"
+msgstr "Mithilfe der Zwischenablage"
+
+#. (itstool) path: section/p
+#: C/timestamps.page:33
 msgid ""
-"Timestamps look like this: #03:45-2#. You can select them with or without "
-"the number signs."
+"First make sure, the <app>Parlatype</app> window has focus. With the key "
+"sequence <keyseq><key>Ctrl</key><key>c</key></keyseq> the current timestamp "
+"is copied to the clipboard. Changing to the word processor you can insert "
+"now the timestamp in your transcription."
 msgstr ""
-"Zeitstempel sehen so aus: #03:45-2#. Sie können Sie mit oder ohne die "
-"Rautezeichen markieren."
+"Stellen Sie zuerst sicher, dass das <app>Parlatype</app>-Fenster den "
+"Eingabefokus hat. Mit der Tastenkombination <keyseq><key>Ctrl</key><key>c</"
+"key></keyseq> können Sie den aktuellen Zeitstempel in die Zwischenablage "
+"kopieren. Wenn Sie nun zu Ihrer Textverarbeitung wechseln, können Sie den "
+"Zeitstempel aus der Zwischenablage einfügen."
+
+#. (itstool) path: section/p
+#: C/timestamps.page:34
+msgid ""
+"To go to a timestamp position, copy the timestamp in the word processor to "
+"the clipboard. Once you have changed focus to <app>Parlatype</app> press "
+"<keyseq><key>Ctrl</key><key>v</key></keyseq>."
+msgstr ""
+"Um zur Zeitstempel-Position zu springen, kopieren Sie den Zeitstempel in "
+"Ihrer Textverarbeitung in die Zwischenablage. Sobald Sie den Eingabefokus zu "
+"<app>Parlatype</app> gewechselt haben, drücken Sie <keyseq><key>Strg</"
+"key><key>v</key></keyseq>."
