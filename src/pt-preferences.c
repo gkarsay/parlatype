@@ -48,6 +48,10 @@ spin_back_changed_cb (GtkSpinButton	   *spin,
 {
 	gtk_label_set_label (
 			GTK_LABEL (dlg->priv->label_back),
+			/* Translators: This is part of the Preferences dialog
+			   or the "Go to ..." dialog. There is a label like
+			   "Jump back:", "Jump forward:", "Jump back on pause:"
+			   or "Go to position:" before. */
 			ngettext ("second", "seconds",
 				  (int) gtk_spin_button_get_value_as_int (spin)));
 }

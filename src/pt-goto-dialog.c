@@ -42,6 +42,10 @@ string_to_time (const char *time_string)
 {
 	gint sec, min, hour, args;
 
+	/* Translators: This is a time format, like "2:05:30" for 2
+	   hours, 5 minutes, and 30 seconds. You may change ":" to
+	   the separator that your locale uses or use "%Id" instead
+	   of "%d" if your locale uses localized digits. */
 	args = sscanf (time_string, C_("long time format", "%d:%02d:%02d"), &hour, &min, &sec);
 
 	if (args == 3) {
