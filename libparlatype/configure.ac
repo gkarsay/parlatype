@@ -89,10 +89,16 @@ AC_OUTPUT
 dnl ==========================================================================
 echo "
 
-        libparlatype $VERSION
+        Common configuration
         ==========================
 
         prefix .............: ${prefix}
+        compiler ...........: ${CC} `${CC} -dumpversion`
+
+
+        libparlatype $VERSION
+        ==========================
+
         enable-introspection: $enable_introspection
         enable-glade-catalog: ${glade_catalog}
         enable-gtk-doc .....: $enable_gtk_doc

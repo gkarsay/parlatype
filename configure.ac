@@ -67,12 +67,10 @@ AC_OUTPUT
 
 dnl ==========================================================================
 echo "
-
         Parlatype $VERSION
         ==========================
 
-        prefix .......: ${prefix}
-	with-lo ......: $with_lo
+	with-lo ............: $with_lo
 "
 
 if test "${prefix}" != "/usr" -a "$with_lo" == "yes"; then
