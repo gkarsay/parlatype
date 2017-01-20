@@ -2,6 +2,7 @@
 *.lo
 *.la
 *~
+*.pot
 
 Makefile
 Makefile.in
