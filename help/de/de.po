@@ -1,14 +1,17 @@
-#
+# German translations for parlatype help.
+# Copyright (C) 2016 Gabor Karsay
+# This file is distributed under the same license as the parlatype package.
 # Gabor Karsay <gabor.karsay@gxm.at>, 2016, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
+"Report-Msgid-Bugs-To: Gabor Karsay <gabor.karsay@gxm.at>\n"
 "POT-Creation-Date: 2017-01-16 21:18+0100\n"
 "PO-Revision-Date: 2017-01-16 21:25+0100\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
 "Language-Team: Deutsch <>\n"
-"Language: \n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
