@@ -56,7 +56,7 @@ $ sudo make install
 ```
 
 ### LibreOffice helpers
-The LibreOffice helpers/macros are installed together with Parlatype. However, this works only fine with --prefix=/usr. If you use a different prefix, it’s recommended to
+The LibreOffice helpers/macros are installed together with Parlatype. However, this works only fine with `--prefix=/usr`. If you use a different prefix, it’s recommended to
 ```
 $ ./configure --without-lo
 ```
