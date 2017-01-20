@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its" type="topic" id="libreoffice-helpers" xml:lang="en-GB">
+<info>
+  <link type="guide" xref="index#topics"/>
+  <desc>Use Parlatype with LibreOffice</desc>
+  <credit type="author">
+    <name>Gabor Karsay</name>
+    <email>gabor.karsay@gmx.at</email>
+  </credit>
+  <include xmlns="http://www.w3.org/2001/XInclude" href="legal.xml"/>
+</info>
+
+<title>LibreOffice Helpers</title>
+
+<p>LibreOffice Helpers let you control <app>Parlatype</app> from <app>LibreOffice</app>. For example, you can jump easily to timestamps.</p>
+
+<p>To use them, you have to assign keyboard shortcuts in <app>LibreOffice</app> itself. To do this, open <app>LibreOffice</app>, go to menu <gui>Tools</gui> and select <gui>Customise</gui>.</p>
+
+<media type="image" src="figures/lo-menu.png"/>
+
+<p>Go to tab <gui>Keyboard</gui>. In the lower part, <gui>Functions</gui>, there is a list called <gui>Category</gui>. At the end of that list you'll find the entry <gui>LibreOffice Macros</gui>. There is a subcategory <gui>share</gui> which has a subcategory <gui>Parlatype</gui>. After selecting <gui>Parlatype</gui> there will be a list of functions in the <gui>Functions</gui> list. Choose the function you'd like to use, select from the list <gui>Shortcut keys</gui> above a shortcut and click on the button <gui>Modify</gui>.</p>
+
+<media type="image" src="figures/lo-customize.png"/>
+
+<p>You can select any of these functions:</p>
+
+    <table rules="rows" frame="top bottom">
+    <title>LibreOffice Helpers</title>
+      <thead>
+        <tr>
+          <td><p>Helper's name</p></td>
+          <td><p>What it does</p></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><p its:translate="no">PlayPause</p></td>
+          <td><p>Toggles between play and pause. Depending on your preferences set in <app>Parlatype</app>, it will rewind a few seconds on pause.</p></td>
+        </tr>
+        <tr>
+          <td><p its:translate="no">JumpBack</p></td>
+          <td><p>Jumps back a few seconds, depending on the preferences you set in <app>Parlatype</app>.</p></td>
+        </tr>
+        <tr>
+          <td><p its:translate="no">JumpForward</p></td>
+          <td><p>Jumps forward a few seconds, depending on the preferences you set in <app>Parlatype</app>.</p></td>
+        </tr>
+        <tr>
+          <td><p its:translate="no">InsertTimestamp</p></td>
+          <td><p>Inserts the current timestamp at the cursor's position. It does not overwrite any selection.</p></td>
+        </tr>
+        <tr>
+          <td><p its:translate="no">InsertTimestampOnNewLine</p></td>
+          <td><p>The same as above, but on a new line.</p></td>
+        </tr>
+        <tr>
+          <td><p its:translate="no">GotoTimestamp</p></td>
+          <td><p>If the cursor is set on a timestamp, it will jump to that position. The cursor has to be somewhere between the two number signs (#). Don't select the timestamp, just put the cursor inside.</p></td>
+        </tr>
+        <tr>
+          <td><p its:translate="no">IncreaseSpeed</p></td>
+          <td><p>Increases playback speed.</p></td>
+        </tr>
+        <tr>
+          <td><p its:translate="no">DecreaseSpeed</p></td>
+          <td><p>Decreases playback speed.</p></td>
+        </tr>
+      </tbody>
+    </table>
+
+</page>

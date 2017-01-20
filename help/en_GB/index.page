@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its" type="guide" style="2column task" id="index" xml:lang="en-GB">
+
+<info>
+<title type="text">Parlatype</title>
+<title type="link">Parlatype</title>
+<credit type="author">
+  <name>Gabor Karsay</name>
+  <email>gabor.karsay@gmx.at</email>
+</credit>
+<include xmlns="http://www.w3.org/2001/XInclude" href="legal.xml"/>
+<desc><app>Parlatype</app> is an easy to use media player. Its main purpose is to help you when transcribing speech.</desc>
+
+</info>
+
+<title><media type="image" mime="image/png" src="figures/parlatype-icon.png" its:translate="no"/> Parlatype</title>
+
+<p><app>Parlatype</app> is an easy to use media player. Its main purpose is to help you when transcribing speech.</p>
+<p>For a quick overview, have a look at <link xref="first-steps"/>. Other topics are covered below.</p>
+
+<section id="topics" style="2column">
+  <title>Help topics</title>
+</section>
+
+</page>

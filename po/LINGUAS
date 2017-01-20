@@ -1,2 +1,7 @@
+# Don't forget about /libparlatype/po/LINGUAS and /help/Makefile.am
+# Note: he is empty right now, it's here to test right to left layout.
+# Please keep this list sorted alphabetically.
+#
 de
+en_GB
 he

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="selections" xml:lang="en-GB">
+<info>
+  <link type="guide" xref="index#topics"/>
+  <desc>How to play and repeat a selection</desc>
+  <credit type="author">
+    <name>Gabor Karsay</name>
+    <email>gabor.karsay@gmx.at</email>
+  </credit>
+  <include xmlns="http://www.w3.org/2001/XInclude" href="legal.xml"/>
+</info>
+
+<title>Selections</title>
+
+<p>You can select a piece of the waveform with the mouse. Next time you press <gui>Play</gui>, it will play the selection only. When it is finished and you press <gui>Play</gui> again, it will loop the selection once.</p>
+
+<note><p>When in selection mode, you cannot exit the selection anymore until you deselect it.</p></note>
+
+<p>Selections can be made with the mouse (or pointer device) with a left click, holding the mouse button and dragging the pointer. If you click with <key>Shift</key> key pressed, an already existing selection will be enlarged to that point.</p>
+
+<p>To deselect click once with the left button into the waveform. If the waveform has keyboard focus, you can press <key>Escape</key>.</p>
+
+</page>

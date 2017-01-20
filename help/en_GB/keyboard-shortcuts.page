@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="keyboard-shortcuts" xml:lang="en-GB">
+<info>
+  <link type="guide" xref="index#topics"/>
+  <desc>Standard keyboard shortcuts in Parlatype</desc>
+  <credit type="author">
+    <name>Gabor Karsay</name>
+    <email>gabor.karsay@gmx.at</email>
+  </credit>
+  <include xmlns="http://www.w3.org/2001/XInclude" href="legal.xml"/>
+</info>
+
+<title>Keyboard shortcuts</title>
+
+<p>Keyboard shortcuts for <app>Parlatype</app> control, like <key>Play</key>, are described in <link xref="control"/>. Shortcut keys for the window are listed below.</p>
+
+    <table rules="rows" frame="top bottom">
+    <title>Standard Shortcut keys</title>
+      <thead>
+        <tr>
+          <td><p>To Do This</p></td>
+          <td><p>Press This</p></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><p>Show help</p></td>
+          <td><p><key>F1</key></p></td>
+        </tr>
+        <tr>
+          <td><p>Open file</p></td>
+          <td><p><keyseq><key>Ctrl</key><key>o</key></keyseq></p></td>
+        </tr>
+        <tr>
+          <td><p>Open recent files</p></td>
+          <td><p><keyseq><key>Ctrl</key><key>r</key></keyseq></p></td>
+        </tr>
+        <tr>
+          <td><p>Go to…</p></td>
+          <td><p><keyseq><key>Ctrl</key><key>g</key></keyseq></p></td>
+        </tr>
+        <tr>
+          <td><p>Copy timestamp</p></td>
+          <td><p><keyseq><key>Ctrl</key><key>c</key></keyseq></p></td>
+        </tr>
+        <tr>
+          <td><p>Insert timestamp</p></td>
+          <td><p><keyseq><key>Ctrl</key><key>v</key></keyseq></p></td>
+        </tr>
+        <tr>
+          <td><p>Quit</p></td>
+          <td><p><keyseq><key>Ctrl</key><key>q</key></keyseq></p></td>
+        </tr>
+      </tbody>
+    </table>
+
+</page>
