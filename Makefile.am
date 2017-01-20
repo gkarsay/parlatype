@@ -7,6 +7,7 @@ EXTRA_DIST = \
 	COPYING_CCBYSA	\
 	README.md
 
+CLEANFILES = libparlatype/docs/reference/*.bak
 DISTCLEANFILES = `find . -mindepth 1 -iname "*~"`
 
 # Distcheck flags for libparlatype:
