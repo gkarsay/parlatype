@@ -153,7 +153,7 @@ update_time (PtWindow *win)
 
 	g_object_set (win->priv->waveviewer,
 		      "playback-cursor",
-		      pt_player_wave_pos (win->priv->player),
+		      pt_player_get_position (win->priv->player),
 		      NULL);
 
 	return TRUE;

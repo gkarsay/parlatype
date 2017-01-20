@@ -50,7 +50,7 @@ def button_toggled (button):
 
 """ In this timeout callback we update cursor position and time label. """
 def update_cursor ():
-	viewer.set_property("playback-cursor", player.wave_pos())
+	viewer.set_property("playback-cursor", player.get_position())
 	text = player.get_current_time_string(Pt.PrecisionType.SECOND_10TH)
 	# Sometimes the position can't be retrieved and None is returned.
 	if (text):

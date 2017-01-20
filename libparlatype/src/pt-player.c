@@ -956,26 +956,6 @@ pt_player_get_duration (PtPlayer *player)
 /* ------------------------- Waveform stuff --------------------------------- */
 
 /**
- * pt_player_wave_pos:
- * @player: a #PtPlayer
- *
- * Translates the current position in stream into a sample number that can be
- * used by a wave viewer widget.
- *
- * Return value: index of the data array
- */
-gint64
-pt_player_wave_pos (PtPlayer *player)
-{
-	gint64 pos;
-
-	if (!pt_player_query_position (player, &pos))
-		return 0;
-
-	return GST_TIME_AS_MSECONDS (pos);
-}
-
-/**
  * pt_player_get_data:
  * @player: a #PtPlayer
  * @pps: the requested pixel per second ratio
