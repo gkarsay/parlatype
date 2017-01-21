@@ -120,6 +120,9 @@ pt_goto_dialog_init (PtGotoDialog *dlg)
 	gtk_widget_init_template (GTK_WIDGET (dlg));
 
 	dlg->priv->max = 0;
+
+	/* make sure seconds label is set and translated */
+	value_changed_cb (GTK_SPIN_BUTTON (dlg->priv->spin), dlg);
 }
 
 static void

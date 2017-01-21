@@ -159,6 +159,11 @@ pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 			get_pps, set_pps,
 			NULL, NULL);
 
+	/* make sure labels are set and translated */
+	spin_back_changed_cb (GTK_SPIN_BUTTON (dlg->priv->spin_back), dlg);
+	spin_forward_changed_cb (GTK_SPIN_BUTTON (dlg->priv->spin_forward), dlg);
+	spin_pause_changed_cb (GTK_SPIN_BUTTON (dlg->priv->spin_pause), dlg);
+
 #if GTK_CHECK_VERSION(3,12,0)
 #else
 	gtk_dialog_add_button (GTK_DIALOG (dlg), _("_Close"), -6);
