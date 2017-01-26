@@ -46,7 +46,7 @@ recent_cb (GSimpleAction *action,
 {
 	GtkWidget	 *dialog;
 	GtkWindow	 *win;
-	GtkRecentInfo	 *info;
+	GtkRecentInfo	 *info = NULL;
 	GtkRecentChooser *chooser;
 	GtkRecentFilter  *filter;
 	GtkRecentFilter  *filter_all;
@@ -78,7 +78,8 @@ recent_cb (GSimpleAction *action,
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
 		chooser = GTK_RECENT_CHOOSER (dialog);
 		info = gtk_recent_chooser_get_current_item (chooser);
-		uri = gtk_recent_info_get_uri (info);
+		if (info)
+			uri = gtk_recent_info_get_uri (info);
 	}
 
 	gtk_widget_destroy (dialog);
