@@ -138,7 +138,7 @@ const GActionEntry win_actions[] = {
 	{ "goto", goto_position, NULL, NULL, NULL }
 };
 
-static gboolean
+static void
 update_time (PtWindow *win)
 {
 	gchar *text;
@@ -146,7 +146,7 @@ update_time (PtWindow *win)
 	text = pt_player_get_current_time_string (win->priv->player, PT_PRECISION_SECOND_10TH);
 
 	if (text == NULL)
-		return TRUE;
+		return;
 
 	gtk_label_set_text (GTK_LABEL (win->priv->pos_label), text);
 	g_free (text);
@@ -155,8 +155,16 @@ update_time (PtWindow *win)
 		      "playback-cursor",
 		      pt_player_get_position (win->priv->player),
 		      NULL);
+}
 
-	return TRUE;
+static gboolean
+update_time_tick (GtkWidget     *widget,
+	                GdkFrameClock *frame_clock,
+	                gpointer       data)
+{
+	PtWindow *win = (PtWindow *) data;
+	update_time (win);
+	return G_SOURCE_CONTINUE;
 }
 
 void
@@ -196,7 +204,11 @@ static void
 add_timer (PtWindow *win)
 {
 	if (win->priv->timer == 0) {
-		win->priv->timer = g_timeout_add (10, (GSourceFunc) update_time, win);
+		win->priv->timer = gtk_widget_add_tick_callback (
+						win->priv->waveviewer,
+						update_time_tick,
+						win,
+						NULL);
 	}
 }
 
@@ -204,7 +216,8 @@ static void
 remove_timer (PtWindow *win)
 {
 	if (win->priv->timer > 0) {
-		g_source_remove (win->priv->timer);
+		gtk_widget_remove_tick_callback (win->priv->waveviewer,
+						 win->priv->timer);
 		win->priv->timer = 0;
 	}
 }
