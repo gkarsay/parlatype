@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.4.1\n"
-"POT-Creation-Date: 2017-01-16 21:18+0100\n"
+"POT-Creation-Date: 2017-01-26 22:49+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -694,20 +694,13 @@ msgid ""
 "the number signs."
 msgstr ""
 
-#. (itstool) path: page/p
-#: C/timestamps.page:22
-msgid ""
-"The easiest way to use them in <app>LibreOffice</app> are <app>Parlatype's</"
-"app> own <link xref=\"libreoffice-helpers\"/>."
-msgstr ""
-
 #. (itstool) path: section/title
-#: C/timestamps.page:25
+#: C/timestamps.page:23
 msgid "Drag and drop"
 msgstr ""
 
 #. (itstool) path: section/p
-#: C/timestamps.page:27
+#: C/timestamps.page:25
 msgid ""
 "If you select the timestamp in the word processor, you can drag and drop it "
 "on the <app>Parlatype</app> window and it will go to that position. This is "
@@ -716,12 +709,12 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: section/title
-#: C/timestamps.page:31
+#: C/timestamps.page:29
 msgid "Using the clipboard"
 msgstr ""
 
 #. (itstool) path: section/p
-#: C/timestamps.page:33
+#: C/timestamps.page:31
 msgid ""
 "First make sure, the <app>Parlatype</app> window has focus. With the key "
 "sequence <keyseq><key>Ctrl</key><key>c</key></keyseq> the current timestamp "
@@ -730,7 +723,7 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: section/p
-#: C/timestamps.page:34
+#: C/timestamps.page:32
 msgid ""
 "To go to a timestamp position, copy the timestamp in the word processor to "
 "the clipboard. Once you have changed focus to <app>Parlatype</app> press "
