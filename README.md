@@ -29,7 +29,7 @@ Parlatype ships its own library, libparlatype. Developers might be interested in
 * `--enable-gtk-doc`: install library documentation (default: no)
 * `--enable-introspection`: install gobject introspection (default: yes)
 * `--enable-glade-catalog`: install a glade catalog (default: no)
-* `--with-lo`: install LibreOffice macros (default: yes)
+* `--with-libreoffice`: install LibreOffice macros (default: yes)
 
 If you want the program only, you would use `--prefix=/usr --disable-introspection`.
 
@@ -58,7 +58,7 @@ $ sudo make install
 ### LibreOffice helpers
 The LibreOffice helpers/macros are installed together with Parlatype. However, this works only fine with `--prefix=/usr`. If you use a different prefix, it’s recommended to
 ```
-$ ./configure --without-lo
+$ ./configure --without-libreoffice
 ```
 In this case, please copy the macros manually:
 ```

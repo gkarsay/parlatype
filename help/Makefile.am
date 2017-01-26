@@ -20,7 +20,7 @@ HELP_FILES = 					\
 	selections.page				\
 	timestamps.page
 
-if LO
+if LIBREOFFICE
 HELP_MEDIA +=					\
 	figures/lo-customize.png		\
 	figures/lo-menu.png

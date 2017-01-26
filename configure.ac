@@ -41,13 +41,13 @@ PKG_CHECK_MODULES([GTK], [gtk+-3.0 >= $GTK_MIN_VERSION, gmodule-2.0])
 WARNINGCFLAGS="-Wall"
 AC_SUBST([WARNINGCFLAGS])
 
-AC_ARG_WITH([lo],
-            [AS_HELP_STRING([--without-lo],
+AC_ARG_WITH([libreoffice],
+            [AS_HELP_STRING([--without-libreoffice],
               [don't install LibreOffice macros])],
             [],
-            [with_lo=yes])
+            [with_libreoffice=yes])
 
-AM_CONDITIONAL([LO], [test "$with_lo" = "yes"])
+AM_CONDITIONAL([LIBREOFFICE], [test "$with_libreoffice" = "yes"])
 
 # needed?
 GTK_DOC_CHECK([1.14],[--flavour no-tmpl])
@@ -70,12 +70,12 @@ echo "
         Parlatype $VERSION
         ==========================
 
-	with-lo ............: $with_lo
+	with-libreoffice ...: $with_libreoffice
 "
 
-if test "${prefix}" != "/usr" -a "$with_lo" == "yes"; then
+if test "${prefix}" != "/usr" -a "$with_libreoffice" == "yes"; then
 echo "
-        Note: Consider using --without-lo for prefixes
+        Note: Consider using --without-libreoffice for prefixes
         other than /usr and copying the script manually to:
         /usr/lib/libreoffice/share/Scripts/python/Parlatype.py"
 fi

@@ -1,6 +1,6 @@
 lodir = $(prefix)/lib/libreoffice/share/Scripts/python
 
-if LO
+if LIBREOFFICE
 dist_lo_DATA = Parlatype.py
 endif
 
