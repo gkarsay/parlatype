@@ -19,8 +19,6 @@
 <p>Timestamps look like this: #03:45.2#. You can select them with or without the number signs.</p>
 </note>
 
-<p>The easiest way to use them in <app>LibreOffice</app> are <app>Parlatype's</app> own <link xref="libreoffice-helpers" />.</p>
-
 <section id="timestamps-dnd">
 <title>Drag and drop</title>
 
