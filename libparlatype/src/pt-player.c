@@ -118,6 +118,12 @@ static void
 pt_player_seek (PtPlayer *player,
 		gint64    position)
 {
+	/* Set the pipeline to @position.
+	   The stop position (player->priv->segend) usually doesn't has to be
+	   set, but it's important after a segment/selection change and after
+	   a rewind (trickmode) has been completed. To simplify things, we
+	   always set the stop position. */
+
 	gst_element_seek (
 		player->priv->pipeline,
 		player->priv->speed,
@@ -125,8 +131,8 @@ pt_player_seek (PtPlayer *player,
 		GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE,
 		GST_SEEK_TYPE_SET,
 		position,
-		GST_SEEK_TYPE_NONE,
-		-1);
+		GST_SEEK_TYPE_SET,
+		player->priv->segend);
 
 	/* Block until state changed */
 	gst_element_get_state (
@@ -614,21 +620,7 @@ pt_player_set_selection (PtPlayer *player,
 	if (pos < player->priv->segstart || pos > player->priv->segend)
 		pos = player->priv->segstart;
 
-	gst_element_seek (
-		player->priv->pipeline,
-		player->priv->speed,
-		GST_FORMAT_TIME,
-		GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE,
-		GST_SEEK_TYPE_SET,
-		pos,
-		GST_SEEK_TYPE_SET,
-		player->priv->segend);
-
-	/* Block until state changed */
-	gst_element_get_state (
-		player->priv->pipeline,
-		NULL, NULL,
-		GST_CLOCK_TIME_NONE);
+	pt_player_seek (player, pos);
 }
 
 /**
@@ -650,15 +642,7 @@ pt_player_clear_selection (PtPlayer *player)
 	player->priv->segstart = 0;
 	player->priv->segend = player->priv->dur;
 
-	gst_element_seek (
-		player->priv->pipeline,
-		player->priv->speed,
-		GST_FORMAT_TIME,
-		GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE,
-		GST_SEEK_TYPE_SET,
-		pos,
-		GST_SEEK_TYPE_SET,
-		-1);
+	pt_player_seek (player, pos);
 }
 
 /**
@@ -666,33 +650,52 @@ pt_player_clear_selection (PtPlayer *player)
  * @player: a #PtPlayer
  * @speed: the speed
  *
- * Rewinds at the given speed.
+ * Rewinds at the given speed. @speed accepts positive as well as negative
+ * values and normalizes them to play backwards.
+ *
+ * <note><para>This is only available with GStreamer >= 1.6.3 (because of
+ * https://bugzilla.gnome.org/show_bug.cgi?id=757033).</para>
+ * <para>If you call this with an older version of GStreamer, it will only
+ * print a warning to standard output.</para>
+ * <para>Note that depending on the file/stream format this works more or less
+ * good.</para></note>
  */
 void
 pt_player_rewind (PtPlayer *player,
 		  gdouble   speed)
 {
-	/* FIXME Doesn't work at all!!! */
-	/* Maybe because of: https://bugzilla.gnome.org/show_bug.cgi?id=757033 */
-
+#if GST_CHECK_VERSION(1,6,3)
 	g_return_if_fail (PT_IS_PLAYER (player));
+	g_return_if_fail (speed != 0);
 
 	gint64 pos;
 
 	if (!pt_player_query_position (player, &pos))
 		return;
 
+	if (speed > 0)
+		speed = speed * -1;
+
 	gst_element_seek (
 		player->priv->pipeline,
-		-1.0,
+		speed,
 		GST_FORMAT_TIME,
-		GST_SEEK_FLAG_SKIP,
-		GST_SEEK_TYPE_NONE,
-		0,
+		GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_TRICKMODE,
+		GST_SEEK_TYPE_SET,
+		player->priv->segstart,
 		GST_SEEK_TYPE_SET,
 		pos);
 
+	/* Block until state changed */
+	gst_element_get_state (
+		player->priv->pipeline,
+		NULL, NULL,
+		GST_CLOCK_TIME_NONE);
+
 	pt_player_play (player);
+#else
+	g_warning ("pt_player_rewind() is not available on this system");
+#endif
 }
 
 /**
@@ -701,12 +704,18 @@ pt_player_rewind (PtPlayer *player,
  * @speed: the speed
  *
  * Play fast forward at the given speed.
+ * <note><para>This is only available with GStreamer >= 1.6.3 (because rewind
+ * is working properly with that version).</para>
+ * <para>If you call this with an older version of GStreamer, it will only
+ * print a warning to standard output.</para></note>
  */
 void
 pt_player_fast_forward (PtPlayer *player,
 			gdouble   speed)
 {
+#if GST_CHECK_VERSION(1,6,3)
 	g_return_if_fail (PT_IS_PLAYER (player));
+	g_return_if_fail (speed > 0);
 
 	gint64 pos;
 
@@ -717,13 +726,22 @@ pt_player_fast_forward (PtPlayer *player,
 		player->priv->pipeline,
 		speed,
 		GST_FORMAT_TIME,
-		GST_SEEK_FLAG_SKIP,
+		GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_TRICKMODE,
 		GST_SEEK_TYPE_SET,
 		pos,
-		GST_SEEK_TYPE_NONE,
-		-1);
+		GST_SEEK_TYPE_SET,
+		player->priv->segend);
+
+	/* Block until state changed */
+	gst_element_get_state (
+		player->priv->pipeline,
+		NULL, NULL,
+		GST_CLOCK_TIME_NONE);
 
 	pt_player_play (player);
+#else
+	g_warning ("pt_player_fast_forward() is not available on this system");
+#endif
 }
 
 /* -------------------- Positioning, speed, volume -------------------------- */
@@ -869,7 +887,7 @@ pt_player_set_speed (PtPlayer *player,
 		     gdouble   speed)
 {
 	g_return_if_fail (PT_IS_PLAYER (player));
-	g_return_if_fail (speed >= 0);
+	g_return_if_fail (speed > 0);
 
 	gint64 pos;
 
