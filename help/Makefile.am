@@ -29,4 +29,4 @@ HELP_FILES +=					\
 	libreoffice-helpers.page
 endif
 
-HELP_LINGUAS = de en_GB he it ku
+HELP_LINGUAS = de en_GB he id it ku
