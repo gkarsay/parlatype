@@ -103,8 +103,8 @@ void		pt_player_rewind		(PtPlayer *player,
 						 gdouble   speed);
 void		pt_player_fast_forward		(PtPlayer *player,
 						 gdouble   speed);
-gint		pt_player_get_position		(PtPlayer *player);
-gint		pt_player_get_duration		(PtPlayer *player);
+gint64		pt_player_get_position		(PtPlayer *player);
+gint64		pt_player_get_duration		(PtPlayer *player);
 gchar*		pt_player_get_uri		(PtPlayer *player);
 gchar*		pt_player_get_filename		(PtPlayer *player);
 gchar*		pt_player_get_time_string	(gint  time,

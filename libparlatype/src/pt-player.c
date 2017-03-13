@@ -945,7 +945,7 @@ pt_player_mute_volume (PtPlayer *player,
  *
  * Return value: position in milliseconds or -1 on failure
  */
-gint
+gint64
 pt_player_get_position (PtPlayer *player)
 {
 	g_return_val_if_fail (PT_IS_PLAYER (player), -1);
@@ -966,7 +966,7 @@ pt_player_get_position (PtPlayer *player)
  *
  * Return value: duration in milliseconds
  */
-gint
+gint64
 pt_player_get_duration (PtPlayer *player)
 {
 	g_return_val_if_fail (PT_IS_PLAYER (player), -1);
