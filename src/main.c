@@ -88,8 +88,10 @@ int main (int argc, char *argv[])
 	g_option_context_set_summary (context, _("Minimal audio player for manual speech transcription"));
         if (!g_option_context_parse (context, &argc, &argv, &error)) {
 		g_printerr ("%s\n", error->message);
+		g_option_context_free (context);
 		return 1;
 	}
+	g_option_context_free (context);
 
 	/* Test the backend */
 	testplayer = pt_player_new (&error);

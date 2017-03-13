@@ -47,7 +47,6 @@ recent_cb (GSimpleAction *action,
 	GtkWidget	 *dialog;
 	GtkWindow	 *win;
 	GtkRecentInfo	 *info = NULL;
-	GtkRecentChooser *chooser;
 	GtkRecentFilter  *filter;
 	GtkRecentFilter  *filter_all;
 	const gchar	 *uri = NULL;
@@ -76,8 +75,7 @@ recent_cb (GSimpleAction *action,
 	gtk_recent_chooser_set_filter (GTK_RECENT_CHOOSER (dialog), filter);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
-		chooser = GTK_RECENT_CHOOSER (dialog);
-		info = gtk_recent_chooser_get_current_item (chooser);
+		info = gtk_recent_chooser_get_current_item (GTK_RECENT_CHOOSER (dialog));
 		if (info)
 			uri = gtk_recent_info_get_uri (info);
 	}

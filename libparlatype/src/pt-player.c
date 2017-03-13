@@ -144,14 +144,17 @@ pt_player_seek (PtPlayer *player,
 static GFile*
 pt_player_get_file (PtPlayer *player)
 {
-	const gchar *location = NULL;
+	gchar *location = NULL;
+	GFile *result = NULL;
 
 	g_object_get (G_OBJECT (player->priv->source), "location", &location, NULL);
 
-	if (location)
-		return g_file_new_for_path (location);
-	else
-		return NULL;
+	if (location) {
+		result = g_file_new_for_path (location);
+		g_free (location);
+	}
+
+	return result;
 }
 
 static void
@@ -165,13 +168,13 @@ metadata_save_position (PtPlayer *player)
 	gint64     pos;
 	gchar	   value[64];
 
+	if (!pt_player_query_position (player, &pos))
+		return;
+
 	file = pt_player_get_file (player);
 	if (!file)
 		return;
 
-	if (!pt_player_query_position (player, &pos))
-		return;
-	
 	pos = pos / GST_MSECOND;
 
 	info = g_file_info_new ();
@@ -192,6 +195,7 @@ metadata_save_position (PtPlayer *player)
 	}
 
 	g_debug ("metadata: position saved");
+	g_object_unref (file);
 	g_object_unref (info);
 }
 

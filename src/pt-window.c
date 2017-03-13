@@ -234,6 +234,7 @@ change_jump_back_tooltip (PtWindow *win)
 			win->priv->back);
 
 	gtk_widget_set_tooltip_text (win->priv->button_jump_back, back);
+	g_free (back);
 }
 
 static void
@@ -248,12 +249,14 @@ change_jump_forward_tooltip (PtWindow *win)
 			win->priv->forward);
 
 	gtk_widget_set_tooltip_text (win->priv->button_jump_forward, forward);
+	g_free (forward);
 }
 
 static void
 change_play_button_tooltip (PtWindow *win)
 {
-	gchar *play;
+	gchar    *play;
+	gboolean  free_me = FALSE;
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->priv->button_play))) {
 		if (win->priv->pause == 0) {
@@ -264,12 +267,15 @@ change_play_button_tooltip (PtWindow *win)
 						  "Pause and rewind %d seconds",
 						  win->priv->pause),
 					win->priv->pause);
+			free_me = TRUE;
 		}
 	} else {
 		play = _("Start playing");
 	}
 
 	gtk_widget_set_tooltip_text (win->priv->button_play, play);
+	if (free_me)
+		g_free (play);
 }
 
 static void
@@ -370,9 +376,13 @@ pt_window_ready_to_play (PtWindow *win,
 			gtk_window_set_title (GTK_WINDOW (win), display_name);
 			g_free (display_name);
 		}
-		gtk_recent_manager_add_item (
-				win->priv->recent,
-				pt_player_get_uri (win->priv->player));
+
+		gchar *uri = NULL;
+		uri = pt_player_get_uri (win->priv->player);
+		if (uri) {
+			gtk_recent_manager_add_item (win->priv->recent, uri);
+			g_free (uri);
+		}
 
 		change_play_button_tooltip (win);
 		change_jump_back_tooltip (win);
@@ -711,6 +721,7 @@ setup_accels_actions_headerbar (PtWindow *win)
 	menu_button = GTK_WIDGET (gtk_builder_get_object (builder, "menu_button"));
 	gtk_window_set_titlebar (GTK_WINDOW (win), hbar);
 	gtk_builder_connect_signals (builder, win);
+	g_object_unref (builder);
 
 	builder = gtk_builder_new_from_resource ("/org/gnome/parlatype/menus.ui");
 	model = G_MENU_MODEL (gtk_builder_get_object (builder, "winmenu"));
