@@ -1287,16 +1287,16 @@ pt_waveviewer_init (PtWaveviewer *self)
 static void
 pt_waveviewer_class_init (PtWaveviewerClass *klass)
 {
-	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
+	GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
+	GtkWidgetClass *widget_class  = GTK_WIDGET_CLASS (klass);
 
 	gobject_class->set_property = pt_waveviewer_set_property;
 	gobject_class->get_property = pt_waveviewer_get_property;
-	gobject_class->constructed = pt_waveviewer_constructed;
-	gobject_class->finalize = pt_waveviewer_finalize;
+	gobject_class->constructed  = pt_waveviewer_constructed;
+	gobject_class->finalize     = pt_waveviewer_finalize;
 
-	gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (klass), "/org/gnome/libparlatype/ptwaveviewer.ui");
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWaveviewer, drawarea);
+	gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/libparlatype/ptwaveviewer.ui");
+	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, drawarea);
 	widget_class->state_flags_changed = pt_waveviewer_state_flags_changed;
 
 
@@ -1450,7 +1450,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
 	g_object_class_install_properties (
-			G_OBJECT_CLASS (klass),
+			gobject_class,
 			N_PROPERTIES,
 			obj_properties);
 }
