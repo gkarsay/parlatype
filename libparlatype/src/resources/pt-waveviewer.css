@@ -1,12 +1,9 @@
 /* custom styles for PtWaveviewer */
 
 /* colors for focused widget */
-@define-color wave_color @theme_fg_color;
 @define-color ruler_color @theme_bg_color;
-@define-color mark_color @theme_unfocused_fg_color;
 
 /* colors for unfocused widget */
-@define-color wave_color_uf @theme_unfocused_fg_color;
 @define-color ruler_color_uf @theme_unfocused_bg_color;
 
 .cursor {
