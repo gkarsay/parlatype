@@ -165,10 +165,18 @@ help_cb (GSimpleAction *action,
 	GError *error = NULL;
 	gchar  *errmsg;
 
+#if GTK_CHECK_VERSION(3,22,0)
+	gtk_show_uri_on_window (
+			win,
+			"help:parlatype",
+			GDK_CURRENT_TIME,
+			&error);
+#else
 	gtk_show_uri (gtk_widget_get_screen (GTK_WIDGET (win)),
 	              "help:parlatype",
 	              GDK_CURRENT_TIME,
 	              &error);
+#endif
 
 	if (error) {
 		/* Translators: %s is a detailed error message */
