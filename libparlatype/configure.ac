@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([libparlatype], [1.4.1], [gabor.karsay@gmx.at])
+AC_INIT([libparlatype], [1.5], [gabor.karsay@gmx.at])
 AC_CONFIG_AUX_DIR([.])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign -Wno-portability])
 AC_CONFIG_SRCDIR([src/pt-player.c])
@@ -18,7 +18,7 @@ LT_INIT([disable-static])
 # For information on how to properly maintain the library version information,
 # refer to the libtool manual, section "Updating library version information":
 # http://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html
-AC_SUBST([PARLATYPE_SO_VERSION], [0:1:0])
+AC_SUBST([PARLATYPE_SO_VERSION], [1:0:0])
 
 # Parlatype is unstable, we don't use API version yet
 AC_SUBST([PARLATYPE_API_VERSION], [1.0])
