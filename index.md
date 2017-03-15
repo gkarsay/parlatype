@@ -32,7 +32,9 @@ Parlatype can start on top of other windows. If you are working with a maximized
 Parlatype is easy to use nevertheless everything is documented in the help pages.
 
 ## International
-The user interface is fully translatable. Currently there is an English and a German version. Any help in translations is welcome! Parlatype is translated at [https://translations.launchpad.net/parlatype](https://translations.launchpad.net/parlatype).
+The user interface is fully translatable. Currently the program (without help pages) is available fully or almost fully translated in English, British English, Catalan, French, German, Indonesian, Italian and Spanish. It's partly translated into Malay, Kurdish, Portuguese, Kabyle and Latvian.
+
+Any help in translations is welcome! Parlatype is translated at [https://translations.launchpad.net/parlatype](https://translations.launchpad.net/parlatype).
 
 ## For developers
 Parlatype ships its own library, libparlatype, which provides a GStreamer backend (PtPlayer) and a waveviewer widget (PtWaveviewer) which is a GtkWidget. It is fully documented, however the API is not stable yet.
