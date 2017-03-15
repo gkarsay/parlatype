@@ -29,7 +29,7 @@ Parlatype can be controlled with the “Play” button from your multimedia keyb
 Parlatype can start on top of other windows. If you are working with a maximized text application, you can still see the Parlatype window.
 
 ## Help pages
-Parlatype is easy to use nevertheless everything is documented in the help pages.
+Parlatype is easy to use nevertheless everything is documented in the help pages. You can see the [English help online](help-online/index.html).
 
 ## International
 The user interface is fully translatable. Currently the program (without help pages) is available fully or almost fully translated in English, British English, Catalan, French, German, Indonesian, Italian and Spanish. It's partly translated into Malay, Kurdish, Portuguese, Kabyle and Latvian.
