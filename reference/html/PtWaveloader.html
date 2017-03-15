@@ -1,0 +1,418 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Parlatype Reference Manual: PtWaveloader</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="index.html" title="Parlatype Reference Manual">
+<link rel="up" href="pt04.html" title="Part IV. Internals: Get Wavedata">
+<link rel="prev" href="PtWavedata.html" title="PtWavedata">
+<link rel="next" href="object-tree.html" title="Object Hierarchy">
+<meta name="generator" content="GTK-Doc V1.21 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="5"><tr valign="middle">
+<td width="100%" align="left" class="shortcuts">
+<a href="#" class="shortcut">Top</a><span id="nav_description">  <span class="dim">|</span> 
+                  <a href="#PtWaveloader.description" class="shortcut">Description</a></span><span id="nav_hierarchy">  <span class="dim">|</span> 
+                  <a href="#PtWaveloader.object-hierarchy" class="shortcut">Object Hierarchy</a></span><span id="nav_properties">  <span class="dim">|</span> 
+                  <a href="#PtWaveloader.properties" class="shortcut">Properties</a></span><span id="nav_signals">  <span class="dim">|</span> 
+                  <a href="#PtWaveloader.signals" class="shortcut">Signals</a></span>
+</td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
+<td><a accesskey="u" href="pt04.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
+<td><a accesskey="p" href="PtWavedata.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
+<td><a accesskey="n" href="object-tree.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
+</tr></table>
+<div class="refentry">
+<a name="PtWaveloader"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="PtWaveloader.top_of_page"></a>PtWaveloader</span></h2>
+<p>PtWaveloader — Loads the waveform for a given file.</p>
+</td>
+<td class="gallery_image" valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsect1">
+<a name="PtWaveloader.stability-level"></a><h2>Stability Level</h2>
+<acronym title="Unstable interfaces are experimental or transitional. They are typically used to
+give outside developers early access to new or rapidly changing technology, or
+to provide an interim solution to a problem where a more general solution is
+anticipated. No claims are made about either source or binary compatibility from
+one minor release to the next.
+
+The Unstable interface level is a warning that these interfaces are  subject to
+change without warning and should not be used in unbundled products.
+
+Given such caveats, customer impact need not be a factor when considering
+incompatible changes to an Unstable interface in a major or minor release.
+Nonetheless, when such changes are introduced, the changes should still be
+mentioned in the release notes for the affected release.
+"><span class="acronym">Unstable</span></acronym>, unless otherwise indicated
+</div>
+<div class="refsect1">
+<a name="PtWaveloader.functions"></a><h2>Functions</h2>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="functions_return">
+<col class="functions_name">
+</colgroup>
+<tbody>
+<tr>
+<td class="function_type">
+<a class="link" href="PtWaveloader.html" title="PtWaveloader"><span class="returnvalue">PtWaveloader</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="PtWaveloader.html#pt-waveloader-new" title="pt_waveloader_new ()">pt_waveloader_new</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="PtWaveloader.html#pt-waveloader-load-finish" title="pt_waveloader_load_finish ()">pt_waveloader_load_finish</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="PtWaveloader.html#pt-waveloader-load-async" title="pt_waveloader_load_async ()">pt_waveloader_load_async</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">gint64</span>
+</td>
+<td class="function_name">
+<a class="link" href="PtWaveloader.html#pt-waveloader-get-duration" title="pt_waveloader_get_duration ()">pt_waveloader_get_duration</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="PtWavedata.html" title="PtWavedata"><span class="returnvalue">PtWavedata</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="PtWaveloader.html#pt-waveloader-get-data" title="pt_waveloader_get_data ()">pt_waveloader_get_data</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="PtWaveloader.properties"></a><h2>Properties</h2>
+<div class="informaltable"><table border="0">
+<colgroup>
+<col width="150px" class="properties_type">
+<col width="300px" class="properties_name">
+<col width="200px" class="properties_flags">
+</colgroup>
+<tbody><tr>
+<td class="property_type">
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<td class="property_name"><a class="link" href="PtWaveloader.html#PtWaveloader--uri" title="The “uri” property">uri</a></td>
+<td class="property_flags">Read / Write / Construct</td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="PtWaveloader.signals"></a><h2>Signals</h2>
+<div class="informaltable"><table border="0">
+<colgroup>
+<col width="150px" class="signals_return">
+<col width="300px" class="signals_name">
+<col width="200px" class="signals_flags">
+</colgroup>
+<tbody><tr>
+<td class="signal_type"><span class="returnvalue">void</span></td>
+<td class="signal_name"><a class="link" href="PtWaveloader.html#PtWaveloader-progress" title="The “progress” signal">progress</a></td>
+<td class="signal_flags">Run First</td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="PtWaveloader.other"></a><h2>Types and Values</h2>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="name">
+<col class="description">
+</colgroup>
+<tbody><tr>
+<td class="datatype_keyword">struct</td>
+<td class="function_name"><a class="link" href="PtWaveloader.html#PtWaveloader-struct" title="struct PtWaveloader">PtWaveloader</a></td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="PtWaveloader.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="screen">    <a href="../gobject/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+    <span class="lineart">╰──</span> PtWaveloader
+</pre>
+</div>
+<div class="refsect1">
+<a name="PtWaveloader.includes"></a><h2>Includes</h2>
+<pre class="synopsis">#include &lt;parlatype/pt-waveloader.h&gt;
+</pre>
+</div>
+<div class="refsect1">
+<a name="PtWaveloader.description"></a><h2>Description</h2>
+<p>An object to load waveform data from an audio file. The raw data can be
+used by a widget to visually represent a waveform.</p>
+</div>
+<div class="refsect1">
+<a name="PtWaveloader.functions_details"></a><h2>Functions</h2>
+<div class="refsect2">
+<a name="pt-waveloader-new"></a><h3>pt_waveloader_new ()</h3>
+<pre class="programlisting"><a class="link" href="PtWaveloader.html" title="PtWaveloader"><span class="returnvalue">PtWaveloader</span></a> *
+pt_waveloader_new (<em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *uri</code></em>);</pre>
+<p>Returns a new <a class="link" href="PtWaveloader.html" title="PtWaveloader"><span class="type">PtWaveloader</span></a>. The <em class="parameter"><code>uri</code></em>
+ is not checked on construction, but
+calling <a class="link" href="PtWaveloader.html#pt-waveloader-load-async" title="pt_waveloader_load_async ()"><code class="function">pt_waveloader_load_async()</code></a> will fail with an error message.</p>
+<p>After use <a href="../gobject/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a> it.</p>
+<div class="refsect3">
+<a name="id-1.5.3.11.2.6"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>uri</p></td>
+<td class="parameter_description"><p>URI of the audio file to load</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.5.3.11.2.7"></a><h4>Returns</h4>
+<p> a new <a class="link" href="PtWaveloader.html" title="PtWaveloader"><span class="type">PtWaveloader</span></a>. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-waveloader-load-finish"></a><h3>pt_waveloader_load_finish ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+pt_waveloader_load_finish (<em class="parameter"><code><a class="link" href="PtWaveloader.html" title="PtWaveloader"><span class="type">PtWaveloader</span></a> *wl</code></em>,
+                           <em class="parameter"><code><a href="../gio/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
+                           <em class="parameter"><code><a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>Gives the result of the async load operation. A cancelled operation results
+in an error, too.</p>
+<div class="refsect3">
+<a name="id-1.5.3.11.3.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>wl</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtWaveloader.html" title="PtWaveloader"><span class="type">PtWaveloader</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>result</p></td>
+<td class="parameter_description"><p>the <a href="../gio/GAsyncResult.html"><span class="type">GAsyncResult</span></a> passed to your <a href="../gio/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>error</p></td>
+<td class="parameter_description"><p>a pointer to a NULL <a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>, or NULL</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.5.3.11.3.6"></a><h4>Returns</h4>
+<p> TRUE if successful, or FALSE with error set</p>
+<p></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-waveloader-load-async"></a><h3>pt_waveloader_load_async ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+pt_waveloader_load_async (<em class="parameter"><code><a class="link" href="PtWaveloader.html" title="PtWaveloader"><span class="type">PtWaveloader</span></a> *wl</code></em>,
+                          <em class="parameter"><code><a href="../gio/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                          <em class="parameter"><code><a href="../gio/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                          <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+<p>Writes the raw sample data to a temporary file and also gets the number of
+channels, the bit rate and the exact duration. Load only once and on success
+the data can be retrieved as a <a class="link" href="PtWavedata.html" title="PtWavedata"><span class="type">PtWavedata</span></a>. It's a programmer's error trying
+to retrieve the data without prior loading.</p>
+<p>Emits a progress signal while saving the temporary file.</p>
+<p>In your callback call <a class="link" href="PtWaveloader.html#pt-waveloader-load-finish" title="pt_waveloader_load_finish ()"><span class="type">pt_waveloader_load_finish</span></a> to get the result of the
+operation.</p>
+<div class="refsect3">
+<a name="id-1.5.3.11.4.7"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>wl</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtWaveloader.html" title="PtWaveloader"><span class="type">PtWaveloader</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>cancellable</p></td>
+<td class="parameter_description"><p>a <a href="../gio/GCancellable.html"><span class="type">GCancellable</span></a> or NULL</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>callback</p></td>
+<td class="parameter_description"><p>a <a href="../gio/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> to call when the operation is complete</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>user_data</p></td>
+<td class="parameter_description"><p>user_data for callback</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-waveloader-get-duration"></a><h3>pt_waveloader_get_duration ()</h3>
+<pre class="programlisting"><span class="returnvalue">gint64</span>
+pt_waveloader_get_duration (<em class="parameter"><code><a class="link" href="PtWaveloader.html" title="PtWaveloader"><span class="type">PtWaveloader</span></a> *wl</code></em>);</pre>
+<p>Returns the duration of stream. As the whole stream is scanned, this is
+supposed to be an exact duration, not an estimate.</p>
+<div class="refsect3">
+<a name="id-1.5.3.11.5.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>wl</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtWaveloader.html" title="PtWaveloader"><span class="type">PtWaveloader</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.5.3.11.5.6"></a><h4>Returns</h4>
+<p> duration in nanoseconds as used by GStreamer</p>
+<p></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-waveloader-get-data"></a><h3>pt_waveloader_get_data ()</h3>
+<pre class="programlisting"><a class="link" href="PtWavedata.html" title="PtWavedata"><span class="returnvalue">PtWavedata</span></a> *
+pt_waveloader_get_data (<em class="parameter"><code><a class="link" href="PtWaveloader.html" title="PtWaveloader"><span class="type">PtWaveloader</span></a> *wl</code></em>,
+                        <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a> pps</code></em>);</pre>
+<p>Returns wave data needed for visual representation as raw data. The
+requested resolution is given as pixel per seconds, e.g. 100 means one second
+is represented by 100 samples, is 100 pixels wide. The returned resolution
+doesn't have to be necessarily exactly the requested resolution, it might be
+a bit differnt, depending on the bit rate.</p>
+<div class="refsect3">
+<a name="id-1.5.3.11.6.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>wl</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtWaveloader.html" title="PtWaveloader"><span class="type">PtWaveloader</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>pps</p></td>
+<td class="parameter_description"><p>the requested pixel per second ratio</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.5.3.11.6.6"></a><h4>Returns</h4>
+<p> the <a class="link" href="PtWavedata.html" title="PtWavedata"><span class="type">PtWavedata</span></a>, after use free with <a class="link" href="PtWavedata.html#pt-wavedata-free" title="pt_wavedata_free ()"><code class="function">pt_wavedata_free()</code></a>. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+</div>
+<div class="refsect1">
+<a name="PtWaveloader.other_details"></a><h2>Types and Values</h2>
+<div class="refsect2">
+<a name="PtWaveloader-struct"></a><h3>struct PtWaveloader</h3>
+<pre class="programlisting">struct PtWaveloader;</pre>
+<p>The <a class="link" href="PtWaveloader.html" title="PtWaveloader"><span class="type">PtWaveloader</span></a> contains only private fields and should not be directly accessed.</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="PtWaveloader.property-details"></a><h2>Property Details</h2>
+<div class="refsect2">
+<a name="PtWaveloader--uri"></a><h3>The <code class="literal">“uri”</code> property</h3>
+<pre class="programlisting">  “uri”                      <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<p>URI of the audio file.</p>
+<p>Flags: Read / Write / Construct</p>
+<p>Default value: ""</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="PtWaveloader.signal-details"></a><h2>Signal Details</h2>
+<div class="refsect2">
+<a name="PtWaveloader-progress"></a><h3>The <code class="literal">“progress”</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+user_function (<a class="link" href="PtWaveloader.html" title="PtWaveloader"><span class="type">PtWaveloader</span></a> *wl,
+               <a href="../glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a>       progress,
+               <a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>      user_data)</pre>
+<p>Indicates progress on a scale from 0.0 to 1.0, however it does not
+emit the value 0.0 nor 1.0. Wait for a successful operation until
+any gui element showing progress is dismissed.</p>
+<div class="refsect3">
+<a name="id-1.5.3.14.2.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>wl</p></td>
+<td class="parameter_description"><p>the waveloader emitting the signal</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>progress</p></td>
+<td class="parameter_description"><p>the new progress state, ranging from 0.0 to 1.0</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>user_data</p></td>
+<td class="parameter_description"><p>user data set when the signal handler was connected.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p>Flags: Run First</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.21</div>
+</body>
+</html>

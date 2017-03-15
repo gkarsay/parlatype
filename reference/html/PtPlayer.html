@@ -1,0 +1,1569 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Parlatype Reference Manual: PtPlayer</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="index.html" title="Parlatype Reference Manual">
+<link rel="up" href="pt02.html" title="Part II. Main backend: PtPlayer">
+<link rel="prev" href="pt02.html" title="Part II. Main backend: PtPlayer">
+<link rel="next" href="pt03.html" title="Part III. GtkWidgets">
+<meta name="generator" content="GTK-Doc V1.21 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="5"><tr valign="middle">
+<td width="100%" align="left" class="shortcuts">
+<a href="#" class="shortcut">Top</a><span id="nav_description">  <span class="dim">|</span> 
+                  <a href="#PtPlayer.description" class="shortcut">Description</a></span><span id="nav_hierarchy">  <span class="dim">|</span> 
+                  <a href="#PtPlayer.object-hierarchy" class="shortcut">Object Hierarchy</a></span><span id="nav_interfaces">  <span class="dim">|</span> 
+                  <a href="#PtPlayer.implemented-interfaces" class="shortcut">Implemented Interfaces</a></span><span id="nav_properties">  <span class="dim">|</span> 
+                  <a href="#PtPlayer.properties" class="shortcut">Properties</a></span><span id="nav_signals">  <span class="dim">|</span> 
+                  <a href="#PtPlayer.signals" class="shortcut">Signals</a></span>
+</td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
+<td><a accesskey="u" href="pt02.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
+<td><a accesskey="p" href="pt02.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
+<td><a accesskey="n" href="pt03.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
+</tr></table>
+<div class="refentry">
+<a name="PtPlayer"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="PtPlayer.top_of_page"></a>PtPlayer</span></h2>
+<p>PtPlayer — The GStreamer backend for Parlatype.</p>
+</td>
+<td class="gallery_image" valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsect1">
+<a name="PtPlayer.stability-level"></a><h2>Stability Level</h2>
+<acronym title="Unstable interfaces are experimental or transitional. They are typically used to
+give outside developers early access to new or rapidly changing technology, or
+to provide an interim solution to a problem where a more general solution is
+anticipated. No claims are made about either source or binary compatibility from
+one minor release to the next.
+
+The Unstable interface level is a warning that these interfaces are  subject to
+change without warning and should not be used in unbundled products.
+
+Given such caveats, customer impact need not be a factor when considering
+incompatible changes to an Unstable interface in a major or minor release.
+Nonetheless, when such changes are introduced, the changes should still be
+mentioned in the release notes for the affected release.
+"><span class="acronym">Unstable</span></acronym>, unless otherwise indicated
+</div>
+<div class="refsect1">
+<a name="PtPlayer.functions"></a><h2>Functions</h2>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="functions_return">
+<col class="functions_name">
+</colgroup>
+<tbody>
+<tr>
+<td class="function_type">
+<a class="link" href="PtPlayer.html" title="PtPlayer"><span class="returnvalue">PtPlayer</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="PtPlayer.html#pt-player-new" title="pt_player_new ()">pt_player_new</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="PtPlayer.html#pt-player-open-uri-async" title="pt_player_open_uri_async ()">pt_player_open_uri_async</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="PtPlayer.html#pt-player-open-uri-finish" title="pt_player_open_uri_finish ()">pt_player_open_uri_finish</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="PtPlayer.html#pt-player-open-uri" title="pt_player_open_uri ()">pt_player_open_uri</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="PtPlayer.html#pt-player-cancel" title="pt_player_cancel ()">pt_player_cancel</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="PtPlayer.html#pt-player-play" title="pt_player_play ()">pt_player_play</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="PtPlayer.html#pt-player-pause" title="pt_player_pause ()">pt_player_pause</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="PtPlayer.html#pt-player-set-selection" title="pt_player_set_selection ()">pt_player_set_selection</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="PtPlayer.html#pt-player-clear-selection" title="pt_player_clear_selection ()">pt_player_clear_selection</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="PtPlayer.html#pt-player-jump-relative" title="pt_player_jump_relative ()">pt_player_jump_relative</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="PtPlayer.html#pt-player-jump-to-position" title="pt_player_jump_to_position ()">pt_player_jump_to_position</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="PtPlayer.html#pt-player-jump-to-permille" title="pt_player_jump_to_permille ()">pt_player_jump_to_permille</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="PtPlayer.html#pt-player-get-permille" title="pt_player_get_permille ()">pt_player_get_permille</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="PtPlayer.html#pt-player-set-speed" title="pt_player_set_speed ()">pt_player_set_speed</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="PtPlayer.html#pt-player-set-volume" title="pt_player_set_volume ()">pt_player_set_volume</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="PtPlayer.html#pt-player-mute-volume" title="pt_player_mute_volume ()">pt_player_mute_volume</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="PtPlayer.html#pt-player-rewind" title="pt_player_rewind ()">pt_player_rewind</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="PtPlayer.html#pt-player-fast-forward" title="pt_player_fast_forward ()">pt_player_fast_forward</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">gint64</span>
+</td>
+<td class="function_name">
+<a class="link" href="PtPlayer.html#pt-player-get-position" title="pt_player_get_position ()">pt_player_get_position</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">gint64</span>
+</td>
+<td class="function_name">
+<a class="link" href="PtPlayer.html#pt-player-get-duration" title="pt_player_get_duration ()">pt_player_get_duration</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="PtPlayer.html#pt-player-get-uri" title="pt_player_get_uri ()">pt_player_get_uri</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="PtPlayer.html#pt-player-get-filename" title="pt_player_get_filename ()">pt_player_get_filename</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="PtPlayer.html#pt-player-get-time-string" title="pt_player_get_time_string ()">pt_player_get_time_string</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="PtPlayer.html#pt-player-get-current-time-string" title="pt_player_get_current_time_string ()">pt_player_get_current_time_string</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="PtPlayer.html#pt-player-get-duration-time-string" title="pt_player_get_duration_time_string ()">pt_player_get_duration_time_string</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="PtPlayer.html#pt-player-get-timestamp" title="pt_player_get_timestamp ()">pt_player_get_timestamp</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="PtPlayer.html#pt-player-string-is-timestamp" title="pt_player_string_is_timestamp ()">pt_player_string_is_timestamp</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="PtPlayer.html#pt-player-goto-timestamp" title="pt_player_goto_timestamp ()">pt_player_goto_timestamp</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="PtWavedata.html" title="PtWavedata"><span class="returnvalue">PtWavedata</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="PtPlayer.html#pt-player-get-data" title="pt_player_get_data ()">pt_player_get_data</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="PtPlayer.properties"></a><h2>Properties</h2>
+<div class="informaltable"><table border="0">
+<colgroup>
+<col width="150px" class="properties_type">
+<col width="300px" class="properties_name">
+<col width="200px" class="properties_flags">
+</colgroup>
+<tbody>
+<tr>
+<td class="property_type"><a href="../glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a></td>
+<td class="property_name"><a class="link" href="PtPlayer.html#PtPlayer--speed" title="The “speed” property">speed</a></td>
+<td class="property_flags">Read / Write / Construct</td>
+</tr>
+<tr>
+<td class="property_type"><a href="../glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a></td>
+<td class="property_name"><a class="link" href="PtPlayer.html#PtPlayer--volume" title="The “volume” property">volume</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="PtPlayer.signals"></a><h2>Signals</h2>
+<div class="informaltable"><table border="0">
+<colgroup>
+<col width="150px" class="signals_return">
+<col width="300px" class="signals_name">
+<col width="200px" class="signals_flags">
+</colgroup>
+<tbody>
+<tr>
+<td class="signal_type"><span class="returnvalue">void</span></td>
+<td class="signal_name"><a class="link" href="PtPlayer.html#PtPlayer-end-of-stream" title="The “end-of-stream” signal">end-of-stream</a></td>
+<td class="signal_flags">Run First</td>
+</tr>
+<tr>
+<td class="signal_type"><span class="returnvalue">void</span></td>
+<td class="signal_name"><a class="link" href="PtPlayer.html#PtPlayer-error" title="The “error” signal">error</a></td>
+<td class="signal_flags">Run First</td>
+</tr>
+<tr>
+<td class="signal_type"><span class="returnvalue">void</span></td>
+<td class="signal_name"><a class="link" href="PtPlayer.html#PtPlayer-load-progress" title="The “load-progress” signal">load-progress</a></td>
+<td class="signal_flags">Run First</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="PtPlayer.other"></a><h2>Types and Values</h2>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="name">
+<col class="description">
+</colgroup>
+<tbody>
+<tr>
+<td class="datatype_keyword">struct</td>
+<td class="function_name"><a class="link" href="PtPlayer.html#PtPlayer-struct" title="struct PtPlayer">PtPlayer</a></td>
+</tr>
+<tr>
+<td class="datatype_keyword">enum</td>
+<td class="function_name"><a class="link" href="PtPlayer.html#PtPrecisionType" title="enum PtPrecisionType">PtPrecisionType</a></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="PtPlayer.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="screen">    <a href="../gobject/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+    <span class="lineart">╰──</span> PtPlayer
+</pre>
+</div>
+<div class="refsect1">
+<a name="PtPlayer.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
+<p>
+PtPlayer implements
+ <a href="../gio/GInitable.html">GInitable</a>.</p>
+</div>
+<div class="refsect1">
+<a name="PtPlayer.includes"></a><h2>Includes</h2>
+<pre class="synopsis">#include &lt;parlatype/pt-player.h&gt;
+</pre>
+</div>
+<div class="refsect1">
+<a name="PtPlayer.description"></a><h2>Description</h2>
+<p>PtPlayer is the GStreamer backend for Parlatype. Construct it with <a class="link" href="PtPlayer.html#pt-player-new" title="pt_player_new ()"><code class="function">pt_player_new()</code></a>.
+Then you have to open a file, either with <a class="link" href="PtPlayer.html#pt-player-open-uri-async" title="pt_player_open_uri_async ()"><code class="function">pt_player_open_uri_async()</code></a> or
+<a class="link" href="PtPlayer.html#pt-player-open-uri" title="pt_player_open_uri ()"><code class="function">pt_player_open_uri()</code></a>, the blocking version.</p>
+<p>The internal time unit in PtPlayer are milliseconds and for scale widgets there
+is a scale from 0 to 1000. Use it to jump to a position or to update your widget.</p>
+<p>While playing PtPlayer emits these signals:</p>
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem"><p>end-of-stream: End of file reached, in the GUI you might want to jump
+		       to the beginning, reset play button etc.</p></li>
+<li class="listitem"><p>error: A fatal error occured, the player is reset. There's an error message.</p></li>
+</ul></div>
+<p>PtPlayer has two properties:</p>
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem"><p>speed: is a double from 0.5 to 1.5. 1.0 is normal playback, &lt; 1.0 is slower,
+&gt; 1.0 is faster. Changing the "speed" property doesn't change playback though.
+Use the method instead.</p></li>
+<li class="listitem"><p>Volume is a double from 0 to 1. It can be set via the method or setting
+  the "volume" property.</p></li>
+</ul></div>
+</div>
+<div class="refsect1">
+<a name="PtPlayer.functions_details"></a><h2>Functions</h2>
+<div class="refsect2">
+<a name="pt-player-new"></a><h3>pt_player_new ()</h3>
+<pre class="programlisting"><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="returnvalue">PtPlayer</span></a> *
+pt_player_new (<em class="parameter"><code><a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>This is a failable constructor. It fails, if GStreamer doesn't init or a
+plugin is missing. In this case NULL is returned, error is set.</p>
+<p>After use <a href="../gobject/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a> it.</p>
+<div class="refsect3">
+<a name="id-1.3.2.12.2.6"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>error</p></td>
+<td class="parameter_description"><p> return location for an error, or NULL. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.3.2.12.2.7"></a><h4>Returns</h4>
+<p> a new pt_player. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-player-open-uri-async"></a><h3>pt_player_open_uri_async ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+pt_player_open_uri_async (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>,
+                          <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *uri</code></em>,
+                          <em class="parameter"><code><a href="../gio/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                          <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+<p>Opens a local audio file for playback. It doesn't work with videos or streams.
+Only one file can be open at a time, playlists are not supported by the
+backend. Opening a new file will close the previous one.</p>
+<p>When closing a file or on object destruction PtPlayer tries to write the
+last position into the file's metadata. On opening a file it reads the
+metadata and jumps to the last known position if found.</p>
+<p>The player is set to the paused state and ready for playback. To start
+playback use <em class="parameter"><code><a class="link" href="PtPlayer.html#pt-player-play" title="pt_player_play ()"><code class="function">pt_player_play()</code></a></code></em>
+.</p>
+<p>This is an asynchronous operation, to get the result call
+<a class="link" href="PtPlayer.html#pt-player-open-uri-finish" title="pt_player_open_uri_finish ()"><code class="function">pt_player_open_uri_finish()</code></a> in your callback. For the blocking version see
+<a class="link" href="PtPlayer.html#pt-player-open-uri" title="pt_player_open_uri ()"><code class="function">pt_player_open_uri()</code></a>.</p>
+<p>While loading the file there is a <a class="link" href="PtPlayer.html#PtPlayer-load-progress" title="The “load-progress” signal"><span class="type">“load-progress”</span></a> signal emitted which stops before
+reaching 100%. Don't use it to determine whether the operation is finished.</p>
+<div class="refsect3">
+<a name="id-1.3.2.12.3.9"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>uri</p></td>
+<td class="parameter_description"><p>the URI of the file</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>callback</p></td>
+<td class="parameter_description"><p>a <a href="../gio/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> to call when the operation is complete</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>user_data</p></td>
+<td class="parameter_description"><p>user_data for callback</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-player-open-uri-finish"></a><h3>pt_player_open_uri_finish ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+pt_player_open_uri_finish (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>,
+                           <em class="parameter"><code><a href="../gio/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
+                           <em class="parameter"><code><a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>Gives the result of the async opening operation. A cancelled operation results
+in an error, too.</p>
+<div class="refsect3">
+<a name="id-1.3.2.12.4.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>result</p></td>
+<td class="parameter_description"><p>the <a href="../gio/GAsyncResult.html"><span class="type">GAsyncResult</span></a> passed to your <a href="../gio/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>error</p></td>
+<td class="parameter_description"><p>a pointer to a NULL <a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>, or NULL</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.3.2.12.4.6"></a><h4>Returns</h4>
+<p> TRUE if successful, or FALSE with error set</p>
+<p></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-player-open-uri"></a><h3>pt_player_open_uri ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+pt_player_open_uri (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>,
+                    <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *uri</code></em>,
+                    <em class="parameter"><code><a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>Opens a local audio file for playback. It doesn't work with videos or streams.
+Only one file can be open at a time, playlists are not supported by the
+backend. Opening a new file will close the previous one.</p>
+<p>When closing a file or on object destruction PtPlayer tries to write the
+last position into the file's metadata. On opening a file it reads the
+metadata and jumps to the last known position if found.</p>
+<p>The player is set to the paused state and ready for playback. To start
+playback use <em class="parameter"><code><a class="link" href="PtPlayer.html#pt-player-play" title="pt_player_play ()"><code class="function">pt_player_play()</code></a></code></em>
+.</p>
+<p>This operation blocks until it is finished. It returns TRUE on success or
+FALSE and an error. For the asynchronous version see
+<a class="link" href="PtPlayer.html#pt-player-open-uri-async" title="pt_player_open_uri_async ()"><code class="function">pt_player_open_uri_async()</code></a>.</p>
+<p>While loading the file there is a <a class="link" href="PtPlayer.html#PtPlayer-load-progress" title="The “load-progress” signal"><span class="type">“load-progress”</span></a> signal emitted.
+However, it doesn't emit 100%, the operation is finished when TRUE is returned.</p>
+<div class="refsect3">
+<a name="id-1.3.2.12.5.9"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>uri</p></td>
+<td class="parameter_description"><p>the URI of the file</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>error</p></td>
+<td class="parameter_description"><p> return location for an error, or NULL. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.3.2.12.5.10"></a><h4>Returns</h4>
+<p> TRUE if successful, or FALSE with error set</p>
+<p></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-player-cancel"></a><h3>pt_player_cancel ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+pt_player_cancel (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>);</pre>
+<p>Cancels the file opening operation, which triggers an error message.</p>
+<div class="refsect3">
+<a name="id-1.3.2.12.6.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-player-play"></a><h3>pt_player_play ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+pt_player_play (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>);</pre>
+<p>Starts playback at the defined speed until it reaches the end of stream (or
+the end of the selection)..</p>
+<div class="refsect3">
+<a name="id-1.3.2.12.7.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-player-pause"></a><h3>pt_player_pause ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+pt_player_pause (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>);</pre>
+<p>Sets the player to the paused state, meaning it stops playback and doesn't
+change position. To resume playback use <em class="parameter"><code><a class="link" href="PtPlayer.html#pt-player-play" title="pt_player_play ()"><code class="function">pt_player_play()</code></a></code></em>
+.</p>
+<div class="refsect3">
+<a name="id-1.3.2.12.8.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-player-set-selection"></a><h3>pt_player_set_selection ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+pt_player_set_selection (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>,
+                         <em class="parameter"><code><span class="type">gint64</span> start</code></em>,
+                         <em class="parameter"><code><span class="type">gint64</span> end</code></em>);</pre>
+<p>Set a selection. If the current position is outside the selection, it will
+be set to the selection's start position, otherwise the current position is
+not changed. Playing will end at the stop position and it's not possible to
+jump out of the selection until it is cleared with <a class="link" href="PtPlayer.html#pt-player-clear-selection" title="pt_player_clear_selection ()"><span class="type">pt_player_clear_selection</span></a>.</p>
+<div class="refsect3">
+<a name="id-1.3.2.12.9.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>start</p></td>
+<td class="parameter_description"><p>selection start time in milliseconds</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>end</p></td>
+<td class="parameter_description"><p>selection end time in milliseconds</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-player-clear-selection"></a><h3>pt_player_clear_selection ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+pt_player_clear_selection (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>);</pre>
+<p>Clear and reset any selection.</p>
+<div class="refsect3">
+<a name="id-1.3.2.12.10.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-player-jump-relative"></a><h3>pt_player_jump_relative ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+pt_player_jump_relative (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>,
+                         <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a> milliseconds</code></em>);</pre>
+<p>Skips <em class="parameter"><code>milliseconds</code></em>
+ in stream. A positive value means jumping ahead. If the
+resulting position would be beyond the end of stream (or selection), it goes
+to the end of stream (or selection). A negative value means jumping back.
+If the resulting position would be negative (or before the selection), it
+jumps to position 0:00 (or to the start of the selection).</p>
+<div class="refsect3">
+<a name="id-1.3.2.12.11.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>milliseconds</p></td>
+<td class="parameter_description"><p>time in milliseconds to jump</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-player-jump-to-position"></a><h3>pt_player_jump_to_position ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+pt_player_jump_to_position (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>,
+                            <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a> milliseconds</code></em>);</pre>
+<p>Jumps to a given position in stream. The position is given in <em class="parameter"><code>milliseconds</code></em>
+
+starting from position 0:00. A position beyond the duration of stream (or
+outside the selection) is ignored.</p>
+<div class="refsect3">
+<a name="id-1.3.2.12.12.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>milliseconds</p></td>
+<td class="parameter_description"><p>position in milliseconds</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-player-jump-to-permille"></a><h3>pt_player_jump_to_permille ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+pt_player_jump_to_permille (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>,
+                            <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a> permille</code></em>);</pre>
+<p>This is used for scale widgets. Start of stream is at 0, end of stream is
+at 1000. This will jump to the given position. If your widget uses a different
+scale, it's up to you to convert it to 1/1000. Values beyond 1000 are not
+allowed, values outside the selection are ignored.</p>
+<div class="refsect3">
+<a name="id-1.3.2.12.13.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>permille</p></td>
+<td class="parameter_description"><p>scale position between 0 and 1000</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-player-get-permille"></a><h3>pt_player_get_permille ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>
+pt_player_get_permille (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>);</pre>
+<p>This is used for scale widgets. If the scale has to synchronize with the
+current position in stream, this gives the position on a scale between 0 and
+1000.</p>
+<p>Failure in querying the position returns -1.</p>
+<div class="refsect3">
+<a name="id-1.3.2.12.14.6"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.3.2.12.14.7"></a><h4>Returns</h4>
+<p> a scale position between 0 and 1000 or -1 on failure</p>
+<p></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-player-set-speed"></a><h3>pt_player_set_speed ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+pt_player_set_speed (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>,
+                     <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a> speed</code></em>);</pre>
+<p>Sets the speed of playback in the paused state as well as during playback.
+Normal speed is 1.0, everything above that is faster, everything below slower.
+A speed of 0 is not allowed, use <a class="link" href="PtPlayer.html#pt-player-pause" title="pt_player_pause ()"><code class="function">pt_player_pause()</code></a> instead.
+Recommended speed is starting from 0.5 as quality is rather poor below that.
+Parlatype doesn't change the pitch during slower or faster playback.</p>
+<p>Note: If you want to change the speed during playback, you have to use this
+method. Changing the "speed" property of PtPlayer, will take effect only
+later.</p>
+<div class="refsect3">
+<a name="id-1.3.2.12.15.6"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>speed</p></td>
+<td class="parameter_description"><p>speed</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-player-set-volume"></a><h3>pt_player_set_volume ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+pt_player_set_volume (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>,
+                      <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a> volume</code></em>);</pre>
+<p>Sets the volume on a scale between 0 and 1. Instead of using this method
+you could set the "volume" property.</p>
+<div class="refsect3">
+<a name="id-1.3.2.12.16.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>volume</p></td>
+<td class="parameter_description"><p>volume</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-player-mute-volume"></a><h3>pt_player_mute_volume ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+pt_player_mute_volume (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>,
+                       <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> mute</code></em>);</pre>
+<p>Mute the player (with TRUE) or set it back to normal volume (with FALSE).
+This remembers the volume level, so you don't have to keep track of the old value.</p>
+<div class="refsect3">
+<a name="id-1.3.2.12.17.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>mute</p></td>
+<td class="parameter_description"><p>a gboolean</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-player-rewind"></a><h3>pt_player_rewind ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+pt_player_rewind (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>,
+                  <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a> speed</code></em>);</pre>
+<p>Rewinds at the given speed. <em class="parameter"><code>speed</code></em>
+ accepts positive as well as negative
+values and normalizes them to play backwards.</p>
+<div class="note">
+<p>This is only available with GStreamer &gt;= 1.6.3 (because of
+https://bugzilla.gnome.org/show_bug.cgi?id=757033).</p>
+<p>If you call this with an older version of GStreamer, it will only
+print a warning to standard output.</p>
+<p>Note that depending on the file/stream format this works more or less
+good.</p>
+</div>
+<div class="refsect3">
+<a name="id-1.3.2.12.18.6"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>speed</p></td>
+<td class="parameter_description"><p>the speed</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-player-fast-forward"></a><h3>pt_player_fast_forward ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+pt_player_fast_forward (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>,
+                        <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a> speed</code></em>);</pre>
+<p>Play fast forward at the given speed.</p>
+<div class="note">
+<p>This is only available with GStreamer &gt;= 1.6.3 (because rewind
+is working properly with that version).</p>
+<p>If you call this with an older version of GStreamer, it will only
+print a warning to standard output.</p>
+</div>
+<div class="refsect3">
+<a name="id-1.3.2.12.19.6"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>speed</p></td>
+<td class="parameter_description"><p>the speed</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-player-get-position"></a><h3>pt_player_get_position ()</h3>
+<pre class="programlisting"><span class="returnvalue">gint64</span>
+pt_player_get_position (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>);</pre>
+<p>Returns the current position in stream.</p>
+<div class="refsect3">
+<a name="id-1.3.2.12.20.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.3.2.12.20.6"></a><h4>Returns</h4>
+<p> position in milliseconds or -1 on failure</p>
+<p></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-player-get-duration"></a><h3>pt_player_get_duration ()</h3>
+<pre class="programlisting"><span class="returnvalue">gint64</span>
+pt_player_get_duration (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>);</pre>
+<p>Returns the duration of stream.</p>
+<div class="refsect3">
+<a name="id-1.3.2.12.21.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.3.2.12.21.6"></a><h4>Returns</h4>
+<p> duration in milliseconds</p>
+<p></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-player-get-uri"></a><h3>pt_player_get_uri ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+pt_player_get_uri (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>);</pre>
+<p>Returns the URI of the currently open file or NULL if it can't be determined.</p>
+<div class="refsect3">
+<a name="id-1.3.2.12.22.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.3.2.12.22.6"></a><h4>Returns</h4>
+<p> the uri. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-player-get-filename"></a><h3>pt_player_get_filename ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+pt_player_get_filename (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>);</pre>
+<p>Returns the display name of the currently open file or NULL if it can't be determined.</p>
+<div class="refsect3">
+<a name="id-1.3.2.12.23.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.3.2.12.23.6"></a><h4>Returns</h4>
+<p> the file name. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-player-get-time-string"></a><h3>pt_player_get_time_string ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+pt_player_get_time_string (<em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a> time</code></em>,
+                           <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a> duration</code></em>,
+                           <em class="parameter"><code><a class="link" href="PtPlayer.html#PtPrecisionType" title="enum PtPrecisionType"><span class="type">PtPrecisionType</span></a> precision</code></em>);</pre>
+<p>Returns the given time as a string for display to the user. Format type is
+determined by <em class="parameter"><code>duration</code></em>
+, e.g. if duration is long format, it returns a string
+in long format, too.</p>
+<div class="refsect3">
+<a name="id-1.3.2.12.24.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>time</p></td>
+<td class="parameter_description"><p>time in milliseconds to converse</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>duration</p></td>
+<td class="parameter_description"><p>duration of stream in milliseconds (max time)</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>precision</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html#PtPrecisionType" title="enum PtPrecisionType"><span class="type">PtPrecisionType</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.3.2.12.24.6"></a><h4>Returns</h4>
+<p> the time string. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-player-get-current-time-string"></a><h3>pt_player_get_current_time_string ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+pt_player_get_current_time_string (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>,
+                                   <em class="parameter"><code><a class="link" href="PtPlayer.html#PtPrecisionType" title="enum PtPrecisionType"><span class="type">PtPrecisionType</span></a> precision</code></em>);</pre>
+<p>Returns the current position of the stream as a string for display to the user.</p>
+<p>If the current position can not be determined, NULL is returned.</p>
+<div class="refsect3">
+<a name="id-1.3.2.12.25.6"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>precision</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html#PtPrecisionType" title="enum PtPrecisionType"><span class="type">PtPrecisionType</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.3.2.12.25.7"></a><h4>Returns</h4>
+<p> the time string. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-player-get-duration-time-string"></a><h3>pt_player_get_duration_time_string ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+pt_player_get_duration_time_string (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>,
+                                    <em class="parameter"><code><a class="link" href="PtPlayer.html#PtPrecisionType" title="enum PtPrecisionType"><span class="type">PtPrecisionType</span></a> precision</code></em>);</pre>
+<p>Returns the duration of the stream as a string for display to the user.</p>
+<p>If the duration can not be determined, NULL is returned.</p>
+<div class="refsect3">
+<a name="id-1.3.2.12.26.6"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>precision</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html#PtPrecisionType" title="enum PtPrecisionType"><span class="type">PtPrecisionType</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.3.2.12.26.7"></a><h4>Returns</h4>
+<p> the time string. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-player-get-timestamp"></a><h3>pt_player_get_timestamp ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+pt_player_get_timestamp (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>);</pre>
+<p>Returns the current timestamp as a string. The format of timestamps can not be changed.</p>
+<p>If the current position can not be determined, NULL is returned.</p>
+<div class="refsect3">
+<a name="id-1.3.2.12.27.6"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.3.2.12.27.7"></a><h4>Returns</h4>
+<p> the timestamp. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-player-string-is-timestamp"></a><h3>pt_player_string_is_timestamp ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+pt_player_string_is_timestamp (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>,
+                               <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *timestamp</code></em>);</pre>
+<p>Returns whether the given string is a valid timestamp.</p>
+<p>See also <a class="link" href="PtPlayer.html#pt-player-goto-timestamp" title="pt_player_goto_timestamp ()"><code class="function">pt_player_goto_timestamp()</code></a> if you want to go to the timestamp's
+position immediately after.</p>
+<div class="refsect3">
+<a name="id-1.3.2.12.28.6"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>timestamp</p></td>
+<td class="parameter_description"><p>the string to be checked</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.3.2.12.28.7"></a><h4>Returns</h4>
+<p> TRUE if the timestamp is valid, FALSE if not</p>
+<p></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-player-goto-timestamp"></a><h3>pt_player_goto_timestamp ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+pt_player_goto_timestamp (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>,
+                          <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *timestamp</code></em>);</pre>
+<p>Goes to the position of the timestamp. Returns false, if it's not a
+valid timestamp.</p>
+<div class="refsect3">
+<a name="id-1.3.2.12.29.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>timestamp</p></td>
+<td class="parameter_description"><p>the timestamp to go to</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.3.2.12.29.6"></a><h4>Returns</h4>
+<p> TRUE on success, FALSE if the timestamp is not valid</p>
+<p></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-player-get-data"></a><h3>pt_player_get_data ()</h3>
+<pre class="programlisting"><a class="link" href="PtWavedata.html" title="PtWavedata"><span class="returnvalue">PtWavedata</span></a> *
+pt_player_get_data (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>,
+                    <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a> pps</code></em>);</pre>
+<p>Returns wave data needed for visual representation as raw data. The
+requested resolution is given as pixel per seconds, e.g. 100 means one second
+is represented by 100 samples, is 100 pixels wide. The returned resolution
+doesn't have to be necessarily exactly the requested resolution, it might be
+a bit differnt, depending on the bit rate.</p>
+<div class="refsect3">
+<a name="id-1.3.2.12.30.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>pps</p></td>
+<td class="parameter_description"><p>the requested pixel per second ratio</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.3.2.12.30.6"></a><h4>Returns</h4>
+<p> the <a class="link" href="PtWavedata.html" title="PtWavedata"><span class="type">PtWavedata</span></a>. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+</div>
+<div class="refsect1">
+<a name="PtPlayer.other_details"></a><h2>Types and Values</h2>
+<div class="refsect2">
+<a name="PtPlayer-struct"></a><h3>struct PtPlayer</h3>
+<pre class="programlisting">struct PtPlayer;</pre>
+<p>The <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> contains only private fields and should not be directly accessed.</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PtPrecisionType"></a><h3>enum PtPrecisionType</h3>
+<p>Enum values indicating desired precision of time strings.</p>
+<div class="refsect3">
+<a name="id-1.3.2.13.3.4"></a><h4>Members</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="300px" class="enum_members_name">
+<col class="enum_members_description">
+<col width="200px" class="enum_members_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="enum_member_name"><p><a name="PT-PRECISION-SECOND:CAPS"></a>PT_PRECISION_SECOND</p></td>
+<td class="enum_member_description">
+<p>Rounds to full seconds, e.g. 1:23 (1 minute, 23 seconds)</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+<tr>
+<td class="enum_member_name"><p><a name="PT-PRECISION-SECOND-10TH:CAPS"></a>PT_PRECISION_SECOND_10TH</p></td>
+<td class="enum_member_description">
+<p>Round to 1/10 seconds, e.g. 1:23.4</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+<tr>
+<td class="enum_member_name"><p><a name="PT-PRECISION-SECOND-100TH:CAPS"></a>PT_PRECISION_SECOND_100TH</p></td>
+<td class="enum_member_description">
+<p>Round to 1/100 seconds, e.g. 1:23.45</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="refsect1">
+<a name="PtPlayer.property-details"></a><h2>Property Details</h2>
+<div class="refsect2">
+<a name="PtPlayer--speed"></a><h3>The <code class="literal">“speed”</code> property</h3>
+<pre class="programlisting">  “speed”                    <a href="../glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a></pre>
+<p>The speed for playback.</p>
+<p>Flags: Read / Write / Construct</p>
+<p>Allowed values: [0.1,2]</p>
+<p>Default value: 1</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PtPlayer--volume"></a><h3>The <code class="literal">“volume”</code> property</h3>
+<pre class="programlisting">  “volume”                   <a href="../glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a></pre>
+<p>The volume for playback.</p>
+<p>Flags: Read / Write</p>
+<p>Allowed values: [0,1]</p>
+<p>Default value: 1</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="PtPlayer.signal-details"></a><h2>Signal Details</h2>
+<div class="refsect2">
+<a name="PtPlayer-end-of-stream"></a><h3>The <code class="literal">“end-of-stream”</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+user_function (<a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player,
+               <a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>  user_data)</pre>
+<p>The <a class="link" href="PtPlayer.html#PtPlayer-end-of-stream" title="The “end-of-stream” signal"><span class="type">“end-of-stream”</span></a> signal is emitted when the stream is at its end
+or when the end of selection is reached.</p>
+<div class="refsect3">
+<a name="id-1.3.2.15.2.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>the player emitting the signal</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>user_data</p></td>
+<td class="parameter_description"><p>user data set when the signal handler was connected.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p>Flags: Run First</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PtPlayer-error"></a><h3>The <code class="literal">“error”</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+user_function (<a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player,
+               <a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>   *error,
+               <a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>  user_data)</pre>
+<p>The <a class="link" href="PtPlayer.html#PtPlayer-error" title="The “error” signal"><span class="type">“error”</span></a> signal is emitted on errors opening the file or during
+playback. It's a severe error and the player is always reset.</p>
+<div class="refsect3">
+<a name="id-1.3.2.15.3.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>the player emitting the signal</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>error</p></td>
+<td class="parameter_description"><p>a GError</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>user_data</p></td>
+<td class="parameter_description"><p>user data set when the signal handler was connected.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p>Flags: Run First</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PtPlayer-load-progress"></a><h3>The <code class="literal">“load-progress”</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+user_function (<a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player,
+               <a href="../glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a>   progress,
+               <a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>  user_data)</pre>
+<p>Indicates progress on a scale from 0.0 to 1.0, however it does not
+emit the value 0.0 nor 1.0. Wait for a TRUE player-state-changed
+signal or an error signal to dismiss a gui element showing progress.</p>
+<div class="refsect3">
+<a name="id-1.3.2.15.4.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>the player emitting the signal</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>progress</p></td>
+<td class="parameter_description"><p>the new progress state, ranging from 0.0 to 1.0</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>user_data</p></td>
+<td class="parameter_description"><p>user data set when the signal handler was connected.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p>Flags: Run First</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.21</div>
+</body>
+</html>
