@@ -165,14 +165,14 @@ check_progress (GTask *task)
 		wl->priv->bus_watch_id = 0;
 		wl->priv->progress_timeout = 0;
 		g_task_return_boolean (task, FALSE);
-		return FALSE;
+		return G_SOURCE_REMOVE;
 	}
 
 	if (!gst_element_query_position (wl->priv->pipeline, GST_FORMAT_TIME, &pos))
-		return TRUE;
+		return G_SOURCE_CONTINUE;
 
 	if (!gst_element_query_duration (wl->priv->pipeline, GST_FORMAT_TIME, &dur))
-		return TRUE;
+		return G_SOURCE_CONTINUE;
 
 	temp = (gdouble) pos / dur;
 
@@ -181,7 +181,7 @@ check_progress (GTask *task)
 		g_signal_emit_by_name (wl, "progress", wl->priv->progress);
 	}
 
-	return TRUE;
+	return G_SOURCE_CONTINUE;
 }
 
 static gint64
