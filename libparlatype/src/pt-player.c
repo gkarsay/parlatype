@@ -360,7 +360,8 @@ load_cb (PtWaveloader *wl,
 		pt_player_pause (player);
 
 	} else {
-                g_clear_object (&wl);
+		g_clear_object (&wl);
+		player->priv->wl = NULL;
 		g_task_return_error (task, error);
 	}
 }
@@ -467,6 +468,7 @@ pt_player_open_uri_async (PtPlayer	      *player,
 	g_object_unref (file);
 	g_free (location);
 
+	g_clear_object (&player->priv->wl);
 	player->priv->wl = pt_waveloader_new (uri);
 	g_signal_connect (player->priv->wl,
 			 "progress",

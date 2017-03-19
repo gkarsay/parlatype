@@ -165,6 +165,7 @@ check_progress (GTask *task)
 		wl->priv->bus_watch_id = 0;
 		wl->priv->progress_timeout = 0;
 		g_task_return_boolean (task, FALSE);
+		g_object_unref (task);
 		return G_SOURCE_REMOVE;
 	}
 
@@ -225,6 +226,7 @@ bus_handler (GstBus     *bus,
 		g_free (debug);
 		wl->priv->bus_watch_id = 0;
 		g_task_return_error (task, error);
+		g_object_unref (task);
 		return FALSE;
 		}
 
@@ -258,7 +260,9 @@ bus_handler (GstBus     *bus,
 			wl->priv->channels, wl->priv->rate, GST_TIME_ARGS (wl->priv->duration));
 
 		remove_timeout (wl);
+		wl->priv->bus_watch_id = 0;
 		g_task_return_boolean (task, TRUE);
+		g_object_unref (task);
 		return FALSE;
 		}
 	case GST_MESSAGE_DURATION_CHANGED:
