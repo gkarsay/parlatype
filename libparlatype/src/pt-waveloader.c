@@ -150,14 +150,17 @@ setup_pipeline (PtWaveloader *wl)
 static gboolean
 check_progress (GTask *task)
 {
-	/* 1) Query position and emit progress signal
-	   2) Check if task was cancelled and reset pipeline */
+	/* This timeout runs parallel to message bus (bus_handler()).
+	   If it's removed, the message bus has to be removed, too, and also
+	   the other way round. */
 
 	PtWaveloader *wl = g_task_get_source_object (task);
 
 	gint64  dur;
 	gint64  pos;
 	gdouble temp;
+
+	/* Check if task was cancelled and reset pipeline */
 
 	if (g_cancellable_is_cancelled (g_task_get_cancellable (task))) {
 		gst_element_set_state (wl->priv->pipeline, GST_STATE_NULL);
@@ -168,6 +171,8 @@ check_progress (GTask *task)
 		g_object_unref (task);
 		return G_SOURCE_REMOVE;
 	}
+
+	/* Query position and duration and emit progress signal */
 
 	if (!gst_element_query_position (wl->priv->pipeline, GST_FORMAT_TIME, &pos))
 		return G_SOURCE_CONTINUE;
