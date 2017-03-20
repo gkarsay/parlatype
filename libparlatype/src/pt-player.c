@@ -39,7 +39,6 @@ struct _PtPlayerPrivate
 	gint64      segend;
 
 	GCancellable *c;
-	gboolean      opening;
 
 	PtWaveloader *wl;
 };
@@ -250,14 +249,13 @@ remove_message_bus (PtPlayer *player)
 }
 
 static void
-add_message_bus (GTask *task)
+add_message_bus (PtPlayer *player)
 {
 	GstBus *bus;
-	PtPlayer *player = g_task_get_source_object (task);
 
 	remove_message_bus (player);
 	bus = gst_pipeline_get_bus (GST_PIPELINE (player->priv->pipeline));
-	player->priv->bus_watch_id = gst_bus_add_watch (bus, bus_call, task);
+	player->priv->bus_watch_id = gst_bus_add_watch (bus, bus_call, player);
 	gst_object_unref (bus);
 }
 
@@ -266,8 +264,7 @@ bus_call (GstBus     *bus,
           GstMessage *msg,
           gpointer    data)
 {
-	GTask	 *task = (GTask *) data;
-	PtPlayer *player = g_task_get_source_object (task);
+	PtPlayer *player = (PtPlayer *) data;
 	gint64    pos;
 
 	/*g_debug ("Message: %s; sent by: %s",
@@ -303,24 +300,11 @@ bus_call (GstBus     *bus,
 		g_debug ("Debugging info: %s", (debug) ? debug : "none");
 		g_free (debug);
 
-		if (player->priv->opening) {
-			g_task_return_error (task, error);
-		} else {
-			g_signal_emit_by_name (player, "error", error);
-			g_error_free (error);
-		}
-
+		g_signal_emit_by_name (player, "error", error);
+		g_error_free (error);
 		pt_player_clear (player);
 		break;
 		}
-
-	case GST_MESSAGE_ASYNC_DONE:
-		if (player->priv->opening) {
-			metadata_get_position (player);
-			player->priv->opening = FALSE;
-			g_task_return_boolean (task, TRUE);
-		}
-		break;
 
 	default:
 		break;
@@ -355,15 +339,27 @@ load_cb (PtWaveloader *wl,
 		player->priv->segstart = 0;
 
 		/* setup message handler */
-		add_message_bus (task);
+		add_message_bus (player);
 
 		pt_player_pause (player);
+
+		/* Block until state changed */
+		gst_element_get_state (
+			player->priv->pipeline,
+			NULL, NULL,
+			GST_CLOCK_TIME_NONE);
+
+		metadata_get_position (player);
+		g_task_return_boolean (task, TRUE);
 
 	} else {
 		g_clear_object (&wl);
 		player->priv->wl = NULL;
 		g_task_return_error (task, error);
 	}
+
+	g_object_unref (player->priv->c);
+	g_object_unref (task);
 }
 
 /**
@@ -426,7 +422,6 @@ pt_player_open_uri_async (PtPlayer	      *player,
 	gchar  *location = NULL;
 
 	task = g_task_new (player, NULL, callback, user_data);
-	player->priv->opening = TRUE;
 
 	/* Change uri to location */
 	file = g_file_new_for_uri (uri);
