@@ -392,6 +392,7 @@ pt_window_ready_to_play (PtWindow *win,
 							  g_settings_get_int (win->priv->editor, "pps"));
 		pt_waveviewer_set_wave (PT_WAVEVIEWER (win->priv->waveviewer),
 					win->priv->wavedata);
+		pt_wavedata_free (win->priv->wavedata);
 		/* add timer after waveviewer, didn't update cursor otherwise sometimes */
 		add_timer (win);
 
@@ -401,10 +402,7 @@ pt_window_ready_to_play (PtWindow *win,
 		gtk_widget_set_tooltip_text (win->priv->button_jump_back, NULL);
 		gtk_widget_set_tooltip_text (win->priv->button_jump_forward, NULL);
 		remove_timer (win);
-		pt_wavedata_free (win->priv->wavedata);
-		win->priv->wavedata = NULL;
-		pt_waveviewer_set_wave (PT_WAVEVIEWER (win->priv->waveviewer),
-					win->priv->wavedata);
+		pt_waveviewer_set_wave (PT_WAVEVIEWER (win->priv->waveviewer), NULL);
 	}
 }
 
@@ -613,6 +611,7 @@ settings_changed_cb (GSettings *settings,
 								  g_settings_get_int (win->priv->editor, "pps"));
 			pt_waveviewer_set_wave (PT_WAVEVIEWER (win->priv->waveviewer),
 						win->priv->wavedata);
+			pt_wavedata_free (win->priv->wavedata);
 			g_free (uri);
 		}
 		return;
@@ -830,11 +829,6 @@ pt_window_dispose (GObject *object)
 	g_clear_object (&win->priv->proxy);
 	destroy_progress_dlg (win);
 	g_clear_object (&win->priv->player);
-
-	if (win->priv->wavedata) {
-		pt_wavedata_free (win->priv->wavedata);
-		win->priv->wavedata = NULL;
-	}
 
 	G_OBJECT_CLASS (pt_window_parent_class)->dispose (object);
 }
