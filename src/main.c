@@ -77,6 +77,8 @@ int main (int argc, char *argv[])
 	GError         *error = NULL;
 	GOptionContext *context;
 	PtPlayer       *testplayer;
+	PtApp          *app;
+	gint            app_status;
 
 	/* Translators: This is part of the output if you type `parlatype --help`
 	   in terminal. The square brackets indicate that a file (filename) is
@@ -102,6 +104,9 @@ int main (int argc, char *argv[])
 		g_object_unref (testplayer);
 	}
 
-	return g_application_run (G_APPLICATION (pt_app_new ()), argc, argv);
-}
+	app = pt_app_new ();
+	app_status = g_application_run (G_APPLICATION (app), argc, argv);
+	g_object_unref (app);
 
+	return app_status;
+}
