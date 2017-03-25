@@ -222,7 +222,7 @@ about_cb (GSimpleAction *action,
 			"artists", artists,
 			"translator-credits", _("translator-credits"),
 			"license-type", GTK_LICENSE_GPL_3_0,
-			"website", "http://gkarsay.github.io/parlatype/",
+			"website", PACKAGE_URL,
 			NULL);
 }
 
