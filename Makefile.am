@@ -7,8 +7,11 @@ EXTRA_DIST = \
 	COPYING_CCBYSA	\
 	README.md
 
-CLEANFILES = libparlatype/docs/reference/*.bak
-DISTCLEANFILES = `find . -mindepth 1 -iname "*~"`
+CLEANFILES = \
+	libparlatype/docs/reference/*.bak
+
+DISTCLEANFILES = \
+	`find . -mindepth 1 -iname "*~"`
 
 # Distcheck flags for libparlatype:
 # without glade catalog, because glade catalog is installed into a detected dir
@@ -21,10 +24,32 @@ DISTCHECK_CONFIGURE_FLAGS = \
 
 # A few maintainer make targets
 
-.PHONY: gtk-check help pot todo
+.PHONY: gtk-check help pot todo lp-export lp-create-tar
+LP_EXPORT_DIR = tmp
+LP_EXPORT_FILE = launchpad-upload.tar.gz
+
 # make gtk-check     -- list all gtk version checks
 gtk-check:
 	@find . \( -name "*.c" -o -name "*.h" \) -exec grep -Hno "GTK_CHECK_VERSION.*" {} \;
+
+# make lp-export     -- create archive to export translations to launchpad
+lp-export: $(LP_EXPORT_FILE)
+
+$(LP_EXPORT_FILE): pot lp-create-tar
+
+lp-create-tar:
+	mkdir $(LP_EXPORT_DIR)
+	mkdir $(LP_EXPORT_DIR)/libparlatype
+	mkdir $(LP_EXPORT_DIR)/parlatype
+	mkdir $(LP_EXPORT_DIR)/help
+	cp libparlatype/po/*.pot $(LP_EXPORT_DIR)/libparlatype
+	cp libparlatype/po/*.po $(LP_EXPORT_DIR)/libparlatype
+	cp po/*.pot $(LP_EXPORT_DIR)/parlatype
+	cp po/*.po $(LP_EXPORT_DIR)/parlatype
+	cp help/*.pot $(LP_EXPORT_DIR)/help/help.pot
+	find help/ -iname "*.po" -exec cp {} $(LP_EXPORT_DIR)/help \;
+	tar -C $(LP_EXPORT_DIR) -czf $(LP_EXPORT_FILE) libparlatype parlatype help
+	rm -r $(LP_EXPORT_DIR)/
 
 # make pot           -- create all translation templates at once
 pot:
@@ -40,3 +65,9 @@ todo:
 # make help          -- show this list
 help:
 	@grep -e "^# make .*" Makefile | cut -c3-
+
+
+maintainer-clean-local:
+	rm -rf $(LP_EXPORT_DIR)
+	rm -f $(LP_EXPORT_FILE)
+
