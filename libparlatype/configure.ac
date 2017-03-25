@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([libparlatype], [1.5], [gabor.karsay@gmx.at])
+AC_INIT([libparlatype], [1.5], [https://github.com/gkarsay/parlatype/issues])
 AC_CONFIG_AUX_DIR([.])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign -Wno-portability])
 AC_CONFIG_SRCDIR([src/pt-player.c])
