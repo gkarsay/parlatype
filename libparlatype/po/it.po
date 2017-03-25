@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
-"Report-Msgid-Bugs-To: Gabor Karsay <gabor.karsay@gxm.at>\n"
+"Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
 "POT-Creation-Date: 2017-01-04 20:11+0100\n"
 "PO-Revision-Date: 2017-01-17 16:59+0000\n"
 "Last-Translator: Luca Ciavatta <luca.ciavatta@gmail.com>\n"
