@@ -1353,8 +1353,8 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 	obj_properties[PROP_PLAYBACK_CURSOR] =
 	g_param_spec_int64 (
 			"playback-cursor",
-			_("Cursor position"),
-			_("Cursor's position in 1/1000 seconds"),
+			"Cursor position",
+			"Cursor's position in 1/1000 seconds",
 			0,
 			G_MAXINT64,
 			0,
