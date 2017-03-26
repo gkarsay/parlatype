@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<glade-catalog name="parlatype" library="parlatype" book="parlatype" depends="gtk+">
+<glade-catalog name="parlatype"
+               library="parlatype"
+               book="parlatype"
+               depends="gtk+">
 
   <glade-widget-classes>
-    <glade-widget-class name="PtWaveviewer" generic-name="waveviewer" icon-name="widget-pt-waveviewer" title="PtWaveviewer"/>
+    <glade-widget-class
+      name="PtWaveviewer"
+      generic-name="waveviewer"
+      icon-name="widget-pt-waveviewer"
+      title="PtWaveviewer">
+
+      <properties>
+        <property id="playback-cursor" default="0" visible="False" />
+      </properties>
+
+    </glade-widget-class>
   </glade-widget-classes>
 
   <glade-widget-group name="parlatype-widgets" title="Parlatype Widgets">
