@@ -402,8 +402,11 @@ draw_cb (GtkWidget *widget,
 	}
 
 	/* paint ruler */
-	if (self->priv->show_ruler)
-		paint_ruler (self, cr, height, visible_first, visible_last);
+	if (self->priv->show_ruler) {
+		/* only if ruler is in clip */
+		if (cairo_in_clip (cr, visible_first, height))
+			paint_ruler (self, cr, height, visible_first, visible_last);
+	}
 
 
 	/* paint cursor */
