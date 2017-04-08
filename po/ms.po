@@ -7,27 +7,27 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
-"POT-Creation-Date: 2017-01-16 21:45+0100\n"
-"PO-Revision-Date: 2017-02-01 03:44+0000\n"
-"Last-Translator: abuyop <Unknown>\n"
+"POT-Creation-Date: 2017-03-26 14:25+0200\n"
+"PO-Revision-Date: 2017-04-08 13:48+0000\n"
+"Last-Translator: Gabor Karsay <gabor.karsay@gmx.at>\n"
 "Language-Team: Malay <ms@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2017-03-13 15:08+0000\n"
-"X-Generator: Launchpad (build 18331)\n"
+"X-Launchpad-Export-Date: 2017-04-08 13:52+0000\n"
+"X-Generator: Launchpad (build 18343)\n"
 
 #: ../data/org.gnome.parlatype.appdata.xml.in.h:1
-#: ../data/org.gnome.parlatype.desktop.in.h:1 ../src/pt-app.c:66
-#: ../src/pt-app.c:209 ../src/resources/window.ui.h:1
+#: ../data/org.gnome.parlatype.desktop.in.h:1 ../src/pt-app.c:65
+#: ../src/pt-app.c:216 ../src/resources/window.ui.h:1
 #: ../src/resources/window-headerbar.ui.h:1
 msgid "Parlatype"
 msgstr "Parlatype"
 
 #: ../data/org.gnome.parlatype.appdata.xml.in.h:2
 msgid "Media player for manual speech transcription"
-msgstr ""
+msgstr "Pemain media untuk transripsi pertuturan manual"
 
 #: ../data/org.gnome.parlatype.appdata.xml.in.h:3
 msgid ""
@@ -37,17 +37,17 @@ msgstr ""
 
 #: ../data/org.gnome.parlatype.desktop.in.h:2
 msgid "Transcription utility"
-msgstr ""
+msgstr "Utiliti transkripsi"
 
-#: ../src/main.c:42
+#: ../src/main.c:43
 msgid "Show the application's version"
 msgstr "Tunjuk versi aplikasi"
 
-#: ../src/main.c:58
+#: ../src/main.c:59
 msgid "Fatal error"
 msgstr "Ralat mati"
 
-#: ../src/main.c:62
+#: ../src/main.c:63
 #, c-format
 msgid ""
 "Parlatype needs GStreamer 1.x to run. Please check your installation of "
@@ -59,63 +59,64 @@ msgstr ""
 #. in terminal. The square brackets indicate that a file (filename) is
 #. an optional argument for parlatype. Arguments in help output are usually
 #. uppercase.
-#: ../src/main.c:84
+#: ../src/main.c:87
 msgid "[FILE]"
 msgstr "[FAIL]"
 
-#: ../src/main.c:87
+#: ../src/main.c:90
 msgid "Minimal audio player for manual speech transcription"
 msgstr ""
 
-#: ../src/pt-app.c:57 ../src/resources/menus.ui.h:2
+#: ../src/pt-app.c:56 ../src/resources/menus.ui.h:2
 msgid "Recent Files"
 msgstr "Fail Baru-baru Ini"
 
-#: ../src/pt-app.c:59 ../src/pt-app.c:116
+#: ../src/pt-app.c:58 ../src/pt-app.c:115
 msgid "_Cancel"
 msgstr "_Batal"
 
-#: ../src/pt-app.c:60 ../src/pt-app.c:117
+#: ../src/pt-app.c:59 ../src/pt-app.c:116
 msgid "_Open"
 msgstr "B_uka"
 
-#: ../src/pt-app.c:72 ../src/pt-app.c:128
+#: ../src/pt-app.c:71 ../src/pt-app.c:127
 msgid "All files"
 msgstr "Semua fail"
 
-#: ../src/pt-app.c:113
+#: ../src/pt-app.c:112
 msgid "Open Audio File"
 msgstr "Buka Fail Audio"
 
-#: ../src/pt-app.c:127
+#: ../src/pt-app.c:126
 msgid "Audio files"
 msgstr "Fail audio"
 
 #. Translators: %s is a detailed error message
-#: ../src/pt-app.c:176
+#: ../src/pt-app.c:183
 #, c-format
 msgid "Error opening help: %s"
-msgstr ""
+msgstr "Ralat membuka bantuan: %s"
 
 #. Translators: This is part of the about box, followed by the
 #. copyright holders of code from other projects. Instead of
 #. "including" it could also say "with" or just "Code from
 #. other projects:"
-#: ../src/pt-app.c:194
+#: ../src/pt-app.c:201
 msgid "Including code from other projects:"
-msgstr ""
+msgstr "Kod yang disertakan dari projek lain:"
 
-#: ../src/pt-app.c:212
+#: ../src/pt-app.c:219
 msgid "A basic transcription utility"
-msgstr ""
+msgstr "Utiliti transkripsi asas"
 
-#: ../src/pt-app.c:216
+#: ../src/pt-app.c:223
 msgid "translator-credits"
 msgstr ""
 "Launchpad Contributions:\n"
+"  Gabor Karsay https://launchpad.net/~gabor-karsay\n"
 "  abuyop https://launchpad.net/~abuyop"
 
-#: ../src/pt-app.c:369
+#: ../src/pt-app.c:376
 #, c-format
 msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
@@ -143,54 +144,54 @@ msgid_plural "seconds"
 msgstr[0] "saat"
 msgstr[1] "saat"
 
-#: ../src/pt-preferences.c:164
+#: ../src/pt-preferences.c:169
 msgid "_Close"
 msgstr "T_utup"
 
-#: ../src/pt-window.c:218
+#: ../src/pt-window.c:231
 #, c-format
 msgid "Jump back 1 second"
 msgid_plural "Jump back %d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Lompat balik 1 saat"
+msgstr[1] "Lompat balik %d saat"
 
-#: ../src/pt-window.c:232
+#: ../src/pt-window.c:246
 #, c-format
 msgid "Jump forward 1 second"
 msgid_plural "Jump forward %d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Lompat maju 1 saat"
+msgstr[1] "Lompat maju %d saat"
 
-#: ../src/pt-window.c:247
+#: ../src/pt-window.c:263
 msgid "Pause"
 msgstr "Jeda"
 
-#: ../src/pt-window.c:250
+#: ../src/pt-window.c:266
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/pt-window.c:256
+#: ../src/pt-window.c:273
 msgid "Start playing"
 msgstr "Mulakan main"
 
-#: ../src/pt-window.c:727
+#: ../src/pt-window.c:750
 msgid "View follows cursor"
-msgstr ""
+msgstr "Paparan ikuti kursor"
 
-#: ../src/pt-window.c:729
+#: ../src/pt-window.c:752
 msgid "Click to follow cursor"
-msgstr ""
+msgstr "Klik untuk ikuti kursor"
 
 #: ../src/resources/goto-dialog.ui.h:1 ../src/resources/menus.ui.h:9
 msgid "Go to ..."
-msgstr ""
+msgstr "Pergi ke ..."
 
 #: ../src/resources/goto-dialog.ui.h:2
 msgid "Go to position:"
-msgstr ""
+msgstr "Pergi ke kedudukan:"
 
 #: ../src/resources/menus.ui.h:1
 msgid "Open File"
@@ -214,11 +215,11 @@ msgstr "Keluar"
 
 #: ../src/resources/menus.ui.h:7
 msgid "Copy timestamp"
-msgstr ""
+msgstr "Salin setem masa"
 
 #: ../src/resources/menus.ui.h:8
 msgid "Insert timestamp"
-msgstr ""
+msgstr "Sisip setem masa"
 
 #: ../src/resources/menus.ui.h:10
 msgid "_File"
@@ -238,11 +239,11 @@ msgstr "Keutamaan Parlatype"
 
 #: ../src/resources/preferences.ui.h:2
 msgid "_Pixels per second:"
-msgstr ""
+msgstr "_Piksel per saat:"
 
 #: ../src/resources/preferences.ui.h:3
 msgid "Show _time scale"
-msgstr ""
+msgstr "Tunjuk skala _waktu"
 
 #. Resolution of the waveform image
 #: ../src/resources/preferences.ui.h:5
@@ -256,11 +257,11 @@ msgstr "Paparan"
 
 #: ../src/resources/preferences.ui.h:8
 msgid "_Moving cursor"
-msgstr ""
+msgstr "Kursor _bergerak"
 
 #: ../src/resources/preferences.ui.h:9
 msgid "_Fixed cursor"
-msgstr ""
+msgstr "Kursor _tetap"
 
 #: ../src/resources/preferences.ui.h:10
 msgid "Waveform"
@@ -284,11 +285,11 @@ msgstr "Kawalan"
 
 #: ../src/resources/preferences.ui.h:15
 msgid "Remember _position"
-msgstr ""
+msgstr "Ingat _kedudukan"
 
 #: ../src/resources/preferences.ui.h:16
 msgid "Start on _top"
-msgstr ""
+msgstr "Mula di _atas"
 
 #: ../src/resources/preferences.ui.h:17
 msgid "Window"
