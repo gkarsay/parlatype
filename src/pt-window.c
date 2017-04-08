@@ -410,8 +410,6 @@ static void
 player_end_of_stream_cb (PtPlayer *player,
 			 PtWindow *win)
 {
-	g_debug ("end_of_stream_cb");
-
 	/* Don't jump back */
 	gint temp;
 	temp = win->priv->pause;
@@ -527,7 +525,6 @@ fast_back_button_pressed_cb (GtkButton *button,
 			     GdkEvent  *event,
 			     PtWindow  *win)
 {
-	g_debug ("rewind");
 	pt_player_rewind (win->priv->player, 2.0);
 	return FALSE;
 }
@@ -538,7 +535,6 @@ fast_back_button_released_cb (GtkButton *button,
 			      GdkEvent  *event,
 			      PtWindow  *win)
 {
-	g_debug ("rewind stop");
 	pt_player_set_speed (win->priv->player, win->priv->speed);
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->priv->button_play))) {
 		pt_player_play (win->priv->player);
@@ -554,7 +550,6 @@ fast_forward_button_pressed_cb (GtkButton *button,
 			        GdkEvent  *event,
 				PtWindow  *win)
 {
-	g_debug ("fast forward");
 	pt_player_fast_forward (win->priv->player, 2.0);
 	return FALSE;
 }
@@ -565,7 +560,6 @@ fast_forward_button_released_cb (GtkButton *button,
 			         GdkEvent  *event,
 				 PtWindow  *win)
 {
-	g_debug ("fast forward stop");
 	pt_player_set_speed (win->priv->player, win->priv->speed);
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->priv->button_play))) {
 		pt_player_play (win->priv->player);
