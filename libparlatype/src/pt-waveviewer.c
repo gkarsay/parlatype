@@ -882,6 +882,26 @@ adj_cb (GtkAdjustment *adj,
 	gtk_widget_queue_draw (GTK_WIDGET (self->priv->drawarea));
 }
 
+static void
+get_direction (PtWaveviewer *self)
+{
+	if (gtk_widget_get_direction (GTK_WIDGET (self)) == GTK_TEXT_DIR_RTL)
+		self->priv->rtl = TRUE;
+	else
+		self->priv->rtl = FALSE;
+}
+
+
+static void
+direction_changed_cb (GtkWidget        *widget,
+                      GtkTextDirection  previous_direction,
+                      gpointer          data)
+{
+	PtWaveviewer *self = PT_WAVEVIEWER (data);
+	get_direction (self);
+	gtk_widget_queue_draw (GTK_WIDGET (self->priv->drawarea));
+}
+
 static gboolean
 focus_cb (GtkWidget        *widget,
           GtkDirectionType  direction,
@@ -1249,10 +1269,8 @@ pt_waveviewer_init (PtWaveviewer *self)
 	if (!self->priv->arrows)
 		self->priv->arrows = gdk_cursor_new_for_display (display, GDK_SB_H_DOUBLE_ARROW);
 
-	if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
-		self->priv->rtl = TRUE;
-	else
-		self->priv->rtl = FALSE;
+	/* Get and set widget's direction */
+	get_direction (self);
 
 	css_file = g_file_new_for_uri ("resource:///org/gnome/libparlatype/pt-waveviewer.css");
 	provider = gtk_css_provider_new ();
@@ -1308,6 +1326,11 @@ pt_waveviewer_init (PtWaveviewer *self)
 	g_signal_connect (self->priv->drawarea,
 			  "key-press-event",
 			  G_CALLBACK (key_press_event_cb),
+			  self);
+
+	g_signal_connect (self,
+			  "direction-changed",
+			  G_CALLBACK (direction_changed_cb),
 			  self);
 
 	gtk_widget_set_events (self->priv->drawarea, gtk_widget_get_events (self->priv->drawarea)

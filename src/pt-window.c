@@ -577,6 +577,18 @@ speed_changed_cb (GtkRange *range,
 	pt_player_set_speed (win->priv->player, win->priv->speed);
 }
 
+void
+speed_scale_direction_changed_cb (GtkWidget        *widget,
+                                  GtkTextDirection  previous_direction,
+                                  gpointer          data)
+{
+	if (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
+		gtk_scale_set_value_pos (GTK_SCALE (widget), GTK_POS_LEFT);
+	else
+		gtk_scale_set_value_pos (GTK_SCALE (widget), GTK_POS_RIGHT);
+}
+
+
 static void
 settings_changed_cb (GSettings *settings,
 		     gchar     *key,

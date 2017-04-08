@@ -282,6 +282,7 @@ audio-volume-medium</property>
                     <property name="lower_stepper_sensitivity">off</property>
                     <property name="upper_stepper_sensitivity">off</property>
                     <property name="value_pos">right</property>
+                    <signal name="direction-changed" handler="speed_scale_direction_changed_cb" swapped="no"/>
                     <signal name="value-changed" handler="speed_changed_cb" swapped="no"/>
                   </object>
                   <packing>
