@@ -40,8 +40,9 @@
 struct _PtWaveviewerPrivate {
 	/* Wavedata */
 	gfloat	 *peaks;
-	gint64	  peaks_size;
+	gint64	  peaks_size;	/* size of array */
 	gint	  px_per_sec;
+	gint64    duration;	/* in milliseconds */
 
 	/* Properties */
 	gint64	  playback_cursor;
@@ -50,7 +51,7 @@ struct _PtWaveviewerPrivate {
 	gboolean  show_ruler;
 	gboolean  has_selection;
 
-	/* Selections */
+	/* Selections, in milliseconds */
 	gint64    sel_start;
 	gint64    sel_end;
 	gint64    dragstart;
@@ -122,7 +123,17 @@ flip_pixel (PtWaveviewer *self,
 	   In rtl layouts this is flipped, e.g. the first pixel corresponds to
 	   the last sample in the array. */
 
-	return (self->priv->peaks_size / 2 - pixel);
+	gint64 samples;
+	gint   widget_width;
+
+	samples = self->priv->peaks_size / 2;
+	widget_width = gtk_widget_get_allocated_width (self->priv->drawarea);
+
+	/* Case: waveform is shorter than drawing area */
+	if (samples < widget_width)
+		return (widget_width - pixel);
+	else
+		return (samples - pixel);
 }
 
 static gint64
@@ -241,12 +252,20 @@ pixel_to_array (PtWaveviewer *self,
 		gint64	      pixel)
 {
 	/* Convert a position in the drawing area to an index in the peaks array.
-	   The returned index is the peak's min value, +1 is the max value */
+	   The returned index is the peak's min value, +1 is the max value.
+	   If the array would be exceeded, return -1 */
+
+	gint64 result;
 
 	if (self->priv->rtl)
 		pixel = flip_pixel (self, pixel);
 
-	return (pixel * 2);
+	result = pixel * 2;
+
+	if (result + 1 >= self->priv->peaks_size)
+		result = -1;
+
+	return result;
 }
 
 static void
@@ -262,7 +281,7 @@ paint_ruler (PtWaveviewer *self,
 	PangoLayout    *layout;
 	PangoRectangle  rect;
 	gint            x_offset;
-	gint            tmp_time;
+	gint64          tmp_time;
 	GtkStyleContext *context;
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
@@ -285,7 +304,8 @@ paint_ruler (PtWaveviewer *self,
 			tmp_time += 100; /* round up */
 		i = time_to_pixel (self, tmp_time);
 		while (i <= visible_last) {
-			gtk_render_line (context, cr, i, height, i, height + 4);
+			if (tmp_time < self->priv->duration)
+				gtk_render_line (context, cr, i, height, i, height + 4);
 			if (self->priv->rtl)
 				tmp_time -= 100;
 			else
@@ -301,6 +321,8 @@ paint_ruler (PtWaveviewer *self,
 			sample = i;
 			if (self->priv->rtl)
 				sample = flip_pixel (self, sample);
+			if (sample * 2 > self->priv->peaks_size)
+				continue;
 			if (sample % (self->priv->px_per_sec * self->priv->secondary_modulo) == 0)
 				gtk_render_line (context, cr, i, height, i, height + 4);
 		}
@@ -311,6 +333,8 @@ paint_ruler (PtWaveviewer *self,
 		sample = i;
 		if (self->priv->rtl)
 			sample = flip_pixel (self, sample);
+		if (sample * 2 > self->priv->peaks_size)
+			continue;
 		if (sample % (self->priv->px_per_sec * self->priv->primary_modulo) == 0) {
 			gtk_render_line (context, cr, i, height, i, height + 8);
 			gdk_cairo_set_source_rgba (cr, &self->priv->wave_color);
@@ -329,8 +353,8 @@ paint_ruler (PtWaveviewer *self,
 			pango_layout_get_pixel_extents (layout, &rect, NULL);
 			x_offset = (rect.x + rect.width) / 2;
 
-			/* don't display time if it is not fully visible */
-			if (i - x_offset > 0 && i + x_offset < self->priv->peaks_size / 2) {
+			/* don't display time if it is not fully visible in drawing area */
+			if (i - x_offset > 0 && i + x_offset < gtk_widget_get_allocated_width (self->priv->drawarea)) {
 				cairo_move_to (cr,
 					       i - x_offset,	/* center at mark */
 					       height + self->priv->ruler_height - rect.y - rect.height -3); /* +3 px above border */
@@ -384,6 +408,9 @@ draw_cb (GtkWidget *widget,
 	/* paint waveform */
 	for (pixel = visible_first; pixel <= visible_last; pixel += 1) {
 		array = pixel_to_array (self, pixel);
+		if (array == -1)
+			/* in ltr we could break, but rtl needs to continue */
+			continue;
 		min = (middle + half * peaks[array] * -1);
 		max = (middle - half * peaks[array + 1]);
 		cairo_move_to (cr, pixel, min);
@@ -468,22 +495,11 @@ add_subtract_time (PtWaveviewer *self,
 		one_pixel = one_pixel * -1;
 	result = self->priv->playback_cursor + pixel * one_pixel;
 
-	/* Check range */
-	if (stay_in_selection) {
-		if (result < self->priv->sel_start)
-			result = self->priv->sel_start;
-		else if (result > self->priv->sel_end)
-			result = self->priv->sel_end;
-	} else {
-		gint64 dur;
-		dur = calculate_duration (self);
-		if (result < 0)
-			result = 0;
-		else if (result > dur)
-			result = dur;
-	}
-
-	return result;
+	/* Return result in range */
+	if (stay_in_selection)
+		return CLAMP (result, self->priv->sel_start, self->priv->sel_end);
+	else
+		return CLAMP (result, 0, self->priv->duration);
 }
 
 static void
@@ -586,7 +602,7 @@ key_press_event_cb (GtkWidget   *widget,
 				g_signal_emit_by_name (self, "cursor-changed", 0);
 				return TRUE;
 			case GDK_KEY_End:
-				g_signal_emit_by_name (self, "cursor-changed", calculate_duration (self));
+				g_signal_emit_by_name (self, "cursor-changed", self->priv->duration);
 				return TRUE;
 			}
 		}
@@ -971,6 +987,7 @@ pt_waveviewer_set_wave (PtWaveviewer *self,
 		self->priv->peaks = NULL;
 	}
 
+	self->priv->duration = 0;
 	self->priv->playback_cursor = 0;
 	gtk_widget_set_size_request (self->priv->drawarea, -1, -1);
 
@@ -995,6 +1012,7 @@ pt_waveviewer_set_wave (PtWaveviewer *self,
 	memcpy (self->priv->peaks, data->array, sizeof(gfloat) * data->length);
 	self->priv->peaks_size = data->length;
 	self->priv->px_per_sec = data->px_per_sec;
+	self->priv->duration = calculate_duration (self);
 
 	/* Reset previous selections */
 	self->priv->sel_start = self->priv->sel_end = 0;
@@ -1216,6 +1234,7 @@ pt_waveviewer_init (PtWaveviewer *self)
 
 	self->priv->peaks = NULL;
 	self->priv->peaks_size = 0;
+	self->priv->duration = 0;
 	self->priv->playback_cursor = 0;
 	self->priv->follow_cursor = TRUE;
 	self->priv->focus_on_cursor = FALSE;
