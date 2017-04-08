@@ -886,20 +886,23 @@ pt_window_get_property (GObject    *object,
 static void
 pt_window_class_init (PtWindowClass *klass)
 {
-	G_OBJECT_CLASS (klass)->set_property = pt_window_set_property;
-	G_OBJECT_CLASS (klass)->get_property = pt_window_get_property;
-	G_OBJECT_CLASS (klass)->dispose = pt_window_dispose;
-	gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (klass), "/org/gnome/parlatype/window.ui");
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, button_fast_back);	// not used
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, button_fast_forward);	// not used
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, button_jump_back);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, button_jump_forward);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, volumebutton);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, pos_label);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, label_box);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, goto_button);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, speed_scale);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PtWindow, waveviewer);
+	GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
+	GtkWidgetClass *widget_class  = GTK_WIDGET_CLASS (klass);
+
+	gobject_class->set_property = pt_window_set_property;
+	gobject_class->get_property = pt_window_get_property;
+	gobject_class->dispose      = pt_window_dispose;
+	gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/parlatype/window.ui");
+	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_fast_back);	// not used
+	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_fast_forward);	// not used
+	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_jump_back);
+	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_jump_forward);
+	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, volumebutton);
+	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, pos_label);
+	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, label_box);
+	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, goto_button);
+	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, speed_scale);
+	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, waveviewer);
 
 	obj_properties[PROP_PAUSE] =
 	g_param_spec_int (
@@ -932,7 +935,7 @@ pt_window_class_init (PtWindowClass *klass)
 			G_PARAM_READWRITE);
 
 	g_object_class_install_properties (
-			G_OBJECT_CLASS (klass),
+			gobject_class,
 			N_PROPERTIES,
 			obj_properties);
 }
