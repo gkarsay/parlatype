@@ -444,16 +444,16 @@ draw_cb (GtkWidget *widget,
 	cairo_paint (cr);
 
 	/* render focus */
-	if (gtk_widget_has_focus (GTK_WIDGET (self->priv->drawarea))) {
+	if (gtk_widget_has_focus (self->priv->drawarea)) {
 		if (self->priv->focus_on_cursor) {
-			gtk_render_focus (gtk_widget_get_style_context (GTK_WIDGET (self->priv->drawarea)),
+			gtk_render_focus (gtk_widget_get_style_context (self->priv->drawarea),
 					  cr,
 					  time_to_pixel (self, self->priv->playback_cursor) - MARKER_BOX_W / 2 - 2,
 					  1,
 					  MARKER_BOX_W + 4,
 					  height - 2);
 		} else {
-			gtk_render_focus (gtk_widget_get_style_context (GTK_WIDGET (self->priv->drawarea)),
+			gtk_render_focus (gtk_widget_get_style_context (self->priv->drawarea),
 					  cr,
 					  visible_first + 1,
 					  1,
@@ -519,7 +519,7 @@ update_selection (PtWaveviewer *self)
 			g_object_notify_by_pspec (G_OBJECT (self),
 						  obj_properties[PROP_HAS_SELECTION]);
 			g_signal_emit_by_name (self, "selection-changed");
-			gtk_widget_queue_draw (GTK_WIDGET (self->priv->drawarea));
+			gtk_widget_queue_draw (self->priv->drawarea);
 		}
 		return;
 	}
@@ -549,7 +549,7 @@ update_selection (PtWaveviewer *self)
 		}
 
 		g_signal_emit_by_name (self, "selection-changed");
-		gtk_widget_queue_draw (GTK_WIDGET (self->priv->drawarea));
+		gtk_widget_queue_draw (self->priv->drawarea);
 	}
 }
 
@@ -876,7 +876,7 @@ pt_waveviewer_style_updated (GtkWidget *widget)
 	GTK_WIDGET_CLASS (pt_waveviewer_parent_class)->style_updated (widget);
 
 	pt_waveviewer_update_cached_style_values (self);
-	gtk_widget_queue_draw (GTK_WIDGET (self->priv->drawarea));
+	gtk_widget_queue_draw (self->priv->drawarea);
 }
 
 static gboolean
@@ -904,7 +904,7 @@ adj_cb (GtkAdjustment *adj,
 	   adjustment changes are not propagated for reasons I don't understand.
 	   Probably we're doing some draws twice */
 	PtWaveviewer *self = PT_WAVEVIEWER (data);
-	gtk_widget_queue_draw (GTK_WIDGET (self->priv->drawarea));
+	gtk_widget_queue_draw (self->priv->drawarea);
 }
 
 static gboolean
@@ -924,7 +924,7 @@ focus_cb (GtkWidget        *widget,
 			} else {
 				self->priv->focus_on_cursor = TRUE;
 				/* focus on cursor */
-				gtk_widget_queue_draw (GTK_WIDGET (self->priv->drawarea));
+				gtk_widget_queue_draw (self->priv->drawarea);
 				return TRUE;
 			}
 		}
@@ -932,7 +932,7 @@ focus_cb (GtkWidget        *widget,
 			if (self->priv->focus_on_cursor) {
 				self->priv->focus_on_cursor = FALSE;
 				/* focus on whole widget */
-				gtk_widget_queue_draw (GTK_WIDGET (self->priv->drawarea));
+				gtk_widget_queue_draw (self->priv->drawarea);
 				return TRUE;
 			} else {
 				/* focus lost */
@@ -1282,7 +1282,7 @@ pt_waveviewer_init (PtWaveviewer *self)
 			GTK_STYLE_PROVIDER (provider),
 			GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
-	context = gtk_widget_get_style_context (GTK_WIDGET (self->priv->drawarea));
+	context = gtk_widget_get_style_context (self->priv->drawarea);
 	gtk_style_context_add_class (context, GTK_STYLE_CLASS_FRAME);
 	gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
 	gtk_style_context_add_class (context, "cursor");
