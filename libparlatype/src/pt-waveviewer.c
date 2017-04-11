@@ -817,18 +817,15 @@ button_release_event_cb (GtkWidget      *widget,
 }
 
 static void
-pt_waveviewer_state_flags_changed (GtkWidget	 *widget,
-				   GtkStateFlags  flags)
+pt_waveviewer_update_cached_style_values (PtWaveviewer *self)
 {
-	/* Change colors depending on window state focused/not focused */
-
-	PtWaveviewer *self = PT_WAVEVIEWER (widget);
+	/* Colors and direction are cached */
 
 	GtkStyleContext *context;
 	GdkWindow       *window;
 
-	window = gtk_widget_get_parent_window (widget);
-	context = gtk_widget_get_style_context (widget);
+	window = gtk_widget_get_parent_window (GTK_WIDGET (self));
+	context = gtk_widget_get_style_context (GTK_WIDGET (self));
 	gtk_style_context_save (context);
 	gtk_style_context_add_class (context, "cursor");
 
@@ -850,8 +847,36 @@ pt_waveviewer_state_flags_changed (GtkWidget	 *widget,
 		gtk_style_context_get_color (context, GTK_STATE_FLAG_BACKDROP, &self->priv->wave_color);
 	}
 
+	if (gtk_style_context_get_state (context) & GTK_STATE_FLAG_DIR_RTL)
+		self->priv->rtl = TRUE;
+	else
+		self->priv->rtl = FALSE;
+
 	gtk_style_context_restore (context);
 	draw_cursor (self);
+}
+
+static void
+pt_waveviewer_state_flags_changed (GtkWidget	 *widget,
+				   GtkStateFlags  flags)
+{
+	/* Update colors */
+
+	PtWaveviewer *self = PT_WAVEVIEWER (widget);
+	pt_waveviewer_update_cached_style_values (self);
+
+	GTK_WIDGET_CLASS (pt_waveviewer_parent_class)->state_flags_changed (widget, flags);
+}
+
+static void
+pt_waveviewer_style_updated (GtkWidget *widget)
+{
+	PtWaveviewer *self = PT_WAVEVIEWER (widget);
+
+	GTK_WIDGET_CLASS (pt_waveviewer_parent_class)->style_updated (widget);
+
+	pt_waveviewer_update_cached_style_values (self);
+	gtk_widget_queue_draw (GTK_WIDGET (self->priv->drawarea));
 }
 
 static gboolean
@@ -879,26 +904,6 @@ adj_cb (GtkAdjustment *adj,
 	   adjustment changes are not propagated for reasons I don't understand.
 	   Probably we're doing some draws twice */
 	PtWaveviewer *self = PT_WAVEVIEWER (data);
-	gtk_widget_queue_draw (GTK_WIDGET (self->priv->drawarea));
-}
-
-static void
-get_direction (PtWaveviewer *self)
-{
-	if (gtk_widget_get_direction (GTK_WIDGET (self)) == GTK_TEXT_DIR_RTL)
-		self->priv->rtl = TRUE;
-	else
-		self->priv->rtl = FALSE;
-}
-
-
-static void
-direction_changed_cb (GtkWidget        *widget,
-                      GtkTextDirection  previous_direction,
-                      gpointer          data)
-{
-	PtWaveviewer *self = PT_WAVEVIEWER (data);
-	get_direction (self);
 	gtk_widget_queue_draw (GTK_WIDGET (self->priv->drawarea));
 }
 
@@ -1269,9 +1274,6 @@ pt_waveviewer_init (PtWaveviewer *self)
 	if (!self->priv->arrows)
 		self->priv->arrows = gdk_cursor_new_for_display (display, GDK_SB_H_DOUBLE_ARROW);
 
-	/* Get and set widget's direction */
-	get_direction (self);
-
 	css_file = g_file_new_for_uri ("resource:///org/gnome/libparlatype/pt-waveviewer.css");
 	provider = gtk_css_provider_new ();
 	gtk_css_provider_load_from_file (provider, css_file, NULL);
@@ -1283,12 +1285,8 @@ pt_waveviewer_init (PtWaveviewer *self)
 	context = gtk_widget_get_style_context (GTK_WIDGET (self->priv->drawarea));
 	gtk_style_context_add_class (context, GTK_STYLE_CLASS_FRAME);
 	gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
-	gtk_style_context_get_color (context, GTK_STATE_FLAG_NORMAL, &self->priv->wave_color);
 	gtk_style_context_add_class (context, "cursor");
-	gtk_style_context_get_color (context, GTK_STATE_FLAG_NORMAL, &self->priv->cursor_color);
 	gtk_style_context_add_class (context, "selection");
-	gtk_style_context_get_color (context, GTK_STATE_FLAG_NORMAL, &self->priv->selection_color);
-	gtk_style_context_lookup_color (context, "ruler_color", &self->priv->ruler_color);
 
 	g_object_unref (css_file);
 	g_object_unref (provider);
@@ -1328,11 +1326,6 @@ pt_waveviewer_init (PtWaveviewer *self)
 			  G_CALLBACK (key_press_event_cb),
 			  self);
 
-	g_signal_connect (self,
-			  "direction-changed",
-			  G_CALLBACK (direction_changed_cb),
-			  self);
-
 	gtk_widget_set_events (self->priv->drawarea, gtk_widget_get_events (self->priv->drawarea)
                                      | GDK_BUTTON_PRESS_MASK
                                      | GDK_BUTTON_RELEASE_MASK
@@ -1353,7 +1346,9 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 
 	gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/libparlatype/ptwaveviewer.ui");
 	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, drawarea);
+
 	widget_class->state_flags_changed = pt_waveviewer_state_flags_changed;
+	widget_class->style_updated       = pt_waveviewer_style_updated;
 
 
 	/**
