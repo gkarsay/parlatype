@@ -132,10 +132,43 @@ goto_position (GSimpleAction *action,
 	gtk_widget_destroy (GTK_WIDGET (dlg));
 }
 
+static void
+set_zoom (GSettings *editor,
+          gint       step)
+{
+	gint pps;
+
+	pps = g_settings_get_int (editor, "pps");
+	if ((step > 0 && pps >= 200) || (step < 0 && pps <= 25))
+		return;
+
+	g_settings_set_int (editor, "pps", CLAMP (pps + step, 25, 200));
+}
+
+void
+zoom_in (GSimpleAction *action,
+         GVariant      *parameter,
+         gpointer       user_data)
+{
+	PtWindow *win = PT_WINDOW (user_data);
+	set_zoom (win->priv->editor, 25);
+}
+
+void
+zoom_out (GSimpleAction *action,
+          GVariant      *parameter,
+          gpointer       user_data)
+{
+	PtWindow *win = PT_WINDOW (user_data);
+	set_zoom (win->priv->editor, -25);
+}
+
 const GActionEntry win_actions[] = {
 	{ "copy", copy_timestamp, NULL, NULL, NULL },
 	{ "insert", insert_timestamp, NULL, NULL, NULL },
-	{ "goto", goto_position, NULL, NULL, NULL }
+	{ "goto", goto_position, NULL, NULL, NULL },
+	{ "zoom-in", zoom_in, NULL, NULL, NULL },
+	{ "zoom-out", zoom_out, NULL, NULL, NULL }
 };
 
 static void
@@ -291,6 +324,12 @@ enable_win_actions (PtWindow *win,
 	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
 
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "goto");
+	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
+
+	action = g_action_map_lookup_action (G_ACTION_MAP (win), "zoom-in");
+	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
+
+	action = g_action_map_lookup_action (G_ACTION_MAP (win), "zoom-out");
 	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
 }
 

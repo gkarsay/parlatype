@@ -264,6 +264,8 @@ pt_app_startup (GApplication *app)
 	const gchar *goto_accels[2] = { "<Primary>G", NULL };
 	const gchar *recent_accels[2] = { "<Primary>R", NULL };
 	const gchar *help_accels[2] = { "F1", NULL };
+	const gchar *zoom_in_accels[3] = { "<Primary>plus", "<Primary>KP_Add", NULL };
+	const gchar *zoom_out_accels[3] = { "<Primary>minus", "<Primary>KP_Subtract", NULL };
 
 	gtk_application_set_accels_for_action (GTK_APPLICATION (app),
 			"app.quit", quit_accels);
@@ -285,6 +287,12 @@ pt_app_startup (GApplication *app)
 
 	gtk_application_set_accels_for_action (GTK_APPLICATION (app),
 			"app.help", help_accels);
+
+	gtk_application_set_accels_for_action (GTK_APPLICATION (app),
+			"win.zoom-in", zoom_in_accels);
+
+	gtk_application_set_accels_for_action (GTK_APPLICATION (app),
+			"win.zoom-out", zoom_out_accels);
 #else
 	gtk_application_add_accelerator (GTK_APPLICATION (app),
 			"<Primary>Q", "app.quit", NULL);
@@ -306,6 +314,16 @@ pt_app_startup (GApplication *app)
 
 	gtk_application_add_accelerator (GTK_APPLICATION (app),
 			"F1", "app.help", NULL);
+
+	gtk_application_add_accelerator (GTK_APPLICATION (app),
+			"<Primary>plus", "win.zoom-in", NULL);
+	gtk_application_add_accelerator (GTK_APPLICATION (app),
+			"<Primary>KP_Add", "win.zoom-in", NULL);
+
+	gtk_application_add_accelerator (GTK_APPLICATION (app),
+			"<Primary>minus", "win.zoom-out", NULL);
+	gtk_application_add_accelerator (GTK_APPLICATION (app),
+			"<Primary>KP_Subtract", "win.zoom-out", NULL);
 #endif
 
 	builder = gtk_builder_new_from_resource ("/org/gnome/parlatype/menus.ui");
