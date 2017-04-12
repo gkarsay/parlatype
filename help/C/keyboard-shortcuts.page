@@ -49,6 +49,14 @@
           <td><p><keyseq><key>Ctrl</key><key>v</key></keyseq></p></td>
         </tr>
         <tr>
+          <td><p>Zoom in</p></td>
+          <td><p><keyseq><key>Ctrl</key><key>+</key></keyseq></p></td>
+        </tr>
+        <tr>
+          <td><p>Zoom out</p></td>
+          <td><p><keyseq><key>Ctrl</key><key>-</key></keyseq></p></td>
+        </tr>
+        <tr>
           <td><p>Quit</p></td>
           <td><p><keyseq><key>Ctrl</key><key>q</key></keyseq></p></td>
         </tr>
