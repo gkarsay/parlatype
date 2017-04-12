@@ -95,6 +95,7 @@ enum
 enum {
 	CURSOR_CHANGED,
 	SELECTION_CHANGED,
+	PLAY_TOGGLED,
 	LAST_SIGNAL
 };
 
@@ -576,6 +577,9 @@ key_press_event_cb (GtkWidget   *widget,
 		case GDK_KEY_Escape:
 			self->priv->dragstart = self->priv->dragend = 0;
 			update_selection (self);
+			return TRUE;
+		case GDK_KEY_space:
+			g_signal_emit_by_name (self, "play-toggled");
 			return TRUE;
 		}
 	}
@@ -1353,7 +1357,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 
 	/**
 	* PtWaveviewer::cursor-changed:
-	* @ws: the waveviewer emitting the signal
+	* @viewer: the waveviewer emitting the signal
 	* @position: the new position in stream in milliseconds
 	*
 	* Signals that the cursor's position was changed by the user.
@@ -1371,7 +1375,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 
 	/**
 	* PtWaveviewer::selection-changed:
-	* @ws: the waveviewer emitting the signal
+	* @viewer: the waveviewer emitting the signal
 	*
 	* Signals that the selection was changed (or unselected) by the user.
 	* To query the new selection see #PtWaveviewer:has-selection,
@@ -1379,6 +1383,23 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 	*/
 	signals[SELECTION_CHANGED] =
 	g_signal_new ("selection-changed",
+		      PT_TYPE_WAVEVIEWER,
+		      G_SIGNAL_RUN_FIRST,
+		      0,
+		      NULL,
+		      NULL,
+		      g_cclosure_marshal_VOID__POINTER,
+		      G_TYPE_NONE,
+		      0);
+
+	/**
+	* PtWaveviewer::play-toggled:
+	* @viewer: the waveviewer emitting the signal
+	*
+	* Signals that the user requested to toggle play/pause.
+	*/
+	signals[PLAY_TOGGLED] =
+	g_signal_new ("play-toggled",
 		      PT_TYPE_WAVEVIEWER,
 		      G_SIGNAL_RUN_FIRST,
 		      0,

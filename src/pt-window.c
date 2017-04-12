@@ -233,6 +233,15 @@ selection_changed_cb (GtkWidget *widget,
 	}
 }
 
+void
+play_toggled_cb (GtkWidget *widget,
+		 PtWindow  *win)
+{
+	gtk_toggle_button_set_active (
+		GTK_TOGGLE_BUTTON (win->priv->button_play),
+		!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->priv->button_play)));
+}
+
 static void
 add_timer (PtWindow *win)
 {
