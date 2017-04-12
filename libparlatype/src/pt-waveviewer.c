@@ -851,6 +851,10 @@ pt_waveviewer_update_cached_style_values (PtWaveviewer *self)
 		gtk_style_context_get_color (context, GTK_STATE_FLAG_BACKDROP, &self->priv->wave_color);
 	}
 
+	/* selection color for all states for now */
+	gtk_style_context_add_class (context, "selection");
+	gtk_style_context_get_color (context, GTK_STATE_FLAG_NORMAL, &self->priv->selection_color);
+
 	if (gtk_style_context_get_state (context) & GTK_STATE_FLAG_DIR_RTL)
 		self->priv->rtl = TRUE;
 	else
