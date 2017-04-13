@@ -17,7 +17,6 @@
 
 #include "config.h"
 #include <gtk/gtk.h>
-#include <glib/gprintf.h>	/* für g_print */
 #include "pt-window.h"
 #include "pt-window-private.h"
 
