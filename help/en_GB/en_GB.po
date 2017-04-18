@@ -49,7 +49,7 @@ msgstr "Gabor Karsay"
 #. (itstool) path: page/p
 #: C/index.page:14 C/index.page:23
 msgid ""
-"<app>Parlatype</app> is an easy to use media player. It's main purpose is to "
+"<app>Parlatype</app> is an easy to use media player. Its main purpose is to "
 "help you transcribing speech."
 msgstr ""
 "<app>Parlatype</app> is an easy to use media player. Its main purpose is to "

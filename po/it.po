@@ -31,7 +31,7 @@ msgstr "Lettore multimediale per la trascrizione vocale manuale"
 
 #: ../data/org.gnome.parlatype.appdata.xml.in.h:3
 msgid ""
-"Parlatype is an easy to use media player. It's main purpose is to help you "
+"Parlatype is an easy to use media player. Its main purpose is to help you "
 "transcribing speech."
 msgstr ""
 "Parlatype è un lettore multimediale facile da usare. Il suo scopo principale "
