@@ -31,7 +31,7 @@ msgstr "Pemutar media untuk transkrip pembicaraan manual"
 
 #: ../data/org.gnome.parlatype.appdata.xml.in.h:3
 msgid ""
-"Parlatype is an easy to use media player. It's main purpose is to help you "
+"Parlatype is an easy to use media player. Its main purpose is to help you "
 "transcribing speech."
 msgstr ""
 "Parlatype adalah pemutar media yang mudah digunakan. Tujuan utamanya adalah "
