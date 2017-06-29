@@ -826,9 +826,12 @@ pt_waveviewer_update_cached_style_values (PtWaveviewer *self)
 	/* Colors and direction are cached */
 
 	GtkStyleContext *context;
-	GdkWindow       *window;
+	GdkWindow       *window = NULL;
 
 	window = gtk_widget_get_parent_window (GTK_WIDGET (self));
+	if (!window)
+		return;
+
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
 	gtk_style_context_save (context);
 	gtk_style_context_add_class (context, "cursor");
