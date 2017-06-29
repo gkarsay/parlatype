@@ -1,4 +1,4 @@
-lodir = $(prefix)/lib/libreoffice/share/Scripts/python
+lodir = $(libdir)/libreoffice/share/Scripts/python
 
 if LIBREOFFICE
 dist_lo_DATA = Parlatype.py

@@ -77,5 +77,7 @@ if test "${prefix}" != "/usr" -a "$with_libreoffice" == "yes"; then
 echo "
         Note: Consider using --without-libreoffice for prefixes
         other than /usr and copying the script manually to:
-        /usr/lib/libreoffice/share/Scripts/python/Parlatype.py"
+        /usr/lib/libreoffice/share/Scripts/python/Parlatype.py
+        On some systems it's lib64 or lib32 instead of lib.
+"
 fi
