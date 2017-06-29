@@ -384,13 +384,14 @@ draw_cb (GtkWidget *widget,
 	if (!peaks)
 		return FALSE;
 
+	GtkStyleContext *context;
 	gint visible_first;
 	gint visible_last;
-
 	gint pixel;
 	gint array;
 	gdouble min, max;
 
+	context = gtk_widget_get_style_context (self->priv->drawarea);
 	gint height = gtk_widget_get_allocated_height (widget);
 
 	if (self->priv->show_ruler)
@@ -404,6 +405,9 @@ draw_cb (GtkWidget *widget,
 
 	g_debug ("visible area: %d–%d", visible_first, visible_last);
 
+	gtk_render_background (context, cr,
+                               visible_first, 0,
+                               visible_last - visible_first, height);
 	gdk_cairo_set_source_rgba (cr, &self->priv->wave_color);
 
 	/* paint waveform */
@@ -447,15 +451,13 @@ draw_cb (GtkWidget *widget,
 	/* render focus */
 	if (gtk_widget_has_focus (self->priv->drawarea)) {
 		if (self->priv->focus_on_cursor) {
-			gtk_render_focus (gtk_widget_get_style_context (self->priv->drawarea),
-					  cr,
+			gtk_render_focus (context, cr,
 					  time_to_pixel (self, self->priv->playback_cursor) - MARKER_BOX_W / 2 - 2,
 					  1,
 					  MARKER_BOX_W + 4,
 					  height - 2);
 		} else {
-			gtk_render_focus (gtk_widget_get_style_context (self->priv->drawarea),
-					  cr,
+			gtk_render_focus (context, cr,
 					  visible_first + 1,
 					  1,
 					  (gint) gtk_adjustment_get_page_size (self->priv->adj) - 2,
