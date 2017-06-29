@@ -24,10 +24,10 @@ import dbus
 
 def _getDBUSService():
 	try:
-		obj = dbus.SessionBus().get_object("org.gnome.parlatype", "/org/gnome/parlatype")
+		obj = dbus.SessionBus().get_object("com.github.gkarsay.parlatype", "/com/github/gkarsay/parlatype")
 	except:
 		return None
-	return dbus.Interface(obj, "org.gnome.parlatype")
+	return dbus.Interface(obj, "com.github.gkarsay.parlatype")
 
 def _getTextRange():
 	doc = XSCRIPTCONTEXT.getDocument()

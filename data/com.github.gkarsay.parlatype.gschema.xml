@@ -1,5 +1,5 @@
 <schemalist>
-	<schema id="org.gnome.parlatype" path="/org/gnome/parlatype/">
+	<schema id="com.github.gkarsay.parlatype" path="/com/github/gkarsay/parlatype/">
 		<key name="rewind-on-pause" type="i">
 			<range min="0" max="10"/>
 			<default>2</default>

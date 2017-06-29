@@ -112,7 +112,7 @@ static void
 pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 {
 	dlg->priv = pt_preferences_dialog_get_instance_private (dlg);
-	dlg->priv->editor = g_settings_new ("org.gnome.parlatype");
+	dlg->priv->editor = g_settings_new ("com.github.gkarsay.parlatype");
 
 	gtk_widget_init_template (GTK_WIDGET (dlg));
 	g_settings_bind (
@@ -190,7 +190,7 @@ pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
 	object_class->dispose = pt_preferences_dialog_dispose;
 
 	/* Bind class to template */
-	gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/parlatype/preferences.ui");
+	gtk_widget_class_set_template_from_resource (widget_class, "/com/github/gkarsay/parlatype/preferences.ui");
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, spin_pause);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, spin_back);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, spin_forward);

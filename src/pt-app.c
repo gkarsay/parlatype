@@ -326,7 +326,7 @@ pt_app_startup (GApplication *app)
 			"<Primary>KP_Subtract", "win.zoom-out", NULL);
 #endif
 
-	builder = gtk_builder_new_from_resource ("/org/gnome/parlatype/menus.ui");
+	builder = gtk_builder_new_from_resource ("/com/github/gkarsay/parlatype/menus.ui");
 
 #if GTK_CHECK_VERSION(3,14,0)
 	if (gtk_application_prefers_app_menu (GTK_APPLICATION (app))) {
@@ -351,7 +351,7 @@ pt_app_startup (GApplication *app)
 	/* Load custom css */
 	GtkCssProvider *provider;
 	GFile          *file;
-	file = g_file_new_for_uri ("resource:///org/gnome/parlatype/parlatype.css");
+	file = g_file_new_for_uri ("resource:///com/github/gkarsay/parlatype/parlatype.css");
 	provider = gtk_css_provider_new ();
 	/* Note: since 3.16 there's also gtk_css_provider_load_from_resource () */
 	gtk_css_provider_load_from_file (provider, file, NULL);
@@ -411,7 +411,7 @@ PtApp *
 pt_app_new (void)
 {
 	return g_object_new (PT_APP_TYPE,
-			     "application-id", "org.gnome.parlatype",
+			     "application-id", "com.github.gkarsay.parlatype",
 			     "flags", G_APPLICATION_HANDLES_OPEN,
 			     NULL);
 }

@@ -28,7 +28,7 @@ static GDBusNodeInfo *introspection_data = NULL;
 /* Introspection data for the service we are exporting */
 static const gchar introspection_xml[] =
   "<node>"
-  "  <interface name='org.gnome.parlatype'>"
+  "  <interface name='com.github.gkarsay.parlatype'>"
   "    <method name='GetTimestamp'>"
   "      <arg type='s' name='timestamp' direction='out'/>"
   "    </method>"
@@ -110,7 +110,7 @@ on_bus_acquired (GDBusConnection *connection,
 	guint registration_id;
 
 	registration_id = g_dbus_connection_register_object (connection,
-                                                       "/org/gnome/parlatype",
+                                                       "/com/github/gkarsay/parlatype",
                                                        introspection_data->interfaces[0],
                                                        &interface_vtable,
                                                        user_data,
@@ -140,7 +140,7 @@ setup_dbus_service (PtWindow *win)
 	g_assert (introspection_data != NULL);
 
 	win->priv->owner_id = g_bus_own_name (G_BUS_TYPE_SESSION,
-			"org.gnome.parlatype",
+			"com.github.gkarsay.parlatype",
 			G_BUS_NAME_OWNER_FLAGS_NONE,
 			on_bus_acquired,
 			on_name_acquired,

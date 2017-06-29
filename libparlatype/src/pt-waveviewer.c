@@ -1287,7 +1287,7 @@ pt_waveviewer_init (PtWaveviewer *self)
 	if (!self->priv->arrows)
 		self->priv->arrows = gdk_cursor_new_for_display (display, GDK_SB_H_DOUBLE_ARROW);
 
-	css_file = g_file_new_for_uri ("resource:///org/gnome/libparlatype/pt-waveviewer.css");
+	css_file = g_file_new_for_uri ("resource:///com/github/gkarsay/libparlatype/pt-waveviewer.css");
 	provider = gtk_css_provider_new ();
 	gtk_css_provider_load_from_file (provider, css_file, NULL);
 	gtk_style_context_add_provider_for_screen (
@@ -1357,7 +1357,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 	gobject_class->constructed  = pt_waveviewer_constructed;
 	gobject_class->finalize     = pt_waveviewer_finalize;
 
-	gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/libparlatype/ptwaveviewer.ui");
+	gtk_widget_class_set_template_from_resource (widget_class, "/com/github/gkarsay/libparlatype/ptwaveviewer.ui");
 	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, drawarea);
 
 	widget_class->state_flags_changed = pt_waveviewer_state_flags_changed;

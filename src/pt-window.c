@@ -675,7 +675,7 @@ settings_changed_cb (GSettings *settings,
 static void
 setup_settings (PtWindow *win)
 {
-	win->priv->editor = g_settings_new ("org.gnome.parlatype");
+	win->priv->editor = g_settings_new ("com.github.gkarsay.parlatype");
 
 	g_settings_bind (
 			win->priv->editor, "rewind-on-pause",
@@ -767,7 +767,7 @@ setup_accels_actions_headerbar (PtWindow *win)
 	GtkWidget     *hbar;
 	GtkWidget     *menu_button;
 
-	builder = gtk_builder_new_from_resource ("/org/gnome/parlatype/window-headerbar.ui");
+	builder = gtk_builder_new_from_resource ("/com/github/gkarsay/parlatype/window-headerbar.ui");
 	hbar = GTK_WIDGET (gtk_builder_get_object (builder, "headerbar"));
 	win->priv->button_open = GTK_WIDGET (gtk_builder_get_object (builder, "button_open"));
 	win->priv->button_play = GTK_WIDGET (gtk_builder_get_object (builder, "button_play"));
@@ -776,7 +776,7 @@ setup_accels_actions_headerbar (PtWindow *win)
 	gtk_builder_connect_signals (builder, win);
 	g_object_unref (builder);
 
-	builder = gtk_builder_new_from_resource ("/org/gnome/parlatype/menus.ui");
+	builder = gtk_builder_new_from_resource ("/com/github/gkarsay/parlatype/menus.ui");
 	model = G_MENU_MODEL (gtk_builder_get_object (builder, "winmenu"));
 	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (menu_button), model);
 	g_object_unref (builder);
@@ -813,7 +813,7 @@ setup_goto_button (PtWindow *win)
 {
 	GtkWidget *image;
 
-	image = gtk_image_new_from_resource ("/org/gnome/parlatype/icons/cursor.png");
+	image = gtk_image_new_from_resource ("/com/github/gkarsay/parlatype/icons/cursor.png");
 	gtk_button_set_label (GTK_BUTTON (win->priv->goto_button), NULL);
 	gtk_button_set_image (GTK_BUTTON (win->priv->goto_button), image);
 
@@ -946,7 +946,7 @@ pt_window_class_init (PtWindowClass *klass)
 	gobject_class->set_property = pt_window_set_property;
 	gobject_class->get_property = pt_window_get_property;
 	gobject_class->dispose      = pt_window_dispose;
-	gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/parlatype/window.ui");
+	gtk_widget_class_set_template_from_resource (widget_class, "/com/github/gkarsay/parlatype/window.ui");
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_fast_back);	// not used
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_fast_forward);	// not used
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_jump_back);
