@@ -1,0 +1,315 @@
+# Serbian translation for parlatype
+# Copyright (c) 2017 Rosetta Contributors and Canonical Ltd 2017
+# This file is distributed under the same license as the parlatype package.
+# Томица Кораћ <Unknown>, 2017.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: parlatype 1.5\n"
+"Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
+"POT-Creation-Date: 2017-04-18 20:55+0200\n"
+"PO-Revision-Date: 2017-06-25 21:09+0000\n"
+"Last-Translator: Томица Кораћ <Unknown>\n"
+"Language-Team: Serbian <sr@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Launchpad-Export-Date: 2017-06-29 09:44+0000\n"
+"X-Generator: Launchpad (build 18418)\n"
+
+#: ../data/org.gnome.parlatype.appdata.xml.in.h:1
+#: ../data/org.gnome.parlatype.desktop.in.h:1 ../src/pt-app.c:65
+#: ../src/pt-app.c:216 ../src/resources/window.ui.h:1
+#: ../src/resources/window-headerbar.ui.h:1
+msgid "Parlatype"
+msgstr "Парлатајп"
+
+#: ../data/org.gnome.parlatype.appdata.xml.in.h:2
+msgid "Media player for manual speech transcription"
+msgstr "Плејер за ручно записивање говора"
+
+#: ../data/org.gnome.parlatype.appdata.xml.in.h:3
+msgid ""
+"Parlatype is an easy to use media player. Its main purpose is to help you "
+"transcribing speech."
+msgstr ""
+"Паратајп је медија плејер лак за употребу. Његова главна намена је помоћ при "
+"транскрибовању."
+
+#: ../data/org.gnome.parlatype.desktop.in.h:2
+msgid "Transcription utility"
+msgstr "Алат за транскрипцију."
+
+#: ../src/main.c:43
+msgid "Show the application's version"
+msgstr "Прикажи верзију апликације."
+
+#: ../src/main.c:59
+msgid "Fatal error"
+msgstr "Кобна грешка"
+
+#: ../src/main.c:63
+#, c-format
+msgid ""
+"Parlatype needs GStreamer 1.x to run. Please check your installation of "
+"GStreamer and make sure you have the \"Good Plugins\" installed.\n"
+"Parlatype will quit now, it received this error message: %s"
+msgstr ""
+"Парлатајп захтева GStreamer 1.x. Проверите инсталацију ЏиСтримера и "
+"потврдите јесу ли инсталирани „добри плагинови“.\n"
+"Парлатајп ће се сада угасити, пријављена је следећа грешка: %s"
+
+#. Translators: This is part of the output if you type `parlatype --help`
+#. in terminal. The square brackets indicate that a file (filename) is
+#. an optional argument for parlatype. Arguments in help output are usually
+#. uppercase.
+#: ../src/main.c:87
+msgid "[FILE]"
+msgstr "[ФАЈЛ]"
+
+#: ../src/main.c:90
+msgid "Minimal audio player for manual speech transcription"
+msgstr "Мали аудио плејер за ручну транскрипцију"
+
+#: ../src/pt-app.c:56 ../src/resources/menus.ui.h:2
+msgid "Recent Files"
+msgstr "Недавни фајлови"
+
+#: ../src/pt-app.c:58 ../src/pt-app.c:115
+msgid "_Cancel"
+msgstr "_Откажи"
+
+#: ../src/pt-app.c:59 ../src/pt-app.c:116
+msgid "_Open"
+msgstr "_Отвори"
+
+#: ../src/pt-app.c:71 ../src/pt-app.c:127
+msgid "All files"
+msgstr "Сви фајлови"
+
+#: ../src/pt-app.c:112
+msgid "Open Audio File"
+msgstr "Отвори звучни фајл"
+
+#: ../src/pt-app.c:126
+msgid "Audio files"
+msgstr "Звучни фајлови"
+
+#. Translators: %s is a detailed error message
+#: ../src/pt-app.c:183
+#, c-format
+msgid "Error opening help: %s"
+msgstr "Грешка при отварању помоћи: %s"
+
+#. Translators: This is part of the about box, followed by the
+#. copyright holders of code from other projects. Instead of
+#. "including" it could also say "with" or just "Code from
+#. other projects:"
+#: ../src/pt-app.c:201
+msgid "Including code from other projects:"
+msgstr "Код из осталих пројеката:"
+
+#: ../src/pt-app.c:219
+msgid "A basic transcription utility"
+msgstr "Основни алат за транскрипцију"
+
+#: ../src/pt-app.c:223
+msgid "translator-credits"
+msgstr ""
+"Launchpad Contributions:\n"
+"  Томица Кораћ https://launchpad.net/~tomak-delijeonline"
+
+#: ../src/pt-app.c:394
+#, c-format
+msgid ""
+"Warning: Parlatype handles only one file at a time. The other files are "
+"ignored.\n"
+msgstr ""
+"Упозорење: Парлатајп ради само са једним фајлом истовремено. Други фајлови "
+"се занемарују.\n"
+
+#. Translators: This is a time format, like "2:05:30" for 2
+#. hours, 5 minutes, and 30 seconds. You may change ":" to
+#. the separator that your locale uses or use "%Id" instead
+#. of "%d" if your locale uses localized digits.
+#: ../src/pt-goto-dialog.c:49
+#, c-format
+msgctxt "long time format"
+msgid "%d:%02d:%02d"
+msgstr "%d:%02d:%02d"
+
+#. Translators: This is part of the Preferences dialog
+#. or the "Go to ..." dialog. There is a label like
+#. "Jump back:", "Jump forward:", "Jump back on pause:"
+#. or "Go to position:" before.
+#: ../src/pt-goto-dialog.c:79 ../src/pt-preferences.c:55
+#: ../src/pt-preferences.c:65 ../src/pt-preferences.c:75
+msgid "second"
+msgid_plural "seconds"
+msgstr[0] "секунду"
+msgstr[1] "sekundi"
+msgstr[2] "sekundi"
+
+#: ../src/pt-preferences.c:169
+msgid "_Close"
+msgstr "_Close"
+
+#: ../src/pt-window.c:273
+#, c-format
+msgid "Jump back 1 second"
+msgid_plural "Jump back %d seconds"
+msgstr[0] "Врати се 1 секунду"
+msgstr[1] "Врати се %d секунде"
+msgstr[2] "Врати се %d секунди"
+
+#: ../src/pt-window.c:288
+#, c-format
+msgid "Jump forward 1 second"
+msgid_plural "Jump forward %d seconds"
+msgstr[0] "Прескочи 1 секунду"
+msgstr[1] "Прескочи %d секунде"
+msgstr[2] "Прескочи %d секунди"
+
+#: ../src/pt-window.c:305
+msgid "Pause"
+msgstr "Pauza"
+
+#: ../src/pt-window.c:308
+#, c-format
+msgid "Pause and rewind 1 second"
+msgid_plural "Pause and rewind %d seconds"
+msgstr[0] "Застани и врати 1 секунду"
+msgstr[1] "Застани и врати %d секунде"
+msgstr[2] "Застани и врати %d секунди"
+
+#: ../src/pt-window.c:315
+msgid "Start playing"
+msgstr "Покрени"
+
+#: ../src/pt-window.c:804
+msgid "View follows cursor"
+msgstr "Приказ прати курсор"
+
+#: ../src/pt-window.c:806
+msgid "Click to follow cursor"
+msgstr "Кликни да пратиш курсор"
+
+#: ../src/resources/goto-dialog.ui.h:1 ../src/resources/menus.ui.h:9
+msgid "Go to ..."
+msgstr "Иди на..."
+
+#: ../src/resources/goto-dialog.ui.h:2
+msgid "Go to position:"
+msgstr "Иди на положај:"
+
+#: ../src/resources/menus.ui.h:1
+msgid "Open File"
+msgstr "Отвори фајл"
+
+#: ../src/resources/menus.ui.h:3
+msgid "Preferences"
+msgstr "Поставке"
+
+#: ../src/resources/menus.ui.h:4
+msgid "Help"
+msgstr "Помоћ"
+
+#: ../src/resources/menus.ui.h:5
+msgid "Info"
+msgstr "Подаци"
+
+#: ../src/resources/menus.ui.h:6
+msgid "Quit"
+msgstr "Излаз"
+
+#: ../src/resources/menus.ui.h:7
+msgid "Copy timestamp"
+msgstr "Копирај време"
+
+#: ../src/resources/menus.ui.h:8
+msgid "Insert timestamp"
+msgstr "Убаци време"
+
+#: ../src/resources/menus.ui.h:10
+msgid "_File"
+msgstr "_Фајл"
+
+#: ../src/resources/menus.ui.h:11
+msgid "_Edit"
+msgstr "_Измени"
+
+#: ../src/resources/menus.ui.h:12
+msgid "_Help"
+msgstr "_Помоћ"
+
+#: ../src/resources/preferences.ui.h:1
+msgid "Parlatype Preferences"
+msgstr "Поставке Парлатајпа"
+
+#: ../src/resources/preferences.ui.h:2
+msgid "_Pixels per second:"
+msgstr "_Пиксела по секунди"
+
+#: ../src/resources/preferences.ui.h:3
+msgid "Show _time scale"
+msgstr ""
+
+#. Resolution of the waveform image
+#: ../src/resources/preferences.ui.h:5
+msgid "Resolution"
+msgstr ""
+
+#. A section in preferences, how to display the waveform.
+#: ../src/resources/preferences.ui.h:7
+msgid "Display"
+msgstr ""
+
+#: ../src/resources/preferences.ui.h:8
+msgid "_Moving cursor"
+msgstr ""
+
+#: ../src/resources/preferences.ui.h:9
+msgid "_Fixed cursor"
+msgstr ""
+
+#: ../src/resources/preferences.ui.h:10
+msgid "Waveform"
+msgstr ""
+
+#: ../src/resources/preferences.ui.h:11
+msgid "Jump back on _pause:"
+msgstr ""
+
+#: ../src/resources/preferences.ui.h:12
+msgid "Jump _back:"
+msgstr ""
+
+#: ../src/resources/preferences.ui.h:13
+msgid "Jump _forward:"
+msgstr ""
+
+#: ../src/resources/preferences.ui.h:14
+msgid "Controls"
+msgstr ""
+
+#: ../src/resources/preferences.ui.h:15
+msgid "Remember _position"
+msgstr ""
+
+#: ../src/resources/preferences.ui.h:16
+msgid "Start on _top"
+msgstr ""
+
+#: ../src/resources/preferences.ui.h:17
+msgid "Window"
+msgstr ""
+
+#: ../src/resources/window.ui.h:2
+msgid "Speed:"
+msgstr ""
+
+#: ../src/resources/window-headerbar.ui.h:2
+msgid "Open a file"
+msgstr ""
