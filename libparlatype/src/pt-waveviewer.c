@@ -1392,7 +1392,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 		      0,
 		      NULL,
 		      NULL,
-		      g_cclosure_marshal_VOID__POINTER,
+		      g_cclosure_marshal_VOID__VOID,
 		      G_TYPE_NONE,
 		      0);
 
@@ -1409,7 +1409,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 		      0,
 		      NULL,
 		      NULL,
-		      g_cclosure_marshal_VOID__POINTER,
+		      g_cclosure_marshal_VOID__VOID,
 		      G_TYPE_NONE,
 		      0);
 

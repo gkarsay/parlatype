@@ -1637,7 +1637,7 @@ pt_player_class_init (PtPlayerClass *klass)
 		      0,
 		      NULL,
 		      NULL,
-		      g_cclosure_marshal_VOID__POINTER,
+		      g_cclosure_marshal_VOID__VOID,
 		      G_TYPE_NONE,
 		      0);
 
