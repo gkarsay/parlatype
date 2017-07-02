@@ -1237,6 +1237,12 @@ pt_waveviewer_set_property (GObject      *object,
 		break;
 	case PROP_SHOW_RULER:
 		self->priv->show_ruler = g_value_get_boolean (value);
+		gint height = WAVE_MIN_HEIGHT;
+		if (self->priv->show_ruler)
+			height += self->priv->ruler_height;
+		gtk_widget_set_size_request (self->priv->drawarea,
+		                             self->priv->peaks_size / 2,
+		                             height);
 		draw_cursor (self);
 		gtk_widget_queue_draw (self->priv->drawarea);
 		break;
@@ -1281,6 +1287,7 @@ pt_waveviewer_init (PtWaveviewer *self)
 	self->priv->focus_on_cursor = FALSE;
 	self->priv->sel_start = 0;
 	self->priv->sel_end = 0;
+	self->priv->ruler_height = 0;
 
 	/* Try a few cursors for selections */
 	display = gdk_display_get_default ();
