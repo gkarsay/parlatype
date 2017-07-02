@@ -1209,8 +1209,11 @@ pt_waveviewer_set_property (GObject      *object,
 			gint old_x = time_to_pixel (self, old_value) - MARKER_BOX_W / 2;
 			gint new_x = time_to_pixel (self, self->priv->playback_cursor) - MARKER_BOX_W / 2;
 
-			if (self->priv->show_ruler)
+			if (self->priv->show_ruler) {
 				height = height - self->priv->ruler_height;
+				if (height < WAVE_MIN_HEIGHT)
+					break;
+			}
 
 			gtk_widget_queue_draw_area (self->priv->drawarea,
 						    old_x,
