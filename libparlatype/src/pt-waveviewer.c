@@ -242,10 +242,11 @@ size_allocate_cb (GtkWidget     *widget,
                   GtkAllocation *rectangle,
                   gpointer       data)
 {
-	/* When size of widget changed, we have to change the cursor's size, too */
-
-	PtWaveviewer *self = (PtWaveviewer *) data;
+	PtWaveviewer *self = (PtWaveviewer *) widget;
+	/* If widget changed vertical size, cursor's size has to be adjusted */
 	draw_cursor (self);
+	/* If widget changed horizontal size, revealed parts have to be drawn */
+	gtk_widget_queue_draw (self->priv->drawarea);
 }
 
 static gint64
@@ -1327,10 +1328,10 @@ pt_waveviewer_init (PtWaveviewer *self)
 			  G_CALLBACK (motion_notify_event_cb),
 			  self);
 
-	g_signal_connect (self->priv->drawarea,
+	g_signal_connect (self,
 			  "size-allocate",
 			  G_CALLBACK (size_allocate_cb),
-			  self);
+			  NULL);
 
 	g_signal_connect (self->priv->drawarea,
 			  "focus",
