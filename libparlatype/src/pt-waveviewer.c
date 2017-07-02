@@ -381,9 +381,6 @@ draw_cb (GtkWidget *widget,
 	PtWaveviewer *self = (PtWaveviewer *) data;
 
 	gfloat *peaks = self->priv->peaks;
-	if (!peaks)
-		return FALSE;
-
 	GtkStyleContext *context;
 	gint visible_first;
 	gint visible_last;
@@ -408,9 +405,11 @@ draw_cb (GtkWidget *widget,
 	gtk_render_background (context, cr,
                                visible_first, 0,
                                visible_last - visible_first, height);
-	gdk_cairo_set_source_rgba (cr, &self->priv->wave_color);
+	if (!peaks)
+		return FALSE;
 
 	/* paint waveform */
+	gdk_cairo_set_source_rgba (cr, &self->priv->wave_color);
 	for (pixel = visible_first; pixel <= visible_last; pixel += 1) {
 		array = pixel_to_array (self, pixel);
 		if (array == -1)
