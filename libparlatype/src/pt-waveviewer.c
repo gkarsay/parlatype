@@ -1304,6 +1304,10 @@ pt_waveviewer_init (PtWaveviewer *self)
 	g_object_unref (css_file);
 	g_object_unref (provider);
 
+#if GTK_CHECK_VERSION(3,16,0)
+	gtk_scrolled_window_set_overlay_scrolling (GTK_SCROLLED_WINDOW (self), FALSE);
+#endif
+
 	g_signal_connect (self->priv->drawarea,
 			  "button-press-event",
 			  G_CALLBACK (button_press_event_cb),
