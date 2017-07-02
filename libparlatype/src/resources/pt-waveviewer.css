@@ -17,3 +17,10 @@
 .selection {
 	color: rgba(90%,50%,50%,0.5);
 }
+
+scrolledwindow undershoot.left,
+scrolledwindow undershoot.right,
+scrolledwindow overshoot.left,
+scrolledwindow overshoot.right {
+	background: none;
+}
