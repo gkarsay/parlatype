@@ -1027,7 +1027,7 @@ pt_waveviewer_set_wave (PtWaveviewer *self,
 
 	self->priv->duration = 0;
 	self->priv->playback_cursor = 0;
-	gtk_widget_set_size_request (self->priv->drawarea, -1, -1);
+	gtk_widget_set_size_request (self->priv->drawarea, -1, WAVE_MIN_HEIGHT);
 
 	if (!data) {
 		gtk_widget_queue_draw (GTK_WIDGET (self));
