@@ -392,7 +392,7 @@ draw_cb (GtkWidget *widget,
 	context = gtk_widget_get_style_context (self->priv->drawarea);
 	gint height = gtk_widget_get_allocated_height (widget);
 
-	if (self->priv->show_ruler)
+	if (self->priv->show_ruler && peaks)
 		height = height - self->priv->ruler_height;
 
 	gint half = height / 2 - 1;
