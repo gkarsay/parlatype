@@ -3,8 +3,8 @@
 	<id>com.github.gkarsay.parlatype.libreoffice-helpers</id>
 	<extends>com.github.gkarsay.parlatype.desktop</extends>
 	<extends>libreoffice-writer.desktop</extends>
-	<name>LibreOffice Helpers</name>
-	<summary>Control Parlatype using LibreOffice macros</summary>
+	<_name>LibreOffice/Parlatype Helpers</_name>
+	<_summary>Control Parlatype using LibreOffice macros</_summary>
 	<url type="homepage">http://gkarsay.github.io/parlatype/</url>
 	<url type="bugtracker">https://github.com/gkarsay/parlatype/issues</url>
 	<metadata_license>CC-BY-SA-4.0</metadata_license>
