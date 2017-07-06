@@ -2,6 +2,7 @@
 
 data/com.github.gkarsay.parlatype.appdata.xml.in
 data/com.github.gkarsay.parlatype.desktop.in
+data/com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in
 src/main.c
 src/pt-app.c
 src/pt-goto-dialog.c

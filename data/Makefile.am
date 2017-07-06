@@ -13,6 +13,9 @@ gsettings_SCHEMAS = com.github.gkarsay.parlatype.gschema.xml
 
 appdatadir = $(datadir)/appdata
 appdata_in_files = com.github.gkarsay.parlatype.appdata.xml.in
+if LIBREOFFICE
+appdata_in_files += com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in
+endif
 appdata_DATA = $(appdata_in_files:.xml.in=.xml)
 @INTLTOOL_XML_RULE@
 

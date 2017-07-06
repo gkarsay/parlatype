@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="addon">
+	<id>com.github.gkarsay.parlatype.libreoffice-helpers</id>
+	<extends>com.github.gkarsay.parlatype.desktop</extends>
+	<extends>libreoffice-writer.desktop</extends>
+	<name>LibreOffice Helpers</name>
+	<summary>Control Parlatype using LibreOffice macros</summary>
+	<url type="homepage">http://gkarsay.github.io/parlatype/</url>
+	<url type="bugtracker">https://github.com/gkarsay/parlatype/issues</url>
+	<metadata_license>CC-BY-SA-4.0</metadata_license>
+	<project_license>GPL-3.0+</project_license>
+	<updatecontact>gabor.karsay@gmx.at</updatecontact>
+</component>
