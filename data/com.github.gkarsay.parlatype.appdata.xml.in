@@ -16,18 +16,26 @@
 		<screenshot type="default">https://raw.githubusercontent.com/gkarsay/parlatype/master/data/screenshot.png</screenshot>
 	</screenshots>
 
-	<url type="homepage">https://github.com/gkarsay/parlatype</url>
-	<project_group>GNOME</project_group>
+	<url type="homepage">http://gkarsay.github.io/parlatype/</url>
+	<url type="bugtracker">https://github.com/gkarsay/parlatype/issues</url>
+	<url type="translate">https://translations.launchpad.net/parlatype</url>
+	<developer_name>Gabor Karsay</developer_name>
 
 	<provides>
 		<binary>parlatype</binary>
 	</provides>
 
+	<translation type="gettext">parlatype</translation>
+	<translation type="gettext">libparlatype</translation>
+
+	<suggests>
+		<id>libreoffice-writer.desktop</id>
+	</suggests>
 	<kudos>
+		<kudo>AppMenu</kudo>
 		<kudo>ModernToolkit</kudo>
 		<kudo>UserDocs</kudo>
 	</kudos>
 
 	<updatecontact>gabor.karsay@gmx.at</updatecontact>
-
 </component>
