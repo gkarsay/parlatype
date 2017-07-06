@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
 "POT-Creation-Date: 2017-04-18 20:55+0200\n"
-"PO-Revision-Date: 2017-06-27 08:19+0000\n"
+"PO-Revision-Date: 2017-07-04 09:55+0000\n"
 "Last-Translator: Moo <hazap@hotmail.com>\n"
 "Language-Team: Lithuanian <lt@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "(n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2017-06-29 09:44+0000\n"
-"X-Generator: Launchpad (build 18418)\n"
+"X-Launchpad-Export-Date: 2017-07-06 17:52+0000\n"
+"X-Generator: Launchpad (build 18419)\n"
 
 #: ../data/org.gnome.parlatype.appdata.xml.in.h:1
 #: ../data/org.gnome.parlatype.desktop.in.h:1 ../src/pt-app.c:65
@@ -28,17 +28,19 @@ msgstr "Parlatype"
 
 #: ../data/org.gnome.parlatype.appdata.xml.in.h:2
 msgid "Media player for manual speech transcription"
-msgstr ""
+msgstr "Medijos grotuvas, skirtas rankinei kalbėjimo transkripcijai"
 
 #: ../data/org.gnome.parlatype.appdata.xml.in.h:3
 msgid ""
 "Parlatype is an easy to use media player. Its main purpose is to help you "
 "transcribing speech."
 msgstr ""
+"Parlatype yra lengvas naudoti medijos grotuvas. Jo pagrindinis tikslas yra "
+"padėti jums perrašyti kalbėjimą."
 
 #: ../data/org.gnome.parlatype.desktop.in.h:2
 msgid "Transcription utility"
-msgstr ""
+msgstr "Transkripcijos paslaugų programa"
 
 #: ../src/main.c:43
 msgid "Show the application's version"
@@ -55,6 +57,10 @@ msgid ""
 "GStreamer and make sure you have the \"Good Plugins\" installed.\n"
 "Parlatype will quit now, it received this error message: %s"
 msgstr ""
+"Parlatype savo darbui reikalauja GStreamer 1.x. Prašome patikrinti savo "
+"GStreamer įdiegimą ir įsitikinti, kad esate įdiegę \"geruosius įskiepius\" "
+"(angl. Good Plugins).\n"
+"Dabar Parlatype užbaigs darbą, programa gavo šią klaidą: %s"
 
 #. Translators: This is part of the output if you type `parlatype --help`
 #. in terminal. The square brackets indicate that a file (filename) is
@@ -66,7 +72,7 @@ msgstr "[FAILAS]"
 
 #: ../src/main.c:90
 msgid "Minimal audio player for manual speech transcription"
-msgstr ""
+msgstr "Minimalus garso grotuvas, skirtas rankinei kalbėjimo transkripcijai"
 
 #: ../src/pt-app.c:56 ../src/resources/menus.ui.h:2
 msgid "Recent Files"
@@ -86,7 +92,7 @@ msgstr "Visi failai"
 
 #: ../src/pt-app.c:112
 msgid "Open Audio File"
-msgstr ""
+msgstr "Atverti garso failą"
 
 #: ../src/pt-app.c:126
 msgid "Audio files"
@@ -96,7 +102,7 @@ msgstr "Garso failai"
 #: ../src/pt-app.c:183
 #, c-format
 msgid "Error opening help: %s"
-msgstr ""
+msgstr "Klaida, atveriant žinyną: %s"
 
 #. Translators: This is part of the about box, followed by the
 #. copyright holders of code from other projects. Instead of
@@ -104,11 +110,11 @@ msgstr ""
 #. other projects:"
 #: ../src/pt-app.c:201
 msgid "Including code from other projects:"
-msgstr ""
+msgstr "Kodas iš kitų projektų:"
 
 #: ../src/pt-app.c:219
 msgid "A basic transcription utility"
-msgstr ""
+msgstr "Pagrindinė transkripcijos paslaugų programa"
 
 #: ../src/pt-app.c:223
 msgid "translator-credits"
@@ -122,6 +128,8 @@ msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
 "ignored.\n"
 msgstr ""
+"Įspėjimas: Parlatype vienu metu apdoroja tik vieną failą. Kitų failų yra "
+"nepaisoma.\n"
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
@@ -141,8 +149,9 @@ msgstr "%d:%02d:%02d"
 #: ../src/pt-preferences.c:65 ../src/pt-preferences.c:75
 msgid "second"
 msgid_plural "seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "sekundę"
+msgstr[1] "sekundes"
+msgstr[2] "sekundžių"
 
 #: ../src/pt-preferences.c:169
 msgid "_Close"
@@ -152,15 +161,17 @@ msgstr "_Užverti"
 #, c-format
 msgid "Jump back 1 second"
 msgid_plural "Jump back %d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Peršokti %d sekundę atgal"
+msgstr[1] "Peršokti %d sekundes atgal"
+msgstr[2] "Peršokti %d sekundžių atgal"
 
 #: ../src/pt-window.c:288
 #, c-format
 msgid "Jump forward 1 second"
 msgid_plural "Jump forward %d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Peršokti %d sekundę pirmyn"
+msgstr[1] "Peršokti %d sekundes pirmyn"
+msgstr[2] "Peršokti %d sekundžių pirmyn"
 
 #: ../src/pt-window.c:305
 msgid "Pause"
@@ -170,28 +181,29 @@ msgstr "Pristabdyti"
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Pristabdyti ir atsukti %d sekundę atgal"
+msgstr[1] "Pristabdyti ir atsukti %d sekundes atgal"
+msgstr[2] "Pristabdyti ir atsukti %d sekundžių atgal"
 
 #: ../src/pt-window.c:315
 msgid "Start playing"
-msgstr ""
+msgstr "Pradėti groti"
 
 #: ../src/pt-window.c:804
 msgid "View follows cursor"
-msgstr ""
+msgstr "Rodinys seka paskui žymeklį"
 
 #: ../src/pt-window.c:806
 msgid "Click to follow cursor"
-msgstr ""
+msgstr "Spustelėkite, norėdami sekti paskui žymeklį"
 
 #: ../src/resources/goto-dialog.ui.h:1 ../src/resources/menus.ui.h:9
 msgid "Go to ..."
-msgstr ""
+msgstr "Eiti ..."
 
 #: ../src/resources/goto-dialog.ui.h:2
 msgid "Go to position:"
-msgstr ""
+msgstr "Pereiti į:"
 
 #: ../src/resources/menus.ui.h:1
 msgid "Open File"
@@ -215,11 +227,11 @@ msgstr "Išeiti"
 
 #: ../src/resources/menus.ui.h:7
 msgid "Copy timestamp"
-msgstr ""
+msgstr "Kopijuoti laiko žymą"
 
 #: ../src/resources/menus.ui.h:8
 msgid "Insert timestamp"
-msgstr ""
+msgstr "Įterpti laiko žymą"
 
 #: ../src/resources/menus.ui.h:10
 msgid "_File"
@@ -239,11 +251,11 @@ msgstr "Parlatype nuostatos"
 
 #: ../src/resources/preferences.ui.h:2
 msgid "_Pixels per second:"
-msgstr ""
+msgstr "_Pikselių per sekundę:"
 
 #: ../src/resources/preferences.ui.h:3
 msgid "Show _time scale"
-msgstr ""
+msgstr "Rodyti _laiko mastelį"
 
 #. Resolution of the waveform image
 #: ../src/resources/preferences.ui.h:5
@@ -253,43 +265,43 @@ msgstr "Raiška"
 #. A section in preferences, how to display the waveform.
 #: ../src/resources/preferences.ui.h:7
 msgid "Display"
-msgstr ""
+msgstr "Rodymas"
 
 #: ../src/resources/preferences.ui.h:8
 msgid "_Moving cursor"
-msgstr ""
+msgstr "_Judantis žymeklis"
 
 #: ../src/resources/preferences.ui.h:9
 msgid "_Fixed cursor"
-msgstr ""
+msgstr "_Fiksuotas žymeklis"
 
 #: ../src/resources/preferences.ui.h:10
 msgid "Waveform"
-msgstr ""
+msgstr "Bangos forma"
 
 #: ../src/resources/preferences.ui.h:11
 msgid "Jump back on _pause:"
-msgstr ""
+msgstr "Pristabdžius, _peršokti atgal:"
 
 #: ../src/resources/preferences.ui.h:12
 msgid "Jump _back:"
-msgstr ""
+msgstr "Peršokti _atgal:"
 
 #: ../src/resources/preferences.ui.h:13
 msgid "Jump _forward:"
-msgstr ""
+msgstr "Peršokti p_irmyn:"
 
 #: ../src/resources/preferences.ui.h:14
 msgid "Controls"
-msgstr ""
+msgstr "Valdikliai"
 
 #: ../src/resources/preferences.ui.h:15
 msgid "Remember _position"
-msgstr ""
+msgstr "Prisiminti _poziciją"
 
 #: ../src/resources/preferences.ui.h:16
 msgid "Start on _top"
-msgstr ""
+msgstr "Paleisti viršuje"
 
 #: ../src/resources/preferences.ui.h:17
 msgid "Window"
@@ -297,7 +309,7 @@ msgstr "Langas"
 
 #: ../src/resources/window.ui.h:2
 msgid "Speed:"
-msgstr ""
+msgstr "Greitis:"
 
 #: ../src/resources/window-headerbar.ui.h:2
 msgid "Open a file"
