@@ -27,10 +27,7 @@
 
 struct _PtPlayerPrivate
 {
-	GstElement *pipeline;
-	GstElement *source;
-	GstElement *pulsesink;
-	GstElement *audio;
+	GstElement *play;
 	guint	    bus_watch_id;
 
 	gint64	    dur;
@@ -104,7 +101,7 @@ pt_player_query_position (PtPlayer *player,
 			  gpointer  position)
 {
 	gboolean result;
-	result = gst_element_query_position (player->priv->pipeline, GST_FORMAT_TIME, position);
+	result = gst_element_query_position (player->priv->play, GST_FORMAT_TIME, position);
 	return result;
 }
 
@@ -112,7 +109,7 @@ static void
 pt_player_clear (PtPlayer *player)
 {
 	remove_message_bus (player);
-	gst_element_set_state (player->priv->pipeline, GST_STATE_NULL);
+	gst_element_set_state (player->priv->play, GST_STATE_NULL);
 }
 
 static void
@@ -126,7 +123,7 @@ pt_player_seek (PtPlayer *player,
 	   always set the stop position. */
 
 	gst_element_seek (
-		player->priv->pipeline,
+		player->priv->play,
 		player->priv->speed,
 		GST_FORMAT_TIME,
 		GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE,
@@ -137,7 +134,7 @@ pt_player_seek (PtPlayer *player,
 
 	/* Block until state changed */
 	gst_element_get_state (
-		player->priv->pipeline,
+		player->priv->play,
 		NULL, NULL,
 		GST_CLOCK_TIME_NONE);
 }
@@ -145,14 +142,14 @@ pt_player_seek (PtPlayer *player,
 static GFile*
 pt_player_get_file (PtPlayer *player)
 {
-	gchar *location = NULL;
+	gchar *uri = NULL;
 	GFile *result = NULL;
 
-	g_object_get (G_OBJECT (player->priv->source), "location", &location, NULL);
+	g_object_get (G_OBJECT (player->priv->play), "current_uri", &uri, NULL);
 
-	if (location) {
-		result = g_file_new_for_path (location);
-		g_free (location);
+	if (uri) {
+		result = g_file_new_for_uri (uri);
+		g_free (uri);
 	}
 
 	return result;
@@ -256,7 +253,7 @@ add_message_bus (PtPlayer *player)
 	GstBus *bus;
 
 	remove_message_bus (player);
-	bus = gst_pipeline_get_bus (GST_PIPELINE (player->priv->pipeline));
+	bus = gst_pipeline_get_bus (GST_PIPELINE (player->priv->play));
 	player->priv->bus_watch_id = gst_bus_add_watch (bus, bus_call, player);
 	gst_object_unref (bus);
 }
@@ -347,7 +344,7 @@ load_cb (PtWaveloader *wl,
 
 		/* Block until state changed */
 		gst_element_get_state (
-			player->priv->pipeline,
+			player->priv->play,
 			NULL, NULL,
 			GST_CLOCK_TIME_NONE);
 
@@ -461,7 +458,7 @@ pt_player_open_uri_async (PtPlayer	      *player,
 	pt_player_clear (player);
 	player->priv->dur = -1;
 
-	g_object_set (G_OBJECT (player->priv->source), "location", location, NULL);
+	g_object_set (G_OBJECT (player->priv->play), "uri", uri, NULL);
 	g_object_unref (file);
 	g_free (location);
 
@@ -575,7 +572,7 @@ pt_player_pause (PtPlayer *player)
 {
 	g_return_if_fail (PT_IS_PLAYER (player));
 
-	gst_element_set_state (player->priv->pipeline, GST_STATE_PAUSED);
+	gst_element_set_state (player->priv->play, GST_STATE_PAUSED);
 }
 
 /**
@@ -590,7 +587,7 @@ pt_player_play (PtPlayer *player)
 {
 	g_return_if_fail (PT_IS_PLAYER (player));
 
-	gst_element_set_state (player->priv->pipeline, GST_STATE_PLAYING);
+	gst_element_set_state (player->priv->play, GST_STATE_PLAYING);
 }
 
 /**
@@ -680,7 +677,7 @@ pt_player_rewind (PtPlayer *player,
 		speed = speed * -1;
 
 	gst_element_seek (
-		player->priv->pipeline,
+		player->priv->play,
 		speed,
 		GST_FORMAT_TIME,
 		GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_TRICKMODE,
@@ -691,7 +688,7 @@ pt_player_rewind (PtPlayer *player,
 
 	/* Block until state changed */
 	gst_element_get_state (
-		player->priv->pipeline,
+		player->priv->play,
 		NULL, NULL,
 		GST_CLOCK_TIME_NONE);
 
@@ -726,7 +723,7 @@ pt_player_fast_forward (PtPlayer *player,
 		return;
 
 	gst_element_seek (
-		player->priv->pipeline,
+		player->priv->play,
 		speed,
 		GST_FORMAT_TIME,
 		GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_TRICKMODE,
@@ -737,7 +734,7 @@ pt_player_fast_forward (PtPlayer *player,
 
 	/* Block until state changed */
 	gst_element_get_state (
-		player->priv->pipeline,
+		player->priv->play,
 		NULL, NULL,
 		GST_CLOCK_TIME_NONE);
 
@@ -916,7 +913,7 @@ pt_player_set_volume (PtPlayer *player,
 	g_return_if_fail (PT_IS_PLAYER (player));
 	g_return_if_fail (volume >= 0 && volume <= 1);
 
-	gst_stream_volume_set_volume (GST_STREAM_VOLUME (player->priv->pulsesink),
+	gst_stream_volume_set_volume (GST_STREAM_VOLUME (player->priv->play),
 	                              GST_STREAM_VOLUME_FORMAT_CUBIC,
 	                              volume);
 }
@@ -935,7 +932,7 @@ pt_player_mute_volume (PtPlayer *player,
 {
 	g_return_if_fail (PT_IS_PLAYER (player));
 
-	gst_stream_volume_set_mute (GST_STREAM_VOLUME (player->priv->pulsesink), mute);
+	gst_stream_volume_set_mute (GST_STREAM_VOLUME (player->priv->play), mute);
 }
 
 /**
@@ -1405,48 +1402,12 @@ pt_player_init (PtPlayer *player)
 	player->priv = pt_player_get_instance_private (player);
 }
 
-/* basically unchanged from 
-   http://gstreamer.freedesktop.org/data/doc/gstreamer/head/manual/html/section-components-decodebin.html */
-static void
-decodebin_newpad_cb (GstElement *decodebin,
-		     GstPad     *pad,
-		     gpointer    data)
-{
-	PtPlayer *player = (PtPlayer *) data;
-
-	GstCaps *caps;
-	GstStructure *str;
-	GstPad *audiopad;
-
-	/* only link once */
-	audiopad = gst_element_get_static_pad (player->priv->audio, "sink");
-	if (GST_PAD_IS_LINKED (audiopad)) {
-		g_object_unref (audiopad);
-		return;
-	}
-
-	/* check media type */
-	caps = gst_pad_query_caps (pad, NULL);
-	str = gst_caps_get_structure (caps, 0);
-	if (!g_strrstr (gst_structure_get_name (str), "audio")) {
-		gst_caps_unref (caps);
-		gst_object_unref (audiopad);
-		return;
-	}
-	gst_caps_unref (caps);
-
-	/* link'n'play */
-	gst_pad_link (pad, audiopad);
-
-	g_object_unref (audiopad);
-}
-
 static gboolean
 notify_volume_idle_cb (PtPlayer *player)
 {
 	gdouble vol;
 
-	vol = gst_stream_volume_get_volume (GST_STREAM_VOLUME (player->priv->pulsesink),
+	vol = gst_stream_volume_get_volume (GST_STREAM_VOLUME (player->priv->play),
 	                                    GST_STREAM_VOLUME_FORMAT_CUBIC);
 	player->priv->volume = vol;
 	g_object_notify_by_pspec (G_OBJECT (player),
@@ -1479,8 +1440,8 @@ pt_player_initable_init (GInitable     *initable,
 
 	/* Setup player
 	
-	   We use the scaletempo plugin from "good plugins" with decodebin:
-	   filesrc ! decodebin ! audioconvert ! audioresample ! scaletempo ! audioconvert ! audioresample ! autoaudiosink */
+	   We use the scaletempo plugin from "good plugins" with playbin:
+	   playbin ! capsfilter (= scaletempo) ! autoaudiosink */
 
 	gst_init_check (NULL, NULL, &gst_error);
 	if (gst_error) {
@@ -1490,33 +1451,18 @@ pt_player_initable_init (GInitable     *initable,
 
 	/* Create gstreamer elements */
 
-	player->priv->pipeline = NULL;
-	player->priv->source   = NULL;
-	GstElement *decodebin  = NULL;
-	GstElement *convert    = NULL;
-	GstElement *resample   = NULL;
+	player->priv->play = NULL;
 	GstElement *scaletempo = NULL;
-	GstElement *convert2   = NULL;
-	GstElement *resample2  = NULL;
-	player->priv->pulsesink = NULL;
+	GstElement *capsfilter = NULL;
+	GstElement *audiosink = NULL;
 
-	player->priv->pipeline = gst_pipeline_new ("player");
-
-	player->priv->source = gst_element_factory_make ("filesrc",       "file-source");
-	decodebin	     = gst_element_factory_make ("decodebin",     "decoder");
-	convert		     = gst_element_factory_make ("audioconvert",  "convert");
-	resample	     = gst_element_factory_make ("audioresample", "resample");
-	scaletempo	     = gst_element_factory_make ("scaletempo",    "tempo");
-	convert2	     = gst_element_factory_make ("audioconvert",  "convert2");
-	resample2	     = gst_element_factory_make ("audioresample", "resample2");
-	player->priv->pulsesink = gst_element_factory_make ("pulsesink",      "pulsesink");
+	player->priv->play = gst_element_factory_make ("playbin",       "play");
+	scaletempo	   = gst_element_factory_make ("scaletempo",    "tempo");
+	capsfilter         = gst_element_factory_make ("capsfilter",    "audiofilter");
+	audiosink          = gst_element_factory_make ("autoaudiosink", "audiosink");
 
 	/* checks */
-	if (!player->priv->pipeline || !player->priv->source || !decodebin
-				    || !convert              || !resample
-				    || !scaletempo
-				    || !convert2             || !resample2
-				    || !player->priv->pulsesink) {
+	if (!player->priv->play || !scaletempo || !capsfilter || !audiosink) {
 		g_set_error (error,
 			     GST_CORE_ERROR,
 			     GST_CORE_ERROR_MISSING_PLUGIN,
@@ -1524,37 +1470,19 @@ pt_player_initable_init (GInitable     *initable,
 		return FALSE;
 	}
 
-	/* Set up the pipeline */
-	g_signal_connect (decodebin, "pad-added", G_CALLBACK (decodebin_newpad_cb), player);
-	gst_bin_add_many (GST_BIN (player->priv->pipeline), player->priv->source, decodebin, NULL);
-	gst_element_link (player->priv->source, decodebin);
-
 	/* create audio output */
-	player->priv->audio = gst_bin_new ("audiobin");
-
-	gst_bin_add_many (GST_BIN (player->priv->audio), convert,
-							 resample,
-							 scaletempo,
-							 convert2,
-							 resample2,
-							 player->priv->pulsesink,
-							 NULL);
-
-	gst_element_link_many (convert,
-			       resample,
-			       scaletempo,
-			       convert2,
-			       resample2,
-			       player->priv->pulsesink,
-			       NULL);
+	GstElement *audio = gst_bin_new ("audiobin");
+	gst_bin_add_many (GST_BIN (audio), capsfilter, audiosink, NULL);
+	gst_element_link_many (capsfilter, audiosink, NULL);
 	
 	/* create ghost pad for audiosink */
-	GstPad *audiopad = gst_element_get_static_pad (convert, "sink");
-	gst_element_add_pad (player->priv->audio, gst_ghost_pad_new ("sink", audiopad));
+	GstPad *audiopad = gst_element_get_static_pad (capsfilter, "sink");
+	gst_element_add_pad (audio, gst_ghost_pad_new ("sink", audiopad));
 	gst_object_unref (GST_OBJECT (audiopad));
-	gst_bin_add (GST_BIN (player->priv->pipeline), player->priv->audio);
 
-	g_signal_connect (G_OBJECT (player->priv->pulsesink), "notify::volume", G_CALLBACK (vol_changed), player);
+	g_object_set (player->priv->play, "audio-sink", audio, NULL);
+	g_object_set (player->priv->play, "audio-filter", scaletempo, NULL);
+	g_signal_connect (G_OBJECT (player->priv->play), "notify::volume", G_CALLBACK (vol_changed), player);
 
 	return TRUE;
 }
@@ -1565,13 +1493,13 @@ pt_player_dispose (GObject *object)
 	PtPlayer *player;
 	player = PT_PLAYER (object);
 
-	if (player->priv->pipeline) {
+	if (player->priv->play) {
 		/* remember position */
 		metadata_save_position (player);
 		
-		gst_element_set_state (player->priv->pipeline, GST_STATE_NULL);
-		gst_object_unref (GST_OBJECT (player->priv->pipeline));
-		player->priv->pipeline = NULL;
+		gst_element_set_state (player->priv->play, GST_STATE_NULL);
+		gst_object_unref (GST_OBJECT (player->priv->play));
+		player->priv->play = NULL;
 		remove_message_bus (player);
 	}
 
@@ -1596,7 +1524,7 @@ pt_player_set_property (GObject      *object,
 		break;
 	case PROP_VOLUME:
 		tmp = g_value_get_double (value);
-		gst_stream_volume_set_volume (GST_STREAM_VOLUME (player->priv->pulsesink),
+		gst_stream_volume_set_volume (GST_STREAM_VOLUME (player->priv->play),
 			                      GST_STREAM_VOLUME_FORMAT_CUBIC,
 			                      tmp);
 		player->priv->volume = tmp;
