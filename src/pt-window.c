@@ -746,8 +746,10 @@ setup_player (PtWindow *win)
 			G_CALLBACK (player_error_cb),
 			win);
 
-	g_object_bind_property (win->priv->volumebutton, "value",
-			win->priv->player, "volume", G_BINDING_DEFAULT);
+	g_object_bind_property (
+			win->priv->volumebutton, "value",
+			win->priv->player, "volume",
+			G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
 }
 
 static void

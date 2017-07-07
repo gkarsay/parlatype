@@ -21,6 +21,7 @@
 #define GETTEXT_PACKAGE PACKAGE
 #include <glib/gi18n-lib.h>
 #include <gst/gst.h>
+#include <gst/audio/streamvolume.h>
 #include "pt-waveloader.h"
 #include "pt-player.h"
 
@@ -28,12 +29,13 @@ struct _PtPlayerPrivate
 {
 	GstElement *pipeline;
 	GstElement *source;
-	GstElement *volume;
+	GstElement *pulsesink;
 	GstElement *audio;
 	guint	    bus_watch_id;
 
 	gint64	    dur;
 	gdouble	    speed;
+	gdouble     volume;
 
 	gint64      segstart;
 	gint64      segend;
@@ -914,7 +916,9 @@ pt_player_set_volume (PtPlayer *player,
 	g_return_if_fail (PT_IS_PLAYER (player));
 	g_return_if_fail (volume >= 0 && volume <= 1);
 
-	g_object_set (G_OBJECT (player->priv->volume), "volume", volume, NULL);
+	gst_stream_volume_set_volume (GST_STREAM_VOLUME (player->priv->pulsesink),
+	                              GST_STREAM_VOLUME_FORMAT_CUBIC,
+	                              volume);
 }
 
 /**
@@ -931,7 +935,7 @@ pt_player_mute_volume (PtPlayer *player,
 {
 	g_return_if_fail (PT_IS_PLAYER (player));
 
-	g_object_set (G_OBJECT (player->priv->volume), "mute", mute, NULL);
+	gst_stream_volume_set_mute (GST_STREAM_VOLUME (player->priv->pulsesink), mute);
 }
 
 /**
@@ -1438,6 +1442,32 @@ decodebin_newpad_cb (GstElement *decodebin,
 }
 
 static gboolean
+notify_volume_idle_cb (PtPlayer *player)
+{
+	gdouble vol;
+
+	vol = gst_stream_volume_get_volume (GST_STREAM_VOLUME (player->priv->pulsesink),
+	                                    GST_STREAM_VOLUME_FORMAT_CUBIC);
+	player->priv->volume = vol;
+	g_object_notify_by_pspec (G_OBJECT (player),
+				  obj_properties[PROP_VOLUME]);
+	return FALSE;
+}
+
+static void
+vol_changed (GObject    *object,
+             GParamSpec *pspec,
+             PtPlayer   *player)
+{
+	/* This is taken from Totem's bacon-video-widget.c
+	   Changing the property immediately will crash, it has to be an idle source */
+
+	guint id;
+	id = g_idle_add ((GSourceFunc) notify_volume_idle_cb, player);
+	g_source_set_name_by_id (id, "[parlatype] notify_volume_idle_cb");
+}
+
+static gboolean
 pt_player_initable_init (GInitable     *initable,
 			 GCancellable  *cancellable,
 			 GError       **error)
@@ -1450,7 +1480,7 @@ pt_player_initable_init (GInitable     *initable,
 	/* Setup player
 	
 	   We use the scaletempo plugin from "good plugins" with decodebin:
-	   filesrc ! decodebin ! audioconvert ! audioresample ! volume ! scaletempo ! audioconvert ! audioresample ! autoaudiosink */
+	   filesrc ! decodebin ! audioconvert ! audioresample ! scaletempo ! audioconvert ! audioresample ! autoaudiosink */
 
 	gst_init_check (NULL, NULL, &gst_error);
 	if (gst_error) {
@@ -1462,14 +1492,13 @@ pt_player_initable_init (GInitable     *initable,
 
 	player->priv->pipeline = NULL;
 	player->priv->source   = NULL;
-	player->priv->volume   = NULL;
 	GstElement *decodebin  = NULL;
 	GstElement *convert    = NULL;
 	GstElement *resample   = NULL;
 	GstElement *scaletempo = NULL;
 	GstElement *convert2   = NULL;
 	GstElement *resample2  = NULL;
-	GstElement *sink       = NULL;
+	player->priv->pulsesink = NULL;
 
 	player->priv->pipeline = gst_pipeline_new ("player");
 
@@ -1477,18 +1506,17 @@ pt_player_initable_init (GInitable     *initable,
 	decodebin	     = gst_element_factory_make ("decodebin",     "decoder");
 	convert		     = gst_element_factory_make ("audioconvert",  "convert");
 	resample	     = gst_element_factory_make ("audioresample", "resample");
-	player->priv->volume = gst_element_factory_make ("volume",	  "volume");
 	scaletempo	     = gst_element_factory_make ("scaletempo",    "tempo");
 	convert2	     = gst_element_factory_make ("audioconvert",  "convert2");
 	resample2	     = gst_element_factory_make ("audioresample", "resample2");
-	sink		     = gst_element_factory_make ("autoaudiosink", "sink");
+	player->priv->pulsesink = gst_element_factory_make ("pulsesink",      "pulsesink");
 
 	/* checks */
 	if (!player->priv->pipeline || !player->priv->source || !decodebin
 				    || !convert              || !resample
-				    || !player->priv->volume || !scaletempo
+				    || !scaletempo
 				    || !convert2             || !resample2
-				    || !sink) {
+				    || !player->priv->pulsesink) {
 		g_set_error (error,
 			     GST_CORE_ERROR,
 			     GST_CORE_ERROR_MISSING_PLUGIN,
@@ -1506,20 +1534,18 @@ pt_player_initable_init (GInitable     *initable,
 
 	gst_bin_add_many (GST_BIN (player->priv->audio), convert,
 							 resample,
-							 player->priv->volume,
 							 scaletempo,
 							 convert2,
 							 resample2,
-							 sink,
+							 player->priv->pulsesink,
 							 NULL);
 
 	gst_element_link_many (convert,
 			       resample,
-			       player->priv->volume,
 			       scaletempo,
 			       convert2,
 			       resample2,
-			       sink,
+			       player->priv->pulsesink,
 			       NULL);
 	
 	/* create ghost pad for audiosink */
@@ -1527,6 +1553,8 @@ pt_player_initable_init (GInitable     *initable,
 	gst_element_add_pad (player->priv->audio, gst_ghost_pad_new ("sink", audiopad));
 	gst_object_unref (GST_OBJECT (audiopad));
 	gst_bin_add (GST_BIN (player->priv->pipeline), player->priv->audio);
+
+	g_signal_connect (G_OBJECT (player->priv->pulsesink), "notify::volume", G_CALLBACK (vol_changed), player);
 
 	return TRUE;
 }
@@ -1560,13 +1588,18 @@ pt_player_set_property (GObject      *object,
 {
 	PtPlayer *player;
 	player = PT_PLAYER (object);
+	gdouble tmp;
 
 	switch (property_id) {
 	case PROP_SPEED:
 		player->priv->speed = g_value_get_double (value);
 		break;
 	case PROP_VOLUME:
-		g_object_set (G_OBJECT (player->priv->volume), "volume", g_value_get_double (value), NULL);
+		tmp = g_value_get_double (value);
+		gst_stream_volume_set_volume (GST_STREAM_VOLUME (player->priv->pulsesink),
+			                      GST_STREAM_VOLUME_FORMAT_CUBIC,
+			                      tmp);
+		player->priv->volume = tmp;
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1582,15 +1615,13 @@ pt_player_get_property (GObject    *object,
 {
 	PtPlayer *player;
 	player = PT_PLAYER (object);
-	gdouble tmp;
 
 	switch (property_id) {
 	case PROP_SPEED:
 		g_value_set_double (value, player->priv->speed);
 		break;
 	case PROP_VOLUME:
-		g_object_get (G_OBJECT (player->priv->volume), "volume", &tmp, NULL);
-		g_value_set_double (value, tmp);
+		g_value_set_double (value, player->priv->volume);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
