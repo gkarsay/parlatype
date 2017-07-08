@@ -33,9 +33,10 @@ m4/
 missing
 stamp-h1
 
-/data/org.gnome.parlatype.appdata.xml
-/data/org.gnome.parlatype.desktop
-/data/org.gnome.parlatype.gschema.valid
+/data/*.appdata.xml
+/data/*.desktop
+/data/*.gschema.valid
+/data/*.metainfo.xml
 
 /libparlatype/test-driver
 /libparlatype/data/parlatype.pc
