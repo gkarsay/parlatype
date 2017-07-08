@@ -24,13 +24,18 @@ DISTCHECK_CONFIGURE_FLAGS = \
 
 # A few maintainer make targets
 
-.PHONY: gtk-check help pot todo lp-export lp-create-tar
+.PHONY: gtk-check help help-online pot todo lp-export lp-create-tar
 LP_EXPORT_DIR = tmp
 LP_EXPORT_FILE = launchpad-upload.tar.gz
 
 # make gtk-check     -- list all gtk version checks
 gtk-check:
 	@find . \( -name "*.c" -o -name "*.h" \) -exec grep -Hno "GTK_CHECK_VERSION.*" {} \;
+
+# make help-online   -- create html version of help
+help-online:
+	mkdir -p help-online
+	yelp-build html -o help-online/ help/C/
 
 # make lp-export     -- create archive to export translations to launchpad
 lp-export: $(LP_EXPORT_FILE)

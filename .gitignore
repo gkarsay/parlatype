@@ -26,6 +26,7 @@ configure
 debian/
 depcomp
 gtk-doc.make
+help-online/
 install-sh
 libtool
 ltmain.sh
