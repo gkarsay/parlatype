@@ -76,6 +76,7 @@
     <keyword type="property" name="The “selection-start” property" link="PtWaveviewer.html#PtWaveviewer--selection-start"/>
     <keyword type="property" name="The “show-ruler” property" link="PtWaveviewer.html#PtWaveviewer--show-ruler"/>
     <keyword type="signal" name="The “cursor-changed” signal" link="PtWaveviewer.html#PtWaveviewer-cursor-changed"/>
+    <keyword type="signal" name="The “play-toggled” signal" link="PtWaveviewer.html#PtWaveviewer-play-toggled"/>
     <keyword type="signal" name="The “selection-changed” signal" link="PtWaveviewer.html#PtWaveviewer-selection-changed"/>
     <keyword type="function" name="pt_wavedata_new ()" link="PtWavedata.html#pt-wavedata-new"/>
     <keyword type="function" name="pt_wavedata_copy ()" link="PtWavedata.html#pt-wavedata-copy"/>

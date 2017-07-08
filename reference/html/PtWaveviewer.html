@@ -158,6 +158,11 @@ mentioned in the release notes for the affected release.
 </tr>
 <tr>
 <td class="signal_type"><span class="returnvalue">void</span></td>
+<td class="signal_name"><a class="link" href="PtWaveviewer.html#PtWaveviewer-play-toggled" title="The “play-toggled” signal">play-toggled</a></td>
+<td class="signal_flags">Run First</td>
+</tr>
+<tr>
+<td class="signal_type"><span class="returnvalue">void</span></td>
 <td class="signal_name"><a class="link" href="PtWaveviewer.html#PtWaveviewer-selection-changed" title="The “selection-changed” signal">selection-changed</a></td>
 <td class="signal_flags">Run First</td>
 </tr>
@@ -389,7 +394,7 @@ time, there is no selection. See also <a class="link" href="PtWaveviewer.html#Pt
 <div class="refsect2">
 <a name="PtWaveviewer-cursor-changed"></a><h3>The <code class="literal">“cursor-changed”</code> signal</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
-user_function (<a class="link" href="PtWaveviewer.html" title="PtWaveviewer"><span class="type">PtWaveviewer</span></a> *ws,
+user_function (<a class="link" href="PtWaveviewer.html" title="PtWaveviewer"><span class="type">PtWaveviewer</span></a> *viewer,
                <span class="type">gint64</span>        position,
                <a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>      user_data)</pre>
 <p>Signals that the cursor's position was changed by the user.</p>
@@ -403,7 +408,7 @@ user_function (<a class="link" href="PtWaveviewer.html" title="PtWaveviewer"><sp
 </colgroup>
 <tbody>
 <tr>
-<td class="parameter_name"><p>ws</p></td>
+<td class="parameter_name"><p>viewer</p></td>
 <td class="parameter_description"><p>the waveviewer emitting the signal</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
@@ -424,13 +429,11 @@ user_function (<a class="link" href="PtWaveviewer.html" title="PtWaveviewer"><sp
 </div>
 <hr>
 <div class="refsect2">
-<a name="PtWaveviewer-selection-changed"></a><h3>The <code class="literal">“selection-changed”</code> signal</h3>
+<a name="PtWaveviewer-play-toggled"></a><h3>The <code class="literal">“play-toggled”</code> signal</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
-user_function (<a class="link" href="PtWaveviewer.html" title="PtWaveviewer"><span class="type">PtWaveviewer</span></a> *ws,
+user_function (<a class="link" href="PtWaveviewer.html" title="PtWaveviewer"><span class="type">PtWaveviewer</span></a> *viewer,
                <a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>      user_data)</pre>
-<p>Signals that the selection was changed (or unselected) by the user.
-To query the new selection see <a class="link" href="PtWaveviewer.html#PtWaveviewer--has-selection" title="The “has-selection” property"><span class="type">“has-selection”</span></a>,
-<a class="link" href="PtWaveviewer.html#PtWaveviewer--selection-start" title="The “selection-start” property"><span class="type">“selection-start”</span></a> and <a class="link" href="PtWaveviewer.html#PtWaveviewer--selection-end" title="The “selection-end” property"><span class="type">“selection-end”</span></a>.</p>
+<p>Signals that the user requested to toggle play/pause.</p>
 <div class="refsect3">
 <a name="id-1.4.4.15.3.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
@@ -441,7 +444,40 @@ To query the new selection see <a class="link" href="PtWaveviewer.html#PtWavevie
 </colgroup>
 <tbody>
 <tr>
-<td class="parameter_name"><p>ws</p></td>
+<td class="parameter_name"><p>viewer</p></td>
+<td class="parameter_description"><p>the waveviewer emitting the signal</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>user_data</p></td>
+<td class="parameter_description"><p>user data set when the signal handler was connected.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p>Flags: Run First</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PtWaveviewer-selection-changed"></a><h3>The <code class="literal">“selection-changed”</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+user_function (<a class="link" href="PtWaveviewer.html" title="PtWaveviewer"><span class="type">PtWaveviewer</span></a> *viewer,
+               <a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>      user_data)</pre>
+<p>Signals that the selection was changed (or unselected) by the user.
+To query the new selection see <a class="link" href="PtWaveviewer.html#PtWaveviewer--has-selection" title="The “has-selection” property"><span class="type">“has-selection”</span></a>,
+<a class="link" href="PtWaveviewer.html#PtWaveviewer--selection-start" title="The “selection-start” property"><span class="type">“selection-start”</span></a> and <a class="link" href="PtWaveviewer.html#PtWaveviewer--selection-end" title="The “selection-end” property"><span class="type">“selection-end”</span></a>.</p>
+<div class="refsect3">
+<a name="id-1.4.4.15.4.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>viewer</p></td>
 <td class="parameter_description"><p>the waveviewer emitting the signal</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
