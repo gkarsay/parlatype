@@ -19,6 +19,11 @@ The Debian based command is (but you probably have them already):
 ```
 $ sudo apt-get install libgtk-3-0 libgstreamer1.0-0 gstreamer1.0-plugins-good
 ```
+Parlatype plays every file that's supported by GStreamer. To play e.g. MP3 files you need the “ugly” plugins.
+```
+$ sudo apt-get install gstreamer1.0-plugins-ugly
+```
+
 
 ### Building 
 
