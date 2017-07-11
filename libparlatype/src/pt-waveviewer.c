@@ -1125,6 +1125,13 @@ pt_waveviewer_set_wave (PtWaveviewer *self,
 	else
 		gtk_widget_set_size_request (self->priv->drawarea, data->length / 2, WAVE_MIN_HEIGHT);
 	gtk_adjustment_set_upper (self->priv->adj, data->length / 2);
+
+	/* It seems like the state_flags_changed and style_updated flags are
+	   never emitted under KDE/Plasma desktop or only once at the beginning
+	   when there is no parent window yet. If we don't manually update the
+	   cached style values, the colors are not set at all under KDE/Plasma. */
+	pt_waveviewer_update_cached_style_values (self);
+
 	gtk_widget_queue_draw (GTK_WIDGET (self));
 }
 
