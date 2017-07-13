@@ -11,6 +11,7 @@ Makefile.in
 .libs/
 
 *.tar.gz
+*.tar.gz.asc
 ABOUT-NLS
 aclocal.m4
 **/autom4te.cache/*
