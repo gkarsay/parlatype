@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
-"POT-Creation-Date: 2017-07-06 19:05+0200\n"
-"PO-Revision-Date: 2017-01-16 21:34+0100\n"
+"POT-Creation-Date: 2017-07-20 16:16+0200\n"
+"PO-Revision-Date: 2017-07-20 16:17+0200\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
 "Language-Team: Deutsch <>\n"
 "Language: de\n"
@@ -43,8 +43,8 @@ msgid "Transcription utility"
 msgstr "Transkriptions-Helfer"
 
 #: ../data/com.github.gkarsay.parlatype.desktop.in.h:3
-msgid "Transcription"
-msgstr "Transkription"
+msgid "Transcription;"
+msgstr "Transkription;"
 
 #: ../data/com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in.h:1
 msgid "LibreOffice/Parlatype Helpers"
@@ -155,51 +155,51 @@ msgstr "%d:%02d:%02d"
 #. or the "Go to ..." dialog. There is a label like
 #. "Jump back:", "Jump forward:", "Jump back on pause:"
 #. or "Go to position:" before.
-#: ../src/pt-goto-dialog.c:79 ../src/pt-preferences.c:55
-#: ../src/pt-preferences.c:65 ../src/pt-preferences.c:75
+#: ../src/pt-goto-dialog.c:79 ../src/pt-preferences.c:58
+#: ../src/pt-preferences.c:68 ../src/pt-preferences.c:78
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "Sekunde"
 msgstr[1] "Sekunden"
 
-#: ../src/pt-preferences.c:169
+#: ../src/pt-preferences.c:189
 msgid "_Close"
 msgstr "_Schließen"
 
-#: ../src/pt-window.c:273
+#: ../src/pt-window.c:274
 #, c-format
 msgid "Jump back 1 second"
 msgid_plural "Jump back %d seconds"
 msgstr[0] "Eine Sekunde zurückspringen"
 msgstr[1] "%d Sekunden zurückspringen"
 
-#: ../src/pt-window.c:288
+#: ../src/pt-window.c:289
 #, c-format
 msgid "Jump forward 1 second"
 msgid_plural "Jump forward %d seconds"
 msgstr[0] "1 Sekunde vorwärtsspringen"
 msgstr[1] "%d Sekunden vorwärtsspringen"
 
-#: ../src/pt-window.c:305
+#: ../src/pt-window.c:306
 msgid "Pause"
 msgstr "Wiedergabe unterbrechen"
 
-#: ../src/pt-window.c:308
+#: ../src/pt-window.c:309
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
 msgstr[0] "Wiedergabe unterbrechen und 1 Sekunde zurückspulen"
 msgstr[1] "Wiedergabe unterbrechen und %d Sekunden zurückspulen"
 
-#: ../src/pt-window.c:315
+#: ../src/pt-window.c:316
 msgid "Start playing"
 msgstr "Wiedergabe starten"
 
-#: ../src/pt-window.c:804
+#: ../src/pt-window.c:817
 msgid "View follows cursor"
 msgstr "Ansicht folgt dem Cursor"
 
-#: ../src/pt-window.c:806
+#: ../src/pt-window.c:819
 msgid "Click to follow cursor"
 msgstr "Klicken Sie hier, um dem Cursor zu folgen"
 
@@ -302,14 +302,18 @@ msgid "Controls"
 msgstr "Steuerung"
 
 #: ../src/resources/preferences.ui.h:15
+msgid "Remember _size"
+msgstr "_Größe des Fensters merken"
+
+#: ../src/resources/preferences.ui.h:16
 msgid "Remember _position"
 msgstr "_Position des Fensters merken"
 
-#: ../src/resources/preferences.ui.h:16
+#: ../src/resources/preferences.ui.h:17
 msgid "Start on _top"
 msgstr "»Immer im _Vordergrund« starten"
 
-#: ../src/resources/preferences.ui.h:17
+#: ../src/resources/preferences.ui.h:18
 msgid "Window"
 msgstr "Fenster"
 

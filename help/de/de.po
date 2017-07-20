@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
-"POT-Creation-Date: 2017-04-12 09:26+0200\n"
-"PO-Revision-Date: 2017-04-12 09:27+0200\n"
+"POT-Creation-Date: 2017-07-20 16:20+0200\n"
+"PO-Revision-Date: 2017-07-20 16:24+0200\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
 "Language-Team: Deutsch <>\n"
 "Language: de\n"
@@ -613,23 +613,30 @@ msgstr "Fenster"
 msgctxt "_"
 msgid ""
 "external ref='figures/parlatype-prefs-window.png' "
-"md5='615d876529cdd45763e78a3ee01b7b3e'"
+"md5='6affc475c74223fa48e7de25393fe7de'"
 msgstr "übersetzt"
 
 #. (itstool) path: item/p
 #: C/preferences.page:48
 msgid ""
-"Remember position: On start-up <app>Parlatype</app> can position its window "
-"where you had it when you closed <app>Parlatype</app> last time. This also "
-"remembers the window's size."
+"Remember size: On start-up <app>Parlatype</app> sets the window size to the "
+"size it had the last time."
 msgstr ""
-"Position des Fensters merken: Beim Starten kann <app>Parlatype</app> das "
-"Fenster dort positionieren, wo es sich befand, als Sie <app>Parlatype</app> "
-"das letzte Mal geschlossen haben. Dabei wird auch die Fenstergröße "
-"gespeichert."
+"Größe des Fensters merken: Beim Starten stellt <app>Parlatype</app> die "
+"Fenstergröße so ein, wie sie beim letzten Mal war."
 
 #. (itstool) path: item/p
 #: C/preferences.page:49
+msgid ""
+"Remember position: On start-up <app>Parlatype</app> can position its window "
+"where you had it when you closed <app>Parlatype</app> last time."
+msgstr ""
+"Position des Fensters merken: Beim Starten kann <app>Parlatype</app> das "
+"Fenster dort positionieren, wo es sich befand, als Sie <app>Parlatype</app> "
+"das letzte Mal geschlossen haben."
+
+#. (itstool) path: item/p
+#: C/preferences.page:50
 msgid ""
 "Start on top: This will put <app>Parlatype</app> on start-up on top of other "
 "windows. This might be useful if you are working with a maximized word "
@@ -639,6 +646,15 @@ msgstr ""
 "Starten über andere Fenster in den Vordergrund gelegt. Das kann nützlich "
 "sein, wenn Sie mit einer maximierten Textverarbeitung arbeiten und trotzdem "
 "das <app>Parlatype</app>-Fenster sehen wollen."
+
+#. (itstool) path: note/p
+#: C/preferences.page:54
+msgid ""
+"<gui>Remember position</gui> and <gui>Start on top</gui> are not available "
+"on Wayland."
+msgstr ""
+"<gui>Position des Fensters merken</gui> und <gui>»Immer im Vordergrund« "
+"starten</gui> sind unter Wayland nicht verfügbar."
 
 #. (itstool) path: info/desc
 #: C/selections.page:6
