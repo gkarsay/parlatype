@@ -49,6 +49,11 @@
 			<summary>Remember window's position</summary>
 			<description>Remember window's position</description>
 		</key>
+		<key name="remember-size" type="b">
+			<default>false</default>
+			<summary>Remember window's size</summary>
+			<description>Remember window's size</description>
+		</key>
 		<key name="start-on-top" type="b">
 			<default>false</default>
 			<summary>Start window on top</summary>

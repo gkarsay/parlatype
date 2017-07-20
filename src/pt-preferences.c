@@ -18,6 +18,8 @@
 #include "config.h"
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
+#include <gdk/gdkx.h>
+#include <gdk/gdkwayland.h>
 #include "pt-preferences.h"
 
 
@@ -34,6 +36,7 @@ struct _PtPreferencesDialogPrivate
 	GtkWidget *label_pause;
 	GtkWidget *label_back;
 	GtkWidget *label_forward;
+	GtkWidget *size_check;
 	GtkWidget *pos_check;
 	GtkWidget *top_check;
 	GtkWidget *ruler_check;
@@ -131,14 +134,31 @@ pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 			G_SETTINGS_BIND_DEFAULT);
 
 	g_settings_bind (
-			dlg->priv->editor, "remember-position",
-			dlg->priv->pos_check, "active",
+			dlg->priv->editor, "remember-size",
+			dlg->priv->size_check, "active",
 			G_SETTINGS_BIND_DEFAULT);
 
-	g_settings_bind (
-			dlg->priv->editor, "start-on-top",
-			dlg->priv->top_check, "active",
-			G_SETTINGS_BIND_DEFAULT);
+	GdkDisplay *display;
+	display = gdk_display_get_default ();
+#ifdef GDK_WINDOWING_X11
+	if (GDK_IS_X11_DISPLAY (display)) {
+		g_settings_bind (
+				dlg->priv->editor, "remember-position",
+				dlg->priv->pos_check, "active",
+				G_SETTINGS_BIND_DEFAULT);
+
+		g_settings_bind (
+				dlg->priv->editor, "start-on-top",
+				dlg->priv->top_check, "active",
+				G_SETTINGS_BIND_DEFAULT);
+	}
+#endif
+#ifdef GDK_WINDOWING_WAYLAND
+	if (GDK_IS_WAYLAND_DISPLAY (display)) {
+		gtk_widget_hide (dlg->priv->pos_check);
+		gtk_widget_hide (dlg->priv->top_check);
+	}
+#endif
 
 	g_settings_bind (
 			dlg->priv->editor, "show-ruler",
@@ -195,6 +215,7 @@ pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, spin_back);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, spin_forward);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, pps_scale);
+	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, size_check);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, pos_check);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, top_check);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, label_pause);
