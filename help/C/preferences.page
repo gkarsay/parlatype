@@ -45,9 +45,15 @@
 <media type="image" src="figures/parlatype-prefs-window.png"/>
 
 <list>
-<item><p>Remember position: On start-up <app>Parlatype</app> can position its window where you had it when you closed <app>Parlatype</app> last time. This also remembers the window's size.</p></item>
+<item><p>Remember size: On start-up <app>Parlatype</app> sets the window size to the size it had the last time.</p></item>
+<item><p>Remember position: On start-up <app>Parlatype</app> can position its window where you had it when you closed <app>Parlatype</app> last time.</p></item>
 <item><p>Start on top: This will put <app>Parlatype</app> on start-up on top of other windows. This might be useful if you are working with a maximized word processor and still want to see the <app>Parlatype</app> window.</p></item>
 </list>
+
+<note>
+<p><gui>Remember position</gui> and <gui>Start on top</gui> are not available on Wayland.</p>
+</note>
+
 </section>
 
 </page>
