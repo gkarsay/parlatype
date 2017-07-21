@@ -39,6 +39,7 @@ stamp-h1
 /data/com.github.gkarsay.parlatype.desktop
 /data/com.github.gkarsay.parlatype.gschema.valid
 /data/com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml
+/data/com.github.gkarsay.parlatype.service
 
 /libparlatype/test-driver
 /libparlatype/data/parlatype.pc
