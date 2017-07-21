@@ -16,6 +16,7 @@
 
 
 #include "config.h"
+#include <stdlib.h>		/* exit() */
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>	
 #include "pt-app.h"
@@ -34,10 +35,28 @@ struct _PtAppClass
 
 G_DEFINE_TYPE (PtApp, pt_app, GTK_TYPE_APPLICATION);
 
-static void
-pt_app_init (PtApp *app)
+static gboolean G_GNUC_NORETURN
+option_version_cb (const gchar *option_name,
+                   const gchar *value,
+                   gpointer     data,
+                   GError     **error)
 {
+	g_print ("%s %s\n", PACKAGE, VERSION);
+	exit (0);
 }
+
+static GOptionEntry options[] =
+{
+	{ "version",
+	  'v',
+	  G_OPTION_FLAG_NO_ARG,
+	  G_OPTION_ARG_CALLBACK,
+	  option_version_cb,
+	  N_("Show the application's version"),
+	  NULL
+	},
+	{ NULL }
+};
 
 static void
 recent_cb (GSimpleAction *action,
@@ -405,6 +424,12 @@ pt_app_class_init (PtAppClass *class)
 	G_APPLICATION_CLASS (class)->open = pt_app_open;
 	G_APPLICATION_CLASS (class)->activate = pt_app_activate;
 	G_APPLICATION_CLASS (class)->startup = pt_app_startup;
+}
+
+static void
+pt_app_init (PtApp *app)
+{
+	g_application_add_main_option_entries (G_APPLICATION (app), options);
 }
 
 PtApp *

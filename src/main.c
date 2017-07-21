@@ -18,33 +18,10 @@
 #include "config.h"
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>	
-#include <stdlib.h>		/* exit() */
 #include <locale.h>		/* setlocale */
 #include <libparlatype/src/pt-player.h>
 #include "pt-app.h"
 
-static gboolean G_GNUC_NORETURN
-option_version_cb (const gchar *option_name,
-                   const gchar *value,
-                   gpointer     data,
-                   GError     **error)
-{
-	g_print ("%s %s\n", PACKAGE, VERSION);
-	exit (0);
-}
-
-static GOptionEntry options[] =
-{
-	{ "version",
-	  'v',
-	  G_OPTION_FLAG_NO_ARG,
-	  G_OPTION_ARG_CALLBACK,
-	  option_version_cb,
-	  N_("Show the application's version"),
-	  NULL 
-	},
-	{ NULL }
-};
 
 static void
 fatal_error_message (const gchar *message)
@@ -75,25 +52,9 @@ int main (int argc, char *argv[])
 	textdomain (PACKAGE);
 	
 	GError         *error = NULL;
-	GOptionContext *context;
 	PtPlayer       *testplayer;
 	PtApp          *app;
 	gint            app_status;
-
-	/* Translators: This is part of the output if you type `parlatype --help`
-	   in terminal. The square brackets indicate that a file (filename) is
-	   an optional argument for parlatype. Arguments in help output are usually
-	   uppercase. */
-	context = g_option_context_new (_("[FILE]"));
-	g_option_context_add_main_entries (context, options, PACKAGE);
-	g_option_context_add_group (context, gtk_get_option_group (TRUE));
-	g_option_context_set_summary (context, _("Minimal audio player for manual speech transcription"));
-        if (!g_option_context_parse (context, &argc, &argv, &error)) {
-		g_printerr ("%s\n", error->message);
-		g_option_context_free (context);
-		return 1;
-	}
-	g_option_context_free (context);
 
 	/* Test the backend */
 	testplayer = pt_player_new (&error);
