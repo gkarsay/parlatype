@@ -24,17 +24,17 @@ DISTCHECK_CONFIGURE_FLAGS = \
 
 # A few maintainer make targets
 
-.PHONY: dist-sign gtk-check help help-online pot todo lp-export lp-create-tar
+.PHONY: dist-sign compat-check help help-online pot todo lp-export lp-create-tar
 LP_EXPORT_DIR = tmp
 LP_EXPORT_FILE = launchpad-upload.tar.gz
+
+# make compat-check  -- list all GTK/Glib/GStreamer version checks
+compat-check:
+	@find . \( -name "*.c" -o -name "*.h" \) -exec grep -Hno "\(GLIB\|GTK\|GST\)_CHECK_VERSION.*" {} \;
 
 # make dist-sign     -- sign tarball
 dist-sign:
 	gpg --armor --detach-sign "parlatype-$(VERSION).tar.gz"
-
-# make gtk-check     -- list all gtk version checks
-gtk-check:
-	@find . \( -name "*.c" -o -name "*.h" \) -exec grep -Hno "GTK_CHECK_VERSION.*" {} \;
 
 # make help-online   -- create html version of help
 help-online:
