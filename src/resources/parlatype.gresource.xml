@@ -9,4 +9,7 @@
     <file preprocess="xml-stripblanks">window-headerbar.ui</file>
     <file>parlatype.css</file>
   </gresource>
+  <gresource prefix="/com/github/gkarsay/parlatype/gtk">
+    <file preprocess="xml-stripblanks">help-overlay.ui</file>
+  </gresource>
 </gresources>

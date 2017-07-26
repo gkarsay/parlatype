@@ -269,6 +269,9 @@ pt_app_startup (GApplication *app)
 	GMenuModel *app_menu;
 	GMenuModel *menubar;
 
+#if GLIB_CHECK_VERSION(2,42,0)
+	g_application_set_resource_base_path (app, "/com/github/gkarsay/parlatype");
+#endif
 	G_APPLICATION_CLASS (pt_app_parent_class)->startup (app);
 
 	g_action_map_add_action_entries (G_ACTION_MAP (app),
@@ -358,10 +361,18 @@ pt_app_startup (GApplication *app)
 
 	if (show_menubar) {
 #endif
+#if GTK_CHECK_VERSION(3,20,0)
 		app_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "appmenu"));
+#else
+		app_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "appmenu-pre-3-20"));
+#endif
 		gtk_application_set_app_menu (GTK_APPLICATION (app), app_menu);
 	} else {
+#if GTK_CHECK_VERSION(3,20,0)
 		menubar = G_MENU_MODEL (gtk_builder_get_object (builder, "alternative-menu"));
+#else
+		menubar = G_MENU_MODEL (gtk_builder_get_object (builder, "alternative-menu-pre-3-20"));
+#endif
 		gtk_application_set_menubar (GTK_APPLICATION (app), menubar);
 	}
 
