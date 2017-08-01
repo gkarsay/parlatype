@@ -187,12 +187,12 @@ help_cb (GSimpleAction *action,
 #if GTK_CHECK_VERSION(3,22,0)
 	gtk_show_uri_on_window (
 			win,
-			"help:parlatype",
+			"help:com.github.gkarsay.parlatype",
 			GDK_CURRENT_TIME,
 			&error);
 #else
 	gtk_show_uri (gtk_widget_get_screen (GTK_WIDGET (win)),
-	              "help:parlatype",
+	              "help:com.github.gkarsay.parlatype",
 	              GDK_CURRENT_TIME,
 	              &error);
 #endif

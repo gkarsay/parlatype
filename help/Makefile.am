@@ -1,6 +1,6 @@
 @YELP_HELP_RULES@
 
-HELP_ID = parlatype
+HELP_ID = com.github.gkarsay.parlatype
 
 HELP_MEDIA = 					\
 	figures/parlatype-icon.png		\
