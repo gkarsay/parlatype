@@ -1,0 +1,172 @@
+# Japanese translation for parlatype
+# Copyright (c) 2017 Rosetta Contributors and Canonical Ltd 2017
+# This file is distributed under the same license as the parlatype package.
+# Shinichirou Yamada <yamada_strong_yamada_nice_64bit@yahoo.co.jp>, 2017.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: parlatype 1.5\n"
+"Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
+"POT-Creation-Date: 2017-04-18 20:55+0200\n"
+"PO-Revision-Date: 2017-07-25 15:54+0000\n"
+"Last-Translator: Shinichirou Yamada "
+"<yamada_strong_yamada_nice_64bit@yahoo.co.jp>\n"
+"Language-Team: Japanese <ja@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2017-07-30 07:24+0000\n"
+"X-Generator: Launchpad (build 18441)\n"
+
+#. Translators: %s is a detailed error message.
+#: ../src/pt-player.c:436
+#, c-format
+msgid "URI not valid: %s"
+msgstr "URI が無効です: %s"
+
+#. Translators: %s is a detailed error message.
+#: ../src/pt-player.c:448
+#, c-format
+msgid "File not found: %s"
+msgstr "ファイルが見つかりません: %s"
+
+#. Translators: This is a time format, like "2:05:30" for 2
+#. hours, 5 minutes, and 30 seconds. You may change ":" to
+#. the separator that your locale uses or use "%Id" instead
+#. of "%d" if your locale uses localized digits.
+#: ../src/pt-player.c:1121 ../src/pt-waveviewer.c:343
+#: ../src/pt-waveviewer.c:1075
+#, c-format
+msgctxt "long time format"
+msgid "%d:%02d:%02d"
+msgstr "%d:%02d:%02d"
+
+#. Translators: This is a time format, like "2:05:30.1" for 2
+#. hours, 5 minutes, 30 seconds, and 1 tenthsecond. You may
+#. change ":" or "." to the separator that your locale uses or
+#. use "%Id" instead of "%d" if your locale uses localized digits.
+#: ../src/pt-player.c:1128
+#, c-format
+msgctxt "long time format, 1 digit"
+msgid "%d:%02d:%02d.%d"
+msgstr "%d:%02d:%02d.%d"
+
+#. Translators: This is a time format, like "2:05:30.12" for 2
+#. hours, 5 minutes, 30 seconds, and 12 hundrethseconds. You may
+#. change ":" or "." to the separator that your locale uses or
+#. use "%Id" instead of "%d" if your locale uses localized digits.
+#: ../src/pt-player.c:1135
+#, c-format
+msgctxt "long time format, 2 digits"
+msgid "%d:%02d:%02d.%02d"
+msgstr "%d:%02d:%02d.%02d"
+
+#. Translators: This is a time format, like "05:30" for
+#. 5 minutes, and 30 seconds. You may change ":" to
+#. the separator that your locale uses or use "%I02d" instead
+#. of "%02d" if your locale uses localized digits.
+#: ../src/pt-player.c:1152
+#, c-format
+msgctxt "short time format"
+msgid "%02d:%02d"
+msgstr "%02d:%02d"
+
+#. Translators: This is a time format, like "05:30.1" for
+#. 5 minutes, 30 seconds, and 1 tenthsecond. You may change
+#. ":" or "." to the separator that your locale uses or
+#. use "%Id" instead of "%d" if your locale uses localized digits.
+#: ../src/pt-player.c:1159
+#, c-format
+msgctxt "short time format, 1 digit"
+msgid "%02d:%02d.%d"
+msgstr "%02d:%02d.%d"
+
+#. Translators: This is a time format, like "05:30.12" for
+#. 5 minutes, 30 seconds, and 12 hundrethseconds. You may change
+#. ":" or "." to the separator that your locale uses or
+#. use "%Id" instead of "%d" if your locale uses localized digits.
+#: ../src/pt-player.c:1166
+#, c-format
+msgctxt "short time format, 2 digits"
+msgid "%02d:%02d.%02d"
+msgstr "%02d:%02d.%02d"
+
+#. Translators: This is a time format, like "5:30" for
+#. 5 minutes, and 30 seconds. You may change ":" to
+#. the separator that your locale uses or use "%Id" instead
+#. of "%d" if your locale uses localized digits.
+#: ../src/pt-player.c:1179 ../src/pt-waveviewer.c:348
+#: ../src/pt-waveviewer.c:1077
+#, c-format
+msgctxt "shortest time format"
+msgid "%d:%02d"
+msgstr "%d:%02d"
+
+#. Translators: This is a time format, like "05:30.1" for
+#. 5 minutes, 30 seconds, and 1 tenthsecond. You may change
+#. ":" or "." to the separator that your locale uses or
+#. use "%Id" instead of "%d" if your locale uses localized digits.
+#: ../src/pt-player.c:1186
+#, c-format
+msgctxt "shortest time format, 1 digit"
+msgid "%d:%02d.%d"
+msgstr "%d:%02d.%d"
+
+#. Translators: This is a time format, like "05:30.12" for
+#. 5 minutes, 30 seconds, and 12 hundrethseconds. You may change
+#. ":" or "." to the separator that your locale uses or
+#. use "%Id" instead of "%d" if your locale uses localized digits.
+#: ../src/pt-player.c:1193
+#, c-format
+msgctxt "shortest time format, 2 digits"
+msgid "%d:%02d.%02d"
+msgstr "%d:%02d.%02d"
+
+#: ../src/pt-player.c:1495
+#, c-format
+msgid "Failed to load a plugin."
+msgstr "プラグインを読み込めませんでした。"
+
+#: ../src/pt-progress-dialog.c:148
+msgid "Loading file..."
+msgstr "ファイルを読み込み中..."
+
+#: ../src/pt-waveloader.c:337 ../src/pt-waveloader.c:423
+msgid "Failed to open temporary file."
+msgstr "一時ファイルを開けませんでした。"
+
+#: ../src/pt-waveloader.c:350
+msgid "Failed to setup GStreamer pipeline."
+msgstr "GStreamer パイプラインのセットアップに失敗しました。"
+
+#: ../src/pt-waveloader.c:369
+msgid "Failed to start GStreamer pipeline."
+msgstr "GStreamer パイプラインのスタートに失敗しました。"
+
+#: ../src/pt-waveviewer.c:1443
+msgid "Follow cursor"
+msgstr "カーソルに追従する"
+
+#: ../src/pt-waveviewer.c:1444
+msgid "Scroll automatically to the cursor's position"
+msgstr "カーソルの位置へ自動的にスクロールする"
+
+#: ../src/pt-waveviewer.c:1460
+msgid "Fixed cursor"
+msgstr "カーソルを固定する"
+
+#: ../src/pt-waveviewer.c:1461
+msgid ""
+"If TRUE, the cursor is in a fixed position and the waveform is moving.\n"
+"If FALSE, the cursor is moving."
+msgstr ""
+"TRUE の場合、カーソルの位置は固定され、波形が動きます。\n"
+"FALSE の場合、カーソルが動きます。"
+
+#: ../src/pt-waveviewer.c:1475
+msgid "Show ruler"
+msgstr "ルーラーを表示する"
+
+#: ../src/pt-waveviewer.c:1476
+msgid "Show the time scale with time marks"
+msgstr "タイムマークの付いたタイムスケールを表示する"
