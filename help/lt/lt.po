@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
-"POT-Creation-Date: 2017-04-18 20:55+0200\n"
-"PO-Revision-Date: 2017-07-04 10:49+0000\n"
+"POT-Creation-Date: 2017-07-20 16:20+0200\n"
+"PO-Revision-Date: 2017-07-16 16:03+0000\n"
 "Last-Translator: Moo <hazap@hotmail.com>\n"
 "Language-Team: Lithuanian <lt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2017-07-06 17:24+0000\n"
-"X-Generator: Launchpad (build 18419)\n"
+"X-Launchpad-Export-Date: 2017-07-30 07:24+0000\n"
+"X-Generator: Launchpad (build 18441)\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -154,6 +154,11 @@ msgid ""
 "<app>LibreOffice</app>, too. Launch <app>Parlatype</app> and open an audio "
 "file by clicking on the <gui>Open</gui> button in the upper left corner."
 msgstr ""
+"<app>Parlatype</app> yra lengvas naudoti garso grotuvas, skirtas padėti jums "
+"perrašyti įrašytą kalbėjimą ar rašyti jam pastabas. Jums taip pat reikia "
+"paleisti tekstų rengyklę, pvz., <app>LibreOffice</app>. Paleiskite "
+"<app>Parlatype</app> ir viršutiniame kairiajame kampe spusteldami mygtuką "
+"<gui>Atverti</gui>, atverkite garso failą."
 
 #. (itstool) path: note/p
 #: C/first-steps.page:19
@@ -161,6 +166,8 @@ msgid ""
 "You can also drag and drop a file on <app>Parlatype</app> or open the "
 "recently used files in the Application menu."
 msgstr ""
+"Jūs taip pat galite vilkti failą į <app>Parlatype</app> arba programos meniu "
+"atverti paskiausiai naudotus failus."
 
 #. (itstool) path: page/p
 #: C/first-steps.page:22
@@ -170,6 +177,10 @@ msgid ""
 "few seconds to make it easier to resume. This can be changed in the <link "
 "xref=\"preferences\"/>."
 msgstr ""
+"Dabar viršutiniame kairiajame kampe yra mygtukas <gui>Groti</gui>, kuris "
+"perjungia grojimą arba pristabdymą. Kai pristabdote, <app>Parlatype</app> "
+"atsuka kelias sekundes atgal tam, kad būtų lengviau pratęsti. Tai galima "
+"pakeisti perėjus į <link xref=\"preferences\"/>."
 
 #. (itstool) path: page/media
 #. This is a reference to an external file such as an image or video. When
@@ -182,6 +193,8 @@ msgid ""
 "external ref='figures/parlatype-main-window.png' "
 "md5='1e21a2ddc61fda06238b6b1537191cb3'"
 msgstr ""
+"external ref='figures/parlatype-main-window.png' "
+"md5='1e21a2ddc61fda06238b6b1537191cb3'"
 
 #. (itstool) path: page/p
 #: C/first-steps.page:26
@@ -190,6 +203,9 @@ msgid ""
 "left corner skip a few seconds back or ahead. The amount of time can be "
 "changed in the <link xref=\"preferences\"/>."
 msgstr ""
+"Apatiniame kairiajame kampe esantys mygtukai <gui>Peršokti atgal</gui> ir "
+"<gui>Peršokti pirmyn</gui> peršoka kelias sekundes atgal arba pirmyn. Laiko "
+"kiekis gali būti keičiamas skyrelyje <link xref=\"preferences\"/>."
 
 #. (itstool) path: page/p
 #: C/first-steps.page:28
@@ -198,6 +214,10 @@ msgid ""
 "scroll manually by clicking on or dragging the scroll bar or using the "
 "standard keybindings. Automatic scrolling is stopped then."
 msgstr ""
+"Rodinys yra slenkamas automatiškai, taigi tokiu būdu žymeklis visada yra "
+"matomas. Jūs galite slinkti rankiniu būdu, spustelėdami ant slankjuostės ar "
+"vilkdami ją arba naudodami standartinius klavišų susiejimus. Tuomet "
+"automatinis slinkimas yra sustabdomas."
 
 #. (itstool) path: page/p
 #: C/first-steps.page:30
@@ -206,6 +226,10 @@ msgid ""
 "again, click on the <gui>Go to</gui> button next to the time label. Clicking "
 "on the <gui>Play</gui> button also turns automatic scrolling on."
 msgstr ""
+"Norėdami grįžti prie žymeklio pozicijos ir leisti rodiniui vėl automatiškai "
+"slinktis, šalia laiko etiketės spustelėkite ant mygtuko <gui>Eiti</gui>. "
+"Spustelėjimas ant mygtuko <gui>Groti</gui> taip pat įjungia automatinį "
+"slinkimą."
 
 #. (itstool) path: page/p
 #: C/first-steps.page:32
@@ -227,12 +251,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/keyboard-shortcuts.page:6
 msgid "Standard keyboard shortcuts in Parlatype"
-msgstr "Standartiniai Parlatype trumpiniai"
+msgstr "Standartiniai Parlatype klaviatūros trumpiniai"
 
 #. (itstool) path: page/title
 #: C/keyboard-shortcuts.page:14
 msgid "Keyboard shortcuts"
-msgstr "Trumpiniai"
+msgstr "Klaviatūros trumpiniai"
 
 #. (itstool) path: page/p
 #: C/keyboard-shortcuts.page:16
@@ -443,7 +467,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/preferences.page:14
 msgid "Preferences"
-msgstr ""
+msgstr "Nuostatos"
 
 #. (itstool) path: page/p
 #: C/preferences.page:16
@@ -456,7 +480,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/preferences.page:19
 msgid "Waveform"
-msgstr ""
+msgstr "Bangos forma"
 
 #. (itstool) path: section/media
 #. This is a reference to an external file such as an image or video. When
@@ -469,6 +493,8 @@ msgid ""
 "external ref='figures/parlatype-prefs-waveform.png' "
 "md5='e9d05960162dcdddab10378e21ce63da'"
 msgstr ""
+"external ref='figures/parlatype-prefs-waveform.png' "
+"md5='e9d05960162dcdddab10378e21ce63da'"
 
 #. (itstool) path: item/p
 #: C/preferences.page:24
@@ -493,7 +519,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/preferences.page:31
 msgid "Controls"
-msgstr ""
+msgstr "Valdikliai"
 
 #. (itstool) path: section/media
 #. This is a reference to an external file such as an image or video. When
@@ -506,6 +532,8 @@ msgid ""
 "external ref='figures/parlatype-prefs-controls.png' "
 "md5='0b50614222d881110b176c2e28b7d18c'"
 msgstr ""
+"external ref='figures/parlatype-prefs-controls.png' "
+"md5='0b50614222d881110b176c2e28b7d18c'"
 
 #. (itstool) path: item/p
 #: C/preferences.page:36
@@ -532,7 +560,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/preferences.page:43
 msgid "Window"
-msgstr ""
+msgstr "Langas"
 
 #. (itstool) path: section/media
 #. This is a reference to an external file such as an image or video. When
@@ -543,34 +571,47 @@ msgstr ""
 msgctxt "_"
 msgid ""
 "external ref='figures/parlatype-prefs-window.png' "
-"md5='615d876529cdd45763e78a3ee01b7b3e'"
+"md5='6affc475c74223fa48e7de25393fe7de'"
 msgstr ""
 
 #. (itstool) path: item/p
 #: C/preferences.page:48
 msgid ""
-"Remember position: On start-up <app>Parlatype</app> can position its window "
-"where you had it when you closed <app>Parlatype</app> last time. This also "
-"remembers the window's size."
+"Remember size: On start-up <app>Parlatype</app> sets the window size to the "
+"size it had the last time."
 msgstr ""
 
 #. (itstool) path: item/p
 #: C/preferences.page:49
+msgid ""
+"Remember position: On start-up <app>Parlatype</app> can position its window "
+"where you had it when you closed <app>Parlatype</app> last time."
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/preferences.page:50
 msgid ""
 "Start on top: This will put <app>Parlatype</app> on start-up on top of other "
 "windows. This might be useful if you are working with a maximized word "
 "processor and still want to see the <app>Parlatype</app> window."
 msgstr ""
 
+#. (itstool) path: note/p
+#: C/preferences.page:54
+msgid ""
+"<gui>Remember position</gui> and <gui>Start on top</gui> are not available "
+"on Wayland."
+msgstr ""
+
 #. (itstool) path: info/desc
 #: C/selections.page:6
 msgid "How to play and repeat a selection"
-msgstr ""
+msgstr "Kaip groti ir kartoti žymėjimą"
 
 #. (itstool) path: page/title
 #: C/selections.page:14
 msgid "Selections"
-msgstr ""
+msgstr "Žymėjimai"
 
 #. (itstool) path: page/p
 #: C/selections.page:16
@@ -579,6 +620,10 @@ msgid ""
 "<gui>Play</gui>, it will play the selection only. When it is finished and "
 "you press <gui>Play</gui> again, it will loop the selection once."
 msgstr ""
+"Jūs galite pažymėti bangos formos dalį, naudodami pelę. Kitą kartą jums "
+"spustelėjus <gui>Groti</gui>, bus grojamas tik žymėjimas. Užbaigus groti "
+"žymėjimą ir jums dar kartą paspaudus <gui>Groti</gui>, žymėjimas bus "
+"pakartotas vieną kartą."
 
 #. (itstool) path: note/p
 #: C/selections.page:18
@@ -586,6 +631,8 @@ msgid ""
 "When in selection mode, you can not exit the selection anymore until you "
 "deselect it."
 msgstr ""
+"Esant žymėjimo veiksenoje, jūs daugiau nebegalite išeiti iš žymėjimo tol, "
+"kol nepanaikinsite žymėjimą."
 
 #. (itstool) path: page/p
 #: C/selections.page:20
@@ -671,7 +718,7 @@ msgstr ""
 #: C/libreoffice-helpers.page:15
 #: C/libreoffice-helpers.page:30
 msgid "LibreOffice Helpers"
-msgstr ""
+msgstr "LibreOffice pagelbikliai"
 
 #. (itstool) path: page/p
 #: C/libreoffice-helpers.page:17
@@ -698,6 +745,7 @@ msgctxt "_"
 msgid ""
 "external ref='figures/lo-menu.png' md5='4dd86affb0353b6bdfa2dcfbbeadd494'"
 msgstr ""
+"external ref='figures/lo-menu.png' md5='4dd86affb0353b6bdfa2dcfbbeadd494'"
 
 #. (itstool) path: page/p
 #: C/libreoffice-helpers.page:23
@@ -723,6 +771,8 @@ msgid ""
 "external ref='figures/lo-customize.png' "
 "md5='081564921275129bee7bbd10220547e7'"
 msgstr ""
+"external ref='figures/lo-customize.png' "
+"md5='081564921275129bee7bbd10220547e7'"
 
 #. (itstool) path: page/p
 #: C/libreoffice-helpers.page:27
@@ -783,9 +833,9 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/libreoffice-helpers.page:64
 msgid "Increases playback speed."
-msgstr ""
+msgstr "Padidina atkūrimo greitį."
 
 #. (itstool) path: td/p
 #: C/libreoffice-helpers.page:68
 msgid "Decreases playback speed."
-msgstr ""
+msgstr "Sumažina atkūrimo greitį."
