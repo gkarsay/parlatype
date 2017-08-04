@@ -1,23 +1,23 @@
 icon16dir = $(datadir)/icons/hicolor/16x16/apps
-icon16_DATA = 16x16/apps/parlatype.png
+icon16_DATA = 16x16/apps/com.github.gkarsay.parlatype.png
 
 icon22dir = $(datadir)/icons/hicolor/22x22/apps
-icon22_DATA = 22x22/apps/parlatype.png
+icon22_DATA = 22x22/apps/com.github.gkarsay.parlatype.png
 
 icon24dir = $(datadir)/icons/hicolor/24x24/apps
-icon24_DATA = 24x24/apps/parlatype.png
+icon24_DATA = 24x24/apps/com.github.gkarsay.parlatype.png
 
 icon32dir = $(datadir)/icons/hicolor/32x32/apps
-icon32_DATA = 32x32/apps/parlatype.png
+icon32_DATA = 32x32/apps/com.github.gkarsay.parlatype.png
 
 icon48dir = $(datadir)/icons/hicolor/48x48/apps
-icon48_DATA = 48x48/apps/parlatype.png
+icon48_DATA = 48x48/apps/com.github.gkarsay.parlatype.png
 
 icon256dir = $(datadir)/icons/hicolor/256x256/apps
-icon256_DATA = 256x256/apps/parlatype.png
+icon256_DATA = 256x256/apps/com.github.gkarsay.parlatype.png
 
 iconscalabledir = $(datadir)/icons/hicolor/scalable/apps
-iconscalable_DATA = scalable/apps/parlatype-symbolic.svg
+iconscalable_DATA = scalable/apps/com.github.gkarsay.parlatype-symbolic.svg
 
 gtk_update_icon_cache = gtk-update-icon-cache -f -t $(datadir)/icons/hicolor
 
