@@ -72,7 +72,7 @@ proxy_call_cb (GObject      *source_object,
 	g_dbus_proxy_call_finish (G_DBUS_PROXY (source_object), res, &error);
 	
 	if (error) {
-		g_printerr ("Failed to create proxy: %s\n", error->message);
+		g_warning ("Failed to call media keys proxy: %s\n", error->message);
 		g_error_free (error);
 	}		
 }
@@ -94,15 +94,17 @@ window_state_event_cb (GtkWidget	    *widget,
 		return FALSE;
 	}
 
-	g_dbus_proxy_call (
-			win->priv->proxy,
-			"GrabMediaPlayerKeys",
-			g_variant_new ("(su)", "Parlatype", 0),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			proxy_call_cb,
-			NULL);	// user_data
+	if (win->priv->proxy) {
+		g_dbus_proxy_call (
+				win->priv->proxy,
+				"GrabMediaPlayerKeys",
+				g_variant_new ("(su)", "Parlatype", 0),
+				G_DBUS_CALL_FLAGS_NONE,
+				-1,
+				NULL,
+				proxy_call_cb,
+				NULL);	// user_data
+	}
 
 	return FALSE;
 }
@@ -123,8 +125,8 @@ setup_mediakeys (PtWindow *win)
 			&error);
 
 	if (error) {
-		g_printerr ("Failed to create proxy: %s\n", error->message);
-		//pt_error_message (win, error->message);
+		/* win->priv->proxy is now NULL */
+		g_warning ("Couldn't grab media keys from GNOME Settings Daemon: %s\n", error->message);
 		g_error_free (error);
 		return;
 	}
