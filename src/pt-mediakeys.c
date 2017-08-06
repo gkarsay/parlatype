@@ -67,51 +67,61 @@ proxy_call_cb (GObject      *source_object,
 	       GAsyncResult *res,
 	       gpointer      user_data)
 {
+	GVariant *variant;
 	GError *error = NULL;
 
-	g_dbus_proxy_call_finish (G_DBUS_PROXY (source_object), res, &error);
+	variant = g_dbus_proxy_call_finish (G_DBUS_PROXY (source_object), res, &error);
 	
 	if (error) {
-		g_warning ("Failed to call media keys proxy: %s\n", error->message);
+		g_warning ("Failed to call media keys proxy: %s", error->message);
 		g_error_free (error);
-	}		
+	} else {
+		g_variant_unref (variant);
+	}
 }
 
-gboolean
-window_state_event_cb (GtkWidget	    *widget,
-		       GdkEventWindowState  *event,
-		       PtWindow		    *win)
+static void
+grab_mediakeys (PtWindow *win)
 {
-	if (!(event->new_window_state & GDK_WINDOW_STATE_FOCUSED)) {
-		/* Window state changed to not focused.
-		   We are not interested in that, return FALSE and the signal
-		   can be processed further.
-		   However, if we'd return TRUE, the window would always stay
-		   in focus, it's colors would not change to unfocused state.
-		   That might be desirable having the word processor and
-		   parlatype open at the same time.
-		   Maybe we offer that later as a user preference. */
-		return FALSE;
-	}
+	if (!win->priv->proxy)
+		return;
 
-	if (win->priv->proxy) {
-		g_dbus_proxy_call (
-				win->priv->proxy,
-				"GrabMediaPlayerKeys",
-				g_variant_new ("(su)", "Parlatype", 0),
-				G_DBUS_CALL_FLAGS_NONE,
-				-1,
-				NULL,
-				proxy_call_cb,
-				NULL);	// user_data
-	}
+	g_dbus_proxy_call (
+			win->priv->proxy,
+			"GrabMediaPlayerKeys",
+			g_variant_new ("(su)", "Parlatype", 0),
+			G_DBUS_CALL_FLAGS_NONE,
+			-1,
+			NULL,
+			proxy_call_cb,
+			NULL);	// user_data
+}
 
+static gboolean
+window_focus_in_event_cb (GtkWidget	*widget,
+		          GdkEventFocus *event,
+		          PtWindow	*win)
+{
+	grab_mediakeys (win);
 	return FALSE;
 }
 
-void
-setup_mediakeys (PtWindow *win)
+static void
+remove_bus_watch (PtWindow *win)
 {
+	if (win->priv->dbus_watch_id != 0) {
+		g_bus_unwatch_name (win->priv->dbus_watch_id);
+		win->priv->dbus_watch_id = 0;
+	}
+}
+
+static void
+name_appeared_cb (GDBusConnection *connection,
+                  const gchar     *name,
+                  const gchar     *name_owner,
+                  PtWindow        *win)
+{
+	g_debug ("Found org.gnome.SettingsDaemon");
 	GError *error = NULL;
 
 	win->priv->proxy = g_dbus_proxy_new_for_bus_sync (
@@ -125,15 +135,57 @@ setup_mediakeys (PtWindow *win)
 			&error);
 
 	if (error) {
-		/* win->priv->proxy is now NULL */
-		g_warning ("Couldn't grab media keys from GNOME Settings Daemon: %s\n", error->message);
+		g_warning ("Couldn't create proxy for org.gnome.SettingsDaemon: %s", error->message);
 		g_error_free (error);
 		return;
 	}
+
+	grab_mediakeys (win);
 
 	g_signal_connect (
 			win->priv->proxy,
 			"g-signal",
 			G_CALLBACK (on_media_key_pressed),
 			win);
+
+	g_signal_connect (
+			G_OBJECT (win),
+			"focus-in-event",
+			G_CALLBACK (window_focus_in_event_cb),
+			win);
+
+	remove_bus_watch (win);
+}
+
+static void
+name_vanished_cb (GDBusConnection *connection,
+                  const gchar     *name,
+                  const gchar     *name_owner,
+                  PtWindow        *win)
+{
+	g_debug ("Couldn't find org.gnome.SettingsDaemon");
+	if (win->priv->proxy) {
+		g_object_unref (win->priv->proxy);
+		win->priv->proxy = NULL;
+	}
+	remove_bus_watch (win);
+}
+
+void
+setup_mediakeys (PtWindow *win)
+{
+	win->priv->proxy = NULL;
+	win->priv->dbus_watch_id = 0;
+
+	/* watch for GNOME settings daemon and stop watching immediatetly
+	   after because we don't assume this will change later on */
+	win->priv->dbus_watch_id =
+		g_bus_watch_name (
+				G_BUS_TYPE_SESSION,
+				"org.gnome.SettingsDaemon",
+				G_BUS_NAME_WATCHER_FLAGS_NONE,
+				(GBusNameAppearedCallback) name_appeared_cb,
+				(GBusNameVanishedCallback) name_vanished_cb,
+				win,
+				NULL);
 }

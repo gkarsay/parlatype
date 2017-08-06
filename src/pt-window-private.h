@@ -26,6 +26,7 @@ struct _PtWindowPrivate
 {
 	GSettings	 *editor;
 	GDBusProxy	 *proxy;
+	gint              dbus_watch_id;
 	GtkRecentManager *recent;
 	PtPlayer	 *player;
 
