@@ -160,7 +160,6 @@ name_appeared_cb (GDBusConnection *connection,
 static void
 name_vanished_cb (GDBusConnection *connection,
                   const gchar     *name,
-                  const gchar     *name_owner,
                   PtWindow        *win)
 {
 	g_debug ("Couldn't find org.gnome.SettingsDaemon");
