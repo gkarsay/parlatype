@@ -440,11 +440,7 @@ pt_app_class_init (PtAppClass *class)
 static void
 pt_app_init (PtApp *app)
 {
-	/* Ubuntu Trusty is still kind of supported. With this check it builds,
-	   but there is no fallback planned, no extra options available. */
-#if GLIB_CHECK_VERSION(2,42,0)
 	g_application_add_main_option_entries (G_APPLICATION (app), options);
-#endif
 }
 
 PtApp *
