@@ -45,22 +45,6 @@
     ],
     "modules": [
         {
-            "name" : "gst-libav",
-            "config-opts" : [
-            
-             ],
-            "cleanup" : [
-                "*.la"
-            ],
-            "sources" : [
-                {
-                    "type"   : "git",
-                    "url"    : "git://anongit.freedesktop.org/gstreamer/gst-libav",
-                    "branch" : "1.8"
-                }
-            ]
-        },
-        {
             "name": "parlatype",
             "sources": [
                 {
