@@ -11,7 +11,7 @@ install-desktop-database: install-desktopDATA
 gsettings_SCHEMAS = com.github.gkarsay.parlatype.gschema.xml
 @GSETTINGS_RULES@
 
-appdatadir = $(datadir)/appdata
+appdatadir = $(datadir)/metainfo
 appdata_in_files = com.github.gkarsay.parlatype.appdata.xml.in
 if LIBREOFFICE
 appdata_in_files += com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in
