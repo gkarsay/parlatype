@@ -8,8 +8,6 @@
     
     "command": "parlatype",
     
-    "rename-icon": "parlatype",
-    
     "tags": [],
     
     "finish-args": [
@@ -26,10 +24,12 @@
         "--talk-name=ca.desrt.dconf",
         "--talk-name=org.freedesktop.secrets",
         
+        "--talk-name=org.gnome.SettingsDaemon",
+
         "--own-name=com.github.gkarsay.parlatype"
     ],
-    "build-options" : {
-        "cflags" : "-O2 -g"
+    "build-options": {
+        "cflags": "-O2 -g"
     },
     "cleanup": [
         "*.la",
@@ -46,11 +46,15 @@
     "modules": [
         {
             "name": "parlatype",
+            "config-opts": [
+                "--disable-introspection",
+                "--without-libreoffice"
+            ],
             "sources": [
                 {
                     "type": "git",
                     "url": "https://github.com/gkarsay/parlatype.git",
-                    "branch": "v1.5.1"
+                    "branch": "v1.5.2"
                 }
             ]
         }
