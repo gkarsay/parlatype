@@ -1278,8 +1278,7 @@ pt_waveviewer_init (PtWaveviewer *self)
 {
 	self->priv = pt_waveviewer_get_instance_private (self);
 
-	gtk_widget_init_template (GTK_WIDGET (self));
-
+	GtkWidget       *box;
 	GdkDisplay      *display;
 	GtkStyleContext *context;
 	GtkCssProvider  *provider;
@@ -1294,6 +1293,27 @@ pt_waveviewer_init (PtWaveviewer *self)
 	self->priv->sel_start = 0;
 	self->priv->sel_end = 0;
 	self->priv->ruler_height = 0;
+
+	/* Setup scrolled window */
+	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	self->priv->drawarea = gtk_drawing_area_new ();
+	self->priv->ruler = gtk_drawing_area_new ();
+	gtk_container_add_with_properties (
+			GTK_CONTAINER (box),
+			self->priv->drawarea,
+			"expand", TRUE,
+			"fill", TRUE,
+			NULL);
+	gtk_container_add (GTK_CONTAINER (box), self->priv->ruler);
+	gtk_container_add (GTK_CONTAINER (self), box);
+	gtk_scrolled_window_set_policy (
+			GTK_SCROLLED_WINDOW (self),
+			GTK_POLICY_ALWAYS,
+			GTK_POLICY_NEVER);
+	gtk_scrolled_window_set_shadow_type (
+			GTK_SCROLLED_WINDOW (self),
+			GTK_SHADOW_IN);
+	gtk_widget_show_all (GTK_WIDGET (self));
 
 	/* Try a few cursors for selections */
 	display = gdk_display_get_default ();
@@ -1381,10 +1401,6 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 	gobject_class->get_property = pt_waveviewer_get_property;
 	gobject_class->constructed  = pt_waveviewer_constructed;
 	gobject_class->finalize     = pt_waveviewer_finalize;
-
-	gtk_widget_class_set_template_from_resource (widget_class, "/com/github/gkarsay/libparlatype/ptwaveviewer.ui");
-	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, drawarea);
-	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, ruler);
 
 	widget_class->state_flags_changed = pt_waveviewer_state_flags_changed;
 	widget_class->style_updated       = pt_waveviewer_style_updated;
