@@ -65,6 +65,9 @@ struct _PtWaveviewerPrivate {
 	gboolean         rtl;
 	gboolean         focus_on_cursor;
 
+	/* Ruler */
+	GtkWidget  *ruler;
+
 	/* Ruler marks */
 	gboolean  time_format_long;
 	gint      time_string_width;
@@ -180,9 +183,6 @@ draw_cursor (PtWaveviewer *self)
 
 	cairo_t *cr;
 	gint height = gtk_widget_get_allocated_height (self->priv->drawarea);
-	if (self->priv->show_ruler)
-		height = height - self->priv->ruler_height;
-
 
 	self->priv->cursor = gdk_window_create_similar_surface (gtk_widget_get_window (GTK_WIDGET (self)),
 	                                             CAIRO_CONTENT_COLOR_ALPHA,
@@ -247,6 +247,8 @@ size_allocate_cb (GtkWidget     *widget,
 	draw_cursor (self);
 	/* If widget changed horizontal size, revealed parts have to be drawn */
 	gtk_widget_queue_draw (self->priv->drawarea);
+	if (self->priv->show_ruler)
+		gtk_widget_queue_draw (self->priv->ruler);
 }
 
 static gint64
@@ -270,13 +272,19 @@ pixel_to_array (PtWaveviewer *self,
 	return result;
 }
 
-static void
-paint_ruler (PtWaveviewer *self,
-	     cairo_t      *cr,
-	     gint          height,
-	     gint          visible_first,
-	     gint          visible_last)
+static gboolean
+ruler_draw_cb (GtkWidget *widget,
+               cairo_t   *cr,
+               gpointer   data)
 {
+	PtWaveviewer *self = (PtWaveviewer *) data;
+	gint visible_first;
+	gint visible_last;
+	gint height = gtk_widget_get_allocated_height (widget);
+
+	visible_first = (gint) gtk_adjustment_get_value (self->priv->adj);
+	visible_last = visible_first + (gint) gtk_adjustment_get_page_size (self->priv->adj);
+
 	gint	        i;		/* counter, pixel on x-axis in the view */
 	gint		sample;		/* sample in the array */
 	gchar          *text;
@@ -292,8 +300,11 @@ paint_ruler (PtWaveviewer *self,
 
 	/* ruler background */
 	gdk_cairo_set_source_rgba (cr, &self->priv->ruler_color);
-	cairo_rectangle (cr, 0, height, visible_last, self->priv->ruler_height);
+	cairo_rectangle (cr, 0, 0, visible_last, height);
 	cairo_fill (cr);
+
+	if (!self->priv->peaks)
+		return FALSE;
 
 	/* ruler marks */
 
@@ -307,7 +318,7 @@ paint_ruler (PtWaveviewer *self,
 		i = time_to_pixel (self, tmp_time);
 		while (i <= visible_last) {
 			if (tmp_time < self->priv->duration)
-				gtk_render_line (context, cr, i, height, i, height + 4);
+				gtk_render_line (context, cr, i, 0, i, 4);
 			if (self->priv->rtl)
 				tmp_time -= 100;
 			else
@@ -326,7 +337,7 @@ paint_ruler (PtWaveviewer *self,
 			if (sample * 2 > self->priv->peaks_size)
 				continue;
 			if (sample % (self->priv->px_per_sec * self->priv->secondary_modulo) == 0)
-				gtk_render_line (context, cr, i, height, i, height + 4);
+				gtk_render_line (context, cr, i, 0, i, 4);
 		}
 	}
 
@@ -338,7 +349,7 @@ paint_ruler (PtWaveviewer *self,
 		if (sample * 2 > self->priv->peaks_size)
 			continue;
 		if (sample % (self->priv->px_per_sec * self->priv->primary_modulo) == 0) {
-			gtk_render_line (context, cr, i, height, i, height + 8);
+			gtk_render_line (context, cr, i, 0, i, 8);
 			gdk_cairo_set_source_rgba (cr, &self->priv->wave_color);
 			if (self->priv->time_format_long) {
 				text = g_strdup_printf (C_("long time format", "%d:%02d:%02d"),
@@ -356,10 +367,10 @@ paint_ruler (PtWaveviewer *self,
 			x_offset = (rect.x + rect.width) / 2;
 
 			/* don't display time if it is not fully visible in drawing area */
-			if (i - x_offset > 0 && i + x_offset < gtk_widget_get_allocated_width (self->priv->drawarea)) {
+			if (i - x_offset > 0 && i + x_offset < gtk_widget_get_allocated_width (widget)) {
 				cairo_move_to (cr,
 					       i - x_offset,	/* center at mark */
-					       height + self->priv->ruler_height - rect.y - rect.height -3); /* +3 px above border */
+					       height - rect.y - rect.height -3); /* +3 px above border */
 				pango_cairo_show_layout (cr, layout);
 			}
 			g_free (text);
@@ -367,6 +378,7 @@ paint_ruler (PtWaveviewer *self,
 		}
 	}
 	gtk_style_context_restore (context);
+	return FALSE;
 }
 
 static gboolean
@@ -391,9 +403,6 @@ draw_cb (GtkWidget *widget,
 
 	context = gtk_widget_get_style_context (self->priv->drawarea);
 	gint height = gtk_widget_get_allocated_height (widget);
-
-	if (self->priv->show_ruler && peaks)
-		height = height - self->priv->ruler_height;
 
 	gint half = height / 2 - 1;
 	gint middle = height / 2;
@@ -432,14 +441,6 @@ draw_cb (GtkWidget *widget,
 		cairo_rectangle (cr, start, 0, end, height);
 		cairo_fill (cr);
 	}
-
-	/* paint ruler */
-	if (self->priv->show_ruler) {
-		/* only if ruler is in clip */
-		if (cairo_in_clip (cr, visible_first, height))
-			paint_ruler (self, cr, height, visible_first, visible_last);
-	}
-
 
 	/* paint cursor */
 	cairo_set_source_surface (cr,
@@ -890,6 +891,8 @@ pt_waveviewer_style_updated (GtkWidget *widget)
 
 	pt_waveviewer_update_cached_style_values (self);
 	gtk_widget_queue_draw (self->priv->drawarea);
+	if (self->priv->show_ruler)
+		gtk_widget_queue_draw (self->priv->ruler);
 }
 
 static gboolean
@@ -918,6 +921,8 @@ adj_cb (GtkAdjustment *adj,
 	   Probably we're doing some draws twice */
 	PtWaveviewer *self = PT_WAVEVIEWER (data);
 	gtk_widget_queue_draw (self->priv->drawarea);
+	if (self->priv->show_ruler)
+		gtk_widget_queue_draw (self->priv->ruler);
 }
 
 static gboolean
@@ -1120,10 +1125,8 @@ pt_waveviewer_set_wave (PtWaveviewer *self,
 	cairo_destroy (cr);
 	cairo_surface_destroy (surface);
 
-	if (self->priv->show_ruler)
-		gtk_widget_set_size_request (self->priv->drawarea, data->length / 2, WAVE_MIN_HEIGHT + self->priv->ruler_height);
-	else
-		gtk_widget_set_size_request (self->priv->drawarea, data->length / 2, WAVE_MIN_HEIGHT);
+	gtk_widget_set_size_request (self->priv->ruler, data->length / 2, self->priv->ruler_height);
+	gtk_widget_set_size_request (self->priv->drawarea, data->length / 2, WAVE_MIN_HEIGHT);
 	gtk_adjustment_set_upper (self->priv->adj, data->length / 2);
 
 	/* It seems like the state_flags_changed and style_updated flags are
@@ -1213,16 +1216,12 @@ pt_waveviewer_set_property (GObject      *object,
 
 		if (self->priv->fixed_cursor) {
 			gtk_widget_queue_draw (self->priv->drawarea);
+			if (self->priv->show_ruler)
+				gtk_widget_queue_draw (self->priv->ruler);
 		} else {
 			gint height = gtk_widget_get_allocated_height (self->priv->drawarea);
 			gint old_x = time_to_pixel (self, old_value) - MARKER_BOX_W / 2;
 			gint new_x = time_to_pixel (self, self->priv->playback_cursor) - MARKER_BOX_W / 2;
-
-			if (self->priv->show_ruler) {
-				height = height - self->priv->ruler_height;
-				if (height < WAVE_MIN_HEIGHT)
-					break;
-			}
 
 			gtk_widget_queue_draw_area (self->priv->drawarea,
 						    old_x,
@@ -1246,14 +1245,12 @@ pt_waveviewer_set_property (GObject      *object,
 		break;
 	case PROP_SHOW_RULER:
 		self->priv->show_ruler = g_value_get_boolean (value);
-		gint height = WAVE_MIN_HEIGHT;
-		if (self->priv->show_ruler)
-			height += self->priv->ruler_height;
-		gtk_widget_set_size_request (self->priv->drawarea,
-		                             self->priv->peaks_size / 2,
-		                             height);
-		draw_cursor (self);
-		gtk_widget_queue_draw (self->priv->drawarea);
+		if (self->priv->show_ruler) {
+			gtk_widget_show (self->priv->ruler);
+			gtk_widget_queue_draw (self->priv->ruler);
+		} else {
+			gtk_widget_hide (self->priv->ruler);
+		}
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1342,6 +1339,11 @@ pt_waveviewer_init (PtWaveviewer *self)
 			  G_CALLBACK (draw_cb),
 			  self);
 
+	g_signal_connect (self->priv->ruler,
+			  "draw",
+			  G_CALLBACK (ruler_draw_cb),
+			  self);
+
 	g_signal_connect (self->priv->drawarea,
 			  "motion-notify-event",
 			  G_CALLBACK (motion_notify_event_cb),
@@ -1382,6 +1384,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 
 	gtk_widget_class_set_template_from_resource (widget_class, "/com/github/gkarsay/libparlatype/ptwaveviewer.ui");
 	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, drawarea);
+	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, ruler);
 
 	widget_class->state_flags_changed = pt_waveviewer_state_flags_changed;
 	widget_class->style_updated       = pt_waveviewer_style_updated;
