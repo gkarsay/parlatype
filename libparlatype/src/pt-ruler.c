@@ -205,54 +205,7 @@ ruler_draw_cb (GtkWidget *widget,
 }
 
 static void
-pt_ruler_update_cached_style_values (PtRuler *self)
-{
-	/* Colors and direction are cached */
-
-	GtkStyleContext *context;
-	GdkWindow       *window = NULL;
-
-	window = gtk_widget_get_parent_window (GTK_WIDGET (self));
-	if (!window)
-		return;
-
-	context = gtk_widget_get_style_context (GTK_WIDGET (self));
-
-	if (gtk_style_context_get_state (context) & GTK_STATE_FLAG_DIR_RTL)
-		self->priv->rtl = TRUE;
-	else
-		self->priv->rtl = FALSE;
-}
-
-static void
-pt_ruler_state_flags_changed (GtkWidget	    *widget,
-                              GtkStateFlags  flags)
-{
-	/* Update colors */
-
-	PtRuler *self = PT_RULER (widget);
-	pt_ruler_update_cached_style_values (self);
-
-	GTK_WIDGET_CLASS (pt_ruler_parent_class)->state_flags_changed (widget, flags);
-}
-
-static void
-pt_ruler_style_updated (GtkWidget *widget)
-{
-	PtRuler *self = PT_RULER (widget);
-
-	GTK_WIDGET_CLASS (pt_ruler_parent_class)->style_updated (widget);
-
-	pt_ruler_update_cached_style_values (self);
-	gtk_widget_queue_draw (widget);
-}
-
-void
-pt_ruler_set_ruler (PtRuler *self,
-                    gint64   peaks_size,
-                    gint     px_per_sec,
-                    gint64   duration,
-                    GtkAdjustment *adj)
+pt_ruler_calculate_height (PtRuler *self)
 {
 	/* Calculate ruler height and time string width*/
 	cairo_t         *cr;
@@ -261,13 +214,13 @@ pt_ruler_set_ruler (PtRuler *self,
 	PangoRectangle   rect;
 	gchar           *time_format;
 	gint             ruler_height;
+	GdkWindow       *window = NULL;
 
-	self->priv->peaks_size = peaks_size;
-	self->priv->px_per_sec = px_per_sec;
-	self->priv->duration = duration;
-	self->priv->adj = adj;
+	window = gtk_widget_get_parent_window (GTK_WIDGET (self));
+	if (!window || self->priv->peaks_size == 0)
+		return;
 
-	surface = gdk_window_create_similar_surface (gtk_widget_get_window (GTK_WIDGET (self)),
+	surface = gdk_window_create_similar_surface (window,
 	                                             CAIRO_CONTENT_COLOR,
 	                                             100, 100);
 	cr = cairo_create (surface);
@@ -319,13 +272,64 @@ pt_ruler_set_ruler (PtRuler *self,
 	cairo_surface_destroy (surface);
 
 	gtk_widget_set_size_request (GTK_WIDGET (self), self->priv->peaks_size / 2, ruler_height);
+}
 
-	/* It seems like the state_flags_changed and style_updated flags are
-	   never emitted under KDE/Plasma desktop or only once at the beginning
-	   when there is no parent window yet. If we don't manually update the
-	   cached style values, the colors are not set at all under KDE/Plasma. */
+static void
+pt_ruler_update_cached_style_values (PtRuler *self)
+{
+	/* Direction is cached */
+
+	GtkStyleContext *context;
+	GdkWindow       *window = NULL;
+
+	window = gtk_widget_get_parent_window (GTK_WIDGET (self));
+	if (!window)
+		return;
+
+	context = gtk_widget_get_style_context (GTK_WIDGET (self));
+
+	if (gtk_style_context_get_state (context) & GTK_STATE_FLAG_DIR_RTL)
+		self->priv->rtl = TRUE;
+	else
+		self->priv->rtl = FALSE;
+}
+
+static void
+pt_ruler_state_flags_changed (GtkWidget	    *widget,
+                              GtkStateFlags  flags)
+{
+	PtRuler *self = PT_RULER (widget);
 	pt_ruler_update_cached_style_values (self);
 
+	GTK_WIDGET_CLASS (pt_ruler_parent_class)->state_flags_changed (widget, flags);
+}
+
+static void
+pt_ruler_style_updated (GtkWidget *widget)
+{
+	PtRuler *self = PT_RULER (widget);
+
+	GTK_WIDGET_CLASS (pt_ruler_parent_class)->style_updated (widget);
+
+	pt_ruler_calculate_height (self);
+	pt_ruler_update_cached_style_values (self);
+	gtk_widget_queue_draw (widget);
+}
+
+void
+pt_ruler_set_ruler (PtRuler *self,
+                    gint64   peaks_size,
+                    gint     px_per_sec,
+                    gint64   duration,
+                    GtkAdjustment *adj)
+{
+	self->priv->peaks_size = peaks_size;
+	self->priv->px_per_sec = px_per_sec;
+	self->priv->duration = duration;
+	self->priv->adj = adj;
+
+	pt_ruler_calculate_height (self);
+	pt_ruler_update_cached_style_values (self);
 	gtk_widget_queue_draw (GTK_WIDGET (self));
 }
 
@@ -335,26 +339,14 @@ pt_ruler_init (PtRuler *self)
 	self->priv = pt_ruler_get_instance_private (self);
 
 	GtkStyleContext *context;
-	GtkCssProvider  *provider;
-	GFile		*css_file;
 
 	self->priv->peaks_size = 0;
 	self->priv->px_per_sec = 0;
 	self->priv->duration = 0;
 
-	css_file = g_file_new_for_uri ("resource:///com/github/gkarsay/libparlatype/pt-waveviewer.css");
-	provider = gtk_css_provider_new ();
-	gtk_css_provider_load_from_file (provider, css_file, NULL);
-	gtk_style_context_add_provider_for_screen (
-			gdk_screen_get_default (),
-			GTK_STYLE_PROVIDER (provider),
-			GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-
+	gtk_widget_set_name (GTK_WIDGET (self), "ruler");
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
 	gtk_style_context_add_class (context, GTK_STYLE_CLASS_MARK);
-
-	g_object_unref (css_file);
-	g_object_unref (provider);
 
 	g_signal_connect (self,
 			  "draw",
