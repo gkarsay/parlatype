@@ -36,9 +36,6 @@ struct _PtRulerPrivate {
 	gint      time_string_width;
 	gint      primary_modulo;
 	gint      secondary_modulo;
-
-	/* Colors */
-	GdkRGBA	  ruler_color;
 };
 
 
