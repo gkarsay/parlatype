@@ -24,6 +24,7 @@ libparlatype_la_SOURCES =	\
 	$(BUILT_SOURCES)	\
 	pt-player.c		\
 	pt-progress-dialog.c	\
+	pt-ruler.c		\
 	pt-wavedata.c		\
 	pt-waveloader.c		\
 	pt-waveviewer.c
