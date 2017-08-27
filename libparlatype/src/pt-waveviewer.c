@@ -334,7 +334,7 @@ draw_cb (GtkWidget *widget,
 	cairo_paint (cr);
 
 	/* render focus */
-	if (gtk_widget_has_focus (self->priv->drawarea)) {
+	if (gtk_widget_has_focus (GTK_WIDGET (self))) {
 		if (self->priv->focus_on_cursor) {
 			gtk_render_focus (context, cr,
 					  time_to_pixel (self, self->priv->playback_cursor) - MARKER_BOX_W / 2 - 2,
@@ -446,7 +446,7 @@ key_press_event_cb (GtkWidget   *widget,
 		    GdkEventKey *event,
 		    gpointer     data)
 {
-	PtWaveviewer *self = PT_WAVEVIEWER (data);
+	PtWaveviewer *self = PT_WAVEVIEWER (widget);
 	gdouble step;
 	gdouble page;
 	gdouble value;
@@ -596,7 +596,7 @@ button_press_event_cb (GtkWidget      *widget,
 		       GdkEventButton *event,
 		       gpointer        data)
 {
-	PtWaveviewer *self = PT_WAVEVIEWER (data);
+	PtWaveviewer *self = PT_WAVEVIEWER (widget);
 
 	if (!self->priv->peaks)
 		return FALSE;
@@ -661,7 +661,7 @@ motion_notify_event_cb (GtkWidget      *widget,
                         GdkEventMotion *event,
                         gpointer        data)
 {
-	PtWaveviewer *self = PT_WAVEVIEWER (data);
+	PtWaveviewer *self = PT_WAVEVIEWER (widget);
 
 	if (!self->priv->peaks)
 		return FALSE;
@@ -713,6 +713,7 @@ pt_waveviewer_update_cached_style_values (PtWaveviewer *self)
 	/* Colors and direction are cached */
 
 	GtkStyleContext *context;
+	GtkStateFlags    state;
 	GdkWindow       *window = NULL;
 
 	window = gtk_widget_get_parent_window (GTK_WIDGET (self));
@@ -720,28 +721,20 @@ pt_waveviewer_update_cached_style_values (PtWaveviewer *self)
 		return;
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
+	state = gtk_style_context_get_state (context);
 	gtk_style_context_save (context);
 	gtk_style_context_add_class (context, "cursor");
 
-	if (gdk_window_get_state (window) & GDK_WINDOW_STATE_FOCUSED) {
-		gtk_style_context_get_color (context, GTK_STATE_FLAG_NORMAL, &self->priv->cursor_color);
-		gtk_style_context_remove_class (context, "cursor");
+	gtk_style_context_get_color (context, state, &self->priv->cursor_color);
+	gtk_style_context_remove_class (context, "cursor");
 
-		gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
-		gtk_style_context_get_color (context, GTK_STATE_FLAG_NORMAL, &self->priv->wave_color);
-	} else {
-		gtk_style_context_get_color (context, GTK_STATE_FLAG_BACKDROP, &self->priv->cursor_color);
-		gtk_style_context_remove_class (context, "cursor");
+	gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
+	gtk_style_context_get_color (context, state, &self->priv->wave_color);
 
-		gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
-		gtk_style_context_get_color (context, GTK_STATE_FLAG_BACKDROP, &self->priv->wave_color);
-	}
-
-	/* selection color for all states for now */
 	gtk_style_context_add_class (context, "selection");
-	gtk_style_context_get_color (context, GTK_STATE_FLAG_NORMAL, &self->priv->selection_color);
+	gtk_style_context_get_color (context, state, &self->priv->selection_color);
 
-	if (gtk_style_context_get_state (context) & GTK_STATE_FLAG_DIR_RTL)
+	if (state & GTK_STATE_FLAG_DIR_RTL)
 		self->priv->rtl = TRUE;
 	else
 		self->priv->rtl = FALSE;
@@ -810,7 +803,7 @@ focus_cb (GtkWidget        *widget,
           GtkDirectionType  direction,
           gpointer          data)
 {
-	PtWaveviewer *self = PT_WAVEVIEWER (data);
+	PtWaveviewer *self = PT_WAVEVIEWER (widget);
 
 	/* Focus chain forward: no-focus -> focus-whole-widget -> focus-cursor -> no-focus */
 	if (gtk_widget_has_focus (widget)) {
@@ -847,6 +840,7 @@ focus_cb (GtkWidget        *widget,
 		}
 	}
 
+	gtk_widget_queue_draw (self->priv->drawarea);
 	return FALSE;
 }
 
@@ -1170,40 +1164,40 @@ pt_waveviewer_init (PtWaveviewer *self)
 	gtk_scrolled_window_set_overlay_scrolling (GTK_SCROLLED_WINDOW (self), FALSE);
 #endif
 
-	g_signal_connect (self->priv->drawarea,
+	g_signal_connect (self,
 			  "button-press-event",
 			  G_CALLBACK (button_press_event_cb),
-			  self);
+			  NULL);
 
-	g_signal_connect (self->priv->drawarea,
+	g_signal_connect (self,
 			  "button-release-event",
 			  G_CALLBACK (button_release_event_cb),
-			  self);
+			  NULL);
 
 	g_signal_connect (self->priv->drawarea,
 			  "draw",
 			  G_CALLBACK (draw_cb),
 			  self);
 
-	g_signal_connect (self->priv->drawarea,
+	g_signal_connect (self,
 			  "motion-notify-event",
 			  G_CALLBACK (motion_notify_event_cb),
-			  self);
+			  NULL);
 
 	g_signal_connect (self,
 			  "size-allocate",
 			  G_CALLBACK (size_allocate_cb),
 			  NULL);
 
-	g_signal_connect (self->priv->drawarea,
+	g_signal_connect (self,
 			  "focus",
 			  G_CALLBACK (focus_cb),
-			  self);
+			  NULL);
 
-	g_signal_connect (self->priv->drawarea,
+	g_signal_connect (self,
 			  "key-press-event",
 			  G_CALLBACK (key_press_event_cb),
-			  self);
+			  NULL);
 
 	gtk_widget_set_events (self->priv->drawarea, gtk_widget_get_events (self->priv->drawarea)
                                      | GDK_BUTTON_PRESS_MASK
