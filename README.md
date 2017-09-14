@@ -1,6 +1,6 @@
 # Parlatype
 
-For a screenshot, an overview what Parlatype actually is and packages please visit http://gkarsay.github.io/parlatype/.
+For a screenshot, an overview what Parlatype actually is and packages please visit https://gkarsay.github.io/parlatype/.
 
 ## Installation
 
