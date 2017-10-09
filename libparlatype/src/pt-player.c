@@ -895,6 +895,8 @@ pt_player_set_speed (PtPlayer *player,
 		return;
 
 	player->priv->speed = speed;
+	g_object_notify_by_pspec (G_OBJECT (player),
+				  obj_properties[PROP_SPEED]);
 	pt_player_seek (player, pos);
 }
 
