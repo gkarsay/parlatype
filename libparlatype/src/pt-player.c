@@ -365,7 +365,7 @@ load_cb (PtWaveloader *wl,
  * pt_player_open_uri_finish:
  * @player: a #PtPlayer
  * @result: the #GAsyncResult passed to your #GAsyncReadyCallback
- * @error: a pointer to a NULL #GError, or NULL
+ * @error: (allow-none): a pointer to a NULL #GError, or NULL
  *
  * Gives the result of the async opening operation. A cancelled operation results
  * in an error, too.
@@ -386,8 +386,8 @@ pt_player_open_uri_finish (PtPlayer	 *player,
  * pt_player_open_uri_async:
  * @player: a #PtPlayer
  * @uri: the URI of the file
- * @callback: a #GAsyncReadyCallback to call when the operation is complete
- * @user_data: user_data for callback
+ * @callback: (scope async): a #GAsyncReadyCallback to call when the operation is complete
+ * @user_data: (closure): user_data for callback
  *
  * Opens a local audio file for playback. It doesn't work with videos or streams.
  * Only one file can be open at a time, playlists are not supported by the
