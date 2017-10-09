@@ -542,6 +542,9 @@ pt_player_open_uri (PtPlayer *player,
 
 	result = pt_player_open_uri_finish (player, data.res, error);
 
+	g_main_context_unref (context);
+	g_main_loop_unref (data.loop);
+
 	return result;
 }
 
