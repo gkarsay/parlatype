@@ -916,6 +916,9 @@ pt_player_set_volume (PtPlayer *player,
 	gst_stream_volume_set_volume (GST_STREAM_VOLUME (player->priv->play),
 	                              GST_STREAM_VOLUME_FORMAT_CUBIC,
 	                              volume);
+	player->priv->volume = volume;
+	g_object_notify_by_pspec (G_OBJECT (player),
+				  obj_properties[PROP_VOLUME]);
 }
 
 /**
@@ -1548,9 +1551,10 @@ pt_player_set_property (GObject      *object,
 		break;
 	case PROP_VOLUME:
 		tmp = g_value_get_double (value);
-		gst_stream_volume_set_volume (GST_STREAM_VOLUME (player->priv->play),
-			                      GST_STREAM_VOLUME_FORMAT_CUBIC,
-			                      tmp);
+		if (player->priv->play)
+			gst_stream_volume_set_volume (GST_STREAM_VOLUME (player->priv->play),
+				                      GST_STREAM_VOLUME_FORMAT_CUBIC,
+				                      tmp);
 		player->priv->volume = tmp;
 		break;
 	default:
@@ -1670,7 +1674,7 @@ pt_player_class_init (PtPlayerClass *klass)
 			0.0,	/* minimum */
 			1.0,	/* maximum */
 			1.0,
-			G_PARAM_READWRITE);
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
 
 	g_object_class_install_properties (
 			G_OBJECT_CLASS (klass),
