@@ -1314,6 +1314,11 @@ pt_player_get_timestamp_position (PtPlayer *player,
 	gchar    *cmp = NULL;
 	gchar   **split = NULL;
 
+	if (!g_regex_match_simple ("^#?[0-9]+:[0-9][0-9]:[0-9][0-9]\\.[0-9]#?$", timestamp, 0, 0)
+		&& !g_regex_match_simple ("^#?[0-9]+:[0-9][0-9]\\.[0-9]#?$", timestamp, 0, 0)) {
+		return -1;
+	}
+
 	if (g_str_has_prefix (timestamp, "#")) {
 		split = g_strsplit (timestamp, "#", -1);
 		if (split[1]) {
