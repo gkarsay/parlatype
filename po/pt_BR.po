@@ -1,0 +1,310 @@
+# Portuguese translation for parlatype
+# Copyright (c) 2017 Rosetta Contributors and Canonical Ltd 2017
+# This file is distributed under the same license as the parlatype package.
+# Vitor Loureiro <Unknown>, 2017.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: parlatype 1.5\n"
+"Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
+"POT-Creation-Date: 2017-01-16 21:45+0100\n"
+"PO-Revision-Date: 2017-01-17 12:06+0000\n"
+"Last-Translator: Vitor Loureiro <Unknown>\n"
+"Language-Team: Portuguese <pt@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2017-01-26 11:32+0000\n"
+"X-Generator: Launchpad (build 18315)\n"
+
+#: ../data/org.gnome.parlatype.appdata.xml.in.h:1
+#: ../data/org.gnome.parlatype.desktop.in.h:1 ../src/pt-app.c:66
+#: ../src/pt-app.c:209 ../src/resources/window.ui.h:1
+#: ../src/resources/window-headerbar.ui.h:1
+msgid "Parlatype"
+msgstr "Parlatype"
+
+#: ../data/org.gnome.parlatype.appdata.xml.in.h:2
+msgid "Media player for manual speech transcription"
+msgstr "Um tocador de midia para transcrição manual de voz"
+
+#: ../data/org.gnome.parlatype.appdata.xml.in.h:3
+msgid ""
+"Parlatype is an easy to use media player. Its main purpose is to help you "
+"transcribing speech."
+msgstr ""
+"Parlatype é um tocador de midia fácil de usar. Seu propósito é ajudar você "
+"a transcrever voz."
+
+#: ../data/org.gnome.parlatype.desktop.in.h:2
+msgid "Transcription utility"
+msgstr "Utilitário de transcrição"
+
+#: ../src/main.c:42
+msgid "Show the application's version"
+msgstr "Mostrar a versão da aplicação"
+
+#: ../src/main.c:58
+msgid "Fatal error"
+msgstr "Erro fatal"
+
+#: ../src/main.c:62
+#, c-format
+msgid ""
+"Parlatype needs GStreamer 1.x to run. Please check your installation of "
+"GStreamer and make sure you have the \"Good Plugins\" installed.\n"
+"Parlatype will quit now, it received this error message: %s"
+msgstr ""
+"Parlatype necessita de GStreamer 1.x para todar. Verifique sua instalação "
+"do GStreamer e tenha certeza de ter o \"Good Plugins\" instalado.\n"
+"Parlatype irá fechar agora, ele recebeu a seguinte mensagem de erro: %s"
+
+#. Translators: This is part of the output if you type `parlatype --help`
+#. in terminal. The square brackets indicate that a file (filename) is
+#. an optional argument for parlatype. Arguments in help output are usually
+#. uppercase.
+#: ../src/main.c:84
+msgid "[FILE]"
+msgstr "[ARQUIVO]"
+
+#: ../src/main.c:87
+msgid "Minimal audio player for manual speech transcription"
+msgstr "Um tocar de audio minimalista para transcrição manual de voz"
+
+#: ../src/pt-app.c:57 ../src/resources/menus.ui.h:2
+msgid "Recent Files"
+msgstr "Arquivos recentes"
+
+#: ../src/pt-app.c:59 ../src/pt-app.c:116
+msgid "_Cancel"
+msgstr "_Cancelar"
+
+#: ../src/pt-app.c:60 ../src/pt-app.c:117
+msgid "_Open"
+msgstr "_Abrir"
+
+#: ../src/pt-app.c:72 ../src/pt-app.c:128
+msgid "All files"
+msgstr "Todos os arquivos"
+
+#: ../src/pt-app.c:113
+msgid "Open Audio File"
+msgstr "Abrir Arquivo de Áudio"
+
+#: ../src/pt-app.c:127
+msgid "Audio files"
+msgstr "Arquivos de áudio"
+
+#. Translators: %s is a detailed error message
+#: ../src/pt-app.c:176
+#, c-format
+msgid "Error opening help: %s"
+msgstr "Erro abrindo a ajuda: %s"
+
+#. Translators: This is part of the about box, followed by the
+#. copyright holders of code from other projects. Instead of
+#. "including" it could also say "with" or just "Code from
+#. other projects:"
+#: ../src/pt-app.c:194
+msgid "Including code from other projects:"
+msgstr "Incluindo código de outros projetos:"
+
+#: ../src/pt-app.c:212
+msgid "A basic transcription utility"
+msgstr "Um utilitário basico de transcrição"
+
+#: ../src/pt-app.c:216
+msgid "translator-credits"
+msgstr ""
+"Traduzido por:"
+"  André \"decko\" de Brito "
+
+#: ../src/pt-app.c:369
+#, c-format
+msgid ""
+"Warning: Parlatype handles only one file at a time. The other files are "
+"ignored.\n"
+msgstr ""
+"Atenção: Parlatype trabalha com apenas um arquivo por vez. Os outros "
+"arquivos serão ignorados.\n"
+
+#. Translators: This is a time format, like "2:05:30" for 2
+#. hours, 5 minutes, and 30 seconds. You may change ":" to
+#. the separator that your locale uses or use "%Id" instead
+#. of "%d" if your locale uses localized digits.
+#: ../src/pt-goto-dialog.c:49
+#, c-format
+msgctxt "long time format"
+msgid "%d:%02d:%02d"
+msgstr "%d:%02d:%02d"
+
+#. Translators: This is part of the Preferences dialog
+#. or the "Go to ..." dialog. There is a label like
+#. "Jump back:", "Jump forward:", "Jump back on pause:"
+#. or "Go to position:" before.
+#: ../src/pt-goto-dialog.c:79 ../src/pt-preferences.c:55
+#: ../src/pt-preferences.c:65 ../src/pt-preferences.c:75
+msgid "second"
+msgid_plural "seconds"
+msgstr[0] "segundo"
+msgstr[1] "segundos"
+
+#: ../src/pt-preferences.c:164
+msgid "_Close"
+msgstr "_Fechar"
+
+#: ../src/pt-window.c:218
+#, c-format
+msgid "Jump back 1 second"
+msgid_plural "Jump back %d seconds"
+msgstr[0] "Voltar 1 segundo"
+msgstr[1] "Voltar %d segundos"
+
+#: ../src/pt-window.c:232
+#, c-format
+msgid "Jump forward 1 second"
+msgid_plural "Jump forward %d seconds"
+msgstr[0] "Avançar 1 segundo"
+msgstr[1] "Avançar %d segundos"
+
+#: ../src/pt-window.c:247
+msgid "Pause"
+msgstr "Pausa"
+
+#: ../src/pt-window.c:250
+#, c-format
+msgid "Pause and rewind 1 second"
+msgid_plural "Pause and rewind %d seconds"
+msgstr[0] "Pause e volte 1 segundo"
+msgstr[1] "Pause e volte %d segundos"
+
+#: ../src/pt-window.c:256
+msgid "Start playing"
+msgstr "Começar a tocar"
+
+#: ../src/pt-window.c:727
+msgid "View follows cursor"
+msgstr "Visualização segue o cursor"
+
+#: ../src/pt-window.c:729
+msgid "Click to follow cursor"
+msgstr "Clique para seguir o cursor"
+
+#: ../src/resources/goto-dialog.ui.h:1 ../src/resources/menus.ui.h:9
+msgid "Go to ..."
+msgstr "Ir para ..."
+
+#: ../src/resources/goto-dialog.ui.h:2
+msgid "Go to position:"
+msgstr "Ir para a posição:"
+
+#: ../src/resources/menus.ui.h:1
+msgid "Open File"
+msgstr "Abrir o Arquivo"
+
+#: ../src/resources/menus.ui.h:3
+msgid "Preferences"
+msgstr "Preferências"
+
+#: ../src/resources/menus.ui.h:4
+msgid "Help"
+msgstr "Ajuda"
+
+#: ../src/resources/menus.ui.h:5
+msgid "Info"
+msgstr "Informação"
+
+#: ../src/resources/menus.ui.h:6
+msgid "Quit"
+msgstr "Sair"
+
+#: ../src/resources/menus.ui.h:7
+msgid "Copy timestamp"
+msgstr "Copiar timestamp"
+
+#: ../src/resources/menus.ui.h:8
+msgid "Insert timestamp"
+msgstr "Inserir timestamp"
+
+#: ../src/resources/menus.ui.h:10
+msgid "_File"
+msgstr "_Arquivo"
+
+#: ../src/resources/menus.ui.h:11
+msgid "_Edit"
+msgstr "_Editar"
+
+#: ../src/resources/menus.ui.h:12
+msgid "_Help"
+msgstr "A_juda"
+
+#: ../src/resources/preferences.ui.h:1
+msgid "Parlatype Preferences"
+msgstr "Preferências do Parlatype"
+
+#: ../src/resources/preferences.ui.h:2
+msgid "_Pixels per second:"
+msgstr "_Pixels por segundo:"
+
+#: ../src/resources/preferences.ui.h:3
+msgid "Show _time scale"
+msgstr "Mostrar escala de _tempo"
+
+#. Resolution of the waveform image
+#: ../src/resources/preferences.ui.h:5
+msgid "Resolution"
+msgstr "Resolução"
+
+#. A section in preferences, how to display the waveform.
+#: ../src/resources/preferences.ui.h:7
+msgid "Display"
+msgstr "Visualização"
+
+#: ../src/resources/preferences.ui.h:8
+msgid "_Moving cursor"
+msgstr "Cursor _movél"
+
+#: ../src/resources/preferences.ui.h:9
+msgid "_Fixed cursor"
+msgstr "Cursor _fixo"
+
+#: ../src/resources/preferences.ui.h:10
+msgid "Waveform"
+msgstr "Forma de onda"
+
+#: ../src/resources/preferences.ui.h:11
+msgid "Jump back on _pause:"
+msgstr "Voltar quando _pausar:"
+
+#: ../src/resources/preferences.ui.h:12
+msgid "Jump _back:"
+msgstr "Volta_r:"
+
+#: ../src/resources/preferences.ui.h:13
+msgid "Jump _forward:"
+msgstr "A_vançar:"
+
+#: ../src/resources/preferences.ui.h:14
+msgid "Controls"
+msgstr "Controles"
+
+#: ../src/resources/preferences.ui.h:15
+msgid "Remember _position"
+msgstr "Lembrar _posição"
+
+#: ../src/resources/preferences.ui.h:16
+msgid "Start on _top"
+msgstr "Iniciar no _topo"
+
+#: ../src/resources/preferences.ui.h:17
+msgid "Window"
+msgstr "Janela"
+
+#: ../src/resources/window.ui.h:2
+msgid "Speed:"
+msgstr "Velocidade:"
+
+#: ../src/resources/window-headerbar.ui.h:2
+msgid "Open a file"
+msgstr "Abrir um arquivo"
