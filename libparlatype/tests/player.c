@@ -32,6 +32,8 @@ pt_player_fixture_set_up (PtPlayerFixture *fixture,
 {
 	GError *error = NULL;
 	fixture->testplayer = NULL;
+	gchar    *path;
+	GFile    *file;
 	gchar    *testfile;
 	gchar    *testuri;
 	gboolean  success;
@@ -39,16 +41,21 @@ pt_player_fixture_set_up (PtPlayerFixture *fixture,
 	fixture->testplayer = pt_player_new (&error);
 	g_assert_no_error (error);
 
-	fixture->testfile = g_test_build_filename (G_TEST_DIST, "data/test1.ogg", NULL);
-	
-	fixture->testuri = g_strdup_printf ("file://%s", fixture->testfile);
+	path = g_test_build_filename (G_TEST_DIST, "data", "test1.ogg", NULL);
+	/* In make distcheck the path is something like /_build/../data/test1.ogg".
+	   Although this works we need a "pretty" path to compare and assert it's the same.
+	   To get rid of the "/_build/.." take a detour using GFile. */
+	file = g_file_new_for_path (path);
+	fixture->testfile = g_file_get_path (file);
+	fixture->testuri = g_file_get_uri (file);
+
 	success = pt_player_open_uri (fixture->testplayer, fixture->testuri, &error);
 
 	g_assert_no_error (error);
 	g_assert_true (success);
 
-	g_test_message ("testfile: %s", fixture->testfile);
-	g_test_message ("testuri: %s", fixture->testuri);
+	g_object_unref (file);
+	g_free (path);
 }
 
 static void
@@ -90,8 +97,7 @@ player_open_ogg (PtPlayerFixture *fixture,
 	gchar *getchar;
 	
 	getchar = pt_player_get_uri (fixture->testplayer);
-	//g_assert_cmpstr (getchar, ==, fixture->testuri); // FIXME fails during make distcheck
-	//libparlatype-unittest:ERROR:../../tests/player.c:93:player_open_ogg: assertion failed (getchar == fixture->testuri): ("file:///home/[...]/parlatype/libparlatype/libparlatype-1.5.2/tests/data/test1.ogg" == "file:///home/[...]/parlatype/libparlatype/libparlatype-1.5.2/_build/../tests/data/test1.ogg")
+	g_assert_cmpstr (getchar, ==, fixture->testuri);
 	g_free (getchar);
 
 	getchar = pt_player_get_filename (fixture->testplayer);
