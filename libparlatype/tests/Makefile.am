@@ -6,7 +6,10 @@ VALGRIND_SUPPRESSIONS_FILES = glib.supp gst.supp
 @CODE_COVERAGE_RULES@
 CODE_COVERAGE_IGNORE_PATTERN = pt-resources.c *include*
 
-EXTRA_DIST += glib.supp gst.supp
+EXTRA_DIST += \
+	glib.supp	\
+	gst.supp	\
+	data/README
 
 AM_CFLAGS = -g $(GTK_CFLAGS) $(MAINTAINER_CFLAGS)
 
