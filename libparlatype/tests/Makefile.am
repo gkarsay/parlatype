@@ -11,9 +11,9 @@ EXTRA_DIST += \
 	gst.supp	\
 	data/README
 
-AM_CFLAGS = -g $(GTK_CFLAGS) $(MAINTAINER_CFLAGS)
+AM_CFLAGS = -g $(GTK_CFLAGS) $(GSTREAMER_CFLAGS) $(MAINTAINER_CFLAGS)
 
-LDADD = $(top_builddir)/src/libparlatype.la $(GTK_LIBS)
+LDADD = $(top_builddir)/src/libparlatype.la $(GTK_LIBS) $(GSTREAMER_LIBS)
 AM_LDFLAGS = -export-dynamic
 AM_CPPFLAGS = \
 	-DG_LOG_DOMAIN=\"libparlatype-unittest\"	\

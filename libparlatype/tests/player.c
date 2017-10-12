@@ -16,6 +16,7 @@
 
 
 #include <glib.h>
+#include <gst/gst.h> /* error domain */
 #include <src/pt-player.h>
 
 
@@ -85,6 +86,49 @@ player_new (void)
 		      NULL);
 	g_assert_cmpfloat (speed, ==, 1.0);
 	g_assert_cmpfloat (volume, ==, 1.0);
+	g_object_unref (testplayer);
+}
+
+static void
+player_open_fail (void)
+{
+	GError *error = NULL;
+	PtPlayer *testplayer;
+	gboolean  success;
+	gchar    *path;
+	GFile    *file;
+	gchar    *uri;
+
+	testplayer = pt_player_new (&error);
+	g_assert_no_error (error);
+
+	success = pt_player_open_uri (testplayer, "foo", &error);
+	g_assert_error (error, GST_RESOURCE_ERROR, GST_RESOURCE_ERROR_NOT_FOUND);
+	g_assert_false (success);
+	g_clear_error (&error);
+
+	path = g_test_build_filename (G_TEST_DIST, "data", "foo", NULL);
+	file = g_file_new_for_path (path);
+	uri = g_file_get_uri (file);
+	success = pt_player_open_uri (testplayer, uri, &error);
+	g_assert_error (error, GST_RESOURCE_ERROR, GST_RESOURCE_ERROR_NOT_FOUND);
+	g_assert_false (success);
+	g_clear_error (&error);
+	g_object_unref (file);
+	g_free (path);
+	g_free (uri);
+
+	path = g_test_build_filename (G_TEST_DIST, "data", "README", NULL);
+	file = g_file_new_for_path (path);
+	uri = g_file_get_uri (file);
+	success = pt_player_open_uri (testplayer, uri, &error);
+	g_assert_error (error, GST_STREAM_ERROR, GST_STREAM_ERROR_WRONG_TYPE);
+	g_assert_false (success);
+	g_clear_error (&error);
+	g_object_unref (file);
+	g_free (path);
+	g_free (uri);
+
 	g_object_unref (testplayer);
 }
 
@@ -266,6 +310,7 @@ main (int argc, char *argv[])
 	g_test_init (&argc, &argv, NULL);
 
 	g_test_add_func ("/player/new", player_new);
+	g_test_add_func ("/player/open-fail", player_open_fail);
 	g_test_add ("/player/open-ogg", PtPlayerFixture, NULL,
 	            pt_player_fixture_set_up, player_open_ogg,
 	            pt_player_fixture_tear_down);
