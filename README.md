@@ -31,10 +31,11 @@ $ sudo apt-get install gstreamer1.0-plugins-ugly
 
 Parlatype ships its own library, libparlatype. Developers might be interested in having a library documentation, gobject introspection and a glade catalog for the widgets. These are the configure options:
 
-* `--enable-gtk-doc`: install library documentation (default: no)
-* `--enable-introspection`: install gobject introspection (default: yes)
-* `--enable-glade-catalog`: install a glade catalog (default: no)
 * `--with-libreoffice`: install LibreOffice macros (default: yes)
+* `--enable-introspection`: install gobject introspection (default: yes)
+* `--enable-gtk-doc`: install library documentation (default: no)
+* `--enable-glade-catalog`: install a glade catalog (default: no)
+* `--enable-code-coverage`: enable gcov/lcov code coverage (default: no)
 
 If you want the program only, you would use `--prefix=/usr --disable-introspection`.
 
