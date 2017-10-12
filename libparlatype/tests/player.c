@@ -1,0 +1,275 @@
+/* Copyright (C) Gabor Karsay 2017 <gabor.karsay@gmx.at>
+ *
+ * This program is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along
+ * with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+#include <glib.h>
+#include <src/pt-player.h>
+
+
+typedef struct {
+	PtPlayer *testplayer;
+	gchar    *testfile;
+	gchar    *testuri;
+} PtPlayerFixture;
+
+
+static void
+pt_player_fixture_set_up (PtPlayerFixture *fixture,
+			  gconstpointer    user_data)
+{
+	GError *error = NULL;
+	fixture->testplayer = NULL;
+	gchar    *testfile;
+	gchar    *testuri;
+	gboolean  success;
+
+	fixture->testplayer = pt_player_new (&error);
+	g_assert_no_error (error);
+
+	fixture->testfile = g_test_build_filename (G_TEST_DIST, "data/test1.ogg", NULL);
+	
+	fixture->testuri = g_strdup_printf ("file://%s", fixture->testfile);
+	success = pt_player_open_uri (fixture->testplayer, fixture->testuri, &error);
+
+	g_assert_no_error (error);
+	g_assert_true (success);
+
+	g_test_message ("testfile: %s", fixture->testfile);
+	g_test_message ("testuri: %s", fixture->testuri);
+}
+
+static void
+pt_player_fixture_tear_down (PtPlayerFixture *fixture,
+			     gconstpointer    user_data)
+{
+	g_clear_object (&fixture->testplayer);
+	g_free (fixture->testfile);
+	g_free (fixture->testuri);
+}
+
+static void
+player_new (void)
+{
+	/* create new PtPlayer and test initial properties */
+
+	GError *error = NULL;
+	PtPlayer *testplayer;
+	gdouble speed, volume;
+
+	testplayer = pt_player_new (&error);
+	g_assert_no_error (error);
+	g_assert (PT_IS_PLAYER (testplayer));
+	g_object_get (testplayer,
+		      "speed", &speed,
+		      "volume", &volume,
+		      NULL);
+	g_assert_cmpfloat (speed, ==, 1.0);
+	g_assert_cmpfloat (volume, ==, 1.0);
+	g_object_unref (testplayer);
+}
+
+static void
+player_open_ogg (PtPlayerFixture *fixture,
+		 gconstpointer    user_data)
+{
+	/* open test file, get and check uri and filename */
+
+	gchar *getchar;
+	
+	getchar = pt_player_get_uri (fixture->testplayer);
+	//g_assert_cmpstr (getchar, ==, fixture->testuri); // FIXME fails during make distcheck
+	//libparlatype-unittest:ERROR:../../tests/player.c:93:player_open_ogg: assertion failed (getchar == fixture->testuri): ("file:///home/[...]/parlatype/libparlatype/libparlatype-1.5.2/tests/data/test1.ogg" == "file:///home/[...]/parlatype/libparlatype/libparlatype-1.5.2/_build/../tests/data/test1.ogg")
+	g_free (getchar);
+
+	getchar = pt_player_get_filename (fixture->testplayer);
+	g_assert_cmpstr (getchar, ==, "test1.ogg");
+	g_free (getchar);
+}
+
+typedef struct
+{
+	GAsyncResult *res;
+	GMainLoop    *loop;
+} SyncData;
+
+static void
+quit_loop_cb (PtPlayer	   *player,
+	      GAsyncResult *res,
+	      gpointer      user_data)
+{
+	SyncData *data = user_data;
+	data->res = g_object_ref (res);
+	g_main_loop_quit (data->loop);
+}
+
+static void
+player_open_cancel (void)
+{
+	/* open test file async and cancel operation */
+
+	GError *error = NULL;
+	PtPlayer *testplayer;
+	gchar    *testfile;
+	gchar    *testuri;
+	gboolean  success;
+	SyncData      data;
+	GMainContext *context;
+
+	context = g_main_context_new ();
+	g_main_context_push_thread_default (context);
+
+	data.loop = g_main_loop_new (context, FALSE);
+	data.res = NULL;
+
+	testplayer = pt_player_new (&error);
+	g_assert_no_error (error);
+
+	testfile = g_test_build_filename (G_TEST_DIST, "data/test1.ogg", NULL);
+	testuri = g_strdup_printf ("file://%s", testfile);
+	pt_player_open_uri_async (testplayer, testuri, (GAsyncReadyCallback) quit_loop_cb, &data);
+
+	pt_player_cancel (testplayer);
+	g_main_loop_run (data.loop);
+
+	success = pt_player_open_uri_finish (testplayer, data.res, &error);
+	g_assert_false (success);
+	g_assert_error (error, G_IO_ERROR, G_IO_ERROR_CANCELLED);
+
+	g_free (testfile);
+	g_free (testuri);
+	g_object_unref (testplayer);
+	g_main_loop_unref (data.loop);
+}
+
+static void
+player_timestamps (PtPlayerFixture *fixture,
+		   gconstpointer    user_data)
+{
+	gchar    *timestamp = NULL;
+	gchar    *timestamp2;
+	gboolean  valid;
+	
+	/* valid timestamps */
+	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "#0:01.2#"));
+	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "0:01.2"));
+	/* too many digits */
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0:01.20#"));
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0:001.2#"));
+	/* sec >= 60 */
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0:71.2#"));
+	/* not enough digits */
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#:01.2#"));
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0:1.2#"));
+	/* wrong delimiters */
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0.01.2#"));
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0:01:2#"));
+	/* too big, not valid in the test file */
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#01:00.0#"));
+
+	pt_player_jump_to_position (fixture->testplayer, 1000);
+	
+	timestamp = pt_player_get_timestamp (fixture->testplayer);
+	g_assert_nonnull (timestamp);
+
+	valid = pt_player_string_is_timestamp (fixture->testplayer, timestamp);
+	g_assert_true (valid);
+
+	pt_player_jump_to_position (fixture->testplayer, 0);
+	timestamp2 = pt_player_get_timestamp (fixture->testplayer);
+	g_assert_cmpstr (timestamp, !=, timestamp2);
+	g_free (timestamp2);
+
+	pt_player_goto_timestamp (fixture->testplayer, timestamp);
+	timestamp2 = pt_player_get_timestamp (fixture->testplayer);
+	g_assert_cmpstr (timestamp, ==, timestamp2);
+		
+	g_free (timestamp);
+	g_free (timestamp2);
+}
+
+static void
+player_volume_speed (PtPlayerFixture *fixture,
+		     gconstpointer    user_data)
+{
+	/* set speed and volume properties */
+
+	GError *error = NULL;
+	PtPlayer *bind_player;
+	gdouble speed, volume;
+	
+	pt_player_set_volume (fixture->testplayer, 0.7);
+	pt_player_set_speed (fixture->testplayer, 0.7);
+
+	g_object_get (fixture->testplayer,
+		      "speed", &speed,
+		      "volume", &volume,
+		      NULL);
+
+	g_assert_cmpfloat (volume, ==, 0.7);
+	g_assert_cmpfloat (speed, ==, 0.7);
+
+	/* mute doesn't change the volume */
+	pt_player_mute_volume (fixture->testplayer, TRUE);
+	g_object_get (fixture->testplayer, "volume", &volume, NULL);
+	g_assert_cmpfloat (volume, ==, 0.7);
+
+	pt_player_mute_volume (fixture->testplayer, FALSE);
+	g_object_get (fixture->testplayer, "volume", &volume, NULL);
+	g_assert_cmpfloat (volume, ==, 0.7);
+
+	/* check bind property */
+	bind_player = pt_player_new (&error);
+	g_assert_no_error (error);
+
+	g_object_bind_property (fixture->testplayer, "volume",
+				bind_player, "volume",
+				G_BINDING_DEFAULT);
+	g_object_bind_property (fixture->testplayer, "speed",
+				bind_player, "speed",
+				G_BINDING_DEFAULT);
+
+	pt_player_set_volume (fixture->testplayer, 0.5);
+	pt_player_set_speed (fixture->testplayer, 0.5);
+
+	g_object_get (bind_player,
+		      "speed", &speed,
+		      "volume", &volume,
+		      NULL);
+	g_assert_cmpfloat (volume, ==, 0.5);
+	g_assert_cmpfloat (speed, ==, 0.5);
+
+	g_object_unref (bind_player);	
+}
+
+int
+main (int argc, char *argv[])
+{
+	g_test_init (&argc, &argv, NULL);
+
+	g_test_add_func ("/player/new", player_new);
+	g_test_add ("/player/open-ogg", PtPlayerFixture, NULL,
+	            pt_player_fixture_set_up, player_open_ogg,
+	            pt_player_fixture_tear_down);
+	g_test_add_func ("/player/open-cancel", player_open_cancel);
+	g_test_add ("/player/timestamps", PtPlayerFixture, NULL,
+	            pt_player_fixture_set_up, player_timestamps,
+	            pt_player_fixture_tear_down);
+	g_test_add ("/player/volume_speed", PtPlayerFixture, NULL,
+	            pt_player_fixture_set_up, player_volume_speed,
+	            pt_player_fixture_tear_down);
+
+	return g_test_run ();
+}

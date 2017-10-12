@@ -39,6 +39,7 @@ parlatype_include_HEADERS =	\
 	pt-waveviewer.h
 
 AM_CPPFLAGS =			\
+	$(CODE_COVERAGE_CFLAGS)	\
 	$(WARNINGCFLAGS)	\
 	$(GTK_CFLAGS)		\
 	$(GSTREAMER_CFLAGS)
@@ -49,6 +50,7 @@ libparlatype_la_LDFLAGS =			\
 	-export-dynamic
 
 libparlatype_la_LIBADD =	\
+	$(CODE_COVERAGE_LIBS)	\
 	$(GTK_LIBS)		\
 	$(GSTREAMER_LIBS)
 

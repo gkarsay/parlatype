@@ -73,6 +73,11 @@ AS_IF([ test "$glade_catalog" = "yes" ],
 	 AC_SUBST(GLADE_PIXMAP_DIR)
 	 AC_SUBST(GLADE_CATALOG_DIR)])
 
+GLIB_TESTS
+AX_VALGRIND_DFLT([memcheck], [on])
+AX_VALGRIND_CHECK
+AX_CODE_COVERAGE
+
 AC_CONFIG_FILES([Makefile
                  data/Makefile
 		 data/parlatype.pc
@@ -82,7 +87,8 @@ AC_CONFIG_FILES([Makefile
 		 docs/reference/Makefile
 		 docs/reference/version.xml
 		 po/Makefile.in
-                 src/Makefile])
+                 src/Makefile
+                 tests/Makefile])
 
 AC_OUTPUT
 
@@ -102,4 +108,5 @@ echo "
         enable-introspection: $enable_introspection
         enable-glade-catalog: ${glade_catalog}
         enable-gtk-doc .....: $enable_gtk_doc
+        enable-code-coverage: $enable_code_coverage
 "
