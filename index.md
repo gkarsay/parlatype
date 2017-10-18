@@ -41,6 +41,9 @@ Parlatype ships its own library, libparlatype, which provides a GStreamer backen
 
 # Installation
 
+## Flatpak
+Parlatype is hosted on [Flathub](https://flathub.org/). Following the [instructions](https://flathub.org/#using) there you can install the [Parlatype package](https://flathub.org/apps.html#Parlatype). Please note that the LibreOffice helpers are not included in this package.
+
 ## Ubuntu
 There is a PPA with stable releases of Parlatype at [https://launchpad.net/~gabor-karsay/+archive/ubuntu/parlatype](https://launchpad.net/~gabor-karsay/+archive/ubuntu/parlatype).
 
