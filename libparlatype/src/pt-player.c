@@ -365,7 +365,7 @@ load_cb (PtWaveloader *wl,
  * pt_player_open_uri_finish:
  * @player: a #PtPlayer
  * @result: the #GAsyncResult passed to your #GAsyncReadyCallback
- * @error: a pointer to a NULL #GError, or NULL
+ * @error: (allow-none): a pointer to a NULL #GError, or NULL
  *
  * Gives the result of the async opening operation. A cancelled operation results
  * in an error, too.
@@ -386,8 +386,8 @@ pt_player_open_uri_finish (PtPlayer	 *player,
  * pt_player_open_uri_async:
  * @player: a #PtPlayer
  * @uri: the URI of the file
- * @callback: a #GAsyncReadyCallback to call when the operation is complete
- * @user_data: user_data for callback
+ * @callback: (scope async): a #GAsyncReadyCallback to call when the operation is complete
+ * @user_data: (closure): user_data for callback
  *
  * Opens a local audio file for playback. It doesn't work with videos or streams.
  * Only one file can be open at a time, playlists are not supported by the
@@ -541,6 +541,9 @@ pt_player_open_uri (PtPlayer *player,
 	g_main_loop_run (data.loop);
 
 	result = pt_player_open_uri_finish (player, data.res, error);
+
+	g_main_context_unref (context);
+	g_main_loop_unref (data.loop);
 
 	return result;
 }
@@ -895,6 +898,8 @@ pt_player_set_speed (PtPlayer *player,
 		return;
 
 	player->priv->speed = speed;
+	g_object_notify_by_pspec (G_OBJECT (player),
+				  obj_properties[PROP_SPEED]);
 	pt_player_seek (player, pos);
 }
 
@@ -916,6 +921,9 @@ pt_player_set_volume (PtPlayer *player,
 	gst_stream_volume_set_volume (GST_STREAM_VOLUME (player->priv->play),
 	                              GST_STREAM_VOLUME_FORMAT_CUBIC,
 	                              volume);
+	player->priv->volume = volume;
+	g_object_notify_by_pspec (G_OBJECT (player),
+				  obj_properties[PROP_VOLUME]);
 }
 
 /**
@@ -1306,6 +1314,11 @@ pt_player_get_timestamp_position (PtPlayer *player,
 	gchar    *cmp = NULL;
 	gchar   **split = NULL;
 
+	if (!g_regex_match_simple ("^#?[0-9]+:[0-9][0-9]:[0-9][0-9]\\.[0-9]#?$", timestamp, 0, 0)
+		&& !g_regex_match_simple ("^#?[0-9]+:[0-9][0-9]\\.[0-9]#?$", timestamp, 0, 0)) {
+		return -1;
+	}
+
 	if (g_str_has_prefix (timestamp, "#")) {
 		split = g_strsplit (timestamp, "#", -1);
 		if (split[1]) {
@@ -1548,9 +1561,10 @@ pt_player_set_property (GObject      *object,
 		break;
 	case PROP_VOLUME:
 		tmp = g_value_get_double (value);
-		gst_stream_volume_set_volume (GST_STREAM_VOLUME (player->priv->play),
-			                      GST_STREAM_VOLUME_FORMAT_CUBIC,
-			                      tmp);
+		if (player->priv->play)
+			gst_stream_volume_set_volume (GST_STREAM_VOLUME (player->priv->play),
+				                      GST_STREAM_VOLUME_FORMAT_CUBIC,
+				                      tmp);
 		player->priv->volume = tmp;
 		break;
 	default:
@@ -1670,7 +1684,7 @@ pt_player_class_init (PtPlayerClass *klass)
 			0.0,	/* minimum */
 			1.0,	/* maximum */
 			1.0,
-			G_PARAM_READWRITE);
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
 
 	g_object_class_install_properties (
 			G_OBJECT_CLASS (klass),

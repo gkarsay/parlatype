@@ -1,0 +1,10 @@
+Unit tests for libparlatype, run with `make check`.
+
+Valgrind test with `make check-valgrind-memcheck`.
+Valgrind suppression files downloaded from:
+https://cgit.freedesktop.org/gstreamer/common/tree/gst.supp
+https://git.gnome.org/browse/glib/tree/glib.supp
+
+Code coverage test with `make check-code-coverage`.
+Compile lib with --enable-code-coverage first.
+Result is in libparlatype-{VERSION}-coverage/index.html

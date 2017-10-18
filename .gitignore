@@ -31,7 +31,10 @@ help-online/
 install-sh
 libtool
 ltmain.sh
-m4/
+**/m4/gtk-doc.m4
+**/m4/intltool.m4
+**/m4/libtool.m4
+**/m4/lt*.m4
 missing
 stamp-h1
 
@@ -57,6 +60,15 @@ stamp-h1
 /libparlatype/src/pt-resources.*
 /libparlatype/src/*.gir
 /libparlatype/src/*.typelib
+/libparlatype/tests/*coverage.info
+/libparlatype/tests/*-coverage/
+/libparlatype/tests/*.log
+/libparlatype/tests/*.trs
+/libparlatype/tests/player
+/libparlatype/tests/progressdialog
+/libparlatype/tests/wavedata
+/libparlatype/tests/waveloader
+/libparlatype/tests/waveviewer
 
 /help/??*/*.page
 /help/??*/*.mo

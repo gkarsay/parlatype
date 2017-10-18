@@ -1142,6 +1142,8 @@ pt_waveviewer_finalize (GObject *object)
 
 	g_free (self->priv->peaks);
 	g_clear_object (&self->priv->arrows);
+	if (self->priv->cursor)
+		cairo_surface_destroy (self->priv->cursor);
 
 	G_OBJECT_CLASS (pt_waveviewer_parent_class)->finalize (object);
 }
