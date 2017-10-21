@@ -1,4 +1,5 @@
 libparlatype/src/pt-player.c
 libparlatype/src/pt-progress-dialog.c
+libparlatype/src/pt-ruler.c
 libparlatype/src/pt-waveloader.c
 libparlatype/src/pt-waveviewer.c
