@@ -799,6 +799,16 @@ adj_cb (GtkAdjustment *adj,
 }
 
 static gboolean
+focus_out_cb (GtkWidget *widget,
+              GdkEvent  *event,
+              gpointer   data)
+{
+	PtWaveviewer *self = PT_WAVEVIEWER (widget);
+	gtk_widget_queue_draw (self->priv->drawarea);
+	return FALSE;
+}
+
+static gboolean
 focus_cb (GtkWidget        *widget,
           GtkDirectionType  direction,
           gpointer          data)
@@ -1192,6 +1202,11 @@ pt_waveviewer_init (PtWaveviewer *self)
 	g_signal_connect (self,
 			  "focus",
 			  G_CALLBACK (focus_cb),
+			  NULL);
+
+	g_signal_connect (self,
+			  "focus-out-event",
+			  G_CALLBACK (focus_out_cb),
 			  NULL);
 
 	g_signal_connect (self,
