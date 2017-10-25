@@ -60,7 +60,7 @@ struct _PtWaveviewerPrivate {
 	GdkCursor *arrows;
 
 	/* Drawing area */
-	GtkWidget       *drawarea;
+	GtkWidget       *waveform;
 	GtkAdjustment   *adj;
 	cairo_surface_t *cursor;
 	gboolean         rtl;
@@ -124,7 +124,7 @@ flip_pixel (PtWaveviewer *self,
 	gint   widget_width;
 
 	samples = self->priv->peaks_size / 2;
-	widget_width = gtk_widget_get_allocated_width (self->priv->drawarea);
+	widget_width = gtk_widget_get_allocated_width (self->priv->waveform);
 
 	/* Case: waveform is shorter than drawing area */
 	if (samples < widget_width)
@@ -175,7 +175,7 @@ draw_cursor (PtWaveviewer *self)
 		cairo_surface_destroy (self->priv->cursor);
 
 	cairo_t *cr;
-	gint height = gtk_widget_get_allocated_height (self->priv->drawarea);
+	gint height = gtk_widget_get_allocated_height (self->priv->waveform);
 
 	self->priv->cursor = gdk_window_create_similar_surface (gtk_widget_get_window (GTK_WIDGET (self)),
 	                                             CAIRO_CONTENT_COLOR_ALPHA,
@@ -239,7 +239,7 @@ size_allocate_cb (GtkWidget     *widget,
 	/* If widget changed vertical size, cursor's size has to be adjusted */
 	draw_cursor (self);
 	/* If widget changed horizontal size, revealed parts have to be drawn */
-	gtk_widget_queue_draw (self->priv->drawarea);
+	gtk_widget_queue_draw (self->priv->waveform);
 	if (self->priv->show_ruler)
 		gtk_widget_queue_draw (self->priv->ruler);
 }
@@ -285,7 +285,7 @@ draw_cb (GtkWidget *widget,
 	gint array;
 	gdouble min, max;
 
-	context = gtk_widget_get_style_context (self->priv->drawarea);
+	context = gtk_widget_get_style_context (self->priv->waveform);
 	gint height = gtk_widget_get_allocated_height (widget);
 
 	gint half = height / 2 - 1;
@@ -407,7 +407,7 @@ update_selection (PtWaveviewer *self)
 			g_object_notify_by_pspec (G_OBJECT (self),
 						  obj_properties[PROP_HAS_SELECTION]);
 			g_signal_emit_by_name (self, "selection-changed");
-			gtk_widget_queue_draw (self->priv->drawarea);
+			gtk_widget_queue_draw (self->priv->waveform);
 		}
 		return;
 	}
@@ -437,7 +437,7 @@ update_selection (PtWaveviewer *self)
 		}
 
 		g_signal_emit_by_name (self, "selection-changed");
-		gtk_widget_queue_draw (self->priv->drawarea);
+		gtk_widget_queue_draw (self->priv->waveform);
 	}
 }
 
@@ -763,7 +763,7 @@ pt_waveviewer_style_updated (GtkWidget *widget)
 	GTK_WIDGET_CLASS (pt_waveviewer_parent_class)->style_updated (widget);
 
 	pt_waveviewer_update_cached_style_values (self);
-	gtk_widget_queue_draw (self->priv->drawarea);
+	gtk_widget_queue_draw (self->priv->waveform);
 	if (self->priv->show_ruler)
 		gtk_widget_queue_draw (self->priv->ruler);
 }
@@ -793,7 +793,7 @@ adj_cb (GtkAdjustment *adj,
 	   adjustment changes are not propagated for reasons I don't understand.
 	   Probably we're doing some draws twice */
 	PtWaveviewer *self = PT_WAVEVIEWER (data);
-	gtk_widget_queue_draw (self->priv->drawarea);
+	gtk_widget_queue_draw (self->priv->waveform);
 	if (self->priv->show_ruler)
 		gtk_widget_queue_draw (self->priv->ruler);
 }
@@ -804,7 +804,7 @@ focus_out_cb (GtkWidget *widget,
               gpointer   data)
 {
 	PtWaveviewer *self = PT_WAVEVIEWER (widget);
-	gtk_widget_queue_draw (self->priv->drawarea);
+	gtk_widget_queue_draw (self->priv->waveform);
 	return FALSE;
 }
 
@@ -825,7 +825,7 @@ focus_cb (GtkWidget        *widget,
 			} else {
 				self->priv->focus_on_cursor = TRUE;
 				/* focus on cursor */
-				gtk_widget_queue_draw (self->priv->drawarea);
+				gtk_widget_queue_draw (self->priv->waveform);
 				return TRUE;
 			}
 		}
@@ -833,7 +833,7 @@ focus_cb (GtkWidget        *widget,
 			if (self->priv->focus_on_cursor) {
 				self->priv->focus_on_cursor = FALSE;
 				/* focus on whole widget */
-				gtk_widget_queue_draw (self->priv->drawarea);
+				gtk_widget_queue_draw (self->priv->waveform);
 				return TRUE;
 			} else {
 				/* focus lost */
@@ -850,7 +850,7 @@ focus_cb (GtkWidget        *widget,
 		}
 	}
 
-	gtk_widget_queue_draw (self->priv->drawarea);
+	gtk_widget_queue_draw (self->priv->waveform);
 	return FALSE;
 }
 
@@ -916,7 +916,7 @@ pt_waveviewer_set_wave (PtWaveviewer *self,
 
 	self->priv->duration = 0;
 	self->priv->playback_cursor = 0;
-	gtk_widget_set_size_request (self->priv->drawarea, -1, WAVE_MIN_HEIGHT);
+	gtk_widget_set_size_request (self->priv->waveform, -1, WAVE_MIN_HEIGHT);
 
 	if (!data) {
 		gtk_widget_queue_draw (GTK_WIDGET (self));
@@ -957,7 +957,7 @@ pt_waveviewer_set_wave (PtWaveviewer *self,
 			    self->priv->duration,
 			    self->priv->adj);
 
-	gtk_widget_set_size_request (self->priv->drawarea, data->length / 2, WAVE_MIN_HEIGHT);
+	gtk_widget_set_size_request (self->priv->waveform, data->length / 2, WAVE_MIN_HEIGHT);
 	gtk_adjustment_set_upper (self->priv->adj, data->length / 2);
 
 	/* It seems like the state_flags_changed and style_updated flags are
@@ -1046,20 +1046,20 @@ pt_waveviewer_set_property (GObject      *object,
 		   before and were it will be next. */
 
 		if (self->priv->fixed_cursor) {
-			gtk_widget_queue_draw (self->priv->drawarea);
+			gtk_widget_queue_draw (self->priv->waveform);
 			if (self->priv->show_ruler)
 				gtk_widget_queue_draw (self->priv->ruler);
 		} else {
-			gint height = gtk_widget_get_allocated_height (self->priv->drawarea);
+			gint height = gtk_widget_get_allocated_height (self->priv->waveform);
 			gint old_x = time_to_pixel (self, old_value) - MARKER_BOX_W / 2;
 			gint new_x = time_to_pixel (self, self->priv->playback_cursor) - MARKER_BOX_W / 2;
 
-			gtk_widget_queue_draw_area (self->priv->drawarea,
+			gtk_widget_queue_draw_area (self->priv->waveform,
 						    old_x,
 						    0,
 						    MARKER_BOX_W,
 						    height);
-			gtk_widget_queue_draw_area (self->priv->drawarea,
+			gtk_widget_queue_draw_area (self->priv->waveform,
 						    new_x,
 						    0,
 						    MARKER_BOX_W,
@@ -1126,11 +1126,11 @@ pt_waveviewer_init (PtWaveviewer *self)
 
 	/* Setup scrolled window */
 	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-	self->priv->drawarea = gtk_drawing_area_new ();
+	self->priv->waveform = gtk_drawing_area_new ();
 	self->priv->ruler = pt_ruler_new ();
 	gtk_container_add_with_properties (
 			GTK_CONTAINER (box),
-			self->priv->drawarea,
+			self->priv->waveform,
 			"expand", TRUE,
 			"fill", TRUE,
 			NULL);
@@ -1161,7 +1161,7 @@ pt_waveviewer_init (PtWaveviewer *self)
 			GTK_STYLE_PROVIDER (provider),
 			GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
-	context = gtk_widget_get_style_context (self->priv->drawarea);
+	context = gtk_widget_get_style_context (self->priv->waveform);
 	gtk_style_context_add_class (context, GTK_STYLE_CLASS_FRAME);
 	gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
 	gtk_style_context_add_class (context, "cursor");
@@ -1184,7 +1184,7 @@ pt_waveviewer_init (PtWaveviewer *self)
 			  G_CALLBACK (button_release_event_cb),
 			  NULL);
 
-	g_signal_connect (self->priv->drawarea,
+	g_signal_connect (self->priv->waveform,
 			  "draw",
 			  G_CALLBACK (draw_cb),
 			  self);
@@ -1214,7 +1214,7 @@ pt_waveviewer_init (PtWaveviewer *self)
 			  G_CALLBACK (key_press_event_cb),
 			  NULL);
 
-	gtk_widget_set_events (self->priv->drawarea, gtk_widget_get_events (self->priv->drawarea)
+	gtk_widget_set_events (self->priv->waveform, gtk_widget_get_events (self->priv->waveform)
                                      | GDK_BUTTON_PRESS_MASK
                                      | GDK_BUTTON_RELEASE_MASK
 				     | GDK_POINTER_MOTION_MASK
