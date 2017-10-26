@@ -1,11 +1,5 @@
 /* custom styles for PtWaveviewer */
 
-/* colors for focused widget */
-@define-color ruler_color @theme_bg_color;
-
-/* colors for unfocused widget */
-@define-color ruler_color_uf @theme_unfocused_bg_color;
-
 .cursor {
 	color: #cc0000;
 }
