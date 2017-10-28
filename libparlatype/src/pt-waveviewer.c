@@ -914,11 +914,13 @@ pt_waveviewer_set_wave (PtWaveviewer *self,
 
 	if (!data) {
 		gtk_widget_queue_draw (GTK_WIDGET (self));
+		pt_ruler_set_ruler (PT_RULER (self->priv->ruler), 0, 0, 0);
 		return;
 	}
 
 	if (!data->array || !data->length) {
 		gtk_widget_queue_draw (GTK_WIDGET (self));
+		pt_ruler_set_ruler (PT_RULER (self->priv->ruler), 0, 0, 0);
 		return;
 	}
 
@@ -927,6 +929,7 @@ pt_waveviewer_set_wave (PtWaveviewer *self,
 	if (!(self->priv->peaks = g_malloc (sizeof (gfloat) * data->length))) {
 		g_debug	("waveviewer failed to allocate memory");
 		gtk_widget_queue_draw (GTK_WIDGET (self));
+		pt_ruler_set_ruler (PT_RULER (self->priv->ruler), 0, 0, 0);
 		return;
 	}
 

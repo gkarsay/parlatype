@@ -205,8 +205,10 @@ pt_ruler_calculate_height (PtRuler *self)
 	GdkWindow       *window = NULL;
 
 	window = gtk_widget_get_parent_window (GTK_WIDGET (self));
-	if (!window || self->priv->n_samples == 0)
+	if (!window || self->priv->n_samples == 0) {
+		gtk_widget_set_size_request (GTK_WIDGET (self), 0, 0);
 		return;
+	}
 
 	surface = gdk_window_create_similar_surface (window,
 	                                             CAIRO_CONTENT_COLOR,
