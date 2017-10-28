@@ -45,10 +45,9 @@ struct _PtRulerClass {
 
 GType		pt_ruler_get_type	(void) G_GNUC_CONST;
 void		pt_ruler_set_ruler	(PtRuler *self,
-			                 gint64   peaks_size,
+			                 gint64   n_samples,
 			                 gint     px_per_sec,
-			                 gint64   duration,
-			                 GtkAdjustment *adj);
+			                 gint64   duration);
 GtkWidget	*pt_ruler_new		(void);
 
 

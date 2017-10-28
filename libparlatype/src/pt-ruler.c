@@ -24,10 +24,8 @@
 #define SECONDARY_MARK_HEIGHT 4
 
 struct _PtRulerPrivate {
-	/* Drawing area */
-	GtkAdjustment   *adj;
-	gboolean         rtl;
-	gint64	  peaks_size;	/* size of array */
+	gboolean  rtl;
+	gint64	  n_samples;
 	gint	  px_per_sec;
 	gint64    duration;	/* in milliseconds */
 
@@ -50,17 +48,15 @@ flip_pixel (PtRuler *self,
 	   In rtl layouts this is flipped, e.g. the first pixel corresponds to
 	   the last sample in the array. */
 
-	gint64 samples;
 	gint   widget_width;
 
-	samples = self->priv->peaks_size / 2;
 	widget_width = gtk_widget_get_allocated_width (GTK_WIDGET (self));
 
 	/* Case: waveform is shorter than drawing area */
-	if (samples < widget_width)
+	if (self->priv->n_samples < widget_width)
 		return (widget_width - pixel);
 	else
-		return (samples - pixel);
+		return (self->priv->n_samples - pixel);
 }
 
 static gint64
@@ -101,12 +97,7 @@ ruler_draw_cb (GtkWidget *widget,
                gpointer   data)
 {
 	PtRuler *self = (PtRuler *) data;
-	gint visible_first;
-	gint visible_last;
 	gint height = gtk_widget_get_allocated_height (widget);
-
-	visible_first = (gint) gtk_adjustment_get_value (self->priv->adj);
-	visible_last = visible_first + (gint) gtk_adjustment_get_page_size (self->priv->adj);
 
 	gint	        i;		/* counter, pixel on x-axis in the view */
 	gint		sample;		/* sample in the array */
@@ -120,10 +111,10 @@ ruler_draw_cb (GtkWidget *widget,
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
 	gtk_render_background (context, cr,
-                               visible_first, 0,
-                               visible_last - visible_first, height);
+                               0, 0,
+                               self->priv->n_samples, height);
 	
-	if (self->priv->peaks_size == 0)
+	if (self->priv->n_samples == 0)
 		return FALSE;
 
 	/* ruler marks */
@@ -132,11 +123,11 @@ ruler_draw_cb (GtkWidget *widget,
 	   Get time of leftmost pixel, convert it to rounded 10th second,
 	   add 10th seconds until we are at the end of the view */
 	if (self->priv->primary_modulo == 1) {
-		tmp_time = pixel_to_time (self, visible_first) / 100 * 100;
+		tmp_time = pixel_to_time (self, 0) / 100 * 100;
 		if (self->priv->rtl)
 			tmp_time += 100; /* round up */
 		i = time_to_pixel (self, tmp_time);
-		while (i <= visible_last) {
+		while (i <= self->priv->n_samples) {
 			if (tmp_time < self->priv->duration)
 				gtk_render_line (context, cr, i, 0, i, SECONDARY_MARK_HEIGHT);
 			if (self->priv->rtl)
@@ -150,11 +141,11 @@ ruler_draw_cb (GtkWidget *widget,
 	/* Case: secondary ruler marks for full seconds.
 	   Use secondary_modulo. */
 	if (self->priv->primary_modulo > 1) {
-		for (i = visible_first; i <= visible_last; i += 1) {
+		for (i = 0; i <= self->priv->n_samples; i += 1) {
 			sample = i;
 			if (self->priv->rtl)
 				sample = flip_pixel (self, sample);
-			if (sample * 2 > self->priv->peaks_size)
+			if (sample > self->priv->n_samples)
 				continue;
 			if (sample % (self->priv->px_per_sec * self->priv->secondary_modulo) == 0)
 				gtk_render_line (context, cr, i, 0, i, SECONDARY_MARK_HEIGHT);
@@ -162,11 +153,11 @@ ruler_draw_cb (GtkWidget *widget,
 	}
 
 	/* Primary marks and time strings */
-	for (i = visible_first; i <= visible_last; i += 1) {
+	for (i = 0; i <= self->priv->n_samples; i += 1) {
 		sample = i;
 		if (self->priv->rtl)
 			sample = flip_pixel (self, sample);
-		if (sample * 2 > self->priv->peaks_size)
+		if (sample > self->priv->n_samples)
 			continue;
 		if (sample % (self->priv->px_per_sec * self->priv->primary_modulo) == 0) {
 			gtk_render_line (context, cr, i, 0, i, PRIMARY_MARK_HEIGHT);
@@ -214,7 +205,7 @@ pt_ruler_calculate_height (PtRuler *self)
 	GdkWindow       *window = NULL;
 
 	window = gtk_widget_get_parent_window (GTK_WIDGET (self));
-	if (!window || self->priv->peaks_size == 0)
+	if (!window || self->priv->n_samples == 0)
 		return;
 
 	surface = gdk_window_create_similar_surface (window,
@@ -222,7 +213,7 @@ pt_ruler_calculate_height (PtRuler *self)
 	                                             100, 100);
 	cr = cairo_create (surface);
 
-	self->priv->time_format_long = (self->priv->peaks_size / 2 / self->priv->px_per_sec >= 3600);
+	self->priv->time_format_long = (self->priv->n_samples / self->priv->px_per_sec >= 3600);
 
 	if (self->priv->time_format_long)
 		time_format = g_strdup_printf (C_("long time format", "%d:%02d:%02d"), 88, 0, 0);
@@ -268,7 +259,7 @@ pt_ruler_calculate_height (PtRuler *self)
 	cairo_destroy (cr);
 	cairo_surface_destroy (surface);
 
-	gtk_widget_set_size_request (GTK_WIDGET (self), self->priv->peaks_size / 2, ruler_height);
+	gtk_widget_set_size_request (GTK_WIDGET (self), self->priv->n_samples, ruler_height);
 }
 
 static void
@@ -315,15 +306,13 @@ pt_ruler_style_updated (GtkWidget *widget)
 
 void
 pt_ruler_set_ruler (PtRuler *self,
-                    gint64   peaks_size,
+                    gint64   n_samples,
                     gint     px_per_sec,
-                    gint64   duration,
-                    GtkAdjustment *adj)
+                    gint64   duration)
 {
-	self->priv->peaks_size = peaks_size;
+	self->priv->n_samples = n_samples;
 	self->priv->px_per_sec = px_per_sec;
 	self->priv->duration = duration;
-	self->priv->adj = adj;
 
 	pt_ruler_calculate_height (self);
 	pt_ruler_update_cached_style_values (self);
@@ -337,7 +326,7 @@ pt_ruler_init (PtRuler *self)
 
 	GtkStyleContext *context;
 
-	self->priv->peaks_size = 0;
+	self->priv->n_samples = 0;
 	self->priv->px_per_sec = 0;
 	self->priv->duration = 0;
 

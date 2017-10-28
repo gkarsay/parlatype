@@ -240,8 +240,6 @@ size_allocate_cb (GtkWidget     *widget,
 	draw_cursor (self);
 	/* If widget changed horizontal size, revealed parts have to be drawn */
 	gtk_widget_queue_draw (self->priv->waveform);
-	if (self->priv->show_ruler)
-		gtk_widget_queue_draw (self->priv->ruler);
 }
 
 static gint64
@@ -764,8 +762,6 @@ pt_waveviewer_style_updated (GtkWidget *widget)
 
 	pt_waveviewer_update_cached_style_values (self);
 	gtk_widget_queue_draw (self->priv->waveform);
-	if (self->priv->show_ruler)
-		gtk_widget_queue_draw (self->priv->ruler);
 }
 
 static gboolean
@@ -794,8 +790,6 @@ adj_cb (GtkAdjustment *adj,
 	   Probably we're doing some draws twice */
 	PtWaveviewer *self = PT_WAVEVIEWER (data);
 	gtk_widget_queue_draw (self->priv->waveform);
-	if (self->priv->show_ruler)
-		gtk_widget_queue_draw (self->priv->ruler);
 }
 
 static gboolean
@@ -952,10 +946,9 @@ pt_waveviewer_set_wave (PtWaveviewer *self,
 				  obj_properties[PROP_HAS_SELECTION]);
 
 	pt_ruler_set_ruler (PT_RULER (self->priv->ruler),
-			    self->priv->peaks_size,
+			    self->priv->peaks_size / 2,
 			    self->priv->px_per_sec,
-			    self->priv->duration,
-			    self->priv->adj);
+			    self->priv->duration);
 
 	gtk_widget_set_size_request (self->priv->waveform, data->length / 2, WAVE_MIN_HEIGHT);
 	gtk_adjustment_set_upper (self->priv->adj, data->length / 2);
@@ -1047,8 +1040,6 @@ pt_waveviewer_set_property (GObject      *object,
 
 		if (self->priv->fixed_cursor) {
 			gtk_widget_queue_draw (self->priv->waveform);
-			if (self->priv->show_ruler)
-				gtk_widget_queue_draw (self->priv->ruler);
 		} else {
 			gint height = gtk_widget_get_allocated_height (self->priv->waveform);
 			gint old_x = time_to_pixel (self, old_value) - MARKER_BOX_W / 2;
@@ -1078,7 +1069,6 @@ pt_waveviewer_set_property (GObject      *object,
 		self->priv->show_ruler = g_value_get_boolean (value);
 		if (self->priv->show_ruler) {
 			gtk_widget_show (self->priv->ruler);
-			gtk_widget_queue_draw (self->priv->ruler);
 		} else {
 			gtk_widget_hide (self->priv->ruler);
 		}
