@@ -27,7 +27,8 @@ libparlatype_la_SOURCES =	\
 	pt-ruler.c		\
 	pt-wavedata.c		\
 	pt-waveloader.c		\
-	pt-waveviewer.c
+	pt-waveviewer.c		\
+	pt-waveviewer-focus.c
 
 parlatype_includedir= \
 	$(includedir)/parlatype

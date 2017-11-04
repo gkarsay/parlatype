@@ -29,6 +29,7 @@
 #define GETTEXT_PACKAGE PACKAGE
 #include <glib/gi18n-lib.h>
 #include "pt-ruler.h"
+#include "pt-waveviewer-focus.h"
 #include "pt-waveviewer.h"
 
 
@@ -68,6 +69,7 @@ struct _PtWaveviewerPrivate {
 
 	/* Ruler */
 	GtkWidget  *ruler;
+	GtkWidget  *waveviewer_focus;
 
 	/* Colors */
 	GdkRGBA	  wave_color;
@@ -332,20 +334,12 @@ draw_cb (GtkWidget *widget,
 	cairo_paint (cr);
 
 	/* render focus */
-	if (gtk_widget_has_focus (GTK_WIDGET (self))) {
-		if (self->priv->focus_on_cursor) {
-			gtk_render_focus (context, cr,
-					  time_to_pixel (self, self->priv->playback_cursor) - MARKER_BOX_W / 2 - 2,
-					  1,
-					  MARKER_BOX_W + 4,
-					  height - 2);
-		} else {
-			gtk_render_focus (context, cr,
-					  visible_first + 1,
-					  1,
-					  (gint) gtk_adjustment_get_page_size (self->priv->adj) - 2,
-					  gtk_widget_get_allocated_height (widget) - 2);
-		}
+	if (gtk_widget_has_focus (GTK_WIDGET (self)) && self->priv->focus_on_cursor) {
+		gtk_render_focus (context, cr,
+				  time_to_pixel (self, self->priv->playback_cursor) - MARKER_BOX_W / 2 - 2,
+				  1,
+				  MARKER_BOX_W + 4,
+				  height - 2);
 	}
 
 	return FALSE;
@@ -798,7 +792,18 @@ focus_out_cb (GtkWidget *widget,
               gpointer   data)
 {
 	PtWaveviewer *self = PT_WAVEVIEWER (widget);
-	gtk_widget_queue_draw (self->priv->waveform);
+	pt_waveviewer_focus_set (PT_WAVEVIEWER_FOCUS  (self->priv->waveviewer_focus), FALSE);
+	return FALSE;
+}
+
+static gboolean
+focus_in_cb (GtkWidget *widget,
+             GdkEvent  *event,
+             gpointer   data)
+{
+	PtWaveviewer *self = PT_WAVEVIEWER (widget);
+	if (!self->priv->focus_on_cursor && self->priv->peaks)
+		pt_waveviewer_focus_set (PT_WAVEVIEWER_FOCUS  (self->priv->waveviewer_focus), TRUE);
 	return FALSE;
 }
 
@@ -809,15 +814,25 @@ focus_cb (GtkWidget        *widget,
 {
 	PtWaveviewer *self = PT_WAVEVIEWER (widget);
 
+	/* See API reference for gtk_widget_child_focus ():
+	   If moving into @direction would move focus outside of widget: return FALSE;
+	   If moving into @direction would stay inside widget: return TRUE */
+
+	/* Don't focus if empty */
+	if (!self->priv->peaks)
+		return FALSE;
+
 	/* Focus chain forward: no-focus -> focus-whole-widget -> focus-cursor -> no-focus */
 	if (gtk_widget_has_focus (widget)) {
 		/* We have already focus, decide whether to stay in focus or not */
 		if (direction == GTK_DIR_TAB_FORWARD || direction == GTK_DIR_DOWN) {
 			if (self->priv->focus_on_cursor) {
 				self->priv->focus_on_cursor = FALSE;
+				pt_waveviewer_focus_set (PT_WAVEVIEWER_FOCUS  (self->priv->waveviewer_focus), FALSE);
 				/* focus lost */
 			} else {
 				self->priv->focus_on_cursor = TRUE;
+				pt_waveviewer_focus_set (PT_WAVEVIEWER_FOCUS  (self->priv->waveviewer_focus), FALSE);
 				/* focus on cursor */
 				gtk_widget_queue_draw (self->priv->waveform);
 				return TRUE;
@@ -826,17 +841,19 @@ focus_cb (GtkWidget        *widget,
 		if (direction == GTK_DIR_TAB_BACKWARD || direction == GTK_DIR_UP) {
 			if (self->priv->focus_on_cursor) {
 				self->priv->focus_on_cursor = FALSE;
+				pt_waveviewer_focus_set (PT_WAVEVIEWER_FOCUS  (self->priv->waveviewer_focus), TRUE);
 				/* focus on whole widget */
 				gtk_widget_queue_draw (self->priv->waveform);
 				return TRUE;
 			} else {
+				pt_waveviewer_focus_set (PT_WAVEVIEWER_FOCUS  (self->priv->waveviewer_focus), FALSE);
 				/* focus lost */
 			}
 		}
 	} else {
 		/* We had no focus before, decide which part to focus on */
 		if (direction == GTK_DIR_TAB_FORWARD || direction == GTK_DIR_DOWN || direction == GTK_DIR_RIGHT) {
-			self->priv->focus_on_cursor = FALSE;
+			pt_waveviewer_focus_set (PT_WAVEVIEWER_FOCUS  (self->priv->waveviewer_focus), TRUE);
 			/* focus on whole widget */
 		} else {
 			self->priv->focus_on_cursor = TRUE;
@@ -1102,7 +1119,7 @@ pt_waveviewer_init (PtWaveviewer *self)
 {
 	self->priv = pt_waveviewer_get_instance_private (self);
 
-	GtkWidget       *box;
+	GtkWidget       *box, *overlay;
 	GdkDisplay      *display;
 	GtkStyleContext *context;
 	GtkCssProvider  *provider;
@@ -1119,11 +1136,15 @@ pt_waveviewer_init (PtWaveviewer *self)
 
 	/* Setup scrolled window */
 	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	overlay = gtk_overlay_new ();
 	self->priv->waveform = gtk_drawing_area_new ();
+	self->priv->waveviewer_focus = pt_waveviewer_focus_new ();
 	self->priv->ruler = pt_ruler_new ();
+	gtk_container_add (GTK_CONTAINER (overlay), self->priv->waveform);
+	gtk_overlay_add_overlay (GTK_OVERLAY (overlay), self->priv->waveviewer_focus);
 	gtk_container_add_with_properties (
 			GTK_CONTAINER (box),
-			self->priv->waveform,
+			overlay,
 			"expand", TRUE,
 			"fill", TRUE,
 			NULL);
@@ -1200,6 +1221,11 @@ pt_waveviewer_init (PtWaveviewer *self)
 	g_signal_connect (self,
 			  "focus-out-event",
 			  G_CALLBACK (focus_out_cb),
+			  NULL);
+
+	g_signal_connect (self,
+			  "focus-in-event",
+			  G_CALLBACK (focus_in_cb),
 			  NULL);
 
 	g_signal_connect (self,
