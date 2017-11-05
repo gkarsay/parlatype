@@ -1042,13 +1042,27 @@ pt_waveviewer_constructed (GObject *object)
 			  self);
 }
 
+static GdkCursor *
+get_resize_cursor (void)
+{
+	GdkCursor  *result;
+	GdkDisplay *display;
+
+	display = gdk_display_get_default ();
+	result = gdk_cursor_new_from_name (display, "ew-resize");
+	if (!result)
+		result = gdk_cursor_new_from_name (display, "col-resize");
+	if (!result)
+		result = gdk_cursor_new_for_display (display, GDK_SB_H_DOUBLE_ARROW);
+	return result;
+}
+
 static void
 pt_waveviewer_init (PtWaveviewer *self)
 {
 	self->priv = pt_waveviewer_get_instance_private (self);
 
 	GtkWidget       *box, *overlay;
-	GdkDisplay      *display;
 	GtkStyleContext *context;
 	GtkCssProvider  *provider;
 	GFile		*css_file;
@@ -1061,6 +1075,7 @@ pt_waveviewer_init (PtWaveviewer *self)
 	self->priv->focus_on_cursor = FALSE;
 	self->priv->sel_start = 0;
 	self->priv->sel_end = 0;
+	self->priv->arrows = get_resize_cursor ();
 
 	/* Setup scrolled window */
 	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
@@ -1088,14 +1103,6 @@ pt_waveviewer_init (PtWaveviewer *self)
 			GTK_SCROLLED_WINDOW (self),
 			GTK_SHADOW_IN);
 	gtk_widget_show_all (GTK_WIDGET (self));
-
-	/* Try a few cursors for selections */
-	display = gdk_display_get_default ();
-	self->priv->arrows = gdk_cursor_new_from_name (display, "ew-resize");
-	if (!self->priv->arrows)
-		self->priv->arrows = gdk_cursor_new_from_name (display, "col-resize");
-	if (!self->priv->arrows)
-		self->priv->arrows = gdk_cursor_new_for_display (display, GDK_SB_H_DOUBLE_ARROW);
 
 	css_file = g_file_new_for_uri ("resource:///com/github/gkarsay/libparlatype/pt-waveviewer.css");
 	provider = gtk_css_provider_new ();
