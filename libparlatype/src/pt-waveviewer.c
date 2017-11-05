@@ -642,7 +642,10 @@ button_release_event_cb (GtkWidget      *widget,
 		         GdkEventButton *event,
 		         gpointer        data)
 {
-	set_cursor (widget, NULL);
+	if (event->button == GDK_BUTTON_PRIMARY) {
+		set_cursor (widget, NULL);
+		return TRUE;
+	}
 	return FALSE;
 }
 
