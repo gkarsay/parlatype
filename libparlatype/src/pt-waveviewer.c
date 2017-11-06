@@ -29,6 +29,7 @@
 #define GETTEXT_PACKAGE PACKAGE
 #include <glib/gi18n-lib.h>
 #include "pt-ruler.h"
+#include "pt-waveviewer-waveform.h"
 #include "pt-waveviewer-selection.h"
 #include "pt-waveviewer-cursor.h"
 #include "pt-waveviewer-focus.h"
@@ -60,20 +61,16 @@ struct _PtWaveviewerPrivate {
 	gint64    dragend;
 	GdkCursor *arrows;
 
-	/* Drawing area */
-	GtkWidget       *waveform;
 	GtkAdjustment   *adj;
 	gboolean         rtl;
 	gboolean         focus_on_cursor;
 
 	/* Subwidgets */
+	GtkWidget  *waveform;
 	GtkWidget  *ruler;
 	GtkWidget  *waveviewer_focus;
 	GtkWidget  *waveviewer_cursor;
 	GtkWidget  *waveviewer_selection;
-
-	/* Colors */
-	GdkRGBA	  wave_color;
 };
 
 enum
@@ -196,92 +193,6 @@ scroll_to_cursor (PtWaveviewer *self)
 				gtk_adjustment_set_value (self->priv->adj, cursor_pos);
 		}
 	}
-}
-
-static void
-size_allocate_cb (GtkWidget     *widget,
-                  GtkAllocation *rectangle,
-                  gpointer       data)
-{
-	PtWaveviewer *self = (PtWaveviewer *) widget;
-	/* If widget changed horizontal size, revealed parts have to be drawn */
-	gtk_widget_queue_draw (self->priv->waveform);
-}
-
-static gint64
-pixel_to_array (PtWaveviewer *self,
-		gint64	      pixel)
-{
-	/* Convert a position in the drawing area to an index in the peaks array.
-	   The returned index is the peak's min value, +1 is the max value.
-	   If the array would be exceeded, return -1 */
-
-	gint64 result;
-
-	if (self->priv->rtl)
-		pixel = flip_pixel (self, pixel);
-
-	result = pixel * 2;
-
-	if (result + 1 >= self->priv->peaks_size)
-		result = -1;
-
-	return result;
-}
-
-static gboolean
-draw_cb (GtkWidget *widget,
-         cairo_t   *cr,
-         gpointer   data)
-{
-	/* Redraw screen, cairo_t is already clipped to only draw the exposed
-	   areas of the drawing area */
-
-	g_debug ("draw_cb");
-
-	PtWaveviewer *self = (PtWaveviewer *) data;
-
-	gfloat *peaks = self->priv->peaks;
-	GtkStyleContext *context;
-	gint visible_first;
-	gint visible_last;
-	gint pixel;
-	gint array;
-	gdouble min, max;
-
-	context = gtk_widget_get_style_context (self->priv->waveform);
-	gint height = gtk_widget_get_allocated_height (widget);
-
-	gint half = height / 2 - 1;
-	gint middle = height / 2;
-
-	visible_first = (gint) gtk_adjustment_get_value (self->priv->adj);
-	visible_last = visible_first + (gint) gtk_adjustment_get_page_size (self->priv->adj);
-
-	g_debug ("visible area: %d–%d", visible_first, visible_last);
-
-	gtk_render_background (context, cr,
-                               visible_first, 0,
-                               visible_last - visible_first, height);
-	if (!peaks)
-		return FALSE;
-
-	/* paint waveform */
-	gdk_cairo_set_source_rgba (cr, &self->priv->wave_color);
-	for (pixel = visible_first; pixel <= visible_last; pixel += 1) {
-		array = pixel_to_array (self, pixel);
-		if (array == -1)
-			/* in ltr we could break, but rtl needs to continue */
-			continue;
-		min = (middle + half * peaks[array] * -1);
-		max = (middle - half * peaks[array + 1]);
-		cairo_move_to (cr, pixel, min);
-		cairo_line_to (cr, pixel, max);
-		/* cairo_stroke also possible after loop, but then slower */
-		cairo_stroke (cr);
-	}
-
-	return FALSE;
 }
 
 static gint64
@@ -659,17 +570,11 @@ pt_waveviewer_update_cached_style_values (PtWaveviewer *self)
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
 	state = gtk_style_context_get_state (context);
-	gtk_style_context_save (context);
-
-	gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
-	gtk_style_context_get_color (context, state, &self->priv->wave_color);
 
 	if (state & GTK_STATE_FLAG_DIR_RTL)
 		self->priv->rtl = TRUE;
 	else
 		self->priv->rtl = FALSE;
-
-	gtk_style_context_restore (context);
 }
 
 static void
@@ -692,7 +597,6 @@ pt_waveviewer_style_updated (GtkWidget *widget)
 	GTK_WIDGET_CLASS (pt_waveviewer_parent_class)->style_updated (widget);
 
 	pt_waveviewer_update_cached_style_values (self);
-	gtk_widget_queue_draw (self->priv->waveform);
 }
 
 static gboolean
@@ -708,19 +612,6 @@ scrollbar_cb (GtkWidget      *widget,
 
 	/* Propagate signal */
 	return FALSE;
-}
-
-static void
-adj_cb (GtkAdjustment *adj,
-	gpointer       data)
-{
-	g_debug ("adjustment changed");
-
-	/* GtkScrolledWindow draws itself mostly automatically, but some
-	   adjustment changes are not propagated for reasons I don't understand.
-	   Probably we're doing some draws twice */
-	PtWaveviewer *self = PT_WAVEVIEWER (data);
-	gtk_widget_queue_draw (self->priv->waveform);
 }
 
 static void
@@ -878,13 +769,13 @@ pt_waveviewer_set_wave (PtWaveviewer *self,
 	gtk_widget_set_size_request (self->priv->waveform, -1, WAVE_MIN_HEIGHT);
 
 	if (!data) {
-		gtk_widget_queue_draw (GTK_WIDGET (self));
+		gtk_widget_queue_draw (self->priv->waveform);
 		pt_ruler_set_ruler (PT_RULER (self->priv->ruler), 0, 0, 0);
 		return;
 	}
 
 	if (!data->array || !data->length) {
-		gtk_widget_queue_draw (GTK_WIDGET (self));
+		gtk_widget_queue_draw (self->priv->waveform);
 		pt_ruler_set_ruler (PT_RULER (self->priv->ruler), 0, 0, 0);
 		return;
 	}
@@ -893,7 +784,7 @@ pt_waveviewer_set_wave (PtWaveviewer *self,
 	   with bindings. */
 	if (!(self->priv->peaks = g_malloc (sizeof (gfloat) * data->length))) {
 		g_debug	("waveviewer failed to allocate memory");
-		gtk_widget_queue_draw (GTK_WIDGET (self));
+		gtk_widget_queue_draw (self->priv->waveform);
 		pt_ruler_set_ruler (PT_RULER (self->priv->ruler), 0, 0, 0);
 		return;
 	}
@@ -928,7 +819,8 @@ pt_waveviewer_set_wave (PtWaveviewer *self,
 	   cached style values, the colors are not set at all under KDE/Plasma. */
 	pt_waveviewer_update_cached_style_values (self);
 
-	gtk_widget_queue_draw (GTK_WIDGET (self));
+	pt_waveviewer_waveform_set (PT_WAVEVIEWER_WAVEFORM (self->priv->waveform),
+				    self->priv->peaks, self->priv->peaks_size);
 }
 
 static void
@@ -1029,8 +921,6 @@ pt_waveviewer_constructed (GObject *object)
 
 	PtWaveviewer *self = PT_WAVEVIEWER (object);
 	self->priv->adj = gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (self));
-	g_signal_connect (self->priv->adj, "value-changed", G_CALLBACK (adj_cb), self);
-
 	g_signal_connect (gtk_scrolled_window_get_hscrollbar (GTK_SCROLLED_WINDOW (self)),
 			  "button_press_event",
 			  G_CALLBACK (scrollbar_cb),
@@ -1058,7 +948,6 @@ pt_waveviewer_init (PtWaveviewer *self)
 	self->priv = pt_waveviewer_get_instance_private (self);
 
 	GtkWidget       *box, *overlay;
-	GtkStyleContext *context;
 	GtkCssProvider  *provider;
 	GFile		*css_file;
 
@@ -1075,7 +964,7 @@ pt_waveviewer_init (PtWaveviewer *self)
 	/* Setup scrolled window */
 	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	overlay = gtk_overlay_new ();
-	self->priv->waveform = gtk_drawing_area_new ();
+	self->priv->waveform = pt_waveviewer_waveform_new ();
 	self->priv->waveviewer_focus = pt_waveviewer_focus_new ();
 	self->priv->waveviewer_cursor = pt_waveviewer_cursor_new ();
 	self->priv->waveviewer_selection = pt_waveviewer_selection_new ();
@@ -1109,10 +998,6 @@ pt_waveviewer_init (PtWaveviewer *self)
 			GTK_STYLE_PROVIDER (provider),
 			GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
-	context = gtk_widget_get_style_context (self->priv->waveform);
-	gtk_style_context_add_class (context, GTK_STYLE_CLASS_FRAME);
-	gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
-
 	g_object_unref (css_file);
 	g_object_unref (provider);
 
@@ -1130,19 +1015,9 @@ pt_waveviewer_init (PtWaveviewer *self)
 			  G_CALLBACK (button_release_event_cb),
 			  NULL);
 
-	g_signal_connect (self->priv->waveform,
-			  "draw",
-			  G_CALLBACK (draw_cb),
-			  self);
-
 	g_signal_connect (self,
 			  "motion-notify-event",
 			  G_CALLBACK (motion_notify_event_cb),
-			  NULL);
-
-	g_signal_connect (self,
-			  "size-allocate",
-			  G_CALLBACK (size_allocate_cb),
 			  NULL);
 
 	g_signal_connect (self,
