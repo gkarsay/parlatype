@@ -43,19 +43,25 @@ pt_waveviewer_focus_draw (GtkWidget *widget,
 		return FALSE;
 
 	GtkStyleContext *context;
-	gint visible_first;
-	gint visible_last;
-	gint height;
+	gint left, height, width;
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
 	height = gtk_widget_get_allocated_height (widget);
-	visible_first = (gint) gtk_adjustment_get_value (self->priv->adj);
-	visible_last = visible_first + (gint) gtk_adjustment_get_page_size (self->priv->adj);
+	width = (gint) gtk_adjustment_get_page_size (self->priv->adj);
+	left = (gint) gtk_adjustment_get_value (self->priv->adj);
 
-	gtk_render_focus (context, cr,
-                          visible_first, 0,
-                          visible_last - visible_first, height);
+	gtk_render_focus (context, cr, left, 0, width, height);
 	return FALSE;
+}
+
+static void
+adj_value_changed (GtkAdjustment *adj,
+		   gpointer       data)
+{
+	PtWaveviewerFocus *self = PT_WAVEVIEWER_FOCUS (data);
+
+	if (self->priv->focus)
+		gtk_widget_queue_draw (GTK_WIDGET (data));
 }
 
 static void
@@ -64,11 +70,16 @@ pt_waveviewer_focus_hierarchy_changed (GtkWidget *widget,
 {
 	PtWaveviewerFocus *self = PT_WAVEVIEWER_FOCUS (widget);
 
-	GtkWidget *parent = NULL;
+	if (self->priv->adj)
+		return;
 
+	/* Get parent's GtkAdjustment */
+	GtkWidget *parent = NULL;
 	parent = gtk_widget_get_ancestor (widget, PT_TYPE_WAVEVIEWER);
-	if (parent)
+	if (parent) {
 		self->priv->adj = gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (parent));
+		g_signal_connect (self->priv->adj, "value-changed", G_CALLBACK (adj_value_changed), self);
+	}
 }
 
 void
