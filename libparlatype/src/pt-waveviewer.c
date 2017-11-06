@@ -29,6 +29,7 @@
 #define GETTEXT_PACKAGE PACKAGE
 #include <glib/gi18n-lib.h>
 #include "pt-ruler.h"
+#include "pt-waveviewer-selection.h"
 #include "pt-waveviewer-cursor.h"
 #include "pt-waveviewer-focus.h"
 #include "pt-waveviewer.h"
@@ -69,10 +70,10 @@ struct _PtWaveviewerPrivate {
 	GtkWidget  *ruler;
 	GtkWidget  *waveviewer_focus;
 	GtkWidget  *waveviewer_cursor;
+	GtkWidget  *waveviewer_selection;
 
 	/* Colors */
 	GdkRGBA	  wave_color;
-	GdkRGBA	  selection_color;
 };
 
 enum
@@ -280,15 +281,6 @@ draw_cb (GtkWidget *widget,
 		cairo_stroke (cr);
 	}
 
-	/* paint selection */
-	if (self->priv->sel_start != self->priv->sel_end) {
-		gint start = time_to_pixel (self, self->priv->sel_start);
-		gint end = time_to_pixel (self, self->priv->sel_end) - start;
-		gdk_cairo_set_source_rgba (cr, &self->priv->selection_color);
-		cairo_rectangle (cr, start, 0, end, height);
-		cairo_fill (cr);
-	}
-
 	return FALSE;
 }
 
@@ -336,6 +328,7 @@ update_selection (PtWaveviewer *self)
 	   If yes, set new selection, emit signals and redraw widget. */
 
 	gboolean changed = FALSE;
+	PtWaveviewerSelection *sel_widget = PT_WAVEVIEWER_SELECTION (self->priv->waveviewer_selection);
 
 	/* Is anything selected at all? */
 	if (self->priv->dragstart == self->priv->dragend) {
@@ -346,7 +339,7 @@ update_selection (PtWaveviewer *self)
 			g_object_notify_by_pspec (G_OBJECT (self),
 						  obj_properties[PROP_HAS_SELECTION]);
 			g_signal_emit_by_name (self, "selection-changed");
-			gtk_widget_queue_draw (self->priv->waveform);
+			pt_waveviewer_selection_set (sel_widget, 0, 0);
 		}
 		return;
 	}
@@ -376,7 +369,9 @@ update_selection (PtWaveviewer *self)
 		}
 
 		g_signal_emit_by_name (self, "selection-changed");
-		gtk_widget_queue_draw (self->priv->waveform);
+		pt_waveviewer_selection_set (sel_widget,
+					     time_to_pixel (self, self->priv->sel_start),
+					     time_to_pixel (self, self->priv->sel_end));
 	}
 }
 
@@ -668,9 +663,6 @@ pt_waveviewer_update_cached_style_values (PtWaveviewer *self)
 
 	gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
 	gtk_style_context_get_color (context, state, &self->priv->wave_color);
-
-	gtk_style_context_add_class (context, "selection");
-	gtk_style_context_get_color (context, state, &self->priv->selection_color);
 
 	if (state & GTK_STATE_FLAG_DIR_RTL)
 		self->priv->rtl = TRUE;
@@ -1086,8 +1078,10 @@ pt_waveviewer_init (PtWaveviewer *self)
 	self->priv->waveform = gtk_drawing_area_new ();
 	self->priv->waveviewer_focus = pt_waveviewer_focus_new ();
 	self->priv->waveviewer_cursor = pt_waveviewer_cursor_new ();
+	self->priv->waveviewer_selection = pt_waveviewer_selection_new ();
 	self->priv->ruler = pt_ruler_new ();
 	gtk_container_add (GTK_CONTAINER (overlay), self->priv->waveform);
+	gtk_overlay_add_overlay (GTK_OVERLAY (overlay), self->priv->waveviewer_selection);
 	gtk_overlay_add_overlay (GTK_OVERLAY (overlay), self->priv->waveviewer_cursor);
 	gtk_overlay_add_overlay (GTK_OVERLAY (overlay), self->priv->waveviewer_focus);
 	gtk_container_add_with_properties (
@@ -1118,7 +1112,6 @@ pt_waveviewer_init (PtWaveviewer *self)
 	context = gtk_widget_get_style_context (self->priv->waveform);
 	gtk_style_context_add_class (context, GTK_STYLE_CLASS_FRAME);
 	gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
-	gtk_style_context_add_class (context, "selection");
 
 	g_object_unref (css_file);
 	g_object_unref (provider);
