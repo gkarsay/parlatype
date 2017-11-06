@@ -92,11 +92,10 @@ pixel_to_time (PtRuler *self,
 }
 
 static gboolean
-ruler_draw_cb (GtkWidget *widget,
-               cairo_t   *cr,
-               gpointer   data)
+pt_ruler_draw (GtkWidget *widget,
+               cairo_t   *cr)
 {
-	PtRuler *self = (PtRuler *) data;
+	PtRuler *self = (PtRuler *) widget;
 	gint height = gtk_widget_get_allocated_height (widget);
 
 	gint	        i;		/* counter, pixel on x-axis in the view */
@@ -335,11 +334,6 @@ pt_ruler_init (PtRuler *self)
 	gtk_widget_set_name (GTK_WIDGET (self), "ruler");
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
 	gtk_style_context_add_class (context, GTK_STYLE_CLASS_MARK);
-
-	g_signal_connect (self,
-			  "draw",
-			  G_CALLBACK (ruler_draw_cb),
-			  self);
 }
 
 static void
@@ -347,6 +341,7 @@ pt_ruler_class_init (PtRulerClass *klass)
 {
 	GtkWidgetClass *widget_class  = GTK_WIDGET_CLASS (klass);
 
+	widget_class->draw                = pt_ruler_draw;
 	widget_class->state_flags_changed = pt_ruler_state_flags_changed;
 	widget_class->style_updated       = pt_ruler_style_updated;
 }
