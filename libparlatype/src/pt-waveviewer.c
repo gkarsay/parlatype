@@ -635,16 +635,18 @@ focus_lost (PtWaveviewer *self)
 }
 
 static gboolean
-pt_waveviewer_focus_out_event (GtkWidget     *widget,
-			       GdkEventFocus *event)
+pt_waveviewer_focus_out_event (GtkWidget *widget,
+			       GdkEvent  *event,
+			       gpointer   data)
 {
 	focus_lost (PT_WAVEVIEWER (widget));
 	return FALSE;
 }
 
 static gboolean
-pt_waveviewer_focus_in_event (GtkWidget     *widget,
-			      GdkEventFocus *event)
+pt_waveviewer_focus_in_event (GtkWidget *widget,
+			      GdkEvent  *event,
+			      gpointer   data)
 {
 	PtWaveviewer *self = PT_WAVEVIEWER (widget);
 	if (!self->priv->focus_on_cursor && self->priv->peaks)
@@ -654,7 +656,8 @@ pt_waveviewer_focus_in_event (GtkWidget     *widget,
 
 static gboolean
 pt_waveviewer_focus (GtkWidget        *widget,
-		     GtkDirectionType  direction)
+		     GtkDirectionType  direction,
+		     gpointer          data)
 {
 	PtWaveviewer *self = PT_WAVEVIEWER (widget);
 
@@ -997,12 +1000,11 @@ pt_waveviewer_init (PtWaveviewer *self)
 	g_object_unref (css_file);
 	g_object_unref (provider);
 
-	gtk_widget_set_events (GTK_WIDGET (self), gtk_widget_get_events (GTK_WIDGET (self))
-                                     | GDK_BUTTON_PRESS_MASK
-                                     | GDK_BUTTON_RELEASE_MASK
-				     | GDK_POINTER_MOTION_MASK
-				     | GDK_KEY_PRESS_MASK
-				     | GDK_FOCUS_CHANGE_MASK);
+	/* If overriding these vfuncs something's goint wrong, note that focus-in
+	   an focus-out need GdkEventFocus as 2nd parameter in vfunc */
+	g_signal_connect (self, "focus", G_CALLBACK (pt_waveviewer_focus), NULL);
+	g_signal_connect (self, "focus-in-event", G_CALLBACK (pt_waveviewer_focus_in_event), NULL);
+	g_signal_connect (self, "focus-out-event", G_CALLBACK (pt_waveviewer_focus_out_event), NULL);
 }
 
 static void
@@ -1018,9 +1020,6 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 
 	widget_class->button_press_event   = pt_waveviewer_button_press_event;
 	widget_class->button_release_event = pt_waveviewer_button_release_event;
-	widget_class->focus                = pt_waveviewer_focus;
-	widget_class->focus_in_event       = pt_waveviewer_focus_in_event;
-	widget_class->focus_out_event      = pt_waveviewer_focus_out_event;
 	widget_class->key_press_event      = pt_waveviewer_key_press_event;
 	widget_class->motion_notify_event  = pt_waveviewer_motion_notify_event;
 	widget_class->state_flags_changed  = pt_waveviewer_state_flags_changed;
