@@ -24,12 +24,12 @@ libparlatype_la_SOURCES =		\
 	$(BUILT_SOURCES)		\
 	pt-player.c			\
 	pt-progress-dialog.c		\
-	pt-ruler.c			\
 	pt-wavedata.c			\
 	pt-waveloader.c			\
 	pt-waveviewer.c			\
 	pt-waveviewer-cursor.c		\
 	pt-waveviewer-focus.c		\
+	pt-waveviewer-ruler.c		\
 	pt-waveviewer-selection.c	\
 	pt-waveviewer-waveform.c
 

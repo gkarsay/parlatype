@@ -17,13 +17,13 @@
 #include "config.h"
 #define GETTEXT_PACKAGE PACKAGE
 #include <glib/gi18n-lib.h>
-#include "pt-ruler.h"
+#include "pt-waveviewer-ruler.h"
 
 
 #define PRIMARY_MARK_HEIGHT 8
 #define SECONDARY_MARK_HEIGHT 4
 
-struct _PtRulerPrivate {
+struct _PtWaveviewerRulerPrivate {
 	gboolean  rtl;
 	gint64	  n_samples;
 	gint	  px_per_sec;
@@ -37,12 +37,12 @@ struct _PtRulerPrivate {
 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PtRuler, pt_ruler, GTK_TYPE_DRAWING_AREA);
+G_DEFINE_TYPE_WITH_PRIVATE (PtWaveviewerRuler, pt_waveviewer_ruler, GTK_TYPE_DRAWING_AREA);
 
 
 static gint64
-flip_pixel (PtRuler *self,
-	    gint64   pixel)
+flip_pixel (PtWaveviewerRuler *self,
+	    gint64             pixel)
 {
 	/* In ltr layouts each pixel on the x-axis corresponds to a sample in the array.
 	   In rtl layouts this is flipped, e.g. the first pixel corresponds to
@@ -60,8 +60,8 @@ flip_pixel (PtRuler *self,
 }
 
 static gint64
-time_to_pixel (PtRuler *self,
-	       gint64   ms)
+time_to_pixel (PtWaveviewerRuler *self,
+	       gint64             ms)
 {
 	/* Convert a time in 1/1000 seconds to the closest pixel in the drawing area */
 	gint64 result;
@@ -76,8 +76,8 @@ time_to_pixel (PtRuler *self,
 }
 
 static gint64
-pixel_to_time (PtRuler *self,
-	       gint64   pixel)
+pixel_to_time (PtWaveviewerRuler *self,
+	       gint64             pixel)
 {
 	/* Convert a position in the drawing area to time in milliseconds */
 	gint64 result;
@@ -92,10 +92,10 @@ pixel_to_time (PtRuler *self,
 }
 
 static gboolean
-pt_ruler_draw (GtkWidget *widget,
-               cairo_t   *cr)
+pt_waveviewer_ruler_draw (GtkWidget *widget,
+                          cairo_t   *cr)
 {
-	PtRuler *self = (PtRuler *) widget;
+	PtWaveviewerRuler *self = (PtWaveviewerRuler *) widget;
 	gint height = gtk_widget_get_allocated_height (widget);
 
 	gint	        i;		/* counter, pixel on x-axis in the view */
@@ -192,7 +192,7 @@ pt_ruler_draw (GtkWidget *widget,
 }
 
 static void
-pt_ruler_calculate_height (PtRuler *self)
+calculate_height (PtWaveviewerRuler *self)
 {
 	/* Calculate ruler height and time string width*/
 	cairo_t         *cr;
@@ -264,7 +264,7 @@ pt_ruler_calculate_height (PtRuler *self)
 }
 
 static void
-pt_ruler_update_cached_style_values (PtRuler *self)
+update_cached_style_values (PtWaveviewerRuler *self)
 {
 	/* Direction is cached */
 
@@ -284,29 +284,29 @@ pt_ruler_update_cached_style_values (PtRuler *self)
 }
 
 static void
-pt_ruler_state_flags_changed (GtkWidget	    *widget,
-                              GtkStateFlags  flags)
+pt_waveviewer_ruler_state_flags_changed (GtkWidget     *widget,
+                                         GtkStateFlags  flags)
 {
-	PtRuler *self = PT_RULER (widget);
-	pt_ruler_update_cached_style_values (self);
+	PtWaveviewerRuler *self = PT_WAVEVIEWER_RULER (widget);
+	update_cached_style_values (self);
 
-	GTK_WIDGET_CLASS (pt_ruler_parent_class)->state_flags_changed (widget, flags);
+	GTK_WIDGET_CLASS (pt_waveviewer_ruler_parent_class)->state_flags_changed (widget, flags);
 }
 
 static void
-pt_ruler_style_updated (GtkWidget *widget)
+pt_waveviewer_ruler_style_updated (GtkWidget *widget)
 {
-	PtRuler *self = PT_RULER (widget);
+	PtWaveviewerRuler *self = PT_WAVEVIEWER_RULER (widget);
 
-	GTK_WIDGET_CLASS (pt_ruler_parent_class)->style_updated (widget);
+	GTK_WIDGET_CLASS (pt_waveviewer_ruler_parent_class)->style_updated (widget);
 
-	pt_ruler_calculate_height (self);
-	pt_ruler_update_cached_style_values (self);
+	calculate_height (self);
+	update_cached_style_values (self);
 	gtk_widget_queue_draw (widget);
 }
 
 void
-pt_ruler_set_ruler (PtRuler *self,
+pt_waveviewer_ruler_set_ruler (PtWaveviewerRuler *self,
                     gint64   n_samples,
                     gint     px_per_sec,
                     gint64   duration)
@@ -315,15 +315,15 @@ pt_ruler_set_ruler (PtRuler *self,
 	self->priv->px_per_sec = px_per_sec;
 	self->priv->duration = duration;
 
-	pt_ruler_calculate_height (self);
-	pt_ruler_update_cached_style_values (self);
+	calculate_height (self);
+	update_cached_style_values (self);
 	gtk_widget_queue_draw (GTK_WIDGET (self));
 }
 
 static void
-pt_ruler_init (PtRuler *self)
+pt_waveviewer_ruler_init (PtWaveviewerRuler *self)
 {
-	self->priv = pt_ruler_get_instance_private (self);
+	self->priv = pt_waveviewer_ruler_get_instance_private (self);
 
 	GtkStyleContext *context;
 
@@ -337,17 +337,17 @@ pt_ruler_init (PtRuler *self)
 }
 
 static void
-pt_ruler_class_init (PtRulerClass *klass)
+pt_waveviewer_ruler_class_init (PtWaveviewerRulerClass *klass)
 {
 	GtkWidgetClass *widget_class  = GTK_WIDGET_CLASS (klass);
 
-	widget_class->draw                = pt_ruler_draw;
-	widget_class->state_flags_changed = pt_ruler_state_flags_changed;
-	widget_class->style_updated       = pt_ruler_style_updated;
+	widget_class->draw                = pt_waveviewer_ruler_draw;
+	widget_class->state_flags_changed = pt_waveviewer_ruler_state_flags_changed;
+	widget_class->style_updated       = pt_waveviewer_ruler_style_updated;
 }
 
 GtkWidget *
-pt_ruler_new (void)
+pt_waveviewer_ruler_new (void)
 {
-	return GTK_WIDGET (g_object_new (PT_TYPE_RULER, NULL));
+	return GTK_WIDGET (g_object_new (PT_TYPE_WAVEVIEWER_RULER, NULL));
 }
