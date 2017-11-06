@@ -193,30 +193,16 @@ pt_waveviewer_cursor_init (PtWaveviewerCursor *self)
 {
 	self->priv = pt_waveviewer_cursor_get_instance_private (self);
 
+	GtkStyleContext *context;
+
 	self->priv->cursor = NULL;
 	self->priv->focus = FALSE;
 	/* hide cursor initially outside drawing area */
 	self->priv->position = MARKER_BOX_W * -1;
 
-	GtkStyleContext *context;
-	GtkCssProvider  *provider;
-	GFile		*css_file;
-
-	css_file = g_file_new_for_uri ("resource:///com/github/gkarsay/libparlatype/pt-waveviewer.css");
-	provider = gtk_css_provider_new ();
-	gtk_css_provider_load_from_file (provider, css_file, NULL);
-	gtk_style_context_add_provider_for_screen (
-			gdk_screen_get_default (),
-			GTK_STYLE_PROVIDER (provider),
-			GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
 	gtk_style_context_add_class (context, "cursor");
 
-	g_object_unref (css_file);
-	g_object_unref (provider);
-
-	gtk_widget_set_name (GTK_WIDGET (self), "cursor");
 	gtk_widget_set_events (GTK_WIDGET (self), GDK_ALL_EVENTS_MASK);
 }
 
