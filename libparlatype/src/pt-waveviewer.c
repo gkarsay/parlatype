@@ -68,9 +68,9 @@ struct _PtWaveviewerPrivate {
 	/* Subwidgets */
 	GtkWidget  *waveform;
 	GtkWidget  *ruler;
-	GtkWidget  *waveviewer_focus;
-	GtkWidget  *waveviewer_cursor;
-	GtkWidget  *waveviewer_selection;
+	GtkWidget  *focus;
+	GtkWidget  *cursor;
+	GtkWidget  *selection;
 };
 
 enum
@@ -239,7 +239,7 @@ update_selection (PtWaveviewer *self)
 	   If yes, set new selection, emit signals and redraw widget. */
 
 	gboolean changed = FALSE;
-	PtWaveviewerSelection *sel_widget = PT_WAVEVIEWER_SELECTION (self->priv->waveviewer_selection);
+	PtWaveviewerSelection *sel_widget = PT_WAVEVIEWER_SELECTION (self->priv->selection);
 
 	/* Is anything selected at all? */
 	if (self->priv->dragstart == self->priv->dragend) {
@@ -614,24 +614,24 @@ static void
 focus_cursor (PtWaveviewer *self)
 {
 	self->priv->focus_on_cursor = TRUE;
-	pt_waveviewer_cursor_set_focus (PT_WAVEVIEWER_CURSOR  (self->priv->waveviewer_cursor), TRUE);
-	pt_waveviewer_focus_set (PT_WAVEVIEWER_FOCUS  (self->priv->waveviewer_focus), FALSE);
+	pt_waveviewer_cursor_set_focus (PT_WAVEVIEWER_CURSOR  (self->priv->cursor), TRUE);
+	pt_waveviewer_focus_set (PT_WAVEVIEWER_FOCUS  (self->priv->focus), FALSE);
 }
 
 static void
 focus_widget (PtWaveviewer *self)
 {
 	self->priv->focus_on_cursor = FALSE;
-	pt_waveviewer_cursor_set_focus (PT_WAVEVIEWER_CURSOR  (self->priv->waveviewer_cursor), FALSE);
-	pt_waveviewer_focus_set (PT_WAVEVIEWER_FOCUS  (self->priv->waveviewer_focus), TRUE);
+	pt_waveviewer_cursor_set_focus (PT_WAVEVIEWER_CURSOR  (self->priv->cursor), FALSE);
+	pt_waveviewer_focus_set (PT_WAVEVIEWER_FOCUS  (self->priv->focus), TRUE);
 }
 
 static void
 focus_lost (PtWaveviewer *self)
 {
 	self->priv->focus_on_cursor = FALSE;
-	pt_waveviewer_cursor_set_focus (PT_WAVEVIEWER_CURSOR  (self->priv->waveviewer_cursor), FALSE);
-	pt_waveviewer_focus_set (PT_WAVEVIEWER_FOCUS  (self->priv->waveviewer_focus), FALSE);
+	pt_waveviewer_cursor_set_focus (PT_WAVEVIEWER_CURSOR  (self->priv->cursor), FALSE);
+	pt_waveviewer_focus_set (PT_WAVEVIEWER_FOCUS  (self->priv->focus), FALSE);
 }
 
 static gboolean
@@ -806,7 +806,7 @@ pt_waveviewer_set_wave (PtWaveviewer *self,
 				       self->priv->duration);
 
 	gtk_widget_set_size_request (self->priv->waveform, data->length / 2, WAVE_MIN_HEIGHT);
-	gtk_widget_set_size_request (self->priv->waveviewer_cursor, data->length / 2, WAVE_MIN_HEIGHT);
+	gtk_widget_set_size_request (self->priv->cursor, data->length / 2, WAVE_MIN_HEIGHT);
 	gtk_adjustment_set_upper (self->priv->adj, data->length / 2);
 
 	/* It seems like the state_flags_changed and style_updated flags are
@@ -885,7 +885,7 @@ pt_waveviewer_set_property (GObject      *object,
 		if (self->priv->follow_cursor)
 			scroll_to_cursor (self);
 
-		pt_waveviewer_cursor_render (PT_WAVEVIEWER_CURSOR (self->priv->waveviewer_cursor),
+		pt_waveviewer_cursor_render (PT_WAVEVIEWER_CURSOR (self->priv->cursor),
 					     time_to_pixel (self, self->priv->playback_cursor));
 		break;
 	case PROP_FOLLOW_CURSOR:
@@ -957,18 +957,18 @@ pt_waveviewer_init (PtWaveviewer *self)
 	self->priv->sel_end = 0;
 	self->priv->arrows = get_resize_cursor ();
 	self->priv->waveform = pt_waveviewer_waveform_new ();
-	self->priv->waveviewer_focus = pt_waveviewer_focus_new ();
-	self->priv->waveviewer_cursor = pt_waveviewer_cursor_new ();
-	self->priv->waveviewer_selection = pt_waveviewer_selection_new ();
+	self->priv->focus = pt_waveviewer_focus_new ();
+	self->priv->cursor = pt_waveviewer_cursor_new ();
+	self->priv->selection = pt_waveviewer_selection_new ();
 	self->priv->ruler = pt_waveviewer_ruler_new ();
 
 	/* Setup scrolled window */
 	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	overlay = gtk_overlay_new ();
 	gtk_container_add (GTK_CONTAINER (overlay), self->priv->waveform);
-	gtk_overlay_add_overlay (GTK_OVERLAY (overlay), self->priv->waveviewer_selection);
-	gtk_overlay_add_overlay (GTK_OVERLAY (overlay), self->priv->waveviewer_cursor);
-	gtk_overlay_add_overlay (GTK_OVERLAY (overlay), self->priv->waveviewer_focus);
+	gtk_overlay_add_overlay (GTK_OVERLAY (overlay), self->priv->selection);
+	gtk_overlay_add_overlay (GTK_OVERLAY (overlay), self->priv->cursor);
+	gtk_overlay_add_overlay (GTK_OVERLAY (overlay), self->priv->focus);
 	gtk_container_add_with_properties (
 			GTK_CONTAINER (box),
 			overlay,
@@ -1000,7 +1000,7 @@ pt_waveviewer_init (PtWaveviewer *self)
 	g_object_unref (css_file);
 	g_object_unref (provider);
 
-	/* If overriding these vfuncs something's goint wrong, note that focus-in
+	/* If overriding these vfuncs something's going wrong, note that focus-in
 	   an focus-out need GdkEventFocus as 2nd parameter in vfunc */
 	g_signal_connect (self, "focus", G_CALLBACK (pt_waveviewer_focus), NULL);
 	g_signal_connect (self, "focus-in-event", G_CALLBACK (pt_waveviewer_focus_in_event), NULL);
