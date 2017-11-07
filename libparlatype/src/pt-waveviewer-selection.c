@@ -71,7 +71,7 @@ draw_selection (PtWaveviewerSelection *self)
 }
 
 static void
-pt_waveviewer_selection_update_cached_style_values (PtWaveviewerSelection *self)
+update_cached_style_values (PtWaveviewerSelection *self)
 {
 	/* Update color */
 
@@ -89,12 +89,10 @@ pt_waveviewer_selection_update_cached_style_values (PtWaveviewerSelection *self)
 }
 
 static void
-pt_waveviewer_selection_state_flags_changed (GtkWidget	 *widget,
-					  GtkStateFlags  flags)
+pt_waveviewer_selection_state_flags_changed (GtkWidget	   *widget,
+					     GtkStateFlags  flags)
 {
-	PtWaveviewerSelection *self = (PtWaveviewerSelection *) widget;
-	pt_waveviewer_selection_update_cached_style_values (self);
-
+	update_cached_style_values (PT_WAVEVIEWER_SELECTION (widget));
 	GTK_WIDGET_CLASS (pt_waveviewer_selection_parent_class)->state_flags_changed (widget, flags);
 }
 
@@ -105,8 +103,15 @@ pt_waveviewer_selection_style_updated (GtkWidget *widget)
 
 	GTK_WIDGET_CLASS (pt_waveviewer_selection_parent_class)->style_updated (widget);
 
-	pt_waveviewer_selection_update_cached_style_values (self);
+	update_cached_style_values (self);
 	draw_selection (self);
+}
+
+static void
+pt_waveviewer_selection_realize (GtkWidget *widget)
+{
+	GTK_WIDGET_CLASS (pt_waveviewer_selection_parent_class)->realize (widget);
+	update_cached_style_values (PT_WAVEVIEWER_SELECTION (widget));
 }
 
 void
@@ -187,6 +192,7 @@ pt_waveviewer_selection_class_init (PtWaveviewerSelectionClass *klass)
 	GtkWidgetClass *widget_class  = GTK_WIDGET_CLASS (klass);
 
 	widget_class->draw                = pt_waveviewer_selection_draw;
+	widget_class->realize             = pt_waveviewer_selection_realize;
 	widget_class->state_flags_changed = pt_waveviewer_selection_state_flags_changed;
 	widget_class->style_updated       = pt_waveviewer_selection_style_updated;
 }

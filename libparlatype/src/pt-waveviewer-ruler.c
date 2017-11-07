@@ -295,9 +295,7 @@ static void
 pt_waveviewer_ruler_state_flags_changed (GtkWidget     *widget,
                                          GtkStateFlags  flags)
 {
-	PtWaveviewerRuler *self = PT_WAVEVIEWER_RULER (widget);
-	update_cached_style_values (self);
-
+	update_cached_style_values (PT_WAVEVIEWER_RULER (widget));
 	GTK_WIDGET_CLASS (pt_waveviewer_ruler_parent_class)->state_flags_changed (widget, flags);
 }
 
@@ -311,6 +309,13 @@ pt_waveviewer_ruler_style_updated (GtkWidget *widget)
 	calculate_height (self);
 	update_cached_style_values (self);
 	gtk_widget_queue_draw (widget);
+}
+
+static void
+pt_waveviewer_ruler_realize (GtkWidget *widget)
+{
+	GTK_WIDGET_CLASS (pt_waveviewer_ruler_parent_class)->realize (widget);
+	update_cached_style_values (PT_WAVEVIEWER_RULER (widget));
 }
 
 static void
@@ -348,9 +353,9 @@ pt_waveviewer_ruler_hierarchy_changed (GtkWidget *widget,
 
 void
 pt_waveviewer_ruler_set_ruler (PtWaveviewerRuler *self,
-                    gint64   n_samples,
-                    gint     px_per_sec,
-                    gint64   duration)
+                    	       gint64   n_samples,
+		               gint     px_per_sec,
+	                       gint64   duration)
 {
 	self->priv->n_samples = n_samples;
 	self->priv->px_per_sec = px_per_sec;
@@ -385,6 +390,7 @@ pt_waveviewer_ruler_class_init (PtWaveviewerRulerClass *klass)
 
 	widget_class->draw                = pt_waveviewer_ruler_draw;
 	widget_class->hierarchy_changed   = pt_waveviewer_ruler_hierarchy_changed;
+	widget_class->realize             = pt_waveviewer_ruler_realize;
 	widget_class->state_flags_changed = pt_waveviewer_ruler_state_flags_changed;
 	widget_class->style_updated       = pt_waveviewer_ruler_style_updated;
 }

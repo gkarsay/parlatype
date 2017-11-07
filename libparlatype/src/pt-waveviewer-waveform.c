@@ -125,7 +125,7 @@ pt_waveviewer_waveform_draw (GtkWidget *widget,
 }
 
 static void
-pt_waveviewer_waveform_update_cached_style_values (PtWaveviewerWaveform *self)
+update_cached_style_values (PtWaveviewerWaveform *self)
 {
 	/* Update color and direction */
 
@@ -151,9 +151,7 @@ static void
 pt_waveviewer_waveform_state_flags_changed (GtkWidget	 *widget,
 					    GtkStateFlags  flags)
 {
-	PtWaveviewerWaveform *self = (PtWaveviewerWaveform *) widget;
-	pt_waveviewer_waveform_update_cached_style_values (self);
-
+	update_cached_style_values (PT_WAVEVIEWER_WAVEFORM (widget));
 	GTK_WIDGET_CLASS (pt_waveviewer_waveform_parent_class)->state_flags_changed (widget, flags);
 }
 
@@ -164,8 +162,15 @@ pt_waveviewer_waveform_style_updated (GtkWidget *widget)
 
 	GTK_WIDGET_CLASS (pt_waveviewer_waveform_parent_class)->style_updated (widget);
 
-	pt_waveviewer_waveform_update_cached_style_values (self);
+	update_cached_style_values (self);
 	gtk_widget_queue_draw (GTK_WIDGET (self));
+}
+
+static void
+pt_waveviewer_waveform_realize (GtkWidget *widget)
+{
+	GTK_WIDGET_CLASS (pt_waveviewer_waveform_parent_class)->realize (widget);
+	update_cached_style_values (PT_WAVEVIEWER_WAVEFORM (widget));
 }
 
 void
@@ -200,6 +205,7 @@ pt_waveviewer_waveform_class_init (PtWaveviewerWaveformClass *klass)
 	GtkWidgetClass *widget_class  = GTK_WIDGET_CLASS (klass);
 
 	widget_class->draw                = pt_waveviewer_waveform_draw;
+	widget_class->realize             = pt_waveviewer_waveform_realize;
 	widget_class->state_flags_changed = pt_waveviewer_waveform_state_flags_changed;
 	widget_class->style_updated       = pt_waveviewer_waveform_style_updated;
 }

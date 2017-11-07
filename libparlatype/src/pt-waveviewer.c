@@ -553,7 +553,7 @@ pt_waveviewer_button_release_event (GtkWidget      *widget,
 }
 
 static void
-pt_waveviewer_update_cached_style_values (PtWaveviewer *self)
+update_cached_style_values (PtWaveviewer *self)
 {
 	/* Colors and direction are cached */
 
@@ -578,11 +578,7 @@ static void
 pt_waveviewer_state_flags_changed (GtkWidget	 *widget,
 				   GtkStateFlags  flags)
 {
-	/* Update colors */
-
-	PtWaveviewer *self = PT_WAVEVIEWER (widget);
-	pt_waveviewer_update_cached_style_values (self);
-
+	update_cached_style_values (PT_WAVEVIEWER (widget));
 	GTK_WIDGET_CLASS (pt_waveviewer_parent_class)->state_flags_changed (widget, flags);
 }
 
@@ -590,10 +586,15 @@ static void
 pt_waveviewer_style_updated (GtkWidget *widget)
 {
 	PtWaveviewer *self = PT_WAVEVIEWER (widget);
-
 	GTK_WIDGET_CLASS (pt_waveviewer_parent_class)->style_updated (widget);
+	update_cached_style_values (self);
+}
 
-	pt_waveviewer_update_cached_style_values (self);
+static void
+pt_waveviewer_realize (GtkWidget *widget)
+{
+	GTK_WIDGET_CLASS (pt_waveviewer_parent_class)->realize (widget);
+	update_cached_style_values (PT_WAVEVIEWER (widget));
 }
 
 static gboolean
@@ -776,12 +777,6 @@ make_widget_ready (PtWaveviewer *self,
 		self->priv->duration = calculate_duration (self);
 		widget_width = self->priv->peaks_size / 2;
 		gtk_adjustment_set_upper (self->priv->adj, widget_width);
-
-		/* It seems like the state_flags_changed and style_updated flags are
-		   never emitted under KDE/Plasma desktop or only once at the beginning
-		   when there is no parent window yet. If we don't manually update the
-		   cached style values, the colors are not set at all under KDE/Plasma. */
-		pt_waveviewer_update_cached_style_values (self);
 	}
 
 	pt_waveviewer_ruler_set_ruler (
@@ -1050,6 +1045,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 	widget_class->button_release_event = pt_waveviewer_button_release_event;
 	widget_class->key_press_event      = pt_waveviewer_key_press_event;
 	widget_class->motion_notify_event  = pt_waveviewer_motion_notify_event;
+	widget_class->realize              = pt_waveviewer_realize;
 	widget_class->state_flags_changed  = pt_waveviewer_state_flags_changed;
 	widget_class->style_updated        = pt_waveviewer_style_updated;
 
