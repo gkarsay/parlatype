@@ -2,6 +2,7 @@
 
 src/pt-player.c
 src/pt-progress-dialog.c
-src/pt-ruler.c
 src/pt-waveloader.c
 src/pt-waveviewer.c
+src/pt-waveviewer-ruler.c
+
