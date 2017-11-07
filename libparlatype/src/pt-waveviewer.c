@@ -738,6 +738,91 @@ pt_waveviewer_set_follow_cursor (PtWaveviewer *self,
 	}
 }
 
+static void
+make_widget_ready (PtWaveviewer *self,
+		   gboolean      ready)
+{
+	gint widget_width;
+
+	if (!ready) {
+		if (self->priv->peaks) {
+			g_free (self->priv->peaks);
+			self->priv->peaks = NULL;
+		}
+		self->priv->peaks_size = 0;
+		self->priv->px_per_sec = 0;
+		self->priv->duration = 0;
+		widget_width = -1;
+		pt_waveviewer_cursor_render (
+				PT_WAVEVIEWER_CURSOR (self->priv->cursor), -1);
+
+		/* Reset previous selections */
+		self->priv->sel_start = self->priv->sel_end = 0;
+		self->priv->has_selection = FALSE;
+		g_object_notify_by_pspec (
+				G_OBJECT (self),
+				obj_properties[PROP_SELECTION_START]);
+		g_object_notify_by_pspec (
+				G_OBJECT (self),
+				obj_properties[PROP_SELECTION_END]);
+		g_object_notify_by_pspec (
+				G_OBJECT (self),
+				obj_properties[PROP_HAS_SELECTION]);
+		pt_waveviewer_selection_set (
+				PT_WAVEVIEWER_SELECTION (self->priv->selection),
+				0, 0);
+	} else {
+		self->priv->duration = calculate_duration (self);
+		widget_width = self->priv->peaks_size / 2;
+		gtk_adjustment_set_upper (self->priv->adj, widget_width);
+
+		/* It seems like the state_flags_changed and style_updated flags are
+		   never emitted under KDE/Plasma desktop or only once at the beginning
+		   when there is no parent window yet. If we don't manually update the
+		   cached style values, the colors are not set at all under KDE/Plasma. */
+		pt_waveviewer_update_cached_style_values (self);
+	}
+
+	pt_waveviewer_ruler_set_ruler (
+			PT_WAVEVIEWER_RULER (self->priv->ruler),
+			self->priv->peaks_size / 2,
+			self->priv->px_per_sec,
+			self->priv->duration);
+
+	gtk_widget_set_size_request (
+			self->priv->waveform,
+			widget_width,
+			WAVE_MIN_HEIGHT);
+
+	pt_waveviewer_waveform_set (
+			PT_WAVEVIEWER_WAVEFORM (self->priv->waveform),
+			self->priv->peaks,
+			self->priv->peaks_size);
+}
+
+static gboolean
+copy_wavedata (PtWaveviewer *self,
+	       PtWavedata   *data)
+{
+	/* Copy array. If widget is not owner of its data, bad things can happen
+	   with bindings. */
+	if (!data)
+		return FALSE;
+
+	if (!data->array || !data->length)
+		return FALSE;
+
+	if (!(self->priv->peaks = g_malloc (sizeof (gfloat) * data->length))) {
+		g_debug	("waveviewer failed to allocate memory");
+		return FALSE;
+	}
+
+	memcpy (self->priv->peaks, data->array, sizeof(gfloat) * data->length);
+	self->priv->peaks_size = data->length;
+	self->priv->px_per_sec = data->px_per_sec;
+	return TRUE;
+}
+
 /**
  * pt_waveviewer_set_wave:
  * @self: the widget
@@ -753,70 +838,10 @@ pt_waveviewer_set_wave (PtWaveviewer *self,
 {
 	g_return_if_fail (PT_IS_WAVEVIEWER (self));
 
-	g_debug ("set_wave");
-
-	if (self->priv->peaks) {
-		g_free (self->priv->peaks);
-		self->priv->peaks = NULL;
-	}
-
-	self->priv->duration = 0;
-	self->priv->playback_cursor = 0;
-	gtk_widget_set_size_request (self->priv->waveform, -1, WAVE_MIN_HEIGHT);
-
-	if (!data) {
-		gtk_widget_queue_draw (self->priv->waveform);
-		pt_waveviewer_ruler_set_ruler (PT_WAVEVIEWER_RULER (self->priv->ruler), 0, 0, 0);
+	make_widget_ready (self, FALSE);
+	if (!copy_wavedata (self, data))
 		return;
-	}
-
-	if (!data->array || !data->length) {
-		gtk_widget_queue_draw (self->priv->waveform);
-		pt_waveviewer_ruler_set_ruler (PT_WAVEVIEWER_RULER (self->priv->ruler), 0, 0, 0);
-		return;
-	}
-
-	/* Copy array. If wiget is not owner of its data, bad things can happen
-	   with bindings. */
-	if (!(self->priv->peaks = g_malloc (sizeof (gfloat) * data->length))) {
-		g_debug	("waveviewer failed to allocate memory");
-		gtk_widget_queue_draw (self->priv->waveform);
-		pt_waveviewer_ruler_set_ruler (PT_WAVEVIEWER_RULER (self->priv->ruler), 0, 0, 0);
-		return;
-	}
-
-	memcpy (self->priv->peaks, data->array, sizeof(gfloat) * data->length);
-	self->priv->peaks_size = data->length;
-	self->priv->px_per_sec = data->px_per_sec;
-	self->priv->duration = calculate_duration (self);
-
-	/* Reset previous selections */
-	self->priv->sel_start = self->priv->sel_end = 0;
-	self->priv->has_selection = FALSE;
-	g_object_notify_by_pspec (G_OBJECT (self),
-				  obj_properties[PROP_SELECTION_START]);
-	g_object_notify_by_pspec (G_OBJECT (self),
-				  obj_properties[PROP_SELECTION_END]);
-	g_object_notify_by_pspec (G_OBJECT (self),
-				  obj_properties[PROP_HAS_SELECTION]);
-
-	pt_waveviewer_ruler_set_ruler (PT_WAVEVIEWER_RULER (self->priv->ruler),
-				       self->priv->peaks_size / 2,
-				       self->priv->px_per_sec,
-				       self->priv->duration);
-
-	gtk_widget_set_size_request (self->priv->waveform, data->length / 2, WAVE_MIN_HEIGHT);
-	gtk_widget_set_size_request (self->priv->cursor, data->length / 2, WAVE_MIN_HEIGHT);
-	gtk_adjustment_set_upper (self->priv->adj, data->length / 2);
-
-	/* It seems like the state_flags_changed and style_updated flags are
-	   never emitted under KDE/Plasma desktop or only once at the beginning
-	   when there is no parent window yet. If we don't manually update the
-	   cached style values, the colors are not set at all under KDE/Plasma. */
-	pt_waveviewer_update_cached_style_values (self);
-
-	pt_waveviewer_waveform_set (PT_WAVEVIEWER_WAVEFORM (self->priv->waveform),
-				    self->priv->peaks, self->priv->peaks_size);
+	make_widget_ready (self, TRUE);
 }
 
 static void
