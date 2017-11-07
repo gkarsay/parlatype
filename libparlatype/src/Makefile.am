@@ -20,14 +20,23 @@ BUILT_SOURCES =		\
 	pt-resources.h	\
 	$(NULL)
 
-libparlatype_la_SOURCES =	\
-	$(BUILT_SOURCES)	\
-	pt-player.c		\
-	pt-progress-dialog.c	\
-	pt-ruler.c		\
-	pt-wavedata.c		\
-	pt-waveloader.c		\
-	pt-waveviewer.c
+libparlatype_la_SOURCES =		\
+	$(BUILT_SOURCES)		\
+	pt-player.c			\
+	pt-progress-dialog.c		\
+	pt-wavedata.c			\
+	pt-waveloader.c			\
+	pt-waveviewer.c			\
+	pt-waveviewer-cursor.c		\
+	pt-waveviewer-cursor.h		\
+	pt-waveviewer-focus.c		\
+	pt-waveviewer-focus.h		\
+	pt-waveviewer-ruler.c		\
+	pt-waveviewer-ruler.h		\
+	pt-waveviewer-selection.c	\
+	pt-waveviewer-selection.h	\
+	pt-waveviewer-waveform.c	\
+	pt-waveviewer-waveform.h
 
 parlatype_includedir= \
 	$(includedir)/parlatype
