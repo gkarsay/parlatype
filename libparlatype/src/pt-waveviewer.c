@@ -256,6 +256,10 @@ update_selection (PtWaveviewer *self)
 		return;
 	}
 
+	/* Don't select too much */
+	self->priv->dragstart = CLAMP (self->priv->dragstart, 0, self->priv->duration);
+	self->priv->dragend = CLAMP (self->priv->dragend, 0, self->priv->duration);
+
 	/* Sort start/end, check for changes (no changes on vertical movement), update selection */
 	if (self->priv->dragstart < self->priv->dragend) {
 		if (self->priv->sel_start != self->priv->dragstart || self->priv->sel_end != self->priv->dragend) {
