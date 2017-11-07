@@ -55,6 +55,8 @@ pt_waveviewer_cursor_draw (GtkWidget *widget,
 	cairo_fill (cr);
 
 	/* paint cursor */
+	if (self->priv->position == -1)
+		return FALSE;
 	cairo_set_source_surface (cr, self->priv->cursor,
 	                          self->priv->position - MARKER_BOX_W / 2, 0);
 	cairo_paint (cr);
@@ -197,8 +199,7 @@ pt_waveviewer_cursor_init (PtWaveviewerCursor *self)
 
 	self->priv->cursor = NULL;
 	self->priv->focus = FALSE;
-	/* hide cursor initially outside drawing area */
-	self->priv->position = MARKER_BOX_W * -1;
+	self->priv->position = -1;
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
 	gtk_style_context_add_class (context, "cursor");
