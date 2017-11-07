@@ -28,10 +28,15 @@ libparlatype_la_SOURCES =		\
 	pt-waveloader.c			\
 	pt-waveviewer.c			\
 	pt-waveviewer-cursor.c		\
+	pt-waveviewer-cursor.h		\
 	pt-waveviewer-focus.c		\
+	pt-waveviewer-focus.h		\
 	pt-waveviewer-ruler.c		\
+	pt-waveviewer-ruler.h		\
 	pt-waveviewer-selection.c	\
-	pt-waveviewer-waveform.c
+	pt-waveviewer-selection.h	\
+	pt-waveviewer-waveform.c	\
+	pt-waveviewer-waveform.h
 
 parlatype_includedir= \
 	$(includedir)/parlatype
