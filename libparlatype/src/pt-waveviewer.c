@@ -67,6 +67,7 @@ struct _PtWaveviewerPrivate {
 
 	/* Subwidgets */
 	GtkWidget  *waveform;
+	GtkWidget  *revealer;
 	GtkWidget  *ruler;
 	GtkWidget  *focus;
 	GtkWidget  *cursor;
@@ -923,11 +924,8 @@ pt_waveviewer_set_property (GObject      *object,
 		break;
 	case PROP_SHOW_RULER:
 		self->priv->show_ruler = g_value_get_boolean (value);
-		if (self->priv->show_ruler) {
-			gtk_widget_show (self->priv->ruler);
-		} else {
-			gtk_widget_hide (self->priv->ruler);
-		}
+		gtk_revealer_set_reveal_child (GTK_REVEALER (self->priv->revealer),
+					       self->priv->show_ruler);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -986,10 +984,14 @@ pt_waveviewer_init (PtWaveviewer *self)
 	self->priv->cursor = pt_waveviewer_cursor_new ();
 	self->priv->selection = pt_waveviewer_selection_new ();
 	self->priv->ruler = pt_waveviewer_ruler_new ();
+	self->priv->revealer = gtk_revealer_new ();
 
 	/* Setup scrolled window */
 	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	overlay = gtk_overlay_new ();
+	gtk_revealer_set_transition_type (GTK_REVEALER (self->priv->revealer),
+					  GTK_REVEALER_TRANSITION_TYPE_SLIDE_UP);
+	gtk_revealer_set_transition_duration (GTK_REVEALER (self->priv->revealer), 200);
 	gtk_container_add (GTK_CONTAINER (overlay), self->priv->waveform);
 	gtk_overlay_add_overlay (GTK_OVERLAY (overlay), self->priv->selection);
 	gtk_overlay_add_overlay (GTK_OVERLAY (overlay), self->priv->cursor);
@@ -1000,7 +1002,8 @@ pt_waveviewer_init (PtWaveviewer *self)
 			"expand", TRUE,
 			"fill", TRUE,
 			NULL);
-	gtk_container_add (GTK_CONTAINER (box), self->priv->ruler);
+	gtk_container_add (GTK_CONTAINER (self->priv->revealer), self->priv->ruler);
+	gtk_container_add (GTK_CONTAINER (box), self->priv->revealer);
 	gtk_container_add (GTK_CONTAINER (self), box);
 	gtk_scrolled_window_set_policy (
 			GTK_SCROLLED_WINDOW (self),
