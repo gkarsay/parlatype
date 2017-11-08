@@ -128,7 +128,7 @@ name_appeared_cb (GDBusConnection *connection,
 			G_BUS_TYPE_SESSION,
 			G_DBUS_PROXY_FLAGS_NONE,
 			NULL,
-			"org.gnome.SettingsDaemon",
+			"org.gnome.SettingsDaemon.MediaKeys",
 			"/org/gnome/SettingsDaemon/MediaKeys",
 			"org.gnome.SettingsDaemon.MediaKeys",
 			NULL,
@@ -181,7 +181,7 @@ setup_mediakeys (PtWindow *win)
 	win->priv->dbus_watch_id =
 		g_bus_watch_name (
 				G_BUS_TYPE_SESSION,
-				"org.gnome.SettingsDaemon",
+				"org.gnome.SettingsDaemon.MediaKeys",
 				G_BUS_NAME_WATCHER_FLAGS_NONE,
 				(GBusNameAppearedCallback) name_appeared_cb,
 				(GBusNameVanishedCallback) name_vanished_cb,
