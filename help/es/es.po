@@ -1,21 +1,21 @@
 # Spanish translation for parlatype
 # Copyright (c) 2017 Rosetta Contributors and Canonical Ltd 2017
 # This file is distributed under the same license as the parlatype package.
-# Adolfo Jayme <Unknown>, 2017.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: parlatype 1.5\n"
-"Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
-"POT-Creation-Date: 2017-04-18 20:55+0200\n"
-"PO-Revision-Date: 2017-06-28 21:09+0000\n"
+"Project-Id-Version: parlatype\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2017-07-20 16:20+0200\n"
+"PO-Revision-Date: 2017-08-11 00:23+0000\n"
 "Last-Translator: Adolfo Jayme <Unknown>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2017-06-29 09:41+0000\n"
-"X-Generator: Launchpad (build 18418)\n"
+"X-Launchpad-Export-Date: 2017-11-10 15:36+0000\n"
+"X-Generator: Launchpad (build 18498)\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -71,6 +71,8 @@ msgid ""
 "For a quick overview have a look at <link xref=\"first-steps\"/>. Other "
 "topics are covered below."
 msgstr ""
+"Para obtener un panorama general breve, consulte <link xref=\"first-"
+"steps\"/>. A continuación se tratan otros temas."
 
 #. (itstool) path: section/title
 #: C/index.page:27
@@ -154,6 +156,12 @@ msgid ""
 "<app>LibreOffice</app>, too. Launch <app>Parlatype</app> and open an audio "
 "file by clicking on the <gui>Open</gui> button in the upper left corner."
 msgstr ""
+"<app>Parlatype</app> es un reproductor de audio sencillo de usar que puede "
+"ayudarle a transcribir o añadir anotaciones a grabaciones de discursos. "
+"Necesitará asimismo ejecutar un procesador de textos, p. ej., "
+"<app>LibreOffice</app>. Inicie <app>Parlatype</app> y abra un archivo de "
+"audio mediante el botón <gui>Abrir</gui> que se sitúa en la esquina superior "
+"izquierda."
 
 #. (itstool) path: note/p
 #: C/first-steps.page:19
@@ -172,6 +180,11 @@ msgid ""
 "few seconds to make it easier to resume. This can be changed in the <link "
 "xref=\"preferences\"/>."
 msgstr ""
+"Ahora encontrará en la esquina superior izquierda el botón "
+"<gui>Reproducir</gui>, que intercambia entre las acciones de reproducir y "
+"pausar. Siempre que utilice la función de pausar, <app>Parlatype</app> "
+"retrocede unos segundos para facilitarle reanudar. Este comportamiento se "
+"puede modificar en las <link xref=\"preferences\"/>."
 
 #. (itstool) path: page/media
 #. This is a reference to an external file such as an image or video. When
@@ -184,6 +197,8 @@ msgid ""
 "external ref='figures/parlatype-main-window.png' "
 "md5='1e21a2ddc61fda06238b6b1537191cb3'"
 msgstr ""
+"external ref='figures/parlatype-main-window.png' "
+"md5='1e21a2ddc61fda06238b6b1537191cb3'"
 
 #. (itstool) path: page/p
 #: C/first-steps.page:26
@@ -229,12 +244,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/keyboard-shortcuts.page:6
 msgid "Standard keyboard shortcuts in Parlatype"
-msgstr ""
+msgstr "Atajos de teclado estándares de Parlatype"
 
 #. (itstool) path: page/title
 #: C/keyboard-shortcuts.page:14
 msgid "Keyboard shortcuts"
-msgstr ""
+msgstr "Atajos de teclado"
 
 #. (itstool) path: page/p
 #: C/keyboard-shortcuts.page:16
@@ -243,11 +258,15 @@ msgid ""
 "are described in <link xref=\"control\"/>. Shortcut keys for the window are "
 "listed below."
 msgstr ""
+"Los atajos de teclado de <app>Parlatype</app>, que permiten controlar "
+"acciones como <key>Reproducir</key>, se describen en <link "
+"xref=\"control\"/>. Los atajos de teclado para la ventana se enumeran a "
+"continuación."
 
 #. (itstool) path: table/title
 #: C/keyboard-shortcuts.page:19
 msgid "Standard Shortcut keys"
-msgstr ""
+msgstr "Atajos de teclado estándares"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:22
@@ -277,7 +296,7 @@ msgstr "Abrir un archivo"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:33
 msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>O</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:36
@@ -287,17 +306,17 @@ msgstr "Abrir archivos recientes"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:37
 msgid "<keyseq><key>Ctrl</key><key>r</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:40
 msgid "Go to …"
-msgstr ""
+msgstr "Ir a…"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:41
 msgid "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>G</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:44
@@ -307,7 +326,7 @@ msgstr "Copiar la marca cronológica"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:45
 msgid "<keyseq><key>Ctrl</key><key>c</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>C</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:48
@@ -317,7 +336,7 @@ msgstr "Insertar una marca cronológica"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:49
 msgid "<keyseq><key>Ctrl</key><key>v</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>V</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:52
@@ -327,7 +346,7 @@ msgstr "Ampliar"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:53
 msgid "<keyseq><key>Ctrl</key><key>+</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>+</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:56
@@ -337,7 +356,7 @@ msgstr "Reducir"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:57
 msgid "<keyseq><key>Ctrl</key><key>-</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>-</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:60
@@ -347,7 +366,7 @@ msgstr "Salir"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:61
 msgid "<keyseq><key>Ctrl</key><key>q</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>Q</key></keyseq>"
 
 #. (itstool) path: p/link
 #: C/legal.xml:5
@@ -377,6 +396,11 @@ msgid ""
 "players and they are working even if the media player is not in focus or in "
 "the background."
 msgstr ""
+"Las funciones básicas de <app>Parlatype</app> pueden controlarse con las "
+"denominadas <em>teclas multimedia</em>. Las teclas multimedia se emplean en "
+"todo el sistema para controlar los reproductores de multimedia y funcionan "
+"incluso si uno de esos reproductores no está enfocado o se halla "
+"ejecutándose en segundo plano."
 
 #. (itstool) path: page/p
 #: C/media-keys.page:18
@@ -384,6 +408,9 @@ msgid ""
 "You can change the media keys in GNOME settings. You can use dedicated keys "
 "from a multimedia keyboard or use any other key or combination of keys."
 msgstr ""
+"Es posible modificar las teclas multimedia en la configuración de GNOME. "
+"Puede emplear las teclas especializadas de un teclado multimedia, o bien, "
+"utilizar cualquier otra tecla o combinación de teclas."
 
 #. (itstool) path: note/p
 #: C/media-keys.page:21
@@ -391,6 +418,8 @@ msgid ""
 "This will affect other media players, e.g. <app>Totem</app> or "
 "<app>Rhythmbox</app>, as well."
 msgstr ""
+"Ello también afectará otros reproductores de multimedia, como "
+"<app>Totem</app> o <app>Rhythmbox</app>."
 
 #. (itstool) path: page/p
 #: C/media-keys.page:24
@@ -471,6 +500,8 @@ msgid ""
 "external ref='figures/parlatype-prefs-waveform.png' "
 "md5='e9d05960162dcdddab10378e21ce63da'"
 msgstr ""
+"external ref='figures/parlatype-prefs-waveform.png' "
+"md5='e9d05960162dcdddab10378e21ce63da'"
 
 #. (itstool) path: item/p
 #: C/preferences.page:24
@@ -508,6 +539,8 @@ msgid ""
 "external ref='figures/parlatype-prefs-controls.png' "
 "md5='0b50614222d881110b176c2e28b7d18c'"
 msgstr ""
+"external ref='figures/parlatype-prefs-controls.png' "
+"md5='0b50614222d881110b176c2e28b7d18c'"
 
 #. (itstool) path: item/p
 #: C/preferences.page:36
@@ -545,23 +578,38 @@ msgstr "Ventana"
 msgctxt "_"
 msgid ""
 "external ref='figures/parlatype-prefs-window.png' "
-"md5='615d876529cdd45763e78a3ee01b7b3e'"
+"md5='6affc475c74223fa48e7de25393fe7de'"
 msgstr ""
+"external ref='figures/parlatype-prefs-window.png' "
+"md5='6affc475c74223fa48e7de25393fe7de'"
 
 #. (itstool) path: item/p
 #: C/preferences.page:48
 msgid ""
-"Remember position: On start-up <app>Parlatype</app> can position its window "
-"where you had it when you closed <app>Parlatype</app> last time. This also "
-"remembers the window's size."
+"Remember size: On start-up <app>Parlatype</app> sets the window size to the "
+"size it had the last time."
 msgstr ""
 
 #. (itstool) path: item/p
 #: C/preferences.page:49
 msgid ""
+"Remember position: On start-up <app>Parlatype</app> can position its window "
+"where you had it when you closed <app>Parlatype</app> last time."
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/preferences.page:50
+msgid ""
 "Start on top: This will put <app>Parlatype</app> on start-up on top of other "
 "windows. This might be useful if you are working with a maximized word "
 "processor and still want to see the <app>Parlatype</app> window."
+msgstr ""
+
+#. (itstool) path: note/p
+#: C/preferences.page:54
+msgid ""
+"<gui>Remember position</gui> and <gui>Start on top</gui> are not available "
+"on Wayland."
 msgstr ""
 
 #. (itstool) path: info/desc
@@ -785,11 +833,13 @@ msgid ""
 "Inserts the current timestamp at the cursor's position. It does not "
 "overwrite any selection."
 msgstr ""
+"Inserta la marca cronológica actual en la posición del cursor. No se "
+"sobrescribe la selección, si la hubiese."
 
 #. (itstool) path: td/p
 #: C/libreoffice-helpers.page:56
 msgid "The same as above, but on a new line."
-msgstr ""
+msgstr "Idéntico a la función anterior, pero en un renglón nuevo."
 
 #. (itstool) path: td/p
 #: C/libreoffice-helpers.page:60
@@ -802,9 +852,9 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/libreoffice-helpers.page:64
 msgid "Increases playback speed."
-msgstr ""
+msgstr "Aumenta la velocidad de reproducción."
 
 #. (itstool) path: td/p
 #: C/libreoffice-helpers.page:68
 msgid "Decreases playback speed."
-msgstr ""
+msgstr "Disminuye la velocidad de reproducción."
