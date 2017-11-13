@@ -33,6 +33,7 @@ Parlatype ships its own library, libparlatype. Developers might be interested in
 
 * `--with-libreoffice`: install LibreOffice macros (default: yes)
 * `--enable-introspection`: install gobject introspection (default: yes)
+* `--enable-tests`: build unit tests (default: yes)
 * `--enable-gtk-doc`: install library documentation (default: no)
 * `--enable-glade-catalog`: install a glade catalog (default: no)
 * `--enable-code-coverage`: enable gcov/lcov code coverage (default: no)
