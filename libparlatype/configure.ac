@@ -73,6 +73,14 @@ AS_IF([ test "$glade_catalog" = "yes" ],
 	 AC_SUBST(GLADE_PIXMAP_DIR)
 	 AC_SUBST(GLADE_CATALOG_DIR)])
 
+AC_ARG_ENABLE([tests],
+	[AS_HELP_STRING([--enable-tests], [build tests [default=yes]])],
+	[tests=$enableval],
+	[tests=yes])
+
+AM_CONDITIONAL(WITH_TESTS, [test "$tests" = "yes"])
+
+
 GLIB_TESTS
 AX_VALGRIND_DFLT([memcheck], [on])
 AX_VALGRIND_CHECK
@@ -108,5 +116,6 @@ echo "
         enable-introspection: $enable_introspection
         enable-glade-catalog: ${glade_catalog}
         enable-gtk-doc .....: $enable_gtk_doc
+        enable-tests .......: ${tests}
         enable-code-coverage: $enable_code_coverage
 "

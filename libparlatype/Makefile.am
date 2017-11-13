@@ -1,4 +1,8 @@
-SUBDIRS = data po src docs tests # docs must be after src
+SUBDIRS = data po src docs # docs must be after src
+
+if WITH_TESTS
+SUBDIRS += tests
+endif
 
 ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
 
