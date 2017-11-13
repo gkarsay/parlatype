@@ -56,7 +56,7 @@ AM_CPPFLAGS =			\
 
 libparlatype_la_LDFLAGS =			\
 	-version-info $(PARLATYPE_SO_VERSION)	\
-	-export-symbols-regex '^pt_'		\
+	-export-symbols $(top_srcdir)/src/libparlatype.symbols \
 	-export-dynamic
 
 libparlatype_la_LIBADD =	\
@@ -117,4 +117,5 @@ endif
 
 EXTRA_DIST = 			\
 	$(resource_files)	\
-	$(resource_xml)
+	$(resource_xml)		\
+	libparlatype.symbols
