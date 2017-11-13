@@ -1,0 +1,130 @@
+Overview of Changes in Parlatype 1.5.2 – 2017-08-10
+===================================================
+
+* Fix #12: Waveform not displayed on KDE/Plasma desktop 
+* Fix #15: Pitch changes with GStreamer 1.2 
+* Fix #7: Don't show options that are not available on Wayland 
+* In GNOME help, showing the complete list of help documents, Parlatype's
+  icon is shown again. This was a regression introduced with version 1.5.1.
+* Changed icon for action menu to GNOME default icon
+* New: Added a symbolic icon, shown in GNOME shell (with GTK+ 3.16 or later)
+* New: Added a shortcut window (with GTK+ 3.20 or later)
+* New: Enabled D-Bus activation (no visible change for users)
+* Translation updates:
+ French
+ German
+ Japanese
+ Lithuanian
+
+
+Overview of Changes in Parlatype 1.5.1 – 2017-07-08
+===================================================
+
+* Fix #5: Waveform invisible when window focused (regression)
+* Fix: Several regressions that appeared in GTK+ 3.20 and 3.22
+* Fix #10: Fixed/improved volume control
+* Fix: Several memory leaks
+* Fix: Regression: didn't jump to cursor on opening file
+* Fix: Some artifacts in waveform rendering
+* Fix: Rendering waveform if widget changes size (no blank space)
+* New: Reacts immediately to theme changes
+* New: Shortcuts for zooming in and out
+* New: Space bar toggles play/pause if in keyboard focus
+* Changed application ID to com.github.gkarsay.parlatype
+  instead of org.gnome.parlatype
+* Translation updates:
+ Dutch
+ German
+ Spanish
+ Kurdish
+ Lithuanian
+ Malay
+ Portuguese
+ Serbian
+
+
+Overview of Changes in Parlatype 1.5 – 2017-03-14
+=================================================
+
+* New: Added a ruler to waveviewer (turn on/off in preferences)
+* New: Cursor fixed or moving (set in preferences)
+* New: Set resolution of waveviewer in preferences
+* New: Introducing selections in waveviewer (select with left mouse button,
+  enlarge with shift, unselect with Escape button)
+* New: At the end of selection, clicking on Play will repeat the selection
+* New: Waveviewer or cursor can be focused and moved (keyboard)
+* New: Waveviewer supports right-to-left languages
+* New: Use a menubar if preferred by desktop environment (e.g. Unitiy, Xfce)
+* New: "Follow-cursor" button jumps to cursor position
+* New: Time label can be drag'n'dropped
+* Updated help pages, screenshots and documentation
+* Translation updates:
+ British English
+ Catalan
+ French
+ German
+ Indonesian
+ Italian
+ Kabyle
+ Kurdish
+ Latvian
+ Malay
+ Portuguese 
+ Spanish
+
+
+Overview of Changes in Parlatype 1.4.1 – 2016-10-31
+===================================================
+
+* Fix: GObject Introspection uses annotation unknown on Ubuntu gi 1.42 vs 1.40
+* Fix: Icon display on Ubuntu systems
+
+
+Overview of Changes in Parlatype 1.4 – 2016-10-29
+=================================================
+
+* Rewritten waveform display, now based on GtkScrolledWindow
+* Window design changes
+* Split out library: libparlatype
+* Translation updates:
+ German
+
+
+Overview of Changes in Parlatype 1.3 – 2016-09-04
+=================================================
+
+* Fix: Don't rewind at end of stream like at pause
+* New: Display waveform. This feature is using code from Buzztrax.
+* New: Show progress while loading waveform
+* Translation updates:
+ German
+
+
+Overview of Changes in Parlatype 1.2 – 2016-08-13
+=================================================
+
+* Fix: Some media formats, e.g. ogg, could not be loaded
+* Fix: Goto dialog could be too small
+* Updated help pages
+* Translation updates:
+ German
+
+
+Overview of Changes in Parlatype 1.1 – 2016-07-29
+=================================================
+
+* New: Help system
+* New: Drag'n'Drop support
+* New: Goto dialog
+* New: LibreOffice macros (calling DBUS service)
+* New preferences/settings: Window always on top
+* New preferences/settings: Remember window position
+* New: Tooltips for main window elements
+* Translation updates:
+ German
+
+
+Overview of Changes in Parlatype 1.0 – 2016-01-18
+=================================================
+
+* This is the first release of Parlatype.
