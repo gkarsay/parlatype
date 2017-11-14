@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([parlatype], [1.5.2], [https://github.com/gkarsay/parlatype/issues], [parlatype], [https://gkarsay.github.io/parlatype/])
+AC_INIT([parlatype], [1.5.3], [https://github.com/gkarsay/parlatype/issues], [parlatype], [https://gkarsay.github.io/parlatype/])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign -Wno-portability])
 AC_CONFIG_SRCDIR([src/main.c])
 AC_CONFIG_HEADERS([config.h])

@@ -1,3 +1,18 @@
+Overview of Changes in Parlatype 1.5.3 – 2017-11-14
+===================================================
+
+* Fix #20: fix usage of media keys
+* Rewrite waveform display (using GtkOverlay) and improve performance
+* New: Show/hide ruler with animation
+* New: This NEWS file, compilated from release notes
+* libparlatype changes:
+ - Added tests, including code coverage
+* Translation updates:
+ Brazilian Portuguese
+ British English
+ Spanish
+
+
 Overview of Changes in Parlatype 1.5.2 – 2017-08-10
 ===================================================
 
