@@ -75,8 +75,6 @@ stamp-h1
 /help/??*/*.stamp
 /help/??*/legal.xml
 
-/libreoffice/Parlatype.py
-
 **/po/*.gmo
 **/po/.intltool-merge-cache
 **/po/boldquot.sed

@@ -58,7 +58,6 @@ AC_CONFIG_FILES([Makefile
 		 docs/Makefile
 		 help/Makefile
 		 libreoffice/Makefile
-		 libreoffice/Parlatype.py
 		 po/Makefile.in
                  src/Makefile])
 
