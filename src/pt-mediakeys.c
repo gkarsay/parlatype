@@ -121,21 +121,21 @@ name_appeared_cb (GDBusConnection *connection,
                   const gchar     *name_owner,
                   PtWindow        *win)
 {
-	g_debug ("Found org.gnome.SettingsDaemon");
+	g_debug ("Found %s", name);
 	GError *error = NULL;
 
 	win->priv->proxy = g_dbus_proxy_new_for_bus_sync (
 			G_BUS_TYPE_SESSION,
 			G_DBUS_PROXY_FLAGS_NONE,
 			NULL,
-			"org.gnome.SettingsDaemon.MediaKeys",
+			name,
 			"/org/gnome/SettingsDaemon/MediaKeys",
 			"org.gnome.SettingsDaemon.MediaKeys",
 			NULL,
 			&error);
 
 	if (error) {
-		g_warning ("Couldn't create proxy for org.gnome.SettingsDaemon: %s", error->message);
+		g_warning ("Couldn't create proxy for %s: %s", name, error->message);
 		g_error_free (error);
 		return;
 	}
@@ -158,16 +158,43 @@ name_appeared_cb (GDBusConnection *connection,
 }
 
 static void
-name_vanished_cb (GDBusConnection *connection,
-                  const gchar     *name,
-                  PtWindow        *win)
+clean_up (const gchar *name,
+	  PtWindow    *win)
 {
-	g_debug ("Couldn't find org.gnome.SettingsDaemon");
+	g_debug ("Couldn't find %s", name);
 	if (win->priv->proxy) {
 		g_object_unref (win->priv->proxy);
 		win->priv->proxy = NULL;
 	}
 	remove_bus_watch (win);
+}
+
+static void
+name2_vanished_cb (GDBusConnection *connection,
+                   const gchar     *name,
+                   PtWindow        *win)
+{
+	clean_up (name, win);
+	/* We are done, nothing found */
+}
+
+static void
+name1_vanished_cb (GDBusConnection *connection,
+                   const gchar     *name,
+                   PtWindow        *win)
+{
+	clean_up (name, win);
+
+	/* Now try org.gnome.SettingsDaemon ... */
+	win->priv->dbus_watch_id =
+		g_bus_watch_name (
+				G_BUS_TYPE_SESSION,
+				"org.gnome.SettingsDaemon",
+				G_BUS_NAME_WATCHER_FLAGS_NONE,
+				(GBusNameAppearedCallback) name_appeared_cb,
+				(GBusNameVanishedCallback) name2_vanished_cb,
+				win,
+				NULL);
 }
 
 void
@@ -184,7 +211,7 @@ setup_mediakeys (PtWindow *win)
 				"org.gnome.SettingsDaemon.MediaKeys",
 				G_BUS_NAME_WATCHER_FLAGS_NONE,
 				(GBusNameAppearedCallback) name_appeared_cb,
-				(GBusNameVanishedCallback) name_vanished_cb,
+				(GBusNameVanishedCallback) name1_vanished_cb,
 				win,
 				NULL);
 }
