@@ -18,7 +18,9 @@
 #include "config.h"
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
+#ifdef GDK_WINDOWING_X11
 #include <gdk/gdkx.h>
+#endif
 #include <libparlatype/src/pt-player.h>
 #include <libparlatype/src/pt-progress-dialog.h>
 #include <libparlatype/src/pt-waveviewer.h>

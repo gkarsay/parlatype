@@ -18,8 +18,12 @@
 #include "config.h"
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
+#ifdef GDK_WINDOWING_X11
 #include <gdk/gdkx.h>
+#endif
+#ifdef GDK_WINDOWING_WAYLAND
 #include <gdk/gdkwayland.h>
+#endif
 #include "pt-preferences.h"
 
 
