@@ -505,6 +505,32 @@ pt_waveviewer_button_press_event (GtkWidget      *widget,
 }
 
 static gboolean
+pt_waveviewer_scroll_event (GtkWidget      *widget,
+			    GdkEventScroll *event)
+{
+	PtWaveviewer *self = PT_WAVEVIEWER (widget);
+	gdouble step = gtk_adjustment_get_step_increment (self->priv->adj);
+	gdouble value = gtk_adjustment_get_value (self->priv->adj);
+
+	/* No modifier pressed: scrolling back and forth */
+	if (!(event->state & ALL_ACCELS_MASK)) {
+		if (event->delta_y < 0 || event->delta_x < 0) {
+			gtk_adjustment_set_value (self->priv->adj, value - step);
+			pt_waveviewer_set_follow_cursor (self, FALSE);
+			return TRUE;
+		}
+
+		if (event->delta_y > 0 || event->delta_x > 0) {
+			gtk_adjustment_set_value (self->priv->adj, value + step);
+			pt_waveviewer_set_follow_cursor (self, FALSE);
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
+static gboolean
 pt_waveviewer_motion_notify_event (GtkWidget      *widget,
 				   GdkEventMotion *event)
 {
@@ -1050,6 +1076,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 	widget_class->key_press_event      = pt_waveviewer_key_press_event;
 	widget_class->motion_notify_event  = pt_waveviewer_motion_notify_event;
 	widget_class->realize              = pt_waveviewer_realize;
+	widget_class->scroll_event         = pt_waveviewer_scroll_event;
 	widget_class->state_flags_changed  = pt_waveviewer_state_flags_changed;
 	widget_class->style_updated        = pt_waveviewer_style_updated;
 
