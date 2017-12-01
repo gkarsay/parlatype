@@ -508,9 +508,12 @@ static gboolean
 pt_waveviewer_scroll_event (GtkWidget      *widget,
 			    GdkEventScroll *event)
 {
-	gtk_propagate_event
-		(gtk_scrolled_window_get_hscrollbar (GTK_SCROLLED_WINDOW (widget)),
-		(GdkEvent*)event);
+	/* No modifier pressed: scrolling back and forth */
+	if (!(event->state & ALL_ACCELS_MASK)) {
+		gtk_propagate_event
+			(gtk_scrolled_window_get_hscrollbar (GTK_SCROLLED_WINDOW (widget)),
+			(GdkEvent*)event);
+	}
 
 	return FALSE;
 }
