@@ -324,16 +324,66 @@ change_play_button_tooltip (PtWindow *win)
 }
 
 static void
+update_insert_action_sensitivity_cb (GtkClipboard *clip,
+				     const gchar  *text,
+				     gpointer      data)
+{
+	PtWindow *win = PT_WINDOW (data);
+	PtPlayer *player = win->priv->player;
+	gchar    *timestamp;
+	gboolean  result = FALSE;
+	GAction  *action;
+
+	if (text) {
+		timestamp = g_strdup (text);
+		result = pt_player_string_is_timestamp (player, timestamp);
+		g_free (timestamp);
+	}
+
+	action = g_action_map_lookup_action (G_ACTION_MAP (win), "insert");
+	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), result);
+}
+
+static void
+update_insert_action_sensitivity (GtkClipboard *clip,
+				  GdkEvent     *event,
+				  gpointer      data)
+{
+	PtWindow  *win = PT_WINDOW (data);
+	GAction   *action;
+	GdkDisplay *display;
+
+	display = gtk_clipboard_get_display (clip);
+	if (!gdk_display_supports_selection_notification (display)) {
+		action = g_action_map_lookup_action (G_ACTION_MAP (win), "insert");
+		g_simple_action_set_enabled (G_SIMPLE_ACTION (action), TRUE);
+		return;
+	}
+
+	gtk_clipboard_request_text (
+			clip,
+			update_insert_action_sensitivity_cb,
+			PT_WINDOW (data));
+}
+
+static void
 enable_win_actions (PtWindow *win,
 		    gboolean  state)
 {
-	GAction   *action;
+	GAction      *action;
+	GtkClipboard *clip;
 
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "copy");
 	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
 
-	action = g_action_map_lookup_action (G_ACTION_MAP (win), "insert");
-	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
+	/* always disable on request, enable only conditionally */
+	if (!state) {
+		action = g_action_map_lookup_action (G_ACTION_MAP (win), "insert");
+		g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
+	} else {
+		clip = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+		update_insert_action_sensitivity (clip, NULL, win);
+	}
 
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "goto");
 	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
@@ -856,6 +906,7 @@ static void
 pt_window_init (PtWindow *win)
 {
 	win->priv = pt_window_get_instance_private (win);
+	GtkClipboard *clip;
 
 	gtk_widget_init_template (GTK_WIDGET (win));
 
@@ -881,6 +932,12 @@ pt_window_init (PtWindow *win)
 		gtk_scale_set_value_pos (GTK_SCALE (win->priv->speed_scale), GTK_POS_LEFT);
 
 	pt_window_ready_to_play (win, FALSE);
+
+	clip = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+	g_signal_connect (clip,
+			"owner-change",
+			G_CALLBACK (update_insert_action_sensitivity),
+			win);
 }
 
 static void
