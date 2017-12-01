@@ -505,6 +505,17 @@ pt_waveviewer_button_press_event (GtkWidget      *widget,
 }
 
 static gboolean
+pt_waveviewer_scroll_event (GtkWidget      *widget,
+			    GdkEventScroll *event)
+{
+	gtk_propagate_event
+		(gtk_scrolled_window_get_hscrollbar (GTK_SCROLLED_WINDOW (widget)),
+		(GdkEvent*)event);
+
+	return FALSE;
+}
+
+static gboolean
 pt_waveviewer_motion_notify_event (GtkWidget      *widget,
 				   GdkEventMotion *event)
 {
@@ -601,16 +612,36 @@ pt_waveviewer_realize (GtkWidget *widget)
 	update_cached_style_values (PT_WAVEVIEWER (widget));
 }
 
+static void
+stop_following_cursor (PtWaveviewer *self)
+{
+	if (self->priv->peaks)
+		pt_waveviewer_set_follow_cursor (self, FALSE);
+}
+
 static gboolean
-scrollbar_cb (GtkWidget      *widget,
-	      GdkEventButton *event,
-	      gpointer        data)
+scrollbar_button_press_event_cb (GtkWidget      *widget,
+				 GdkEventButton *event,
+				 gpointer        data)
 {
 	/* If user clicks on scrollbar don't follow cursor anymore.
 	   Otherwise it would scroll immediately back again. */
 
-	PtWaveviewer *self = PT_WAVEVIEWER (data);
-	pt_waveviewer_set_follow_cursor (self, FALSE);
+	stop_following_cursor (PT_WAVEVIEWER (data));
+
+	/* Propagate signal */
+	return FALSE;
+}
+
+static gboolean
+scrollbar_scroll_event_cb (GtkWidget      *widget,
+			   GdkEventButton *event,
+			   gpointer        data)
+{
+	/* If user scrolls on scrollbar don't follow cursor anymore.
+	   Otherwise it would scroll immediately back again. */
+
+	stop_following_cursor (PT_WAVEVIEWER (data));
 
 	/* Propagate signal */
 	return FALSE;
@@ -941,7 +972,11 @@ pt_waveviewer_constructed (GObject *object)
 	self->priv->adj = gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (self));
 	g_signal_connect (gtk_scrolled_window_get_hscrollbar (GTK_SCROLLED_WINDOW (self)),
 			  "button_press_event",
-			  G_CALLBACK (scrollbar_cb),
+			  G_CALLBACK (scrollbar_button_press_event_cb),
+			  self);
+	g_signal_connect (gtk_scrolled_window_get_hscrollbar (GTK_SCROLLED_WINDOW (self)),
+			  "scroll_event",
+			  G_CALLBACK (scrollbar_scroll_event_cb),
 			  self);
 }
 
@@ -1050,6 +1085,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 	widget_class->key_press_event      = pt_waveviewer_key_press_event;
 	widget_class->motion_notify_event  = pt_waveviewer_motion_notify_event;
 	widget_class->realize              = pt_waveviewer_realize;
+	widget_class->scroll_event         = pt_waveviewer_scroll_event;
 	widget_class->state_flags_changed  = pt_waveviewer_state_flags_changed;
 	widget_class->style_updated        = pt_waveviewer_style_updated;
 
