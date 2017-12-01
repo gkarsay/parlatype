@@ -508,24 +508,9 @@ static gboolean
 pt_waveviewer_scroll_event (GtkWidget      *widget,
 			    GdkEventScroll *event)
 {
-	PtWaveviewer *self = PT_WAVEVIEWER (widget);
-	gdouble step = gtk_adjustment_get_step_increment (self->priv->adj);
-	gdouble value = gtk_adjustment_get_value (self->priv->adj);
-
-	/* No modifier pressed: scrolling back and forth */
-	if (!(event->state & ALL_ACCELS_MASK)) {
-		if (event->delta_y < 0 || event->delta_x < 0) {
-			gtk_adjustment_set_value (self->priv->adj, value - step);
-			pt_waveviewer_set_follow_cursor (self, FALSE);
-			return TRUE;
-		}
-
-		if (event->delta_y > 0 || event->delta_x > 0) {
-			gtk_adjustment_set_value (self->priv->adj, value + step);
-			pt_waveviewer_set_follow_cursor (self, FALSE);
-			return TRUE;
-		}
-	}
+	gtk_propagate_event
+		(gtk_scrolled_window_get_hscrollbar (GTK_SCROLLED_WINDOW (widget)),
+		(GdkEvent*)event);
 
 	return FALSE;
 }
