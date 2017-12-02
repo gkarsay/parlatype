@@ -782,7 +782,7 @@ static void
 make_widget_ready (PtWaveviewer *self,
 		   gboolean      ready)
 {
-	gint widget_width;
+	gint widget_width, cursor_pos;
 
 	if (!ready) {
 		if (self->priv->peaks) {
@@ -793,8 +793,7 @@ make_widget_ready (PtWaveviewer *self,
 		self->priv->px_per_sec = 0;
 		self->priv->duration = 0;
 		widget_width = -1;
-		pt_waveviewer_cursor_render (
-				PT_WAVEVIEWER_CURSOR (self->priv->cursor), -1);
+		cursor_pos = -1;
 
 		/* Reset previous selections */
 		self->priv->sel_start = self->priv->sel_end = 0;
@@ -815,6 +814,7 @@ make_widget_ready (PtWaveviewer *self,
 		self->priv->duration = calculate_duration (self);
 		widget_width = self->priv->peaks_size / 2;
 		gtk_adjustment_set_upper (self->priv->adj, widget_width);
+		cursor_pos = time_to_pixel (self, self->priv->playback_cursor);
 	}
 
 	pt_waveviewer_ruler_set_ruler (
@@ -832,6 +832,10 @@ make_widget_ready (PtWaveviewer *self,
 			PT_WAVEVIEWER_WAVEFORM (self->priv->waveform),
 			self->priv->peaks,
 			self->priv->peaks_size);
+
+	pt_waveviewer_cursor_render (
+			PT_WAVEVIEWER_CURSOR (self->priv->cursor),
+			cursor_pos);
 }
 
 static gboolean
