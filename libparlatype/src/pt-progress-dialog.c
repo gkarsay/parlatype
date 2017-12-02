@@ -1,4 +1,4 @@
-/* Copyright (C) Gabor Karsay 2016 <gabor.karsay@gmx.at>
+/* Copyright (C) 2016, 2017 Gabor Karsay <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -16,6 +16,7 @@
 
 
 #include "config.h"
+#include <math.h>	/* ceil */
 #include <gtk/gtk.h>
 #define GETTEXT_PACKAGE PACKAGE
 #include <glib/gi18n-lib.h>
@@ -25,6 +26,7 @@
 struct _PtProgressDialogPrivate
 {
 	GtkWidget *progressbar;
+	GTimer    *timer;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PtProgressDialog, pt_progress_dialog, GTK_TYPE_MESSAGE_DIALOG)
@@ -89,6 +91,33 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtProgressDialog, pt_progress_dialog, GTK_TYPE_MESSA
  */
 
 
+static gchar*
+format_time_string (gint seconds)
+{
+	gchar *result;
+
+	if (seconds <= 60) {
+		result = g_strdup_printf (
+				ngettext ("Time remaining: 1 second",
+				          "Time remaining: %d seconds",
+				          seconds),
+				seconds);
+		return result;
+	}
+
+	if (seconds > 60) {
+		result = g_strdup_printf (
+				/* Translators: this is a time with minutes
+				   and seconds, e.g. Time remaining: 3:20 */
+				_("Time remaining: %d:%02d"),
+				seconds / 60, seconds % 60);
+		return result;
+	}
+
+	g_assert_not_reached ();
+}
+
+
 /**
  * pt_progress_dialog_set_progress:
  * @dlg: the dialog
@@ -103,7 +132,62 @@ pt_progress_dialog_set_progress (PtProgressDialog *dlg,
 	g_return_if_fail (PT_IS_PROGRESS_DIALOG (dlg));
 	g_return_if_fail (progress >= 0 && progress <= 1);
 
-	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (dlg->priv->progressbar), progress);
+	gdouble  elapsed;	/* seconds */
+	gint     remaining;	/* seconds */
+	gchar   *message;
+
+	elapsed = g_timer_elapsed (dlg->priv->timer, NULL);
+	remaining = ceil ((elapsed / progress) * (100 - (progress * 100)) / 100);
+	message = format_time_string (remaining);
+
+	gtk_progress_bar_set_fraction (
+			GTK_PROGRESS_BAR (dlg->priv->progressbar),
+			progress);
+	gtk_progress_bar_set_text (
+			GTK_PROGRESS_BAR (dlg->priv->progressbar),
+			message);
+
+	g_free (message);
+}
+
+static void
+pt_progress_dialog_realize (GtkWidget *widget)
+{
+	GTK_WIDGET_CLASS (pt_progress_dialog_parent_class)->realize (widget);
+
+	/* Give the dialog a fixed width, so that the size doesn't change
+	   when the count jumps from 10 to 9. Probably it isn't exact
+	   because depending on plural forms of the current locale the widest
+	   string might be another one. */
+
+	PtProgressDialog *dlg = PT_PROGRESS_DIALOG (widget);
+	gchar *test_message;
+	GtkRequisition natural_size;
+
+	test_message = format_time_string (60);
+	gtk_progress_bar_set_text (
+			GTK_PROGRESS_BAR (dlg->priv->progressbar),
+			test_message);
+	gtk_widget_get_preferred_size (
+			GTK_WIDGET (dlg),
+			NULL,
+			&natural_size);
+	gtk_widget_set_size_request (
+			GTK_WIDGET (dlg),
+			natural_size.width + 10, /* +10px safety padding */
+			-1);
+	g_free (test_message);
+}
+
+static void
+pt_progress_dialog_dispose (GObject *object)
+{
+	PtProgressDialog *dlg = PT_PROGRESS_DIALOG (object);
+	if (dlg->priv->timer) {
+		g_timer_destroy (dlg->priv->timer);
+		dlg->priv->timer = NULL;
+	}
+	G_OBJECT_CLASS (pt_progress_dialog_parent_class)->dispose (object);
 }
 
 static void
@@ -112,7 +196,12 @@ pt_progress_dialog_init (PtProgressDialog *dlg)
 	dlg->priv = pt_progress_dialog_get_instance_private (dlg);
 
 	GtkWidget *content;
+
+	dlg->priv->timer = g_timer_new ();
 	dlg->priv->progressbar = gtk_progress_bar_new ();
+	gtk_progress_bar_set_show_text (
+			GTK_PROGRESS_BAR (dlg->priv->progressbar),
+			TRUE);
 	content = gtk_message_dialog_get_message_area (GTK_MESSAGE_DIALOG (dlg));
 	gtk_container_add (GTK_CONTAINER (content), dlg->priv->progressbar);
 }
@@ -120,7 +209,11 @@ pt_progress_dialog_init (PtProgressDialog *dlg)
 static void
 pt_progress_dialog_class_init (PtProgressDialogClass *klass)
 {
-	/* We don't do anything here */
+	GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
+	GtkWidgetClass *widget_class  = GTK_WIDGET_CLASS (klass);
+
+	gobject_class->dispose = pt_progress_dialog_dispose;
+	widget_class->realize  = pt_progress_dialog_realize;
 }
 
 /**
