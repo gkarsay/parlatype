@@ -573,7 +573,7 @@ pt_waveviewer_button_release_event (GtkWidget      *widget,
 static void
 update_cached_style_values (PtWaveviewer *self)
 {
-	/* Colors and direction are cached */
+	/* Only direction is cached */
 
 	GtkStyleContext *context;
 	GtkStateFlags    state;
@@ -606,6 +606,30 @@ pt_waveviewer_style_updated (GtkWidget *widget)
 	PtWaveviewer *self = PT_WAVEVIEWER (widget);
 	GTK_WIDGET_CLASS (pt_waveviewer_parent_class)->style_updated (widget);
 	update_cached_style_values (self);
+}
+
+static void
+pt_waveviewer_direction_changed (GtkWidget *widget,
+				 GtkTextDirection direction)
+{
+	PtWaveviewer *self = PT_WAVEVIEWER (widget);
+	gint widget_width, first_visible, page_width;
+
+	/* This is called after state-flags-changed signal.
+	   The waveform handles repainting itself, here we have to flip
+	   the GtkAdjustment and recalculate the cursor's position */
+	widget_width = gtk_widget_get_allocated_width (self->priv->waveform);
+	first_visible = (gint) gtk_adjustment_get_value (self->priv->adj);
+	page_width = (gint) gtk_adjustment_get_page_size (self->priv->adj);
+	gtk_adjustment_set_value (
+			self->priv->adj,
+			widget_width - first_visible - page_width);
+
+	pt_waveviewer_cursor_render (
+			PT_WAVEVIEWER_CURSOR (self->priv->cursor),
+			time_to_pixel (self, self->priv->playback_cursor));
+
+	GTK_WIDGET_CLASS (pt_waveviewer_parent_class)->direction_changed (widget, direction);
 }
 
 static void
@@ -1089,6 +1113,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 
 	widget_class->button_press_event   = pt_waveviewer_button_press_event;
 	widget_class->button_release_event = pt_waveviewer_button_release_event;
+	widget_class->direction_changed    = pt_waveviewer_direction_changed;
 	widget_class->key_press_event      = pt_waveviewer_key_press_event;
 	widget_class->motion_notify_event  = pt_waveviewer_motion_notify_event;
 	widget_class->realize              = pt_waveviewer_realize;
