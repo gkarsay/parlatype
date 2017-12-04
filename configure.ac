@@ -49,8 +49,12 @@ AC_ARG_WITH([libreoffice],
 
 AM_CONDITIONAL([LIBREOFFICE], [test "$with_libreoffice" = "yes"])
 
-# needed?
+# gtk-doc only needed with --enable-gtk-doc
+m4_ifdef([GTK_DOC_CHECK], [
 GTK_DOC_CHECK([1.14],[--flavour no-tmpl])
+],[
+AM_CONDITIONAL([ENABLE_GTK_DOC], false)
+])
 
 AC_CONFIG_FILES([Makefile
                  data/Makefile
