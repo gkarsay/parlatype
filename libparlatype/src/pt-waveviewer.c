@@ -53,6 +53,7 @@ struct _PtWaveviewerPrivate {
 	gboolean  fixed_cursor;
 	gboolean  show_ruler;
 	gboolean  has_selection;
+	gboolean  zoom;
 
 	/* Selections, in milliseconds */
 	gint64    sel_start;
@@ -84,6 +85,7 @@ enum
 	PROP_HAS_SELECTION,
 	PROP_SELECTION_START,
 	PROP_SELECTION_END,
+	PROP_ZOOM,
 	N_PROPERTIES
 };
 
@@ -988,6 +990,9 @@ pt_waveviewer_set_property (GObject      *object,
 		gtk_revealer_set_reveal_child (GTK_REVEALER (self->priv->revealer),
 					       self->priv->show_ruler);
 		break;
+	case PROP_ZOOM:
+		self->priv->zoom = g_value_get_boolean (value);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -1286,6 +1291,24 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 			G_MAXINT64,
 			0,
 			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+
+	/**
+	* PtWaveviewer:zoom:
+	*
+	* Set this to TRUE to indicate that the next wave data will be the same
+	* waveform but at a different zoom level. PtWaveviewer needs this to
+	* decide which part of the waveform should be shown.
+	* – Note: This will be probably removed with the next API break in
+	* version 1.6 and integrated into pt_waveviewer_set_wave().
+	*/
+
+	obj_properties[PROP_ZOOM] =
+	g_param_spec_boolean (
+			"zoom",
+			"Zoom",
+			"Indicates that next wave data will zoom",
+			FALSE,
+			G_PARAM_WRITABLE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
 	g_object_class_install_properties (
 			gobject_class,
