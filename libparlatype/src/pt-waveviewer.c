@@ -96,6 +96,8 @@ enum {
 	CURSOR_CHANGED,
 	SELECTION_CHANGED,
 	PLAY_TOGGLED,
+	ZOOM_IN,
+	ZOOM_OUT,
 	LAST_SIGNAL
 };
 
@@ -513,11 +515,27 @@ static gboolean
 pt_waveviewer_scroll_event (GtkWidget      *widget,
 			    GdkEventScroll *event)
 {
+	PtWaveviewer *self = PT_WAVEVIEWER (widget);
+
 	/* No modifier pressed: scrolling back and forth */
 	if (!(event->state & ALL_ACCELS_MASK)) {
 		gtk_propagate_event
 			(gtk_scrolled_window_get_hscrollbar (GTK_SCROLLED_WINDOW (widget)),
 			(GdkEvent*)event);
+		return TRUE;
+	}
+
+	/* Only Control pressed: zoom in or out */
+	if ((event->state & ALL_ACCELS_MASK) == GDK_CONTROL_MASK) {
+		if (event->delta_y < 0 || event->delta_x < 0) {
+			g_signal_emit_by_name (self, "zoom-out");
+			return TRUE;
+		}
+		if (event->delta_y > 0 || event->delta_x > 0) {
+			g_signal_emit_by_name (self, "zoom-in");
+			return TRUE;
+		}
+
 	}
 
 	return FALSE;
@@ -1239,6 +1257,40 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 	*/
 	signals[PLAY_TOGGLED] =
 	g_signal_new ("play-toggled",
+		      PT_TYPE_WAVEVIEWER,
+		      G_SIGNAL_RUN_FIRST,
+		      0,
+		      NULL,
+		      NULL,
+		      g_cclosure_marshal_VOID__VOID,
+		      G_TYPE_NONE,
+		      0);
+
+	/**
+	* PtWaveviewer::zoom-in:
+	* @viewer: the waveviewer emitting the signal
+	*
+	* Signals that the user requested to zoom into the waveform.
+	*/
+	signals[ZOOM_IN] =
+	g_signal_new ("zoom-in",
+		      PT_TYPE_WAVEVIEWER,
+		      G_SIGNAL_RUN_FIRST,
+		      0,
+		      NULL,
+		      NULL,
+		      g_cclosure_marshal_VOID__VOID,
+		      G_TYPE_NONE,
+		      0);
+
+	/**
+	* PtWaveviewer::zoom-out:
+	* @viewer: the waveviewer emitting the signal
+	*
+	* Signals that the user requested to zoom out of the waveform.
+	*/
+	signals[ZOOM_OUT] =
+	g_signal_new ("zoom-out",
 		      PT_TYPE_WAVEVIEWER,
 		      G_SIGNAL_RUN_FIRST,
 		      0,

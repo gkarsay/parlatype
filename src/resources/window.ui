@@ -52,6 +52,8 @@
                 <signal name="cursor-changed" handler="cursor_changed_cb" swapped="no"/>
                 <signal name="play-toggled" handler="play_toggled_cb" swapped="no"/>
                 <signal name="selection-changed" handler="selection_changed_cb" swapped="no"/>
+                <signal name="zoom-in" handler="zoom_in_cb" swapped="no"/>
+                <signal name="zoom-out" handler="zoom_out_cb" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>

@@ -245,6 +245,26 @@ play_toggled_cb (GtkWidget *widget,
 		!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->priv->button_play)));
 }
 
+void
+zoom_in_cb (GtkWidget *widget,
+	    PtWindow  *win)
+{
+	GAction  *action;
+
+	action = g_action_map_lookup_action (G_ACTION_MAP (win), "zoom-in");
+	g_action_activate (action, NULL);
+}
+
+void
+zoom_out_cb (GtkWidget *widget,
+	     PtWindow  *win)
+{
+	GAction  *action;
+
+	action = g_action_map_lookup_action (G_ACTION_MAP (win), "zoom-out");
+	g_action_activate (action, NULL);
+}
+
 static void
 add_timer (PtWindow *win)
 {
