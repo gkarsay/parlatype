@@ -716,6 +716,7 @@ settings_changed_cb (GSettings *settings,
 		if (uri) {
 			win->priv->wavedata = pt_player_get_data (win->priv->player,
 								  g_settings_get_int (win->priv->editor, "pps"));
+			g_object_set (win->priv->waveviewer, "zoom", TRUE, NULL);
 			pt_waveviewer_set_wave (PT_WAVEVIEWER (win->priv->waveviewer),
 						win->priv->wavedata);
 			pt_wavedata_free (win->priv->wavedata);

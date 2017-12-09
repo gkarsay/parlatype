@@ -55,6 +55,9 @@ struct _PtWaveviewerPrivate {
 	gboolean  has_selection;
 	gboolean  zoom;
 
+	gint64    zoom_time;
+	gint      zoom_pos;
+
 	/* Selections, in milliseconds */
 	gint64    sel_start;
 	gint64    sel_end;
@@ -804,23 +807,67 @@ pt_waveviewer_set_follow_cursor (PtWaveviewer *self,
 	}
 }
 
+static gboolean
+cursor_is_visible (PtWaveviewer *self)
+{
+	gint cursor_pos, left, right;
+
+	cursor_pos = time_to_pixel (self, self->priv->playback_cursor);
+	left = (gint) gtk_adjustment_get_value (self->priv->adj);
+	right = left + (gint) gtk_adjustment_get_page_size (self->priv->adj);
+
+	return (left <= cursor_pos && cursor_pos <= right);
+}
+
+static void
+size_allocate_cb (GtkWidget    *widget,
+                  GdkRectangle *allocation,
+                  gpointer      user_data)
+{
+	PtWaveviewer *self = PT_WAVEVIEWER (user_data);
+
+	if (self->priv->zoom) {
+		gtk_adjustment_set_value (
+				self->priv->adj,
+				time_to_pixel (self, self->priv->zoom_time) - self->priv->zoom_pos);
+		self->priv->zoom = FALSE;
+	}
+
+	if (self->priv->peaks) {
+		pt_waveviewer_cursor_render (
+				PT_WAVEVIEWER_CURSOR (self->priv->cursor),
+				time_to_pixel (self, self->priv->playback_cursor));
+	}
+
+	pt_waveviewer_selection_set (
+			PT_WAVEVIEWER_SELECTION (self->priv->selection),
+			time_to_pixel (self, self->priv->sel_start),
+			time_to_pixel (self, self->priv->sel_end));
+}
+
 static void
 make_widget_ready (PtWaveviewer *self,
 		   gboolean      ready)
 {
-	gint widget_width, cursor_pos;
+	gint widget_width, left;
 
-	if (!ready) {
-		if (self->priv->peaks) {
-			g_free (self->priv->peaks);
-			self->priv->peaks = NULL;
+	if (!ready && self->priv->zoom) {
+		/* If this is a zoom, we still have the old waveform.
+		   Get an anchor point = zoom_pos, either cursor position or
+		   middle of view. The anchor point is relative to the view.
+		   Get time of that anchor point = zoom_time. */
+
+		left = (gint) gtk_adjustment_get_value (self->priv->adj);
+		if (cursor_is_visible (self)) {
+			self->priv->zoom_time = self->priv->playback_cursor;
+			self->priv->zoom_pos = time_to_pixel (self, self->priv->playback_cursor) - left;
+		} else {
+			self->priv->zoom_pos = (gint) gtk_adjustment_get_page_size (self->priv->adj) / 2;
+			self->priv->zoom_time = pixel_to_time (self, self->priv->zoom_pos + left);
 		}
-		self->priv->peaks_size = 0;
-		self->priv->px_per_sec = 0;
-		self->priv->duration = 0;
-		widget_width = -1;
-		cursor_pos = -1;
+	}
 
+	if (!ready && !self->priv->zoom) {
 		/* Reset previous selections */
 		self->priv->sel_start = self->priv->sel_end = 0;
 		self->priv->has_selection = FALSE;
@@ -833,15 +880,36 @@ make_widget_ready (PtWaveviewer *self,
 		g_object_notify_by_pspec (
 				G_OBJECT (self),
 				obj_properties[PROP_HAS_SELECTION]);
+	}
+
+	if (!ready) {
+		if (self->priv->peaks) {
+			g_free (self->priv->peaks);
+			self->priv->peaks = NULL;
+		}
+		self->priv->peaks_size = 0;
+		self->priv->px_per_sec = 0;
+		self->priv->duration = 0;
 		pt_waveviewer_selection_set (
 				PT_WAVEVIEWER_SELECTION (self->priv->selection),
 				0, 0);
+		pt_waveviewer_cursor_render (
+				PT_WAVEVIEWER_CURSOR (self->priv->cursor),
+				-1);
 	} else {
 		self->priv->duration = calculate_duration (self);
 		widget_width = self->priv->peaks_size / 2;
 		gtk_adjustment_set_upper (self->priv->adj, widget_width);
-		cursor_pos = time_to_pixel (self, self->priv->playback_cursor);
+		gtk_widget_set_size_request (
+				self->priv->waveform,
+				widget_width,
+				WAVE_MIN_HEIGHT);
 	}
+
+	pt_waveviewer_waveform_set (
+			PT_WAVEVIEWER_WAVEFORM (self->priv->waveform),
+			self->priv->peaks,
+			self->priv->peaks_size);
 
 	pt_waveviewer_ruler_set_ruler (
 			PT_WAVEVIEWER_RULER (self->priv->ruler),
@@ -849,19 +917,11 @@ make_widget_ready (PtWaveviewer *self,
 			self->priv->px_per_sec,
 			self->priv->duration);
 
-	gtk_widget_set_size_request (
-			self->priv->waveform,
-			widget_width,
-			WAVE_MIN_HEIGHT);
-
-	pt_waveviewer_waveform_set (
-			PT_WAVEVIEWER_WAVEFORM (self->priv->waveform),
-			self->priv->peaks,
-			self->priv->peaks_size);
-
-	pt_waveviewer_cursor_render (
-			PT_WAVEVIEWER_CURSOR (self->priv->cursor),
-			cursor_pos);
+	/* Here we would render the cursor and change the GtkAdjustment so that
+	   we show the intended part of the waveform after zooming.
+	   However, there were some issues because the waveform didn't
+	   allocate the new size in time. This is now done in the callback
+	   above, size_allocate_cb(). */
 }
 
 static gboolean
@@ -1048,6 +1108,8 @@ pt_waveviewer_init (PtWaveviewer *self)
 	self->priv->focus_on_cursor = FALSE;
 	self->priv->sel_start = 0;
 	self->priv->sel_end = 0;
+	self->priv->zoom_time = 0;
+	self->priv->zoom_pos = 0;
 	self->priv->arrows = get_resize_cursor ();
 	self->priv->waveform = pt_waveviewer_waveform_new ();
 	self->priv->focus = pt_waveviewer_focus_new ();
@@ -1097,6 +1159,12 @@ pt_waveviewer_init (PtWaveviewer *self)
 
 	g_object_unref (css_file);
 	g_object_unref (provider);
+
+	g_signal_connect (
+			GTK_WIDGET (self->priv->waveform),
+			"size-allocate",
+			G_CALLBACK (size_allocate_cb),
+			self);
 
 	/* If overriding these vfuncs something's going wrong, note that focus-in
 	   an focus-out need GdkEventFocus as 2nd parameter in vfunc */
