@@ -121,6 +121,13 @@ pt_waveviewer_selection_set (PtWaveviewerSelection *self,
 {
 	gint x1, x2, height;
 
+	/* Make sure start < end, important for rtl layouts */
+	if (start > end) {
+		x1 = start;
+		start = end;
+		end = x1;
+	}
+
 	/* Case: no change */
 	if (self->priv->start == start && self->priv->end == end)
 		return;
