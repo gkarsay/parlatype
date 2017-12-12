@@ -370,20 +370,22 @@ update_insert_action_sensitivity (GtkClipboard *clip,
 				  gpointer      data)
 {
 	PtWindow  *win = PT_WINDOW (data);
-	GAction   *action;
-	GdkDisplay *display;
 
+#ifdef GDK_WINDOWING_X11
+	GAction    *action;
+	GdkDisplay *display;
 	display = gtk_clipboard_get_display (clip);
-	if (!gdk_display_supports_selection_notification (display)) {
+	if (GDK_IS_X11_DISPLAY (display) && !gdk_display_supports_selection_notification (display)) {
 		action = g_action_map_lookup_action (G_ACTION_MAP (win), "insert");
 		g_simple_action_set_enabled (G_SIMPLE_ACTION (action), TRUE);
 		return;
 	}
+#endif
 
 	gtk_clipboard_request_text (
 			clip,
 			update_insert_action_sensitivity_cb,
-			PT_WINDOW (data));
+			win);
 }
 
 static void
