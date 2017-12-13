@@ -883,12 +883,37 @@ setup_accels_actions_headerbar (PtWindow *win)
 	accels = gtk_accel_group_new ();
 	gtk_window_add_accel_group (GTK_WINDOW (win), accels);
 	
-	gtk_widget_add_accelerator (menu_button,
-				"clicked",
-				accels,
-				GDK_KEY_F10,
-				0,
-				GTK_ACCEL_VISIBLE);
+	gtk_widget_add_accelerator (
+			menu_button,
+			"clicked",
+			accels,
+			GDK_KEY_F10,
+			0,
+			GTK_ACCEL_VISIBLE);
+
+	gtk_widget_add_accelerator (
+			win->priv->button_jump_back,
+			"clicked",
+			accels,
+			GDK_KEY_Left,
+			GDK_CONTROL_MASK,
+			GTK_ACCEL_VISIBLE);
+
+	gtk_widget_add_accelerator (
+			win->priv->button_jump_forward,
+			"clicked",
+			accels,
+			GDK_KEY_Right,
+			GDK_CONTROL_MASK,
+			GTK_ACCEL_VISIBLE);
+
+	gtk_widget_add_accelerator (
+			win->priv->button_play,
+			"clicked",
+			accels,
+			GDK_KEY_space,
+			GDK_CONTROL_MASK,
+			GTK_ACCEL_VISIBLE);
 }
 
 static void
