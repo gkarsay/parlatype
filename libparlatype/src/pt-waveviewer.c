@@ -648,9 +648,10 @@ pt_waveviewer_direction_changed (GtkWidget *widget,
 			self->priv->adj,
 			widget_width - first_visible - page_width);
 
-	pt_waveviewer_cursor_render (
-			PT_WAVEVIEWER_CURSOR (self->priv->cursor),
-			time_to_pixel (self, self->priv->playback_cursor));
+	if (self->priv->peaks)
+		pt_waveviewer_cursor_render (
+				PT_WAVEVIEWER_CURSOR (self->priv->cursor),
+				time_to_pixel (self, self->priv->playback_cursor));
 
 	GTK_WIDGET_CLASS (pt_waveviewer_parent_class)->direction_changed (widget, direction);
 }
