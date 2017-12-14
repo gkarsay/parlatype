@@ -711,6 +711,63 @@ speed_scale_direction_changed_cb (GtkWidget        *widget,
 		gtk_scale_set_value_pos (GTK_SCALE (widget), GTK_POS_RIGHT);
 }
 
+static void
+swap_accelerators (GtkWidget     *widget,
+		   GtkAccelGroup *accels,
+		   guint          old,
+		   guint          new)
+{
+	gtk_widget_remove_accelerator (
+			widget,
+			accels,
+			old,
+			GDK_CONTROL_MASK);
+	gtk_widget_add_accelerator (
+			widget,
+			"clicked",
+			accels,
+			new,
+			GDK_CONTROL_MASK,
+			GTK_ACCEL_VISIBLE);
+}
+
+void
+jump_back_direction_changed_cb (GtkWidget        *widget,
+                                GtkTextDirection  previous_direction,
+                                gpointer          data)
+{
+	PtWindow *self = PT_WINDOW (data);
+	guint old, new;
+
+	if (previous_direction == GTK_TEXT_DIR_LTR) {
+		old = GDK_KEY_Left;
+		new = GDK_KEY_Right;
+	} else {
+		old = GDK_KEY_Right;
+		new = GDK_KEY_Left;
+	}
+
+	swap_accelerators (widget, self->priv->accels, old, new);
+}
+
+void
+jump_forward_direction_changed_cb (GtkWidget        *widget,
+                                   GtkTextDirection  previous_direction,
+                                   gpointer          data)
+{
+	PtWindow *self = PT_WINDOW (data);
+	guint old, new;
+
+	if (previous_direction == GTK_TEXT_DIR_LTR) {
+		old = GDK_KEY_Right;
+		new = GDK_KEY_Left;
+	} else {
+		old = GDK_KEY_Left;
+		new = GDK_KEY_Right;
+	}
+
+	swap_accelerators (widget, self->priv->accels, old, new);
+}
 
 static void
 settings_changed_cb (GSettings *settings,
@@ -879,38 +936,46 @@ setup_accels_actions_headerbar (PtWindow *win)
 	g_object_unref (builder);
 
 	/* Accels */
-	GtkAccelGroup *accels;
-	accels = gtk_accel_group_new ();
-	gtk_window_add_accel_group (GTK_WINDOW (win), accels);
+	win->priv->accels = gtk_accel_group_new ();
+	gtk_window_add_accel_group (GTK_WINDOW (win), win->priv->accels);
 	
 	gtk_widget_add_accelerator (
 			menu_button,
 			"clicked",
-			accels,
+			win->priv->accels,
 			GDK_KEY_F10,
 			0,
 			GTK_ACCEL_VISIBLE);
 
+	guint jump_back, jump_forward;
+	if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_LTR) {
+		jump_back = GDK_KEY_Left;
+		jump_forward = GDK_KEY_Right;
+	} else {
+		jump_back = GDK_KEY_Right;
+		jump_forward = GDK_KEY_Left;
+	}
+
 	gtk_widget_add_accelerator (
 			win->priv->button_jump_back,
 			"clicked",
-			accels,
-			GDK_KEY_Left,
+			win->priv->accels,
+			jump_back,
 			GDK_CONTROL_MASK,
 			GTK_ACCEL_VISIBLE);
 
 	gtk_widget_add_accelerator (
 			win->priv->button_jump_forward,
 			"clicked",
-			accels,
-			GDK_KEY_Right,
+			win->priv->accels,
+			jump_forward,
 			GDK_CONTROL_MASK,
 			GTK_ACCEL_VISIBLE);
 
 	gtk_widget_add_accelerator (
 			win->priv->button_play,
 			"clicked",
-			accels,
+			win->priv->accels,
 			GDK_KEY_space,
 			GDK_CONTROL_MASK,
 			GTK_ACCEL_VISIBLE);
