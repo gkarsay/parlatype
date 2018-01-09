@@ -37,8 +37,20 @@
           <td><p><keyseq><key>Ctrl</key><key>r</key></keyseq></p></td>
         </tr>
         <tr>
+          <td><p>Play/Pause</p></td>
+          <td><p><keyseq><key>Ctrl</key><key>Space</key></keyseq></p></td>
+        </tr>
+        <tr>
           <td><p>Go to …</p></td>
           <td><p><keyseq><key>Ctrl</key><key>g</key></keyseq></p></td>
+        </tr>
+        <tr>
+          <td><p>Jump back</p></td>
+          <td><p><keyseq><key>Ctrl</key><key>Left</key></keyseq></p></td>
+        </tr>
+        <tr>
+          <td><p>Jump forward</p></td>
+          <td><p><keyseq><key>Ctrl</key><key>Right</key></keyseq></p></td>
         </tr>
         <tr>
           <td><p>Copy timestamp</p></td>
