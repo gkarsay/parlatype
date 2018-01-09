@@ -98,9 +98,10 @@ format_time_string (gint seconds)
 
 	if (seconds <= 60) {
 		result = g_strdup_printf (
-				ngettext ("Time remaining: 1 second",
-				          "Time remaining: %d seconds",
-				          seconds),
+				g_dngettext (GETTEXT_PACKAGE,
+				             "Time remaining: 1 second",
+				             "Time remaining: %d seconds",
+				             seconds),
 				seconds);
 		return result;
 	}
