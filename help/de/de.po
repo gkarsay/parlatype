@@ -1,14 +1,14 @@
 # German translations for parlatype help.
 # Copyright (C) 2016 Gabor Karsay
 # This file is distributed under the same license as the parlatype package.
-# Gabor Karsay <gabor.karsay@gxm.at>, 2016, 2017.
+# Gabor Karsay <gabor.karsay@gxm.at>, 2016, 2017, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
-"POT-Creation-Date: 2017-07-20 16:20+0200\n"
-"PO-Revision-Date: 2017-07-20 16:24+0200\n"
+"POT-Creation-Date: 2018-01-09 19:20+0100\n"
+"PO-Revision-Date: 2018-01-09 19:21+0100\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
 "Language-Team: Deutsch <>\n"
 "Language: de\n"
@@ -186,7 +186,7 @@ msgstr ""
 msgctxt "_"
 msgid ""
 "external ref='figures/parlatype-main-window.png' "
-"md5='1e21a2ddc61fda06238b6b1537191cb3'"
+"md5='c57ce9c636f96646e8ba668d290fb352'"
 msgstr ""
 "external ref='figures/parlatype-main-window.png' "
 "md5='4d4c5bc3942ce7586ce797ef650ca28b'"
@@ -320,61 +320,91 @@ msgstr "<keyseq><key>Strg</key><key>r</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:40
+msgid "Play/Pause"
+msgstr "Wiedergabe/Pause"
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:41
+msgid "<keyseq><key>Ctrl</key><key>Space</key></keyseq>"
+msgstr "<keyseq><key>Strg</key><key>Leertaste</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:44
 msgid "Go to …"
 msgstr "Gehe zu …"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:41
+#: C/keyboard-shortcuts.page:45
 msgid "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>g</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:44
+#: C/keyboard-shortcuts.page:48
+msgid "Jump back"
+msgstr "Zurückspringen"
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:49
+msgid "<keyseq><key>Ctrl</key><key>Left</key></keyseq>"
+msgstr "<keyseq><key>Strg</key><key>Pfeiltaste links</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:52
+msgid "Jump forward"
+msgstr "Vorwärts springen"
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:53
+msgid "<keyseq><key>Ctrl</key><key>Right</key></keyseq>"
+msgstr "<keyseq><key>Strg</key><key>Pfeiltaste rechts</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:56
 msgid "Copy timestamp"
 msgstr "Zeitstempel kopieren"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:45
+#: C/keyboard-shortcuts.page:57
 msgid "<keyseq><key>Ctrl</key><key>c</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>c</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:48
+#: C/keyboard-shortcuts.page:60
 msgid "Insert timestamp"
 msgstr "Zeitstempel einfügen"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:49
+#: C/keyboard-shortcuts.page:61
 msgid "<keyseq><key>Ctrl</key><key>v</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>v</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:52
+#: C/keyboard-shortcuts.page:64
 msgid "Zoom in"
 msgstr "Hineinzoomen"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:53
+#: C/keyboard-shortcuts.page:65
 msgid "<keyseq><key>Ctrl</key><key>+</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>+</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:56
+#: C/keyboard-shortcuts.page:68
 msgid "Zoom out"
 msgstr "Herauszoomen"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:57
+#: C/keyboard-shortcuts.page:69
 msgid "<keyseq><key>Ctrl</key><key>-</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>-</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:60
+#: C/keyboard-shortcuts.page:72
 msgid "Quit"
 msgstr "Beenden"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:61
+#: C/keyboard-shortcuts.page:73
 msgid "<keyseq><key>Ctrl</key><key>q</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>q</key></keyseq>"
 
