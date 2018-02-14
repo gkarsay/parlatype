@@ -194,7 +194,6 @@
                     <property name="spacing">12</property>
                     <child>
                       <object class="GtkToggleButton" id="goto_button">
-                        <property name="label">togglebutton</property>
                         <property name="name">goto_cursor_button</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -202,6 +201,14 @@
                         <property name="halign">center</property>
                         <property name="valign">center</property>
                         <property name="margin_left">6</property>
+                        <signal name="toggled" handler="goto_toggled_cb" swapped="no"/>
+                        <child>
+                          <object class="GtkImage" id="image1">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="resource">/com/github/gkarsay/parlatype/icons/cursor.png</property>
+                          </object>
+                        </child>
                       </object>
                       <packing>
                         <property name="expand">False</property>

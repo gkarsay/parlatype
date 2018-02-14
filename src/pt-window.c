@@ -981,7 +981,7 @@ setup_accels_actions_headerbar (PtWindow *win)
 			GTK_ACCEL_VISIBLE);
 }
 
-static void
+void
 goto_toggled_cb (GtkToggleButton *button,
 		 gpointer         data)
 {
@@ -998,17 +998,6 @@ goto_toggled_cb (GtkToggleButton *button,
 static void
 setup_goto_button (PtWindow *win)
 {
-	GtkWidget *image;
-
-	image = gtk_image_new_from_resource ("/com/github/gkarsay/parlatype/icons/cursor.png");
-	gtk_button_set_label (GTK_BUTTON (win->priv->goto_button), NULL);
-	gtk_button_set_image (GTK_BUTTON (win->priv->goto_button), image);
-
-	g_signal_connect (win->priv->goto_button,
-			"toggled",
-			G_CALLBACK (goto_toggled_cb),
-			win);
-
 	g_object_bind_property (
 			win->priv->waveviewer, "follow-cursor",
 			win->priv->goto_button, "active",
