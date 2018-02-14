@@ -9,14 +9,13 @@
     <!--<signal name="button-press-event" handler="headerbar_button_pressed_cb" swapped="no"/>-->
     <child>
       <object class="GtkButton" id="button_open">
-        <property name="label">gtk-open</property>
+        <property name="label" translatable="yes">_Open</property>
         <property name="tooltip-text" translatable="yes">Open a file</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="has_focus">True</property>
         <property name="receives_default">True</property>
         <property name="use_underline">True</property>
-        <property name="use_stock">True</property>
         <property name="action_name">app.open</property>
         <style>
           <class name="suggested-action"/>
@@ -28,14 +27,34 @@
     </child>
     <child>
       <object class="GtkToggleButton" id="button_play">
-        <property name="label">gtk-media-play</property>
         <property name="visible">False</property>
         <property name="can_focus">True</property>
         <property name="has_focus">True</property>
         <property name="receives_default">True</property>
         <property name="use_underline">True</property>
-        <property name="use_stock">True</property>
-        <property name="always_show_image">True</property>
+        <child>
+          <object class="GtkBox" id="internal_button_box">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="orientation">horizontal</property>
+            <property name="spacing">2</property>
+            <child>
+               <object class="GtkImage" id="play_icon">
+                  <property name="visible">True</property>
+                  <property name="can_focus">False</property>
+                  <property name="icon_name">media-playback-start</property>
+               </object>
+            </child>
+            <child>
+               <object class="GtkLabel" id="play_label">
+                  <property name="visible">True</property>
+                  <property name="can_focus">False</property>
+                  <property name="label" translatable="yes">_Play</property>
+                  <property name="use_underline">True</property>
+               </object>
+            </child>
+          </object>
+        </child>
         <signal name="toggled" handler="play_button_toggled_cb" swapped="no"/>
       </object>
       <packing>
