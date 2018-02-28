@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
 "POT-Creation-Date: 2017-07-26 18:17+0200\n"
-"PO-Revision-Date: 2017-11-09 13:00+0000\n"
-"Last-Translator: Jorge Toledo <Unknown>\n"
+"PO-Revision-Date: 2017-12-08 21:04+0000\n"
+"Last-Translator: Adolfo Jayme <Unknown>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2017-11-10 15:36+0000\n"
-"X-Generator: Launchpad (build 18498)\n"
+"X-Launchpad-Export-Date: 2018-02-28 19:00+0000\n"
+"X-Generator: Launchpad (build 18561)\n"
 
 #: ../data/com.github.gkarsay.parlatype.appdata.xml.in.h:1
 #: ../data/com.github.gkarsay.parlatype.desktop.in.h:1 ../src/pt-app.c:84
@@ -64,10 +64,9 @@ msgid ""
 "GStreamer and make sure you have the \"Good Plugins\" installed.\n"
 "Parlatype will quit now, it received this error message: %s"
 msgstr ""
-"Parlatype necesita GStreamer 1.x para funcionar. Por favor compruebe su "
-"instalación de GStreamer i asegúrese que el \"Good plugins\" está "
-"instalado.\n"
-"Parlatype saldrá ahora, ha recibido el siguiente mensaje: %s"
+"Parlatype necesita GStreamer 1.x para funcionar. Revise la instalación de "
+"GStreamer y cerciórese de que los complementos «good» estén instalados.\n"
+"Parlatype se cerrará ahora. El mensaje de error emitido es: %s"
 
 #: ../src/pt-app.c:55
 msgid "Show the application's version"
@@ -101,7 +100,7 @@ msgstr "Archivos de audio"
 #: ../src/pt-app.c:202
 #, c-format
 msgid "Error opening help: %s"
-msgstr "Error abriendo ayuda: %s"
+msgstr "Error al abrir la ayuda: %s"
 
 #. Translators: This is part of the about box, followed by the
 #. copyright holders of code from other projects. Instead of
@@ -129,7 +128,8 @@ msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
 "ignored.\n"
 msgstr ""
-"Aviso: Parlatype carga solamente un fichero a la vez. Los otros se ignoran.\n"
+"Atención: Parlatype carga únicamente un archivo a la vez. El resto se "
+"ignorará.\n"
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
@@ -191,11 +191,11 @@ msgstr "La vista sigue al cursor"
 
 #: ../src/pt-window.c:819
 msgid "Click to follow cursor"
-msgstr "Click para seguir al cursor"
+msgstr "Pulsar para seguir cursor"
 
 #: ../src/resources/goto-dialog.ui.h:1 ../src/resources/menus.ui.h:10
 msgid "Go to ..."
-msgstr "Ir a ..."
+msgstr "Ir a…"
 
 #: ../src/resources/goto-dialog.ui.h:2
 msgid "Go to position:"
@@ -239,11 +239,11 @@ msgstr "Abrir el cuadro de diálogo «Ir a»"
 
 #: ../src/resources/help-overlay.ui.h:10
 msgid "Copy timestamp to clipboard"
-msgstr "Copiar marca de tiempo al portapapeles"
+msgstr "Copiar la marca cronológica en el portapapeles"
 
 #: ../src/resources/help-overlay.ui.h:11
 msgid "Go to timestamp in clipboard"
-msgstr "Ir a la marca de tiempo copiada en el portapapeles"
+msgstr "Ir a la marca cronológica copiada en el portapapeles"
 
 #: ../src/resources/help-overlay.ui.h:12 ../src/resources/menus.ui.h:5
 msgid "Help"
@@ -271,15 +271,15 @@ msgstr "Atajos de teclado"
 
 #: ../src/resources/menus.ui.h:6
 msgid "Info"
-msgstr "Info"
+msgstr "Información"
 
 #: ../src/resources/menus.ui.h:8
 msgid "Copy timestamp"
-msgstr "Copiar marca de tiempo"
+msgstr "Copiar la marca cronológica"
 
 #: ../src/resources/menus.ui.h:9
 msgid "Insert timestamp"
-msgstr "Insertar marca de tiempo"
+msgstr "Insertar una marca cronológica"
 
 #: ../src/resources/menus.ui.h:11
 msgid "_File"
@@ -291,7 +291,7 @@ msgstr "_Editar"
 
 #: ../src/resources/menus.ui.h:13
 msgid "_Help"
-msgstr "_Ayuda"
+msgstr "Ay_uda"
 
 #: ../src/resources/preferences.ui.h:1
 msgid "Parlatype Preferences"
@@ -325,15 +325,15 @@ msgstr "Cursor _fijo"
 
 #: ../src/resources/preferences.ui.h:11
 msgid "Jump back on _pause:"
-msgstr "Vuelve atrás en la _pausa:"
+msgstr "Volver atrás al _pausar:"
 
 #: ../src/resources/preferences.ui.h:12
 msgid "Jump _back:"
-msgstr "Vuelve atrás (_b):"
+msgstr "_Volver atrás:"
 
 #: ../src/resources/preferences.ui.h:13
 msgid "Jump _forward:"
-msgstr "Avanza (_f):"
+msgstr "Avan_zar:"
 
 #: ../src/resources/preferences.ui.h:14
 msgid "Controls"
@@ -349,7 +349,7 @@ msgstr "Recordar la _posición"
 
 #: ../src/resources/preferences.ui.h:17
 msgid "Start on _top"
-msgstr "Iniciar _encima del resto de ventanas"
+msgstr "Iniciar _encima de las demás ventanas"
 
 #: ../src/resources/preferences.ui.h:18
 msgid "Window"
@@ -361,4 +361,4 @@ msgstr "Velocidad:"
 
 #: ../src/resources/window-headerbar.ui.h:2
 msgid "Open a file"
-msgstr "Abrir archivo"
+msgstr "Abrir un archivo"
