@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
-"POT-Creation-Date: 2018-01-09 19:24+0100\n"
-"PO-Revision-Date: 2018-01-09 19:25+0100\n"
+"POT-Creation-Date: 2018-02-28 23:05+0100\n"
+"PO-Revision-Date: 2018-02-28 23:11+0100\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
 "Language-Team: Deutsch <>\n"
 "Language: de\n"
@@ -78,11 +78,12 @@ msgstr "Version der Anwendung anzeigen"
 msgid "Recent Files"
 msgstr "Zuletzt geöffnete Dateien"
 
-#: ../src/pt-app.c:77 ../src/pt-app.c:134
+#: ../src/pt-app.c:77 ../src/pt-app.c:134 ../src/resources/goto-dialog.ui.h:2
 msgid "_Cancel"
 msgstr "_Abbrechen"
 
 #: ../src/pt-app.c:78 ../src/pt-app.c:135
+#: ../src/resources/window-headerbar.ui.h:2
 msgid "_Open"
 msgstr "_Öffnen"
 
@@ -195,7 +196,11 @@ msgstr "Klicken Sie hier, um dem Cursor zu folgen"
 msgid "Go to ..."
 msgstr "Gehe zu …"
 
-#: ../src/resources/goto-dialog.ui.h:2
+#: ../src/resources/goto-dialog.ui.h:3
+msgid "_OK"
+msgstr "_OK"
+
+#: ../src/resources/goto-dialog.ui.h:4
 msgid "Go to position:"
 msgstr "Gehe zu Position:"
 
@@ -369,9 +374,13 @@ msgstr "Fenster"
 msgid "Speed:"
 msgstr "Geschwindigkeit:"
 
-#: ../src/resources/window-headerbar.ui.h:2
+#: ../src/resources/window-headerbar.ui.h:3
 msgid "Open a file"
 msgstr "Eine Datei öffnen"
+
+#: ../src/resources/window-headerbar.ui.h:4
+msgid "_Play"
+msgstr "_Wiedergabe"
 
 #, fuzzy
 #~ msgid "Open a document"
