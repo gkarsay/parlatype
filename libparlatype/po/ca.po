@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
-"POT-Creation-Date: 2017-03-26 14:25+0200\n"
-"PO-Revision-Date: 2017-01-19 18:15+0000\n"
+"POT-Creation-Date: 2017-04-18 20:55+0200\n"
+"PO-Revision-Date: 2017-04-18 19:00+0000\n"
 "Last-Translator: VPablo <villumar@gmail.com>\n"
 "Language-Team: Catalan <ca@li.org>\n"
-"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2017-01-20 21:44+0000\n"
-"X-Generator: Launchpad (build 18302)\n"
+"X-Launchpad-Export-Date: 2018-02-28 19:00+0000\n"
+"X-Generator: Launchpad (build 18561)\n"
+"Language: ca\n"
 
 #. Translators: %s is a detailed error message.
 #: ../src/pt-player.c:436
@@ -34,8 +34,8 @@ msgstr "No s'ha trobat el fitxer: %s"
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
 #. the separator that your locale uses or use "%Id" instead
 #. of "%d" if your locale uses localized digits.
-#: ../src/pt-player.c:1121 ../src/pt-waveviewer.c:318
-#: ../src/pt-waveviewer.c:1024
+#: ../src/pt-player.c:1121 ../src/pt-waveviewer.c:343
+#: ../src/pt-waveviewer.c:1075
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
@@ -95,8 +95,8 @@ msgstr "%02d:%02d.%02d"
 #. 5 minutes, and 30 seconds. You may change ":" to
 #. the separator that your locale uses or use "%Id" instead
 #. of "%d" if your locale uses localized digits.
-#: ../src/pt-player.c:1179 ../src/pt-waveviewer.c:323
-#: ../src/pt-waveviewer.c:1026
+#: ../src/pt-player.c:1179 ../src/pt-waveviewer.c:348
+#: ../src/pt-waveviewer.c:1077
 #, c-format
 msgctxt "shortest time format"
 msgid "%d:%02d"
@@ -143,19 +143,19 @@ msgstr "Ha fallat la configuració de la canonada GStreamer."
 msgid "Failed to start GStreamer pipeline."
 msgstr "Ha fallat l'inici de la canonada GStreamer."
 
-#: ../src/pt-waveviewer.c:1381
+#: ../src/pt-waveviewer.c:1443
 msgid "Follow cursor"
 msgstr "Segueix el cursor"
 
-#: ../src/pt-waveviewer.c:1382
+#: ../src/pt-waveviewer.c:1444
 msgid "Scroll automatically to the cursor's position"
 msgstr "Desplaça automàticament a la posició del cursor"
 
-#: ../src/pt-waveviewer.c:1398
+#: ../src/pt-waveviewer.c:1460
 msgid "Fixed cursor"
 msgstr "Cursor fixe"
 
-#: ../src/pt-waveviewer.c:1399
+#: ../src/pt-waveviewer.c:1461
 msgid ""
 "If TRUE, the cursor is in a fixed position and the waveform is moving.\n"
 "If FALSE, the cursor is moving."
@@ -163,24 +163,10 @@ msgstr ""
 "Si VERDADER, el cursor està a una posició fixa i la ona es mou.\n"
 "Si FALS, el curso es mou."
 
-#: ../src/pt-waveviewer.c:1413
+#: ../src/pt-waveviewer.c:1475
 msgid "Show ruler"
 msgstr "Mostra regla"
 
-#: ../src/pt-waveviewer.c:1414
+#: ../src/pt-waveviewer.c:1476
 msgid "Show the time scale with time marks"
 msgstr "Mostra la escala de temps amb marques"
-
-#~ msgctxt "long time format, 1 digit"
-#~ msgid "%d:%02d:%02d.%01d"
-#~ msgstr "%d:%02d:%02d.%01d"
-
-#~ msgctxt "shortest time format, 1 digit"
-#~ msgid "%d:%02d.%01d"
-#~ msgstr "%d:%02d.%01d"
-
-#~ msgid "Cursor position"
-#~ msgstr "Posició del cursor"
-
-#~ msgid "Cursor's position in 1/1000 seconds"
-#~ msgstr "Posició del cursor a 1/1000 segons"
