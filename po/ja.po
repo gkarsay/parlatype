@@ -1,14 +1,14 @@
 # Japanese translation for parlatype
 # Copyright (c) 2017 Rosetta Contributors and Canonical Ltd 2017
 # This file is distributed under the same license as the parlatype package.
-# Shinichirou Yamada <yamada_strong_yamada_nice_64bit@yahoo.co.jp>, 2017.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: parlatype 1.5\n"
-"Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
+"Project-Id-Version: parlatype\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2017-07-26 18:17+0200\n"
-"PO-Revision-Date: 2017-07-26 10:12+0000\n"
+"PO-Revision-Date: 2017-12-26 11:05+0000\n"
 "Last-Translator: Shinichirou Yamada "
 "<yamada_strong_yamada_nice_64bit@yahoo.co.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2017-07-30 07:24+0000\n"
-"X-Generator: Launchpad (build 18441)\n"
+"X-Launchpad-Export-Date: 2018-02-28 19:00+0000\n"
+"X-Generator: Launchpad (build 18561)\n"
 
 #: ../data/com.github.gkarsay.parlatype.appdata.xml.in.h:1
 #: ../data/com.github.gkarsay.parlatype.desktop.in.h:1 ../src/pt-app.c:84
@@ -42,15 +42,15 @@ msgstr "転写ユーティリティー"
 
 #: ../data/com.github.gkarsay.parlatype.desktop.in.h:3
 msgid "Transcription;"
-msgstr ""
+msgstr "Transcription;トランスクリプション;書き起こし;転写;"
 
 #: ../data/com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in.h:1
 msgid "LibreOffice/Parlatype Helpers"
-msgstr ""
+msgstr "LibreOffice/Parlatype ヘルパー"
 
 #: ../data/com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in.h:2
 msgid "Control Parlatype using LibreOffice macros"
-msgstr ""
+msgstr "LibreOffice のマクロで Parlatype をコントロールする"
 
 #: ../src/main.c:36
 msgid "Fatal error"
@@ -99,7 +99,7 @@ msgstr "音楽ファイル"
 #: ../src/pt-app.c:202
 #, c-format
 msgid "Error opening help: %s"
-msgstr ""
+msgstr "ヘルプを開く際にエラー: %s"
 
 #. Translators: This is part of the about box, followed by the
 #. copyright holders of code from other projects. Instead of
@@ -194,23 +194,23 @@ msgstr "次の位置まで移動:"
 
 #: ../src/resources/help-overlay.ui.h:1
 msgid "General"
-msgstr ""
+msgstr "全般"
 
 #: ../src/resources/help-overlay.ui.h:2
 msgid "Open a media file"
-msgstr ""
+msgstr "メディアファイルを開く"
 
 #: ../src/resources/help-overlay.ui.h:3
 msgid "Open recently used media files"
-msgstr ""
+msgstr "最近使用したメディアファイルを開く"
 
 #: ../src/resources/help-overlay.ui.h:4
 msgid "Show/hide action menu"
-msgstr ""
+msgstr "アクションメニューの表示/非表示を切り替える"
 
 #: ../src/resources/help-overlay.ui.h:5 ../src/resources/menus.ui.h:7
 msgid "Quit"
-msgstr "終了"
+msgstr "終了する"
 
 #: ../src/resources/help-overlay.ui.h:6 ../src/resources/preferences.ui.h:10
 msgid "Waveform"
@@ -218,23 +218,23 @@ msgstr "波形"
 
 #: ../src/resources/help-overlay.ui.h:7
 msgid "Zoom in"
-msgstr ""
+msgstr "拡大する"
 
 #: ../src/resources/help-overlay.ui.h:8
 msgid "Zoom out"
-msgstr ""
+msgstr "縮小する"
 
 #: ../src/resources/help-overlay.ui.h:9
 msgid "Open “Go to” dialog"
-msgstr ""
+msgstr "“移動”ダイアログを開く"
 
 #: ../src/resources/help-overlay.ui.h:10
 msgid "Copy timestamp to clipboard"
-msgstr ""
+msgstr "クリップボードにタイムスタンプをコピーする"
 
 #: ../src/resources/help-overlay.ui.h:11
 msgid "Go to timestamp in clipboard"
-msgstr ""
+msgstr "クリップボードのタイムスタンプに移動する"
 
 #: ../src/resources/help-overlay.ui.h:12 ../src/resources/menus.ui.h:5
 msgid "Help"
@@ -242,11 +242,11 @@ msgstr "ヘルプ"
 
 #: ../src/resources/help-overlay.ui.h:13
 msgid "Show help"
-msgstr ""
+msgstr "ヘルプを表示する"
 
 #: ../src/resources/help-overlay.ui.h:14
 msgid "Show keyboard shortcuts"
-msgstr ""
+msgstr "キーボードショートカットを表示する"
 
 #: ../src/resources/menus.ui.h:1
 msgid "Open File"
@@ -258,7 +258,7 @@ msgstr "設定"
 
 #: ../src/resources/menus.ui.h:4
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "キーボードショートカット(_K)"
 
 #: ../src/resources/menus.ui.h:6
 msgid "Info"
@@ -352,4 +352,4 @@ msgstr "速度:"
 
 #: ../src/resources/window-headerbar.ui.h:2
 msgid "Open a file"
-msgstr "ファイルを開きます"
+msgstr "ファイルを開く"
