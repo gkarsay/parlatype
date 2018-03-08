@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2018-02-28 20:51+0100\n"
-"PO-Revision-Date: 2018-02-28 20:14+0000\n"
+"POT-Creation-Date: 2018-03-01 10:53+0100\n"
+"PO-Revision-Date: 2018-03-01 15:32+0000\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2018-02-28 22:32+0000\n"
-"X-Generator: Launchpad (build 18561)\n"
+"X-Launchpad-Export-Date: 2018-03-08 16:36+0000\n"
+"X-Generator: Launchpad (build 18566)\n"
 
 #. Translators: %s is a detailed error message.
 #: ../src/pt-player.c:435
@@ -127,6 +127,14 @@ msgstr "%d∶%02d.%02d"
 #, c-format
 msgid "Failed to load a plugin."
 msgstr "Wczytanie wtyczki się nie powiodło."
+
+#: ../src/pt-progress-dialog.c:102
+#, c-format
+msgid "Time remaining: 1 second"
+msgid_plural "Time remaining: %d seconds"
+msgstr[0] "Pozostały czas: 1 sekunda"
+msgstr[1] "Pozostały czas: %d sekundy"
+msgstr[2] "Pozostały czas: %d sekund"
 
 #. Translators: this is a time with minutes
 #. and seconds, e.g. Time remaining: 3:20
