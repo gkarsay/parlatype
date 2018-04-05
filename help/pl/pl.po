@@ -8,21 +8,22 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2018-01-09 19:20+0100\n"
-"PO-Revision-Date: 2018-02-28 20:21+0000\n"
+"PO-Revision-Date: 2018-03-29 02:47+0000\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2018-02-28 22:32+0000\n"
-"X-Generator: Launchpad (build 18561)\n"
+"X-Launchpad-Export-Date: 2018-04-05 18:16+0000\n"
+"X-Generator: Launchpad (build 18599)\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
 msgstr ""
 "Launchpad Contributions:\n"
-"  Piotr Drąg https://launchpad.net/~piotrdrag"
+"  Piotr Drąg https://launchpad.net/~piotrdrag\n"
+"  tydell https://launchpad.net/~marcin-tydelski"
 
 #. (itstool) path: info/title
 #: C/index.page:7
@@ -117,6 +118,12 @@ msgid ""
 "its full path in the list of recent files and open it if it can find it in "
 "that list."
 msgstr ""
+"Nazwy plików: zaznacz nazwę pliku w edytorze tekstu, np. "
+"<app>LibreOffice</app>, przeciągnij zaznaczony tekst do programu "
+"<app>Parlatype</app>, a otworzy on ten plik. Działa to zawsze, jeśli "
+"zaznaczenie zawiera pełną ścieżkę. Jeśli zaznaczona zostanie tylko nazwa, "
+"<app>Parlatype</app> wyszuka pełną ścieżkę na liście ostatnio używanych "
+"plików i otworzy ją, jeśli ją na niej znajdzie."
 
 #. (itstool) path: item/p
 #: C/drag-and-drop.page:21
@@ -127,6 +134,11 @@ msgid ""
 "you click on <app>Parlatype</app>'s time label and drag it to a word "
 "processor to insert it there."
 msgstr ""
+"Czasy: można przeciągać czasy w obu kierunkach. Zaznacz czas w edytorze "
+"tekstu, np. <app>LibreOffice</app>, przeciągnij zaznaczony tekst do programu "
+"<app>Parlatype</app>, a przejdzie on do tego miejsca. Można także kliknąć "
+"etykietę czasu programu <app>Parlatype</app> i przeciągnąć ją do edytora "
+"tekstu, aby wstawić go do niego."
 
 #. (itstool) path: info/desc
 #. (itstool) path: page/title
@@ -143,6 +155,11 @@ msgid ""
 "<app>LibreOffice</app>, too. Launch <app>Parlatype</app> and open an audio "
 "file by clicking on the <gui>Open</gui> button in the upper left corner."
 msgstr ""
+"<app>Parlatype</app> to łatwy w użyciu odtwarzacz dźwięku pomagający "
+"w transkrypcji lub dodawaniu przypisów do nagranej mowy. Należy także "
+"uruchomić edytor tekstu, np. <app>LibreOffice</app>. Uruchom "
+"<app>Parlatype</app> i odtwórz plik dźwiękowy klikając przycisk "
+"<gui>Otwórz</gui> w górnym lewym rogu."
 
 #. (itstool) path: note/p
 #: C/first-steps.page:19
@@ -150,6 +167,8 @@ msgid ""
 "You can also drag and drop a file on <app>Parlatype</app> or open the "
 "recently used files in the Application menu."
 msgstr ""
+"Można także przeciągnąć plik na program <app>Parlatype</app> lub otworzyć "
+"ostatnio używane pliki w menu programu."
 
 #. (itstool) path: page/p
 #: C/first-steps.page:22
@@ -159,6 +178,10 @@ msgid ""
 "few seconds to make it easier to resume. This can be changed in the <link "
 "xref=\"preferences\"/>."
 msgstr ""
+"W górnym lewym rogu widoczny jest teraz przycisk <gui>Odtwórz</gui>, który "
+"przełącza między odtwarzaniem a wstrzymaniem. Po wstrzymaniu "
+"<app>Parlatype</app> przewija kilka sekund, aby ułatwić wznowienie. Można to "
+"zmienić w oknie <link xref=\"preferences\"/>."
 
 #. (itstool) path: page/media
 #. This is a reference to an external file such as an image or video. When
@@ -181,6 +204,9 @@ msgid ""
 "left corner skip a few seconds back or ahead. The amount of time can be "
 "changed in the <link xref=\"preferences\"/>."
 msgstr ""
+"Przyciski <gui>Przejdź wstecz</gui> i <gui>Przejdź naprzód</gui> w dolnym "
+"lewym rogu przewijają o kilka sekund do tyłu lub do przodu. Przewijany czas "
+"można zmienić w oknie <link xref=\"preferences\"/>."
 
 #. (itstool) path: page/p
 #: C/first-steps.page:28
@@ -189,6 +215,10 @@ msgid ""
 "scroll manually by clicking on or dragging the scroll bar or using the "
 "standard keybindings. Automatic scrolling is stopped then."
 msgstr ""
+"Widok przewija się automatycznie, aby kursor był zawsze widoczny. Można "
+"przewinąć ręcznie klikając lub przeciągając pasek przewijania lub za pomocą "
+"standardowych skrótów klawiszowych. Automatyczne przewijanie zostaje wtedy "
+"zatrzymane."
 
 #. (itstool) path: page/p
 #: C/first-steps.page:30
@@ -197,6 +227,9 @@ msgid ""
 "again, click on the <gui>Go to</gui> button next to the time label. Clicking "
 "on the <gui>Play</gui> button also turns automatic scrolling on."
 msgstr ""
+"Aby wrócić do pozycji kursora i ponownie włączyć automatyczne przewijanie, "
+"kliknij przycisk <gui>Przejdź do</gui> obok etykiety czasu. Kliknięcie "
+"przycisku <gui>Odtwórz</gui> także włącza automatyczne przewijanie."
 
 #. (itstool) path: page/p
 #: C/first-steps.page:32
@@ -205,6 +238,9 @@ msgid ""
 "also holding the right mouse button pressed and moving it. The left mouse "
 "button is for <link xref=\"selections\"/>."
 msgstr ""
+"Kliknięcie w widoku prawym przyciskiem myszy umieści kursor w danym miejscu, "
+"a także przytrzymanie prawego przycisku myszy i poruszanie się. Funkcją "
+"lewego przycisku myszy jest <link xref=\"selections\"/>."
 
 #. (itstool) path: page/p
 #: C/first-steps.page:34
@@ -214,6 +250,10 @@ msgid ""
 "normal speed, everything lower (down to 0.5) is slower, everything above is "
 "faster."
 msgstr ""
+"<gui>Podziałka prędkości</gui> obok <gui>głośności</gui> w dolnym prawym "
+"rogu umożliwia dostosowanie prędkości odtwarzania. Wartość „1” oznacza "
+"zwykłą prędkość, wszystko poniżej (do 0,5) jest wolniejsze, a wszystko "
+"powyżej jest szybsze."
 
 #. (itstool) path: info/desc
 #: C/keyboard-shortcuts.page:6
@@ -232,6 +272,9 @@ msgid ""
 "are described in <link xref=\"control\"/>. Shortcut keys for the window are "
 "listed below."
 msgstr ""
+"Skróty klawiszowe do sterowania programem <app>Parlatype</app>, takie jak "
+"<key>Odtwórz</key>, są opisane w sekcji <link xref=\"control\"/>. Klawisze "
+"skrótów dla okna są wymienione poniżej."
 
 #. (itstool) path: table/title
 #: C/keyboard-shortcuts.page:19
@@ -266,7 +309,7 @@ msgstr "Otwarcie pliku"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:33
 msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>O</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:36
@@ -276,7 +319,7 @@ msgstr "Otwarcie ostatnio używanych plików"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:37
 msgid "<keyseq><key>Ctrl</key><key>r</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>r</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:40
@@ -296,7 +339,7 @@ msgstr "Przejście do…"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:45
 msgid "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>G</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:48
@@ -326,7 +369,7 @@ msgstr "Skopiowanie czasu"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:57
 msgid "<keyseq><key>Ctrl</key><key>c</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>c</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>C</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:60
@@ -336,7 +379,7 @@ msgstr "Wstawienie czasu"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:61
 msgid "<keyseq><key>Ctrl</key><key>v</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>v</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>V</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:64
@@ -366,7 +409,7 @@ msgstr "Zakończenie działania"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:73
 msgid "<keyseq><key>Ctrl</key><key>q</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>q</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>Q</key></keyseq>"
 
 #. (itstool) path: p/link
 #: C/legal.xml:5
@@ -396,6 +439,10 @@ msgid ""
 "players and they are working even if the media player is not in focus or in "
 "the background."
 msgstr ""
+"Podstawowe funkcje programu <app>Parlatype</app> mogą być sterowane za "
+"pomocą tak zwanych <em>klawiszy multimedialnych</em>. Klawisze multimedialne "
+"są używane do sterowania odtwarzaczami multimediów i działają także, kiedy "
+"odtwarzacz nie jest aktywny lub w tle."
 
 #. (itstool) path: page/p
 #: C/media-keys.page:18
@@ -403,6 +450,9 @@ msgid ""
 "You can change the media keys in GNOME settings. You can use dedicated keys "
 "from a multimedia keyboard or use any other key or combination of keys."
 msgstr ""
+"Można zmienić klawisze multimedialne w ustawieniach GNOME. Można używać "
+"specjalnych klawiszy na klawiaturach multimedialnych lub dowolnego innego "
+"klawisza lub kombinacji klawiszy."
 
 #. (itstool) path: note/p
 #: C/media-keys.page:21
@@ -410,11 +460,13 @@ msgid ""
 "This will affect other media players, e.g. <app>Totem</app> or "
 "<app>Rhythmbox</app>, as well."
 msgstr ""
+"Wpływa to także na inne odtwarzacze multimedialne, np. <app>Totem</app> "
+"i <app>Rhythmbox</app>."
 
 #. (itstool) path: page/p
 #: C/media-keys.page:24
 msgid "<app>Parlatype</app> listens to these key strokes:"
-msgstr ""
+msgstr "<app>Parlatype</app> nasłuchuje tych klawiszy:"
 
 #. (itstool) path: item/p
 #: C/media-keys.page:26
@@ -422,6 +474,8 @@ msgid ""
 "<key>Play</key>, <key>Pause</key>, <key>Stop</key>: Each of these keys "
 "toggles between playing and pause."
 msgstr ""
+"<key>Odtwórz</key>, <key>Wstrzymaj</key>, <key>Zatrzymaj</key>: każdy z tych "
+"klawiszy przełącza między odtwarzaniem a wstrzymaniem."
 
 #. (itstool) path: item/p
 #: C/media-keys.page:27
@@ -429,6 +483,8 @@ msgid ""
 "<key>Rewind</key>, <key>Previous</key>: Each of these keys will jump back "
 "the time you selected in Preferences."
 msgstr ""
+"<key>Przewiń do tyłu</key>, <key>Poprzedni</key>: każdy z tych klawiszy "
+"przewinie w tył o czas wybrany w preferencjach."
 
 #. (itstool) path: item/p
 #: C/media-keys.page:28
@@ -436,6 +492,8 @@ msgid ""
 "<key>Fast Forward</key>, <key>Next</key>: Each of these keys will jump ahead "
 "the time you selected in Preferences."
 msgstr ""
+"<key>Przewiń do przodu</key>, <key>Następny</key>: każdy z tych klawiszy "
+"przewinie do przodu o czas wybrany w preferencjach."
 
 #. (itstool) path: note/p
 #: C/media-keys.page:32
@@ -444,6 +502,9 @@ msgid ""
 "<link href=\"help:gnome-help/keyboard-shortcuts-set\">official "
 "documentation</link>."
 msgstr ""
+"<link href=\"help:gnome-help/keyboard-shortcuts-set\">Oficjalna "
+"dokumentacja</link> zawiera szczegółowe instrukcje zmiany skrótów "
+"klawiszowych w środowisku GNOME."
 
 #. (itstool) path: page/p
 #: C/media-keys.page:35
@@ -452,6 +513,9 @@ msgid ""
 "foot pedal signals to any of the keys. This is not well tested, however. Any "
 "feedback regarding foot pedals is welcome."
 msgstr ""
+"Jeśli używany jest specjalny pedał, to można przypisać go do dowolnego "
+"z klawiszy. Nie zostało to dobrze przetestowane. Opinie na temat obsługi "
+"pedału są mile widziane."
 
 #. (itstool) path: info/desc
 #: C/preferences.page:6
@@ -470,6 +534,9 @@ msgid ""
 "<gui>Activities</gui> in the top left corner. There are three tabs: "
 "<gui>Waveform</gui>, <gui>Controls</gui> and <gui>Window</gui>."
 msgstr ""
+"Można otworzyć okno preferencji w menu programu (obok napisu "
+"<gui>Podgląd</gui> w górnym lewym rogu). Okno ma trzy karty: <gui>Przebieg "
+"fali</gui>, <gui>Sterowanie</gui> i <gui>Okno</gui>."
 
 #. (itstool) path: section/title
 #: C/preferences.page:19
@@ -497,6 +564,9 @@ msgid ""
 "second, e.g. the default resolution of 100 means, that one second is shown "
 "with a width of 100 pixels."
 msgstr ""
+"Rozdzielczość: rozdzielczość obrazu przebiegu fali jest podawana "
+"w pikselach. Domyślna rozdzielczość „100” oznacza, że jedna sekunda jest "
+"wyświetlana za pomocą 100 pikseli szerokości."
 
 #. (itstool) path: item/p
 #: C/preferences.page:25
@@ -504,11 +574,13 @@ msgid ""
 "Fixed vs. moving cursor: There are two modes, how to follow the cursor. On "
 "slower systems a moving cursor might be smoother."
 msgstr ""
+"Stały i poruszający się kursor: podążanie za kursorem ma dwa tryby. Na "
+"wolniejszych komputerach poruszający się kursor może być płynniejszy."
 
 #. (itstool) path: item/p
 #: C/preferences.page:26
 msgid "Show time scale: Turn the time scale on or off."
-msgstr ""
+msgstr "Podziałka czasu: włączanie i wyłączanie podziałki czasu."
 
 #. (itstool) path: section/title
 #: C/preferences.page:31
@@ -536,6 +608,9 @@ msgid ""
 "pause, this way you can easier resume typing. Set this value to 0 if you "
 "don't want this behaviour."
 msgstr ""
+"Przejście wstecz przy wstrzymaniu: <app>Parlatype</app> przewinie o kilka "
+"sekund przy każdym wstrzymaniu, dzięki czemu można łatwiej wznowić pisanie. "
+"Ustaw na wartość „0”, aby to wyłączyć."
 
 #. (itstool) path: item/p
 #: C/preferences.page:37
@@ -543,6 +618,8 @@ msgid ""
 "Jump back: Configures how many seconds to skip when the <gui>Jump back</gui> "
 "button is pressed."
 msgstr ""
+"Przejście wstecz: konfiguruje liczbę sekund przewijanych po naciśnięciu "
+"przycisku <gui>Przejdź wstecz</gui>."
 
 #. (itstool) path: item/p
 #: C/preferences.page:38
@@ -550,6 +627,8 @@ msgid ""
 "Jump forward: Configures how many seconds to skip when the <gui>Jump "
 "forward</gui> button is pressed."
 msgstr ""
+"Przejście naprzód: konfiguruje liczbę sekund przewijanych po naciśnięciu "
+"przycisku <gui>Przejdź naprzód</gui>."
 
 #. (itstool) path: section/title
 #: C/preferences.page:43
@@ -576,6 +655,8 @@ msgid ""
 "Remember size: On start-up <app>Parlatype</app> sets the window size to the "
 "size it had the last time."
 msgstr ""
+"Pamiętanie rozmiaru: po uruchomieniu <app>Parlatype</app> ustawia rozmiar "
+"okna na rozmiar używany poprzednim razem."
 
 #. (itstool) path: item/p
 #: C/preferences.page:49
@@ -583,6 +664,8 @@ msgid ""
 "Remember position: On start-up <app>Parlatype</app> can position its window "
 "where you had it when you closed <app>Parlatype</app> last time."
 msgstr ""
+"Pamiętanie pozycji: po uruchomieniu <app>Parlatype</app> może umieścić swoje "
+"okno w miejscu, w którym było ostatnim razem."
 
 #. (itstool) path: item/p
 #: C/preferences.page:50
@@ -591,6 +674,10 @@ msgid ""
 "windows. This might be useful if you are working with a maximized word "
 "processor and still want to see the <app>Parlatype</app> window."
 msgstr ""
+"Uruchamianie zawsze na wierzchu: spowoduje umieszczanie programu "
+"<app>Parlatype</app> nad pozostałymi oknami po uruchomieniu. Może to być "
+"przydatne w czasie pracy ze zmaksymalizowanym oknem edytora tekstu, aby "
+"widzieć okno <app>Parlatype</app>."
 
 #. (itstool) path: note/p
 #: C/preferences.page:54
@@ -598,16 +685,18 @@ msgid ""
 "<gui>Remember position</gui> and <gui>Start on top</gui> are not available "
 "on Wayland."
 msgstr ""
+"<gui>Pamiętanie pozycji</gui> i <gui>Uruchamianie zawsze na wierzchu</gui> "
+"nie są dostępne podczas działania w technologii Wayland."
 
 #. (itstool) path: info/desc
 #: C/selections.page:6
 msgid "How to play and repeat a selection"
-msgstr ""
+msgstr "Jak odtwarzać i powtarzać zaznaczenie"
 
 #. (itstool) path: page/title
 #: C/selections.page:14
 msgid "Selections"
-msgstr ""
+msgstr "Zaznaczanie"
 
 #. (itstool) path: page/p
 #: C/selections.page:16
@@ -616,6 +705,10 @@ msgid ""
 "<gui>Play</gui>, it will play the selection only. When it is finished and "
 "you press <gui>Play</gui> again, it will loop the selection once."
 msgstr ""
+"Można zaznaczyć fragment przebiegu fali za pomocą myszy. Następne kliknięcie "
+"przycisku <gui>Odtwórz</gui> odtworzy tylko ten fragment. Po ukończeniu "
+"odtwarzania następne kliknięcie przycisku <gui>Odtwórz</gui> spowoduje "
+"powtórzenie zaznaczenia jeden raz."
 
 #. (itstool) path: note/p
 #: C/selections.page:18
@@ -623,6 +716,7 @@ msgid ""
 "When in selection mode, you can not exit the selection anymore until you "
 "deselect it."
 msgstr ""
+"W trybie zaznaczania nie można wyjść z zaznaczenia do jego odznaczenia."
 
 #. (itstool) path: page/p
 #: C/selections.page:20
@@ -632,6 +726,10 @@ msgid ""
 "<key>Shift</key> key pressed, an already existing selection will be enlarged "
 "to that point."
 msgstr ""
+"Można zaznaczać za pomocą myszy (lub innego urządzenia wskazującego) lewym "
+"przyciskiem, przytrzymując go i przeciągając kursor. Kliknięcie przy "
+"przytrzymanym klawiszu <key>Shift</key> powiększa już istniejące zaznaczenie "
+"do tego miejsca."
 
 #. (itstool) path: page/p
 #: C/selections.page:22
@@ -639,11 +737,13 @@ msgid ""
 "To deselect click once with the left button into the waveform. If the "
 "waveform has keyboard focus, you can press <key>Escape</key>."
 msgstr ""
+"Aby odznaczyć, kliknij raz przebieg fali lewym przyciskiem myszy. Jeśli "
+"przebieg fali jest aktywny, to można nacisnąć klawisz <key>Esc</key>."
 
 #. (itstool) path: info/desc
 #: C/timestamps.page:6
 msgid "Set and go to timestamps"
-msgstr ""
+msgstr "Ustawianie i przechodzenie do czasów"
 
 #. (itstool) path: page/title
 #: C/timestamps.page:14
@@ -653,7 +753,7 @@ msgstr "Czasy"
 #. (itstool) path: page/p
 #: C/timestamps.page:16
 msgid "Timestamps help you to navigate in your transcription."
-msgstr ""
+msgstr "Czasy pomagają nawigować w transkrypcji."
 
 #. (itstool) path: note/p
 #: C/timestamps.page:19
@@ -661,6 +761,7 @@ msgid ""
 "Timestamps look like this: #03:45.2#. You can select them with or without "
 "the number signs."
 msgstr ""
+"Czas wygląda w ten sposób: #03:45.2#. Można zaznaczać je z lub bez znaków #."
 
 #. (itstool) path: section/title
 #: C/timestamps.page:23
@@ -675,6 +776,10 @@ msgid ""
 "also possible the other way round: Drag the time label from "
 "<app>Parlatype</app> to a word processor and drop it there to insert it."
 msgstr ""
+"Po zaznaczeniu czasu w edytorze tekstu można przeciągnąć go do okna "
+"<app>Parlatype</app>, a program przejdzie do tego miejsca. Można to robić "
+"także w drugą stronę: przeciągnij czas z programu <app>Parlatype</app> do "
+"edytora tekstu, aby go tam wstawić."
 
 #. (itstool) path: section/title
 #: C/timestamps.page:29
@@ -689,6 +794,10 @@ msgid ""
 "is copied to the clipboard. Changing to the word processor you can insert "
 "now the timestamp in your transcription."
 msgstr ""
+"Najpierw upewnij się, że okno <app>Parlatype</app> jest aktywne. Kombinacja "
+"klawiszy <keyseq><key>Ctrl</key><key>C</key></keyseq> skopiuje obecny czas "
+"do schowka. Po przejściu do edytora tekstu można teraz wstawić czas "
+"w transkrypcji."
 
 #. (itstool) path: section/p
 #: C/timestamps.page:32
@@ -697,6 +806,9 @@ msgid ""
 "the clipboard. Once you have changed focus to <app>Parlatype</app> press "
 "<keyseq><key>Ctrl</key><key>v</key></keyseq>."
 msgstr ""
+"Aby przejść do pozycji czasu, skopiuj czas w edytorze tekstu do schowka. Po "
+"przejściu do programu <app>Parlatype</app> naciśnij klawisze "
+"<keyseq><key>Ctrl</key><key>V</key></keyseq>."
 
 #. (itstool) path: info/desc
 #: C/libreoffice-helpers.page:7
@@ -716,6 +828,9 @@ msgid ""
 "LibreOffice Helpers let you control <app>Parlatype</app> from "
 "<app>LibreOffice</app>. For example, you can jump easily to timestamps."
 msgstr ""
+"Narzędzia pomocnicze LibreOffice umożliwiają sterowanie programem "
+"<app>Parlatype</app> z pakietu <app>LibreOffice</app>. Na przykład można "
+"łatwo przechodzić do czasów."
 
 #. (itstool) path: page/p
 #: C/libreoffice-helpers.page:19
@@ -724,6 +839,9 @@ msgid ""
 "itself. To do this, open <app>LibreOffice</app>, go to menu <gui>Tools</gui> "
 "and select <gui>Customize</gui>."
 msgstr ""
+"Aby ich używać, należy przydzielić skróty klawiszowe w pakiecie "
+"<app>LibreOffice</app>. Aby to zrobić, otwórz <app>LibreOffice</app>, "
+"przejdź do menu <gui>Narzędzia</gui> i wybierz <gui>Dostosuj</gui>."
 
 #. (itstool) path: page/media
 #. This is a reference to an external file such as an image or video. When
@@ -749,6 +867,14 @@ msgid ""
 "from the list <gui>Shortcut keys</gui> above a shortcut and click on the "
 "button <gui>Modify</gui>."
 msgstr ""
+"Przejdź do karty <gui>Klawiatura</gui>. W dolnej części, <gui>Funkcje</gui>, "
+"znajduje się lista o nazwie <gui>Kategoria</gui>. Na końcu tej listy "
+"znajduje się napis <gui>Makra LibreOffice</gui>. Dostępna jest podkategoria "
+"<gui>udostępnianie</gui>, która ma podkategorię <gui>Parlatype</gui>. Po "
+"zaznaczeniu <gui>Parlatype</gui> dostępna będzie lista funkcji na liście "
+"<gui>Funkcje</gui>. Zaznacz funkcje, których chcesz używać, wybierz z listy "
+"<gui>Klawisze skrótów</gui> nad skrótem i kliknij przycisk "
+"<gui>Modyfikuj</gui>."
 
 #. (itstool) path: page/media
 #. This is a reference to an external file such as an image or video. When
@@ -767,7 +893,7 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/libreoffice-helpers.page:27
 msgid "You can select any of these functions:"
-msgstr ""
+msgstr "Można wybrać dowolne z tych funkcji:"
 
 #. (itstool) path: td/p
 #: C/libreoffice-helpers.page:33
@@ -785,6 +911,9 @@ msgid ""
 "Toggles between play and pause. Depending on your preferences set in "
 "<app>Parlatype</app> it will rewind a few seconds on pause."
 msgstr ""
+"Przełącza między odtwarzaniem a wstrzymaniem. W zależności od preferencji "
+"ustawionych w programie <app>Parlatype</app> przewinie o kilka sekund po "
+"wstrzymaniu."
 
 #. (itstool) path: td/p
 #: C/libreoffice-helpers.page:44
@@ -792,6 +921,8 @@ msgid ""
 "Jumps back a few seconds, depending on the preferences you set in "
 "<app>Parlatype</app>."
 msgstr ""
+"Przechodzi do tyłu o kilka sekund, w zależności od preferencji ustawionych "
+"w programie <app>Parlatype</app>."
 
 #. (itstool) path: td/p
 #: C/libreoffice-helpers.page:48
@@ -799,6 +930,8 @@ msgid ""
 "Jumps forward a few seconds, depending on the preferences you set in "
 "<app>Parlatype</app>."
 msgstr ""
+"Przechodzi do przodu o kilka sekund, w zależności od preferencji ustawionych "
+"w programie <app>Parlatype</app>."
 
 #. (itstool) path: td/p
 #: C/libreoffice-helpers.page:52
@@ -806,11 +939,12 @@ msgid ""
 "Inserts the current timestamp at the cursor's position. It does not "
 "overwrite any selection."
 msgstr ""
+"Wstawia obecny czas w pozycji kursora. Nie zastępuje żadnego zaznaczenia."
 
 #. (itstool) path: td/p
 #: C/libreoffice-helpers.page:56
 msgid "The same as above, but on a new line."
-msgstr ""
+msgstr "Jak wyżej, ale w nowym wierszu."
 
 #. (itstool) path: td/p
 #: C/libreoffice-helpers.page:60
@@ -819,21 +953,16 @@ msgid ""
 "cursor has to be somewhere between the two number signs (#). Don't select "
 "the timestamp, just put the cursor inside."
 msgstr ""
+"Jeśli kursor jest ustawiony na czasie, to przejdzie do tego miejsca. Kursor "
+"musi być między dwoma znakami #. Nie zaznaczaj czasu, tylko umieść w nim "
+"kursor."
 
 #. (itstool) path: td/p
 #: C/libreoffice-helpers.page:64
 msgid "Increases playback speed."
-msgstr ""
+msgstr "Zwiększa prędkość odtwarzania."
 
 #. (itstool) path: td/p
 #: C/libreoffice-helpers.page:68
 msgid "Decreases playback speed."
-msgstr ""
-
-#~ msgctxt "_"
-#~ msgid ""
-#~ "external ref='figures/parlatype-main-window.png' "
-#~ "md5='1e21a2ddc61fda06238b6b1537191cb3'"
-#~ msgstr ""
-#~ "external ref='figures/parlatype-main-window.png' "
-#~ "md5='1e21a2ddc61fda06238b6b1537191cb3'"
+msgstr "Zmniejsza prędkość odtwarzania."
