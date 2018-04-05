@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-07-26 18:17+0200\n"
-"PO-Revision-Date: 2017-12-26 11:05+0000\n"
+"POT-Creation-Date: 2018-02-28 20:51+0100\n"
+"PO-Revision-Date: 2018-03-13 03:26+0000\n"
 "Last-Translator: Shinichirou Yamada "
 "<yamada_strong_yamada_nice_64bit@yahoo.co.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2018-02-28 19:00+0000\n"
-"X-Generator: Launchpad (build 18561)\n"
+"X-Launchpad-Export-Date: 2018-04-05 18:16+0000\n"
+"X-Generator: Launchpad (build 18599)\n"
 
 #: ../data/com.github.gkarsay.parlatype.appdata.xml.in.h:1
 #: ../data/com.github.gkarsay.parlatype.desktop.in.h:1 ../src/pt-app.c:84
@@ -75,11 +75,12 @@ msgstr "アプリケーションのバージョンを表示する"
 msgid "Recent Files"
 msgstr "最近使用したファイル"
 
-#: ../src/pt-app.c:77 ../src/pt-app.c:134
+#: ../src/pt-app.c:77 ../src/pt-app.c:134 ../src/resources/goto-dialog.ui.h:2
 msgid "_Cancel"
 msgstr "キャンセル(_C)"
 
 #: ../src/pt-app.c:78 ../src/pt-app.c:135
+#: ../src/resources/window-headerbar.ui.h:2
 msgid "_Open"
 msgstr "開く(_O)"
 
@@ -140,47 +141,47 @@ msgstr "%d:%02d:%02d"
 #. or the "Go to ..." dialog. There is a label like
 #. "Jump back:", "Jump forward:", "Jump back on pause:"
 #. or "Go to position:" before.
-#: ../src/pt-goto-dialog.c:79 ../src/pt-preferences.c:58
-#: ../src/pt-preferences.c:68 ../src/pt-preferences.c:78
+#: ../src/pt-goto-dialog.c:79 ../src/pt-preferences.c:62
+#: ../src/pt-preferences.c:72 ../src/pt-preferences.c:82
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "秒"
 
-#: ../src/pt-preferences.c:189
+#: ../src/pt-preferences.c:193
 msgid "_Close"
 msgstr "閉じる(_C)"
 
-#: ../src/pt-window.c:274
+#: ../src/pt-window.c:296
 #, c-format
 msgid "Jump back 1 second"
 msgid_plural "Jump back %d seconds"
 msgstr[0] "%d 秒前に戻る"
 
-#: ../src/pt-window.c:289
+#: ../src/pt-window.c:311
 #, c-format
 msgid "Jump forward 1 second"
 msgid_plural "Jump forward %d seconds"
 msgstr[0] "%d 秒先に進む"
 
-#: ../src/pt-window.c:306
+#: ../src/pt-window.c:328
 msgid "Pause"
 msgstr "一時停止"
 
-#: ../src/pt-window.c:309
+#: ../src/pt-window.c:331
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
 msgstr[0] "一時停止して %d 秒前に戻る"
 
-#: ../src/pt-window.c:316
+#: ../src/pt-window.c:338
 msgid "Start playing"
 msgstr "再生を開始する"
 
-#: ../src/pt-window.c:817
+#: ../src/pt-window.c:991
 msgid "View follows cursor"
 msgstr "カーソルに追従して表示します"
 
-#: ../src/pt-window.c:819
+#: ../src/pt-window.c:993
 msgid "Click to follow cursor"
 msgstr "クリックするとカーソルの位置を先頭に表示します"
 
@@ -188,7 +189,11 @@ msgstr "クリックするとカーソルの位置を先頭に表示します"
 msgid "Go to ..."
 msgstr "移動..."
 
-#: ../src/resources/goto-dialog.ui.h:2
+#: ../src/resources/goto-dialog.ui.h:3
+msgid "_OK"
+msgstr "OK(_O)"
+
+#: ../src/resources/goto-dialog.ui.h:4
 msgid "Go to position:"
 msgstr "次の位置まで移動:"
 
@@ -217,34 +222,46 @@ msgid "Waveform"
 msgstr "波形"
 
 #: ../src/resources/help-overlay.ui.h:7
+msgid "Play/Pause"
+msgstr "再生/一時停止する"
+
+#: ../src/resources/help-overlay.ui.h:8
+msgid "Jump back"
+msgstr "前に戻る"
+
+#: ../src/resources/help-overlay.ui.h:9
+msgid "Jump forward"
+msgstr "先に進む"
+
+#: ../src/resources/help-overlay.ui.h:10
 msgid "Zoom in"
 msgstr "拡大する"
 
-#: ../src/resources/help-overlay.ui.h:8
+#: ../src/resources/help-overlay.ui.h:11
 msgid "Zoom out"
 msgstr "縮小する"
 
-#: ../src/resources/help-overlay.ui.h:9
+#: ../src/resources/help-overlay.ui.h:12
 msgid "Open “Go to” dialog"
 msgstr "“移動”ダイアログを開く"
 
-#: ../src/resources/help-overlay.ui.h:10
+#: ../src/resources/help-overlay.ui.h:13
 msgid "Copy timestamp to clipboard"
 msgstr "クリップボードにタイムスタンプをコピーする"
 
-#: ../src/resources/help-overlay.ui.h:11
+#: ../src/resources/help-overlay.ui.h:14
 msgid "Go to timestamp in clipboard"
 msgstr "クリップボードのタイムスタンプに移動する"
 
-#: ../src/resources/help-overlay.ui.h:12 ../src/resources/menus.ui.h:5
+#: ../src/resources/help-overlay.ui.h:15 ../src/resources/menus.ui.h:5
 msgid "Help"
 msgstr "ヘルプ"
 
-#: ../src/resources/help-overlay.ui.h:13
+#: ../src/resources/help-overlay.ui.h:16
 msgid "Show help"
 msgstr "ヘルプを表示する"
 
-#: ../src/resources/help-overlay.ui.h:14
+#: ../src/resources/help-overlay.ui.h:17
 msgid "Show keyboard shortcuts"
 msgstr "キーボードショートカットを表示する"
 
@@ -350,6 +367,10 @@ msgstr "ウィンドウ"
 msgid "Speed:"
 msgstr "速度:"
 
-#: ../src/resources/window-headerbar.ui.h:2
+#: ../src/resources/window-headerbar.ui.h:3
 msgid "Open a file"
 msgstr "ファイルを開く"
+
+#: ../src/resources/window-headerbar.ui.h:4
+msgid "_Play"
+msgstr "再生(_P)"
