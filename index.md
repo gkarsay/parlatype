@@ -25,6 +25,9 @@ Parlatype is using the GStreamer framework which supports – with plugins – a
 ## Media keys and foot pedals
 Parlatype can be controlled with the “Play” button from your multimedia keyboard. This way it doesn’t have to have focus to control it. You can type in your text application and still have some (basic) control over Parlatype. Foot pedals can be assigned to the play button.
 
+### Footpedals
+This subsection documents how to get various footpedals to play nicely with Parlatype. Go to the [footpedals](footpedals/footpedals.md) section for details.
+
 ## Start on top
 Parlatype can start on top of other windows. If you are working with a maximized text application, you can still see the Parlatype window.
 
