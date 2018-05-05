@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # What is it?
 
 Parlatype is a minimal audio player for manual speech transcription, written for the GNOME desktop environment. It plays audio sources to transcribe them in your favourite text application.
