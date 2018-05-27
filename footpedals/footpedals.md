@@ -11,7 +11,7 @@ Here is a list of pedals known to work with Parlatype. If you have a footpedal t
 The _Infinity IN-USB-2_ is a very sturdy, industrial-quality, 3-pedal device. It can be purchased (amongst other places) on Amazon.
 
 ### Parlatype Installation
-Ensure that you have Parlatype installed as per your ususal installation procedure. The following instructions have been tested with `Ubuntu 16.04 LTS`, but should also work with other Linux distributions.
+Ensure that you have Parlatype installed as per your usual installation procedure. The following instructions have been tested with `Ubuntu 16.04 LTS`, but should also work with other Linux distributions.
 
 ### Create UDEV Rule
 For this footpedal to be used as a "keyboard" you will need a `udev` rule:
