@@ -1,4 +1,8 @@
-# Footpedals
+---
+layout: page
+title: Footpedals
+---
+
 Here is a list of pedals known to work with Parlatype. If you have a footpedal that is missing but you have been able to set up and work successfully in Parlatype, please add to this section. Thank you!
 
   * 05f3:00ff PI Engineering, Inc. VEC Footpedal (Infinity IN-USB-2)
