@@ -1,2 +1,6 @@
 title: Parlatype
 theme: minima
+header_pages:
+  - news.md
+  - features.md
+  - installation.md
