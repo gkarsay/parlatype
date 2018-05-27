@@ -6,7 +6,7 @@ layout: default
 
 Parlatype is a minimal audio player for manual speech transcription, written for the GNOME desktop environment. It plays audio sources to transcribe them in your favourite text application.
 
-![Screenshot of main window](/parlatype/images/parlatype-main-window.png)
+![Screenshot of main window](images/parlatype-main-window.png)
 
 ## Waveform
 The waveform makes it easy to navigate in your audio file. You see what comes next and spot silence.
