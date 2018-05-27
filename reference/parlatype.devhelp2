@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<!DOCTYPE book PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "">
 <book xmlns="http://www.devhelp.net/book" title="Parlatype Reference Manual" link="index.html" author="Gabor Karsay" name="parlatype" version="2" language="c">
   <chapters>
     <sub name="Overview" link="pt01.html">
@@ -75,9 +74,12 @@
     <keyword type="property" name="The “selection-end” property" link="PtWaveviewer.html#PtWaveviewer--selection-end"/>
     <keyword type="property" name="The “selection-start” property" link="PtWaveviewer.html#PtWaveviewer--selection-start"/>
     <keyword type="property" name="The “show-ruler” property" link="PtWaveviewer.html#PtWaveviewer--show-ruler"/>
+    <keyword type="property" name="The “zoom” property" link="PtWaveviewer.html#PtWaveviewer--zoom"/>
     <keyword type="signal" name="The “cursor-changed” signal" link="PtWaveviewer.html#PtWaveviewer-cursor-changed"/>
     <keyword type="signal" name="The “play-toggled” signal" link="PtWaveviewer.html#PtWaveviewer-play-toggled"/>
     <keyword type="signal" name="The “selection-changed” signal" link="PtWaveviewer.html#PtWaveviewer-selection-changed"/>
+    <keyword type="signal" name="The “zoom-in” signal" link="PtWaveviewer.html#PtWaveviewer-zoom-in"/>
+    <keyword type="signal" name="The “zoom-out” signal" link="PtWaveviewer.html#PtWaveviewer-zoom-out"/>
     <keyword type="function" name="pt_wavedata_new ()" link="PtWavedata.html#pt-wavedata-new"/>
     <keyword type="function" name="pt_wavedata_copy ()" link="PtWavedata.html#pt-wavedata-copy"/>
     <keyword type="function" name="pt_wavedata_free ()" link="PtWavedata.html#pt-wavedata-free"/>
@@ -90,5 +92,12 @@
     <keyword type="struct" name="struct PtWaveloader" link="PtWaveloader.html#PtWaveloader-struct"/>
     <keyword type="property" name="The “uri” property" link="PtWaveloader.html#PtWaveloader--uri"/>
     <keyword type="signal" name="The “progress” signal" link="PtWaveloader.html#PtWaveloader-progress"/>
+    <keyword type="constant" name="PT_PRECISION_SECOND" link="PtPlayer.html#PT-PRECISION-SECOND:CAPS"/>
+    <keyword type="constant" name="PT_PRECISION_SECOND_10TH" link="PtPlayer.html#PT-PRECISION-SECOND-10TH:CAPS"/>
+    <keyword type="constant" name="PT_PRECISION_SECOND_100TH" link="PtPlayer.html#PT-PRECISION-SECOND-100TH:CAPS"/>
+    <keyword type="member" name="PtWavedata-struct.array" link="PtWavedata.html#PtWavedata-struct.array"/>
+    <keyword type="member" name="PtWavedata-struct.length" link="PtWavedata.html#PtWavedata-struct.length"/>
+    <keyword type="member" name="PtWavedata-struct.channels" link="PtWavedata.html#PtWavedata-struct.channels"/>
+    <keyword type="member" name="PtWavedata-struct.px-per-sec" link="PtWavedata.html#PtWavedata-struct.px-per-sec"/>
   </functions>
 </book>

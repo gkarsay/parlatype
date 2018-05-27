@@ -2,13 +2,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Parlatype Reference Manual: PtPlayer</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<title>PtPlayer: Parlatype Reference Manual</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.79.1">
 <link rel="home" href="index.html" title="Parlatype Reference Manual">
 <link rel="up" href="pt02.html" title="Part II. Main backend: PtPlayer">
 <link rel="prev" href="pt02.html" title="Part II. Main backend: PtPlayer">
 <link rel="next" href="pt03.html" title="Part III. GtkWidgets">
-<meta name="generator" content="GTK-Doc V1.21 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.25 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -54,7 +54,7 @@ mentioned in the release notes for the affected release.
 </div>
 <div class="refsect1">
 <a name="PtPlayer.functions"></a><h2>Functions</h2>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="functions_return">
 <col class="functions_name">
@@ -206,7 +206,7 @@ mentioned in the release notes for the affected release.
 </tr>
 <tr>
 <td class="function_type">
-<span class="returnvalue">gint64</span>
+<a href="../glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a>
 </td>
 <td class="function_name">
 <a class="link" href="PtPlayer.html#pt-player-get-position" title="pt_player_get_position ()">pt_player_get_position</a> <span class="c_punctuation">()</span>
@@ -214,7 +214,7 @@ mentioned in the release notes for the affected release.
 </tr>
 <tr>
 <td class="function_type">
-<span class="returnvalue">gint64</span>
+<a href="../glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a>
 </td>
 <td class="function_name">
 <a class="link" href="PtPlayer.html#pt-player-get-duration" title="pt_player_get_duration ()">pt_player_get_duration</a> <span class="c_punctuation">()</span>
@@ -297,7 +297,7 @@ mentioned in the release notes for the affected release.
 </div>
 <div class="refsect1">
 <a name="PtPlayer.properties"></a><h2>Properties</h2>
-<div class="informaltable"><table border="0">
+<div class="informaltable"><table class="informaltable" border="0">
 <colgroup>
 <col width="150px" class="properties_type">
 <col width="300px" class="properties_name">
@@ -312,14 +312,14 @@ mentioned in the release notes for the affected release.
 <tr>
 <td class="property_type"><a href="../glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a></td>
 <td class="property_name"><a class="link" href="PtPlayer.html#PtPlayer--volume" title="The “volume” property">volume</a></td>
-<td class="property_flags">Read / Write</td>
+<td class="property_flags">Read / Write / Construct</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="refsect1">
 <a name="PtPlayer.signals"></a><h2>Signals</h2>
-<div class="informaltable"><table border="0">
+<div class="informaltable"><table class="informaltable" border="0">
 <colgroup>
 <col width="150px" class="signals_return">
 <col width="300px" class="signals_name">
@@ -329,24 +329,24 @@ mentioned in the release notes for the affected release.
 <tr>
 <td class="signal_type"><span class="returnvalue">void</span></td>
 <td class="signal_name"><a class="link" href="PtPlayer.html#PtPlayer-end-of-stream" title="The “end-of-stream” signal">end-of-stream</a></td>
-<td class="signal_flags">Run First</td>
+<td class="signal_flags"><a href="../gobject/gobject-Signals.html#G-SIGNAL-RUN-FIRST:CAPS">Run First</a></td>
 </tr>
 <tr>
 <td class="signal_type"><span class="returnvalue">void</span></td>
 <td class="signal_name"><a class="link" href="PtPlayer.html#PtPlayer-error" title="The “error” signal">error</a></td>
-<td class="signal_flags">Run First</td>
+<td class="signal_flags"><a href="../gobject/gobject-Signals.html#G-SIGNAL-RUN-FIRST:CAPS">Run First</a></td>
 </tr>
 <tr>
 <td class="signal_type"><span class="returnvalue">void</span></td>
 <td class="signal_name"><a class="link" href="PtPlayer.html#PtPlayer-load-progress" title="The “load-progress” signal">load-progress</a></td>
-<td class="signal_flags">Run First</td>
+<td class="signal_flags"><a href="../gobject/gobject-Signals.html#G-SIGNAL-RUN-FIRST:CAPS">Run First</a></td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="refsect1">
 <a name="PtPlayer.other"></a><h2>Types and Values</h2>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="name">
 <col class="description">
@@ -365,7 +365,7 @@ mentioned in the release notes for the affected release.
 </div>
 <div class="refsect1">
 <a name="PtPlayer.object-hierarchy"></a><h2>Object Hierarchy</h2>
-<pre class="screen">    <a href="../gobject/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+<pre class="screen">    <a href="../gobject/gobject-The-Base-Object-Type.html#GObject-struct">GObject</a>
     <span class="lineart">╰──</span> PtPlayer
 </pre>
 </div>
@@ -373,7 +373,7 @@ mentioned in the release notes for the affected release.
 <a name="PtPlayer.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
 <p>
 PtPlayer implements
- <a href="../gio/GInitable.html">GInitable</a>.</p>
+ <a href="../gio/GInitable.html#GInitable-struct">GInitable</a>.</p>
 </div>
 <div class="refsect1">
 <a name="PtPlayer.includes"></a><h2>Includes</h2>
@@ -412,8 +412,8 @@ pt_player_new (<em class="parameter"><code><a href="../glib/glib-Error-Reporting
 plugin is missing. In this case NULL is returned, error is set.</p>
 <p>After use <a href="../gobject/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a> it.</p>
 <div class="refsect3">
-<a name="id-1.3.2.12.2.6"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-player-new.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -427,7 +427,7 @@ plugin is missing. In this case NULL is returned, error is set.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.3.2.12.2.7"></a><h4>Returns</h4>
+<a name="pt-player-new.returns"></a><h4>Returns</h4>
 <p> a new pt_player. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -455,8 +455,8 @@ playback use <em class="parameter"><code><a class="link" href="PtPlayer.html#pt-
 <p>While loading the file there is a <a class="link" href="PtPlayer.html#PtPlayer-load-progress" title="The “load-progress” signal"><span class="type">“load-progress”</span></a> signal emitted which stops before
 reaching 100%. Don't use it to determine whether the operation is finished.</p>
 <div class="refsect3">
-<a name="id-1.3.2.12.3.9"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-player-open-uri-async.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -475,13 +475,13 @@ reaching 100%. Don't use it to determine whether the operation is finished.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>callback</p></td>
-<td class="parameter_description"><p>a <a href="../gio/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> to call when the operation is complete</p></td>
-<td class="parameter_annotations"> </td>
+<td class="parameter_description"><p> a <a href="../gio/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> to call when the operation is complete. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="The callback is valid until first called."><span class="acronym">scope async</span></acronym>]</span></td>
 </tr>
 <tr>
 <td class="parameter_name"><p>user_data</p></td>
-<td class="parameter_description"><p>user_data for callback</p></td>
-<td class="parameter_annotations"> </td>
+<td class="parameter_description"><p> user_data for callback. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym>]</span></td>
 </tr>
 </tbody>
 </table></div>
@@ -492,13 +492,13 @@ reaching 100%. Don't use it to determine whether the operation is finished.</p>
 <a name="pt-player-open-uri-finish"></a><h3>pt_player_open_uri_finish ()</h3>
 <pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 pt_player_open_uri_finish (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>,
-                           <em class="parameter"><code><a href="../gio/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
+                           <em class="parameter"><code><a href="../gio/GAsyncResult.html#GAsyncResult-struct"><span class="type">GAsyncResult</span></a> *result</code></em>,
                            <em class="parameter"><code><a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Gives the result of the async opening operation. A cancelled operation results
 in an error, too.</p>
 <div class="refsect3">
-<a name="id-1.3.2.12.4.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-player-open-uri-finish.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -512,21 +512,20 @@ in an error, too.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>result</p></td>
-<td class="parameter_description"><p>the <a href="../gio/GAsyncResult.html"><span class="type">GAsyncResult</span></a> passed to your <a href="../gio/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a></p></td>
+<td class="parameter_description"><p>the <a href="../gio/GAsyncResult.html#GAsyncResult-struct"><span class="type">GAsyncResult</span></a> passed to your <a href="../gio/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>a pointer to a NULL <a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>, or NULL</p></td>
-<td class="parameter_annotations"> </td>
+<td class="parameter_description"><p> a pointer to a NULL <a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>, or NULL. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.3.2.12.4.6"></a><h4>Returns</h4>
+<a name="pt-player-open-uri-finish.returns"></a><h4>Returns</h4>
 <p> TRUE if successful, or FALSE with error set</p>
-<p></p>
 </div>
 </div>
 <hr>
@@ -551,8 +550,8 @@ FALSE and an error. For the asynchronous version see
 <p>While loading the file there is a <a class="link" href="PtPlayer.html#PtPlayer-load-progress" title="The “load-progress” signal"><span class="type">“load-progress”</span></a> signal emitted.
 However, it doesn't emit 100%, the operation is finished when TRUE is returned.</p>
 <div class="refsect3">
-<a name="id-1.3.2.12.5.9"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-player-open-uri.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -578,9 +577,8 @@ However, it doesn't emit 100%, the operation is finished when TRUE is returned.<
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.3.2.12.5.10"></a><h4>Returns</h4>
+<a name="pt-player-open-uri.returns"></a><h4>Returns</h4>
 <p> TRUE if successful, or FALSE with error set</p>
-<p></p>
 </div>
 </div>
 <hr>
@@ -590,8 +588,8 @@ However, it doesn't emit 100%, the operation is finished when TRUE is returned.<
 pt_player_cancel (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>);</pre>
 <p>Cancels the file opening operation, which triggers an error message.</p>
 <div class="refsect3">
-<a name="id-1.3.2.12.6.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-player-cancel.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -613,8 +611,8 @@ pt_player_play (<em class="parameter"><code><a class="link" href="PtPlayer.html"
 <p>Starts playback at the defined speed until it reaches the end of stream (or
 the end of the selection)..</p>
 <div class="refsect3">
-<a name="id-1.3.2.12.7.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-player-play.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -637,8 +635,8 @@ pt_player_pause (<em class="parameter"><code><a class="link" href="PtPlayer.html
 change position. To resume playback use <em class="parameter"><code><a class="link" href="PtPlayer.html#pt-player-play" title="pt_player_play ()"><code class="function">pt_player_play()</code></a></code></em>
 .</p>
 <div class="refsect3">
-<a name="id-1.3.2.12.8.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-player-pause.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -657,15 +655,15 @@ change position. To resume playback use <em class="parameter"><code><a class="li
 <a name="pt-player-set-selection"></a><h3>pt_player_set_selection ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
 pt_player_set_selection (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>,
-                         <em class="parameter"><code><span class="type">gint64</span> start</code></em>,
-                         <em class="parameter"><code><span class="type">gint64</span> end</code></em>);</pre>
+                         <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gint64"><span class="type">gint64</span></a> start</code></em>,
+                         <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gint64"><span class="type">gint64</span></a> end</code></em>);</pre>
 <p>Set a selection. If the current position is outside the selection, it will
 be set to the selection's start position, otherwise the current position is
 not changed. Playing will end at the stop position and it's not possible to
 jump out of the selection until it is cleared with <a class="link" href="PtPlayer.html#pt-player-clear-selection" title="pt_player_clear_selection ()"><span class="type">pt_player_clear_selection</span></a>.</p>
 <div class="refsect3">
-<a name="id-1.3.2.12.9.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-player-set-selection.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -698,8 +696,8 @@ jump out of the selection until it is cleared with <a class="link" href="PtPlaye
 pt_player_clear_selection (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>);</pre>
 <p>Clear and reset any selection.</p>
 <div class="refsect3">
-<a name="id-1.3.2.12.10.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-player-clear-selection.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -726,8 +724,8 @@ to the end of stream (or selection). A negative value means jumping back.
 If the resulting position would be negative (or before the selection), it
 jumps to position 0:00 (or to the start of the selection).</p>
 <div class="refsect3">
-<a name="id-1.3.2.12.11.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-player-jump-relative.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -759,8 +757,8 @@ pt_player_jump_to_position (<em class="parameter"><code><a class="link" href="Pt
 starting from position 0:00. A position beyond the duration of stream (or
 outside the selection) is ignored.</p>
 <div class="refsect3">
-<a name="id-1.3.2.12.12.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-player-jump-to-position.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -792,8 +790,8 @@ at 1000. This will jump to the given position. If your widget uses a different
 scale, it's up to you to convert it to 1/1000. Values beyond 1000 are not
 allowed, values outside the selection are ignored.</p>
 <div class="refsect3">
-<a name="id-1.3.2.12.13.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-player-jump-to-permille.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -824,8 +822,8 @@ current position in stream, this gives the position on a scale between 0 and
 1000.</p>
 <p>Failure in querying the position returns -1.</p>
 <div class="refsect3">
-<a name="id-1.3.2.12.14.6"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-player-get-permille.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -839,9 +837,8 @@ current position in stream, this gives the position on a scale between 0 and
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.3.2.12.14.7"></a><h4>Returns</h4>
+<a name="pt-player-get-permille.returns"></a><h4>Returns</h4>
 <p> a scale position between 0 and 1000 or -1 on failure</p>
-<p></p>
 </div>
 </div>
 <hr>
@@ -859,8 +856,8 @@ Parlatype doesn't change the pitch during slower or faster playback.</p>
 method. Changing the "speed" property of PtPlayer, will take effect only
 later.</p>
 <div class="refsect3">
-<a name="id-1.3.2.12.15.6"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-player-set-speed.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -890,8 +887,8 @@ pt_player_set_volume (<em class="parameter"><code><a class="link" href="PtPlayer
 <p>Sets the volume on a scale between 0 and 1. Instead of using this method
 you could set the "volume" property.</p>
 <div class="refsect3">
-<a name="id-1.3.2.12.16.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-player-set-volume.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -921,8 +918,8 @@ pt_player_mute_volume (<em class="parameter"><code><a class="link" href="PtPlaye
 <p>Mute the player (with TRUE) or set it back to normal volume (with FALSE).
 This remembers the volume level, so you don't have to keep track of the old value.</p>
 <div class="refsect3">
-<a name="id-1.3.2.12.17.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-player-mute-volume.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -961,8 +958,8 @@ print a warning to standard output.</p>
 good.</p>
 </div>
 <div class="refsect3">
-<a name="id-1.3.2.12.18.6"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-player-rewind.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -997,8 +994,8 @@ is working properly with that version).</p>
 print a warning to standard output.</p>
 </div>
 <div class="refsect3">
-<a name="id-1.3.2.12.19.6"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-player-fast-forward.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1022,12 +1019,12 @@ print a warning to standard output.</p>
 <hr>
 <div class="refsect2">
 <a name="pt-player-get-position"></a><h3>pt_player_get_position ()</h3>
-<pre class="programlisting"><span class="returnvalue">gint64</span>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a>
 pt_player_get_position (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>);</pre>
 <p>Returns the current position in stream.</p>
 <div class="refsect3">
-<a name="id-1.3.2.12.20.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-player-get-position.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1041,20 +1038,19 @@ pt_player_get_position (<em class="parameter"><code><a class="link" href="PtPlay
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.3.2.12.20.6"></a><h4>Returns</h4>
+<a name="pt-player-get-position.returns"></a><h4>Returns</h4>
 <p> position in milliseconds or -1 on failure</p>
-<p></p>
 </div>
 </div>
 <hr>
 <div class="refsect2">
 <a name="pt-player-get-duration"></a><h3>pt_player_get_duration ()</h3>
-<pre class="programlisting"><span class="returnvalue">gint64</span>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a>
 pt_player_get_duration (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>);</pre>
 <p>Returns the duration of stream.</p>
 <div class="refsect3">
-<a name="id-1.3.2.12.21.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-player-get-duration.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1068,9 +1064,8 @@ pt_player_get_duration (<em class="parameter"><code><a class="link" href="PtPlay
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.3.2.12.21.6"></a><h4>Returns</h4>
+<a name="pt-player-get-duration.returns"></a><h4>Returns</h4>
 <p> duration in milliseconds</p>
-<p></p>
 </div>
 </div>
 <hr>
@@ -1080,8 +1075,8 @@ pt_player_get_duration (<em class="parameter"><code><a class="link" href="PtPlay
 pt_player_get_uri (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>);</pre>
 <p>Returns the URI of the currently open file or NULL if it can't be determined.</p>
 <div class="refsect3">
-<a name="id-1.3.2.12.22.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-player-get-uri.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1095,7 +1090,7 @@ pt_player_get_uri (<em class="parameter"><code><a class="link" href="PtPlayer.ht
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.3.2.12.22.6"></a><h4>Returns</h4>
+<a name="pt-player-get-uri.returns"></a><h4>Returns</h4>
 <p> the uri. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -1107,8 +1102,8 @@ pt_player_get_uri (<em class="parameter"><code><a class="link" href="PtPlayer.ht
 pt_player_get_filename (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>);</pre>
 <p>Returns the display name of the currently open file or NULL if it can't be determined.</p>
 <div class="refsect3">
-<a name="id-1.3.2.12.23.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-player-get-filename.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1122,7 +1117,7 @@ pt_player_get_filename (<em class="parameter"><code><a class="link" href="PtPlay
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.3.2.12.23.6"></a><h4>Returns</h4>
+<a name="pt-player-get-filename.returns"></a><h4>Returns</h4>
 <p> the file name. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -1139,8 +1134,8 @@ determined by <em class="parameter"><code>duration</code></em>
 , e.g. if duration is long format, it returns a string
 in long format, too.</p>
 <div class="refsect3">
-<a name="id-1.3.2.12.24.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-player-get-time-string.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1166,7 +1161,7 @@ in long format, too.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.3.2.12.24.6"></a><h4>Returns</h4>
+<a name="pt-player-get-time-string.returns"></a><h4>Returns</h4>
 <p> the time string. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -1180,8 +1175,8 @@ pt_player_get_current_time_string (<em class="parameter"><code><a class="link" h
 <p>Returns the current position of the stream as a string for display to the user.</p>
 <p>If the current position can not be determined, NULL is returned.</p>
 <div class="refsect3">
-<a name="id-1.3.2.12.25.6"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-player-get-current-time-string.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1202,7 +1197,7 @@ pt_player_get_current_time_string (<em class="parameter"><code><a class="link" h
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.3.2.12.25.7"></a><h4>Returns</h4>
+<a name="pt-player-get-current-time-string.returns"></a><h4>Returns</h4>
 <p> the time string. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -1216,8 +1211,8 @@ pt_player_get_duration_time_string (<em class="parameter"><code><a class="link" 
 <p>Returns the duration of the stream as a string for display to the user.</p>
 <p>If the duration can not be determined, NULL is returned.</p>
 <div class="refsect3">
-<a name="id-1.3.2.12.26.6"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-player-get-duration-time-string.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1238,7 +1233,7 @@ pt_player_get_duration_time_string (<em class="parameter"><code><a class="link" 
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.3.2.12.26.7"></a><h4>Returns</h4>
+<a name="pt-player-get-duration-time-string.returns"></a><h4>Returns</h4>
 <p> the time string. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -1251,8 +1246,8 @@ pt_player_get_timestamp (<em class="parameter"><code><a class="link" href="PtPla
 <p>Returns the current timestamp as a string. The format of timestamps can not be changed.</p>
 <p>If the current position can not be determined, NULL is returned.</p>
 <div class="refsect3">
-<a name="id-1.3.2.12.27.6"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-player-get-timestamp.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1266,7 +1261,7 @@ pt_player_get_timestamp (<em class="parameter"><code><a class="link" href="PtPla
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.3.2.12.27.7"></a><h4>Returns</h4>
+<a name="pt-player-get-timestamp.returns"></a><h4>Returns</h4>
 <p> the timestamp. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -1281,8 +1276,8 @@ pt_player_string_is_timestamp (<em class="parameter"><code><a class="link" href=
 <p>See also <a class="link" href="PtPlayer.html#pt-player-goto-timestamp" title="pt_player_goto_timestamp ()"><code class="function">pt_player_goto_timestamp()</code></a> if you want to go to the timestamp's
 position immediately after.</p>
 <div class="refsect3">
-<a name="id-1.3.2.12.28.6"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-player-string-is-timestamp.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1303,9 +1298,8 @@ position immediately after.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.3.2.12.28.7"></a><h4>Returns</h4>
+<a name="pt-player-string-is-timestamp.returns"></a><h4>Returns</h4>
 <p> TRUE if the timestamp is valid, FALSE if not</p>
-<p></p>
 </div>
 </div>
 <hr>
@@ -1317,8 +1311,8 @@ pt_player_goto_timestamp (<em class="parameter"><code><a class="link" href="PtPl
 <p>Goes to the position of the timestamp. Returns false, if it's not a
 valid timestamp.</p>
 <div class="refsect3">
-<a name="id-1.3.2.12.29.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-player-goto-timestamp.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1339,9 +1333,8 @@ valid timestamp.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.3.2.12.29.6"></a><h4>Returns</h4>
+<a name="pt-player-goto-timestamp.returns"></a><h4>Returns</h4>
 <p> TRUE on success, FALSE if the timestamp is not valid</p>
-<p></p>
 </div>
 </div>
 <hr>
@@ -1356,8 +1349,8 @@ is represented by 100 samples, is 100 pixels wide. The returned resolution
 doesn't have to be necessarily exactly the requested resolution, it might be
 a bit differnt, depending on the bit rate.</p>
 <div class="refsect3">
-<a name="id-1.3.2.12.30.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-player-get-data.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1378,7 +1371,7 @@ a bit differnt, depending on the bit rate.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.3.2.12.30.6"></a><h4>Returns</h4>
+<a name="pt-player-get-data.returns"></a><h4>Returns</h4>
 <p> the <a class="link" href="PtWavedata.html" title="PtWavedata"><span class="type">PtWavedata</span></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -1396,8 +1389,8 @@ a bit differnt, depending on the bit rate.</p>
 <a name="PtPrecisionType"></a><h3>enum PtPrecisionType</h3>
 <p>Enum values indicating desired precision of time strings.</p>
 <div class="refsect3">
-<a name="id-1.3.2.13.3.4"></a><h4>Members</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="PtPrecisionType.members"></a><h4>Members</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="300px" class="enum_members_name">
 <col class="enum_members_description">
@@ -1445,7 +1438,7 @@ a bit differnt, depending on the bit rate.</p>
 <a name="PtPlayer--volume"></a><h3>The <code class="literal">“volume”</code> property</h3>
 <pre class="programlisting">  “volume”                   <a href="../glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a></pre>
 <p>The volume for playback.</p>
-<p>Flags: Read / Write</p>
+<p>Flags: Read / Write / Construct</p>
 <p>Allowed values: [0,1]</p>
 <p>Default value: 1</p>
 </div>
@@ -1460,8 +1453,8 @@ user_function (<a class="link" href="PtPlayer.html" title="PtPlayer"><span class
 <p>The <a class="link" href="PtPlayer.html#PtPlayer-end-of-stream" title="The “end-of-stream” signal"><span class="type">“end-of-stream”</span></a> signal is emitted when the stream is at its end
 or when the end of selection is reached.</p>
 <div class="refsect3">
-<a name="id-1.3.2.15.2.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="PtPlayer-end-of-stream.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1481,7 +1474,7 @@ or when the end of selection is reached.</p>
 </tbody>
 </table></div>
 </div>
-<p>Flags: Run First</p>
+<p>Flags: <a href="../gobject/gobject-Signals.html#G-SIGNAL-RUN-FIRST:CAPS">Run First</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1493,8 +1486,8 @@ user_function (<a class="link" href="PtPlayer.html" title="PtPlayer"><span class
 <p>The <a class="link" href="PtPlayer.html#PtPlayer-error" title="The “error” signal"><span class="type">“error”</span></a> signal is emitted on errors opening the file or during
 playback. It's a severe error and the player is always reset.</p>
 <div class="refsect3">
-<a name="id-1.3.2.15.3.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="PtPlayer-error.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1519,7 +1512,7 @@ playback. It's a severe error and the player is always reset.</p>
 </tbody>
 </table></div>
 </div>
-<p>Flags: Run First</p>
+<p>Flags: <a href="../gobject/gobject-Signals.html#G-SIGNAL-RUN-FIRST:CAPS">Run First</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1532,8 +1525,8 @@ user_function (<a class="link" href="PtPlayer.html" title="PtPlayer"><span class
 emit the value 0.0 nor 1.0. Wait for a TRUE player-state-changed
 signal or an error signal to dismiss a gui element showing progress.</p>
 <div class="refsect3">
-<a name="id-1.3.2.15.4.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="PtPlayer-load-progress.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1558,12 +1551,11 @@ signal or an error signal to dismiss a gui element showing progress.</p>
 </tbody>
 </table></div>
 </div>
-<p>Flags: Run First</p>
+<p>Flags: <a href="../gobject/gobject-Signals.html#G-SIGNAL-RUN-FIRST:CAPS">Run First</a></p>
 </div>
 </div>
 </div>
 <div class="footer">
-<hr>
-          Generated by GTK-Doc V1.21</div>
+<hr>Generated by GTK-Doc V1.25</div>
 </body>
 </html>

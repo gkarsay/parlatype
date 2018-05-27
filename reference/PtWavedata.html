@@ -2,13 +2,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Parlatype Reference Manual: PtWavedata</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<title>PtWavedata: Parlatype Reference Manual</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.79.1">
 <link rel="home" href="index.html" title="Parlatype Reference Manual">
 <link rel="up" href="pt04.html" title="Part IV. Internals: Get Wavedata">
 <link rel="prev" href="pt04.html" title="Part IV. Internals: Get Wavedata">
 <link rel="next" href="PtWaveloader.html" title="PtWaveloader">
-<meta name="generator" content="GTK-Doc V1.21 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.25 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -51,7 +51,7 @@ mentioned in the release notes for the affected release.
 </div>
 <div class="refsect1">
 <a name="PtWavedata.functions"></a><h2>Functions</h2>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="functions_return">
 <col class="functions_name">
@@ -86,7 +86,7 @@ mentioned in the release notes for the affected release.
 </div>
 <div class="refsect1">
 <a name="PtWavedata.other"></a><h2>Types and Values</h2>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="name">
 <col class="description">
@@ -99,7 +99,7 @@ mentioned in the release notes for the affected release.
 </div>
 <div class="refsect1">
 <a name="PtWavedata.object-hierarchy"></a><h2>Object Hierarchy</h2>
-<pre class="screen">    GBoxed
+<pre class="screen">    <a href="/usr/share/gtk-doc/html/gobject/gobject-Boxed-Types.html">GBoxed</a>
     <span class="lineart">╰──</span> PtWavedata
 </pre>
 </div>
@@ -144,13 +144,14 @@ data <span class="gtkdoc opt">=</span> <span class="function"><a href="PtPlayer.
 <a name="pt-wavedata-new"></a><h3>pt_wavedata_new ()</h3>
 <pre class="programlisting"><a class="link" href="PtWavedata.html" title="PtWavedata"><span class="returnvalue">PtWavedata</span></a> *
 pt_wavedata_new (<em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gfloat"><span class="type">gfloat</span></a> *array</code></em>,
-                 <em class="parameter"><code><span class="type">gint64</span> length</code></em>,
+                 <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gint64"><span class="type">gint64</span></a> length</code></em>,
                  <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a> channels</code></em>,
                  <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a> px_per_sec</code></em>);</pre>
 <p>Constructs a new <a class="link" href="PtWavedata.html" title="PtWavedata"><span class="type">PtWavedata</span></a>.</p>
+<p><span class="annotation">[<acronym title="This symbol is a constructor, not a static method."><span class="acronym">constructor</span></acronym>]</span></p>
 <div class="refsect3">
-<a name="id-1.5.2.9.2.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-wavedata-new.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -181,7 +182,7 @@ pt_wavedata_new (<em class="parameter"><code><a href="../glib/glib-Basic-Types.h
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.2.9.2.6"></a><h4>Returns</h4>
+<a name="pt-wavedata-new.returns"></a><h4>Returns</h4>
 <p> new data, free after use with <a class="link" href="PtWavedata.html#pt-wavedata-free" title="pt_wavedata_free ()"><code class="function">pt_wavedata_free()</code></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -193,9 +194,10 @@ pt_wavedata_new (<em class="parameter"><code><a href="../glib/glib-Basic-Types.h
 pt_wavedata_copy (<em class="parameter"><code><a class="link" href="PtWavedata.html" title="PtWavedata"><span class="type">PtWavedata</span></a> *data</code></em>);</pre>
 <p>Creates a copy of <em class="parameter"><code>data</code></em>
 .</p>
+<p><span class="annotation">[<acronym title="Exposed in C code, not necessarily available in other languages."><span class="acronym">skip</span></acronym>]</span></p>
 <div class="refsect3">
-<a name="id-1.5.2.9.3.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-wavedata-copy.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -209,9 +211,8 @@ pt_wavedata_copy (<em class="parameter"><code><a class="link" href="PtWavedata.h
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.2.9.3.6"></a><h4>Returns</h4>
+<a name="pt-wavedata-copy.returns"></a><h4>Returns</h4>
 <p> a new <a class="link" href="PtWavedata.html" title="PtWavedata"><span class="type">PtWavedata</span></a>, free after use with <a class="link" href="PtWavedata.html#pt-wavedata-free" title="pt_wavedata_free ()"><code class="function">pt_wavedata_free()</code></a></p>
-<p></p>
 </div>
 </div>
 <hr>
@@ -221,9 +222,10 @@ pt_wavedata_copy (<em class="parameter"><code><a class="link" href="PtWavedata.h
 pt_wavedata_free (<em class="parameter"><code><a class="link" href="PtWavedata.html" title="PtWavedata"><span class="type">PtWavedata</span></a> *data</code></em>);</pre>
 <p>Free's <em class="parameter"><code>data</code></em>
 .</p>
+<p><span class="annotation">[<acronym title="Exposed in C code, not necessarily available in other languages."><span class="acronym">skip</span></acronym>]</span></p>
 <div class="refsect3">
-<a name="id-1.5.2.9.4.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-wavedata-free.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -252,8 +254,8 @@ pt_wavedata_free (<em class="parameter"><code><a class="link" href="PtWavedata.h
 <p>Contains all information about the wave. Usually you don't have to access
 the struct's members.</p>
 <div class="refsect3">
-<a name="id-1.5.2.10.2.5"></a><h4>Members</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="PtWavedata.members"></a><h4>Members</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="300px" class="struct_members_name">
 <col class="struct_members_description">
@@ -270,7 +272,7 @@ point in time, but a min and a max value in a certain amount of time, e.g.
 <td class="struct_member_annotations"><span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> length=length]</span></td>
 </tr>
 <tr>
-<td class="struct_member_name"><p><span class="type">gint64</span> <em class="structfield"><code><a name="PtWavedata-struct.length"></a>length</code></em>;</p></td>
+<td class="struct_member_name"><p><a href="../glib/glib-Basic-Types.html#gint64"><span class="type">gint64</span></a> <em class="structfield"><code><a name="PtWavedata-struct.length"></a>length</code></em>;</p></td>
 <td class="struct_member_description"><p>number of elements in array</p></td>
 <td class="struct_member_annotations"> </td>
 </tr>
@@ -292,7 +294,6 @@ is 100 pixels wide.</p></td>
 </div>
 </div>
 <div class="footer">
-<hr>
-          Generated by GTK-Doc V1.21</div>
+<hr>Generated by GTK-Doc V1.25</div>
 </body>
 </html>

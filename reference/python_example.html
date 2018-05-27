@@ -2,13 +2,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Parlatype Reference Manual: A python example</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<title>A python example: Parlatype Reference Manual</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.79.1">
 <link rel="home" href="index.html" title="Parlatype Reference Manual">
 <link rel="up" href="pt01.html" title="Part I. Overview">
 <link rel="prev" href="using_library.html" title="Using the library">
 <link rel="next" href="pt02.html" title="Part II. Main backend: PtPlayer">
-<meta name="generator" content="GTK-Doc V1.21 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.25 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -163,120 +163,168 @@
 134
 135
 136
-137</pre></td>
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161</pre></td>
         <td class="listing_code"><pre class="programlisting"><span class="gtkdoc ppc">#!/usr/bin/env python3</span>
 <span class="gtkdoc ppc"># -*- coding: utf-8 -*-</span>
 
 <span class="string">&quot;&quot;</span><span class="string">&quot; parlatype-example.py demonstrates libparlatype.</span>
 <span class="string">    Change testfile to an existing file! &quot;</span><span class="string">&quot;&quot;</span>
 
-testfile <span class="gtkdoc opt">=</span> <span class="string">&quot;file:///home/user/example.mp3&quot;</span>
-
 import gi
-gi<span class="gtkdoc opt">.</span><span class="function">require_version</span><span class="gtkdoc opt">(</span><span class="string">'Gtk'</span><span class="gtkdoc opt">,</span> <span class="string">'3.0'</span><span class="gtkdoc opt">)</span>
-
 from gi<span class="gtkdoc opt">.</span>repository import Parlatype as Pt
 from gi<span class="gtkdoc opt">.</span>repository import Gtk
-from gi<span class="gtkdoc opt">.</span>repository import GObject	<span class="gtkdoc ppc"># for GObject.timeout</span>
+from gi<span class="gtkdoc opt">.</span>repository import GObject  <span class="gtkdoc ppc"># for GObject.timeout</span>
+gi<span class="gtkdoc opt">.</span><span class="function">require_version</span><span class="gtkdoc opt">(</span><span class="string">'Gtk'</span><span class="gtkdoc opt">,</span> <span class="string">'3.0'</span><span class="gtkdoc opt">)</span>
+
+testfile <span class="gtkdoc opt">=</span> <span class="string">&quot;file:///home/user/example.mp3&quot;</span>
 
 
-def <span class="function">error_message</span> <span class="gtkdoc opt">(</span>message<span class="gtkdoc opt">,</span>parent<span class="gtkdoc opt">):</span>
-	msg <span class="gtkdoc opt">=</span> Gtk<span class="gtkdoc opt">.</span><span class="function">MessageDialog</span><span class="gtkdoc opt">(</span>parent<span class="gtkdoc opt">=</span>parent<span class="gtkdoc opt">,</span>
-                                flags<span class="gtkdoc opt">=</span>Gtk<span class="gtkdoc opt">.</span>DialogFlags<span class="gtkdoc opt">.</span>MODAL<span class="gtkdoc opt">,</span>
-                                type<span class="gtkdoc opt">=</span>Gtk<span class="gtkdoc opt">.</span>MessageType<span class="gtkdoc opt">.</span>ERROR<span class="gtkdoc opt">,</span>
-                                buttons<span class="gtkdoc opt">=</span>Gtk<span class="gtkdoc opt">.</span>ButtonsType<span class="gtkdoc opt">.</span>OK<span class="gtkdoc opt">,</span>
-                                message_format<span class="gtkdoc opt">=</span>message<span class="gtkdoc opt">)</span>
-	msg<span class="gtkdoc opt">.</span><span class="function">run</span><span class="gtkdoc opt">()</span>
-	msg<span class="gtkdoc opt">.</span><span class="function">destroy</span><span class="gtkdoc opt">()</span>
+def <span class="function">error_message</span><span class="gtkdoc opt">(</span>message<span class="gtkdoc opt">,</span> parent<span class="gtkdoc opt">):</span>
+    msg <span class="gtkdoc opt">=</span> Gtk<span class="gtkdoc opt">.</span><span class="function">MessageDialog</span><span class="gtkdoc opt">(</span>parent<span class="gtkdoc opt">=</span>parent<span class="gtkdoc opt">,</span>
+                            flags<span class="gtkdoc opt">=</span>Gtk<span class="gtkdoc opt">.</span>DialogFlags<span class="gtkdoc opt">.</span>MODAL<span class="gtkdoc opt">,</span>
+                            type<span class="gtkdoc opt">=</span>Gtk<span class="gtkdoc opt">.</span>MessageType<span class="gtkdoc opt">.</span>ERROR<span class="gtkdoc opt">,</span>
+                            buttons<span class="gtkdoc opt">=</span>Gtk<span class="gtkdoc opt">.</span>ButtonsType<span class="gtkdoc opt">.</span>OK<span class="gtkdoc opt">,</span>
+                            message_format<span class="gtkdoc opt">=</span>message<span class="gtkdoc opt">)</span>
+    msg<span class="gtkdoc opt">.</span><span class="function">run</span><span class="gtkdoc opt">()</span>
+    msg<span class="gtkdoc opt">.</span><span class="function">destroy</span><span class="gtkdoc opt">()</span>
+
 
 <span class="string">&quot;&quot;</span><span class="string">&quot; PtPlayer's error signal.</span>
 <span class="string">    It's a severe error and the PtPlayer is reset. There is not much we can</span>
 <span class="string">    do about it, here we simply quit. &quot;</span><span class="string">&quot;&quot;</span>
-def <span class="function">player_error</span> <span class="gtkdoc opt">(</span>player<span class="gtkdoc opt">,</span> error<span class="gtkdoc opt">):</span>
-	<span class="function">error_message</span> <span class="gtkdoc opt">(</span>error<span class="gtkdoc opt">.</span>args<span class="gtkdoc opt">[</span><span class="number">0</span><span class="gtkdoc opt">],</span>win<span class="gtkdoc opt">)</span>
-	Gtk<span class="gtkdoc opt">.</span>main_quit
+
+
+def <span class="function">player_error</span><span class="gtkdoc opt">(</span>player<span class="gtkdoc opt">,</span> error<span class="gtkdoc opt">):</span>
+    <span class="function">error_message</span><span class="gtkdoc opt">(</span>error<span class="gtkdoc opt">.</span>args<span class="gtkdoc opt">[</span><span class="number">0</span><span class="gtkdoc opt">],</span> win<span class="gtkdoc opt">)</span>
+    Gtk<span class="gtkdoc opt">.</span>main_quit
+
 
 <span class="string">&quot;&quot;</span><span class="string">&quot; PtPlayer's end-of-stream signal.</span>
 <span class="string">    Player is at the end and changes to paused state. Note that stream means</span>
 <span class="string">    any playable source like files, too.</span>
 <span class="string">    We set our buttons according to the state. &quot;</span><span class="string">&quot;&quot;</span>
-def <span class="function">player_end_of_stream</span> <span class="gtkdoc opt">(</span>player<span class="gtkdoc opt">):</span>
-	button<span class="gtkdoc opt">.</span><span class="function">set_active</span><span class="gtkdoc opt">(</span>False<span class="gtkdoc opt">)</span>
+
+
+def <span class="function">player_end_of_stream</span><span class="gtkdoc opt">(</span>player<span class="gtkdoc opt">):</span>
+    button<span class="gtkdoc opt">.</span><span class="function">set_active</span><span class="gtkdoc opt">(</span>False<span class="gtkdoc opt">)</span>
+
 
 <span class="string">&quot;&quot;</span><span class="string">&quot; The two main functions are Pt.Player.play() and Pt.Player.pause().</span>
 <span class="string">    PtWaveviewer scrolls to cursor (follow-cursor) by default but if the user</span>
 <span class="string">    has scrolled manually follow-cursor is set to False. Here we assume that on</span>
 <span class="string">    play the user wants to follow cursor again. &quot;</span><span class="string">&quot;&quot;</span>
-def <span class="function">button_toggled</span> <span class="gtkdoc opt">(</span>button<span class="gtkdoc opt">):</span>
-	<span class="keyword">if</span> button<span class="gtkdoc opt">.</span><span class="function">get_active</span><span class="gtkdoc opt">():</span>
-		viewer<span class="gtkdoc opt">.</span><span class="function">set_property</span><span class="gtkdoc opt">(</span><span class="string">&quot;follow-cursor&quot;</span><span class="gtkdoc opt">,</span> True<span class="gtkdoc opt">)</span>
-		player<span class="gtkdoc opt">.</span><span class="function">play</span><span class="gtkdoc opt">()</span>
-	<span class="keyword">else</span><span class="gtkdoc opt">:</span>
-		player<span class="gtkdoc opt">.</span><span class="function">pause</span><span class="gtkdoc opt">()</span>
+
+
+def <span class="function">button_toggled</span><span class="gtkdoc opt">(</span>button<span class="gtkdoc opt">):</span>
+    <span class="keyword">if</span> button<span class="gtkdoc opt">.</span><span class="function">get_active</span><span class="gtkdoc opt">():</span>
+        viewer<span class="gtkdoc opt">.</span><span class="function">set_property</span><span class="gtkdoc opt">(</span><span class="string">&quot;follow-cursor&quot;</span><span class="gtkdoc opt">,</span> True<span class="gtkdoc opt">)</span>
+        player<span class="gtkdoc opt">.</span><span class="function">play</span><span class="gtkdoc opt">()</span>
+    <span class="keyword">else</span><span class="gtkdoc opt">:</span>
+        player<span class="gtkdoc opt">.</span><span class="function">pause</span><span class="gtkdoc opt">()</span>
+
 
 <span class="string">&quot;&quot;</span><span class="string">&quot; In this timeout callback we update cursor position and time label. &quot;</span><span class="string">&quot;&quot;</span>
-def <span class="function">update_cursor</span> <span class="gtkdoc opt">():</span>
-	viewer<span class="gtkdoc opt">.</span><span class="function">set_property</span><span class="gtkdoc opt">(</span><span class="string">&quot;playback-cursor&quot;</span><span class="gtkdoc opt">,</span> player<span class="gtkdoc opt">.</span><span class="function">get_position</span><span class="gtkdoc opt">())</span>
-	text <span class="gtkdoc opt">=</span> player<span class="gtkdoc opt">.</span><span class="function">get_current_time_string</span><span class="gtkdoc opt">(</span>Pt<span class="gtkdoc opt">.</span>PrecisionType<span class="gtkdoc opt">.</span>SECOND_10TH<span class="gtkdoc opt">)</span>
-	<span class="gtkdoc ppc"># Sometimes the position can</span><span class="gtkdoc pps">'t be retrieved and None is returned.</span>
-<span class="gtkdoc pps">	if (text):</span>
-<span class="gtkdoc pps">		label.set_text(text)</span>
-<span class="gtkdoc pps">	# Continue updating</span>
-<span class="gtkdoc pps">	return True</span>
+
+
+def <span class="function">update_cursor</span><span class="gtkdoc opt">():</span>
+    viewer<span class="gtkdoc opt">.</span><span class="function">set_property</span><span class="gtkdoc opt">(</span><span class="string">&quot;playback-cursor&quot;</span><span class="gtkdoc opt">,</span> player<span class="gtkdoc opt">.</span><span class="function">get_position</span><span class="gtkdoc opt">())</span>
+    text <span class="gtkdoc opt">=</span> player<span class="gtkdoc opt">.</span><span class="function">get_current_time_string</span><span class="gtkdoc opt">(</span>Pt<span class="gtkdoc opt">.</span>PrecisionType<span class="gtkdoc opt">.</span>SECOND_10TH<span class="gtkdoc opt">)</span>
+    <span class="gtkdoc ppc"># Sometimes the position can</span><span class="gtkdoc pps">'t be retrieved and None is returned.</span>
+<span class="gtkdoc pps">    if (text):</span>
+<span class="gtkdoc pps">        label.set_text(text)</span>
+<span class="gtkdoc pps">    # Continue updating</span>
+<span class="gtkdoc pps">    return True</span>
+<span class="gtkdoc pps"></span>
 <span class="gtkdoc pps"></span>
 <span class="gtkdoc pps">&quot;&quot;&quot; PtWaveviewer'</span><span class="gtkdoc ppc">s cursor-changed signal.</span>
     This means the user clicked on the widget to change cursor position<span class="gtkdoc opt">.</span>
     We have to inform the PtPlayer<span class="gtkdoc opt">.</span> We set the follow<span class="gtkdoc opt">-</span>cursor property<span class="gtkdoc opt">,</span> too<span class="gtkdoc opt">.</span> <span class="string">&quot;&quot;</span><span class="string">&quot;</span>
-<span class="string">def cursor_changed (viewer, position):</span>
-<span class="string">	player.jump_to_position (position)</span>
-<span class="string">	viewer.set_property(&quot;</span>follow<span class="gtkdoc opt">-</span>cursor<span class="string">&quot;, True)</span>
+<span class="string"></span>
+<span class="string"></span>
+<span class="string">def cursor_changed(viewer, position):</span>
+<span class="string">    player.jump_to_position(position)</span>
+<span class="string">    viewer.set_property(&quot;</span>follow<span class="gtkdoc opt">-</span>cursor<span class="string">&quot;, True)</span>
+<span class="string"></span>
 <span class="string"></span>
 <span class="string">&quot;</span><span class="string">&quot;&quot;</span> Player<span class="string">'s open async callback.</span>
-<span class="string">    Destroy progress dialog and get result. On success get wave data and pass it</span>
-<span class="string">    to the PtWaveviewer. Add a timeout of 10 ms to update cursor position and</span>
-<span class="string">    time label. &quot;&quot;&quot;</span>
-<span class="string">def open_callback (player, result):</span>
-<span class="string">	progress.destroy()</span>
-<span class="string">	try:</span>
-<span class="string">		player.open_uri_finish(result)</span>
-<span class="string">		# Get data at a resolution of 100 px per second</span>
-<span class="string">		data = player.get_data(100)</span>
-<span class="string">		viewer.set_wave(data)</span>
-<span class="string">		GObject.timeout_add(10,update_cursor)</span>
-<span class="string">	except Exception as err:</span>
-<span class="string">		error_message (err.args[0],win)</span>
+<span class="string">    Destroy progress dialog and get result. On success get wave data and pass</span>
+<span class="string">    it to the PtWaveviewer. Add a timeout of 10 ms to update cursor position</span>
+<span class="string">    and time label. &quot;&quot;&quot;</span>
+<span class="string"></span>
+<span class="string"></span>
+<span class="string">def open_callback(player, result):</span>
+<span class="string">    progress.destroy()</span>
+<span class="string">    try:</span>
+<span class="string">        player.open_uri_finish(result)</span>
+<span class="string">        # Get data at a resolution of 100 px per second</span>
+<span class="string">        data = player.get_data(100)</span>
+<span class="string">        viewer.set_wave(data)</span>
+<span class="string">        GObject.timeout_add(10, update_cursor)</span>
+<span class="string">    except Exception as err:</span>
+<span class="string">        error_message(err.args[0], win)</span>
+<span class="string"></span>
 <span class="string"></span>
 <span class="string">&quot;&quot;&quot; Pass PtPlayer'</span>s emitted progress signal to the PtProgressDialog<span class="gtkdoc opt">.</span> <span class="string">&quot;&quot;</span><span class="string">&quot;</span>
-<span class="string">def progress_update_callback (player, value, dialog):</span>
-<span class="string">	dialog.set_progress (value)</span>
+<span class="string"></span>
+<span class="string"></span>
+<span class="string">def progress_update_callback(player, value, dialog):</span>
+<span class="string">    dialog.set_progress(value)</span>
+<span class="string"></span>
 <span class="string"></span>
 <span class="string">&quot;</span><span class="string">&quot;&quot;</span> PtPlayer<span class="string">'s async open function can be cancelled.</span>
 <span class="string">    This emits an error message for the open callback. &quot;&quot;&quot;</span>
-<span class="string">def progress_response_callback (progress, response):</span>
-<span class="string">	if response == Gtk.ResponseType.CANCEL:</span>
-<span class="string">		player.cancel()</span>
+<span class="string"></span>
+<span class="string"></span>
+<span class="string">def progress_response_callback(progress, response):</span>
+<span class="string">    if response == Gtk.ResponseType.CANCEL:</span>
+<span class="string">        player.cancel()</span>
+<span class="string"></span>
 <span class="string"></span>
 <span class="string">if testfile == &quot;file:///home/user/example.mp3&quot;:</span>
-<span class="string">	error_message (&quot;Please change '</span>file<span class="gtkdoc opt">:</span><span class="gtkdoc slc">///home/user/example.mp3' in source &quot;</span>
-		       <span class="string">&quot;to an existing test file.&quot;</span><span class="gtkdoc opt">,</span> None<span class="gtkdoc opt">)</span>
-	<span class="function">exit</span><span class="gtkdoc opt">()</span>
+<span class="string">    error_message(&quot;Please change '</span>file<span class="gtkdoc opt">:</span><span class="gtkdoc slc">///home/user/example.mp3' in source &quot;</span>
+                  <span class="string">&quot;to an existing test file.&quot;</span><span class="gtkdoc opt">,</span> None<span class="gtkdoc opt">)</span>
+    <span class="function">exit</span><span class="gtkdoc opt">()</span>
 
 <span class="gtkdoc ppc"># PtPlayer has a failable constructor, if GStreamer can</span><span class="gtkdoc pps">'t be initted.</span>
 <span class="gtkdoc pps">try:</span>
-<span class="gtkdoc pps">	player = Pt.Player.new()</span>
+<span class="gtkdoc pps">    player = Pt.Player.new()</span>
 <span class="gtkdoc pps">except Exception as err:</span>
-<span class="gtkdoc pps">	error_message (err.args[0],None)</span>
-<span class="gtkdoc pps">	exit()</span>
-<span class="gtkdoc pps">	</span>
-<span class="gtkdoc pps">player.connect(&quot;error&quot;,player_error)</span>
+<span class="gtkdoc pps">    error_message(err.args[0], None)</span>
+<span class="gtkdoc pps">    exit()</span>
+<span class="gtkdoc pps"></span>
+<span class="gtkdoc pps">player.connect(&quot;error&quot;, player_error)</span>
 <span class="gtkdoc pps">player.connect(&quot;end-of-stream&quot;, player_end_of_stream)</span>
 <span class="gtkdoc pps"># For the PtProgressDialog we have to use the async opening function</span>
-<span class="gtkdoc pps">player.open_uri_async (testfile, open_callback);</span>
+<span class="gtkdoc pps">player.open_uri_async(testfile, open_callback)</span>
 <span class="gtkdoc pps"></span>
 <span class="gtkdoc pps"># Now create the window with play button, PtWaveviewer and time label.</span>
 <span class="gtkdoc pps">win = Gtk.Window()</span>
 <span class="gtkdoc pps">win.set_border_width(12)</span>
-<span class="gtkdoc pps">win.set_default_size(500,80)</span>
+<span class="gtkdoc pps">win.set_default_size(500, 80)</span>
 <span class="gtkdoc pps">win.connect(&quot;delete-event&quot;, Gtk.main_quit)</span>
 <span class="gtkdoc pps"></span>
 <span class="gtkdoc pps">viewer = Pt.Waveviewer.new()</span>
@@ -308,7 +356,6 @@ def <span class="function">update_cursor</span> <span class="gtkdoc opt">():</sp
 
 </div>
 <div class="footer">
-<hr>
-          Generated by GTK-Doc V1.21</div>
+<hr>Generated by GTK-Doc V1.25</div>
 </body>
 </html>

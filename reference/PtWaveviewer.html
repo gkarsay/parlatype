@@ -2,13 +2,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Parlatype Reference Manual: PtWaveviewer</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<title>PtWaveviewer: Parlatype Reference Manual</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.79.1">
 <link rel="home" href="index.html" title="Parlatype Reference Manual">
 <link rel="up" href="pt03.html" title="Part III. GtkWidgets">
 <link rel="prev" href="PtProgressDialog.html" title="PtProgressDialog">
 <link rel="next" href="pt04.html" title="Part IV. Internals: Get Wavedata">
-<meta name="generator" content="GTK-Doc V1.21 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.25 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -54,7 +54,7 @@ mentioned in the release notes for the affected release.
 </div>
 <div class="refsect1">
 <a name="PtWaveviewer.functions"></a><h2>Functions</h2>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="functions_return">
 <col class="functions_name">
@@ -62,7 +62,7 @@ mentioned in the release notes for the affected release.
 <tbody>
 <tr>
 <td class="function_type">
-<a href="../gtk3/GtkWidget.html"><span class="returnvalue">GtkWidget</span></a> *
+<a href="../gtk3/GtkWidget.html#GtkWidget-struct"><span class="returnvalue">GtkWidget</span></a> *
 </td>
 <td class="function_name">
 <a class="link" href="PtWaveviewer.html#pt-waveviewer-new" title="pt_waveviewer_new ()">pt_waveviewer_new</a> <span class="c_punctuation">()</span>
@@ -97,7 +97,7 @@ mentioned in the release notes for the affected release.
 </div>
 <div class="refsect1">
 <a name="PtWaveviewer.properties"></a><h2>Properties</h2>
-<div class="informaltable"><table border="0">
+<div class="informaltable"><table class="informaltable" border="0">
 <colgroup>
 <col width="150px" class="properties_type">
 <col width="300px" class="properties_name">
@@ -120,17 +120,17 @@ mentioned in the release notes for the affected release.
 <td class="property_flags">Read</td>
 </tr>
 <tr>
-<td class="property_type"><span class="type">gint64</span></td>
+<td class="property_type"><a href="../glib/glib-Basic-Types.html#gint64"><span class="type">gint64</span></a></td>
 <td class="property_name"><a class="link" href="PtWaveviewer.html#PtWaveviewer--playback-cursor" title="The “playback-cursor” property">playback-cursor</a></td>
 <td class="property_flags">Write</td>
 </tr>
 <tr>
-<td class="property_type"><span class="type">gint64</span></td>
+<td class="property_type"><a href="../glib/glib-Basic-Types.html#gint64"><span class="type">gint64</span></a></td>
 <td class="property_name"><a class="link" href="PtWaveviewer.html#PtWaveviewer--selection-end" title="The “selection-end” property">selection-end</a></td>
 <td class="property_flags">Read</td>
 </tr>
 <tr>
-<td class="property_type"><span class="type">gint64</span></td>
+<td class="property_type"><a href="../glib/glib-Basic-Types.html#gint64"><span class="type">gint64</span></a></td>
 <td class="property_name"><a class="link" href="PtWaveviewer.html#PtWaveviewer--selection-start" title="The “selection-start” property">selection-start</a></td>
 <td class="property_flags">Read</td>
 </tr>
@@ -139,12 +139,17 @@ mentioned in the release notes for the affected release.
 <td class="property_name"><a class="link" href="PtWaveviewer.html#PtWaveviewer--show-ruler" title="The “show-ruler” property">show-ruler</a></td>
 <td class="property_flags">Read / Write / Construct</td>
 </tr>
+<tr>
+<td class="property_type"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a></td>
+<td class="property_name"><a class="link" href="PtWaveviewer.html#PtWaveviewer--zoom" title="The “zoom” property">zoom</a></td>
+<td class="property_flags">Write / Construct</td>
+</tr>
 </tbody>
 </table></div>
 </div>
 <div class="refsect1">
 <a name="PtWaveviewer.signals"></a><h2>Signals</h2>
-<div class="informaltable"><table border="0">
+<div class="informaltable"><table class="informaltable" border="0">
 <colgroup>
 <col width="150px" class="signals_return">
 <col width="300px" class="signals_name">
@@ -154,24 +159,34 @@ mentioned in the release notes for the affected release.
 <tr>
 <td class="signal_type"><span class="returnvalue">void</span></td>
 <td class="signal_name"><a class="link" href="PtWaveviewer.html#PtWaveviewer-cursor-changed" title="The “cursor-changed” signal">cursor-changed</a></td>
-<td class="signal_flags">Run First</td>
+<td class="signal_flags"><a href="../gobject/gobject-Signals.html#G-SIGNAL-RUN-FIRST:CAPS">Run First</a></td>
 </tr>
 <tr>
 <td class="signal_type"><span class="returnvalue">void</span></td>
 <td class="signal_name"><a class="link" href="PtWaveviewer.html#PtWaveviewer-play-toggled" title="The “play-toggled” signal">play-toggled</a></td>
-<td class="signal_flags">Run First</td>
+<td class="signal_flags"><a href="../gobject/gobject-Signals.html#G-SIGNAL-RUN-FIRST:CAPS">Run First</a></td>
 </tr>
 <tr>
 <td class="signal_type"><span class="returnvalue">void</span></td>
 <td class="signal_name"><a class="link" href="PtWaveviewer.html#PtWaveviewer-selection-changed" title="The “selection-changed” signal">selection-changed</a></td>
-<td class="signal_flags">Run First</td>
+<td class="signal_flags"><a href="../gobject/gobject-Signals.html#G-SIGNAL-RUN-FIRST:CAPS">Run First</a></td>
+</tr>
+<tr>
+<td class="signal_type"><span class="returnvalue">void</span></td>
+<td class="signal_name"><a class="link" href="PtWaveviewer.html#PtWaveviewer-zoom-in" title="The “zoom-in” signal">zoom-in</a></td>
+<td class="signal_flags"><a href="../gobject/gobject-Signals.html#G-SIGNAL-RUN-FIRST:CAPS">Run First</a></td>
+</tr>
+<tr>
+<td class="signal_type"><span class="returnvalue">void</span></td>
+<td class="signal_name"><a class="link" href="PtWaveviewer.html#PtWaveviewer-zoom-out" title="The “zoom-out” signal">zoom-out</a></td>
+<td class="signal_flags"><a href="../gobject/gobject-Signals.html#G-SIGNAL-RUN-FIRST:CAPS">Run First</a></td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="refsect1">
 <a name="PtWaveviewer.other"></a><h2>Types and Values</h2>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="name">
 <col class="description">
@@ -184,12 +199,12 @@ mentioned in the release notes for the affected release.
 </div>
 <div class="refsect1">
 <a name="PtWaveviewer.object-hierarchy"></a><h2>Object Hierarchy</h2>
-<pre class="screen">    <a href="../gobject/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+<pre class="screen">    <a href="../gobject/gobject-The-Base-Object-Type.html#GObject-struct">GObject</a>
     <span class="lineart">╰──</span> <a href="../gobject/gobject-The-Base-Object-Type.html#GInitiallyUnowned">GInitiallyUnowned</a>
-        <span class="lineart">╰──</span> <a href="../gtk3/GtkWidget.html">GtkWidget</a>
-            <span class="lineart">╰──</span> <a href="../gtk3/GtkContainer.html">GtkContainer</a>
-                <span class="lineart">╰──</span> <a href="../gtk3/GtkBin.html">GtkBin</a>
-                    <span class="lineart">╰──</span> <a href="../gtk3/GtkScrolledWindow.html">GtkScrolledWindow</a>
+        <span class="lineart">╰──</span> <a href="../gtk3/GtkWidget.html#GtkWidget-struct">GtkWidget</a>
+            <span class="lineart">╰──</span> <a href="../gtk3/GtkContainer.html#GtkContainer-struct">GtkContainer</a>
+                <span class="lineart">╰──</span> <a href="../gtk3/GtkBin.html#GtkBin-struct">GtkBin</a>
+                    <span class="lineart">╰──</span> <a href="../gtk3/GtkScrolledWindow.html#GtkScrolledWindow-struct">GtkScrolledWindow</a>
                         <span class="lineart">╰──</span> PtWaveviewer
 </pre>
 </div>
@@ -197,7 +212,7 @@ mentioned in the release notes for the affected release.
 <a name="PtWaveviewer.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
 <p>
 PtWaveviewer implements
- <a href="../atk/AtkObject.html#AtkImplementorIface">AtkImplementorIface</a> and  <a href="../gtk3/GtkBuildable.html">GtkBuildable</a>.</p>
+ AtkImplementorIface and  <a href="../gtk3/GtkBuildable.html#GtkBuildable-struct">GtkBuildable</a>.</p>
 </div>
 <div class="refsect1">
 <a name="PtWaveviewer.includes"></a><h2>Includes</h2>
@@ -212,15 +227,14 @@ PtWaveviewer implements
 <a name="PtWaveviewer.functions_details"></a><h2>Functions</h2>
 <div class="refsect2">
 <a name="pt-waveviewer-new"></a><h3>pt_waveviewer_new ()</h3>
-<pre class="programlisting"><a href="../gtk3/GtkWidget.html"><span class="returnvalue">GtkWidget</span></a> *
+<pre class="programlisting"><a href="../gtk3/GtkWidget.html#GtkWidget-struct"><span class="returnvalue">GtkWidget</span></a> *
 pt_waveviewer_new (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <p>Create a new, initially blank waveform viewer widget. Use
 <a class="link" href="PtWaveviewer.html#pt-waveviewer-set-wave" title="pt_waveviewer_set_wave ()"><code class="function">pt_waveviewer_set_wave()</code></a> to pass wave data.</p>
 <p>After use <a href="../gtk3/GtkWidget.html#gtk-widget-destroy"><code class="function">gtk_widget_destroy()</code></a> it.</p>
 <div class="refsect3">
-<a name="id-1.4.4.12.2.6"></a><h4>Returns</h4>
+<a name="pt-waveviewer-new.returns"></a><h4>Returns</h4>
 <p> the widget</p>
-<p></p>
 </div>
 </div>
 <hr>
@@ -234,8 +248,8 @@ be freed immediately after calling this function. If <em class="parameter"><code
  is NULL, a blank
 widget is drawn.</p>
 <div class="refsect3">
-<a name="id-1.4.4.12.3.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-waveviewer-set-wave.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -264,8 +278,8 @@ pt_waveviewer_set_follow_cursor (<em class="parameter"><code><a class="link" hre
                                  <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> follow</code></em>);</pre>
 <p>Set follow-cursor option to TRUE or FALSE. See also <a class="link" href="PtWaveviewer.html#PtWaveviewer--follow-cursor" title="The “follow-cursor” property"><span class="type">“follow-cursor”</span></a>.</p>
 <div class="refsect3">
-<a name="id-1.4.4.12.4.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-waveviewer-set-follow-cursor.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -293,8 +307,8 @@ pt_waveviewer_set_follow_cursor (<em class="parameter"><code><a class="link" hre
 pt_waveviewer_get_follow_cursor (<em class="parameter"><code><a class="link" href="PtWaveviewer.html" title="PtWaveviewer"><span class="type">PtWaveviewer</span></a> *self</code></em>);</pre>
 <p>Get follow-cursor option.</p>
 <div class="refsect3">
-<a name="id-1.4.4.12.5.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-waveviewer-get-follow-cursor.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -308,9 +322,8 @@ pt_waveviewer_get_follow_cursor (<em class="parameter"><code><a class="link" hre
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.4.12.5.6"></a><h4>Returns</h4>
+<a name="pt-waveviewer-get-follow-cursor.returns"></a><h4>Returns</h4>
 <p> TRUE if cursor is followed, else FALSE</p>
-<p></p>
 </div>
 </div>
 </div>
@@ -354,7 +367,7 @@ FALSE if the user scrolls the widget manually.</p>
 <hr>
 <div class="refsect2">
 <a name="PtWaveviewer--playback-cursor"></a><h3>The <code class="literal">“playback-cursor”</code> property</h3>
-<pre class="programlisting">  “playback-cursor”          <span class="type">gint64</span></pre>
+<pre class="programlisting">  “playback-cursor”          <a href="../glib/glib-Basic-Types.html#gint64"><span class="type">gint64</span></a></pre>
 <p>Current playback position in milliseconds.</p>
 <p>Flags: Write</p>
 <p>Allowed values: &gt;= 0</p>
@@ -363,7 +376,7 @@ FALSE if the user scrolls the widget manually.</p>
 <hr>
 <div class="refsect2">
 <a name="PtWaveviewer--selection-end"></a><h3>The <code class="literal">“selection-end”</code> property</h3>
-<pre class="programlisting">  “selection-end”            <span class="type">gint64</span></pre>
+<pre class="programlisting">  “selection-end”            <a href="../glib/glib-Basic-Types.html#gint64"><span class="type">gint64</span></a></pre>
 <p>End time of selection in milliseconds. If it's equal to the start
 time, there is no selection. See also <a class="link" href="PtWaveviewer.html#PtWaveviewer--has-selection" title="The “has-selection” property"><span class="type">“has-selection”</span></a>.</p>
 <p>Flags: Read</p>
@@ -373,7 +386,7 @@ time, there is no selection. See also <a class="link" href="PtWaveviewer.html#Pt
 <hr>
 <div class="refsect2">
 <a name="PtWaveviewer--selection-start"></a><h3>The <code class="literal">“selection-start”</code> property</h3>
-<pre class="programlisting">  “selection-start”          <span class="type">gint64</span></pre>
+<pre class="programlisting">  “selection-start”          <a href="../glib/glib-Basic-Types.html#gint64"><span class="type">gint64</span></a></pre>
 <p>Start time of selection in milliseconds. If it's equal to the end
 time, there is no selection. See also <a class="link" href="PtWaveviewer.html#PtWaveviewer--has-selection" title="The “has-selection” property"><span class="type">“has-selection”</span></a>.</p>
 <p>Flags: Read</p>
@@ -388,6 +401,18 @@ time, there is no selection. See also <a class="link" href="PtWaveviewer.html#Pt
 <p>Flags: Read / Write / Construct</p>
 <p>Default value: TRUE</p>
 </div>
+<hr>
+<div class="refsect2">
+<a name="PtWaveviewer--zoom"></a><h3>The <code class="literal">“zoom”</code> property</h3>
+<pre class="programlisting">  “zoom”                     <a href="../glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a></pre>
+<p>Set this to TRUE to indicate that the next wave data will be the same
+waveform but at a different zoom level. PtWaveviewer needs this to
+decide which part of the waveform should be shown.
+– Note: This will be probably removed with the next API break in
+version 1.6 and integrated into <a class="link" href="PtWaveviewer.html#pt-waveviewer-set-wave" title="pt_waveviewer_set_wave ()"><code class="function">pt_waveviewer_set_wave()</code></a>.</p>
+<p>Flags: Write / Construct</p>
+<p>Default value: FALSE</p>
+</div>
 </div>
 <div class="refsect1">
 <a name="PtWaveviewer.signal-details"></a><h2>Signal Details</h2>
@@ -395,12 +420,12 @@ time, there is no selection. See also <a class="link" href="PtWaveviewer.html#Pt
 <a name="PtWaveviewer-cursor-changed"></a><h3>The <code class="literal">“cursor-changed”</code> signal</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
 user_function (<a class="link" href="PtWaveviewer.html" title="PtWaveviewer"><span class="type">PtWaveviewer</span></a> *viewer,
-               <span class="type">gint64</span>        position,
+               <a href="../glib/glib-Basic-Types.html#gint64"><span class="type">gint64</span></a>        position,
                <a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>      user_data)</pre>
 <p>Signals that the cursor's position was changed by the user.</p>
 <div class="refsect3">
-<a name="id-1.4.4.15.2.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="PtWaveviewer-cursor-changed.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -425,7 +450,7 @@ user_function (<a class="link" href="PtWaveviewer.html" title="PtWaveviewer"><sp
 </tbody>
 </table></div>
 </div>
-<p>Flags: Run First</p>
+<p>Flags: <a href="../gobject/gobject-Signals.html#G-SIGNAL-RUN-FIRST:CAPS">Run First</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -435,8 +460,8 @@ user_function (<a class="link" href="PtWaveviewer.html" title="PtWaveviewer"><sp
                <a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>      user_data)</pre>
 <p>Signals that the user requested to toggle play/pause.</p>
 <div class="refsect3">
-<a name="id-1.4.4.15.3.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="PtWaveviewer-play-toggled.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -456,7 +481,7 @@ user_function (<a class="link" href="PtWaveviewer.html" title="PtWaveviewer"><sp
 </tbody>
 </table></div>
 </div>
-<p>Flags: Run First</p>
+<p>Flags: <a href="../gobject/gobject-Signals.html#G-SIGNAL-RUN-FIRST:CAPS">Run First</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -468,8 +493,8 @@ user_function (<a class="link" href="PtWaveviewer.html" title="PtWaveviewer"><sp
 To query the new selection see <a class="link" href="PtWaveviewer.html#PtWaveviewer--has-selection" title="The “has-selection” property"><span class="type">“has-selection”</span></a>,
 <a class="link" href="PtWaveviewer.html#PtWaveviewer--selection-start" title="The “selection-start” property"><span class="type">“selection-start”</span></a> and <a class="link" href="PtWaveviewer.html#PtWaveviewer--selection-end" title="The “selection-end” property"><span class="type">“selection-end”</span></a>.</p>
 <div class="refsect3">
-<a name="id-1.4.4.15.4.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="PtWaveviewer-selection-changed.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -489,12 +514,73 @@ To query the new selection see <a class="link" href="PtWaveviewer.html#PtWavevie
 </tbody>
 </table></div>
 </div>
-<p>Flags: Run First</p>
+<p>Flags: <a href="../gobject/gobject-Signals.html#G-SIGNAL-RUN-FIRST:CAPS">Run First</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PtWaveviewer-zoom-in"></a><h3>The <code class="literal">“zoom-in”</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+user_function (<a class="link" href="PtWaveviewer.html" title="PtWaveviewer"><span class="type">PtWaveviewer</span></a> *viewer,
+               <a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>      user_data)</pre>
+<p>Signals that the user requested to zoom into the waveform.</p>
+<div class="refsect3">
+<a name="PtWaveviewer-zoom-in.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>viewer</p></td>
+<td class="parameter_description"><p>the waveviewer emitting the signal</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>user_data</p></td>
+<td class="parameter_description"><p>user data set when the signal handler was connected.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p>Flags: <a href="../gobject/gobject-Signals.html#G-SIGNAL-RUN-FIRST:CAPS">Run First</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PtWaveviewer-zoom-out"></a><h3>The <code class="literal">“zoom-out”</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+user_function (<a class="link" href="PtWaveviewer.html" title="PtWaveviewer"><span class="type">PtWaveviewer</span></a> *viewer,
+               <a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>      user_data)</pre>
+<p>Signals that the user requested to zoom out of the waveform.</p>
+<div class="refsect3">
+<a name="PtWaveviewer-zoom-out.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>viewer</p></td>
+<td class="parameter_description"><p>the waveviewer emitting the signal</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>user_data</p></td>
+<td class="parameter_description"><p>user data set when the signal handler was connected.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p>Flags: <a href="../gobject/gobject-Signals.html#G-SIGNAL-RUN-FIRST:CAPS">Run First</a></p>
 </div>
 </div>
 </div>
 <div class="footer">
-<hr>
-          Generated by GTK-Doc V1.21</div>
+<hr>Generated by GTK-Doc V1.25</div>
 </body>
 </html>

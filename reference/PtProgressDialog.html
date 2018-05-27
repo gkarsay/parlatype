@@ -2,13 +2,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Parlatype Reference Manual: PtProgressDialog</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<title>PtProgressDialog: Parlatype Reference Manual</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.79.1">
 <link rel="home" href="index.html" title="Parlatype Reference Manual">
 <link rel="up" href="pt03.html" title="Part III. GtkWidgets">
 <link rel="prev" href="gallery.html" title="Widget gallery">
 <link rel="next" href="PtWaveviewer.html" title="PtWaveviewer">
-<meta name="generator" content="GTK-Doc V1.21 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.25 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -52,7 +52,7 @@ mentioned in the release notes for the affected release.
 </div>
 <div class="refsect1">
 <a name="PtProgressDialog.functions"></a><h2>Functions</h2>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="functions_return">
 <col class="functions_name">
@@ -79,7 +79,7 @@ mentioned in the release notes for the affected release.
 </div>
 <div class="refsect1">
 <a name="PtProgressDialog.other"></a><h2>Types and Values</h2>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="name">
 <col class="description">
@@ -92,14 +92,14 @@ mentioned in the release notes for the affected release.
 </div>
 <div class="refsect1">
 <a name="PtProgressDialog.object-hierarchy"></a><h2>Object Hierarchy</h2>
-<pre class="screen">    <a href="../gobject/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+<pre class="screen">    <a href="../gobject/gobject-The-Base-Object-Type.html#GObject-struct">GObject</a>
     <span class="lineart">╰──</span> <a href="../gobject/gobject-The-Base-Object-Type.html#GInitiallyUnowned">GInitiallyUnowned</a>
-        <span class="lineart">╰──</span> <a href="../gtk3/GtkWidget.html">GtkWidget</a>
-            <span class="lineart">╰──</span> <a href="../gtk3/GtkContainer.html">GtkContainer</a>
-                <span class="lineart">╰──</span> <a href="../gtk3/GtkBin.html">GtkBin</a>
-                    <span class="lineart">╰──</span> <a href="../gtk3/GtkWindow.html">GtkWindow</a>
-                        <span class="lineart">╰──</span> <a href="../gtk3/GtkDialog.html">GtkDialog</a>
-                            <span class="lineart">╰──</span> <a href="../gtk3/GtkMessageDialog.html">GtkMessageDialog</a>
+        <span class="lineart">╰──</span> <a href="../gtk3/GtkWidget.html#GtkWidget-struct">GtkWidget</a>
+            <span class="lineart">╰──</span> <a href="../gtk3/GtkContainer.html#GtkContainer-struct">GtkContainer</a>
+                <span class="lineart">╰──</span> <a href="../gtk3/GtkBin.html#GtkBin-struct">GtkBin</a>
+                    <span class="lineart">╰──</span> <a href="../gtk3/GtkWindow.html#GtkWindow-struct">GtkWindow</a>
+                        <span class="lineart">╰──</span> <a href="../gtk3/GtkDialog.html#GtkDialog-struct">GtkDialog</a>
+                            <span class="lineart">╰──</span> <a href="../gtk3/GtkMessageDialog.html#GtkMessageDialog-struct">GtkMessageDialog</a>
                                 <span class="lineart">╰──</span> PtProgressDialog
 </pre>
 </div>
@@ -107,7 +107,7 @@ mentioned in the release notes for the affected release.
 <a name="PtProgressDialog.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
 <p>
 PtProgressDialog implements
- <a href="../atk/AtkObject.html#AtkImplementorIface">AtkImplementorIface</a> and  <a href="../gtk3/GtkBuildable.html">GtkBuildable</a>.</p>
+ AtkImplementorIface and  <a href="../gtk3/GtkBuildable.html#GtkBuildable-struct">GtkBuildable</a>.</p>
 </div>
 <div class="refsect1">
 <a name="PtProgressDialog.includes"></a><h2>Includes</h2>
@@ -221,13 +221,13 @@ progress_dlg <span class="gtkdoc opt">=</span> <span class="function">GTK_WIDGET
 <div class="refsect2">
 <a name="pt-progress-dialog-new"></a><h3>pt_progress_dialog_new ()</h3>
 <pre class="programlisting"><a class="link" href="PtProgressDialog.html" title="PtProgressDialog"><span class="returnvalue">PtProgressDialog</span></a> *
-pt_progress_dialog_new (<em class="parameter"><code><a href="../gtk3/GtkWindow.html"><span class="type">GtkWindow</span></a> *win</code></em>);</pre>
-<p>A <a href="../gtk3/GtkMessageDialog.html"><span class="type">GtkMessageDialog</span></a> with a label "Loading file...", a progress bar and a
+pt_progress_dialog_new (<em class="parameter"><code><a href="../gtk3/GtkWindow.html#GtkWindow-struct"><span class="type">GtkWindow</span></a> *win</code></em>);</pre>
+<p>A <a href="../gtk3/GtkMessageDialog.html#GtkMessageDialog-struct"><span class="type">GtkMessageDialog</span></a> with a label "Loading file...", a progress bar and a
 cancel button.</p>
 <p>After use <a href="../gtk3/GtkWidget.html#gtk-widget-destroy"><code class="function">gtk_widget_destroy()</code></a> it.</p>
 <div class="refsect3">
-<a name="id-1.4.3.10.2.6"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-progress-dialog-new.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -241,7 +241,7 @@ cancel button.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.3.10.2.7"></a><h4>Returns</h4>
+<a name="pt-progress-dialog-new.returns"></a><h4>Returns</h4>
 <p> a new <a class="link" href="PtProgressDialog.html" title="PtProgressDialog"><span class="type">PtProgressDialog</span></a>. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
@@ -254,8 +254,8 @@ pt_progress_dialog_set_progress (<em class="parameter"><code><a class="link" hre
                                  <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a> progress</code></em>);</pre>
 <p>Sets the progress bar to the new value.</p>
 <div class="refsect3">
-<a name="id-1.4.3.10.3.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<a name="pt-progress-dialog-set-progress.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -287,7 +287,6 @@ pt_progress_dialog_set_progress (<em class="parameter"><code><a class="link" hre
 </div>
 </div>
 <div class="footer">
-<hr>
-          Generated by GTK-Doc V1.21</div>
+<hr>Generated by GTK-Doc V1.25</div>
 </body>
 </html>
