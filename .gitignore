@@ -37,6 +37,7 @@ stamp-h1
 _site/
 Gemfile
 Gemfile.lock
+_local_config.yml
 
 /data/*.appdata.xml
 /data/*.desktop
