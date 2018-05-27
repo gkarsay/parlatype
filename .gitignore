@@ -35,7 +35,8 @@ stamp-h1
 
 .sass-cache/
 _site/
-
+Gemfile
+Gemfile.lock
 
 /data/*.appdata.xml
 /data/*.desktop
