@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-07-26 18:17+0200\n"
-"PO-Revision-Date: 2017-11-22 12:20+0000\n"
+"POT-Creation-Date: 2018-02-28 20:51+0100\n"
+"PO-Revision-Date: 2018-05-20 08:02+0000\n"
 "Last-Translator: Jiri Grönroos <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2018-02-28 19:00+0000\n"
-"X-Generator: Launchpad (build 18561)\n"
+"X-Launchpad-Export-Date: 2018-05-27 20:04+0000\n"
+"X-Generator: Launchpad (build 18667)\n"
 
 #: ../data/com.github.gkarsay.parlatype.appdata.xml.in.h:1
 #: ../data/com.github.gkarsay.parlatype.desktop.in.h:1 ../src/pt-app.c:84
@@ -27,17 +27,19 @@ msgstr "Parlatype"
 
 #: ../data/com.github.gkarsay.parlatype.appdata.xml.in.h:2
 msgid "Media player for manual speech transcription"
-msgstr ""
+msgstr "Mediasoitin manuaaliseen puheen transkriptioon"
 
 #: ../data/com.github.gkarsay.parlatype.appdata.xml.in.h:3
 msgid ""
 "Parlatype is an easy to use media player. Its main purpose is to help you "
 "transcribing speech."
 msgstr ""
+"Parlatype on helppokäyttöinen mediasoitin. Sen päätarkoitus on auttaa puheen "
+"transkriptiossa."
 
 #: ../data/com.github.gkarsay.parlatype.desktop.in.h:2
 msgid "Transcription utility"
-msgstr ""
+msgstr "Työkalu transkriptioon"
 
 #: ../data/com.github.gkarsay.parlatype.desktop.in.h:3
 msgid "Transcription;"
@@ -71,11 +73,12 @@ msgstr "Näytä sovelluksen versio"
 msgid "Recent Files"
 msgstr "Viimeisimmät tiedostot"
 
-#: ../src/pt-app.c:77 ../src/pt-app.c:134
+#: ../src/pt-app.c:77 ../src/pt-app.c:134 ../src/resources/goto-dialog.ui.h:2
 msgid "_Cancel"
 msgstr "_Peru"
 
 #: ../src/pt-app.c:78 ../src/pt-app.c:135
+#: ../src/resources/window-headerbar.ui.h:2
 msgid "_Open"
 msgstr "_Avaa"
 
@@ -103,7 +106,7 @@ msgstr "Virhe ohjetta avatessa: %s"
 #. other projects:"
 #: ../src/pt-app.c:220
 msgid "Including code from other projects:"
-msgstr ""
+msgstr "Sisältää koodia muista projekteista:"
 
 #: ../src/pt-app.c:238
 msgid "A basic transcription utility"
@@ -121,6 +124,8 @@ msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
 "ignored.\n"
 msgstr ""
+"Varoitus: Parlatype käsittelee vain yhden tiedoston kerrallaan. Muut "
+"tiedostot ohitetaan.\n"
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
@@ -136,51 +141,51 @@ msgstr ""
 #. or the "Go to ..." dialog. There is a label like
 #. "Jump back:", "Jump forward:", "Jump back on pause:"
 #. or "Go to position:" before.
-#: ../src/pt-goto-dialog.c:79 ../src/pt-preferences.c:58
-#: ../src/pt-preferences.c:68 ../src/pt-preferences.c:78
+#: ../src/pt-goto-dialog.c:79 ../src/pt-preferences.c:62
+#: ../src/pt-preferences.c:72 ../src/pt-preferences.c:82
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "sekunti"
 msgstr[1] "sekuntia"
 
-#: ../src/pt-preferences.c:189
+#: ../src/pt-preferences.c:193
 msgid "_Close"
 msgstr "_Sulje"
 
-#: ../src/pt-window.c:274
+#: ../src/pt-window.c:296
 #, c-format
 msgid "Jump back 1 second"
 msgid_plural "Jump back %d seconds"
 msgstr[0] "Siirry takaisinpäin 1 sekunti"
 msgstr[1] "Siirry takaisinpäin %d sekuntia"
 
-#: ../src/pt-window.c:289
+#: ../src/pt-window.c:311
 #, c-format
 msgid "Jump forward 1 second"
 msgid_plural "Jump forward %d seconds"
 msgstr[0] "Siirry eteenpäin 1 sekunti"
 msgstr[1] "Siirry eteenpäin %d sekuntia"
 
-#: ../src/pt-window.c:306
+#: ../src/pt-window.c:328
 msgid "Pause"
 msgstr "Keskeytä"
 
-#: ../src/pt-window.c:309
+#: ../src/pt-window.c:331
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/pt-window.c:316
+#: ../src/pt-window.c:338
 msgid "Start playing"
 msgstr "Aloita toistaminen"
 
-#: ../src/pt-window.c:817
+#: ../src/pt-window.c:991
 msgid "View follows cursor"
-msgstr ""
+msgstr "Näkymä seuraa kursoria"
 
-#: ../src/pt-window.c:819
+#: ../src/pt-window.c:993
 msgid "Click to follow cursor"
 msgstr ""
 
@@ -188,7 +193,11 @@ msgstr ""
 msgid "Go to ..."
 msgstr "Siirry..."
 
-#: ../src/resources/goto-dialog.ui.h:2
+#: ../src/resources/goto-dialog.ui.h:3
+msgid "_OK"
+msgstr "_OK"
+
+#: ../src/resources/goto-dialog.ui.h:4
 msgid "Go to position:"
 msgstr "Siirry sijaintiin:"
 
@@ -214,37 +223,49 @@ msgstr "Lopeta"
 
 #: ../src/resources/help-overlay.ui.h:6 ../src/resources/preferences.ui.h:10
 msgid "Waveform"
-msgstr ""
+msgstr "Aaltomuoto"
 
 #: ../src/resources/help-overlay.ui.h:7
+msgid "Play/Pause"
+msgstr "Toista/pidä tauko"
+
+#: ../src/resources/help-overlay.ui.h:8
+msgid "Jump back"
+msgstr "Siirry taaksepäin"
+
+#: ../src/resources/help-overlay.ui.h:9
+msgid "Jump forward"
+msgstr "Siirry eteenpäin"
+
+#: ../src/resources/help-overlay.ui.h:10
 msgid "Zoom in"
 msgstr "Lähennä"
 
-#: ../src/resources/help-overlay.ui.h:8
+#: ../src/resources/help-overlay.ui.h:11
 msgid "Zoom out"
 msgstr "Loitonna"
 
-#: ../src/resources/help-overlay.ui.h:9
+#: ../src/resources/help-overlay.ui.h:12
 msgid "Open “Go to” dialog"
 msgstr "Avaa \"Siirry\"-ikkuna"
 
-#: ../src/resources/help-overlay.ui.h:10
+#: ../src/resources/help-overlay.ui.h:13
 msgid "Copy timestamp to clipboard"
 msgstr "Kopioi aikaleima leikepöydälle"
 
-#: ../src/resources/help-overlay.ui.h:11
+#: ../src/resources/help-overlay.ui.h:14
 msgid "Go to timestamp in clipboard"
 msgstr "Siirry leikepöydällä olevaan aikaleimaan"
 
-#: ../src/resources/help-overlay.ui.h:12 ../src/resources/menus.ui.h:5
+#: ../src/resources/help-overlay.ui.h:15 ../src/resources/menus.ui.h:5
 msgid "Help"
 msgstr "Ohje"
 
-#: ../src/resources/help-overlay.ui.h:13
+#: ../src/resources/help-overlay.ui.h:16
 msgid "Show help"
 msgstr "Näytä ohje"
 
-#: ../src/resources/help-overlay.ui.h:14
+#: ../src/resources/help-overlay.ui.h:17
 msgid "Show keyboard shortcuts"
 msgstr "Näytä pikanäppäimet"
 
@@ -290,11 +311,11 @@ msgstr "Parlatypen asetukset"
 
 #: ../src/resources/preferences.ui.h:2
 msgid "_Pixels per second:"
-msgstr ""
+msgstr "_Pikseliä sekunnissa:"
 
 #: ../src/resources/preferences.ui.h:3
 msgid "Show _time scale"
-msgstr ""
+msgstr "Näytä a_ika-asteikko"
 
 #. Resolution of the waveform image
 #: ../src/resources/preferences.ui.h:5
@@ -308,11 +329,11 @@ msgstr "Esitystapa"
 
 #: ../src/resources/preferences.ui.h:8
 msgid "_Moving cursor"
-msgstr ""
+msgstr "_Liikkuva kursori"
 
 #: ../src/resources/preferences.ui.h:9
 msgid "_Fixed cursor"
-msgstr ""
+msgstr "_Kiinteä kursori"
 
 #: ../src/resources/preferences.ui.h:11
 msgid "Jump back on _pause:"
@@ -320,11 +341,11 @@ msgstr ""
 
 #: ../src/resources/preferences.ui.h:12
 msgid "Jump _back:"
-msgstr ""
+msgstr "Siirry t_aaksepäin:"
 
 #: ../src/resources/preferences.ui.h:13
 msgid "Jump _forward:"
-msgstr ""
+msgstr "Siirry _eteenpäin:"
 
 #: ../src/resources/preferences.ui.h:14
 msgid "Controls"
@@ -350,6 +371,10 @@ msgstr "Ikkuna"
 msgid "Speed:"
 msgstr "Nopeus:"
 
-#: ../src/resources/window-headerbar.ui.h:2
+#: ../src/resources/window-headerbar.ui.h:3
 msgid "Open a file"
 msgstr "Avaa tiedosto"
+
+#: ../src/resources/window-headerbar.ui.h:4
+msgid "_Play"
+msgstr "T_oista"
