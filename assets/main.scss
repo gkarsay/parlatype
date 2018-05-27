@@ -1,0 +1,51 @@
+--- 
+--- 
+
+@import "minima";
+
+/* Don't display post list heading, we have a title instead */
+.post-list-heading {
+	display: none;
+}
+
+/* Make headings smaller
+   h2 is like original h3
+   h3 is like original h4 */
+.post-content {
+  h2 {
+    @include relative-font-size(1.625);
+
+    @include media-query($on-laptop) {
+      @include relative-font-size(1.375);
+    }
+  }
+
+  h3 {
+    @include relative-font-size(1.25);
+
+    @include media-query($on-laptop) {
+      @include relative-font-size(1.125);
+    }
+  }
+}
+
+/* Heading margins on top bigger, bottom smaller */
+.post-content h2, .post-content h3 .post-content h4 {
+	margin-top: $spacing-unit * 1.5;
+	margin-bottom: $spacing-unit / 3;
+}
+
+/* Add icon in title as background */
+.site-title {
+	background-image: url("../images/icon32x32.png");
+	background-repeat: no-repeat;
+	background-position: left 12px;
+	padding-left: 40px;
+}
+
+/* Make header sticky */
+.site-header {
+	position: sticky;
+	top: 0;
+	background: $background-color;
+}
