@@ -6,10 +6,17 @@ Parlatype is a minimal audio player for manual speech transcription, written for
 
 ![Screenshot of main window](images/parlatype-main-window.png)
 
-# Credits
+It's intended to be useful for journalists, students, scientists and whoever needs to transcribe audio files.
 
-The idea and initial design of Parlatype is based on Frederik Elwert’s program *transcribe*.
+Parlatype is a pet project done in my free time. Apart from art work, translation management, German translations, bug management, marketing, being web master of this site, packaging for Flathub, packaging for Debian, packaging for various Ubuntu versions, keeping up with the toolkits – I occasionally add new features.
 
-The display of the audio wave form started with code from *Buzztrax*.
+## Credits
 
-The icon is based on work from the GNOME team.
+- The idea and initial design of Parlatype is based on Frederik Elwert’s program *transcribe*.
+- The display of the audio wave form started with code from *Buzztrax*.
+- The icon is based on work from the GNOME team.
+- Many thanks to all the translators at Launchpad, bug reporters and contributors at Github!
+- Ross Gammon sponsored the package in Debian.
+- glimhyt packaged it in Arch Linux.
+- devhell contributed footpedal documentation.
+- Joey Sneddon [reviewed Parlatype](https://www.omgubuntu.co.uk/2017/06/parlatype-transcribe-audio-app-linux) which led to some useful bug reports.
