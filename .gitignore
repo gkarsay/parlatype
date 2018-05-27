@@ -33,6 +33,10 @@ m4/
 missing
 stamp-h1
 
+.sass-cache/
+_site/
+
+
 /data/*.appdata.xml
 /data/*.desktop
 /data/*.gschema.valid
