@@ -49,3 +49,20 @@
 	top: 0;
 	background: $background-color;
 }
+
+/* Download button */
+.download-button {
+	padding: .3em .8em;
+	border: 1px solid rgba(0,0,0,.1);
+	background: $brand-color;
+	background: $brand-color linear-gradient(hsla(0,0%,100%,.2), transparent);
+	border-radius: .2em;
+	// No shadow for now
+	//box-shadow: 0 .05em .25em rgba(0,0,0,.5);
+	display: inline-block;
+	margin-top: 2em;
+}
+
+.download-button, .download-button:hover, .download-button:visited {
+	color: white;
+}
