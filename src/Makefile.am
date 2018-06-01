@@ -44,10 +44,6 @@ parlatype_LDADD =						\
 	$(GTK_LIBS)
 
 AM_CPPFLAGS =					\
-	-I$(top_srcdir)/			\
-	-I$(top_builddir)/			\
-	-I$(top_srcdir)/libparlatype		\
-	-I$(top_builddir)/libparlatype		\
 	-I$(top_srcdir)/libparlatype/src	\
 	-I$(top_builddir)/libparlatype/src	\
 	$(WARNINGCFLAGS)			\

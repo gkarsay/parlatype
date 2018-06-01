@@ -17,7 +17,7 @@
 
 #include <glib.h>
 #include <gst/gst.h> /* error domain */
-#include <src/pt-player.h>
+#include <pt-player.h>
 
 
 typedef struct {

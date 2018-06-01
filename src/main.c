@@ -19,7 +19,7 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>	
 #include <locale.h>		/* setlocale */
-#include <libparlatype/src/pt-player.h>
+#include <pt-player.h>
 #include "pt-app.h"
 
 

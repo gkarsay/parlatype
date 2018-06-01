@@ -16,7 +16,7 @@
 
 
 #include <glib.h>
-#include <src/pt-waveloader.h>
+#include <pt-waveloader.h>
 
 
 static void

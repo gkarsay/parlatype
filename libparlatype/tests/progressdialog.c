@@ -16,7 +16,7 @@
 
 
 #include <glib.h>
-#include <src/pt-progress-dialog.h>
+#include <pt-progress-dialog.h>
 
 
 static void

@@ -16,8 +16,8 @@
 
 
 #include <glib.h>
-#include <src/pt-waveviewer.h>
-#include <src/pt-player.h>
+#include <pt-waveviewer.h>
+#include <pt-player.h>
 
 
 static void

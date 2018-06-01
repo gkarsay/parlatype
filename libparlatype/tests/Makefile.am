@@ -17,7 +17,7 @@ LDADD = $(top_builddir)/src/libparlatype.la $(GTK_LIBS) $(GSTREAMER_LIBS)
 AM_LDFLAGS = -export-dynamic
 AM_CPPFLAGS = \
 	-DG_LOG_DOMAIN=\"libparlatype-unittest\"	\
-	-I$(top_srcdir) 			\
+	-I$(top_srcdir)/src			\
 	-I$(top_builddir)
 
 test_programs = \

@@ -21,9 +21,9 @@
 #ifdef GDK_WINDOWING_X11
 #include <gdk/gdkx.h>
 #endif
-#include <libparlatype/src/pt-player.h>
-#include <libparlatype/src/pt-progress-dialog.h>
-#include <libparlatype/src/pt-waveviewer.h>
+#include <pt-player.h>
+#include <pt-progress-dialog.h>
+#include <pt-waveviewer.h>
 #include "pt-app.h"
 #include "pt-dbus-service.h"
 #include "pt-goto-dialog.h"

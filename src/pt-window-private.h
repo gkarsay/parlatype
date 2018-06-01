@@ -19,8 +19,8 @@
 
 #include "config.h"
 #include <gtk/gtk.h>
-#include <libparlatype/src/pt-player.h>
-#include <libparlatype/src/pt-wavedata.h>
+#include <pt-player.h>
+#include <pt-wavedata.h>
 
 struct _PtWindowPrivate
 {

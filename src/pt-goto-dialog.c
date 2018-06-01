@@ -23,7 +23,7 @@
 #include "config.h"
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libparlatype/src/pt-player.h>
+#include <pt-player.h>
 #include "pt-goto-dialog.h"
 
 
