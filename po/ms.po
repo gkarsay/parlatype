@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
-"POT-Creation-Date: 2017-03-26 14:25+0200\n"
+"POT-Creation-Date: 2018-06-04 14:14+0200\n"
 "PO-Revision-Date: 2017-04-08 13:48+0000\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gmx.at>\n"
 "Language-Team: Malay <ms@li.org>\n"
+"Language: ms\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,36 +19,45 @@ msgstr ""
 "X-Launchpad-Export-Date: 2017-04-08 13:52+0000\n"
 "X-Generator: Launchpad (build 18343)\n"
 
-#: ../data/org.gnome.parlatype.appdata.xml.in.h:1
-#: ../data/org.gnome.parlatype.desktop.in.h:1 ../src/pt-app.c:65
-#: ../src/pt-app.c:216 ../src/resources/window.ui.h:1
+#: ../data/com.github.gkarsay.parlatype.appdata.xml.in.h:1
+#: ../data/com.github.gkarsay.parlatype.desktop.in.h:1 ../src/pt-app.c:84
+#: ../src/pt-app.c:235 ../src/resources/window.ui.h:1
 #: ../src/resources/window-headerbar.ui.h:1
 msgid "Parlatype"
 msgstr "Parlatype"
 
-#: ../data/org.gnome.parlatype.appdata.xml.in.h:2
+#: ../data/com.github.gkarsay.parlatype.appdata.xml.in.h:2
 msgid "Media player for manual speech transcription"
 msgstr "Pemain media untuk transripsi pertuturan manual"
 
-#: ../data/org.gnome.parlatype.appdata.xml.in.h:3
+#: ../data/com.github.gkarsay.parlatype.appdata.xml.in.h:3
 msgid ""
 "Parlatype is an easy to use media player. Its main purpose is to help you "
 "transcribing speech."
 msgstr ""
 
-#: ../data/org.gnome.parlatype.desktop.in.h:2
+#: ../data/com.github.gkarsay.parlatype.desktop.in.h:2
 msgid "Transcription utility"
 msgstr "Utiliti transkripsi"
 
-#: ../src/main.c:43
-msgid "Show the application's version"
-msgstr "Tunjuk versi aplikasi"
+#: ../data/com.github.gkarsay.parlatype.desktop.in.h:3
+#, fuzzy
+msgid "Transcription;"
+msgstr "Utiliti transkripsi"
 
-#: ../src/main.c:59
+#: ../data/com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in.h:1
+msgid "LibreOffice/Parlatype Helpers"
+msgstr ""
+
+#: ../data/com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in.h:2
+msgid "Control Parlatype using LibreOffice macros"
+msgstr ""
+
+#: ../src/main.c:36
 msgid "Fatal error"
 msgstr "Ralat mati"
 
-#: ../src/main.c:63
+#: ../src/main.c:40
 #, c-format
 msgid ""
 "Parlatype needs GStreamer 1.x to run. Please check your installation of "
@@ -55,44 +65,37 @@ msgid ""
 "Parlatype will quit now, it received this error message: %s"
 msgstr ""
 
-#. Translators: This is part of the output if you type `parlatype --help`
-#. in terminal. The square brackets indicate that a file (filename) is
-#. an optional argument for parlatype. Arguments in help output are usually
-#. uppercase.
-#: ../src/main.c:87
-msgid "[FILE]"
-msgstr "[FAIL]"
+#: ../src/pt-app.c:55
+msgid "Show the application's version"
+msgstr "Tunjuk versi aplikasi"
 
-#: ../src/main.c:90
-msgid "Minimal audio player for manual speech transcription"
-msgstr ""
-
-#: ../src/pt-app.c:56 ../src/resources/menus.ui.h:2
+#: ../src/pt-app.c:75 ../src/resources/menus.ui.h:2
 msgid "Recent Files"
 msgstr "Fail Baru-baru Ini"
 
-#: ../src/pt-app.c:58 ../src/pt-app.c:115
+#: ../src/pt-app.c:77 ../src/pt-app.c:134 ../src/resources/goto-dialog.ui.h:2
 msgid "_Cancel"
 msgstr "_Batal"
 
-#: ../src/pt-app.c:59 ../src/pt-app.c:116
+#: ../src/pt-app.c:78 ../src/pt-app.c:135
+#: ../src/resources/window-headerbar.ui.h:2
 msgid "_Open"
 msgstr "B_uka"
 
-#: ../src/pt-app.c:71 ../src/pt-app.c:127
+#: ../src/pt-app.c:90 ../src/pt-app.c:146
 msgid "All files"
 msgstr "Semua fail"
 
-#: ../src/pt-app.c:112
+#: ../src/pt-app.c:131
 msgid "Open Audio File"
 msgstr "Buka Fail Audio"
 
-#: ../src/pt-app.c:126
+#: ../src/pt-app.c:145
 msgid "Audio files"
 msgstr "Fail audio"
 
 #. Translators: %s is a detailed error message
-#: ../src/pt-app.c:183
+#: ../src/pt-app.c:202
 #, c-format
 msgid "Error opening help: %s"
 msgstr "Ralat membuka bantuan: %s"
@@ -101,22 +104,22 @@ msgstr "Ralat membuka bantuan: %s"
 #. copyright holders of code from other projects. Instead of
 #. "including" it could also say "with" or just "Code from
 #. other projects:"
-#: ../src/pt-app.c:201
+#: ../src/pt-app.c:220
 msgid "Including code from other projects:"
 msgstr "Kod yang disertakan dari projek lain:"
 
-#: ../src/pt-app.c:219
+#: ../src/pt-app.c:238
 msgid "A basic transcription utility"
 msgstr "Utiliti transkripsi asas"
 
-#: ../src/pt-app.c:223
+#: ../src/pt-app.c:242
 msgid "translator-credits"
 msgstr ""
 "Launchpad Contributions:\n"
 "  Gabor Karsay https://launchpad.net/~gabor-karsay\n"
 "  abuyop https://launchpad.net/~abuyop"
 
-#: ../src/pt-app.c:376
+#: ../src/pt-app.c:424
 #, c-format
 msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
@@ -137,61 +140,139 @@ msgstr "%d:%02d:%02d"
 #. or the "Go to ..." dialog. There is a label like
 #. "Jump back:", "Jump forward:", "Jump back on pause:"
 #. or "Go to position:" before.
-#: ../src/pt-goto-dialog.c:79 ../src/pt-preferences.c:55
-#: ../src/pt-preferences.c:65 ../src/pt-preferences.c:75
+#: ../src/pt-goto-dialog.c:79 ../src/pt-preferences.c:62
+#: ../src/pt-preferences.c:72 ../src/pt-preferences.c:82
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "saat"
 msgstr[1] "saat"
 
-#: ../src/pt-preferences.c:169
+#: ../src/pt-preferences.c:193
 msgid "_Close"
 msgstr "T_utup"
 
-#: ../src/pt-window.c:231
+#: ../src/pt-window.c:296
 #, c-format
 msgid "Jump back 1 second"
 msgid_plural "Jump back %d seconds"
 msgstr[0] "Lompat balik 1 saat"
 msgstr[1] "Lompat balik %d saat"
 
-#: ../src/pt-window.c:246
+#: ../src/pt-window.c:311
 #, c-format
 msgid "Jump forward 1 second"
 msgid_plural "Jump forward %d seconds"
 msgstr[0] "Lompat maju 1 saat"
 msgstr[1] "Lompat maju %d saat"
 
-#: ../src/pt-window.c:263
+#: ../src/pt-window.c:328
 msgid "Pause"
 msgstr "Jeda"
 
-#: ../src/pt-window.c:266
+#: ../src/pt-window.c:331
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/pt-window.c:273
+#: ../src/pt-window.c:338
 msgid "Start playing"
 msgstr "Mulakan main"
 
-#: ../src/pt-window.c:750
+#: ../src/pt-window.c:991
 msgid "View follows cursor"
 msgstr "Paparan ikuti kursor"
 
-#: ../src/pt-window.c:752
+#: ../src/pt-window.c:993
 msgid "Click to follow cursor"
 msgstr "Klik untuk ikuti kursor"
 
-#: ../src/resources/goto-dialog.ui.h:1 ../src/resources/menus.ui.h:9
+#: ../src/resources/goto-dialog.ui.h:1 ../src/resources/menus.ui.h:10
 msgid "Go to ..."
 msgstr "Pergi ke ..."
 
-#: ../src/resources/goto-dialog.ui.h:2
+#: ../src/resources/goto-dialog.ui.h:3
+msgid "_OK"
+msgstr "_OK"
+
+#: ../src/resources/goto-dialog.ui.h:4
 msgid "Go to position:"
 msgstr "Pergi ke kedudukan:"
+
+#: ../src/resources/help-overlay.ui.h:1
+msgid "General"
+msgstr ""
+
+#: ../src/resources/help-overlay.ui.h:2
+#, fuzzy
+msgid "Open a media file"
+msgstr "Buka satu fail"
+
+#: ../src/resources/help-overlay.ui.h:3
+msgid "Open recently used media files"
+msgstr ""
+
+#: ../src/resources/help-overlay.ui.h:4
+#, fuzzy
+msgid "Show/hide action menu"
+msgstr "Tunjuk versi aplikasi"
+
+#: ../src/resources/help-overlay.ui.h:5 ../src/resources/menus.ui.h:7
+msgid "Quit"
+msgstr "Keluar"
+
+#: ../src/resources/help-overlay.ui.h:6 ../src/resources/preferences.ui.h:10
+msgid "Waveform"
+msgstr "Bentuk Gelombang"
+
+#: ../src/resources/help-overlay.ui.h:7
+#, fuzzy
+msgid "Play/Pause"
+msgstr "Jeda"
+
+#: ../src/resources/help-overlay.ui.h:8
+#, fuzzy
+msgid "Jump back"
+msgstr "Lompat balik 1 saat"
+
+#: ../src/resources/help-overlay.ui.h:9
+#, fuzzy
+msgid "Jump forward"
+msgstr "Lompat maju 1 saat"
+
+#: ../src/resources/help-overlay.ui.h:10
+msgid "Zoom in"
+msgstr ""
+
+#: ../src/resources/help-overlay.ui.h:11
+msgid "Zoom out"
+msgstr ""
+
+#: ../src/resources/help-overlay.ui.h:12
+msgid "Open “Go to” dialog"
+msgstr ""
+
+#: ../src/resources/help-overlay.ui.h:13
+#, fuzzy
+msgid "Copy timestamp to clipboard"
+msgstr "Salin setem masa"
+
+#: ../src/resources/help-overlay.ui.h:14
+msgid "Go to timestamp in clipboard"
+msgstr ""
+
+#: ../src/resources/help-overlay.ui.h:15 ../src/resources/menus.ui.h:5
+msgid "Help"
+msgstr "Bantuan"
+
+#: ../src/resources/help-overlay.ui.h:16
+msgid "Show help"
+msgstr ""
+
+#: ../src/resources/help-overlay.ui.h:17
+msgid "Show keyboard shortcuts"
+msgstr ""
 
 #: ../src/resources/menus.ui.h:1
 msgid "Open File"
@@ -202,34 +283,30 @@ msgid "Preferences"
 msgstr "Keutamaan"
 
 #: ../src/resources/menus.ui.h:4
-msgid "Help"
-msgstr "Bantuan"
+msgid "_Keyboard Shortcuts"
+msgstr ""
 
-#: ../src/resources/menus.ui.h:5
+#: ../src/resources/menus.ui.h:6
 msgid "Info"
 msgstr "Maklumat"
 
-#: ../src/resources/menus.ui.h:6
-msgid "Quit"
-msgstr "Keluar"
-
-#: ../src/resources/menus.ui.h:7
+#: ../src/resources/menus.ui.h:8
 msgid "Copy timestamp"
 msgstr "Salin setem masa"
 
-#: ../src/resources/menus.ui.h:8
+#: ../src/resources/menus.ui.h:9
 msgid "Insert timestamp"
 msgstr "Sisip setem masa"
 
-#: ../src/resources/menus.ui.h:10
+#: ../src/resources/menus.ui.h:11
 msgid "_File"
 msgstr "_Fail"
 
-#: ../src/resources/menus.ui.h:11
+#: ../src/resources/menus.ui.h:12
 msgid "_Edit"
 msgstr "_Sunting"
 
-#: ../src/resources/menus.ui.h:12
+#: ../src/resources/menus.ui.h:13
 msgid "_Help"
 msgstr "_Bantuan"
 
@@ -263,10 +340,6 @@ msgstr "Kursor _bergerak"
 msgid "_Fixed cursor"
 msgstr "Kursor _tetap"
 
-#: ../src/resources/preferences.ui.h:10
-msgid "Waveform"
-msgstr "Bentuk Gelombang"
-
 #: ../src/resources/preferences.ui.h:11
 msgid "Jump back on _pause:"
 msgstr ""
@@ -284,14 +357,19 @@ msgid "Controls"
 msgstr "Kawalan"
 
 #: ../src/resources/preferences.ui.h:15
-msgid "Remember _position"
+#, fuzzy
+msgid "Remember _size"
 msgstr "Ingat _kedudukan"
 
 #: ../src/resources/preferences.ui.h:16
+msgid "Remember _position"
+msgstr "Ingat _kedudukan"
+
+#: ../src/resources/preferences.ui.h:17
 msgid "Start on _top"
 msgstr "Mula di _atas"
 
-#: ../src/resources/preferences.ui.h:17
+#: ../src/resources/preferences.ui.h:18
 msgid "Window"
 msgstr "Tetingkap"
 
@@ -299,6 +377,13 @@ msgstr "Tetingkap"
 msgid "Speed:"
 msgstr "Kelajuan:"
 
-#: ../src/resources/window-headerbar.ui.h:2
+#: ../src/resources/window-headerbar.ui.h:3
 msgid "Open a file"
 msgstr "Buka satu fail"
+
+#: ../src/resources/window-headerbar.ui.h:4
+msgid "_Play"
+msgstr "_Tukarnama"
+
+#~ msgid "[FILE]"
+#~ msgstr "[FAIL]"

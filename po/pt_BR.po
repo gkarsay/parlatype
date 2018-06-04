@@ -6,10 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
-"POT-Creation-Date: 2017-01-16 21:45+0100\n"
+"POT-Creation-Date: 2018-06-04 14:19+0200\n"
 "PO-Revision-Date: 2017-01-17 12:06+0000\n"
 "Last-Translator: André \"decko\" de Brito <brito.afa@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -17,86 +18,88 @@ msgstr ""
 "X-Launchpad-Export-Date: 2017-01-26 11:32+0000\n"
 "X-Generator: Launchpad (build 18315)\n"
 
-#: ../data/org.gnome.parlatype.appdata.xml.in.h:1
-#: ../data/org.gnome.parlatype.desktop.in.h:1 ../src/pt-app.c:66
-#: ../src/pt-app.c:209 ../src/resources/window.ui.h:1
+#: ../data/com.github.gkarsay.parlatype.appdata.xml.in.h:1
+#: ../data/com.github.gkarsay.parlatype.desktop.in.h:1 ../src/pt-app.c:84
+#: ../src/pt-app.c:235 ../src/resources/window.ui.h:1
 #: ../src/resources/window-headerbar.ui.h:1
 msgid "Parlatype"
 msgstr "Parlatype"
 
-#: ../data/org.gnome.parlatype.appdata.xml.in.h:2
+#: ../data/com.github.gkarsay.parlatype.appdata.xml.in.h:2
 msgid "Media player for manual speech transcription"
 msgstr "Um tocador de midia para transcrição manual de voz"
 
-#: ../data/org.gnome.parlatype.appdata.xml.in.h:3
+#: ../data/com.github.gkarsay.parlatype.appdata.xml.in.h:3
 msgid ""
 "Parlatype is an easy to use media player. Its main purpose is to help you "
 "transcribing speech."
 msgstr ""
-"Parlatype é um tocador de midia fácil de usar. Seu propósito é ajudar você "
-"a transcrever voz."
+"Parlatype é um tocador de midia fácil de usar. Seu propósito é ajudar você a "
+"transcrever voz."
 
-#: ../data/org.gnome.parlatype.desktop.in.h:2
+#: ../data/com.github.gkarsay.parlatype.desktop.in.h:2
 msgid "Transcription utility"
 msgstr "Utilitário de transcrição"
 
-#: ../src/main.c:42
-msgid "Show the application's version"
-msgstr "Mostrar a versão da aplicação"
+#: ../data/com.github.gkarsay.parlatype.desktop.in.h:3
+#, fuzzy
+msgid "Transcription;"
+msgstr "Utilitário de transcrição"
 
-#: ../src/main.c:58
+#: ../data/com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in.h:1
+msgid "LibreOffice/Parlatype Helpers"
+msgstr ""
+
+#: ../data/com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in.h:2
+msgid "Control Parlatype using LibreOffice macros"
+msgstr ""
+
+#: ../src/main.c:36
 msgid "Fatal error"
 msgstr "Erro fatal"
 
-#: ../src/main.c:62
+#: ../src/main.c:40
 #, c-format
 msgid ""
 "Parlatype needs GStreamer 1.x to run. Please check your installation of "
 "GStreamer and make sure you have the \"Good Plugins\" installed.\n"
 "Parlatype will quit now, it received this error message: %s"
 msgstr ""
-"Parlatype necessita de GStreamer 1.x para todar. Verifique sua instalação "
-"do GStreamer e tenha certeza de ter o \"Good Plugins\" instalado.\n"
+"Parlatype necessita de GStreamer 1.x para todar. Verifique sua instalação do "
+"GStreamer e tenha certeza de ter o \"Good Plugins\" instalado.\n"
 "Parlatype irá fechar agora, ele recebeu a seguinte mensagem de erro: %s"
 
-#. Translators: This is part of the output if you type `parlatype --help`
-#. in terminal. The square brackets indicate that a file (filename) is
-#. an optional argument for parlatype. Arguments in help output are usually
-#. uppercase.
-#: ../src/main.c:84
-msgid "[FILE]"
-msgstr "[ARQUIVO]"
+#: ../src/pt-app.c:55
+msgid "Show the application's version"
+msgstr "Mostrar a versão da aplicação"
 
-#: ../src/main.c:87
-msgid "Minimal audio player for manual speech transcription"
-msgstr "Um tocar de audio minimalista para transcrição manual de voz"
-
-#: ../src/pt-app.c:57 ../src/resources/menus.ui.h:2
+#: ../src/pt-app.c:75 ../src/resources/menus.ui.h:2
 msgid "Recent Files"
 msgstr "Arquivos recentes"
 
-#: ../src/pt-app.c:59 ../src/pt-app.c:116
+#: ../src/pt-app.c:77 ../src/pt-app.c:134 ../src/resources/goto-dialog.ui.h:2
 msgid "_Cancel"
 msgstr "_Cancelar"
 
-#: ../src/pt-app.c:60 ../src/pt-app.c:117
+#: ../src/pt-app.c:78 ../src/pt-app.c:135
+#: ../src/resources/window-headerbar.ui.h:2
 msgid "_Open"
 msgstr "_Abrir"
 
-#: ../src/pt-app.c:72 ../src/pt-app.c:128
+#: ../src/pt-app.c:90 ../src/pt-app.c:146
 msgid "All files"
 msgstr "Todos os arquivos"
 
-#: ../src/pt-app.c:113
+#: ../src/pt-app.c:131
 msgid "Open Audio File"
 msgstr "Abrir Arquivo de Áudio"
 
-#: ../src/pt-app.c:127
+#: ../src/pt-app.c:145
 msgid "Audio files"
 msgstr "Arquivos de áudio"
 
 #. Translators: %s is a detailed error message
-#: ../src/pt-app.c:176
+#: ../src/pt-app.c:202
 #, c-format
 msgid "Error opening help: %s"
 msgstr "Erro abrindo a ajuda: %s"
@@ -105,22 +108,22 @@ msgstr "Erro abrindo a ajuda: %s"
 #. copyright holders of code from other projects. Instead of
 #. "including" it could also say "with" or just "Code from
 #. other projects:"
-#: ../src/pt-app.c:194
+#: ../src/pt-app.c:220
 msgid "Including code from other projects:"
 msgstr "Incluindo código de outros projetos:"
 
-#: ../src/pt-app.c:212
+#: ../src/pt-app.c:238
 msgid "A basic transcription utility"
 msgstr "Um utilitário basico de transcrição"
 
-#: ../src/pt-app.c:216
+#: ../src/pt-app.c:242
 msgid "translator-credits"
 msgstr ""
 "André \"decko\" de Brito <brito.afa@gmail.com>\n"
 "Launchpad Contributions:\n"
 "  Vitor Loureiro https://launchpad.net/~hardsargent128"
 
-#: ../src/pt-app.c:369
+#: ../src/pt-app.c:424
 #, c-format
 msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
@@ -143,61 +146,139 @@ msgstr "%d:%02d:%02d"
 #. or the "Go to ..." dialog. There is a label like
 #. "Jump back:", "Jump forward:", "Jump back on pause:"
 #. or "Go to position:" before.
-#: ../src/pt-goto-dialog.c:79 ../src/pt-preferences.c:55
-#: ../src/pt-preferences.c:65 ../src/pt-preferences.c:75
+#: ../src/pt-goto-dialog.c:79 ../src/pt-preferences.c:62
+#: ../src/pt-preferences.c:72 ../src/pt-preferences.c:82
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "segundo"
 msgstr[1] "segundos"
 
-#: ../src/pt-preferences.c:164
+#: ../src/pt-preferences.c:193
 msgid "_Close"
 msgstr "_Fechar"
 
-#: ../src/pt-window.c:218
+#: ../src/pt-window.c:296
 #, c-format
 msgid "Jump back 1 second"
 msgid_plural "Jump back %d seconds"
 msgstr[0] "Voltar 1 segundo"
 msgstr[1] "Voltar %d segundos"
 
-#: ../src/pt-window.c:232
+#: ../src/pt-window.c:311
 #, c-format
 msgid "Jump forward 1 second"
 msgid_plural "Jump forward %d seconds"
 msgstr[0] "Avançar 1 segundo"
 msgstr[1] "Avançar %d segundos"
 
-#: ../src/pt-window.c:247
+#: ../src/pt-window.c:328
 msgid "Pause"
 msgstr "Pausa"
 
-#: ../src/pt-window.c:250
+#: ../src/pt-window.c:331
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
 msgstr[0] "Pause e volte 1 segundo"
 msgstr[1] "Pause e volte %d segundos"
 
-#: ../src/pt-window.c:256
+#: ../src/pt-window.c:338
 msgid "Start playing"
 msgstr "Começar a tocar"
 
-#: ../src/pt-window.c:727
+#: ../src/pt-window.c:991
 msgid "View follows cursor"
 msgstr "Visualização segue o cursor"
 
-#: ../src/pt-window.c:729
+#: ../src/pt-window.c:993
 msgid "Click to follow cursor"
 msgstr "Clique para seguir o cursor"
 
-#: ../src/resources/goto-dialog.ui.h:1 ../src/resources/menus.ui.h:9
+#: ../src/resources/goto-dialog.ui.h:1 ../src/resources/menus.ui.h:10
 msgid "Go to ..."
 msgstr "Ir para ..."
 
-#: ../src/resources/goto-dialog.ui.h:2
+#: ../src/resources/goto-dialog.ui.h:3
+msgid "_OK"
+msgstr "_OK"
+
+#: ../src/resources/goto-dialog.ui.h:4
 msgid "Go to position:"
 msgstr "Ir para a posição:"
+
+#: ../src/resources/help-overlay.ui.h:1
+msgid "General"
+msgstr ""
+
+#: ../src/resources/help-overlay.ui.h:2
+#, fuzzy
+msgid "Open a media file"
+msgstr "Abrir um arquivo"
+
+#: ../src/resources/help-overlay.ui.h:3
+msgid "Open recently used media files"
+msgstr ""
+
+#: ../src/resources/help-overlay.ui.h:4
+#, fuzzy
+msgid "Show/hide action menu"
+msgstr "Mostrar a versão da aplicação"
+
+#: ../src/resources/help-overlay.ui.h:5 ../src/resources/menus.ui.h:7
+msgid "Quit"
+msgstr "Sair"
+
+#: ../src/resources/help-overlay.ui.h:6 ../src/resources/preferences.ui.h:10
+msgid "Waveform"
+msgstr "Forma de onda"
+
+#: ../src/resources/help-overlay.ui.h:7
+#, fuzzy
+msgid "Play/Pause"
+msgstr "Pausa"
+
+#: ../src/resources/help-overlay.ui.h:8
+#, fuzzy
+msgid "Jump back"
+msgstr "Volta_r:"
+
+#: ../src/resources/help-overlay.ui.h:9
+#, fuzzy
+msgid "Jump forward"
+msgstr "A_vançar:"
+
+#: ../src/resources/help-overlay.ui.h:10
+msgid "Zoom in"
+msgstr ""
+
+#: ../src/resources/help-overlay.ui.h:11
+msgid "Zoom out"
+msgstr ""
+
+#: ../src/resources/help-overlay.ui.h:12
+msgid "Open “Go to” dialog"
+msgstr ""
+
+#: ../src/resources/help-overlay.ui.h:13
+#, fuzzy
+msgid "Copy timestamp to clipboard"
+msgstr "Copiar timestamp"
+
+#: ../src/resources/help-overlay.ui.h:14
+msgid "Go to timestamp in clipboard"
+msgstr ""
+
+#: ../src/resources/help-overlay.ui.h:15 ../src/resources/menus.ui.h:5
+msgid "Help"
+msgstr "Ajuda"
+
+#: ../src/resources/help-overlay.ui.h:16
+msgid "Show help"
+msgstr ""
+
+#: ../src/resources/help-overlay.ui.h:17
+msgid "Show keyboard shortcuts"
+msgstr ""
 
 #: ../src/resources/menus.ui.h:1
 msgid "Open File"
@@ -208,34 +289,30 @@ msgid "Preferences"
 msgstr "Preferências"
 
 #: ../src/resources/menus.ui.h:4
-msgid "Help"
-msgstr "Ajuda"
+msgid "_Keyboard Shortcuts"
+msgstr ""
 
-#: ../src/resources/menus.ui.h:5
+#: ../src/resources/menus.ui.h:6
 msgid "Info"
 msgstr "Informação"
 
-#: ../src/resources/menus.ui.h:6
-msgid "Quit"
-msgstr "Sair"
-
-#: ../src/resources/menus.ui.h:7
+#: ../src/resources/menus.ui.h:8
 msgid "Copy timestamp"
 msgstr "Copiar timestamp"
 
-#: ../src/resources/menus.ui.h:8
+#: ../src/resources/menus.ui.h:9
 msgid "Insert timestamp"
 msgstr "Inserir timestamp"
 
-#: ../src/resources/menus.ui.h:10
+#: ../src/resources/menus.ui.h:11
 msgid "_File"
 msgstr "_Arquivo"
 
-#: ../src/resources/menus.ui.h:11
+#: ../src/resources/menus.ui.h:12
 msgid "_Edit"
 msgstr "_Editar"
 
-#: ../src/resources/menus.ui.h:12
+#: ../src/resources/menus.ui.h:13
 msgid "_Help"
 msgstr "A_juda"
 
@@ -269,10 +346,6 @@ msgstr "Cursor _movél"
 msgid "_Fixed cursor"
 msgstr "Cursor _fixo"
 
-#: ../src/resources/preferences.ui.h:10
-msgid "Waveform"
-msgstr "Forma de onda"
-
 #: ../src/resources/preferences.ui.h:11
 msgid "Jump back on _pause:"
 msgstr "Voltar quando _pausar:"
@@ -290,14 +363,19 @@ msgid "Controls"
 msgstr "Controles"
 
 #: ../src/resources/preferences.ui.h:15
-msgid "Remember _position"
+#, fuzzy
+msgid "Remember _size"
 msgstr "Lembrar _posição"
 
 #: ../src/resources/preferences.ui.h:16
+msgid "Remember _position"
+msgstr "Lembrar _posição"
+
+#: ../src/resources/preferences.ui.h:17
 msgid "Start on _top"
 msgstr "Iniciar no _topo"
 
-#: ../src/resources/preferences.ui.h:17
+#: ../src/resources/preferences.ui.h:18
 msgid "Window"
 msgstr "Janela"
 
@@ -305,6 +383,16 @@ msgstr "Janela"
 msgid "Speed:"
 msgstr "Velocidade:"
 
-#: ../src/resources/window-headerbar.ui.h:2
+#: ../src/resources/window-headerbar.ui.h:3
 msgid "Open a file"
 msgstr "Abrir um arquivo"
+
+#: ../src/resources/window-headerbar.ui.h:4
+msgid "_Play"
+msgstr "_Reproduzir"
+
+#~ msgid "[FILE]"
+#~ msgstr "[ARQUIVO]"
+
+#~ msgid "Minimal audio player for manual speech transcription"
+#~ msgstr "Um tocar de audio minimalista para transcrição manual de voz"

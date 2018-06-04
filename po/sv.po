@@ -6,11 +6,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: parlatype\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-07-26 18:17+0200\n"
+"Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
+"POT-Creation-Date: 2018-06-04 14:24+0200\n"
 "PO-Revision-Date: 2017-11-20 20:34+0000\n"
 "Last-Translator: Tommy Brunn <Unknown>\n"
 "Language-Team: Swedish <sv@li.org>\n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -73,11 +74,12 @@ msgstr "Visa programmets version"
 msgid "Recent Files"
 msgstr "Senaste filer"
 
-#: ../src/pt-app.c:77 ../src/pt-app.c:134
+#: ../src/pt-app.c:77 ../src/pt-app.c:134 ../src/resources/goto-dialog.ui.h:2
 msgid "_Cancel"
 msgstr "_Avbryt"
 
 #: ../src/pt-app.c:78 ../src/pt-app.c:135
+#: ../src/resources/window-headerbar.ui.h:2
 msgid "_Open"
 msgstr "_Öppna"
 
@@ -140,51 +142,51 @@ msgstr "%d:%02d:%02d"
 #. or the "Go to ..." dialog. There is a label like
 #. "Jump back:", "Jump forward:", "Jump back on pause:"
 #. or "Go to position:" before.
-#: ../src/pt-goto-dialog.c:79 ../src/pt-preferences.c:58
-#: ../src/pt-preferences.c:68 ../src/pt-preferences.c:78
+#: ../src/pt-goto-dialog.c:79 ../src/pt-preferences.c:62
+#: ../src/pt-preferences.c:72 ../src/pt-preferences.c:82
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "sekund"
 msgstr[1] "sekunder"
 
-#: ../src/pt-preferences.c:189
+#: ../src/pt-preferences.c:193
 msgid "_Close"
 msgstr "_Stäng"
 
-#: ../src/pt-window.c:274
+#: ../src/pt-window.c:296
 #, c-format
 msgid "Jump back 1 second"
 msgid_plural "Jump back %d seconds"
 msgstr[0] "Spola tillbaka 1 sekund"
 msgstr[1] "Spola tillbaka %d sekunder"
 
-#: ../src/pt-window.c:289
+#: ../src/pt-window.c:311
 #, c-format
 msgid "Jump forward 1 second"
 msgid_plural "Jump forward %d seconds"
 msgstr[0] "Spola fram 1 sekund"
 msgstr[1] "Spola fram %d sekunder"
 
-#: ../src/pt-window.c:306
+#: ../src/pt-window.c:328
 msgid "Pause"
 msgstr "Pausa"
 
-#: ../src/pt-window.c:309
+#: ../src/pt-window.c:331
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
 msgstr[0] "Pausa och spola tillbaka 1 sekund"
 msgstr[1] "Pausa och spola tillbaka %d sekunder"
 
-#: ../src/pt-window.c:316
+#: ../src/pt-window.c:338
 msgid "Start playing"
 msgstr "Spela upp"
 
-#: ../src/pt-window.c:817
+#: ../src/pt-window.c:991
 msgid "View follows cursor"
 msgstr "Fokus följer pekaren"
 
-#: ../src/pt-window.c:819
+#: ../src/pt-window.c:993
 msgid "Click to follow cursor"
 msgstr "Klicka för att följa pekaren"
 
@@ -192,7 +194,11 @@ msgstr "Klicka för att följa pekaren"
 msgid "Go to ..."
 msgstr "Gå till ..."
 
-#: ../src/resources/goto-dialog.ui.h:2
+#: ../src/resources/goto-dialog.ui.h:3
+msgid "_OK"
+msgstr "_OK"
+
+#: ../src/resources/goto-dialog.ui.h:4
 msgid "Go to position:"
 msgstr "Gå till position:"
 
@@ -221,34 +227,49 @@ msgid "Waveform"
 msgstr "Vågform"
 
 #: ../src/resources/help-overlay.ui.h:7
+#, fuzzy
+msgid "Play/Pause"
+msgstr "Pausa"
+
+#: ../src/resources/help-overlay.ui.h:8
+#, fuzzy
+msgid "Jump back"
+msgstr "Spola _tillbaka:"
+
+#: ../src/resources/help-overlay.ui.h:9
+#, fuzzy
+msgid "Jump forward"
+msgstr "Spola _framåt"
+
+#: ../src/resources/help-overlay.ui.h:10
 msgid "Zoom in"
 msgstr "Zooma in"
 
-#: ../src/resources/help-overlay.ui.h:8
+#: ../src/resources/help-overlay.ui.h:11
 msgid "Zoom out"
 msgstr "Zooma ut"
 
-#: ../src/resources/help-overlay.ui.h:9
+#: ../src/resources/help-overlay.ui.h:12
 msgid "Open “Go to” dialog"
 msgstr "Öppna \"Gå till\"-dialog"
 
-#: ../src/resources/help-overlay.ui.h:10
+#: ../src/resources/help-overlay.ui.h:13
 msgid "Copy timestamp to clipboard"
 msgstr "Kopiera tidsmarkering till urklipp"
 
-#: ../src/resources/help-overlay.ui.h:11
+#: ../src/resources/help-overlay.ui.h:14
 msgid "Go to timestamp in clipboard"
 msgstr "Gå till tidsmarkering i urklipp"
 
-#: ../src/resources/help-overlay.ui.h:12 ../src/resources/menus.ui.h:5
+#: ../src/resources/help-overlay.ui.h:15 ../src/resources/menus.ui.h:5
 msgid "Help"
 msgstr "Hjälp"
 
-#: ../src/resources/help-overlay.ui.h:13
+#: ../src/resources/help-overlay.ui.h:16
 msgid "Show help"
 msgstr "Visa hjälp"
 
-#: ../src/resources/help-overlay.ui.h:14
+#: ../src/resources/help-overlay.ui.h:17
 msgid "Show keyboard shortcuts"
 msgstr "Visa tangentbordsgenvägar"
 
@@ -354,6 +375,10 @@ msgstr "Fönster"
 msgid "Speed:"
 msgstr "Hastighet:"
 
-#: ../src/resources/window-headerbar.ui.h:2
+#: ../src/resources/window-headerbar.ui.h:3
 msgid "Open a file"
 msgstr "Öppna en fil"
+
+#: ../src/resources/window-headerbar.ui.h:4
+msgid "_Play"
+msgstr "Spela _upp"
