@@ -18,6 +18,7 @@
 
 	<url type="homepage">https://gkarsay.github.io/parlatype/</url>
 	<url type="bugtracker">https://github.com/gkarsay/parlatype/issues</url>
+	<url type="translate">https://translations.launchpad.net/parlatype</url>
 	<developer_name>Gabor Karsay</developer_name>
 
 	<provides>
