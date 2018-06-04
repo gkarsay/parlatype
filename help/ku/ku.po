@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
-"POT-Creation-Date: 2017-01-26 22:49+0100\n"
+"POT-Creation-Date: 2018-06-04 14:41+0200\n"
 "PO-Revision-Date: 2017-03-17 21:57+0000\n"
 "Last-Translator: Rokar ✌ <Unknown>\n"
 "Language-Team: Kurdish <ku@li.org>\n"
+"Language: ku\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -37,22 +38,15 @@ msgid "Parlatype"
 msgstr "Parlatype"
 
 #. (itstool) path: credit/name
-#: C/index.page:10
-#: C/drag-and-drop.page:8
-#: C/first-steps.page:8
-#: C/keyboard-shortcuts.page:8
-#: C/libreoffice-helpers.page:9
-#: C/media-keys.page:8
-#: C/preferences.page:8
-#: C/selections.page:8
-#: C/timestamps.page:8
+#: C/index.page:10 C/drag-and-drop.page:8 C/first-steps.page:8
+#: C/keyboard-shortcuts.page:8 C/media-keys.page:8 C/preferences.page:8
+#: C/selections.page:8 C/timestamps.page:8 C/libreoffice-helpers.page:9
 msgid "Gabor Karsay"
 msgstr "Gabor Karsay"
 
 #. (itstool) path: info/desc
 #. (itstool) path: page/p
-#: C/index.page:14
-#: C/index.page:23
+#: C/index.page:14 C/index.page:23
 msgid ""
 "<app>Parlatype</app> is an easy to use media player. Its main purpose is to "
 "help you transcribing speech."
@@ -102,12 +96,11 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/drag-and-drop.page:20
 msgid ""
-"File names: Select a file name from a word processor, e.g. "
-"<app>LibreOffice</app>, drop the selected text on <app>Parlatype</app> and "
-"it will open that file. This will always work if the selection contains a "
-"full path. If you select the name only, <app>Parlatype</app> will look up "
-"its full path in the list of recent files and open it if it can find it in "
-"that list."
+"File names: Select a file name from a word processor, e.g. <app>LibreOffice</"
+"app>, drop the selected text on <app>Parlatype</app> and it will open that "
+"file. This will always work if the selection contains a full path. If you "
+"select the name only, <app>Parlatype</app> will look up its full path in the "
+"list of recent files and open it if it can find it in that list."
 msgstr ""
 
 #. (itstool) path: item/p
@@ -122,8 +115,7 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #. (itstool) path: page/title
-#: C/first-steps.page:6
-#: C/first-steps.page:14
+#: C/first-steps.page:6 C/first-steps.page:14
 msgid "First steps with Parlatype"
 msgstr ""
 
@@ -161,7 +153,7 @@ msgstr ""
 msgctxt "_"
 msgid ""
 "external ref='figures/parlatype-main-window.png' "
-"md5='1e21a2ddc61fda06238b6b1537191cb3'"
+"md5='c57ce9c636f96646e8ba668d290fb352'"
 msgstr ""
 
 #. (itstool) path: page/p
@@ -270,41 +262,91 @@ msgstr ""
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:40
-msgid "Go to …"
+msgid "Play/Pause"
 msgstr ""
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:41
-msgid "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
+msgid "<keyseq><key>Ctrl</key><key>Space</key></keyseq>"
 msgstr ""
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:44
-msgid "Copy timestamp"
+msgid "Go to …"
 msgstr ""
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:45
-msgid "<keyseq><key>Ctrl</key><key>c</key></keyseq>"
+msgid "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
 msgstr ""
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:48
-msgid "Insert timestamp"
+msgid "Jump back"
 msgstr ""
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:49
-msgid "<keyseq><key>Ctrl</key><key>v</key></keyseq>"
+msgid "<keyseq><key>Ctrl</key><key>Left</key></keyseq>"
 msgstr ""
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:52
+msgid "Jump forward"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:53
+msgid "<keyseq><key>Ctrl</key><key>Right</key></keyseq>"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:56
+msgid "Copy timestamp"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:57
+msgid "<keyseq><key>Ctrl</key><key>c</key></keyseq>"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:60
+msgid "Insert timestamp"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:61
+msgid "<keyseq><key>Ctrl</key><key>v</key></keyseq>"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:64
+msgid "Zoom in"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:65
+msgid "<keyseq><key>Ctrl</key><key>+</key></keyseq>"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:68
+msgid "Zoom out"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:69
+msgid "<keyseq><key>Ctrl</key><key>-</key></keyseq>"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:72
 msgid "Quit"
 msgstr "Derkeve"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:53
+#: C/keyboard-shortcuts.page:73
 msgid "<keyseq><key>Ctrl</key><key>q</key></keyseq>"
 msgstr ""
 
@@ -316,135 +358,6 @@ msgstr ""
 #. (itstool) path: license/p
 #: C/legal.xml:4
 msgid "This work is licensed under a <_:link-1/> license."
-msgstr ""
-
-#. (itstool) path: info/desc
-#: C/libreoffice-helpers.page:7
-msgid "Use Parlatype with LibreOffice"
-msgstr ""
-
-#. (itstool) path: page/title
-#. (itstool) path: table/title
-#: C/libreoffice-helpers.page:15
-#: C/libreoffice-helpers.page:30
-msgid "LibreOffice Helpers"
-msgstr "Alîkarîa LibreOffice"
-
-#. (itstool) path: page/p
-#: C/libreoffice-helpers.page:17
-msgid ""
-"LibreOffice Helpers let you control <app>Parlatype</app> from "
-"<app>LibreOffice</app>. For example, you can jump easily to timestamps."
-msgstr ""
-
-#. (itstool) path: page/p
-#: C/libreoffice-helpers.page:19
-msgid ""
-"To use them, you have to assign keyboard shortcuts in <app>LibreOffice</app> "
-"itself. To do this, open <app>LibreOffice</app>, go to menu <gui>Tools</gui> "
-"and select <gui>Customize</gui>."
-msgstr ""
-
-#. (itstool) path: page/media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/libreoffice-helpers.page:21
-msgctxt "_"
-msgid ""
-"external ref='figures/lo-menu.png' md5='4dd86affb0353b6bdfa2dcfbbeadd494'"
-msgstr ""
-
-#. (itstool) path: page/p
-#: C/libreoffice-helpers.page:23
-msgid ""
-"Go to tab <gui>Keyboard</gui>. In the lower part, <gui>Functions</gui>, "
-"there is a list called <gui>Category</gui>. At the end of that list you'll "
-"find the entry <gui>LibreOffice Macros</gui>. There is a subcategory "
-"<gui>share</gui> which has a subcategory <gui>Parlatype</gui>. After "
-"selecting <gui>Parlatype</gui> there will be a list of functions in the "
-"<gui>Functions</gui> list. Choose the function you'd like to use, select "
-"from the list <gui>Shortcut keys</gui> above a shortcut and click on the "
-"button <gui>Modify</gui>."
-msgstr ""
-
-#. (itstool) path: page/media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/libreoffice-helpers.page:25
-msgctxt "_"
-msgid ""
-"external ref='figures/lo-customize.png' "
-"md5='081564921275129bee7bbd10220547e7'"
-msgstr ""
-
-#. (itstool) path: page/p
-#: C/libreoffice-helpers.page:27
-msgid "You can select any of these functions:"
-msgstr ""
-
-#. (itstool) path: td/p
-#: C/libreoffice-helpers.page:33
-msgid "Helper's name"
-msgstr ""
-
-#. (itstool) path: td/p
-#: C/libreoffice-helpers.page:34
-msgid "What it does"
-msgstr ""
-
-#. (itstool) path: td/p
-#: C/libreoffice-helpers.page:40
-msgid ""
-"Toggles between play and pause. Depending on your preferences set in "
-"<app>Parlatype</app> it will rewind a few seconds on pause."
-msgstr ""
-
-#. (itstool) path: td/p
-#: C/libreoffice-helpers.page:44
-msgid ""
-"Jumps back a few seconds, depending on the preferences you set in "
-"<app>Parlatype</app>."
-msgstr ""
-
-#. (itstool) path: td/p
-#: C/libreoffice-helpers.page:48
-msgid ""
-"Jumps forward a few seconds, depending on the preferences you set in "
-"<app>Parlatype</app>."
-msgstr ""
-
-#. (itstool) path: td/p
-#: C/libreoffice-helpers.page:52
-msgid ""
-"Inserts the current timestamp at the cursor's position. It does not "
-"overwrite any selection."
-msgstr ""
-
-#. (itstool) path: td/p
-#: C/libreoffice-helpers.page:56
-msgid "The same as above, but on a new line."
-msgstr ""
-
-#. (itstool) path: td/p
-#: C/libreoffice-helpers.page:60
-msgid ""
-"If the cursor is set on a timestamp, it will jump to that position. The "
-"cursor has to be somewhere between the two number signs (#). Don't select "
-"the timestamp, just put the cursor inside."
-msgstr ""
-
-#. (itstool) path: td/p
-#: C/libreoffice-helpers.page:64
-msgid "Increases playback speed."
-msgstr ""
-
-#. (itstool) path: td/p
-#: C/libreoffice-helpers.page:68
-msgid "Decreases playback speed."
 msgstr ""
 
 #. (itstool) path: info/desc
@@ -630,23 +543,36 @@ msgstr "Pencere"
 msgctxt "_"
 msgid ""
 "external ref='figures/parlatype-prefs-window.png' "
-"md5='615d876529cdd45763e78a3ee01b7b3e'"
+"md5='6affc475c74223fa48e7de25393fe7de'"
 msgstr ""
 
 #. (itstool) path: item/p
 #: C/preferences.page:48
 msgid ""
-"Remember position: On start-up <app>Parlatype</app> can position its window "
-"where you had it when you closed <app>Parlatype</app> last time. This also "
-"remembers the window's size."
+"Remember size: On start-up <app>Parlatype</app> sets the window size to the "
+"size it had the last time."
 msgstr ""
 
 #. (itstool) path: item/p
 #: C/preferences.page:49
 msgid ""
+"Remember position: On start-up <app>Parlatype</app> can position its window "
+"where you had it when you closed <app>Parlatype</app> last time."
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/preferences.page:50
+msgid ""
 "Start on top: This will put <app>Parlatype</app> on start-up on top of other "
 "windows. This might be useful if you are working with a maximized word "
 "processor and still want to see the <app>Parlatype</app> window."
+msgstr ""
+
+#. (itstool) path: note/p
+#: C/preferences.page:54
+msgid ""
+"<gui>Remember position</gui> and <gui>Start on top</gui> are not available "
+"on Wayland."
 msgstr ""
 
 #. (itstool) path: info/desc
@@ -722,8 +648,8 @@ msgstr "Xwêr bikşîne û berde"
 msgid ""
 "If you select the timestamp in the word processor, you can drag and drop it "
 "on the <app>Parlatype</app> window and it will go to that position. This is "
-"also possible the other way round: Drag the time label from "
-"<app>Parlatype</app> to a word processor and drop it there to insert it."
+"also possible the other way round: Drag the time label from <app>Parlatype</"
+"app> to a word processor and drop it there to insert it."
 msgstr ""
 
 #. (itstool) path: section/title
@@ -746,4 +672,132 @@ msgid ""
 "To go to a timestamp position, copy the timestamp in the word processor to "
 "the clipboard. Once you have changed focus to <app>Parlatype</app> press "
 "<keyseq><key>Ctrl</key><key>v</key></keyseq>."
+msgstr ""
+
+#. (itstool) path: info/desc
+#: C/libreoffice-helpers.page:7
+msgid "Use Parlatype with LibreOffice"
+msgstr ""
+
+#. (itstool) path: page/title
+#. (itstool) path: table/title
+#: C/libreoffice-helpers.page:15 C/libreoffice-helpers.page:30
+msgid "LibreOffice Helpers"
+msgstr "Alîkarîa LibreOffice"
+
+#. (itstool) path: page/p
+#: C/libreoffice-helpers.page:17
+msgid ""
+"LibreOffice Helpers let you control <app>Parlatype</app> from "
+"<app>LibreOffice</app>. For example, you can jump easily to timestamps."
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/libreoffice-helpers.page:19
+msgid ""
+"To use them, you have to assign keyboard shortcuts in <app>LibreOffice</app> "
+"itself. To do this, open <app>LibreOffice</app>, go to menu <gui>Tools</gui> "
+"and select <gui>Customize</gui>."
+msgstr ""
+
+#. (itstool) path: page/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/libreoffice-helpers.page:21
+msgctxt "_"
+msgid ""
+"external ref='figures/lo-menu.png' md5='4dd86affb0353b6bdfa2dcfbbeadd494'"
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/libreoffice-helpers.page:23
+msgid ""
+"Go to tab <gui>Keyboard</gui>. In the lower part, <gui>Functions</gui>, "
+"there is a list called <gui>Category</gui>. At the end of that list you'll "
+"find the entry <gui>LibreOffice Macros</gui>. There is a subcategory "
+"<gui>share</gui> which has a subcategory <gui>Parlatype</gui>. After "
+"selecting <gui>Parlatype</gui> there will be a list of functions in the "
+"<gui>Functions</gui> list. Choose the function you'd like to use, select "
+"from the list <gui>Shortcut keys</gui> above a shortcut and click on the "
+"button <gui>Modify</gui>."
+msgstr ""
+
+#. (itstool) path: page/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/libreoffice-helpers.page:25
+msgctxt "_"
+msgid ""
+"external ref='figures/lo-customize.png' "
+"md5='081564921275129bee7bbd10220547e7'"
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/libreoffice-helpers.page:27
+msgid "You can select any of these functions:"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/libreoffice-helpers.page:33
+msgid "Helper's name"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/libreoffice-helpers.page:34
+msgid "What it does"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/libreoffice-helpers.page:40
+msgid ""
+"Toggles between play and pause. Depending on your preferences set in "
+"<app>Parlatype</app> it will rewind a few seconds on pause."
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/libreoffice-helpers.page:44
+msgid ""
+"Jumps back a few seconds, depending on the preferences you set in "
+"<app>Parlatype</app>."
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/libreoffice-helpers.page:48
+msgid ""
+"Jumps forward a few seconds, depending on the preferences you set in "
+"<app>Parlatype</app>."
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/libreoffice-helpers.page:52
+msgid ""
+"Inserts the current timestamp at the cursor's position. It does not "
+"overwrite any selection."
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/libreoffice-helpers.page:56
+msgid "The same as above, but on a new line."
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/libreoffice-helpers.page:60
+msgid ""
+"If the cursor is set on a timestamp, it will jump to that position. The "
+"cursor has to be somewhere between the two number signs (#). Don't select "
+"the timestamp, just put the cursor inside."
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/libreoffice-helpers.page:64
+msgid "Increases playback speed."
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/libreoffice-helpers.page:68
+msgid "Decreases playback speed."
 msgstr ""

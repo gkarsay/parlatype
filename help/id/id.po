@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
-"POT-Creation-Date: 2017-01-26 22:49+0100\n"
+"POT-Creation-Date: 2018-06-04 14:41+0200\n"
 "PO-Revision-Date: 2017-02-09 07:45+0000\n"
 "Last-Translator: Ari Setyo Wibowo <mr.a.contact@gmail.com>\n"
 "Language-Team: Indonesian <id@li.org>\n"
+"Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -37,22 +38,15 @@ msgid "Parlatype"
 msgstr "Parlatype"
 
 #. (itstool) path: credit/name
-#: C/index.page:10
-#: C/drag-and-drop.page:8
-#: C/first-steps.page:8
-#: C/keyboard-shortcuts.page:8
-#: C/libreoffice-helpers.page:9
-#: C/media-keys.page:8
-#: C/preferences.page:8
-#: C/selections.page:8
-#: C/timestamps.page:8
+#: C/index.page:10 C/drag-and-drop.page:8 C/first-steps.page:8
+#: C/keyboard-shortcuts.page:8 C/media-keys.page:8 C/preferences.page:8
+#: C/selections.page:8 C/timestamps.page:8 C/libreoffice-helpers.page:9
 msgid "Gabor Karsay"
 msgstr "Gabor Karsay"
 
 #. (itstool) path: info/desc
 #. (itstool) path: page/p
-#: C/index.page:14
-#: C/index.page:23
+#: C/index.page:14 C/index.page:23
 msgid ""
 "<app>Parlatype</app> is an easy to use media player. Its main purpose is to "
 "help you transcribing speech."
@@ -111,19 +105,18 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/drag-and-drop.page:20
 msgid ""
-"File names: Select a file name from a word processor, e.g. "
-"<app>LibreOffice</app>, drop the selected text on <app>Parlatype</app> and "
-"it will open that file. This will always work if the selection contains a "
-"full path. If you select the name only, <app>Parlatype</app> will look up "
-"its full path in the list of recent files and open it if it can find it in "
-"that list."
+"File names: Select a file name from a word processor, e.g. <app>LibreOffice</"
+"app>, drop the selected text on <app>Parlatype</app> and it will open that "
+"file. This will always work if the selection contains a full path. If you "
+"select the name only, <app>Parlatype</app> will look up its full path in the "
+"list of recent files and open it if it can find it in that list."
 msgstr ""
 "Nama berkas: Pilih sebuah nama berkas dari suatu pemroses kata, seperti. "
 "<app>LibreOffice</app>, jatuhkan teks terpilih pada <app>Parlatype</app> dan "
 "ia akan membuka berkas tersebut. Ini akan selalu bekerja jika pilihan "
-"mengandung alamat penuh. Jika Anda hanya memilih nama saja, "
-"<app>Parlatype</app> akan mencari alamat penuh dalam daftar berkas terakhir "
-"dan akan membukanya jika tidak menemukan dari daftar."
+"mengandung alamat penuh. Jika Anda hanya memilih nama saja, <app>Parlatype</"
+"app> akan mencari alamat penuh dalam daftar berkas terakhir dan akan "
+"membukanya jika tidak menemukan dari daftar."
 
 #. (itstool) path: item/p
 #: C/drag-and-drop.page:21
@@ -143,8 +136,7 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #. (itstool) path: page/title
-#: C/first-steps.page:6
-#: C/first-steps.page:14
+#: C/first-steps.page:6 C/first-steps.page:14
 msgid "First steps with Parlatype"
 msgstr "Langkah pertama dengan Parlatype"
 
@@ -168,9 +160,8 @@ msgid ""
 "You can also drag and drop a file on <app>Parlatype</app> or open the "
 "recently used files in the Application menu."
 msgstr ""
-"Anda juga dapat menyeret dan menjatuhkan sebuah berkas pada "
-"<app>Parlatype</app> atau buka berkas yang terakhir digunakan di menu "
-"Aplikasi."
+"Anda juga dapat menyeret dan menjatuhkan sebuah berkas pada <app>Parlatype</"
+"app> atau buka berkas yang terakhir digunakan di menu Aplikasi."
 
 #. (itstool) path: page/p
 #: C/first-steps.page:22
@@ -191,10 +182,11 @@ msgstr ""
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/first-steps.page:24
+#, fuzzy
 msgctxt "_"
 msgid ""
 "external ref='figures/parlatype-main-window.png' "
-"md5='1e21a2ddc61fda06238b6b1537191cb3'"
+"md5='c57ce9c636f96646e8ba668d290fb352'"
 msgstr ""
 "external ref='figures/parlatype-main-window.png' "
 "md5='1e21a2ddc61fda06238b6b1537191cb3'"
@@ -273,9 +265,9 @@ msgid ""
 "are described in <link xref=\"control\"/>. Shortcut keys for the window are "
 "listed below."
 msgstr ""
-"Pintasan papan ketik untuk kendali <app>Parlatype</app>, seperti "
-"<key>Main</key>, dideskripsikan di <link xref=\"control\"/>. Tombol pintasan "
-"untuk jendela terdaftar di bawah ini."
+"Pintasan papan ketik untuk kendali <app>Parlatype</app>, seperti <key>Main</"
+"key>, dideskripsikan di <link xref=\"control\"/>. Tombol pintasan untuk "
+"jendela terdaftar di bawah ini."
 
 #. (itstool) path: table/title
 #: C/keyboard-shortcuts.page:19
@@ -324,41 +316,96 @@ msgstr "<keyseq><key>Ctrl</key><key>r</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:40
+msgid "Play/Pause"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:41
+#, fuzzy
+msgid "<keyseq><key>Ctrl</key><key>Space</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>c</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:44
 msgid "Go to …"
 msgstr "Pergi ke …"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:41
+#: C/keyboard-shortcuts.page:45
 msgid "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:44
+#: C/keyboard-shortcuts.page:48
+msgid "Jump back"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:49
+#, fuzzy
+msgid "<keyseq><key>Ctrl</key><key>Left</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:52
+msgid "Jump forward"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:53
+#, fuzzy
+msgid "<keyseq><key>Ctrl</key><key>Right</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:56
 msgid "Copy timestamp"
 msgstr "Salin informasi waktu"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:45
+#: C/keyboard-shortcuts.page:57
 msgid "<keyseq><key>Ctrl</key><key>c</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>c</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:48
+#: C/keyboard-shortcuts.page:60
 msgid "Insert timestamp"
 msgstr "Masukkan informasi waktu"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:49
+#: C/keyboard-shortcuts.page:61
 msgid "<keyseq><key>Ctrl</key><key>v</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>v</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:52
+#: C/keyboard-shortcuts.page:64
+msgid "Zoom in"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:65
+#, fuzzy
+msgid "<keyseq><key>Ctrl</key><key>+</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:68
+msgid "Zoom out"
+msgstr ""
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:69
+#, fuzzy
+msgid "<keyseq><key>Ctrl</key><key>-</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/keyboard-shortcuts.page:72
 msgid "Quit"
 msgstr "Keluar"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:53
+#: C/keyboard-shortcuts.page:73
 msgid "<keyseq><key>Ctrl</key><key>q</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>q</key></keyseq>"
 
@@ -371,163 +418,6 @@ msgstr "Creative Commons Attribution-ShareAlike 4.0 Internasional"
 #: C/legal.xml:4
 msgid "This work is licensed under a <_:link-1/> license."
 msgstr "Pekerjaan ini dilisensikan di bawah lisensi <_:link-1/>."
-
-#. (itstool) path: info/desc
-#: C/libreoffice-helpers.page:7
-msgid "Use Parlatype with LibreOffice"
-msgstr "Gunakan Parlatype dengan LibreOffice"
-
-#. (itstool) path: page/title
-#. (itstool) path: table/title
-#: C/libreoffice-helpers.page:15
-#: C/libreoffice-helpers.page:30
-msgid "LibreOffice Helpers"
-msgstr "Bantuan LibreOffice"
-
-#. (itstool) path: page/p
-#: C/libreoffice-helpers.page:17
-msgid ""
-"LibreOffice Helpers let you control <app>Parlatype</app> from "
-"<app>LibreOffice</app>. For example, you can jump easily to timestamps."
-msgstr ""
-"Bantuan LibreOffice mengizinkan Anda mengendalikan <app>Parlatype</app> dari "
-"<app>LibreOffice</app>. Misalnya, Anda dapat dengan mudah melompat ke "
-"informasi waktu."
-
-#. (itstool) path: page/p
-#: C/libreoffice-helpers.page:19
-msgid ""
-"To use them, you have to assign keyboard shortcuts in <app>LibreOffice</app> "
-"itself. To do this, open <app>LibreOffice</app>, go to menu <gui>Tools</gui> "
-"and select <gui>Customize</gui>."
-msgstr ""
-"Untuk mengunakannya, Anda harus memasang pintasan papan ketik di "
-"<app>LibreOffice</app> sendiri. Untuk melakukannya, buka "
-"<app>LibreOffice</app>, pergi ke menu <gui>Perkakas</gui> dan pilih "
-"<gui>Kustomasi</gui>."
-
-#. (itstool) path: page/media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/libreoffice-helpers.page:21
-msgctxt "_"
-msgid ""
-"external ref='figures/lo-menu.png' md5='4dd86affb0353b6bdfa2dcfbbeadd494'"
-msgstr ""
-"external ref='figures/lo-menu.png' md5='4dd86affb0353b6bdfa2dcfbbeadd494'"
-
-#. (itstool) path: page/p
-#: C/libreoffice-helpers.page:23
-msgid ""
-"Go to tab <gui>Keyboard</gui>. In the lower part, <gui>Functions</gui>, "
-"there is a list called <gui>Category</gui>. At the end of that list you'll "
-"find the entry <gui>LibreOffice Macros</gui>. There is a subcategory "
-"<gui>share</gui> which has a subcategory <gui>Parlatype</gui>. After "
-"selecting <gui>Parlatype</gui> there will be a list of functions in the "
-"<gui>Functions</gui> list. Choose the function you'd like to use, select "
-"from the list <gui>Shortcut keys</gui> above a shortcut and click on the "
-"button <gui>Modify</gui>."
-msgstr ""
-"Pergi ke tab <gui>Papan ketik</gui>. di bagian bawah, <gui>Fungsi</gui>, ada "
-"daftar yang disebut <gui>Kategori</gui>. Di akhir daftar tersebut Anda akan "
-"menemukan entri <gui>Makro LibreOffice</gui>. Ada subkategori "
-"<gui>berbagi</gui> yang memiliki subkategori <gui>Parlatype</gui>. Setelah "
-"memilih <gui>Parlatype</gui> akan ada daftar fungsi di <gui>Fungsi</gui>. "
-"Pilih fungsi yang akan Anda gunakan, Pilih dari daftar <gui>Tombol "
-"pintasan</gui> di atas pintasan dan klik pada tombol <gui>Modifikasi</gui>."
-
-#. (itstool) path: page/media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/libreoffice-helpers.page:25
-msgctxt "_"
-msgid ""
-"external ref='figures/lo-customize.png' "
-"md5='081564921275129bee7bbd10220547e7'"
-msgstr ""
-"external ref='figures/lo-customize.png' "
-"md5='081564921275129bee7bbd10220547e7'"
-
-#. (itstool) path: page/p
-#: C/libreoffice-helpers.page:27
-msgid "You can select any of these functions:"
-msgstr "Anda dapat memilih fungsi yang mana saja:"
-
-#. (itstool) path: td/p
-#: C/libreoffice-helpers.page:33
-msgid "Helper's name"
-msgstr "Nama penolong"
-
-#. (itstool) path: td/p
-#: C/libreoffice-helpers.page:34
-msgid "What it does"
-msgstr "Apa yang dilakukan"
-
-#. (itstool) path: td/p
-#: C/libreoffice-helpers.page:40
-msgid ""
-"Toggles between play and pause. Depending on your preferences set in "
-"<app>Parlatype</app> it will rewind a few seconds on pause."
-msgstr ""
-"Beralih antara main dan jeda. Tergantung pada preferensi yang Anda tentukan "
-"di <app>Parlatype</app> akan diputar kembali beberapa detik saat jeda."
-
-#. (itstool) path: td/p
-#: C/libreoffice-helpers.page:44
-msgid ""
-"Jumps back a few seconds, depending on the preferences you set in "
-"<app>Parlatype</app>."
-msgstr ""
-"Lompat mundur beberapa detik, tergantung preferensi yang Anda tentukan di "
-"<app>Parlatype</app>."
-
-#. (itstool) path: td/p
-#: C/libreoffice-helpers.page:48
-msgid ""
-"Jumps forward a few seconds, depending on the preferences you set in "
-"<app>Parlatype</app>."
-msgstr ""
-"Lompat maju beberapa detik, tergantung preferensi yang Anda tentukan di "
-"<app>Parlatype</app>."
-
-#. (itstool) path: td/p
-#: C/libreoffice-helpers.page:52
-msgid ""
-"Inserts the current timestamp at the cursor's position. It does not "
-"overwrite any selection."
-msgstr ""
-"Masukkan informasi waktu saat ini pada posisi kursor. Itu tidak menimpa "
-"pilihan manapun."
-
-#. (itstool) path: td/p
-#: C/libreoffice-helpers.page:56
-msgid "The same as above, but on a new line."
-msgstr "Sama dengan atas, tapi di baris baru."
-
-#. (itstool) path: td/p
-#: C/libreoffice-helpers.page:60
-msgid ""
-"If the cursor is set on a timestamp, it will jump to that position. The "
-"cursor has to be somewhere between the two number signs (#). Don't select "
-"the timestamp, just put the cursor inside."
-msgstr ""
-"Jika kursor ditentukan pada informasi waktu, ia akan lompat ke posisi "
-"tersebut. Kursor harus berada di suatu tempat di antara dua tanda nomor (#). "
-"Jangan pilih informasi waktu, tinggal letakkan kursor di dalamnya."
-
-#. (itstool) path: td/p
-#: C/libreoffice-helpers.page:64
-msgid "Increases playback speed."
-msgstr "Tambah kecepatan main."
-
-#. (itstool) path: td/p
-#: C/libreoffice-helpers.page:68
-msgid "Decreases playback speed."
-msgstr "Kurangi kecepatan main."
 
 #. (itstool) path: info/desc
 #: C/media-keys.page:6
@@ -735,8 +625,8 @@ msgid ""
 "Jump forward: Configures how many seconds to skip when the <gui>Jump "
 "forward</gui> button is pressed."
 msgstr ""
-"Lompat maju: Atur berapa detik untuk melewati saat tombol <gui>Lompat "
-"maju</gui> ditekan."
+"Lompat maju: Atur berapa detik untuk melewati saat tombol <gui>Lompat maju</"
+"gui> ditekan."
 
 #. (itstool) path: section/title
 #: C/preferences.page:43
@@ -749,10 +639,11 @@ msgstr "Jendela"
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/preferences.page:45
+#, fuzzy
 msgctxt "_"
 msgid ""
 "external ref='figures/parlatype-prefs-window.png' "
-"md5='615d876529cdd45763e78a3ee01b7b3e'"
+"md5='6affc475c74223fa48e7de25393fe7de'"
 msgstr ""
 "external ref='figures/parlatype-prefs-window.png' "
 "md5='615d876529cdd45763e78a3ee01b7b3e'"
@@ -760,16 +651,23 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/preferences.page:48
 msgid ""
+"Remember size: On start-up <app>Parlatype</app> sets the window size to the "
+"size it had the last time."
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/preferences.page:49
+#, fuzzy
+msgid ""
 "Remember position: On start-up <app>Parlatype</app> can position its window "
-"where you had it when you closed <app>Parlatype</app> last time. This also "
-"remembers the window's size."
+"where you had it when you closed <app>Parlatype</app> last time."
 msgstr ""
 "Ingat posisi: Saat start-up <app>Parlatype</app> dapat memosisikan "
 "jendelanya dimana Anda menutup <app>Parlatype</app>  terakhir kali. Ini juga "
 "mengingat ukuran jendela."
 
 #. (itstool) path: item/p
-#: C/preferences.page:49
+#: C/preferences.page:50
 msgid ""
 "Start on top: This will put <app>Parlatype</app> on start-up on top of other "
 "windows. This might be useful if you are working with a maximized word "
@@ -777,8 +675,15 @@ msgid ""
 msgstr ""
 "Mulai di atas: Ini akan meletakkan <app>Parlatype</app> saat start-up di "
 "atas jendela lainnya. Ini mungkin berguna saat Anda bekerja dengan pengolah "
-"kata yang termaksimalkan dan tetap ingin melihat jendela "
-"<app>Parlatype</app>."
+"kata yang termaksimalkan dan tetap ingin melihat jendela <app>Parlatype</"
+"app>."
+
+#. (itstool) path: note/p
+#: C/preferences.page:54
+msgid ""
+"<gui>Remember position</gui> and <gui>Start on top</gui> are not available "
+"on Wayland."
+msgstr ""
 
 #. (itstool) path: info/desc
 #: C/selections.page:6
@@ -867,8 +772,8 @@ msgstr "Seret dan jatuhkan"
 msgid ""
 "If you select the timestamp in the word processor, you can drag and drop it "
 "on the <app>Parlatype</app> window and it will go to that position. This is "
-"also possible the other way round: Drag the time label from "
-"<app>Parlatype</app> to a word processor and drop it there to insert it."
+"also possible the other way round: Drag the time label from <app>Parlatype</"
+"app> to a word processor and drop it there to insert it."
 msgstr ""
 "Jika Anda memilih informasi waktu di pengolah kata, Anda dapat menyeret dan "
 "menjatuhkannya pada jendela <app>Parlatype</app> dan ia akan pergi ke posisi "
@@ -904,3 +809,158 @@ msgstr ""
 "Untuk pergi ke posisi informasi waktu, salin informasi waktu di pengolah "
 "kata ke papan salinan. Setelah Anda berpindah fokus ke <app>Parlatype</app> "
 "tekan <keyseq><key>Ctrl</key><key>v</key></keyseq>."
+
+#. (itstool) path: info/desc
+#: C/libreoffice-helpers.page:7
+msgid "Use Parlatype with LibreOffice"
+msgstr "Gunakan Parlatype dengan LibreOffice"
+
+#. (itstool) path: page/title
+#. (itstool) path: table/title
+#: C/libreoffice-helpers.page:15 C/libreoffice-helpers.page:30
+msgid "LibreOffice Helpers"
+msgstr "Bantuan LibreOffice"
+
+#. (itstool) path: page/p
+#: C/libreoffice-helpers.page:17
+msgid ""
+"LibreOffice Helpers let you control <app>Parlatype</app> from "
+"<app>LibreOffice</app>. For example, you can jump easily to timestamps."
+msgstr ""
+"Bantuan LibreOffice mengizinkan Anda mengendalikan <app>Parlatype</app> dari "
+"<app>LibreOffice</app>. Misalnya, Anda dapat dengan mudah melompat ke "
+"informasi waktu."
+
+#. (itstool) path: page/p
+#: C/libreoffice-helpers.page:19
+msgid ""
+"To use them, you have to assign keyboard shortcuts in <app>LibreOffice</app> "
+"itself. To do this, open <app>LibreOffice</app>, go to menu <gui>Tools</gui> "
+"and select <gui>Customize</gui>."
+msgstr ""
+"Untuk mengunakannya, Anda harus memasang pintasan papan ketik di "
+"<app>LibreOffice</app> sendiri. Untuk melakukannya, buka <app>LibreOffice</"
+"app>, pergi ke menu <gui>Perkakas</gui> dan pilih <gui>Kustomasi</gui>."
+
+#. (itstool) path: page/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/libreoffice-helpers.page:21
+msgctxt "_"
+msgid ""
+"external ref='figures/lo-menu.png' md5='4dd86affb0353b6bdfa2dcfbbeadd494'"
+msgstr ""
+"external ref='figures/lo-menu.png' md5='4dd86affb0353b6bdfa2dcfbbeadd494'"
+
+#. (itstool) path: page/p
+#: C/libreoffice-helpers.page:23
+msgid ""
+"Go to tab <gui>Keyboard</gui>. In the lower part, <gui>Functions</gui>, "
+"there is a list called <gui>Category</gui>. At the end of that list you'll "
+"find the entry <gui>LibreOffice Macros</gui>. There is a subcategory "
+"<gui>share</gui> which has a subcategory <gui>Parlatype</gui>. After "
+"selecting <gui>Parlatype</gui> there will be a list of functions in the "
+"<gui>Functions</gui> list. Choose the function you'd like to use, select "
+"from the list <gui>Shortcut keys</gui> above a shortcut and click on the "
+"button <gui>Modify</gui>."
+msgstr ""
+"Pergi ke tab <gui>Papan ketik</gui>. di bagian bawah, <gui>Fungsi</gui>, ada "
+"daftar yang disebut <gui>Kategori</gui>. Di akhir daftar tersebut Anda akan "
+"menemukan entri <gui>Makro LibreOffice</gui>. Ada subkategori <gui>berbagi</"
+"gui> yang memiliki subkategori <gui>Parlatype</gui>. Setelah memilih "
+"<gui>Parlatype</gui> akan ada daftar fungsi di <gui>Fungsi</gui>. Pilih "
+"fungsi yang akan Anda gunakan, Pilih dari daftar <gui>Tombol pintasan</gui> "
+"di atas pintasan dan klik pada tombol <gui>Modifikasi</gui>."
+
+#. (itstool) path: page/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/libreoffice-helpers.page:25
+msgctxt "_"
+msgid ""
+"external ref='figures/lo-customize.png' "
+"md5='081564921275129bee7bbd10220547e7'"
+msgstr ""
+"external ref='figures/lo-customize.png' "
+"md5='081564921275129bee7bbd10220547e7'"
+
+#. (itstool) path: page/p
+#: C/libreoffice-helpers.page:27
+msgid "You can select any of these functions:"
+msgstr "Anda dapat memilih fungsi yang mana saja:"
+
+#. (itstool) path: td/p
+#: C/libreoffice-helpers.page:33
+msgid "Helper's name"
+msgstr "Nama penolong"
+
+#. (itstool) path: td/p
+#: C/libreoffice-helpers.page:34
+msgid "What it does"
+msgstr "Apa yang dilakukan"
+
+#. (itstool) path: td/p
+#: C/libreoffice-helpers.page:40
+msgid ""
+"Toggles between play and pause. Depending on your preferences set in "
+"<app>Parlatype</app> it will rewind a few seconds on pause."
+msgstr ""
+"Beralih antara main dan jeda. Tergantung pada preferensi yang Anda tentukan "
+"di <app>Parlatype</app> akan diputar kembali beberapa detik saat jeda."
+
+#. (itstool) path: td/p
+#: C/libreoffice-helpers.page:44
+msgid ""
+"Jumps back a few seconds, depending on the preferences you set in "
+"<app>Parlatype</app>."
+msgstr ""
+"Lompat mundur beberapa detik, tergantung preferensi yang Anda tentukan di "
+"<app>Parlatype</app>."
+
+#. (itstool) path: td/p
+#: C/libreoffice-helpers.page:48
+msgid ""
+"Jumps forward a few seconds, depending on the preferences you set in "
+"<app>Parlatype</app>."
+msgstr ""
+"Lompat maju beberapa detik, tergantung preferensi yang Anda tentukan di "
+"<app>Parlatype</app>."
+
+#. (itstool) path: td/p
+#: C/libreoffice-helpers.page:52
+msgid ""
+"Inserts the current timestamp at the cursor's position. It does not "
+"overwrite any selection."
+msgstr ""
+"Masukkan informasi waktu saat ini pada posisi kursor. Itu tidak menimpa "
+"pilihan manapun."
+
+#. (itstool) path: td/p
+#: C/libreoffice-helpers.page:56
+msgid "The same as above, but on a new line."
+msgstr "Sama dengan atas, tapi di baris baru."
+
+#. (itstool) path: td/p
+#: C/libreoffice-helpers.page:60
+msgid ""
+"If the cursor is set on a timestamp, it will jump to that position. The "
+"cursor has to be somewhere between the two number signs (#). Don't select "
+"the timestamp, just put the cursor inside."
+msgstr ""
+"Jika kursor ditentukan pada informasi waktu, ia akan lompat ke posisi "
+"tersebut. Kursor harus berada di suatu tempat di antara dua tanda nomor (#). "
+"Jangan pilih informasi waktu, tinggal letakkan kursor di dalamnya."
+
+#. (itstool) path: td/p
+#: C/libreoffice-helpers.page:64
+msgid "Increases playback speed."
+msgstr "Tambah kecepatan main."
+
+#. (itstool) path: td/p
+#: C/libreoffice-helpers.page:68
+msgid "Decreases playback speed."
+msgstr "Kurangi kecepatan main."
