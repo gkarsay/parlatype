@@ -6,22 +6,33 @@ For a screenshot, an overview what Parlatype actually is and packages please vis
 
 ### Dependencies
 
-To install Parlatype from source you need these packages: make, autotools, intltool, gobject-introspection-1.0, gladeui-2.0, gtk-doc-tools, yelp-tools and finally gtk+-3.0 (minimum version 3.10) and gstreamer-1.0 with base plugins.
+To build Parlatype from source you need these packages:
+* make, autotools (autoconf, automake)
+* intltool
+* gobject-introspection-1.0
+* yelp-tools
+* gtk+-3.0 (>= 3.10)
+* gstreamer-1.0
+* gstreamer-plugins-base1.0
 
-On a Debian based distro you can install these with:
+Optional, depending on your configure options:
+* gladeui-2.0 (>= 3.12.2)
+* gtk-doc-tools
+
+Required runtime dependencies::
+* gstreamer1.0-plugins-good
+
+Optional runtime dependencies, to support MP3 files:
+* gstreamer1.0-plugins-ugly
+
+Optional runtime dependencies, if you want to use LibreOffice macros:
+* libreoffice (>= 4)
+* libreoffice-script-provider-python (Debian only)
+
+On a Debian based distro you can install all these with:
 
 ```
-$ sudo apt-get install build-essential automake autoconf intltool libgirepository1.0-dev libgladeui-dev gtk-doc-tools yelp-tools libgtk-3-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
-```
-
-In order to run it needs at least Gtk+ 3.10 and GStreamer 1.0 with the set of “good” plugins.
-The Debian based command is (but you probably have them already):
-```
-$ sudo apt-get install libgtk-3-0 libgstreamer1.0-0 gstreamer1.0-plugins-good
-```
-Parlatype plays every file that's supported by GStreamer. To play e.g. MP3 files you need the “ugly” plugins.
-```
-$ sudo apt-get install gstreamer1.0-plugins-ugly
+$ sudo apt-get install build-essential automake autoconf intltool libgirepository1.0-dev libgladeui-dev gtk-doc-tools yelp-tools libgtk-3-dev libgtk-3-0 libgstreamer1.0-dev libgstreamer1.0-0 libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly libreoffice-script-provider-python
 ```
 
 
