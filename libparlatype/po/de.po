@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
-"POT-Creation-Date: 2018-01-09 19:23+0100\n"
+"POT-Creation-Date: 2018-06-04 14:59+0200\n"
 "PO-Revision-Date: 2018-01-09 19:24+0100\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
 "Language-Team: Deutsch <>\n"
@@ -127,7 +127,7 @@ msgstr "%d:%02d.%02d"
 msgid "Failed to load a plugin."
 msgstr "Ein Plugin konnte nicht geladen werden."
 
-#: ../src/pt-progress-dialog.c:101
+#: ../src/pt-progress-dialog.c:102
 #, c-format
 msgid "Time remaining: 1 second"
 msgid_plural "Time remaining: %d seconds"
@@ -136,12 +136,12 @@ msgstr[1] "Verbleibende Zeit: %d Sekunden"
 
 #. Translators: this is a time with minutes
 #. and seconds, e.g. Time remaining: 3:20
-#: ../src/pt-progress-dialog.c:112
+#: ../src/pt-progress-dialog.c:113
 #, c-format
 msgid "Time remaining: %d:%02d"
 msgstr "Verbleibende Zeit: %d:%02d"
 
-#: ../src/pt-progress-dialog.c:241
+#: ../src/pt-progress-dialog.c:242
 msgid "Loading file..."
 msgstr "Lade Datei …"
 
