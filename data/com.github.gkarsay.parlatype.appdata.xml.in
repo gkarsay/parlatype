@@ -13,7 +13,9 @@
 	</description>
 
 	<screenshots>
-		<screenshot type="default">https://raw.githubusercontent.com/gkarsay/parlatype/master/data/screenshot.png</screenshot>
+		<screenshot type="default">
+			<image>https://raw.githubusercontent.com/gkarsay/parlatype/master/data/screenshot.png</image>
+		</screenshot>
 	</screenshots>
 
 	<url type="homepage">https://gkarsay.github.io/parlatype/</url>
