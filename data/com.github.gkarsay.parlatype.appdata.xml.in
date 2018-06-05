@@ -53,5 +53,5 @@
 		<release version="1.0" date="2016-01-18"></release>
 	</releases>
 
-	<updatecontact>gabor.karsay@gmx.at</updatecontact>
+	<update_contact>gabor.karsay@gmx.at</update_contact>
 </component>
