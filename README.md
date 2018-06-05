@@ -13,20 +13,24 @@ To build Parlatype from source you need these packages:
 * yelp-tools
 * gtk+-3.0 (>= 3.10)
 * gstreamer-1.0
-* gstreamer-plugins-base1.0
+* gstreamer-plugins-base-1.0
 
 Optional, depending on your configure options:
-* gladeui-2.0 (>= 3.12.2)
-* gtk-doc-tools
+* gladeui-2.0 (>= 3.12.2; with `--enable-glade-catalog`)
+* gtk-doc-tools (with `--enable-gtk-docs`)
+* desktop-file-utils (if installed, this checks the desktop file)
+* appstream-utils (if installed, this checks the appstream file)
 
-Required runtime dependencies::
-* gstreamer1.0-plugins-good
+Required runtime dependencies:
+* GTK+ 3
+* GStreamer
+* GStreamer "Good" Plugins
 
 Optional runtime dependencies, to support MP3 files:
-* gstreamer1.0-plugins-ugly
+* GStreamer "Ugly" Plugins
 
 Optional runtime dependencies, if you want to use LibreOffice macros:
-* libreoffice (>= 4)
+* LibreOffice (>= 4)
 * libreoffice-script-provider-python (Debian only)
 
 On a Debian based distro you can install all these with:
@@ -44,7 +48,7 @@ Parlatype ships its own library, libparlatype. Developers might be interested in
 
 * `--with-libreoffice`: install LibreOffice macros (default: yes)
 * `--enable-introspection`: install gobject introspection (default: yes)
-* `--enable-tests`: build unit tests (default: yes)
+* `--enable-tests`: build unit tests (default: yes) – please note that these tests need a runtime environment and will fail in a pure build environment
 * `--enable-gtk-doc`: install library documentation (default: no)
 * `--enable-glade-catalog`: install a glade catalog (default: no)
 * `--enable-code-coverage`: enable gcov/lcov code coverage (default: no)
