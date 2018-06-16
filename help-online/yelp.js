@@ -316,7 +316,7 @@ function yelp_init_video (element) {
       if (element.currentTime >= parseFloat(ttml.getAttribute('data-ttml-begin')) &&
           (!ttml.hasAttribute('data-ttml-end') ||
            element.currentTime < parseFloat(ttml.getAttribute('data-ttml-end')) )) {
-        if (ttml.tagName == 'span')
+        if (ttml.tagName == 'span' || ttml.tagName == 'SPAN')
           ttml.style.display = 'inline';
         else
           ttml.style.display = 'block';

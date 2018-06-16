@@ -28,7 +28,6 @@ div.sect {
 }
 div.sect div.sect {
   margin-top: 1.44em;
-  margin-left: 1.72em;
 }
 div.trails {
   margin: 0;
@@ -324,6 +323,7 @@ div.example {
   border-left: solid 4px #babdb6;
   padding-left: 1em;
 }
+div.example > div.inner > div.region > div.desc { font-style: italic; }
 div.figure {
   margin-left: 1.72em;
   padding: 4px;
