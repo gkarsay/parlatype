@@ -1,0 +1,40 @@
+Notes to myself about various maintainer tasks
+
+
+Release
+=======
+
+Import translations from Launchpad
+
+Update copyright year in about box in src/pt-app.c
+
+Release commit:
+- Update version in configure.ac
+- Update version in libparlatype/configure.ac
+- Update version in libreoffice/Parlatype.py header
+- Update version in README.md build instructions
+- Make sure it's the same version everywhere!
+- Update README.md dependencies if necessary
+- Update library version (libtool) in libparlatype/configure.ac
+- Update NEWS (release notes)
+- Update data/com.github.gkarsay.parlatype.appdata.xml.in (short release notes)
+- Commit message "v1.x.x", next line "New major/minor/bugfix release"
+
+make distcheck
+make dist-sign
+
+Create release page on GitHub:
+- Write/copy release notes
+- Upload tarball and signature
+
+Homepage:
+- Publish release notes in News
+- Update reference
+- Update help
+- Update translation status
+
+Flathub packaging
+
+Debian packaging
+
+Ubuntu/Launchpad packaging
