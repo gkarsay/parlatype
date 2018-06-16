@@ -66,11 +66,11 @@ $ sudo make install
 ```
 
 #### From tarball
-Download the latest release tarball from https://github.com/gkarsay/parlatype/releases/latest. Assuming it's version 1.5.4 and you want the program only:
+Download the latest release tarball from https://github.com/gkarsay/parlatype/releases/latest. Assuming it's version 1.5.5 and you want the program only:
 ```
-$ wget https://github.com/gkarsay/parlatype/releases/download/v1.5.4/parlatype-1.5.4.tar.gz
-$ tar -zxvf parlatype-1.5.4.tar.gz
-$ cd parlatype-1.5.4/
+$ wget https://github.com/gkarsay/parlatype/releases/download/v1.5.5/parlatype-1.5.5.tar.gz
+$ tar -zxvf parlatype-1.5.5.tar.gz
+$ cd parlatype-1.5.5/
 $ autoreconf # might be necessary
 $ ./configure --prefix=/usr --disable-introspection
 $ make
