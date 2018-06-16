@@ -34,7 +34,7 @@ Parlatype can start on top of other windows. If you are working with a maximized
 Parlatype is easy to use nevertheless everything is documented in the help pages. You can see the [English help online](help-online/index.html).
 
 ## International
-The user interface is fully translatable. Currently the program (without help pages) is available fully or almost fully translated in English, British English, Catalan, Dutch, French, German, Indonesian, Italian, Japanese, Lithuanian and Spanish. It's partly translated into Portuguese, Malay, Kurdish, Serbian, Kabyle and Latvian.
+The user interface is fully translatable. Currently the program (without help pages) is available fully or almost fully translated in English, British English, Catalan, Dutch, Finnish, French, German, Indonesian, Italian, Japanese, Lithuanian, Polish, Spanish and Swedish. It's partly translated into Portuguese, Malay, Kurdish, Serbian, Kabyle, Arabic and Latvian.
 
 Any help in translations is welcome! Parlatype is translated at [https://translations.launchpad.net/parlatype](https://translations.launchpad.net/parlatype).
 
