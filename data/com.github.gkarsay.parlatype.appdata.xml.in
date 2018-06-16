@@ -40,6 +40,19 @@
 	</kudos>
 
 	<releases>
+		<release version="1.5.5" date="2018-06-16">
+			<description>
+			<p>This release contains a number of bug fixes and minor improvements.</p>
+			<ul>
+			<li>Progress Dialog has now a countdown timer (estimated time left)</li>
+			<li>Increase max. possible speed to 2.0</li>
+			<li>New keyboard shortcuts for Play/Pause (Ctrl + Space), Jump back (Ctrl + Left), Jump forward (Ctrl + Right)</li>
+			<li>Scrolling now also possible with vertical scrollbar</li>
+			<li>Various fixes for waveform and cursor display</li>
+			<li>Translation updates for Arabic, British English, Catalan, German, Finnish, French, Japanese, Lithuanian, Polish, Spanish and Swedish</li>
+			</ul>
+			</description>
+		</release>
 		<release version="1.5.4" date="2017-11-19"></release>
 		<release version="1.5.3" date="2017-11-14"></release>
 		<release version="1.5.2" date="2017-08-27"></release>

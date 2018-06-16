@@ -1,3 +1,31 @@
+Overview of Changes in Parlatype 1.5.5 – 2018-06-16
+===================================================
+
+* New: Progress Dialog has now a countdown timer (estimated time left)
+* New: Scroll with vertical scrollbar, too; contributed by Rinat Ibragimov
+* New: Zoom in/out of waveform with Ctrl key pressed and scrolling
+* New: Add shortcuts for play, jump back, jump forward, fix #27
+  - Ctrl + space: play/pause
+  - Ctrl + arrow-left: jump back
+  - Ctrl + arrow-right: jump forward
+* New: Increase max. possible speed to 2.0, fix #33
+* New: "Insert timestamp" only active if there is a valid timestamp
+* Various fixes of waveform and cursor display after changing waveform's resolution, switching text direction (for right-to-left languages), and selections in right-to-left layouts
+* Fix compilation on hurd-i386 and kfreebsd-*
+* New or updated translations:
+  - ar: Ahmed Shubbar
+  - ca: Adolfo Jayme
+  - de: Gabor Karsay
+  - en_GB: Andi Chandler
+  - es: Adolfo Jayme
+  - fi: Jiri Grönroos
+  - fr: yeKcim
+  - ja: Shinichirou Yamada
+  - lt: Moo
+  - pl: Piotr Drąg
+  - sv: Tommy Brunn
+
+
 Overview of Changes in Parlatype 1.5.4 – 2017-11-19
 ===================================================
 
