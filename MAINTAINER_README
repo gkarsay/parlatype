@@ -27,14 +27,17 @@ Create release page on GitHub:
 - Write/copy release notes
 - Upload tarball and signature
 
+GitHub Issues:
+- Closed issues: Replace "Fix committed" labels with "Fix released"
+
 Homepage:
 - Publish release notes in News
 - Update reference
-- Update help
-- Update translation status
+- Update help (make help-online)
+- Update translation status (in features.md)
 
-Flathub packaging
-
-Debian packaging
-
-Ubuntu/Launchpad packaging
+Packaging:
+ - Ping other packagers
+ - Flathub packaging
+ - Debian packaging
+ - Ubuntu/Launchpad packaging
