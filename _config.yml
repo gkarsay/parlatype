@@ -4,3 +4,5 @@ header_pages:
   - news.md
   - features.md
   - installation.md
+plugins:
+  - jekyll-feed
