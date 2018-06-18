@@ -303,10 +303,6 @@ pt_waveviewer_key_press_event (GtkWidget   *widget,
 			       GdkEventKey *event)
 {
 	PtWaveviewer *self = PT_WAVEVIEWER (widget);
-	gdouble step;
-	gdouble page;
-	gdouble value;
-	gdouble upper;
 
 	if (event->type != GDK_KEY_PRESS)
 		return FALSE;
@@ -380,45 +376,33 @@ pt_waveviewer_key_press_event (GtkWidget   *widget,
 		}
 	} else {
 
-		/* no modifier pressed */
+		/* No modifier pressed: Scroll window, depending on text direction */
 		if (!(event->state & ALL_ACCELS_MASK)) {
 
-			step = gtk_adjustment_get_step_increment (self->priv->adj);
-			page = gtk_adjustment_get_page_increment (self->priv->adj);
-			value = gtk_adjustment_get_value (self->priv->adj);
-			upper = gtk_adjustment_get_upper (self->priv->adj);
-
-			/* We scroll ourselves because we want to do it without modifier,
-			   however it's not as smooth as the "real" scrolling */
+			GtkScrollType scroll = GTK_SCROLL_NONE;
 			switch (event->keyval) {
 			case GDK_KEY_Left:
-				gtk_adjustment_set_value (self->priv->adj, value - step);
-				pt_waveviewer_set_follow_cursor (self, FALSE);
-				return TRUE;
+				scroll = GTK_SCROLL_STEP_BACKWARD;
+				break;
 			case GDK_KEY_Right:
-				gtk_adjustment_set_value (self->priv->adj, value + step);
-				pt_waveviewer_set_follow_cursor (self, FALSE);
-				return TRUE;
+				scroll = GTK_SCROLL_STEP_FORWARD;
+				break;
 			case GDK_KEY_Page_Up:
-				gtk_adjustment_set_value (self->priv->adj, value - page);
-				pt_waveviewer_set_follow_cursor (self, FALSE);
-				return TRUE;
+				scroll = self->priv->rtl ? GTK_SCROLL_PAGE_FORWARD : GTK_SCROLL_PAGE_BACKWARD;
+				break;
 			case GDK_KEY_Page_Down:
-				gtk_adjustment_set_value (self->priv->adj, value + page);
-				pt_waveviewer_set_follow_cursor (self, FALSE);
-				return TRUE;
+				scroll = self->priv->rtl ? GTK_SCROLL_PAGE_BACKWARD : GTK_SCROLL_PAGE_FORWARD;
+				break;
 			case GDK_KEY_Home:
-				if (self->priv->rtl)
-					gtk_adjustment_set_value (self->priv->adj, upper);
-				else
-					gtk_adjustment_set_value (self->priv->adj, 0);
-				pt_waveviewer_set_follow_cursor (self, FALSE);
-				return TRUE;
+				scroll = self->priv->rtl ? GTK_SCROLL_END : GTK_SCROLL_START;
+				break;
 			case GDK_KEY_End:
-				if (self->priv->rtl)
-					gtk_adjustment_set_value (self->priv->adj, 0);
-				else
-					gtk_adjustment_set_value (self->priv->adj, upper);
+				scroll = self->priv->rtl ? GTK_SCROLL_START : GTK_SCROLL_END;
+				break;
+			}
+			if (scroll != GTK_SCROLL_NONE) {
+				gboolean ret;
+				g_signal_emit_by_name (self, "scroll-child", scroll, TRUE, &ret);
 				pt_waveviewer_set_follow_cursor (self, FALSE);
 				return TRUE;
 			}
