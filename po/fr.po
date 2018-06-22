@@ -115,7 +115,7 @@ msgstr "Inclut du code issu d'autres projets :"
 
 #: ../src/pt-app.c:238
 msgid "A basic transcription utility"
-msgstr "Un outil de transcription basique"
+msgstr "Un outil de transcription de base"
 
 #: ../src/pt-app.c:242
 msgid "translator-credits"
@@ -233,7 +233,7 @@ msgstr "Forme d'onde"
 
 #: ../src/resources/help-overlay.ui.h:7
 msgid "Play/Pause"
-msgstr ""
+msgstr "Lecture/Pause"
 
 #: ../src/resources/help-overlay.ui.h:8
 msgid "Jump back"
@@ -253,7 +253,7 @@ msgstr "Zoom arrière"
 
 #: ../src/resources/help-overlay.ui.h:12
 msgid "Open “Go to” dialog"
-msgstr ""
+msgstr "Ouvrir la fenêtre de dialogue “Aller à”"
 
 #: ../src/resources/help-overlay.ui.h:13
 msgid "Copy timestamp to clipboard"
@@ -261,7 +261,7 @@ msgstr "Copier l’horodatage dans le presse-papier"
 
 #: ../src/resources/help-overlay.ui.h:14
 msgid "Go to timestamp in clipboard"
-msgstr "Se rendre à l’horodatage du presse-papier"
+msgstr "Aller à l’horodatage du presse-papier"
 
 #: ../src/resources/help-overlay.ui.h:15 ../src/resources/menus.ui.h:5
 msgid "Help"
@@ -273,7 +273,7 @@ msgstr "Afficher l’aide"
 
 #: ../src/resources/help-overlay.ui.h:17
 msgid "Show keyboard shortcuts"
-msgstr "Afficher les raccourcis claviers"
+msgstr "Afficher les raccourcis clavier"
 
 #: ../src/resources/menus.ui.h:1
 msgid "Open File"
@@ -293,7 +293,7 @@ msgstr "Informations"
 
 #: ../src/resources/menus.ui.h:8
 msgid "Copy timestamp"
-msgstr "Copiez l'horodatage"
+msgstr "Copier l'horodatage"
 
 #: ../src/resources/menus.ui.h:9
 msgid "Insert timestamp"
