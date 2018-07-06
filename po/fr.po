@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
 "POT-Creation-Date: 2018-02-28 20:51+0100\n"
-"PO-Revision-Date: 2018-03-02 22:26+0000\n"
-"Last-Translator: yeKcim <Unknown>\n"
+"PO-Revision-Date: 2018-06-30 17:56-0400\n"
+"Last-Translator: Georgelemental <georgelemental@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Launchpad-Export-Date: 2018-03-08 16:40+0000\n"
-"X-Generator: Launchpad (build 18566)\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #: ../data/com.github.gkarsay.parlatype.appdata.xml.in.h:1
 #: ../data/com.github.gkarsay.parlatype.desktop.in.h:1 ../src/pt-app.c:84
@@ -115,14 +115,16 @@ msgstr "Inclut du code issu d'autres projets :"
 
 #: ../src/pt-app.c:238
 msgid "A basic transcription utility"
-msgstr "Un outil de transcription basique"
+msgstr "Un outil de transcription de base"
 
 #: ../src/pt-app.c:242
 msgid "translator-credits"
 msgstr ""
 "Launchpad Contributions:\n"
 "  archi02 https://launchpad.net/~jo-chibois\n"
-"  yeKcim https://launchpad.net/~yekcim"
+"  yeKcim https://launchpad.net/~yekcim\n"
+"Other Contributions:\n"
+"  Georgelemental https://github.com/georgelemental"
 
 #: ../src/pt-app.c:424
 #, c-format
@@ -233,7 +235,7 @@ msgstr "Forme d'onde"
 
 #: ../src/resources/help-overlay.ui.h:7
 msgid "Play/Pause"
-msgstr ""
+msgstr "Lecture/Pause"
 
 #: ../src/resources/help-overlay.ui.h:8
 msgid "Jump back"
@@ -253,7 +255,7 @@ msgstr "Zoom arrière"
 
 #: ../src/resources/help-overlay.ui.h:12
 msgid "Open “Go to” dialog"
-msgstr ""
+msgstr "Ouvrir la fenêtre de dialogue “Aller à”"
 
 #: ../src/resources/help-overlay.ui.h:13
 msgid "Copy timestamp to clipboard"
@@ -261,7 +263,7 @@ msgstr "Copier l’horodatage dans le presse-papier"
 
 #: ../src/resources/help-overlay.ui.h:14
 msgid "Go to timestamp in clipboard"
-msgstr "Se rendre à l’horodatage du presse-papier"
+msgstr "Aller à l’horodatage du presse-papier"
 
 #: ../src/resources/help-overlay.ui.h:15 ../src/resources/menus.ui.h:5
 msgid "Help"
@@ -273,7 +275,7 @@ msgstr "Afficher l’aide"
 
 #: ../src/resources/help-overlay.ui.h:17
 msgid "Show keyboard shortcuts"
-msgstr "Afficher les raccourcis claviers"
+msgstr "Afficher les raccourcis clavier"
 
 #: ../src/resources/menus.ui.h:1
 msgid "Open File"
@@ -293,7 +295,7 @@ msgstr "Informations"
 
 #: ../src/resources/menus.ui.h:8
 msgid "Copy timestamp"
-msgstr "Copiez l'horodatage"
+msgstr "Copier l'horodatage"
 
 #: ../src/resources/menus.ui.h:9
 msgid "Insert timestamp"
