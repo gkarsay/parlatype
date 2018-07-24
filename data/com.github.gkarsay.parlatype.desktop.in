@@ -9,5 +9,5 @@ Terminal=false
 Type=Application
 DBusActivatable=true
 StartupNotify=true
-Categories=Utility;
+Categories=AudioVideo;Audio;Player;GTK;GNOME;
 MimeType=application/x-ogg;application/ogg;audio/x-vorbis+ogg;audio/x-scpls;audio/x-mp3;audio/x-mpeg;audio/mpeg;audio/x-mpegurl;audio/x-flac;audio/mp4;x-scheme-handler/itms;x-scheme-handler/itmss;
