@@ -1131,12 +1131,8 @@ pt_waveviewer_init (PtWaveviewer *self)
 	gtk_overlay_add_overlay (GTK_OVERLAY (overlay), self->priv->selection);
 	gtk_overlay_add_overlay (GTK_OVERLAY (overlay), self->priv->cursor);
 	gtk_overlay_add_overlay (GTK_OVERLAY (overlay), self->priv->focus);
-	gtk_container_add_with_properties (
-			GTK_CONTAINER (box),
-			overlay,
-			"expand", TRUE,
-			"fill", TRUE,
-			NULL);
+	gtk_container_add (GTK_CONTAINER (box), overlay);
+	gtk_widget_set_vexpand (overlay, TRUE);
 	gtk_container_add (GTK_CONTAINER (self->priv->revealer), self->priv->ruler);
 	gtk_container_add (GTK_CONTAINER (box), self->priv->revealer);
 	gtk_container_add (GTK_CONTAINER (self), box);
