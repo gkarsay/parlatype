@@ -115,24 +115,6 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkScale" id="seek_scale">
-                        <property name="width_request">60</property>
-                        <property name="can_focus">True</property>
-                        <property name="halign">start</property>
-                        <property name="adjustment">seek_adj</property>
-                        <property name="lower_stepper_sensitivity">off</property>
-                        <property name="upper_stepper_sensitivity">off</property>
-                        <property name="draw_value">False</property>
-                        <property name="has_origin">False</property>
-                        <property name="value_pos">right</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">2</property>
-                      </packing>
-                    </child>
-                    <child>
                       <object class="GtkButton" id="button_fast_forward">
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
