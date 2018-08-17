@@ -40,6 +40,16 @@
 	</kudos>
 
 	<releases>
+		<release version="1.5.6" date="2018-08-17">
+			<description>
+			<p>This is a minor maintenance release.</p>
+			<ul>
+			<li>Animate scrolling when using keybindings</li>
+			<li>Change desktop entry category to Audio/Video instead of Utilities</li>
+			<li>Translation updates for French</li>
+			</ul>
+			</description>
+		</release>
 		<release version="1.5.5" date="2018-06-16">
 			<description>
 			<p>This release contains a number of bug fixes and minor improvements.</p>
