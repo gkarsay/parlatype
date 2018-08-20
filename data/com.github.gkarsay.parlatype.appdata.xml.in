@@ -76,5 +76,6 @@
 		<release version="1.0" date="2016-01-18"></release>
 	</releases>
 
+	<content_rating type="oars-1.1" />
 	<update_contact>gabor.karsay@gmx.at</update_contact>
 </component>
