@@ -148,6 +148,8 @@ msgstr[0] "ثانية"
 msgstr[1] "ثواني"
 msgstr[2] "ثانيتان"
 msgstr[3] "ثوانِ"
+msgstr[4] ""
+msgstr[5] ""
 
 #: ../src/pt-preferences.c:193
 msgid "_Close"
@@ -185,6 +187,10 @@ msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
 
 #: ../src/pt-window.c:338
 msgid "Start playing"
