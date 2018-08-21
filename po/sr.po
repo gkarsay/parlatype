@@ -163,7 +163,7 @@ msgstr "_Close"
 #, c-format
 msgid "Jump back 1 second"
 msgid_plural "Jump back %d seconds"
-msgstr[0] "Врати се 1 секунду"
+msgstr[0] "Врати се %d секунду"
 msgstr[1] "Врати се %d секунде"
 msgstr[2] "Врати се %d секунди"
 
@@ -171,7 +171,7 @@ msgstr[2] "Врати се %d секунди"
 #, c-format
 msgid "Jump forward 1 second"
 msgid_plural "Jump forward %d seconds"
-msgstr[0] "Прескочи 1 секунду"
+msgstr[0] "Прескочи %d секунду"
 msgstr[1] "Прескочи %d секунде"
 msgstr[2] "Прескочи %d секунди"
 
@@ -183,7 +183,7 @@ msgstr "Pauza"
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
-msgstr[0] "Застани и врати 1 секунду"
+msgstr[0] "Застани и врати %d секунду"
 msgstr[1] "Застани и врати %d секунде"
 msgstr[2] "Застани и врати %d секунди"
 
