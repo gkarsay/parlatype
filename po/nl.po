@@ -169,7 +169,7 @@ msgstr[1] "%d seconden terugspoelen"
 msgid "Jump forward 1 second"
 msgid_plural "Jump forward %d seconds"
 msgstr[0] "1 seconde vooruitspoelen"
-msgstr[1] "$d seconden vooruitspoelen"
+msgstr[1] "%d seconden vooruitspoelen"
 
 #: ../src/pt-window.c:328
 msgid "Pause"
