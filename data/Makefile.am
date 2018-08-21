@@ -3,7 +3,9 @@ SUBDIRS = icons
 desktopdir = $(datadir)/applications
 desktop_in_files = com.github.gkarsay.parlatype.desktop.in
 desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
-@INTLTOOL_DESKTOP_RULE@
+
+$(desktop_DATA): $(desktop_in_files)
+	$(AM_V_GEN) $(MSGFMT) --desktop --template $< -d $(top_srcdir)/po -o $@
 
 install-desktop-database: install-desktopDATA
 	update-desktop-database $(DESTDIR)$(desktopdir)
@@ -13,11 +15,15 @@ gsettings_SCHEMAS = com.github.gkarsay.parlatype.gschema.xml
 
 appdatadir = $(datadir)/metainfo
 appdata_in_files = com.github.gkarsay.parlatype.appdata.xml.in
+@APPSTREAM_XML_RULES@
+
 if LIBREOFFICE
 appdata_in_files += com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in
 endif
+
 appdata_DATA = $(appdata_in_files:.xml.in=.xml)
-@INTLTOOL_XML_RULE@
+$(appdata_DATA): $(appdata_in_files)
+	$(AM_V_GEN) $(MSGFMT) --xml --template $< -d $(top_srcdir)/po -o $@
 
 dbusservicedir = $(datadir)/dbus-1/services
 dbusservice_DATA = com.github.gkarsay.parlatype.service

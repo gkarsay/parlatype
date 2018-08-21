@@ -22,6 +22,7 @@ config.guess
 config.h
 config.h.in
 config.log
+config.rpath
 config.status
 config.sub
 configure
@@ -30,14 +31,31 @@ depcomp
 gtk-doc.make
 help-online/
 install-sh
+intl/
 libtool
 ltmain.sh
-**/m4/gtk-doc.m4
-**/m4/intltool.m4
-**/m4/libtool.m4
-**/m4/lt*.m4
 missing
 stamp-h1
+
+# in libparlatype/m4 ignore everything except
+# ax_code_coverage.m4, ax_valgrind_check.m4 and glibtests.m4
+/m4/
+/libparlatype/m4/c*.m4
+/libparlatype/m4/e*.m4
+/libparlatype/m4/f*.m4
+/libparlatype/m4/gettext.m4
+/libparlatype/m4/glibc*.m4
+/libparlatype/m4/gtk-doc.m4
+/libparlatype/m4/i*.m4
+/libparlatype/m4/l*.m4
+/libparlatype/m4/n*.m4
+/libparlatype/m4/p*.m4
+/libparlatype/m4/s*.m4
+/libparlatype/m4/t*.m4
+/libparlatype/m4/u*.m4
+/libparlatype/m4/v*.m4
+/libparlatype/m4/w*.m4
+/libparlatype/m4/x*.m4
 
 /data/com.github.gkarsay.parlatype.appdata.xml
 /data/com.github.gkarsay.parlatype.desktop
@@ -91,6 +109,8 @@ stamp-h1
 **/po/remove-potcdate.sin
 **/po/Rules-quot
 **/po/stamp-it
+**/po/remove-potcdate.sed
+**/po/stamp-po
 
 /src/.deps/
 /src/parlatype

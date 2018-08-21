@@ -4,12 +4,12 @@
 	<id>com.github.gkarsay.parlatype.desktop</id>
 	<metadata_license>CC-BY-SA-4.0</metadata_license>
 	<project_license>GPL-3.0+</project_license>
-	<_name>Parlatype</_name>
-	<_summary>Media player for manual speech transcription</_summary>
+	<name>Parlatype</name>
+	<summary>Media player for manual speech transcription</summary>
 
 	<description>
-		<_p>Parlatype is an easy to use media player. Its main purpose is to help
-      you transcribing speech.</_p>
+		<p>Parlatype is an easy to use media player. Its main purpose is to help
+      you transcribing speech.</p>
 	</description>
 
 	<screenshots>

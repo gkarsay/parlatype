@@ -8,8 +8,10 @@ AC_CONFIG_SRCDIR([src/main.c])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
 
+AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT_VERSION([0.19.7])
 AC_SUBST([GETTEXT_PACKAGE], AC_PACKAGE_NAME)
-IT_PROG_INTLTOOL(0.50.2)
+
 AM_SILENT_RULES([yes])
 
 LT_INIT([disable-static])
@@ -29,6 +31,7 @@ AC_CHECK_HEADERS([stdlib.h])
 AC_CHECK_FUNCS([atexit setlocale])
 
 GLIB_GSETTINGS                 
+APPSTREAM_XML
 AC_PATH_PROG(GLIB_COMPILE_RESOURCES, glib-compile-resources)
 AC_PATH_PROG([DESKTOP_FILE_VALIDATE], [desktop-file-validate], [/bin/true])
 AC_PATH_PROG([APPDATA_VALIDATE], [appstream-util], [/bin/true])

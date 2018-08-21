@@ -13,12 +13,6 @@ if test -z $AUTORECONF; then
         exit 1
 fi
 
-INTLTOOLIZE=`which intltoolize`
-if test -z $INTLTOOLIZE; then
-        echo "*** No intltoolize found, please install the intltool package ***"
-        exit 1
-fi
-
 GNOMEDOC=`which yelp-build`
 if test -z $GNOMEDOC; then
         echo "*** The tools to build the documentation are not found,"
@@ -29,13 +23,11 @@ fi
 mkdir -p m4
 
 gtkdocize --copy || exit 1
-intltoolize --force --automake --copy
 
 # libparlatype is a nested package
 cd libparlatype
 mkdir -p m4
 gtkdocize --copy || exit 1
-intltoolize --force --automake --copy
 cd ..
 
 autoreconf --force --install --verbose
