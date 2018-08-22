@@ -6,6 +6,8 @@ For a screenshot, an overview what Parlatype actually is and packages please vis
 
 ### Dependencies
 
+#### Stable version 1.5.6
+
 To build Parlatype from source you need these packages:
 * make, autotools (autoconf, automake)
 * intltool
@@ -39,6 +41,11 @@ On a Debian based distro you can install all these with:
 $ sudo apt-get install build-essential automake autoconf intltool libgirepository1.0-dev libgladeui-dev gtk-doc-tools yelp-tools libgtk-3-dev libgtk-3-0 libgstreamer1.0-dev libgstreamer1.0-0 libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly libreoffice-script-provider-python
 ```
 
+#### Master
+
+There are a few changes in this cycle. If you build from git master the changes compared to version 1.5.6 are:
+* intltool: this dependency is dropped
+* gettext >= 0.19.7
 
 ### Building 
 
