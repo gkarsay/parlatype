@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
-"POT-Creation-Date: 2018-06-04 15:00+0200\n"
+"POT-Creation-Date: 2018-08-21 23:18+0200\n"
 "PO-Revision-Date: 2017-07-25 15:54+0000\n"
 "Last-Translator: Shinichirou Yamada <yamada_strong_yamada_nice_64bit@yahoo."
 "co.jp>\n"
@@ -20,13 +20,13 @@ msgstr ""
 "X-Generator: Launchpad (build 18561)\n"
 
 #. Translators: %s is a detailed error message.
-#: ../src/pt-player.c:435
+#: src/pt-player.c:435
 #, c-format
 msgid "URI not valid: %s"
 msgstr "URI が無効です: %s"
 
 #. Translators: %s is a detailed error message.
-#: ../src/pt-player.c:447
+#: src/pt-player.c:447
 #, c-format
 msgid "File not found: %s"
 msgstr "ファイルが見つかりません: %s"
@@ -35,8 +35,8 @@ msgstr "ファイルが見つかりません: %s"
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
 #. the separator that your locale uses or use "%Id" instead
 #. of "%d" if your locale uses localized digits.
-#: ../src/pt-player.c:1130 ../src/pt-waveviewer-ruler.c:174
-#: ../src/pt-waveviewer-ruler.c:228
+#: src/pt-player.c:1130 src/pt-waveviewer-ruler.c:174
+#: src/pt-waveviewer-ruler.c:228
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
@@ -46,7 +46,7 @@ msgstr "%d:%02d:%02d"
 #. hours, 5 minutes, 30 seconds, and 1 tenthsecond. You may
 #. change ":" or "." to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: ../src/pt-player.c:1137
+#: src/pt-player.c:1137
 #, c-format
 msgctxt "long time format, 1 digit"
 msgid "%d:%02d:%02d.%d"
@@ -56,7 +56,7 @@ msgstr "%d:%02d:%02d.%d"
 #. hours, 5 minutes, 30 seconds, and 12 hundrethseconds. You may
 #. change ":" or "." to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: ../src/pt-player.c:1144
+#: src/pt-player.c:1144
 #, c-format
 msgctxt "long time format, 2 digits"
 msgid "%d:%02d:%02d.%02d"
@@ -66,7 +66,7 @@ msgstr "%d:%02d:%02d.%02d"
 #. 5 minutes, and 30 seconds. You may change ":" to
 #. the separator that your locale uses or use "%I02d" instead
 #. of "%02d" if your locale uses localized digits.
-#: ../src/pt-player.c:1161
+#: src/pt-player.c:1161
 #, c-format
 msgctxt "short time format"
 msgid "%02d:%02d"
@@ -76,7 +76,7 @@ msgstr "%02d:%02d"
 #. 5 minutes, 30 seconds, and 1 tenthsecond. You may change
 #. ":" or "." to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: ../src/pt-player.c:1168
+#: src/pt-player.c:1168
 #, c-format
 msgctxt "short time format, 1 digit"
 msgid "%02d:%02d.%d"
@@ -86,7 +86,7 @@ msgstr "%02d:%02d.%d"
 #. 5 minutes, 30 seconds, and 12 hundrethseconds. You may change
 #. ":" or "." to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: ../src/pt-player.c:1175
+#: src/pt-player.c:1175
 #, c-format
 msgctxt "short time format, 2 digits"
 msgid "%02d:%02d.%02d"
@@ -96,8 +96,8 @@ msgstr "%02d:%02d.%02d"
 #. 5 minutes, and 30 seconds. You may change ":" to
 #. the separator that your locale uses or use "%Id" instead
 #. of "%d" if your locale uses localized digits.
-#: ../src/pt-player.c:1188 ../src/pt-waveviewer-ruler.c:179
-#: ../src/pt-waveviewer-ruler.c:230
+#: src/pt-player.c:1188 src/pt-waveviewer-ruler.c:179
+#: src/pt-waveviewer-ruler.c:230
 #, c-format
 msgctxt "shortest time format"
 msgid "%d:%02d"
@@ -107,7 +107,7 @@ msgstr "%d:%02d"
 #. 5 minutes, 30 seconds, and 1 tenthsecond. You may change
 #. ":" or "." to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: ../src/pt-player.c:1195
+#: src/pt-player.c:1195
 #, c-format
 msgctxt "shortest time format, 1 digit"
 msgid "%d:%02d.%d"
@@ -117,18 +117,17 @@ msgstr "%d:%02d.%d"
 #. 5 minutes, 30 seconds, and 12 hundrethseconds. You may change
 #. ":" or "." to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: ../src/pt-player.c:1202
+#: src/pt-player.c:1202
 #, c-format
 msgctxt "shortest time format, 2 digits"
 msgid "%d:%02d.%02d"
 msgstr "%d:%02d.%02d"
 
-#: ../src/pt-player.c:1499
-#, c-format
+#: src/pt-player.c:1499
 msgid "Failed to load a plugin."
 msgstr "プラグインを読み込めませんでした。"
 
-#: ../src/pt-progress-dialog.c:102
+#: src/pt-progress-dialog.c:102
 #, c-format
 msgid "Time remaining: 1 second"
 msgid_plural "Time remaining: %d seconds"
@@ -137,40 +136,40 @@ msgstr[1] ""
 
 #. Translators: this is a time with minutes
 #. and seconds, e.g. Time remaining: 3:20
-#: ../src/pt-progress-dialog.c:113
+#: src/pt-progress-dialog.c:113
 #, c-format
 msgid "Time remaining: %d:%02d"
 msgstr ""
 
-#: ../src/pt-progress-dialog.c:242
+#: src/pt-progress-dialog.c:242
 msgid "Loading file..."
 msgstr "ファイルを読み込み中..."
 
-#: ../src/pt-waveloader.c:337 ../src/pt-waveloader.c:423
+#: src/pt-waveloader.c:337 src/pt-waveloader.c:423
 msgid "Failed to open temporary file."
 msgstr "一時ファイルを開けませんでした。"
 
-#: ../src/pt-waveloader.c:350
+#: src/pt-waveloader.c:350
 msgid "Failed to setup GStreamer pipeline."
 msgstr "GStreamer パイプラインのセットアップに失敗しました。"
 
-#: ../src/pt-waveloader.c:369
+#: src/pt-waveloader.c:369
 msgid "Failed to start GStreamer pipeline."
 msgstr "GStreamer パイプラインのスタートに失敗しました。"
 
-#: ../src/pt-waveviewer.c:1331
+#: src/pt-waveviewer.c:1311
 msgid "Follow cursor"
 msgstr "カーソルに追従する"
 
-#: ../src/pt-waveviewer.c:1332
+#: src/pt-waveviewer.c:1312
 msgid "Scroll automatically to the cursor's position"
 msgstr "カーソルの位置へ自動的にスクロールする"
 
-#: ../src/pt-waveviewer.c:1348
+#: src/pt-waveviewer.c:1328
 msgid "Fixed cursor"
 msgstr "カーソルを固定する"
 
-#: ../src/pt-waveviewer.c:1349
+#: src/pt-waveviewer.c:1329
 msgid ""
 "If TRUE, the cursor is in a fixed position and the waveform is moving.\n"
 "If FALSE, the cursor is moving."
@@ -178,10 +177,10 @@ msgstr ""
 "TRUE の場合、カーソルの位置は固定され、波形が動きます。\n"
 "FALSE の場合、カーソルが動きます。"
 
-#: ../src/pt-waveviewer.c:1363
+#: src/pt-waveviewer.c:1343
 msgid "Show ruler"
 msgstr "ルーラーを表示する"
 
-#: ../src/pt-waveviewer.c:1364
+#: src/pt-waveviewer.c:1344
 msgid "Show the time scale with time marks"
 msgstr "タイムマークの付いたタイムスケールを表示する"
