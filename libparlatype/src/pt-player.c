@@ -656,18 +656,13 @@ pt_player_clear_selection (PtPlayer *player)
  * Rewinds at the given speed. @speed accepts positive as well as negative
  * values and normalizes them to play backwards.
  *
- * <note><para>This is only available with GStreamer >= 1.6.3 (because of
- * https://bugzilla.gnome.org/show_bug.cgi?id=757033).</para>
- * <para>If you call this with an older version of GStreamer, it will only
- * print a warning to standard output.</para>
- * <para>Note that depending on the file/stream format this works more or less
- * good.</para></note>
+ * <note><para>Note that depending on the file/stream format this works more
+ * or less good.</para></note>
  */
 void
 pt_player_rewind (PtPlayer *player,
 		  gdouble   speed)
 {
-#if GST_CHECK_VERSION(1,6,3)
 	g_return_if_fail (PT_IS_PLAYER (player));
 	g_return_if_fail (speed != 0);
 
@@ -696,9 +691,6 @@ pt_player_rewind (PtPlayer *player,
 		GST_CLOCK_TIME_NONE);
 
 	pt_player_play (player);
-#else
-	g_warning ("pt_player_rewind() is not available on this system");
-#endif
 }
 
 /**
@@ -707,16 +699,11 @@ pt_player_rewind (PtPlayer *player,
  * @speed: the speed
  *
  * Play fast forward at the given speed.
- * <note><para>This is only available with GStreamer >= 1.6.3 (because rewind
- * is working properly with that version).</para>
- * <para>If you call this with an older version of GStreamer, it will only
- * print a warning to standard output.</para></note>
  */
 void
 pt_player_fast_forward (PtPlayer *player,
 			gdouble   speed)
 {
-#if GST_CHECK_VERSION(1,6,3)
 	g_return_if_fail (PT_IS_PLAYER (player));
 	g_return_if_fail (speed > 0);
 
@@ -742,9 +729,6 @@ pt_player_fast_forward (PtPlayer *player,
 		GST_CLOCK_TIME_NONE);
 
 	pt_player_play (player);
-#else
-	g_warning ("pt_player_fast_forward() is not available on this system");
-#endif
 }
 
 /* -------------------- Positioning, speed, volume -------------------------- */
