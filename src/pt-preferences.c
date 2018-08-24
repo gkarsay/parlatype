@@ -187,12 +187,6 @@ pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 	spin_back_changed_cb (GTK_SPIN_BUTTON (dlg->priv->spin_back), dlg);
 	spin_forward_changed_cb (GTK_SPIN_BUTTON (dlg->priv->spin_forward), dlg);
 	spin_pause_changed_cb (GTK_SPIN_BUTTON (dlg->priv->spin_pause), dlg);
-
-#if GTK_CHECK_VERSION(3,12,0)
-#else
-	gtk_dialog_add_button (GTK_DIALOG (dlg), _("_Close"), -6);
-	g_signal_connect_swapped (dlg, "response", G_CALLBACK (gtk_widget_destroy), dlg);
-#endif
 }
 
 static void
@@ -235,9 +229,7 @@ pt_show_preferences_dialog (GtkWindow *parent)
 	if (preferences_dialog == NULL)	{
 	
 		preferences_dialog = GTK_WIDGET (g_object_new (PT_TYPE_PREFERENCES_DIALOG,
-#if GTK_CHECK_VERSION(3,12,0)
 				"use-header-bar", TRUE,
-#endif
 				NULL));
 		g_signal_connect (preferences_dialog,
 				  "destroy",

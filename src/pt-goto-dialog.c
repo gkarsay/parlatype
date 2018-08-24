@@ -173,9 +173,7 @@ pt_goto_dialog_new (GtkWindow *win)
 {
 	return g_object_new (
 			PT_TYPE_GOTO_DIALOG,
-#if GTK_CHECK_VERSION(3,12,0)
 			"use-header-bar", TRUE,
-#endif
 			"transient-for", win,
 			NULL);
 }
