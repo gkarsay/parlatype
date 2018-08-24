@@ -269,9 +269,7 @@ pt_app_startup (GApplication *app)
 	GMenuModel *app_menu;
 	GMenuModel *menubar;
 
-#if GLIB_CHECK_VERSION(2,42,0)
 	g_application_set_resource_base_path (app, "/com/github/gkarsay/parlatype");
-#endif
 	G_APPLICATION_CLASS (pt_app_parent_class)->startup (app);
 
 	g_action_map_add_action_entries (G_ACTION_MAP (app),
