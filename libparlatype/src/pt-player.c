@@ -1474,13 +1474,6 @@ pt_player_initable_init (GInitable     *initable,
 	GstElement *scaletempo = NULL;
 	GstElement *capsfilter = NULL;
 	GstElement *audiosink = NULL;
-#if GST_CHECK_VERSION(1,3,0)
-#else
-	GstElement *audioconvert = NULL;
-	GstElement *audioresample = NULL;
-	audioconvert       = gst_element_factory_make ("audioconvert",  "audioconvert");
-	audioresample      = gst_element_factory_make ("audioresample", "audioresample");
-#endif
 
 	player->priv->play = gst_element_factory_make ("playbin",       "play");
 	scaletempo	   = gst_element_factory_make ("scaletempo",    "tempo");
@@ -1488,11 +1481,7 @@ pt_player_initable_init (GInitable     *initable,
 	audiosink          = gst_element_factory_make ("autoaudiosink", "audiosink");
 
 	/* checks */
-#if GST_CHECK_VERSION(1,3,0)
 	if (!player->priv->play || !scaletempo || !capsfilter || !audiosink) {
-#else
-	if (!player->priv->play || !scaletempo || !capsfilter || !audioconvert || !audioresample || !audiosink) {
-#endif
 		g_set_error (error,
 			     GST_CORE_ERROR,
 			     GST_CORE_ERROR_MISSING_PLUGIN,
@@ -1502,13 +1491,8 @@ pt_player_initable_init (GInitable     *initable,
 
 	/* create audio output */
 	GstElement *audio = gst_bin_new ("audiobin");
-#if GST_CHECK_VERSION(1,3,0)
 	gst_bin_add_many (GST_BIN (audio), capsfilter, audiosink, NULL);
 	gst_element_link_many (capsfilter, audiosink, NULL);
-#else
-	gst_bin_add_many (GST_BIN (audio), capsfilter, scaletempo, audioconvert, audioresample, audiosink, NULL);
-	gst_element_link_many (capsfilter, scaletempo, audioconvert, audioresample, audiosink, NULL);
-#endif
 	
 	/* create ghost pad for audiosink */
 	GstPad *audiopad = gst_element_get_static_pad (capsfilter, "sink");
@@ -1516,9 +1500,7 @@ pt_player_initable_init (GInitable     *initable,
 	gst_object_unref (GST_OBJECT (audiopad));
 
 	g_object_set (player->priv->play, "audio-sink", audio, NULL);
-#if GST_CHECK_VERSION(1,3,0)
 	g_object_set (player->priv->play, "audio-filter", scaletempo, NULL);
-#endif
 	g_signal_connect (G_OBJECT (player->priv->play), "notify::volume", G_CALLBACK (vol_changed), player);
 
 	return TRUE;
