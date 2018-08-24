@@ -46,6 +46,8 @@ $ sudo apt-get install build-essential automake autoconf intltool libgirepositor
 There are a few changes in this cycle. If you build from git master the changes compared to version 1.5.6 are:
 * intltool: this dependency is dropped
 * gettext >= 0.19.7
+* GTK+ >= 3.16
+* GStreamer >= 1.6.3
 
 ### Building 
 
