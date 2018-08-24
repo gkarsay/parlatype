@@ -337,17 +337,13 @@ pt_app_startup (GApplication *app)
 
 	/* Load custom css */
 	GtkCssProvider *provider;
-	GFile          *file;
-	file = g_file_new_for_uri ("resource:///com/github/gkarsay/parlatype/parlatype.css");
 	provider = gtk_css_provider_new ();
-	/* Note: since 3.16 there's also gtk_css_provider_load_from_resource () */
-	gtk_css_provider_load_from_file (provider, file, NULL);
+	gtk_css_provider_load_from_resource (provider, "/com/github/gkarsay/parlatype/parlatype.css");
 	gtk_style_context_add_provider_for_screen (
 			gdk_screen_get_default (),
 			GTK_STYLE_PROVIDER (provider),
 			GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 	g_object_unref (provider);
-	g_object_unref (file);
 }
 
 static void
