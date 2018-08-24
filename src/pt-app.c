@@ -317,17 +317,7 @@ pt_app_startup (GApplication *app)
 
 	builder = gtk_builder_new_from_resource ("/com/github/gkarsay/parlatype/menus.ui");
 
-#if GTK_CHECK_VERSION(3,14,0)
 	if (gtk_application_prefers_app_menu (GTK_APPLICATION (app))) {
-#else
-	gboolean show_menubar;
-
-	g_object_get (gtk_settings_get_default(),
-		      "gtk-shell-shows-menubar", &show_menubar,
-		      NULL);
-
-	if (show_menubar) {
-#endif
 #if GTK_CHECK_VERSION(3,20,0)
 		app_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "appmenu"));
 #else

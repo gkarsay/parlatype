@@ -918,14 +918,6 @@ setup_accels_actions_headerbar (PtWindow *win)
 	win->priv->button_play = GTK_WIDGET (gtk_builder_get_object (builder, "button_play"));
 	menu_button = GTK_WIDGET (gtk_builder_get_object (builder, "menu_button"));
 
-#if GTK_CHECK_VERSION(3,14,0)
-#else
-	/* In GTK+ 3.10 the new icon doesn't exist, don't know 3.12, works in 3.14 */
-	GtkWidget *image;
-	image = gtk_image_new_from_icon_name ("emblem-system-symbolic", GTK_ICON_SIZE_MENU);
-	gtk_button_set_image (GTK_BUTTON (menu_button), image);
-#endif
-
 	gtk_window_set_titlebar (GTK_WINDOW (win), hbar);
 	gtk_builder_connect_signals (builder, win);
 	g_object_unref (builder);
