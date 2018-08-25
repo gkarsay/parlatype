@@ -32,6 +32,7 @@ struct _PtPlayerPrivate
 	gint64	    dur;
 	gdouble	    speed;
 	gdouble     volume;
+	gint        pause;
 
 	gint64      segstart;
 	gint64      segend;
@@ -56,6 +57,7 @@ enum
 	PROP_TIMESTAMP_FIXED,
 	PROP_TIMESTAMP_DELIMITER,
 	PROP_TIMESTAMP_FRACTION_SEP,
+	PROP_REWIND_ON_PAUSE,
 	N_PROPERTIES
 };
 
@@ -585,6 +587,34 @@ pt_player_pause (PtPlayer *player)
 	g_return_if_fail (PT_IS_PLAYER (player));
 
 	gst_element_set_state (player->priv->play, GST_STATE_PAUSED);
+}
+
+/**
+ * pt_player_pause_and_rewind:
+ * @player: a #PtPlayer
+ *
+ * Like @pt_player_pause(), additionally rewinds the value of
+ * #PtPlayer:pause in milliseconds.
+ */
+void
+pt_player_pause_and_rewind (PtPlayer *player)
+{
+	pt_player_pause (player);
+	pt_player_jump_relative (player, player->priv->pause * -1);
+}
+
+/**
+ * pt_player_get_pause:
+ * @player: a #PtPlayer
+ *
+ * Return value: time to rewind on pause in milliseconds
+ */
+gint
+pt_player_get_pause (PtPlayer *player)
+{
+	g_return_val_if_fail (PT_IS_PLAYER (player), 0);
+
+	return player->priv->pause;
 }
 
 /**
@@ -1709,6 +1739,9 @@ pt_player_set_property (GObject      *object,
 		}
 		player->priv->timestamp_sep = ".";
 		break;
+	case PROP_REWIND_ON_PAUSE:
+		player->priv->pause = g_value_get_int (value);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -1742,6 +1775,9 @@ pt_player_get_property (GObject    *object,
 		break;
 	case PROP_TIMESTAMP_FRACTION_SEP:
 		g_value_set_string (value, player->priv->timestamp_sep);
+		break;
+	case PROP_REWIND_ON_PAUSE:
+		g_value_set_int (value, player->priv->pause);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1898,6 +1934,21 @@ pt_player_class_init (PtPlayerClass *klass)
 			"Timestamp fraction separator",
 			".",
 			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+
+	/**
+	* PtPlayer:pause:
+	*
+	* Milliseconds to rewind on pause.
+	*/
+	obj_properties[PROP_REWIND_ON_PAUSE] =
+	g_param_spec_int (
+			"pause",
+			"Milliseconds to rewind on pause",
+			"Milliseconds to rewind on pause",
+			0,	/* minimum */
+			10000,	/* maximum */
+			0,
+			G_PARAM_READWRITE);
 
 	g_object_class_install_properties (
 			G_OBJECT_CLASS (klass),

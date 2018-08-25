@@ -70,6 +70,8 @@ GType		pt_player_get_type		(void) G_GNUC_CONST;
 PtWavedata*	pt_player_get_data		(PtPlayer *player,
 						 gint      pps);
 void		pt_player_pause			(PtPlayer *player);
+void		pt_player_pause_and_rewind	(PtPlayer *player);
+gint		pt_player_get_pause		(PtPlayer *player);
 void		pt_player_play			(PtPlayer *player);
 void		pt_player_set_selection		(PtPlayer *player,
 					         gint64    start,

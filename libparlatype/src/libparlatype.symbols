@@ -6,6 +6,7 @@ pt_player_get_data
 pt_player_get_duration
 pt_player_get_duration_time_string
 pt_player_get_filename
+pt_player_get_pause
 pt_player_get_permille
 pt_player_get_position
 pt_player_get_time_string
@@ -24,6 +25,7 @@ pt_player_open_uri
 pt_player_open_uri_async
 pt_player_open_uri_finish
 pt_player_pause
+pt_player_pause_and_rewind
 pt_player_play
 pt_player_rewind
 pt_player_set_selection
