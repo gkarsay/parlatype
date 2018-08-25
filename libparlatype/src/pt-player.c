@@ -695,6 +695,8 @@ pt_player_play_pause (PtPlayer *player)
 		/* don't know what to do */
 		;
 	}
+
+	g_signal_emit_by_name (player, "play-toggled");
 }
 
 
@@ -1193,6 +1195,13 @@ wv_selection_changed_cb (GtkWidget *widget,
 	}
 }
 
+static void
+wv_play_toggled_cb (GtkWidget *widget,
+		    PtPlayer  *player)
+{
+	pt_player_play_pause (player);
+}
+
 /**
  * pt_player_connect_waveviewer:
  * @player: a #PtPlayer
@@ -1209,6 +1218,11 @@ pt_player_connect_waveviewer (PtPlayer *player,
 	g_signal_connect (player->priv->wv,
 			"selection-changed",
 			G_CALLBACK (wv_selection_changed_cb),
+			player);
+
+	g_signal_connect (player->priv->wv,
+			"play-toggled",
+			G_CALLBACK (wv_play_toggled_cb),
 			player);
 }
 
@@ -2046,6 +2060,23 @@ pt_player_class_init (PtPlayerClass *klass)
 		      g_cclosure_marshal_VOID__BOXED,
 		      G_TYPE_NONE,
 		      1, G_TYPE_ERROR);
+
+	/**
+	* PtPlayer::play-toggled:
+	* @player: the player emitting the signal
+	*
+	* The #PtPlayer::play-toggled signal is emitted when the player changed
+	* to pause or play.
+	*/
+	g_signal_new ("play-toggled",
+		      PT_TYPE_PLAYER,
+		      G_SIGNAL_RUN_FIRST,
+		      0,
+		      NULL,
+		      NULL,
+		      g_cclosure_marshal_VOID__VOID,
+		      G_TYPE_NONE,
+		      0);
 
 	/**
 	* PtPlayer:speed:
