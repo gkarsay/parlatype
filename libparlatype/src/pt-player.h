@@ -92,6 +92,10 @@ gboolean	pt_player_open_uri		(PtPlayer *player,
 void		pt_player_cancel		(PtPlayer *player);
 void		pt_player_jump_relative		(PtPlayer *player,
 						 gint      milliseconds);
+void		pt_player_jump_back		(PtPlayer *player);
+void		pt_player_jump_forward		(PtPlayer *player);
+gint		pt_player_get_back		(PtPlayer *player);
+gint		pt_player_get_forward		(PtPlayer *player);
 void		pt_player_jump_to_position	(PtPlayer *player,
 						 gint      milliseconds);
 void		pt_player_jump_to_permille	(PtPlayer *player,

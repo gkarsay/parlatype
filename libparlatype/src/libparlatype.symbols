@@ -1,11 +1,13 @@
 pt_player_cancel
 pt_player_clear_selection
 pt_player_fast_forward
+pt_player_get_back
 pt_player_get_current_time_string
 pt_player_get_data
 pt_player_get_duration
 pt_player_get_duration_time_string
 pt_player_get_filename
+pt_player_get_forward
 pt_player_get_pause
 pt_player_get_permille
 pt_player_get_position
@@ -16,6 +18,8 @@ pt_player_get_timestamp_position
 pt_player_get_type
 pt_player_get_uri
 pt_player_goto_timestamp
+pt_player_jump_back
+pt_player_jump_forward
 pt_player_jump_relative
 pt_player_jump_to_permille
 pt_player_jump_to_position

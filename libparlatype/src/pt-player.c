@@ -33,6 +33,8 @@ struct _PtPlayerPrivate
 	gdouble	    speed;
 	gdouble     volume;
 	gint        pause;
+	gint        back;
+	gint        forward;
 
 	gint64      segstart;
 	gint64      segend;
@@ -58,6 +60,8 @@ enum
 	PROP_TIMESTAMP_DELIMITER,
 	PROP_TIMESTAMP_FRACTION_SEP,
 	PROP_REWIND_ON_PAUSE,
+	PROP_BACK,
+	PROP_FORWARD,
 	N_PROPERTIES
 };
 
@@ -867,6 +871,63 @@ pt_player_jump_relative (PtPlayer *player,
 		new = player->priv->segstart;
 
 	pt_player_seek (player, new);
+}
+
+/**
+ * pt_player_jump_back:
+ * @player: a #PtPlayer
+ *
+ * Jumps back the value of #PtPlayer:back.
+ */
+void
+pt_player_jump_back (PtPlayer *player)
+{
+	gint back;
+
+	back = player->priv->back;
+	if (back > 0)
+		back = back * -1;
+	pt_player_jump_relative (player, back);
+}
+
+/**
+ * pt_player_jump_forward:
+ * @player: a #PtPlayer
+ *
+ * Jumps forward the value of #PtPlayer:forward.
+ */
+void
+pt_player_jump_forward (PtPlayer *player)
+{
+	pt_player_jump_relative (player, player->priv->forward);
+}
+
+/**
+ * pt_player_get_back:
+ * @player: a #PtPlayer
+ *
+ * Return value: time to jump back in milliseconds
+ */
+gint
+pt_player_get_back (PtPlayer *player)
+{
+	g_return_val_if_fail (PT_IS_PLAYER (player), 0);
+
+	return player->priv->back;
+}
+
+/**
+ * pt_player_get_forward:
+ * @player: a #PtPlayer
+ *
+ * Return value: time to jump forward in milliseconds
+ */
+gint
+pt_player_get_forward (PtPlayer *player)
+{
+	g_return_val_if_fail (PT_IS_PLAYER (player), 0);
+
+	return player->priv->forward;
 }
 
 /**
@@ -1800,6 +1861,12 @@ pt_player_set_property (GObject      *object,
 	case PROP_REWIND_ON_PAUSE:
 		player->priv->pause = g_value_get_int (value);
 		break;
+	case PROP_BACK:
+		player->priv->back = g_value_get_int (value);
+		break;
+	case PROP_FORWARD:
+		player->priv->forward = g_value_get_int (value);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -1836,6 +1903,12 @@ pt_player_get_property (GObject    *object,
 		break;
 	case PROP_REWIND_ON_PAUSE:
 		g_value_set_int (value, player->priv->pause);
+		break;
+	case PROP_BACK:
+		g_value_set_int (value, player->priv->back);
+		break;
+	case PROP_FORWARD:
+		g_value_set_int (value, player->priv->forward);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -2006,6 +2079,36 @@ pt_player_class_init (PtPlayerClass *klass)
 			0,	/* minimum */
 			10000,	/* maximum */
 			0,
+			G_PARAM_READWRITE);
+
+	/**
+	* PtPlayer:back:
+	*
+	* Milliseconds to jump back.
+	*/
+	obj_properties[PROP_BACK] =
+	g_param_spec_int (
+			"back",
+			"Milliseconds to jump back",
+			"Milliseconds to jump back",
+			1000,	/* minimum */
+			60000,	/* maximum */
+			10000,
+			G_PARAM_READWRITE);
+
+	/**
+	* PtPlayer:forward:
+	*
+	* Milliseconds to jump forward.
+	*/
+	obj_properties[PROP_FORWARD] =
+	g_param_spec_int (
+			"forward",
+			"Milliseconds to jump forward",
+			"Milliseconds to jump forward",
+			1000,	/* minimum */
+			60000,	/* maximum */
+			10000,
 			G_PARAM_READWRITE);
 
 	g_object_class_install_properties (
