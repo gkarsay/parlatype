@@ -56,9 +56,6 @@ struct _PtWindowPrivate
 	gint	    timer;
 	gdouble	    speed;
 
-	gint	    back;
-	gint	    forward;
-
 	guint	    owner_id;
 };
 

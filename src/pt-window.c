@@ -33,16 +33,6 @@
 #include "pt-window-private.h"
 
 
-enum
-{
-	PROP_0,
-	PROP_BACK,
-	PROP_FORWARD,
-	N_PROPERTIES
-};
-
-static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
-
 G_DEFINE_TYPE_WITH_PRIVATE (PtWindow, pt_window, GTK_TYPE_APPLICATION_WINDOW)
 
 
@@ -303,12 +293,14 @@ static void
 change_jump_back_tooltip (PtWindow *win)
 {
 	gchar *back;
+	gint   seconds;
 
+	seconds = pt_player_get_back (win->priv->player) / 1000;
 	back = g_strdup_printf (
 			ngettext ("Jump back 1 second",
 				  "Jump back %d seconds",
-				  win->priv->back),
-			win->priv->back);
+				  seconds),
+			seconds);
 
 	gtk_widget_set_tooltip_text (win->priv->button_jump_back, back);
 	g_free (back);
@@ -318,12 +310,14 @@ static void
 change_jump_forward_tooltip (PtWindow *win)
 {
 	gchar *forward;
+	gint   seconds;
 
+	seconds = pt_player_get_forward (win->priv->player) / 1000;
 	forward = g_strdup_printf (
 			ngettext ("Jump forward 1 second",
 				  "Jump forward %d seconds",
-				  win->priv->forward),
-			win->priv->forward);
+				  seconds),
+			seconds);
 
 	gtk_widget_set_tooltip_text (win->priv->button_jump_forward, forward);
 	g_free (forward);
@@ -675,14 +669,14 @@ void
 jump_back_button_clicked_cb (GtkButton *button,
 			     PtWindow  *win)
 {
-	pt_player_jump_relative (win->priv->player, win->priv->back * -1000);
+	pt_player_jump_back (win->priv->player);
 }
 
 void
 jump_forward_button_clicked_cb (GtkButton *button,
 			        PtWindow  *win)
 {
-	pt_player_jump_relative (win->priv->player, win->priv->forward * 1000);
+	pt_player_jump_forward (win->priv->player);
 }
 
 /* currently not used */
@@ -849,27 +843,27 @@ settings_changed_cb (GSettings *settings,
 }
 
 static gboolean
-get_pause_mapping (GValue   *value,
-	           GVariant *variant,
-	           gpointer  data)
+map_seconds_to_milliseconds (GValue   *value,
+	                     GVariant *variant,
+	                     gpointer  data)
 {
 	/* Settings store seconds, PtPlayer wants milliseconds */
-	gint pause;
-	pause = g_variant_get_int32 (variant);
-	pause = pause * 1000;
-	g_value_set_int (value, pause);
+	gint new;
+	new = g_variant_get_int32 (variant);
+	new = new * 1000;
+	g_value_set_int (value, new);
 	return TRUE;
 }
 
 static GVariant*
-set_pause_mapping (const GValue       *value,
-	           const GVariantType *type,
-	           gpointer            data)
+map_milliseconds_to_seconds (const GValue       *value,
+	                     const GVariantType *type,
+	                     gpointer            data)
 {
-	gint pause;
-	pause = g_value_get_int (value);
-	pause = pause / 1000;
-	return g_variant_new_int32 (pause);
+	gint new;
+	new = g_value_get_int (value);
+	new = new / 1000;
+	return g_variant_new_int32 (new);
 }
 
 static void
@@ -881,18 +875,25 @@ setup_settings (PtWindow *win)
 			win->priv->editor, "rewind-on-pause",
 			win->priv->player, "pause",
 			G_SETTINGS_BIND_GET,
-			get_pause_mapping, set_pause_mapping,
+			map_seconds_to_milliseconds,
+			map_milliseconds_to_seconds,
 			NULL, NULL);
 
-	g_settings_bind (
+	g_settings_bind_with_mapping (
 			win->priv->editor, "jump-back",
-			win, "back",
-			G_SETTINGS_BIND_GET);
+			win->priv->player, "back",
+			G_SETTINGS_BIND_GET,
+			map_seconds_to_milliseconds,
+			map_milliseconds_to_seconds,
+			NULL, NULL);
 
-	g_settings_bind (
+	g_settings_bind_with_mapping (
 			win->priv->editor, "jump-forward",
-			win, "forward",
-			G_SETTINGS_BIND_GET);
+			win->priv->player, "forward",
+			G_SETTINGS_BIND_GET,
+			map_seconds_to_milliseconds,
+			map_milliseconds_to_seconds,
+			NULL, NULL);
 
 	g_settings_bind (
 			win->priv->editor, "show-ruler",
@@ -1138,57 +1139,11 @@ pt_window_dispose (GObject *object)
 }
 
 static void
-pt_window_set_property (GObject      *object,
-			guint         property_id,
-			const GValue *value,
-			GParamSpec   *pspec)
-{
-	PtWindow *win;
-	win = PT_WINDOW (object);
-
-	switch (property_id) {
-	case PROP_BACK:
-		win->priv->back = g_value_get_int (value);
-		break;
-	case PROP_FORWARD:
-		win->priv->forward = g_value_get_int (value);
-		break;
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-		break;
-	}
-}
-
-static void
-pt_window_get_property (GObject    *object,
-			guint       property_id,
-			GValue     *value,
-			GParamSpec *pspec)
-{
-	PtWindow *win;
-	win = PT_WINDOW (object);
-
-	switch (property_id) {
-	case PROP_BACK:
-		g_value_set_int (value, win->priv->back);
-		break;
-	case PROP_FORWARD:
-		g_value_set_int (value, win->priv->forward);
-		break;
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-		break;
-	}
-}
-
-static void
 pt_window_class_init (PtWindowClass *klass)
 {
 	GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
 	GtkWidgetClass *widget_class  = GTK_WIDGET_CLASS (klass);
 
-	gobject_class->set_property = pt_window_set_property;
-	gobject_class->get_property = pt_window_get_property;
 	gobject_class->dispose      = pt_window_dispose;
 	gtk_widget_class_set_template_from_resource (widget_class, "/com/github/gkarsay/parlatype/window.ui");
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_play);
@@ -1201,31 +1156,6 @@ pt_window_class_init (PtWindowClass *klass)
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, pos_label);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, speed_scale);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, waveviewer);
-
-	obj_properties[PROP_BACK] =
-	g_param_spec_int (
-			"back",
-			"Seconds to jump back",
-			"Seconds to jump back",
-			1,	/* minimum */
-			60,	/* maximum */
-			10,
-			G_PARAM_READWRITE);
-
-	obj_properties[PROP_FORWARD] =
-	g_param_spec_int (
-			"forward",
-			"Seconds to jump forward",
-			"Seconds to jump forward",
-			1,	/* minimum */
-			60,	/* maximum */
-			10,
-			G_PARAM_READWRITE);
-
-	g_object_class_install_properties (
-			gobject_class,
-			N_PROPERTIES,
-			obj_properties);
 }
 
 PtWindow *
