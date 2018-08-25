@@ -56,7 +56,6 @@ struct _PtWindowPrivate
 	gint	    timer;
 	gdouble	    speed;
 
-	gint	    pause;
 	gint	    back;
 	gint	    forward;
 

@@ -36,7 +36,6 @@
 enum
 {
 	PROP_0,
-	PROP_PAUSE,
 	PROP_BACK,
 	PROP_FORWARD,
 	N_PROPERTIES
@@ -246,6 +245,7 @@ void
 play_toggled_cb (GtkWidget *widget,
 		 PtWindow  *win)
 {
+	/* Callback from waveviewer */
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (win->priv->button_play),
 		!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->priv->button_play)));
@@ -327,17 +327,19 @@ static void
 change_play_button_tooltip (PtWindow *win)
 {
 	gchar    *play;
+	gint      pause;
 	gboolean  free_me = FALSE;
 
+	pause = pt_player_get_pause (win->priv->player) / 1000;
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->priv->button_play))) {
-		if (win->priv->pause == 0) {
+		if (pause == 0) {
 			play = _("Pause");
 		} else {
 			play = g_strdup_printf (
 					ngettext ("Pause and rewind 1 second",
 						  "Pause and rewind %d seconds",
-						  win->priv->pause),
-					win->priv->pause);
+						  pause),
+					pause);
 			free_me = TRUE;
 		}
 	} else {
@@ -571,18 +573,6 @@ pt_window_ready_to_play (PtWindow *win,
 }
 
 static void
-player_end_of_stream_cb (PtPlayer *player,
-			 PtWindow *win)
-{
-	/* Don't jump back */
-	gint temp;
-	temp = win->priv->pause;
-	win->priv->pause = 0;
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (win->priv->button_play), FALSE);
-	win->priv->pause = temp;
-}
-
-static void
 player_error_cb (PtPlayer *player,
 		 GError   *error,
 		 PtWindow *win)
@@ -668,10 +658,24 @@ play_button_toggled_cb (GtkToggleButton *button,
 		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
 		pt_player_play (win->priv->player);
 	} else {
-		pt_player_pause (win->priv->player);
-		pt_player_jump_relative (win->priv->player, win->priv->pause * -1000);
+		pt_player_pause_and_rewind (win->priv->player);
 	}
 
+	change_play_button_tooltip (win);
+}
+
+static void
+player_end_of_stream_cb (PtPlayer *player,
+			 PtWindow *win)
+{
+	/* Don't jump back */
+	GtkToggleButton *play;
+	play = GTK_TOGGLE_BUTTON (win->priv->button_play);
+
+	g_signal_handlers_block_by_func (play, play_button_toggled_cb, win);
+	gtk_toggle_button_set_active (play, FALSE);
+	g_signal_handlers_unblock_by_func (play, play_button_toggled_cb, win);
+	pt_player_pause (win->priv->player);
 	change_play_button_tooltip (win);
 }
 
@@ -852,15 +856,41 @@ settings_changed_cb (GSettings *settings,
 	}
 }
 
+static gboolean
+get_pause_mapping (GValue   *value,
+	           GVariant *variant,
+	           gpointer  data)
+{
+	/* Settings store seconds, PtPlayer wants milliseconds */
+	gint pause;
+	pause = g_variant_get_int32 (variant);
+	pause = pause * 1000;
+	g_value_set_int (value, pause);
+	return TRUE;
+}
+
+static GVariant*
+set_pause_mapping (const GValue       *value,
+	           const GVariantType *type,
+	           gpointer            data)
+{
+	gint pause;
+	pause = g_value_get_int (value);
+	pause = pause / 1000;
+	return g_variant_new_int32 (pause);
+}
+
 static void
 setup_settings (PtWindow *win)
 {
 	win->priv->editor = g_settings_new ("com.github.gkarsay.parlatype");
 
-	g_settings_bind (
+	g_settings_bind_with_mapping (
 			win->priv->editor, "rewind-on-pause",
-			win, "pause",
-			G_SETTINGS_BIND_GET);
+			win->priv->player, "pause",
+			G_SETTINGS_BIND_GET,
+			get_pause_mapping, set_pause_mapping,
+			NULL, NULL);
 
 	g_settings_bind (
 			win->priv->editor, "jump-back",
@@ -1126,9 +1156,6 @@ pt_window_set_property (GObject      *object,
 	win = PT_WINDOW (object);
 
 	switch (property_id) {
-	case PROP_PAUSE:
-		win->priv->pause = g_value_get_int (value);
-		break;
 	case PROP_BACK:
 		win->priv->back = g_value_get_int (value);
 		break;
@@ -1151,9 +1178,6 @@ pt_window_get_property (GObject    *object,
 	win = PT_WINDOW (object);
 
 	switch (property_id) {
-	case PROP_PAUSE:
-		g_value_set_int (value, win->priv->pause);
-		break;
 	case PROP_BACK:
 		g_value_set_int (value, win->priv->back);
 		break;
@@ -1186,16 +1210,6 @@ pt_window_class_init (PtWindowClass *klass)
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, pos_label);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, speed_scale);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, waveviewer);
-
-	obj_properties[PROP_PAUSE] =
-	g_param_spec_int (
-			"pause",
-			"Seconds to rewind on pause",
-			"Seconds to rewind on pause",
-			0,	/* minimum */
-			10,	/* maximum */
-			0,
-			G_PARAM_READWRITE);
 
 	obj_properties[PROP_BACK] =
 	g_param_spec_int (
