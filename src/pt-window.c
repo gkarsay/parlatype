@@ -35,6 +35,7 @@
 
 G_DEFINE_TYPE_WITH_PRIVATE (PtWindow, pt_window, GTK_TYPE_APPLICATION_WINDOW)
 
+void play_button_toggled_cb (GtkToggleButton *button, PtWindow *win);
 
 void
 pt_error_message (PtWindow    *parent,
@@ -208,16 +209,6 @@ cursor_changed_cb (GtkWidget *widget,
 	pt_player_jump_to_position (win->priv->player, pos);
 	update_time (win);
 	pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
-}
-
-void
-play_toggled_cb (GtkWidget *widget,
-		 PtWindow  *win)
-{
-	/* Callback from waveviewer */
-	gtk_toggle_button_set_active (
-		GTK_TOGGLE_BUTTON (win->priv->button_play),
-		!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->priv->button_play)));
 }
 
 void
@@ -592,19 +583,44 @@ pt_window_open_file (PtWindow *win,
 				  win);
 }
 
+static void
+update_play_after_toggle (PtWindow        *win,
+			  GtkToggleButton *button)
+{
+	if (gtk_toggle_button_get_active (button)) {
+		update_time (win);
+		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
+	}
+
+	change_play_button_tooltip (win);
+}
+
+
+static void
+player_play_toggled_cb (PtPlayer *player,
+			PtWindow *win)
+{
+	GtkToggleButton *play;
+	play = GTK_TOGGLE_BUTTON (win->priv->button_play);
+
+	/* Player changed play/pause; toggle GUI button and block signals */
+	g_signal_handlers_block_by_func (play, play_button_toggled_cb, win);
+	gtk_toggle_button_set_active (play, !gtk_toggle_button_get_active (play));
+	g_signal_handlers_unblock_by_func (play, play_button_toggled_cb, win);
+
+	update_play_after_toggle (win, play);
+}
+
 void
 play_button_toggled_cb (GtkToggleButton *button,
 			PtWindow	*win)
 {
-	if (gtk_toggle_button_get_active (button)) {
-		pt_player_play (win->priv->player);
-		update_time (win);
-		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
-	} else {
-		pt_player_pause_and_rewind (win->priv->player);
-	}
+	/* GUI button toggled, block signals from PtPlayer */
+	g_signal_handlers_block_by_func (win->priv->player, player_play_toggled_cb, win);
+	pt_player_play_pause (win->priv->player);
+	g_signal_handlers_unblock_by_func (win->priv->player, player_play_toggled_cb, win);
 
-	change_play_button_tooltip (win);
+	update_play_after_toggle (win, button);
 }
 
 static void
@@ -938,6 +954,11 @@ setup_player (PtWindow *win)
 	g_signal_connect (win->priv->player,
 			"error",
 			G_CALLBACK (player_error_cb),
+			win);
+
+	g_signal_connect (win->priv->player,
+			"play-toggled",
+			G_CALLBACK (player_play_toggled_cb),
 			win);
 
 	g_object_bind_property (

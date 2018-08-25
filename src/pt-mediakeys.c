@@ -32,7 +32,6 @@ on_media_key_pressed (GDBusProxy *proxy,
 	GVariant    *key_parameter;
 	const gchar *app;
 	const gchar *key;
-	gboolean     state;
 
 	if (g_strcmp0 (signal_name, "MediaPlayerKeyPressed") != 0)
 		return;
@@ -46,9 +45,7 @@ on_media_key_pressed (GDBusProxy *proxy,
 	key = g_variant_get_string (key_parameter, NULL);
 
 	if (g_strcmp0 (key, "Play") == 0 || g_strcmp0 (key, "Pause") == 0 || g_strcmp0 (key, "Stop") == 0) {
-		state = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->priv->button_play));
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (win->priv->button_play), !state);
-		return;
+		pt_player_play_pause (win->priv->player);
 	}
 
 	if (g_strcmp0 (key, "Previous") == 0 || g_strcmp0 (key, "Rewind") == 0) {
