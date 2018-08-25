@@ -211,33 +211,6 @@ cursor_changed_cb (GtkWidget *widget,
 }
 
 void
-selection_changed_cb (GtkWidget *widget,
-		      PtWindow  *win)
-{
-	/* Selection changed in Waveviewer widget:
-	   - if we are not playing a selection: ignore it
-	   - if we are playing a selection and we are still in the selection:
-	     update selection
-	   - if we are playing a selection and the new one is somewhere else:
-	     stop playing the selection */
-
-	gint64 start, end, current;
-	if (pt_player_selection_active (win->priv->player)) {
-
-		current = pt_player_get_position (win->priv->player);
-		g_object_get (win->priv->waveviewer,
-			      "selection-start", &start,
-			      "selection-end", &end,
-			      NULL);
-		if (start <= current && current <= end) {
-			pt_player_set_selection (win->priv->player, start, end);
-		} else {
-			pt_player_clear_selection (win->priv->player);
-		}
-	}
-}
-
-void
 play_toggled_cb (GtkWidget *widget,
 		 PtWindow  *win)
 {
@@ -623,23 +596,7 @@ void
 play_button_toggled_cb (GtkToggleButton *button,
 			PtWindow	*win)
 {
-	gint64 start, end;
-	gboolean selection;
-
 	if (gtk_toggle_button_get_active (button)) {
-
-		/* If there is a selection, play it */
-		g_object_get (win->priv->waveviewer,
-			      "selection-start", &start,
-			      "selection-end", &end,
-			      "has-selection", &selection,
-			      NULL);
-
-		if (!pt_player_selection_active (win->priv->player) && selection) {
-			/* Note: changes position if outside selection */
-			pt_player_set_selection (win->priv->player, start, end);
-		}
-
 		pt_player_play (win->priv->player);
 		update_time (win);
 		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
@@ -968,6 +925,10 @@ setup_player (PtWindow *win)
 {
 	/* Already tested in main.c, we don't check for errors here anymore */
 	win->priv->player = pt_player_new (NULL);
+
+	pt_player_connect_waveviewer (
+			win->priv->player,
+			PT_WAVEVIEWER (win->priv->waveviewer));
 
 	g_signal_connect (win->priv->player,
 			"end-of-stream",
