@@ -20,6 +20,7 @@
 
 #include <gio/gio.h>
 #include "pt-wavedata.h"
+#include "pt-waveviewer.h"
 
 #define PT_TYPE_PLAYER		(pt_player_get_type())
 #define PT_PLAYER(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), PT_TYPE_PLAYER, PtPlayer))
@@ -134,7 +135,8 @@ gboolean	pt_player_string_is_timestamp	(PtPlayer *player,
 						 gboolean  check_duration);
 gboolean	pt_player_goto_timestamp	(PtPlayer *player,
 						 gchar    *timestamp);
-
+void		pt_player_connect_waveviewer	(PtPlayer *player,
+						 PtWaveviewer *wv);
 PtPlayer*	pt_player_new			(GError **error);
 
 #endif

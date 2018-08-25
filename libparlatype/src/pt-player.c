@@ -22,6 +22,7 @@
 #include <gst/gst.h>
 #include <gst/audio/streamvolume.h>
 #include "pt-waveloader.h"
+#include "pt-waveviewer.h"
 #include "pt-player.h"
 
 struct _PtPlayerPrivate
@@ -41,13 +42,14 @@ struct _PtPlayerPrivate
 
 	GCancellable *c;
 
-	PtWaveloader *wl;
-
 	PtPrecisionType timestamp_precision;
 	gboolean        timestamp_fixed;
 	gchar          *timestamp_left;
 	gchar          *timestamp_right;
 	gchar          *timestamp_sep;
+
+	PtWaveloader *wl;
+	PtWaveviewer *wv;
 };
 
 enum
@@ -635,6 +637,22 @@ pt_player_play (PtPlayer *player)
 	g_return_if_fail (PT_IS_PLAYER (player));
 
 	gint64 pos;
+	gint64 start, end;
+	gboolean selection;
+
+	if (player->priv->wv) {
+		/* If there is a selection, play it */
+		g_object_get (player->priv->wv,
+			      "selection-start", &start,
+			      "selection-end", &end,
+			      "has-selection", &selection,
+			      NULL);
+
+		if (selection) {
+			/* Note: changes position if outside selection */
+			pt_player_set_selection (player, start, end);
+		}
+	}
 
 	if (!pt_player_query_position (player, &pos))
 		return;
@@ -1144,6 +1162,57 @@ pt_player_get_data (PtPlayer *player,
 {
 	return pt_waveloader_get_data (player->priv->wl, pps);
 }
+
+
+/* --------------------- Other widgets -------------------------------------- */
+
+static void
+wv_selection_changed_cb (GtkWidget *widget,
+		         PtPlayer  *player)
+{
+	/* Selection changed in Waveviewer widget:
+	   - if we are not playing a selection: ignore it
+	   - if we are playing a selection and we are still in the selection:
+	     update selection
+	   - if we are playing a selection and the new one is somewhere else:
+	     stop playing the selection */
+
+	gint64 start, end, pos;
+	if (pt_player_selection_active (player)) {
+		if (!pt_player_query_position (player, &pos))
+			return;
+		g_object_get (player->priv->wv,
+			      "selection-start", &start,
+			      "selection-end", &end,
+			      NULL);
+		if (start <= pos && pos <= end) {
+			pt_player_set_selection (player, start, end);
+		} else {
+			pt_player_clear_selection (player);
+		}
+	}
+}
+
+/**
+ * pt_player_connect_waveviewer:
+ * @player: a #PtPlayer
+ * @wv: a #PtWaveviewer
+ *
+ * Connect a #PtWaveviewer. The #PtPlayer will monitor selections made in the
+ * #PtWaveviewer and act accordingly.
+ */
+void
+pt_player_connect_waveviewer (PtPlayer *player,
+                              PtWaveviewer *wv)
+{
+	player->priv->wv = wv;
+	g_signal_connect (player->priv->wv,
+			"selection-changed",
+			G_CALLBACK (wv_selection_changed_cb),
+			player);
+}
+
+
 
 
 /* --------------------- File utilities ------------------------------------- */
@@ -1689,6 +1758,7 @@ pt_player_init (PtPlayer *player)
 	player->priv = pt_player_get_instance_private (player);
 	player->priv->timestamp_precision = PT_PRECISION_SECOND_10TH;
 	player->priv->timestamp_fixed = FALSE;
+	player->priv->wv = NULL;
 }
 
 static gboolean

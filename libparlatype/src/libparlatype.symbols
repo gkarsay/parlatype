@@ -1,5 +1,6 @@
 pt_player_cancel
 pt_player_clear_selection
+pt_player_connect_waveviewer
 pt_player_fast_forward
 pt_player_get_back
 pt_player_get_current_time_string
