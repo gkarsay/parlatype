@@ -732,6 +732,20 @@ pt_player_clear_selection (PtPlayer *player)
 }
 
 /**
+ * pt_player_selection_active:
+ * @player: a #PtPlayer
+ *
+ * Return value: TRUE if there is a selection
+ */
+gboolean
+pt_player_selection_active (PtPlayer *player)
+{
+	g_return_val_if_fail (PT_IS_PLAYER (player), FALSE);
+
+	return !(player->priv->segstart == 0 && player->priv->segend == player->priv->dur);
+}
+
+/**
  * pt_player_rewind:
  * @player: a #PtPlayer
  * @speed: the speed

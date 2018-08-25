@@ -14,6 +14,7 @@ pt_player_pause_and_rewind
 pt_player_get_pause
 pt_player_set_selection
 pt_player_clear_selection
+pt_player_selection_active
 pt_player_jump_relative
 pt_player_jump_to_position
 pt_player_jump_to_permille
