@@ -908,6 +908,7 @@ pt_player_jump_back (PtPlayer *player)
 	if (back > 0)
 		back = back * -1;
 	pt_player_jump_relative (player, back);
+	g_signal_emit_by_name (player, "jumped-back");
 }
 
 /**
@@ -920,6 +921,7 @@ void
 pt_player_jump_forward (PtPlayer *player)
 {
 	pt_player_jump_relative (player, player->priv->forward);
+	g_signal_emit_by_name (player, "jumped-forward");
 }
 
 /**
@@ -2069,6 +2071,40 @@ pt_player_class_init (PtPlayerClass *klass)
 	* to pause or play.
 	*/
 	g_signal_new ("play-toggled",
+		      PT_TYPE_PLAYER,
+		      G_SIGNAL_RUN_FIRST,
+		      0,
+		      NULL,
+		      NULL,
+		      g_cclosure_marshal_VOID__VOID,
+		      G_TYPE_NONE,
+		      0);
+
+	/**
+	* PtPlayer::jumped-back:
+	* @player: the player emitting the signal
+	*
+	* The #PtPlayer::jumped-back signal is emitted when the player jumped
+	* back.
+	*/
+	g_signal_new ("jumped-back",
+		      PT_TYPE_PLAYER,
+		      G_SIGNAL_RUN_FIRST,
+		      0,
+		      NULL,
+		      NULL,
+		      g_cclosure_marshal_VOID__VOID,
+		      G_TYPE_NONE,
+		      0);
+
+	/**
+	* PtPlayer::jumped-forward:
+	* @player: the player emitting the signal
+	*
+	* The #PtPlayer::jumped-forward signal is emitted when the player jumped
+	* forward.
+	*/
+	g_signal_new ("jumped-forward",
 		      PT_TYPE_PLAYER,
 		      G_SIGNAL_RUN_FIRST,
 		      0,
