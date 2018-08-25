@@ -224,8 +224,15 @@ void
 selection_changed_cb (GtkWidget *widget,
 		      PtWindow  *win)
 {
+	/* Selection changed in Waveviewer widget:
+	   - if we are not playing a selection: ignore it
+	   - if we are playing a selection and we are still in the selection:
+	     update selection
+	   - if we are playing a selection and the new one is somewhere else:
+	     stop playing the selection */
+
 	gint64 start, end, current;
-	if (win->priv->playing_selection) {
+	if (pt_player_selection_active (win->priv->player)) {
 
 		current = pt_player_get_position (win->priv->player);
 		g_object_get (win->priv->waveviewer,
@@ -236,7 +243,6 @@ selection_changed_cb (GtkWidget *widget,
 			pt_player_set_selection (win->priv->player, start, end);
 		} else {
 			pt_player_clear_selection (win->priv->player);
-			win->priv->playing_selection = FALSE;
 		}
 	}
 }
@@ -635,10 +641,9 @@ play_button_toggled_cb (GtkToggleButton *button,
 			      "has-selection", &selection,
 			      NULL);
 
-		if (!win->priv->playing_selection && selection) {
+		if (!pt_player_selection_active (win->priv->player) && selection) {
 			/* Note: changes position if outside selection */
 			pt_player_set_selection (win->priv->player, start, end);
-			win->priv->playing_selection = TRUE;
 		}
 
 		pt_player_play (win->priv->player);
@@ -1077,7 +1082,6 @@ pt_window_init (PtWindow *win)
 	win->priv->progress_dlg = NULL;
 	win->priv->progress_handler_id = 0;
 	win->priv->wavedata = NULL;
-	win->priv->playing_selection = FALSE;
 	win->priv->clip_handler_id = 0;
 	win->priv->clip = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 
