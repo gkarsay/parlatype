@@ -8,6 +8,7 @@ pt_player_open_uri_finish
 pt_player_open_uri
 pt_player_cancel
 pt_player_play
+pt_player_play_pause
 pt_player_pause
 pt_player_pause_and_rewind
 pt_player_get_pause

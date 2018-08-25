@@ -633,6 +633,41 @@ pt_player_play (PtPlayer *player)
 }
 
 /**
+ * pt_player_play_pause:
+ * @player: a #PtPlayer
+ *
+ * Toggles between playback and pause, rewinds on pause.
+ */
+void
+pt_player_play_pause (PtPlayer *player)
+{
+	g_return_if_fail (PT_IS_PLAYER (player));
+
+	GstState state;
+
+	gst_element_get_state (
+		player->priv->play,
+		&state, NULL,
+		GST_CLOCK_TIME_NONE);
+
+	switch (state) {
+	case GST_STATE_NULL:
+		/* fall through */
+	case GST_STATE_PAUSED:
+		pt_player_play (player);
+		break;
+	case GST_STATE_PLAYING:
+		pt_player_pause_and_rewind (player);
+	case GST_STATE_VOID_PENDING:
+		/* fall through */
+	case GST_STATE_READY:
+		/* don't know what to do */
+		;
+	}
+}
+
+
+/**
  * pt_player_set_selection:
  * @player: a #PtPlayer
  * @start: selection start time in milliseconds
