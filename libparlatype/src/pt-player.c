@@ -622,12 +622,21 @@ pt_player_get_pause (PtPlayer *player)
  * @player: a #PtPlayer
  *
  * Starts playback at the defined speed until it reaches the end of stream (or
- * the end of the selection)..
+ * the end of the selection). If the current position is at the end, playback
+ * will start from the beginning of stream or selection.
  */
 void
 pt_player_play (PtPlayer *player)
 {
 	g_return_if_fail (PT_IS_PLAYER (player));
+
+	gint64 pos;
+
+	if (!pt_player_query_position (player, &pos))
+		return;
+
+	if (pos == player->priv->segend)
+		pt_player_seek (player, player->priv->segstart);
 
 	gst_element_set_state (player->priv->play, GST_STATE_PLAYING);
 }
