@@ -49,13 +49,12 @@ on_media_key_pressed (GDBusProxy *proxy,
 	}
 
 	if (g_strcmp0 (key, "Previous") == 0 || g_strcmp0 (key, "Rewind") == 0) {
-		gtk_button_clicked (GTK_BUTTON (win->priv->button_jump_back));
+		pt_player_jump_back (win->priv->player);
 		return;
 	}
 
-
 	if (g_strcmp0 (key, "Next") == 0 || g_strcmp0 (key, "FastForward") == 0) {
-		gtk_button_clicked (GTK_BUTTON (win->priv->button_jump_forward));
+		pt_player_jump_forward (win->priv->player);
 	}
 }
 
