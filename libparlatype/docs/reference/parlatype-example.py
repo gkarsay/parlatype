@@ -2,15 +2,19 @@
 # -*- coding: utf-8 -*-
 
 """ parlatype-example.py demonstrates libparlatype.
-    Change testfile to an existing file! """
+    Change testfile if needed! """
+
+import os
+testfile = "file://" + os.path.abspath("../../tests/data/test1.ogg")
+
 
 import gi
+gi.require_version('Gtk', '3.0')
+gi.require_version('Parlatype', '1.0')
 from gi.repository import Parlatype as Pt
 from gi.repository import Gtk
 from gi.repository import GObject  # for GObject.timeout
-gi.require_version('Gtk', '3.0')
 
-testfile = "file:///home/user/example.mp3"
 
 
 def error_message(message, parent):
@@ -114,11 +118,6 @@ def progress_response_callback(progress, response):
         player.cancel()
 
 
-if testfile == "file:///home/user/example.mp3":
-    error_message("Please change 'file:///home/user/example.mp3' in source "
-                  "to an existing test file.", None)
-    exit()
-
 # PtPlayer has a failable constructor, if GStreamer can't be initted.
 try:
     player = Pt.Player.new()
@@ -139,6 +138,7 @@ win.connect("delete-event", Gtk.main_quit)
 
 viewer = Pt.Waveviewer.new()
 viewer.connect("cursor-changed", cursor_changed)
+player.connect_waveviewer(viewer);
 
 button = Gtk.ToggleButton.new_with_label("Play")
 button.connect("toggled", button_toggled)
