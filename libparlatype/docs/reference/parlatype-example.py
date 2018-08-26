@@ -4,17 +4,12 @@
 """ parlatype-example.py demonstrates libparlatype.
     Change testfile if needed! """
 
-import os
+import os, sys, gi
 testfile = "file://" + os.path.abspath("../../tests/data/test1.ogg")
 
-
-import gi
 gi.require_version('Gtk', '3.0')
 gi.require_version('Parlatype', '1.0')
-from gi.repository import Parlatype as Pt
-from gi.repository import Gtk
-from gi.repository import GObject  # for GObject.timeout
-
+from gi.repository import Parlatype as Pt, Gtk
 
 
 def error_message(message, parent):
@@ -26,136 +21,92 @@ def error_message(message, parent):
     msg.run()
     msg.destroy()
 
+class ParlatypeExample:
 
-""" PtPlayer's error signal.
-    It's a severe error and the PtPlayer is reset. There is not much we can
-    do about it, here we simply quit. """
+    def __init__(self):
+        # PtPlayer has a failable constructor, if GStreamer can't be initted.
+        try:
+            self.player = Pt.Player.new()
+        except Exception as err:
+            error_message(err.args[0], None)
+            exit()
 
+        self.player.connect("error", self.player_error)
+        self.player.connect("end-of-stream", self.player_end_of_stream)
 
-def player_error(player, error):
-    error_message(error.args[0], win)
-    Gtk.main_quit
+        self.builder = Gtk.Builder()
+        self.builder.add_from_file('parlatype-example.ui')
+        self.builder.connect_signals(self)
 
+        self.win = self.builder.get_object('window')
+        self.win.connect("delete-event", Gtk.main_quit)
 
-""" PtPlayer's end-of-stream signal.
-    Player is at the end and changes to paused state. Note that stream means
-    any playable source like files, too.
-    We set our buttons according to the state. """
+        self.viewer = self.builder.get_object('waveviewer')
+        self.player.connect_waveviewer(self.viewer);
 
+        self.button = self.builder.get_object('button_play')
+        self.label = self.builder.get_object('pos_label')
 
-def player_end_of_stream(player):
-    button.set_active(False)
+        self.win.show_all()
 
+    def open_callback(self, player, result):
+        self.progress.destroy()
+        try:
+            self.player.open_uri_finish(result)
+            # Get data at a resolution of 100 px per second
+            data = self.player.get_data(100)
+            self.viewer.set_wave(data)
+            self.viewer.add_tick_callback(self.update_cursor)
+        except Exception as err:
+            error_message(err.args[0], self.win)
 
-""" The two main functions are Pt.Player.play() and Pt.Player.pause().
-    PtWaveviewer scrolls to cursor (follow-cursor) by default but if the user
-    has scrolled manually follow-cursor is set to False. Here we assume that on
-    play the user wants to follow cursor again. """
+    def progress_update_callback(self, player, value, dialog):
+        dialog.set_progress(value)
 
+    def progress_response_callback(self, progress, response):
+        if response == Gtk.ResponseType.CANCEL:
+            self.player.cancel()
 
-def button_toggled(button):
-    if button.get_active():
+    def open_testfile(self):
+        # For the PtProgressDialog we have to use the async opening function
+        self.player.open_uri_async(testfile, self.open_callback)
+        # PtProgressDialog, connect signals and show only, do not progress.run()
+        self.progress = Pt.ProgressDialog.new(self.win)
+        self.progress.connect("response", self.progress_response_callback)
+        self.player.connect("load-progress", self.progress_update_callback, self.progress)
+        self.progress.show_all()
+
+    def player_error(self, error):
+        error_message(error.args[0], self.win)
+        Gtk.main_quit
+
+    def player_end_of_stream(self, player):
+        self.button.set_active(False)
+
+    def button_toggled(self, button):
+        if button.get_active():
+            self.viewer.set_property("follow-cursor", True)
+            self.player.play()
+        else:
+            self.player.pause()
+
+    def update_cursor(self, viewer, frame_clock):
+        self.viewer.set_property("playback-cursor", self.player.get_position())
+        text = self.player.get_current_time_string(Pt.PrecisionType.SECOND_10TH)
+        # Sometimes the position can't be retrieved and None is returned.
+        if (text):
+            self.label.set_text(text)
+        # Continue updating
+        return True
+
+    def cursor_changed(self, viewer, position):
+        self.player.jump_to_position(position)
         viewer.set_property("follow-cursor", True)
-        player.play()
-    else:
-        player.pause()
 
+def main():
+    app = ParlatypeExample()
+    app.open_testfile()
+    Gtk.main()
 
-""" In this timeout callback we update cursor position and time label. """
-
-
-def update_cursor():
-    viewer.set_property("playback-cursor", player.get_position())
-    text = player.get_current_time_string(Pt.PrecisionType.SECOND_10TH)
-    # Sometimes the position can't be retrieved and None is returned.
-    if (text):
-        label.set_text(text)
-    # Continue updating
-    return True
-
-
-""" PtWaveviewer's cursor-changed signal.
-    This means the user clicked on the widget to change cursor position.
-    We have to inform the PtPlayer. We set the follow-cursor property, too. """
-
-
-def cursor_changed(viewer, position):
-    player.jump_to_position(position)
-    viewer.set_property("follow-cursor", True)
-
-
-""" Player's open async callback.
-    Destroy progress dialog and get result. On success get wave data and pass
-    it to the PtWaveviewer. Add a timeout of 10 ms to update cursor position
-    and time label. """
-
-
-def open_callback(player, result):
-    progress.destroy()
-    try:
-        player.open_uri_finish(result)
-        # Get data at a resolution of 100 px per second
-        data = player.get_data(100)
-        viewer.set_wave(data)
-        GObject.timeout_add(10, update_cursor)
-    except Exception as err:
-        error_message(err.args[0], win)
-
-
-""" Pass PtPlayer's emitted progress signal to the PtProgressDialog. """
-
-
-def progress_update_callback(player, value, dialog):
-    dialog.set_progress(value)
-
-
-""" PtPlayer's async open function can be cancelled.
-    This emits an error message for the open callback. """
-
-
-def progress_response_callback(progress, response):
-    if response == Gtk.ResponseType.CANCEL:
-        player.cancel()
-
-
-# PtPlayer has a failable constructor, if GStreamer can't be initted.
-try:
-    player = Pt.Player.new()
-except Exception as err:
-    error_message(err.args[0], None)
-    exit()
-
-player.connect("error", player_error)
-player.connect("end-of-stream", player_end_of_stream)
-# For the PtProgressDialog we have to use the async opening function
-player.open_uri_async(testfile, open_callback)
-
-# Now create the window with play button, PtWaveviewer and time label.
-win = Gtk.Window()
-win.set_border_width(12)
-win.set_default_size(500, 80)
-win.connect("delete-event", Gtk.main_quit)
-
-viewer = Pt.Waveviewer.new()
-viewer.connect("cursor-changed", cursor_changed)
-player.connect_waveviewer(viewer);
-
-button = Gtk.ToggleButton.new_with_label("Play")
-button.connect("toggled", button_toggled)
-
-label = Gtk.Label("0:00.0")
-
-hbox = Gtk.Box(spacing=6)
-hbox.pack_start(button, False, False, 0)
-hbox.pack_start(viewer, True, True, 0)
-hbox.pack_start(label, False, False, 0)
-win.add(hbox)
-win.show_all()
-
-# PtProgressDialog, connect signals and show only, do not progress.run()
-progress = Pt.ProgressDialog.new(win)
-progress.connect("response", progress_response_callback)
-player.connect("load-progress", progress_update_callback, progress)
-progress.show_all()
-
-Gtk.main()
+if __name__ == "__main__":
+    sys.exit(main())
