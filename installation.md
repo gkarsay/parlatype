@@ -20,5 +20,6 @@ There is a PPA with stable releases of Parlatype at [https://launchpad.net/~gabo
 
 ## Other distros
 You have to install Parlatype from source, see instructions on [https://github.com/gkarsay/parlatype](https://github.com/gkarsay/parlatype).
+Released sources are signed, see [instructions to verify the signature](signed.md).
 
 
