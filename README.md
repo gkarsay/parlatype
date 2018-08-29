@@ -28,8 +28,9 @@ Required runtime dependencies:
 * GStreamer
 * GStreamer "Good" Plugins
 
-Optional runtime dependencies, to support MP3 files:
-* GStreamer "Ugly" Plugins
+If using GStreamer 1.14+, MP3 support is included in the "Good" Plugins, so nothing else is needed.
+Otherwise, optional runtime dependencies to support MP3 files:
+* GStreamer "Ugly" Plugins (only with GStreamer <= 1.12)
 
 Optional runtime dependencies, if you want to use LibreOffice macros:
 * LibreOffice (>= 4)
