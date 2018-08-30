@@ -84,6 +84,24 @@ AC_ARG_ENABLE([tests],
 
 AM_CONDITIONAL(WITH_TESTS, [test "$tests" = "yes"])
 
+# Check if rpath is disabled
+AC_MSG_CHECKING(whether to use rpath)
+AC_ARG_ENABLE(rpath,
+	[AC_HELP_STRING([--disable-rpath],
+			[Patches libtool to not use rpath in the libraries produced.])],
+	[libparlatype_use_rpath="$enable_rpath"], [libparlatype_use_rpath="yes"])
+AC_MSG_RESULT($libparlatype_use_rpath)
+
+# Patch libtool to not use rpath if requested.
+#
+AC_CONFIG_COMMANDS([libtool-rpath-patch],
+[if test "$libtool_patch_use_rpath" = "no"; then
+   echo config.status: patching libtool to not use rpath
+   sed < libtool > libtool-2 's/^hardcode_libdir_flag_spec.*$'/'hardcode_libdir_flag_spec=" -D__LIBTOOL_NO_RPATH__ "/'
+   mv libtool-2 libtool
+   chmod 755 libtool
+fi],
+[libtool_patch_use_rpath=$libparlatype_use_rpath])
 
 GLIB_TESTS
 AX_VALGRIND_DFLT([memcheck], [on])
