@@ -87,9 +87,10 @@ AM_CONDITIONAL(WITH_TESTS, [test "$tests" = "yes"])
 # Check if rpath is disabled
 AC_MSG_CHECKING(whether to use rpath)
 AC_ARG_ENABLE(rpath,
-	[AC_HELP_STRING([--disable-rpath],
-			[Patches libtool to not use rpath in the libraries produced.])],
-	[libparlatype_use_rpath="$enable_rpath"], [libparlatype_use_rpath="yes"])
+	[AS_HELP_STRING([--enable-rpath],
+			[Whether to set rpath in the libraries produced [default=yes]])],
+	[libparlatype_use_rpath=$enableval],
+	[libparlatype_use_rpath=yes])
 AC_MSG_RESULT($libparlatype_use_rpath)
 
 # Patch libtool to not use rpath if requested.
