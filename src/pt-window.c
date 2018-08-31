@@ -570,6 +570,12 @@ open_cb (PtPlayer     *player,
 	pt_window_ready_to_play (win, TRUE);
 }
 
+gchar*
+pt_window_get_uri (PtWindow *win)
+{
+	return pt_player_get_uri (win->priv->player);
+}
+
 void
 pt_window_open_file (PtWindow *win,
 		     gchar    *uri)

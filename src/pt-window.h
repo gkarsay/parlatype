@@ -50,6 +50,8 @@ void		pt_error_message	(PtWindow    *parent,
 void		pt_window_open_file	(PtWindow *win,
 					 gchar    *uri);
 
+gchar		*pt_window_get_uri	(PtWindow *win);
+
 PtWindow	*pt_window_new		(PtApp *app);
 
 #endif

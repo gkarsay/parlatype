@@ -121,7 +121,8 @@ open_cb (GSimpleAction *action,
 	GtkWidget     *dialog;
 	GtkWindow     *win;
 	const char    *home_path;
-	GFile	      *home;
+	gchar         *current_uri = NULL;
+	GFile	      *current, *dir;
 	GtkFileFilter *filter_audio;
 	GtkFileFilter *filter_all;
 	gchar         *uri = NULL;
@@ -135,10 +136,20 @@ open_cb (GSimpleAction *action,
 			_("_Open"), GTK_RESPONSE_ACCEPT,
 			NULL);
 
-	/* Set current folder to user's home directory */
-	home_path = g_get_home_dir ();
-	home = g_file_new_for_path (home_path);
-	gtk_file_chooser_set_current_folder_file (GTK_FILE_CHOOSER (dialog), home, NULL);
+	/* Set current folder to the folder with the currently open file
+	   or to user's home directory */
+	current_uri = pt_window_get_uri (PT_WINDOW (win));
+	if (current_uri) {
+		current = g_file_new_for_uri (current_uri);
+		dir = g_file_get_parent (current);
+		g_free (current_uri);
+		g_object_unref (current);
+	} else {
+		home_path = g_get_home_dir ();
+		dir = g_file_new_for_path (home_path);
+	}
+	gtk_file_chooser_set_current_folder_file (
+		GTK_FILE_CHOOSER (dialog), dir, NULL);
 
 	filter_audio = gtk_file_filter_new ();
 	filter_all = gtk_file_filter_new ();
@@ -154,7 +165,7 @@ open_cb (GSimpleAction *action,
 		uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (dialog));
 	}
 
-	g_object_unref (home);
+	g_object_unref (dir);
 	gtk_widget_destroy (dialog);
 
 	if (uri) {
