@@ -1004,14 +1004,7 @@ pt_player_get_uri (PtPlayer *player)
 	g_return_val_if_fail (PT_IS_PLAYER (player), NULL);
 
 	gchar *uri = NULL;
-	GFile *file = NULL;
-
-	file = pt_player_get_file (player);
-	if (file) {
-		uri = g_file_get_uri (file);
-		g_object_unref (file);
-	}
-
+	g_object_get (G_OBJECT (player->priv->play), "current_uri", &uri, NULL);
 	return uri;
 }
 
