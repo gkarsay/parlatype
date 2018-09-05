@@ -1,4 +1,4 @@
-/* Copyright (C) Gabor Karsay 2017 <gabor.karsay@gmx.at>
+/* Copyright (C) Gabor Karsay 2017-2018 <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -215,15 +215,22 @@ player_timestamps (PtPlayerFixture *fixture,
 	/* valid timestamps */
 	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "#0:01.2#"));
 	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "0:01.2"));
+	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "#0:01.21#"));
+	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "#0:01#"));
+	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "#00:00:01.2#"));
+
 	/* too many digits */
-	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0:01.20#"));
 	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0:001.2#"));
-	/* sec >= 60 */
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0:01.200#"));
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#000:01.2#"));
+	/* sec >= 60, min >= 60 */
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0:60.2#"));
 	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0:71.2#"));
 	/* not enough digits */
 	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#:01.2#"));
 	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0:1.2#"));
 	/* wrong delimiters */
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "(0.01.2)"));
 	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0.01.2#"));
 	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0:01:2#"));
 	/* too big, not valid in the test file */
