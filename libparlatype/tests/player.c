@@ -215,9 +215,18 @@ player_timestamps (PtPlayerFixture *fixture,
 	/* valid timestamps */
 	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "#0:01.2#"));
 	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "0:01.2"));
+	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "(0:01.2)"));
+	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "[0:01.2]"));
 	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "#0:01.21#"));
 	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "#0:01#"));
 	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "#00:00:01.2#"));
+
+	/* single/wrong delimiters */
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0:01.2"));
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "0:01.2#"));
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "(0:01.2"));
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "[0:01.2)"));
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "@0:01.2"));
 
 	/* too many digits */
 	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0:001.2#"));
