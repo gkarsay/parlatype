@@ -40,6 +40,9 @@ struct _PtPlayerPrivate
 	GCancellable *c;
 
 	PtWaveloader *wl;
+
+	PtPrecisionType timestamp_precision;
+	gboolean        timestamp_fixed;
 };
 
 enum
@@ -47,6 +50,8 @@ enum
 	PROP_0,
 	PROP_SPEED,
 	PROP_VOLUME,
+	PROP_TIMESTAMP_PRECISION,
+	PROP_TIMESTAMP_FIXED,
 	N_PROPERTIES
 };
 
@@ -1257,7 +1262,7 @@ pt_player_get_timestamp (PtPlayer *player)
 
 	gint64 time;
 	gint   duration;
-	gint   h, m, s, ms, mod;
+	gint   h, m, s, ms, mod, fraction;
 	gchar *timestamp;
 
 	if (!pt_player_query_position (player, &time))
@@ -1273,11 +1278,53 @@ pt_player_get_timestamp (PtPlayer *player)
 	ms = time % 60000;
 	s = ms / 1000;
 	ms = ms % 1000;
+	switch (player->priv->timestamp_precision) {
+	case PT_PRECISION_SECOND:
+		fraction = -1;
+		break;
+	case PT_PRECISION_SECOND_10TH:
+		fraction = ms / 100;
+		break;
+	case PT_PRECISION_SECOND_100TH:
+		fraction = ms / 10;
+		break;
+	default:
+		g_return_val_if_reached (NULL);
+		break;
+	}
 
-	if (duration >= ONE_HOUR) {
-		timestamp = g_strdup_printf ("#%d:%02d:%02d.%d#", h, m, s, ms / 100);
+	if (player->priv->timestamp_fixed) {
+		if (fraction >= 0) {
+			if (player->priv->timestamp_precision == PT_PRECISION_SECOND_10TH) {
+				timestamp = g_strdup_printf ("#%02d:%02d:%02d.%d#", h, m, s, fraction);
+			} else {
+				timestamp = g_strdup_printf ("#%02d:%02d:%02d.%02d#", h, m, s, fraction);
+			}
+		} else {
+			timestamp = g_strdup_printf ("#%02d:%02d:%02d#", h, m, s);
+		}
 	} else {
-		timestamp = g_strdup_printf ("#%d:%02d.%d#", m, s, ms / 100);
+		if (fraction >= 0) {
+			if (duration >= ONE_HOUR) {
+				if (player->priv->timestamp_precision == PT_PRECISION_SECOND_10TH) {
+					timestamp = g_strdup_printf ("#%d:%02d:%02d.%d#", h, m, s, fraction);
+				} else {
+					timestamp = g_strdup_printf ("#%d:%02d:%02d.%02d#", h, m, s, fraction);
+				}
+			} else {
+				if (player->priv->timestamp_precision == PT_PRECISION_SECOND_10TH) {
+					timestamp = g_strdup_printf ("#%d:%02d.%d#", m, s, fraction);
+				} else {
+					timestamp = g_strdup_printf ("#%d:%02d.%02d#", m, s, fraction);
+				}
+			}
+		} else {
+			if (duration >= ONE_HOUR) {
+				timestamp = g_strdup_printf ("#%d:%02d:%02d#", h, m, s);
+			} else {
+				timestamp = g_strdup_printf ("#%d:%02d#", m, s);
+			}
+		}
 	}
 
 	return timestamp;
@@ -1287,12 +1334,15 @@ static gint
 pt_player_get_timestamp_position (PtPlayer *player,
 				  gchar    *timestamp)
 {
-	gint      h, m, s, digit, args, result;
+	gint            h, m, s, ms, args, expected_args, result;
+	PtPrecisionType precision;
 	gchar    *cmp = NULL;
 	gchar   **split = NULL;
 
-	if (!g_regex_match_simple ("^#?[0-9]+:[0-9][0-9]:[0-9][0-9]\\.[0-9]#?$", timestamp, 0, 0)
-		&& !g_regex_match_simple ("^#?[0-9]+:[0-9][0-9]\\.[0-9]#?$", timestamp, 0, 0)) {
+	if (!g_regex_match_simple ("^#?[0-9][0-9]?:[0-9][0-9]:[0-9][0-9]\\.[0-9][0-9]?#?$", timestamp, 0, 0)
+		&& !g_regex_match_simple ("^#?[0-9][0-9]?:[0-9][0-9]\\.[0-9][0-9]?#?$", timestamp, 0, 0)
+		&& !g_regex_match_simple ("^#?[0-9][0-9]?:[0-9][0-9]:[0-9][0-9]#?$", timestamp, 0, 0)
+		&& !g_regex_match_simple ("^#?[0-9][0-9]?:[0-9][0-9]#?$", timestamp, 0, 0)) {
 		return -1;
 	}
 
@@ -1311,22 +1361,74 @@ pt_player_get_timestamp_position (PtPlayer *player,
 		cmp = g_strdup (timestamp);
 	}
 
-	args = sscanf (cmp, "%d:%02d:%02d.%01d", &h, &m, &s, &digit);
+	h = 0;
+	ms = 0;
+	precision = PT_PRECISION_INVALID;
 
-	if (args != 4) {
-		h = 0;
-		args = sscanf (cmp, "%d:%02d.%01d", &m, &s, &digit);
-		if (args != 3) {
-			g_free (cmp);
-			return -1;
+	/* Determine precision */
+	if (g_regex_match_simple (".*\\.[0-9][0-9]$", cmp, 0, 0)) {
+		precision = PT_PRECISION_SECOND_100TH;
+	} else {
+		if (g_regex_match_simple (".*\\.[0-9]$", cmp, 0, 0)) {
+			precision = PT_PRECISION_SECOND_10TH;
+		} else {
+			if (g_regex_match_simple (".*:[0-9][0-9]$", cmp, 0, 0)) {
+				precision = PT_PRECISION_SECOND;
+			}
 		}
 	}
-	g_free (cmp);
 
+	switch (precision) {
+	case PT_PRECISION_SECOND_100TH:
+		if (g_regex_match_simple (":[0-9][0-9]:", cmp, 0, 0)) {
+			/* long time format */
+			args = sscanf (cmp, "%d:%02d:%02d.%02d", &h, &m, &s, &ms);
+			expected_args = 4;
+		} else {
+			/* short time format */
+			args = sscanf (cmp, "%d:%02d.%02d", &m, &s, &ms);
+			expected_args = 3;
+		}
+		ms = ms * 10;
+		break;
+	case PT_PRECISION_SECOND_10TH:
+		if (g_regex_match_simple (":[0-9][0-9]:", cmp, 0, 0)) {
+			/* long time format */
+			args = sscanf (cmp, "%d:%02d:%02d.%01d", &h, &m, &s, &ms);
+			expected_args = 4;
+		} else {
+			/* short time format */
+			args = sscanf (cmp, "%d:%02d.%01d", &m, &s, &ms);
+			expected_args = 3;
+		}
+		ms = ms * 100;
+		break;
+	case PT_PRECISION_SECOND:
+		if (g_regex_match_simple (":[0-9][0-9]:", cmp, 0, 0)) {
+			/* long time format */
+			args = sscanf (cmp, "%d:%02d:%02d", &h, &m, &s);
+			expected_args = 3;
+		} else {
+			/* short time format */
+			args = sscanf (cmp, "%d:%02d", &m, &s);
+			expected_args = 2;
+		}
+		break;
+	default:
+		g_return_val_if_reached (-1);
+		break;
+	}
+
+	g_free (cmp);
+	
+	/* Sanity check */
+	if (args != expected_args)
+		return -1;
+	
 	if (s > 59 || m > 59)
 		return -1;
 
-	result = ((h * 3600 + m * 60 + s) * 10 + digit ) * 100;
+	result = (h * 3600 + m * 60 + s) * 1000 + ms;
 
 	if (GST_MSECOND * (gint64) result > player->priv->dur)
 		return -1;
@@ -1390,6 +1492,8 @@ static void
 pt_player_init (PtPlayer *player)
 {
 	player->priv = pt_player_get_instance_private (player);
+	player->priv->timestamp_precision = PT_PRECISION_SECOND_10TH;
+	player->priv->timestamp_fixed = FALSE;
 }
 
 static gboolean
@@ -1526,6 +1630,12 @@ pt_player_set_property (GObject      *object,
 				                      tmp);
 		player->priv->volume = tmp;
 		break;
+	case PROP_TIMESTAMP_PRECISION:
+		player->priv->timestamp_precision = g_value_get_int (value);
+		break;
+	case PROP_TIMESTAMP_FIXED:
+		player->priv->timestamp_fixed = g_value_get_boolean (value);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -1547,6 +1657,12 @@ pt_player_get_property (GObject    *object,
 		break;
 	case PROP_VOLUME:
 		g_value_set_double (value, player->priv->volume);
+		break;
+	case PROP_TIMESTAMP_PRECISION:
+		g_value_set_int (value, player->priv->timestamp_precision);
+		break;
+	case PROP_TIMESTAMP_FIXED:
+		g_value_set_boolean (value, player->priv->timestamp_fixed);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1644,6 +1760,34 @@ pt_player_class_init (PtPlayerClass *klass)
 			1.0,	/* maximum */
 			1.0,
 			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+
+	/**
+	* PtPlayer:timestamp-precision:
+	*
+	* How precise timestamps should be.
+	*/
+	obj_properties[PROP_TIMESTAMP_PRECISION] =
+	g_param_spec_int (
+			"timestamp-precision",
+			"Precision of timestamps",
+			"Precision of timestamps",
+			0,	/* minimum = PT_PRECISION_SECOND */
+			3,	/* maximum = PT_PRECISION_INVALID */
+			1,
+			G_PARAM_READWRITE);
+
+	/**
+	* PtPlayer:timestamp-fixed:
+	*
+	* Whether timestamp format should have a fixed number of digits.
+	*/
+	obj_properties[PROP_TIMESTAMP_FIXED] =
+	g_param_spec_boolean (
+			"timestamp-fixed",
+			"Timestamps with fixed digits",
+			"Timestamps with fixed digits",
+			FALSE,
+			G_PARAM_READWRITE);
 
 	g_object_class_install_properties (
 			G_OBJECT_CLASS (klass),
