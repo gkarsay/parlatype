@@ -64,17 +64,22 @@ class ParlatypeExample:
         self.player.set_property("pause", pause.get_value() * 1000)
         self.player.set_property("back", back.get_value() * 1000)
         self.player.set_property("forward", forward.get_value() * 1000)
+        self.timer = 0
 
         self.win.show_all()
 
     def open_callback(self, player, result):
         self.progress.destroy()
+        if self.timer > 0:
+            self.viewer.remove_tick_callback(self.timer)
+            self.timer = 0
+            self.viewer.set_wave(None)
         try:
             self.player.open_uri_finish(result)
             # Get data at a resolution of 100 px per second
             data = self.player.get_data(100)
             self.viewer.set_wave(data)
-            self.viewer.add_tick_callback(self.update_cursor)
+            self.timer = self.viewer.add_tick_callback(self.update_cursor)
         except Exception as err:
             error_message(err.args[0], self.win)
 
