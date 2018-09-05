@@ -155,7 +155,6 @@
                 <property name="can_focus">True</property>
                 <property name="hexpand">True</property>
                 <property name="vexpand">True</property>
-                <signal name="cursor-changed" handler="cursor_changed" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>

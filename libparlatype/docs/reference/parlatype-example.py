@@ -133,10 +133,6 @@ class ParlatypeExample:
         # Continue updating
         return True
 
-    def cursor_changed(self, viewer, position):
-        self.player.jump_to_position(position)
-        viewer.set_property("follow-cursor", True)
-
     def show_ruler_toggled(self, button):
         self.viewer.set_property("show-ruler", button.get_active())
 
