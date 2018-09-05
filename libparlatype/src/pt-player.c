@@ -1336,27 +1336,33 @@ pt_player_get_timestamp_position (PtPlayer *player,
 {
 	gint            h, m, s, ms, args, expected_args, result;
 	PtPrecisionType precision;
-	gchar    *cmp = NULL;
-	gchar   **split = NULL;
+	gchar    *cmp;
 
-	if (!g_regex_match_simple ("^#?[0-9][0-9]?:[0-9][0-9]:[0-9][0-9]\\.[0-9][0-9]?#?$", timestamp, 0, 0)
-		&& !g_regex_match_simple ("^#?[0-9][0-9]?:[0-9][0-9]\\.[0-9][0-9]?#?$", timestamp, 0, 0)
-		&& !g_regex_match_simple ("^#?[0-9][0-9]?:[0-9][0-9]:[0-9][0-9]#?$", timestamp, 0, 0)
-		&& !g_regex_match_simple ("^#?[0-9][0-9]?:[0-9][0-9]#?$", timestamp, 0, 0)) {
+	if (!g_regex_match_simple ("^[#|\\(|\\[]?[0-9][0-9]?:[0-9][0-9]:[0-9][0-9]\\.[0-9][0-9]?[#|\\)|\\]]?$", timestamp, 0, 0)
+		&& !g_regex_match_simple ("^[#|\\(|\\[]?[0-9][0-9]?:[0-9][0-9]\\.[0-9][0-9]?[#|\\)|\\]]?$", timestamp, 0, 0)
+		&& !g_regex_match_simple ("^[#|\\(|\\[]?[0-9][0-9]?:[0-9][0-9]:[0-9][0-9][#|\\)|\\]]?$", timestamp, 0, 0)
+		&& !g_regex_match_simple ("^[#|\\(|\\[]?[0-9][0-9]?:[0-9][0-9][#|\\)|\\]]?$", timestamp, 0, 0)) {
 		return -1;
 	}
 
-	if (g_str_has_prefix (timestamp, "#")) {
-		split = g_strsplit (timestamp, "#", -1);
-		if (split[1]) {
-			cmp = g_strdup (split[1]);
-		}
-		if (split) {
-			g_strfreev (split);
-		}
-		if (!cmp) {
+	/* Delimiters must match */
+	if (g_str_has_prefix (timestamp, "#") && !g_str_has_suffix (timestamp, "#"))
+		return -1;
+	if (g_str_has_prefix (timestamp, "(") && !g_str_has_suffix (timestamp, ")"))
+		return -1;
+	if (g_str_has_prefix (timestamp, "[") && !g_str_has_suffix (timestamp, "]"))
+		return -1;
+	if (g_regex_match_simple ("^[0-9]", timestamp, 0, 0)) {
+		if (!g_regex_match_simple ("[0-9]$", timestamp, 0, 0))
 			return -1;
-		}
+	}
+
+	/* Remove delimiters */
+	if (g_str_has_prefix (timestamp, "#")
+			|| g_str_has_prefix (timestamp, "(")
+			|| g_str_has_prefix (timestamp, "[")) {
+		timestamp++;
+		cmp = g_strdup_printf ("%.*s", (int)strlen (timestamp) -1, timestamp);
 	} else {
 		cmp = g_strdup (timestamp);
 	}
