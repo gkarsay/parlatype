@@ -202,18 +202,6 @@ update_time_tick (GtkWidget     *widget,
 }
 
 void
-cursor_changed_cb (GtkWidget *widget,
-		   gint64     pos,
-		   PtWindow  *win)
-{
-	/* triggered only by user */
-
-	pt_player_jump_to_position (win->priv->player, pos);
-	update_time (win);
-	pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
-}
-
-void
 zoom_in_cb (GtkWidget *widget,
 	    PtWindow  *win)
 {
