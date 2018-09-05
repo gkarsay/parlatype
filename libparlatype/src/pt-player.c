@@ -1171,6 +1171,15 @@ pt_player_get_data (PtPlayer *player,
 /* --------------------- Other widgets -------------------------------------- */
 
 static void
+wv_update_cursor (PtPlayer *player)
+{
+	g_object_set (player->priv->wv,
+		      "playback-cursor",
+		      pt_player_get_position (player),
+		      NULL);
+}
+
+static void
 wv_selection_changed_cb (GtkWidget *widget,
 		         PtPlayer  *player)
 {
@@ -1198,6 +1207,18 @@ wv_selection_changed_cb (GtkWidget *widget,
 }
 
 static void
+wv_cursor_changed_cb (PtWaveviewer *wv,
+		      gint64        pos,
+		      PtPlayer     *player)
+{
+	/* user changed cursor position */
+
+	pt_player_jump_to_position (player, pos);
+	wv_update_cursor (player);
+	pt_waveviewer_set_follow_cursor (wv, TRUE);
+}
+
+static void
 wv_play_toggled_cb (GtkWidget *widget,
 		    PtPlayer  *player)
 {
@@ -1220,6 +1241,11 @@ pt_player_connect_waveviewer (PtPlayer *player,
 	g_signal_connect (player->priv->wv,
 			"selection-changed",
 			G_CALLBACK (wv_selection_changed_cb),
+			player);
+
+	g_signal_connect (player->priv->wv,
+			"cursor-changed",
+			G_CALLBACK (wv_cursor_changed_cb),
 			player);
 
 	g_signal_connect (player->priv->wv,
