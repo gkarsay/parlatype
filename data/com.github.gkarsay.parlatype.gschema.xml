@@ -85,5 +85,10 @@
 			<summary>Timestamp delimiter</summary>
 			<description>Timestamp delimiter, only "", "#", "(" and "[" are allowed.</description>
 		</key>
+		<key name="timestamp-fraction-sep" type="s">
+			<default>"."</default>
+			<summary>Timestamp fraction separator</summary>
+			<description>Timestamp fraction separator, only "." and "-" are allowed.</description>
+		</key>
 	</schema>
 </schemalist>

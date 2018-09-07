@@ -856,6 +856,11 @@ setup_settings (PtWindow *win)
 			win->priv->player, "timestamp-delimiter",
 			G_SETTINGS_BIND_GET);
 
+	g_settings_bind (
+			win->priv->editor, "timestamp-fraction-sep",
+			win->priv->player, "timestamp-fraction-sep",
+			G_SETTINGS_BIND_GET);
+
 	/* connect to tooltip changer */
 
 	g_signal_connect (
