@@ -1251,31 +1251,32 @@ pt_player_get_duration_time_string (PtPlayer *player,
 }
 
 /**
- * pt_player_get_timestamp:
+ * pt_player_get_timestamp_for_time:
  * @player: a #PtPlayer
+ * @time: the time in milliseconds
+ * @duration: duration in milliseconds
  *
- * Returns the current timestamp as a string. The format of timestamps can not be changed.
+ * Returns the timestamp for the given time as a string. Duration is needed
+ * for some short time formats, the resulting timestamp format depends on
+ * whether duration is less than one hour or more than (including) an hour
+ * (3600000 milliseconds).
  *
- * If the current position can not be determined, NULL is returned.
+ * The format of the timestamp can be influenced with
+ * #PtPlayer:timestamp-precision, #PtPlayer:timestamp-fixed,
+ * #PtPlayer:timestamp-fraction-sep and #PtPlayer:timestamp-delimiter.
  *
  * Return value: (transfer full): the timestamp
  */
 gchar*
-pt_player_get_timestamp (PtPlayer *player)
+pt_player_get_timestamp_for_time (PtPlayer *player,
+                                  gint      time,
+                                  gint      duration)
 {
 	g_return_val_if_fail (PT_IS_PLAYER (player), NULL);
 
-	gint64 time;
-	gint   duration;
 	gint   h, m, s, ms, mod, fraction;
-	gchar *timestamp;
+	gchar *timestamp = NULL;
 
-	if (!pt_player_query_position (player, &time))
-		return NULL;
-
-	timestamp = NULL;
-	time = GST_TIME_AS_MSECONDS (time);
-	duration = GST_TIME_AS_MSECONDS (player->priv->dur);
 	/* This is the same code as in pt_player_get_timestring() */
 	h = time / 3600000;
 	mod = time % 3600000;
@@ -1335,9 +1336,50 @@ pt_player_get_timestamp (PtPlayer *player)
 	return timestamp;
 }
 
-static gint
+/**
+ * pt_player_get_timestamp:
+ * @player: a #PtPlayer
+ *
+ * Returns the current timestamp as a string. The format of the timestamp can
+ * be influenced with #PtPlayer:timestamp-precision, #PtPlayer:timestamp-fixed,
+ * #PtPlayer:timestamp-fraction-sep and #PtPlayer:timestamp-delimiter.
+ *
+ * If the current position can not be determined, NULL is returned.
+ *
+ * Return value: (transfer full): the timestamp
+ */
+gchar*
+pt_player_get_timestamp (PtPlayer *player)
+{
+	g_return_val_if_fail (PT_IS_PLAYER (player), NULL);
+
+	gint64 time;
+	gint   duration;
+
+	if (!pt_player_query_position (player, &time))
+		return NULL;
+
+	duration = GST_TIME_AS_MSECONDS (player->priv->dur);
+
+	return pt_player_get_timestamp_for_time (player, GST_TIME_AS_MSECONDS (time), duration);
+}
+
+/**
+ * pt_player_get_timestamp_position:
+ * @player: a #PtPlayer
+ * @timestamp: the timestamp
+ * @check_duration: checking the timestamp's validity also check duration
+ *
+ * Returns the time in milliseconds represented by the timestamp or -1 for
+ * invalid timestamps.
+ *
+ * Return value: the time in milliseconds represented by the timestamp or -1
+ * for invalid timestamps
+ */
+gint
 pt_player_get_timestamp_position (PtPlayer *player,
-				  gchar    *timestamp)
+				  gchar    *timestamp,
+				  gboolean  check_duration)
 {
 	gint            h, m, s, ms, args, expected_args, result;
 	PtPrecisionType precision;
@@ -1448,8 +1490,11 @@ pt_player_get_timestamp_position (PtPlayer *player,
 
 	result = (h * 3600 + m * 60 + s) * 1000 + ms;
 
-	if (GST_MSECOND * (gint64) result > player->priv->dur)
-		return -1;
+	if (check_duration) {
+		if (GST_MSECOND * (gint64) result > player->priv->dur) {
+			return -1;
+		}
+	}
 
 	return result;
 }
@@ -1458,8 +1503,11 @@ pt_player_get_timestamp_position (PtPlayer *player,
  * pt_player_string_is_timestamp:
  * @player: a #PtPlayer
  * @timestamp: the string to be checked
+ * @check_duration: whether timestamp's time is less or equal stream's duration
  *
- * Returns whether the given string is a valid timestamp.
+ * Returns whether the given string is a valid timestamp. With @check_duration
+ * FALSE it checks only for the formal validity of the timestamp. With
+ * @check_duration TRUE the timestamp must be within the duration to be valid.
  *
  * See also pt_player_goto_timestamp() if you want to go to the timestamp's
  * position immediately after.
@@ -1468,12 +1516,13 @@ pt_player_get_timestamp_position (PtPlayer *player,
  */
 gboolean
 pt_player_string_is_timestamp (PtPlayer *player,
-			       gchar    *timestamp)
+			       gchar    *timestamp,
+			       gboolean  check_duration)
 {
 	g_return_val_if_fail (PT_IS_PLAYER (player), FALSE);
 	g_return_val_if_fail (timestamp != NULL, FALSE);
 
-	return (pt_player_get_timestamp_position (player, timestamp) != -1);
+	return (pt_player_get_timestamp_position (player, timestamp, check_duration) != -1);
 }
 
 /**
@@ -1495,7 +1544,7 @@ pt_player_goto_timestamp (PtPlayer *player,
 
 	gint pos;
 
-	pos = pt_player_get_timestamp_position (player, timestamp);
+	pos = pt_player_get_timestamp_position (player, timestamp, TRUE);
 
 	if (pos == -1)
 		return FALSE;

@@ -114,9 +114,16 @@ gchar*		pt_player_get_current_time_string	(PtPlayer *player,
 							 PtPrecisionType precision);
 gchar*		pt_player_get_duration_time_string	(PtPlayer *player,
 							 PtPrecisionType precision);
+gchar*		pt_player_get_timestamp_for_time	(PtPlayer *player,
+			                                 gint      time,
+			                                 gint      duration);
 gchar*		pt_player_get_timestamp		(PtPlayer *player);
+gint		pt_player_get_timestamp_position	(PtPlayer *player,
+							 gchar    *timestamp,
+							 gboolean  check_duration);
 gboolean	pt_player_string_is_timestamp	(PtPlayer *player,
-						 gchar    *timestamp);
+						 gchar    *timestamp,
+						 gboolean  check_duration);
 gboolean	pt_player_goto_timestamp	(PtPlayer *player,
 						 gchar    *timestamp);
 
