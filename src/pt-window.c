@@ -356,7 +356,7 @@ update_insert_action_sensitivity_cb (GtkClipboard *clip,
 
 	if (text) {
 		timestamp = g_strdup (text);
-		result = pt_player_string_is_timestamp (player, timestamp);
+		result = pt_player_string_is_timestamp (player, timestamp, TRUE);
 		g_free (timestamp);
 	}
 
