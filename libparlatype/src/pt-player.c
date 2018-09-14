@@ -1706,7 +1706,7 @@ pt_player_set_property (GObject      *object,
 		break;
 	case PROP_TIMESTAMP_DELIMITER:
 		tmpchar = g_value_get_string (value);
-		if (g_strcmp0 (tmpchar, "") == 0) {
+		if (g_strcmp0 (tmpchar, "None") == 0) {
 			player->priv->timestamp_left = player->priv->timestamp_right = "";
 			break;
 		}
@@ -1892,11 +1892,10 @@ pt_player_class_init (PtPlayerClass *klass)
 	/**
 	* PtPlayer:timestamp-delimiter:
 	*
-	* Character to delimit start and end of timestamp. Only 4 characters
-	* are allowed: nothing "", hashtag "#", left bracket "(" and left
-	* square bracket "[". PtPlayer will of course end with a right (square)
-	* bracket if those are chosen. Any other character is changed to a
-	* hashtag "#".
+	* Character to delimit start and end of timestamp. Allowed values are
+	* "None", hashtag "#", left bracket "(" and left square bracket "[".
+	* PtPlayer will of course end with a right (square) bracket if those
+	* are chosen. Any other character is changed to a hashtag "#".
 	*/
 	obj_properties[PROP_TIMESTAMP_DELIMITER] =
 	g_param_spec_string (

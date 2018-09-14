@@ -83,7 +83,7 @@
 		<key name="timestamp-delimiter" type="s">
 			<default>"#"</default>
 			<summary>Timestamp delimiter</summary>
-			<description>Timestamp delimiter, only "", "#", "(" and "[" are allowed.</description>
+			<description>Timestamp delimiter, only "None", "#", "(" and "[" are allowed.</description>
 		</key>
 		<key name="timestamp-fraction-sep" type="s">
 			<default>"."</default>
