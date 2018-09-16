@@ -24,176 +24,176 @@ import msgbox
 
 
 def _showMessage(message):
-	myBox = msgbox.MsgBox(XSCRIPTCONTEXT.getComponentContext())
-	myBox.addButton("OK")
-	myBox.renderFromButtonSize()
-	myBox.numberOflines = 2
-	myBox.show(message, 0, "Parlatype for LibreOffice")
+    myBox = msgbox.MsgBox(XSCRIPTCONTEXT.getComponentContext())
+    myBox.addButton("OK")
+    myBox.renderFromButtonSize()
+    myBox.numberOflines = 2
+    myBox.show(message, 0, "Parlatype for LibreOffice")
 
 
 def _getDBUSService():
-	try:
-		obj = dbus.SessionBus().get_object(
-			"com.github.gkarsay.parlatype",
-			"/com/github/gkarsay/parlatype")
-	except Exception:
-		# this seems to succeed always, exception never triggered
-		return None
-	return dbus.Interface(obj, "com.github.gkarsay.parlatype")
+    try:
+        obj = dbus.SessionBus().get_object(
+            "com.github.gkarsay.parlatype",
+            "/com/github/gkarsay/parlatype")
+    except Exception:
+        # this seems to succeed always, exception never triggered
+        return None
+    return dbus.Interface(obj, "com.github.gkarsay.parlatype")
 
 
 def _getTextRange():
-	doc = XSCRIPTCONTEXT.getDocument()
+    doc = XSCRIPTCONTEXT.getDocument()
 
-	# the writer controller impl supports
-	# the css.view.XSelectionSupplier interface
-	xSelectionSupplier = doc.getCurrentController()
+    # the writer controller impl supports
+    # the css.view.XSelectionSupplier interface
+    xSelectionSupplier = doc.getCurrentController()
 
-	xIndexAccess = xSelectionSupplier.getSelection()
-	count = xIndexAccess.getCount()
+    xIndexAccess = xSelectionSupplier.getSelection()
+    count = xIndexAccess.getCount()
 
-	# don't mess around with multiple selections
-	if (count != 1):
-		return None
+    # don't mess around with multiple selections
+    if (count != 1):
+        return None
 
-	textrange = xIndexAccess.getByIndex(0)
+    textrange = xIndexAccess.getByIndex(0)
 
-	# don't mess around with selections, just plain cursor
-	if (len(textrange.getString()) == 0):
-		return textrange
-	else:
-		return None
+    # don't mess around with selections, just plain cursor
+    if (len(textrange.getString()) == 0):
+        return textrange
+    else:
+        return None
 
 
 def InsertTimestamp():
-	textrange = _getTextRange()
-	if (textrange is None):
-		return
+    textrange = _getTextRange()
+    if (textrange is None):
+        return
 
-	service = _getDBUSService()
+    service = _getDBUSService()
 
-	try:
-		textrange.setString(service.GetTimestamp())
-	except Exception:
-		pass
+    try:
+        textrange.setString(service.GetTimestamp())
+    except Exception:
+        pass
 
 
 def InsertTimestampOnNewLine():
-	textrange = _getTextRange()
-	if (textrange is None):
-		return
+    textrange = _getTextRange()
+    if (textrange is None):
+        return
 
-	service = _getDBUSService()
+    service = _getDBUSService()
 
-	try:
-		textrange.setString("\n" + service.GetTimestamp() + " ")
-	except Exception:
-		pass
+    try:
+        textrange.setString("\n" + service.GetTimestamp() + " ")
+    except Exception:
+        pass
 
 
 def _isValidCharacter(char):
-	if (char.isdigit() or char == ":" or char == "." or char == "-"):
-		return True
-	return False
+    if (char.isdigit() or char == ":" or char == "." or char == "-"):
+        return True
+    return False
 
 
 def _extractTimestamp():
-	textrange = _getTextRange()
-	if (textrange is None):
-		return None
+    textrange = _getTextRange()
+    if (textrange is None):
+        return None
 
-	xText = textrange.getText()
-	cursor = xText.createTextCursorByRange(textrange)
+    xText = textrange.getText()
+    cursor = xText.createTextCursorByRange(textrange)
 
-	# select first char on the left, no success if at start of document
-	success = cursor.goLeft(1, True)
+    # select first char on the left, no success if at start of document
+    success = cursor.goLeft(1, True)
 
-	if (success):
-		i = 0
-		while (_isValidCharacter(cursor.getString()[0]) and i < 15):
-			success = cursor.goLeft(1, True)
-			i += 1
-		if (success):
-			cursor.goRight(1, True)
-		cursor.collapseToStart()
+    if (success):
+        i = 0
+        while (_isValidCharacter(cursor.getString()[0]) and i < 15):
+            success = cursor.goLeft(1, True)
+            i += 1
+        if (success):
+            cursor.goRight(1, True)
+        cursor.collapseToStart()
 
-	cursor.goRight(2, True)
+    cursor.goRight(2, True)
 
-	i = 0
-	while (_isValidCharacter(cursor.getString()[-1:]) and i < 15):
-		success = cursor.goRight(1, True)
-		i += 1
-	if (success):
-		cursor.goLeft(1, True)
+    i = 0
+    while (_isValidCharacter(cursor.getString()[-1:]) and i < 15):
+        success = cursor.goRight(1, True)
+        i += 1
+    if (success):
+        cursor.goLeft(1, True)
 
-	return cursor.getString()
+    return cursor.getString()
 
 
 def GotoTimestamp():
-	timestamp = _extractTimestamp()
-	if (timestamp is None):
-		return
+    timestamp = _extractTimestamp()
+    if (timestamp is None):
+        return
 
-	service = _getDBUSService()
+    service = _getDBUSService()
 
-	try:
-		service.GotoTimestamp(timestamp)
-	except Exception:
-		pass
+    try:
+        service.GotoTimestamp(timestamp)
+    except Exception:
+        pass
 
 
 def PlayPause():
-	service = _getDBUSService()
+    service = _getDBUSService()
 
-	try:
-		service.PlayPause()
-	except Exception:
-		pass
+    try:
+        service.PlayPause()
+    except Exception:
+        pass
 
 
 def JumpBack():
-	service = _getDBUSService()
+    service = _getDBUSService()
 
-	try:
-		service.JumpBack()
-	except Exception:
-		pass
+    try:
+        service.JumpBack()
+    except Exception:
+        pass
 
 
 def JumpForward():
-	service = _getDBUSService()
+    service = _getDBUSService()
 
-	try:
-		service.JumpForward()
-	except Exception:
-		pass
+    try:
+        service.JumpForward()
+    except Exception:
+        pass
 
 
 def IncreaseSpeed():
-	service = _getDBUSService()
+    service = _getDBUSService()
 
-	try:
-		service.IncreaseSpeed()
-	except Exception:
-		pass
+    try:
+        service.IncreaseSpeed()
+    except Exception:
+        pass
 
 
 def DecreaseSpeed():
-	service = _getDBUSService()
+    service = _getDBUSService()
 
-	try:
-		service.DecreaseSpeed()
-	except Exception:
-		pass
+    try:
+        service.DecreaseSpeed()
+    except Exception:
+        pass
 
 
 # Lists the scripts, that shall be visible inside LibreOffice.
 g_exportedScripts = \
-	InsertTimestamp,\
-	InsertTimestampOnNewLine,\
-	GotoTimestamp,\
-	PlayPause,\
-	JumpBack,\
-	JumpForward,\
-	IncreaseSpeed,\
-	DecreaseSpeed,
+    InsertTimestamp,\
+    InsertTimestampOnNewLine,\
+    GotoTimestamp,\
+    PlayPause,\
+    JumpBack,\
+    JumpForward,\
+    IncreaseSpeed,\
+    DecreaseSpeed,
