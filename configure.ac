@@ -36,7 +36,7 @@ AC_CHECK_FUNCS([atexit setlocale])
 
 GLIB_GSETTINGS                 
 APPSTREAM_XML
-AC_PATH_PROG(GLIB_COMPILE_RESOURCES, glib-compile-resources)
+AC_PATH_PROG([GLIB_COMPILE_RESOURCES], [glib-compile-resources])
 AC_PATH_PROG([DESKTOP_FILE_VALIDATE], [desktop-file-validate], [/bin/true])
 AC_PATH_PROG([APPDATA_VALIDATE], [appstream-util], [/bin/true])
 

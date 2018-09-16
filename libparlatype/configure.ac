@@ -42,7 +42,7 @@ AC_CHECK_FUNCS([atexit])
 AC_SEARCH_LIBS([ceil], [m])
 
 GLIB_GSETTINGS                 
-AC_PATH_PROG(GLIB_COMPILE_RESOURCES, glib-compile-resources)
+AC_PATH_PROG([GLIB_COMPILE_RESOURCES], [glib-compile-resources])
 
 GTK_MIN_VERSION=3.16.0
 GST_MIN_VERSION=1.6.3
