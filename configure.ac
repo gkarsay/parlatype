@@ -1,6 +1,10 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
+AX_REQUIRE_DEFINED([APPSTREAM_XML])
+AX_REQUIRE_DEFINED([GLIB_GSETTINGS])
+AX_REQUIRE_DEFINED([YELP_HELP_INIT])
+
 AC_PREREQ([2.69])
 AC_INIT([parlatype], [1.5.6], [https://github.com/gkarsay/parlatype/issues], [parlatype], [https://gkarsay.github.io/parlatype/])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign -Wno-portability])
