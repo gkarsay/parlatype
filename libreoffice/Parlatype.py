@@ -3,7 +3,7 @@
 Parlatype.py is part of Parlatype.
 Version: 1.5.6
 
-Copyright (C) Gabor Karsay 2016 <gabor.karsay@gmx.at>
+Copyright (C) Gabor Karsay 2016-2018 <gabor.karsay@gmx.at>
 
 This program is free software: you can redistribute it and/or
 modify it under the terms of the GNU General Public License as published
@@ -20,6 +20,15 @@ with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
 import dbus
+import msgbox
+
+
+def _showMessage(message):
+	myBox = msgbox.MsgBox(XSCRIPTCONTEXT.getComponentContext())
+	myBox.addButton("OK")
+	myBox.renderFromButtonSize()
+	myBox.numberOflines = 2
+	myBox.show(message, 0, "Parlatype for LibreOffice")
 
 
 def _getDBUSService():
@@ -28,6 +37,7 @@ def _getDBUSService():
 			"com.github.gkarsay.parlatype",
 			"/com/github/gkarsay/parlatype")
 	except Exception:
+		# this seems to succeed always, exception never triggered
 		return None
 	return dbus.Interface(obj, "com.github.gkarsay.parlatype")
 
@@ -42,7 +52,7 @@ def _getTextRange():
 	xIndexAccess = xSelectionSupplier.getSelection()
 	count = xIndexAccess.getCount()
 
-	# don't mess arount with multiple selections
+	# don't mess around with multiple selections
 	if (count != 1):
 		return None
 
@@ -61,10 +71,11 @@ def InsertTimestamp():
 		return
 
 	service = _getDBUSService()
-	if (service is None):
-		return
 
-	textrange.setString(service.GetTimestamp())
+	try:
+		textrange.setString(service.GetTimestamp())
+	except Exception:
+		pass
 
 
 def InsertTimestampOnNewLine():
@@ -73,10 +84,17 @@ def InsertTimestampOnNewLine():
 		return
 
 	service = _getDBUSService()
-	if (service is None):
-		return
 
-	textrange.setString("\n" + service.GetTimestamp() + " ")
+	try:
+		textrange.setString("\n" + service.GetTimestamp() + " ")
+	except Exception:
+		pass
+
+
+def _isValidCharacter(char):
+	if (char.isdigit() or char == ":" or char == "." or char == "-"):
+		return True
+	return False
 
 
 def _extractTimestamp():
@@ -87,34 +105,26 @@ def _extractTimestamp():
 	xText = textrange.getText()
 	cursor = xText.createTextCursorByRange(textrange)
 
-	# select first char on the left
-	cursor.goLeft(1, True)
+	# select first char on the left, no success if at start of document
+	success = cursor.goLeft(1, True)
 
-	# we are at beginning of doc
-	if (cursor.getString() == ""):
-		return None
-
-	i = 0
-	while (cursor.getString()[0] != "#" and i < 15):
-		cursor.goLeft(1, True)
-		i += 1
-
-	# left limit not found
-	if (cursor.getString()[0] != "#"):
-		return None
-
-	cursor.collapseToStart()
+	if (success):
+		i = 0
+		while (_isValidCharacter(cursor.getString()[0]) and i < 15):
+			success = cursor.goLeft(1, True)
+			i += 1
+		if (success):
+			cursor.goRight(1, True)
+		cursor.collapseToStart()
 
 	cursor.goRight(2, True)
 
 	i = 0
-	while (cursor.getString()[-1:] != "#" and i < 15):
-		cursor.goRight(1, True)
+	while (_isValidCharacter(cursor.getString()[-1:]) and i < 15):
+		success = cursor.goRight(1, True)
 		i += 1
-
-	# right limit not found
-	if (cursor.getString()[-1:] != "#"):
-		return None
+	if (success):
+		cursor.goLeft(1, True)
 
 	return cursor.getString()
 
@@ -125,54 +135,59 @@ def GotoTimestamp():
 		return
 
 	service = _getDBUSService()
-	if (service is None):
-		return
 
-	service.GotoTimestamp(timestamp)
+	try:
+		service.GotoTimestamp(timestamp)
+	except Exception:
+		pass
 
 
 def PlayPause():
 	service = _getDBUSService()
-	if (service is None):
-		return
 
-	service.PlayPause()
+	try:
+		service.PlayPause()
+	except Exception:
+		pass
 
 
 def JumpBack():
 	service = _getDBUSService()
-	if (service is None):
-		return
 
-	service.JumpBack()
+	try:
+		service.JumpBack()
+	except Exception:
+		pass
 
 
 def JumpForward():
 	service = _getDBUSService()
-	if (service is None):
-		return
 
-	service.JumpForward()
+	try:
+		service.JumpForward()
+	except Exception:
+		pass
 
 
 def IncreaseSpeed():
 	service = _getDBUSService()
-	if (service is None):
-		return
 
-	service.IncreaseSpeed()
+	try:
+		service.IncreaseSpeed()
+	except Exception:
+		pass
 
 
 def DecreaseSpeed():
 	service = _getDBUSService()
-	if (service is None):
-		return
 
-	service.DecreaseSpeed()
+	try:
+		service.DecreaseSpeed()
+	except Exception:
+		pass
 
 
-# Lists the scripts, that shall be visible inside OOo.
-# Can be omited, if all functions shall be visible.
+# Lists the scripts, that shall be visible inside LibreOffice.
 g_exportedScripts = \
 	InsertTimestamp,\
 	InsertTimestampOnNewLine,\
