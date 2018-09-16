@@ -252,6 +252,8 @@ player_timestamps (PtPlayerFixture *fixture,
 	/* too big, not valid in the test file */
 	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#01:00.0#", TRUE));
 
+	g_assert_cmpint (60200, ==, pt_player_get_timestamp_position (fixture->testplayer, "00:01:00-2", FALSE));
+
 	pt_player_jump_to_position (fixture->testplayer, 1000);
 	
 	timestamp = pt_player_get_timestamp (fixture->testplayer);
