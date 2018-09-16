@@ -16,7 +16,6 @@
 
 
 #include "config.h"
-#include <stdio.h>	/* sscanf */
 #include <gio/gio.h>
 #define GETTEXT_PACKAGE PACKAGE
 #include <glib/gi18n-lib.h>
@@ -1381,11 +1380,14 @@ pt_player_get_timestamp_position (PtPlayer *player,
 				  gchar    *timestamp,
 				  gboolean  check_duration)
 {
-	gint            h, m, s, ms, args, expected_args, result;
-	PtPrecisionType precision;
-	gchar    *cmp;
-	gchar    *sep = NULL;
+	gint       h, m, s, ms, result;
+	gchar     *cmp; /* timestamp without delimiters */
+	gboolean   long_format;
+	gboolean   fraction;
+	gchar    **split = NULL;
+	guint      n_split;
 
+	/* Check for formal validity */
 	if (!g_regex_match_simple ("^[#|\\(|\\[]?[0-9][0-9]?:[0-9][0-9]:[0-9][0-9][\\.|\\-][0-9][0-9]?[#|\\)|\\]]?$", timestamp, 0, 0)
 		&& !g_regex_match_simple ("^[#|\\(|\\[]?[0-9][0-9]?:[0-9][0-9][\\.|\\-][0-9][0-9]?[#|\\)|\\]]?$", timestamp, 0, 0)
 		&& !g_regex_match_simple ("^[#|\\(|\\[]?[0-9][0-9]?:[0-9][0-9]:[0-9][0-9][#|\\)|\\]]?$", timestamp, 0, 0)
@@ -1415,76 +1417,53 @@ pt_player_get_timestamp_position (PtPlayer *player,
 		cmp = g_strdup (timestamp);
 	}
 
+	/* Determine format and split timestamp into h, m, s, ms */
 	h = 0;
 	ms = 0;
-	precision = PT_PRECISION_INVALID;
 
-	/* Determine precision */
-	if (g_regex_match_simple (".*[\\.|\\-][0-9][0-9]$", cmp, 0, 0)) {
-		precision = PT_PRECISION_SECOND_100TH;
-	} else {
-		if (g_regex_match_simple (".*[\\.|\\-][0-9]$", cmp, 0, 0)) {
-			precision = PT_PRECISION_SECOND_10TH;
-		} else {
-			if (g_regex_match_simple (".*:[0-9][0-9]$", cmp, 0, 0)) {
-				precision = PT_PRECISION_SECOND;
-			}
-		}
-	}
-
-	switch (precision) {
-	case PT_PRECISION_SECOND_100TH:
-		if (g_regex_match_simple (":[0-9][0-9]:", cmp, 0, 0)) {
-			/* long time format */
-			args = sscanf (cmp, "%d:%02d:%02d%s%02d", &h, &m, &s, sep, &ms);
-			expected_args = 3;
-		} else {
-			/* short time format */
-			args = sscanf (cmp, "%d:%02d%s%02d", &m, &s, sep, &ms);
-			expected_args = 2;
-		}
-		ms = ms * 10;
-		break;
-	case PT_PRECISION_SECOND_10TH:
-		if (g_regex_match_simple (":[0-9][0-9]:", cmp, 0, 0)) {
-			/* long time format */
-			args = sscanf (cmp, "%d:%02d:%02d%s%01d", &h, &m, &s, sep, &ms);
-			expected_args = 3;
-		} else {
-			/* short time format */
-			args = sscanf (cmp, "%d:%02d%s%01d", &m, &s, sep, &ms);
-			expected_args = 2;
-		}
-		ms = ms * 100;
-		break;
-	case PT_PRECISION_SECOND:
-		if (g_regex_match_simple (":[0-9][0-9]:", cmp, 0, 0)) {
-			/* long time format */
-			args = sscanf (cmp, "%d:%02d:%02d", &h, &m, &s);
-			expected_args = 3;
-		} else {
-			/* short time format */
-			args = sscanf (cmp, "%d:%02d", &m, &s);
-			expected_args = 2;
-		}
-		break;
-	default:
-		g_return_val_if_reached (-1);
-		break;
-	}
-
+	long_format = g_regex_match_simple (":[0-9][0-9]:", cmp, 0, 0);
+	fraction = !g_regex_match_simple (".*:[0-9][0-9]$", cmp, 0, 0);
+	split = g_regex_split_simple ("[:|\\.|\\-]", cmp, 0, 0);
 	g_free (cmp);
-	
-	/* Sanity check */
-	if (args != expected_args)
+	if (!split)
 		return -1;
 
-	if (sep) {
-		if (g_strcmp0 (sep, ".") != 0 && g_strcmp0 (sep, "-") != 0) {
-			return -1;
+	n_split = 2;
+	if (long_format)
+		n_split += 1;
+	if (fraction)
+		n_split += 1;
+	if (n_split != g_strv_length (split)) {
+		g_strfreev (split);
+		return -1;
+	}
+
+	if (long_format) {
+		h = (int)g_ascii_strtoull (split[0], NULL, 10);
+		m = (int)g_ascii_strtoull (split[1], NULL, 10);
+		s = (int)g_ascii_strtoull (split[2], NULL, 10);
+		if (fraction) {
+			ms = (int)g_ascii_strtoull (split[3], NULL, 10);
+			if (strlen (split[3]) == 1)
+				ms = ms * 100;
+			else
+				ms = ms * 10;
+		}
+	} else {
+		m = (int)g_ascii_strtoull (split[0], NULL, 10);
+		s = (int)g_ascii_strtoull (split[1], NULL, 10);
+		if (fraction) {
+			ms = (int)g_ascii_strtoull (split[2], NULL, 10);
+			if (strlen (split[2]) == 1)
+				ms = ms * 100;
+			else
+				ms = ms * 10;
 		}
 	}
 
+	g_strfreev (split);
+	
+	/* Sanity check */
 	if (s > 59 || m > 59)
 		return -1;
 
