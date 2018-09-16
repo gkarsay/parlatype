@@ -1,4 +1,4 @@
-/* Copyright (C) Gabor Karsay 2017 <gabor.karsay@gmx.at>
+/* Copyright (C) Gabor Karsay 2017-2018 <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -213,28 +213,53 @@ player_timestamps (PtPlayerFixture *fixture,
 	gboolean  valid;
 	
 	/* valid timestamps */
-	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "#0:01.2#"));
-	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "0:01.2"));
+	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "#0:01.2#", FALSE));
+	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "0:01.2", FALSE));
+	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "(0:01.2)", FALSE));
+	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "[0:01.2]", FALSE));
+	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "#0:01.21#", FALSE));
+	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "#0:01#", FALSE));
+	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "#00:00:01.2#", FALSE));
+
+	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "#0:01-2#", FALSE));
+	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "0:01-2", FALSE));
+	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "(0:01-2)", FALSE));
+	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "[0:01-2]", FALSE));
+	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "#0:01-21#", FALSE));
+	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "#00:00:01-2#", FALSE));
+
+	/* single/wrong delimiters */
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0:01.2", FALSE));
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "0:01.2#", FALSE));
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "(0:01.2", FALSE));
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "[0:01.2)", FALSE));
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "@0:01.2", FALSE));
+
 	/* too many digits */
-	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0:01.20#"));
-	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0:001.2#"));
-	/* sec >= 60 */
-	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0:71.2#"));
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0:001.2#", FALSE));
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0:01.200#", FALSE));
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#000:01.2#", FALSE));
+	/* sec >= 60, min >= 60 */
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0:60.2#", FALSE));
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0:71.2#", FALSE));
 	/* not enough digits */
-	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#:01.2#"));
-	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0:1.2#"));
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#:01.2#", FALSE));
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0:1.2#", FALSE));
 	/* wrong delimiters */
-	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0.01.2#"));
-	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0:01:2#"));
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "(0.01.2)", FALSE));
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0.01.2#", FALSE));
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0:01:2#", FALSE));
 	/* too big, not valid in the test file */
-	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#01:00.0#"));
+	g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#01:00.0#", TRUE));
+
+	g_assert_cmpint (60200, ==, pt_player_get_timestamp_position (fixture->testplayer, "00:01:00-2", FALSE));
 
 	pt_player_jump_to_position (fixture->testplayer, 1000);
 	
 	timestamp = pt_player_get_timestamp (fixture->testplayer);
 	g_assert_nonnull (timestamp);
 
-	valid = pt_player_string_is_timestamp (fixture->testplayer, timestamp);
+	valid = pt_player_string_is_timestamp (fixture->testplayer, timestamp, TRUE);
 	g_assert_true (valid);
 
 	pt_player_jump_to_position (fixture->testplayer, 0);

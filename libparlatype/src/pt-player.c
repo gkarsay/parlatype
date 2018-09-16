@@ -16,7 +16,6 @@
 
 
 #include "config.h"
-#include <stdio.h>	/* sscanf */
 #include <gio/gio.h>
 #define GETTEXT_PACKAGE PACKAGE
 #include <glib/gi18n-lib.h>
@@ -40,6 +39,12 @@ struct _PtPlayerPrivate
 	GCancellable *c;
 
 	PtWaveloader *wl;
+
+	PtPrecisionType timestamp_precision;
+	gboolean        timestamp_fixed;
+	gchar          *timestamp_left;
+	gchar          *timestamp_right;
+	gchar          *timestamp_sep;
 };
 
 enum
@@ -47,6 +52,10 @@ enum
 	PROP_0,
 	PROP_SPEED,
 	PROP_VOLUME,
+	PROP_TIMESTAMP_PRECISION,
+	PROP_TIMESTAMP_FIXED,
+	PROP_TIMESTAMP_DELIMITER,
+	PROP_TIMESTAMP_FRACTION_SEP,
 	N_PROPERTIES
 };
 
@@ -1241,10 +1250,98 @@ pt_player_get_duration_time_string (PtPlayer *player,
 }
 
 /**
+ * pt_player_get_timestamp_for_time:
+ * @player: a #PtPlayer
+ * @time: the time in milliseconds
+ * @duration: duration in milliseconds
+ *
+ * Returns the timestamp for the given time as a string. Duration is needed
+ * for some short time formats, the resulting timestamp format depends on
+ * whether duration is less than one hour or more than (including) an hour
+ * (3600000 milliseconds).
+ *
+ * The format of the timestamp can be influenced with
+ * #PtPlayer:timestamp-precision, #PtPlayer:timestamp-fixed,
+ * #PtPlayer:timestamp-fraction-sep and #PtPlayer:timestamp-delimiter.
+ *
+ * Return value: (transfer full): the timestamp
+ */
+gchar*
+pt_player_get_timestamp_for_time (PtPlayer *player,
+                                  gint      time,
+                                  gint      duration)
+{
+	g_return_val_if_fail (PT_IS_PLAYER (player), NULL);
+
+	gint   h, m, s, ms, mod, fraction;
+	gchar *timestamp = NULL;
+
+	/* This is the same code as in pt_player_get_timestring() */
+	h = time / 3600000;
+	mod = time % 3600000;
+	m = mod / 60000;
+	ms = time % 60000;
+	s = ms / 1000;
+	ms = ms % 1000;
+	switch (player->priv->timestamp_precision) {
+	case PT_PRECISION_SECOND:
+		fraction = -1;
+		break;
+	case PT_PRECISION_SECOND_10TH:
+		fraction = ms / 100;
+		break;
+	case PT_PRECISION_SECOND_100TH:
+		fraction = ms / 10;
+		break;
+	default:
+		g_return_val_if_reached (NULL);
+		break;
+	}
+
+	if (player->priv->timestamp_fixed) {
+		if (fraction >= 0) {
+			if (player->priv->timestamp_precision == PT_PRECISION_SECOND_10TH) {
+				timestamp = g_strdup_printf ("%s%02d:%02d:%02d%s%d%s", player->priv->timestamp_left, h, m, s, player->priv->timestamp_sep, fraction, player->priv->timestamp_right);
+			} else {
+				timestamp = g_strdup_printf ("%s%02d:%02d:%02d%s%02d%s", player->priv->timestamp_left, h, m, s, player->priv->timestamp_sep, fraction, player->priv->timestamp_right);
+			}
+		} else {
+			timestamp = g_strdup_printf ("%s%02d:%02d:%02d%s", player->priv->timestamp_left, h, m, s, player->priv->timestamp_right);
+		}
+	} else {
+		if (fraction >= 0) {
+			if (duration >= ONE_HOUR) {
+				if (player->priv->timestamp_precision == PT_PRECISION_SECOND_10TH) {
+					timestamp = g_strdup_printf ("%s%d:%02d:%02d%s%d%s", player->priv->timestamp_left, h, m, s, player->priv->timestamp_sep, fraction, player->priv->timestamp_right);
+				} else {
+					timestamp = g_strdup_printf ("%s%d:%02d:%02d%s%02d%s", player->priv->timestamp_left, h, m, s, player->priv->timestamp_sep, fraction, player->priv->timestamp_right);
+				}
+			} else {
+				if (player->priv->timestamp_precision == PT_PRECISION_SECOND_10TH) {
+					timestamp = g_strdup_printf ("%s%d:%02d%s%d%s", player->priv->timestamp_left, m, s, player->priv->timestamp_sep, fraction, player->priv->timestamp_right);
+				} else {
+					timestamp = g_strdup_printf ("%s%d:%02d%s%02d%s", player->priv->timestamp_left, m, s, player->priv->timestamp_sep, fraction, player->priv->timestamp_right);
+				}
+			}
+		} else {
+			if (duration >= ONE_HOUR) {
+				timestamp = g_strdup_printf ("%s%d:%02d:%02d%s", player->priv->timestamp_left, h, m, s, player->priv->timestamp_right);
+			} else {
+				timestamp = g_strdup_printf ("%s%d:%02d%s", player->priv->timestamp_left, m, s, player->priv->timestamp_right);
+			}
+		}
+	}
+
+	return timestamp;
+}
+
+/**
  * pt_player_get_timestamp:
  * @player: a #PtPlayer
  *
- * Returns the current timestamp as a string. The format of timestamps can not be changed.
+ * Returns the current timestamp as a string. The format of the timestamp can
+ * be influenced with #PtPlayer:timestamp-precision, #PtPlayer:timestamp-fixed,
+ * #PtPlayer:timestamp-fraction-sep and #PtPlayer:timestamp-delimiter.
  *
  * If the current position can not be determined, NULL is returned.
  *
@@ -1257,79 +1354,126 @@ pt_player_get_timestamp (PtPlayer *player)
 
 	gint64 time;
 	gint   duration;
-	gint   h, m, s, ms, mod;
-	gchar *timestamp;
 
 	if (!pt_player_query_position (player, &time))
 		return NULL;
 
-	timestamp = NULL;
-	time = GST_TIME_AS_MSECONDS (time);
 	duration = GST_TIME_AS_MSECONDS (player->priv->dur);
-	/* This is the same code as in pt_player_get_timestring() */
-	h = time / 3600000;
-	mod = time % 3600000;
-	m = mod / 60000;
-	ms = time % 60000;
-	s = ms / 1000;
-	ms = ms % 1000;
 
-	if (duration >= ONE_HOUR) {
-		timestamp = g_strdup_printf ("#%d:%02d:%02d.%d#", h, m, s, ms / 100);
-	} else {
-		timestamp = g_strdup_printf ("#%d:%02d.%d#", m, s, ms / 100);
-	}
-
-	return timestamp;
+	return pt_player_get_timestamp_for_time (player, GST_TIME_AS_MSECONDS (time), duration);
 }
 
-static gint
+/**
+ * pt_player_get_timestamp_position:
+ * @player: a #PtPlayer
+ * @timestamp: the timestamp
+ * @check_duration: checking the timestamp's validity also check duration
+ *
+ * Returns the time in milliseconds represented by the timestamp or -1 for
+ * invalid timestamps.
+ *
+ * Return value: the time in milliseconds represented by the timestamp or -1
+ * for invalid timestamps
+ */
+gint
 pt_player_get_timestamp_position (PtPlayer *player,
-				  gchar    *timestamp)
+				  gchar    *timestamp,
+				  gboolean  check_duration)
 {
-	gint      h, m, s, digit, args, result;
-	gchar    *cmp = NULL;
-	gchar   **split = NULL;
+	gint       h, m, s, ms, result;
+	gchar     *cmp; /* timestamp without delimiters */
+	gboolean   long_format;
+	gboolean   fraction;
+	gchar    **split = NULL;
+	guint      n_split;
 
-	if (!g_regex_match_simple ("^#?[0-9]+:[0-9][0-9]:[0-9][0-9]\\.[0-9]#?$", timestamp, 0, 0)
-		&& !g_regex_match_simple ("^#?[0-9]+:[0-9][0-9]\\.[0-9]#?$", timestamp, 0, 0)) {
+	/* Check for formal validity */
+	if (!g_regex_match_simple ("^[#|\\(|\\[]?[0-9][0-9]?:[0-9][0-9]:[0-9][0-9][\\.|\\-][0-9][0-9]?[#|\\)|\\]]?$", timestamp, 0, 0)
+		&& !g_regex_match_simple ("^[#|\\(|\\[]?[0-9][0-9]?:[0-9][0-9][\\.|\\-][0-9][0-9]?[#|\\)|\\]]?$", timestamp, 0, 0)
+		&& !g_regex_match_simple ("^[#|\\(|\\[]?[0-9][0-9]?:[0-9][0-9]:[0-9][0-9][#|\\)|\\]]?$", timestamp, 0, 0)
+		&& !g_regex_match_simple ("^[#|\\(|\\[]?[0-9][0-9]?:[0-9][0-9][#|\\)|\\]]?$", timestamp, 0, 0)) {
 		return -1;
 	}
 
-	if (g_str_has_prefix (timestamp, "#")) {
-		split = g_strsplit (timestamp, "#", -1);
-		if (split[1]) {
-			cmp = g_strdup (split[1]);
-		}
-		if (split) {
-			g_strfreev (split);
-		}
-		if (!cmp) {
+	/* Delimiters must match */
+	if (g_str_has_prefix (timestamp, "#") && !g_str_has_suffix (timestamp, "#"))
+		return -1;
+	if (g_str_has_prefix (timestamp, "(") && !g_str_has_suffix (timestamp, ")"))
+		return -1;
+	if (g_str_has_prefix (timestamp, "[") && !g_str_has_suffix (timestamp, "]"))
+		return -1;
+	if (g_regex_match_simple ("^[0-9]", timestamp, 0, 0)) {
+		if (!g_regex_match_simple ("[0-9]$", timestamp, 0, 0))
 			return -1;
-		}
+	}
+
+	/* Remove delimiters */
+	if (g_str_has_prefix (timestamp, "#")
+			|| g_str_has_prefix (timestamp, "(")
+			|| g_str_has_prefix (timestamp, "[")) {
+		timestamp++;
+		cmp = g_strdup_printf ("%.*s", (int)strlen (timestamp) -1, timestamp);
 	} else {
 		cmp = g_strdup (timestamp);
 	}
 
-	args = sscanf (cmp, "%d:%02d:%02d.%01d", &h, &m, &s, &digit);
+	/* Determine format and split timestamp into h, m, s, ms */
+	h = 0;
+	ms = 0;
 
-	if (args != 4) {
-		h = 0;
-		args = sscanf (cmp, "%d:%02d.%01d", &m, &s, &digit);
-		if (args != 3) {
-			g_free (cmp);
-			return -1;
+	long_format = g_regex_match_simple (":[0-9][0-9]:", cmp, 0, 0);
+	fraction = !g_regex_match_simple (".*:[0-9][0-9]$", cmp, 0, 0);
+	split = g_regex_split_simple ("[:|\\.|\\-]", cmp, 0, 0);
+	g_free (cmp);
+	if (!split)
+		return -1;
+
+	n_split = 2;
+	if (long_format)
+		n_split += 1;
+	if (fraction)
+		n_split += 1;
+	if (n_split != g_strv_length (split)) {
+		g_strfreev (split);
+		return -1;
+	}
+
+	if (long_format) {
+		h = (int)g_ascii_strtoull (split[0], NULL, 10);
+		m = (int)g_ascii_strtoull (split[1], NULL, 10);
+		s = (int)g_ascii_strtoull (split[2], NULL, 10);
+		if (fraction) {
+			ms = (int)g_ascii_strtoull (split[3], NULL, 10);
+			if (strlen (split[3]) == 1)
+				ms = ms * 100;
+			else
+				ms = ms * 10;
+		}
+	} else {
+		m = (int)g_ascii_strtoull (split[0], NULL, 10);
+		s = (int)g_ascii_strtoull (split[1], NULL, 10);
+		if (fraction) {
+			ms = (int)g_ascii_strtoull (split[2], NULL, 10);
+			if (strlen (split[2]) == 1)
+				ms = ms * 100;
+			else
+				ms = ms * 10;
 		}
 	}
-	g_free (cmp);
 
+	g_strfreev (split);
+	
+	/* Sanity check */
 	if (s > 59 || m > 59)
 		return -1;
 
-	result = ((h * 3600 + m * 60 + s) * 10 + digit ) * 100;
+	result = (h * 3600 + m * 60 + s) * 1000 + ms;
 
-	if (GST_MSECOND * (gint64) result > player->priv->dur)
-		return -1;
+	if (check_duration) {
+		if (GST_MSECOND * (gint64) result > player->priv->dur) {
+			return -1;
+		}
+	}
 
 	return result;
 }
@@ -1338,8 +1482,11 @@ pt_player_get_timestamp_position (PtPlayer *player,
  * pt_player_string_is_timestamp:
  * @player: a #PtPlayer
  * @timestamp: the string to be checked
+ * @check_duration: whether timestamp's time is less or equal stream's duration
  *
- * Returns whether the given string is a valid timestamp.
+ * Returns whether the given string is a valid timestamp. With @check_duration
+ * FALSE it checks only for the formal validity of the timestamp. With
+ * @check_duration TRUE the timestamp must be within the duration to be valid.
  *
  * See also pt_player_goto_timestamp() if you want to go to the timestamp's
  * position immediately after.
@@ -1348,12 +1495,13 @@ pt_player_get_timestamp_position (PtPlayer *player,
  */
 gboolean
 pt_player_string_is_timestamp (PtPlayer *player,
-			       gchar    *timestamp)
+			       gchar    *timestamp,
+			       gboolean  check_duration)
 {
 	g_return_val_if_fail (PT_IS_PLAYER (player), FALSE);
 	g_return_val_if_fail (timestamp != NULL, FALSE);
 
-	return (pt_player_get_timestamp_position (player, timestamp) != -1);
+	return (pt_player_get_timestamp_position (player, timestamp, check_duration) != -1);
 }
 
 /**
@@ -1375,7 +1523,7 @@ pt_player_goto_timestamp (PtPlayer *player,
 
 	gint pos;
 
-	pos = pt_player_get_timestamp_position (player, timestamp);
+	pos = pt_player_get_timestamp_position (player, timestamp, TRUE);
 
 	if (pos == -1)
 		return FALSE;
@@ -1390,6 +1538,8 @@ static void
 pt_player_init (PtPlayer *player)
 {
 	player->priv = pt_player_get_instance_private (player);
+	player->priv->timestamp_precision = PT_PRECISION_SECOND_10TH;
+	player->priv->timestamp_fixed = FALSE;
 }
 
 static gboolean
@@ -1513,6 +1663,7 @@ pt_player_set_property (GObject      *object,
 	PtPlayer *player;
 	player = PT_PLAYER (object);
 	gdouble tmp;
+	const gchar *tmpchar;
 
 	switch (property_id) {
 	case PROP_SPEED:
@@ -1525,6 +1676,38 @@ pt_player_set_property (GObject      *object,
 				                      GST_STREAM_VOLUME_FORMAT_CUBIC,
 				                      tmp);
 		player->priv->volume = tmp;
+		break;
+	case PROP_TIMESTAMP_PRECISION:
+		player->priv->timestamp_precision = g_value_get_int (value);
+		break;
+	case PROP_TIMESTAMP_FIXED:
+		player->priv->timestamp_fixed = g_value_get_boolean (value);
+		break;
+	case PROP_TIMESTAMP_DELIMITER:
+		tmpchar = g_value_get_string (value);
+		if (g_strcmp0 (tmpchar, "None") == 0) {
+			player->priv->timestamp_left = player->priv->timestamp_right = "";
+			break;
+		}
+		if (g_strcmp0 (tmpchar, "(") == 0) {
+			player->priv->timestamp_left = "(";
+			player->priv->timestamp_right = ")";
+			break;
+		}
+		if (g_strcmp0 (tmpchar, "[") == 0) {
+			player->priv->timestamp_left = "[";
+			player->priv->timestamp_right = "]";
+			break;
+		}
+		player->priv->timestamp_left = player->priv->timestamp_right = "#";
+		break;
+	case PROP_TIMESTAMP_FRACTION_SEP:
+		tmpchar = g_value_get_string (value);
+		if (g_strcmp0 (tmpchar, "-") == 0) {
+			player->priv->timestamp_sep = "-";
+			break;
+		}
+		player->priv->timestamp_sep = ".";
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1547,6 +1730,18 @@ pt_player_get_property (GObject    *object,
 		break;
 	case PROP_VOLUME:
 		g_value_set_double (value, player->priv->volume);
+		break;
+	case PROP_TIMESTAMP_PRECISION:
+		g_value_set_int (value, player->priv->timestamp_precision);
+		break;
+	case PROP_TIMESTAMP_FIXED:
+		g_value_set_boolean (value, player->priv->timestamp_fixed);
+		break;
+	case PROP_TIMESTAMP_DELIMITER:
+		g_value_set_string (value, player->priv->timestamp_left);
+		break;
+	case PROP_TIMESTAMP_FRACTION_SEP:
+		g_value_set_string (value, player->priv->timestamp_sep);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1643,6 +1838,65 @@ pt_player_class_init (PtPlayerClass *klass)
 			0.0,	/* minimum */
 			1.0,	/* maximum */
 			1.0,
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+
+	/**
+	* PtPlayer:timestamp-precision:
+	*
+	* How precise timestamps should be.
+	*/
+	obj_properties[PROP_TIMESTAMP_PRECISION] =
+	g_param_spec_int (
+			"timestamp-precision",
+			"Precision of timestamps",
+			"Precision of timestamps",
+			0,	/* minimum = PT_PRECISION_SECOND */
+			3,	/* maximum = PT_PRECISION_INVALID */
+			1,
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+
+	/**
+	* PtPlayer:timestamp-fixed:
+	*
+	* Whether timestamp format should have a fixed number of digits.
+	*/
+	obj_properties[PROP_TIMESTAMP_FIXED] =
+	g_param_spec_boolean (
+			"timestamp-fixed",
+			"Timestamps with fixed digits",
+			"Timestamps with fixed digits",
+			FALSE,
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+
+	/**
+	* PtPlayer:timestamp-delimiter:
+	*
+	* Character to delimit start and end of timestamp. Allowed values are
+	* "None", hashtag "#", left bracket "(" and left square bracket "[".
+	* PtPlayer will of course end with a right (square) bracket if those
+	* are chosen. Any other character is changed to a hashtag "#".
+	*/
+	obj_properties[PROP_TIMESTAMP_DELIMITER] =
+	g_param_spec_string (
+			"timestamp-delimiter",
+			"Timestamp delimiter",
+			"Timestamp delimiter",
+			"#",
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+
+	/**
+	* PtPlayer:timestamp-fraction-sep:
+	*
+	* Character to separate fractions of a second from seconds. Only
+	* point "." and minus "-" are allowed. Any other character is changed
+	* to a point ".".
+	*/
+	obj_properties[PROP_TIMESTAMP_FRACTION_SEP] =
+	g_param_spec_string (
+			"timestamp-fraction-sep",
+			"Timestamp fraction separator",
+			"Timestamp fraction separator",
+			".",
 			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
 
 	g_object_class_install_properties (

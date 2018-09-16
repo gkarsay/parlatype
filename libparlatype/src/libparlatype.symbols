@@ -10,6 +10,8 @@ pt_player_get_permille
 pt_player_get_position
 pt_player_get_time_string
 pt_player_get_timestamp
+pt_player_get_timestamp_for_time
+pt_player_get_timestamp_position
 pt_player_get_type
 pt_player_get_uri
 pt_player_goto_timestamp

@@ -69,5 +69,26 @@
 			<summary>Fixed cursor</summary>
 			<description>Fixed cursor</description>
 		</key>
+		<key name="timestamp-precision" type="i">
+			<range min="0" max="2"/>
+			<default>1</default>
+			<summary>Timestamp precision</summary>
+			<description>Timestamp precision</description>
+		</key>
+		<key name="timestamp-fixed" type="b">
+			<default>false</default>
+			<summary>Timestamp fixed digits</summary>
+			<description>Timestamp fixed digits</description>
+		</key>
+		<key name="timestamp-delimiter" type="s">
+			<default>"#"</default>
+			<summary>Timestamp delimiter</summary>
+			<description>Timestamp delimiter, only "None", "#", "(" and "[" are allowed.</description>
+		</key>
+		<key name="timestamp-fraction-sep" type="s">
+			<default>"."</default>
+			<summary>Timestamp fraction separator</summary>
+			<description>Timestamp fraction separator, only "." and "-" are allowed.</description>
+		</key>
 	</schema>
 </schemalist>

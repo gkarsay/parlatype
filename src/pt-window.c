@@ -356,7 +356,7 @@ update_insert_action_sensitivity_cb (GtkClipboard *clip,
 
 	if (text) {
 		timestamp = g_strdup (text);
-		result = pt_player_string_is_timestamp (player, timestamp);
+		result = pt_player_string_is_timestamp (player, timestamp, TRUE);
 		g_free (timestamp);
 	}
 
@@ -841,6 +841,26 @@ setup_settings (PtWindow *win)
 			win->priv->waveviewer, "fixed-cursor",
 			G_SETTINGS_BIND_GET);
 
+	g_settings_bind (
+			win->priv->editor, "timestamp-precision",
+			win->priv->player, "timestamp-precision",
+			G_SETTINGS_BIND_GET);
+
+	g_settings_bind (
+			win->priv->editor, "timestamp-fixed",
+			win->priv->player, "timestamp-fixed",
+			G_SETTINGS_BIND_GET);
+
+	g_settings_bind (
+			win->priv->editor, "timestamp-delimiter",
+			win->priv->player, "timestamp-delimiter",
+			G_SETTINGS_BIND_GET);
+
+	g_settings_bind (
+			win->priv->editor, "timestamp-fraction-sep",
+			win->priv->player, "timestamp-fraction-sep",
+			G_SETTINGS_BIND_GET);
+
 	/* connect to tooltip changer */
 
 	g_signal_connect (
@@ -1010,8 +1030,8 @@ pt_window_init (PtWindow *win)
 
 	gtk_widget_init_template (GTK_WIDGET (win));
 
-	setup_settings (win);
 	setup_player (win);
+	setup_settings (win);
 	setup_accels_actions_headerbar (win);
 	setup_goto_button (win);
 	setup_mediakeys (win);		/* this is in pt_mediakeys.c */
