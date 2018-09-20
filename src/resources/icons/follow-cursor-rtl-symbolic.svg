@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docname="follow-cursor-rtl-symbolic.svg"
+   height="16"
+   id="svg5504"
+   inkscape:version="0.92.1 r15371"
+   version="1.1"
+   width="16">
+  <defs
+     id="defs5506" />
+  <sodipodi:namedview
+     inkscape:bbox-paths="true"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:current-layer="layer1"
+     inkscape:cx="9.6845872"
+     inkscape:cy="8.0171326"
+     inkscape:document-units="px"
+     gridtolerance="10"
+     id="base"
+     pagecolor="#000000"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     showborder="false"
+     showgrid="true"
+     inkscape:showpageshadow="true"
+     inkscape:snap-bbox="true"
+     inkscape:snap-global="true"
+     inkscape:window-height="1016"
+     inkscape:window-maximized="1"
+     inkscape:window-width="1920"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:zoom="22.4">
+    <inkscape:grid
+       empspacing="2"
+       enabled="true"
+       id="grid5512"
+       originx="-11.00001"
+       originy="-1164"
+       snapvisiblegridlinesonly="true"
+       type="xygrid"
+       visible="true"
+       spacingx="1"
+       spacingy="1" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata5509">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer1"
+     inkscape:label="categories"
+     transform="translate(-11.00001,127.6378)">
+    <path
+       inkscape:connector-curvature="0"
+       d="m 12,-120.14879 v 0.84054 l 3.670447,3.67045 1.120747,-1.12076 -2.176117,-2.17612 H 26 v -1.58773 H 14.615077 l 2.176117,-2.17612 -1.120747,-1.12071 L 12,-120.14879"
+       id="path2985-5"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:36px;line-height:125%;font-family:Cantarell;-inkscape-font-specification:Cantarell;letter-spacing:0px;word-spacing:0px;fill:#888a85;fill-opacity:1;stroke:none" />
+  </g>
+</svg>

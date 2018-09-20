@@ -1000,6 +1000,21 @@ setup_accels_actions_headerbar (PtWindow *win)
 }
 
 void
+goto_direction_changed_cb (GtkWidget        *widget,
+                           GtkTextDirection  previous_direction,
+                           gpointer          data)
+{
+	if (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
+		gtk_button_set_image (
+				GTK_BUTTON (widget),
+				gtk_image_new_from_resource ("/com/github/gkarsay/parlatype/icons/follow-cursor-rtl-symbolic.svg"));
+	else
+		gtk_button_set_image (
+				GTK_BUTTON (widget),
+				gtk_image_new_from_resource ("/com/github/gkarsay/parlatype/icons/follow-cursor-symbolic.svg"));
+}
+
+void
 goto_clicked_cb (GtkButton *button,
                  PtWindow  *win)
 {
@@ -1009,6 +1024,7 @@ goto_clicked_cb (GtkButton *button,
 static void
 setup_goto_button (PtWindow *win)
 {
+	goto_direction_changed_cb (win->priv->goto_button, GTK_TEXT_DIR_NONE, NULL);
 	g_object_bind_property (
 			win->priv->waveviewer, "follow-cursor",
 			win->priv->goto_button, "sensitive",

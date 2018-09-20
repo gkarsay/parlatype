@@ -185,12 +185,9 @@
                         <property name="valign">center</property>
                         <property name="margin_left">6</property>
                         <signal name="clicked" handler="goto_clicked_cb" swapped="no"/>
+                        <signal name="direction-changed" handler="goto_direction_changed_cb" swapped="no"/>
                         <child>
-                          <object class="GtkImage" id="image1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="resource">/com/github/gkarsay/parlatype/icons/cursor.png</property>
-                          </object>
+                          <placeholder/>
                         </child>
                       </object>
                       <packing>
