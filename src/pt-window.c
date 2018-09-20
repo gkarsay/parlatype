@@ -1000,17 +1000,10 @@ setup_accels_actions_headerbar (PtWindow *win)
 }
 
 void
-goto_toggled_cb (GtkToggleButton *button,
-		 gpointer         data)
+goto_clicked_cb (GtkButton *button,
+                 PtWindow  *win)
 {
-	gchar *tooltip;
-
-	if (gtk_toggle_button_get_active (button))
-		tooltip = _("View follows cursor");
-	else
-		tooltip = _("Click to follow cursor");
-
-	gtk_widget_set_tooltip_text (GTK_WIDGET (button), tooltip);
+	pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
 }
 
 static void
@@ -1018,8 +1011,8 @@ setup_goto_button (PtWindow *win)
 {
 	g_object_bind_property (
 			win->priv->waveviewer, "follow-cursor",
-			win->priv->goto_button, "active",
-			G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+			win->priv->goto_button, "sensitive",
+			G_BINDING_INVERT_BOOLEAN | G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
 }
 
 static void

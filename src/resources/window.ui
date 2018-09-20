@@ -175,15 +175,16 @@
                     <property name="hexpand">True</property>
                     <property name="spacing">12</property>
                     <child>
-                      <object class="GtkToggleButton" id="goto_button">
+                      <object class="GtkButton" id="goto_button">
                         <property name="name">goto_cursor_button</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <property name="tooltip_text" translatable="yes">Go to and follow cursor</property>
                         <property name="halign">center</property>
                         <property name="valign">center</property>
                         <property name="margin_left">6</property>
-                        <signal name="toggled" handler="goto_toggled_cb" swapped="no"/>
+                        <signal name="clicked" handler="goto_clicked_cb" swapped="no"/>
                         <child>
                           <object class="GtkImage" id="image1">
                             <property name="visible">True</property>
