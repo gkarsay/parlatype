@@ -19,7 +19,7 @@ To build Parlatype from source you need these packages:
 
 Optional, depending on your configure options:
 * gladeui-2.0 (>= 3.12.2; with `--enable-glade-catalog`)
-* gtk-doc-tools (with `--enable-gtk-docs`)
+* gtk-doc (with `--enable-gtk-doc`)
 * desktop-file-utils (if installed, this checks the desktop file)
 * appstream-utils (if installed, this checks the appstream file)
 
