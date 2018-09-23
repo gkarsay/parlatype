@@ -1000,26 +1000,35 @@ setup_accels_actions_headerbar (PtWindow *win)
 }
 
 void
-goto_toggled_cb (GtkToggleButton *button,
-		 gpointer         data)
+goto_direction_changed_cb (GtkWidget        *widget,
+                           GtkTextDirection  previous_direction,
+                           gpointer          data)
 {
-	gchar *tooltip;
-
-	if (gtk_toggle_button_get_active (button))
-		tooltip = _("View follows cursor");
+	if (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
+		gtk_button_set_image (
+				GTK_BUTTON (widget),
+				gtk_image_new_from_resource ("/com/github/gkarsay/parlatype/icons/follow-cursor-rtl-symbolic.svg"));
 	else
-		tooltip = _("Click to follow cursor");
+		gtk_button_set_image (
+				GTK_BUTTON (widget),
+				gtk_image_new_from_resource ("/com/github/gkarsay/parlatype/icons/follow-cursor-symbolic.svg"));
+}
 
-	gtk_widget_set_tooltip_text (GTK_WIDGET (button), tooltip);
+void
+goto_clicked_cb (GtkButton *button,
+                 PtWindow  *win)
+{
+	pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
 }
 
 static void
 setup_goto_button (PtWindow *win)
 {
+	goto_direction_changed_cb (win->priv->goto_button, GTK_TEXT_DIR_NONE, NULL);
 	g_object_bind_property (
 			win->priv->waveviewer, "follow-cursor",
-			win->priv->goto_button, "active",
-			G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+			win->priv->goto_button, "sensitive",
+			G_BINDING_INVERT_BOOLEAN | G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
 }
 
 static void

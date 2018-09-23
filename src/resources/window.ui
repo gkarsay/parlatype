@@ -83,7 +83,7 @@
                           <object class="GtkImage" id="icon_seek_back1">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="icon_name">media-skip-backward</property>
+                            <property name="icon_name">media-skip-backward-symbolic</property>
                           </object>
                         </child>
                       </object>
@@ -104,7 +104,7 @@
                           <object class="GtkImage" id="icon_seek_back">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="icon_name">media-seek-backward</property>
+                            <property name="icon_name">media-seek-backward-symbolic</property>
                           </object>
                         </child>
                       </object>
@@ -125,7 +125,7 @@
                           <object class="GtkImage" id="icon_seek_forward">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="icon_name">media-seek-forward</property>
+                            <property name="icon_name">media-seek-forward-symbolic</property>
                           </object>
                         </child>
                       </object>
@@ -148,7 +148,7 @@
                           <object class="GtkImage" id="icon_seek_forward1">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="icon_name">media-skip-forward</property>
+                            <property name="icon_name">media-skip-forward-symbolic</property>
                           </object>
                         </child>
                       </object>
@@ -175,21 +175,19 @@
                     <property name="hexpand">True</property>
                     <property name="spacing">12</property>
                     <child>
-                      <object class="GtkToggleButton" id="goto_button">
+                      <object class="GtkButton" id="goto_button">
                         <property name="name">goto_cursor_button</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <property name="tooltip_text" translatable="yes">Go to and follow cursor</property>
                         <property name="halign">center</property>
                         <property name="valign">center</property>
                         <property name="margin_left">6</property>
-                        <signal name="toggled" handler="goto_toggled_cb" swapped="no"/>
+                        <signal name="clicked" handler="goto_clicked_cb" swapped="no"/>
+                        <signal name="direction-changed" handler="goto_direction_changed_cb" swapped="no"/>
                         <child>
-                          <object class="GtkImage" id="image1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="resource">/com/github/gkarsay/parlatype/icons/cursor.png</property>
-                          </object>
+                          <placeholder/>
                         </child>
                       </object>
                       <packing>
