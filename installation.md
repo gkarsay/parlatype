@@ -13,6 +13,21 @@ There is an AUR package for Parlatype: [https://aur.archlinux.org/packages/parla
 ## Debian
 Parlatype is in testing (Debian Buster), link to tracker: [https://tracker.debian.org/pkg/parlatype](https://tracker.debian.org/pkg/parlatype).
 
+## openSUSE
+
+# openSUSE Tumbleweed
+Parlatype is available in Tumbleweed.
+
+# openSUSE Leap 15.0
+Parlatype is in the openSUSE devel project utilities.
+Users of openSUSE Leap 15.0 can add this repo by:
+
+```
+zypper ar -f obs://utilities utilities
+zypper ref
+zypper in parlatype
+```
+
 ## Ubuntu
 Parlatype is in Ubuntu's repository since 18.04 (Bionic Beaver).
 
