@@ -19,5 +19,6 @@ Parlatype is a pet project done in my free time. Apart from art work, translatio
 - Ross Gammon sponsored the package in Debian.
 - glimhyt packaged it in Arch Linux.
 - Julian Richen helped getting it into Flathub.
+- Michael Vetter brought it to openSUSE.
 - devhell contributed footpedal documentation.
 - Joey Sneddon [reviewed Parlatype](https://www.omgubuntu.co.uk/2017/06/parlatype-transcribe-audio-app-linux).
