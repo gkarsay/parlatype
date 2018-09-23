@@ -46,9 +46,11 @@ $ sudo apt-get install build-essential automake autoconf intltool libgirepositor
 
 There are a few changes in this cycle. If you build from git master the changes compared to version 1.5.6 are:
 * intltool: this dependency is dropped
-* gettext >= 0.19.7
+* gettext >= 0.19.7 (when cloning from git and running `./autogen.sh` for the first time, po files are regenerated once, this can be safely reverted with `git checkout .`)
 * GTK+ >= 3.16
 * GStreamer >= 1.6.3
+* Autoconf macro AX_REQUIRE_DEFINED required; provided by package `autoconf-archive`
+* Autoconf macro APPSTREAM_XML required; provided e.g. by package `appstream-util` on Debian or `libappstream-glib-devel` on Fedora
 
 ### Building 
 
