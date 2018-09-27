@@ -9,6 +9,7 @@ CODE_COVERAGE_IGNORE_PATTERN = pt-resources.c *include*
 EXTRA_DIST += \
 	glib.supp	\
 	gst.supp	\
+	meson.build	\
 	data/README
 
 AM_CFLAGS = -g $(GTK_CFLAGS) $(GSTREAMER_CFLAGS) $(MAINTAINER_CFLAGS)

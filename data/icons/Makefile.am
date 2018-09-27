@@ -33,6 +33,7 @@ update-icon-cache:
 	fi
 
 EXTRA_DIST = \
+	meson.build		\
 	$(icon16_DATA)		\
 	$(icon22_DATA)		\
 	$(icon24_DATA)  	\

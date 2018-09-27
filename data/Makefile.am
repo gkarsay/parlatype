@@ -44,6 +44,9 @@ CLEANFILES = \
 	$(desktop_DATA)
 
 EXTRA_DIST = \
+	meson.build	\
+	meson_post_install.py	\
 	com.github.gkarsay.parlatype.gschema.xml	\
+	com.github.gkarsay.parlatype.service.in	\
 	$(desktop_in_files)		\
 	$(appdata_in_files)

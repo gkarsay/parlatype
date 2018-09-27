@@ -4,3 +4,4 @@ if LIBREOFFICE
 dist_lo_DATA = Parlatype.py
 endif
 
+EXTRA_DIST = meson.build

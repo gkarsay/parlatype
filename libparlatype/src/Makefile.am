@@ -118,4 +118,5 @@ endif
 EXTRA_DIST = 			\
 	$(resource_files)	\
 	$(resource_xml)		\
-	libparlatype.symbols
+	libparlatype.symbols	\
+	meson.build

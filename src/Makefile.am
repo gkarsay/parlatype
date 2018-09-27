@@ -52,6 +52,7 @@ AM_CPPFLAGS =					\
 
 EXTRA_DIST =			\
 	$(resource_files)	\
-	$(resource_xml)
+	$(resource_xml)		\
+	meson.build
 
 CLEANFILES = $(BUILT_SOURCES)

@@ -30,3 +30,7 @@ HELP_FILES +=					\
 endif
 
 HELP_LINGUAS = de en_GB es fi id it lt ku pl pt sk
+
+EXTRA_DIST = \
+	LINGUAS		\
+	meson.build

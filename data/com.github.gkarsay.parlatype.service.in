@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=com.github.gkarsay.parlatype
+Exec=@bindir@/parlatype --gapplication-service

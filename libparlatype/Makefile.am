@@ -14,12 +14,14 @@ ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
 EXTRA_DIST = \
 	config.rpath		\
 	glib-tap.mk		\
+	meson.build		\
 	tap-driver.sh		\
 	tap-test		\
 	test-driver		\
 	m4/ax_code_coverage.m4	\
 	m4/ax_valgrind_check.m4	\
-	m4/glibtests.m4
+	m4/glibtests.m4		\
+	po/meson.build
 
 DISTCLEANFILES = `find . -mindepth 1 -iname "*~"`
 

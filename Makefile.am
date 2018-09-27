@@ -6,6 +6,9 @@ EXTRA_DIST = \
 	config.rpath	\
 	COPYING_CCBYSA	\
 	COPYING_OTHER	\
+	meson.build	\
+	meson_options.txt	\
+	po/meson.build		\
 	README.md
 
 CLEANFILES = \

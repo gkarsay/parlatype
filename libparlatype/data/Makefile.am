@@ -9,3 +9,5 @@ glade_catalog_DATA = parlatype.xml
 validate: $(glade_catalog_DATA)
 	xmllint --dtdvalid $(GLADE_CATALOG_DIR)/glade-catalog.dtd --noout $<
 endif
+
+EXTRA_DIST = meson.build
