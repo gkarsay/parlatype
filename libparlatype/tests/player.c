@@ -35,8 +35,6 @@ pt_player_fixture_set_up (PtPlayerFixture *fixture,
 	fixture->testplayer = NULL;
 	gchar    *path;
 	GFile    *file;
-	gchar    *testfile;
-	gchar    *testuri;
 	gboolean  success;
 
 	fixture->testplayer = pt_player_new (&error);
