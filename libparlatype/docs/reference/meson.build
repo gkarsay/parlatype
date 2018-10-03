@@ -1,5 +1,13 @@
+version_conf = configuration_data()
+version_conf.set('PACKAGE_VERSION', meson.project_version())
+configure_file(
+	input: 'version.xml.in',
+	output: 'version.xml',
+	configuration: version_conf,
+)
+
 gnome.gtkdoc(
-	'libparlatype',
+	'parlatype',
 	main_xml: 'parlatype-docs.xml',
 	src_dir: [
 		join_paths(meson.source_root(), 'libparlatype', 'src'),
@@ -16,7 +24,6 @@ gnome.gtkdoc(
 		'--output-format=xml',
 	],
 	content_files: [
-		'version.xml.in',
 		'gallery.xml',
 		'introduction.xml',
 		'using_library.xml',
