@@ -14,7 +14,8 @@ Makefile.in
 *.tar.gz.asc
 ABOUT-NLS
 aclocal.m4
-builddir/
+/build/
+/builddir/
 **/autom4te.cache/*
 ChangeLog
 compile
@@ -37,7 +38,7 @@ libtool
 ltmain.sh
 missing
 stamp-h1
-uninstall/
+/uninstall/
 
 # in libparlatype/m4 ignore everything except
 # ax_code_coverage.m4, ax_valgrind_check.m4 and glibtests.m4
