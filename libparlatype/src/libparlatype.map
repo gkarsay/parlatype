@@ -1,0 +1,6 @@
+{
+global:
+	pt_*;
+local:
+	*;
+};

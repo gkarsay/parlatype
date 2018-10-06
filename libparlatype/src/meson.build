@@ -36,11 +36,15 @@ headers = [
 
 install_headers(headers, subdir: 'parlatype')
 
+mapfile = 'libparlatype.map'
+vflag = '-Wl,--version-script,@0@/@1@'.format(meson.current_source_dir(), mapfile)
 libparlatype = shared_library(
 	'parlatype', sources,
 	soversion: libparlatype_so_version,
 	dependencies: deps,
 	include_directories: conf_inc,
+	link_args: vflag,
+	link_depends: mapfile,
 	install: true,
 )
 
