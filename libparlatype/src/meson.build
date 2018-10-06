@@ -1,7 +1,8 @@
 gresources = gnome.compile_resources(
-	'libparlatype-resources', 'resources/libparlatype.gresource.xml',
+	'pt-lib-resources',
+	'resources/libparlatype.gresource.xml',
 	source_dir: 'resources',
-	#c-name: 'libparlatype',
+	c_name: '_pt',
 )
 
 sources = [

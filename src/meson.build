@@ -1,7 +1,8 @@
 gresources = gnome.compile_resources(
-	'parlatype-resources', 'resources/parlatype.gresource.xml',
-	source_dir : 'resources',
-	#c-name : 'parlatype',
+	'pt-win-resources',
+	'resources/parlatype.gresource.xml',
+	source_dir: 'resources',
+	c_name: '_pt',
 )
 
 src = [
