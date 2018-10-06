@@ -7,7 +7,7 @@ i18n.merge_file(
 	type: 'desktop',
 	po_dir: '../po',
 	install: true,
-	install_dir: join_paths(get_option('datadir'), 'applications')
+	install_dir: join_paths(datadir, 'applications')
 )
 
 desktop_file_validate = find_program('desktop-file-validate', required: false)
@@ -26,7 +26,7 @@ i18n.merge_file(
 	type: 'xml',
 	po_dir: '../po',
 	install: true,
-	install_dir: join_paths(get_option('datadir'), 'metainfo')
+	install_dir: join_paths(datadir, 'metainfo')
 )
 
 lo_metainfo = app_id + '.libreoffice-helpers.metainfo.xml'
@@ -37,7 +37,7 @@ if libreoffice
 		type: 'xml',
 		po_dir: '../po',
 		install: true,
-		install_dir: join_paths(get_option('datadir'), 'metainfo')
+		install_dir: join_paths(datadir, 'metainfo')
 	)
 endif
 
@@ -59,7 +59,7 @@ endif
 
 install_data(
 	app_id + '.gschema.xml',
-	install_dir: join_paths(get_option('datadir'), 'glib-2.0', 'schemas'))
+	install_dir: join_paths(datadir, 'glib-2.0', 'schemas'))
 
 service_conf = configuration_data()
 service_conf.set ('bindir', bindir)
@@ -67,7 +67,7 @@ configure_file(
 	input: app_id + '.service.in',
 	output: app_id + '.service',
 	configuration: service_conf,
-	install_dir: join_paths(get_option('datadir'), 'dbus-1', 'services')
+	install_dir: join_paths(datadir, 'dbus-1', 'services')
 )
 
 meson.add_install_script('meson_post_install.py')
