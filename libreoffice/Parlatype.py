@@ -65,7 +65,7 @@ def _getTextRange():
         return None
 
 
-def InsertTimestamp():
+def InsertTimestamp(*args):
     textrange = _getTextRange()
     if (textrange is None):
         return
@@ -78,7 +78,7 @@ def InsertTimestamp():
         pass
 
 
-def InsertTimestampOnNewLine():
+def InsertTimestampOnNewLine(*args):
     textrange = _getTextRange()
     if (textrange is None):
         return
@@ -129,7 +129,7 @@ def _extractTimestamp():
     return cursor.getString()
 
 
-def GotoTimestamp():
+def GotoTimestamp(*args):
     timestamp = _extractTimestamp()
     if (timestamp is None):
         return
@@ -142,7 +142,7 @@ def GotoTimestamp():
         pass
 
 
-def PlayPause():
+def PlayPause(*args):
     service = _getDBUSService()
 
     try:
@@ -151,7 +151,7 @@ def PlayPause():
         pass
 
 
-def JumpBack():
+def JumpBack(*args):
     service = _getDBUSService()
 
     try:
@@ -160,7 +160,7 @@ def JumpBack():
         pass
 
 
-def JumpForward():
+def JumpForward(*args):
     service = _getDBUSService()
 
     try:
@@ -169,7 +169,7 @@ def JumpForward():
         pass
 
 
-def IncreaseSpeed():
+def IncreaseSpeed(*args):
     service = _getDBUSService()
 
     try:
@@ -178,7 +178,7 @@ def IncreaseSpeed():
         pass
 
 
-def DecreaseSpeed():
+def DecreaseSpeed(*args):
     service = _getDBUSService()
 
     try:
