@@ -68,7 +68,6 @@ stamp-h1
 
 /libparlatype/test-driver
 /libparlatype/data/parlatype.pc
-/libparlatype/data/parlatype.xml
 /libparlatype/docs/reference/*.stamp
 /libparlatype/docs/reference/gtkdoc-check.*
 /libparlatype/docs/reference/test-suite.log

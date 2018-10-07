@@ -112,7 +112,6 @@ AX_CODE_COVERAGE
 AC_CONFIG_FILES([Makefile
                  data/Makefile
 		 data/parlatype.pc
-		 data/parlatype.xml
 		 data/icons/Makefile
 		 docs/Makefile
 		 docs/reference/Makefile
