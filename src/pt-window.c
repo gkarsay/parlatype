@@ -949,7 +949,7 @@ setup_accels_actions_headerbar (PtWindow *win)
 	g_object_unref (builder);
 
 	builder = gtk_builder_new_from_resource ("/com/github/gkarsay/parlatype/menus.ui");
-	model = G_MENU_MODEL (gtk_builder_get_object (builder, "winmenu"));
+	model = G_MENU_MODEL (gtk_builder_get_object (builder, "primary-menu"));
 	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (menu_button), model);
 	g_object_unref (builder);
 
