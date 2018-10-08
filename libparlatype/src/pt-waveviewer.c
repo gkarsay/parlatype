@@ -26,7 +26,7 @@
 #include "config.h"
 #include <math.h>	/* fabs */
 #include <string.h>
-#define GETTEXT_PACKAGE PACKAGE
+#define GETTEXT_PACKAGE "libparlatype"
 #include <glib/gi18n-lib.h>
 #include "pt-waveviewer-ruler.h"
 #include "pt-waveviewer-waveform.h"

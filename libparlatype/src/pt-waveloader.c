@@ -23,7 +23,7 @@
 #include "config.h"
 #include <stdio.h>	/* FILE, tmpfile, fileno, fclose */
 #include <gio/gio.h>
-#define GETTEXT_PACKAGE PACKAGE
+#define GETTEXT_PACKAGE "libparlatype"
 #include <glib/gi18n-lib.h>
 #include <gst/gst.h>
 #include <gst/audio/audio.h>

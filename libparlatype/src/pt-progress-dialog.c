@@ -18,7 +18,7 @@
 #include "config.h"
 #include <math.h>	/* ceil */
 #include <gtk/gtk.h>
-#define GETTEXT_PACKAGE PACKAGE
+#define GETTEXT_PACKAGE "libparlatype"
 #include <glib/gi18n-lib.h>
 #include "pt-progress-dialog.h"
 
