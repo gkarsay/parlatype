@@ -278,7 +278,6 @@ pt_app_startup (GApplication *app)
 {
 	GtkBuilder *builder;
 	GMenuModel *app_menu;
-	GMenuModel *menubar;
 
 	g_application_set_resource_base_path (app, "/com/github/gkarsay/parlatype");
 	G_APPLICATION_CLASS (pt_app_parent_class)->startup (app);
@@ -326,22 +325,12 @@ pt_app_startup (GApplication *app)
 
 	builder = gtk_builder_new_from_resource ("/com/github/gkarsay/parlatype/menus.ui");
 
-	if (gtk_application_prefers_app_menu (GTK_APPLICATION (app))) {
 #if GTK_CHECK_VERSION(3,20,0)
-		app_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "appmenu"));
+	app_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "appmenu"));
 #else
-		app_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "appmenu-pre-3-20"));
+	app_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "appmenu-pre-3-20"));
 #endif
-		gtk_application_set_app_menu (GTK_APPLICATION (app), app_menu);
-	} else {
-#if GTK_CHECK_VERSION(3,20,0)
-		menubar = G_MENU_MODEL (gtk_builder_get_object (builder, "alternative-menu"));
-#else
-		menubar = G_MENU_MODEL (gtk_builder_get_object (builder, "alternative-menu-pre-3-20"));
-#endif
-		gtk_application_set_menubar (GTK_APPLICATION (app), menubar);
-	}
-
+	gtk_application_set_app_menu (GTK_APPLICATION (app), app_menu);
 	g_object_unref (builder);
 
 	/* Load custom css */
