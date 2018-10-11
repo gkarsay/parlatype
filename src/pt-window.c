@@ -479,11 +479,10 @@ pt_window_ready_to_play (PtWindow *win,
 	   Reset tooltips for insensitive widgets. */
 
 	gchar     *display_name = NULL;
+	GtkStyleContext *open_context;
 
 	enable_win_actions (win, state);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (win->priv->button_play), FALSE);
-	gtk_widget_set_visible (win->priv->button_play, state);
-	gtk_widget_set_visible (win->priv->button_open, !state);
 
 	gtk_widget_set_sensitive (win->priv->button_play, state);
 	gtk_widget_set_sensitive (win->priv->button_fast_back, state);
@@ -493,6 +492,8 @@ pt_window_ready_to_play (PtWindow *win,
 	gtk_widget_set_sensitive (win->priv->speed_scale, state);
 
 	if (state) {
+		open_context = gtk_widget_get_style_context (win->priv->button_open);
+		gtk_style_context_remove_class (open_context, "suggested-action");
 		destroy_progress_dlg (win);
 		display_name = pt_player_get_filename (win->priv->player);
 		if (display_name) {
@@ -942,7 +943,6 @@ setup_accels_actions_headerbar (PtWindow *win)
 	builder = gtk_builder_new_from_resource ("/com/github/gkarsay/parlatype/window-headerbar.ui");
 	hbar = GTK_WIDGET (gtk_builder_get_object (builder, "headerbar"));
 	win->priv->button_open = GTK_WIDGET (gtk_builder_get_object (builder, "button_open"));
-	win->priv->button_play = GTK_WIDGET (gtk_builder_get_object (builder, "button_play"));
 	primary_menu_button = GTK_WIDGET (gtk_builder_get_object (builder, "primary_menu_button"));
 	gtk_window_set_titlebar (GTK_WINDOW (win), hbar);
 	gtk_builder_connect_signals (builder, win);
@@ -1160,6 +1160,7 @@ pt_window_class_init (PtWindowClass *klass)
 	gobject_class->get_property = pt_window_get_property;
 	gobject_class->dispose      = pt_window_dispose;
 	gtk_widget_class_set_template_from_resource (widget_class, "/com/github/gkarsay/parlatype/window.ui");
+	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_play);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_fast_back);	// not used
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_fast_forward);	// not used
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_jump_back);
