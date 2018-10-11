@@ -4,16 +4,6 @@
   <menu id="primary-menu">
     <section>
       <item>
-        <attribute name="label" translatable="yes">Open File</attribute>
-        <attribute name="action">app.open</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">Recent Files</attribute>
-        <attribute name="action">app.recent</attribute>
-      </item>
-    </section>
-    <section>
-      <item>
         <attribute name="label" translatable="yes">Preferences</attribute>
         <attribute name="action">app.prefs</attribute>
       </item>
