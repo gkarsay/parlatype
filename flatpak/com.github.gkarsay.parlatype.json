@@ -17,8 +17,7 @@
         "--filesystem=~/.config/dconf:ro",
         "--talk-name=ca.desrt.dconf",
         "--talk-name=org.freedesktop.secrets",
-        "--talk-name=org.gnome.SettingsDaemon",
-        "--own-name=com.github.gkarsay.parlatype"
+        "--talk-name=org.gnome.SettingsDaemon.MediaKeys"
     ],
     "build-options": {
         "cflags": "-O2 -g"
