@@ -3,20 +3,6 @@
   <!-- interface-requires gtk+ 3.0 -->
   <menu id="primary-menu">
     <section>
-    </section>
-      <item>
-        <attribute name="label" translatable="yes">Copy timestamp</attribute>
-        <attribute name="action">win.copy</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">Insert timestamp</attribute>
-        <attribute name="action">win.insert</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">Go to ...</attribute>
-        <attribute name="action">win.goto</attribute>
-      </item>
-    <section>
       <item>
         <attribute name="label" translatable="yes">Open File</attribute>
         <attribute name="action">app.open</attribute>
@@ -42,6 +28,22 @@
       <item>
         <attribute name="label" translatable="yes">About Parlatype</attribute>
         <attribute name="action">app.about</attribute>
+      </item>
+    </section>
+  </menu>
+  <menu id="secondary-menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Copy timestamp</attribute>
+        <attribute name="action">win.copy</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Insert timestamp</attribute>
+        <attribute name="action">win.insert</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Go to ...</attribute>
+        <attribute name="action">win.goto</attribute>
       </item>
     </section>
   </menu>

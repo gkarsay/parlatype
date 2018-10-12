@@ -934,23 +934,25 @@ setup_accels_actions_headerbar (PtWindow *win)
 
 	/* GtkHeader workaround for glade 3.16 + Menu button */
 	GtkBuilder    *builder;
-	GMenuModel    *model;
 	GtkWidget     *hbar;
-	GtkWidget     *menu_button;
+	GtkWidget     *primary_menu_button;
+	GMenuModel    *primary_menu;
+	GMenuModel    *secondary_menu;
 
 	builder = gtk_builder_new_from_resource ("/com/github/gkarsay/parlatype/window-headerbar.ui");
 	hbar = GTK_WIDGET (gtk_builder_get_object (builder, "headerbar"));
 	win->priv->button_open = GTK_WIDGET (gtk_builder_get_object (builder, "button_open"));
 	win->priv->button_play = GTK_WIDGET (gtk_builder_get_object (builder, "button_play"));
-	menu_button = GTK_WIDGET (gtk_builder_get_object (builder, "menu_button"));
-
+	primary_menu_button = GTK_WIDGET (gtk_builder_get_object (builder, "primary_menu_button"));
 	gtk_window_set_titlebar (GTK_WINDOW (win), hbar);
 	gtk_builder_connect_signals (builder, win);
 	g_object_unref (builder);
 
 	builder = gtk_builder_new_from_resource ("/com/github/gkarsay/parlatype/menus.ui");
-	model = G_MENU_MODEL (gtk_builder_get_object (builder, "primary-menu"));
-	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (menu_button), model);
+	primary_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "primary-menu"));
+	secondary_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "secondary-menu"));
+	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (primary_menu_button), primary_menu);
+	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (win->priv->pos_menu_button), secondary_menu);
 	g_object_unref (builder);
 
 	/* Accels */
@@ -958,7 +960,7 @@ setup_accels_actions_headerbar (PtWindow *win)
 	gtk_window_add_accel_group (GTK_WINDOW (win), win->priv->accels);
 	
 	gtk_widget_add_accelerator (
-			menu_button,
+			primary_menu_button,
 			"clicked",
 			win->priv->accels,
 			GDK_KEY_F10,
@@ -1163,6 +1165,7 @@ pt_window_class_init (PtWindowClass *klass)
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_jump_back);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_jump_forward);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, volumebutton);
+	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, pos_menu_button);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, pos_label);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, label_box);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, goto_button);

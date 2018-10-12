@@ -62,7 +62,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkMenuButton" id="menu_button">
+      <object class="GtkMenuButton" id="primary_menu_button">
         <property name="visible">True</property>
         <property name="sensitive">True</property>
         <property name="direction">none</property>

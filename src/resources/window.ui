@@ -201,13 +201,21 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <child>
-                          <object class="GtkLabel" id="pos_label">
-                            <property name="name">time_label</property>
+                          <object class="GtkMenuButton" id="pos_menu_button">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label">00:00</property>
-                            <property name="single_line_mode">True</property>
-                            <property name="lines">1</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="direction">up</property>
+                            <child>
+                              <object class="GtkLabel" id="pos_label">
+                                <property name="name">time_label</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label">00:00</property>
+                                <property name="single_line_mode">True</property>
+                                <property name="lines">1</property>
+                              </object>
+                            </child>
                           </object>
                         </child>
                       </object>
