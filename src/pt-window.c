@@ -135,6 +135,17 @@ goto_position (GSimpleAction *action,
 	gtk_widget_destroy (GTK_WIDGET (dlg));
 }
 
+void
+goto_cursor (GSimpleAction *action,
+	     GVariant      *parameter,
+	     gpointer       user_data)
+{
+	PtWindow *win;
+	win = PT_WINDOW (user_data);
+
+	pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
+}
+
 static void
 set_zoom (GSettings *editor,
           gint       step)
@@ -170,6 +181,7 @@ const GActionEntry win_actions[] = {
 	{ "copy", copy_timestamp, NULL, NULL, NULL },
 	{ "insert", insert_timestamp, NULL, NULL, NULL },
 	{ "goto", goto_position, NULL, NULL, NULL },
+	{ "goto-cursor", goto_cursor, NULL, NULL, NULL },
 	{ "zoom-in", zoom_in, NULL, NULL, NULL },
 	{ "zoom-out", zoom_out, NULL, NULL, NULL }
 };
@@ -389,6 +401,19 @@ update_insert_action_sensitivity (GtkClipboard *clip,
 }
 
 static void
+update_goto_cursor_action_sensitivity (PtWaveviewer *waveviewer,
+                                       gboolean      new,
+                                       gpointer      data)
+{
+	PtWindow  *win = PT_WINDOW (data);
+	GAction    *action;
+
+	g_print ("action");
+	action = g_action_map_lookup_action (G_ACTION_MAP (win), "goto-cursor");
+	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), !new);
+}
+
+static void
 enable_win_actions (PtWindow *win,
 		    gboolean  state)
 {
@@ -409,6 +434,10 @@ enable_win_actions (PtWindow *win,
 
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "goto");
 	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
+
+	/* always insensitve: either there is no waveform or we are already at cursor position */
+	action = g_action_map_lookup_action (G_ACTION_MAP (win), "goto-cursor");
+	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), FALSE);
 
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "zoom-in");
 	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
@@ -1068,6 +1097,10 @@ pt_window_init (PtWindow *win)
 	g_signal_connect (clip,
 			"owner-change",
 			G_CALLBACK (update_insert_action_sensitivity),
+			win);
+	g_signal_connect (win->priv->waveviewer,
+			"follow-cursor-changed",
+			G_CALLBACK (update_goto_cursor_action_sensitivity),
 			win);
 }
 

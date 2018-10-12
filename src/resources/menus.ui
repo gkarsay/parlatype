@@ -28,8 +28,12 @@
         <attribute name="action">win.copy</attribute>
       </item>
       <item>
-        <attribute name="label" translatable="yes">Insert timestamp</attribute>
+        <attribute name="label" translatable="yes">Go to timestamp</attribute>
         <attribute name="action">win.insert</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Go to cursor</attribute>
+        <attribute name="action">win.goto-cursor</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">Go to ...</attribute>
