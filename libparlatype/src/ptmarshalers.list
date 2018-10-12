@@ -1,0 +1,10 @@
+# This file was used to generate the marshallers in Meson like this:
+# marshalers = gnome.genmarshal(
+# 	'pt-marshalers',
+# 	sources: 'ptmarshalers.list',
+# 	prefix: '_pt_cclosure_marshal',
+# 	valist_marshallers: true,
+# )
+# marshal_h = marshalers[1]
+
+VOID:INT64

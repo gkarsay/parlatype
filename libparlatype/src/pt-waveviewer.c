@@ -28,6 +28,7 @@
 #include <string.h>
 #define GETTEXT_PACKAGE "libparlatype"
 #include <glib/gi18n-lib.h>
+#include "pt-marshalers.h"
 #include "pt-waveviewer-ruler.h"
 #include "pt-waveviewer-waveform.h"
 #include "pt-waveviewer-selection.h"
@@ -1205,7 +1206,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 		      0,
 		      NULL,
 		      NULL,
-		      g_cclosure_marshal_VOID__INT,
+		      _pt_cclosure_marshal_VOID__INT64,
 		      G_TYPE_NONE,
 		      1, G_TYPE_INT64);
 

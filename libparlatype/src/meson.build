@@ -5,8 +5,16 @@ gresources = gnome.compile_resources(
 	c_name: '_pt',
 )
 
+marshalers = [
+	'pt-marshalers.c',
+	'pt-marshalers.h',
+]
+
+marshal_h = marshalers[1]
+
 sources = [
 	gresources,
+	marshalers,
 	'pt-player.c',
 	'pt-progress-dialog.c',
 	'pt-wavedata.c',
@@ -39,7 +47,8 @@ install_headers(headers, subdir: 'parlatype')
 mapfile = 'libparlatype.map'
 vflag = '-Wl,--version-script,@0@/@1@'.format(meson.current_source_dir(), mapfile)
 libparlatype = shared_library(
-	'parlatype', sources,
+	'parlatype',
+	sources: sources,
 	soversion: libparlatype_so_version,
 	dependencies: deps,
 	include_directories: conf_inc,

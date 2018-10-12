@@ -22,6 +22,8 @@ BUILT_SOURCES =		\
 
 libparlatype_la_SOURCES =		\
 	$(BUILT_SOURCES)		\
+	pt-marshalers.c			\
+	pt-marshalers.h			\
 	pt-player.c			\
 	pt-progress-dialog.c		\
 	pt-wavedata.c			\
@@ -120,4 +122,5 @@ EXTRA_DIST = 			\
 	$(resource_xml)		\
 	libparlatype.map	\
 	libparlatype.symbols	\
-	meson.build
+	meson.build		\
+	ptmarshalers.list
