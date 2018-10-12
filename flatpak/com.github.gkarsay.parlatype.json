@@ -1,31 +1,24 @@
 {
     "app-id": "com.github.gkarsay.parlatype",
-    "branch": "stable",
-    
     "runtime": "org.gnome.Platform",
-    "runtime-version": "3.24",
+    "runtime-version": "master",
     "sdk": "org.gnome.Sdk",
-    
     "command": "parlatype",
+    "tags": ["devel"],
     
-    "tags": [],
-    
+    "desktop-file-name-prefix" : "(Development) ",
     "finish-args": [
         "--share=ipc",
         "--socket=x11",
         "--socket=wayland",
         "--socket=pulseaudio",
-        
         "--filesystem=host",
-        
         "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
         "--filesystem=xdg-run/dconf",
         "--filesystem=~/.config/dconf:ro",
         "--talk-name=ca.desrt.dconf",
         "--talk-name=org.freedesktop.secrets",
-        
         "--talk-name=org.gnome.SettingsDaemon",
-
         "--own-name=com.github.gkarsay.parlatype"
     ],
     "build-options": {
@@ -46,18 +39,17 @@
     "modules": [
         {
             "name": "parlatype",
+            "buildsystem": "meson",
+            "builddir": true,
             "config-opts": [
-                "--disable-introspection",
-                "--without-libreoffice"
+                "-Dlibreoffice=false"
             ],
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://github.com/gkarsay/parlatype.git",
-                    "branch": "v1.5.2"
+                    "url": "https://github.com/gkarsay/parlatype.git"
                 }
             ]
         }
     ]
 }
-
