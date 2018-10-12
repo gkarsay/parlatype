@@ -47,7 +47,6 @@ struct _PtWindowPrivate
 	GtkWidget  *pos_menu_button;
 	GtkWidget  *pos_label;
 	GtkWidget  *label_box;
-	GtkWidget  *goto_button;
 	GtkWidget  *speed_scale;
 	GtkWidget  *waveviewer;
 

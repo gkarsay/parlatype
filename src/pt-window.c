@@ -1020,38 +1020,6 @@ setup_accels_actions_headerbar (PtWindow *win)
 			GTK_ACCEL_VISIBLE);
 }
 
-void
-goto_direction_changed_cb (GtkWidget        *widget,
-                           GtkTextDirection  previous_direction,
-                           gpointer          data)
-{
-	if (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
-		gtk_button_set_image (
-				GTK_BUTTON (widget),
-				gtk_image_new_from_resource ("/com/github/gkarsay/parlatype/icons/follow-cursor-rtl-symbolic.svg"));
-	else
-		gtk_button_set_image (
-				GTK_BUTTON (widget),
-				gtk_image_new_from_resource ("/com/github/gkarsay/parlatype/icons/follow-cursor-symbolic.svg"));
-}
-
-void
-goto_clicked_cb (GtkButton *button,
-                 PtWindow  *win)
-{
-	pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
-}
-
-static void
-setup_goto_button (PtWindow *win)
-{
-	goto_direction_changed_cb (win->priv->goto_button, GTK_TEXT_DIR_NONE, NULL);
-	g_object_bind_property (
-			win->priv->waveviewer, "follow-cursor",
-			win->priv->goto_button, "sensitive",
-			G_BINDING_INVERT_BOOLEAN | G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
-}
-
 static void
 pt_window_init (PtWindow *win)
 {
@@ -1062,7 +1030,6 @@ pt_window_init (PtWindow *win)
 	setup_player (win);
 	setup_settings (win);
 	setup_accels_actions_headerbar (win);
-	setup_goto_button (win);
 	setup_mediakeys (win);		/* this is in pt_mediakeys.c */
 	pt_window_setup_dnd (win);	/* this is in pt_window_dnd.c */
 	setup_dbus_service (win);	/* this is in pt_dbus_service.c */
@@ -1196,7 +1163,6 @@ pt_window_class_init (PtWindowClass *klass)
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, pos_menu_button);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, pos_label);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, label_box);
-	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, goto_button);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, speed_scale);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, waveviewer);
 
