@@ -71,16 +71,11 @@ copy_timestamp (GSimpleAction *action,
 {
 	PtWindow *win;
 	win = PT_WINDOW (user_data);
-
-	GtkClipboard *clip;
 	const gchar  *timestamp = NULL;
 
 	timestamp = pt_player_get_timestamp (win->priv->player);
-
-	if (timestamp) {
-		clip = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
-		gtk_clipboard_set_text (clip, timestamp, -1);
-	}
+	if (timestamp)
+		gtk_clipboard_set_text (win->priv->clip, timestamp, -1);
 }
 
 static void
@@ -106,10 +101,7 @@ insert_timestamp (GSimpleAction *action,
 	PtWindow *win;
 	win = PT_WINDOW (user_data);
 
-	GtkClipboard *clip;
-
-	clip = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
-	gtk_clipboard_request_text (clip, clip_text_cb, win->priv->player);
+	gtk_clipboard_request_text (win->priv->clip, clip_text_cb, win->priv->player);
 }
 
 void
@@ -418,7 +410,6 @@ enable_win_actions (PtWindow *win,
 		    gboolean  state)
 {
 	GAction      *action;
-	GtkClipboard *clip;
 
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "copy");
 	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
@@ -428,8 +419,7 @@ enable_win_actions (PtWindow *win,
 		action = g_action_map_lookup_action (G_ACTION_MAP (win), "insert");
 		g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
 	} else {
-		clip = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
-		update_insert_action_sensitivity (clip, NULL, win);
+		update_insert_action_sensitivity (win->priv->clip, NULL, win);
 	}
 
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "goto");
@@ -1066,7 +1056,6 @@ static void
 pt_window_init (PtWindow *win)
 {
 	win->priv = pt_window_get_instance_private (win);
-	GtkClipboard *clip;
 
 	gtk_widget_init_template (GTK_WIDGET (win));
 
@@ -1083,6 +1072,8 @@ pt_window_init (PtWindow *win)
 	win->priv->progress_handler_id = 0;
 	win->priv->wavedata = NULL;
 	win->priv->playing_selection = FALSE;
+	win->priv->clip_handler_id = 0;
+	win->priv->clip = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 
 	/* Used e.g. by Xfce */
 	gtk_window_set_default_icon_name ("com.github.gkarsay.parlatype");
@@ -1093,8 +1084,7 @@ pt_window_init (PtWindow *win)
 
 	pt_window_ready_to_play (win, FALSE);
 
-	clip = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
-	g_signal_connect (clip,
+	win->priv->clip_handler_id = g_signal_connect (win->priv->clip,
 			"owner-change",
 			G_CALLBACK (update_insert_action_sensitivity),
 			win);
@@ -1124,6 +1114,10 @@ pt_window_dispose (GObject *object)
 		g_settings_set_int (win->priv->editor, "height", y);
 	}
 
+	if (win->priv->clip_handler_id > 0) {
+		g_signal_handler_disconnect (win->priv->clip, win->priv->clip_handler_id);
+		win->priv->clip_handler_id = 0;
+	}
 	remove_timer (win);
 	g_clear_object (&win->priv->editor);
 	g_clear_object (&win->priv->proxy);

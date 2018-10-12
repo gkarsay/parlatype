@@ -34,6 +34,9 @@ struct _PtWindowPrivate
 	GtkWidget  *progress_dlg;
 	gint	    progress_handler_id;
 
+	GtkClipboard *clip;
+	gulong        clip_handler_id;
+
 	GtkWidget  *button_open;
 	GtkWidget  *button_play;
 	GtkWidget  *button_fast_back;	  // not used
