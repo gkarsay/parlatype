@@ -83,12 +83,13 @@ clip_text_cb (GtkClipboard *clip,
 	      const gchar  *text,
 	      gpointer      data)
 {
-	PtPlayer *player = (PtPlayer *) data;
+	PtWindow *win = (PtWindow *) data;
 	gchar *timestamp;
 
 	if (text) {
 		timestamp = g_strdup (text);
-		pt_player_goto_timestamp (player, timestamp);
+		pt_player_goto_timestamp (win->priv->player, timestamp);
+		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
 		g_free (timestamp);
 	}
 }
@@ -101,7 +102,7 @@ insert_timestamp (GSimpleAction *action,
 	PtWindow *win;
 	win = PT_WINDOW (user_data);
 
-	gtk_clipboard_request_text (win->priv->clip, clip_text_cb, win->priv->player);
+	gtk_clipboard_request_text (win->priv->clip, clip_text_cb, win);
 }
 
 void
@@ -122,6 +123,7 @@ goto_position (GSimpleAction *action,
 	if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK) {
 		pos = pt_goto_dialog_get_pos (dlg);
 		pt_player_jump_to_position (win->priv->player, pos * 1000);
+		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
 	}
 
 	gtk_widget_destroy (GTK_WIDGET (dlg));
@@ -354,15 +356,35 @@ update_insert_action_sensitivity_cb (GtkClipboard *clip,
 {
 	PtWindow *win = PT_WINDOW (data);
 	PtPlayer *player = win->priv->player;
-	gchar    *timestamp;
+	gchar    *timestamp = NULL;
 	gboolean  result = FALSE;
 	GAction  *action;
+	gint      pos;
+	gchar    *label;
 
 	if (text) {
 		timestamp = g_strdup (text);
-		result = pt_player_string_is_timestamp (player, timestamp, TRUE);
+		pos = pt_player_get_timestamp_position (player, timestamp, TRUE);
 		g_free (timestamp);
+		timestamp = NULL;
+		if (pos >= 0) {
+			result = TRUE;
+			timestamp = pt_player_get_time_string (
+					pos,
+					pt_player_get_duration (player),
+					PT_PRECISION_SECOND_10TH);
+		}
 	}
+
+	if (timestamp)
+		label = g_strdup_printf (_("Go to time in clipboard: %s"), timestamp);
+	else
+		label = g_strdup (_("Go to time in clipboard"));
+
+	g_menu_item_set_label (win->priv->go_to_timestamp, label);
+	g_menu_remove (G_MENU (win->priv->secondary_menu), 1);
+	g_menu_insert_item (G_MENU (win->priv->secondary_menu), 1, win->priv->go_to_timestamp);
+	g_free (label);
 
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "insert");
 	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), result);
@@ -400,7 +422,6 @@ update_goto_cursor_action_sensitivity (PtWaveviewer *waveviewer,
 	PtWindow  *win = PT_WINDOW (data);
 	GAction    *action;
 
-	g_print ("action");
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "goto-cursor");
 	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), !new);
 }
@@ -957,7 +978,6 @@ setup_accels_actions_headerbar (PtWindow *win)
 	GtkWidget     *hbar;
 	GtkWidget     *primary_menu_button;
 	GMenuModel    *primary_menu;
-	GMenuModel    *secondary_menu;
 
 	builder = gtk_builder_new_from_resource ("/com/github/gkarsay/parlatype/window-headerbar.ui");
 	hbar = GTK_WIDGET (gtk_builder_get_object (builder, "headerbar"));
@@ -969,10 +989,12 @@ setup_accels_actions_headerbar (PtWindow *win)
 
 	builder = gtk_builder_new_from_resource ("/com/github/gkarsay/parlatype/menus.ui");
 	primary_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "primary-menu"));
-	secondary_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "secondary-menu"));
+	win->priv->secondary_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "secondary-menu"));
 	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (primary_menu_button), primary_menu);
-	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (win->priv->pos_menu_button), secondary_menu);
+	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (win->priv->pos_menu_button), win->priv->secondary_menu);
 	g_object_unref (builder);
+	win->priv->go_to_timestamp = g_menu_item_new (_("Go to time in clipboard"), "win.insert");
+	g_menu_insert_item (G_MENU (win->priv->secondary_menu), 1, win->priv->go_to_timestamp);
 
 	/* Accels */
 	win->priv->accels = gtk_accel_group_new ();
