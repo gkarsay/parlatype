@@ -59,61 +59,6 @@ static GOptionEntry options[] =
 };
 
 static void
-recent_cb (GSimpleAction *action,
-	   GVariant      *parameter,
-	   gpointer       app)
-{
-	GtkWidget	 *dialog;
-	GtkWindow	 *win;
-	GtkRecentInfo	 *info = NULL;
-	GtkRecentFilter  *filter;
-	GtkRecentFilter  *filter_all;
-	const gchar	 *uri = NULL;
-
-	win = gtk_application_get_active_window (app);
-	dialog = gtk_recent_chooser_dialog_new (
-			_("Recent Files"),
-			win,
-			_("_Cancel"), GTK_RESPONSE_CANCEL,
-			_("_Open"), GTK_RESPONSE_ACCEPT,
-			NULL);
-
-	gtk_recent_chooser_set_sort_type (GTK_RECENT_CHOOSER (dialog), GTK_RECENT_SORT_MRU); /* Most Recently Used first */
-	gtk_recent_chooser_set_show_icons (GTK_RECENT_CHOOSER (dialog), TRUE);
-	filter = gtk_recent_filter_new ();
-	gtk_recent_filter_set_name (filter, _("Parlatype"));
-	gtk_recent_filter_add_application (filter, "parlatype");
-	gtk_recent_filter_add_mime_type (filter, "audio/*");
-	gtk_recent_chooser_add_filter (GTK_RECENT_CHOOSER (dialog), filter);
-
-	filter_all = gtk_recent_filter_new ();
-	gtk_recent_filter_set_name (filter_all, _("All files"));
-	gtk_recent_filter_add_pattern (filter_all, "*");
-	gtk_recent_chooser_add_filter (GTK_RECENT_CHOOSER (dialog), filter_all);
-
-	gtk_recent_chooser_set_filter (GTK_RECENT_CHOOSER (dialog), filter);
-
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
-		info = gtk_recent_chooser_get_current_item (GTK_RECENT_CHOOSER (dialog));
-		if (info)
-			uri = gtk_recent_info_get_uri (info);
-	}
-
-	gtk_widget_destroy (dialog);
-
-	if (uri) {
-		/* GStreamer has problems with uris from recent chooser,
-		   as a workaround use GFile magic */
-		GFile *file = g_file_new_for_uri (uri);
-		gchar *tmp = g_file_get_uri (file);
-		pt_window_open_file (PT_WINDOW (win), tmp);
-		g_free (tmp);
-		g_object_unref (file);
-		gtk_recent_info_unref (info);
-	}
-}
-
-static void
 open_cb (GSimpleAction *action,
 	 GVariant      *parameter,
 	 gpointer       app)
@@ -283,7 +228,6 @@ quit_cb (GSimpleAction *action,
 
 const GActionEntry app_actions[] = {
 	{ "open", open_cb, NULL, NULL, NULL },
-	{ "recent", recent_cb, NULL, NULL, NULL },
 	{ "prefs", prefs_cb, NULL, NULL, NULL },
 	{ "help", help_cb, NULL, NULL, NULL },
 	{ "about", about_cb, NULL, NULL, NULL },
@@ -305,7 +249,6 @@ pt_app_startup (GApplication *app)
 	const gchar *copy_accels[2] = { "<Primary>C", NULL };
 	const gchar *insert_accels[2] = { "<Primary>V", NULL };
 	const gchar *goto_accels[2] = { "<Primary>G", NULL };
-	const gchar *recent_accels[2] = { "<Primary>R", NULL };
 	const gchar *help_accels[2] = { "F1", NULL };
 	const gchar *zoom_in_accels[3] = { "<Primary>plus", "<Primary>KP_Add", NULL };
 	const gchar *zoom_out_accels[3] = { "<Primary>minus", "<Primary>KP_Subtract", NULL };
@@ -315,9 +258,6 @@ pt_app_startup (GApplication *app)
 
 	gtk_application_set_accels_for_action (GTK_APPLICATION (app),
 			"app.open", open_accels);
-
-	gtk_application_set_accels_for_action (GTK_APPLICATION (app),
-			"app.recent", recent_accels);
 
 	gtk_application_set_accels_for_action (GTK_APPLICATION (app),
 			"win.copy", copy_accels);

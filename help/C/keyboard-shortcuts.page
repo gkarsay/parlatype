@@ -33,10 +33,6 @@
           <td><p><keyseq><key>Ctrl</key><key>o</key></keyseq></p></td>
         </tr>
         <tr>
-          <td><p>Open recent files</p></td>
-          <td><p><keyseq><key>Ctrl</key><key>r</key></keyseq></p></td>
-        </tr>
-        <tr>
           <td><p>Play/Pause</p></td>
           <td><p><keyseq><key>Ctrl</key><key>Space</key></keyseq></p></td>
         </tr>

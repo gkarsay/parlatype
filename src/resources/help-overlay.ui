@@ -23,13 +23,6 @@
             <child>
               <object class="GtkShortcutsShortcut">
                 <property name="visible">1</property>
-                <property name="accelerator">&lt;ctrl&gt;R</property>
-                <property name="title" translatable="yes">Open recently used media files</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="visible">1</property>
                 <property name="accelerator">F10</property>
                 <property name="title" translatable="yes">Show/hide action menu</property>
               </object>
