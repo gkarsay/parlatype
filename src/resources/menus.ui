@@ -1,24 +1,12 @@
 <?xml version="1.0"?>
 <interface>
   <!-- interface-requires gtk+ 3.0 -->
-  <menu id="appmenu">
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">Open File</attribute>
-        <attribute name="action">app.open</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">Recent Files</attribute>
-        <attribute name="action">app.recent</attribute>
-      </item>
-    </section>
+  <menu id="primary-menu">
     <section>
       <item>
         <attribute name="label" translatable="yes">Preferences</attribute>
         <attribute name="action">app.prefs</attribute>
       </item>
-    </section>
-    <section>
       <item>
         <attribute name="label" translatable="yes">_Keyboard Shortcuts</attribute>
         <attribute name="action">win.show-help-overlay</attribute>
@@ -28,55 +16,19 @@
         <attribute name="action">app.help</attribute>
       </item>
       <item>
-        <attribute name="label" translatable="yes">Info</attribute>
+        <attribute name="label" translatable="yes">About Parlatype</attribute>
         <attribute name="action">app.about</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">Quit</attribute>
-        <attribute name="action">app.quit</attribute>
       </item>
     </section>
   </menu>
-  <menu id="appmenu-pre-3-20">
-    <section>
+  <menu id="secondary-menu">
       <item>
-        <attribute name="label" translatable="yes">Open File</attribute>
-        <attribute name="action">app.open</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">Recent Files</attribute>
-        <attribute name="action">app.recent</attribute>
-      </item>
-    </section>
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">Preferences</attribute>
-        <attribute name="action">app.prefs</attribute>
-      </item>
-    </section>
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">Help</attribute>
-        <attribute name="action">app.help</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">Info</attribute>
-        <attribute name="action">app.about</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">Quit</attribute>
-        <attribute name="action">app.quit</attribute>
-      </item>
-    </section>
-  </menu>
-  <menu id="winmenu">
-      <item>
-        <attribute name="label" translatable="yes">Copy timestamp</attribute>
+        <attribute name="label" translatable="yes">Copy time to clipboard</attribute>
         <attribute name="action">win.copy</attribute>
       </item>
       <item>
-        <attribute name="label" translatable="yes">Insert timestamp</attribute>
-        <attribute name="action">win.insert</attribute>
+        <attribute name="label" translatable="yes">Go to cursor</attribute>
+        <attribute name="action">win.goto-cursor</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">Go to ...</attribute>

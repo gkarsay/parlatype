@@ -34,6 +34,9 @@ struct _PtWindowPrivate
 	GtkWidget  *progress_dlg;
 	gint	    progress_handler_id;
 
+	GtkClipboard *clip;
+	gulong        clip_handler_id;
+
 	GtkWidget  *button_open;
 	GtkWidget  *button_play;
 	GtkWidget  *button_fast_back;	  // not used
@@ -41,11 +44,13 @@ struct _PtWindowPrivate
 	GtkWidget  *button_jump_back;
 	GtkWidget  *button_jump_forward;
 	GtkWidget  *volumebutton;
+	GtkWidget  *pos_menu_button;
 	GtkWidget  *pos_label;
+	GMenuItem  *go_to_timestamp;
 	GtkWidget  *label_box;
-	GtkWidget  *goto_button;
 	GtkWidget  *speed_scale;
 	GtkWidget  *waveviewer;
+	GMenuModel *secondary_menu;
 
 	PtWavedata *wavedata;
 

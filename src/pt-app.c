@@ -293,9 +293,6 @@ const GActionEntry app_actions[] = {
 static void
 pt_app_startup (GApplication *app)
 {
-	GtkBuilder *builder;
-	GMenuModel *app_menu;
-
 	g_application_set_resource_base_path (app, "/com/github/gkarsay/parlatype");
 	G_APPLICATION_CLASS (pt_app_parent_class)->startup (app);
 
@@ -339,16 +336,6 @@ pt_app_startup (GApplication *app)
 
 	gtk_application_set_accels_for_action (GTK_APPLICATION (app),
 			"win.zoom-out", zoom_out_accels);
-
-	builder = gtk_builder_new_from_resource ("/com/github/gkarsay/parlatype/menus.ui");
-
-#if GTK_CHECK_VERSION(3,20,0)
-	app_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "appmenu"));
-#else
-	app_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "appmenu-pre-3-20"));
-#endif
-	gtk_application_set_app_menu (GTK_APPLICATION (app), app_menu);
-	g_object_unref (builder);
 
 	/* Load custom css */
 	GtkCssProvider *provider;
