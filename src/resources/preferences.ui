@@ -29,6 +29,72 @@
     <property name="step_increment">1</property>
     <property name="page_increment">1</property>
   </object>
+  <object class="GtkListStore" id="delimiter_liststore">
+    <columns>
+      <!-- column-name Value -->
+      <column type="gchararray"/>
+      <!-- column-name Description -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0">None</col>
+        <col id="1" translatable="yes" comments="This refers to: &quot;Characters around timestamps&quot;">None</col>
+      </row>
+      <row>
+        <col id="0">#</col>
+        <col id="1" translatable="yes">#Hashtags#</col>
+      </row>
+      <row>
+        <col id="0">(</col>
+        <col id="1" translatable="yes">(Round brackets)</col>
+      </row>
+      <row>
+        <col id="0">[</col>
+        <col id="1" translatable="yes">[Square brackets]</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="fraction_liststore">
+    <columns>
+      <!-- column-name Value -->
+      <column type="gchararray"/>
+      <!-- column-name Description -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0">.</col>
+        <col id="1" translatable="yes">. (point)</col>
+      </row>
+      <row>
+        <col id="0">-</col>
+        <col id="1" translatable="yes">- (hyphen)</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="precision_liststore">
+    <columns>
+      <!-- column-name Value -->
+      <column type="gint"/>
+      <!-- column-name Description -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0">0</col>
+        <col id="1" translatable="yes">Full seconds</col>
+      </row>
+      <row>
+        <col id="0">1</col>
+        <col id="1" translatable="yes">10th seconds</col>
+      </row>
+      <row>
+        <col id="0">2</col>
+        <col id="1" translatable="yes">100th seconds</col>
+      </row>
+    </data>
+  </object>
   <template class="PtPreferencesDialog" parent="GtkDialog">
     <property name="height_request">200</property>
     <property name="can_focus">False</property>
@@ -41,7 +107,7 @@
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <property name="border_width">0</property>
-        <child internal-child="action_area">
+         <child internal-child="action_area">
           <object class="GtkButtonBox" id="dialog-action_area1">
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
@@ -412,6 +478,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
+                    <property name="halign">start</property>
                     <property name="draw_indicator">True</property>
                     <signal name="toggled" handler="hours_check_toggled" swapped="no"/>
                   </object>
@@ -425,7 +492,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_top">12</property>
-                    <property name="label" translatable="yes">Seconds and below</property>
+                    <property name="label" translatable="yes">Precision</property>
                     <property name="xalign">0</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
@@ -472,6 +539,7 @@
                   <object class="GtkComboBox" id="delimiter_combo">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="halign">start</property>
                     <property name="model">delimiter_liststore</property>
                     <property name="id_column">0</property>
                     <signal name="changed" handler="delimiter_combo_changed" swapped="no"/>
@@ -488,9 +556,10 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkGrid">
+                  <object class="GtkGrid" id="precision-grid">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="halign">start</property>
                     <property name="row_spacing">6</property>
                     <property name="column_spacing">6</property>
                     <child>
@@ -509,6 +578,7 @@
                       <object class="GtkComboBox" id="precision_combo">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="hexpand">True</property>
                         <property name="model">precision_liststore</property>
                         <property name="id_column">0</property>
                         <signal name="changed" handler="precision_combo_changed" swapped="no"/>
@@ -540,6 +610,7 @@
                       <object class="GtkComboBox" id="separator_combo">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="hexpand">True</property>
                         <property name="model">fraction_liststore</property>
                         <property name="id_column">0</property>
                         <signal name="changed" handler="separator_combo_changed" swapped="no"/>
@@ -562,23 +633,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="halign">start</property>
-                    <property name="hexpand">False</property>
-                    <property name="label" translatable="yes">Note: These are examples for timestamps produced by Parlatype. There is no configuration needed to read timestamps, it always accepts all known timestamp formats.</property>
-                    <property name="wrap">True</property>
-                    <property name="max_width_chars">50</property>
-                    <property name="xalign">0</property>
-                    <attributes>
-                      <attribute name="style" value="italic"/>
-                    </attributes>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">9</property>
-                  </packing>
+                  <placeholder/>
                 </child>
               </object>
               <packing>
@@ -676,70 +731,11 @@
       </object>
     </child>
   </template>
-  <object class="GtkListStore" id="delimiter_liststore">
-    <columns>
-      <!-- column-name Value -->
-      <column type="gchararray"/>
-      <!-- column-name Description -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0">None</col>
-        <col id="1" translatable="yes">None</col>
-      </row>
-      <row>
-        <col id="0">#</col>
-        <col id="1" translatable="yes">#Hashtags#</col>
-      </row>
-      <row>
-        <col id="0">(</col>
-        <col id="1" translatable="yes">(Round brackets)</col>
-      </row>
-      <row>
-        <col id="0">[</col>
-        <col id="1" translatable="yes">[Square brackets]</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="fraction_liststore">
-    <columns>
-      <!-- column-name Value -->
-      <column type="gchararray"/>
-      <!-- column-name Description -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0">.</col>
-        <col id="1" translatable="yes">. (point)</col>
-      </row>
-      <row>
-        <col id="0">-</col>
-        <col id="1" translatable="yes">- (hyphen)</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="precision_liststore">
-    <columns>
-      <!-- column-name Value -->
-      <column type="gint"/>
-      <!-- column-name Description -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0">0</col>
-        <col id="1" translatable="yes">Full seconds</col>
-      </row>
-      <row>
-        <col id="0">1</col>
-        <col id="1" translatable="yes">10th seconds</col>
-      </row>
-      <row>
-        <col id="0">2</col>
-        <col id="1" translatable="yes">100th seconds</col>
-      </row>
-    </data>
+  <object class="GtkSizeGroup">
+    <widgets>
+      <widget name="hours_check"/>
+      <widget name="delimiter_combo"/>
+      <widget name="precision-grid"/>
+    </widgets>
   </object>
 </interface>
