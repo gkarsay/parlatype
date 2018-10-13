@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-13 11:09+0200\n"
-"PO-Revision-Date: 2018-02-28 23:11+0100\n"
+"PO-Revision-Date: 2018-10-13 11:16+0200\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
 "Language-Team: Deutsch <>\n"
 "Language: de\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
 #: data/com.github.gkarsay.parlatype.appdata.xml.in:7
 #: data/com.github.gkarsay.parlatype.desktop.in:4 src/pt-app.c:84
@@ -40,7 +40,7 @@ msgstr ""
 
 #: data/com.github.gkarsay.parlatype.appdata.xml.in:24
 msgid "Gabor Karsay"
-msgstr ""
+msgstr "Gabor Karsay"
 
 #: data/com.github.gkarsay.parlatype.desktop.in:5
 msgid "Transcription utility"
@@ -52,7 +52,7 @@ msgstr "Transkription;"
 
 #: data/com.github.gkarsay.parlatype.desktop.in:8
 msgid "com.github.gkarsay.parlatype"
-msgstr ""
+msgstr "com.github.gkarsay.parlatype"
 
 #: data/com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in:6
 msgid "LibreOffice/Parlatype Helpers"
@@ -189,14 +189,13 @@ msgid "Start playing"
 msgstr "Wiedergabe starten"
 
 #: src/pt-window.c:380
-#, fuzzy, c-format
+#, c-format
 msgid "Go to time in clipboard: %s"
-msgstr "Zu Zeitstempel aus Zwischenablage gehen"
+msgstr "Zu Zeit aus Zwischenablage gehen: %s"
 
 #: src/pt-window.c:382 src/pt-window.c:996
-#, fuzzy
 msgid "Go to time in clipboard"
-msgstr "Zu Zeitstempel aus Zwischenablage gehen"
+msgstr "Zu Zeit aus Zwischenablage gehen"
 
 #: src/resources/goto-dialog.ui:13 src/resources/menus.ui:34
 msgid "Go to ..."
@@ -287,59 +286,53 @@ msgid "_Keyboard Shortcuts"
 msgstr "_Tastenkürzel"
 
 #: src/resources/menus.ui:19
-#, fuzzy
 msgid "About Parlatype"
-msgstr "Parlatype"
+msgstr "Über Parlatype"
 
 #: src/resources/menus.ui:26
-#, fuzzy
 msgid "Copy time to clipboard"
-msgstr "Zeitstempel in die Zwischenablage kopieren"
+msgstr "Zeit in die Zwischenablage kopieren"
 
 #: src/resources/menus.ui:30
-#, fuzzy
 msgid "Go to cursor"
-msgstr "Cursor _bewegt sich"
+msgstr "Zu Cursor gehen"
 
 #. This refers to: "Characters around timestamps"
 #: src/resources/preferences.ui:42
 msgid "None"
-msgstr ""
+msgstr "Keine"
 
 #: src/resources/preferences.ui:46
 msgid "#Hashtags#"
-msgstr ""
+msgstr "#Rauten#"
 
 #: src/resources/preferences.ui:50
 msgid "(Round brackets)"
-msgstr ""
+msgstr "(Runde Klammern)"
 
 #: src/resources/preferences.ui:54
 msgid "[Square brackets]"
-msgstr ""
+msgstr "[Eckige Klammern]"
 
 #: src/resources/preferences.ui:68
 msgid ". (point)"
-msgstr ""
+msgstr ". (Punkt)"
 
 #: src/resources/preferences.ui:72
 msgid "- (hyphen)"
-msgstr ""
+msgstr "- (Bindestrich)"
 
 #: src/resources/preferences.ui:86
-#, fuzzy
 msgid "Full seconds"
-msgstr "Sekunden"
+msgstr "Ganze Sekunden"
 
 #: src/resources/preferences.ui:90
-#, fuzzy
 msgid "10th seconds"
-msgstr "Sekunden"
+msgstr "Zehntelsekunden"
 
 #: src/resources/preferences.ui:94
-#, fuzzy
 msgid "100th seconds"
-msgstr "Sekunden"
+msgstr "Hundertstelsekunden"
 
 #: src/resources/preferences.ui:102
 msgid "Parlatype Preferences"
@@ -389,36 +382,35 @@ msgstr "Steuerung"
 
 #: src/resources/preferences.ui:464
 msgid "Hours and zeroes"
-msgstr ""
+msgstr "Stunden und Nullen"
 
 #: src/resources/preferences.ui:477
 msgid "Always show hours and leading zeroes"
-msgstr ""
+msgstr "Immer Stunden und führende Null zeigen"
 
 #: src/resources/preferences.ui:495
 msgid "Precision"
-msgstr ""
+msgstr "Genauigkeit"
 
 #: src/resources/preferences.ui:511
 msgid "Characters around timestamps"
-msgstr ""
+msgstr "Zeichen um Zeitstempel"
 
 #: src/resources/preferences.ui:527
 msgid "Examples"
-msgstr ""
+msgstr "Beispiele"
 
 #: src/resources/preferences.ui:569
 msgid "Precision:"
-msgstr ""
+msgstr "Genauigkeit:"
 
 #: src/resources/preferences.ui:601
 msgid "Fraction separator:"
-msgstr ""
+msgstr "Abgrenzung für Sekundenbruchteile:"
 
 #: src/resources/preferences.ui:647
-#, fuzzy
 msgid "Timestamps"
-msgstr "Zeitstempel kopieren"
+msgstr "Zeitstempel"
 
 #: src/resources/preferences.ui:665
 msgid "Remember _size"
