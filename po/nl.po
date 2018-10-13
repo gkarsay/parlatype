@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
-"Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
-"POT-Creation-Date: 2018-08-21 23:15+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-13 11:09+0200\n"
 "PO-Revision-Date: 2017-06-26 09:33+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: data/com.github.gkarsay.parlatype.appdata.xml.in:7
 #: data/com.github.gkarsay.parlatype.desktop.in:4 src/pt-app.c:84
-#: src/pt-app.c:235 src/resources/window.ui:32
+#: src/pt-app.c:263 src/resources/window.ui:32
 #: src/resources/window-headerbar.ui:7
 msgid "Parlatype"
 msgstr "Parlatype"
@@ -82,33 +82,34 @@ msgstr ""
 msgid "Show the application's version"
 msgstr "Applicatieversie weergeven"
 
-#: src/pt-app.c:75 src/resources/menus.ui:11 src/resources/menus.ui:47
-#: src/resources/menus.ui:96 src/resources/menus.ui:157
+#: src/pt-app.c:75
 msgid "Recent Files"
 msgstr "Recente bestanden"
 
-#: src/pt-app.c:77 src/pt-app.c:134 src/resources/goto-dialog.ui:26
+#: src/pt-app.c:77 src/pt-app.c:137 src/pt-app.c:144
+#: src/resources/goto-dialog.ui:26
 msgid "_Cancel"
 msgstr "_Annuleren"
 
-#: src/pt-app.c:78 src/pt-app.c:135 src/resources/window-headerbar.ui:12
+#: src/pt-app.c:78 src/pt-app.c:136 src/pt-app.c:145
+#: src/resources/window-headerbar.ui:12
 msgid "_Open"
 msgstr "_Openen"
 
-#: src/pt-app.c:90 src/pt-app.c:146
+#: src/pt-app.c:90 src/pt-app.c:167
 msgid "All files"
 msgstr "Alle bestanden"
 
-#: src/pt-app.c:131
+#: src/pt-app.c:133 src/pt-app.c:141
 msgid "Open Audio File"
 msgstr "Audiobestand openen"
 
-#: src/pt-app.c:145
+#: src/pt-app.c:166
 msgid "Audio files"
 msgstr "Audiobestanden"
 
 #. Translators: %s is a detailed error message
-#: src/pt-app.c:202
+#: src/pt-app.c:230
 #, c-format
 msgid "Error opening help: %s"
 msgstr "Fout bij openen van hulp: %s"
@@ -117,21 +118,21 @@ msgstr "Fout bij openen van hulp: %s"
 #. copyright holders of code from other projects. Instead of
 #. "including" it could also say "with" or just "Code from
 #. other projects:"
-#: src/pt-app.c:220
+#: src/pt-app.c:248
 msgid "Including code from other projects:"
 msgstr "Inclusief code van andere projecten:"
 
-#: src/pt-app.c:238
+#: src/pt-app.c:266
 msgid "A basic transcription utility"
 msgstr "Een basis-transcriptiehulpmiddel"
 
-#: src/pt-app.c:242
+#: src/pt-app.c:270
 msgid "translator-credits"
 msgstr ""
 "Launchpad Contributions:\n"
 "  Heimen Stoffels https://launchpad.net/~vistaus"
 
-#: src/pt-app.c:424
+#: src/pt-app.c:379
 msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
 "ignored.\n"
@@ -153,56 +154,53 @@ msgstr "%d:%02d:%02d"
 #. or the "Go to ..." dialog. There is a label like
 #. "Jump back:", "Jump forward:", "Jump back on pause:"
 #. or "Go to position:" before.
-#: src/pt-goto-dialog.c:79 src/pt-preferences.c:62 src/pt-preferences.c:72
-#: src/pt-preferences.c:82
+#: src/pt-goto-dialog.c:79 src/pt-preferences.c:79 src/pt-preferences.c:89
+#: src/pt-preferences.c:99
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "seconde"
 msgstr[1] "seconden"
 
-#: src/pt-preferences.c:193
-msgid "_Close"
-msgstr "_Sluiten"
-
-#: src/pt-window.c:296
+#: src/pt-window.c:302
 #, c-format
 msgid "Jump back 1 second"
 msgid_plural "Jump back %d seconds"
 msgstr[0] "1 seconde terugspoelen"
 msgstr[1] "%d seconden terugspoelen"
 
-#: src/pt-window.c:311
+#: src/pt-window.c:317
 #, c-format
 msgid "Jump forward 1 second"
 msgid_plural "Jump forward %d seconds"
 msgstr[0] "1 seconde vooruitspoelen"
 msgstr[1] "%d seconden vooruitspoelen"
 
-#: src/pt-window.c:328
+#: src/pt-window.c:334
 msgid "Pause"
 msgstr "Pauzeren"
 
-#: src/pt-window.c:331
+#: src/pt-window.c:337
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
 msgstr[0] "Pauzeren en 1 seconde terugspoelen"
 msgstr[1] "Pauzeren en %d seconden terugspoelen"
 
-#: src/pt-window.c:338
+#: src/pt-window.c:344
 msgid "Start playing"
 msgstr "Afspelen starten"
 
-#: src/pt-window.c:991
-msgid "View follows cursor"
-msgstr "Weergave volgt cursor"
+#: src/pt-window.c:380
+#, fuzzy, c-format
+msgid "Go to time in clipboard: %s"
+msgstr "Tijdstempel kopiëren"
 
-#: src/pt-window.c:993
-msgid "Click to follow cursor"
-msgstr "Klik om cursor te volgen"
+#: src/pt-window.c:382 src/pt-window.c:996
+#, fuzzy
+msgid "Go to time in clipboard"
+msgstr "Tijdstempel kopiëren"
 
-#: src/resources/goto-dialog.ui:13 src/resources/menus.ui:82
-#: src/resources/menus.ui:118 src/resources/menus.ui:179
+#: src/resources/goto-dialog.ui:13 src/resources/menus.ui:34
 msgid "Go to ..."
 msgstr "Ga naar ..."
 
@@ -232,13 +230,11 @@ msgstr ""
 msgid "Show/hide action menu"
 msgstr "Applicatieversie weergeven"
 
-#: src/resources/help-overlay.ui:41 src/resources/menus.ui:35
-#: src/resources/menus.ui:67 src/resources/menus.ui:100
-#: src/resources/menus.ui:161
+#: src/resources/help-overlay.ui:41
 msgid "Quit"
 msgstr "Afsluiten"
 
-#: src/resources/help-overlay.ui:49 src/resources/preferences.ui:207
+#: src/resources/help-overlay.ui:49 src/resources/preferences.ui:273
 msgid "Waveform"
 msgstr "Golfvorm"
 
@@ -278,9 +274,7 @@ msgstr "Tijdstempel kopiëren"
 msgid "Go to timestamp in clipboard"
 msgstr ""
 
-#: src/resources/help-overlay.ui:129 src/resources/menus.ui:27
-#: src/resources/menus.ui:59 src/resources/menus.ui:137
-#: src/resources/menus.ui:194
+#: src/resources/help-overlay.ui:129 src/resources/menus.ui:15
 msgid "Help"
 msgstr "Hulp"
 
@@ -292,111 +286,170 @@ msgstr ""
 msgid "Show keyboard shortcuts"
 msgstr ""
 
-#: src/resources/menus.ui:7 src/resources/menus.ui:43 src/resources/menus.ui:92
-#: src/resources/menus.ui:153
-msgid "Open File"
-msgstr "Bestand openen"
-
-#: src/resources/menus.ui:17 src/resources/menus.ui:53
-#: src/resources/menus.ui:122 src/resources/menus.ui:183
+#: src/resources/menus.ui:7
 msgid "Preferences"
 msgstr "Voorkeuren"
 
-#: src/resources/menus.ui:23 src/resources/menus.ui:133
+#: src/resources/menus.ui:11
 msgid "_Keyboard Shortcuts"
 msgstr ""
 
-#: src/resources/menus.ui:31 src/resources/menus.ui:63
-#: src/resources/menus.ui:141 src/resources/menus.ui:198
-msgid "Info"
-msgstr "Informatie"
+#: src/resources/menus.ui:19
+#, fuzzy
+msgid "About Parlatype"
+msgstr "Parlatype"
 
-#: src/resources/menus.ui:74 src/resources/menus.ui:110
-#: src/resources/menus.ui:171
-msgid "Copy timestamp"
+#: src/resources/menus.ui:26
+#, fuzzy
+msgid "Copy time to clipboard"
 msgstr "Tijdstempel kopiëren"
 
-#: src/resources/menus.ui:78 src/resources/menus.ui:114
-#: src/resources/menus.ui:175
-msgid "Insert timestamp"
-msgstr "Tijdstempel invoegen"
+#: src/resources/menus.ui:30
+#, fuzzy
+msgid "Go to cursor"
+msgstr "Be_wegende cursor"
 
-#: src/resources/menus.ui:88 src/resources/menus.ui:149
-msgid "_File"
-msgstr "_Bestand"
+#. This refers to: "Characters around timestamps"
+#: src/resources/preferences.ui:42
+msgid "None"
+msgstr ""
 
-#: src/resources/menus.ui:106 src/resources/menus.ui:167
-msgid "_Edit"
-msgstr "_Bewerken"
+#: src/resources/preferences.ui:46
+msgid "#Hashtags#"
+msgstr ""
 
-#: src/resources/menus.ui:128 src/resources/menus.ui:189
-msgid "_Help"
-msgstr "_Hulp"
+#: src/resources/preferences.ui:50
+msgid "(Round brackets)"
+msgstr ""
 
-#: src/resources/preferences.ui:36
+#: src/resources/preferences.ui:54
+msgid "[Square brackets]"
+msgstr ""
+
+#: src/resources/preferences.ui:68
+msgid ". (point)"
+msgstr ""
+
+#: src/resources/preferences.ui:72
+msgid "- (hyphen)"
+msgstr ""
+
+#: src/resources/preferences.ui:86
+#, fuzzy
+msgid "Full seconds"
+msgstr "seconde"
+
+#: src/resources/preferences.ui:90
+#, fuzzy
+msgid "10th seconds"
+msgstr "seconde"
+
+#: src/resources/preferences.ui:94
+#, fuzzy
+msgid "100th seconds"
+msgstr "seconde"
+
+#: src/resources/preferences.ui:102
 msgid "Parlatype Preferences"
 msgstr "Parlatype-voorkeuren"
 
-#: src/resources/preferences.ui:78
+#: src/resources/preferences.ui:143
 msgid "_Pixels per second:"
 msgstr "_Pixels per seconde:"
 
-#: src/resources/preferences.ui:107
+#: src/resources/preferences.ui:173
 msgid "Show _time scale"
 msgstr "_Tijdschaal weergeven"
 
 #. Resolution of the waveform image
-#: src/resources/preferences.ui:126
+#: src/resources/preferences.ui:191
 msgid "Resolution"
 msgstr "Resolutie"
 
 #. A section in preferences, how to display the waveform.
-#: src/resources/preferences.ui:141
+#: src/resources/preferences.ui:206
 msgid "Display"
 msgstr "Weergave"
 
-#: src/resources/preferences.ui:153
+#: src/resources/preferences.ui:219
 msgid "_Moving cursor"
 msgstr "Be_wegende cursor"
 
-#: src/resources/preferences.ui:170
+#: src/resources/preferences.ui:236
 msgid "_Fixed cursor"
 msgstr "_Vastgezette cursor"
 
-#: src/resources/preferences.ui:228
+#: src/resources/preferences.ui:293
 msgid "Jump back on _pause:"
 msgstr "Terugspoelen bij _pauzeren:"
 
-#: src/resources/preferences.ui:320
+#: src/resources/preferences.ui:385
 msgid "Jump _back:"
 msgstr "_Terugspoelen"
 
-#: src/resources/preferences.ui:334
+#: src/resources/preferences.ui:399
 msgid "Jump _forward:"
 msgstr "_Vooruitspoelen:"
 
-#: src/resources/preferences.ui:352
+#: src/resources/preferences.ui:418
 msgid "Controls"
 msgstr "Bediening"
 
-#: src/resources/preferences.ui:370
+#: src/resources/preferences.ui:464
+msgid "Hours and zeroes"
+msgstr ""
+
+#: src/resources/preferences.ui:477
+msgid "Always show hours and leading zeroes"
+msgstr ""
+
+#: src/resources/preferences.ui:495
+msgid "Precision"
+msgstr ""
+
+#: src/resources/preferences.ui:511
+msgid "Characters around timestamps"
+msgstr ""
+
+#: src/resources/preferences.ui:527
+msgid "Examples"
+msgstr ""
+
+#: src/resources/preferences.ui:569
+msgid "Precision:"
+msgstr ""
+
+#: src/resources/preferences.ui:601
+msgid "Fraction separator:"
+msgstr ""
+
+#: src/resources/preferences.ui:647
+#, fuzzy
+msgid "Timestamps"
+msgstr "Tijdstempel kopiëren"
+
+#: src/resources/preferences.ui:665
 #, fuzzy
 msgid "Remember _size"
 msgstr "_Positie onthouden"
 
-#: src/resources/preferences.ui:385
+#: src/resources/preferences.ui:680
 msgid "Remember _position"
 msgstr "_Positie onthouden"
 
-#: src/resources/preferences.ui:400
+#: src/resources/preferences.ui:695
 msgid "Start on _top"
 msgstr "Beginnen aan _bovenkant"
 
-#: src/resources/preferences.ui:422
+#: src/resources/preferences.ui:717
 msgid "Window"
 msgstr "Venster"
 
-#: src/resources/window.ui:292
+#: src/resources/window.ui:145
+msgid "_Play"
+msgstr "Afs_pelen"
+
+#: src/resources/window.ui:324
 msgid "Speed:"
 msgstr "Snelheid:"
 
@@ -404,9 +457,32 @@ msgstr "Snelheid:"
 msgid "Open a file"
 msgstr "Een bestand openen"
 
-#: src/resources/window-headerbar.ui:52
-msgid "_Play"
-msgstr "Afs_pelen"
+#~ msgid "_Close"
+#~ msgstr "_Sluiten"
+
+#~ msgid "View follows cursor"
+#~ msgstr "Weergave volgt cursor"
+
+#~ msgid "Click to follow cursor"
+#~ msgstr "Klik om cursor te volgen"
+
+#~ msgid "Open File"
+#~ msgstr "Bestand openen"
+
+#~ msgid "Info"
+#~ msgstr "Informatie"
+
+#~ msgid "Insert timestamp"
+#~ msgstr "Tijdstempel invoegen"
+
+#~ msgid "_File"
+#~ msgstr "_Bestand"
+
+#~ msgid "_Edit"
+#~ msgstr "_Bewerken"
+
+#~ msgid "_Help"
+#~ msgstr "_Hulp"
 
 #~ msgid "[FILE]"
 #~ msgstr "[BESTAND]"
