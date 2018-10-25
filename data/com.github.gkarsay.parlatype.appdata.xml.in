@@ -34,7 +34,6 @@
 		<id>libreoffice-writer.desktop</id>
 	</suggests>
 	<kudos>
-		<kudo>AppMenu</kudo>
 		<kudo>ModernToolkit</kudo>
 		<kudo>UserDocs</kudo>
 	</kudos>
