@@ -19,7 +19,7 @@
 <p>You can also drag and drop a file on <app>Parlatype</app>.</p>
 </note>
 
-<p>Now in the upper left corner there is a <gui>Play</gui> button which toggles between play and pause. Whenever you pause, <app>Parlatype</app> rewinds a few seconds to make it easier to resume. This can be changed in the <link xref="preferences" />.</p>
+<p>In the lower left corner there are the controls with a <gui>Play</gui> button which toggles between play and pause. Whenever you pause, <app>Parlatype</app> rewinds a few seconds to make it easier to resume. This can be changed in the <link xref="preferences" />.</p>
 
 <media type="image" src="figures/parlatype-main-window.png"/>
 
@@ -27,7 +27,7 @@
 
 <p>The view scrolls automatically so that the cursor is always visible. You can scroll manually by clicking on or dragging the scroll bar or using the standard keybindings. Automatic scrolling is stopped then.</p>
 
-<p>To get back to the cursor's position and let the view scroll automatically again, click on the <gui>Go to</gui> button next to the time label. Clicking on the <gui>Play</gui> button also turns automatic scrolling on.</p>
+<p>To get back to the cursor's position and let the view scroll automatically again, click on the menu button showing the time and then on <gui>Go to cursor</gui>. Clicking on the <gui>Play</gui> button also turns automatic scrolling on.</p>
 
 <p>Clicking in the view with the right mouse button will put the cursor there, also holding the right mouse button pressed and moving it. The left mouse button is for <link xref="selections" />.</p>
 

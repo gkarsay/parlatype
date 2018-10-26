@@ -13,7 +13,7 @@
 
 <title>Preferences</title>
 
-<p>You can reach the preferences window in the Application Menu (next to <gui>Activities</gui> in the top left corner. There are three tabs: <gui>Waveform</gui>, <gui>Controls</gui> and <gui>Window</gui>.</p>
+<p>To open the preferences dialog click on the primary menu in the headerbar. There are four tabs: <gui>Waveform</gui>, <gui>Controls</gui>, <gui>Timestamps</gui> and <gui>Window</gui>.</p>
 
 <section id="waveform">
 <title>Waveform</title>
@@ -36,6 +36,21 @@
 <item><p>Jump back on pause: <app>Parlatype</app> will rewind a few seconds on each pause, this way you can easier resume typing. Set this value to 0 if you don't want this behaviour.</p></item>
 <item><p>Jump back: Configures how many seconds to skip when the <gui>Jump back</gui> button is pressed.</p></item>
 <item><p>Jump forward: Configures how many seconds to skip when the <gui>Jump forward</gui> button is pressed.</p></item>
+</list>
+</section>
+
+<section id="timstamps">
+<title>Timestamps</title>
+
+<media type="image" src="figures/parlatype-prefs-timestamps.png"/>
+
+<p>These settings affect how <app>Parlatype</app> formats timestamps. If you need a certain format in your transcription, you can adjust it here.</p>
+<note><p>There are no settings for <em>reading</em> timestamps. <app>Parlatype</app> reads and accepts all of these formats.</p></note>
+<list>
+<item><p>Always show hours and leading zeroes: Whether to show a fixed number of digits. Changing any of these values will show an updated example in the <gui>Example</gui> section below.</p></item>
+<item><p>Precision: Choose between full seconds, 10th seconds or 100th seconds.</p></item>
+<item><p>Fraction separator: Choose between a point or a hyphen to separate fractions of a second.</p></item>
+<item><p>Characters around timestamps: Choose between number signs, round brackets, square brackets or none.</p></item>
 </list>
 </section>
 
