@@ -1,4 +1,4 @@
-/* Copyright (C) Gabor Karsay 2016 <gabor.karsay@gmx.at>
+/* Copyright (C) Gabor Karsay 2016-2018 <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -33,19 +33,11 @@
 #include "pt-window-private.h"
 
 
-enum
-{
-	PROP_0,
-	PROP_PAUSE,
-	PROP_BACK,
-	PROP_FORWARD,
-	N_PROPERTIES
-};
-
-static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
-
 G_DEFINE_TYPE_WITH_PRIVATE (PtWindow, pt_window, GTK_TYPE_APPLICATION_WINDOW)
 
+void play_button_toggled_cb (GtkToggleButton *button, PtWindow *win);
+void jump_back_button_clicked_cb (GtkButton *button, PtWindow *win);
+void jump_forward_button_clicked_cb (GtkButton *button, PtWindow *win);
 
 void
 pt_error_message (PtWindow    *parent,
@@ -210,48 +202,6 @@ update_time_tick (GtkWidget     *widget,
 }
 
 void
-cursor_changed_cb (GtkWidget *widget,
-		   gint64     pos,
-		   PtWindow  *win)
-{
-	/* triggered only by user */
-
-	pt_player_jump_to_position (win->priv->player, pos);
-	update_time (win);
-	pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
-}
-
-void
-selection_changed_cb (GtkWidget *widget,
-		      PtWindow  *win)
-{
-	gint64 start, end, current;
-	if (win->priv->playing_selection) {
-
-		current = pt_player_get_position (win->priv->player);
-		g_object_get (win->priv->waveviewer,
-			      "selection-start", &start,
-			      "selection-end", &end,
-			      NULL);
-		if (start <= current && current <= end) {
-			pt_player_set_selection (win->priv->player, start, end);
-		} else {
-			pt_player_clear_selection (win->priv->player);
-			win->priv->playing_selection = FALSE;
-		}
-	}
-}
-
-void
-play_toggled_cb (GtkWidget *widget,
-		 PtWindow  *win)
-{
-	gtk_toggle_button_set_active (
-		GTK_TOGGLE_BUTTON (win->priv->button_play),
-		!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->priv->button_play)));
-}
-
-void
 zoom_in_cb (GtkWidget *widget,
 	    PtWindow  *win)
 {
@@ -297,12 +247,14 @@ static void
 change_jump_back_tooltip (PtWindow *win)
 {
 	gchar *back;
+	gint   seconds;
 
+	seconds = pt_player_get_back (win->priv->player) / 1000;
 	back = g_strdup_printf (
 			ngettext ("Jump back 1 second",
 				  "Jump back %d seconds",
-				  win->priv->back),
-			win->priv->back);
+				  seconds),
+			seconds);
 
 	gtk_widget_set_tooltip_text (win->priv->button_jump_back, back);
 	g_free (back);
@@ -312,12 +264,14 @@ static void
 change_jump_forward_tooltip (PtWindow *win)
 {
 	gchar *forward;
+	gint   seconds;
 
+	seconds = pt_player_get_forward (win->priv->player) / 1000;
 	forward = g_strdup_printf (
 			ngettext ("Jump forward 1 second",
 				  "Jump forward %d seconds",
-				  win->priv->forward),
-			win->priv->forward);
+				  seconds),
+			seconds);
 
 	gtk_widget_set_tooltip_text (win->priv->button_jump_forward, forward);
 	g_free (forward);
@@ -327,17 +281,19 @@ static void
 change_play_button_tooltip (PtWindow *win)
 {
 	gchar    *play;
+	gint      pause;
 	gboolean  free_me = FALSE;
 
+	pause = pt_player_get_pause (win->priv->player) / 1000;
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->priv->button_play))) {
-		if (win->priv->pause == 0) {
+		if (pause == 0) {
 			play = _("Pause");
 		} else {
 			play = g_strdup_printf (
 					ngettext ("Pause and rewind 1 second",
 						  "Pause and rewind %d seconds",
-						  win->priv->pause),
-					win->priv->pause);
+						  pause),
+					pause);
 			free_me = TRUE;
 		}
 	} else {
@@ -571,18 +527,6 @@ pt_window_ready_to_play (PtWindow *win,
 }
 
 static void
-player_end_of_stream_cb (PtPlayer *player,
-			 PtWindow *win)
-{
-	/* Don't jump back */
-	gint temp;
-	temp = win->priv->pause;
-	win->priv->pause = 0;
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (win->priv->button_play), FALSE);
-	win->priv->pause = temp;
-}
-
-static void
 player_error_cb (PtPlayer *player,
 		 GError   *error,
 		 PtWindow *win)
@@ -629,64 +573,97 @@ pt_window_open_file (PtWindow *win,
 				  win);
 }
 
+static void
+update_play_after_toggle (PtWindow        *win,
+			  GtkToggleButton *button)
+{
+	if (gtk_toggle_button_get_active (button)) {
+		update_time (win);
+		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
+	}
+
+	change_play_button_tooltip (win);
+}
+
+
+static void
+player_play_toggled_cb (PtPlayer *player,
+			PtWindow *win)
+{
+	GtkToggleButton *play;
+	play = GTK_TOGGLE_BUTTON (win->priv->button_play);
+
+	/* Player changed play/pause; toggle GUI button and block signals */
+	g_signal_handlers_block_by_func (play, play_button_toggled_cb, win);
+	gtk_toggle_button_set_active (play, !gtk_toggle_button_get_active (play));
+	g_signal_handlers_unblock_by_func (play, play_button_toggled_cb, win);
+
+	update_play_after_toggle (win, play);
+}
+
 void
 play_button_toggled_cb (GtkToggleButton *button,
 			PtWindow	*win)
 {
-	gint64 start, end, current, dur;
-	gboolean selection;
+	/* GUI button toggled, block signals from PtPlayer */
+	g_signal_handlers_block_by_func (win->priv->player, player_play_toggled_cb, win);
+	pt_player_play_pause (win->priv->player);
+	g_signal_handlers_unblock_by_func (win->priv->player, player_play_toggled_cb, win);
 
-	if (gtk_toggle_button_get_active (button)) {
+	update_play_after_toggle (win, button);
+}
 
-		/* If there is a selection, play it */
-		g_object_get (win->priv->waveviewer,
-			      "selection-start", &start,
-			      "selection-end", &end,
-			      "has-selection", &selection,
-			      NULL);
+static void
+player_end_of_stream_cb (PtPlayer *player,
+			 PtWindow *win)
+{
+	/* Don't jump back */
+	GtkToggleButton *play;
+	play = GTK_TOGGLE_BUTTON (win->priv->button_play);
 
-		if (!win->priv->playing_selection && selection) {
-			/* Note: changes position if outside selection */
-			pt_player_set_selection (win->priv->player, start, end);
-			win->priv->playing_selection = TRUE;
-		}
-
-		/* If we're at the end of stream or selection goto start */
-		current = pt_player_get_position (win->priv->player);
-		if (win->priv->playing_selection) {
-			if (current == end)
-				pt_player_jump_to_position (win->priv->player, start);
-		} else {
-			dur = pt_player_get_duration (win->priv->player);
-			/* We are usually not (never?) at the exact duration */
-			if (dur - current < 100)
-				pt_player_jump_to_position (win->priv->player, 0);
-		}
-
-		/* before following cursor update time, not to jump back and forth */
-		update_time (win);
-		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
-		pt_player_play (win->priv->player);
-	} else {
-		pt_player_pause (win->priv->player);
-		pt_player_jump_relative (win->priv->player, win->priv->pause * -1000);
-	}
-
+	g_signal_handlers_block_by_func (play, play_button_toggled_cb, win);
+	gtk_toggle_button_set_active (play, FALSE);
+	g_signal_handlers_unblock_by_func (play, play_button_toggled_cb, win);
+	pt_player_pause (win->priv->player);
 	change_play_button_tooltip (win);
+}
+
+static void
+player_jumped_back_cb (PtPlayer *player,
+                       PtWindow *win)
+{
+	GtkButton *button;
+	button = GTK_BUTTON (win->priv->button_jump_back);
+	g_signal_handlers_block_by_func (button, jump_back_button_clicked_cb, win);
+	gtk_button_clicked (button);
+	g_signal_handlers_unblock_by_func (button, jump_back_button_clicked_cb, win);
 }
 
 void
 jump_back_button_clicked_cb (GtkButton *button,
 			     PtWindow  *win)
 {
-	pt_player_jump_relative (win->priv->player, win->priv->back * -1000);
+	g_signal_handlers_block_by_func (win->priv->player, player_jumped_back_cb, win);
+	pt_player_jump_back (win->priv->player);
+	g_signal_handlers_unblock_by_func (win->priv->player, player_jumped_back_cb, win);
+}
+
+static void
+player_jumped_forward_cb (PtPlayer *player,
+                          PtWindow *win)
+{
+	GtkButton *button;
+	button = GTK_BUTTON (win->priv->button_jump_forward);
+	g_signal_handlers_block_by_func (button, jump_forward_button_clicked_cb, win);
+	gtk_button_clicked (button);
+	g_signal_handlers_unblock_by_func (button, jump_forward_button_clicked_cb, win);
 }
 
 void
 jump_forward_button_clicked_cb (GtkButton *button,
 			        PtWindow  *win)
 {
-	pt_player_jump_relative (win->priv->player, win->priv->forward * 1000);
+	pt_player_jump_forward (win->priv->player);
 }
 
 /* currently not used */
@@ -852,25 +829,58 @@ settings_changed_cb (GSettings *settings,
 	}
 }
 
+static gboolean
+map_seconds_to_milliseconds (GValue   *value,
+	                     GVariant *variant,
+	                     gpointer  data)
+{
+	/* Settings store seconds, PtPlayer wants milliseconds */
+	gint new;
+	new = g_variant_get_int32 (variant);
+	new = new * 1000;
+	g_value_set_int (value, new);
+	return TRUE;
+}
+
+static GVariant*
+map_milliseconds_to_seconds (const GValue       *value,
+	                     const GVariantType *type,
+	                     gpointer            data)
+{
+	gint new;
+	new = g_value_get_int (value);
+	new = new / 1000;
+	return g_variant_new_int32 (new);
+}
+
 static void
 setup_settings (PtWindow *win)
 {
 	win->priv->editor = g_settings_new ("com.github.gkarsay.parlatype");
 
-	g_settings_bind (
+	g_settings_bind_with_mapping (
 			win->priv->editor, "rewind-on-pause",
-			win, "pause",
-			G_SETTINGS_BIND_GET);
+			win->priv->player, "pause",
+			G_SETTINGS_BIND_GET,
+			map_seconds_to_milliseconds,
+			map_milliseconds_to_seconds,
+			NULL, NULL);
 
-	g_settings_bind (
+	g_settings_bind_with_mapping (
 			win->priv->editor, "jump-back",
-			win, "back",
-			G_SETTINGS_BIND_GET);
+			win->priv->player, "back",
+			G_SETTINGS_BIND_GET,
+			map_seconds_to_milliseconds,
+			map_milliseconds_to_seconds,
+			NULL, NULL);
 
-	g_settings_bind (
+	g_settings_bind_with_mapping (
 			win->priv->editor, "jump-forward",
-			win, "forward",
-			G_SETTINGS_BIND_GET);
+			win->priv->player, "forward",
+			G_SETTINGS_BIND_GET,
+			map_seconds_to_milliseconds,
+			map_milliseconds_to_seconds,
+			NULL, NULL);
 
 	g_settings_bind (
 			win->priv->editor, "show-ruler",
@@ -946,6 +956,10 @@ setup_player (PtWindow *win)
 	/* Already tested in main.c, we don't check for errors here anymore */
 	win->priv->player = pt_player_new (NULL);
 
+	pt_player_connect_waveviewer (
+			win->priv->player,
+			PT_WAVEVIEWER (win->priv->waveviewer));
+
 	g_signal_connect (win->priv->player,
 			"end-of-stream",
 			G_CALLBACK (player_end_of_stream_cb),
@@ -954,6 +968,21 @@ setup_player (PtWindow *win)
 	g_signal_connect (win->priv->player,
 			"error",
 			G_CALLBACK (player_error_cb),
+			win);
+
+	g_signal_connect (win->priv->player,
+			"play-toggled",
+			G_CALLBACK (player_play_toggled_cb),
+			win);
+
+	g_signal_connect (win->priv->player,
+			"jumped-back",
+			G_CALLBACK (player_jumped_back_cb),
+			win);
+
+	g_signal_connect (win->priv->player,
+			"jumped-forward",
+			G_CALLBACK (player_jumped_forward_cb),
 			win);
 
 	g_object_bind_property (
@@ -1060,7 +1089,6 @@ pt_window_init (PtWindow *win)
 	win->priv->progress_dlg = NULL;
 	win->priv->progress_handler_id = 0;
 	win->priv->wavedata = NULL;
-	win->priv->playing_selection = FALSE;
 	win->priv->clip_handler_id = 0;
 	win->priv->clip = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 
@@ -1117,63 +1145,11 @@ pt_window_dispose (GObject *object)
 }
 
 static void
-pt_window_set_property (GObject      *object,
-			guint         property_id,
-			const GValue *value,
-			GParamSpec   *pspec)
-{
-	PtWindow *win;
-	win = PT_WINDOW (object);
-
-	switch (property_id) {
-	case PROP_PAUSE:
-		win->priv->pause = g_value_get_int (value);
-		break;
-	case PROP_BACK:
-		win->priv->back = g_value_get_int (value);
-		break;
-	case PROP_FORWARD:
-		win->priv->forward = g_value_get_int (value);
-		break;
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-		break;
-	}
-}
-
-static void
-pt_window_get_property (GObject    *object,
-			guint       property_id,
-			GValue     *value,
-			GParamSpec *pspec)
-{
-	PtWindow *win;
-	win = PT_WINDOW (object);
-
-	switch (property_id) {
-	case PROP_PAUSE:
-		g_value_set_int (value, win->priv->pause);
-		break;
-	case PROP_BACK:
-		g_value_set_int (value, win->priv->back);
-		break;
-	case PROP_FORWARD:
-		g_value_set_int (value, win->priv->forward);
-		break;
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-		break;
-	}
-}
-
-static void
 pt_window_class_init (PtWindowClass *klass)
 {
 	GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
 	GtkWidgetClass *widget_class  = GTK_WIDGET_CLASS (klass);
 
-	gobject_class->set_property = pt_window_set_property;
-	gobject_class->get_property = pt_window_get_property;
 	gobject_class->dispose      = pt_window_dispose;
 	gtk_widget_class_set_template_from_resource (widget_class, "/com/github/gkarsay/parlatype/window.ui");
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_play);
@@ -1186,41 +1162,6 @@ pt_window_class_init (PtWindowClass *klass)
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, pos_label);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, speed_scale);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, waveviewer);
-
-	obj_properties[PROP_PAUSE] =
-	g_param_spec_int (
-			"pause",
-			"Seconds to rewind on pause",
-			"Seconds to rewind on pause",
-			0,	/* minimum */
-			10,	/* maximum */
-			0,
-			G_PARAM_READWRITE);
-
-	obj_properties[PROP_BACK] =
-	g_param_spec_int (
-			"back",
-			"Seconds to jump back",
-			"Seconds to jump back",
-			1,	/* minimum */
-			60,	/* maximum */
-			10,
-			G_PARAM_READWRITE);
-
-	obj_properties[PROP_FORWARD] =
-	g_param_spec_int (
-			"forward",
-			"Seconds to jump forward",
-			"Seconds to jump forward",
-			1,	/* minimum */
-			60,	/* maximum */
-			10,
-			G_PARAM_READWRITE);
-
-	g_object_class_install_properties (
-			gobject_class,
-			N_PROPERTIES,
-			obj_properties);
 }
 
 PtWindow *

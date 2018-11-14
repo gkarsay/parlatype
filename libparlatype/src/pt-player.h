@@ -1,4 +1,4 @@
-/* Copyright (C) Gabor Karsay 2016 <gabor.karsay@gmx.at>
+/* Copyright (C) Gabor Karsay 2016-2018 <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -20,6 +20,7 @@
 
 #include <gio/gio.h>
 #include "pt-wavedata.h"
+#include "pt-waveviewer.h"
 
 #define PT_TYPE_PLAYER		(pt_player_get_type())
 #define PT_PLAYER(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), PT_TYPE_PLAYER, PtPlayer))
@@ -70,11 +71,15 @@ GType		pt_player_get_type		(void) G_GNUC_CONST;
 PtWavedata*	pt_player_get_data		(PtPlayer *player,
 						 gint      pps);
 void		pt_player_pause			(PtPlayer *player);
+void		pt_player_pause_and_rewind	(PtPlayer *player);
+gint		pt_player_get_pause		(PtPlayer *player);
 void		pt_player_play			(PtPlayer *player);
+void		pt_player_play_pause		(PtPlayer *player);
 void		pt_player_set_selection		(PtPlayer *player,
 					         gint64    start,
 					         gint64    end);
 void		pt_player_clear_selection	(PtPlayer *player);
+gboolean	pt_player_selection_active	(PtPlayer *player);
 gboolean	pt_player_open_uri_finish	(PtPlayer      *player,
 						 GAsyncResult  *result,
 						 GError       **error);
@@ -88,6 +93,10 @@ gboolean	pt_player_open_uri		(PtPlayer *player,
 void		pt_player_cancel		(PtPlayer *player);
 void		pt_player_jump_relative		(PtPlayer *player,
 						 gint      milliseconds);
+void		pt_player_jump_back		(PtPlayer *player);
+void		pt_player_jump_forward		(PtPlayer *player);
+gint		pt_player_get_back		(PtPlayer *player);
+gint		pt_player_get_forward		(PtPlayer *player);
 void		pt_player_jump_to_position	(PtPlayer *player,
 						 gint      milliseconds);
 void		pt_player_jump_to_permille	(PtPlayer *player,
@@ -126,7 +135,8 @@ gboolean	pt_player_string_is_timestamp	(PtPlayer *player,
 						 gboolean  check_duration);
 gboolean	pt_player_goto_timestamp	(PtPlayer *player,
 						 gchar    *timestamp);
-
+void		pt_player_connect_waveviewer	(PtPlayer *player,
+						 PtWaveviewer *wv);
 PtPlayer*	pt_player_new			(GError **error);
 
 #endif

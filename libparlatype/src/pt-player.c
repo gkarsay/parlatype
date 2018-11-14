@@ -1,4 +1,4 @@
-/* Copyright (C) Gabor Karsay 2016 <gabor.karsay@gmx.at>
+/* Copyright (C) Gabor Karsay 2016-2018 <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -22,6 +22,7 @@
 #include <gst/gst.h>
 #include <gst/audio/streamvolume.h>
 #include "pt-waveloader.h"
+#include "pt-waveviewer.h"
 #include "pt-player.h"
 
 struct _PtPlayerPrivate
@@ -32,19 +33,23 @@ struct _PtPlayerPrivate
 	gint64	    dur;
 	gdouble	    speed;
 	gdouble     volume;
+	gint        pause;
+	gint        back;
+	gint        forward;
 
 	gint64      segstart;
 	gint64      segend;
 
 	GCancellable *c;
 
-	PtWaveloader *wl;
-
 	PtPrecisionType timestamp_precision;
 	gboolean        timestamp_fixed;
 	gchar          *timestamp_left;
 	gchar          *timestamp_right;
 	gchar          *timestamp_sep;
+
+	PtWaveloader *wl;
+	PtWaveviewer *wv;
 };
 
 enum
@@ -56,6 +61,9 @@ enum
 	PROP_TIMESTAMP_FIXED,
 	PROP_TIMESTAMP_DELIMITER,
 	PROP_TIMESTAMP_FRACTION_SEP,
+	PROP_REWIND_ON_PAUSE,
+	PROP_BACK,
+	PROP_FORWARD,
 	N_PROPERTIES
 };
 
@@ -588,19 +596,109 @@ pt_player_pause (PtPlayer *player)
 }
 
 /**
+ * pt_player_pause_and_rewind:
+ * @player: a #PtPlayer
+ *
+ * Like @pt_player_pause(), additionally rewinds the value of
+ * #PtPlayer:pause in milliseconds.
+ */
+void
+pt_player_pause_and_rewind (PtPlayer *player)
+{
+	pt_player_pause (player);
+	pt_player_jump_relative (player, player->priv->pause * -1);
+}
+
+/**
+ * pt_player_get_pause:
+ * @player: a #PtPlayer
+ *
+ * Return value: time to rewind on pause in milliseconds
+ */
+gint
+pt_player_get_pause (PtPlayer *player)
+{
+	g_return_val_if_fail (PT_IS_PLAYER (player), 0);
+
+	return player->priv->pause;
+}
+
+/**
  * pt_player_play:
  * @player: a #PtPlayer
  *
  * Starts playback at the defined speed until it reaches the end of stream (or
- * the end of the selection)..
+ * the end of the selection). If the current position is at the end, playback
+ * will start from the beginning of stream or selection.
  */
 void
 pt_player_play (PtPlayer *player)
 {
 	g_return_if_fail (PT_IS_PLAYER (player));
 
+	gint64 pos;
+	gint64 start, end;
+	gboolean selection;
+
+	if (player->priv->wv) {
+		/* If there is a selection, play it */
+		g_object_get (player->priv->wv,
+			      "selection-start", &start,
+			      "selection-end", &end,
+			      "has-selection", &selection,
+			      NULL);
+
+		if (selection) {
+			/* Note: changes position if outside selection */
+			pt_player_set_selection (player, start, end);
+		}
+	}
+
+	if (!pt_player_query_position (player, &pos))
+		return;
+
+	if (pos == player->priv->segend)
+		pt_player_seek (player, player->priv->segstart);
+
 	gst_element_set_state (player->priv->play, GST_STATE_PLAYING);
 }
+
+/**
+ * pt_player_play_pause:
+ * @player: a #PtPlayer
+ *
+ * Toggles between playback and pause, rewinds on pause.
+ */
+void
+pt_player_play_pause (PtPlayer *player)
+{
+	g_return_if_fail (PT_IS_PLAYER (player));
+
+	GstState state;
+
+	gst_element_get_state (
+		player->priv->play,
+		&state, NULL,
+		GST_CLOCK_TIME_NONE);
+
+	switch (state) {
+	case GST_STATE_NULL:
+		/* fall through */
+	case GST_STATE_PAUSED:
+		pt_player_play (player);
+		break;
+	case GST_STATE_PLAYING:
+		pt_player_pause_and_rewind (player);
+	case GST_STATE_VOID_PENDING:
+		/* fall through */
+	case GST_STATE_READY:
+		/* don't know what to do */
+		;
+	}
+
+	g_signal_emit_by_name (player, "play-toggled");
+}
+
 
 /**
  * pt_player_set_selection:
@@ -655,6 +753,20 @@ pt_player_clear_selection (PtPlayer *player)
 	player->priv->segend = player->priv->dur;
 
 	pt_player_seek (player, pos);
+}
+
+/**
+ * pt_player_selection_active:
+ * @player: a #PtPlayer
+ *
+ * Return value: TRUE if there is a selection
+ */
+gboolean
+pt_player_selection_active (PtPlayer *player)
+{
+	g_return_val_if_fail (PT_IS_PLAYER (player), FALSE);
+
+	return !(player->priv->segstart == 0 && player->priv->segend == player->priv->dur);
 }
 
 /**
@@ -779,6 +891,65 @@ pt_player_jump_relative (PtPlayer *player,
 		new = player->priv->segstart;
 
 	pt_player_seek (player, new);
+}
+
+/**
+ * pt_player_jump_back:
+ * @player: a #PtPlayer
+ *
+ * Jumps back the value of #PtPlayer:back.
+ */
+void
+pt_player_jump_back (PtPlayer *player)
+{
+	gint back;
+
+	back = player->priv->back;
+	if (back > 0)
+		back = back * -1;
+	pt_player_jump_relative (player, back);
+	g_signal_emit_by_name (player, "jumped-back");
+}
+
+/**
+ * pt_player_jump_forward:
+ * @player: a #PtPlayer
+ *
+ * Jumps forward the value of #PtPlayer:forward.
+ */
+void
+pt_player_jump_forward (PtPlayer *player)
+{
+	pt_player_jump_relative (player, player->priv->forward);
+	g_signal_emit_by_name (player, "jumped-forward");
+}
+
+/**
+ * pt_player_get_back:
+ * @player: a #PtPlayer
+ *
+ * Return value: time to jump back in milliseconds
+ */
+gint
+pt_player_get_back (PtPlayer *player)
+{
+	g_return_val_if_fail (PT_IS_PLAYER (player), 0);
+
+	return player->priv->back;
+}
+
+/**
+ * pt_player_get_forward:
+ * @player: a #PtPlayer
+ *
+ * Return value: time to jump forward in milliseconds
+ */
+gint
+pt_player_get_forward (PtPlayer *player)
+{
+	g_return_val_if_fail (PT_IS_PLAYER (player), 0);
+
+	return player->priv->forward;
 }
 
 /**
@@ -995,6 +1166,95 @@ pt_player_get_data (PtPlayer *player,
 {
 	return pt_waveloader_get_data (player->priv->wl, pps);
 }
+
+
+/* --------------------- Other widgets -------------------------------------- */
+
+static void
+wv_update_cursor (PtPlayer *player)
+{
+	g_object_set (player->priv->wv,
+		      "playback-cursor",
+		      pt_player_get_position (player),
+		      NULL);
+}
+
+static void
+wv_selection_changed_cb (GtkWidget *widget,
+		         PtPlayer  *player)
+{
+	/* Selection changed in Waveviewer widget:
+	   - if we are not playing a selection: ignore it
+	   - if we are playing a selection and we are still in the selection:
+	     update selection
+	   - if we are playing a selection and the new one is somewhere else:
+	     stop playing the selection */
+
+	gint64 start, end, pos;
+	if (pt_player_selection_active (player)) {
+		if (!pt_player_query_position (player, &pos))
+			return;
+		g_object_get (player->priv->wv,
+			      "selection-start", &start,
+			      "selection-end", &end,
+			      NULL);
+		if (start <= pos && pos <= end) {
+			pt_player_set_selection (player, start, end);
+		} else {
+			pt_player_clear_selection (player);
+		}
+	}
+}
+
+static void
+wv_cursor_changed_cb (PtWaveviewer *wv,
+		      gint64        pos,
+		      PtPlayer     *player)
+{
+	/* user changed cursor position */
+
+	pt_player_jump_to_position (player, pos);
+	wv_update_cursor (player);
+	pt_waveviewer_set_follow_cursor (wv, TRUE);
+}
+
+static void
+wv_play_toggled_cb (GtkWidget *widget,
+		    PtPlayer  *player)
+{
+	pt_player_play_pause (player);
+}
+
+/**
+ * pt_player_connect_waveviewer:
+ * @player: a #PtPlayer
+ * @wv: a #PtWaveviewer
+ *
+ * Connect a #PtWaveviewer. The #PtPlayer will monitor selections made in the
+ * #PtWaveviewer and act accordingly.
+ */
+void
+pt_player_connect_waveviewer (PtPlayer *player,
+                              PtWaveviewer *wv)
+{
+	player->priv->wv = wv;
+	g_signal_connect (player->priv->wv,
+			"selection-changed",
+			G_CALLBACK (wv_selection_changed_cb),
+			player);
+
+	g_signal_connect (player->priv->wv,
+			"cursor-changed",
+			G_CALLBACK (wv_cursor_changed_cb),
+			player);
+
+	g_signal_connect (player->priv->wv,
+			"play-toggled",
+			G_CALLBACK (wv_play_toggled_cb),
+			player);
+}
+
+
 
 
 /* --------------------- File utilities ------------------------------------- */
@@ -1540,6 +1800,7 @@ pt_player_init (PtPlayer *player)
 	player->priv = pt_player_get_instance_private (player);
 	player->priv->timestamp_precision = PT_PRECISION_SECOND_10TH;
 	player->priv->timestamp_fixed = FALSE;
+	player->priv->wv = NULL;
 }
 
 static gboolean
@@ -1709,6 +1970,15 @@ pt_player_set_property (GObject      *object,
 		}
 		player->priv->timestamp_sep = ".";
 		break;
+	case PROP_REWIND_ON_PAUSE:
+		player->priv->pause = g_value_get_int (value);
+		break;
+	case PROP_BACK:
+		player->priv->back = g_value_get_int (value);
+		break;
+	case PROP_FORWARD:
+		player->priv->forward = g_value_get_int (value);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -1742,6 +2012,15 @@ pt_player_get_property (GObject    *object,
 		break;
 	case PROP_TIMESTAMP_FRACTION_SEP:
 		g_value_set_string (value, player->priv->timestamp_sep);
+		break;
+	case PROP_REWIND_ON_PAUSE:
+		g_value_set_int (value, player->priv->pause);
+		break;
+	case PROP_BACK:
+		g_value_set_int (value, player->priv->back);
+		break;
+	case PROP_FORWARD:
+		g_value_set_int (value, player->priv->forward);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1809,6 +2088,57 @@ pt_player_class_init (PtPlayerClass *klass)
 		      g_cclosure_marshal_VOID__BOXED,
 		      G_TYPE_NONE,
 		      1, G_TYPE_ERROR);
+
+	/**
+	* PtPlayer::play-toggled:
+	* @player: the player emitting the signal
+	*
+	* The #PtPlayer::play-toggled signal is emitted when the player changed
+	* to pause or play.
+	*/
+	g_signal_new ("play-toggled",
+		      PT_TYPE_PLAYER,
+		      G_SIGNAL_RUN_FIRST,
+		      0,
+		      NULL,
+		      NULL,
+		      g_cclosure_marshal_VOID__VOID,
+		      G_TYPE_NONE,
+		      0);
+
+	/**
+	* PtPlayer::jumped-back:
+	* @player: the player emitting the signal
+	*
+	* The #PtPlayer::jumped-back signal is emitted when the player jumped
+	* back.
+	*/
+	g_signal_new ("jumped-back",
+		      PT_TYPE_PLAYER,
+		      G_SIGNAL_RUN_FIRST,
+		      0,
+		      NULL,
+		      NULL,
+		      g_cclosure_marshal_VOID__VOID,
+		      G_TYPE_NONE,
+		      0);
+
+	/**
+	* PtPlayer::jumped-forward:
+	* @player: the player emitting the signal
+	*
+	* The #PtPlayer::jumped-forward signal is emitted when the player jumped
+	* forward.
+	*/
+	g_signal_new ("jumped-forward",
+		      PT_TYPE_PLAYER,
+		      G_SIGNAL_RUN_FIRST,
+		      0,
+		      NULL,
+		      NULL,
+		      g_cclosure_marshal_VOID__VOID,
+		      G_TYPE_NONE,
+		      0);
 
 	/**
 	* PtPlayer:speed:
@@ -1898,6 +2228,51 @@ pt_player_class_init (PtPlayerClass *klass)
 			"Timestamp fraction separator",
 			".",
 			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+
+	/**
+	* PtPlayer:pause:
+	*
+	* Milliseconds to rewind on pause.
+	*/
+	obj_properties[PROP_REWIND_ON_PAUSE] =
+	g_param_spec_int (
+			"pause",
+			"Milliseconds to rewind on pause",
+			"Milliseconds to rewind on pause",
+			0,	/* minimum */
+			10000,	/* maximum */
+			0,
+			G_PARAM_READWRITE);
+
+	/**
+	* PtPlayer:back:
+	*
+	* Milliseconds to jump back.
+	*/
+	obj_properties[PROP_BACK] =
+	g_param_spec_int (
+			"back",
+			"Milliseconds to jump back",
+			"Milliseconds to jump back",
+			1000,	/* minimum */
+			60000,	/* maximum */
+			10000,
+			G_PARAM_READWRITE);
+
+	/**
+	* PtPlayer:forward:
+	*
+	* Milliseconds to jump forward.
+	*/
+	obj_properties[PROP_FORWARD] =
+	g_param_spec_int (
+			"forward",
+			"Milliseconds to jump forward",
+			"Milliseconds to jump forward",
+			1000,	/* minimum */
+			60000,	/* maximum */
+			10000,
+			G_PARAM_READWRITE);
 
 	g_object_class_install_properties (
 			G_OBJECT_CLASS (klass),

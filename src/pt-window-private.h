@@ -56,12 +56,6 @@ struct _PtWindowPrivate
 	gint	    timer;
 	gdouble	    speed;
 
-	gint	    pause;
-	gint	    back;
-	gint	    forward;
-
-	gboolean    playing_selection;
-
 	guint	    owner_id;
 };
 
