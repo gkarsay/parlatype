@@ -1842,15 +1842,9 @@ pt_player_setup_player (PtPlayer  *player,
 {
 	GError *gst_error = NULL;
 
-	/* Setup player
-	
-	   We use the scaletempo plugin from "good plugins" with playbin,
+	/* We use the scaletempo plugin from "good plugins" with playbin,
 	   setting its audio-filter to scaletempo:
 	   playbin ! capsfilter ! autoaudiosink
-
-	   Playbin's property "audio-filter" was introduced in GStreamer 1.3,
-	   for older versions we use:
-	   playbin ! capsfilter ! scaletempo ! audioconvert ! audioresample ! autoaudiosink
 	*/
 
 	gst_init_check (NULL, NULL, &gst_error);
