@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-13 11:09+0200\n"
-"PO-Revision-Date: 2018-10-13 11:16+0200\n"
+"POT-Creation-Date: 2018-10-26 19:37+0200\n"
+"PO-Revision-Date: 2018-10-26 19:41+0200\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
 "Language-Team: Deutsch <>\n"
 "Language: de\n"
@@ -19,9 +19,8 @@ msgstr ""
 "X-Generator: Gtranslator 2.91.7\n"
 
 #: data/com.github.gkarsay.parlatype.appdata.xml.in:7
-#: data/com.github.gkarsay.parlatype.desktop.in:4 src/pt-app.c:84
-#: src/pt-app.c:263 src/resources/window.ui:32
-#: src/resources/window-headerbar.ui:7
+#: data/com.github.gkarsay.parlatype.desktop.in:4 src/pt-app.c:208
+#: src/resources/window.ui:32 src/resources/window-headerbar.ui:7
 msgid "Parlatype"
 msgstr "Parlatype"
 
@@ -82,34 +81,28 @@ msgstr ""
 msgid "Show the application's version"
 msgstr "Version der Anwendung anzeigen"
 
-#: src/pt-app.c:75
-msgid "Recent Files"
-msgstr "Zuletzt geöffnete Dateien"
-
-#: src/pt-app.c:77 src/pt-app.c:137 src/pt-app.c:144
-#: src/resources/goto-dialog.ui:26
-msgid "_Cancel"
-msgstr "_Abbrechen"
-
-#: src/pt-app.c:78 src/pt-app.c:136 src/pt-app.c:145
-#: src/resources/window-headerbar.ui:12
-msgid "_Open"
-msgstr "_Öffnen"
-
-#: src/pt-app.c:90 src/pt-app.c:167
-msgid "All files"
-msgstr "Alle Dateien"
-
-#: src/pt-app.c:133 src/pt-app.c:141
+#: src/pt-app.c:78 src/pt-app.c:86
 msgid "Open Audio File"
 msgstr "Audio-Datei öffnen"
 
-#: src/pt-app.c:166
+#: src/pt-app.c:81 src/pt-app.c:90 src/resources/window-headerbar.ui:12
+msgid "_Open"
+msgstr "_Öffnen"
+
+#: src/pt-app.c:82 src/pt-app.c:89 src/resources/goto-dialog.ui:26
+msgid "_Cancel"
+msgstr "_Abbrechen"
+
+#: src/pt-app.c:111
 msgid "Audio files"
 msgstr "Audio-Dateien"
 
+#: src/pt-app.c:112
+msgid "All files"
+msgstr "Alle Dateien"
+
 #. Translators: %s is a detailed error message
-#: src/pt-app.c:230
+#: src/pt-app.c:175
 #, c-format
 msgid "Error opening help: %s"
 msgstr "Fehler beim Öffnen der Hilfe: %s"
@@ -118,19 +111,19 @@ msgstr "Fehler beim Öffnen der Hilfe: %s"
 #. copyright holders of code from other projects. Instead of
 #. "including" it could also say "with" or just "Code from
 #. other projects:"
-#: src/pt-app.c:248
+#: src/pt-app.c:193
 msgid "Including code from other projects:"
 msgstr "Aus anderen Projekten übernommener Code:"
 
-#: src/pt-app.c:266
+#: src/pt-app.c:211
 msgid "A basic transcription utility"
 msgstr "Ein einfaches Transkriptionsprogramm"
 
-#: src/pt-app.c:270
+#: src/pt-app.c:215
 msgid "translator-credits"
 msgstr "Gabor Karsay <gabor.karsay@gmx.at>"
 
-#: src/pt-app.c:379
+#: src/pt-app.c:319
 msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
 "ignored.\n"
@@ -218,62 +211,58 @@ msgid "Open a media file"
 msgstr "Eine Mediendatei öffnen"
 
 #: src/resources/help-overlay.ui:27
-msgid "Open recently used media files"
-msgstr "Zuletzt benutzte Mediendateien öffnen"
-
-#: src/resources/help-overlay.ui:34
 msgid "Show/hide action menu"
 msgstr "Aktionsmenü anzeigen/verbergen"
 
-#: src/resources/help-overlay.ui:41
+#: src/resources/help-overlay.ui:34
 msgid "Quit"
 msgstr "Beenden"
 
-#: src/resources/help-overlay.ui:49 src/resources/preferences.ui:273
+#: src/resources/help-overlay.ui:42 src/resources/preferences.ui:273
 msgid "Waveform"
 msgstr "Wellenform"
 
-#: src/resources/help-overlay.ui:54
+#: src/resources/help-overlay.ui:47
 msgid "Play/Pause"
 msgstr "Wiedergabe/Pause"
 
-#: src/resources/help-overlay.ui:62 src/resources/help-overlay.ui:70
+#: src/resources/help-overlay.ui:55 src/resources/help-overlay.ui:63
 msgid "Jump back"
 msgstr "Zurückspringen"
 
-#: src/resources/help-overlay.ui:78 src/resources/help-overlay.ui:86
+#: src/resources/help-overlay.ui:71 src/resources/help-overlay.ui:79
 msgid "Jump forward"
 msgstr "Vorwärts springen"
 
-#: src/resources/help-overlay.ui:93
+#: src/resources/help-overlay.ui:86
 msgid "Zoom in"
 msgstr "Hineinzoomen"
 
-#: src/resources/help-overlay.ui:100
+#: src/resources/help-overlay.ui:93
 msgid "Zoom out"
 msgstr "Hinauszoomen"
 
-#: src/resources/help-overlay.ui:107
+#: src/resources/help-overlay.ui:100
 msgid "Open “Go to” dialog"
 msgstr "»Gehe zu«-Dialog öffnen"
 
-#: src/resources/help-overlay.ui:114
+#: src/resources/help-overlay.ui:107
 msgid "Copy timestamp to clipboard"
 msgstr "Zeitstempel in die Zwischenablage kopieren"
 
-#: src/resources/help-overlay.ui:121
+#: src/resources/help-overlay.ui:114
 msgid "Go to timestamp in clipboard"
 msgstr "Zu Zeitstempel aus Zwischenablage gehen"
 
-#: src/resources/help-overlay.ui:129 src/resources/menus.ui:15
+#: src/resources/help-overlay.ui:122 src/resources/menus.ui:15
 msgid "Help"
 msgstr "Hilfe"
 
-#: src/resources/help-overlay.ui:134
+#: src/resources/help-overlay.ui:127
 msgid "Show help"
 msgstr "Hilfe anzeigen"
 
-#: src/resources/help-overlay.ui:141
+#: src/resources/help-overlay.ui:134
 msgid "Show keyboard shortcuts"
 msgstr "Tastenkürzel anzeigen"
 
@@ -303,8 +292,8 @@ msgid "None"
 msgstr "Keine"
 
 #: src/resources/preferences.ui:46
-msgid "#Hashtags#"
-msgstr "#Rauten#"
+msgid "#Number signs#"
+msgstr "#Rautezeichen#"
 
 #: src/resources/preferences.ui:50
 msgid "(Round brackets)"
@@ -432,13 +421,22 @@ msgstr "Fenster"
 msgid "_Play"
 msgstr "_Wiedergabe"
 
-#: src/resources/window.ui:324
+#: src/resources/window.ui:315
 msgid "Speed:"
 msgstr "Geschwindigkeit:"
 
 #: src/resources/window-headerbar.ui:13
 msgid "Open a file"
 msgstr "Eine Datei öffnen"
+
+#~ msgid "Recent Files"
+#~ msgstr "Zuletzt geöffnete Dateien"
+
+#~ msgid "Open recently used media files"
+#~ msgstr "Zuletzt benutzte Mediendateien öffnen"
+
+#~ msgid "#Hashtags#"
+#~ msgstr "#Rauten#"
 
 #~ msgid "_Close"
 #~ msgstr "_Schließen"

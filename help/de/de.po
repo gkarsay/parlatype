@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
-"POT-Creation-Date: 2018-06-04 14:41+0200\n"
-"PO-Revision-Date: 2018-01-09 19:21+0100\n"
+"POT-Creation-Date: 2018-10-26 19:37+0200\n"
+"PO-Revision-Date: 2018-10-26 20:05+0200\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
 "Language-Team: Deutsch <>\n"
 "Language: de\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -121,18 +121,14 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/drag-and-drop.page:21
 msgid ""
-"Timestamps: You can drag and drop timestamps in both directions. Select a "
-"timestamp from a word processor, e.g. <app>LibreOffice</app>, drop the "
-"selected text on <app>Parlatype</app> and it will jump to that position. Or "
-"you click on <app>Parlatype</app>'s time label and drag it to a word "
-"processor to insert it there."
+"Timestamps: You can drag and drop timestamps to <app>Parlatype</app>. Select "
+"a timestamp from a word processor, e.g. <app>LibreOffice</app>, drop the "
+"selected text on <app>Parlatype</app> and it will jump to that position."
 msgstr ""
-"Zeitstempel: Sie können Zeitstempel in beide Richtungen ziehen und ablegen. "
-"Markieren Sie einen Zeitstempel in Ihrer Textverarbeitung, wie zum Beispiel "
-"<app>LibreOffice</app>, ziehen Sie ihn ins <app>Parlatype</app>-Fenster und "
-"das Programm springt zur Position des Zeitstempels. Oder Sie klicken auf die "
-"Zeitanzeige in <app>Parlatype</app> und ziehen sie in die Textverarbeitung, "
-"um den Zeitstempel dort einzufügen."
+"Zeitstempel: Sie können Zeitstempel auf <app>Parlatype</app> ziehen und "
+"ablegen. Markieren Sie einen Zeitstempel in Ihrer Textverarbeitung, wie zum "
+"Beispiel <app>LibreOffice</app>, ziehen Sie ihn ins <app>Parlatype</app>-"
+"Fenster und das Programm springt zur Position des Zeitstempels."
 
 #. (itstool) path: info/desc
 #. (itstool) path: page/title
@@ -156,26 +152,22 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/first-steps.page:19
-msgid ""
-"You can also drag and drop a file on <app>Parlatype</app> or open the "
-"recently used files in the Application menu."
-msgstr ""
-"Sie können auch eine Datei ins <app>Parlatype</app>-Fenster ziehen oder die "
-"Liste der zuletzt benützten Dateien im Anwendungsmenü einsehen."
+msgid "You can also drag and drop a file on <app>Parlatype</app>."
+msgstr "Sie können auch eine Datei ins <app>Parlatype</app>-Fenster ziehen."
 
 #. (itstool) path: page/p
 #: C/first-steps.page:22
 msgid ""
-"Now in the upper left corner there is a <gui>Play</gui> button which toggles "
-"between play and pause. Whenever you pause, <app>Parlatype</app> rewinds a "
-"few seconds to make it easier to resume. This can be changed in the <link "
-"xref=\"preferences\"/>."
+"In the lower left corner there are the controls with a <gui>Play</gui> "
+"button which toggles between play and pause. Whenever you pause, "
+"<app>Parlatype</app> rewinds a few seconds to make it easier to resume. This "
+"can be changed in the <link xref=\"preferences\"/>."
 msgstr ""
-"Nun sehen Sie in der linken oberen Ecke einen <gui>Wiedergabe</gui>-Knopf, "
-"der zwischen Wiedergabe und Pause hin und her schaltet. Immer, wenn Sie die "
-"Wiedergabe unterbrechen, spult <app>Parlatype</app> einige Sekunden zurück, "
-"damit Sie besser in den Text zurückfinden. Das kann in den <link xref="
-"\"preferences\"/> geändert werden."
+"In der linken unteren Ecke befindet sich die Steuerung mit einem "
+"<gui>Wiedergabe</gui>-Knopf, der zwischen Wiedergabe und Pause hin und her "
+"schaltet. Immer, wenn Sie die Wiedergabe unterbrechen, spult <app>Parlatype</"
+"app> einige Sekunden zurück, damit Sie besser in den Text zurückfinden. Das "
+"kann in den <link xref=\"preferences\"/> geändert werden."
 
 #. (itstool) path: page/media
 #. This is a reference to an external file such as an image or video. When
@@ -183,10 +175,11 @@ msgstr ""
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/first-steps.page:24
+#, fuzzy
 msgctxt "_"
 msgid ""
 "external ref='figures/parlatype-main-window.png' "
-"md5='c57ce9c636f96646e8ba668d290fb352'"
+"md5='57f8010043c497a9d53eeb384321feef'"
 msgstr ""
 "external ref='figures/parlatype-main-window.png' "
 "md5='4d4c5bc3942ce7586ce797ef650ca28b'"
@@ -219,13 +212,15 @@ msgstr ""
 #: C/first-steps.page:30
 msgid ""
 "To get back to the cursor's position and let the view scroll automatically "
-"again, click on the <gui>Go to</gui> button next to the time label. Clicking "
-"on the <gui>Play</gui> button also turns automatic scrolling on."
+"again, click on the menu button showing the time and then on <gui>Go to "
+"cursor</gui>. Clicking on the <gui>Play</gui> button also turns automatic "
+"scrolling on."
 msgstr ""
 "Um zur aktuellen Cursorposition zurückzukehren und das automatische Scrollen "
-"wieder zu aktivieren, klicken Sie auf den <gui>Gehe-zu</gui>-Knopf neben der "
-"Zeitanzeige. Wenn Sie den <gui>Wiedergabe</gui>-Knopf drücken, wird das "
-"automatische Scrollen auch wieder aktiviert."
+"wieder zu aktivieren, klicken Sie auf den Menüknopf, der die aktuelle Zeit "
+"anzeigt, und dann auf <gui>Zu Cursor gehen</gui>. Wenn Sie den "
+"<gui>Wiedergabe</gui>-Knopf drücken, wird das automatische Scrollen auch "
+"wieder aktiviert."
 
 #. (itstool) path: page/p
 #: C/first-steps.page:32
@@ -310,101 +305,91 @@ msgstr "<keyseq><key>Strg</key><key>o</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:36
-msgid "Open recent files"
-msgstr "Zuletzt benutzte Dateien öffnen"
-
-#. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:37
-msgid "<keyseq><key>Ctrl</key><key>r</key></keyseq>"
-msgstr "<keyseq><key>Strg</key><key>r</key></keyseq>"
-
-#. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:40
 msgid "Play/Pause"
 msgstr "Wiedergabe/Pause"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:41
+#: C/keyboard-shortcuts.page:37
 msgid "<keyseq><key>Ctrl</key><key>Space</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>Leertaste</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:44
+#: C/keyboard-shortcuts.page:40
 msgid "Go to …"
 msgstr "Gehe zu …"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:45
+#: C/keyboard-shortcuts.page:41
 msgid "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>g</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:48
+#: C/keyboard-shortcuts.page:44
 msgid "Jump back"
 msgstr "Zurückspringen"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:49
+#: C/keyboard-shortcuts.page:45
 msgid "<keyseq><key>Ctrl</key><key>Left</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>Pfeiltaste links</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:52
+#: C/keyboard-shortcuts.page:48
 msgid "Jump forward"
 msgstr "Vorwärts springen"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:53
+#: C/keyboard-shortcuts.page:49
 msgid "<keyseq><key>Ctrl</key><key>Right</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>Pfeiltaste rechts</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:56
+#: C/keyboard-shortcuts.page:52
 msgid "Copy timestamp"
 msgstr "Zeitstempel kopieren"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:57
+#: C/keyboard-shortcuts.page:53
 msgid "<keyseq><key>Ctrl</key><key>c</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>c</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:60
+#: C/keyboard-shortcuts.page:56
 msgid "Insert timestamp"
 msgstr "Zeitstempel einfügen"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:61
+#: C/keyboard-shortcuts.page:57
 msgid "<keyseq><key>Ctrl</key><key>v</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>v</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:64
+#: C/keyboard-shortcuts.page:60
 msgid "Zoom in"
 msgstr "Hineinzoomen"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:65
+#: C/keyboard-shortcuts.page:61
 msgid "<keyseq><key>Ctrl</key><key>+</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>+</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:68
+#: C/keyboard-shortcuts.page:64
 msgid "Zoom out"
 msgstr "Herauszoomen"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:69
+#: C/keyboard-shortcuts.page:65
 msgid "<keyseq><key>Ctrl</key><key>-</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>-</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:72
+#: C/keyboard-shortcuts.page:68
 msgid "Quit"
 msgstr "Beenden"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:73
+#: C/keyboard-shortcuts.page:69
 msgid "<keyseq><key>Ctrl</key><key>q</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>q</key></keyseq>"
 
@@ -531,13 +516,13 @@ msgstr "Einstellungen"
 #. (itstool) path: page/p
 #: C/preferences.page:16
 msgid ""
-"You can reach the preferences window in the Application Menu (next to "
-"<gui>Activities</gui> in the top left corner. There are three tabs: "
-"<gui>Waveform</gui>, <gui>Controls</gui> and <gui>Window</gui>."
+"To open the preferences dialog click on the primary menu in the headerbar. "
+"There are four tabs: <gui>Waveform</gui>, <gui>Controls</gui>, "
+"<gui>Timestamps</gui> and <gui>Window</gui>."
 msgstr ""
-"Sie können das Einstellungsfenster über das Anwendungsmenü (neben den "
-"<gui>Aktivitäten</gui> in der linken oberen Ecke) erreichen. Es gibt drei "
-"Reiter: <gui>Wellenform</gui>, <gui>Steuerung</gui> und <gui>Fenster</gui>."
+"Um das Einstellungsfenster zu öffnen, klicken Sie auf das Hauptmenü in der "
+"Werkzeugleiste. Es gibt vier Reiter: <gui>Wellenform</gui>, <gui>Steuerung</"
+"gui>, <gui>Zeitstempel</gui> und <gui>Fenster</gui>."
 
 #. (itstool) path: section/title
 #: C/preferences.page:19
@@ -550,10 +535,11 @@ msgstr "Wellenform"
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/preferences.page:21
+#, fuzzy
 msgctxt "_"
 msgid ""
 "external ref='figures/parlatype-prefs-waveform.png' "
-"md5='e9d05960162dcdddab10378e21ce63da'"
+"md5='40c661e8e186a0c22065ce0c15ef71b7'"
 msgstr "übersetzt"
 
 #. (itstool) path: item/p
@@ -593,10 +579,11 @@ msgstr "Steuerung"
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/preferences.page:33
+#, fuzzy
 msgctxt "_"
 msgid ""
 "external ref='figures/parlatype-prefs-controls.png' "
-"md5='0b50614222d881110b176c2e28b7d18c'"
+"md5='5df4543b71f64d8c00c73ba2c8e276b8'"
 msgstr "übersetzt"
 
 #. (itstool) path: item/p
@@ -630,7 +617,80 @@ msgstr ""
 "der <gui>Vorwärts springen</gui>-Knopf gedrückt wird."
 
 #. (itstool) path: section/title
-#: C/preferences.page:43
+#. (itstool) path: page/title
+#: C/preferences.page:43 C/timestamps.page:14
+msgid "Timestamps"
+msgstr "Zeitstempel"
+
+#. (itstool) path: section/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/preferences.page:45
+#, fuzzy
+msgctxt "_"
+msgid ""
+"external ref='figures/parlatype-prefs-timestamps.png' "
+"md5='cae51f9b05b8f686d9bb59f11826667a'"
+msgstr "übersetzt"
+
+#. (itstool) path: section/p
+#: C/preferences.page:47
+msgid ""
+"These settings affect how <app>Parlatype</app> formats timestamps. If you "
+"need a certain format in your transcription, you can adjust it here."
+msgstr ""
+"Diese Einstellungen wirken sich darauf aus, wie <app>Parlatype</app> "
+"Zeitstempel formatiert. Wenn Sie ein bestimmtes Zeitstempelformat brauchen, "
+"können Sie es hier einstellen."
+
+#. (itstool) path: note/p
+#: C/preferences.page:48
+msgid ""
+"There are no settings for <em>reading</em> timestamps. <app>Parlatype</app> "
+"reads and accepts all of these formats."
+msgstr ""
+"Es gibt keine Einstellungen zum <em>Lesen</em> von Zeitstempeln. "
+"<app>Parlatype</app> liest und verarbeitet alle diese Formate."
+
+#. (itstool) path: item/p
+#: C/preferences.page:50
+msgid ""
+"Always show hours and leading zeroes: Whether to show a fixed number of "
+"digits. Changing any of these values will show an updated example in the "
+"<gui>Example</gui> section below."
+msgstr ""
+"Immer Stunden und führende Null anzeigen: Ob eine fixe Ziffernzahl angezeigt "
+"werden soll. Wenn Sie eine dieser Einstellungen ändern, werden die Beispiele "
+"in der Sektion <gui>Beispiele</gui> aktualisiert."
+
+#. (itstool) path: item/p
+#: C/preferences.page:51
+msgid "Precision: Choose between full seconds, 10th seconds or 100th seconds."
+msgstr ""
+"Genauigkeit: Wählen Sie zwischen ganzen, Zehntel- und Hundertstelsekunden."
+
+#. (itstool) path: item/p
+#: C/preferences.page:52
+msgid ""
+"Fraction separator: Choose between a point or a hyphen to separate fractions "
+"of a second."
+msgstr ""
+"Abgrenzung für Sekundenbruchteile: Wählen Sie zwischen einem Punkt oder "
+"einem Gedankenstrich."
+
+#. (itstool) path: item/p
+#: C/preferences.page:53
+msgid ""
+"Characters around timestamps: Choose between number signs, round brackets, "
+"square brackets or none."
+msgstr ""
+"Zeichen um Zeitstempel: Wählen Sie zwischen Rautezeichen, runden Klammern, "
+"eckigen Klammern oder keine Zeichen."
+
+#. (itstool) path: section/title
+#: C/preferences.page:58
 msgid "Window"
 msgstr "Fenster"
 
@@ -639,15 +699,16 @@ msgstr "Fenster"
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/preferences.page:45
+#: C/preferences.page:60
+#, fuzzy
 msgctxt "_"
 msgid ""
 "external ref='figures/parlatype-prefs-window.png' "
-"md5='6affc475c74223fa48e7de25393fe7de'"
+"md5='24db5b9ec0446ec46d9e23fba749d3d7'"
 msgstr "übersetzt"
 
 #. (itstool) path: item/p
-#: C/preferences.page:48
+#: C/preferences.page:63
 msgid ""
 "Remember size: On start-up <app>Parlatype</app> sets the window size to the "
 "size it had the last time."
@@ -656,7 +717,7 @@ msgstr ""
 "Fenstergröße so ein, wie sie beim letzten Mal war."
 
 #. (itstool) path: item/p
-#: C/preferences.page:49
+#: C/preferences.page:64
 msgid ""
 "Remember position: On start-up <app>Parlatype</app> can position its window "
 "where you had it when you closed <app>Parlatype</app> last time."
@@ -666,7 +727,7 @@ msgstr ""
 "das letzte Mal geschlossen haben."
 
 #. (itstool) path: item/p
-#: C/preferences.page:50
+#: C/preferences.page:65
 msgid ""
 "Start on top: This will put <app>Parlatype</app> on start-up on top of other "
 "windows. This might be useful if you are working with a maximized word "
@@ -678,7 +739,7 @@ msgstr ""
 "das <app>Parlatype</app>-Fenster sehen wollen."
 
 #. (itstool) path: note/p
-#: C/preferences.page:54
+#: C/preferences.page:69
 msgid ""
 "<gui>Remember position</gui> and <gui>Start on top</gui> are not available "
 "on Wayland."
@@ -746,11 +807,6 @@ msgstr ""
 msgid "Set and go to timestamps"
 msgstr "Zeitstempel setzen und hinspringen"
 
-#. (itstool) path: page/title
-#: C/timestamps.page:14
-msgid "Timestamps"
-msgstr "Zeitstempel"
-
 #. (itstool) path: page/p
 #: C/timestamps.page:16
 msgid "Timestamps help you to navigate in your transcription."
@@ -759,19 +815,28 @@ msgstr "Zeitstempel helfen Ihnen beim Navigieren in Ihrer Transkription."
 #. (itstool) path: note/p
 #: C/timestamps.page:19
 msgid ""
-"Timestamps look like this: #03:45.2#. You can select them with or without "
-"the number signs."
+"Timestamps can look like this: #03:45.2#. You can select them with or "
+"without the number signs."
 msgstr ""
-"Zeitstempel sehen so aus: #03:45.2#. Sie können Sie mit oder ohne die "
+"Zeitstempel können so aussehen: #03:45.2#. Sie können Sie mit oder ohne die "
 "Rautezeichen markieren."
 
+#. (itstool) path: page/p
+#: C/timestamps.page:22
+msgid ""
+"<app>Parlatype</app> can produce different timestamp formats, they can be "
+"set in <link xref=\"preferences\"/>."
+msgstr ""
+"<app>Parlatype</app> kann verschiedene Zeitstempelformate ausgeben. Sie "
+"können in den <link xref=\"preferences\"/> geändert werden."
+
 #. (itstool) path: section/title
-#: C/timestamps.page:23
+#: C/timestamps.page:25
 msgid "Drag and drop"
 msgstr "Ziehen und ablegen"
 
 #. (itstool) path: section/p
-#: C/timestamps.page:25
+#: C/timestamps.page:27
 msgid ""
 "If you select the timestamp in the word processor, you can drag and drop it "
 "on the <app>Parlatype</app> window and it will go to that position. This is "
@@ -785,26 +850,38 @@ msgstr ""
 "Textverarbeitung, um den Zeitstempel dort einzufügen."
 
 #. (itstool) path: section/title
-#: C/timestamps.page:29
+#: C/timestamps.page:31
 msgid "Using the clipboard"
 msgstr "Mithilfe der Zwischenablage"
 
 #. (itstool) path: section/p
-#: C/timestamps.page:31
+#: C/timestamps.page:33
 msgid ""
-"First make sure, the <app>Parlatype</app> window has focus. With the key "
-"sequence <keyseq><key>Ctrl</key><key>c</key></keyseq> the current timestamp "
-"is copied to the clipboard. Changing to the word processor you can insert "
-"now the timestamp in your transcription."
+"Clicking on the menu button that is showing the current time you can "
+"<gui>Copy time to clipboard</gui> or <gui>Go to time in clipboard</gui>."
 msgstr ""
-"Stellen Sie zuerst sicher, dass das <app>Parlatype</app>-Fenster den "
-"Eingabefokus hat. Mit der Tastenkombination <keyseq><key>Ctrl</key><key>c</"
-"key></keyseq> können Sie den aktuellen Zeitstempel in die Zwischenablage "
-"kopieren. Wenn Sie nun zu Ihrer Textverarbeitung wechseln, können Sie den "
-"Zeitstempel aus der Zwischenablage einfügen."
+"Wenn Sie auf den Menüknopf klicken, der die aktuelle Zeit anzeigt, können "
+"Sie die <gui>Zeit in die Zwischenablage kopieren</gui> oder <gui>Zu Zeit aus "
+"Zwischenablage gehen</gui>."
 
 #. (itstool) path: section/p
-#: C/timestamps.page:32
+#: C/timestamps.page:35
+msgid ""
+"This can also be done with keyboard shortcuts. First make sure, the "
+"<app>Parlatype</app> window has focus. With the key sequence "
+"<keyseq><key>Ctrl</key><key>c</key></keyseq> the current timestamp is copied "
+"to the clipboard. Changing to the word processor you can insert now the "
+"timestamp in your transcription."
+msgstr ""
+"Das geht auch mit Tastenkürzeln. Stellen Sie zuerst sicher, dass das "
+"<app>Parlatype</app>-Fenster den Eingabefokus hat. Mit der Tastenkombination "
+"<keyseq><key>Ctrl</key><key>c</key></keyseq> können Sie den aktuellen "
+"Zeitstempel in die Zwischenablage kopieren. Wenn Sie nun zu Ihrer "
+"Textverarbeitung wechseln, können Sie den Zeitstempel aus der Zwischenablage "
+"einfügen."
+
+#. (itstool) path: section/p
+#: C/timestamps.page:36
 msgid ""
 "To go to a timestamp position, copy the timestamp in the word processor to "
 "the clipboard. Once you have changed focus to <app>Parlatype</app> press "
@@ -972,6 +1049,12 @@ msgstr "Erhöht die Wiedergabegeschwindigkeit."
 #: C/libreoffice-helpers.page:68
 msgid "Decreases playback speed."
 msgstr "Verringert die Wiedergabegeschwindigkeit."
+
+#~ msgid "Open recent files"
+#~ msgstr "Zuletzt benutzte Dateien öffnen"
+
+#~ msgid "<keyseq><key>Ctrl</key><key>r</key></keyseq>"
+#~ msgstr "<keyseq><key>Strg</key><key>r</key></keyseq>"
 
 #~ msgid ""
 #~ "The easiest way to use them in <app>LibreOffice</app> are "
