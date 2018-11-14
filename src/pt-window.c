@@ -16,6 +16,7 @@
 
 
 #include "config.h"
+#include <stdlib.h>		/* exit() */
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #ifdef GDK_WINDOWING_X11
@@ -41,7 +42,8 @@ void jump_forward_button_clicked_cb (GtkButton *button, PtWindow *win);
 
 void
 pt_error_message (PtWindow    *parent,
-		  const gchar *message)
+		  const gchar *message,
+		  const gchar *secondary_message)
 {
         GtkWidget *dialog;
 
@@ -51,6 +53,11 @@ pt_error_message (PtWindow    *parent,
 			GTK_MESSAGE_ERROR,
 			GTK_BUTTONS_OK,
 			"%s", message);
+
+	if (secondary_message)
+		gtk_message_dialog_format_secondary_text (
+				GTK_MESSAGE_DIALOG (dialog),
+		                "%s", secondary_message);
 
         gtk_dialog_run (GTK_DIALOG (dialog));
         gtk_widget_destroy (dialog);
@@ -533,7 +540,7 @@ player_error_cb (PtPlayer *player,
 {
 	destroy_progress_dlg (win);
 	pt_window_ready_to_play (win, FALSE);
-	pt_error_message (win, error->message);
+	pt_error_message (win, error->message, NULL);
 }
 
 static void
@@ -547,7 +554,7 @@ open_cb (PtPlayer     *player,
 	destroy_progress_dlg (win);
 
 	if (!pt_player_open_uri_finish (player, res, &error)) {
-		pt_error_message (win, error->message);
+		pt_error_message (win, error->message, NULL);
 		g_error_free (error);
 		return;
 	}
@@ -953,8 +960,17 @@ setup_settings (PtWindow *win)
 static void
 setup_player (PtWindow *win)
 {
-	/* Already tested in main.c, we don't check for errors here anymore */
-	win->priv->player = pt_player_new (NULL);
+	GError *error = NULL;
+
+	win->priv->player = pt_player_new ();
+	if (!pt_player_setup_player (win->priv->player, &error)) {
+		gchar *secondary_message = g_strdup_printf (
+			_("Parlatype needs GStreamer 1.x to run. Please check your installation of "
+                        "GStreamer and make sure you have the \"Good Plugins\" installed.\n"
+                        "Parlatype will quit now, it received this error message: %s"), error->message);
+		pt_error_message (win, _("Fatal error"), secondary_message);
+		exit (2);
+	}
 
 	pt_player_connect_waveviewer (
 			win->priv->player,

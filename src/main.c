@@ -19,31 +19,8 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>	
 #include <locale.h>		/* setlocale */
-#include <pt-player.h>
 #include "pt-app.h"
 
-
-static void
-fatal_error_message (const gchar *message)
-{
-	GtkWidget *dialog;
-
-	dialog = gtk_message_dialog_new (
-			NULL,	/* this is discouraged, but we have no possible parent window */
-			0,
-			GTK_MESSAGE_ERROR,
-			GTK_BUTTONS_OK,
-			_("Fatal error"));
-
-	gtk_message_dialog_format_secondary_text (
-			GTK_MESSAGE_DIALOG (dialog),
-                        _("Parlatype needs GStreamer 1.x to run. Please check your installation of "
-                        "GStreamer and make sure you have the \"Good Plugins\" installed.\n"
-                        "Parlatype will quit now, it received this error message: %s"), message);
-
-	gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy (dialog);
-}
 
 int main (int argc, char *argv[])
 {
@@ -51,19 +28,8 @@ int main (int argc, char *argv[])
 	bindtextdomain (PACKAGE, LOCALEDIR);
 	textdomain (PACKAGE);
 	
-	GError         *error = NULL;
-	PtPlayer       *testplayer;
-	PtApp          *app;
-	gint            app_status;
-
-	/* Test the backend */
-	testplayer = pt_player_new (&error);
-	if (error) {
-		fatal_error_message (error->message);
-		return 2;
-	} else {
-		g_object_unref (testplayer);
-	}
+	PtApp *app;
+	gint   app_status;
 
 	app = pt_app_new ();
 	app_status = g_application_run (G_APPLICATION (app), argc, argv);

@@ -45,7 +45,8 @@ struct _PtWindowClass
 GType		pt_window_get_type	(void) G_GNUC_CONST;
 
 void		pt_error_message	(PtWindow    *parent,
-					 const gchar *message);
+					 const gchar *message,
+					 const gchar *secondary_message);
 
 void		pt_window_open_file	(PtWindow *win,
 					 gchar    *uri);

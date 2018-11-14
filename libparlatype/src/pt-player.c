@@ -73,14 +73,10 @@ static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
 #define ONE_HOUR 3600000
 #define TEN_MINUTES 600000
 
-static void pt_player_initable_iface_init (GInitableIface *iface);
 static gboolean bus_call (GstBus *bus, GstMessage *msg, gpointer data);
 static void remove_message_bus (PtPlayer *player);
 
-G_DEFINE_TYPE_WITH_CODE (PtPlayer, pt_player, G_TYPE_OBJECT,
-			 G_ADD_PRIVATE (PtPlayer)
-			 G_IMPLEMENT_INTERFACE (G_TYPE_INITABLE,
-						pt_player_initable_iface_init))
+G_DEFINE_TYPE_WITH_PRIVATE (PtPlayer, pt_player, G_TYPE_OBJECT)
 
 
 /**
@@ -1829,15 +1825,22 @@ vol_changed (GObject    *object,
 	g_source_set_name_by_id (id, "[parlatype] notify_volume_idle_cb");
 }
 
-static gboolean
-pt_player_initable_init (GInitable     *initable,
-			 GCancellable  *cancellable,
-			 GError       **error)
+/**
+ * pt_player_setup_player:
+ * @player: a #PtPlayer
+ * @error: (allow-none): return location for an error, or NULL
+ *
+ * Setup the GStreamer pipeline for playback. This must be called first on a
+ * new PtPlayer object. It's a programmer's error to do anything with the
+ * PtPlayer before calling the setup function.
+ *
+ * Return value: TRUE on success, FALSE if the pipeline could not be set up
+ */
+gboolean
+pt_player_setup_player (PtPlayer  *player,
+                        GError   **error)
 {
 	GError *gst_error = NULL;
-
-	PtPlayer *player;
-	player = PT_PLAYER (initable);
 
 	/* Setup player
 	
@@ -2280,28 +2283,18 @@ pt_player_class_init (PtPlayerClass *klass)
 			obj_properties);
 }
 
-static void
-pt_player_initable_iface_init (GInitableIface *iface)
-{
-	iface->init = pt_player_initable_init;
-}
-
 /**
  * pt_player_new:
- * @error: (allow-none): return location for an error, or NULL
  *
- * This is a failable constructor. It fails, if GStreamer doesn't init or a
- * plugin is missing. In this case NULL is returned, error is set.
+ * Returns a new PtPlayer. You have to set it up for playback with
+ * pt_player_setup_player() before doing anything else.
  *
  * After use g_object_unref() it.
  *
  * Return value: (transfer full): a new pt_player
  */
 PtPlayer *
-pt_player_new (GError **error)
+pt_player_new (void)
 {
-	return g_initable_new (PT_TYPE_PLAYER,
-			NULL,	/* cancellable */
-			error,
-			NULL);
+	return g_object_new (PT_TYPE_PLAYER, NULL);
 }

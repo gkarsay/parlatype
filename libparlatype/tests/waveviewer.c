@@ -71,7 +71,8 @@ waveviewer_loaded (void)
 	gchar     *testuri;
 	gboolean   success;
 
-	player = pt_player_new (&error);
+	player = pt_player_new ();
+	pt_player_setup_player (player, &error);
 	g_assert_no_error (error);
 
 	testfile = g_test_build_filename (G_TEST_DIST, "data/test1.ogg", NULL);

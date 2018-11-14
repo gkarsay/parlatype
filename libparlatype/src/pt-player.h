@@ -137,6 +137,8 @@ gboolean	pt_player_goto_timestamp	(PtPlayer *player,
 						 gchar    *timestamp);
 void		pt_player_connect_waveviewer	(PtPlayer *player,
 						 PtWaveviewer *wv);
-PtPlayer*	pt_player_new			(GError **error);
+gboolean	pt_player_setup_player		(PtPlayer  *player,
+			                         GError   **error);
+PtPlayer*	pt_player_new			(void);
 
 #endif

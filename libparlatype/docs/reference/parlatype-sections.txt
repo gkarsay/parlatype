@@ -3,6 +3,7 @@
 <TITLE>PtPlayer</TITLE>
 PtPlayer
 pt_player_new
+pt_player_setup_player
 pt_player_open_uri_async
 pt_player_open_uri_finish
 pt_player_open_uri

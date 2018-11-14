@@ -37,7 +37,8 @@ pt_player_fixture_set_up (PtPlayerFixture *fixture,
 	GFile    *file;
 	gboolean  success;
 
-	fixture->testplayer = pt_player_new (&error);
+	fixture->testplayer = pt_player_new ();
+	pt_player_setup_player (fixture->testplayer, &error);
 	g_assert_no_error (error);
 
 	path = g_test_build_filename (G_TEST_DIST, "data", "test1.ogg", NULL);
@@ -75,7 +76,8 @@ player_new (void)
 	PtPlayer *testplayer;
 	gdouble speed, volume;
 
-	testplayer = pt_player_new (&error);
+	testplayer = pt_player_new ();
+	pt_player_setup_player (testplayer, &error);
 	g_assert_no_error (error);
 	g_assert (PT_IS_PLAYER (testplayer));
 	g_object_get (testplayer,
@@ -97,7 +99,8 @@ player_open_fail (void)
 	GFile    *file;
 	gchar    *uri;
 
-	testplayer = pt_player_new (&error);
+	testplayer = pt_player_new ();
+	pt_player_setup_player (testplayer, &error);
 	g_assert_no_error (error);
 
 	success = pt_player_open_uri (testplayer, "foo", &error);
@@ -182,7 +185,8 @@ player_open_cancel (void)
 	data.loop = g_main_loop_new (context, FALSE);
 	data.res = NULL;
 
-	testplayer = pt_player_new (&error);
+	testplayer = pt_player_new ();
+	pt_player_setup_player (testplayer, &error);
 	g_assert_no_error (error);
 
 	testfile = g_test_build_filename (G_TEST_DIST, "data/test1.ogg", NULL);
@@ -304,7 +308,8 @@ player_volume_speed (PtPlayerFixture *fixture,
 	g_assert_cmpfloat (volume, ==, 0.7);
 
 	/* check bind property */
-	bind_player = pt_player_new (&error);
+	bind_player = pt_player_new ();
+	pt_player_setup_player (bind_player, &error);
 	g_assert_no_error (error);
 
 	g_object_bind_property (fixture->testplayer, "volume",

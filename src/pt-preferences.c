@@ -193,7 +193,8 @@ pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 {
 	dlg->priv = pt_preferences_dialog_get_instance_private (dlg);
 	dlg->priv->editor = g_settings_new ("com.github.gkarsay.parlatype");
-	dlg->priv->player = pt_player_new (NULL); /* no error handling, already checked in main window */
+	dlg->priv->player = pt_player_new ();
+	pt_player_setup_player (dlg->priv->player, NULL); /* no error handling, already checked in main window */
 
 	gtk_widget_init_template (GTK_WIDGET (dlg));
 	g_settings_bind (
