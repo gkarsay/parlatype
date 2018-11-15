@@ -281,7 +281,7 @@
                   <object class="GtkImage" id="icon_seek_back1">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="icon_name">media-skip-backward</property>
+                    <property name="icon_name">media-skip-backward-symbolic</property>
                   </object>
                 </child>
               </object>
@@ -306,7 +306,7 @@
                       <object class="GtkImage" id="play_icon">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="icon_name">media-playback-start</property>
+                        <property name="icon_name">media-playback-start-symbolic</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -347,7 +347,7 @@
                   <object class="GtkImage" id="icon_seek_forward1">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="icon_name">media-skip-forward</property>
+                    <property name="icon_name">media-skip-forward-symbolic</property>
                   </object>
                 </child>
               </object>
@@ -486,11 +486,10 @@
                 <property name="orientation">vertical</property>
                 <property name="value">1</property>
                 <property name="adjustment">vol_adj</property>
-                <property name="icons">audio-volume-muted
-audio-volume-high
-audio-volume-low
-audio-volume-medium</property>
-                <property name="use_symbolic">False</property>
+                <property name="icons">audio-volume-muted-symbolic
+audio-volume-high-symbolic
+audio-volume-low-symbolic
+audio-volume-medium-symbolic</property>
                 <child internal-child="plus_button">
                   <object class="GtkButton">
                     <property name="can_focus">True</property>
