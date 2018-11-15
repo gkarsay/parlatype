@@ -26,9 +26,9 @@ def error_message(message, parent):
 class ParlatypeExample:
 
     def __init__(self):
-        # PtPlayer has a failable constructor, if GStreamer can't be initted.
+        self.player = Pt.Player.new()
         try:
-            self.player = Pt.Player.new()
+            self.player.setup_player()
         except Exception as err:
             error_message(err.args[0], None)
             exit()
