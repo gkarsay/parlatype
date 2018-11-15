@@ -380,7 +380,8 @@ gst_pocketsphinx_set_property(GObject * object, guint prop_id,
     switch (prop_id) {
     
     case PROP_CONFIGURED:
-        ps_reinit(ps->ps, ps->config);
+        if (g_value_get_boolean (value))
+	        ps_reinit(ps->ps, ps->config);
         break;
     case PROP_HMM_DIR:
         gst_pocketsphinx_set_string(ps, "-hmm", value);
@@ -630,9 +631,9 @@ gst_pocketsphinx_chain(GstPad * pad, GstObject *parent, GstBuffer * buffer)
     if (!in_speech && ps->utt_started) {
 	gst_pocketsphinx_finalize_utt(ps);
     } else if (ps->last_result_time == 0
-        /* Get a partial result every now and then, see if it is different. */
-        /* Check every 100 milliseconds. */
-        || (GST_BUFFER_TIMESTAMP(buffer) - ps->last_result_time) > 100*10*1000) {
+        /* Get a partial result every now and then, see if it is different. */ 
+        /* Check every 100 milliseconds. */ /* TODO changed to 1000 ms, check */
+        || (GST_BUFFER_TIMESTAMP(buffer) - ps->last_result_time) > GST_MSECOND * 100) {
         int32 score;
         char const *hyp;
 

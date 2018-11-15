@@ -24,7 +24,9 @@
 #ifdef GDK_WINDOWING_WAYLAND
 #include <gdk/gdkwayland.h>
 #endif
+#include <pt-asr-settings.h>
 #include <pt-player.h>
+#include "pt-asr-assistant.h"
 #include "pt-preferences.h"
 
 #define EXAMPLE_TIME_SHORT 471123
@@ -62,6 +64,18 @@ struct _PtPreferencesDialogPrivate
 	GtkWidget *hours_check;
 	GtkWidget *label_example1;
 	GtkWidget *label_example2;
+
+	/* ASR tab */
+	PtAsrSettings *asr_settings;
+	GtkWidget     *asr_initial_box;
+	GtkWidget     *asr_ready_box;
+	GtkWidget     *add_asr_button;
+	GtkWidget     *remove_asr_button;
+	GtkWidget     *asr_view;
+	GtkListStore  *asr_store;
+	GtkWidget     *lm_chooser;
+	GtkWidget     *dict_chooser;
+	GtkWidget     *hmm_chooser;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PtPreferencesDialog, pt_preferences_dialog, GTK_TYPE_DIALOG)
@@ -188,13 +202,364 @@ precision_combo_changed (GtkComboBox         *widget,
 	update_example_timestamps (dlg);
 }
 
+void
+asr_assistant_cancel_cb (GtkAssistant *assistant,
+                         gpointer      user_data)
+{
+	gtk_widget_destroy (GTK_WIDGET (assistant));
+}
+
+void
+asr_assistant_close_cb (GtkAssistant        *assistant,
+                        PtPreferencesDialog *dlg)
+{
+	GtkTreeSelection *sel;
+	GtkTreeIter       iter;
+	gchar            *name;
+	gchar            *id;
+	gboolean          empty;
+
+	name = pt_asr_assistant_get_name (PT_ASR_ASSISTANT (assistant));
+	id = pt_asr_assistant_save_config (
+			PT_ASR_ASSISTANT (assistant), dlg->priv->asr_settings);
+	gtk_widget_destroy (GTK_WIDGET (assistant));
+
+	empty = !gtk_tree_model_get_iter_first (GTK_TREE_MODEL (dlg->priv->asr_store), &iter);
+	gtk_list_store_append (dlg->priv->asr_store, &iter);
+	gtk_list_store_set (dlg->priv->asr_store, &iter, 0, FALSE, 1, id, 2, name, -1);
+
+	sel = gtk_tree_view_get_selection (GTK_TREE_VIEW (dlg->priv->asr_view));
+	gtk_tree_selection_select_iter (sel, &iter);
+
+	if (empty) {
+		gtk_widget_hide (dlg->priv->asr_initial_box);
+		gtk_widget_show (dlg->priv->asr_ready_box);
+		g_settings_set_string (dlg->priv->editor, "asr-config", id);
+		gtk_list_store_set (dlg->priv->asr_store, &iter, 0, TRUE, -1);
+	}
+
+	g_free (name);
+	g_free (id);
+}
+
+static void
+launch_asr_assistant (PtPreferencesDialog *dlg)
+{
+	GtkWindow *parent;
+	GtkWidget *assistant;
+
+	g_object_get (dlg, "transient-for", &parent, NULL);
+	assistant = GTK_WIDGET (pt_asr_assistant_new (parent));
+	g_signal_connect (assistant, "cancel", G_CALLBACK (asr_assistant_cancel_cb), NULL);
+	g_signal_connect (assistant, "close", G_CALLBACK (asr_assistant_close_cb), dlg);
+	gtk_widget_show (assistant);
+}
+
+void
+add_asr_button_clicked_cb (GtkToolButton       *button,
+                           PtPreferencesDialog *dlg)
+{
+	launch_asr_assistant (dlg);
+}
+
+void
+initial_asr_button_clicked_cb (GtkButton           *button,
+                               PtPreferencesDialog *dlg)
+{
+	launch_asr_assistant (dlg);
+}
+
+gboolean
+confirm_delete (GtkWindow *parent, gchar *name)
+{
+	g_assert_nonnull (name);
+
+	GtkWidget       *dialog;
+	GtkWidget       *yes_button;
+	GtkStyleContext *context;
+	gchar		*message;
+	gchar		*secondary_message;
+	gint		 response;
+
+	message = _("Deleting configuration");
+	secondary_message = g_strdup_printf (_("Do you really want to delete \"%s\"?"), name);
+	dialog = gtk_message_dialog_new (parent,
+                                   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+                                   GTK_MESSAGE_QUESTION,
+                                   GTK_BUTTONS_NONE,
+                                   "%s", message);
+
+	/* Add secondary message and buttons, mark Yes-Button as destructive */
+	gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog), "%s", secondary_message);
+	gtk_dialog_add_button (GTK_DIALOG (dialog), "_No", GTK_RESPONSE_NO);
+	yes_button = gtk_dialog_add_button (GTK_DIALOG (dialog), "_Yes", GTK_RESPONSE_YES);
+	context = gtk_widget_get_style_context (yes_button);
+	gtk_style_context_add_class (context, "destructive-action");
+
+	response = gtk_dialog_run (GTK_DIALOG (dialog));
+
+	gtk_widget_destroy (dialog);
+	g_free (secondary_message);
+
+	return (response == GTK_RESPONSE_YES);
+}
+
+void
+remove_asr_button_clicked_cb (GtkToolButton       *button,
+                              PtPreferencesDialog *dlg)
+{
+	GtkTreeSelection *sel;
+	GtkTreeIter       iter;
+	gboolean          active;
+	gboolean          last;
+	gchar            *name;
+	gchar            *id;
+
+	sel = gtk_tree_view_get_selection (GTK_TREE_VIEW (dlg->priv->asr_view));
+
+	if (!gtk_tree_selection_get_selected (sel, NULL, &iter))
+		return;
+
+	gtk_tree_model_get (
+			GTK_TREE_MODEL (dlg->priv->asr_store), &iter,
+			0, &active, 1, &id, 2, &name, -1);
+	if (confirm_delete (GTK_WINDOW (dlg), name)) {
+		gtk_list_store_remove (dlg->priv->asr_store, &iter);
+		pt_asr_settings_remove_config (dlg->priv->asr_settings, id);
+
+		last = !gtk_tree_model_get_iter_first (GTK_TREE_MODEL (dlg->priv->asr_store), &iter);
+		if (last) {
+			gtk_widget_hide (dlg->priv->asr_ready_box);
+			gtk_widget_show (dlg->priv->asr_initial_box);
+			g_settings_set_string (dlg->priv->editor, "asr-config", "none");
+		} else {
+			gtk_tree_selection_select_iter (sel, &iter);
+			if (active) {
+				g_free (id);
+				gtk_tree_model_get (
+						GTK_TREE_MODEL (dlg->priv->asr_store),
+						&iter, 1, &id, -1);
+				g_settings_set_string (dlg->priv->editor, "asr-config", id);
+				gtk_list_store_set (dlg->priv->asr_store, &iter, 0, TRUE, -1);
+			}
+		}
+	}
+
+	g_free (name);
+	g_free (id);
+}
+
+static gchar*
+get_asr_settings_filename (void)
+{
+	const gchar *userdir;
+	gchar	    *configdir;
+	GFile	    *create_dir;
+	gchar       *filename;
+
+	userdir = g_get_user_data_dir ();
+	configdir = g_build_path ("/", userdir, PACKAGE, NULL);
+	create_dir = g_file_new_for_path (configdir);
+	g_file_make_directory (create_dir, NULL, NULL);
+	filename = g_build_filename (configdir, "asr.ini", NULL);
+
+	g_free (configdir);
+	g_object_unref (create_dir);
+
+	return filename;
+}
+
+static void
+clear_active (GtkListStore *store)
+{
+	GtkTreeIter iter;
+	gboolean    valid;
+
+	valid = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (store), &iter);
+
+	while (valid) {
+		gtk_list_store_set (store, &iter, 0, FALSE, -1);
+		valid = gtk_tree_model_iter_next (GTK_TREE_MODEL (store), &iter);
+	}
+}
+
+static void
+set_active (PtPreferencesDialog *dlg,
+            GtkTreePath         *path)
+{
+	GtkListStore *store = dlg->priv->asr_store;
+	GtkTreeIter   iter;
+	gboolean      active;
+	gchar        *new;
+
+	gtk_tree_model_get_iter (GTK_TREE_MODEL (store), &iter, path);
+	gtk_tree_model_get (
+			GTK_TREE_MODEL (store), &iter, 0, &active, 1, &new, -1);
+	if (!active) {
+		clear_active (store);
+		gtk_list_store_set (store, &iter, 0, TRUE, -1);
+		g_settings_set_string (dlg->priv->editor, "asr-config", new);
+	}
+	g_free (new);
+}
+
+void
+asr_default_toggled_cb (GtkCellRendererToggle *cell,
+                        gchar                 *path_string,
+                        gpointer               user_data)
+{
+	PtPreferencesDialog *dlg = PT_PREFERENCES_DIALOG (user_data);
+
+	GtkTreePath *path;
+
+	path = gtk_tree_path_new_from_string (path_string);
+	set_active (dlg, path);
+	gtk_tree_path_free (path);
+}
+
+static gchar*
+get_path_for_uri (gchar *uri)
+{
+	GFile *file;
+	gchar *path;
+
+	file = g_file_new_for_uri (uri);
+	path = g_file_get_path (file);
+	g_object_unref (file);
+
+	return path;
+}
+
+static gchar*
+get_uri_for_path (gchar *path)
+{
+	GFile *file;
+	gchar *uri;
+
+	file = g_file_new_for_path (path);
+	uri = g_file_get_uri (file);
+	g_object_unref (file);
+
+	return uri;
+}
+
+static gchar*
+get_selected_id (GtkTreeView *view)
+{
+	GtkTreeSelection *sel;
+	GtkTreeModel     *model;
+	GtkTreeIter       iter;
+	gchar            *id;
+
+	sel = gtk_tree_view_get_selection (view);
+	gtk_tree_selection_get_selected (sel, &model, &iter);
+	gtk_tree_model_get (model, &iter, 1, &id, -1);
+
+	return id;
+}
+
+void
+prefs_lm_chooser_file_set_cb (GtkFileChooserButton *button,
+                              PtPreferencesDialog  *dlg)
+{
+	gchar *id;
+	gchar *lm_uri, *lm;
+
+	lm_uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (button));
+	lm = get_path_for_uri (lm_uri);
+	id = get_selected_id (GTK_TREE_VIEW (dlg->priv->asr_view));
+	pt_asr_settings_set_string (dlg->priv->asr_settings, id, "lm", lm);
+
+	g_free (id);
+	g_free (lm);
+	g_free (lm_uri);
+}
+
+void
+prefs_dict_chooser_file_set_cb (GtkFileChooserButton *button,
+                                PtPreferencesDialog  *dlg)
+{
+	gchar *id;
+	gchar *dict_uri, *dict;
+
+	dict_uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (button));
+	dict = get_path_for_uri (dict_uri);
+	id = get_selected_id (GTK_TREE_VIEW (dlg->priv->asr_view));
+	pt_asr_settings_set_string (dlg->priv->asr_settings, id, "dict", dict);
+
+	g_free (id);
+	g_free (dict);
+	g_free (dict_uri);
+}
+
+void
+prefs_hmm_chooser_file_set_cb (GtkFileChooserButton *button,
+                               PtPreferencesDialog  *dlg)
+{
+	gchar *id;
+	gchar *hmm_uri, *hmm;
+
+	hmm_uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (button));
+	hmm = get_path_for_uri (hmm_uri);
+	id = get_selected_id (GTK_TREE_VIEW (dlg->priv->asr_view));
+	pt_asr_settings_set_string (dlg->priv->asr_settings, id, "hmm", hmm);
+
+	g_free (id);
+	g_free (hmm);
+	g_free (hmm_uri);
+}
+
+static void
+asr_selection_changed_cb (GtkTreeSelection *sel,
+                          gpointer          user_data)
+{
+	PtPreferencesDialog *dlg = PT_PREFERENCES_DIALOG (user_data);
+
+	GtkTreeIter  iter;
+	gchar       *id;
+	gchar       *lm, *dict, *hmm;
+	gchar       *lm_uri, *dict_uri, *hmm_uri;
+
+	if (!gtk_tree_selection_get_selected (sel, NULL, &iter))
+		return;
+
+	gtk_tree_model_get (
+			GTK_TREE_MODEL (dlg->priv->asr_store),
+			&iter, 1, &id, -1);
+
+	lm = pt_asr_settings_get_string (dlg->priv->asr_settings, id, "lm");
+	dict = pt_asr_settings_get_string (dlg->priv->asr_settings, id, "dict");
+	hmm = pt_asr_settings_get_string (dlg->priv->asr_settings, id, "hmm");
+	lm_uri = get_uri_for_path (lm);
+	dict_uri = get_uri_for_path (dict);
+	hmm_uri = get_uri_for_path (hmm);
+
+	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (dlg->priv->lm_chooser), lm_uri);
+	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (dlg->priv->dict_chooser), dict_uri);
+	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (dlg->priv->hmm_chooser), hmm_uri);
+
+	g_free (id);
+	g_free (lm);
+	g_free (lm_uri);
+	g_free (dict);
+	g_free (dict_uri);
+	g_free (hmm);
+	g_free (hmm_uri);
+}
+
 static void
 pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 {
+	gchar *asr_settings_filename;
+
 	dlg->priv = pt_preferences_dialog_get_instance_private (dlg);
 	dlg->priv->editor = g_settings_new ("com.github.gkarsay.parlatype");
 	dlg->priv->player = pt_player_new ();
 	pt_player_setup_player (dlg->priv->player, NULL); /* no error handling, already checked in main window */
+
+	asr_settings_filename = get_asr_settings_filename ();
+	dlg->priv->asr_settings = pt_asr_settings_new (asr_settings_filename);
+	g_free (asr_settings_filename);
 
 	gtk_widget_init_template (GTK_WIDGET (dlg));
 	g_settings_bind (
@@ -301,6 +666,49 @@ pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dlg->priv->hours_check), fixed);
 	g_free (delimiter);
 	g_free (sep);
+
+	/* setup ASR page */
+	GtkTreeSelection *sel;
+	GtkTreeIter       row;
+	GtkTreeIter       active_row;
+	gchar           **configs = NULL;
+	gchar            *active_id;
+	gboolean          active;
+	gint              i = 0;
+
+	dlg->priv->asr_store = gtk_list_store_new (3,
+					G_TYPE_BOOLEAN,		/* active */
+					G_TYPE_STRING,		/* ID     */
+					G_TYPE_STRING);		/* name   */
+
+	configs = pt_asr_settings_get_configs (dlg->priv->asr_settings);
+	if (configs[0]) {
+		gtk_widget_hide (dlg->priv->asr_initial_box);
+	} else {
+		gtk_widget_hide (dlg->priv->asr_ready_box);
+	}
+	active_id = g_settings_get_string (dlg->priv->editor, "asr-config");
+	while (configs[i]) {
+		active = (g_strcmp0 (active_id, configs[i]) == 0);
+		gtk_list_store_append (dlg->priv->asr_store, &row);
+		gtk_list_store_set (dlg->priv->asr_store, &row,
+				0, active,
+				1, configs[i],
+				2, pt_asr_settings_get_string (dlg->priv->asr_settings, configs[i], "name"),
+				-1);
+		if (i == 0)
+			active_row = row;
+		if (active)
+			active_row = row;
+		i++;
+	}
+	gtk_tree_view_set_model (GTK_TREE_VIEW (dlg->priv->asr_view), GTK_TREE_MODEL (dlg->priv->asr_store));
+	sel = gtk_tree_view_get_selection (GTK_TREE_VIEW (dlg->priv->asr_view));
+	g_signal_connect (sel, "changed", G_CALLBACK (asr_selection_changed_cb), dlg);
+	gtk_tree_selection_select_iter (sel, &active_row);
+
+	g_free (active_id);
+	g_strfreev (configs);
 }
 
 static void
@@ -310,6 +718,7 @@ pt_preferences_dialog_dispose (GObject *object)
 
 	g_clear_object (&dlg->priv->editor);
 	g_clear_object (&dlg->priv->player);
+	g_clear_object (&dlg->priv->asr_settings);
 
 	G_OBJECT_CLASS (pt_preferences_dialog_parent_class)->dispose (object);
 }
@@ -342,6 +751,14 @@ pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, hours_check);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, label_example1);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, label_example2);
+	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, add_asr_button);
+	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, remove_asr_button);
+	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, asr_view);
+	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, lm_chooser);
+	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, dict_chooser);
+	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, hmm_chooser);
+	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, asr_initial_box);
+	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, asr_ready_box);
 }
 
 void
@@ -366,4 +783,3 @@ pt_show_preferences_dialog (GtkWindow *parent)
 
 	gtk_window_present (GTK_WINDOW (preferences_dialog));
 }
-

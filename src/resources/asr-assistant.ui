@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.20.0 -->
+<interface>
+  <requires lib="gtk+" version="3.20"/>
+  <object class="GtkBox" id="intro">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="orientation">vertical</property>
+    <property name="spacing">12</property>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Parlatype uses CMU Sphinx as speech recognition engine. Before you can start, you have to download a so called acoustic and language model suitable for CMU Sphinx. This is a set of files made for a specific language. You can download models for example from &lt;a href="https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Language%20Models/"&gt;CMU Sphinx' sourceforge repository&lt;/a&gt;.</property>
+        <property name="use_markup">True</property>
+        <property name="wrap">True</property>
+        <property name="xalign">0</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">When you have a model, specify the folder containing it:</property>
+        <property name="wrap">True</property>
+        <property name="xalign">0</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkFileChooserButton">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="action">select-folder</property>
+        <property name="title" translatable="yes"/>
+        <signal name="file-set" handler="folder_chooser_file_set_cb" swapped="no"/>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">2</property>
+      </packing>
+    </child>
+  </object>
+  <object class="GtkBox" id="models">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="orientation">vertical</property>
+    <property name="spacing">6</property>
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="spacing">6</property>
+        <child>
+          <object class="GtkImage" id="lm_icon">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="stock">gtk-apply</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">Language model</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lm_message">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label">This is a message label.</property>
+        <property name="xalign">0</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkFileChooserButton" id="lm_chooser">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="title" translatable="yes">Select language model</property>
+        <signal name="file-set" handler="lm_chooser_file_set_cb" swapped="no"/>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="spacing">6</property>
+        <child>
+          <object class="GtkImage" id="dict_icon">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="valign">end</property>
+            <property name="stock">gtk-apply</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_top">12</property>
+            <property name="label" translatable="yes">Dictionary</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">3</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="dict_message">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label">This is a message label.</property>
+        <property name="xalign">0</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">4</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkFileChooserButton" id="dict_chooser">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="title" translatable="yes">Select dictionary</property>
+        <signal name="file-set" handler="dict_chooser_file_set_cb" swapped="no"/>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">5</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="spacing">6</property>
+        <child>
+          <object class="GtkImage" id="hmm_icon">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="valign">end</property>
+            <property name="stock">gtk-apply</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_top">12</property>
+            <property name="label" translatable="yes">Acoustic model</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">6</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="hmm_message">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label">This is a message label.</property>
+        <property name="xalign">0</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">7</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkFileChooserButton" id="hmm_chooser">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="action">select-folder</property>
+        <property name="title" translatable="yes">Select acoustic model folder</property>
+        <signal name="file-set" handler="hmm_chooser_file_set_cb" swapped="no"/>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">8</property>
+      </packing>
+    </child>
+  </object>
+  <object class="GtkBox" id="summary">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="orientation">vertical</property>
+    <property name="spacing">12</property>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Setup is completed. Please give this configuration a name:</property>
+        <property name="wrap">True</property>
+        <property name="xalign">0</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="name_entry">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="activates_default">True</property>
+        <signal name="changed" handler="name_entry_changed_cb" swapped="no"/>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+  </object>
+</interface>

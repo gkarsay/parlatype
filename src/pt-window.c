@@ -1,4 +1,4 @@
-/* Copyright (C) Gabor Karsay 2016-2018 <gabor.karsay@gmx.at>
+/* Copyright (C) Gabor Karsay 2016-2019 <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -170,7 +170,162 @@ zoom_out (GSimpleAction *action,
 	set_zoom (win->priv->editor, -25);
 }
 
+static gchar*
+get_asr_settings_filename (void)
+{
+	const gchar *userdir;
+	gchar	    *configdir;
+	GFile	    *create_dir;
+	gchar       *filename;
+
+	userdir = g_get_user_data_dir ();
+	configdir = g_build_path ("/", userdir, PACKAGE, NULL);
+	create_dir = g_file_new_for_path (configdir);
+	g_file_make_directory (create_dir, NULL, NULL);
+	filename = g_build_filename (configdir, "asr.ini", NULL);
+
+	g_free (configdir);
+	g_object_unref (create_dir);
+
+	return filename;
+}
+
+static void
+setup_sphinx (PtWindow *win)
+{
+	GError *error = NULL;
+
+	PtAsrSettings *asr_settings;
+	gchar         *asr_settings_filename;
+
+	asr_settings_filename = get_asr_settings_filename ();
+	asr_settings = pt_asr_settings_new (asr_settings_filename);
+	pt_asr_settings_apply_config (
+			asr_settings,
+			g_settings_get_string (win->priv->editor, "asr-config"),
+			win->priv->player);
+
+	pt_player_setup_sphinx (win->priv->player, &error);
+	if (error) {
+		pt_error_message (win, error->message, NULL);
+		g_clear_error (&error);
+	}
+
+	g_free (asr_settings_filename);
+	g_object_unref (asr_settings);
+}
+
+static void
+dialog_response_cb (GtkDialog *dialog,
+                    gint       response_id,
+                    PtWindow  *win)
+{
+	/* every response means cancel */
+
+	GAction  *action;
+	GVariant *state;
+
+	pt_asr_output_cancel_search (win->priv->output);
+	g_signal_handler_disconnect (win->priv->output, win->priv->output_handler_id);
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+
+	action = g_action_map_lookup_action (G_ACTION_MAP (win), "mode");
+	state = g_variant_new_string ("playback");
+	g_simple_action_set_state (G_SIMPLE_ACTION (action), state);
+}
+
+static void
+asr_output_app_found_cb (PtAsrOutput *output,
+                         PtWindow    *win)
+{
+	GApplication  *app;
+	GNotification *notification;
+	gchar         *message;
+
+	g_signal_handler_disconnect (win->priv->output, win->priv->output_handler_id);
+	gtk_widget_destroy (win->priv->output_dlg);
+
+	notification = g_notification_new ("App found");
+	message = g_strdup_printf ("Automatic speech recognition will be sent to %s.\n "
+	                           "Press \"Play\" to start it.",
+	                           pt_asr_output_get_app_name (output));
+	g_notification_set_body (notification, message);
+	app = G_APPLICATION (gtk_window_get_application (GTK_WINDOW (win)));
+	g_application_send_notification (app, "app-found", notification);
+
+	/* TODO setup_sphinx() can take a few seconds. Although the dialog is
+	   destroyed earlier, it's still on screen until the end of this function.
+	   If setup_sphinx() was asynchronous, the dialog would probably
+	   disappear earlier. */
+	setup_sphinx (win);
+
+	g_object_unref (notification);
+	g_free (message);
+}
+
+static void
+set_mode_asr (PtWindow *win)
+{
+	gchar     *message;
+	gchar     *secondary_message;
+
+	message = _("Select output for automatic speech recognition");
+	secondary_message = _("Please open and switch focus to a word processor.");
+
+        win->priv->output_dlg = gtk_message_dialog_new (
+			GTK_WINDOW (win),
+			GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+			GTK_MESSAGE_QUESTION,
+			GTK_BUTTONS_CANCEL,
+			"%s", message);
+
+	gtk_message_dialog_format_secondary_text (
+			GTK_MESSAGE_DIALOG (win->priv->output_dlg),
+	                "%s", secondary_message);
+
+	win->priv->output_handler_id = g_signal_connect (win->priv->output, "app-found",
+			G_CALLBACK (asr_output_app_found_cb), win);
+	pt_asr_output_search_app (win->priv->output);
+	g_signal_connect (win->priv->output_dlg,
+                           "response",
+                           G_CALLBACK (dialog_response_cb),
+                           win);
+	gtk_widget_show (win->priv->output_dlg);
+}
+
+static void
+set_mode_playback (PtWindow *win)
+{
+	GError *error = NULL;
+
+	pt_player_setup_player (win->priv->player, &error);
+	if (error) {
+		pt_error_message (win, error->message, NULL);
+		g_clear_error (&error);
+	}
+}
+
+void
+change_mode (GSimpleAction *action,
+             GVariant      *state,
+             gpointer       user_data)
+{
+	PtWindow *win = PT_WINDOW (user_data);
+	const gchar *mode;
+
+	mode = g_variant_get_string (state, NULL);
+	if (g_strcmp0 (mode, "playback") == 0)
+		set_mode_playback (win);
+	else if (g_strcmp0 (mode, "asr") == 0)
+		set_mode_asr (win);
+	else
+		g_assert_not_reached ();
+
+	g_simple_action_set_state (action, state);
+}
+
 const GActionEntry win_actions[] = {
+	{ "mode", NULL, "s", "'playback'", change_mode },
 	{ "copy", copy_timestamp, NULL, NULL, NULL },
 	{ "insert", insert_timestamp, NULL, NULL, NULL },
 	{ "goto", goto_position, NULL, NULL, NULL },
@@ -393,7 +548,11 @@ static void
 enable_win_actions (PtWindow *win,
 		    gboolean  state)
 {
-	GAction      *action;
+	GAction *action;
+
+	/* always active */
+	action = g_action_map_lookup_action (G_ACTION_MAP (win), "mode");
+	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), TRUE);
 
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "copy");
 	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
@@ -731,6 +890,23 @@ speed_changed_cb (GtkRange *range,
 	pt_player_set_speed (win->priv->player, win->priv->speed);
 }
 
+
+static void
+player_asr_final_cb (PtPlayer *player,
+                     gchar    *word,
+                     PtWindow *win)
+{
+	pt_asr_output_final (win->priv->output, word);
+}
+
+static void
+player_asr_hypothesis_cb (PtPlayer *player,
+                          gchar    *word,
+                          PtWindow *win)
+{
+	pt_asr_output_hypothesis (win->priv->output, word);
+}
+
 void
 speed_scale_direction_changed_cb (GtkWidget        *widget,
                                   GtkTextDirection  previous_direction,
@@ -1005,6 +1181,16 @@ setup_player (PtWindow *win)
 			win->priv->volumebutton, "value",
 			win->priv->player, "volume",
 			G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+
+	g_signal_connect (win->priv->player,
+			"asr-final",
+			G_CALLBACK (player_asr_final_cb),
+			win);
+
+	g_signal_connect (win->priv->player,
+			"asr-hypothesis",
+			G_CALLBACK (player_asr_hypothesis_cb),
+			win);
 }
 
 static void
@@ -1100,6 +1286,8 @@ pt_window_init (PtWindow *win)
 	setup_mediakeys (win);		/* this is in pt_mediakeys.c */
 	pt_window_setup_dnd (win);	/* this is in pt_window_dnd.c */
 	setup_dbus_service (win);	/* this is in pt_dbus_service.c */
+	win->priv->output = pt_asr_output_new ();
+	win->priv->output_handler_id = 0;
 	win->priv->recent = gtk_recent_manager_get_default ();
 	win->priv->timer = 0;
 	win->priv->progress_dlg = NULL;
@@ -1156,6 +1344,7 @@ pt_window_dispose (GObject *object)
 	g_clear_object (&win->priv->proxy);
 	destroy_progress_dlg (win);
 	g_clear_object (&win->priv->player);
+	g_clear_object (&win->priv->output);
 
 	G_OBJECT_CLASS (pt_window_parent_class)->dispose (object);
 }

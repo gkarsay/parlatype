@@ -38,6 +38,7 @@ typedef struct _PtPlayerPrivate PtPlayerPrivate;
 struct _PtPlayer
 {
 	GObject parent;
+	GObject *sphinx;
 
 	/*< private > */
 	PtPlayerPrivate *priv;
@@ -138,6 +139,8 @@ gboolean	pt_player_goto_timestamp	(PtPlayer *player,
 void		pt_player_connect_waveviewer	(PtPlayer *player,
 						 PtWaveviewer *wv);
 gboolean	pt_player_setup_player		(PtPlayer  *player,
+			                         GError   **error);
+gboolean	pt_player_setup_sphinx		(PtPlayer  *player,
 			                         GError   **error);
 PtPlayer*	pt_player_new			(void);
 
