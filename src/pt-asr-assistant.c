@@ -20,6 +20,7 @@
 #include <glib/gi18n.h>
 #include <pt-player.h>
 #include <pt-asr-settings.h>
+#include "pt-asr-assistant-helpers.h"
 #include "pt-asr-assistant.h"
 
 
@@ -198,113 +199,71 @@ hmm_chooser_file_set_cb (GtkFileChooserButton *button,
 }
 
 static void
-recursive_search (GFile     *folder,
-                  GPtrArray *lms,
-                  GPtrArray *dicts,
-                  GPtrArray *hmms)
+error_message (PtAsrAssistant *self,
+               const gchar    *message,
+               const gchar    *secondary_message)
 {
-	GError          *error = NULL;
-	GFileEnumerator *files;
-	gint             hmm_hint = 0;
-	static gint      subdirs = 0;
-	
-	files = g_file_enumerate_children (folder,
-                                           G_FILE_ATTRIBUTE_STANDARD_NAME","
-                                           G_FILE_ATTRIBUTE_STANDARD_TYPE,
-                                           G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS,
-                                           NULL,	/* cancellable */
-                                           &error);
+        GtkWidget *dialog;
 
-	while (TRUE) {
-		if (subdirs > 100) {
-			g_print ("cancelled\n");
-			break;
-			/* FIXME once hit, it's > 100 on all following attempts */
-		}
-			
-		GFileInfo *info;
-		GFile     *file;
-		if (!g_file_enumerator_iterate (files, &info, &file, NULL, NULL)) /* cancellable & error */
-			break;
-		if (!info)
-			break;
-		const char *name = g_file_info_get_name (info);
-		if (g_file_info_get_file_type (info) == G_FILE_TYPE_DIRECTORY) {
-			GFile *subdir;
-			subdir = g_file_get_child (folder, name);
-			subdirs++;
-			recursive_search (subdir, lms, dicts, hmms);
-			g_object_unref (subdir);
-		}
-		
-		if (g_str_has_suffix (name, ".lm.bin"))
-			g_ptr_array_add (lms, g_object_ref (file));
+        dialog = gtk_message_dialog_new (
+			GTK_WINDOW (self),
+			GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+			GTK_MESSAGE_ERROR,
+			GTK_BUTTONS_OK,
+			"%s", message);
 
-		if (g_str_has_suffix (name, ".dict") || g_str_has_suffix (name, ".dic"))
-			g_ptr_array_add (dicts, g_object_ref (file));
+	if (secondary_message)
+		gtk_message_dialog_format_secondary_text (
+				GTK_MESSAGE_DIALOG (dialog),
+		                "%s", secondary_message);
 
-		if (g_strcmp0 (name, "feat.params") == 0
-		    || g_strcmp0 (name, "feature_transform") == 0
-		    || g_strcmp0 (name, "mdef") == 0
-		    || g_strcmp0 (name, "means") == 0
-		    || g_strcmp0 (name, "mixture_weights") == 0
-		    || g_strcmp0 (name, "noisedict") == 0
-		    || g_strcmp0 (name, "sendump") == 0
-		    || g_strcmp0 (name, "transition_matrices") == 0
-		    || g_strcmp0 (name, "variances") == 0) {
-			hmm_hint++;
-		}
-	}
-
-	if (hmm_hint > 4) {
-		g_ptr_array_add (hmms, g_object_ref (folder));
-	}
-
-	g_object_unref (files);
+        gtk_dialog_run (GTK_DIALOG (dialog));
+        gtk_widget_destroy (dialog);
 }
 
-void
-folder_chooser_file_set_cb (GtkFileChooserButton *button,
-                            PtAsrAssistant       *self)
+static void
+recursive_search_finished (PtAsrAssistant *self,
+                           GAsyncResult   *res,
+                           gpointer       *data)
 {
-	gchar           *folder_uri;
-	GFile           *folder;
-	GPtrArray *lms, *dicts, *hmms;
-	gchar           *lm_uri;
-	gchar           *dict_uri;
-	gchar           *hmm_uri;
+	SearchResult *r;
+	GError       *error = NULL;
+	gchar        *folder_uri;
+	gchar        *lm_uri;
+	gchar        *dict_uri;
+	gchar        *hmm_uri;
 	
-	lms =   g_ptr_array_new_with_free_func (g_object_unref);
-	dicts = g_ptr_array_new_with_free_func (g_object_unref);
-	hmms =  g_ptr_array_new_with_free_func (g_object_unref);
-
-	if (self->priv->lm_path) {
-		g_free (self->priv->lm_path);
-		self->priv->lm_path = NULL;
-	}
-	
-	if (self->priv->dict_path) {
-		g_free (self->priv->dict_path);
-		self->priv->dict_path = NULL;
-	}
-
-	if (self->priv->hmm_path) {
-		g_free (self->priv->hmm_path);
-		self->priv->hmm_path = NULL;
-	}
-
-	folder_uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (button));
-	if (!folder_uri) {
-		gtk_assistant_set_page_complete (GTK_ASSISTANT (self), self->priv->intro, FALSE);
+	folder_uri = (gchar*)data;
+	r = _pt_asr_assistant_recursive_search_finish (self, res, &error);
+	if (error) {
+		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			error_message (self,
+			               _("Timed out"),
+			               _("Scanning the folder took too long. Please make sure to open a folder with model data only."));
+		} else {
+			error_message (self,
+			               _("Scanning the folder failed"),
+			               error->message);
+		}
+		g_free (folder_uri);
 		return;
 	}
 
-	folder = g_file_new_for_uri (folder_uri);
-	recursive_search (folder, lms, dicts, hmms);
+	if (r->lms->len == 0 && r->dicts->len == 0 && r->hmms->len == 0) {
+		error_message (self,
+		               _("Nothing found"),
+		               _("This folder doesn't contain a suitable model."));
+		search_result_free (r);
+		g_free (folder_uri);
+		return;
+	}
 
-	gtk_image_clear (GTK_IMAGE (self->priv->lm_icon));
-	gtk_image_clear (GTK_IMAGE (self->priv->dict_icon));
-	gtk_image_clear (GTK_IMAGE (self->priv->hmm_icon));
+	/* At least one item found, continue and resolve missing on next page */
+	gtk_assistant_set_page_complete (
+			GTK_ASSISTANT (self),
+			self->priv->intro, TRUE);
+
+	/* Setup next page, model page */
 
 	lm_uri = g_strdup (folder_uri);
 	dict_uri = g_strdup (folder_uri);
@@ -314,7 +273,11 @@ folder_chooser_file_set_cb (GtkFileChooserButton *button,
 	gtk_widget_show (self->priv->dict_message);
 	gtk_widget_show (self->priv->hmm_message);
 
-	if (lms->len == 0) {
+	gtk_image_clear (GTK_IMAGE (self->priv->lm_icon));
+	gtk_image_clear (GTK_IMAGE (self->priv->dict_icon));
+	gtk_image_clear (GTK_IMAGE (self->priv->hmm_icon));
+
+	if (r->lms->len == 0) {
 		gtk_image_set_from_icon_name (GTK_IMAGE (self->priv->lm_icon),
 		                              "gtk-dialog-error",
 		                              GTK_ICON_SIZE_BUTTON);
@@ -322,16 +285,16 @@ folder_chooser_file_set_cb (GtkFileChooserButton *button,
 		               _("The folder contains no language model."));
 	}
 
-	if (lms->len == 1) {
-		self->priv->lm_path = g_file_get_path (g_ptr_array_index (lms, 0));
-		lm_uri = g_file_get_uri (g_ptr_array_index (lms, 0));
+	if (r->lms->len == 1) {
+		self->priv->lm_path = g_file_get_path (g_ptr_array_index (r->lms, 0));
+		lm_uri = g_file_get_uri (g_ptr_array_index (r->lms, 0));
 		gtk_image_set_from_icon_name (GTK_IMAGE (self->priv->lm_icon),
 		                              "gtk-apply",
 		                              GTK_ICON_SIZE_BUTTON);
 		gtk_widget_hide (self->priv->lm_message);
 	}
 
-	if (lms->len > 1) {
+	if (r->lms->len > 1) {
 		gtk_image_set_from_icon_name (GTK_IMAGE (self->priv->lm_icon),
 		                              "gtk-dialog-warning",
 		                              GTK_ICON_SIZE_BUTTON);
@@ -339,7 +302,7 @@ folder_chooser_file_set_cb (GtkFileChooserButton *button,
 		               _("The folder contains several language models. Please select one."));
 	}
 
-	if (dicts->len == 0) {
+	if (r->dicts->len == 0) {
 		gtk_image_set_from_icon_name (GTK_IMAGE (self->priv->dict_icon),
 		                              "gtk-dialog-error",
 		                              GTK_ICON_SIZE_BUTTON);
@@ -347,23 +310,23 @@ folder_chooser_file_set_cb (GtkFileChooserButton *button,
 		               _("The folder contains no dictionary."));
 	}
 
-	if (dicts->len == 1) {
-		self->priv->dict_path = g_file_get_path (g_ptr_array_index (dicts, 0));
-		dict_uri = g_file_get_uri (g_ptr_array_index (dicts, 0));
+	if (r->dicts->len == 1) {
+		self->priv->dict_path = g_file_get_path (g_ptr_array_index (r->dicts, 0));
+		dict_uri = g_file_get_uri (g_ptr_array_index (r->dicts, 0));
 		gtk_image_set_from_icon_name (GTK_IMAGE (self->priv->dict_icon),
 		                              "gtk-apply",
 		                              GTK_ICON_SIZE_BUTTON);
 		gtk_widget_hide (self->priv->dict_message);
 	}
 
-	if (dicts->len > 1) {
+	if (r->dicts->len > 1) {
 		gtk_image_set_from_icon_name (GTK_IMAGE (self->priv->dict_icon),
 		                              "gtk-dialog-warning",
 		                              GTK_ICON_SIZE_BUTTON);
 		gtk_label_set_text (GTK_LABEL (self->priv->dict_message),
 		               _("The folder contains several dictionaries. Please select one."));
 	}
-	if (hmms->len == 0) {
+	if (r->hmms->len == 0) {
 		gtk_image_set_from_icon_name (GTK_IMAGE (self->priv->hmm_icon),
 		                              "gtk-dialog-error",
 		                              GTK_ICON_SIZE_BUTTON);
@@ -371,16 +334,16 @@ folder_chooser_file_set_cb (GtkFileChooserButton *button,
 		               _("The folder contains no acoustic model."));
 	}
 
-	if (hmms->len == 1) {
-		self->priv->hmm_path = g_file_get_path (g_ptr_array_index (hmms, 0));
-		hmm_uri = g_file_get_uri (g_ptr_array_index (hmms, 0));
+	if (r->hmms->len == 1) {
+		self->priv->hmm_path = g_file_get_path (g_ptr_array_index (r->hmms, 0));
+		hmm_uri = g_file_get_uri (g_ptr_array_index (r->hmms, 0));
 		gtk_image_set_from_icon_name (GTK_IMAGE (self->priv->hmm_icon),
 		                              "gtk-apply",
 		                              GTK_ICON_SIZE_BUTTON);
 		gtk_widget_hide (self->priv->hmm_message);
 	}
 
-	if (hmms->len > 1) {
+	if (r->hmms->len > 1) {
 		gtk_image_set_from_icon_name (GTK_IMAGE (self->priv->hmm_icon),
 		                              "gtk-dialog-warning",
 		                              GTK_ICON_SIZE_BUTTON);
@@ -393,21 +356,49 @@ folder_chooser_file_set_cb (GtkFileChooserButton *button,
 	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (self->priv->hmm_chooser), hmm_uri);
 	check_models_complete (self);
 
-	g_object_unref (folder);
 	g_free (folder_uri);
 	g_free (lm_uri);
 	g_free (dict_uri);
 	g_free (hmm_uri);
-	
-	/* Continue if found at least one item, resolve missing on next page */
-	gtk_assistant_set_page_complete (
-			GTK_ASSISTANT (self),
-			self->priv->intro,
-			lms->len > 0 || dicts->len > 0 || hmms->len > 0);
+	search_result_free (r);
+}
 
-	g_ptr_array_free (lms, TRUE);
-	g_ptr_array_free (dicts, TRUE);
-	g_ptr_array_free (hmms, TRUE);
+void
+folder_chooser_file_set_cb (GtkFileChooserButton *button,
+                            PtAsrAssistant       *self)
+{
+	gchar *folder_uri;
+	GFile *folder;
+
+	/* Clear data */
+	if (self->priv->lm_path) {
+		g_free (self->priv->lm_path);
+		self->priv->lm_path = NULL;
+	}
+
+	if (self->priv->dict_path) {
+		g_free (self->priv->dict_path);
+		self->priv->dict_path = NULL;
+	}
+
+	if (self->priv->hmm_path) {
+		g_free (self->priv->hmm_path);
+		self->priv->hmm_path = NULL;
+	}
+
+	gtk_assistant_set_page_complete (GTK_ASSISTANT (self), self->priv->intro, FALSE);
+
+	folder_uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (button));
+	if (!folder_uri) {
+		return;
+	}
+	folder = g_file_new_for_uri (folder_uri);
+
+	_pt_asr_assistant_recursive_search_async (self, folder,
+			(GAsyncReadyCallback)recursive_search_finished,
+			folder_uri);
+
+	/* folder cleaned up in async, folder_uri in callback */
 }
 
 static gboolean

@@ -12,6 +12,8 @@ src = [
 	'pt-app.h',
 	'pt-asr-assistant.c',
 	'pt-asr-assistant.h',
+	'pt-asr-assistant-helpers.c',
+	'pt-asr-assistant-helpers.h',
 	'pt-asr-output.c',
 	'pt-asr-output.h',
 	'pt-dbus-service.c',
