@@ -1,4 +1,4 @@
-/* Copyright (C) Gabor Karsay 2016 <gabor.karsay@gmx.at>
+/* Copyright (C) Gabor Karsay 2016, 2018, 2019 <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -202,14 +202,14 @@ precision_combo_changed (GtkComboBox         *widget,
 	update_example_timestamps (dlg);
 }
 
-void
+static void
 asr_assistant_cancel_cb (GtkAssistant *assistant,
                          gpointer      user_data)
 {
 	gtk_widget_destroy (GTK_WIDGET (assistant));
 }
 
-void
+static void
 asr_assistant_close_cb (GtkAssistant        *assistant,
                         PtPreferencesDialog *dlg)
 {
@@ -234,6 +234,7 @@ asr_assistant_close_cb (GtkAssistant        *assistant,
 	if (empty) {
 		gtk_widget_hide (dlg->priv->asr_initial_box);
 		gtk_widget_show (dlg->priv->asr_ready_box);
+		/* Make it the default config in settings and in the view */
 		g_settings_set_string (dlg->priv->editor, "asr-config", id);
 		gtk_list_store_set (dlg->priv->asr_store, &iter, 0, TRUE, -1);
 	}
@@ -253,6 +254,7 @@ launch_asr_assistant (PtPreferencesDialog *dlg)
 	g_signal_connect (assistant, "cancel", G_CALLBACK (asr_assistant_cancel_cb), NULL);
 	g_signal_connect (assistant, "close", G_CALLBACK (asr_assistant_close_cb), dlg);
 	gtk_widget_show (assistant);
+	g_object_unref (parent);
 }
 
 void
