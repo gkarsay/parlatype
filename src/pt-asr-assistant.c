@@ -33,15 +33,22 @@ struct _PtAsrAssistantPrivate
 
 	/* Widgets */
 	GtkWidget *lm_chooser;
-	GtkWidget *lm_icon;
+	GtkWidget *lm_combo;
 	GtkWidget *lm_message;
+	GtkWidget *lm_heading;
 	GtkWidget *dict_chooser;
-	GtkWidget *dict_icon;
+	GtkWidget *dict_combo;
 	GtkWidget *dict_message;
+	GtkWidget *dict_heading;
 	GtkWidget *hmm_chooser;
-	GtkWidget *hmm_icon;
+	GtkWidget *hmm_combo;
 	GtkWidget *hmm_message;
+	GtkWidget *hmm_heading;
 	GtkWidget *name_entry;
+
+	GtkListStore *lm_list;
+	GtkListStore *dict_list;
+	GtkListStore *hmm_list;
 
 	/* Data */
 	gchar     *lm_path;
@@ -177,24 +184,78 @@ hmm_chooser_file_set_cb (GtkFileChooserButton *button,
 	}
 
 	hmm_uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (button));
-	gtk_image_clear (GTK_IMAGE (self->priv->hmm_icon));
 	
 	if (check_hmm_folder (hmm_uri)) {
 		self->priv->hmm_path = get_path_for_uri (hmm_uri);
-		gtk_image_set_from_icon_name (GTK_IMAGE (self->priv->hmm_icon),
-		                              "gtk-apply",
-		                              GTK_ICON_SIZE_BUTTON);
 		gtk_widget_hide (self->priv->hmm_message);
 	} else {
-		gtk_image_set_from_icon_name (GTK_IMAGE (self->priv->hmm_icon),
-		                              "gtk-dialog-error",
-		                              GTK_ICON_SIZE_BUTTON);
 		gtk_label_set_text (GTK_LABEL (self->priv->hmm_message),
 		               _("The folder contains no acoustic model."));
 		gtk_widget_show (self->priv->hmm_message);
 	}
 
 	g_free (hmm_uri);
+	check_models_complete (self);
+}
+
+void
+lm_combo_changed_cb (GtkComboBox    *combo,
+                     PtAsrAssistant *self)
+{
+	GtkTreeIter iter;
+
+	/* This is also called when the ListStore is cleared */
+	if (!gtk_tree_model_get_iter_first (GTK_TREE_MODEL (self->priv->lm_list), &iter))
+		return;
+
+	if (gtk_combo_box_get_active (combo) == 0) {
+		g_free (self->priv->lm_path);
+		self->priv->lm_path = NULL;
+	} else {
+		gtk_combo_box_get_active_iter (combo, &iter);
+		gtk_tree_model_get (GTK_TREE_MODEL (self->priv->lm_list), &iter, 1, &self->priv->lm_path, -1);
+	}
+
+	check_models_complete (self);
+}
+
+void
+dict_combo_changed_cb (GtkComboBox    *combo,
+                       PtAsrAssistant *self)
+{
+	GtkTreeIter iter;
+
+	if (!gtk_tree_model_get_iter_first (GTK_TREE_MODEL (self->priv->dict_list), &iter))
+		return;
+
+	if (gtk_combo_box_get_active (combo) == 0) {
+		g_free (self->priv->dict_path);
+		self->priv->dict_path = NULL;
+	} else {
+		gtk_combo_box_get_active_iter (combo, &iter);
+		gtk_tree_model_get (GTK_TREE_MODEL (self->priv->dict_list), &iter, 1, &self->priv->dict_path, -1);
+	}
+
+	check_models_complete (self);
+}
+
+void
+hmm_combo_changed_cb (GtkComboBox    *combo,
+                      PtAsrAssistant *self)
+{
+	GtkTreeIter iter;
+
+	if (!gtk_tree_model_get_iter_first (GTK_TREE_MODEL (self->priv->hmm_list), &iter))
+		return;
+
+	if (gtk_combo_box_get_active (combo) == 0) {
+		g_free (self->priv->hmm_path);
+		self->priv->hmm_path = NULL;
+	} else {
+		gtk_combo_box_get_active_iter (combo, &iter);
+		gtk_tree_model_get (GTK_TREE_MODEL (self->priv->hmm_list), &iter, 1, &self->priv->hmm_path, -1);
+	}
+
 	check_models_complete (self);
 }
 
@@ -222,6 +283,80 @@ error_message (PtAsrAssistant *self,
 }
 
 static void
+fill_list (GtkListStore *list,
+           GPtrArray    *array,
+           gchar        *base_uri)
+{
+	GtkTreeIter  iter;
+	guint        i;
+	GFile       *base;
+	gchar       *relative_path;
+	gchar       *full_path;
+
+	base = g_file_new_for_uri (base_uri);
+
+	gtk_list_store_append (list, &iter);
+	gtk_list_store_set (list, &iter, 0, _("Please select …"), -1);
+
+	for (i = 0; i < array->len; i++) {
+		gtk_list_store_append (list, &iter);
+		relative_path = g_file_get_relative_path (base, g_ptr_array_index (array, i));
+		full_path = g_file_get_path (g_ptr_array_index (array, i));
+		gtk_list_store_set (list, &iter, 0, relative_path, 1, full_path, -1);
+		g_free (relative_path);
+		g_free (full_path);
+	}
+
+	g_object_unref (base);
+}
+
+static void
+add_model_page (PtAsrAssistant *self)
+{
+	if (gtk_assistant_get_n_pages (GTK_ASSISTANT (self)) != 2)
+		return;
+
+	GtkBuilder *builder;
+	builder = gtk_builder_new_from_resource ("/com/github/gkarsay/parlatype/asr-assistant.ui");
+
+	self->priv->models = GTK_WIDGET (gtk_builder_get_object (builder, "models"));
+	self->priv->lm_chooser = GTK_WIDGET (gtk_builder_get_object (builder, "lm_chooser"));
+	self->priv->dict_chooser = GTK_WIDGET (gtk_builder_get_object (builder, "dict_chooser"));
+	self->priv->hmm_chooser = GTK_WIDGET (gtk_builder_get_object (builder, "hmm_chooser"));
+	self->priv->lm_combo = GTK_WIDGET (gtk_builder_get_object (builder, "lm_combo"));
+	self->priv->dict_combo = GTK_WIDGET (gtk_builder_get_object (builder, "dict_combo"));
+	self->priv->hmm_combo = GTK_WIDGET (gtk_builder_get_object (builder, "hmm_combo"));
+	self->priv->lm_message = GTK_WIDGET (gtk_builder_get_object (builder, "lm_message"));
+	self->priv->dict_message = GTK_WIDGET (gtk_builder_get_object (builder, "dict_message"));
+	self->priv->hmm_message = GTK_WIDGET (gtk_builder_get_object (builder, "hmm_message"));
+	self->priv->lm_heading = GTK_WIDGET (gtk_builder_get_object (builder, "lm_heading"));
+	self->priv->dict_heading = GTK_WIDGET (gtk_builder_get_object (builder, "dict_heading"));
+	self->priv->hmm_heading = GTK_WIDGET (gtk_builder_get_object (builder, "hmm_heading"));
+
+	gtk_assistant_insert_page (GTK_ASSISTANT (self), self->priv->models, 1);
+	gtk_assistant_set_page_title (GTK_ASSISTANT (self), self->priv->models, _("Missing parameters"));
+	gtk_assistant_set_page_type (GTK_ASSISTANT (self), self->priv->models, GTK_ASSISTANT_PAGE_CONTENT);
+	gtk_assistant_set_page_complete (GTK_ASSISTANT (self), self->priv->models, FALSE);
+	gtk_widget_show_all (self->priv->models);
+
+	gtk_combo_box_set_model (GTK_COMBO_BOX (self->priv->lm_combo), GTK_TREE_MODEL (self->priv->lm_list));
+	gtk_combo_box_set_model (GTK_COMBO_BOX (self->priv->dict_combo), GTK_TREE_MODEL (self->priv->dict_list));
+	gtk_combo_box_set_model (GTK_COMBO_BOX (self->priv->hmm_combo), GTK_TREE_MODEL (self->priv->hmm_list));
+
+	gtk_builder_connect_signals (builder, self);
+	g_object_unref (builder);
+}
+
+static void
+remove_model_page (PtAsrAssistant *self)
+{
+	if (gtk_assistant_get_n_pages (GTK_ASSISTANT (self)) != 3)
+		return;
+
+	gtk_assistant_remove_page (GTK_ASSISTANT (self), 1);
+}
+
+static void
 recursive_search_finished (PtAsrAssistant *self,
                            GAsyncResult   *res,
                            gpointer       *data)
@@ -232,9 +367,13 @@ recursive_search_finished (PtAsrAssistant *self,
 	gchar        *lm_uri;
 	gchar        *dict_uri;
 	gchar        *hmm_uri;
+	gboolean      nothing_found;
+	gboolean      complete;
 	
 	folder_uri = (gchar*)data;
 	r = _pt_asr_assistant_recursive_search_finish (self, res, &error);
+	remove_model_page (self);
+
 	if (error) {
 		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 			error_message (self,
@@ -246,115 +385,121 @@ recursive_search_finished (PtAsrAssistant *self,
 			               error->message);
 		}
 		g_free (folder_uri);
+		gtk_assistant_set_page_complete (GTK_ASSISTANT (self),
+				self->priv->intro, FALSE);
 		return;
 	}
 
-	if (r->lms->len == 0 && r->dicts->len == 0 && r->hmms->len == 0) {
+	nothing_found = (r->lms->len == 0 && r->dicts->len == 0 && r->hmms->len == 0);
+	complete      = (r->lms->len == 1 && r->dicts->len == 1 && r->hmms->len == 1);
+
+	if (nothing_found) {
 		error_message (self,
 		               _("Nothing found"),
 		               _("This folder doesn't contain a suitable model."));
 		search_result_free (r);
 		g_free (folder_uri);
+		gtk_assistant_set_page_complete (GTK_ASSISTANT (self),
+				self->priv->intro, FALSE);
 		return;
 	}
 
-	/* At least one item found, continue and resolve missing on next page */
-	gtk_assistant_set_page_complete (
-			GTK_ASSISTANT (self),
+	gtk_assistant_set_page_complete (GTK_ASSISTANT (self),
 			self->priv->intro, TRUE);
 
-	/* Setup next page, model page */
+	if (r->lms->len == 1)
+		self->priv->lm_path   = g_file_get_path (g_ptr_array_index (r->lms, 0));
+	if (r->dicts->len == 1)
+		self->priv->dict_path = g_file_get_path (g_ptr_array_index (r->dicts, 0));
+	if (r->hmms->len == 1)
+		self->priv->hmm_path  = g_file_get_path (g_ptr_array_index (r->hmms, 0));
+
+	if (complete) {
+		search_result_free (r);
+		g_free (folder_uri);
+		return;
+	}
+
+	/* Setup model page */
+
+	add_model_page (self);
 
 	lm_uri = g_strdup (folder_uri);
 	dict_uri = g_strdup (folder_uri);
 	hmm_uri = g_strdup (folder_uri);
 
-	gtk_widget_show (self->priv->lm_message);
-	gtk_widget_show (self->priv->dict_message);
-	gtk_widget_show (self->priv->hmm_message);
+	gtk_widget_hide (self->priv->lm_combo);
+	gtk_widget_hide (self->priv->dict_combo);
+	gtk_widget_hide (self->priv->hmm_combo);
 
-	gtk_image_clear (GTK_IMAGE (self->priv->lm_icon));
-	gtk_image_clear (GTK_IMAGE (self->priv->dict_icon));
-	gtk_image_clear (GTK_IMAGE (self->priv->hmm_icon));
+	gtk_widget_hide (self->priv->lm_chooser);
+	gtk_widget_hide (self->priv->dict_chooser);
+	gtk_widget_hide (self->priv->hmm_chooser);
+
+	gtk_widget_hide (self->priv->lm_heading);
+	gtk_widget_hide (self->priv->dict_heading);
+	gtk_widget_hide (self->priv->hmm_heading);
+
+	gtk_widget_hide (self->priv->lm_message);
+	gtk_widget_hide (self->priv->dict_message);
+	gtk_widget_hide (self->priv->hmm_message);
 
 	if (r->lms->len == 0) {
-		gtk_image_set_from_icon_name (GTK_IMAGE (self->priv->lm_icon),
-		                              "gtk-dialog-error",
-		                              GTK_ICON_SIZE_BUTTON);
 		gtk_label_set_text (GTK_LABEL (self->priv->lm_message),
-		               _("The folder contains no language model."));
-	}
-
-	if (r->lms->len == 1) {
-		self->priv->lm_path = g_file_get_path (g_ptr_array_index (r->lms, 0));
-		lm_uri = g_file_get_uri (g_ptr_array_index (r->lms, 0));
-		gtk_image_set_from_icon_name (GTK_IMAGE (self->priv->lm_icon),
-		                              "gtk-apply",
-		                              GTK_ICON_SIZE_BUTTON);
-		gtk_widget_hide (self->priv->lm_message);
+		               _("The folder contains no language model. Please choose a language model from another folder."));
+		gtk_widget_show (self->priv->lm_heading);
+		gtk_widget_show (self->priv->lm_message);
+		gtk_widget_show (self->priv->lm_chooser);
 	}
 
 	if (r->lms->len > 1) {
-		gtk_image_set_from_icon_name (GTK_IMAGE (self->priv->lm_icon),
-		                              "gtk-dialog-warning",
-		                              GTK_ICON_SIZE_BUTTON);
 		gtk_label_set_text (GTK_LABEL (self->priv->lm_message),
-		               _("The folder contains several language models. Please select one."));
+		               _("The folder contains several language models."));
+		fill_list (self->priv->lm_list, r->lms, folder_uri);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->lm_combo), 0);
+		gtk_widget_show (self->priv->lm_heading);
+		gtk_widget_show (self->priv->lm_message);
+		gtk_widget_show (self->priv->lm_combo);
 	}
 
 	if (r->dicts->len == 0) {
-		gtk_image_set_from_icon_name (GTK_IMAGE (self->priv->dict_icon),
-		                              "gtk-dialog-error",
-		                              GTK_ICON_SIZE_BUTTON);
 		gtk_label_set_text (GTK_LABEL (self->priv->dict_message),
-		               _("The folder contains no dictionary."));
-	}
-
-	if (r->dicts->len == 1) {
-		self->priv->dict_path = g_file_get_path (g_ptr_array_index (r->dicts, 0));
-		dict_uri = g_file_get_uri (g_ptr_array_index (r->dicts, 0));
-		gtk_image_set_from_icon_name (GTK_IMAGE (self->priv->dict_icon),
-		                              "gtk-apply",
-		                              GTK_ICON_SIZE_BUTTON);
-		gtk_widget_hide (self->priv->dict_message);
+		               _("The folder contains no dictionary. Please choose a dictionary from another folder."));
+		gtk_widget_show (self->priv->dict_heading);
+		gtk_widget_show (self->priv->dict_message);
+		gtk_widget_show (self->priv->dict_chooser);
 	}
 
 	if (r->dicts->len > 1) {
-		gtk_image_set_from_icon_name (GTK_IMAGE (self->priv->dict_icon),
-		                              "gtk-dialog-warning",
-		                              GTK_ICON_SIZE_BUTTON);
 		gtk_label_set_text (GTK_LABEL (self->priv->dict_message),
-		               _("The folder contains several dictionaries. Please select one."));
+		               _("The folder contains several dictionaries."));
+		fill_list (self->priv->dict_list, r->dicts, folder_uri);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->dict_combo), 0);
+		gtk_widget_show (self->priv->dict_heading);
+		gtk_widget_show (self->priv->dict_message);
+		gtk_widget_show (self->priv->dict_combo);
 	}
 	if (r->hmms->len == 0) {
-		gtk_image_set_from_icon_name (GTK_IMAGE (self->priv->hmm_icon),
-		                              "gtk-dialog-error",
-		                              GTK_ICON_SIZE_BUTTON);
 		gtk_label_set_text (GTK_LABEL (self->priv->hmm_message),
-		               _("The folder contains no acoustic model."));
-	}
-
-	if (r->hmms->len == 1) {
-		self->priv->hmm_path = g_file_get_path (g_ptr_array_index (r->hmms, 0));
-		hmm_uri = g_file_get_uri (g_ptr_array_index (r->hmms, 0));
-		gtk_image_set_from_icon_name (GTK_IMAGE (self->priv->hmm_icon),
-		                              "gtk-apply",
-		                              GTK_ICON_SIZE_BUTTON);
-		gtk_widget_hide (self->priv->hmm_message);
+		               _("The folder contains no acoustic model. Please choose an acoustic model from another folder."));
+		gtk_widget_show (self->priv->hmm_heading);
+		gtk_widget_show (self->priv->hmm_message);
+		gtk_widget_show (self->priv->hmm_chooser);
 	}
 
 	if (r->hmms->len > 1) {
-		gtk_image_set_from_icon_name (GTK_IMAGE (self->priv->hmm_icon),
-		                              "gtk-dialog-warning",
-		                              GTK_ICON_SIZE_BUTTON);
 		gtk_label_set_text (GTK_LABEL (self->priv->hmm_message),
-		               _("The folder contains several acoustic models. Please select one."));
+		               _("The folder contains several acoustic models."));
+		fill_list (self->priv->hmm_list, r->hmms, folder_uri);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->hmm_combo), 0);
+		gtk_widget_show (self->priv->hmm_heading);
+		gtk_widget_show (self->priv->hmm_message);
+		gtk_widget_show (self->priv->hmm_combo);
 	}
 
 	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (self->priv->lm_chooser), lm_uri);
 	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (self->priv->dict_chooser), dict_uri);
 	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (self->priv->hmm_chooser), hmm_uri);
-	check_models_complete (self);
 
 	g_free (folder_uri);
 	g_free (lm_uri);
@@ -385,6 +530,10 @@ folder_chooser_file_set_cb (GtkFileChooserButton *button,
 		g_free (self->priv->hmm_path);
 		self->priv->hmm_path = NULL;
 	}
+
+	gtk_list_store_clear (self->priv->lm_list);
+	gtk_list_store_clear (self->priv->dict_list);
+	gtk_list_store_clear (self->priv->hmm_list);
 
 	gtk_assistant_set_page_complete (GTK_ASSISTANT (self), self->priv->intro, FALSE);
 
@@ -452,7 +601,7 @@ pt_asr_assistant_init (PtAsrAssistant *self)
 	self->priv->dict_path = NULL;
 	self->priv->hmm_path = NULL;
 
-	GtkBuilder    *builder;
+	GtkBuilder *builder;
 	builder = gtk_builder_new_from_resource ("/com/github/gkarsay/parlatype/asr-assistant.ui");
 
 	self->priv->intro = GTK_WIDGET (gtk_builder_get_object (builder, "intro"));
@@ -462,26 +611,10 @@ pt_asr_assistant_init (PtAsrAssistant *self)
 	gtk_assistant_set_page_complete (GTK_ASSISTANT (self), self->priv->intro, FALSE);
 	gtk_widget_show_all (self->priv->intro);
 
-	self->priv->models = GTK_WIDGET (gtk_builder_get_object (builder, "models"));
-	gtk_assistant_append_page (GTK_ASSISTANT (self), self->priv->models);
-	gtk_assistant_set_page_title (GTK_ASSISTANT (self), self->priv->models, _("Confirm model"));
-	gtk_assistant_set_page_type (GTK_ASSISTANT (self), self->priv->models, GTK_ASSISTANT_PAGE_CONFIRM);
-	self->priv->lm_chooser = GTK_WIDGET (gtk_builder_get_object (builder, "lm_chooser"));
-	self->priv->dict_chooser = GTK_WIDGET (gtk_builder_get_object (builder, "dict_chooser"));
-	self->priv->hmm_chooser = GTK_WIDGET (gtk_builder_get_object (builder, "hmm_chooser"));
-	self->priv->lm_icon = GTK_WIDGET (gtk_builder_get_object (builder, "lm_icon"));
-	self->priv->dict_icon = GTK_WIDGET (gtk_builder_get_object (builder, "dict_icon"));
-	self->priv->hmm_icon = GTK_WIDGET (gtk_builder_get_object (builder, "hmm_icon"));
-	self->priv->lm_message = GTK_WIDGET (gtk_builder_get_object (builder, "lm_message"));
-	self->priv->dict_message = GTK_WIDGET (gtk_builder_get_object (builder, "dict_message"));
-	self->priv->hmm_message = GTK_WIDGET (gtk_builder_get_object (builder, "hmm_message"));
-	gtk_assistant_set_page_complete (GTK_ASSISTANT (self), self->priv->models, FALSE);
-	gtk_widget_show_all (self->priv->models);
-
 	self->priv->summary = GTK_WIDGET (gtk_builder_get_object (builder, "summary"));
 	gtk_assistant_append_page (GTK_ASSISTANT (self), self->priv->summary);
-	gtk_assistant_set_page_title (GTK_ASSISTANT (self), self->priv->summary, _("Name configuration"));
-	gtk_assistant_set_page_type (GTK_ASSISTANT (self), self->priv->summary, GTK_ASSISTANT_PAGE_SUMMARY);
+	gtk_assistant_set_page_title (GTK_ASSISTANT (self), self->priv->summary, _("Finish configuration"));
+	gtk_assistant_set_page_type (GTK_ASSISTANT (self), self->priv->summary, GTK_ASSISTANT_PAGE_CONFIRM);
 	self->priv->name_entry = GTK_WIDGET (gtk_builder_get_object (builder, "name_entry"));
 	gtk_assistant_set_page_complete (GTK_ASSISTANT (self), self->priv->summary, FALSE);
 	gtk_widget_show_all (self->priv->summary);
@@ -489,6 +622,10 @@ pt_asr_assistant_init (PtAsrAssistant *self)
 	gtk_window_set_default_size (GTK_WINDOW (self), 500, -1);
 	gtk_builder_connect_signals (builder, self);
 	g_object_unref (builder);
+
+	self->priv->lm_list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
+	self->priv->dict_list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
+	self->priv->hmm_list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
 }
 
 static void
@@ -496,6 +633,9 @@ pt_asr_assistant_finalize (GObject *object)
 {
 	PtAsrAssistant *self = PT_ASR_ASSISTANT (object);
 
+	g_clear_object (&self->priv->lm_list);
+	g_clear_object (&self->priv->dict_list);
+	g_clear_object (&self->priv->hmm_list);
 	g_free (self->priv->lm_path);
 	g_free (self->priv->dict_path);
 	g_free (self->priv->hmm_path);

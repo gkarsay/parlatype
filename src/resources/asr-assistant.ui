@@ -57,34 +57,14 @@
     <property name="orientation">vertical</property>
     <property name="spacing">6</property>
     <child>
-      <object class="GtkBox">
+      <object class="GtkLabel" id="lm_heading">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="spacing">6</property>
-        <child>
-          <object class="GtkImage" id="lm_icon">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="stock">gtk-apply</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label" translatable="yes">Language model</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
+        <property name="label" translatable="yes">Language model</property>
+        <property name="xalign">0</property>
+        <attributes>
+          <attribute name="weight" value="bold"/>
+        </attributes>
       </object>
       <packing>
         <property name="expand">False</property>
@@ -119,41 +99,38 @@
       </packing>
     </child>
     <child>
-      <object class="GtkBox">
+      <object class="GtkComboBox" id="lm_combo">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="spacing">6</property>
+        <signal name="changed" handler="lm_combo_changed_cb" swapped="no"/>
         <child>
-          <object class="GtkImage" id="dict_icon">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="valign">end</property>
-            <property name="stock">gtk-apply</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="margin_top">12</property>
-            <property name="label" translatable="yes">Dictionary</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
+          <object class="GtkCellRendererText"/>
+          <attributes>
+            <attribute name="text">0</attribute>
+          </attributes>
         </child>
       </object>
       <packing>
         <property name="expand">False</property>
         <property name="fill">True</property>
         <property name="position">3</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="dict_heading">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="margin_top">12</property>
+        <property name="label" translatable="yes">Dictionary</property>
+        <property name="xalign">0</property>
+        <attributes>
+          <attribute name="weight" value="bold"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">4</property>
       </packing>
     </child>
     <child>
@@ -166,7 +143,7 @@
       <packing>
         <property name="expand">False</property>
         <property name="fill">True</property>
-        <property name="position">4</property>
+        <property name="position">5</property>
       </packing>
     </child>
     <child>
@@ -179,45 +156,42 @@
       <packing>
         <property name="expand">False</property>
         <property name="fill">True</property>
-        <property name="position">5</property>
+        <property name="position">6</property>
       </packing>
     </child>
     <child>
-      <object class="GtkBox">
+      <object class="GtkComboBox" id="dict_combo">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="spacing">6</property>
+        <signal name="changed" handler="dict_combo_changed_cb" swapped="no"/>
         <child>
-          <object class="GtkImage" id="hmm_icon">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="valign">end</property>
-            <property name="stock">gtk-apply</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="margin_top">12</property>
-            <property name="label" translatable="yes">Acoustic model</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
+          <object class="GtkCellRendererText"/>
+          <attributes>
+            <attribute name="text">0</attribute>
+          </attributes>
         </child>
       </object>
       <packing>
         <property name="expand">False</property>
         <property name="fill">True</property>
-        <property name="position">6</property>
+        <property name="position">7</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="hmm_heading">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="margin_top">12</property>
+        <property name="label" translatable="yes">Acoustic model</property>
+        <property name="xalign">0</property>
+        <attributes>
+          <attribute name="weight" value="bold"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">8</property>
       </packing>
     </child>
     <child>
@@ -230,7 +204,7 @@
       <packing>
         <property name="expand">False</property>
         <property name="fill">True</property>
-        <property name="position">7</property>
+        <property name="position">9</property>
       </packing>
     </child>
     <child>
@@ -244,7 +218,25 @@
       <packing>
         <property name="expand">False</property>
         <property name="fill">True</property>
-        <property name="position">8</property>
+        <property name="position">10</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkComboBox" id="hmm_combo">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <signal name="changed" handler="hmm_combo_changed_cb" swapped="no"/>
+        <child>
+          <object class="GtkCellRendererText"/>
+          <attributes>
+            <attribute name="text">0</attribute>
+          </attributes>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">11</property>
       </packing>
     </child>
   </object>
