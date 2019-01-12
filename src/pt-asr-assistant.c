@@ -142,11 +142,11 @@ check_hmm_folder (gchar *folder_uri)
                                            G_FILE_ATTRIBUTE_STANDARD_NAME,
                                            G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS,
                                            NULL,	/* cancellable */
-                                           &error);
+                                           &error);	/* TODO process error */
 
 	while (TRUE) {
 		GFileInfo *info;
-		if (!g_file_enumerator_iterate (files, &info, NULL, NULL, NULL)) /* GFile, cancellable & error */
+		if (!g_file_enumerator_iterate (files, &info, NULL, NULL, NULL)) /* GFile, cancellable & TODO error */
 			break;
 		if (!info)
 			break;
@@ -384,6 +384,7 @@ recursive_search_finished (PtAsrAssistant *self,
 			               _("Scanning the folder failed"),
 			               error->message);
 		}
+		g_clear_error (&error);
 		g_free (folder_uri);
 		gtk_assistant_set_page_complete (GTK_ASSISTANT (self),
 				self->priv->intro, FALSE);

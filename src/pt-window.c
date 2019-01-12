@@ -700,6 +700,7 @@ player_error_cb (PtPlayer *player,
 	destroy_progress_dlg (win);
 	pt_window_ready_to_play (win, FALSE);
 	pt_error_message (win, error->message, NULL);
+	/* TODO clear error? */
 }
 
 static void
@@ -1145,6 +1146,8 @@ setup_player (PtWindow *win)
                         "GStreamer and make sure you have the \"Good Plugins\" installed.\n"
                         "Parlatype will quit now, it received this error message: %s"), error->message);
 		pt_error_message (win, _("Fatal error"), secondary_message);
+		g_clear_error (&error);
+		g_free (secondary_message);
 		exit (2);
 	}
 
