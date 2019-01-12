@@ -684,11 +684,17 @@ pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 					G_TYPE_STRING);		/* name   */
 
 	configs = pt_asr_settings_get_configs (dlg->priv->asr_settings);
-	if (configs[0]) {
-		gtk_widget_hide (dlg->priv->asr_initial_box);
-	} else {
+	gtk_tree_view_set_model (GTK_TREE_VIEW (dlg->priv->asr_view), GTK_TREE_MODEL (dlg->priv->asr_store));
+	sel = gtk_tree_view_get_selection (GTK_TREE_VIEW (dlg->priv->asr_view));
+	g_signal_connect (sel, "changed", G_CALLBACK (asr_selection_changed_cb), dlg);
+
+	if (!configs[0]) {
 		gtk_widget_hide (dlg->priv->asr_ready_box);
+		g_strfreev (configs);
+		return;
 	}
+
+	gtk_widget_hide (dlg->priv->asr_initial_box);
 	active_id = g_settings_get_string (dlg->priv->editor, "asr-config");
 	while (configs[i]) {
 		active = (g_strcmp0 (active_id, configs[i]) == 0);
@@ -704,9 +710,6 @@ pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 			active_row = row;
 		i++;
 	}
-	gtk_tree_view_set_model (GTK_TREE_VIEW (dlg->priv->asr_view), GTK_TREE_MODEL (dlg->priv->asr_store));
-	sel = gtk_tree_view_get_selection (GTK_TREE_VIEW (dlg->priv->asr_view));
-	g_signal_connect (sel, "changed", G_CALLBACK (asr_selection_changed_cb), dlg);
 	gtk_tree_selection_select_iter (sel, &active_row);
 
 	g_free (active_id);
