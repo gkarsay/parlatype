@@ -170,38 +170,13 @@ zoom_out (GSimpleAction *action,
 	set_zoom (win->priv->editor, -25);
 }
 
-static gchar*
-get_asr_settings_filename (void)
-{
-	const gchar *userdir;
-	gchar	    *configdir;
-	GFile	    *create_dir;
-	gchar       *filename;
-
-	userdir = g_get_user_data_dir ();
-	configdir = g_build_path ("/", userdir, PACKAGE, NULL);
-	create_dir = g_file_new_for_path (configdir);
-	g_file_make_directory (create_dir, NULL, NULL);
-	filename = g_build_filename (configdir, "asr.ini", NULL);
-
-	g_free (configdir);
-	g_object_unref (create_dir);
-
-	return filename;
-}
-
 static void
 setup_sphinx (PtWindow *win)
 {
 	GError *error = NULL;
 
-	PtAsrSettings *asr_settings;
-	gchar         *asr_settings_filename;
-
-	asr_settings_filename = get_asr_settings_filename ();
-	asr_settings = pt_asr_settings_new (asr_settings_filename);
 	pt_asr_settings_apply_config (
-			asr_settings,
+			win->priv->asr_settings,
 			g_settings_get_string (win->priv->editor, "asr-config"),
 			win->priv->player);
 
@@ -210,9 +185,6 @@ setup_sphinx (PtWindow *win)
 		pt_error_message (win, error->message, NULL);
 		g_clear_error (&error);
 	}
-
-	g_free (asr_settings_filename);
-	g_object_unref (asr_settings);
 }
 
 static void
@@ -1040,6 +1012,10 @@ map_milliseconds_to_seconds (const GValue       *value,
 static void
 setup_settings (PtWindow *win)
 {
+	GtkApplication *app;
+	app = gtk_window_get_application (GTK_WINDOW (win));
+	win->priv->asr_settings = pt_app_get_asr_settings (PT_APP (app));
+
 	win->priv->editor = g_settings_new ("com.github.gkarsay.parlatype");
 
 	g_settings_bind_with_mapping (
@@ -1348,6 +1324,7 @@ pt_window_dispose (GObject *object)
 	destroy_progress_dlg (win);
 	g_clear_object (&win->priv->player);
 	g_clear_object (&win->priv->output);
+	g_clear_object (&win->priv->asr_settings);
 
 	G_OBJECT_CLASS (pt_window_parent_class)->dispose (object);
 }

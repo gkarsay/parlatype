@@ -1,4 +1,4 @@
-/* Copyright (C) Gabor Karsay 2016 <gabor.karsay@gmx.at>
+/* Copyright (C) Gabor Karsay 2016, 2019 <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -19,14 +19,34 @@
 
 #include "config.h"
 #include <gtk/gtk.h>
+#include <pt-asr-settings.h>
 
 #define PT_APP_TYPE		(pt_app_get_type())
 #define PT_APP(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), PT_APP_TYPE, PtApp))
+#define PT_IS_APP(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_APP_TYPE))
 
 typedef struct _PtApp		PtApp;
 typedef struct _PtAppClass	PtAppClass;
+typedef struct _PtAppPrivate	PtAppPrivate;
 
-GType		pt_app_get_type		(void) G_GNUC_CONST;
-PtApp		*pt_app_new		(void);
+struct _PtApp
+{
+	GtkApplication parent;
+
+	/*< private > */
+	PtAppPrivate *priv;
+};
+
+struct _PtAppClass
+{
+	GtkApplicationClass parent_class;
+};
+
+
+GType		pt_app_get_type			(void) G_GNUC_CONST;
+
+PtAsrSettings	*pt_app_get_asr_settings	(PtApp *app);
+
+PtApp		*pt_app_new			(void);
 
 #endif

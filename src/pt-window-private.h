@@ -20,13 +20,13 @@
 #include "config.h"
 #include <gtk/gtk.h>
 #include <pt-asr-output.h>
-#include <pt-asr-settings.h>
 #include <pt-player.h>
 #include <pt-wavedata.h>
 
 struct _PtWindowPrivate
 {
 	GSettings	 *editor;
+	PtAsrSettings    *asr_settings;
 	PtAsrOutput      *output;
 	GDBusProxy	 *proxy;
 	gint              dbus_watch_id;

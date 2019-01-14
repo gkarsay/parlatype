@@ -24,6 +24,7 @@
 #ifdef GDK_WINDOWING_WAYLAND
 #include <gdk/gdkwayland.h>
 #endif
+#include <pt-app.h>
 #include <pt-asr-settings.h>
 #include <pt-player.h>
 #include "pt-asr-assistant.h"
@@ -351,26 +352,6 @@ remove_asr_button_clicked_cb (GtkToolButton       *button,
 	g_free (id);
 }
 
-static gchar*
-get_asr_settings_filename (void)
-{
-	const gchar *userdir;
-	gchar	    *configdir;
-	GFile	    *create_dir;
-	gchar       *filename;
-
-	userdir = g_get_user_data_dir ();
-	configdir = g_build_path ("/", userdir, PACKAGE, NULL);
-	create_dir = g_file_new_for_path (configdir);
-	g_file_make_directory (create_dir, NULL, NULL);
-	filename = g_build_filename (configdir, "asr.ini", NULL);
-
-	g_free (configdir);
-	g_object_unref (create_dir);
-
-	return filename;
-}
-
 static void
 clear_active (GtkListStore *store)
 {
@@ -552,16 +533,14 @@ asr_selection_changed_cb (GtkTreeSelection *sel,
 static void
 pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 {
-	gchar *asr_settings_filename;
-
 	dlg->priv = pt_preferences_dialog_get_instance_private (dlg);
 	dlg->priv->editor = g_settings_new ("com.github.gkarsay.parlatype");
 	dlg->priv->player = pt_player_new ();
 	pt_player_setup_player (dlg->priv->player, NULL); /* no error handling, already checked in main window */
 
-	asr_settings_filename = get_asr_settings_filename ();
-	dlg->priv->asr_settings = pt_asr_settings_new (asr_settings_filename);
-	g_free (asr_settings_filename);
+	GApplication *app;
+	app = g_application_get_default ();
+	dlg->priv->asr_settings = g_object_ref (pt_app_get_asr_settings (PT_APP (app)));
 
 	gtk_widget_init_template (GTK_WIDGET (dlg));
 	g_settings_bind (
