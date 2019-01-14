@@ -255,6 +255,28 @@ pt_asr_settings_get_configs (PtAsrSettings *settings)
 	return g_key_file_get_groups (settings->priv->keyfile, NULL);
 }
 
+/**
+ * pt_asr_settings_have_configs:
+ * @settings: a #PtAsrSettings instance
+ *
+ * Returns TRUE if there are any configurations stored.
+ *
+ * Return value: TRUE for existing configurations, otherwise FALSE
+ */
+gboolean
+pt_asr_settings_have_configs (PtAsrSettings *settings)
+{
+	gboolean   result = FALSE;
+	gchar    **groups;
+
+	groups = g_key_file_get_groups (settings->priv->keyfile, NULL);
+	if (groups[0])
+		result = TRUE;
+	g_strfreev (groups);
+
+	return result;
+}
+
 
 /**
  * pt_asr_settings_add_config:

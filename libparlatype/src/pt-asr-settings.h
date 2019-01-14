@@ -79,6 +79,8 @@ gboolean	pt_asr_settings_get_boolean	(PtAsrSettings *settings,
 
 gchar**		pt_asr_settings_get_configs     (PtAsrSettings *settings);
 
+gboolean	pt_asr_settings_have_configs    (PtAsrSettings *settings);
+
 gchar*		pt_asr_settings_add_config	(PtAsrSettings *settings,
                                                  gchar *name,
                                                  gchar *type);
