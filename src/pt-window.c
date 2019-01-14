@@ -26,6 +26,7 @@
 #include <pt-progress-dialog.h>
 #include <pt-waveviewer.h>
 #include "pt-app.h"
+#include "pt-asr-assistant.h"
 #include "pt-dbus-service.h"
 #include "pt-goto-dialog.h"
 #include "pt-mediakeys.h"
@@ -266,6 +267,41 @@ set_mode_asr (PtWindow *win)
 }
 
 static void
+asr_assistant_cancel_cb (GtkAssistant *assistant,
+                         gpointer      user_data)
+{
+	gtk_widget_destroy (GTK_WIDGET (assistant));
+}
+
+static void
+asr_assistant_close_cb (GtkAssistant *assistant,
+                        PtWindow     *win)
+{
+	gchar            *name;
+	gchar            *id;
+
+	name = pt_asr_assistant_get_name (PT_ASR_ASSISTANT (assistant));
+	id = pt_asr_assistant_save_config (
+			PT_ASR_ASSISTANT (assistant), win->priv->asr_settings);
+	g_settings_set_string (win->priv->editor, "asr-config", id);
+
+	gtk_widget_destroy (GTK_WIDGET (assistant));
+	g_free (name);
+	g_free (id);
+}
+
+static void
+launch_asr_assistant (PtWindow *win)
+{
+	GtkWidget *assistant;
+
+	assistant = GTK_WIDGET (pt_asr_assistant_new (GTK_WINDOW (win)));
+	g_signal_connect (assistant, "cancel", G_CALLBACK (asr_assistant_cancel_cb), NULL);
+	g_signal_connect (assistant, "close", G_CALLBACK (asr_assistant_close_cb), win);
+	gtk_widget_show (assistant);
+}
+
+static void
 set_mode_playback (PtWindow *win)
 {
 	GError *error = NULL;
@@ -285,13 +321,26 @@ change_mode (GSimpleAction *action,
 	PtWindow *win = PT_WINDOW (user_data);
 	const gchar *mode;
 
+	if (!win->priv->asr_settings) {
+		GtkApplication *app;
+		app = gtk_window_get_application (GTK_WINDOW (win));
+		win->priv->asr_settings = g_object_ref (pt_app_get_asr_settings (PT_APP (app)));
+	}
+
 	mode = g_variant_get_string (state, NULL);
-	if (g_strcmp0 (mode, "playback") == 0)
+	if (g_strcmp0 (mode, "playback") == 0) {
 		set_mode_playback (win);
-	else if (g_strcmp0 (mode, "asr") == 0)
-		set_mode_asr (win);
-	else
+	} else if (g_strcmp0 (mode, "asr") == 0) {
+		if (pt_asr_settings_have_configs (win->priv->asr_settings)) {
+			/* TODO && have config saved in GSettings */
+			set_mode_asr (win);
+		} else {
+			launch_asr_assistant (win);
+			return;
+		}
+	} else {
 		g_assert_not_reached ();
+	}
 
 	g_simple_action_set_state (action, state);
 }
@@ -1012,10 +1061,6 @@ map_milliseconds_to_seconds (const GValue       *value,
 static void
 setup_settings (PtWindow *win)
 {
-	GtkApplication *app;
-	app = gtk_window_get_application (GTK_WINDOW (win));
-	win->priv->asr_settings = pt_app_get_asr_settings (PT_APP (app));
-
 	win->priv->editor = g_settings_new ("com.github.gkarsay.parlatype");
 
 	g_settings_bind_with_mapping (
@@ -1265,6 +1310,7 @@ pt_window_init (PtWindow *win)
 	setup_mediakeys (win);		/* this is in pt_mediakeys.c */
 	pt_window_setup_dnd (win);	/* this is in pt_window_dnd.c */
 	setup_dbus_service (win);	/* this is in pt_dbus_service.c */
+	win->priv->asr_settings = NULL;
 	win->priv->output = pt_asr_output_new ();
 	win->priv->output_handler_id = 0;
 	win->priv->recent = gtk_recent_manager_get_default ();
