@@ -22,7 +22,8 @@
 
 struct _PtAsrOutputPrivate
 {
-	AtspiEventListener *listener;
+	AtspiEventListener *focus_listener;
+	AtspiEventListener *caret_listener;
 	AtspiAccessible    *app;
 	AtspiAccessible    *editable;
 	gchar              *app_name;
@@ -59,7 +60,29 @@ is_editable (AtspiAccessible *accessible)
 }
 
 static void
-on_event_cb (AtspiEvent *event,
+on_caret_cb (AtspiEvent *event,
+             void       *user_data)
+{
+	PtAsrOutput *self = PT_ASR_OUTPUT (user_data);
+
+	if (!event->source)
+		return;
+
+	if (!is_editable (event->source))
+		return;
+
+	if (event->source != self->priv->editable) {
+
+		/* The caret is at a different paragraph. This can be done
+		   only by the user. Update our output editable. */
+
+		g_object_unref (self->priv->editable);
+		self->priv->editable = g_object_ref (event->source);
+	}
+}
+
+static void
+on_focus_cb (AtspiEvent *event,
              void       *user_data)
 {
 	PtAsrOutput *self = PT_ASR_OUTPUT (user_data);
@@ -83,8 +106,16 @@ on_event_cb (AtspiEvent *event,
 	self->priv->app_name = atspi_accessible_get_name (self->priv->app, NULL);
 	self->priv->editable = g_object_ref (event->source);
 
-	atspi_event_listener_deregister (self->priv->listener, "object:state-changed:focused", NULL);
+	atspi_event_listener_deregister (self->priv->focus_listener, "object:state-changed:focused", NULL);
 	g_signal_emit_by_name (self, "app-found");
+
+	/* LibreOffice needs extra care: each paragraph is an AtspiEditable of
+	   its own. If the user moves the cursor/caret to another paragraph,
+	   we still reference the old one and there is no output at all. */
+
+	if (g_strcmp0 (self->priv->app_name, "soffice") == 0)
+		atspi_event_listener_register (self->priv->caret_listener, "object:text-caret-moved", NULL);
+		/* listener stays active until object destruction */
 }
 
 void
@@ -99,7 +130,7 @@ pt_asr_output_reset (PtAsrOutput *self)
 void
 pt_asr_output_cancel_search (PtAsrOutput *self)
 {
-	atspi_event_listener_deregister (self->priv->listener, "object:state-changed:focused", NULL);
+	atspi_event_listener_deregister (self->priv->focus_listener, "object:state-changed:focused", NULL);
 	pt_asr_output_reset (self);
 }
 
@@ -107,7 +138,7 @@ void
 pt_asr_output_search_app (PtAsrOutput *self)
 {
 	pt_asr_output_reset (self);
-	atspi_event_listener_register (self->priv->listener, "object:state-changed:focused", NULL);
+	atspi_event_listener_register (self->priv->focus_listener, "object:state-changed:focused", NULL);
 }
 
 gchar*
@@ -131,6 +162,11 @@ void
 pt_asr_output_hypothesis (PtAsrOutput *self,
                           gchar       *string)
 {
+	/* TODO A long hypothesis, quickly updated, can flicker. Try to reduce
+	        flickering by comparing the old string and new string from left
+	        (what about RTL?) until there is a difference and output only the rest.
+	        Store the old string, compare, delete with new offsets */
+
 	delete_hypothesis (self);	
 	self->priv->offset = atspi_text_get_caret_offset (ATSPI_TEXT (self->priv->editable), NULL);
 	self->priv->hyp_len = g_utf8_strlen (string, -1);
@@ -162,8 +198,10 @@ pt_asr_output_init (PtAsrOutput *self)
 	self->priv = pt_asr_output_get_instance_private (self);
 
 	atspi_init ();
-	self->priv->listener = atspi_event_listener_new (
-			(AtspiEventListenerCB) on_event_cb, self, NULL);
+	self->priv->focus_listener = atspi_event_listener_new (
+			(AtspiEventListenerCB) on_focus_cb, self, NULL);
+	self->priv->caret_listener = atspi_event_listener_new (
+			(AtspiEventListenerCB) on_caret_cb, self, NULL);
 	self->priv->app = NULL;
 	self->priv->editable = NULL;
 	self->priv->app_name = NULL;
@@ -178,7 +216,8 @@ pt_asr_output_dispose (GObject *object)
 
 	g_clear_object (&self->priv->app);
 	g_clear_object (&self->priv->editable);
-	g_clear_object (&self->priv->listener);
+	g_clear_object (&self->priv->focus_listener);
+	g_clear_object (&self->priv->caret_listener);
 
 	G_OBJECT_CLASS (pt_asr_output_parent_class)->dispose (object);
 }

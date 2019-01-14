@@ -200,6 +200,7 @@ dialog_response_cb (GtkDialog *dialog,
 
 	pt_asr_output_cancel_search (win->priv->output);
 	g_signal_handler_disconnect (win->priv->output, win->priv->output_handler_id);
+	g_clear_object (&win->priv->output);
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "mode");
@@ -256,6 +257,7 @@ set_mode_asr (PtWindow *win)
 			GTK_MESSAGE_DIALOG (win->priv->output_dlg),
 	                "%s", secondary_message);
 
+	win->priv->output = pt_asr_output_new ();
 	win->priv->output_handler_id = g_signal_connect (win->priv->output, "app-found",
 			G_CALLBACK (asr_output_app_found_cb), win);
 	pt_asr_output_search_app (win->priv->output);
@@ -329,6 +331,7 @@ change_mode (GSimpleAction *action,
 
 	mode = g_variant_get_string (state, NULL);
 	if (g_strcmp0 (mode, "playback") == 0) {
+		g_clear_object (&win->priv->output);
 		set_mode_playback (win);
 	} else if (g_strcmp0 (mode, "asr") == 0) {
 		if (pt_asr_settings_have_configs (win->priv->asr_settings)) {
@@ -1311,7 +1314,7 @@ pt_window_init (PtWindow *win)
 	pt_window_setup_dnd (win);	/* this is in pt_window_dnd.c */
 	setup_dbus_service (win);	/* this is in pt_dbus_service.c */
 	win->priv->asr_settings = NULL;
-	win->priv->output = pt_asr_output_new ();
+	win->priv->output = NULL;
 	win->priv->output_handler_id = 0;
 	win->priv->recent = gtk_recent_manager_get_default ();
 	win->priv->timer = 0;
