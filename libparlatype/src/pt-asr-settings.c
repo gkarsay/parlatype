@@ -375,7 +375,6 @@ apply_sphinx (PtAsrSettings *settings,
 			"hmm", hmm,
 			NULL);
 
-	g_object_set (sphinx, "configured", TRUE, NULL);
 	g_free (lm);
 	g_free (dict);
 	g_free (hmm);
