@@ -5,10 +5,12 @@ gresources = gnome.compile_resources(
 	c_name: '_pt',
 )
 
-marshalers = [
-	'pt-marshalers.c',
-	'pt-marshalers.h',
-]
+marshalers = gnome.genmarshal(
+	'pt-marshalers',
+	sources: 'ptmarshalers.list',
+	prefix: '_pt_cclosure_marshal',
+	valist_marshallers: true,
+)
 
 marshal_h = marshalers[1]
 
