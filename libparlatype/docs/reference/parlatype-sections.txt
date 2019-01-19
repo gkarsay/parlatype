@@ -4,6 +4,7 @@
 PtPlayer
 pt_player_new
 pt_player_setup_player
+pt_player_setup_sphinx
 pt_player_open_uri_async
 pt_player_open_uri_finish
 pt_player_open_uri
@@ -69,6 +70,31 @@ PT_WAVELOADER
 PtWaveloaderClass
 PtWaveloaderPrivate
 pt_waveloader_get_type
+</SECTION>
+
+<SECTION>
+<FILE>pt-asr-settings</FILE>
+<TITLE>PtAsrSettings</TITLE>
+PtAsrSettings
+pt_asr_settings_new
+pt_asr_settings_add_config
+pt_asr_settings_remove_config
+pt_asr_settings_apply_config
+pt_asr_settings_get_configs
+pt_asr_settings_have_configs
+pt_asr_settings_get_boolean
+pt_asr_settings_set_boolean
+pt_asr_settings_get_int
+pt_asr_settings_set_int
+pt_asr_settings_get_string
+pt_asr_settings_set_string
+<SUBSECTION Standard>
+PT_ASR_SETTINGS
+PT_IS_ASR_SETTINGS
+PT_TYPE_ASR_SETTINGS
+PtAsrSettingsClass
+PtAsrSettingsPrivate
+pt_asr_settings_get_type
 </SECTION>
 
 <SECTION>

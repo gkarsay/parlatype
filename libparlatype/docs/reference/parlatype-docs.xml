@@ -34,6 +34,11 @@
   </part>
 
 	<part>
+		<title>ASR helper: PtAsrSettings</title>
+    <xi:include href="xml/pt-asr-settings.xml"/>
+	</part>
+
+	<part>
 		<title>GtkWidgets</title>
 		<xi:include href="gallery.xml"/>
     <xi:include href="xml/pt-progress-dialog.xml"/>
