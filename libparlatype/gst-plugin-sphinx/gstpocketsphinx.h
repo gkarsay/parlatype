@@ -44,16 +44,16 @@
 
 G_BEGIN_DECLS
 
-#define GST_TYPE_POCKETSPHINX                   \
+#define GST_TYPE_POCKETSPHINX_PATCHED                   \
     (gst_pocketsphinx_get_type())
 #define GST_POCKETSPHINX(obj)                                           \
-    (G_TYPE_CHECK_INSTANCE_CAST((obj),GST_TYPE_POCKETSPHINX,GstPocketSphinx))
+    (G_TYPE_CHECK_INSTANCE_CAST((obj),GST_TYPE_POCKETSPHINX_PATCHED,GstPocketSphinx))
 #define GST_POCKETSPHINX_CLASS(klass)                                   \
-    (G_TYPE_CHECK_CLASS_CAST((klass),GST_TYPE_POCKETSPHINX,GstPocketSphinxClass))
+    (G_TYPE_CHECK_CLASS_CAST((klass),GST_TYPE_POCKETSPHINX_PATCHED,GstPocketSphinxClass))
 #define GST_IS_POCKETSPHINX(obj)                                \
-    (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_POCKETSPHINX))
+    (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_POCKETSPHINX_PATCHED))
 #define GST_IS_POCKETSPHINX_CLASS(klass)                        \
-    (G_TYPE_CHECK_CLASS_TYPE((klass),GST_TYPE_POCKETSPHINX))
+    (G_TYPE_CHECK_CLASS_TYPE((klass),GST_TYPE_POCKETSPHINX_PATCHED))
 
 typedef struct _GstPocketSphinx      GstPocketSphinx;
 typedef struct _GstPocketSphinxClass GstPocketSphinxClass;

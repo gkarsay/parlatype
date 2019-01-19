@@ -35,6 +35,9 @@
  * ====================================================================
  *
  * Author: David Huggins-Daines <dhuggins@cs.cmu.edu>
+ * Slightly modified by Gabor Karsay <gabor.karsay@gmx.at> to make it work
+ * with Parlatype.
+ * TODO test and propose patch to upstream
  */
 
 /**
@@ -84,9 +87,7 @@
  * </refsect2>
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 #include <string.h>
 #include <gst/gst.h>
@@ -690,7 +691,7 @@ gst_pocketsphinx_chain(GstPad * pad, GstObject *parent, GstBuffer * buffer)
     } else if (ps->last_result_time == 0
         /* Get a partial result every now and then, see if it is different. */
         /* Check every 100 milliseconds. */
-        || (GST_BUFFER_TIMESTAMP(buffer) - ps->last_result_time) > 100*10*1000) {
+        || (GST_BUFFER_TIMESTAMP(buffer) - ps->last_result_time) > GST_MSECOND * 500) {
         int32 score;
         char const *hyp;
 
@@ -706,8 +707,7 @@ gst_pocketsphinx_chain(GstPad * pad, GstObject *parent, GstBuffer * buffer)
         }
     }
 
-    gst_buffer_unref(buffer);
-    return GST_FLOW_OK;
+    return gst_pad_push (ps->srcpad, buffer);
 }
 
 
@@ -786,13 +786,12 @@ plugin_init(GstPlugin * plugin)
 
     err_set_callback(gst_pocketsphinx_log, NULL);
 
-    if (!gst_element_register(plugin, "pocketsphinx",
-                              GST_RANK_NONE, GST_TYPE_POCKETSPHINX))
+    if (!gst_element_register(plugin, "pocketsphinx-patched",
+                              GST_RANK_NONE, GST_TYPE_POCKETSPHINX_PATCHED))
         return FALSE;
     return TRUE;
 }
 
-#define PACKAGE PACKAGE_NAME
 GST_PLUGIN_DEFINE(GST_VERSION_MAJOR,
                   GST_VERSION_MINOR,
                   pocketsphinx,
