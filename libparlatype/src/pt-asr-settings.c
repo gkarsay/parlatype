@@ -72,6 +72,7 @@ pt_asr_settings_save_keyfile (PtAsrSettings *settings)
 
 /**
  * pt_asr_settings_set_int:
+ * @settings: a #PtAsrSettings instance
  * @id: the ID of the config
  * @field: the field in the config
  * @value: the new integer value
@@ -128,9 +129,10 @@ pt_asr_settings_get_int (PtAsrSettings *settings,
 
 /**
  * pt_asr_settings_set_boolean:
+ * @settings: a #PtAsrSettings instance
  * @id: the ID of the config
  * @field: the field in the config
- * @bool: the new value
+ * @value: the new value
  *
  * Sets a boolean value. If the config doesn't exist, it will be created.
  * Likewise the field will be created, if it doesn't exist yet.
@@ -183,6 +185,7 @@ pt_asr_settings_get_boolean (PtAsrSettings *settings,
 
 /**
  * pt_asr_settings_set_string:
+ * @settings: a #PtAsrSettings instance
  * @id: the ID of the config
  * @field: the field in the config
  * @string: the new string
@@ -523,9 +526,11 @@ pt_asr_settings_class_init (PtAsrSettingsClass *klass)
 
 /**
  * pt_asr_settings_new:
+ * @settings_file: path to the file with the settings
  *
- * Returns a new PtAsrSettings instance.
- * TODO
+ * Returns a new PtAsrSettings instance for the given file. If the file
+ * doesn't exist, it will be created.
+ *
  * After use g_object_unref() it.
  *
  * Return value: (transfer full): a new #PtAsrSettings

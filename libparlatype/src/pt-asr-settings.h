@@ -69,7 +69,7 @@ int		pt_asr_settings_get_int		(PtAsrSettings *settings,
 gboolean	pt_asr_settings_set_boolean	(PtAsrSettings *settings,
                                                  gchar *id,
                                                  gchar *field,
-                                                 gboolean bool);
+                                                 gboolean value);
 gboolean	pt_asr_settings_get_boolean	(PtAsrSettings *settings,
                                                  gchar *id,
                                                  gchar *field);
