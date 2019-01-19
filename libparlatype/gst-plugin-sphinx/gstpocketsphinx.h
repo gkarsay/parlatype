@@ -44,16 +44,16 @@
 
 G_BEGIN_DECLS
 
-#define GST_TYPE_POCKETSPHINX_PATCHED                   \
+#define GST_TYPE_POCKETSPHINX                   \
     (gst_pocketsphinx_get_type())
 #define GST_POCKETSPHINX(obj)                                           \
-    (G_TYPE_CHECK_INSTANCE_CAST((obj),GST_TYPE_POCKETSPHINX_PATCHED,GstPocketSphinx))
+    (G_TYPE_CHECK_INSTANCE_CAST((obj),GST_TYPE_POCKETSPHINX,GstPocketSphinx))
 #define GST_POCKETSPHINX_CLASS(klass)                                   \
-    (G_TYPE_CHECK_CLASS_CAST((klass),GST_TYPE_POCKETSPHINX_PATCHED,GstPocketSphinxClass))
+    (G_TYPE_CHECK_CLASS_CAST((klass),GST_TYPE_POCKETSPHINX,GstPocketSphinxClass))
 #define GST_IS_POCKETSPHINX(obj)                                \
-    (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_POCKETSPHINX_PATCHED))
+    (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_POCKETSPHINX))
 #define GST_IS_POCKETSPHINX_CLASS(klass)                        \
-    (G_TYPE_CHECK_CLASS_TYPE((klass),GST_TYPE_POCKETSPHINX_PATCHED))
+    (G_TYPE_CHECK_CLASS_TYPE((klass),GST_TYPE_POCKETSPHINX))
 
 typedef struct _GstPocketSphinx      GstPocketSphinx;
 typedef struct _GstPocketSphinxClass GstPocketSphinxClass;
@@ -69,8 +69,7 @@ struct _GstPocketSphinx
 
     gchar *latdir;                 /**< Output directory for word lattices. */
 
-    gboolean silent;
-    gboolean utt_started;
+    gboolean speech_started;
     gboolean listening_started;
     gint uttno;
 
