@@ -176,16 +176,17 @@ setup_sphinx (PtWindow *win)
 {
 	GError *error = NULL;
 
-	pt_asr_settings_apply_config (
-			win->priv->asr_settings,
-			g_settings_get_string (win->priv->editor, "asr-config"),
-			win->priv->player);
-
 	pt_player_setup_sphinx (win->priv->player, &error);
 	if (error) {
 		pt_error_message (win, error->message, NULL);
 		g_clear_error (&error);
+		return;
 	}
+
+	pt_asr_settings_apply_config (
+			win->priv->asr_settings,
+			g_settings_get_string (win->priv->editor, "asr-config"),
+			win->priv->player);
 }
 
 static void
