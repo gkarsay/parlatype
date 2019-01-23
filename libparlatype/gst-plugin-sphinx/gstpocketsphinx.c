@@ -794,7 +794,7 @@ plugin_init(GstPlugin * plugin)
 
 GST_PLUGIN_DEFINE(GST_VERSION_MAJOR,
                   GST_VERSION_MINOR,
-                  pocketsphinx,
+                  pocketsphinxparlatype,
                   "PocketSphinx plugin",
                   plugin_init, PACKAGE_VERSION,
                   "BSD",
