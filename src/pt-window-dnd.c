@@ -109,7 +109,8 @@ static gboolean
 handle_dnd_data (PtWindow *win,
 		 gchar    *data)
 {
-	g_debug ("Received drag and drop: '%s'", data);
+	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+	                  "MESSAGE", "Received drag and drop: '%s'", data);
 
 	if (pt_player_goto_timestamp (win->priv->player, data))
 		return TRUE;
@@ -143,7 +144,8 @@ win_dnd_drop_cb (GtkWidget	*widget,
 	/* Choose the best target type */
 	iterate = gdk_drag_context_list_targets (context);
 	while (iterate != NULL) {
-		g_debug ("atom string: %s", gdk_atom_name (iterate->data));
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+			          "MESSAGE", "atom string: %s", gdk_atom_name (iterate->data));
 		if (iterate->data == gdk_atom_intern ("STRING", TRUE)) {
 			target_type = gdk_atom_intern ("STRING", TRUE);
 			have_target = TRUE;
