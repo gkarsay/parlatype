@@ -182,6 +182,9 @@ pt_asr_output_hypothesis (PtAsrOutput *self,
 	        (what about RTL?) until there is a difference and output only the rest.
 	        Store the old string, compare, delete with new offsets */
 
+	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+	                  "MESSAGE", "Hypothesis: %s", string);
+
 	delete_hypothesis (self);	
 	self->priv->offset = atspi_text_get_caret_offset (ATSPI_TEXT (self->priv->editable), NULL);
 	self->priv->hyp_len = g_utf8_strlen (string, -1);
@@ -197,6 +200,9 @@ pt_asr_output_final (PtAsrOutput *self,
 {
 	gchar *string_with_space;
 	gint   len;
+
+	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+	                  "MESSAGE", "Final: %s", string);
 
 	delete_hypothesis (self);
 	self->priv->offset = atspi_text_get_caret_offset (ATSPI_TEXT (self->priv->editable), NULL);
