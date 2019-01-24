@@ -347,6 +347,14 @@ change_mode (GSimpleAction *action,
 	}
 
 	g_simple_action_set_state (action, state);
+
+	/* On changing state the menu doesn't close. It seems better to close
+	   it just like every other menu item closes the menu.
+	   Just in case this behaviour changes in the future, check if the
+	   menu is really open. */
+
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->priv->primary_menu_button)))
+		gtk_button_clicked (GTK_BUTTON (win->priv->primary_menu_button));
 }
 
 const GActionEntry win_actions[] = {
@@ -1235,13 +1243,12 @@ setup_accels_actions_headerbar (PtWindow *win)
 	/* GtkHeader workaround for glade 3.16 + Menu button */
 	GtkBuilder    *builder;
 	GtkWidget     *hbar;
-	GtkWidget     *primary_menu_button;
 	GMenuModel    *primary_menu;
 
 	builder = gtk_builder_new_from_resource ("/com/github/gkarsay/parlatype/window-headerbar.ui");
 	hbar = GTK_WIDGET (gtk_builder_get_object (builder, "headerbar"));
 	win->priv->button_open = GTK_WIDGET (gtk_builder_get_object (builder, "button_open"));
-	primary_menu_button = GTK_WIDGET (gtk_builder_get_object (builder, "primary_menu_button"));
+	win->priv->primary_menu_button = GTK_WIDGET (gtk_builder_get_object (builder, "primary_menu_button"));
 	gtk_window_set_titlebar (GTK_WINDOW (win), hbar);
 	gtk_builder_connect_signals (builder, win);
 	g_object_unref (builder);
@@ -1249,7 +1256,7 @@ setup_accels_actions_headerbar (PtWindow *win)
 	builder = gtk_builder_new_from_resource ("/com/github/gkarsay/parlatype/menus.ui");
 	primary_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "primary-menu"));
 	win->priv->secondary_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "secondary-menu"));
-	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (primary_menu_button), primary_menu);
+	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (win->priv->primary_menu_button), primary_menu);
 	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (win->priv->pos_menu_button), win->priv->secondary_menu);
 	g_object_unref (builder);
 	win->priv->go_to_timestamp = g_menu_item_new (_("Go to time in clipboard"), "win.insert");
@@ -1260,7 +1267,7 @@ setup_accels_actions_headerbar (PtWindow *win)
 	gtk_window_add_accel_group (GTK_WINDOW (win), win->priv->accels);
 	
 	gtk_widget_add_accelerator (
-			primary_menu_button,
+			win->priv->primary_menu_button,
 			"clicked",
 			win->priv->accels,
 			GDK_KEY_F10,

@@ -43,7 +43,11 @@ struct _PtWindowPrivate
 	GtkClipboard *clip;
 	gulong        clip_handler_id;
 
+	/* Headerbar widgets */
 	GtkWidget  *button_open;
+	GtkWidget  *primary_menu_button;
+
+	/* Main window widgets */
 	GtkWidget  *button_play;
 	GtkWidget  *button_fast_back;	  // not used
 	GtkWidget  *button_fast_forward;  // not used
