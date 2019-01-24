@@ -113,7 +113,8 @@ on_focus_cb (AtspiEvent *event,
 
 	self->priv->editable = g_object_ref (event->source);
 
-	atspi_event_listener_deregister (self->priv->focus_listener, "object:state-changed:focused", NULL);
+	atspi_event_listener_deregister (self->priv->focus_listener,
+	                                 "object:state-changed:focused", NULL);
 
 	/* LibreOffice needs extra care: each paragraph is an AtspiEditable of
 	   its own. If the user moves the cursor/caret to another paragraph,
@@ -122,7 +123,8 @@ on_focus_cb (AtspiEvent *event,
 	if (g_strcmp0 (self->priv->app_name, "soffice") == 0) {
 		g_free (self->priv->app_name);
 		self->priv->app_name = g_strdup ("LibreOffice");
-		atspi_event_listener_register (self->priv->caret_listener, "object:text-caret-moved", NULL);
+		atspi_event_listener_register (self->priv->caret_listener,
+		                               "object:text-caret-moved", NULL);
 		/* listener stays active until object destruction */
 	}
 
@@ -141,7 +143,8 @@ pt_asr_output_reset (PtAsrOutput *self)
 void
 pt_asr_output_cancel_search (PtAsrOutput *self)
 {
-	atspi_event_listener_deregister (self->priv->focus_listener, "object:state-changed:focused", NULL);
+	atspi_event_listener_deregister (self->priv->focus_listener,
+	                                 "object:state-changed:focused", NULL);
 	pt_asr_output_reset (self);
 }
 
@@ -149,7 +152,8 @@ void
 pt_asr_output_search_app (PtAsrOutput *self)
 {
 	pt_asr_output_reset (self);
-	atspi_event_listener_register (self->priv->focus_listener, "object:state-changed:focused", NULL);
+	atspi_event_listener_register (self->priv->focus_listener,
+	                               "object:state-changed:focused", NULL);
 }
 
 gchar*
