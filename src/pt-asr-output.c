@@ -187,16 +187,20 @@ void
 pt_asr_output_final (PtAsrOutput *self,
                      gchar       *string)
 {
-	gint len;
+	gchar *string_with_space;
+	gint   len;
 
 	delete_hypothesis (self);
 	self->priv->offset = atspi_text_get_caret_offset (ATSPI_TEXT (self->priv->editable), NULL);
 	self->priv->hyp_len = 0;
-	len = g_utf8_strlen (string, -1);
+
+	string_with_space = g_strdup_printf ("%s ", string);
+	len = g_utf8_strlen (string_with_space, -1);
 	/* inserting moves caret */
 	atspi_editable_text_insert_text (
 			ATSPI_EDITABLE_TEXT (self->priv->editable),
-			self->priv->offset, string, len, NULL);
+			self->priv->offset, string_with_space, len, NULL);
+	g_free (string_with_space);
 }
 
 static void
