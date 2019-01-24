@@ -188,6 +188,10 @@ pt_asr_output_hypothesis (PtAsrOutput *self,
 	delete_hypothesis (self);	
 	self->priv->offset = atspi_text_get_caret_offset (ATSPI_TEXT (self->priv->editable), NULL);
 	self->priv->hyp_len = g_utf8_strlen (string, -1);
+
+	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+	                  "MESSAGE", "Offset: %d – Length: %d", self->priv->offset, self->priv->hyp_len);
+
 	/* inserting moves caret */
 	atspi_editable_text_insert_text (
 			ATSPI_EDITABLE_TEXT (self->priv->editable),
@@ -201,15 +205,19 @@ pt_asr_output_final (PtAsrOutput *self,
 	gchar *string_with_space;
 	gint   len;
 
-	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
-	                  "MESSAGE", "Final: %s", string);
-
 	delete_hypothesis (self);
 	self->priv->offset = atspi_text_get_caret_offset (ATSPI_TEXT (self->priv->editable), NULL);
 	self->priv->hyp_len = 0;
 
 	string_with_space = g_strdup_printf ("%s ", string);
 	len = g_utf8_strlen (string_with_space, -1);
+
+	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+	                  "MESSAGE", "Final: %s", string);
+
+	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+	                  "MESSAGE", "Offset: %d – Length: %d", self->priv->offset, len);
+
 	/* inserting moves caret */
 	atspi_editable_text_insert_text (
 			ATSPI_EDITABLE_TEXT (self->priv->editable),
