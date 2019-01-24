@@ -104,6 +104,13 @@ on_focus_cb (AtspiEvent *event,
 		return;
 
 	self->priv->app_name = atspi_accessible_get_name (self->priv->app, NULL);
+	if (g_strcmp0 (self->priv->app_name, "gnome-shell") == 0) {
+		/* That's the search field of gnome shell when trying to find
+		   and launch a program */
+		g_free (self->priv->app_name);
+		return;
+	}
+
 	self->priv->editable = g_object_ref (event->source);
 
 	atspi_event_listener_deregister (self->priv->focus_listener, "object:state-changed:focused", NULL);
