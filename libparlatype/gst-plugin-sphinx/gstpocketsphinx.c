@@ -97,32 +97,32 @@
 
 #include "gstpocketsphinx.h"
 
-GST_DEBUG_CATEGORY_STATIC(pocketsphinx_debug);
-#define GST_CAT_DEFAULT pocketsphinx_debug
+GST_DEBUG_CATEGORY_STATIC(parlasphinx_debug);
+#define GST_CAT_DEFAULT parlasphinx_debug
 
 
 static void
-gst_pocketsphinx_set_property(GObject * object, guint prop_id,
+gst_parlasphinx_set_property(GObject * object, guint prop_id,
                           const GValue * value, GParamSpec * pspec);
 
 static void
-gst_pocketsphinx_get_property(GObject * object, guint prop_id,
+gst_parlasphinx_get_property(GObject * object, guint prop_id,
                               GValue * value, GParamSpec * pspec);
 
 static GstStateChangeReturn
-gst_pocketsphinx_change_state(GstElement *element, GstStateChange transition);
+gst_parlasphinx_change_state(GstElement *element, GstStateChange transition);
 
 static GstFlowReturn
-gst_pocketsphinx_chain(GstPad * pad, GstObject *parent, GstBuffer * buffer);
+gst_parlasphinx_chain(GstPad * pad, GstObject *parent, GstBuffer * buffer);
 
 static gboolean
-gst_pocketsphinx_event(GstPad *pad, GstObject *parent, GstEvent *event);
+gst_parlasphinx_event(GstPad *pad, GstObject *parent, GstEvent *event);
 
 static void
-gst_pocketsphinx_finalize_utt(GstPocketSphinx *ps);
+gst_parlasphinx_finalize_utt(GstParlaSphinx *ps);
 
 static void
-gst_pocketsphinx_finalize(GObject * gobject);
+gst_parlasphinx_finalize(GObject * gobject);
 
 enum
 {
@@ -197,10 +197,10 @@ ps_decoder_get_type(void)
 }
 
 
-G_DEFINE_TYPE(GstPocketSphinx, gst_pocketsphinx, GST_TYPE_ELEMENT);
+G_DEFINE_TYPE(GstParlaSphinx, gst_parlasphinx, GST_TYPE_ELEMENT);
 
 static void
-gst_pocketsphinx_class_init(GstPocketSphinxClass * klass)
+gst_parlasphinx_class_init(GstParlaSphinxClass * klass)
 {
     GObjectClass *gobject_class;
     GstElementClass *element_class;;
@@ -208,9 +208,9 @@ gst_pocketsphinx_class_init(GstPocketSphinxClass * klass)
     gobject_class =(GObjectClass *) klass;
     element_class = (GstElementClass *)klass;
 
-    gobject_class->set_property = gst_pocketsphinx_set_property;
-    gobject_class->get_property = gst_pocketsphinx_get_property;
-    gobject_class->finalize = gst_pocketsphinx_finalize;
+    gobject_class->set_property = gst_parlasphinx_set_property;
+    gobject_class->get_property = gst_parlasphinx_get_property;
+    gobject_class->finalize = gst_parlasphinx_finalize;
 
     /* TODO: We will bridge cmd_ln.h properties to GObject
      * properties here somehow eventually. */
@@ -332,11 +332,11 @@ gst_pocketsphinx_class_init(GstPocketSphinxClass * klass)
                             G_PARAM_READABLE));
 
 
-    GST_DEBUG_CATEGORY_INIT(pocketsphinx_debug, "pocketsphinx", 0,
+    GST_DEBUG_CATEGORY_INIT(parlasphinx_debug, "pocketsphinx", 0,
                             "Automatic Speech Recognition");
 
 
-    element_class->change_state = gst_pocketsphinx_change_state;
+    element_class->change_state = gst_parlasphinx_change_state;
 
     gst_element_class_add_pad_template(element_class,
                                        gst_static_pad_template_get(&sink_factory));
@@ -348,7 +348,7 @@ gst_pocketsphinx_class_init(GstPocketSphinxClass * klass)
 }
 
 static void
-gst_pocketsphinx_set_string(GstPocketSphinx *ps,
+gst_parlasphinx_set_string(GstParlaSphinx *ps,
                             const gchar *key, const GValue *value)
 {
     if (value != NULL) {
@@ -359,120 +359,120 @@ gst_pocketsphinx_set_string(GstPocketSphinx *ps,
 }
 
 static void
-gst_pocketsphinx_set_int(GstPocketSphinx *ps,
+gst_parlasphinx_set_int(GstParlaSphinx *ps,
                          const gchar *key, const GValue *value)
 {
     cmd_ln_set_int32_r(ps->config, key, g_value_get_int(value));
 }
 
 static void
-gst_pocketsphinx_set_boolean(GstPocketSphinx *ps,
+gst_parlasphinx_set_boolean(GstParlaSphinx *ps,
                              const gchar *key, const GValue *value)
 {
     cmd_ln_set_boolean_r(ps->config, key, g_value_get_boolean(value));
 }
 
 static void
-gst_pocketsphinx_set_double(GstPocketSphinx *ps,
+gst_parlasphinx_set_double(GstParlaSphinx *ps,
                          const gchar *key, const GValue *value)
 {
     cmd_ln_set_float_r(ps->config, key, g_value_get_double(value));
 }
 
 static void
-gst_pocketsphinx_set_property(GObject * object, guint prop_id,
+gst_parlasphinx_set_property(GObject * object, guint prop_id,
                               const GValue * value, GParamSpec * pspec)
 {
-    GstPocketSphinx *ps = GST_POCKETSPHINX(object);
+    GstParlaSphinx *ps = GST_PARLASPHINX(object);
 
     switch (prop_id) {
     
     case PROP_HMM_DIR:
-        gst_pocketsphinx_set_string(ps, "-hmm", value);
+        gst_parlasphinx_set_string(ps, "-hmm", value);
         break;
     case PROP_LM_FILE:
         /* FSG and LM are mutually exclusive. */
-        gst_pocketsphinx_set_string(ps, "-lm", value);
-        gst_pocketsphinx_set_string(ps, "-lmctl", NULL);
-        gst_pocketsphinx_set_string(ps, "-fsg", NULL);
-        gst_pocketsphinx_set_string(ps, "-allphone", NULL);
-        gst_pocketsphinx_set_string(ps, "-kws", NULL);
-        gst_pocketsphinx_set_string(ps, "-jsgf", NULL);
+        gst_parlasphinx_set_string(ps, "-lm", value);
+        gst_parlasphinx_set_string(ps, "-lmctl", NULL);
+        gst_parlasphinx_set_string(ps, "-fsg", NULL);
+        gst_parlasphinx_set_string(ps, "-allphone", NULL);
+        gst_parlasphinx_set_string(ps, "-kws", NULL);
+        gst_parlasphinx_set_string(ps, "-jsgf", NULL);
         break;
     case PROP_LMCTL_FILE:
         /* FSG and LM are mutually exclusive. */
-        gst_pocketsphinx_set_string(ps, "-lm", NULL);
-        gst_pocketsphinx_set_string(ps, "-lmctl", value);
-        gst_pocketsphinx_set_string(ps, "-fsg", NULL);
-        gst_pocketsphinx_set_string(ps, "-allphone", NULL);
-        gst_pocketsphinx_set_string(ps, "-kws", NULL);
-        gst_pocketsphinx_set_string(ps, "-jsgf", NULL);
+        gst_parlasphinx_set_string(ps, "-lm", NULL);
+        gst_parlasphinx_set_string(ps, "-lmctl", value);
+        gst_parlasphinx_set_string(ps, "-fsg", NULL);
+        gst_parlasphinx_set_string(ps, "-allphone", NULL);
+        gst_parlasphinx_set_string(ps, "-kws", NULL);
+        gst_parlasphinx_set_string(ps, "-jsgf", NULL);
         break;
     case PROP_DICT_FILE:
-        gst_pocketsphinx_set_string(ps, "-dict", value);
+        gst_parlasphinx_set_string(ps, "-dict", value);
         break;
     case PROP_MLLR_FILE:
-        gst_pocketsphinx_set_string(ps, "-mllr", value);
+        gst_parlasphinx_set_string(ps, "-mllr", value);
         break;
     case PROP_FSG_FILE:
         /* FSG and LM are mutually exclusive */
-        gst_pocketsphinx_set_string(ps, "-lm", NULL);
-        gst_pocketsphinx_set_string(ps, "-lmctl", NULL);
-        gst_pocketsphinx_set_string(ps, "-fsg", value);
-        gst_pocketsphinx_set_string(ps, "-allphone", NULL);
-        gst_pocketsphinx_set_string(ps, "-kws", NULL);
-        gst_pocketsphinx_set_string(ps, "-jsgf", NULL);
+        gst_parlasphinx_set_string(ps, "-lm", NULL);
+        gst_parlasphinx_set_string(ps, "-lmctl", NULL);
+        gst_parlasphinx_set_string(ps, "-fsg", value);
+        gst_parlasphinx_set_string(ps, "-allphone", NULL);
+        gst_parlasphinx_set_string(ps, "-kws", NULL);
+        gst_parlasphinx_set_string(ps, "-jsgf", NULL);
         break;
     case PROP_ALLPHONE_FILE:
         /* FSG and LM are mutually exclusive. */
-        gst_pocketsphinx_set_string(ps, "-lm", NULL);
-        gst_pocketsphinx_set_string(ps, "-lmctl", NULL);
-        gst_pocketsphinx_set_string(ps, "-fsg", NULL);
-        gst_pocketsphinx_set_string(ps, "-allphone", value);
-        gst_pocketsphinx_set_string(ps, "-kws", NULL);
-        gst_pocketsphinx_set_string(ps, "-jsgf", NULL);
+        gst_parlasphinx_set_string(ps, "-lm", NULL);
+        gst_parlasphinx_set_string(ps, "-lmctl", NULL);
+        gst_parlasphinx_set_string(ps, "-fsg", NULL);
+        gst_parlasphinx_set_string(ps, "-allphone", value);
+        gst_parlasphinx_set_string(ps, "-kws", NULL);
+        gst_parlasphinx_set_string(ps, "-jsgf", NULL);
         break;
     case PROP_KWS_FILE:
         /* FSG and LM are mutually exclusive. */
-        gst_pocketsphinx_set_string(ps, "-lm", NULL);
-        gst_pocketsphinx_set_string(ps, "-lmctl", NULL);
-        gst_pocketsphinx_set_string(ps, "-fsg", NULL);
-        gst_pocketsphinx_set_string(ps, "-allphone", NULL);
-        gst_pocketsphinx_set_string(ps, "-jsgf", NULL);
-        gst_pocketsphinx_set_string(ps, "-kws", value);
+        gst_parlasphinx_set_string(ps, "-lm", NULL);
+        gst_parlasphinx_set_string(ps, "-lmctl", NULL);
+        gst_parlasphinx_set_string(ps, "-fsg", NULL);
+        gst_parlasphinx_set_string(ps, "-allphone", NULL);
+        gst_parlasphinx_set_string(ps, "-jsgf", NULL);
+        gst_parlasphinx_set_string(ps, "-kws", value);
         break;
     case PROP_JSGF_FILE:
         /* FSG and LM are mutually exclusive. */
-        gst_pocketsphinx_set_string(ps, "-lm", NULL);
-        gst_pocketsphinx_set_string(ps, "-lmctl", NULL);
-        gst_pocketsphinx_set_string(ps, "-fsg", NULL);
-        gst_pocketsphinx_set_string(ps, "-allphone", NULL);
-        gst_pocketsphinx_set_string(ps, "-kws", NULL);
-        gst_pocketsphinx_set_string(ps, "-jsgf", value);
+        gst_parlasphinx_set_string(ps, "-lm", NULL);
+        gst_parlasphinx_set_string(ps, "-lmctl", NULL);
+        gst_parlasphinx_set_string(ps, "-fsg", NULL);
+        gst_parlasphinx_set_string(ps, "-allphone", NULL);
+        gst_parlasphinx_set_string(ps, "-kws", NULL);
+        gst_parlasphinx_set_string(ps, "-jsgf", value);
         break;
     case PROP_FWDFLAT:
-        gst_pocketsphinx_set_boolean(ps, "-fwdflat", value);
+        gst_parlasphinx_set_boolean(ps, "-fwdflat", value);
         break;
     case PROP_BESTPATH:
-        gst_pocketsphinx_set_boolean(ps, "-bestpath", value);
+        gst_parlasphinx_set_boolean(ps, "-bestpath", value);
         break;
     case PROP_MAXHMMPF:
-        gst_pocketsphinx_set_int(ps, "-maxhmmpf", value);
+        gst_parlasphinx_set_int(ps, "-maxhmmpf", value);
         break;
     case PROP_MAXWPF:
-        gst_pocketsphinx_set_int(ps, "-maxwpf", value);
+        gst_parlasphinx_set_int(ps, "-maxwpf", value);
         break;
     case PROP_BEAM:
-        gst_pocketsphinx_set_double(ps, "-beam", value);
+        gst_parlasphinx_set_double(ps, "-beam", value);
         break;
     case PROP_PBEAM:
-        gst_pocketsphinx_set_double(ps, "-pbeam", value);
+        gst_parlasphinx_set_double(ps, "-pbeam", value);
         break;
     case PROP_WBEAM:
-        gst_pocketsphinx_set_double(ps, "-wbeam", value);
+        gst_parlasphinx_set_double(ps, "-wbeam", value);
         break;
     case PROP_DSRATIO:
-        gst_pocketsphinx_set_int(ps, "-ds", value);
+        gst_parlasphinx_set_int(ps, "-ds", value);
         break;
 
 
@@ -482,12 +482,12 @@ gst_pocketsphinx_set_property(GObject * object, guint prop_id,
         ps->latdir = g_strdup(g_value_get_string(value));
         break;
     case PROP_LM_NAME:
-        gst_pocketsphinx_set_string(ps, "-fsg", NULL);
-        gst_pocketsphinx_set_string(ps, "-lm", NULL);
-        gst_pocketsphinx_set_string(ps, "-allphone", NULL);
-        gst_pocketsphinx_set_string(ps, "-kws", NULL);
-        gst_pocketsphinx_set_string(ps, "-jsgf", NULL);
-        gst_pocketsphinx_set_string(ps, "-lmname", value);
+        gst_parlasphinx_set_string(ps, "-fsg", NULL);
+        gst_parlasphinx_set_string(ps, "-lm", NULL);
+        gst_parlasphinx_set_string(ps, "-allphone", NULL);
+        gst_parlasphinx_set_string(ps, "-kws", NULL);
+        gst_parlasphinx_set_string(ps, "-jsgf", NULL);
+        gst_parlasphinx_set_string(ps, "-lmname", value);
 
         /**
          * Chances are that lmctl is already loaded and all
@@ -510,10 +510,10 @@ gst_pocketsphinx_set_property(GObject * object, guint prop_id,
 }
 
 static void
-gst_pocketsphinx_get_property(GObject * object, guint prop_id,
+gst_parlasphinx_get_property(GObject * object, guint prop_id,
                               GValue * value, GParamSpec * pspec)
 {
-    GstPocketSphinx *ps = GST_POCKETSPHINX(object);
+    GstParlaSphinx *ps = GST_PARLASPHINX(object);
 
     switch (prop_id) {
     case PROP_DECODER:
@@ -583,20 +583,20 @@ gst_pocketsphinx_get_property(GObject * object, guint prop_id,
 }
 
 static void
-gst_pocketsphinx_finalize(GObject * gobject)
+gst_parlasphinx_finalize(GObject * gobject)
 {
-    GstPocketSphinx *ps = GST_POCKETSPHINX(gobject);
+    GstParlaSphinx *ps = GST_PARLASPHINX(gobject);
 
     ps_free(ps->ps);
     cmd_ln_free_r(ps->config);
     g_free(ps->last_result);
     g_free(ps->latdir);
 
-    G_OBJECT_CLASS(gst_pocketsphinx_parent_class)->finalize(gobject);
+    G_OBJECT_CLASS(gst_parlasphinx_parent_class)->finalize(gobject);
 }
 
 static void
-gst_pocketsphinx_init(GstPocketSphinx * ps)
+gst_parlasphinx_init(GstParlaSphinx * ps)
 {
     ps->sinkpad =
         gst_pad_new_from_static_template(&sink_factory, "sink");
@@ -609,8 +609,8 @@ gst_pocketsphinx_init(GstPocketSphinx * ps)
 
     /* Set up pads. */
     gst_element_add_pad(GST_ELEMENT(ps), ps->sinkpad);
-    gst_pad_set_chain_function(ps->sinkpad, gst_pocketsphinx_chain);
-    gst_pad_set_event_function(ps->sinkpad, gst_pocketsphinx_event);
+    gst_pad_set_chain_function(ps->sinkpad, gst_parlasphinx_chain);
+    gst_pad_set_event_function(ps->sinkpad, gst_parlasphinx_event);
     gst_pad_use_fixed_caps(ps->sinkpad);
 
     gst_element_add_pad(GST_ELEMENT(ps), ps->srcpad);
@@ -622,9 +622,9 @@ gst_pocketsphinx_init(GstPocketSphinx * ps)
 }
 
 static GstStateChangeReturn
-gst_pocketsphinx_change_state(GstElement *element, GstStateChange transition)
+gst_parlasphinx_change_state(GstElement *element, GstStateChange transition)
 {
-    GstPocketSphinx *ps = GST_POCKETSPHINX(element);
+    GstParlaSphinx *ps = GST_PARLASPHINX(element);
     
     switch (transition) {
          case GST_STATE_CHANGE_NULL_TO_READY:
@@ -643,11 +643,11 @@ gst_pocketsphinx_change_state(GstElement *element, GstStateChange transition)
             break;
     }                             
     
-    return GST_ELEMENT_CLASS(gst_pocketsphinx_parent_class)->change_state(element, transition);
+    return GST_ELEMENT_CLASS(gst_parlasphinx_parent_class)->change_state(element, transition);
 }
 
 static void
-gst_pocketsphinx_post_message(GstPocketSphinx *ps, gboolean final,
+gst_parlasphinx_post_message(GstParlaSphinx *ps, gboolean final,
     GstClockTime timestamp, gint32 prob, const gchar *hyp)
 {
     GstStructure *s = gst_structure_new ("pocketsphinx",
@@ -660,13 +660,13 @@ gst_pocketsphinx_post_message(GstPocketSphinx *ps, gboolean final,
 }
 
 static GstFlowReturn
-gst_pocketsphinx_chain(GstPad * pad, GstObject *parent, GstBuffer * buffer)
+gst_parlasphinx_chain(GstPad * pad, GstObject *parent, GstBuffer * buffer)
 {
-    GstPocketSphinx *ps;
+    GstParlaSphinx *ps;
     GstMapInfo info;
     gboolean in_speech;
 
-    ps = GST_POCKETSPHINX(parent);
+    ps = GST_PARLASPHINX(parent);
 
     /* Start an utterance for the first buffer we get */
     if (!ps->listening_started) {
@@ -687,7 +687,7 @@ gst_pocketsphinx_chain(GstPad * pad, GstObject *parent, GstBuffer * buffer)
     	ps->speech_started = TRUE;
     }
     if (!in_speech && ps->speech_started) {
-	gst_pocketsphinx_finalize_utt(ps);
+	gst_parlasphinx_finalize_utt(ps);
     } else if (ps->last_result_time == 0
         /* Get a partial result every now and then, see if it is different. */
         /* Check every 100 milliseconds. */
@@ -701,7 +701,7 @@ gst_pocketsphinx_chain(GstPad * pad, GstObject *parent, GstBuffer * buffer)
             if (ps->last_result == NULL || 0 != strcmp(ps->last_result, hyp)) {
                 g_free(ps->last_result);
                 ps->last_result = g_strdup(hyp);
-                gst_pocketsphinx_post_message(ps, FALSE, ps->last_result_time,
+                gst_parlasphinx_post_message(ps, FALSE, ps->last_result_time,
                     ps_get_prob(ps->ps), hyp);
             }
         }
@@ -712,7 +712,7 @@ gst_pocketsphinx_chain(GstPad * pad, GstObject *parent, GstBuffer * buffer)
 
 
 static void
-gst_pocketsphinx_finalize_utt(GstPocketSphinx *ps)
+gst_parlasphinx_finalize_utt(GstParlaSphinx *ps)
 {
     GstBuffer *buffer;
     char const *hyp;
@@ -727,7 +727,7 @@ gst_pocketsphinx_finalize_utt(GstPocketSphinx *ps)
     hyp = ps_get_hyp(ps->ps, &score);
 
     if (hyp) {
-    	gst_pocketsphinx_post_message(ps, TRUE, GST_CLOCK_TIME_NONE,
+    	gst_parlasphinx_post_message(ps, TRUE, GST_CLOCK_TIME_NONE,
     		                      ps_get_prob(ps->ps), hyp);
         buffer = gst_buffer_new_and_alloc(strlen(hyp) + 1);
 	gst_buffer_fill(buffer, 0, hyp, strlen(hyp));
@@ -750,16 +750,16 @@ gst_pocketsphinx_finalize_utt(GstPocketSphinx *ps)
 }
 
 static gboolean
-gst_pocketsphinx_event(GstPad *pad, GstObject *parent, GstEvent *event)
+gst_parlasphinx_event(GstPad *pad, GstObject *parent, GstEvent *event)
 {
-    GstPocketSphinx *ps;
+    GstParlaSphinx *ps;
 
-    ps = GST_POCKETSPHINX(parent);
+    ps = GST_PARLASPHINX(parent);
 
     switch (event->type) {
     case GST_EVENT_EOS:
     {
-	gst_pocketsphinx_finalize_utt(ps);
+	gst_parlasphinx_finalize_utt(ps);
         return gst_pad_event_default(pad, parent, event);
     }
     default:
@@ -768,14 +768,14 @@ gst_pocketsphinx_event(GstPad *pad, GstObject *parent, GstEvent *event)
 }
 
 static void
-gst_pocketsphinx_log(void *user_data, err_lvl_t lvl, const char *fmt, ...)
+gst_parlasphinx_log(void *user_data, err_lvl_t lvl, const char *fmt, ...)
 {
     static const int gst_level[ERR_MAX] = {GST_LEVEL_DEBUG, GST_LEVEL_INFO,
              GST_LEVEL_INFO, GST_LEVEL_WARNING, GST_LEVEL_ERROR, GST_LEVEL_ERROR};
 
      va_list ap;
      va_start(ap, fmt);
-     gst_debug_log_valist(pocketsphinx_debug, gst_level[lvl], "", "", 0, NULL, fmt, ap);
+     gst_debug_log_valist(parlasphinx_debug, gst_level[lvl], "", "", 0, NULL, fmt, ap);
      va_end(ap);
 }
 
@@ -784,10 +784,10 @@ static gboolean
 plugin_init(GstPlugin * plugin)
 {
 
-    err_set_callback(gst_pocketsphinx_log, NULL);
+    err_set_callback(gst_parlasphinx_log, NULL);
 
     if (!gst_element_register(plugin, "pocketsphinx-patched",
-                              GST_RANK_NONE, GST_TYPE_POCKETSPHINX_PATCHED))
+                              GST_RANK_NONE, GST_TYPE_PARLASPHINX))
         return FALSE;
     return TRUE;
 }

@@ -36,29 +36,29 @@
  * Author: David Huggins-Daines <dhuggins@cs.cmu.edu>
  */
 
-#ifndef __GST_POCKETSPHINX_H__
-#define __GST_POCKETSPHINX_H__
+#ifndef __GST_PARLASPHINX_H__
+#define __GST_PARLASPHINX_H__
 
 #include <gst/gst.h>
 #include <pocketsphinx.h>
 
 G_BEGIN_DECLS
 
-#define GST_TYPE_POCKETSPHINX_PATCHED                   \
-    (gst_pocketsphinx_get_type())
-#define GST_POCKETSPHINX(obj)                                           \
-    (G_TYPE_CHECK_INSTANCE_CAST((obj),GST_TYPE_POCKETSPHINX_PATCHED,GstPocketSphinx))
-#define GST_POCKETSPHINX_CLASS(klass)                                   \
-    (G_TYPE_CHECK_CLASS_CAST((klass),GST_TYPE_POCKETSPHINX_PATCHED,GstPocketSphinxClass))
-#define GST_IS_POCKETSPHINX(obj)                                \
-    (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_POCKETSPHINX_PATCHED))
-#define GST_IS_POCKETSPHINX_CLASS(klass)                        \
-    (G_TYPE_CHECK_CLASS_TYPE((klass),GST_TYPE_POCKETSPHINX_PATCHED))
+#define GST_TYPE_PARLASPHINX                   \
+    (gst_parlasphinx_get_type())
+#define GST_PARLASPHINX(obj)                                           \
+    (G_TYPE_CHECK_INSTANCE_CAST((obj),GST_TYPE_PARLASPHINX,GstParlaSphinx))
+#define GST_PARLASPHINX_CLASS(klass)                                   \
+    (G_TYPE_CHECK_CLASS_CAST((klass),GST_TYPE_PARLASPHINX,GstParlaSphinxClass))
+#define GST_IS_PARLASPHINX(obj)                                \
+    (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_PARLASPHINX))
+#define GST_IS_PARLASPHINX_CLASS(klass)                        \
+    (G_TYPE_CHECK_CLASS_TYPE((klass),GST_TYPE_PARLASPHINX))
 
-typedef struct _GstPocketSphinx      GstPocketSphinx;
-typedef struct _GstPocketSphinxClass GstPocketSphinxClass;
+typedef struct _GstParlaSphinx      GstParlaSphinx;
+typedef struct _GstParlaSphinxClass GstParlaSphinxClass;
 
-struct _GstPocketSphinx
+struct _GstParlaSphinx
 {
     GstElement element;
 
@@ -77,7 +77,7 @@ struct _GstPocketSphinx
     char *last_result;             /**< String of last partial result. */
 };
 
-struct _GstPocketSphinxClass 
+struct _GstParlaSphinxClass 
 {
     GstElementClass parent_class;
 
@@ -85,7 +85,7 @@ struct _GstPocketSphinxClass
     void (*result)          (GstElement *element, const gchar *hyp_str);
 };
 
-GType gst_pocketsphinx_get_type(void);
+GType gst_parlasphinx_get_type(void);
 
 /*
  * Boxing of decoder.
@@ -95,4 +95,4 @@ GType ps_decoder_get_type(void);
 
 G_END_DECLS
 
-#endif /* __GST_POCKETSPHINX_H__ */
+#endif /* __GST_PARLASPHINX_H__ */
