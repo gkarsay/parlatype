@@ -16,6 +16,7 @@
 
 
 #include "config.h"
+#include <string.h>
 #include <atspi/atspi.h>
 #include "pt-asr-output.h"
 
@@ -192,10 +193,10 @@ pt_asr_output_hypothesis (PtAsrOutput *self,
 	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
 	                  "MESSAGE", "Offset: %d – Length: %d", self->priv->offset, self->priv->hyp_len);
 
-	/* inserting moves caret */
+	/* inserting moves caret, important: use strlen, not UTF-8 character count */
 	atspi_editable_text_insert_text (
 			ATSPI_EDITABLE_TEXT (self->priv->editable),
-			self->priv->offset, string, self->priv->hyp_len, NULL);
+			self->priv->offset, string, strlen (string), NULL);
 }
 
 void
@@ -203,25 +204,21 @@ pt_asr_output_final (PtAsrOutput *self,
                      gchar       *string)
 {
 	gchar *string_with_space;
-	gint   len;
 
 	delete_hypothesis (self);
 	self->priv->offset = atspi_text_get_caret_offset (ATSPI_TEXT (self->priv->editable), NULL);
 	self->priv->hyp_len = 0;
 
 	string_with_space = g_strdup_printf ("%s ", string);
-	len = g_utf8_strlen (string_with_space, -1);
 
 	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
 	                  "MESSAGE", "Final: %s", string);
 
-	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
-	                  "MESSAGE", "Offset: %d – Length: %d", self->priv->offset, len);
-
-	/* inserting moves caret */
+	/* inserting moves caret, important: use strlen, not UTF-8 character count */
 	atspi_editable_text_insert_text (
 			ATSPI_EDITABLE_TEXT (self->priv->editable),
-			self->priv->offset, string_with_space, len, NULL);
+			self->priv->offset, string_with_space,
+			strlen (string_with_space), NULL);
 	g_free (string_with_space);
 }
 
