@@ -2008,6 +2008,8 @@ pt_player_setup_pipeline (PtPlayer  *player,
 	PROPAGATE_ERROR_FALSE
 	player->priv->play_bin = create_play_bin (player, &earlier_error);
 	PROPAGATE_ERROR_FALSE
+	player->priv->sphinx_bin = create_sphinx_bin (player, &earlier_error);
+	PROPAGATE_ERROR_FALSE
 	player->priv->scaletempo = make_element ("scaletempo", "tempo", &earlier_error);
 	PROPAGATE_ERROR_FALSE
 	player->priv->tee = make_element ("tee", "tee", &earlier_error);
@@ -2090,9 +2092,6 @@ pt_player_setup_sphinx (PtPlayer  *player,
 
 	if (!player->priv->play)
 		pt_player_setup_pipeline (player, &earlier_error);
-	PROPAGATE_ERROR_FALSE
-	if (!player->priv->sphinx_bin)
-		player->priv->sphinx_bin = create_sphinx_bin (player, &earlier_error);
 	PROPAGATE_ERROR_FALSE
 
 	gint64 pos;
