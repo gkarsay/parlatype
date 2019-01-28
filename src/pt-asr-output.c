@@ -23,6 +23,7 @@
 
 struct _PtAsrOutputPrivate
 {
+	gboolean            atspi;
 	AtspiEventListener *focus_listener;
 	AtspiEventListener *caret_listener;
 	AtspiAccessible    *app;
@@ -34,6 +35,40 @@ struct _PtAsrOutputPrivate
 
 G_DEFINE_TYPE_WITH_PRIVATE (PtAsrOutput, pt_asr_output, G_TYPE_OBJECT)
 
+
+static gboolean
+register_listener (AtspiEventListener *listener,
+                   const gchar        *event_type)
+{
+	GError   *error = NULL;
+	gboolean  success;
+
+	success = atspi_event_listener_register (listener, event_type, &error);
+	if (error) {
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+				  "MESSAGE", "Registering AtspiEventListener failed: %s", error->message);
+		g_clear_error (&error);
+	}
+
+	return success;
+}
+
+static gboolean
+deregister_listener (AtspiEventListener *listener,
+                     const gchar        *event_type)
+{
+	GError   *error = NULL;
+	gboolean  success;
+
+	success = atspi_event_listener_deregister (listener, event_type, &error);
+	if (error) {
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+				  "MESSAGE", "Deregistering AtspiEventListener failed: %s", error->message);
+		g_clear_error (&error);
+	}
+
+	return success;
+}
 
 static gboolean
 is_editable (AtspiAccessible *accessible)
@@ -114,8 +149,7 @@ on_focus_cb (AtspiEvent *event,
 
 	self->priv->editable = g_object_ref (event->source);
 
-	atspi_event_listener_deregister (self->priv->focus_listener,
-	                                 "object:state-changed:focused", NULL);
+	deregister_listener (self->priv->focus_listener, "object:state-changed:focused");
 
 	/* LibreOffice needs extra care: each paragraph is an AtspiEditable of
 	   its own. If the user moves the cursor/caret to another paragraph,
@@ -124,8 +158,8 @@ on_focus_cb (AtspiEvent *event,
 	if (g_strcmp0 (self->priv->app_name, "soffice") == 0) {
 		g_free (self->priv->app_name);
 		self->priv->app_name = g_strdup ("LibreOffice");
-		atspi_event_listener_register (self->priv->caret_listener,
-		                               "object:text-caret-moved", NULL);
+		register_listener (self->priv->caret_listener,
+		                   "object:text-caret-moved");
 		/* listener stays active until object destruction */
 	}
 
@@ -144,8 +178,7 @@ pt_asr_output_reset (PtAsrOutput *self)
 void
 pt_asr_output_cancel_search (PtAsrOutput *self)
 {
-	atspi_event_listener_deregister (self->priv->focus_listener,
-	                                 "object:state-changed:focused", NULL);
+	deregister_listener (self->priv->focus_listener, "object:state-changed:focused");
 	pt_asr_output_reset (self);
 }
 
@@ -153,8 +186,16 @@ void
 pt_asr_output_search_app (PtAsrOutput *self)
 {
 	pt_asr_output_reset (self);
-	atspi_event_listener_register (self->priv->focus_listener,
-	                               "object:state-changed:focused", NULL);
+	if (self->priv->atspi) {
+		if (!register_listener (self->priv->focus_listener,
+			                "object:state-changed:focused")) {
+			self->priv->atspi = FALSE;
+		}
+	}
+
+	if (!self->priv->atspi) {
+		/* TODO fallback solution */
+	}
 }
 
 gchar*
@@ -227,11 +268,29 @@ pt_asr_output_init (PtAsrOutput *self)
 {
 	self->priv = pt_asr_output_get_instance_private (self);
 
-	atspi_init ();
-	self->priv->focus_listener = atspi_event_listener_new (
-			(AtspiEventListenerCB) on_focus_cb, self, NULL);
-	self->priv->caret_listener = atspi_event_listener_new (
-			(AtspiEventListenerCB) on_caret_cb, self, NULL);
+	gint status;
+
+	status = atspi_init ();
+	if (status == 0 || status == 1) {
+		self->priv->atspi = TRUE;
+		self->priv->focus_listener = atspi_event_listener_new (
+				(AtspiEventListenerCB) on_focus_cb, self, NULL);
+		self->priv->caret_listener = atspi_event_listener_new (
+				(AtspiEventListenerCB) on_caret_cb, self, NULL);
+		if (status == 0) {
+			g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
+					  "MESSAGE", "ATSPI initted");
+		} else {
+			g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
+					  "MESSAGE", "ATSPI already initted");
+		}
+	} else {
+		self->priv->atspi = FALSE;
+		self->priv->focus_listener = NULL;
+		self->priv->caret_listener = NULL;
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
+			          "MESSAGE", "ATSPI not initted");
+	}
 	self->priv->app = NULL;
 	self->priv->editable = NULL;
 	self->priv->app_name = NULL;
