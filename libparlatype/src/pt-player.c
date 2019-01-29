@@ -159,6 +159,22 @@ pt_player_seek (PtPlayer *player,
 		GST_CLOCK_TIME_NONE);
 }
 
+static void
+pt_player_set_state_blocking (PtPlayer *player,
+                              GstState  state)
+
+{
+	g_assert (GST_IS_ELEMENT (player->priv->play));
+
+	gst_element_set_state (player->priv->play, state);
+
+	/* Block until state changed */
+	gst_element_get_state (
+		player->priv->play,
+		NULL, NULL,
+		GST_CLOCK_TIME_NONE);
+}
+
 static GFile*
 pt_player_get_file (PtPlayer *player)
 {
@@ -2043,7 +2059,7 @@ remove_element (GstBin *parent,
 	child = gst_bin_get_by_name (parent, child_name);
 	if (!child)
 		return;
-	gst_element_set_state (child, GST_STATE_NULL);
+
 	/* removing dereferences removed element, we want to keep it */
 	gst_object_ref (child);
 	gst_bin_remove (parent, child);
@@ -2066,7 +2082,6 @@ add_element (GstBin     *parent,
 	}
 
 	gst_bin_add (parent, child);
-	gst_element_set_state (child, GST_STATE_PAUSED);
 	link_tee (srcpad, child);
 }
 
@@ -2094,8 +2109,10 @@ pt_player_setup_sphinx (PtPlayer  *player,
 		pt_player_setup_pipeline (player, &earlier_error);
 	PROPAGATE_ERROR_FALSE
 
-	gint64 pos;
+	gint pos;
 	pos = pt_player_get_position (player);
+
+	pt_player_set_state_blocking (player, GST_STATE_NULL);
 
 	remove_element (GST_BIN (player->priv->audio_bin), "player-audiobin");
 	add_element (GST_BIN (player->priv->audio_bin),
@@ -2104,7 +2121,9 @@ pt_player_setup_sphinx (PtPlayer  *player,
 	/* setting the "audio-filter" property unrefs the previous audio-filter! */
 	gst_object_ref (player->priv->scaletempo);
 	g_object_set (player->priv->play, "audio-filter", NULL, NULL);
-	pt_player_seek (player, pos);
+
+	pt_player_set_state_blocking (player, GST_STATE_PAUSED);
+	pt_player_jump_to_position (player, pos);
 
 	return TRUE;
 }
@@ -2130,6 +2149,15 @@ pt_player_setup_player (PtPlayer  *player,
 		pt_player_setup_pipeline (player, &earlier_error);
 	PROPAGATE_ERROR_FALSE
 
+	gint pos;
+	pos = pt_player_get_position (player);
+
+	/* Before removing and adding elements, set state to NULL to be on the
+	   safe side. Without changing volume didn't work anymore after switching
+	   from playback setup to ASR setup and back again. */
+
+	pt_player_set_state_blocking (player, GST_STATE_NULL);
+
 	remove_element (GST_BIN (player->priv->audio_bin), "sphinx-audiobin");
 	add_element (GST_BIN (player->priv->audio_bin),
 			player->priv->play_bin, player->priv->tee_playpad);
@@ -2137,11 +2165,9 @@ pt_player_setup_player (PtPlayer  *player,
 	g_object_set (G_OBJECT (player->priv->play),
 			"audio-filter", player->priv->scaletempo, NULL);
 
-	gint64 pos;
-	pos = pt_player_get_position (player);
+	pt_player_set_state_blocking (player, GST_STATE_PAUSED);
+	pt_player_jump_to_position (player, pos);
 
-	/* important!, can't explain why */
-	pt_player_seek (player, pos);
 	return TRUE;
 }
 
