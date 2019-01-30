@@ -16,14 +16,19 @@
 
 
 #include "config.h"
+#include <glib/gi18n.h>
 #include <string.h>
 #include <atspi/atspi.h>
+#include "pt-app.h"
 #include "pt-asr-output.h"
 
 
 struct _PtAsrOutputPrivate
 {
 	gboolean            atspi;
+	GtkWidget          *dialog;
+	GtkWidget          *textpad;
+	GtkTextBuffer      *textbuffer;
 	AtspiEventListener *focus_listener;
 	AtspiEventListener *caret_listener;
 	AtspiAccessible    *app;
@@ -163,10 +168,11 @@ on_focus_cb (AtspiEvent *event,
 		/* listener stays active until object destruction */
 	}
 
+	gtk_widget_destroy (self->priv->dialog);
 	g_signal_emit_by_name (self, "app-found");
 }
 
-void
+static void
 pt_asr_output_reset (PtAsrOutput *self)
 {
 	g_clear_object (&self->priv->app);
@@ -175,15 +181,79 @@ pt_asr_output_reset (PtAsrOutput *self)
 	self->priv->app_name = NULL;
 }
 
-void
+static void
 pt_asr_output_cancel_search (PtAsrOutput *self)
 {
 	deregister_listener (self->priv->focus_listener, "object:state-changed:focused");
 	pt_asr_output_reset (self);
 }
 
+static void
+dialog_response_cb (GtkDialog   *dialog,
+                    gint         response_id,
+                    PtAsrOutput *self)
+{
+	/* every response means cancel */
+
+	pt_asr_output_cancel_search (self);
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+}
+
+static void
+show_dialog (PtAsrOutput *self,
+             GtkWindow   *parent)
+{
+	gchar     *message;
+	gchar     *secondary_message;
+
+	message = _("Select output for automatic speech recognition");
+	secondary_message = _("Please open and switch focus to a word processor.");
+
+        self->priv->dialog = gtk_message_dialog_new (
+			parent,
+			GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+			GTK_MESSAGE_QUESTION,
+			GTK_BUTTONS_CANCEL,
+			"%s", message);
+
+	gtk_message_dialog_format_secondary_text (
+			GTK_MESSAGE_DIALOG (self->priv->dialog),
+	                "%s", secondary_message);
+
+	g_signal_connect (self->priv->dialog,
+                          "response",
+                          G_CALLBACK (dialog_response_cb),
+                          self);
+
+	gtk_widget_show (self->priv->dialog);
+}
+
 void
-pt_asr_output_search_app (PtAsrOutput *self)
+create_textpad (PtAsrOutput *self,
+                GtkWindow   *parent)
+{
+	GtkWidget *textview;
+	GtkWidget *scrolled_window;
+
+	self->priv->textpad = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_title (GTK_WINDOW (self->priv->textpad), "Textpad");
+
+	textview = gtk_text_view_new ();
+	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (textview), GTK_WRAP_WORD);
+	self->priv->textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+
+	gtk_container_add (GTK_CONTAINER (scrolled_window), textview);
+	gtk_container_add (GTK_CONTAINER (self->priv->textpad), scrolled_window);
+
+	gtk_widget_show_all (scrolled_window);
+	gtk_window_set_default_size (GTK_WINDOW (self->priv->textpad), 400, 200);
+	gtk_window_present (GTK_WINDOW (self->priv->textpad));
+}
+
+void
+pt_asr_output_search_app (PtAsrOutput *self,
+                          GtkWindow   *parent)
 {
 	pt_asr_output_reset (self);
 	if (self->priv->atspi) {
@@ -194,8 +264,13 @@ pt_asr_output_search_app (PtAsrOutput *self)
 	}
 
 	if (!self->priv->atspi) {
-		/* TODO fallback solution */
+		create_textpad (self, parent);
+		self->priv->app_name = g_strdup ("Textpad");
+		g_signal_emit_by_name (self, "app-found");
+		return;
 	}
+
+	show_dialog (self, parent);
 }
 
 gchar*
@@ -210,9 +285,26 @@ delete_hypothesis (PtAsrOutput *self)
 	if (self->priv->hyp_len == 0)
 		return;
 
-	atspi_editable_text_delete_text (
-			ATSPI_EDITABLE_TEXT (self->priv->editable),
-			self->priv->offset, self->priv->offset + self->priv->hyp_len, NULL);
+	if (self->priv->atspi) {
+		atspi_editable_text_delete_text (
+				ATSPI_EDITABLE_TEXT (self->priv->editable),
+				self->priv->offset, self->priv->offset + self->priv->hyp_len, NULL);
+	} else {
+		GtkTextIter iter1, iter2;
+		gtk_text_buffer_get_iter_at_offset (self->priv->textbuffer, &iter1, self->priv->offset);
+		gtk_text_buffer_get_iter_at_offset (self->priv->textbuffer, &iter2, self->priv->offset + self->priv->hyp_len);
+		gtk_text_buffer_delete (self->priv->textbuffer, &iter1, &iter2);
+	}
+}
+
+static void
+get_offset (PtAsrOutput *self)
+{
+	if (self->priv->atspi) {
+		self->priv->offset = atspi_text_get_caret_offset (ATSPI_TEXT (self->priv->editable), NULL);
+	} else {
+		self->priv->offset = gtk_text_buffer_get_char_count (self->priv->textbuffer);
+	}
 }
 
 void
@@ -228,16 +320,23 @@ pt_asr_output_hypothesis (PtAsrOutput *self,
 	                  "MESSAGE", "Hypothesis: %s", string);
 
 	delete_hypothesis (self);	
-	self->priv->offset = atspi_text_get_caret_offset (ATSPI_TEXT (self->priv->editable), NULL);
+
+	GtkTextIter iter;
+	get_offset (self);
 	self->priv->hyp_len = g_utf8_strlen (string, -1);
 
 	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
 	                  "MESSAGE", "Offset: %d – Length: %d", self->priv->offset, self->priv->hyp_len);
 
 	/* inserting moves caret, important: use strlen, not UTF-8 character count */
-	atspi_editable_text_insert_text (
-			ATSPI_EDITABLE_TEXT (self->priv->editable),
-			self->priv->offset, string, strlen (string), NULL);
+	if (self->priv->atspi) {
+		atspi_editable_text_insert_text (
+				ATSPI_EDITABLE_TEXT (self->priv->editable),
+				self->priv->offset, string, strlen (string), NULL);
+	} else {
+		gtk_text_buffer_get_iter_at_offset (self->priv->textbuffer, &iter, self->priv->offset);
+		gtk_text_buffer_insert (self->priv->textbuffer, &iter, string, strlen (string));
+	}
 }
 
 void
@@ -245,9 +344,11 @@ pt_asr_output_final (PtAsrOutput *self,
                      gchar       *string)
 {
 	gchar *string_with_space;
+	GtkTextIter iter;
 
 	delete_hypothesis (self);
-	self->priv->offset = atspi_text_get_caret_offset (ATSPI_TEXT (self->priv->editable), NULL);
+
+	get_offset (self);
 	self->priv->hyp_len = 0;
 
 	string_with_space = g_strdup_printf ("%s ", string);
@@ -256,10 +357,15 @@ pt_asr_output_final (PtAsrOutput *self,
 	                  "MESSAGE", "Final: %s", string);
 
 	/* inserting moves caret, important: use strlen, not UTF-8 character count */
-	atspi_editable_text_insert_text (
-			ATSPI_EDITABLE_TEXT (self->priv->editable),
-			self->priv->offset, string_with_space,
-			strlen (string_with_space), NULL);
+	if (self->priv->atspi) {
+		atspi_editable_text_insert_text (
+				ATSPI_EDITABLE_TEXT (self->priv->editable),
+				self->priv->offset, string_with_space,
+				strlen (string_with_space), NULL);
+	} else {
+		gtk_text_buffer_get_iter_at_offset (self->priv->textbuffer, &iter, self->priv->offset);
+		gtk_text_buffer_insert (self->priv->textbuffer, &iter, string_with_space, strlen (string_with_space));
+	}
 	g_free (string_with_space);
 }
 
@@ -268,11 +374,18 @@ pt_asr_output_init (PtAsrOutput *self)
 {
 	self->priv = pt_asr_output_get_instance_private (self);
 
-	gint status;
+	GApplication *app;
+	gint          status;
 
-	status = atspi_init ();
+	app = g_application_get_default ();
+	self->priv->atspi = pt_app_get_atspi (PT_APP (app));
+
+	if (self->priv->atspi)
+		status = atspi_init ();
+	else
+		status = 3;
+
 	if (status == 0 || status == 1) {
-		self->priv->atspi = TRUE;
 		self->priv->focus_listener = atspi_event_listener_new (
 				(AtspiEventListenerCB) on_focus_cb, self, NULL);
 		self->priv->caret_listener = atspi_event_listener_new (
@@ -288,8 +401,13 @@ pt_asr_output_init (PtAsrOutput *self)
 		self->priv->atspi = FALSE;
 		self->priv->focus_listener = NULL;
 		self->priv->caret_listener = NULL;
-		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
-			          "MESSAGE", "ATSPI not initted");
+		if (status == 2) {
+			g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
+					  "MESSAGE", "ATSPI failed");
+		} else {
+			g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
+					  "MESSAGE", "ATSPI fallback requested");
+		}
 	}
 	self->priv->app = NULL;
 	self->priv->editable = NULL;
@@ -330,6 +448,16 @@ pt_asr_output_class_init (PtAsrOutputClass *klass)
 	object_class->finalize = pt_asr_output_finalize;
 
 	g_signal_new ("app-found",
+		      PT_TYPE_ASR_OUTPUT,
+		      G_SIGNAL_RUN_FIRST,
+		      0,
+		      NULL,
+		      NULL,
+		      g_cclosure_marshal_VOID__VOID,
+		      G_TYPE_NONE,
+		      0);
+
+	g_signal_new ("search-cancelled",
 		      PT_TYPE_ASR_OUTPUT,
 		      G_SIGNAL_RUN_FIRST,
 		      0,

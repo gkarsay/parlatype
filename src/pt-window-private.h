@@ -37,8 +37,8 @@ struct _PtWindowPrivate
 	GtkWidget  *progress_dlg;
 	gint	    progress_handler_id;
 
-	GtkWidget  *output_dlg;
-	guint        output_handler_id;
+	guint       output_handler_id1;
+	guint       output_handler_id2;
 
 	GtkClipboard *clip;
 	gulong        clip_handler_id;

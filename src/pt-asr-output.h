@@ -51,11 +51,8 @@ void		pt_asr_output_final		(PtAsrOutput *self,
 
 gchar*          pt_asr_output_get_app_name	(PtAsrOutput *self);
 
-void            pt_asr_output_search_app	(PtAsrOutput *self);
-
-void            pt_asr_output_cancel_search	(PtAsrOutput *self);
-
-void		pt_asr_output_reset		(PtAsrOutput *self);
+void            pt_asr_output_search_app	(PtAsrOutput *self,
+						 GtkWindow   *parent);
 
 PtAsrOutput 	*pt_asr_output_new		(void);
 

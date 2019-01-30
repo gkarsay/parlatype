@@ -189,19 +189,15 @@ setup_sphinx (PtWindow *win)
 }
 
 static void
-dialog_response_cb (GtkDialog *dialog,
-                    gint       response_id,
-                    PtWindow  *win)
+asr_output_search_cancelled_cb (PtAsrOutput *output,
+                                PtWindow    *win)
 {
-	/* every response means cancel */
-
 	GAction  *action;
 	GVariant *state;
 
-	pt_asr_output_cancel_search (win->priv->output);
-	g_signal_handler_disconnect (win->priv->output, win->priv->output_handler_id);
+	g_signal_handler_disconnect (win->priv->output, win->priv->output_handler_id1);
+	g_signal_handler_disconnect (win->priv->output, win->priv->output_handler_id2);
 	g_clear_object (&win->priv->output);
-	gtk_widget_destroy (GTK_WIDGET (dialog));
 
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "mode");
 	state = g_variant_new_string ("playback");
@@ -214,58 +210,37 @@ asr_output_app_found_cb (PtAsrOutput *output,
 {
 	GApplication  *app;
 	GNotification *notification;
+	gchar         *summary;
 	gchar         *message;
 
-	g_signal_handler_disconnect (win->priv->output, win->priv->output_handler_id);
-	gtk_widget_destroy (win->priv->output_dlg);
+	g_signal_handler_disconnect (win->priv->output, win->priv->output_handler_id1);
+	g_signal_handler_disconnect (win->priv->output, win->priv->output_handler_id2);
 
-	notification = g_notification_new ("App found");
-	message = g_strdup_printf ("Automatic speech recognition will be sent to %s.\n "
-	                           "Press \"Play\" to start it.",
-	                           pt_asr_output_get_app_name (output));
+	summary = g_strdup_printf (_("Found %s"), pt_asr_output_get_app_name (output));
+	message = _("Press \"Play\" to start automatic speech recognition.");
+	notification = g_notification_new (summary);
 	g_notification_set_body (notification, message);
 	app = G_APPLICATION (gtk_window_get_application (GTK_WINDOW (win)));
 	g_application_send_notification (app, "app-found", notification);
 
-	/* TODO setup_sphinx() can take a few seconds. Although the dialog is
-	   destroyed earlier, it's still on screen until the end of this function.
-	   If setup_sphinx() was asynchronous, the dialog would probably
-	   disappear earlier. */
 	setup_sphinx (win);
 
+	g_application_withdraw_notification (app, "app-found");
 	g_object_unref (notification);
-	g_free (message);
+	g_free (summary);
 }
 
 static void
 set_mode_asr (PtWindow *win)
 {
-	gchar     *message;
-	gchar     *secondary_message;
-
-	message = _("Select output for automatic speech recognition");
-	secondary_message = _("Please open and switch focus to a word processor.");
-
-        win->priv->output_dlg = gtk_message_dialog_new (
-			GTK_WINDOW (win),
-			GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-			GTK_MESSAGE_QUESTION,
-			GTK_BUTTONS_CANCEL,
-			"%s", message);
-
-	gtk_message_dialog_format_secondary_text (
-			GTK_MESSAGE_DIALOG (win->priv->output_dlg),
-	                "%s", secondary_message);
-
 	win->priv->output = pt_asr_output_new ();
-	win->priv->output_handler_id = g_signal_connect (win->priv->output, "app-found",
+	win->priv->output_handler_id1 = g_signal_connect (
+			win->priv->output, "app-found",
 			G_CALLBACK (asr_output_app_found_cb), win);
-	pt_asr_output_search_app (win->priv->output);
-	g_signal_connect (win->priv->output_dlg,
-                           "response",
-                           G_CALLBACK (dialog_response_cb),
-                           win);
-	gtk_widget_show (win->priv->output_dlg);
+	win->priv->output_handler_id2 = g_signal_connect (
+			win->priv->output, "search-cancelled",
+			G_CALLBACK (asr_output_search_cancelled_cb), win);
+	pt_asr_output_search_app (win->priv->output, GTK_WINDOW (win));
 }
 
 static void
@@ -1322,7 +1297,8 @@ pt_window_init (PtWindow *win)
 	setup_dbus_service (win);	/* this is in pt_dbus_service.c */
 	win->priv->asr_settings = NULL;
 	win->priv->output = NULL;
-	win->priv->output_handler_id = 0;
+	win->priv->output_handler_id1 = 0;
+	win->priv->output_handler_id2 = 0;
 	win->priv->recent = gtk_recent_manager_get_default ();
 	win->priv->timer = 0;
 	win->priv->progress_dlg = NULL;
