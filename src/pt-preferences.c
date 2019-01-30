@@ -25,9 +25,9 @@
 #include <gdk/gdkwayland.h>
 #endif
 #include <pt-app.h>
-#include <pt-asr-settings.h>
 #include <pt-player.h>
 #include "pt-asr-assistant.h"
+#include "pt-asr-settings.h"
 #include "pt-preferences.h"
 
 #define EXAMPLE_TIME_SHORT 471123

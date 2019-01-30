@@ -17,7 +17,6 @@ marshal_h = marshalers[1]
 sources = [
 	gresources,
 	marshalers,
-	'pt-asr-settings.c',
 	'pt-player.c',
 	'pt-progress-dialog.c',
 	'pt-wavedata.c',
@@ -38,7 +37,6 @@ sources = [
 deps = [gtk, gmodule, gstreamer, gstreamer_audio, math]
 
 headers = [
-	'pt-asr-settings.h',
 	'pt-player.h',
 	'pt-progress-dialog.h',
 	'pt-wavedata.h',
@@ -89,7 +87,6 @@ if gir
 	gir_dep = dependency('gobject-introspection-1.0')
 	introspection_sources = [
 		headers,
-		'pt-asr-settings.c',
 		'pt-player.c',
 		'pt-progress-dialog.c',
 		'pt-wavedata.c',

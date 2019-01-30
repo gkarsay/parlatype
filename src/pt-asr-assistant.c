@@ -19,7 +19,7 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <pt-player.h>
-#include <pt-asr-settings.h>
+#include "pt-asr-settings.h"
 #include "pt-asr-assistant-helpers.h"
 #include "pt-asr-assistant.h"
 

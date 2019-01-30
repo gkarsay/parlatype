@@ -16,6 +16,8 @@ src = [
 	'pt-asr-assistant-helpers.h',
 	'pt-asr-output.c',
 	'pt-asr-output.h',
+	'pt-asr-settings.c',
+	'pt-asr-settings.h',
 	'pt-dbus-service.c',
 	'pt-dbus-service.h',
 	'pt-goto-dialog.c',

@@ -19,7 +19,7 @@
 #define PT_ASR_ASSISTANT_H
 
 #include "config.h"
-#include <pt-asr-settings.h>
+#include "pt-asr-settings.h"
 
 #define PT_TYPE_ASR_ASSISTANT              (pt_asr_assistant_get_type())
 #define PT_ASR_ASSISTANT(obj)              (G_TYPE_CHECK_INSTANCE_CAST((obj), PT_TYPE_ASR_ASSISTANT, PtAsrAssistant))
