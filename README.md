@@ -2,12 +2,14 @@
 
 For a screenshot, an overview what Parlatype actually is and packages please visit https://gkarsay.github.io/parlatype/.
 
-## Installation
+The following instructions are for developers, contributors and those who want to have the lastest version from the master branch.
+
+## Build from source
 
 ### Dependencies
 
 Parlatype switched its build system to Meson. To build it from source, you need these packages:
-* meson
+* meson >= 0.47.2 (older versions not tested)
 * gettext >= 0.19.7
 * gobject-introspection-1.0
 * yelp-tools
@@ -27,23 +29,19 @@ Runtime dependencies:
 * GStreamer "Good" Plugins
 * If you need MP3 support for GStreamer versions older than 1.14, you have to install the "Ugly" Plugins.
 * For the LibreOffice helpers obviously LibreOffice (>= 4) and also libreoffice-script-provider-python (Debian) or libreoffice-pyuno (Fedora)
-* You must have the default speech model for pocketsphinx (pocketsphinx-en-us on Debian, pocketsphinx-models on Fedora).
 
-On a Debian based distro you can install all these with:
+Debian based distros have to be Debian >= 9 (Stretch) or Ubuntu >= 18.04 (Bionic). On Debian Stretch meson must be installed from backports. Install these packages:
 
 ```
-$ sudo apt-get install build-essential libgirepository1.0-dev libgladeui-dev gtk-doc-tools yelp-tools libgtk-3-dev libgtk-3-0 libgstreamer1.0-dev libgstreamer1.0-0 libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly libreoffice-script-provider-python libsphinxbase-dev libpocketsphinx-dev pocketsphinx-en-us
+$ sudo apt-get install meson build-essential libgirepository1.0-dev libgladeui-dev gtk-doc-tools yelp-tools libgtk-3-dev libgtk-3-0 libgstreamer1.0-dev libgstreamer1.0-0 libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly libreoffice-script-provider-python libsphinxbase-dev libpocketsphinx-dev
 ```
 On Fedora this should work:
 
 ```
-$ su -c 'dnf install gcc gobject-introspection-devel glade-devel gtk-doc yelp-tools gtk3-devel gstreamer1-devel gstreamer1-plugins-base-devel gstreamer1-plugins-good gstreamer1-plugins-ugly libreoffice-pyuno sphinxbase-devel pocketsphinx-devel pocketsphinx-models'
+$ su -c 'dnf install meson gcc gobject-introspection-devel glade-devel gtk-doc yelp-tools gtk3-devel gstreamer1-devel gstreamer1-plugins-base-devel gstreamer1-plugins-good gstreamer1-plugins-ugly libreoffice-pyuno sphinxbase-devel pocketsphinx-devel'
 ```
 
-
-### Building 
-
-#### Configure options
+### Configure options
 
 Parlatype ships its own library, libparlatype. Developers might be interested in having a library documentation, gobject introspection and a glade catalog for the widgets. These are the configure options:
 
@@ -53,7 +51,7 @@ Parlatype ships its own library, libparlatype. Developers might be interested in
 * `gtk-doc`: install library documentation (default: false)
 * `glade`: install a glade catalog (default: false)
 
-#### From git
+### Build from git
 Clone the repository and build with meson. You can use any prefix but you may have to adjust the library path for other prefixes.
 ```
 $ git clone https://github.com/gkarsay/parlatype.git
