@@ -117,7 +117,8 @@ name_appeared_cb (GDBusConnection *connection,
                   const gchar     *name_owner,
                   PtWindow        *win)
 {
-	g_debug ("Found %s", name);
+	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
+	                  "MESSAGE", "Found %s", name);
 	GError *error = NULL;
 
 	win->priv->proxy = g_dbus_proxy_new_for_bus_sync (
@@ -157,7 +158,9 @@ static void
 clean_up (const gchar *name,
 	  PtWindow    *win)
 {
-	g_debug ("Couldn't find %s", name);
+	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+	                  "MESSAGE", "Couldn't find %s", name);
+
 	if (win->priv->proxy) {
 		g_object_unref (win->priv->proxy);
 		win->priv->proxy = NULL;

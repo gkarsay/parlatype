@@ -36,6 +36,30 @@
     ],
     "modules": [
         {
+            "name": "sphinxbase",
+            "config-opts": [
+                "--without-python"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/cmusphinx/sphinxbase.git"
+                }
+            ]
+        },
+        {
+            "name": "pocketsphinx",
+            "config-opts": [
+                "--without-python"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/cmusphinx/pocketsphinx.git"
+                }
+            ]
+        },
+        {
             "name": "parlatype",
             "buildsystem": "meson",
             "builddir": true,

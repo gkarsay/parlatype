@@ -60,7 +60,8 @@ handle_method_call (GDBusConnection       *connection,
 	
 	if (g_strcmp0 (method_name, "GetTimestamp") == 0) {
 		timestamp = pt_player_get_timestamp (win->priv->player);
-		g_debug ("t: %s", timestamp);
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+			          "MESSAGE", "t: %s", timestamp);
 		if (!timestamp)
 			timestamp = "";
 		g_dbus_method_invocation_return_value (invocation,

@@ -1,4 +1,4 @@
-/* Copyright (C) Gabor Karsay 2016-2018 <gabor.karsay@gmx.at>
+/* Copyright (C) Gabor Karsay 2016-2019 <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -28,6 +28,13 @@
 struct _PtPlayerPrivate
 {
 	GstElement *play;
+	GstElement *scaletempo;
+	GstElement *play_bin;
+	GstElement *sphinx_bin;
+	GstElement *audio_bin;
+	GstElement *tee;
+	GstPad     *tee_playpad;
+	GstPad     *tee_sphinxpad;
 	guint	    bus_watch_id;
 
 	gint64	    dur;
@@ -144,6 +151,22 @@ pt_player_seek (PtPlayer *player,
 		position,
 		GST_SEEK_TYPE_SET,
 		player->priv->segend);
+
+	/* Block until state changed */
+	gst_element_get_state (
+		player->priv->play,
+		NULL, NULL,
+		GST_CLOCK_TIME_NONE);
+}
+
+static void
+pt_player_set_state_blocking (PtPlayer *player,
+                              GstState  state)
+
+{
+	g_assert (GST_IS_ELEMENT (player->priv->play));
+
+	gst_element_set_state (player->priv->play, state);
 
 	/* Block until state changed */
 	gst_element_get_state (
@@ -317,6 +340,21 @@ bus_call (GstBus     *bus,
 		pt_player_clear (player);
 		break;
 		}
+
+	case GST_MESSAGE_ELEMENT:
+		if (g_strcmp0 (GST_MESSAGE_SRC_NAME (msg), "sphinx") != 0)
+			break;
+		const GstStructure *st = gst_message_get_structure (msg);
+		if (g_value_get_boolean (gst_structure_get_value (st, "final"))) {
+			g_signal_emit_by_name (player, "asr-final",
+				g_value_get_string (
+					gst_structure_get_value (st, "hypothesis")));
+		} else {
+			g_signal_emit_by_name (player, "asr-hypothesis",
+				g_value_get_string (
+					gst_structure_get_value (st, "hypothesis")));
+		}
+		break;
 
 	default:
 		break;
@@ -1793,10 +1831,16 @@ pt_player_goto_timestamp (PtPlayer *player,
 static void
 pt_player_init (PtPlayer *player)
 {
+	gst_init (NULL, NULL);
 	player->priv = pt_player_get_instance_private (player);
+	player->priv->play = NULL;
 	player->priv->timestamp_precision = PT_PRECISION_SECOND_10TH;
 	player->priv->timestamp_fixed = FALSE;
 	player->priv->wv = NULL;
+	player->sphinx = NULL;
+	player->priv->scaletempo = NULL;
+	player->priv->play_bin = NULL;
+	player->priv->sphinx_bin = NULL;
 }
 
 static gboolean
@@ -1825,14 +1869,273 @@ vol_changed (GObject    *object,
 	g_source_set_name_by_id (id, "[parlatype] notify_volume_idle_cb");
 }
 
+static GstElement*
+make_element (gchar   *factoryname,
+              gchar   *name,
+              GError **error)
+{
+	GstElement *result;
+
+	result = gst_element_factory_make (factoryname, name);
+	if (!result)
+		g_set_error (error, GST_CORE_ERROR,
+		             GST_CORE_ERROR_MISSING_PLUGIN,
+			    _("Failed to create plugin \"%s\"."), factoryname);
+
+	return result;
+}
+
+#define PROPAGATE_ERROR_NULL \
+if (earlier_error != NULL) {\
+	g_propagate_error (error, earlier_error);\
+	return NULL;\
+}
+
+#define PROPAGATE_ERROR_FALSE \
+if (earlier_error != NULL) {\
+	g_propagate_error (error, earlier_error);\
+	return FALSE;\
+}
+
+static GstElement*
+create_sphinx_bin (PtPlayer  *player,
+                   GError   **error)
+{
+	GError *earlier_error = NULL;
+
+	/* Create gstreamer elements */
+	GstElement *queue;
+	GstElement *audioconvert;
+	GstElement *audioresample;
+	GstElement *fakesink;
+
+	player->sphinx = G_OBJECT (make_element ("pocketsphinx-patched", "sphinx", &earlier_error));
+	/* defined error propagation; skipping any cleanup */
+	PROPAGATE_ERROR_NULL
+	queue = make_element ("queue", "sphinx_queue", &earlier_error);
+	PROPAGATE_ERROR_NULL
+	audioconvert = make_element ("audioconvert", "audioconvert", &earlier_error);
+	PROPAGATE_ERROR_NULL
+	audioresample = make_element ("audioresample", "audioresample", &earlier_error);
+	PROPAGATE_ERROR_NULL
+	fakesink = make_element ("fakesink", "fakesink", &earlier_error);
+	PROPAGATE_ERROR_NULL
+
+	/* create audio output */
+	GstElement *audio = gst_bin_new ("sphinx-audiobin");
+	gst_bin_add_many (GST_BIN (audio), queue, audioconvert, audioresample, GST_ELEMENT (player->sphinx), fakesink, NULL);
+	gst_element_link_many (queue, audioconvert, audioresample, GST_ELEMENT (player->sphinx), fakesink, NULL);
+
+	/* create ghost pad for audiosink */
+	GstPad *audiopad = gst_element_get_static_pad (queue, "sink");
+	gst_element_add_pad (audio, gst_ghost_pad_new ("sink", audiopad));
+	gst_object_unref (GST_OBJECT (audiopad));
+
+	return audio;
+}
+
+static GstElement*
+create_play_bin (PtPlayer  *player,
+                 GError   **error)
+{
+	GError *earlier_error = NULL;
+
+	/* Create gstreamer elements */
+	GstElement *capsfilter;
+	GstElement *audiosink;
+	GstElement *queue;
+
+	capsfilter = make_element ("capsfilter", "audiofilter", &earlier_error);
+	/* defined error propagation; skipping any cleanup */
+	PROPAGATE_ERROR_NULL
+	audiosink = make_element ("autoaudiosink", "audiosink", &earlier_error);
+	PROPAGATE_ERROR_NULL
+	queue = make_element ("queue", "player_queue", &earlier_error);
+	PROPAGATE_ERROR_NULL
+
+	GstElement *audio = gst_bin_new ("player-audiobin");
+	gst_bin_add_many (GST_BIN (audio), queue, capsfilter, audiosink, NULL);
+	gst_element_link_many (queue, capsfilter, audiosink, NULL);
+
+	/* create ghost pad for audiosink */
+	GstPad *audiopad = gst_element_get_static_pad (queue, "sink");
+	gst_element_add_pad (audio, gst_ghost_pad_new ("sink", audiopad));
+	gst_object_unref (GST_OBJECT (audiopad));
+
+	return audio;
+}
+
+/*
+
+ .---------.    .-------------------------------------------------------------------------.
+ | playbin |    | audio_bin                                                               |
+ |         |    | .------.     .--------------------------------------------------------. |
+ '---,-----'    | | tee  |     | play_bin                                               | |
+     |          | |      |     | .--------.      .-------------.      .---------------. | |
+     |          | |      |     | | queue  |      | capsfilter  |      | autoaudiosink | | |
+     '------->  sink    src-> sink       src -> sink          src -> sink             | | |
+    audio-sink  | |      |     | '--------'      '-------------'      '---------------' | |
+    property    | |      |     '--------------------------------------------------------' |
+                | |      |                                                                |
+                | |      |     .--------------------------------------------------------. |
+                | |      |     | sphinx_bin                                             | |
+                | |      |     | .--------.                                .----------. | |
+                | |      |     | | queue  |         (audioconvert          | fakesink | | |
+                | |     src-> sink       src -> ...  audioresample ... -> sink        | | |
+                | |      |     | '--------'          pocketsphinx)         '----------' | |
+                | '------'     '--------------------------------------------------------' |
+                |                                                                         |
+                '-------------------------------------------------------------------------'
+
+Note 1: audio_bin is needed. If the audio-sink property of playbin is set to the
+        tee element, there is an internal data stream error.
+
+Note 2: It doesn't work if play_bin or sphinx_bin are added to audio_bin but are
+        not linked! Either link it or remove it from bin!
+
+Note 3: The original intent was to dynamically switch the tee element to either
+        playback or ASR. Rethink this design, maybe tee element can be completely
+        omitted. On the other hand, maybe they could be somehow synced to have
+        audio and recognition in real time.
+
+*/
+
+static void
+link_tee (GstPad     *tee_srcpad,
+          GstElement *sink_bin)
+{
+	GstPad           *sinkpad;
+	GstPadLinkReturn  r;
+
+	sinkpad = gst_element_get_static_pad (sink_bin, "sink");
+	g_assert_nonnull (sinkpad);
+	r = gst_pad_link (tee_srcpad, sinkpad);
+	g_assert (r == GST_PAD_LINK_OK);
+	gst_object_unref (sinkpad);
+}
+
+static gboolean
+pt_player_setup_pipeline (PtPlayer  *player,
+                          GError   **error)
+{
+	GError *earlier_error = NULL;
+
+	player->priv->play = make_element ("playbin", "play", &earlier_error);
+	PROPAGATE_ERROR_FALSE
+	player->priv->play_bin = create_play_bin (player, &earlier_error);
+	PROPAGATE_ERROR_FALSE
+	player->priv->sphinx_bin = create_sphinx_bin (player, &earlier_error);
+	PROPAGATE_ERROR_FALSE
+	player->priv->scaletempo = make_element ("scaletempo", "tempo", &earlier_error);
+	PROPAGATE_ERROR_FALSE
+	player->priv->tee = make_element ("tee", "tee", &earlier_error);
+	PROPAGATE_ERROR_FALSE
+	player->priv->tee_playpad = gst_element_get_request_pad (player->priv->tee, "src_%u");
+	player->priv->tee_sphinxpad = gst_element_get_request_pad (player->priv->tee, "src_%u");
+
+	player->priv->audio_bin = gst_bin_new ("audiobin");
+	gst_bin_add (GST_BIN (player->priv->audio_bin), player->priv->tee);
+
+	/* create ghost pad for audiosink */
+	GstPad *audiopad = gst_element_get_static_pad (player->priv->tee, "sink");
+	gst_element_add_pad (player->priv->audio_bin, gst_ghost_pad_new ("sink", audiopad));
+	gst_object_unref (GST_OBJECT (audiopad));
+
+	g_object_set (G_OBJECT (player->priv->play),
+			"audio-sink", player->priv->audio_bin, NULL);
+
+	/* This is responsible for syncing system volume with Parlatype volume.
+	   Syncing is done only in Play state */
+	g_signal_connect (G_OBJECT (player->priv->play),
+			"notify::volume", G_CALLBACK (vol_changed), player);
+	return TRUE;
+}
+
+static void
+remove_element (GstBin *parent,
+                gchar  *child_name)
+{
+	GstElement *child;
+	child = gst_bin_get_by_name (parent, child_name);
+	if (!child)
+		return;
+
+	/* removing dereferences removed element, we want to keep it */
+	gst_object_ref (child);
+	gst_bin_remove (parent, child);
+}
+
+static void
+add_element (GstBin     *parent,
+             GstElement *child,
+             GstPad     *srcpad)
+{
+	GstElement *cmp;
+	gchar      *child_name;
+
+	child_name = gst_element_get_name (child);
+	cmp = gst_bin_get_by_name (parent, child_name);
+	if (cmp) {
+		gst_object_unref (cmp);
+		/* element is already in bin */
+		return;
+	}
+
+	gst_bin_add (parent, child);
+	link_tee (srcpad, child);
+}
+
+/**
+ * pt_player_setup_sphinx:
+ * @player: a #PtPlayer
+ * @error: (allow-none): return location for an error, or NULL
+ *
+ * Setup the GStreamer pipeline for automatic speech recognition using
+ * CMU sphinx. This loads resources like language model and dictionary and
+ * might take a few seconds.
+ * There is no audio output in this mode. Connect to the
+ * #PtPlayer::asr-hypothesis and/or #PtPlayer::asr-final signal to get
+ * the results. Start recognition with pt_player_play().
+ *
+ * Return value: TRUE on success, FALSE if the pipeline could not be set up
+ */
+gboolean
+pt_player_setup_sphinx (PtPlayer  *player,
+                        GError   **error)
+{
+	GError *earlier_error = NULL;
+
+	if (!player->priv->play)
+		pt_player_setup_pipeline (player, &earlier_error);
+	PROPAGATE_ERROR_FALSE
+
+	gint pos;
+	pos = pt_player_get_position (player);
+
+	pt_player_set_state_blocking (player, GST_STATE_NULL);
+
+	remove_element (GST_BIN (player->priv->audio_bin), "player-audiobin");
+	add_element (GST_BIN (player->priv->audio_bin),
+			player->priv->sphinx_bin, player->priv->tee_sphinxpad);
+
+	/* setting the "audio-filter" property unrefs the previous audio-filter! */
+	gst_object_ref (player->priv->scaletempo);
+	g_object_set (player->priv->play, "audio-filter", NULL, NULL);
+
+	pt_player_set_state_blocking (player, GST_STATE_PAUSED);
+	pt_player_jump_to_position (player, pos);
+
+	return TRUE;
+}
+
 /**
  * pt_player_setup_player:
  * @player: a #PtPlayer
  * @error: (allow-none): return location for an error, or NULL
  *
- * Setup the GStreamer pipeline for playback. This must be called first on a
- * new PtPlayer object. It's a programmer's error to do anything with the
- * PtPlayer before calling the setup function.
+ * Setup the GStreamer pipeline for playback. This or pt_player_setup_sphinx()
+ * must be called first on a new PtPlayer object. It's a programmer's error to
+ * do anything with the #PtPlayer before calling the setup function.
  *
  * Return value: TRUE on success, FALSE if the pipeline could not be set up
  */
@@ -1840,53 +2143,30 @@ gboolean
 pt_player_setup_player (PtPlayer  *player,
                         GError   **error)
 {
-	GError *gst_error = NULL;
+	GError *earlier_error = NULL;
 
-	/* We use the scaletempo plugin from "good plugins" with playbin,
-	   setting its audio-filter to scaletempo:
-	   playbin ! capsfilter ! autoaudiosink
-	*/
+	if (!player->priv->play)
+		pt_player_setup_pipeline (player, &earlier_error);
+	PROPAGATE_ERROR_FALSE
 
-	gst_init_check (NULL, NULL, &gst_error);
-	if (gst_error) {
-		g_propagate_error (error, gst_error);
-		return FALSE;
-	}
+	gint pos;
+	pos = pt_player_get_position (player);
 
-	/* Create gstreamer elements */
+	/* Before removing and adding elements, set state to NULL to be on the
+	   safe side. Without changing volume didn't work anymore after switching
+	   from playback setup to ASR setup and back again. */
 
-	player->priv->play = NULL;
-	GstElement *scaletempo = NULL;
-	GstElement *capsfilter = NULL;
-	GstElement *audiosink = NULL;
+	pt_player_set_state_blocking (player, GST_STATE_NULL);
 
-	player->priv->play = gst_element_factory_make ("playbin",       "play");
-	scaletempo	   = gst_element_factory_make ("scaletempo",    "tempo");
-	capsfilter         = gst_element_factory_make ("capsfilter",    "audiofilter");
-	audiosink          = gst_element_factory_make ("autoaudiosink", "audiosink");
+	remove_element (GST_BIN (player->priv->audio_bin), "sphinx-audiobin");
+	add_element (GST_BIN (player->priv->audio_bin),
+			player->priv->play_bin, player->priv->tee_playpad);
 
-	/* checks */
-	if (!player->priv->play || !scaletempo || !capsfilter || !audiosink) {
-		g_set_error (error,
-			     GST_CORE_ERROR,
-			     GST_CORE_ERROR_MISSING_PLUGIN,
-			     _("Failed to load a plugin."));
-		return FALSE;
-	}
+	g_object_set (G_OBJECT (player->priv->play),
+			"audio-filter", player->priv->scaletempo, NULL);
 
-	/* create audio output */
-	GstElement *audio = gst_bin_new ("audiobin");
-	gst_bin_add_many (GST_BIN (audio), capsfilter, audiosink, NULL);
-	gst_element_link_many (capsfilter, audiosink, NULL);
-	
-	/* create ghost pad for audiosink */
-	GstPad *audiopad = gst_element_get_static_pad (capsfilter, "sink");
-	gst_element_add_pad (audio, gst_ghost_pad_new ("sink", audiopad));
-	gst_object_unref (GST_OBJECT (audiopad));
-
-	g_object_set (player->priv->play, "audio-sink", audio, NULL);
-	g_object_set (player->priv->play, "audio-filter", scaletempo, NULL);
-	g_signal_connect (G_OBJECT (player->priv->play), "notify::volume", G_CALLBACK (vol_changed), player);
+	pt_player_set_state_blocking (player, GST_STATE_PAUSED);
+	pt_player_jump_to_position (player, pos);
 
 	return TRUE;
 }
@@ -2136,6 +2416,48 @@ pt_player_class_init (PtPlayerClass *klass)
 		      g_cclosure_marshal_VOID__VOID,
 		      G_TYPE_NONE,
 		      0);
+
+	/**
+	* PtPlayer::asr-final:
+	* @player: the player emitting the signal
+	* @word: recognized word(s)
+	*
+	* The #PtPlayer::asr-final signal is emitted in automatic speech recognition
+	* mode whenever a word or a sequence of words was recognized.
+	*/
+	g_signal_new ("asr-final",
+		      PT_TYPE_PLAYER,
+		      G_SIGNAL_RUN_FIRST,
+		      0,
+		      NULL,
+		      NULL,
+		      g_cclosure_marshal_VOID__STRING,
+		      G_TYPE_NONE,
+		      1, G_TYPE_STRING);
+
+	/**
+	* PtPlayer::asr-hypothesis:
+	* @player: the player emitting the signal
+	* @word: probably recognized word(s)
+	*
+	* The #PtPlayer::asr-hypothesis signal is emitted in automatic speech recognition
+	* mode as an intermediate result (hypothesis) of recognized words.
+	* The hypothesis can still change, an emitted hypothesis replaces the
+	* former hypothesis and is finalized via the #PtPlayer::asr-final signal.
+	* It's not necessary to connect to this signal if you want the final
+	* result only. However, it can take a few seconds until a final result
+	* is emitted and without an intermediate hypothesis the end user might
+	* have the impression that there is nothing going on.
+	*/
+	g_signal_new ("asr-hypothesis",
+		      PT_TYPE_PLAYER,
+		      G_SIGNAL_RUN_FIRST,
+		      0,
+		      NULL,
+		      NULL,
+		      g_cclosure_marshal_VOID__STRING,
+		      G_TYPE_NONE,
+		      1, G_TYPE_STRING);
 
 	/**
 	* PtPlayer:speed:

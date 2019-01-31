@@ -1,18 +1,3 @@
-pkg = import('pkgconfig')
-
-pkg.generate(
-	filebase: meson.project_name(),
-	name: meson.project_name(),
-	description: 'libparlatype, core support for parlatype',
-	version: meson.project_version(),
-	requires: [
-		'gtk+-3.0',
-	],
-	requires_private: [
-		'gstreamer-1.0',
-	],
-)
-
 glade = get_option('glade')
 
 if glade

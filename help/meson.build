@@ -9,6 +9,8 @@ media = [
 
 sources = [
 	'index.page',
+	'asr.page',
+	'asr-setup.page',
 	'drag-and-drop.page',
 	'first-steps.page',
 	'keyboard-shortcuts.page',

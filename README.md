@@ -2,113 +2,65 @@
 
 For a screenshot, an overview what Parlatype actually is and packages please visit https://gkarsay.github.io/parlatype/.
 
-## Installation
+The following instructions are for developers, contributors and those who want to have the lastest version from the master branch.
+
+## Build from source
 
 ### Dependencies
 
-#### Stable version 1.5.6
-
-To build Parlatype from source you need these packages:
-* make, autotools (autoconf, automake)
-* intltool
+Parlatype switched its build system to Meson. To build it from source, you need these packages:
+* meson >= 0.47.2 (older versions not tested)
+* gettext >= 0.19.7
 * gobject-introspection-1.0
 * yelp-tools
-* gtk+-3.0 (>= 3.10)
-* gstreamer-1.0
+* gtk+-3.0 >= 3.16
+* gstreamer-1.0 >= 1.6.3
 * gstreamer-plugins-base-1.0
+* sphinxbase
+* pocketsphinx
 
 Optional, depending on your configure options:
-* gladeui-2.0 (>= 3.12.2; with `--enable-glade-catalog`)
-* gtk-doc (with `--enable-gtk-doc`)
+* gladeui-2.0 (>= 3.12.2; with `glade=true`)
+* gtk-doc (with `gtk-doc=true`)
 * desktop-file-utils (if installed, this checks the desktop file)
 * appstream-utils (if installed, this checks the appstream file)
 
-Required runtime dependencies:
-* GTK+ 3
-* GStreamer
+Runtime dependencies:
 * GStreamer "Good" Plugins
+* If you need MP3 support for GStreamer versions older than 1.14, you have to install the "Ugly" Plugins.
+* For the LibreOffice helpers obviously LibreOffice (>= 4) and also libreoffice-script-provider-python (Debian) or libreoffice-pyuno (Fedora)
 
-If using GStreamer 1.14+, MP3 support is included in the "Good" Plugins, so nothing else is needed.
-Otherwise, optional runtime dependencies to support MP3 files:
-* GStreamer "Ugly" Plugins (only with GStreamer <= 1.12)
-
-Optional runtime dependencies, if you want to use LibreOffice macros:
-* LibreOffice (>= 4)
-* libreoffice-script-provider-python (Debian only)
-
-On a Debian based distro you can install all these with:
+Debian based distros have to be Debian >= 9 (Stretch) or Ubuntu >= 18.04 (Bionic). On Debian Stretch meson must be installed from backports. Install these packages:
 
 ```
-$ sudo apt-get install build-essential automake autoconf intltool libgirepository1.0-dev libgladeui-dev gtk-doc-tools yelp-tools libgtk-3-dev libgtk-3-0 libgstreamer1.0-dev libgstreamer1.0-0 libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly libreoffice-script-provider-python
+$ sudo apt-get install meson build-essential libgirepository1.0-dev libgladeui-dev gtk-doc-tools yelp-tools libgtk-3-dev libgtk-3-0 libgstreamer1.0-dev libgstreamer1.0-0 libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly libreoffice-script-provider-python libsphinxbase-dev libpocketsphinx-dev
 ```
 On Fedora this should work:
 
 ```
-$ su -c 'dnf install gcc automake autoconf intltool gobject-introspection-devel glade-devel gtk-doc yelp-tools gtk3-devel gstreamer1-devel gstreamer1-plugins-base-devel gstreamer1-plugins-good gstreamer1-plugins-ugly libreoffice-pyuno'
+$ su -c 'dnf install meson gcc gobject-introspection-devel glade-devel gtk-doc yelp-tools gtk3-devel gstreamer1-devel gstreamer1-plugins-base-devel gstreamer1-plugins-good gstreamer1-plugins-ugly libreoffice-pyuno sphinxbase-devel pocketsphinx-devel'
 ```
 
-
-#### Master
-
-There are a few changes in this cycle. If you build from git master the changes compared to version 1.5.6 are:
-* intltool: this dependency is dropped
-* gettext >= 0.19.7 (when cloning from git and running `./autogen.sh` for the first time, po files are regenerated once, this can be safely reverted with `git checkout .`)
-* GTK+ >= 3.16
-* GStreamer >= 1.6.3
-* Autoconf macro AX_REQUIRE_DEFINED required; provided by package `autoconf-archive`
-* Autoconf macro APPSTREAM_XML required; provided e.g. by package `appstream-util` on Debian or `libappstream-glib-devel` on Fedora
-
-### Building 
-
-#### Configure options
+### Configure options
 
 Parlatype ships its own library, libparlatype. Developers might be interested in having a library documentation, gobject introspection and a glade catalog for the widgets. These are the configure options:
 
-* `--with-libreoffice`: install LibreOffice macros (default: yes)
-* `--enable-introspection`: install gobject introspection (default: yes)
-* `--enable-tests`: build unit tests (default: yes) – please note that these tests need a runtime environment and will fail in a pure build environment
-* `--enable-gtk-doc`: install library documentation (default: no)
-* `--enable-glade-catalog`: install a glade catalog (default: no)
-* `--enable-code-coverage`: enable gcov/lcov code coverage (default: no)
+* `libreoffice`: install LibreOffice macros (default: true)
+* `libreoffice-dir`: installation folder for LibreOffice macros (default: /usr/lib/libreoffice/share/Scripts/python)
+* `gir`: install gobject introspection (default: false)
+* `gtk-doc`: install library documentation (default: false)
+* `glade`: install a glade catalog (default: false)
 
-If you want the program only, you would use `--prefix=/usr --disable-introspection`.
-
-#### From git
-Clone the repository and run autogen.sh. Assuming you want the program only:
+### Build from git
+Clone the repository and build with meson. You can use any prefix but you may have to adjust the library path for other prefixes.
 ```
 $ git clone https://github.com/gkarsay/parlatype.git
 $ cd parlatype
-$ ./autogen.sh --prefix=/usr --disable-introspection
-$ make
-$ sudo make install
+$ meson build --prefix=/usr
+$ cd build
+$ ninja
+$ sudo ninja install
 ```
-
-#### From tarball
-Download the latest release tarball from https://github.com/gkarsay/parlatype/releases/latest. Assuming it's version 1.5.6 and you want the program only:
-```
-$ wget https://github.com/gkarsay/parlatype/releases/download/v1.5.6/parlatype-1.5.6.tar.gz
-$ tar -zxvf parlatype-1.5.6.tar.gz
-$ cd parlatype-1.5.6/
-$ autoreconf # might be necessary
-$ ./configure --prefix=/usr --disable-introspection
-$ make
-$ sudo make install
-```
-
-### LibreOffice helpers
-The LibreOffice helpers/macros are installed together with Parlatype. However, this works only fine with `--prefix=/usr`. If you use a different prefix, it’s recommended to
-```
-$ ./configure --without-libreoffice
-```
-In this case, please copy the macros manually:
-```
-$ sudo cp libreoffice/Parlatype.py /usr/lib/libreoffice/share/Scripts/python/
-```
-If you don’t want to install them system-wide, you can put them in your home dir instead:
-```
-$ cp libreoffice/Parlatype.py ~/.config/libreoffice/4/user/Scripts/python/
-```
-There is an integrated help in Parlatype with a page describing how to use the LibreOffice helpers.
 
 ## Bugs
 Please report bugs at https://github.com/gkarsay/parlatype/issues.

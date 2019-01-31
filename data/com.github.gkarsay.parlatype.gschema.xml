@@ -90,5 +90,10 @@
 			<summary>Timestamp fraction separator</summary>
 			<description>Timestamp fraction separator, only "." and "-" are allowed.</description>
 		</key>
+		<key name="asr-config" type="s">
+			<default>"none"</default>
+			<summary>ID of active ASR configuration</summary>
+			<description>ID of active ASR configuration</description>
+		</key>
 	</schema>
 </schemalist>

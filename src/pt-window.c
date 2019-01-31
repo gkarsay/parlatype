@@ -1,4 +1,4 @@
-/* Copyright (C) Gabor Karsay 2016-2018 <gabor.karsay@gmx.at>
+/* Copyright (C) Gabor Karsay 2016-2019 <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -26,6 +26,7 @@
 #include <pt-progress-dialog.h>
 #include <pt-waveviewer.h>
 #include "pt-app.h"
+#include "pt-asr-assistant.h"
 #include "pt-dbus-service.h"
 #include "pt-goto-dialog.h"
 #include "pt-mediakeys.h"
@@ -170,7 +171,168 @@ zoom_out (GSimpleAction *action,
 	set_zoom (win->priv->editor, -25);
 }
 
+static void
+setup_sphinx (PtWindow *win)
+{
+	GError *error = NULL;
+
+	pt_asr_settings_apply_config (
+			win->priv->asr_settings,
+			g_settings_get_string (win->priv->editor, "asr-config"),
+			win->priv->player);
+
+	pt_player_setup_sphinx (win->priv->player, &error);
+	if (error) {
+		pt_error_message (win, error->message, NULL);
+		g_clear_error (&error);
+	}
+}
+
+static void
+asr_output_search_cancelled_cb (PtAsrOutput *output,
+                                PtWindow    *win)
+{
+	GAction  *action;
+	GVariant *state;
+
+	g_signal_handler_disconnect (win->priv->output, win->priv->output_handler_id1);
+	g_signal_handler_disconnect (win->priv->output, win->priv->output_handler_id2);
+	g_clear_object (&win->priv->output);
+
+	action = g_action_map_lookup_action (G_ACTION_MAP (win), "mode");
+	state = g_variant_new_string ("playback");
+	g_simple_action_set_state (G_SIMPLE_ACTION (action), state);
+}
+
+static void
+asr_output_app_found_cb (PtAsrOutput *output,
+                         PtWindow    *win)
+{
+	GApplication  *app;
+	GNotification *notification;
+	gchar         *summary;
+	gchar         *message;
+
+	g_signal_handler_disconnect (win->priv->output, win->priv->output_handler_id1);
+	g_signal_handler_disconnect (win->priv->output, win->priv->output_handler_id2);
+
+	summary = g_strdup_printf (_("Found %s"), pt_asr_output_get_app_name (output));
+	message = _("Press \"Play\" to start automatic speech recognition.");
+	notification = g_notification_new (summary);
+	g_notification_set_body (notification, message);
+	app = G_APPLICATION (gtk_window_get_application (GTK_WINDOW (win)));
+	g_application_send_notification (app, "app-found", notification);
+
+	setup_sphinx (win);
+
+	g_application_withdraw_notification (app, "app-found");
+	g_object_unref (notification);
+	g_free (summary);
+}
+
+static void
+set_mode_asr (PtWindow *win)
+{
+	win->priv->output = pt_asr_output_new ();
+	win->priv->output_handler_id1 = g_signal_connect (
+			win->priv->output, "app-found",
+			G_CALLBACK (asr_output_app_found_cb), win);
+	win->priv->output_handler_id2 = g_signal_connect (
+			win->priv->output, "search-cancelled",
+			G_CALLBACK (asr_output_search_cancelled_cb), win);
+	pt_asr_output_search_app (win->priv->output, GTK_WINDOW (win));
+}
+
+static void
+asr_assistant_cancel_cb (GtkAssistant *assistant,
+                         gpointer      user_data)
+{
+	gtk_widget_destroy (GTK_WIDGET (assistant));
+}
+
+static void
+asr_assistant_close_cb (GtkAssistant *assistant,
+                        PtWindow     *win)
+{
+	gchar            *name;
+	gchar            *id;
+
+	name = pt_asr_assistant_get_name (PT_ASR_ASSISTANT (assistant));
+	id = pt_asr_assistant_save_config (
+			PT_ASR_ASSISTANT (assistant), win->priv->asr_settings);
+	g_settings_set_string (win->priv->editor, "asr-config", id);
+
+	gtk_widget_destroy (GTK_WIDGET (assistant));
+	g_free (name);
+	g_free (id);
+}
+
+static void
+launch_asr_assistant (PtWindow *win)
+{
+	GtkWidget *assistant;
+
+	assistant = GTK_WIDGET (pt_asr_assistant_new (GTK_WINDOW (win)));
+	g_signal_connect (assistant, "cancel", G_CALLBACK (asr_assistant_cancel_cb), NULL);
+	g_signal_connect (assistant, "close", G_CALLBACK (asr_assistant_close_cb), win);
+	gtk_widget_show (assistant);
+}
+
+static void
+set_mode_playback (PtWindow *win)
+{
+	GError *error = NULL;
+
+	pt_player_setup_player (win->priv->player, &error);
+	if (error) {
+		pt_error_message (win, error->message, NULL);
+		g_clear_error (&error);
+	}
+}
+
+void
+change_mode (GSimpleAction *action,
+             GVariant      *state,
+             gpointer       user_data)
+{
+	PtWindow *win = PT_WINDOW (user_data);
+	const gchar *mode;
+
+	if (!win->priv->asr_settings) {
+		GtkApplication *app;
+		app = gtk_window_get_application (GTK_WINDOW (win));
+		win->priv->asr_settings = g_object_ref (pt_app_get_asr_settings (PT_APP (app)));
+	}
+
+	mode = g_variant_get_string (state, NULL);
+	if (g_strcmp0 (mode, "playback") == 0) {
+		g_clear_object (&win->priv->output);
+		set_mode_playback (win);
+	} else if (g_strcmp0 (mode, "asr") == 0) {
+		if (pt_asr_settings_have_configs (win->priv->asr_settings)) {
+			/* TODO && have config saved in GSettings */
+			set_mode_asr (win);
+		} else {
+			launch_asr_assistant (win);
+			return;
+		}
+	} else {
+		g_assert_not_reached ();
+	}
+
+	g_simple_action_set_state (action, state);
+
+	/* On changing state the menu doesn't close. It seems better to close
+	   it just like every other menu item closes the menu.
+	   Just in case this behaviour changes in the future, check if the
+	   menu is really open. */
+
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->priv->primary_menu_button)))
+		gtk_button_clicked (GTK_BUTTON (win->priv->primary_menu_button));
+}
+
 const GActionEntry win_actions[] = {
+	{ "mode", NULL, "s", "'playback'", change_mode },
 	{ "copy", copy_timestamp, NULL, NULL, NULL },
 	{ "insert", insert_timestamp, NULL, NULL, NULL },
 	{ "goto", goto_position, NULL, NULL, NULL },
@@ -393,7 +555,11 @@ static void
 enable_win_actions (PtWindow *win,
 		    gboolean  state)
 {
-	GAction      *action;
+	GAction *action;
+
+	/* always active */
+	action = g_action_map_lookup_action (G_ACTION_MAP (win), "mode");
+	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), TRUE);
 
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "copy");
 	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
@@ -541,6 +707,7 @@ player_error_cb (PtPlayer *player,
 	destroy_progress_dlg (win);
 	pt_window_ready_to_play (win, FALSE);
 	pt_error_message (win, error->message, NULL);
+	/* TODO clear error? */
 }
 
 static void
@@ -729,6 +896,23 @@ speed_changed_cb (GtkRange *range,
 {
 	win->priv->speed = gtk_range_get_value (range);
 	pt_player_set_speed (win->priv->player, win->priv->speed);
+}
+
+
+static void
+player_asr_final_cb (PtPlayer *player,
+                     gchar    *word,
+                     PtWindow *win)
+{
+	pt_asr_output_final (win->priv->output, word);
+}
+
+static void
+player_asr_hypothesis_cb (PtPlayer *player,
+                          gchar    *word,
+                          PtWindow *win)
+{
+	pt_asr_output_hypothesis (win->priv->output, word);
 }
 
 void
@@ -969,6 +1153,8 @@ setup_player (PtWindow *win)
                         "GStreamer and make sure you have the \"Good Plugins\" installed.\n"
                         "Parlatype will quit now, it received this error message: %s"), error->message);
 		pt_error_message (win, _("Fatal error"), secondary_message);
+		g_clear_error (&error);
+		g_free (secondary_message);
 		exit (2);
 	}
 
@@ -1005,6 +1191,16 @@ setup_player (PtWindow *win)
 			win->priv->volumebutton, "value",
 			win->priv->player, "volume",
 			G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+
+	g_signal_connect (win->priv->player,
+			"asr-final",
+			G_CALLBACK (player_asr_final_cb),
+			win);
+
+	g_signal_connect (win->priv->player,
+			"asr-hypothesis",
+			G_CALLBACK (player_asr_hypothesis_cb),
+			win);
 }
 
 static void
@@ -1021,13 +1217,12 @@ setup_accels_actions_headerbar (PtWindow *win)
 	/* GtkHeader workaround for glade 3.16 + Menu button */
 	GtkBuilder    *builder;
 	GtkWidget     *hbar;
-	GtkWidget     *primary_menu_button;
 	GMenuModel    *primary_menu;
 
 	builder = gtk_builder_new_from_resource ("/com/github/gkarsay/parlatype/window-headerbar.ui");
 	hbar = GTK_WIDGET (gtk_builder_get_object (builder, "headerbar"));
 	win->priv->button_open = GTK_WIDGET (gtk_builder_get_object (builder, "button_open"));
-	primary_menu_button = GTK_WIDGET (gtk_builder_get_object (builder, "primary_menu_button"));
+	win->priv->primary_menu_button = GTK_WIDGET (gtk_builder_get_object (builder, "primary_menu_button"));
 	gtk_window_set_titlebar (GTK_WINDOW (win), hbar);
 	gtk_builder_connect_signals (builder, win);
 	g_object_unref (builder);
@@ -1035,7 +1230,7 @@ setup_accels_actions_headerbar (PtWindow *win)
 	builder = gtk_builder_new_from_resource ("/com/github/gkarsay/parlatype/menus.ui");
 	primary_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "primary-menu"));
 	win->priv->secondary_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "secondary-menu"));
-	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (primary_menu_button), primary_menu);
+	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (win->priv->primary_menu_button), primary_menu);
 	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (win->priv->pos_menu_button), win->priv->secondary_menu);
 	g_object_unref (builder);
 	win->priv->go_to_timestamp = g_menu_item_new (_("Go to time in clipboard"), "win.insert");
@@ -1046,7 +1241,7 @@ setup_accels_actions_headerbar (PtWindow *win)
 	gtk_window_add_accel_group (GTK_WINDOW (win), win->priv->accels);
 	
 	gtk_widget_add_accelerator (
-			primary_menu_button,
+			win->priv->primary_menu_button,
 			"clicked",
 			win->priv->accels,
 			GDK_KEY_F10,
@@ -1100,6 +1295,10 @@ pt_window_init (PtWindow *win)
 	setup_mediakeys (win);		/* this is in pt_mediakeys.c */
 	pt_window_setup_dnd (win);	/* this is in pt_window_dnd.c */
 	setup_dbus_service (win);	/* this is in pt_dbus_service.c */
+	win->priv->asr_settings = NULL;
+	win->priv->output = NULL;
+	win->priv->output_handler_id1 = 0;
+	win->priv->output_handler_id2 = 0;
 	win->priv->recent = gtk_recent_manager_get_default ();
 	win->priv->timer = 0;
 	win->priv->progress_dlg = NULL;
@@ -1156,6 +1355,8 @@ pt_window_dispose (GObject *object)
 	g_clear_object (&win->priv->proxy);
 	destroy_progress_dlg (win);
 	g_clear_object (&win->priv->player);
+	g_clear_object (&win->priv->output);
+	g_clear_object (&win->priv->asr_settings);
 
 	G_OBJECT_CLASS (pt_window_parent_class)->dispose (object);
 }

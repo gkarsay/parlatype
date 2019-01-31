@@ -19,12 +19,15 @@
 
 #include "config.h"
 #include <gtk/gtk.h>
+#include <pt-asr-output.h>
 #include <pt-player.h>
 #include <pt-wavedata.h>
 
 struct _PtWindowPrivate
 {
 	GSettings	 *editor;
+	PtAsrSettings    *asr_settings;
+	PtAsrOutput      *output;
 	GDBusProxy	 *proxy;
 	gint              dbus_watch_id;
 	GtkRecentManager *recent;
@@ -34,10 +37,17 @@ struct _PtWindowPrivate
 	GtkWidget  *progress_dlg;
 	gint	    progress_handler_id;
 
+	guint       output_handler_id1;
+	guint       output_handler_id2;
+
 	GtkClipboard *clip;
 	gulong        clip_handler_id;
 
+	/* Headerbar widgets */
 	GtkWidget  *button_open;
+	GtkWidget  *primary_menu_button;
+
+	/* Main window widgets */
 	GtkWidget  *button_play;
 	GtkWidget  *button_fast_back;	  // not used
 	GtkWidget  *button_fast_forward;  // not used

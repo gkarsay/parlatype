@@ -1,4 +1,4 @@
-/* Copyright (C) Gabor Karsay 2016–2018 <gabor.karsay@gmx.at>
+/* Copyright (C) Gabor Karsay 2016–2019 <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -16,43 +16,38 @@
 
 
 #include "config.h"
-#include <stdlib.h>		/* exit() */
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>	
-#include "pt-app.h"
-#include "pt-window.h"
 #include "pt-preferences.h"
+#include "pt-window.h"
+#include "pt-app.h"
 
-struct _PtApp
+struct _PtAppPrivate
 {
-	GtkApplication parent;
+	gboolean       atspi;
+	PtAsrSettings *asr_settings;
 };
 
-struct _PtAppClass
-{
-	GtkApplicationClass parent_class;
-};
 
-G_DEFINE_TYPE (PtApp, pt_app, GTK_TYPE_APPLICATION);
+G_DEFINE_TYPE_WITH_PRIVATE (PtApp, pt_app, GTK_TYPE_APPLICATION);
 
-static gboolean G_GNUC_NORETURN
-option_version_cb (const gchar *option_name,
-                   const gchar *value,
-                   gpointer     data,
-                   GError     **error)
-{
-	g_print ("%s %s\n", PACKAGE, VERSION);
-	exit (0);
-}
 
 static GOptionEntry options[] =
 {
 	{ "version",
 	  'v',
-	  G_OPTION_FLAG_NO_ARG,
-	  G_OPTION_ARG_CALLBACK,
-	  option_version_cb,
+	  G_OPTION_FLAG_NONE,
+	  G_OPTION_ARG_NONE,
+	  NULL,
 	  N_("Show the application's version"),
+	  NULL
+	},
+	{ "textpad",
+	  't',
+	  G_OPTION_FLAG_NONE,
+	  G_OPTION_ARG_NONE,
+	  NULL,
+	  N_("Use internal textpad for automatic speech recognition"),
 	  NULL
 	},
 	{ NULL }
@@ -234,6 +229,18 @@ const GActionEntry app_actions[] = {
 	{ "quit", quit_cb, NULL, NULL, NULL }
 };
 
+PtAsrSettings*
+pt_app_get_asr_settings (PtApp *app)
+{
+	return app->priv->asr_settings;
+}
+
+gboolean
+pt_app_get_atspi (PtApp *app)
+{
+	return app->priv->atspi;
+}
+
 static void
 pt_app_startup (GApplication *app)
 {
@@ -324,18 +331,80 @@ pt_app_open (GApplication  *app,
 	g_free (uri);
 }
 
-static void
-pt_app_class_init (PtAppClass *class)
+static gint
+pt_app_handle_local_options (GApplication *application,
+                             GVariantDict *options)
 {
-	G_APPLICATION_CLASS (class)->open = pt_app_open;
-	G_APPLICATION_CLASS (class)->activate = pt_app_activate;
-	G_APPLICATION_CLASS (class)->startup = pt_app_startup;
+	PtApp *app = PT_APP (application);
+
+	if (g_variant_dict_contains (options, "version")) {
+		g_print ("%s %s\n", PACKAGE, VERSION);
+		return 0;
+	}
+
+	if (g_variant_dict_contains (options, "textpad")) {
+		app->priv->atspi = FALSE;
+	}
+
+	return -1;
+}
+
+static gchar*
+get_asr_settings_filename (void)
+{
+	const gchar *userdir;
+	gchar	    *configdir;
+	GFile	    *create_dir;
+	gchar       *filename;
+
+	userdir = g_get_user_data_dir ();
+	configdir = g_build_path ("/", userdir, PACKAGE, NULL);
+	create_dir = g_file_new_for_path (configdir);
+	g_file_make_directory (create_dir, NULL, NULL);
+	filename = g_build_filename (configdir, "asr.ini", NULL);
+
+	g_free (configdir);
+	g_object_unref (create_dir);
+
+	return filename;
 }
 
 static void
 pt_app_init (PtApp *app)
 {
+	app->priv = pt_app_get_instance_private (app);
+
 	g_application_add_main_option_entries (G_APPLICATION (app), options);
+
+	app->priv->atspi = TRUE;
+
+	gchar *asr_settings_filename;
+	asr_settings_filename = get_asr_settings_filename ();
+	app->priv->asr_settings = pt_asr_settings_new (asr_settings_filename);
+	g_free (asr_settings_filename);
+}
+
+static void
+pt_app_finalize (GObject *object)
+{
+	PtApp *app = PT_APP (object);
+
+	g_clear_object (&app->priv->asr_settings);
+
+	G_OBJECT_CLASS (pt_app_parent_class)->dispose (object);
+}
+
+static void
+pt_app_class_init (PtAppClass *klass)
+{
+	GApplicationClass    *gapp_class    = G_APPLICATION_CLASS (klass);
+	GObjectClass         *gobject_class = G_OBJECT_CLASS (klass);
+
+	gobject_class->finalize          = pt_app_finalize;
+	gapp_class->open                 = pt_app_open;
+	gapp_class->activate             = pt_app_activate;
+	gapp_class->startup              = pt_app_startup;
+	gapp_class->handle_local_options = pt_app_handle_local_options;
 }
 
 PtApp *
