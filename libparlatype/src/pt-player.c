@@ -224,11 +224,14 @@ metadata_save_position (PtPlayer *player)
 			&error);
 	
 	if (error) {
-		g_printerr ("%s\n", error->message);
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+			          "MESSAGE", "Position not saved: %s", error->message);
 		g_error_free (error);
+	} else {
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
+			          "MESSAGE", "Position saved");
 	}
 
-	g_debug ("metadata: position saved");
 	g_object_unref (file);
 	g_object_unref (info);
 }
@@ -251,7 +254,8 @@ metadata_get_position (PtPlayer *player)
 
 	info = g_file_query_info (file, METADATA_POSITION, G_FILE_QUERY_INFO_NONE, NULL, &error);
 	if (error) {
-		g_printerr ("%s\n", error->message);
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+			          "MESSAGE", "Metadata not retrieved: %s", error->message);
 		g_error_free (error);
 		g_object_unref (file);
 		return;
@@ -1343,7 +1347,8 @@ pt_player_get_filename (PtPlayer *player)
 		return NULL;
 
 	if (error) {
-		g_printerr ("%s\n", error->message);
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+			          "MESSAGE", "File attributes not retrieved: %s", error->message);
 		g_error_free (error);
 		g_object_unref (file);
 		return NULL;

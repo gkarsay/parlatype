@@ -62,7 +62,8 @@ pt_asr_settings_save_keyfile (PtAsrSettings *settings)
 			&error);
 
 	if (error) {
-		g_printerr ("%s\n", error->message);
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+			          "MESSAGE", "Keyfile not saved: %s", error->message);
 		g_error_free (error);
 	}		
 
@@ -120,7 +121,8 @@ pt_asr_settings_get_int (PtAsrSettings *settings,
 			id, field, &error);
 	
 	if (error) {
-		g_printerr ("%s\n", error->message);
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+			          "MESSAGE", "Keyfile value not retrieved: %s", error->message);
 		g_error_free (error);
 	}		
 
@@ -176,7 +178,8 @@ pt_asr_settings_get_boolean (PtAsrSettings *settings,
 			id, field, &error);
 	
 	if (error) {
-		g_printerr ("%s\n", error->message);
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+			          "MESSAGE", "Keyfile value not retrieved: %s", error->message);
 		g_error_free (error);
 	}		
 
@@ -233,7 +236,8 @@ pt_asr_settings_get_string (PtAsrSettings *settings,
 			id, field, &error);
 	
 	if (error) {
-		g_printerr ("%s\n", error->message);
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+			          "MESSAGE", "Keyfile value not retrieved: %s", error->message);
 		g_error_free (error);
 	}		
 
@@ -350,7 +354,8 @@ pt_asr_settings_remove_config (PtAsrSettings *settings,
 
 	result = g_key_file_remove_group (settings->priv->keyfile, id, &error);
 	if (error) {
-		g_printerr ("%s\n", error->message);
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+			          "MESSAGE", "Removing group failed: %s", error->message);
 		g_error_free (error);
 		return result;
 	}		
@@ -429,7 +434,8 @@ pt_asr_settings_constructed (GObject *object)
 					G_KEY_FILE_KEEP_COMMENTS,
 					NULL);
 		} else {
-			g_printerr ("%s\n", error->message);
+			g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+					  "MESSAGE", "Key file not loaded: %s", error->message);
 		}
 		g_error_free (error);
 	}		
