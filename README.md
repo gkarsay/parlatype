@@ -16,6 +16,7 @@ Parlatype switched its build system to Meson. To build it from source, you need 
 * gtk+-3.0 >= 3.22
 * gstreamer-1.0 >= 1.6.3
 * gstreamer-plugins-base-1.0
+* atspi-2
 * sphinxbase
 * pocketsphinx
 
@@ -33,12 +34,12 @@ Runtime dependencies:
 Debian based distros have to be Debian >= 9 (Stretch) or Ubuntu >= 18.04 (Bionic). On Debian Stretch meson must be installed from backports. Install these packages:
 
 ```
-$ sudo apt-get install meson build-essential libgirepository1.0-dev libgladeui-dev gtk-doc-tools yelp-tools libgtk-3-dev libgtk-3-0 libgstreamer1.0-dev libgstreamer1.0-0 libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly libreoffice-script-provider-python libsphinxbase-dev libpocketsphinx-dev
+$ sudo apt-get install meson build-essential libgirepository1.0-dev libgladeui-dev gtk-doc-tools yelp-tools libgtk-3-dev libgtk-3-0 libgstreamer1.0-dev libgstreamer1.0-0 libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly libreoffice-script-provider-python libatspi2.0-dev libsphinxbase-dev libpocketsphinx-dev
 ```
 On Fedora this should work:
 
 ```
-$ su -c 'dnf install meson gcc gobject-introspection-devel glade-devel gtk-doc yelp-tools gtk3-devel gstreamer1-devel gstreamer1-plugins-base-devel gstreamer1-plugins-good gstreamer1-plugins-ugly libreoffice-pyuno sphinxbase-devel pocketsphinx-devel'
+$ su -c 'dnf install meson gcc gobject-introspection-devel glade-devel gtk-doc yelp-tools gtk3-devel gstreamer1-devel gstreamer1-plugins-base-devel gstreamer1-plugins-good gstreamer1-plugins-ugly libreoffice-pyuno at-spi2-core-devel sphinxbase-devel pocketsphinx-devel'
 ```
 
 ### Configure options
