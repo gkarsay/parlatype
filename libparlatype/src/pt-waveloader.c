@@ -217,8 +217,6 @@ bus_handler (GstBus     *bus,
 	GTask *task = (GTask *) data;
 	PtWaveloader *wl = g_task_get_source_object (task);
 
-	g_debug ("Message: %s; sent by: %s", GST_MESSAGE_TYPE_NAME (msg), GST_MESSAGE_SRC_NAME (msg));
-
 	switch (GST_MESSAGE_TYPE (msg)) {
 	case GST_MESSAGE_ERROR: {
 		gchar    *debug;
@@ -226,8 +224,8 @@ bus_handler (GstBus     *bus,
 
 		remove_timeout (wl);
 		gst_message_parse_error (msg, &error, &debug);
-		g_debug ("ERROR from element %s: %s", GST_OBJECT_NAME (msg->src), error->message);
-		g_debug ("Debugging info: %s", (debug) ? debug : "none");
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+				  "MESSAGE", "Error from element %s: %s", GST_OBJECT_NAME (msg->src), error->message);
 		g_free (debug);
 		wl->priv->bus_watch_id = 0;
 		g_task_return_error (task, error);
@@ -261,8 +259,9 @@ bus_handler (GstBus     *bus,
 			gst_object_unref (pad);
 		}
 
-		g_debug ("sample decoded: channels=%d, rate=%d, length=%" GST_TIME_FORMAT,
-			wl->priv->channels, wl->priv->rate, GST_TIME_ARGS (wl->priv->duration));
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+				  "MESSAGE", "sample decoded: channels=%d, rate=%d, length=%" GST_TIME_FORMAT,
+		                  wl->priv->channels, wl->priv->rate, GST_TIME_ARGS (wl->priv->duration));
 
 		remove_timeout (wl);
 		wl->priv->bus_watch_id = 0;
@@ -418,9 +417,9 @@ pt_waveloader_get_data (PtWaveloader *wl,
 	/* stat temp file, query size in bytes and compute number of samples */
 	struct stat buf;
 
-	g_debug ("breakpoint 1");
 	if (fstat (wl->priv->fd, &buf) != 0) {
-		g_debug (_("Failed to open temporary file."));
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+			          "MESSAGE", "Failed to open temporary file");
 		return NULL;
 	}
 
@@ -438,23 +437,29 @@ pt_waveloader_get_data (PtWaveloader *wl,
 
 	/* Data size should match exactly duration or less, but sometimes it doesn't ... */
 	while (calculate_duration (wl->priv->data_size, pps) > GST_TIME_AS_MSECONDS (wl->priv->duration)) {
-		g_debug ("adjusting array size");
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+			          "MESSAGE", "Adjusting array size");
 		wl->priv->data_size -= 2 * wl->priv->channels;
 	}
 
-	g_debug ("array size: %" G_GINT64_FORMAT " ", wl->priv->data_size);
-	g_debug ("samples: %" G_GINT64_FORMAT " ", wl->priv->data_size / 2 * wl->priv->channels);
-	g_debug ("pixels per sec: %d", pps);
+	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+		          "MESSAGE", "Array size: %" G_GINT64_FORMAT " ", wl->priv->data_size);
+	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+		          "MESSAGE", "samples: %" G_GINT64_FORMAT " ", wl->priv->data_size / 2 * wl->priv->channels);
+	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+		          "MESSAGE", "pixels per sec: %d", pps);
 
 	gint16 temp[chunk_size];
 
 	if (!(array = g_try_malloc (sizeof (gfloat) * wl->priv->data_size))) {
-		g_debug	("sample is too long or empty");
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+			          "MESSAGE", "Sample is too long or empty");
 		return NULL;
 	}
 
 	if (lseek (wl->priv->fd, 0, SEEK_SET) != 0) {
-		g_debug ("sample not loaded!!!");
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+			          "MESSAGE", "Sample not loaded");
 		return NULL;
 	}
 
@@ -483,7 +488,6 @@ pt_waveloader_get_data (PtWaveloader *wl,
 					    pps);
 
 	g_free (array);
-	g_debug ("waveloader get data finished");
 	return data;
 }
 
@@ -498,7 +502,9 @@ pt_waveloader_init (PtWaveloader *wl)
 	GError *gst_error = NULL;
 	gst_init_check (NULL, NULL, &gst_error);
 	if (gst_error) {
-		g_debug ("PtWaveloader failed to init GStreamer");
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_ERROR,
+			          "MESSAGE", "PtWaveloader failed to init GStreamer: %s", gst_error->message);
+		g_clear_error (&gst_error);
 	}
 
 	wl->priv->pipeline = NULL;

@@ -267,7 +267,8 @@ metadata_get_position (PtPlayer *player)
 		g_free (value);
 
 		if (pos > 0) {
-			g_debug ("metadata: got position");
+			g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
+					  "MESSAGE", "Metadata: got position");
 		}
 	}
 		
@@ -306,10 +307,6 @@ bus_call (GstBus     *bus,
 	PtPlayer *player = (PtPlayer *) data;
 	gint64    pos;
 
-	/*g_debug ("Message: %s; sent by: %s",
-			GST_MESSAGE_TYPE_NAME (msg),
-			GST_MESSAGE_SRC_NAME (msg));*/
-
 	switch (GST_MESSAGE_TYPE (msg)) {
 	case GST_MESSAGE_SEGMENT_DONE:
 		/* From GStreamer documentation:
@@ -323,8 +320,9 @@ bus_call (GstBus     *bus,
 		   with mp3s. Jump to the real end. */
 		pt_player_query_position (player, &pos);
 		if (pos != player->priv->segend) {
-			g_debug ("correcting EOS position: %" G_GINT64_FORMAT " ms",
-				 GST_TIME_AS_MSECONDS (player->priv->segend - pos));
+			g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+					  "MESSAGE", "Correcting EOS position: %" G_GINT64_FORMAT " ms",
+					  GST_TIME_AS_MSECONDS (player->priv->segend - pos));
 			pt_player_seek (player, player->priv->segend);
 		}
 		g_signal_emit_by_name (player, "end-of-stream");
@@ -335,8 +333,11 @@ bus_call (GstBus     *bus,
 		GError *error;
 
 		gst_message_parse_error (msg, &error, &debug);
-		g_debug ("ERROR from element %s: %s", GST_OBJECT_NAME (msg->src), error->message);
-		g_debug ("Debugging info: %s", (debug) ? debug : "none");
+
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+				  "MESSAGE", "Error from element %s: %s", GST_OBJECT_NAME (msg->src), error->message);
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+				  "MESSAGE", "Debugging info: %s", (debug) ? debug : "none");
 		g_free (debug);
 
 		g_signal_emit_by_name (player, "error", error);
@@ -917,10 +918,10 @@ pt_player_jump_relative (PtPlayer *player,
 		return;
 	
 	new = pos + GST_MSECOND * (gint64) milliseconds;
-	g_debug ("jump relative:\n"
-			"dur = %" G_GINT64_FORMAT "\n"
-			"new = %" G_GINT64_FORMAT,
-			player->priv->dur, new);
+	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+		          "MESSAGE", "Jump relative: dur = %" G_GINT64_FORMAT, player->priv->dur);
+	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+		          "MESSAGE", "Jump relative: new = %" G_GINT64_FORMAT, new);
 
 	if (new > player->priv->segend)
 		new = player->priv->segend;
@@ -1010,11 +1011,12 @@ pt_player_jump_to_position (PtPlayer *player,
 	pos = GST_MSECOND * (gint64) milliseconds;
 
 	if (pos > player->priv->segend || pos < player->priv->segstart) {
-		g_debug ("jump to position failed\n"
-				"start = %" G_GINT64_FORMAT "\n"
-				"pos   = %" G_GINT64_FORMAT "\n"
-				"end   = %" G_GINT64_FORMAT,
-				player->priv->segstart, pos, player->priv->segend);
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+				  "MESSAGE", "Jump to position failed: start = %" G_GINT64_FORMAT, player->priv->segstart);
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+				  "MESSAGE", "Jump to position failed: pos   = %" G_GINT64_FORMAT, pos);
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+				  "MESSAGE", "Jump to position failed: end   = %" G_GINT64_FORMAT, player->priv->segend);
 		return;
 	}
 

@@ -59,7 +59,8 @@ pt_wavedata_copy (PtWavedata *data)
 	new = g_new0 (PtWavedata, 1);
 	
 	if (!(new->array = g_try_malloc (sizeof (gfloat) * data->length))) {
-		g_debug	("copying wavedata failed");
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+			          "MESSAGE", "Copying wavedata failed");
 		return data;
 	}
 
@@ -79,8 +80,6 @@ pt_wavedata_copy (PtWavedata *data)
  */
 void pt_wavedata_free (PtWavedata *data)
 {
-	g_debug ("pt wavedata free");
-
 	if (!data)
 		return;
 
@@ -105,13 +104,12 @@ pt_wavedata_new (gfloat *array,
 		 guint   channels,
 		 guint   px_per_sec)
 {
-	g_debug ("pt wavedata new");
-
 	PtWavedata *data;
 	data = g_new0 (PtWavedata, 1);
 
 	if (!(data->array = g_try_malloc (sizeof (gfloat) * length))) {
-		g_debug	("creating new wavedata failed");
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+			          "MESSAGE", "Creating new wavedata failed");
 		return data;
 	}
 	

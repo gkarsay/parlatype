@@ -943,7 +943,8 @@ copy_wavedata (PtWaveviewer *self,
 		return FALSE;
 
 	if (!(self->priv->peaks = g_malloc (sizeof (gfloat) * data->length))) {
-		g_debug	("waveviewer failed to allocate memory");
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+			          "MESSAGE", "Waveviewer failed to allocate memory");
 		return FALSE;
 	}
 
@@ -1069,8 +1070,6 @@ pt_waveviewer_set_property (GObject      *object,
 static void
 pt_waveviewer_constructed (GObject *object)
 {
-	g_debug ("waveviewer constructed");
-
 	PtWaveviewer *self = PT_WAVEVIEWER (object);
 	self->priv->adj = gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (self));
 	g_signal_connect (gtk_scrolled_window_get_hscrollbar (GTK_SCROLLED_WINDOW (self)),
