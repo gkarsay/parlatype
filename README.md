@@ -2,7 +2,7 @@
 
 For a screenshot, an overview what Parlatype actually is and packages please visit https://gkarsay.github.io/parlatype/.
 
-The following instructions are for developers, contributors and those who want to have the lastest version from the master branch.
+The following instructions are for developers, contributors and those who want to have the latest version from the master branch.
 
 ## Build from source
 
