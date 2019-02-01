@@ -28,7 +28,7 @@ i18n = import('i18n')
 gettext_package = 'parlatype'
 
 # Checks for libraries.
-gtk = dependency('gtk+-3.0', version: '>= 3.16')
+gtk = dependency('gtk+-3.0', version: '>= 3.22')
 gmodule = dependency('gmodule-2.0')
 atspi = dependency('atspi-2')
 

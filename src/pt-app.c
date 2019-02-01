@@ -58,6 +58,7 @@ open_cb (GSimpleAction *action,
 	 GVariant      *parameter,
 	 gpointer       app)
 {
+	GtkFileChooserNative *dialog;
 	GtkWindow     *win;
 	const char    *home_path;
 	gchar         *current_uri = NULL;
@@ -67,24 +68,12 @@ open_cb (GSimpleAction *action,
 	gchar         *uri = NULL;
 
 	win = gtk_application_get_active_window (app);
-#if GTK_CHECK_VERSION(3,20,0)
-	GtkFileChooserNative *dialog;
 	dialog = gtk_file_chooser_native_new (
 			_("Open Audio File"),
 			win,
 			GTK_FILE_CHOOSER_ACTION_OPEN,
 			_("_Open"),
 			_("_Cancel"));
-#else
-	GtkWidget *dialog;
-	dialog = gtk_file_chooser_dialog_new (
-			_("Open Audio File"),
-			win,
-			GTK_FILE_CHOOSER_ACTION_OPEN,
-			_("_Cancel"), GTK_RESPONSE_CANCEL,
-			_("_Open"), GTK_RESPONSE_ACCEPT,
-			NULL);
-#endif
 
 	/* Set current folder to the folder with the currently open file
 	   or to user's home directory */
@@ -111,20 +100,13 @@ open_cb (GSimpleAction *action,
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter_all);
 	gtk_file_chooser_set_filter (GTK_FILE_CHOOSER (dialog), filter_audio);
 
-#if GTK_CHECK_VERSION(3,20,0)
 	if (gtk_native_dialog_run (GTK_NATIVE_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
-#else
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
-#endif
 		uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (dialog));
 	}
 
 	g_object_unref (dir);
-#if GTK_CHECK_VERSION(3,20,0)
 	g_object_unref (dialog);
-#else
-	gtk_widget_destroy (dialog);
-#endif
+
 	if (uri) {
 		pt_window_open_file (PT_WINDOW (win), uri);
 		g_free (uri);
@@ -152,18 +134,11 @@ help_cb (GSimpleAction *action,
 	GError *error = NULL;
 	gchar  *errmsg;
 
-#if GTK_CHECK_VERSION(3,22,0)
 	gtk_show_uri_on_window (
 			win,
 			"help:com.github.gkarsay.parlatype",
 			GDK_CURRENT_TIME,
 			&error);
-#else
-	gtk_show_uri (gtk_widget_get_screen (GTK_WIDGET (win)),
-	              "help:com.github.gkarsay.parlatype",
-	              GDK_CURRENT_TIME,
-	              &error);
-#endif
 
 	if (error) {
 		/* Translators: %s is a detailed error message */

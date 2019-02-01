@@ -13,7 +13,7 @@ Parlatype switched its build system to Meson. To build it from source, you need 
 * gettext >= 0.19.7
 * gobject-introspection-1.0
 * yelp-tools
-* gtk+-3.0 >= 3.16
+* gtk+-3.0 >= 3.22
 * gstreamer-1.0 >= 1.6.3
 * gstreamer-plugins-base-1.0
 * sphinxbase
