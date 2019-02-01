@@ -283,7 +283,7 @@ bus_handler (GstBus     *bus,
  * pt_waveloader_load_finish:
  * @wl: a #PtWaveloader
  * @result: the #GAsyncResult passed to your #GAsyncReadyCallback
- * @error: (allow-none): a pointer to a NULL #GError, or NULL
+ * @error: (nullable): a pointer to a NULL #GError, or NULL
  *
  * Gives the result of the async load operation. A cancelled operation results
  * in an error, too.
@@ -303,7 +303,7 @@ pt_waveloader_load_finish (PtWaveloader  *wl,
 /**
  * pt_waveloader_load_async:
  * @wl: a #PtWaveloader
- * @cancellable: (allow-none): a #GCancellable or NULL
+ * @cancellable: (nullable): a #GCancellable or NULL
  * @callback: (scope async): a #GAsyncReadyCallback to call when the operation is complete
  * @user_data: (closure): user_data for callback
  *
@@ -631,7 +631,7 @@ pt_waveloader_class_init (PtWaveloaderClass *klass)
 
 /**
  * pt_waveloader_new:
- * @uri: (allow-none): URI of the audio file to load
+ * @uri: (nullable): URI of the audio file to load
  *
  * Returns a new #PtWaveloader. The @uri is not checked on construction, but
  * calling pt_waveloader_load_async() will fail with an error message.

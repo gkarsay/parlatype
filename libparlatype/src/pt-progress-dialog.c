@@ -219,7 +219,7 @@ pt_progress_dialog_class_init (PtProgressDialogClass *klass)
 
 /**
  * pt_progress_dialog_new:
- * @win: (allow-none): parent window, NULL is allowed, but discouraged
+ * @win: (nullable): parent window, NULL is allowed, but discouraged
  *
  * A #GtkMessageDialog with a label "Loading file...", a progress bar and a
  * cancel button.

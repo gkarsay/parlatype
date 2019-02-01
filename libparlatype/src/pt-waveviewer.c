@@ -956,7 +956,7 @@ copy_wavedata (PtWaveviewer *self,
 /**
  * pt_waveviewer_set_wave:
  * @self: the widget
- * @data: (allow-none): a #PtWavedata
+ * @data: (nullable): a #PtWavedata
  *
  * Set wave data to show in the widget. The data is copied internally and may
  * be freed immediately after calling this function. If @data is NULL, a blank

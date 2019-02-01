@@ -416,7 +416,7 @@ load_cb (PtWaveloader *wl,
  * pt_player_open_uri_finish:
  * @player: a #PtPlayer
  * @result: the #GAsyncResult passed to your #GAsyncReadyCallback
- * @error: (allow-none): a pointer to a NULL #GError, or NULL
+ * @error: (nullable): a pointer to a NULL #GError, or NULL
  *
  * Gives the result of the async opening operation. A cancelled operation results
  * in an error, too.
@@ -547,7 +547,7 @@ quit_loop_cb (PtPlayer	   *player,
  * pt_player_open_uri:
  * @player: a #PtPlayer
  * @uri: the URI of the file
- * @error: (allow-none): return location for an error, or NULL
+ * @error: (nullable): return location for an error, or NULL
  *
  * Opens a local audio file for playback. It doesn't work with videos or streams.
  * Only one file can be open at a time, playlists are not supported by the
@@ -2088,7 +2088,7 @@ add_element (GstBin     *parent,
 /**
  * pt_player_setup_sphinx:
  * @player: a #PtPlayer
- * @error: (allow-none): return location for an error, or NULL
+ * @error: (nullable): return location for an error, or NULL
  *
  * Setup the GStreamer pipeline for automatic speech recognition using
  * CMU sphinx. This loads resources like language model and dictionary and
@@ -2131,7 +2131,7 @@ pt_player_setup_sphinx (PtPlayer  *player,
 /**
  * pt_player_setup_player:
  * @player: a #PtPlayer
- * @error: (allow-none): return location for an error, or NULL
+ * @error: (nullable): return location for an error, or NULL
  *
  * Setup the GStreamer pipeline for playback. This or pt_player_setup_sphinx()
  * must be called first on a new PtPlayer object. It's a programmer's error to
