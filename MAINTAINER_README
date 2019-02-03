@@ -1,5 +1,19 @@
 Notes to myself about various maintainer tasks
 
+Translations
+============
+
+There are 3 translation templates (lib, app, help).
+Update templates and po files with:
+
+cd build
+ninja libparlatype-pot
+ninja libparlatype-update-po
+ninja parlatype-pot
+ninja parlatype-update-po
+ninja help-com.github.gkarsay.parlatype-pot
+ninja help-com.github.gkarsay.parlatype-update-po
+
 
 Release
 =======
