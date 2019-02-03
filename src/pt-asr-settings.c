@@ -17,8 +17,6 @@
 
 #include "config.h"
 #include <gio/gio.h>
-#define GETTEXT_PACKAGE "libparlatype"
-#include <glib/gi18n-lib.h>
 #include "pt-asr-settings.h"
 
 struct _PtAsrSettingsPrivate

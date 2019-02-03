@@ -5,9 +5,12 @@ data/com.github.gkarsay.parlatype.desktop.in
 data/com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in
 src/main.c
 src/pt-app.c
+src/pt-asr-assistant.c
+src/pt-asr-output.c
 src/pt-goto-dialog.c
 src/pt-preferences.c
 src/pt-window.c
+src/resources/asr-assistant.ui
 src/resources/goto-dialog.ui
 src/resources/help-overlay.ui
 src/resources/menus.ui

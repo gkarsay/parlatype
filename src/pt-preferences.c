@@ -294,8 +294,8 @@ confirm_delete (GtkWindow *parent, gchar *name)
 
 	/* Add secondary message and buttons, mark Yes-Button as destructive */
 	gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog), "%s", secondary_message);
-	gtk_dialog_add_button (GTK_DIALOG (dialog), "_No", GTK_RESPONSE_NO);
-	yes_button = gtk_dialog_add_button (GTK_DIALOG (dialog), "_Yes", GTK_RESPONSE_YES);
+	gtk_dialog_add_button (GTK_DIALOG (dialog), _("_No"), GTK_RESPONSE_NO);
+	yes_button = gtk_dialog_add_button (GTK_DIALOG (dialog), _("_Yes"), GTK_RESPONSE_YES);
 	context = gtk_widget_get_style_context (yes_button);
 	gtk_style_context_add_class (context, "destructive-action");
 
