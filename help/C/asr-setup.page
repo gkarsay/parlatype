@@ -37,7 +37,7 @@
 	</item>
 	<item>
 		<title>Language model</title>
-		<p><app>Parlatype</app> needs a binary language model. That's a single file with the extension <file>.lm.bin</file>. Models can have several language models. They have often one for high quality and one for low quality recordings. Typical low quality recordings are from telephones with a bandwidth of 8000 kHz. Those language models have often <file>phone</file>, <file>8k</file> or similar as part of their file name.</p>
+		<p><app>Parlatype</app> needs a binary language model. That's a single file with the extension <file>.lm.bin</file>. Models can have several language models. They have often one for high quality and one for low quality recordings. Typical low quality recordings are from telephones with a sample rate of 8000 Hz. Those language models have often <file>phone</file>, <file>8k</file> or similar as part of their file name.</p>
 	</item>
 	<item>
 		<title>Dictionary</title>
