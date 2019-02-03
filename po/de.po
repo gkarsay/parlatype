@@ -1,14 +1,14 @@
 # German translations for parlatype.
 # Copyright (C) 2016 Gabor Karsay
 # This file is distributed under the same license as the parlatype package.
-# Gabor Karsay <gabor.karsay@gxm.at>, 2016, 2017, 2018.
+# Gabor Karsay <gabor.karsay@gxm.at>, 2016, 2017, 2018, 2019.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-26 19:37+0200\n"
-"PO-Revision-Date: 2018-10-26 19:41+0200\n"
+"POT-Creation-Date: 2019-02-02 23:45+0100\n"
+"PO-Revision-Date: 2019-02-03 00:02+0100\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
 "Language-Team: Deutsch <>\n"
 "Language: de\n"
@@ -19,8 +19,8 @@ msgstr ""
 "X-Generator: Gtranslator 2.91.7\n"
 
 #: data/com.github.gkarsay.parlatype.appdata.xml.in:7
-#: data/com.github.gkarsay.parlatype.desktop.in:4 src/pt-app.c:208
-#: src/resources/window.ui:32 src/resources/window-headerbar.ui:7
+#: data/com.github.gkarsay.parlatype.desktop.in:4 src/pt-app.c:178
+#: src/resources/window.ui:32
 msgid "Parlatype"
 msgstr "Parlatype"
 
@@ -61,48 +61,36 @@ msgstr "LibreOffice/Parlatype-Helfer"
 msgid "Control Parlatype using LibreOffice macros"
 msgstr "Parlatype mit Hilfe von LibreOffice-Makros bedienen"
 
-#: src/main.c:36
-msgid "Fatal error"
-msgstr "Schwerer Fehler"
-
-#: src/main.c:40
-#, c-format
-msgid ""
-"Parlatype needs GStreamer 1.x to run. Please check your installation of "
-"GStreamer and make sure you have the \"Good Plugins\" installed.\n"
-"Parlatype will quit now, it received this error message: %s"
-msgstr ""
-"Parlatype braucht GStreamer 1.x, um zu funktionieren. Bitte überprüfen Sie "
-"Ihre GStreamer-Installation und stellen Sie sicher, dass auch die »Guten "
-"Plugins« (Good Plugins) installiert sind.\n"
-"Parlatype wird nun beendet, es hat folgende Fehlermeldung erhalten: %s"
-
-#: src/pt-app.c:55
+#: src/pt-app.c:42
 msgid "Show the application's version"
 msgstr "Version der Anwendung anzeigen"
 
-#: src/pt-app.c:78 src/pt-app.c:86
+#: src/pt-app.c:50
+msgid "Use internal textpad for automatic speech recognition"
+msgstr "Internes Textpad für Spracherkennung verwenden"
+
+#: src/pt-app.c:72
 msgid "Open Audio File"
 msgstr "Audio-Datei öffnen"
 
-#: src/pt-app.c:81 src/pt-app.c:90 src/resources/window-headerbar.ui:12
+#: src/pt-app.c:75 src/resources/window-headerbar.ui:12
 msgid "_Open"
 msgstr "_Öffnen"
 
-#: src/pt-app.c:82 src/pt-app.c:89 src/resources/goto-dialog.ui:26
+#: src/pt-app.c:76 src/resources/goto-dialog.ui:26
 msgid "_Cancel"
 msgstr "_Abbrechen"
 
-#: src/pt-app.c:111
+#: src/pt-app.c:95
 msgid "Audio files"
 msgstr "Audio-Dateien"
 
-#: src/pt-app.c:112
+#: src/pt-app.c:96
 msgid "All files"
 msgstr "Alle Dateien"
 
 #. Translators: %s is a detailed error message
-#: src/pt-app.c:175
+#: src/pt-app.c:145
 #, c-format
 msgid "Error opening help: %s"
 msgstr "Fehler beim Öffnen der Hilfe: %s"
@@ -111,25 +99,113 @@ msgstr "Fehler beim Öffnen der Hilfe: %s"
 #. copyright holders of code from other projects. Instead of
 #. "including" it could also say "with" or just "Code from
 #. other projects:"
-#: src/pt-app.c:193
+#: src/pt-app.c:163
 msgid "Including code from other projects:"
 msgstr "Aus anderen Projekten übernommener Code:"
 
-#: src/pt-app.c:211
+#: src/pt-app.c:181
 msgid "A basic transcription utility"
 msgstr "Ein einfaches Transkriptionsprogramm"
 
-#: src/pt-app.c:215
+#: src/pt-app.c:185
 msgid "translator-credits"
 msgstr "Gabor Karsay <gabor.karsay@gmx.at>"
 
-#: src/pt-app.c:319
+#: src/pt-app.c:301
 msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
 "ignored.\n"
 msgstr ""
 "Warnung: Parlatype öffnet nur eine Datei auf einmal. Weitere Dateien werden "
 "ignoriert.\n"
+
+#: src/pt-asr-assistant.c:193
+msgid "The folder contains no acoustic model."
+msgstr "Das Verzeichnis enthält kein akustisches Modell."
+
+#: src/pt-asr-assistant.c:299
+msgid "Please select …"
+msgstr "Bitte wählen …"
+
+#: src/pt-asr-assistant.c:337
+msgid "Missing parameters"
+msgstr "Fehlende Parameter"
+
+#: src/pt-asr-assistant.c:380
+msgid "Timed out"
+msgstr "Zeitüberschreitung"
+
+#: src/pt-asr-assistant.c:381
+msgid ""
+"Scanning the folder took too long. Please make sure to open a folder with "
+"model data only."
+msgstr ""
+"Das Durchsuchen des Verzeichnisses hat zu lange gedauert. Bitte stellen Sie "
+"sicher, ein Verzeichnis nur mit Modell-Daten zu öffnen."
+
+#: src/pt-asr-assistant.c:384
+msgid "Scanning the folder failed"
+msgstr "Durchsuchen des Verzeichnisses fehlgeschlagen"
+
+#: src/pt-asr-assistant.c:399
+msgid "Nothing found"
+msgstr "Nichts gefunden"
+
+#: src/pt-asr-assistant.c:400
+msgid "This folder doesn't contain a suitable model."
+msgstr "Dieses Verzeichnis enthält kein geeignetes Modell."
+
+#: src/pt-asr-assistant.c:450
+msgid ""
+"The folder contains no language model. Please choose a language model from "
+"another folder."
+msgstr ""
+"Das Verzeichnis enthält kein Sprachmodell. Bitte wählen Sie ein Sprachmodell "
+"aus einem anderen Verzeichnis."
+
+#: src/pt-asr-assistant.c:458
+msgid "The folder contains several language models."
+msgstr "Das Verzeichnis enthält mehrere Sprachmodelle."
+
+#: src/pt-asr-assistant.c:468
+msgid ""
+"The folder contains no dictionary. Please choose a dictionary from another "
+"folder."
+msgstr ""
+"Das Verzeichnis enthält kein Wörterbuch. Bitte wählen Sie ein Wörterbuch aus "
+"einem anderen Verzeichnis."
+
+#: src/pt-asr-assistant.c:476
+msgid "The folder contains several dictionaries."
+msgstr "Das Verzeichnis enthält mehrere Wörterbücher."
+
+#: src/pt-asr-assistant.c:485
+msgid ""
+"The folder contains no acoustic model. Please choose an acoustic model from "
+"another folder."
+msgstr ""
+"Das Verzeichnis enthält kein akustisches Modell. Bitte wählen Sie ein "
+"akustisches Modell aus einem anderen Verzeichnis."
+
+#: src/pt-asr-assistant.c:493
+msgid "The folder contains several acoustic models."
+msgstr "Das Verzeichnis enthält mehrere akustische Modelle."
+
+#: src/pt-asr-assistant.c:610
+msgid "Download model"
+msgstr "Modell herunterladen"
+
+#: src/pt-asr-assistant.c:617
+msgid "Finish configuration"
+msgstr "Konfiguration beenden"
+
+#: src/pt-asr-output.c:209
+msgid "Select output for automatic speech recognition"
+msgstr "Wählen Sie eine Ausgabe für die automatische Spracherkennung"
+
+#: src/pt-asr-output.c:210
+msgid "Please open and switch focus to a word processor."
+msgstr "Bitte öffnen Sie und wechseln Sie den Fokus zu einer Textverarbeitung."
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
@@ -145,52 +221,162 @@ msgstr "%d:%02d:%02d"
 #. or the "Go to ..." dialog. There is a label like
 #. "Jump back:", "Jump forward:", "Jump back on pause:"
 #. or "Go to position:" before.
-#: src/pt-goto-dialog.c:79 src/pt-preferences.c:79 src/pt-preferences.c:89
-#: src/pt-preferences.c:99
+#: src/pt-goto-dialog.c:79 src/pt-preferences.c:94 src/pt-preferences.c:104
+#: src/pt-preferences.c:114
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "Sekunde"
 msgstr[1] "Sekunden"
 
-#: src/pt-window.c:302
+#: src/pt-preferences.c:287
+msgid "Deleting configuration"
+msgstr "Konfiguration löschen"
+
+#: src/pt-preferences.c:288
+#, c-format
+msgid "Do you really want to delete \"%s\"?"
+msgstr "Wollen Sie wirklich »%s« löschen?"
+
+#: src/pt-preferences.c:297
+msgid "_No"
+msgstr "_Nein"
+
+#: src/pt-preferences.c:298
+msgid "_Yes"
+msgstr "_Ja"
+
+#: src/pt-window.c:219
+#, c-format
+msgid "Found %s"
+msgstr "%s gefunden"
+
+#: src/pt-window.c:220
+msgid "Press \"Play\" to start automatic speech recognition."
+msgstr ""
+"Drücken Sie »Wiedergabe«, um die automatische Spracherkennung zu beginnen."
+
+#: src/pt-window.c:423
 #, c-format
 msgid "Jump back 1 second"
 msgid_plural "Jump back %d seconds"
 msgstr[0] "Eine Sekunde zurückspringen"
 msgstr[1] "%d Sekunden zurückspringen"
 
-#: src/pt-window.c:317
+#: src/pt-window.c:440
 #, c-format
 msgid "Jump forward 1 second"
 msgid_plural "Jump forward %d seconds"
 msgstr[0] "1 Sekunde vorwärtsspringen"
 msgstr[1] "%d Sekunden vorwärtsspringen"
 
-#: src/pt-window.c:334
+#: src/pt-window.c:459
 msgid "Pause"
 msgstr "Wiedergabe unterbrechen"
 
-#: src/pt-window.c:337
+#: src/pt-window.c:462
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
 msgstr[0] "Wiedergabe unterbrechen und 1 Sekunde zurückspulen"
 msgstr[1] "Wiedergabe unterbrechen und %d Sekunden zurückspulen"
 
-#: src/pt-window.c:344
+#: src/pt-window.c:469
 msgid "Start playing"
 msgstr "Wiedergabe starten"
 
-#: src/pt-window.c:380
+#: src/pt-window.c:505
 #, c-format
 msgid "Go to time in clipboard: %s"
 msgstr "Zu Zeit aus Zwischenablage gehen: %s"
 
-#: src/pt-window.c:382 src/pt-window.c:996
+#: src/pt-window.c:507 src/pt-window.c:1236
 msgid "Go to time in clipboard"
 msgstr "Zu Zeit aus Zwischenablage gehen"
 
-#: src/resources/goto-dialog.ui:13 src/resources/menus.ui:34
+#: src/pt-window.c:1152
+#, c-format
+msgid ""
+"Parlatype needs GStreamer 1.x to run. Please check your installation of "
+"GStreamer and make sure you have the \"Good Plugins\" installed.\n"
+"Parlatype will quit now, it received this error message: %s"
+msgstr ""
+"Parlatype braucht GStreamer 1.x, um zu funktionieren. Bitte überprüfen Sie "
+"Ihre GStreamer-Installation und stellen Sie sicher, dass auch die »Guten "
+"Plugins« (Good Plugins) installiert sind.\n"
+"Parlatype wird nun beendet, es hat folgende Fehlermeldung erhalten: %s"
+
+#: src/pt-window.c:1155
+msgid "Fatal error"
+msgstr "Schwerer Fehler"
+
+#: src/resources/asr-assistant.ui:15
+msgid ""
+"Before you can start, you have to download a so called acoustic and language "
+"model. This is a set of files made for a specific language."
+msgstr ""
+"Bevor Sie beginnen können, müssen Sie ein sogenanntes akustisches und "
+"Sprachmodell herunterladen. Das ist ein Set von Dateien für eine bestimmte "
+"Sprache."
+
+#: src/resources/asr-assistant.ui:30
+msgid ""
+"Parlatype uses CMU Sphinx as its speech recognition engine. You can download "
+"models suitable for CMU Sphinx for example from <a href=\"https://"
+"sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Language%20Models/"
+"\">CMU Sphinx' sourceforge repository</a>. It has models for some of the "
+"most widespread languages."
+msgstr ""
+"Parlatype verwendet CMU Sphinx als Spracherkennungssystem. Sie können für "
+"CMU Sphinx passende Sprachmodelle zum Beispiel von <a href=\"https://"
+"sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Language%20Models/"
+"\">CMU Sphinx' Sourceforge-Portal</a> herunterladen. Dort befinden sich "
+"Modelle für einige der am weitesten verbreiteten Sprachen (auch Deutsch)."
+
+#: src/resources/asr-assistant.ui:45
+msgid ""
+"If it's compressed, uncompress the model. Save it to a folder where it can "
+"stay. Parlatype doesn't copy the model internally."
+msgstr ""
+"Wenn es komprimiert ist, entpacken Sie das Modell. Speichern Sie es in einem "
+"Verzeichnis, wo es bleiben kann. Parlatype erstellt intern keine Kopie des "
+"Modells."
+
+#: src/resources/asr-assistant.ui:59
+msgid "When you are finished, specify the folder with the model:"
+msgstr ""
+"Wenn Sie damit fertig sind, geben Sie das Verzeichnis mit dem Modell an:"
+
+#: src/resources/asr-assistant.ui:96
+msgid "Language model"
+msgstr "Sprachmodell"
+
+#: src/resources/asr-assistant.ui:125
+msgid "Select language model"
+msgstr "Sprachmodell auswählen"
+
+#: src/resources/asr-assistant.ui:157
+msgid "Dictionary"
+msgstr "Wörterbuch"
+
+#: src/resources/asr-assistant.ui:186
+msgid "Select dictionary"
+msgstr "Wörterbuch auswählen"
+
+#: src/resources/asr-assistant.ui:218
+msgid "Acoustic model"
+msgstr "Akustisches Modell"
+
+#: src/resources/asr-assistant.ui:248
+msgid "Select acoustic model folder"
+msgstr "Verzeichnis mit akustischem Modell auswählen"
+
+#: src/resources/asr-assistant.ui:285
+msgid "Setup is completed. Please give this configuration a name:"
+msgstr ""
+"Die Einrichtung ist abgeschlossen. Bitte geben Sie dieser Konfiguration "
+"einen Namen:"
+
+#: src/resources/goto-dialog.ui:13 src/resources/menus.ui:46
 msgid "Go to ..."
 msgstr "Gehe zu …"
 
@@ -218,7 +404,7 @@ msgstr "Aktionsmenü anzeigen/verbergen"
 msgid "Quit"
 msgstr "Beenden"
 
-#: src/resources/help-overlay.ui:42 src/resources/preferences.ui:273
+#: src/resources/help-overlay.ui:42 src/resources/preferences.ui:272
 msgid "Waveform"
 msgstr "Wellenform"
 
@@ -254,7 +440,7 @@ msgstr "Zeitstempel in die Zwischenablage kopieren"
 msgid "Go to timestamp in clipboard"
 msgstr "Zu Zeitstempel aus Zwischenablage gehen"
 
-#: src/resources/help-overlay.ui:122 src/resources/menus.ui:15
+#: src/resources/help-overlay.ui:122 src/resources/menus.ui:27
 msgid "Help"
 msgstr "Hilfe"
 
@@ -267,22 +453,30 @@ msgid "Show keyboard shortcuts"
 msgstr "Tastenkürzel anzeigen"
 
 #: src/resources/menus.ui:7
+msgid "Manual transcription"
+msgstr "Manuelle Transkription"
+
+#: src/resources/menus.ui:12
+msgid "Automatic transcription"
+msgstr "Automatische Transkription"
+
+#: src/resources/menus.ui:19
 msgid "Preferences"
 msgstr "Einstellungen"
 
-#: src/resources/menus.ui:11
+#: src/resources/menus.ui:23
 msgid "_Keyboard Shortcuts"
 msgstr "_Tastenkürzel"
 
-#: src/resources/menus.ui:19
+#: src/resources/menus.ui:31
 msgid "About Parlatype"
 msgstr "Über Parlatype"
 
-#: src/resources/menus.ui:26
+#: src/resources/menus.ui:38
 msgid "Copy time to clipboard"
 msgstr "Zeit in die Zwischenablage kopieren"
 
-#: src/resources/menus.ui:30
+#: src/resources/menus.ui:42
 msgid "Go to cursor"
 msgstr "Zu Cursor gehen"
 
@@ -327,105 +521,129 @@ msgstr "Hundertstelsekunden"
 msgid "Parlatype Preferences"
 msgstr "Einstellungen für Parlatype"
 
-#: src/resources/preferences.ui:143
+#: src/resources/preferences.ui:142
 msgid "_Pixels per second:"
 msgstr "_Pixel pro Sekunde:"
 
-#: src/resources/preferences.ui:173
+#: src/resources/preferences.ui:172
 msgid "Show _time scale"
 msgstr "_Zeitskala anzeigen"
 
 #. Resolution of the waveform image
-#: src/resources/preferences.ui:191
+#: src/resources/preferences.ui:190
 msgid "Resolution"
 msgstr "Auflösung"
 
 #. A section in preferences, how to display the waveform.
-#: src/resources/preferences.ui:206
+#: src/resources/preferences.ui:205
 msgid "Display"
 msgstr "Anzeige"
 
-#: src/resources/preferences.ui:219
+#: src/resources/preferences.ui:218
 msgid "_Moving cursor"
 msgstr "Cursor _bewegt sich"
 
-#: src/resources/preferences.ui:236
+#: src/resources/preferences.ui:235
 msgid "_Fixed cursor"
 msgstr "Cursor ist _fixiert"
 
-#: src/resources/preferences.ui:293
+#: src/resources/preferences.ui:292
 msgid "Jump back on _pause:"
 msgstr "Bei _Pause zurückspulen:"
 
-#: src/resources/preferences.ui:385
+#: src/resources/preferences.ui:384
 msgid "Jump _back:"
 msgstr "_Zurückspringen:"
 
-#: src/resources/preferences.ui:399
+#: src/resources/preferences.ui:398
 msgid "Jump _forward:"
 msgstr "_Vorwärts springen:"
 
-#: src/resources/preferences.ui:418
+#: src/resources/preferences.ui:417
 msgid "Controls"
 msgstr "Steuerung"
 
-#: src/resources/preferences.ui:464
+#: src/resources/preferences.ui:460
 msgid "Hours and zeroes"
 msgstr "Stunden und Nullen"
 
-#: src/resources/preferences.ui:477
+#: src/resources/preferences.ui:473
 msgid "Always show hours and leading zeroes"
 msgstr "Immer Stunden und führende Null zeigen"
 
-#: src/resources/preferences.ui:495
+#: src/resources/preferences.ui:491
 msgid "Precision"
 msgstr "Genauigkeit"
 
-#: src/resources/preferences.ui:511
+#: src/resources/preferences.ui:507
 msgid "Characters around timestamps"
 msgstr "Zeichen um Zeitstempel"
 
-#: src/resources/preferences.ui:527
+#: src/resources/preferences.ui:523
 msgid "Examples"
 msgstr "Beispiele"
 
-#: src/resources/preferences.ui:569
+#: src/resources/preferences.ui:565
 msgid "Precision:"
 msgstr "Genauigkeit:"
 
-#: src/resources/preferences.ui:601
+#: src/resources/preferences.ui:597
 msgid "Fraction separator:"
 msgstr "Abgrenzung für Sekundenbruchteile:"
 
-#: src/resources/preferences.ui:647
+#: src/resources/preferences.ui:640
 msgid "Timestamps"
 msgstr "Zeitstempel"
 
-#: src/resources/preferences.ui:665
+#: src/resources/preferences.ui:771
+msgid "Language model:"
+msgstr "Sprachmodell:"
+
+#: src/resources/preferences.ui:798
+msgid "Dictionary:"
+msgstr "Wörterbuch:"
+
+#: src/resources/preferences.ui:825
+msgid "Acoustic model folder:"
+msgstr "Verzeichnis mit akustischem Modell:"
+
+#: src/resources/preferences.ui:871
+msgid "There is no configuration"
+msgstr "Es gibt keine Konfiguration"
+
+#: src/resources/preferences.ui:881
+msgid "Add a configuration"
+msgstr "Konfiguration hinzufügen"
+
+#: src/resources/preferences.ui:910
+msgid "Speech recognition"
+msgstr "Spracherkennung"
+
+#: src/resources/preferences.ui:928
 msgid "Remember _size"
 msgstr "_Größe des Fensters merken"
 
-#: src/resources/preferences.ui:680
+#: src/resources/preferences.ui:943
 msgid "Remember _position"
 msgstr "_Position des Fensters merken"
 
-#: src/resources/preferences.ui:695
+#: src/resources/preferences.ui:958
 msgid "Start on _top"
 msgstr "»Immer im _Vordergrund« starten"
 
-#: src/resources/preferences.ui:717
+#: src/resources/preferences.ui:980
 msgid "Window"
 msgstr "Fenster"
 
-#: src/resources/window.ui:145
+#: src/resources/window.ui:142
 msgid "_Play"
 msgstr "_Wiedergabe"
 
-#: src/resources/window.ui:315
+#: src/resources/window.ui:312
 msgid "Speed:"
 msgstr "Geschwindigkeit:"
 
-#: src/resources/window-headerbar.ui:13
+#: src/resources/window-headerbar.ui:17
 msgid "Open a file"
 msgstr "Eine Datei öffnen"
 
