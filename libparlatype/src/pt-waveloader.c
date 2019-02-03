@@ -224,8 +224,14 @@ bus_handler (GstBus     *bus,
 
 		remove_timeout (wl);
 		gst_message_parse_error (msg, &error, &debug);
-		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+
+		/* Error is returned. Log the message here at level DEBUG,
+		   as higher levels will abort tests. */
+		   
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
 				  "MESSAGE", "Error from element %s: %s", GST_OBJECT_NAME (msg->src), error->message);
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+				  "MESSAGE", "Debugging info: %s", (debug) ? debug : "none");
 		g_free (debug);
 		wl->priv->bus_watch_id = 0;
 		g_task_return_error (task, error);
