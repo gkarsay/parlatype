@@ -34,8 +34,17 @@ Release commit:
 - Update data/com.github.gkarsay.parlatype.appdata.xml.in (short release notes)
 - Commit message "v1.x.x", next line "New major/minor/bugfix release"
 
-make distcheck
-make dist-sign
+Test distribution:
+ninja dist
+
+However, `ninja dist` doesn't respect export-ignore settings
+https://github.com/mesonbuild/meson/issues/2287
+
+Therefore:
+git archive --format=tar --prefix=parlatype-$(VERSION)/ master | gzip > parlatype-$(VERSION).tar.gz
+
+Sign tarball:
+gpg --armor --detach-sign "parlatype-$(VERSION).tar.gz"
 
 Create release page on GitHub:
 - Write/copy release notes
@@ -47,7 +56,8 @@ GitHub Issues:
 Homepage:
 - Publish release notes in News
 - Update reference
-- Update help (make help-online)
+- Update help:
+  yelp-build html -o help-online/ help/C/
 - Update translation status (in features.md)
 
 Packaging:
