@@ -52,6 +52,8 @@ struct _PtPreferencesDialogPrivate
 	GtkWidget *label_pause;
 	GtkWidget *label_back;
 	GtkWidget *label_forward;
+	GtkWidget *repeat_all_checkbox;
+	GtkWidget *repeat_selection_checkbox;
 
 	/* Window tab */
 	GtkWidget *size_check;
@@ -551,6 +553,16 @@ pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 			G_SETTINGS_BIND_DEFAULT);
 
 	g_settings_bind (
+			dlg->priv->editor, "repeat-all",
+			dlg->priv->repeat_all_checkbox, "active",
+			G_SETTINGS_BIND_DEFAULT);
+
+	g_settings_bind (
+			dlg->priv->editor, "repeat-selection",
+			dlg->priv->repeat_selection_checkbox, "active",
+			G_SETTINGS_BIND_DEFAULT);
+
+	g_settings_bind (
 			dlg->priv->editor, "remember-size",
 			dlg->priv->size_check, "active",
 			G_SETTINGS_BIND_DEFAULT);
@@ -712,6 +724,8 @@ pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, spin_pause);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, spin_back);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, spin_forward);
+	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, repeat_all_checkbox);
+	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, repeat_selection_checkbox);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, pps_scale);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, size_check);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, pos_check);

@@ -43,6 +43,8 @@ struct _PtPlayerPrivate
 	gint        pause;
 	gint        back;
 	gint        forward;
+	gboolean    repeat_all;
+	gboolean    repeat_selection;
 
 	gint64      segstart;
 	gint64      segend;
@@ -71,6 +73,8 @@ enum
 	PROP_REWIND_ON_PAUSE,
 	PROP_BACK,
 	PROP_FORWARD,
+	PROP_REPEAT_ALL,
+	PROP_REPEAT_SELECTION,
 	N_PROPERTIES
 };
 
@@ -699,8 +703,13 @@ pt_player_play (PtPlayer *player)
 	if (!pt_player_query_position (player, &pos))
 		return;
 
-	if (pos == player->priv->segend)
-		pt_player_seek (player, player->priv->segstart);
+	if (pos == player->priv->segend) {
+		if ((selection && player->priv->repeat_selection)
+		    || (!selection && player->priv->repeat_all))
+			pt_player_seek (player, player->priv->segstart);
+		else
+			pt_player_jump_relative (player, player->priv->pause * -1);
+	}
 
 	gst_element_set_state (player->priv->play, GST_STATE_PLAYING);
 }
@@ -2266,6 +2275,12 @@ pt_player_set_property (GObject      *object,
 	case PROP_FORWARD:
 		player->priv->forward = g_value_get_int (value);
 		break;
+	case PROP_REPEAT_ALL:
+		player->priv->repeat_all = g_value_get_boolean (value);
+		break;
+	case PROP_REPEAT_SELECTION:
+		player->priv->repeat_selection = g_value_get_boolean (value);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -2308,6 +2323,12 @@ pt_player_get_property (GObject    *object,
 		break;
 	case PROP_FORWARD:
 		g_value_set_int (value, player->priv->forward);
+		break;
+	case PROP_REPEAT_ALL:
+		g_value_set_boolean (value, player->priv->repeat_all);
+		break;
+	case PROP_REPEAT_SELECTION:
+		g_value_set_boolean (value, player->priv->repeat_selection);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -2601,6 +2622,32 @@ pt_player_class_init (PtPlayerClass *klass)
 			1000,	/* minimum */
 			60000,	/* maximum */
 			10000,
+			G_PARAM_READWRITE);
+
+	/**
+	* PtPlayer:repeat-all:
+	*
+	* "Play" at the end of the file replays it.
+	*/
+	obj_properties[PROP_REPEAT_ALL] =
+	g_param_spec_boolean (
+			"repeat-all",
+			"Repeat all",
+			"Repeat all",
+			FALSE,
+			G_PARAM_READWRITE);
+
+	/**
+	* PtPlayer:repeat-selection:
+	*
+	* "Play" at the end of a selection replays it.
+	*/
+	obj_properties[PROP_REPEAT_SELECTION] =
+	g_param_spec_boolean (
+			"repeat-selection",
+			"Repeat selection",
+			"Repeat selection",
+			FALSE,
 			G_PARAM_READWRITE);
 
 	g_object_class_install_properties (

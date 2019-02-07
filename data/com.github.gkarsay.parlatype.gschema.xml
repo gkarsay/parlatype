@@ -18,6 +18,16 @@
 			<summary>Jump forward</summary>
 			<description>Value in seconds</description>
 		</key>
+		<key name="repeat-all" type="b">
+			<default>false</default>
+			<summary>Repeat file at the end</summary>
+			<description>When pressing "Play" at the end of file, it will be replayed</description>
+		</key>
+		<key name="repeat-selection" type="b">
+			<default>true</default>
+			<summary>Repeat selection at the end</summary>
+			<description>When pressing "Play" at the end of a selection, it will be replayed</description>
+		</key>
 		<key name="pps" type="i">
 			<range min="10" max="200"/>
 			<default>100</default>

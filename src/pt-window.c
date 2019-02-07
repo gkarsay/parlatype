@@ -1074,6 +1074,16 @@ setup_settings (PtWindow *win)
 			NULL, NULL);
 
 	g_settings_bind (
+			win->priv->editor, "repeat-all",
+			win->priv->player, "repeat-all",
+			G_SETTINGS_BIND_GET);
+
+	g_settings_bind (
+			win->priv->editor, "repeat-selection",
+			win->priv->player, "repeat-selection",
+			G_SETTINGS_BIND_GET);
+
+	g_settings_bind (
 			win->priv->editor, "show-ruler",
 			win->priv->waveviewer, "show-ruler",
 			G_SETTINGS_BIND_GET);
