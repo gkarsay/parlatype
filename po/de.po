@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-02 23:45+0100\n"
-"PO-Revision-Date: 2019-02-03 00:02+0100\n"
+"POT-Creation-Date: 2019-02-08 19:24+0100\n"
+"PO-Revision-Date: 2019-02-08 19:27+0100\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
 "Language-Team: Deutsch <>\n"
 "Language: de\n"
@@ -221,8 +221,8 @@ msgstr "%d:%02d:%02d"
 #. or the "Go to ..." dialog. There is a label like
 #. "Jump back:", "Jump forward:", "Jump back on pause:"
 #. or "Go to position:" before.
-#: src/pt-goto-dialog.c:79 src/pt-preferences.c:94 src/pt-preferences.c:104
-#: src/pt-preferences.c:114
+#: src/pt-goto-dialog.c:79 src/pt-preferences.c:96 src/pt-preferences.c:106
+#: src/pt-preferences.c:116
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "Sekunde"
@@ -236,14 +236,6 @@ msgstr "Konfiguration löschen"
 #, c-format
 msgid "Do you really want to delete \"%s\"?"
 msgstr "Wollen Sie wirklich »%s« löschen?"
-
-#: src/pt-preferences.c:297
-msgid "_No"
-msgstr "_Nein"
-
-#: src/pt-preferences.c:298
-msgid "_Yes"
-msgstr "_Ja"
 
 #: src/pt-window.c:219
 #, c-format
@@ -289,11 +281,11 @@ msgstr "Wiedergabe starten"
 msgid "Go to time in clipboard: %s"
 msgstr "Zu Zeit aus Zwischenablage gehen: %s"
 
-#: src/pt-window.c:507 src/pt-window.c:1236
+#: src/pt-window.c:507 src/pt-window.c:1246
 msgid "Go to time in clipboard"
 msgstr "Zu Zeit aus Zwischenablage gehen"
 
-#: src/pt-window.c:1152
+#: src/pt-window.c:1162
 #, c-format
 msgid ""
 "Parlatype needs GStreamer 1.x to run. Please check your installation of "
@@ -305,7 +297,7 @@ msgstr ""
 "Plugins« (Good Plugins) installiert sind.\n"
 "Parlatype wird nun beendet, es hat folgende Fehlermeldung erhalten: %s"
 
-#: src/pt-window.c:1155
+#: src/pt-window.c:1165
 msgid "Fatal error"
 msgstr "Schwerer Fehler"
 
@@ -547,91 +539,111 @@ msgstr "Cursor _bewegt sich"
 msgid "_Fixed cursor"
 msgstr "Cursor ist _fixiert"
 
-#: src/resources/preferences.ui:292
-msgid "Jump back on _pause:"
-msgstr "Bei _Pause zurückspulen:"
+#: src/resources/preferences.ui:289
+msgid "Jumps"
+msgstr "Sprünge"
 
-#: src/resources/preferences.ui:384
-msgid "Jump _back:"
-msgstr "_Zurückspringen:"
-
-#: src/resources/preferences.ui:398
+#: src/resources/preferences.ui:391
 msgid "Jump _forward:"
 msgstr "_Vorwärts springen:"
 
-#: src/resources/preferences.ui:417
+#: src/resources/preferences.ui:405
+msgid "Jump _back:"
+msgstr "_Zurückspringen:"
+
+#: src/resources/preferences.ui:419
+msgid "Jump back on _pause:"
+msgstr "Bei _Pause zurückspulen:"
+
+#: src/resources/preferences.ui:442
+msgid "Pressing “Play” at the end of file"
+msgstr "»Wiedergabe« drücken am Ende der Datei"
+
+#: src/resources/preferences.ui:456
+msgid "Replay file"
+msgstr "Datei wieder abspielen"
+
+#: src/resources/preferences.ui:475
+msgid "Pressing “Play” at the end of selection"
+msgstr "»Wiedergabe« drücken am Ende einer Auswahl"
+
+#: src/resources/preferences.ui:489
+msgid "Replay selection"
+msgstr "Auswahl wieder abspielen"
+
+#: src/resources/preferences.ui:511
 msgid "Controls"
 msgstr "Steuerung"
 
-#: src/resources/preferences.ui:460
+#: src/resources/preferences.ui:554
 msgid "Hours and zeroes"
 msgstr "Stunden und Nullen"
 
-#: src/resources/preferences.ui:473
+#: src/resources/preferences.ui:567
 msgid "Always show hours and leading zeroes"
 msgstr "Immer Stunden und führende Null zeigen"
 
-#: src/resources/preferences.ui:491
+#: src/resources/preferences.ui:585
 msgid "Precision"
 msgstr "Genauigkeit"
 
-#: src/resources/preferences.ui:507
+#: src/resources/preferences.ui:601
 msgid "Characters around timestamps"
 msgstr "Zeichen um Zeitstempel"
 
-#: src/resources/preferences.ui:523
+#: src/resources/preferences.ui:617
 msgid "Examples"
 msgstr "Beispiele"
 
-#: src/resources/preferences.ui:565
+#: src/resources/preferences.ui:659
 msgid "Precision:"
 msgstr "Genauigkeit:"
 
-#: src/resources/preferences.ui:597
+#: src/resources/preferences.ui:691
 msgid "Fraction separator:"
 msgstr "Abgrenzung für Sekundenbruchteile:"
 
-#: src/resources/preferences.ui:640
+#: src/resources/preferences.ui:734
 msgid "Timestamps"
 msgstr "Zeitstempel"
 
-#: src/resources/preferences.ui:771
+#: src/resources/preferences.ui:865
 msgid "Language model:"
 msgstr "Sprachmodell:"
 
-#: src/resources/preferences.ui:798
+#: src/resources/preferences.ui:892
 msgid "Dictionary:"
 msgstr "Wörterbuch:"
 
-#: src/resources/preferences.ui:825
+#: src/resources/preferences.ui:919
 msgid "Acoustic model folder:"
 msgstr "Verzeichnis mit akustischem Modell:"
 
-#: src/resources/preferences.ui:871
+#: src/resources/preferences.ui:965
 msgid "There is no configuration"
 msgstr "Es gibt keine Konfiguration"
 
-#: src/resources/preferences.ui:881
+#: src/resources/preferences.ui:975
 msgid "Add a configuration"
 msgstr "Konfiguration hinzufügen"
 
-#: src/resources/preferences.ui:910
+#: src/resources/preferences.ui:1004
 msgid "Speech recognition"
 msgstr "Spracherkennung"
 
-#: src/resources/preferences.ui:928
+#: src/resources/preferences.ui:1022
 msgid "Remember _size"
 msgstr "_Größe des Fensters merken"
 
-#: src/resources/preferences.ui:943
+#: src/resources/preferences.ui:1037
 msgid "Remember _position"
 msgstr "_Position des Fensters merken"
 
-#: src/resources/preferences.ui:958
+#: src/resources/preferences.ui:1052
 msgid "Start on _top"
 msgstr "»Immer im _Vordergrund« starten"
 
-#: src/resources/preferences.ui:980
+#: src/resources/preferences.ui:1074
 msgid "Window"
 msgstr "Fenster"
 
@@ -646,6 +658,12 @@ msgstr "Geschwindigkeit:"
 #: src/resources/window-headerbar.ui:17
 msgid "Open a file"
 msgstr "Eine Datei öffnen"
+
+#~ msgid "_No"
+#~ msgstr "_Nein"
+
+#~ msgid "_Yes"
+#~ msgstr "_Ja"
 
 #~ msgid "Recent Files"
 #~ msgstr "Zuletzt geöffnete Dateien"
