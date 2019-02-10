@@ -15,6 +15,15 @@ ninja help-com.github.gkarsay.parlatype-pot
 ninja help-com.github.gkarsay.parlatype-update-po
 
 
+Typography
+==========
+
+Left double quotation mark: U+201C
+Right double quotation mark: U+201D
+Apostrophe = Right single quotation mark: U+2019
+Horizontal ellipsis: U+2026 (Alt Gr + .)
+
+
 Release
 =======
 
