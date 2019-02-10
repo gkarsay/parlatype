@@ -18,12 +18,12 @@
  * The following is a citation from:
  * https://git.gnome.org/browse/gnome-settings-daemon/tree/plugins/media-keys/README.media-keys-API?h=gnome-3-14
 
-   This is very simple documentation to gnome-settings-daemon's
+   This is very simple documentation to gnome-settings-daemon’s
    D-Bus API for media players.
 
    gnome-settings-daemon will send key press events from multimedia
    keys to applications that register their interest in those events.
-   This allows the play/pause button to control an audio player that's
+   This allows the play/pause button to control an audio player that’s
    not focused for example.
 
    The D-Bus API is described in gsd-media-keys-manager.c (look for

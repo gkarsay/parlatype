@@ -17,15 +17,15 @@
 
 <section>
 <title>Start speech recognition</title>
-<p>Open the primary menu and click on <gui>Automatic transcription</gui>. If you don't have a language model yet, an assistant will guide you in that process (see <link xref="asr-setup" />). Otherwise a dialog will pop up asking you to give focus to a word processor. Any word processor with support for accessibility should work, like <app>LibreOffice</app> or <app>Gedit</app>.</p>
+<p>Open the primary menu and click on <gui>Automatic transcription</gui>. If you don’t have a language model yet, an assistant will guide you in that process (see <link xref="asr-setup" />). Otherwise a dialog will pop up asking you to give focus to a word processor. Any word processor with support for accessibility should work, like <app>LibreOffice</app> or <app>Gedit</app>.</p>
 
 <p>If no word processor is recognized you can use an internal textpad as a fallback solution. To use that textpad start <app>Parlatype</app> with the textpad option: <cmd>parlatype --textpad</cmd>.</p>
 
-<p>Now press <gui>Play</gui> in <app>Parlatype</app> and the recognized speech will be printed to that window. Output is silent because the speed is dependent on your machine's power and may be slower or faster than real-time speech.</p>
+<p>Now press <gui>Play</gui> in <app>Parlatype</app> and the recognized speech will be printed to that window. Output is silent because the speed is dependent on your machine’s power and may be slower or faster than real-time speech.</p>
 
 <p>Output is without punctuation or capitalization, you have to add or correct that yourself.</p>
 
-<note><p><em>Accuracy</em> depends on many factors like quality of the recording, background noise, speaker's dialect or pronounciation and the speech model used. For general transcription you can expect an word error rate between 10 and 50 %. Alas this means that in some case manual transcription from the start will be faster than automatic transcription and the following correction process.</p></note>
+<note><p><em>Accuracy</em> depends on many factors like quality of the recording, background noise, speaker’s dialect or pronounciation and the speech model used. For general transcription you can expect an word error rate between 10 and 50 %. Alas this means that in some case manual transcription from the start will be faster than automatic transcription and the following correction process.</p></note>
 
 
 </section>

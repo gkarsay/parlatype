@@ -285,7 +285,7 @@ confirm_delete (GtkWindow *parent, gchar *name)
 	gint		 response;
 
 	message = _("Deleting configuration");
-	secondary_message = g_strdup_printf (_("Do you really want to delete \"%s\"?"), name);
+	secondary_message = g_strdup_printf (_("Do you really want to delete “%s”?"), name);
 	dialog = gtk_message_dialog_new (parent,
                                    GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
                                    GTK_MESSAGE_QUESTION,

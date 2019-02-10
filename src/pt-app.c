@@ -39,7 +39,7 @@ static GOptionEntry options[] =
 	  G_OPTION_FLAG_NONE,
 	  G_OPTION_ARG_NONE,
 	  NULL,
-	  N_("Show the application's version"),
+	  N_("Show the application’s version"),
 	  NULL
 	},
 	{ "textpad",
@@ -76,7 +76,7 @@ open_cb (GSimpleAction *action,
 			_("_Cancel"));
 
 	/* Set current folder to the folder with the currently open file
-	   or to user's home directory */
+	   or to user’s home directory */
 	current_uri = pt_window_get_uri (PT_WINDOW (win));
 	if (current_uri) {
 		current = g_file_new_for_uri (current_uri);

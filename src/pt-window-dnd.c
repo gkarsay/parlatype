@@ -162,7 +162,7 @@ win_dnd_drop_cb (GtkWidget	*widget,
 	if (have_target) {
 
                 /* Request the data from the source. */
-                gtk_drag_get_data (widget,	/* will receive 'drag-data-received' signal */
+                gtk_drag_get_data (widget,	/* will receive “drag-data-received” signal */
 				   context,	/* represents the current state of the DnD */
 				   target_type,
 				   time);

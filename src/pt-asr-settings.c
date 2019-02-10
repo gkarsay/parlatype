@@ -76,8 +76,8 @@ pt_asr_settings_save_keyfile (PtAsrSettings *settings)
  * @field: the field in the config
  * @value: the new integer value
  *
- * Sets a new integer value. If the config doesn't exist, it will be created.
- * Likewise the field will be created, if it doesn't exist yet.
+ * Sets a new integer value. If the config doesn’t exist, it will be created.
+ * Likewise the field will be created, if it doesn’t exist yet.
  * 
  * Return value: TRUE on success, FALSE on failure
  */
@@ -101,7 +101,7 @@ pt_asr_settings_set_int (PtAsrSettings *settings,
  * @id: the ID of the config
  * @field: the field asked for
  *
- * Gets an integer value from a field for a certain config. If it's not found,
+ * Gets an integer value from a field for a certain config. If it’s not found,
  * the return value is 0.
  * 
  * Return value: the integer value or 0 in case of failure
@@ -134,8 +134,8 @@ pt_asr_settings_get_int (PtAsrSettings *settings,
  * @field: the field in the config
  * @value: the new value
  *
- * Sets a boolean value. If the config doesn't exist, it will be created.
- * Likewise the field will be created, if it doesn't exist yet.
+ * Sets a boolean value. If the config doesn’t exist, it will be created.
+ * Likewise the field will be created, if it doesn’t exist yet.
  * 
  * Return value: TRUE on success, FALSE on failure
  */
@@ -158,10 +158,10 @@ pt_asr_settings_set_boolean (PtAsrSettings *settings,
  * @id: the ID of the config
  * @field: the field asked for
  *
- * Gets a boolean value from a field for a certain config. If it's not found,
+ * Gets a boolean value from a field for a certain config. If it’s not found,
  * the return value is FALSE.
  * 
- * Return value: the boolean value or FALSE if it wasn't found
+ * Return value: the boolean value or FALSE if it wasn’t found
  */
 gboolean
 pt_asr_settings_get_boolean (PtAsrSettings *settings,
@@ -191,8 +191,8 @@ pt_asr_settings_get_boolean (PtAsrSettings *settings,
  * @field: the field in the config
  * @string: the new string
  *
- * Sets a new string. If the config doesn't exist, it will be created.
- * Likewise the field will be created, if it doesn't exist yet.
+ * Sets a new string. If the config doesn’t exist, it will be created.
+ * Likewise the field will be created, if it doesn’t exist yet.
  * 
  * Return value: TRUE on success, FALSE on failure
  */
@@ -216,10 +216,10 @@ pt_asr_settings_set_string (PtAsrSettings *settings,
  * @id: the ID of the config
  * @field: the field asked for
  *
- * Gets a string from a field for a certain config. If it's not found,
+ * Gets a string from a field for a certain config. If it’s not found,
  * the return value is NULL.
  * 
- * Return value: a newly allocated string or NULL if it wasn't found
+ * Return value: a newly allocated string or NULL if it wasn’t found
  */
 gchar*
 pt_asr_settings_get_string (PtAsrSettings *settings,
@@ -290,7 +290,7 @@ pt_asr_settings_have_configs (PtAsrSettings *settings)
  * @type: the ASR engine used
  *
  * Adds a new configuration, with a descriptive name and a type. The name
- * should be but doesn't have to be unique. The only type allowed is "sphinx".
+ * should be but doesn’t have to be unique. The only type allowed is "sphinx".
  * 
  * Return value: (transfer full): the ID of the new config as a string,
  * or NULL in case of failure
@@ -339,7 +339,7 @@ pt_asr_settings_add_config (PtAsrSettings *settings,
  * @settings: a #PtAsrSettings instance
  * @id: the ID of the config to remove
  *
- * Removes a complete configuration. On success it's gone forever.
+ * Removes a complete configuration. On success it’s gone forever.
  * 
  * Return value: TRUE on success, FALSE on failure
  */
@@ -532,7 +532,7 @@ pt_asr_settings_class_init (PtAsrSettingsClass *klass)
  * @settings_file: path to the file with the settings
  *
  * Returns a new PtAsrSettings instance for the given file. If the file
- * doesn't exist, it will be created.
+ * doesn’t exist, it will be created.
  *
  * After use g_object_unref() it.
  *

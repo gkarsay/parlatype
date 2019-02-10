@@ -25,7 +25,7 @@
  * @stability: Unstable
  * @include: parlatype/pt-wavedata.h
  *
- * Contains all information needed to show a wave form. It's produced by
+ * Contains all information needed to show a wave form. It’s produced by
  * #PtPlayer or #PtWaveloader. Pass it to #PtWaveviewer to visualize the wave.
  * #PtWaveviewer copies the data, you can free it immediately with pt_wavedata_free().
  *
@@ -76,7 +76,7 @@ pt_wavedata_copy (PtWavedata *data)
  * pt_wavedata_free: (skip)
  * @data: the object to be freed
  *
- * Free's @data.
+ * Frees @data.
  */
 void pt_wavedata_free (PtWavedata *data)
 {

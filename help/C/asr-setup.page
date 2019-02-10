@@ -13,17 +13,17 @@
 
 <title>Setup automatic speech recognition</title>
 
-<p><app>Parlatype</app> doesn't ship the language model needed for speech recognition. You will have to download it. There is an assistant that guides you through that process.</p>
+<p><app>Parlatype</app> doesn’t ship the language model needed for speech recognition. You will have to download it. There is an assistant that guides you through that process.</p>
 
 <p>The assistant can be started either from the Preferences dialog, tab <gui>Speech recognition</gui> or – if you have no setup yet – from the primary menu, <gui>Automatic transcription</gui>.</p>
 
-<p>It asks you to download a speech model. The speech recognition engine used is CMU Sphinx. You can download models suitable for CMU Sphinx for example from <link href="https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Language%20Models/">CMU Sphinx' sourceforge repository</link>. It has models for some of the most widespread languages.</p>
+<p>It asks you to download a speech model. The speech recognition engine used is CMU Sphinx. You can download models suitable for CMU Sphinx for example from <link href="https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Language%20Models/">CMU Sphinx’ sourceforge repository</link>. It has models for some of the most widespread languages.</p>
 
-<p>If it's compressed, uncompress the model. Save it to a folder where it can stay. Parlatype doesn't copy the model internally.</p>
+<p>If it’s compressed, uncompress the model. Save it to a folder where it can stay. Parlatype doesn’t copy the model internally.</p>
 
 <p>Usually the assistant will find all the files needed and you just have to give this configuration a name for your own reference. You can have several configurations, e.g. for different languages.</p>
 
-<p>If the assistant doesn't find all the components or finds more than expected, it will ask you to specify their location or to choose between them. The next sections explains those components.</p>
+<p>If the assistant doesn’t find all the components or finds more than expected, it will ask you to specify their location or to choose between them. The next sections explains those components.</p>
 
 <section>
 <title>Models</title>
@@ -37,7 +37,7 @@
 	</item>
 	<item>
 		<title>Language model</title>
-		<p><app>Parlatype</app> needs a binary language model. That's a single file with the extension <file>.lm.bin</file>. Models can have several language models. They have often one for high quality and one for low quality recordings. Typical low quality recordings are from telephones with a sample rate of 8000 Hz. Those language models have often <file>phone</file>, <file>8k</file> or similar as part of their file name.</p>
+		<p><app>Parlatype</app> needs a binary language model. That’s a single file with the extension <file>.lm.bin</file>. Models can have several language models. They have often one for high quality and one for low quality recordings. Typical low quality recordings are from telephones with a sample rate of 8000 Hz. Those language models have often <file>phone</file>, <file>8k</file> or similar as part of their file name.</p>
 	</item>
 	<item>
 		<title>Dictionary</title>
@@ -45,7 +45,7 @@
 	</item>
 </terms>
 
-<p>All those elements should be somewhere in the folder selected. It doesn't matter whether there are subfolders or how they are named.</p>
+<p>All those elements should be somewhere in the folder selected. It doesn’t matter whether there are subfolders or how they are named.</p>
 
 </section>
 

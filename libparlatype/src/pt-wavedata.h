@@ -33,12 +33,12 @@ typedef struct _PtWavedata PtWavedata;
  * point in time, but a min and a max value in a certain amount of time, e.g.
  * 10 ms.
  * @length: number of elements in array
- * @channels: number of channels for future use, currently it's always 1.
+ * @channels: number of channels for future use, currently it’s always 1.
  * @px_per_sec: pixels/samples per second. For example 100 means one second in time
  * is 100 pixels wide.
  *
- * Contains all information about the wave. Usually you don't have to access
- * the struct's members.
+ * Contains all information about the wave. Usually you don’t have to access
+ * the struct’s members.
  */
 struct _PtWavedata
 {

@@ -43,7 +43,7 @@
         <attribute name="action">win.goto-cursor</attribute>
       </item>
       <item>
-        <attribute name="label" translatable="yes">Go to ...</attribute>
+        <attribute name="label" translatable="yes">Go to…</attribute>
         <attribute name="action">win.goto</attribute>
       </item>
   </menu>

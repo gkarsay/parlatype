@@ -27,7 +27,7 @@
       <object class="GtkLabel">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Parlatype uses CMU Sphinx as its speech recognition engine. You can download models suitable for CMU Sphinx for example from &lt;a href="https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Language%20Models/"&gt;CMU Sphinx' sourceforge repository&lt;/a&gt;. It has models for some of the most widespread languages.</property>
+        <property name="label" translatable="yes">Parlatype uses CMU Sphinx as its speech recognition engine. You can download models suitable for CMU Sphinx for example from &lt;a href="https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Language%20Models/"&gt;CMU Sphinx’ sourceforge repository&lt;/a&gt;. It has models for some of the most widespread languages.</property>
         <property name="use_markup">True</property>
         <property name="wrap">True</property>
         <property name="xalign">0</property>
@@ -42,7 +42,7 @@
       <object class="GtkLabel">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="label" translatable="yes">If it's compressed, uncompress the model. Save it to a folder where it can stay. Parlatype doesn't copy the model internally.</property>
+        <property name="label" translatable="yes">If it’s compressed, uncompress the model. Save it to a folder where it can stay. Parlatype doesn’t copy the model internally.</property>
         <property name="wrap">True</property>
         <property name="xalign">0</property>
       </object>

@@ -30,7 +30,7 @@ struct _PtWaveviewerRulerPrivate {
 	gint	  px_per_sec;
 	gint64    duration;	/* in milliseconds */
 
-	GtkAdjustment   *adj;	/* the parent PtWaveviewer's adjustment */
+	GtkAdjustment   *adj;	/* the parent PtWaveviewer’s adjustment */
 
 	/* Ruler marks */
 	gboolean  time_format_long;
@@ -241,7 +241,7 @@ calculate_height (PtWaveviewerRuler *self)
 	self->priv->time_string_width = rect.x + rect.width;
 	if (self->priv->time_string_width < self->priv->px_per_sec) {
 		self->priv->primary_modulo = 1;
-		/* In fact this would be 0.1, it's handled later as a special case */
+		/* In fact this would be 0.1, it’s handled later as a special case */
 		self->priv->secondary_modulo = 1;
 	} else if (self->priv->time_string_width < self->priv->px_per_sec * 5) {
 		self->priv->primary_modulo = 5;
@@ -342,7 +342,7 @@ pt_waveviewer_ruler_hierarchy_changed (GtkWidget *widget,
 	if (self->priv->adj)
 		return;
 
-	/* Get parent's GtkAdjustment */
+	/* Get parent’s GtkAdjustment */
 	GtkWidget *parent = NULL;
 	parent = gtk_widget_get_ancestor (widget, PT_TYPE_WAVEVIEWER);
 	if (parent) {

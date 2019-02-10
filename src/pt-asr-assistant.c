@@ -397,7 +397,7 @@ recursive_search_finished (PtAsrAssistant *self,
 	if (nothing_found) {
 		error_message (self,
 		               _("Nothing found"),
-		               _("This folder doesn't contain a suitable model."));
+		               _("This folder doesn’t contain a suitable model."));
 		search_result_free (r);
 		g_free (folder_uri);
 		gtk_assistant_set_page_complete (GTK_ASSISTANT (self),

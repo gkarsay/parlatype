@@ -20,7 +20,7 @@
 
 <media type="image" src="figures/lo-menu.png"/>
 
-<p>Go to tab <gui>Keyboard</gui>. In the lower part, <gui>Functions</gui>, there is a list called <gui>Category</gui>. At the end of that list you'll find the entry <gui>LibreOffice Macros</gui>. There is a subcategory <gui>share</gui> which has a subcategory <gui>Parlatype</gui>. After selecting <gui>Parlatype</gui> there will be a list of functions in the <gui>Functions</gui> list. Choose the function you'd like to use, select from the list <gui>Shortcut keys</gui> above a shortcut and click on the button <gui>Modify</gui>.</p>
+<p>Go to tab <gui>Keyboard</gui>. In the lower part, <gui>Functions</gui>, there is a list called <gui>Category</gui>. At the end of that list you’ll find the entry <gui>LibreOffice Macros</gui>. There is a subcategory <gui>share</gui> which has a subcategory <gui>Parlatype</gui>. After selecting <gui>Parlatype</gui> there will be a list of functions in the <gui>Functions</gui> list. Choose the function you’d like to use, select from the list <gui>Shortcut keys</gui> above a shortcut and click on the button <gui>Modify</gui>.</p>
 
 <media type="image" src="figures/lo-customize.png"/>
 
@@ -30,7 +30,7 @@
     <title>LibreOffice Helpers</title>
       <thead>
         <tr>
-          <td><p>Helper's name</p></td>
+          <td><p>Helper’s name</p></td>
           <td><p>What it does</p></td>
         </tr>
       </thead>
@@ -49,7 +49,7 @@
         </tr>
         <tr>
           <td><p its:translate="no">InsertTimestamp</p></td>
-          <td><p>Inserts the current timestamp at the cursor's position. It does not overwrite any selection.</p></td>
+          <td><p>Inserts the current timestamp at the cursor’s position. It does not overwrite any selection.</p></td>
         </tr>
         <tr>
           <td><p its:translate="no">InsertTimestampOnNewLine</p></td>
@@ -57,7 +57,7 @@
         </tr>
         <tr>
           <td><p its:translate="no">GotoTimestamp</p></td>
-          <td><p>If the cursor is set on a timestamp, it will jump to that position. The cursor has to be somewhere between the two number signs (#). Don't select the timestamp, just put the cursor inside.</p></td>
+          <td><p>If the cursor is set on a timestamp, it will jump to that position. The cursor has to be somewhere between the two number signs (#). Don’t select the timestamp, just put the cursor inside.</p></td>
         </tr>
         <tr>
           <td><p its:translate="no">IncreaseSpeed</p></td>

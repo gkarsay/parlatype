@@ -33,7 +33,7 @@
 <media type="image" src="figures/parlatype-prefs-controls.png"/>
 
 <list>
-<item><p>Jump back on pause: <app>Parlatype</app> will rewind a few seconds on each pause, this way you can easier resume typing. Set this value to 0 if you don't want this behaviour.</p></item>
+<item><p>Jump back on pause: <app>Parlatype</app> will rewind a few seconds on each pause, this way you can easier resume typing. Set this value to 0 if you don’t want this behaviour.</p></item>
 <item><p>Jump back: Configures how many seconds to skip when the <gui>Jump back</gui> button is pressed.</p></item>
 <item><p>Jump forward: Configures how many seconds to skip when the <gui>Jump forward</gui> button is pressed.</p></item>
 </list>

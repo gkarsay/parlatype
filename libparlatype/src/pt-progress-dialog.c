@@ -156,8 +156,8 @@ pt_progress_dialog_realize (GtkWidget *widget)
 {
 	GTK_WIDGET_CLASS (pt_progress_dialog_parent_class)->realize (widget);
 
-	/* Give the dialog a fixed width, so that the size doesn't change
-	   when the count jumps from 10 to 9. Probably it isn't exact
+	/* Give the dialog a fixed width, so that the size doesn’t change
+	   when the count jumps from 10 to 9. Probably it isn’t exact
 	   because depending on plural forms of the current locale the widest
 	   string might be another one. */
 
@@ -239,11 +239,11 @@ pt_progress_dialog_new (GtkWindow *win)
 			PT_TYPE_PROGRESS_DIALOG,
 			"buttons", GTK_BUTTONS_CANCEL,
 			"message_type", GTK_MESSAGE_OTHER,
-			"text", _("Loading file..."),
+			"text", _("Loading file…"),
 			"modal", TRUE,
 			"transient-for", win,
 			"image", NULL,	/* needed for Ubuntu only, property exists
 					   on vanilla GTK+ including 3.22, but is
-					   not used, Ubuntu's GTK+ patches use it */
+					   not used, Ubuntu’s GTK+ patches use it */
 			NULL);
 }

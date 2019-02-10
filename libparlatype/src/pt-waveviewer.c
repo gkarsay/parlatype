@@ -225,7 +225,7 @@ add_subtract_time (PtWaveviewer *self,
 		   gint          pixel,
 		   gboolean      stay_in_selection)
 {
-	/* add time to the cursor's time so that the cursor is moved x pixels */
+	/* add time to the cursor’s time so that the cursor is moved x pixels */
 
 	gint64 result;
 	gint   one_pixel;
@@ -265,7 +265,7 @@ update_selection (PtWaveviewer *self)
 		return;
 	}
 
-	/* Don't select too much */
+	/* Don’t select too much */
 	self->priv->dragstart = CLAMP (self->priv->dragstart, 0, self->priv->duration);
 	self->priv->dragend = CLAMP (self->priv->dragend, 0, self->priv->duration);
 
@@ -443,7 +443,7 @@ pt_waveviewer_button_press_event (GtkWidget      *widget,
 		return FALSE;
 
 	gint64 clicked;	/* the sample clicked on */
-	gint64 pos;	/* clicked sample's position in milliseconds */
+	gint64 pos;	/* clicked sample’s position in milliseconds */
 
 	clicked = (gint) event->x;
 	pos = pixel_to_time (self, clicked);
@@ -537,7 +537,7 @@ pt_waveviewer_motion_notify_event (GtkWidget      *widget,
 		return FALSE;
 
 	gint64 clicked;	/* the sample clicked on */
-	gint64 pos;	/* clicked sample's position in milliseconds */
+	gint64 pos;	/* clicked sample’s position in milliseconds */
 
 	clicked = (gint) event->x;
 	pos = pixel_to_time (self, clicked);
@@ -626,7 +626,7 @@ pt_waveviewer_direction_changed (GtkWidget *widget,
 
 	/* This is called after state-flags-changed signal.
 	   The waveform handles repainting itself, here we have to flip
-	   the GtkAdjustment and recalculate the cursor's position */
+	   the GtkAdjustment and recalculate the cursor’s position */
 	widget_width = gtk_widget_get_allocated_width (self->priv->waveform);
 	first_visible = (gint) gtk_adjustment_get_value (self->priv->adj);
 	page_width = (gint) gtk_adjustment_get_page_size (self->priv->adj);
@@ -661,7 +661,7 @@ scrollbar_button_press_event_cb (GtkWidget      *widget,
 				 GdkEventButton *event,
 				 gpointer        data)
 {
-	/* If user clicks on scrollbar don't follow cursor anymore.
+	/* If user clicks on scrollbar don’t follow cursor anymore.
 	   Otherwise it would scroll immediately back again. */
 
 	stop_following_cursor (PT_WAVEVIEWER (data));
@@ -675,7 +675,7 @@ scrollbar_scroll_event_cb (GtkWidget      *widget,
 			   GdkEventButton *event,
 			   gpointer        data)
 {
-	/* If user scrolls on scrollbar don't follow cursor anymore.
+	/* If user scrolls on scrollbar don’t follow cursor anymore.
 	   Otherwise it would scroll immediately back again. */
 
 	stop_following_cursor (PT_WAVEVIEWER (data));
@@ -739,7 +739,7 @@ pt_waveviewer_focus (GtkWidget        *widget,
 	   If moving into @direction would move focus outside of widget: return FALSE;
 	   If moving into @direction would stay inside widget: return TRUE */
 
-	/* Don't focus if empty */
+	/* Don’t focus if empty */
 	if (!self->priv->peaks)
 		return FALSE;
 
@@ -925,7 +925,7 @@ make_widget_ready (PtWaveviewer *self,
 
 	/* Here we would render the cursor and change the GtkAdjustment so that
 	   we show the intended part of the waveform after zooming.
-	   However, there were some issues because the waveform didn't
+	   However, there were some issues because the waveform didn’t
 	   allocate the new size in time. This is now done in the callback
 	   above, size_allocate_cb(). */
 }
@@ -1029,12 +1029,12 @@ pt_waveviewer_set_property (GObject      *object,
 
 	switch (property_id) {
 	case PROP_PLAYBACK_CURSOR:
-		/* ignore if cursor's value didn't change */
+		/* ignore if cursor’s value didn’t change */
 		if (self->priv->playback_cursor == g_value_get_int64 (value))
 			break;
 		self->priv->playback_cursor = g_value_get_int64 (value);
 
-		/* ignore if we're not realized yet, widget is in construction */
+		/* ignore if we’re not realized yet, widget is in construction */
 		if (!gtk_widget_get_realized (GTK_WIDGET (self)))
 			break;
 
@@ -1166,7 +1166,7 @@ pt_waveviewer_init (PtWaveviewer *self)
 			G_CALLBACK (size_allocate_cb),
 			self);
 
-	/* If overriding these vfuncs something's going wrong, note that focus-in
+	/* If overriding these vfuncs something’s going wrong, note that focus-in
 	   an focus-out need GdkEventFocus as 2nd parameter in vfunc */
 	g_signal_connect (self, "focus", G_CALLBACK (pt_waveviewer_focus), NULL);
 	g_signal_connect (self, "focus-in-event", G_CALLBACK (pt_waveviewer_focus_in_event), NULL);
@@ -1199,7 +1199,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 	* @viewer: the waveviewer emitting the signal
 	* @position: the new position in stream in milliseconds
 	*
-	* Signals that the cursor's position was changed by the user.
+	* Signals that the cursor’s position was changed by the user.
 	*/
 	signals[CURSOR_CHANGED] =
 	g_signal_new ("cursor-changed",
@@ -1311,7 +1311,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 	g_param_spec_int64 (
 			"playback-cursor",
 			"Cursor position",
-			"Cursor's position in 1/1000 seconds",
+			"Cursor’s position in 1/1000 seconds",
 			0,
 			G_MAXINT64,
 			0,
@@ -1321,7 +1321,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 	* PtWaveviewer:follow-cursor:
 	*
 	* If the widget follows the cursor, it scrolls automatically to the
-	* cursor's position. Note that the widget will change this property to
+	* cursor’s position. Note that the widget will change this property to
 	* FALSE if the user scrolls the widget manually.
 	*/
 
@@ -1329,7 +1329,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 	g_param_spec_boolean (
 			"follow-cursor",
 			_("Follow cursor"),
-			_("Scroll automatically to the cursor's position"),
+			_("Scroll automatically to the cursor’s position"),
 			TRUE,
 			G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
@@ -1382,7 +1382,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 	/**
 	* PtWaveviewer:selection-start:
 	*
-	* Start time of selection in milliseconds. If it's equal to the end
+	* Start time of selection in milliseconds. If it’s equal to the end
 	* time, there is no selection. See also #PtWaveviewer:has-selection.
 	*/
 
@@ -1399,7 +1399,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 	/**
 	* PtWaveviewer:selection-end:
 	*
-	* End time of selection in milliseconds. If it's equal to the start
+	* End time of selection in milliseconds. If it’s equal to the start
 	* time, there is no selection. See also #PtWaveviewer:has-selection.
 	*/
 

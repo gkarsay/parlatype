@@ -124,7 +124,7 @@ pt_waveviewer_cursor_size_allocate (GtkWidget     *widget,
 				    GtkAllocation *rectangle)
 {
 	GTK_WIDGET_CLASS (pt_waveviewer_cursor_parent_class)->size_allocate (widget, rectangle);
-	/* If widget changed vertical size, cursor's size has to be adjusted */
+	/* If widget changed vertical size, cursor’s size has to be adjusted */
 	cache_cursor (PT_WAVEVIEWER_CURSOR (widget));
 }
 

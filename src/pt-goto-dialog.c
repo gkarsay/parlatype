@@ -159,7 +159,7 @@ pt_goto_dialog_set_max (PtGotoDialog *dlg,
 	gtk_spin_button_set_range (GTK_SPIN_BUTTON (dlg->priv->spin), 0, (gdouble) seconds);
 	dlg->priv->max = seconds * 1000;
 
-	/* Set the width of the entry according to the length of the longest string it'll now accept */
+	/* Set the width of the entry according to the length of the longest string it’ll now accept */
 
 	time_string = pt_player_get_time_string (dlg->priv->max, dlg->priv->max, 0);
 	width = strlen (time_string);

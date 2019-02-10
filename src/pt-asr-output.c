@@ -132,7 +132,7 @@ on_focus_cb (AtspiEvent *event,
 		return;
 
 	/* We only care about focus/selection gain
-	   there's no detail1 on focus loss in AT-SPI specs
+	   there’s no detail1 on focus loss in AT-SPI specs
 	   taken from accessibilitywatcher.cpp from compiz-plugins-main */
 	if (!event->detail1)
 		return;
@@ -146,7 +146,7 @@ on_focus_cb (AtspiEvent *event,
 
 	self->priv->app_name = atspi_accessible_get_name (self->priv->app, NULL);
 	if (g_strcmp0 (self->priv->app_name, "gnome-shell") == 0) {
-		/* That's the search field of gnome shell when trying to find
+		/* That’s the search field of gnome shell when trying to find
 		   and launch a program */
 		g_free (self->priv->app_name);
 		return;

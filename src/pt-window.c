@@ -217,7 +217,7 @@ asr_output_app_found_cb (PtAsrOutput *output,
 	g_signal_handler_disconnect (win->priv->output, win->priv->output_handler_id2);
 
 	summary = g_strdup_printf (_("Found %s"), pt_asr_output_get_app_name (output));
-	message = _("Press \"Play\" to start automatic speech recognition.");
+	message = _("Press “Play” to start automatic speech recognition.");
 	notification = g_notification_new (summary);
 	g_notification_set_body (notification, message);
 	app = G_APPLICATION (gtk_window_get_application (GTK_WINDOW (win)));
@@ -322,7 +322,7 @@ change_mode (GSimpleAction *action,
 
 	g_simple_action_set_state (action, state);
 
-	/* On changing state the menu doesn't close. It seems better to close
+	/* On changing state the menu doesn’t close. It seems better to close
 	   it just like every other menu item closes the menu.
 	   Just in case this behaviour changes in the future, check if the
 	   menu is really open. */
@@ -686,7 +686,7 @@ pt_window_ready_to_play (PtWindow *win,
 		pt_waveviewer_set_wave (PT_WAVEVIEWER (win->priv->waveviewer),
 					win->priv->wavedata);
 		pt_wavedata_free (win->priv->wavedata);
-		/* add timer after waveviewer, didn't update cursor otherwise sometimes */
+		/* add timer after waveviewer, didn’t update cursor otherwise sometimes */
 		add_timer (win);
 
 	} else {
@@ -791,7 +791,7 @@ static void
 player_end_of_stream_cb (PtPlayer *player,
 			 PtWindow *win)
 {
-	/* Don't jump back */
+	/* Don’t jump back */
 	GtkToggleButton *play;
 	play = GTK_TOGGLE_BUTTON (win->priv->button_play);
 
@@ -1160,7 +1160,7 @@ setup_player (PtWindow *win)
 	if (!pt_player_setup_player (win->priv->player, &error)) {
 		gchar *secondary_message = g_strdup_printf (
 			_("Parlatype needs GStreamer 1.x to run. Please check your installation of "
-                        "GStreamer and make sure you have the \"Good Plugins\" installed.\n"
+                        "GStreamer and make sure you have the “Good Plugins” installed.\n"
                         "Parlatype will quit now, it received this error message: %s"), error->message);
 		pt_error_message (win, _("Fatal error"), secondary_message);
 		g_clear_error (&error);

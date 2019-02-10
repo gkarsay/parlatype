@@ -106,11 +106,11 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtPlayer, pt_player, G_TYPE_OBJECT)
  * While playing PtPlayer emits these signals:
  * - end-of-stream: End of file reached, in the GUI you might want to jump
  *    		       to the beginning, reset play button etc.
- * - error: A fatal error occured, the player is reset. There's an error message.
+ * - error: A fatal error occured, the player is reset. There’s an error message.
  *
  * PtPlayer has two properties:
  * - speed: is a double from 0.5 to 1.5. 1.0 is normal playback, < 1.0 is slower,
- *     > 1.0 is faster. Changing the "speed" property doesn't change playback though.
+ *     > 1.0 is faster. Changing the "speed" property doesn’t change playback though.
  *     Use the method instead.
  * - Volume is a double from 0 to 1. It can be set via the method or setting
       the "volume" property.
@@ -141,8 +141,8 @@ pt_player_seek (PtPlayer *player,
 		gint64    position)
 {
 	/* Set the pipeline to @position.
-	   The stop position (player->priv->segend) usually doesn't has to be
-	   set, but it's important after a segment/selection change and after
+	   The stop position (player->priv->segend) usually doesn’t has to be
+	   set, but it’s important after a segment/selection change and after
 	   a rewind (trickmode) has been completed. To simplify things, we
 	   always set the stop position. */
 
@@ -452,12 +452,12 @@ pt_player_open_uri_finish (PtPlayer	 *player,
  * @callback: (scope async): a #GAsyncReadyCallback to call when the operation is complete
  * @user_data: (closure): user_data for callback
  *
- * Opens a local audio file for playback. It doesn't work with videos or streams.
+ * Opens a local audio file for playback. It doesn’t work with videos or streams.
  * Only one file can be open at a time, playlists are not supported by the
  * backend. Opening a new file will close the previous one.
  *
  * When closing a file or on object destruction PtPlayer tries to write the
- * last position into the file's metadata. On opening a file it reads the
+ * last position into the file’s metadata. On opening a file it reads the
  * metadata and jumps to the last known position if found.
  *
  * The player is set to the paused state and ready for playback. To start
@@ -468,7 +468,7 @@ pt_player_open_uri_finish (PtPlayer	 *player,
  * pt_player_open_uri().
  *
  * While loading the file there is a #PtPlayer::load-progress signal emitted which stops before
- * reaching 100%. Don't use it to determine whether the operation is finished.
+ * reaching 100%. Don’t use it to determine whether the operation is finished.
  */
 void
 pt_player_open_uri_async (PtPlayer	      *player,
@@ -561,12 +561,12 @@ quit_loop_cb (PtPlayer	   *player,
  * @uri: the URI of the file
  * @error: (nullable): return location for an error, or NULL
  *
- * Opens a local audio file for playback. It doesn't work with videos or streams.
+ * Opens a local audio file for playback. It doesn’t work with videos or streams.
  * Only one file can be open at a time, playlists are not supported by the
  * backend. Opening a new file will close the previous one.
  *
  * When closing a file or on object destruction PtPlayer tries to write the
- * last position into the file's metadata. On opening a file it reads the
+ * last position into the file’s metadata. On opening a file it reads the
  * metadata and jumps to the last known position if found.
  *
  * The player is set to the paused state and ready for playback. To start
@@ -577,7 +577,7 @@ quit_loop_cb (PtPlayer	   *player,
  * pt_player_open_uri_async().
  *
  * While loading the file there is a #PtPlayer::load-progress signal emitted.
- * However, it doesn't emit 100%, the operation is finished when TRUE is returned.
+ * However, it doesn’t emit 100%, the operation is finished when TRUE is returned.
  *
  * Return value: TRUE if successful, or FALSE with error set
  */
@@ -630,7 +630,7 @@ pt_player_cancel (PtPlayer *player)
  * pt_player_pause:
  * @player: a #PtPlayer
  *
- * Sets the player to the paused state, meaning it stops playback and doesn't
+ * Sets the player to the paused state, meaning it stops playback and doesn’t
  * change position. To resume playback use @pt_player_play().
  */
 void
@@ -743,7 +743,7 @@ pt_player_play_pause (PtPlayer *player)
 	case GST_STATE_VOID_PENDING:
 		/* fall through */
 	case GST_STATE_READY:
-		/* don't know what to do */
+		/* don’t know what to do */
 		;
 	}
 
@@ -758,8 +758,8 @@ pt_player_play_pause (PtPlayer *player)
  * @end: selection end time in milliseconds
  *
  * Set a selection. If the current position is outside the selection, it will
- * be set to the selection's start position, otherwise the current position is
- * not changed. Playing will end at the stop position and it's not possible to
+ * be set to the selection’s start position, otherwise the current position is
+ * not changed. Playing will end at the stop position and it’s not possible to
  * jump out of the selection until it is cleared with #pt_player_clear_selection.
  */
 void
@@ -1042,7 +1042,7 @@ pt_player_jump_to_position (PtPlayer *player,
  *
  * This is used for scale widgets. Start of stream is at 0, end of stream is
  * at 1000. This will jump to the given position. If your widget uses a different
- * scale, it's up to you to convert it to 1/1000. Values beyond 1000 are not
+ * scale, it’s up to you to convert it to 1/1000. Values beyond 1000 are not
  * allowed, values outside the selection are ignored.
  */
 void
@@ -1095,7 +1095,7 @@ pt_player_get_permille (PtPlayer *player)
  * Normal speed is 1.0, everything above that is faster, everything below slower.
  * A speed of 0 is not allowed, use pt_player_pause() instead.
  * Recommended speed is starting from 0.5 as quality is rather poor below that.
- * Parlatype doesn't change the pitch during slower or faster playback.
+ * Parlatype doesn’t change the pitch during slower or faster playback.
  *
  * Note: If you want to change the speed during playback, you have to use this
  * method. Changing the "speed" property of PtPlayer, will take effect only
@@ -1148,7 +1148,7 @@ pt_player_set_volume (PtPlayer *player,
  * @mute: a gboolean
  *
  * Mute the player (with TRUE) or set it back to normal volume (with FALSE).
- * This remembers the volume level, so you don't have to keep track of the old value.
+ * This remembers the volume level, so you don’t have to keep track of the old value.
  */
 void
 pt_player_mute_volume (PtPlayer *player,
@@ -1207,7 +1207,7 @@ pt_player_get_duration (PtPlayer *player)
  * Returns wave data needed for visual representation as raw data. The
  * requested resolution is given as pixel per seconds, e.g. 100 means one second
  * is represented by 100 samples, is 100 pixels wide. The returned resolution
- * doesn't have to be necessarily exactly the requested resolution, it might be
+ * doesn’t have to be necessarily exactly the requested resolution, it might be
  * a bit differnt, depending on the bit rate.
  *
  * Return value: (transfer full): the #PtWavedata
@@ -1315,7 +1315,7 @@ pt_player_connect_waveviewer (PtPlayer *player,
  * pt_player_get_uri:
  * @player: a #PtPlayer
  *
- * Returns the URI of the currently open file or NULL if it can't be determined.
+ * Returns the URI of the currently open file or NULL if it can’t be determined.
  *
  * Return value: (transfer full): the uri
  */
@@ -1333,7 +1333,7 @@ pt_player_get_uri (PtPlayer *player)
  * pt_player_get_filename:
  * @player: a #PtPlayer
  *
- * Returns the display name of the currently open file or NULL if it can't be determined.
+ * Returns the display name of the currently open file or NULL if it can’t be determined.
  *
  * Return value: (transfer full): the file name
  */
@@ -1404,7 +1404,7 @@ pt_player_get_time_string (gint  time,
 			   gint  duration,
 			   PtPrecisionType precision)
 {
-	/* Don't assert time <= duration because duration is not exact */
+	/* Don’t assert time <= duration because duration is not exact */
 
 	g_return_val_if_fail (precision < PT_PRECISION_INVALID, NULL);
 
@@ -1680,7 +1680,7 @@ pt_player_get_timestamp (PtPlayer *player)
  * pt_player_get_timestamp_position:
  * @player: a #PtPlayer
  * @timestamp: the timestamp
- * @check_duration: checking the timestamp's validity also check duration
+ * @check_duration: checking the timestamp’s validity also check duration
  *
  * Returns the time in milliseconds represented by the timestamp or -1 for
  * invalid timestamps.
@@ -1795,13 +1795,13 @@ pt_player_get_timestamp_position (PtPlayer *player,
  * pt_player_string_is_timestamp:
  * @player: a #PtPlayer
  * @timestamp: the string to be checked
- * @check_duration: whether timestamp's time is less or equal stream's duration
+ * @check_duration: whether timestamp’s time is less or equal stream’s duration
  *
  * Returns whether the given string is a valid timestamp. With @check_duration
  * FALSE it checks only for the formal validity of the timestamp. With
  * @check_duration TRUE the timestamp must be within the duration to be valid.
  *
- * See also pt_player_goto_timestamp() if you want to go to the timestamp's
+ * See also pt_player_goto_timestamp() if you want to go to the timestamp’s
  * position immediately after.
  *
  * Return value: TRUE if the timestamp is valid, FALSE if not
@@ -1822,7 +1822,7 @@ pt_player_string_is_timestamp (PtPlayer *player,
  * @player: a #PtPlayer
  * @timestamp: the timestamp to go to
  *
- * Goes to the position of the timestamp. Returns false, if it's not a
+ * Goes to the position of the timestamp. Returns false, if it’s not a
  * valid timestamp.
  *
  * Return value: TRUE on success, FALSE if the timestamp is not valid
@@ -1880,7 +1880,7 @@ vol_changed (GObject    *object,
              GParamSpec *pspec,
              PtPlayer   *player)
 {
-	/* This is taken from Totem's bacon-video-widget.c
+	/* This is taken from Totem’s bacon-video-widget.c
 	   Changing the property immediately will crash, it has to be an idle source */
 
 	guint id;
@@ -1899,7 +1899,7 @@ make_element (gchar   *factoryname,
 	if (!result)
 		g_set_error (error, GST_CORE_ERROR,
 		             GST_CORE_ERROR_MISSING_PLUGIN,
-			    _("Failed to create plugin \"%s\"."), factoryname);
+			    _("Failed to load plugin “%s”."), factoryname);
 
 	return result;
 }
@@ -2009,7 +2009,7 @@ create_play_bin (PtPlayer  *player,
 Note 1: audio_bin is needed. If the audio-sink property of playbin is set to the
         tee element, there is an internal data stream error.
 
-Note 2: It doesn't work if play_bin or sphinx_bin are added to audio_bin but are
+Note 2: It doesn’t work if play_bin or sphinx_bin are added to audio_bin but are
         not linked! Either link it or remove it from bin!
 
 Note 3: The original intent was to dynamically switch the tee element to either
@@ -2153,7 +2153,7 @@ pt_player_setup_sphinx (PtPlayer  *player,
  * @error: (nullable): return location for an error, or NULL
  *
  * Setup the GStreamer pipeline for playback. This or pt_player_setup_sphinx()
- * must be called first on a new PtPlayer object. It's a programmer's error to
+ * must be called first on a new PtPlayer object. It’s a programmer’s error to
  * do anything with the #PtPlayer before calling the setup function.
  *
  * Return value: TRUE on success, FALSE if the pipeline could not be set up
@@ -2172,7 +2172,7 @@ pt_player_setup_player (PtPlayer  *player,
 	pos = pt_player_get_position (player);
 
 	/* Before removing and adding elements, set state to NULL to be on the
-	   safe side. Without changing volume didn't work anymore after switching
+	   safe side. Without changing volume didn’t work anymore after switching
 	   from playback setup to ASR setup and back again. */
 
 	pt_player_set_state_blocking (player, GST_STATE_NULL);
@@ -2385,7 +2385,7 @@ pt_player_class_init (PtPlayerClass *klass)
 	* @error: a GError
 	*
 	* The #PtPlayer::error signal is emitted on errors opening the file or during
-	* playback. It's a severe error and the player is always reset.
+	* playback. It’s a severe error and the player is always reset.
 	*/
 	g_signal_new ("error",
 		      PT_TYPE_PLAYER,
@@ -2475,7 +2475,7 @@ pt_player_class_init (PtPlayerClass *klass)
 	* mode as an intermediate result (hypothesis) of recognized words.
 	* The hypothesis can still change, an emitted hypothesis replaces the
 	* former hypothesis and is finalized via the #PtPlayer::asr-final signal.
-	* It's not necessary to connect to this signal if you want the final
+	* It’s not necessary to connect to this signal if you want the final
 	* result only. However, it can take a few seconds until a final result
 	* is emitted and without an intermediate hypothesis the end user might
 	* have the impression that there is nothing going on.

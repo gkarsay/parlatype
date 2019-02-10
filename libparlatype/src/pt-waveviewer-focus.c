@@ -26,7 +26,7 @@
 
 struct _PtWaveviewerFocusPrivate {
 	gboolean         focus; /* whether to render focus or not */
-	GtkAdjustment   *adj;	/* the parent PtWaveviewer's adjustment */
+	GtkAdjustment   *adj;	/* the parent PtWaveviewer’s adjustment */
 };
 
 
@@ -73,7 +73,7 @@ pt_waveviewer_focus_hierarchy_changed (GtkWidget *widget,
 	if (self->priv->adj)
 		return;
 
-	/* Get parent's GtkAdjustment */
+	/* Get parent’s GtkAdjustment */
 	GtkWidget *parent = NULL;
 	parent = gtk_widget_get_ancestor (widget, PT_TYPE_WAVEVIEWER);
 	if (parent) {

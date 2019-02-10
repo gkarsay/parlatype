@@ -62,7 +62,7 @@ pixel_to_array (PtWaveviewerWaveform *self,
 		gint64	              pixel)
 {
 	/* Convert a position in the drawing area to an index in the peaks array.
-	   The returned index is the peak's min value, +1 is the max value.
+	   The returned index is the peak’s min value, +1 is the max value.
 	   If the array would be exceeded, return -1 */
 
 	gint64 result;
@@ -103,7 +103,7 @@ pt_waveviewer_waveform_draw (GtkWidget *widget,
 
 	/* paint waveform */
 
-	/* get extents, only render what we're asked for */
+	/* get extents, only render what we’re asked for */
 	cairo_clip_extents (cr, &left, NULL, &right, NULL);
 	half = height / 2 - 1;
 	middle = height / 2;

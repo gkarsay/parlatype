@@ -132,7 +132,7 @@ name_appeared_cb (GDBusConnection *connection,
 			&error);
 
 	if (error) {
-		g_warning ("Couldn't create proxy for %s: %s", name, error->message);
+		g_warning ("Couldn’t create proxy for %s: %s", name, error->message);
 		g_error_free (error);
 		return;
 	}
@@ -159,7 +159,7 @@ clean_up (const gchar *name,
 	  PtWindow    *win)
 {
 	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
-	                  "MESSAGE", "Couldn't find %s", name);
+	                  "MESSAGE", "Couldn’t find %s", name);
 
 	if (win->priv->proxy) {
 		g_object_unref (win->priv->proxy);
@@ -184,7 +184,7 @@ name1_vanished_cb (GDBusConnection *connection,
 {
 	clean_up (name, win);
 
-	/* Now try org.gnome.SettingsDaemon ... */
+	/* Now try org.gnome.SettingsDaemon … */
 	win->priv->dbus_watch_id =
 		g_bus_watch_name (
 				G_BUS_TYPE_SESSION,
@@ -203,7 +203,7 @@ setup_mediakeys (PtWindow *win)
 	win->priv->dbus_watch_id = 0;
 
 	/* watch for GNOME settings daemon and stop watching immediatetly
-	   after because we don't assume this will change later on */
+	   after because we don’t assume this will change later on */
 	win->priv->dbus_watch_id =
 		g_bus_watch_name (
 				G_BUS_TYPE_SESSION,

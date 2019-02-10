@@ -90,7 +90,7 @@ on_wave_loader_new_pad (GstElement *bin,
 			gpointer    user_data)
 {
 	if (!gst_element_link (bin, GST_ELEMENT (user_data))) {
-		GST_WARNING ("Can't link output of wave decoder to converter.");
+		GST_WARNING ("Can’t link output of wave decoder to converter.");
 	}
 }
 
@@ -130,14 +130,14 @@ setup_pipeline (PtWaveloader *wl)
 	result = gst_element_link (src, dec);
 	if (!result) {
 		GST_WARNING_OBJECT (wl->priv->pipeline,
-			"Can't link wave loader pipeline (src ! dec ! conv ! fmt ! sink).");
+			"Can’t link wave loader pipeline (src ! dec ! conv ! fmt ! sink).");
 		return result;
 	}
 
 	result = gst_element_link_many (conv, wl->priv->fmt, sink, NULL);
 	if (!result) {
 		GST_WARNING_OBJECT (wl->priv->pipeline,
-			"Can't link wave loader pipeline (conf ! fmt ! sink).");
+			"Can’t link wave loader pipeline (conf ! fmt ! sink).");
 		return result;
 	}
 
@@ -151,7 +151,7 @@ static gboolean
 check_progress (GTask *task)
 {
 	/* This timeout runs parallel to message bus (bus_handler()).
-	   If it's removed, the message bus has to be removed, too, and also
+	   If it’s removed, the message bus has to be removed, too, and also
 	   the other way round. */
 
 	PtWaveloader *wl = g_task_get_source_object (task);
@@ -314,7 +314,7 @@ pt_waveloader_load_finish (PtWaveloader  *wl,
  *
  * Writes the raw sample data to a temporary file and also gets the number of
  * channels, the bit rate and the exact duration. Load only once and on success
- * the data can be retrieved as a #PtWavedata. It's a programmer's error trying
+ * the data can be retrieved as a #PtWavedata. It’s a programmer’s error trying
  * to retrieve the data without prior loading.
  *
  * Emits a progress signal while saving the temporary file.
@@ -403,7 +403,7 @@ pt_waveloader_get_duration (PtWaveloader *wl)
  * Returns wave data needed for visual representation as raw data. The
  * requested resolution is given as pixel per seconds, e.g. 100 means one second
  * is represented by 100 samples, is 100 pixels wide. The returned resolution
- * doesn't have to be necessarily exactly the requested resolution, it might be
+ * doesn’t have to be necessarily exactly the requested resolution, it might be
  * a bit differnt, depending on the bit rate.
  *
  * Return value: (transfer full): the #PtWavedata, after use free with pt_wavedata_free()
@@ -429,7 +429,7 @@ pt_waveloader_get_data (PtWaveloader *wl,
 		return NULL;
 	}
 
-	/* Adjust pixel per second ratio if there's a remainder */
+	/* Adjust pixel per second ratio if there’s a remainder */
 	for (i = pps; i > 10; i--) {
 		if (wl->priv->rate % i == 0) {
 			pps = i;
@@ -441,7 +441,7 @@ pt_waveloader_get_data (PtWaveloader *wl,
 	chunk_bytes = 2 * chunk_size;
 	wl->priv->data_size = buf.st_size / chunk_size;
 
-	/* Data size should match exactly duration or less, but sometimes it doesn't ... */
+	/* Data size should match exactly duration or less, but sometimes it doesn’t … */
 	while (calculate_duration (wl->priv->data_size, pps) > GST_TIME_AS_MSECONDS (wl->priv->duration)) {
 		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
 			          "MESSAGE", "Adjusting array size");
