@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-08 19:24+0100\n"
-"PO-Revision-Date: 2019-02-08 19:27+0100\n"
+"POT-Creation-Date: 2019-02-11 18:55+0100\n"
+"PO-Revision-Date: 2019-02-11 18:59+0100\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
 "Language-Team: Deutsch <>\n"
 "Language: de\n"
@@ -62,7 +62,7 @@ msgid "Control Parlatype using LibreOffice macros"
 msgstr "Parlatype mit Hilfe von LibreOffice-Makros bedienen"
 
 #: src/pt-app.c:42
-msgid "Show the application's version"
+msgid "Show the application’s version"
 msgstr "Version der Anwendung anzeigen"
 
 #: src/pt-app.c:50
@@ -152,7 +152,7 @@ msgid "Nothing found"
 msgstr "Nichts gefunden"
 
 #: src/pt-asr-assistant.c:400
-msgid "This folder doesn't contain a suitable model."
+msgid "This folder doesn’t contain a suitable model."
 msgstr "Dieses Verzeichnis enthält kein geeignetes Modell."
 
 #: src/pt-asr-assistant.c:450
@@ -234,7 +234,7 @@ msgstr "Konfiguration löschen"
 
 #: src/pt-preferences.c:288
 #, c-format
-msgid "Do you really want to delete \"%s\"?"
+msgid "Do you really want to delete “%s”?"
 msgstr "Wollen Sie wirklich »%s« löschen?"
 
 #: src/pt-window.c:219
@@ -243,7 +243,7 @@ msgid "Found %s"
 msgstr "%s gefunden"
 
 #: src/pt-window.c:220
-msgid "Press \"Play\" to start automatic speech recognition."
+msgid "Press “Play” to start automatic speech recognition."
 msgstr ""
 "Drücken Sie »Wiedergabe«, um die automatische Spracherkennung zu beginnen."
 
@@ -289,7 +289,7 @@ msgstr "Zu Zeit aus Zwischenablage gehen"
 #, c-format
 msgid ""
 "Parlatype needs GStreamer 1.x to run. Please check your installation of "
-"GStreamer and make sure you have the \"Good Plugins\" installed.\n"
+"GStreamer and make sure you have the “Good Plugins” installed.\n"
 "Parlatype will quit now, it received this error message: %s"
 msgstr ""
 "Parlatype braucht GStreamer 1.x, um zu funktionieren. Bitte überprüfen Sie "
@@ -315,7 +315,7 @@ msgid ""
 "Parlatype uses CMU Sphinx as its speech recognition engine. You can download "
 "models suitable for CMU Sphinx for example from <a href=\"https://"
 "sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Language%20Models/"
-"\">CMU Sphinx' sourceforge repository</a>. It has models for some of the "
+"\">CMU Sphinx’ sourceforge repository</a>. It has models for some of the "
 "most widespread languages."
 msgstr ""
 "Parlatype verwendet CMU Sphinx als Spracherkennungssystem. Sie können für "
@@ -326,8 +326,8 @@ msgstr ""
 
 #: src/resources/asr-assistant.ui:45
 msgid ""
-"If it's compressed, uncompress the model. Save it to a folder where it can "
-"stay. Parlatype doesn't copy the model internally."
+"If it’s compressed, uncompress the model. Save it to a folder where it can "
+"stay. Parlatype doesn’t copy the model internally."
 msgstr ""
 "Wenn es komprimiert ist, entpacken Sie das Modell. Speichern Sie es in einem "
 "Verzeichnis, wo es bleiben kann. Parlatype erstellt intern keine Kopie des "
@@ -369,7 +369,7 @@ msgstr ""
 "einen Namen:"
 
 #: src/resources/goto-dialog.ui:13 src/resources/menus.ui:46
-msgid "Go to ..."
+msgid "Go to…"
 msgstr "Gehe zu …"
 
 #: src/resources/goto-dialog.ui:40
@@ -396,7 +396,7 @@ msgstr "Aktionsmenü anzeigen/verbergen"
 msgid "Quit"
 msgstr "Beenden"
 
-#: src/resources/help-overlay.ui:42 src/resources/preferences.ui:272
+#: src/resources/help-overlay.ui:42 src/resources/preferences.ui:271
 msgid "Waveform"
 msgstr "Wellenform"
 
@@ -513,137 +513,137 @@ msgstr "Hundertstelsekunden"
 msgid "Parlatype Preferences"
 msgstr "Einstellungen für Parlatype"
 
-#: src/resources/preferences.ui:142
+#: src/resources/preferences.ui:141
 msgid "_Pixels per second:"
 msgstr "_Pixel pro Sekunde:"
 
-#: src/resources/preferences.ui:172
+#: src/resources/preferences.ui:171
 msgid "Show _time scale"
 msgstr "_Zeitskala anzeigen"
 
 #. Resolution of the waveform image
-#: src/resources/preferences.ui:190
+#: src/resources/preferences.ui:189
 msgid "Resolution"
 msgstr "Auflösung"
 
 #. A section in preferences, how to display the waveform.
-#: src/resources/preferences.ui:205
+#: src/resources/preferences.ui:204
 msgid "Display"
 msgstr "Anzeige"
 
-#: src/resources/preferences.ui:218
+#: src/resources/preferences.ui:217
 msgid "_Moving cursor"
 msgstr "Cursor _bewegt sich"
 
-#: src/resources/preferences.ui:235
+#: src/resources/preferences.ui:234
 msgid "_Fixed cursor"
 msgstr "Cursor ist _fixiert"
 
-#: src/resources/preferences.ui:289
+#: src/resources/preferences.ui:288
 msgid "Jumps"
 msgstr "Sprünge"
 
-#: src/resources/preferences.ui:391
+#: src/resources/preferences.ui:390
 msgid "Jump _forward:"
 msgstr "_Vorwärts springen:"
 
-#: src/resources/preferences.ui:405
+#: src/resources/preferences.ui:404
 msgid "Jump _back:"
 msgstr "_Zurückspringen:"
 
-#: src/resources/preferences.ui:419
+#: src/resources/preferences.ui:418
 msgid "Jump back on _pause:"
 msgstr "Bei _Pause zurückspulen:"
 
-#: src/resources/preferences.ui:442
+#: src/resources/preferences.ui:441
 msgid "Pressing “Play” at the end of file"
 msgstr "»Wiedergabe« drücken am Ende der Datei"
 
-#: src/resources/preferences.ui:456
+#: src/resources/preferences.ui:455
 msgid "Replay file"
 msgstr "Datei wieder abspielen"
 
-#: src/resources/preferences.ui:475
+#: src/resources/preferences.ui:474
 msgid "Pressing “Play” at the end of selection"
 msgstr "»Wiedergabe« drücken am Ende einer Auswahl"
 
-#: src/resources/preferences.ui:489
+#: src/resources/preferences.ui:488
 msgid "Replay selection"
 msgstr "Auswahl wieder abspielen"
 
-#: src/resources/preferences.ui:511
+#: src/resources/preferences.ui:510
 msgid "Controls"
 msgstr "Steuerung"
 
-#: src/resources/preferences.ui:554
+#: src/resources/preferences.ui:553
 msgid "Hours and zeroes"
 msgstr "Stunden und Nullen"
 
-#: src/resources/preferences.ui:567
+#: src/resources/preferences.ui:566
 msgid "Always show hours and leading zeroes"
 msgstr "Immer Stunden und führende Null zeigen"
 
-#: src/resources/preferences.ui:585
+#: src/resources/preferences.ui:584
 msgid "Precision"
 msgstr "Genauigkeit"
 
-#: src/resources/preferences.ui:601
+#: src/resources/preferences.ui:600
 msgid "Characters around timestamps"
 msgstr "Zeichen um Zeitstempel"
 
-#: src/resources/preferences.ui:617
+#: src/resources/preferences.ui:616
 msgid "Examples"
 msgstr "Beispiele"
 
-#: src/resources/preferences.ui:659
+#: src/resources/preferences.ui:658
 msgid "Precision:"
 msgstr "Genauigkeit:"
 
-#: src/resources/preferences.ui:691
+#: src/resources/preferences.ui:690
 msgid "Fraction separator:"
 msgstr "Abgrenzung für Sekundenbruchteile:"
 
-#: src/resources/preferences.ui:734
+#: src/resources/preferences.ui:733
 msgid "Timestamps"
 msgstr "Zeitstempel"
 
-#: src/resources/preferences.ui:865
+#: src/resources/preferences.ui:864
 msgid "Language model:"
 msgstr "Sprachmodell:"
 
-#: src/resources/preferences.ui:892
+#: src/resources/preferences.ui:891
 msgid "Dictionary:"
 msgstr "Wörterbuch:"
 
-#: src/resources/preferences.ui:919
+#: src/resources/preferences.ui:918
 msgid "Acoustic model folder:"
 msgstr "Verzeichnis mit akustischem Modell:"
 
-#: src/resources/preferences.ui:965
+#: src/resources/preferences.ui:966
 msgid "There is no configuration"
 msgstr "Es gibt keine Konfiguration"
 
-#: src/resources/preferences.ui:975
+#: src/resources/preferences.ui:976
 msgid "Add a configuration"
 msgstr "Konfiguration hinzufügen"
 
-#: src/resources/preferences.ui:1004
+#: src/resources/preferences.ui:1005
 msgid "Speech recognition"
 msgstr "Spracherkennung"
 
-#: src/resources/preferences.ui:1022
+#: src/resources/preferences.ui:1023
 msgid "Remember _size"
 msgstr "_Größe des Fensters merken"
 
-#: src/resources/preferences.ui:1037
+#: src/resources/preferences.ui:1038
 msgid "Remember _position"
 msgstr "_Position des Fensters merken"
 
-#: src/resources/preferences.ui:1052
+#: src/resources/preferences.ui:1053
 msgid "Start on _top"
 msgstr "»Immer im _Vordergrund« starten"
 
-#: src/resources/preferences.ui:1074
+#: src/resources/preferences.ui:1075
 msgid "Window"
 msgstr "Fenster"
 
@@ -658,6 +658,9 @@ msgstr "Geschwindigkeit:"
 #: src/resources/window-headerbar.ui:17
 msgid "Open a file"
 msgstr "Eine Datei öffnen"
+
+#~ msgid "Go to ..."
+#~ msgstr "Gehe zu …"
 
 #~ msgid "_No"
 #~ msgstr "_Nein"
