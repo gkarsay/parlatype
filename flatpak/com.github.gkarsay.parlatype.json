@@ -12,6 +12,8 @@
         "--socket=x11",
         "--socket=wayland",
         "--socket=pulseaudio",
+        "--filesystem=home:ro",
+        "--filesystem=~/.local/share/parlatype"
         "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
         "--filesystem=xdg-run/dconf",
         "--filesystem=~/.config/dconf:ro",
