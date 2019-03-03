@@ -344,6 +344,16 @@ get_asr_settings_filename (void)
 	return filename;
 }
 
+static gboolean
+is_flatpak (void)
+{
+	/* Flatpak sandboxes have a file ".flatpak-info" in their filesystem root.
+	   It's a keyfile, an example how to read is get_flatpak_information() in
+	   https://gitlab.gnome.org/GNOME/recipes/blob/master/src/gr-about-dialog.c */
+
+	return (g_file_test ("/.flatpak-info", G_FILE_TEST_EXISTS));
+}
+
 static void
 pt_app_init (PtApp *app)
 {
@@ -351,7 +361,11 @@ pt_app_init (PtApp *app)
 
 	g_application_add_main_option_entries (G_APPLICATION (app), options);
 
-	app->priv->atspi = TRUE;
+	/* In Flatpak's sandbox ATSPI doesn't work */
+	if (is_flatpak ())
+		app->priv->atspi = FALSE;
+	else
+		app->priv->atspi = TRUE;
 
 	gchar *asr_settings_filename;
 	asr_settings_filename = get_asr_settings_filename ();
