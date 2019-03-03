@@ -1928,7 +1928,7 @@ create_sphinx_bin (PtPlayer  *player,
 	GstElement *audioresample;
 	GstElement *fakesink;
 
-	player->sphinx = G_OBJECT (make_element ("pocketsphinx-patched", "sphinx", &earlier_error));
+	player->sphinx = G_OBJECT (make_element ("parlasphinx", "sphinx", &earlier_error));
 	/* defined error propagation; skipping any cleanup */
 	PROPAGATE_ERROR_NULL
 	queue = make_element ("queue", "sphinx_queue", &earlier_error);

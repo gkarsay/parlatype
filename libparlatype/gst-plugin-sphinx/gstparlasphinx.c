@@ -45,7 +45,7 @@
  *
  * The element runs the speech recohgnition on incomming audio buffers and
  * generates an element messages named <classname>&quot;pocketsphinx&quot;</classname>
- * for each hypothesis and one for the final result. The message's structure 
+ * for each hypothesis and one for the final result. The message's structure
  * contains these fields:
  *
  * <itemizedlist>
@@ -95,7 +95,7 @@
 #include <sphinxbase/err.h>
 #include <sphinxbase/strfuncs.h>
 
-#include "gstpocketsphinx.h"
+#include "gstparlasphinx.h"
 
 GST_DEBUG_CATEGORY_STATIC(parlasphinx_debug);
 #define GST_CAT_DEFAULT parlasphinx_debug
@@ -156,7 +156,7 @@ enum
 
 /* Default command line. (will go away soon and be constructed using properties) */
 static char *default_argv[] = {
-    "gst-pocketsphinx",
+    "gst-parlasphinx",
 };
 static const int default_argc = sizeof(default_argv)/sizeof(default_argv[0]);
 
@@ -386,7 +386,7 @@ gst_parlasphinx_set_property(GObject * object, guint prop_id,
     GstParlaSphinx *ps = GST_PARLASPHINX(object);
 
     switch (prop_id) {
-    
+
     case PROP_HMM_DIR:
         gst_parlasphinx_set_string(ps, "-hmm", value);
         break;
@@ -503,7 +503,7 @@ gst_parlasphinx_set_property(GObject * object, guint prop_id,
         G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
         return;
     }
-    
+
     /* If decoder was already initialized, reinit */
     if (ps->ps && prop_id != PROP_LATDIR && prop_id != PROP_LM_NAME)
 	ps_reinit(ps->ps, ps->config);
@@ -625,7 +625,7 @@ static GstStateChangeReturn
 gst_parlasphinx_change_state(GstElement *element, GstStateChange transition)
 {
     GstParlaSphinx *ps = GST_PARLASPHINX(element);
-    
+
     switch (transition) {
          case GST_STATE_CHANGE_NULL_TO_READY:
 	    ps->ps = ps_init(ps->config);
@@ -641,8 +641,8 @@ gst_parlasphinx_change_state(GstElement *element, GstStateChange transition)
             ps->ps = NULL;
          default:
             break;
-    }                             
-    
+    }
+
     return GST_ELEMENT_CLASS(gst_parlasphinx_parent_class)->change_state(element, transition);
 }
 
@@ -786,7 +786,7 @@ plugin_init(GstPlugin * plugin)
 
     err_set_callback(gst_parlasphinx_log, NULL);
 
-    if (!gst_element_register(plugin, "pocketsphinx-patched",
+    if (!gst_element_register(plugin, "parlasphinx",
                               GST_RANK_NONE, GST_TYPE_PARLASPHINX))
         return FALSE;
     return TRUE;
@@ -794,8 +794,8 @@ plugin_init(GstPlugin * plugin)
 
 GST_PLUGIN_DEFINE(GST_VERSION_MAJOR,
                   GST_VERSION_MINOR,
-                  pocketsphinxparlatype,
-                  "PocketSphinx plugin",
+                  parlasphinx,
+                  "ParlaSphinx plugin",
                   plugin_init, PACKAGE_VERSION,
                   "BSD",
-                  "PocketSphinx", "http://cmusphinx.sourceforge.net/")
+                  "ParlaSphinx", "http://cmusphinx.sourceforge.net/")
