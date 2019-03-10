@@ -1,5 +1,6 @@
 media = [
 	'figures/parlatype-icon.png',
+	'figures/parlatype-prefs-asr.png',
 	'figures/parlatype-prefs-controls.png',
 	'figures/parlatype-prefs-timestamps.png',
 	'figures/parlatype-prefs-waveform.png',
