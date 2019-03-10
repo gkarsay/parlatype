@@ -29,17 +29,6 @@ i18n.merge_file(
 	install_dir: join_paths(datadir, 'metainfo')
 )
 
-lo_metainfo = app_id + '.libreoffice-helpers.metainfo.xml'
-if libreoffice
-	i18n.merge_file(
-		input: lo_metainfo + '.in',
-		output: lo_metainfo,
-		type: 'xml',
-		po_dir: '../po',
-		install: true,
-		install_dir: join_paths(datadir, 'metainfo')
-	)
-endif
 
 appstream_util = find_program('appstream-util', required: false)
 if appstream_util.found()
@@ -48,13 +37,6 @@ if appstream_util.found()
 		args: ['validate-relax', '--nonet', appdata],
 		workdir: meson.current_build_dir()
 	)
-	if libreoffice
-		test('Validating ' + lo_metainfo,
-			appstream_util,
-			args: ['validate-relax', '--nonet', lo_metainfo],
-			workdir: meson.current_build_dir()
-		)
-	endif
 endif
 
 install_data(

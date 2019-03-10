@@ -42,6 +42,9 @@ subdir('libparlatype')
 subdir('data')
 subdir('docs')
 subdir('help')
-subdir('libreoffice')
 subdir('po')
 subdir('src')
+
+if libreoffice
+	subdir('libreoffice')
+endif
