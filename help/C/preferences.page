@@ -13,12 +13,14 @@
 
 <title>Preferences</title>
 
-<p>To open the preferences dialog click on the primary menu in the headerbar. There are four tabs: <gui>Waveform</gui>, <gui>Controls</gui>, <gui>Timestamps</gui> and <gui>Window</gui>.</p>
+<p>To open the preferences dialog click on the primary menu in the headerbar.</p>
+
+<links type="section" />
 
 <section id="waveform">
-<title>Waveform</title>
+<title>Preferences for the waveform</title>
 
-<media type="image" src="figures/parlatype-prefs-waveform.png"/>
+<media type="image" src="figures/parlatype-prefs-waveform.png" style="floatend" />
 
 <list>
 <item><p>Resolution: The resolution of the waveform image is given in pixels per second, e.g. the default resolution of 100 means, that one second is shown with a width of 100 pixels.</p></item>
@@ -28,21 +30,23 @@
 </section>
 
 <section id="controls">
-<title>Controls</title>
+<title>Preferences for controls</title>
 
-<media type="image" src="figures/parlatype-prefs-controls.png"/>
+<media type="image" src="figures/parlatype-prefs-controls.png" style="floatend" />
 
 <list>
 <item><p>Jump back on pause: <app>Parlatype</app> will rewind a few seconds on each pause, this way you can easier resume typing. Set this value to 0 if you don’t want this behaviour.</p></item>
 <item><p>Jump back: Configures how many seconds to skip when the <gui>Jump back</gui> button is pressed.</p></item>
 <item><p>Jump forward: Configures how many seconds to skip when the <gui>Jump forward</gui> button is pressed.</p></item>
+<item><p>Pressing <gui>Play</gui> at the end of file – Replay file: Whether you want to repeat the file at the end. If not, it will replay a few seconds like on pause.</p></item>
+<item><p>Pressing <gui>Play</gui> at the end of selection – Replay selection: Whether you want to repeat the selection. If not, it will replay a few seconds like on pause.</p></item>
 </list>
 </section>
 
-<section id="timstamps">
-<title>Timestamps</title>
+<section id="timestamps">
+<title>Preferences for timestamps</title>
 
-<media type="image" src="figures/parlatype-prefs-timestamps.png"/>
+<media type="image" src="figures/parlatype-prefs-timestamps.png" style="floatend" />
 
 <p>These settings affect how <app>Parlatype</app> formats timestamps. If you need a certain format in your transcription, you can adjust it here.</p>
 <note><p>There are no settings for <em>reading</em> timestamps. <app>Parlatype</app> reads and accepts all of these formats.</p></note>
@@ -54,10 +58,24 @@
 </list>
 </section>
 
-<section id="window">
-<title>Window</title>
+<section id="asr">
+<title>Preferences for speech recognition</title>
 
-<media type="image" src="figures/parlatype-prefs-window.png"/>
+<media type="image" src="figures/parlatype-prefs-asr.png" style="floatend" />
+
+<p>Here you can choose which language model to use. If you don’t have a language model yet, an assistant will guide you through the process of downloading it. You can have as many language models as you need, they can be added with the <gui>+</gui> button.</p>
+
+<p>To select a model click on its radio button in the list. If you click just on the name, you can see the model’s basic parameters. You could even change them, but that’s not recommended.</p>
+
+<p>The <gui>-</gui> button removes a model from the list. The model’s files however are <em>not</em> deleted, just the model entry is removed.</p>
+
+</section>
+
+
+<section id="window">
+<title>Preferences for the window</title>
+
+<media type="image" src="figures/parlatype-prefs-window.png" style="floatend" />
 
 <list>
 <item><p>Remember size: On start-up <app>Parlatype</app> sets the window size to the size it had the last time.</p></item>

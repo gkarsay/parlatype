@@ -19,7 +19,7 @@
 <p>Timestamps can look like this: #03:45.2#. You can select them with or without the number signs.</p>
 </note>
 
-<p><app>Parlatype</app> can produce different timestamp formats, they can be set in <link xref="preferences" />.</p>
+<p><app>Parlatype</app> can produce different timestamp formats, they can be set in <link xref="preferences#timestamps" />.</p>
 
 <section id="timestamps-dnd">
 <title>Drag and drop</title>
