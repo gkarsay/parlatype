@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
-"POT-Creation-Date: 2019-02-11 18:56+0100\n"
-"PO-Revision-Date: 2019-02-11 19:27+0100\n"
+"POT-Creation-Date: 2019-03-10 12:48+0100\n"
+"PO-Revision-Date: 2019-03-10 13:03+0100\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
 "Language-Team: Deutsch <>\n"
 "Language: de\n"
@@ -766,25 +766,22 @@ msgstr "Einstellungen"
 #. (itstool) path: page/p
 #: C/preferences.page:16
 msgid ""
-"To open the preferences dialog click on the primary menu in the headerbar. "
-"There are four tabs: <gui>Waveform</gui>, <gui>Controls</gui>, "
-"<gui>Timestamps</gui> and <gui>Window</gui>."
+"To open the preferences dialog click on the primary menu in the headerbar."
 msgstr ""
 "Um das Einstellungsfenster zu öffnen, klicken Sie auf das Hauptmenü in der "
-"Werkzeugleiste. Es gibt vier Reiter: <gui>Wellenform</gui>, <gui>Steuerung</"
-"gui>, <gui>Zeitstempel</gui> und <gui>Fenster</gui>."
+"Werkzeugleiste."
 
 #. (itstool) path: section/title
-#: C/preferences.page:19
-msgid "Waveform"
-msgstr "Wellenform"
+#: C/preferences.page:21
+msgid "Preferences for the waveform"
+msgstr "Einstellungen für die Wellenform"
 
 #. (itstool) path: section/media
 #. This is a reference to an external file such as an image or video. When
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/preferences.page:21
+#: C/preferences.page:23
 #, fuzzy
 msgctxt "_"
 msgid ""
@@ -793,7 +790,7 @@ msgid ""
 msgstr "übersetzt"
 
 #. (itstool) path: item/p
-#: C/preferences.page:24
+#: C/preferences.page:26
 msgid ""
 "Resolution: The resolution of the waveform image is given in pixels per "
 "second, e.g. the default resolution of 100 means, that one second is shown "
@@ -804,7 +801,7 @@ msgstr ""
 "von 100 Pixeln dargestellt wird."
 
 #. (itstool) path: item/p
-#: C/preferences.page:25
+#: C/preferences.page:27
 msgid ""
 "Fixed vs. moving cursor: There are two modes, how to follow the cursor. On "
 "slower systems a moving cursor might be smoother."
@@ -814,21 +811,21 @@ msgstr ""
 "Cursor vermutlich flüssiger."
 
 #. (itstool) path: item/p
-#: C/preferences.page:26
+#: C/preferences.page:28
 msgid "Show time scale: Turn the time scale on or off."
 msgstr "Zeitskala anzeigen: Schaltet die Zeitskala an oder aus."
 
 #. (itstool) path: section/title
-#: C/preferences.page:31
-msgid "Controls"
-msgstr "Steuerung"
+#: C/preferences.page:33
+msgid "Preferences for controls"
+msgstr "Einstellungen für die Steuerung"
 
 #. (itstool) path: section/media
 #. This is a reference to an external file such as an image or video. When
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/preferences.page:33
+#: C/preferences.page:35
 #, fuzzy
 msgctxt "_"
 msgid ""
@@ -837,7 +834,7 @@ msgid ""
 msgstr "übersetzt"
 
 #. (itstool) path: item/p
-#: C/preferences.page:36
+#: C/preferences.page:38
 msgid ""
 "Jump back on pause: <app>Parlatype</app> will rewind a few seconds on each "
 "pause, this way you can easier resume typing. Set this value to 0 if you "
@@ -849,7 +846,7 @@ msgstr ""
 "dieses Verhalten nicht wünschen."
 
 #. (itstool) path: item/p
-#: C/preferences.page:37
+#: C/preferences.page:39
 msgid ""
 "Jump back: Configures how many seconds to skip when the <gui>Jump back</gui> "
 "button is pressed."
@@ -858,7 +855,7 @@ msgstr ""
 "wenn der <gui>Zurückspringen</gui>-Knopf gedrückt wird."
 
 #. (itstool) path: item/p
-#: C/preferences.page:38
+#: C/preferences.page:40
 msgid ""
 "Jump forward: Configures how many seconds to skip when the <gui>Jump "
 "forward</gui> button is pressed."
@@ -866,18 +863,39 @@ msgstr ""
 "Vorwärts springen: Legt fest, wie viele Sekunden übersprungen werden, wenn "
 "der <gui>Vorwärts springen</gui>-Knopf gedrückt wird."
 
+#. (itstool) path: item/p
+#: C/preferences.page:41
+msgid ""
+"Pressing <gui>Play</gui> at the end of file – Replay file: Whether you want "
+"to repeat the file at the end. If not, it will replay a few seconds like on "
+"pause."
+msgstr ""
+"<gui>Wiedergabe</gui> drücken am Ende der Datei – Datei wieder abspielen: "
+"Legt fest, ob Sie die Datei am Ende wieder abspielen wollen. Wenn nicht, "
+"wird wie bei einer Pause einige Sekunden zurückspult."
+
+#. (itstool) path: item/p
+#: C/preferences.page:42
+msgid ""
+"Pressing <gui>Play</gui> at the end of selection – Replay selection: Whether "
+"you want to repeat the selection. If not, it will replay a few seconds like "
+"on pause."
+msgstr ""
+"<gui>Wiedergabe</gui> drücken am Ende einer Auswahl – Auswahl wieder "
+"abspielen: Legt fest, ob Sie die Auswahl am Ende wieder abspielen wollen. "
+"Wenn nicht, wird wie bei einer Pause einige Sekunden zurückspult."
+
 #. (itstool) path: section/title
-#. (itstool) path: page/title
-#: C/preferences.page:43 C/timestamps.page:14
-msgid "Timestamps"
-msgstr "Zeitstempel"
+#: C/preferences.page:47
+msgid "Preferences for timestamps"
+msgstr "Einstellungen für Zeitstempel"
 
 #. (itstool) path: section/media
 #. This is a reference to an external file such as an image or video. When
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/preferences.page:45
+#: C/preferences.page:49
 #, fuzzy
 msgctxt "_"
 msgid ""
@@ -886,7 +904,7 @@ msgid ""
 msgstr "übersetzt"
 
 #. (itstool) path: section/p
-#: C/preferences.page:47
+#: C/preferences.page:51
 msgid ""
 "These settings affect how <app>Parlatype</app> formats timestamps. If you "
 "need a certain format in your transcription, you can adjust it here."
@@ -896,7 +914,7 @@ msgstr ""
 "können Sie es hier einstellen."
 
 #. (itstool) path: note/p
-#: C/preferences.page:48
+#: C/preferences.page:52
 msgid ""
 "There are no settings for <em>reading</em> timestamps. <app>Parlatype</app> "
 "reads and accepts all of these formats."
@@ -905,7 +923,7 @@ msgstr ""
 "<app>Parlatype</app> liest und verarbeitet alle diese Formate."
 
 #. (itstool) path: item/p
-#: C/preferences.page:50
+#: C/preferences.page:54
 msgid ""
 "Always show hours and leading zeroes: Whether to show a fixed number of "
 "digits. Changing any of these values will show an updated example in the "
@@ -916,13 +934,13 @@ msgstr ""
 "in der Sektion <gui>Beispiele</gui> aktualisiert."
 
 #. (itstool) path: item/p
-#: C/preferences.page:51
+#: C/preferences.page:55
 msgid "Precision: Choose between full seconds, 10th seconds or 100th seconds."
 msgstr ""
 "Genauigkeit: Wählen Sie zwischen ganzen, Zehntel- und Hundertstelsekunden."
 
 #. (itstool) path: item/p
-#: C/preferences.page:52
+#: C/preferences.page:56
 msgid ""
 "Fraction separator: Choose between a point or a hyphen to separate fractions "
 "of a second."
@@ -931,7 +949,7 @@ msgstr ""
 "einem Gedankenstrich."
 
 #. (itstool) path: item/p
-#: C/preferences.page:53
+#: C/preferences.page:57
 msgid ""
 "Characters around timestamps: Choose between number signs, round brackets, "
 "square brackets or none."
@@ -940,16 +958,67 @@ msgstr ""
 "eckigen Klammern oder keine Zeichen."
 
 #. (itstool) path: section/title
-#: C/preferences.page:58
-msgid "Window"
-msgstr "Fenster"
+#: C/preferences.page:62
+msgid "Preferences for speech recognition"
+msgstr "Einstellungen für Spracherkennung"
 
 #. (itstool) path: section/media
 #. This is a reference to an external file such as an image or video. When
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/preferences.page:60
+#: C/preferences.page:64
+#, fuzzy
+msgctxt "_"
+msgid "external ref='figures/parlatype-prefs-asr.png' md5='__failed__'"
+msgstr "übersetzt"
+
+#. (itstool) path: section/p
+#: C/preferences.page:66
+msgid ""
+"Here you can choose which language model to use. If you don’t have a "
+"language model yet, an assistant will guide you through the process of "
+"downloading it. You can have as many language models as you need, they can "
+"be added with the <gui>+</gui> button."
+msgstr ""
+"Hier können Sie festlegen, welches Sprachmodell verwendet werden soll. Wenn "
+"Sie noch kein Sprachmodell zur Auswahl haben, begleitet Sie ein Assistent "
+"beim Download eines Sprachmodells. Sie können so viele Sprachmodell haben, "
+"wie Sie wollen, sie können mit dem <gui>+</gui>-Knopf hinzugefügt werden."
+
+#. (itstool) path: section/p
+#: C/preferences.page:68
+msgid ""
+"To select a model click on its radio button in the list. If you click just "
+"on the name, you can see the model’s basic parameters. You could even change "
+"them, but that’s not recommended."
+msgstr ""
+"Um ein Sprachmodell auszuwählen, klicken Sie auf den Auswahlknopf in der "
+"Liste. Wenn Sie nur auf den Namen klicken, sehen Sie die Grundeinstellungen "
+"des Sprachmodells. Diese Einstellungen könnten geändert werden, das ist aber "
+"nicht empfohlen."
+
+#. (itstool) path: section/p
+#: C/preferences.page:70
+msgid ""
+"The <gui>-</gui> button removes a model from the list. The model’s files "
+"however are <em>not</em> deleted, just the model entry is removed."
+msgstr ""
+"Der <gui>-</gui>-Knopf entfernt ein Sprachmodell aus der Liste. Die Dateien "
+"des Modells werden dabei <em>nicht</em> gelöscht, es wird lediglich der "
+"Eintrag aus der Liste entfernt."
+
+#. (itstool) path: section/title
+#: C/preferences.page:76
+msgid "Preferences for the window"
+msgstr "Einstellungen für das Fenster"
+
+#. (itstool) path: section/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/preferences.page:78
 #, fuzzy
 msgctxt "_"
 msgid ""
@@ -958,7 +1027,7 @@ msgid ""
 msgstr "übersetzt"
 
 #. (itstool) path: item/p
-#: C/preferences.page:63
+#: C/preferences.page:81
 msgid ""
 "Remember size: On start-up <app>Parlatype</app> sets the window size to the "
 "size it had the last time."
@@ -967,7 +1036,7 @@ msgstr ""
 "Fenstergröße so ein, wie sie beim letzten Mal war."
 
 #. (itstool) path: item/p
-#: C/preferences.page:64
+#: C/preferences.page:82
 msgid ""
 "Remember position: On start-up <app>Parlatype</app> can position its window "
 "where you had it when you closed <app>Parlatype</app> last time."
@@ -977,7 +1046,7 @@ msgstr ""
 "das letzte Mal geschlossen haben."
 
 #. (itstool) path: item/p
-#: C/preferences.page:65
+#: C/preferences.page:83
 msgid ""
 "Start on top: This will put <app>Parlatype</app> on start-up on top of other "
 "windows. This might be useful if you are working with a maximized word "
@@ -989,7 +1058,7 @@ msgstr ""
 "das <app>Parlatype</app>-Fenster sehen wollen."
 
 #. (itstool) path: note/p
-#: C/preferences.page:69
+#: C/preferences.page:87
 msgid ""
 "<gui>Remember position</gui> and <gui>Start on top</gui> are not available "
 "on Wayland."
@@ -1057,6 +1126,11 @@ msgstr ""
 msgid "Set and go to timestamps"
 msgstr "Zeitstempel setzen und hinspringen"
 
+#. (itstool) path: page/title
+#: C/timestamps.page:14
+msgid "Timestamps"
+msgstr "Zeitstempel"
+
 #. (itstool) path: page/p
 #: C/timestamps.page:16
 msgid "Timestamps help you to navigate in your transcription."
@@ -1075,10 +1149,10 @@ msgstr ""
 #: C/timestamps.page:22
 msgid ""
 "<app>Parlatype</app> can produce different timestamp formats, they can be "
-"set in <link xref=\"preferences\"/>."
+"set in <link xref=\"preferences#timestamps\"/>."
 msgstr ""
 "<app>Parlatype</app> kann verschiedene Zeitstempelformate ausgeben. Sie "
-"können in den <link xref=\"preferences\"/> geändert werden."
+"können in den <link xref=\"preferences#timestamps\"/> geändert werden."
 
 #. (itstool) path: section/title
 #: C/timestamps.page:25
@@ -1299,6 +1373,24 @@ msgstr "Erhöht die Wiedergabegeschwindigkeit."
 #: C/libreoffice-helpers.page:68
 msgid "Decreases playback speed."
 msgstr "Verringert die Wiedergabegeschwindigkeit."
+
+#~ msgid ""
+#~ "To open the preferences dialog click on the primary menu in the "
+#~ "headerbar. There are four tabs: <gui>Waveform</gui>, <gui>Controls</gui>, "
+#~ "<gui>Timestamps</gui> and <gui>Window</gui>."
+#~ msgstr ""
+#~ "Um das Einstellungsfenster zu öffnen, klicken Sie auf das Hauptmenü in "
+#~ "der Werkzeugleiste. Es gibt vier Reiter: <gui>Wellenform</gui>, "
+#~ "<gui>Steuerung</gui>, <gui>Zeitstempel</gui> und <gui>Fenster</gui>."
+
+#~ msgid "Waveform"
+#~ msgstr "Wellenform"
+
+#~ msgid "Controls"
+#~ msgstr "Steuerung"
+
+#~ msgid "Window"
+#~ msgstr "Fenster"
 
 #~ msgid "Open recent files"
 #~ msgstr "Zuletzt benutzte Dateien öffnen"
