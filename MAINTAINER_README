@@ -32,13 +32,12 @@ Import translations from Launchpad
 Update copyright year in about box in src/pt-app.c
 
 Release commit:
-- Update version in configure.ac
-- Update version in libparlatype/configure.ac
+- Update version in meson.build
 - Update version in libreoffice/Parlatype.py header
 - Update version in README.md build instructions
 - Make sure it's the same version everywhere!
 - Update README.md dependencies if necessary
-- Update library version (libtool) in libparlatype/configure.ac
+- Update library so version in libparlatype/meson.build
 - Update NEWS (release notes)
 - Update data/com.github.gkarsay.parlatype.appdata.xml.in (short release notes)
 - Commit message "v1.x.x", next line "New major/minor/bugfix release"
