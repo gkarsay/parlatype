@@ -1,3 +1,22 @@
+Overview of Changes in Parlatype 1.6-beta1 – 2019-03-10
+=======================================================
+
+* New: Automatic speech recognition with CMU Sphinx
+* New: Design changes, including removal of application menu, fix #22
+* New: Use symbolic icons, fix #47
+* New: Custom timestamps, fix #37
+* New: Option to repeat file at the end pressing “Play”, fix #59
+* New: Open new files from directory last used, fix #43
+* Fix: LibreOffice helpers didn’t work with menu buttons, fix #53
+* Fix: Use Unicode for nice typography
+* Build system changed to Meson
+* New or updated translations:
+  - cs: fri
+  - de: Gabor Karsay
+  - ja: Shinichirou Yamada
+  - pl: Piotr Drąg
+
+
 Overview of Changes in Parlatype 1.5.6 – 2018-08-17
 ===================================================
 

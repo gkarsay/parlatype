@@ -39,6 +39,17 @@
 	</kudos>
 
 	<releases>
+		<release version="1.6-beta" date="2019-03-10">
+			<description>
+			<p>This is a pre-release version with some new features.</p>
+			<ul>
+			<li>Automatic speech recognition with CMU Sphinx</li>
+			<li>Design changes, including removal of application menu</li>
+			<li>Custom timestamps</li>
+			<li>Translation updates for Czech, German, Japanese and Polish</li>
+			</ul>
+			</description>
+		</release>
 		<release version="1.5.6" date="2018-08-17">
 			<description>
 			<p>This is a minor maintenance release.</p>

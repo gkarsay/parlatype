@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 '''
 Parlatype.py is part of Parlatype.
-Version: 1.5.6
+Version: 1.6-beta
 
-Copyright (C) Gabor Karsay 2016-2018 <gabor.karsay@gmx.at>
+Copyright (C) Gabor Karsay 2016-2019 <gabor.karsay@gmx.at>
 
 This program is free software: you can redistribute it and/or
 modify it under the terms of the GNU General Public License as published
