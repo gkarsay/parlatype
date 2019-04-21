@@ -51,7 +51,7 @@ vflag = '-Wl,--version-script,@0@/@1@'.format(meson.current_source_dir(), mapfil
 libparlatype = shared_library(
 	'parlatype',
 	sources: sources,
-	soversion: libparlatype_so_version,
+	version: libparlatype_version,
 	dependencies: deps,
 	include_directories: conf_inc,
 	link_args: vflag,

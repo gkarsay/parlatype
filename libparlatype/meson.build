@@ -2,7 +2,7 @@
 # refer to the libtool manual, section "Updating library version information":
 # http://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html
 
-libparlatype_so_version = '2.0.0'
+libparlatype_version = '2.0.0'
 
 # Parlatype is unstable, we don't use API version yet
 # libparlatype_api_version = '1.0'
