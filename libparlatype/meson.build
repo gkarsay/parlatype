@@ -4,8 +4,8 @@
 
 libparlatype_version = '2.0.0'
 
-# Parlatype is unstable, we don't use API version yet
-# libparlatype_api_version = '1.0'
+# API or namespace version for GIR = first number of libparlatype_version + .0
+libparlatype_api_version = '2.0'
 
 gettext_package_lib = 'libparlatype'
 

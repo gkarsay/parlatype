@@ -96,7 +96,7 @@ if gir
 
 	gnome.generate_gir(libparlatype,
 		sources: introspection_sources,
-		nsversion: '1.0',
+		nsversion: libparlatype_api_version,
 		namespace: 'Parlatype',
 		symbol_prefix: 'pt_',
 		identifier_prefix: 'Pt',
