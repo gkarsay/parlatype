@@ -6,7 +6,7 @@
 import os
 import sys
 import gi
-gi.require_version('Parlatype', '1.0')
+gi.require_version('Parlatype', '2.0')
 gi.require_version('Gtk', '3.0')
 from gi.repository import Parlatype as Pt
 from gi.repository import Gtk
