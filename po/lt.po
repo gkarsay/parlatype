@@ -6,24 +6,23 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: parlatype\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-13 11:09+0200\n"
-"PO-Revision-Date: 2018-03-03 10:21+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
+"POT-Creation-Date: 2019-02-11 19:41+0100\n"
+"PO-Revision-Date: 2019-03-13 22:48+0000\n"
 "Last-Translator: Moo <hazap@hotmail.com>\n"
 "Language-Team: Lithuanian <lt@li.org>\n"
-"Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
-"%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2018-03-08 16:44+0000\n"
-"X-Generator: Launchpad (build 18566)\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"(n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Launchpad-Export-Date: 2019-04-23 19:48+0000\n"
+"X-Generator: Launchpad (build 18928)\n"
+"Language: lt\n"
 
 #: data/com.github.gkarsay.parlatype.appdata.xml.in:7
-#: data/com.github.gkarsay.parlatype.desktop.in:4 src/pt-app.c:84
-#: src/pt-app.c:263 src/resources/window.ui:32
-#: src/resources/window-headerbar.ui:7
+#: data/com.github.gkarsay.parlatype.desktop.in:4 src/pt-app.c:178
+#: src/resources/window.ui:32
 msgid "Parlatype"
 msgstr "Parlatype"
 
@@ -41,7 +40,7 @@ msgstr ""
 
 #: data/com.github.gkarsay.parlatype.appdata.xml.in:24
 msgid "Gabor Karsay"
-msgstr ""
+msgstr "Gabor Karsay"
 
 #: data/com.github.gkarsay.parlatype.desktop.in:5
 msgid "Transcription utility"
@@ -53,7 +52,7 @@ msgstr "Transkripcija;"
 
 #: data/com.github.gkarsay.parlatype.desktop.in:8
 msgid "com.github.gkarsay.parlatype"
-msgstr ""
+msgstr "com.github.gkarsay.parlatype"
 
 #: data/com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in:6
 msgid "LibreOffice/Parlatype Helpers"
@@ -63,54 +62,36 @@ msgstr "LibreOffice/Parlatype pagelbikliai"
 msgid "Control Parlatype using LibreOffice macros"
 msgstr "Valdyti Parlatype, naudojant LibreOffice makrokomandas"
 
-#: src/main.c:36
-msgid "Fatal error"
-msgstr "Lemtingoji klaida"
-
-#: src/main.c:40
-#, c-format
-msgid ""
-"Parlatype needs GStreamer 1.x to run. Please check your installation of "
-"GStreamer and make sure you have the \"Good Plugins\" installed.\n"
-"Parlatype will quit now, it received this error message: %s"
-msgstr ""
-"Parlatype savo darbui reikalauja GStreamer 1.x. Prašome patikrinti savo "
-"GStreamer įdiegimą ir įsitikinti, kad esate įdiegę \"geruosius įskiepius"
-"\" (angl. Good Plugins).\n"
-"Dabar Parlatype užbaigs darbą, programa gavo šią klaidą: %s"
-
-#: src/pt-app.c:55
-msgid "Show the application's version"
+#: src/pt-app.c:42
+msgid "Show the application’s version"
 msgstr "Rodyti programos versiją"
 
-#: src/pt-app.c:75
-msgid "Recent Files"
-msgstr "Paskiausiai naudoti failai"
+#: src/pt-app.c:50
+msgid "Use internal textpad for automatic speech recognition"
+msgstr "Automatiniam šnekos atpažinimui, naudoti vidinę tekstų rengyklę"
 
-#: src/pt-app.c:77 src/pt-app.c:137 src/pt-app.c:144
-#: src/resources/goto-dialog.ui:26
-msgid "_Cancel"
-msgstr "_Atsisakyti"
-
-#: src/pt-app.c:78 src/pt-app.c:136 src/pt-app.c:145
-#: src/resources/window-headerbar.ui:12
-msgid "_Open"
-msgstr "_Atverti"
-
-#: src/pt-app.c:90 src/pt-app.c:167
-msgid "All files"
-msgstr "Visi failai"
-
-#: src/pt-app.c:133 src/pt-app.c:141
+#: src/pt-app.c:72
 msgid "Open Audio File"
 msgstr "Atverti garso failą"
 
-#: src/pt-app.c:166
+#: src/pt-app.c:75 src/resources/window-headerbar.ui:12
+msgid "_Open"
+msgstr "_Atverti"
+
+#: src/pt-app.c:76 src/resources/goto-dialog.ui:26
+msgid "_Cancel"
+msgstr "_Atsisakyti"
+
+#: src/pt-app.c:95
 msgid "Audio files"
 msgstr "Garso failai"
 
+#: src/pt-app.c:96
+msgid "All files"
+msgstr "Visi failai"
+
 #. Translators: %s is a detailed error message
-#: src/pt-app.c:230
+#: src/pt-app.c:145
 #, c-format
 msgid "Error opening help: %s"
 msgstr "Klaida, atveriant žinyną: %s"
@@ -119,27 +100,112 @@ msgstr "Klaida, atveriant žinyną: %s"
 #. copyright holders of code from other projects. Instead of
 #. "including" it could also say "with" or just "Code from
 #. other projects:"
-#: src/pt-app.c:248
+#: src/pt-app.c:163
 msgid "Including code from other projects:"
 msgstr "Kodas iš kitų projektų:"
 
-#: src/pt-app.c:266
+#: src/pt-app.c:181
 msgid "A basic transcription utility"
 msgstr "Pagrindinė transkripcijos paslaugų programa"
 
-#: src/pt-app.c:270
+#: src/pt-app.c:185
 msgid "translator-credits"
 msgstr ""
 "Launchpad Contributions:\n"
 "  Moo https://launchpad.net/~mooo"
 
-#: src/pt-app.c:379
+#: src/pt-app.c:301
 msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
 "ignored.\n"
 msgstr ""
 "Įspėjimas: Parlatype vienu metu apdoroja tik vieną failą. Kitų failų yra "
 "nepaisoma.\n"
+
+#: src/pt-asr-assistant.c:193
+msgid "The folder contains no acoustic model."
+msgstr "Aplanke nėra jokio akustinio modelio."
+
+#: src/pt-asr-assistant.c:299
+msgid "Please select …"
+msgstr "Pasirinkite…"
+
+#: src/pt-asr-assistant.c:337
+msgid "Missing parameters"
+msgstr "Trūksta parametrų"
+
+#: src/pt-asr-assistant.c:380
+msgid "Timed out"
+msgstr "Pasibaigė skirtas laikas"
+
+#: src/pt-asr-assistant.c:381
+msgid ""
+"Scanning the folder took too long. Please make sure to open a folder with "
+"model data only."
+msgstr ""
+"Aplanko peržiūra užtruko per ilgai. Užtikrinkite, kad atvertumėte aplanką "
+"tik su modelio duomenimis."
+
+#: src/pt-asr-assistant.c:384
+msgid "Scanning the folder failed"
+msgstr "Aplanko peržiūra nepavyko"
+
+#: src/pt-asr-assistant.c:399
+msgid "Nothing found"
+msgstr "Nieko nerasta"
+
+#: src/pt-asr-assistant.c:400
+msgid "This folder doesn’t contain a suitable model."
+msgstr "Šiame aplanke nėra tinkamo modelio."
+
+#: src/pt-asr-assistant.c:450
+msgid ""
+"The folder contains no language model. Please choose a language model from "
+"another folder."
+msgstr ""
+"Aplanke nėra jokio kalbos modelio. Pasirinkite kalbos modelį iš kito aplanko."
+
+#: src/pt-asr-assistant.c:458
+msgid "The folder contains several language models."
+msgstr "Aplanke yra keli kalbos modeliai"
+
+#: src/pt-asr-assistant.c:468
+msgid ""
+"The folder contains no dictionary. Please choose a dictionary from another "
+"folder."
+msgstr "Aplanke nėra jokio žodyno. Pasirinkite žodyną iš kito aplanko."
+
+#: src/pt-asr-assistant.c:476
+msgid "The folder contains several dictionaries."
+msgstr "Aplanke yra keli žodynai."
+
+#: src/pt-asr-assistant.c:485
+msgid ""
+"The folder contains no acoustic model. Please choose an acoustic model from "
+"another folder."
+msgstr ""
+"Aplanke nėra jokio akustinio modelio. Pasirinkite akustinį modelį iš kito "
+"aplanko."
+
+#: src/pt-asr-assistant.c:493
+msgid "The folder contains several acoustic models."
+msgstr "Aplanke yra keli akustiniai modeliai."
+
+#: src/pt-asr-assistant.c:610
+msgid "Download model"
+msgstr "Atsisiųsti modelį"
+
+#: src/pt-asr-assistant.c:617
+msgid "Finish configuration"
+msgstr "Užbaigti konfigūraciją"
+
+#: src/pt-asr-output.c:209
+msgid "Select output for automatic speech recognition"
+msgstr "Pasirinkite automatinio šnekos atpažinimo išvestį"
+
+#: src/pt-asr-output.c:210
+msgid "Please open and switch focus to a word processor."
+msgstr "Atverkite ir perjunkite fokusavimą į tekstų rengyklę."
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
@@ -155,15 +221,34 @@ msgstr "%d:%02d:%02d"
 #. or the "Go to ..." dialog. There is a label like
 #. "Jump back:", "Jump forward:", "Jump back on pause:"
 #. or "Go to position:" before.
-#: src/pt-goto-dialog.c:79 src/pt-preferences.c:79 src/pt-preferences.c:89
-#: src/pt-preferences.c:99
+#: src/pt-goto-dialog.c:79 src/pt-preferences.c:96 src/pt-preferences.c:106
+#: src/pt-preferences.c:116
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "sekundę"
 msgstr[1] "sekundes"
 msgstr[2] "sekundžių"
 
-#: src/pt-window.c:302
+#: src/pt-preferences.c:287
+msgid "Deleting configuration"
+msgstr "Ištrinama konfigūracija"
+
+#: src/pt-preferences.c:288
+#, c-format
+msgid "Do you really want to delete “%s”?"
+msgstr "Ar tikrai norite ištrinti “%s”?"
+
+#: src/pt-window.c:219
+#, c-format
+msgid "Found %s"
+msgstr "Rasta %s"
+
+#: src/pt-window.c:220
+msgid "Press “Play” to start automatic speech recognition."
+msgstr ""
+"Norėdami pradėti automatinį šnekos atpažinimą, paspauskite \"Groti\"."
+
+#: src/pt-window.c:423
 #, c-format
 msgid "Jump back 1 second"
 msgid_plural "Jump back %d seconds"
@@ -171,7 +256,7 @@ msgstr[0] "Peršokti %d sekundę atgal"
 msgstr[1] "Peršokti %d sekundes atgal"
 msgstr[2] "Peršokti %d sekundžių atgal"
 
-#: src/pt-window.c:317
+#: src/pt-window.c:440
 #, c-format
 msgid "Jump forward 1 second"
 msgid_plural "Jump forward %d seconds"
@@ -179,11 +264,11 @@ msgstr[0] "Peršokti %d sekundę pirmyn"
 msgstr[1] "Peršokti %d sekundes pirmyn"
 msgstr[2] "Peršokti %d sekundžių pirmyn"
 
-#: src/pt-window.c:334
+#: src/pt-window.c:459
 msgid "Pause"
 msgstr "Pristabdyti"
 
-#: src/pt-window.c:337
+#: src/pt-window.c:462
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
@@ -191,23 +276,100 @@ msgstr[0] "Pristabdyti ir atsukti %d sekundę atgal"
 msgstr[1] "Pristabdyti ir atsukti %d sekundes atgal"
 msgstr[2] "Pristabdyti ir atsukti %d sekundžių atgal"
 
-#: src/pt-window.c:344
+#: src/pt-window.c:469
 msgid "Start playing"
 msgstr "Pradėti groti"
 
-#: src/pt-window.c:380
-#, fuzzy, c-format
+#: src/pt-window.c:505
+#, c-format
 msgid "Go to time in clipboard: %s"
-msgstr "Eiti į iškarpinėje esančią laiko žymą"
+msgstr "Pereiti į laiką iškarpinėje: %s"
 
-#: src/pt-window.c:382 src/pt-window.c:996
-#, fuzzy
+#: src/pt-window.c:507 src/pt-window.c:1246
 msgid "Go to time in clipboard"
-msgstr "Eiti į iškarpinėje esančią laiko žymą"
+msgstr "Pereiti į laiką iškarpinėje"
 
-#: src/resources/goto-dialog.ui:13 src/resources/menus.ui:34
-msgid "Go to ..."
-msgstr "Eiti ..."
+#: src/pt-window.c:1162
+#, c-format
+msgid ""
+"Parlatype needs GStreamer 1.x to run. Please check your installation of "
+"GStreamer and make sure you have the “Good Plugins” installed.\n"
+"Parlatype will quit now, it received this error message: %s"
+msgstr ""
+"Tam, kad pasileistų, Parlatype reikalauja GStreamer 1.x. Patikrinkite savo "
+"GStreamer diegimą, ir įsitikinkite, kad esate įdiegę \"gerus įskiepius\" "
+"(angl. Good Plugins).\n"
+"Dabar Parlatype užbaigs darbą, programa gavo šį klaidos pranešimą: %s"
+
+#: src/pt-window.c:1165
+msgid "Fatal error"
+msgstr "Lemtingoji klaida"
+
+#: src/resources/asr-assistant.ui:15
+msgid ""
+"Before you can start, you have to download a so called acoustic and language "
+"model. This is a set of files made for a specific language."
+msgstr ""
+"Prieš pradėdami, turite atsisiųsti taip vadinamą akustinį ir kalbos modelį. "
+"Tai yra failų, sukurtų tam tikrai kalbai, rinkinys."
+
+#: src/resources/asr-assistant.ui:30
+msgid ""
+"Parlatype uses CMU Sphinx as its speech recognition engine. You can download "
+"models suitable for CMU Sphinx for example from <a "
+"href=\"https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Lang"
+"uage%20Models/\">CMU Sphinx’ sourceforge repository</a>. It has models for "
+"some of the most widespread languages."
+msgstr ""
+"Parlatype naudoja CMU Sphinx kaip savo šnekos atpažinimo modulį. CMU Sphinx "
+"tinkančius modelius galite atsisiųsti, pavyzdžiui, iš <a "
+"href=\"https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Lang"
+"uage%20Models/\">CMU Sphinx sourceforge saugyklos</a>. Joje yra kai kurių "
+"labiausiai paplitusių kalbų modeliai."
+
+#: src/resources/asr-assistant.ui:45
+msgid ""
+"If it’s compressed, uncompress the model. Save it to a folder where it can "
+"stay. Parlatype doesn’t copy the model internally."
+msgstr ""
+"Jeigu modelis yra suglaudintas, išglaudinkite jį. Įrašykite jį į aplanką, "
+"kuriame jį laikysite. Parlatype nekopijuoja modelio į atskirą katalogą."
+
+#: src/resources/asr-assistant.ui:59
+msgid "When you are finished, specify the folder with the model:"
+msgstr "Užbaigę, nurodykite aplanką su modeliu:"
+
+#: src/resources/asr-assistant.ui:96
+msgid "Language model"
+msgstr "Kalbos modelis"
+
+#: src/resources/asr-assistant.ui:125
+msgid "Select language model"
+msgstr "Pasirinkite kalbos modelį"
+
+#: src/resources/asr-assistant.ui:157
+msgid "Dictionary"
+msgstr "Žodynas"
+
+#: src/resources/asr-assistant.ui:186
+msgid "Select dictionary"
+msgstr "Pasirinkite žodyną"
+
+#: src/resources/asr-assistant.ui:218
+msgid "Acoustic model"
+msgstr "Akustinis modelis"
+
+#: src/resources/asr-assistant.ui:248
+msgid "Select acoustic model folder"
+msgstr "Pasirinkite akustinio modelio aplanką"
+
+#: src/resources/asr-assistant.ui:285
+msgid "Setup is completed. Please give this configuration a name:"
+msgstr "Sąranka užbaigta. Suteikite šiai konfigūracijai pavadinimą:"
+
+#: src/resources/goto-dialog.ui:13 src/resources/menus.ui:46
+msgid "Go to…"
+msgstr "Pereiti į…"
 
 #: src/resources/goto-dialog.ui:40
 msgid "_OK"
@@ -226,258 +388,272 @@ msgid "Open a media file"
 msgstr "Atverti medijos failą"
 
 #: src/resources/help-overlay.ui:27
-msgid "Open recently used media files"
-msgstr "Atverti paskiausiai naudotus medijos failus"
-
-#: src/resources/help-overlay.ui:34
 msgid "Show/hide action menu"
 msgstr "Rodyti/slėpti veiksmų meniu"
 
-#: src/resources/help-overlay.ui:41
+#: src/resources/help-overlay.ui:34
 msgid "Quit"
 msgstr "Išeiti"
 
-#: src/resources/help-overlay.ui:49 src/resources/preferences.ui:273
+#: src/resources/help-overlay.ui:42 src/resources/preferences.ui:271
 msgid "Waveform"
 msgstr "Bangos forma"
 
-#: src/resources/help-overlay.ui:54
+#: src/resources/help-overlay.ui:47
 msgid "Play/Pause"
 msgstr "Groti/Pristabdyti"
 
-#: src/resources/help-overlay.ui:62 src/resources/help-overlay.ui:70
+#: src/resources/help-overlay.ui:55 src/resources/help-overlay.ui:63
 msgid "Jump back"
 msgstr "Peršokti atgal"
 
-#: src/resources/help-overlay.ui:78 src/resources/help-overlay.ui:86
+#: src/resources/help-overlay.ui:71 src/resources/help-overlay.ui:79
 msgid "Jump forward"
 msgstr "Peršokti pirmyn"
 
-#: src/resources/help-overlay.ui:93
+#: src/resources/help-overlay.ui:86
 msgid "Zoom in"
 msgstr "Didinti"
 
-#: src/resources/help-overlay.ui:100
+#: src/resources/help-overlay.ui:93
 msgid "Zoom out"
 msgstr "Mažinti"
 
-#: src/resources/help-overlay.ui:107
+#: src/resources/help-overlay.ui:100
 msgid "Open “Go to” dialog"
-msgstr "Atverti \"Eiti\" dialogą"
+msgstr "Atverti \"Pereiti į\" dialogą"
 
-#: src/resources/help-overlay.ui:114
+#: src/resources/help-overlay.ui:107
 msgid "Copy timestamp to clipboard"
 msgstr "Kopijuoti laiko žymą į iškarpinę"
 
-#: src/resources/help-overlay.ui:121
+#: src/resources/help-overlay.ui:114
 msgid "Go to timestamp in clipboard"
-msgstr "Eiti į iškarpinėje esančią laiko žymą"
+msgstr "Pereiti į iškarpinėje esančią laiko žymą"
 
-#: src/resources/help-overlay.ui:129 src/resources/menus.ui:15
+#: src/resources/help-overlay.ui:122 src/resources/menus.ui:27
 msgid "Help"
 msgstr "Žinynas"
 
-#: src/resources/help-overlay.ui:134
+#: src/resources/help-overlay.ui:127
 msgid "Show help"
 msgstr "Rodyti žinyną"
 
-#: src/resources/help-overlay.ui:141
+#: src/resources/help-overlay.ui:134
 msgid "Show keyboard shortcuts"
 msgstr "Rodyti klaviatūros trumpinius"
 
 #: src/resources/menus.ui:7
+msgid "Manual transcription"
+msgstr "Rankinė transkripcija"
+
+#: src/resources/menus.ui:12
+msgid "Automatic transcription"
+msgstr "Automatinė transkripcija"
+
+#: src/resources/menus.ui:19
 msgid "Preferences"
 msgstr "Nuostatos"
 
-#: src/resources/menus.ui:11
+#: src/resources/menus.ui:23
 msgid "_Keyboard Shortcuts"
 msgstr "_Klaviatūros trumpiniai"
 
-#: src/resources/menus.ui:19
-#, fuzzy
+#: src/resources/menus.ui:31
 msgid "About Parlatype"
-msgstr "Parlatype"
+msgstr "Apie Parlatype"
 
-#: src/resources/menus.ui:26
-#, fuzzy
+#: src/resources/menus.ui:38
 msgid "Copy time to clipboard"
-msgstr "Kopijuoti laiko žymą į iškarpinę"
+msgstr "Kopijuoti laiką į iškarpinę"
 
-#: src/resources/menus.ui:30
-#, fuzzy
+#: src/resources/menus.ui:42
 msgid "Go to cursor"
-msgstr "_Judantis žymeklis"
+msgstr "Pereiti prie žymeklio"
 
 #. This refers to: "Characters around timestamps"
 #: src/resources/preferences.ui:42
 msgid "None"
-msgstr ""
+msgstr "Nėra"
 
 #: src/resources/preferences.ui:46
-msgid "#Hashtags#"
-msgstr ""
+msgid "#Number signs#"
+msgstr "#Grotelės#"
 
 #: src/resources/preferences.ui:50
 msgid "(Round brackets)"
-msgstr ""
+msgstr "(Lenktiniai skliaustai)"
 
 #: src/resources/preferences.ui:54
 msgid "[Square brackets]"
-msgstr ""
+msgstr "[Laužtiniai skliaustai]"
 
 #: src/resources/preferences.ui:68
 msgid ". (point)"
-msgstr ""
+msgstr ". (taškas)"
 
 #: src/resources/preferences.ui:72
 msgid "- (hyphen)"
-msgstr ""
+msgstr "- (brūkšnelis)"
 
 #: src/resources/preferences.ui:86
-#, fuzzy
 msgid "Full seconds"
-msgstr "sekundę"
+msgstr "Pilnos sekundės"
 
 #: src/resources/preferences.ui:90
-#, fuzzy
 msgid "10th seconds"
-msgstr "sekundę"
+msgstr "10-oji sekundžių dalis"
 
 #: src/resources/preferences.ui:94
-#, fuzzy
 msgid "100th seconds"
-msgstr "sekundę"
+msgstr "100-oji sekundžių dalis"
 
 #: src/resources/preferences.ui:102
 msgid "Parlatype Preferences"
 msgstr "Parlatype nuostatos"
 
-#: src/resources/preferences.ui:143
+#: src/resources/preferences.ui:141
 msgid "_Pixels per second:"
 msgstr "_Pikselių per sekundę:"
 
-#: src/resources/preferences.ui:173
+#: src/resources/preferences.ui:171
 msgid "Show _time scale"
 msgstr "Rodyti _laiko mastelį"
 
 #. Resolution of the waveform image
-#: src/resources/preferences.ui:191
+#: src/resources/preferences.ui:189
 msgid "Resolution"
 msgstr "Raiška"
 
 #. A section in preferences, how to display the waveform.
-#: src/resources/preferences.ui:206
+#: src/resources/preferences.ui:204
 msgid "Display"
 msgstr "Rodymas"
 
-#: src/resources/preferences.ui:219
+#: src/resources/preferences.ui:217
 msgid "_Moving cursor"
 msgstr "_Judantis žymeklis"
 
-#: src/resources/preferences.ui:236
+#: src/resources/preferences.ui:234
 msgid "_Fixed cursor"
 msgstr "_Fiksuotas žymeklis"
 
-#: src/resources/preferences.ui:293
-msgid "Jump back on _pause:"
-msgstr "Pristabdžius, _peršokti atgal:"
+#: src/resources/preferences.ui:288
+msgid "Jumps"
+msgstr "Peršokimai"
 
-#: src/resources/preferences.ui:385
-msgid "Jump _back:"
-msgstr "Peršokti _atgal:"
-
-#: src/resources/preferences.ui:399
+#: src/resources/preferences.ui:390
 msgid "Jump _forward:"
 msgstr "Peršokti p_irmyn:"
 
+#: src/resources/preferences.ui:404
+msgid "Jump _back:"
+msgstr "Peršokti _atgal:"
+
 #: src/resources/preferences.ui:418
+msgid "Jump back on _pause:"
+msgstr "Pristabdžius, _peršokti atgal:"
+
+#: src/resources/preferences.ui:441
+msgid "Pressing “Play” at the end of file"
+msgstr "Paspaudus \"Groti\" failo pabaigoje"
+
+#: src/resources/preferences.ui:455
+msgid "Replay file"
+msgstr "Iš naujo groti failą"
+
+#: src/resources/preferences.ui:474
+msgid "Pressing “Play” at the end of selection"
+msgstr "Paspaudus \"Groti\" žymėjimo pabaigoje"
+
+#: src/resources/preferences.ui:488
+msgid "Replay selection"
+msgstr "Iš naujo groti žymėjimą"
+
+#: src/resources/preferences.ui:510
 msgid "Controls"
 msgstr "Valdikliai"
 
-#: src/resources/preferences.ui:464
+#: src/resources/preferences.ui:553
 msgid "Hours and zeroes"
-msgstr ""
+msgstr "Valandos ir nuliai"
 
-#: src/resources/preferences.ui:477
+#: src/resources/preferences.ui:566
 msgid "Always show hours and leading zeroes"
-msgstr ""
+msgstr "Visada rodyti valandas ir priekinius nulius"
 
-#: src/resources/preferences.ui:495
+#: src/resources/preferences.ui:584
 msgid "Precision"
-msgstr ""
+msgstr "Tikslumas"
 
-#: src/resources/preferences.ui:511
+#: src/resources/preferences.ui:600
 msgid "Characters around timestamps"
-msgstr ""
+msgstr "Simboliai aplink laiko žymas"
 
-#: src/resources/preferences.ui:527
+#: src/resources/preferences.ui:616
 msgid "Examples"
-msgstr ""
+msgstr "Pavyzdžiai"
 
-#: src/resources/preferences.ui:569
+#: src/resources/preferences.ui:658
 msgid "Precision:"
-msgstr ""
+msgstr "Tikslumas:"
 
-#: src/resources/preferences.ui:601
+#: src/resources/preferences.ui:690
 msgid "Fraction separator:"
-msgstr ""
+msgstr "Trupmenų skirtuvas:"
 
-#: src/resources/preferences.ui:647
-#, fuzzy
+#: src/resources/preferences.ui:733
 msgid "Timestamps"
-msgstr "Kopijuoti laiko žymą"
+msgstr "Laiko žymos"
 
-#: src/resources/preferences.ui:665
+#: src/resources/preferences.ui:864
+msgid "Language model:"
+msgstr "Kalbos modelis:"
+
+#: src/resources/preferences.ui:891
+msgid "Dictionary:"
+msgstr "Žodynas:"
+
+#: src/resources/preferences.ui:918
+msgid "Acoustic model folder:"
+msgstr "Akustinio modelio aplankas:"
+
+#: src/resources/preferences.ui:966
+msgid "There is no configuration"
+msgstr "Nėra konfigūracijos"
+
+#: src/resources/preferences.ui:976
+msgid "Add a configuration"
+msgstr "Pridėti konfigūraciją"
+
+#: src/resources/preferences.ui:1005
+msgid "Speech recognition"
+msgstr "Šnekos atpažinimas"
+
+#: src/resources/preferences.ui:1023
 msgid "Remember _size"
 msgstr "Prisiminti _dydį"
 
-#: src/resources/preferences.ui:680
+#: src/resources/preferences.ui:1038
 msgid "Remember _position"
 msgstr "Prisiminti _poziciją"
 
-#: src/resources/preferences.ui:695
+#: src/resources/preferences.ui:1053
 msgid "Start on _top"
 msgstr "Paleisti viršuje"
 
-#: src/resources/preferences.ui:717
+#: src/resources/preferences.ui:1075
 msgid "Window"
 msgstr "Langas"
 
-#: src/resources/window.ui:145
+#: src/resources/window.ui:142
 msgid "_Play"
 msgstr "_Groti"
 
-#: src/resources/window.ui:324
+#: src/resources/window.ui:312
 msgid "Speed:"
 msgstr "Greitis:"
 
-#: src/resources/window-headerbar.ui:13
+#: src/resources/window-headerbar.ui:17
 msgid "Open a file"
 msgstr "Atverti failą"
-
-#~ msgid "_Close"
-#~ msgstr "_Užverti"
-
-#~ msgid "View follows cursor"
-#~ msgstr "Rodinys seka paskui žymeklį"
-
-#~ msgid "Click to follow cursor"
-#~ msgstr "Spustelėkite, norėdami sekti paskui žymeklį"
-
-#~ msgid "Open File"
-#~ msgstr "Atverti failą"
-
-#~ msgid "Info"
-#~ msgstr "Informacija"
-
-#~ msgid "Insert timestamp"
-#~ msgstr "Įterpti laiko žymą"
-
-#~ msgid "_File"
-#~ msgstr "_Failas"
-
-#~ msgid "_Edit"
-#~ msgstr "_Taisa"
-
-#~ msgid "_Help"
-#~ msgstr "Ž_inynas"
