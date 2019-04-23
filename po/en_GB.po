@@ -6,23 +6,21 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-13 11:09+0200\n"
-"PO-Revision-Date: 2018-03-08 01:21+0000\n"
-"Last-Translator: Andi Chandler <Unknown>\n"
+"Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
+"POT-Creation-Date: 2019-02-11 19:41+0100\n"
+"PO-Revision-Date: 2019-03-30 15:29+0000\n"
+"Last-Translator: Stephan Woidowski <swoidowski@t-online.de>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
-"Language: en_GB\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2018-03-08 16:40+0000\n"
-"X-Generator: Launchpad (build 18566)\n"
+"X-Launchpad-Export-Date: 2019-04-23 19:48+0000\n"
+"X-Generator: Launchpad (build 18928)\n"
 
 #: data/com.github.gkarsay.parlatype.appdata.xml.in:7
-#: data/com.github.gkarsay.parlatype.desktop.in:4 src/pt-app.c:84
-#: src/pt-app.c:263 src/resources/window.ui:32
-#: src/resources/window-headerbar.ui:7
+#: data/com.github.gkarsay.parlatype.desktop.in:4 src/pt-app.c:178
+#: src/resources/window.ui:32
 msgid "Parlatype"
 msgstr "Parlatype"
 
@@ -40,7 +38,7 @@ msgstr ""
 
 #: data/com.github.gkarsay.parlatype.appdata.xml.in:24
 msgid "Gabor Karsay"
-msgstr ""
+msgstr "Gabor Karsay"
 
 #: data/com.github.gkarsay.parlatype.desktop.in:5
 msgid "Transcription utility"
@@ -52,7 +50,7 @@ msgstr "Transcription;"
 
 #: data/com.github.gkarsay.parlatype.desktop.in:8
 msgid "com.github.gkarsay.parlatype"
-msgstr ""
+msgstr "com.github.gkarsay.parlatype"
 
 #: data/com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in:6
 msgid "LibreOffice/Parlatype Helpers"
@@ -62,53 +60,36 @@ msgstr "LibreOffice/Parlatype Helpers"
 msgid "Control Parlatype using LibreOffice macros"
 msgstr "Control Parlatype using LibreOffice macros"
 
-#: src/main.c:36
-msgid "Fatal error"
-msgstr "Fatal error"
+#: src/pt-app.c:42
+msgid "Show the application’s version"
+msgstr "Show the application’s version"
 
-#: src/main.c:40
-#, c-format
-msgid ""
-"Parlatype needs GStreamer 1.x to run. Please check your installation of "
-"GStreamer and make sure you have the \"Good Plugins\" installed.\n"
-"Parlatype will quit now, it received this error message: %s"
-msgstr ""
-"Parlatype needs GStreamer 1.x to run. Please check your installation of "
-"GStreamer and make sure you have the \"Good Plugins\" installed.\n"
-"Parlatype will quit now; it received this error message: %s"
+#: src/pt-app.c:50
+msgid "Use internal textpad for automatic speech recognition"
+msgstr "Use internal textpad for automatic speech recognition"
 
-#: src/pt-app.c:55
-msgid "Show the application's version"
-msgstr "Show the application's version"
-
-#: src/pt-app.c:75
-msgid "Recent Files"
-msgstr "Recent Files"
-
-#: src/pt-app.c:77 src/pt-app.c:137 src/pt-app.c:144
-#: src/resources/goto-dialog.ui:26
-msgid "_Cancel"
-msgstr "_Cancel"
-
-#: src/pt-app.c:78 src/pt-app.c:136 src/pt-app.c:145
-#: src/resources/window-headerbar.ui:12
-msgid "_Open"
-msgstr "_Open"
-
-#: src/pt-app.c:90 src/pt-app.c:167
-msgid "All files"
-msgstr "All files"
-
-#: src/pt-app.c:133 src/pt-app.c:141
+#: src/pt-app.c:72
 msgid "Open Audio File"
 msgstr "Open Audio File"
 
-#: src/pt-app.c:166
+#: src/pt-app.c:75 src/resources/window-headerbar.ui:12
+msgid "_Open"
+msgstr "_Open"
+
+#: src/pt-app.c:76 src/resources/goto-dialog.ui:26
+msgid "_Cancel"
+msgstr "_Cancel"
+
+#: src/pt-app.c:95
 msgid "Audio files"
 msgstr "Audio files"
 
+#: src/pt-app.c:96
+msgid "All files"
+msgstr "All files"
+
 #. Translators: %s is a detailed error message
-#: src/pt-app.c:230
+#: src/pt-app.c:145
 #, c-format
 msgid "Error opening help: %s"
 msgstr "Error opening help: %s"
@@ -117,28 +98,118 @@ msgstr "Error opening help: %s"
 #. copyright holders of code from other projects. Instead of
 #. "including" it could also say "with" or just "Code from
 #. other projects:"
-#: src/pt-app.c:248
+#: src/pt-app.c:163
 msgid "Including code from other projects:"
 msgstr "Including code from other projects:"
 
-#: src/pt-app.c:266
+#: src/pt-app.c:181
 msgid "A basic transcription utility"
 msgstr "A basic transcription utility"
 
-#: src/pt-app.c:270
+#: src/pt-app.c:185
 msgid "translator-credits"
 msgstr ""
 "Launchpad Contributions:\n"
 "  Andi Chandler https://launchpad.net/~bing\n"
-"  Anthony Harrington https://launchpad.net/~untaintableangel"
+"  Anthony Harrington https://launchpad.net/~untaintableangel\n"
+"  Gabor Karsay https://launchpad.net/~gabor-karsay\n"
+"  Stephan Woidowski https://launchpad.net/~swoidowski"
 
-#: src/pt-app.c:379
+#: src/pt-app.c:301
 msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
 "ignored.\n"
 msgstr ""
 "Warning: Parlatype handles only one file at a time. The other files are "
 "ignored.\n"
+
+#: src/pt-asr-assistant.c:193
+msgid "The folder contains no acoustic model."
+msgstr "The folder contains no acoustic model."
+
+#: src/pt-asr-assistant.c:299
+msgid "Please select …"
+msgstr "Please select …"
+
+#: src/pt-asr-assistant.c:337
+msgid "Missing parameters"
+msgstr "Missing parameters"
+
+#: src/pt-asr-assistant.c:380
+msgid "Timed out"
+msgstr "Timed out"
+
+#: src/pt-asr-assistant.c:381
+msgid ""
+"Scanning the folder took too long. Please make sure to open a folder with "
+"model data only."
+msgstr ""
+"Scanning the folder took too long. Please make sure to open a folder with "
+"model data only."
+
+#: src/pt-asr-assistant.c:384
+msgid "Scanning the folder failed"
+msgstr "Scanning the folder failed"
+
+#: src/pt-asr-assistant.c:399
+msgid "Nothing found"
+msgstr "Nothing found"
+
+#: src/pt-asr-assistant.c:400
+msgid "This folder doesn’t contain a suitable model."
+msgstr "This folder doesn’t contain a suitable model."
+
+#: src/pt-asr-assistant.c:450
+msgid ""
+"The folder contains no language model. Please choose a language model from "
+"another folder."
+msgstr ""
+"The folder contains no language model. Please choose a language model from "
+"another folder."
+
+#: src/pt-asr-assistant.c:458
+msgid "The folder contains several language models."
+msgstr "The folder contains several language models."
+
+#: src/pt-asr-assistant.c:468
+msgid ""
+"The folder contains no dictionary. Please choose a dictionary from another "
+"folder."
+msgstr ""
+"The folder contains no dictionary. Please choose a dictionary from another "
+"folder."
+
+#: src/pt-asr-assistant.c:476
+msgid "The folder contains several dictionaries."
+msgstr "The folder contains several dictionaries."
+
+#: src/pt-asr-assistant.c:485
+msgid ""
+"The folder contains no acoustic model. Please choose an acoustic model from "
+"another folder."
+msgstr ""
+"The folder contains no acoustic model. Please choose an acoustic model from "
+"another folder."
+
+#: src/pt-asr-assistant.c:493
+msgid "The folder contains several acoustic models."
+msgstr "The folder contains several acoustic models."
+
+#: src/pt-asr-assistant.c:610
+msgid "Download model"
+msgstr "Download model"
+
+#: src/pt-asr-assistant.c:617
+msgid "Finish configuration"
+msgstr "Finish configuration"
+
+#: src/pt-asr-output.c:209
+msgid "Select output for automatic speech recognition"
+msgstr "Select output for automatic speech recognition"
+
+#: src/pt-asr-output.c:210
+msgid "Please open and switch focus to a word processor."
+msgstr "Please open and switch focus to a word processor."
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
@@ -154,55 +225,149 @@ msgstr "%d:%02d:%02d"
 #. or the "Go to ..." dialog. There is a label like
 #. "Jump back:", "Jump forward:", "Jump back on pause:"
 #. or "Go to position:" before.
-#: src/pt-goto-dialog.c:79 src/pt-preferences.c:79 src/pt-preferences.c:89
-#: src/pt-preferences.c:99
+#: src/pt-goto-dialog.c:79 src/pt-preferences.c:96 src/pt-preferences.c:106
+#: src/pt-preferences.c:116
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "second"
 msgstr[1] "seconds"
 
-#: src/pt-window.c:302
+#: src/pt-preferences.c:287
+msgid "Deleting configuration"
+msgstr "Deleting configuration"
+
+#: src/pt-preferences.c:288
+#, c-format
+msgid "Do you really want to delete “%s”?"
+msgstr "Do you really want to delete “%s”?"
+
+#: src/pt-window.c:219
+#, c-format
+msgid "Found %s"
+msgstr "Found %s"
+
+#: src/pt-window.c:220
+msgid "Press “Play” to start automatic speech recognition."
+msgstr "Press “Play” to start automatic speech recognition."
+
+#: src/pt-window.c:423
 #, c-format
 msgid "Jump back 1 second"
 msgid_plural "Jump back %d seconds"
 msgstr[0] "Jump back 1 second"
 msgstr[1] "Jump back %d seconds"
 
-#: src/pt-window.c:317
+#: src/pt-window.c:440
 #, c-format
 msgid "Jump forward 1 second"
 msgid_plural "Jump forward %d seconds"
 msgstr[0] "Jump forward 1 second"
 msgstr[1] "Jump forward %d seconds"
 
-#: src/pt-window.c:334
+#: src/pt-window.c:459
 msgid "Pause"
 msgstr "Pause"
 
-#: src/pt-window.c:337
+#: src/pt-window.c:462
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
 msgstr[0] "Pause and rewind 1 second"
 msgstr[1] "Pause and rewind %d seconds"
 
-#: src/pt-window.c:344
+#: src/pt-window.c:469
 msgid "Start playing"
 msgstr "Start playing"
 
-#: src/pt-window.c:380
-#, fuzzy, c-format
+#: src/pt-window.c:505
+#, c-format
 msgid "Go to time in clipboard: %s"
-msgstr "Go to timestamp in clipboard"
+msgstr "Go to time in clipboard: %s"
 
-#: src/pt-window.c:382 src/pt-window.c:996
-#, fuzzy
+#: src/pt-window.c:507 src/pt-window.c:1246
 msgid "Go to time in clipboard"
-msgstr "Go to timestamp in clipboard"
+msgstr "Go to time in clipboard"
 
-#: src/resources/goto-dialog.ui:13 src/resources/menus.ui:34
-msgid "Go to ..."
-msgstr "Go to..."
+#: src/pt-window.c:1162
+#, c-format
+msgid ""
+"Parlatype needs GStreamer 1.x to run. Please check your installation of "
+"GStreamer and make sure you have the “Good Plugins” installed.\n"
+"Parlatype will quit now, it received this error message: %s"
+msgstr ""
+"Parlatype needs GStreamer 1.x to run. Please check your installation of "
+"GStreamer and make sure you have the “Good Plugins” installed.\n"
+"Parlatype will quit now, it received this error message: %s"
+
+#: src/pt-window.c:1165
+msgid "Fatal error"
+msgstr "Fatal error"
+
+#: src/resources/asr-assistant.ui:15
+msgid ""
+"Before you can start, you have to download a so called acoustic and language "
+"model. This is a set of files made for a specific language."
+msgstr ""
+"Before you can start, you have to download a so called acoustic and language "
+"model. This is a set of files made for a specific language."
+
+#: src/resources/asr-assistant.ui:30
+msgid ""
+"Parlatype uses CMU Sphinx as its speech recognition engine. You can download "
+"models suitable for CMU Sphinx for example from <a "
+"href=\"https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Lang"
+"uage%20Models/\">CMU Sphinx’ sourceforge repository</a>. It has models for "
+"some of the most widespread languages."
+msgstr ""
+"Parlatype uses CMU Sphinx as its speech recognition engine. You can download "
+"models suitable for CMU Sphinx for example from <a "
+"href=\"https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Lang"
+"uage%20Models/\">CMU Sphinx’ sourceforge repository</a>. It has models for "
+"some of the most widespread languages."
+
+#: src/resources/asr-assistant.ui:45
+msgid ""
+"If it’s compressed, uncompress the model. Save it to a folder where it can "
+"stay. Parlatype doesn’t copy the model internally."
+msgstr ""
+"If it’s compressed, uncompress the model. Save it to a folder where it can "
+"stay. Parlatype doesn’t copy the model internally."
+
+#: src/resources/asr-assistant.ui:59
+msgid "When you are finished, specify the folder with the model:"
+msgstr "When you are finished, specify the folder with the model:"
+
+#: src/resources/asr-assistant.ui:96
+msgid "Language model"
+msgstr "Language model"
+
+#: src/resources/asr-assistant.ui:125
+msgid "Select language model"
+msgstr "Select language model"
+
+#: src/resources/asr-assistant.ui:157
+msgid "Dictionary"
+msgstr "Dictionary"
+
+#: src/resources/asr-assistant.ui:186
+msgid "Select dictionary"
+msgstr "Select dictionary"
+
+#: src/resources/asr-assistant.ui:218
+msgid "Acoustic model"
+msgstr "Acoustic model"
+
+#: src/resources/asr-assistant.ui:248
+msgid "Select acoustic model folder"
+msgstr "Select acoustic model folder"
+
+#: src/resources/asr-assistant.ui:285
+msgid "Setup is completed. Please give this configuration a name:"
+msgstr "Setup is completed. Please give this configuration a name:"
+
+#: src/resources/goto-dialog.ui:13 src/resources/menus.ui:46
+msgid "Go to…"
+msgstr "Go to…"
 
 #: src/resources/goto-dialog.ui:40
 msgid "_OK"
@@ -221,258 +386,272 @@ msgid "Open a media file"
 msgstr "Open a media file"
 
 #: src/resources/help-overlay.ui:27
-msgid "Open recently used media files"
-msgstr "Open recently used media files"
-
-#: src/resources/help-overlay.ui:34
 msgid "Show/hide action menu"
 msgstr "Show/hide action menu"
 
-#: src/resources/help-overlay.ui:41
+#: src/resources/help-overlay.ui:34
 msgid "Quit"
 msgstr "Quit"
 
-#: src/resources/help-overlay.ui:49 src/resources/preferences.ui:273
+#: src/resources/help-overlay.ui:42 src/resources/preferences.ui:271
 msgid "Waveform"
 msgstr "Waveform"
 
-#: src/resources/help-overlay.ui:54
+#: src/resources/help-overlay.ui:47
 msgid "Play/Pause"
 msgstr "Play/Pause"
 
-#: src/resources/help-overlay.ui:62 src/resources/help-overlay.ui:70
+#: src/resources/help-overlay.ui:55 src/resources/help-overlay.ui:63
 msgid "Jump back"
 msgstr "Jump back"
 
-#: src/resources/help-overlay.ui:78 src/resources/help-overlay.ui:86
+#: src/resources/help-overlay.ui:71 src/resources/help-overlay.ui:79
 msgid "Jump forward"
 msgstr "Jump forward"
 
-#: src/resources/help-overlay.ui:93
+#: src/resources/help-overlay.ui:86
 msgid "Zoom in"
 msgstr "Zoom in"
 
-#: src/resources/help-overlay.ui:100
+#: src/resources/help-overlay.ui:93
 msgid "Zoom out"
 msgstr "Zoom out"
 
-#: src/resources/help-overlay.ui:107
+#: src/resources/help-overlay.ui:100
 msgid "Open “Go to” dialog"
 msgstr "Open “Go to” dialogue"
 
-#: src/resources/help-overlay.ui:114
+#: src/resources/help-overlay.ui:107
 msgid "Copy timestamp to clipboard"
 msgstr "Copy timestamp to clipboard"
 
-#: src/resources/help-overlay.ui:121
+#: src/resources/help-overlay.ui:114
 msgid "Go to timestamp in clipboard"
 msgstr "Go to timestamp in clipboard"
 
-#: src/resources/help-overlay.ui:129 src/resources/menus.ui:15
+#: src/resources/help-overlay.ui:122 src/resources/menus.ui:27
 msgid "Help"
 msgstr "Help"
 
-#: src/resources/help-overlay.ui:134
+#: src/resources/help-overlay.ui:127
 msgid "Show help"
 msgstr "Show help"
 
-#: src/resources/help-overlay.ui:141
+#: src/resources/help-overlay.ui:134
 msgid "Show keyboard shortcuts"
 msgstr "Show keyboard shortcuts"
 
 #: src/resources/menus.ui:7
+msgid "Manual transcription"
+msgstr "Manual transcription"
+
+#: src/resources/menus.ui:12
+msgid "Automatic transcription"
+msgstr "Automatic transcription"
+
+#: src/resources/menus.ui:19
 msgid "Preferences"
 msgstr "Preferences"
 
-#: src/resources/menus.ui:11
+#: src/resources/menus.ui:23
 msgid "_Keyboard Shortcuts"
 msgstr "_Keyboard Shortcuts"
 
-#: src/resources/menus.ui:19
-#, fuzzy
+#: src/resources/menus.ui:31
 msgid "About Parlatype"
-msgstr "Parlatype"
+msgstr "About Parlatype"
 
-#: src/resources/menus.ui:26
-#, fuzzy
+#: src/resources/menus.ui:38
 msgid "Copy time to clipboard"
-msgstr "Copy timestamp to clipboard"
+msgstr "Copy time to clipboard"
 
-#: src/resources/menus.ui:30
-#, fuzzy
+#: src/resources/menus.ui:42
 msgid "Go to cursor"
-msgstr "_Moving cursor"
+msgstr "Go to cursor"
 
 #. This refers to: "Characters around timestamps"
 #: src/resources/preferences.ui:42
 msgid "None"
-msgstr ""
+msgstr "None"
 
 #: src/resources/preferences.ui:46
-msgid "#Hashtags#"
-msgstr ""
+msgid "#Number signs#"
+msgstr "#Number signs#"
 
 #: src/resources/preferences.ui:50
 msgid "(Round brackets)"
-msgstr ""
+msgstr "(Round brackets)"
 
 #: src/resources/preferences.ui:54
 msgid "[Square brackets]"
-msgstr ""
+msgstr "[Square brackets]"
 
 #: src/resources/preferences.ui:68
 msgid ". (point)"
-msgstr ""
+msgstr ". (point)"
 
 #: src/resources/preferences.ui:72
 msgid "- (hyphen)"
-msgstr ""
+msgstr "- (hyphen)"
 
 #: src/resources/preferences.ui:86
-#, fuzzy
 msgid "Full seconds"
-msgstr "second"
+msgstr "Full seconds"
 
 #: src/resources/preferences.ui:90
-#, fuzzy
 msgid "10th seconds"
-msgstr "second"
+msgstr "10th seconds"
 
 #: src/resources/preferences.ui:94
-#, fuzzy
 msgid "100th seconds"
-msgstr "second"
+msgstr "100th seconds"
 
 #: src/resources/preferences.ui:102
 msgid "Parlatype Preferences"
 msgstr "Parlatype Preferences"
 
-#: src/resources/preferences.ui:143
+#: src/resources/preferences.ui:141
 msgid "_Pixels per second:"
 msgstr "_Pixels per second:"
 
-#: src/resources/preferences.ui:173
+#: src/resources/preferences.ui:171
 msgid "Show _time scale"
 msgstr "Show _time scale"
 
 #. Resolution of the waveform image
-#: src/resources/preferences.ui:191
+#: src/resources/preferences.ui:189
 msgid "Resolution"
 msgstr "Resolution"
 
 #. A section in preferences, how to display the waveform.
-#: src/resources/preferences.ui:206
+#: src/resources/preferences.ui:204
 msgid "Display"
 msgstr "Display"
 
-#: src/resources/preferences.ui:219
+#: src/resources/preferences.ui:217
 msgid "_Moving cursor"
 msgstr "_Moving cursor"
 
-#: src/resources/preferences.ui:236
+#: src/resources/preferences.ui:234
 msgid "_Fixed cursor"
 msgstr "_Fixed cursor"
 
-#: src/resources/preferences.ui:293
-msgid "Jump back on _pause:"
-msgstr "Jump back on _pause:"
+#: src/resources/preferences.ui:288
+msgid "Jumps"
+msgstr "Jumps"
 
-#: src/resources/preferences.ui:385
-msgid "Jump _back:"
-msgstr "Jump _back:"
-
-#: src/resources/preferences.ui:399
+#: src/resources/preferences.ui:390
 msgid "Jump _forward:"
 msgstr "Jump _forward:"
 
+#: src/resources/preferences.ui:404
+msgid "Jump _back:"
+msgstr "Jump _back:"
+
 #: src/resources/preferences.ui:418
+msgid "Jump back on _pause:"
+msgstr "Jump back on _pause:"
+
+#: src/resources/preferences.ui:441
+msgid "Pressing “Play” at the end of file"
+msgstr "Pressing “Play” at the end of file"
+
+#: src/resources/preferences.ui:455
+msgid "Replay file"
+msgstr "Replay file"
+
+#: src/resources/preferences.ui:474
+msgid "Pressing “Play” at the end of selection"
+msgstr "Pressing “Play” at the end of selection"
+
+#: src/resources/preferences.ui:488
+msgid "Replay selection"
+msgstr "Replay selection"
+
+#: src/resources/preferences.ui:510
 msgid "Controls"
 msgstr "Controls"
 
-#: src/resources/preferences.ui:464
+#: src/resources/preferences.ui:553
 msgid "Hours and zeroes"
-msgstr ""
+msgstr "Hours and zeroes"
 
-#: src/resources/preferences.ui:477
+#: src/resources/preferences.ui:566
 msgid "Always show hours and leading zeroes"
-msgstr ""
+msgstr "Always show hours and leading zeroes"
 
-#: src/resources/preferences.ui:495
+#: src/resources/preferences.ui:584
 msgid "Precision"
-msgstr ""
+msgstr "Precision"
 
-#: src/resources/preferences.ui:511
+#: src/resources/preferences.ui:600
 msgid "Characters around timestamps"
-msgstr ""
+msgstr "Characters around timestamps"
 
-#: src/resources/preferences.ui:527
+#: src/resources/preferences.ui:616
 msgid "Examples"
-msgstr ""
+msgstr "Examples"
 
-#: src/resources/preferences.ui:569
+#: src/resources/preferences.ui:658
 msgid "Precision:"
-msgstr ""
+msgstr "Precision:"
 
-#: src/resources/preferences.ui:601
+#: src/resources/preferences.ui:690
 msgid "Fraction separator:"
-msgstr ""
+msgstr "Fraction separator:"
 
-#: src/resources/preferences.ui:647
-#, fuzzy
+#: src/resources/preferences.ui:733
 msgid "Timestamps"
-msgstr "Copy timestamp"
+msgstr "Timestamps"
 
-#: src/resources/preferences.ui:665
+#: src/resources/preferences.ui:864
+msgid "Language model:"
+msgstr "Language model:"
+
+#: src/resources/preferences.ui:891
+msgid "Dictionary:"
+msgstr "Dictionary:"
+
+#: src/resources/preferences.ui:918
+msgid "Acoustic model folder:"
+msgstr "Acoustic model folder:"
+
+#: src/resources/preferences.ui:966
+msgid "There is no configuration"
+msgstr "There is no configuration"
+
+#: src/resources/preferences.ui:976
+msgid "Add a configuration"
+msgstr "Add a configuration"
+
+#: src/resources/preferences.ui:1005
+msgid "Speech recognition"
+msgstr "Speech recognition"
+
+#: src/resources/preferences.ui:1023
 msgid "Remember _size"
 msgstr "Remember _size"
 
-#: src/resources/preferences.ui:680
+#: src/resources/preferences.ui:1038
 msgid "Remember _position"
 msgstr "Remember _position"
 
-#: src/resources/preferences.ui:695
+#: src/resources/preferences.ui:1053
 msgid "Start on _top"
 msgstr "Start on _top"
 
-#: src/resources/preferences.ui:717
+#: src/resources/preferences.ui:1075
 msgid "Window"
 msgstr "Window"
 
-#: src/resources/window.ui:145
+#: src/resources/window.ui:142
 msgid "_Play"
 msgstr "_Play"
 
-#: src/resources/window.ui:324
+#: src/resources/window.ui:312
 msgid "Speed:"
 msgstr "Speed:"
 
-#: src/resources/window-headerbar.ui:13
+#: src/resources/window-headerbar.ui:17
 msgid "Open a file"
 msgstr "Open a file"
-
-#~ msgid "_Close"
-#~ msgstr "_Close"
-
-#~ msgid "View follows cursor"
-#~ msgstr "View follows cursor"
-
-#~ msgid "Click to follow cursor"
-#~ msgstr "Click to follow cursor"
-
-#~ msgid "Open File"
-#~ msgstr "Open File"
-
-#~ msgid "Info"
-#~ msgstr "Info"
-
-#~ msgid "Insert timestamp"
-#~ msgstr "Insert timestamp"
-
-#~ msgid "_File"
-#~ msgstr "_File"
-
-#~ msgid "_Edit"
-#~ msgstr "_Edit"
-
-#~ msgid "_Help"
-#~ msgstr "_Help"
