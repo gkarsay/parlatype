@@ -8,17 +8,17 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-11 19:44+0100\n"
-"PO-Revision-Date: 2019-02-09 16:10+0000\n"
+"PO-Revision-Date: 2019-02-11 20:58+0000\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
-"Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2019-02-11 18:36+0000\n"
-"X-Generator: Launchpad (build 18872)\n"
+"X-Launchpad-Export-Date: 2019-04-23 19:48+0000\n"
+"X-Generator: Launchpad (build 18928)\n"
+"Language: pl\n"
 
 #. Translators: %s is a detailed error message.
 #: libparlatype/src/pt-player.c:498
@@ -125,9 +125,9 @@ msgid "%d:%02d.%02d"
 msgstr "%d∶%02d.%02d"
 
 #: libparlatype/src/pt-player.c:1902
-#,fuzzy
+#, c-format
 msgid "Failed to load plugin “%s”."
-msgstr "Utworzenie wtyczki „%s” się nie powidło."
+msgstr "Wczytanie wtyczki „%s” się nie powiodło."
 
 #: libparlatype/src/pt-progress-dialog.c:102
 #, c-format
