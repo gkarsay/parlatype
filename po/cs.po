@@ -8,30 +8,29 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2018-06-04 14:40+0200\n"
-"PO-Revision-Date: 2018-12-07 11:22+0000\n"
+"POT-Creation-Date: 2019-02-11 19:41+0100\n"
+"PO-Revision-Date: 2019-03-11 07:56+0000\n"
 "Last-Translator: fri <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2019-02-08 18:32+0000\n"
-"X-Generator: Launchpad (build 18872)\n"
+"X-Launchpad-Export-Date: 2019-04-23 19:48+0000\n"
+"X-Generator: Launchpad (build 18928)\n"
 "Language: cs\n"
 
-#: ../data/com.github.gkarsay.parlatype.appdata.xml.in.h:1
-#: ../data/com.github.gkarsay.parlatype.desktop.in.h:1 ../src/pt-app.c:84
-#: ../src/pt-app.c:235 ../src/resources/window.ui.h:1
-#: ../src/resources/window-headerbar.ui.h:1
+#: data/com.github.gkarsay.parlatype.appdata.xml.in:7
+#: data/com.github.gkarsay.parlatype.desktop.in:4 src/pt-app.c:178
+#: src/resources/window.ui:32
 msgid "Parlatype"
 msgstr "Parlatype"
 
-#: ../data/com.github.gkarsay.parlatype.appdata.xml.in.h:2
+#: data/com.github.gkarsay.parlatype.appdata.xml.in:8
 msgid "Media player for manual speech transcription"
-msgstr "Přehrávač pro ruční přepis řeči"
+msgstr "Přehrávač záznamů pro ruční přepis řeči"
 
-#: ../data/com.github.gkarsay.parlatype.appdata.xml.in.h:3
+#: data/com.github.gkarsay.parlatype.appdata.xml.in:11
 msgid ""
 "Parlatype is an easy to use media player. Its main purpose is to help you "
 "transcribing speech."
@@ -39,69 +38,60 @@ msgstr ""
 "Parlatype je snadno se používající přehrávač, jehož hlavním účelem je pomoci "
 "vám s přepisem mluveného slova."
 
-#: ../data/com.github.gkarsay.parlatype.desktop.in.h:2
-msgid "Transcription utility"
-msgstr "Prostředek na přepis"
+#: data/com.github.gkarsay.parlatype.appdata.xml.in:24
+msgid "Gabor Karsay"
+msgstr "Gabor Karsay"
 
-#: ../data/com.github.gkarsay.parlatype.desktop.in.h:3
+#: data/com.github.gkarsay.parlatype.desktop.in:5
+msgid "Transcription utility"
+msgstr "Pomůcka pro přepis"
+
+#: data/com.github.gkarsay.parlatype.desktop.in:6
 msgid "Transcription;"
 msgstr "Přepis;"
 
-#: ../data/com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in.h:1
+#: data/com.github.gkarsay.parlatype.desktop.in:8
+msgid "com.github.gkarsay.parlatype"
+msgstr "com.github.gkarsay.parlatype"
+
+#: data/com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in:6
 msgid "LibreOffice/Parlatype Helpers"
 msgstr "Pomocníci LibreOffice/Parlatype"
 
-#: ../data/com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in.h:2
+#: data/com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in:7
 msgid "Control Parlatype using LibreOffice macros"
 msgstr "Ovládejte Parlatype pomocí maker LibreOffice"
 
-#: ../src/main.c:36
-msgid "Fatal error"
-msgstr "Vážná chyba"
-
-#: ../src/main.c:40
-#, c-format
-msgid ""
-"Parlatype needs GStreamer 1.x to run. Please check your installation of "
-"GStreamer and make sure you have the \"Good Plugins\" installed.\n"
-"Parlatype will quit now, it received this error message: %s"
-msgstr ""
-"Parlatype potřebuje k tomu, aby běžel, GStreamer 1.x. Prověřte, prosím, "
-"svoji instalaci GStreameru a ujistěte se, že máte nainstalovány ty správné "
-"přídavné moduly\n"
-"Parlatype nyní bude ukončen. Obdržel tato chybová hlášení: %s"
-
-#: ../src/pt-app.c:55
-msgid "Show the application's version"
+#: src/pt-app.c:42
+msgid "Show the application’s version"
 msgstr "Ukázat verzi programu"
 
-#: ../src/pt-app.c:75 ../src/resources/menus.ui.h:2
-msgid "Recent Files"
-msgstr "Nedávné soubory"
+#: src/pt-app.c:50
+msgid "Use internal textpad for automatic speech recognition"
+msgstr "Použít vnitřní textový blok pro automatické rozpoznávání řeči"
 
-#: ../src/pt-app.c:77 ../src/pt-app.c:134 ../src/resources/goto-dialog.ui.h:2
-msgid "_Cancel"
-msgstr "_Zrušit"
-
-#: ../src/pt-app.c:78 ../src/pt-app.c:135
-#: ../src/resources/window-headerbar.ui.h:2
-msgid "_Open"
-msgstr "_Otevřít"
-
-#: ../src/pt-app.c:90 ../src/pt-app.c:146
-msgid "All files"
-msgstr "Všechny soubory"
-
-#: ../src/pt-app.c:131
+#: src/pt-app.c:72
 msgid "Open Audio File"
 msgstr "Otevřít zvukový soubor"
 
-#: ../src/pt-app.c:145
+#: src/pt-app.c:75 src/resources/window-headerbar.ui:12
+msgid "_Open"
+msgstr "_Otevřít"
+
+#: src/pt-app.c:76 src/resources/goto-dialog.ui:26
+msgid "_Cancel"
+msgstr "_Zrušit"
+
+#: src/pt-app.c:95
 msgid "Audio files"
 msgstr "Zvukové soubory"
 
+#: src/pt-app.c:96
+msgid "All files"
+msgstr "Všechny soubory"
+
 #. Translators: %s is a detailed error message
-#: ../src/pt-app.c:202
+#: src/pt-app.c:145
 #, c-format
 msgid "Error opening help: %s"
 msgstr "Chyba při otevírání nápovědy: %s"
@@ -110,22 +100,22 @@ msgstr "Chyba při otevírání nápovědy: %s"
 #. copyright holders of code from other projects. Instead of
 #. "including" it could also say "with" or just "Code from
 #. other projects:"
-#: ../src/pt-app.c:220
+#: src/pt-app.c:163
 msgid "Including code from other projects:"
 msgstr "Obsahuje kód z jiných projektů:"
 
-#: ../src/pt-app.c:238
+#: src/pt-app.c:181
 msgid "A basic transcription utility"
 msgstr "Základní prostředek na přepis"
 
-#: ../src/pt-app.c:242
+#: src/pt-app.c:185
 msgid "translator-credits"
 msgstr ""
 "Launchpad Contributions:\n"
+"  Gabor Karsay https://launchpad.net/~gabor-karsay\n"
 "  fri https://launchpad.net/~pavelfric"
 
-#: ../src/pt-app.c:424
-#, c-format
+#: src/pt-app.c:301
 msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
 "ignored.\n"
@@ -133,11 +123,98 @@ msgstr ""
 "Upozornění: Parlatype pracuje pouze s jedním souborem najednou. Ostatní "
 "soubory jsou přehlíženy.\n"
 
+#: src/pt-asr-assistant.c:193
+msgid "The folder contains no acoustic model."
+msgstr "Složka obsahuje akustický model."
+
+#: src/pt-asr-assistant.c:299
+msgid "Please select …"
+msgstr "Vyberte, prosím, ..."
+
+#: src/pt-asr-assistant.c:337
+msgid "Missing parameters"
+msgstr "Chybí parametry"
+
+#: src/pt-asr-assistant.c:380
+msgid "Timed out"
+msgstr "Čas vypršel"
+
+#: src/pt-asr-assistant.c:381
+msgid ""
+"Scanning the folder took too long. Please make sure to open a folder with "
+"model data only."
+msgstr ""
+"Prohledávání složky zabralo spoustu času. Ujistěte se, prosím, že otevíráte "
+"složky, v níž jsou pouze modelová data."
+
+#: src/pt-asr-assistant.c:384
+msgid "Scanning the folder failed"
+msgstr "Prohledávání složky selhalo"
+
+#: src/pt-asr-assistant.c:399
+msgid "Nothing found"
+msgstr "Nic nenalezeno"
+
+#: src/pt-asr-assistant.c:400
+msgid "This folder doesn’t contain a suitable model."
+msgstr "Tato složka neobsahuje vhodný model."
+
+#: src/pt-asr-assistant.c:450
+msgid ""
+"The folder contains no language model. Please choose a language model from "
+"another folder."
+msgstr ""
+"Složka neobsahuje žádný jazykový model. Vyberte, prosím, jazykový model z "
+"jiné složky."
+
+#: src/pt-asr-assistant.c:458
+msgid "The folder contains several language models."
+msgstr "Složka obsahuje několik jazykových modelů."
+
+#: src/pt-asr-assistant.c:468
+msgid ""
+"The folder contains no dictionary. Please choose a dictionary from another "
+"folder."
+msgstr ""
+"Složka neobsahuje žádný slovník. Vyberte, prosím, slovník z jiné složky."
+
+#: src/pt-asr-assistant.c:476
+msgid "The folder contains several dictionaries."
+msgstr "Složka obsahuje několik slovníků."
+
+#: src/pt-asr-assistant.c:485
+msgid ""
+"The folder contains no acoustic model. Please choose an acoustic model from "
+"another folder."
+msgstr ""
+"Složka neobsahuje žádný akustický model. Vyberte, prosím, akustický model z "
+"jiné složky."
+
+#: src/pt-asr-assistant.c:493
+msgid "The folder contains several acoustic models."
+msgstr "Složka obsahuje několik akustický modelů."
+
+#: src/pt-asr-assistant.c:610
+msgid "Download model"
+msgstr "Stáhnout model"
+
+#: src/pt-asr-assistant.c:617
+msgid "Finish configuration"
+msgstr "Dokončit nastavení"
+
+#: src/pt-asr-output.c:209
+msgid "Select output for automatic speech recognition"
+msgstr "Vybrat výstup pro automatické rozpoznávání řeči"
+
+#: src/pt-asr-output.c:210
+msgid "Please open and switch focus to a word processor."
+msgstr "Otevřete, prosím, a přepněte zaměření na textový editor."
+
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
 #. the separator that your locale uses or use "%Id" instead
 #. of "%d" if your locale uses localized digits.
-#: ../src/pt-goto-dialog.c:49
+#: src/pt-goto-dialog.c:49
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
@@ -147,19 +224,33 @@ msgstr "%d:%02d:%02d"
 #. or the "Go to ..." dialog. There is a label like
 #. "Jump back:", "Jump forward:", "Jump back on pause:"
 #. or "Go to position:" before.
-#: ../src/pt-goto-dialog.c:79 ../src/pt-preferences.c:62
-#: ../src/pt-preferences.c:72 ../src/pt-preferences.c:82
+#: src/pt-goto-dialog.c:79 src/pt-preferences.c:96 src/pt-preferences.c:106
+#: src/pt-preferences.c:116
 msgid "second"
 msgid_plural "seconds"
-msgstr[0] "sekundy"
+msgstr[0] "sekunda"
 msgstr[1] "sekund"
 msgstr[2] "sekund"
 
-#: ../src/pt-preferences.c:193
-msgid "_Close"
-msgstr "Z_avřít"
+#: src/pt-preferences.c:287
+msgid "Deleting configuration"
+msgstr "Smazání nastavení"
 
-#: ../src/pt-window.c:296
+#: src/pt-preferences.c:288
+#, c-format
+msgid "Do you really want to delete “%s”?"
+msgstr "Opravdu chcete smazat “%s”?"
+
+#: src/pt-window.c:219
+#, c-format
+msgid "Found %s"
+msgstr "Nalezeno %s"
+
+#: src/pt-window.c:220
+msgid "Press “Play” to start automatic speech recognition."
+msgstr "Stiskněte Přehrát pro spuštění automatického rozpoznávání řeči."
+
+#: src/pt-window.c:423
 #, c-format
 msgid "Jump back 1 second"
 msgid_plural "Jump back %d seconds"
@@ -167,7 +258,7 @@ msgstr[0] "Skočit zpět o 1 sekundu"
 msgstr[1] "Skočit zpět o %d sekundy"
 msgstr[2] "Skočit zpět o %d sekund"
 
-#: ../src/pt-window.c:311
+#: src/pt-window.c:440
 #, c-format
 msgid "Jump forward 1 second"
 msgid_plural "Jump forward %d seconds"
@@ -175,11 +266,11 @@ msgstr[0] "Skočit vpřed o 1 sekundu"
 msgstr[1] "Skočit vpřed o %d sekundy"
 msgstr[2] "Skočit vpřed o %d sekund"
 
-#: ../src/pt-window.c:328
+#: src/pt-window.c:459
 msgid "Pause"
 msgstr "Pozastavit"
 
-#: ../src/pt-window.c:331
+#: src/pt-window.c:462
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
@@ -187,204 +278,383 @@ msgstr[0] "Pozastavit a přetočit o 1 sekundu"
 msgstr[1] "Pozastavit a přetočit o %d sekundy"
 msgstr[2] "Pozastavit a přetočit o %d sekund"
 
-#: ../src/pt-window.c:338
+#: src/pt-window.c:469
 msgid "Start playing"
 msgstr "Začít přehrávat"
 
-#: ../src/pt-window.c:991
-msgid "View follows cursor"
-msgstr "Pohled následuje ukazatel"
+#: src/pt-window.c:505
+#, c-format
+msgid "Go to time in clipboard: %s"
+msgstr "Jít na čas ve schránce: %s"
 
-#: ../src/pt-window.c:993
-msgid "Click to follow cursor"
-msgstr "Klepnout pro následování ukazatele"
+#: src/pt-window.c:507 src/pt-window.c:1246
+msgid "Go to time in clipboard"
+msgstr "Jít na čas ve schránce"
 
-#: ../src/resources/goto-dialog.ui.h:1 ../src/resources/menus.ui.h:10
-msgid "Go to ..."
+#: src/pt-window.c:1162
+#, c-format
+msgid ""
+"Parlatype needs GStreamer 1.x to run. Please check your installation of "
+"GStreamer and make sure you have the “Good Plugins” installed.\n"
+"Parlatype will quit now, it received this error message: %s"
+msgstr ""
+"Parlatype potřebuje, aby běžel GStreamer 1.x. Prověřte, prosím, instalaci "
+"GStreameru a ujistěte se, že máte nainstalovány “Good Plugins”.\n"
+"Parlatype nyní bude ukončen, přijal toto hlášení o chybě: %s"
+
+#: src/pt-window.c:1165
+msgid "Fatal error"
+msgstr "Vážná chyba"
+
+#: src/resources/asr-assistant.ui:15
+msgid ""
+"Before you can start, you have to download a so called acoustic and language "
+"model. This is a set of files made for a specific language."
+msgstr ""
+"Předtím než budete moci začít, musíte stáhnout tak zvaný akustický a "
+"jazykový model. Jedná se o sadu souborů pro určitý jazyk."
+
+#: src/resources/asr-assistant.ui:30
+msgid ""
+"Parlatype uses CMU Sphinx as its speech recognition engine. You can download "
+"models suitable for CMU Sphinx for example from <a "
+"href=\"https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Lang"
+"uage%20Models/\">CMU Sphinx’ sourceforge repository</a>. It has models for "
+"some of the most widespread languages."
+msgstr ""
+"Parlatype používá CMU Sphinx jako stroj na rozpoznávání řeči. Modely vhodné "
+"pro CMU Sphinx ůžete stáhnout například z <a "
+"href=\"https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Lang"
+"uage%20Models/\">CMU Sphinx’ sourceforge repository</a>. Jsou tam modely pro "
+"některé z nějrozšířenějších jazyků."
+
+#: src/resources/asr-assistant.ui:45
+msgid ""
+"If it’s compressed, uncompress the model. Save it to a folder where it can "
+"stay. Parlatype doesn’t copy the model internally."
+msgstr ""
+"Pokud je zkomprimován, rozbalte model. Uložte jej do složky, kde bude moci "
+"zůstat. Parlatype model nekopíruje vnitřně."
+
+#: src/resources/asr-assistant.ui:59
+msgid "When you are finished, specify the folder with the model:"
+msgstr "Až skončíte, stanovte složku s modelem:"
+
+#: src/resources/asr-assistant.ui:96
+msgid "Language model"
+msgstr "Jazykový model"
+
+#: src/resources/asr-assistant.ui:125
+msgid "Select language model"
+msgstr "Vybrat jazykový model"
+
+#: src/resources/asr-assistant.ui:157
+msgid "Dictionary"
+msgstr "Slovník"
+
+#: src/resources/asr-assistant.ui:186
+msgid "Select dictionary"
+msgstr "Vybrat slovník"
+
+#: src/resources/asr-assistant.ui:218
+msgid "Acoustic model"
+msgstr "Akustický model"
+
+#: src/resources/asr-assistant.ui:248
+msgid "Select acoustic model folder"
+msgstr "Vybrat složku s akustickým modelem"
+
+#: src/resources/asr-assistant.ui:285
+msgid "Setup is completed. Please give this configuration a name:"
+msgstr "Nastavení je hotovo. Nastavení, prosím, pojmenujte:"
+
+#: src/resources/goto-dialog.ui:13 src/resources/menus.ui:46
+msgid "Go to…"
 msgstr "Jít na..."
 
-#: ../src/resources/goto-dialog.ui.h:3
+#: src/resources/goto-dialog.ui:40
 msgid "_OK"
 msgstr "_OK"
 
-#: ../src/resources/goto-dialog.ui.h:4
+#: src/resources/goto-dialog.ui:70
 msgid "Go to position:"
 msgstr "Jít na polohu:"
 
-#: ../src/resources/help-overlay.ui.h:1
+#: src/resources/help-overlay.ui:15
 msgid "General"
 msgstr "Obecné"
 
-#: ../src/resources/help-overlay.ui.h:2
+#: src/resources/help-overlay.ui:20
 msgid "Open a media file"
 msgstr "Otevřít soubor se záznamem"
 
-#: ../src/resources/help-overlay.ui.h:3
-msgid "Open recently used media files"
-msgstr "Otevřít nedávno otevřené soubory se záznamy"
-
-#: ../src/resources/help-overlay.ui.h:4
+#: src/resources/help-overlay.ui:27
 msgid "Show/hide action menu"
 msgstr "Ukázat/Skrýt nabídku činností"
 
-#: ../src/resources/help-overlay.ui.h:5 ../src/resources/menus.ui.h:7
+#: src/resources/help-overlay.ui:34
 msgid "Quit"
 msgstr "Ukončit"
 
-#: ../src/resources/help-overlay.ui.h:6 ../src/resources/preferences.ui.h:10
+#: src/resources/help-overlay.ui:42 src/resources/preferences.ui:271
 msgid "Waveform"
 msgstr "Křivka"
 
-#: ../src/resources/help-overlay.ui.h:7
+#: src/resources/help-overlay.ui:47
 msgid "Play/Pause"
 msgstr "Přehrát/Pozastavit"
 
-#: ../src/resources/help-overlay.ui.h:8
+#: src/resources/help-overlay.ui:55 src/resources/help-overlay.ui:63
 msgid "Jump back"
 msgstr "Skočit zpět"
 
-#: ../src/resources/help-overlay.ui.h:9
+#: src/resources/help-overlay.ui:71 src/resources/help-overlay.ui:79
 msgid "Jump forward"
 msgstr "Skočit vpřed"
 
-#: ../src/resources/help-overlay.ui.h:10
+#: src/resources/help-overlay.ui:86
 msgid "Zoom in"
 msgstr "Přiblížit"
 
-#: ../src/resources/help-overlay.ui.h:11
+#: src/resources/help-overlay.ui:93
 msgid "Zoom out"
 msgstr "Oddálit"
 
-#: ../src/resources/help-overlay.ui.h:12
+#: src/resources/help-overlay.ui:100
 msgid "Open “Go to” dialog"
 msgstr "Otevřít dialog Jít na"
 
-#: ../src/resources/help-overlay.ui.h:13
+#: src/resources/help-overlay.ui:107
 msgid "Copy timestamp to clipboard"
 msgstr "Kopírovat časové razítko do schránky"
 
-#: ../src/resources/help-overlay.ui.h:14
+#: src/resources/help-overlay.ui:114
 msgid "Go to timestamp in clipboard"
 msgstr "Jít na časové razítko ve schránce"
 
-#: ../src/resources/help-overlay.ui.h:15 ../src/resources/menus.ui.h:5
+#: src/resources/help-overlay.ui:122 src/resources/menus.ui:27
 msgid "Help"
 msgstr "Nápověda"
 
-#: ../src/resources/help-overlay.ui.h:16
+#: src/resources/help-overlay.ui:127
 msgid "Show help"
 msgstr "Ukázat nápovědu"
 
-#: ../src/resources/help-overlay.ui.h:17
+#: src/resources/help-overlay.ui:134
 msgid "Show keyboard shortcuts"
 msgstr "Ukázat klávesové zkratky"
 
-#: ../src/resources/menus.ui.h:1
-msgid "Open File"
-msgstr "Otevřít soubor"
+#: src/resources/menus.ui:7
+msgid "Manual transcription"
+msgstr "Ruční přepis"
 
-#: ../src/resources/menus.ui.h:3
+#: src/resources/menus.ui:12
+msgid "Automatic transcription"
+msgstr "Automatický přepis"
+
+#: src/resources/menus.ui:19
 msgid "Preferences"
 msgstr "Nastavení"
 
-#: ../src/resources/menus.ui.h:4
+#: src/resources/menus.ui:23
 msgid "_Keyboard Shortcuts"
 msgstr "_Klávesové zkratky"
 
-#: ../src/resources/menus.ui.h:6
-msgid "Info"
-msgstr "Informace"
+#: src/resources/menus.ui:31
+msgid "About Parlatype"
+msgstr "O programu Parlatype"
 
-#: ../src/resources/menus.ui.h:8
-msgid "Copy timestamp"
-msgstr "Kopírovat časové razítko"
+#: src/resources/menus.ui:38
+msgid "Copy time to clipboard"
+msgstr "Kopírovat čas do schránky"
 
-#: ../src/resources/menus.ui.h:9
-msgid "Insert timestamp"
-msgstr "Vložit časové razítko"
+#: src/resources/menus.ui:42
+msgid "Go to cursor"
+msgstr "Jít na ukazatel"
 
-#: ../src/resources/menus.ui.h:11
-msgid "_File"
-msgstr "_Soubor"
+#. This refers to: "Characters around timestamps"
+#: src/resources/preferences.ui:42
+msgid "None"
+msgstr "Žádný"
 
-#: ../src/resources/menus.ui.h:12
-msgid "_Edit"
-msgstr "Úp_ravy"
+#: src/resources/preferences.ui:46
+msgid "#Number signs#"
+msgstr "#číslo#"
 
-#: ../src/resources/menus.ui.h:13
-msgid "_Help"
-msgstr "_Nápověda"
+#: src/resources/preferences.ui:50
+msgid "(Round brackets)"
+msgstr "(kulaté závorky)"
 
-#: ../src/resources/preferences.ui.h:1
+#: src/resources/preferences.ui:54
+msgid "[Square brackets]"
+msgstr "[hranaté závorky]"
+
+#: src/resources/preferences.ui:68
+msgid ". (point)"
+msgstr ". (bod)"
+
+#: src/resources/preferences.ui:72
+msgid "- (hyphen)"
+msgstr "- (spojovník)"
+
+#: src/resources/preferences.ui:86
+msgid "Full seconds"
+msgstr "Plné sekundy"
+
+#: src/resources/preferences.ui:90
+msgid "10th seconds"
+msgstr "10. sekund"
+
+#: src/resources/preferences.ui:94
+msgid "100th seconds"
+msgstr "100. sekund"
+
+#: src/resources/preferences.ui:102
 msgid "Parlatype Preferences"
-msgstr "Nastavení"
+msgstr "Nastavení Parlatype"
 
-#: ../src/resources/preferences.ui.h:2
+#: src/resources/preferences.ui:141
 msgid "_Pixels per second:"
 msgstr "_Obrazových bodů za sekundu:"
 
-#: ../src/resources/preferences.ui.h:3
+#: src/resources/preferences.ui:171
 msgid "Show _time scale"
 msgstr "Ukázat ča_sovou stupnici"
 
 #. Resolution of the waveform image
-#: ../src/resources/preferences.ui.h:5
+#: src/resources/preferences.ui:189
 msgid "Resolution"
 msgstr "Rozlišení"
 
 #. A section in preferences, how to display the waveform.
-#: ../src/resources/preferences.ui.h:7
+#: src/resources/preferences.ui:204
 msgid "Display"
 msgstr "Zobrazení"
 
-#: ../src/resources/preferences.ui.h:8
+#: src/resources/preferences.ui:217
 msgid "_Moving cursor"
 msgstr "_Pohybující se ukazatel"
 
-#: ../src/resources/preferences.ui.h:9
+#: src/resources/preferences.ui:234
 msgid "_Fixed cursor"
 msgstr "P_evný ukazatel"
 
-#: ../src/resources/preferences.ui.h:11
-msgid "Jump back on _pause:"
-msgstr "Skočit zpět při p_ozastavení:"
+#: src/resources/preferences.ui:288
+msgid "Jumps"
+msgstr "Skoky"
 
-#: ../src/resources/preferences.ui.h:12
-msgid "Jump _back:"
-msgstr "Skočit zpě_t:"
-
-#: ../src/resources/preferences.ui.h:13
+#: src/resources/preferences.ui:390
 msgid "Jump _forward:"
 msgstr "Skočit _vpřed:"
 
-#: ../src/resources/preferences.ui.h:14
+#: src/resources/preferences.ui:404
+msgid "Jump _back:"
+msgstr "Skočit zpě_t:"
+
+#: src/resources/preferences.ui:418
+msgid "Jump back on _pause:"
+msgstr "Skočit zpět při p_ozastavení:"
+
+#: src/resources/preferences.ui:441
+msgid "Pressing “Play” at the end of file"
+msgstr "Stisknutí Přehrát na konci souboru"
+
+#: src/resources/preferences.ui:455
+msgid "Replay file"
+msgstr "Přehrát soubor znovu"
+
+#: src/resources/preferences.ui:474
+msgid "Pressing “Play” at the end of selection"
+msgstr "Stisknutí Přehrát na konci výběru"
+
+#: src/resources/preferences.ui:488
+msgid "Replay selection"
+msgstr "Přehrát výběr znovu"
+
+#: src/resources/preferences.ui:510
 msgid "Controls"
 msgstr "Ovládání"
 
-#: ../src/resources/preferences.ui.h:15
+#: src/resources/preferences.ui:553
+msgid "Hours and zeroes"
+msgstr "Hodiny a nuly"
+
+#: src/resources/preferences.ui:566
+msgid "Always show hours and leading zeroes"
+msgstr "Vždy ukazovat hodiny a nuly na začátku"
+
+#: src/resources/preferences.ui:584
+msgid "Precision"
+msgstr "Přesnost"
+
+#: src/resources/preferences.ui:600
+msgid "Characters around timestamps"
+msgstr "Znaky okolo časových razítek"
+
+#: src/resources/preferences.ui:616
+msgid "Examples"
+msgstr "Príklady"
+
+#: src/resources/preferences.ui:658
+msgid "Precision:"
+msgstr "Přesnost:"
+
+#: src/resources/preferences.ui:690
+msgid "Fraction separator:"
+msgstr "Oddělovač zlomku:"
+
+#: src/resources/preferences.ui:733
+msgid "Timestamps"
+msgstr "Časová razítka"
+
+#: src/resources/preferences.ui:864
+msgid "Language model:"
+msgstr "Jazykový model:"
+
+#: src/resources/preferences.ui:891
+msgid "Dictionary:"
+msgstr "Slovník:"
+
+#: src/resources/preferences.ui:918
+msgid "Acoustic model folder:"
+msgstr "Složka s akustickým modelem:"
+
+#: src/resources/preferences.ui:966
+msgid "There is no configuration"
+msgstr "Není žádné nastavení"
+
+#: src/resources/preferences.ui:976
+msgid "Add a configuration"
+msgstr "Přidat nastavení"
+
+#: src/resources/preferences.ui:1005
+msgid "Speech recognition"
+msgstr "Rozpoznávání řeči"
+
+#: src/resources/preferences.ui:1023
 msgid "Remember _size"
 msgstr "Zapamatovat si ve_likost"
 
-#: ../src/resources/preferences.ui.h:16
+#: src/resources/preferences.ui:1038
 msgid "Remember _position"
 msgstr "Zapamatovat si polo_hu"
 
-#: ../src/resources/preferences.ui.h:17
+#: src/resources/preferences.ui:1053
 msgid "Start on _top"
 msgstr "Začít n_ahoře"
 
-#: ../src/resources/preferences.ui.h:18
+#: src/resources/preferences.ui:1075
 msgid "Window"
 msgstr "Okno"
 
-#: ../src/resources/window.ui.h:2
+#: src/resources/window.ui:142
+msgid "_Play"
+msgstr "_Přehrát"
+
+#: src/resources/window.ui:312
 msgid "Speed:"
 msgstr "Rychlost:"
 
-#: ../src/resources/window-headerbar.ui.h:3
+#: src/resources/window-headerbar.ui:17
 msgid "Open a file"
 msgstr "Otevřít soubor"
-
-#: ../src/resources/window-headerbar.ui.h:4
-msgid "_Play"
-msgstr "_Přehrát"
