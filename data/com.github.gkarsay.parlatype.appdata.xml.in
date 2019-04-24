@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2017 Gabor Karsay <gabor.karsay@gmx.at> -->
+<!-- Copyright 2017–2019 Gabor Karsay <gabor.karsay@gmx.at> -->
 <component type="desktop">
 	<id>com.github.gkarsay.parlatype.desktop</id>
 	<metadata_license>CC-BY-SA-4.0</metadata_license>
 	<project_license>GPL-3.0+</project_license>
 	<name>Parlatype</name>
-	<summary>Media player for manual speech transcription</summary>
+	<summary>Media player for speech transcription</summary>
 
 	<description>
 		<p>Parlatype is an easy to use media player. Its main purpose is to help
@@ -39,14 +39,14 @@
 	</kudos>
 
 	<releases>
-		<release version="1.6-beta" date="2019-03-10">
+		<release version="1.6" date="2019-04-24">
 			<description>
-			<p>This is a pre-release version with some new features.</p>
+			<p>This is a major release with some new features.</p>
 			<ul>
 			<li>Automatic speech recognition with CMU Sphinx</li>
 			<li>Design changes, including removal of application menu</li>
 			<li>Custom timestamps</li>
-			<li>Translation updates for Czech, German, Japanese and Polish</li>
+			<li>Translation updates for Brazilian Portuguese, British English, Czech, German, Japanese, Lithuanian and Polish</li>
 			</ul>
 			</description>
 		</release>

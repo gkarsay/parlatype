@@ -1,5 +1,5 @@
-Overview of Changes in Parlatype 1.6-beta1 – 2019-03-10
-=======================================================
+Overview of Changes in Parlatype 1.6 – 2019-04-24
+=================================================
 
 * New: Automatic speech recognition with CMU Sphinx
 * New: Design changes, including removal of application menu, fix #22
@@ -11,10 +11,13 @@ Overview of Changes in Parlatype 1.6-beta1 – 2019-03-10
 * Fix: Use Unicode for nice typography
 * Build system changed to Meson
 * New or updated translations:
-  - cs: fri
-  - de: Gabor Karsay
-  - ja: Shinichirou Yamada
-  - pl: Piotr Drąg
+  - cs:    fri
+  - de:    Gabor Karsay
+  - en_GB: Stephan Woidowski
+  - ja:    Shinichirou Yamada
+  - lt:    Moo
+  - pl:    Piotr Drąg
+  - pt_BR: Rodrigo Macedo
 
 
 Overview of Changes in Parlatype 1.5.6 – 2018-08-17

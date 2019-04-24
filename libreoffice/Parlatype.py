@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 '''
 Parlatype.py is part of Parlatype.
-Version: 1.6-beta
+Version: 1.6
 
 Copyright (C) Gabor Karsay 2016-2019 <gabor.karsay@gmx.at>
 
