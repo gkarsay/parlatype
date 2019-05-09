@@ -17,6 +17,8 @@ marshal_h = marshalers[1]
 sources = [
 	gresources,
 	marshalers,
+	'pt-i18n.c',
+	'pt-i18n.h',
 	'pt-player.c',
 	'pt-progress-dialog.c',
 	'pt-wavedata.c',

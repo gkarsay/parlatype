@@ -21,6 +21,7 @@
 #include <glib/gi18n-lib.h>
 #include <gst/gst.h>
 #include <gst/audio/streamvolume.h>
+#include "pt-i18n.h"
 #include "pt-waveloader.h"
 #include "pt-waveviewer.h"
 #include "pt-player.h"
@@ -2669,5 +2670,6 @@ pt_player_class_init (PtPlayerClass *klass)
 PtPlayer *
 pt_player_new (void)
 {
+	pt_i18n_init ();
 	return g_object_new (PT_TYPE_PLAYER, NULL);
 }

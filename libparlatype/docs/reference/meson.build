@@ -31,6 +31,7 @@ gnome.gtkdoc(
 		'parlatype-example.py',
 	],
 	ignore_headers: [
+		'pt-i18n.h',
 		'pt-waveviewer-cursor.h',
 		'pt-waveviewer-focus.h',
 		'pt-waveviewer-selection.h',
