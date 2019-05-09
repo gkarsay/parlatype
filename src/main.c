@@ -26,6 +26,7 @@ int main (int argc, char *argv[])
 {
 	setlocale (LC_ALL, "");
 	bindtextdomain (PACKAGE, LOCALEDIR);
+	bind_textdomain_codeset (PACKAGE, "UTF-8");
 	textdomain (PACKAGE);
 	
 	PtApp *app;
