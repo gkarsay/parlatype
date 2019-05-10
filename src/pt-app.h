@@ -49,6 +49,8 @@ PtAsrSettings	*pt_app_get_asr_settings	(PtApp *app);
 
 gboolean	pt_app_get_atspi		(PtApp *app);
 
+gboolean	pt_app_get_asr			(PtApp *app);
+
 PtApp		*pt_app_new			(void);
 
 #endif

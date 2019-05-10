@@ -24,6 +24,7 @@
 
 struct _PtAppPrivate
 {
+	gboolean       asr;
 	gboolean       atspi;
 	PtAsrSettings *asr_settings;
 };
@@ -40,6 +41,14 @@ static GOptionEntry options[] =
 	  G_OPTION_ARG_NONE,
 	  NULL,
 	  N_("Show the application’s version"),
+	  NULL
+	},
+	{ "with-asr",
+	  'a',
+	  G_OPTION_FLAG_NONE,
+	  G_OPTION_ARG_NONE,
+	  NULL,
+	  N_("Enable automatic speech recognition"),
 	  NULL
 	},
 	{ "textpad",
@@ -207,13 +216,22 @@ const GActionEntry app_actions[] = {
 PtAsrSettings*
 pt_app_get_asr_settings (PtApp *app)
 {
+	g_assert (PT_IS_APP (app));
 	return app->priv->asr_settings;
 }
 
 gboolean
 pt_app_get_atspi (PtApp *app)
 {
+	g_assert (PT_IS_APP (app));
 	return app->priv->atspi;
+}
+
+gboolean
+pt_app_get_asr (PtApp *app)
+{
+	g_assert (PT_IS_APP (app));
+	return app->priv->asr;
 }
 
 static void
@@ -317,6 +335,10 @@ pt_app_handle_local_options (GApplication *application,
 		return 0;
 	}
 
+	if (g_variant_dict_contains (options, "with-asr")) {
+		app->priv->asr = TRUE;
+	}
+
 	if (g_variant_dict_contains (options, "textpad")) {
 		app->priv->atspi = FALSE;
 	}
@@ -367,6 +389,7 @@ pt_app_init (PtApp *app)
 	else
 		app->priv->atspi = TRUE;
 
+	app->priv->asr = FALSE;
 	gchar *asr_settings_filename;
 	asr_settings_filename = get_asr_settings_filename ();
 	app->priv->asr_settings = pt_asr_settings_new (asr_settings_filename);

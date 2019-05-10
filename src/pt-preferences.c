@@ -39,6 +39,7 @@ struct _PtPreferencesDialogPrivate
 {
 	GSettings *editor;
 	PtPlayer  *player;
+	GtkWidget *notebook;
 
 	/* Waveform tab */
 	GtkWidget *pps_scale;
@@ -69,6 +70,7 @@ struct _PtPreferencesDialogPrivate
 	GtkWidget *label_example2;
 
 	/* ASR tab */
+	GtkWidget     *asr_page;
 	PtAsrSettings *asr_settings;
 	GtkWidget     *asr_initial_box;
 	GtkWidget     *asr_ready_box;
@@ -653,6 +655,14 @@ pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 	g_free (sep);
 
 	/* setup ASR page */
+	if (!pt_app_get_asr (PT_APP (app))) {
+		gint num;
+		num = gtk_notebook_page_num (GTK_NOTEBOOK (dlg->priv->notebook), dlg->priv->asr_page);
+		g_assert (num != -1);
+		gtk_notebook_remove_page (GTK_NOTEBOOK (dlg->priv->notebook), num);
+		return;
+	}
+
 	GtkTreeSelection *sel;
 	GtkTreeIter       row;
 	GtkTreeIter       active_row;
@@ -721,6 +731,7 @@ pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
 
 	/* Bind class to template */
 	gtk_widget_class_set_template_from_resource (widget_class, "/com/github/gkarsay/parlatype/preferences.ui");
+	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, notebook);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, spin_pause);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, spin_back);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, spin_forward);
@@ -741,6 +752,7 @@ pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, hours_check);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, label_example1);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, label_example2);
+	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, asr_page);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, add_asr_button);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, remove_asr_button);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, asr_view);
