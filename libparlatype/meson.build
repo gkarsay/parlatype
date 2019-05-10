@@ -20,4 +20,6 @@ subdir('src')
 subdir('tests')
 subdir('docs') # must be after src
 
-subdir('gst-plugin-sphinx')
+if asr
+	subdir('gst-plugin-sphinx')
+endif

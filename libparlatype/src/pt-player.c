@@ -1917,6 +1917,7 @@ if (earlier_error != NULL) {\
 	return FALSE;\
 }
 
+#ifdef HAVE_ASR
 static GstElement*
 create_sphinx_bin (PtPlayer  *player,
                    GError   **error)
@@ -1953,6 +1954,7 @@ create_sphinx_bin (PtPlayer  *player,
 
 	return audio;
 }
+#endif
 
 static GstElement*
 create_play_bin (PtPlayer  *player,
@@ -2044,8 +2046,10 @@ pt_player_setup_pipeline (PtPlayer  *player,
 	PROPAGATE_ERROR_FALSE
 	player->priv->play_bin = create_play_bin (player, &earlier_error);
 	PROPAGATE_ERROR_FALSE
+#ifdef HAVE_ASR
 	player->priv->sphinx_bin = create_sphinx_bin (player, &earlier_error);
 	PROPAGATE_ERROR_FALSE
+#endif
 	player->priv->scaletempo = make_element ("scaletempo", "tempo", &earlier_error);
 	PROPAGATE_ERROR_FALSE
 	player->priv->tee = make_element ("tee", "tee", &earlier_error);

@@ -43,6 +43,7 @@ static GOptionEntry options[] =
 	  N_("Show the application’s version"),
 	  NULL
 	},
+#ifdef HAVE_ASR
 	{ "with-asr",
 	  'a',
 	  G_OPTION_FLAG_NONE,
@@ -59,6 +60,7 @@ static GOptionEntry options[] =
 	  N_("Use internal textpad for automatic speech recognition"),
 	  NULL
 	},
+#endif
 	{ NULL }
 };
 

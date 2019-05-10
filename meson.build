@@ -6,12 +6,16 @@ project('parlatype', 'c',
 
 app_id = 'com.github.gkarsay.parlatype'
 
+libreoffice = get_option('libreoffice')
+asr =         get_option('asr')
+
 conf = configuration_data()
 conf.set_quoted('VERSION', meson.project_version())
 conf.set_quoted('PACKAGE_VERSION', meson.project_version())
 conf.set_quoted('PACKAGE', meson.project_name())
 conf.set_quoted('PACKAGE_NAME', meson.project_name())
 conf.set_quoted('PACKAGE_URL', 'https://gkarsay.github.io/parlatype/')
+conf.set('HAVE_ASR', asr)
 configure_file(output: 'config.h', configuration: conf)
 conf_inc = include_directories('.', 'libparlatype/src')
 
@@ -35,8 +39,6 @@ atspi = dependency('atspi-2')
 # GLib versioned dependency is for the build system,
 # see https://bugzilla.gnome.org/show_bug.cgi?id=774368
 glib = dependency('glib-2.0', version: '>= 2.50.2')
-
-libreoffice = get_option('libreoffice')
 
 subdir('libparlatype')
 subdir('data')

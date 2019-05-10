@@ -28,3 +28,9 @@ option(
 	value: false,
 	description: 'Install GObject Introspection data, requires gobject-introspection'
 )
+option(
+	'asr',
+	type: 'boolean',
+	value: true,
+	description: 'Compile with ASR, requires CMU Sphinx'
+)
