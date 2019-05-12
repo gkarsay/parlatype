@@ -10,8 +10,6 @@ media = [
 
 sources = [
 	'index.page',
-	'asr.page',
-	'asr-setup.page',
 	'drag-and-drop.page',
 	'first-steps.page',
 	'keyboard-shortcuts.page',
@@ -21,6 +19,13 @@ sources = [
 	'selections.page',
 	'timestamps.page',
 ]
+
+if asr
+	sources += [
+		'asr.page',
+		'asr-setup.page',
+	]
+endif
 
 if libreoffice
 	media += [

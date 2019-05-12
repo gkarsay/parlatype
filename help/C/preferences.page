@@ -61,6 +61,10 @@
 <section id="asr">
 <title>Preferences for speech recognition</title>
 
+<note>
+<p>This tab is only visible, if speech recognition is enabled in Parlatype.</p>
+</note>
+
 <media type="image" src="figures/parlatype-prefs-asr.png" style="floatend" />
 
 <p>Here you can choose which language model to use. If you don’t have a language model yet, an assistant will guide you through the process of downloading it. You can have as many language models as you need, they can be added with the <gui>+</gui> button.</p>
