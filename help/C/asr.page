@@ -1,6 +1,7 @@
 <page xmlns="http://projectmallard.org/1.0/"
       type="topic"
-      id="asr">
+      id="asr"
+      xmlns:its="http://www.w3.org/2005/11/its" its:locNote="Translators: This feature is disabled by default, its translation has low priority.">
 <info>
   <link type="guide" xref="index#topics"/>
   <desc>Let Parlatype do part of the transcription work</desc>
@@ -16,7 +17,7 @@
 <p><app>Parlatype</app> offers automatic speech recognition that is done on your computer. No data is sent over the network. Keep in mind that automatic transcription is far from being perfect, it will <em>always</em> need manual corrections.</p>
 
 <note style="important"><p>Automatic speech recognition is disabled by default. In order to try it, you have run <app>Parlatype</app> with this parameter:</p>
-<p><cmd>parlatype --with-asr</cmd></p></note>
+<p xmlns:its="http://www.w3.org/2005/11/its" its:translate="no"><cmd>parlatype --with-asr</cmd></p></note>
 
 <section>
 <title>Start speech recognition</title>

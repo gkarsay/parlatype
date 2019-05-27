@@ -1,6 +1,7 @@
 <page xmlns="http://projectmallard.org/1.0/"
       type="topic"
-      id="asr-setup">
+      id="asr-setup"
+      xmlns:its="http://www.w3.org/2005/11/its" its:locNote="Translators: This feature is disabled by default, its translation has low priority.">
 <info>
   <link type="guide" xref="index#topics"/>
   <desc>Setup automatic speech transcription</desc>
