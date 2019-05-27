@@ -7,25 +7,26 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
-"POT-Creation-Date: 2018-08-21 23:18+0200\n"
-"PO-Revision-Date: 2017-02-15 09:03+0000\n"
-"Last-Translator: Rokar ✌ <Unknown>\n"
+"POT-Creation-Date: 2019-05-27 18:59+0200\n"
+"PO-Revision-Date: 2018-06-04 13:09+0000\n"
+"Last-Translator: Gabor Karsay <gabor.karsay@gmx.at>\n"
 "Language-Team: Kurdish <ku@li.org>\n"
-"Language: ku\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2017-03-13 15:08+0000\n"
-"X-Generator: Launchpad (build 18331)\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2019-05-27 17:32+0000\n"
+"X-Generator: Launchpad (build 18968)\n"
+"Language: ku\n"
 
 #. Translators: %s is a detailed error message.
-#: src/pt-player.c:435
+#: libparlatype/src/pt-player.c:499
 #, c-format
 msgid "URI not valid: %s"
 msgstr ""
 
 #. Translators: %s is a detailed error message.
-#: src/pt-player.c:447
+#: libparlatype/src/pt-player.c:511
 #, c-format
 msgid "File not found: %s"
 msgstr ""
@@ -34,8 +35,8 @@ msgstr ""
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
 #. the separator that your locale uses or use "%Id" instead
 #. of "%d" if your locale uses localized digits.
-#: src/pt-player.c:1130 src/pt-waveviewer-ruler.c:174
-#: src/pt-waveviewer-ruler.c:228
+#: libparlatype/src/pt-player.c:1430 libparlatype/src/pt-waveviewer-ruler.c:174
+#: libparlatype/src/pt-waveviewer-ruler.c:228
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
@@ -45,7 +46,7 @@ msgstr "%d:%02d:%02d"
 #. hours, 5 minutes, 30 seconds, and 1 tenthsecond. You may
 #. change ":" or "." to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: src/pt-player.c:1137
+#: libparlatype/src/pt-player.c:1437
 #, c-format
 msgctxt "long time format, 1 digit"
 msgid "%d:%02d:%02d.%d"
@@ -55,7 +56,7 @@ msgstr "%d:%02d:%02d.%d"
 #. hours, 5 minutes, 30 seconds, and 12 hundrethseconds. You may
 #. change ":" or "." to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: src/pt-player.c:1144
+#: libparlatype/src/pt-player.c:1444
 #, c-format
 msgctxt "long time format, 2 digits"
 msgid "%d:%02d:%02d.%02d"
@@ -65,7 +66,7 @@ msgstr "%d:%02d:%02d.%02d"
 #. 5 minutes, and 30 seconds. You may change ":" to
 #. the separator that your locale uses or use "%I02d" instead
 #. of "%02d" if your locale uses localized digits.
-#: src/pt-player.c:1161
+#: libparlatype/src/pt-player.c:1461
 #, c-format
 msgctxt "short time format"
 msgid "%02d:%02d"
@@ -75,7 +76,7 @@ msgstr "%02d:%02d"
 #. 5 minutes, 30 seconds, and 1 tenthsecond. You may change
 #. ":" or "." to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: src/pt-player.c:1168
+#: libparlatype/src/pt-player.c:1468
 #, c-format
 msgctxt "short time format, 1 digit"
 msgid "%02d:%02d.%d"
@@ -85,7 +86,7 @@ msgstr "%02d:%02d.%d"
 #. 5 minutes, 30 seconds, and 12 hundrethseconds. You may change
 #. ":" or "." to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: src/pt-player.c:1175
+#: libparlatype/src/pt-player.c:1475
 #, c-format
 msgctxt "short time format, 2 digits"
 msgid "%02d:%02d.%02d"
@@ -95,8 +96,8 @@ msgstr "%02d:%02d.%02d"
 #. 5 minutes, and 30 seconds. You may change ":" to
 #. the separator that your locale uses or use "%Id" instead
 #. of "%d" if your locale uses localized digits.
-#: src/pt-player.c:1188 src/pt-waveviewer-ruler.c:179
-#: src/pt-waveviewer-ruler.c:230
+#: libparlatype/src/pt-player.c:1488 libparlatype/src/pt-waveviewer-ruler.c:179
+#: libparlatype/src/pt-waveviewer-ruler.c:230
 #, c-format
 msgctxt "shortest time format"
 msgid "%d:%02d"
@@ -106,7 +107,7 @@ msgstr "%d:%02d"
 #. 5 minutes, 30 seconds, and 1 tenthsecond. You may change
 #. ":" or "." to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: src/pt-player.c:1195
+#: libparlatype/src/pt-player.c:1495
 #, c-format
 msgctxt "shortest time format, 1 digit"
 msgid "%d:%02d.%d"
@@ -116,17 +117,18 @@ msgstr "%d:%02d.%d"
 #. 5 minutes, 30 seconds, and 12 hundrethseconds. You may change
 #. ":" or "." to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: src/pt-player.c:1202
+#: libparlatype/src/pt-player.c:1502
 #, c-format
 msgctxt "shortest time format, 2 digits"
 msgid "%d:%02d.%02d"
 msgstr "%d:%02d.%02d"
 
-#: src/pt-player.c:1499
-msgid "Failed to load a plugin."
+#: libparlatype/src/pt-player.c:1903
+#, c-format
+msgid "Failed to load plugin “%s”."
 msgstr ""
 
-#: src/pt-progress-dialog.c:102
+#: libparlatype/src/pt-progress-dialog.c:102
 #, c-format
 msgid "Time remaining: 1 second"
 msgid_plural "Time remaining: %d seconds"
@@ -135,57 +137,49 @@ msgstr[1] ""
 
 #. Translators: this is a time with minutes
 #. and seconds, e.g. Time remaining: 3:20
-#: src/pt-progress-dialog.c:113
+#: libparlatype/src/pt-progress-dialog.c:113
 #, c-format
 msgid "Time remaining: %d:%02d"
 msgstr ""
 
-#: src/pt-progress-dialog.c:242
-msgid "Loading file..."
+#: libparlatype/src/pt-progress-dialog.c:242
+msgid "Loading file…"
 msgstr ""
 
-#: src/pt-waveloader.c:337 src/pt-waveloader.c:423
+#: libparlatype/src/pt-waveloader.c:343
 msgid "Failed to open temporary file."
 msgstr ""
 
-#: src/pt-waveloader.c:350
+#: libparlatype/src/pt-waveloader.c:356
 msgid "Failed to setup GStreamer pipeline."
 msgstr ""
 
-#: src/pt-waveloader.c:369
+#: libparlatype/src/pt-waveloader.c:375
 msgid "Failed to start GStreamer pipeline."
 msgstr ""
 
-#: src/pt-waveviewer.c:1311
+#: libparlatype/src/pt-waveviewer.c:1331
 msgid "Follow cursor"
 msgstr ""
 
-#: src/pt-waveviewer.c:1312
-msgid "Scroll automatically to the cursor's position"
+#: libparlatype/src/pt-waveviewer.c:1332
+msgid "Scroll automatically to the cursor’s position"
 msgstr ""
 
-#: src/pt-waveviewer.c:1328
+#: libparlatype/src/pt-waveviewer.c:1348
 msgid "Fixed cursor"
 msgstr ""
 
-#: src/pt-waveviewer.c:1329
+#: libparlatype/src/pt-waveviewer.c:1349
 msgid ""
 "If TRUE, the cursor is in a fixed position and the waveform is moving.\n"
 "If FALSE, the cursor is moving."
 msgstr ""
 
-#: src/pt-waveviewer.c:1343
+#: libparlatype/src/pt-waveviewer.c:1363
 msgid "Show ruler"
 msgstr ""
 
-#: src/pt-waveviewer.c:1344
+#: libparlatype/src/pt-waveviewer.c:1364
 msgid "Show the time scale with time marks"
 msgstr ""
-
-#~ msgctxt "long time format, 1 digit"
-#~ msgid "%d:%02d:%02d.%01d"
-#~ msgstr "%d:%02d:%02d.%01d"
-
-#~ msgctxt "shortest time format, 1 digit"
-#~ msgid "%d:%02d.%01d"
-#~ msgstr "%d:%02d.%01d"

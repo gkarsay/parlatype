@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2019-03-10 17:46+0100\n"
+"POT-Creation-Date: 2019-05-27 19:04+0200\n"
 "PO-Revision-Date: 2019-03-11 10:28+0000\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2019-04-23 19:48+0000\n"
-"X-Generator: Launchpad (build 18928)\n"
+"X-Launchpad-Export-Date: 2019-05-27 17:32+0000\n"
+"X-Generator: Launchpad (build 18968)\n"
 "Language: pl\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
@@ -40,8 +40,6 @@ msgstr "Parlatype"
 
 #. (itstool) path: credit/name
 #: C/index.page:10
-#: C/asr.page:8
-#: C/asr-setup.page:8
 #: C/drag-and-drop.page:8
 #: C/first-steps.page:8
 #: C/keyboard-shortcuts.page:8
@@ -49,6 +47,8 @@ msgstr "Parlatype"
 #: C/preferences.page:8
 #: C/selections.page:8
 #: C/timestamps.page:8
+#: C/asr.page:8
+#: C/asr-setup.page:8
 #: C/libreoffice-helpers.page:9
 msgid "Gabor Karsay"
 msgstr "Gabor Karsay"
@@ -82,248 +82,6 @@ msgstr ""
 #: C/index.page:27
 msgid "Help topics"
 msgstr "Tematy pomocy"
-
-#. (itstool) path: info/desc
-#: C/asr.page:6
-msgid "Let Parlatype do part of the transcription work"
-msgstr "Pozwól Parlatype wykonać część transkrypcji"
-
-#. (itstool) path: page/title
-#: C/asr.page:14
-msgid "Automatic speech recognition"
-msgstr "Automatyczne rozpoznawanie mowy"
-
-#. (itstool) path: page/p
-#: C/asr.page:16
-msgid ""
-"<app>Parlatype</app> offers automatic speech recognition that is done on "
-"your computer. No data is sent over the network. Keep in mind that automatic "
-"transcription is far from being perfect, it will <em>always</em> need manual "
-"corrections."
-msgstr ""
-"<app>Parlatype</app> zawiera funkcję automatycznego rozpoznawania mowy na "
-"komputerze użytkownika. Żadne dane nie są przesyłane przez sieć. Proszę "
-"pamiętać, że automatyczna transkrypcja jest daleka od doskonałości, "
-"i <em>zawsze</em> wymaga ręcznych poprawek."
-
-#. (itstool) path: section/title
-#: C/asr.page:19
-msgid "Start speech recognition"
-msgstr "Rozpoczynanie rozpoznawania mowy"
-
-#. (itstool) path: section/p
-#: C/asr.page:20
-msgid ""
-"Open the primary menu and click on <gui>Automatic transcription</gui>. If "
-"you don’t have a language model yet, an assistant will guide you in that "
-"process (see <link xref=\"asr-setup\"/>). Otherwise a dialog will pop up "
-"asking you to give focus to a word processor. Any word processor with "
-"support for accessibility should work, like <app>LibreOffice</app> or "
-"<app>Gedit</app>."
-msgstr ""
-"Otwórz główne menu i kliknij <gui>Automatyczna transkrypcja</gui>. Jeśli nie "
-"ma jeszcze modelu języka, to asystent umożliwi jego pobranie (patrz <link "
-"xref=\"asr-setup\"/>). W przeciwnym wypadku zostanie otwarte okno proszące "
-"o aktywację procesora tekstu. Każdy procesor tekstu z obsługą ułatwień "
-"dostępu powinien działać, np. <app>LibreOffice</app> lub <app>gedit</app>."
-
-#. (itstool) path: section/p
-#: C/asr.page:22
-msgid ""
-"If no word processor is recognized you can use an internal textpad as a "
-"fallback solution. To use that textpad start <app>Parlatype</app> with the "
-"textpad option: <cmd>parlatype --textpad</cmd>."
-msgstr ""
-"Jeśli żaden procesor tekstu nie zostanie rozpoznany, to można użyć "
-"wewnętrznego pola tekstowego jako rozwiązanie zapasowe. Aby to zrobić, "
-"uruchom <app>Parlatype</app> za pomocą opcji „textpad”: <cmd>parlatype --"
-"textpad</cmd>."
-
-#. (itstool) path: section/p
-#: C/asr.page:24
-msgid ""
-"Now press <gui>Play</gui> in <app>Parlatype</app> and the recognized speech "
-"will be printed to that window. Output is silent because the speed is "
-"dependent on your machine’s power and may be slower or faster than real-time "
-"speech."
-msgstr ""
-"Teraz kliknij <gui>Odtwórz</gui> w programie <app>Parlatype</app>, "
-"a rozpoznana mowa zostanie wyświetlona w tym oknie. Wyjście jest bez "
-"komunikatów, ponieważ prędkość zależy od mocy komputera i może być "
-"wolniejsza lub szybsza od mowy w czasie rzeczywistym."
-
-#. (itstool) path: section/p
-#: C/asr.page:26
-msgid ""
-"Output is without punctuation or capitalization, you have to add or correct "
-"that yourself."
-msgstr ""
-"Wyjście jest bez interpunkcji i wielkich znaków, należy to dodać lub "
-"poprawić ręcznie."
-
-#. (itstool) path: note/p
-#: C/asr.page:28
-msgid ""
-"<em>Accuracy</em> depends on many factors like quality of the recording, "
-"background noise, speaker’s dialect or pronounciation and the speech model "
-"used. For general transcription you can expect an word error rate between 10 "
-"and 50 %. Alas this means that in some case manual transcription from the "
-"start will be faster than automatic transcription and the following "
-"correction process."
-msgstr ""
-"<em>Dokładność</em> zależy od wielu czynników, np. jakości nagrania, hałasu "
-"w tle, dialektu lub wymowy mówcy oraz użytego modelu mowy. W przypadku "
-"ogólnej transkrypcji należy spodziewać się błędów w 10 do 50% słów. Oznacza "
-"to, że w niektórych przypadkach ręczna transkrypcja od zera będzie szybsza "
-"niż automatyczna transkrypcja i niezbędny proces korekty."
-
-#. (itstool) path: info/desc
-#: C/asr-setup.page:6
-msgid "Setup automatic speech transcription"
-msgstr "Konfiguracja automatycznej transkrypcji mowy"
-
-#. (itstool) path: page/title
-#: C/asr-setup.page:14
-msgid "Setup automatic speech recognition"
-msgstr "Konfiguracja automatycznego rozpoznawania mowy"
-
-#. (itstool) path: page/p
-#: C/asr-setup.page:16
-msgid ""
-"<app>Parlatype</app> doesn’t ship the language model needed for speech "
-"recognition. You will have to download it. There is an assistant that guides "
-"you through that process."
-msgstr ""
-"<app>Parlatype</app> nie zawiera modelu języka wymaganego do rozpoznawania "
-"mowy. Należy go pobrać. Dostępny jest pomagający w tym asystent."
-
-#. (itstool) path: page/p
-#: C/asr-setup.page:18
-msgid ""
-"The assistant can be started either from the Preferences dialog, tab "
-"<gui>Speech recognition</gui> or – if you have no setup yet – from the "
-"primary menu, <gui>Automatic transcription</gui>."
-msgstr ""
-"Asystenta można uruchomić z okna Preferencje, karty <gui>Rozpoznawanie "
-"mowy</gui> lub, jeśli nie ma jeszcze konfiguracji, z głównego menu "
-"<gui>Automatyczna transkrypcja</gui>."
-
-#. (itstool) path: page/p
-#: C/asr-setup.page:20
-msgid ""
-"It asks you to download a speech model. The speech recognition engine used "
-"is CMU Sphinx. You can download models suitable for CMU Sphinx for example "
-"from <link "
-"href=\"https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Lang"
-"uage%20Models/\">CMU Sphinx’ sourceforge repository</link>. It has models "
-"for some of the most widespread languages."
-msgstr ""
-"Użytkownik zostanie poproszony o pobranie modelu mowy. Używany mechanizm "
-"rozpoznawania mowy to CMU Sphinx. Można pobrać modele odpowiednie dla "
-"mechanizmu CMU Sphinx na przykład z <link "
-"href=\"https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Lang"
-"uage%20Models/\">repozytorium SourceForge projektu CMU Sphinx</link>. Są "
-"w nim modele dla wielu najczęściej używanych języków."
-
-#. (itstool) path: page/p
-#: C/asr-setup.page:22
-msgid ""
-"If it’s compressed, uncompress the model. Save it to a folder where it can "
-"stay. Parlatype doesn’t copy the model internally."
-msgstr ""
-"Jeśli model jest skompresowany, to należy go zdekompresować do katalogu, "
-"w którym może zostać. Parlatype nie przechowuje wewnętrznej kopii modelu."
-
-#. (itstool) path: page/p
-#: C/asr-setup.page:24
-msgid ""
-"Usually the assistant will find all the files needed and you just have to "
-"give this configuration a name for your own reference. You can have several "
-"configurations, e.g. for different languages."
-msgstr ""
-"Zwykle asystent znajdzie wszystkie wymagane pliki i należy tylko nadać tej "
-"konfiguracji nazwę. Można mieć kilka konfiguracji, np. dla różnych języków."
-
-#. (itstool) path: page/p
-#: C/asr-setup.page:26
-msgid ""
-"If the assistant doesn’t find all the components or finds more than "
-"expected, it will ask you to specify their location or to choose between "
-"them. The next sections explains those components."
-msgstr ""
-"Jeśli asystent nie znajdzie wszystkich składników lub znajdzie więcej niż "
-"potrzebuje, to zapyta użytkownika o podanie ich położenia lub wybór między "
-"znalezionymi. Następna sekcja wyjaśnia te składniki."
-
-#. (itstool) path: section/title
-#: C/asr-setup.page:29
-msgid "Models"
-msgstr "Modele"
-
-#. (itstool) path: section/p
-#: C/asr-setup.page:31
-msgid ""
-"A model consists of a so called acoustic and language model and a dictionary:"
-msgstr ""
-"Model składa się z tak zwanego modelu akustycznego, modelu języka i słownika:"
-
-#. (itstool) path: item/title
-#: C/asr-setup.page:35
-msgid "Acoustic model"
-msgstr "Model akustyczny"
-
-#. (itstool) path: item/p
-#: C/asr-setup.page:36
-msgid ""
-"It consists of several files usually in their own folder: "
-"<file>feat.params</file>, <file>mdef</file>, <file>means</file> and some "
-"others."
-msgstr ""
-"Składa się z kilku plików, zwykle w oddzielnych katalogach: "
-"<file>feat.params</file>, <file>mdef</file>, <file>means</file> i kilka "
-"innych."
-
-#. (itstool) path: item/title
-#: C/asr-setup.page:39
-msgid "Language model"
-msgstr "Model języka"
-
-#. (itstool) path: item/p
-#: C/asr-setup.page:40
-msgid ""
-"<app>Parlatype</app> needs a binary language model. That’s a single file "
-"with the extension <file>.lm.bin</file>. Models can have several language "
-"models. They have often one for high quality and one for low quality "
-"recordings. Typical low quality recordings are from telephones with a sample "
-"rate of 8000 Hz. Those language models have often <file>phone</file>, "
-"<file>8k</file> or similar as part of their file name."
-msgstr ""
-"<app>Parlatype</app> wymaga binarnego modelu języka. Jest to jeden plik "
-"o rozszerzeniu <file>.lm.bin</file>. Modele mogą mieć kilka modeli języków. "
-"Zwykle jest dostępny jeden dla wysokiej jakości i jeden dla niskiej jakości "
-"nagrań. Typowe nagrania niskiej jakości są z telefonów i mają częstotliwość "
-"próbkowania 8000 Hz. Te modele języków zwykle zawierają słowo "
-"<file>phone</file>, <file>8k</file> lub podobne w nazwie pliku."
-
-#. (itstool) path: item/title
-#: C/asr-setup.page:43
-msgid "Dictionary"
-msgstr "Słownik"
-
-#. (itstool) path: item/p
-#: C/asr-setup.page:44
-msgid ""
-"Dictionaries have the extension <file>.dict</file> or <file>.dic</file>."
-msgstr "Słowniki mają rozszerzenie <file>.dict</file> lub <file>.dic</file>."
-
-#. (itstool) path: section/p
-#: C/asr-setup.page:48
-msgid ""
-"All those elements should be somewhere in the folder selected. It doesn’t "
-"matter whether there are subfolders or how they are named."
-msgstr ""
-"Wszystkie te elementy powinny być gdzieś w wybranym katalogu. Nie ma "
-"znaczenia, czy są w podkatalogach ani jakie mają nazwy."
 
 #. (itstool) path: info/desc
 #: C/drag-and-drop.page:6
@@ -956,12 +714,18 @@ msgstr ""
 msgid "Preferences for speech recognition"
 msgstr "Preferencje rozpoznawania mowy"
 
+#. (itstool) path: note/p
+#: C/preferences.page:65
+msgid ""
+"This tab is only visible, if speech recognition is enabled in Parlatype."
+msgstr ""
+
 #. (itstool) path: section/media
 #. This is a reference to an external file such as an image or video. When
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/preferences.page:64
+#: C/preferences.page:68
 msgctxt "_"
 msgid ""
 "external ref='figures/parlatype-prefs-asr.png' "
@@ -971,7 +735,7 @@ msgstr ""
 "md5='6dee1ebd03b65edbb0bff9811d602c10'"
 
 #. (itstool) path: section/p
-#: C/preferences.page:66
+#: C/preferences.page:70
 msgid ""
 "Here you can choose which language model to use. If you don’t have a "
 "language model yet, an assistant will guide you through the process of "
@@ -983,7 +747,7 @@ msgstr ""
 "języków, i można je dodawać za pomocą przycisku <gui>+</gui>."
 
 #. (itstool) path: section/p
-#: C/preferences.page:68
+#: C/preferences.page:72
 msgid ""
 "To select a model click on its radio button in the list. If you click just "
 "on the name, you can see the model’s basic parameters. You could even change "
@@ -994,7 +758,7 @@ msgstr ""
 "zalecane."
 
 #. (itstool) path: section/p
-#: C/preferences.page:70
+#: C/preferences.page:74
 msgid ""
 "The <gui>-</gui> button removes a model from the list. The model’s files "
 "however are <em>not</em> deleted, just the model entry is removed."
@@ -1003,7 +767,7 @@ msgstr ""
 "usuwane."
 
 #. (itstool) path: section/title
-#: C/preferences.page:76
+#: C/preferences.page:80
 msgid "Preferences for the window"
 msgstr "Preferencje okna"
 
@@ -1012,7 +776,7 @@ msgstr "Preferencje okna"
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/preferences.page:78
+#: C/preferences.page:82
 msgctxt "_"
 msgid ""
 "external ref='figures/parlatype-prefs-window.png' "
@@ -1022,7 +786,7 @@ msgstr ""
 "md5='be540a7e2a351b80f5710048450c0735'"
 
 #. (itstool) path: item/p
-#: C/preferences.page:81
+#: C/preferences.page:85
 msgid ""
 "Remember size: On start-up <app>Parlatype</app> sets the window size to the "
 "size it had the last time."
@@ -1031,7 +795,7 @@ msgstr ""
 "okna na rozmiar używany poprzednim razem."
 
 #. (itstool) path: item/p
-#: C/preferences.page:82
+#: C/preferences.page:86
 msgid ""
 "Remember position: On start-up <app>Parlatype</app> can position its window "
 "where you had it when you closed <app>Parlatype</app> last time."
@@ -1040,7 +804,7 @@ msgstr ""
 "okno w miejscu, w którym było ostatnim razem."
 
 #. (itstool) path: item/p
-#: C/preferences.page:83
+#: C/preferences.page:87
 msgid ""
 "Start on top: This will put <app>Parlatype</app> on start-up on top of other "
 "windows. This might be useful if you are working with a maximized word "
@@ -1052,7 +816,7 @@ msgstr ""
 "widzieć okno <app>Parlatype</app>."
 
 #. (itstool) path: note/p
-#: C/preferences.page:87
+#: C/preferences.page:91
 msgid ""
 "<gui>Remember position</gui> and <gui>Start on top</gui> are not available "
 "on Wayland."
@@ -1201,6 +965,260 @@ msgstr ""
 "Aby przejść do pozycji czasu, skopiuj czas w edytorze tekstu do schowka. Po "
 "przejściu do programu <app>Parlatype</app> naciśnij klawisze "
 "<keyseq><key>Ctrl</key><key>V</key></keyseq>."
+
+#. (itstool) path: info/desc
+#: C/asr.page:6
+msgid "Let Parlatype do part of the transcription work"
+msgstr "Pozwól Parlatype wykonać część transkrypcji"
+
+#. (itstool) path: page/title
+#: C/asr.page:14
+msgid "Automatic speech recognition"
+msgstr "Automatyczne rozpoznawanie mowy"
+
+#. (itstool) path: page/p
+#: C/asr.page:16
+msgid ""
+"<app>Parlatype</app> offers automatic speech recognition that is done on "
+"your computer. No data is sent over the network. Keep in mind that automatic "
+"transcription is far from being perfect, it will <em>always</em> need manual "
+"corrections."
+msgstr ""
+"<app>Parlatype</app> zawiera funkcję automatycznego rozpoznawania mowy na "
+"komputerze użytkownika. Żadne dane nie są przesyłane przez sieć. Proszę "
+"pamiętać, że automatyczna transkrypcja jest daleka od doskonałości, "
+"i <em>zawsze</em> wymaga ręcznych poprawek."
+
+#. (itstool) path: note/p
+#: C/asr.page:18
+msgid ""
+"Automatic speech recognition is disabled by default. In order to try it, you "
+"have run <app>Parlatype</app> with this parameter:"
+msgstr ""
+
+#. (itstool) path: note/p
+#: C/asr.page:19
+msgid "<cmd>parlatype --with-asr</cmd>"
+msgstr ""
+
+#. (itstool) path: section/title
+#: C/asr.page:22
+msgid "Start speech recognition"
+msgstr "Rozpoczynanie rozpoznawania mowy"
+
+#. (itstool) path: section/p
+#: C/asr.page:23
+msgid ""
+"Open the primary menu and click on <gui>Automatic transcription</gui>. If "
+"you don’t have a language model yet, an assistant will guide you in that "
+"process (see <link xref=\"asr-setup\"/>). Otherwise a dialog will pop up "
+"asking you to give focus to a word processor. Any word processor with "
+"support for accessibility should work, like <app>LibreOffice</app> or "
+"<app>Gedit</app>."
+msgstr ""
+"Otwórz główne menu i kliknij <gui>Automatyczna transkrypcja</gui>. Jeśli nie "
+"ma jeszcze modelu języka, to asystent umożliwi jego pobranie (patrz <link "
+"xref=\"asr-setup\"/>). W przeciwnym wypadku zostanie otwarte okno proszące "
+"o aktywację procesora tekstu. Każdy procesor tekstu z obsługą ułatwień "
+"dostępu powinien działać, np. <app>LibreOffice</app> lub <app>gedit</app>."
+
+#. (itstool) path: section/p
+#: C/asr.page:25
+msgid ""
+"If no word processor is recognized you can use an internal textpad as a "
+"fallback solution. To use that textpad start <app>Parlatype</app> with the "
+"textpad option: <cmd>parlatype --textpad</cmd>."
+msgstr ""
+"Jeśli żaden procesor tekstu nie zostanie rozpoznany, to można użyć "
+"wewnętrznego pola tekstowego jako rozwiązanie zapasowe. Aby to zrobić, "
+"uruchom <app>Parlatype</app> za pomocą opcji „textpad”: <cmd>parlatype --"
+"textpad</cmd>."
+
+#. (itstool) path: section/p
+#: C/asr.page:27
+msgid ""
+"Now press <gui>Play</gui> in <app>Parlatype</app> and the recognized speech "
+"will be printed to that window. Output is silent because the speed is "
+"dependent on your machine’s power and may be slower or faster than real-time "
+"speech."
+msgstr ""
+"Teraz kliknij <gui>Odtwórz</gui> w programie <app>Parlatype</app>, "
+"a rozpoznana mowa zostanie wyświetlona w tym oknie. Wyjście jest bez "
+"komunikatów, ponieważ prędkość zależy od mocy komputera i może być "
+"wolniejsza lub szybsza od mowy w czasie rzeczywistym."
+
+#. (itstool) path: section/p
+#: C/asr.page:29
+msgid ""
+"Output is without punctuation or capitalization, you have to add or correct "
+"that yourself."
+msgstr ""
+"Wyjście jest bez interpunkcji i wielkich znaków, należy to dodać lub "
+"poprawić ręcznie."
+
+#. (itstool) path: note/p
+#: C/asr.page:31
+msgid ""
+"<em>Accuracy</em> depends on many factors like quality of the recording, "
+"background noise, speaker’s dialect or pronounciation and the speech model "
+"used. For general transcription you can expect an word error rate between 10 "
+"and 50 %. Alas this means that in some case manual transcription from the "
+"start will be faster than automatic transcription and the following "
+"correction process."
+msgstr ""
+"<em>Dokładność</em> zależy od wielu czynników, np. jakości nagrania, hałasu "
+"w tle, dialektu lub wymowy mówcy oraz użytego modelu mowy. W przypadku "
+"ogólnej transkrypcji należy spodziewać się błędów w 10 do 50% słów. Oznacza "
+"to, że w niektórych przypadkach ręczna transkrypcja od zera będzie szybsza "
+"niż automatyczna transkrypcja i niezbędny proces korekty."
+
+#. (itstool) path: info/desc
+#: C/asr-setup.page:6
+msgid "Setup automatic speech transcription"
+msgstr "Konfiguracja automatycznej transkrypcji mowy"
+
+#. (itstool) path: page/title
+#: C/asr-setup.page:14
+msgid "Setup automatic speech recognition"
+msgstr "Konfiguracja automatycznego rozpoznawania mowy"
+
+#. (itstool) path: page/p
+#: C/asr-setup.page:16
+msgid ""
+"<app>Parlatype</app> doesn’t ship the language model needed for speech "
+"recognition. You will have to download it. There is an assistant that guides "
+"you through that process."
+msgstr ""
+"<app>Parlatype</app> nie zawiera modelu języka wymaganego do rozpoznawania "
+"mowy. Należy go pobrać. Dostępny jest pomagający w tym asystent."
+
+#. (itstool) path: page/p
+#: C/asr-setup.page:18
+msgid ""
+"The assistant can be started either from the Preferences dialog, tab "
+"<gui>Speech recognition</gui> or – if you have no setup yet – from the "
+"primary menu, <gui>Automatic transcription</gui>."
+msgstr ""
+"Asystenta można uruchomić z okna Preferencje, karty <gui>Rozpoznawanie "
+"mowy</gui> lub, jeśli nie ma jeszcze konfiguracji, z głównego menu "
+"<gui>Automatyczna transkrypcja</gui>."
+
+#. (itstool) path: page/p
+#: C/asr-setup.page:20
+msgid ""
+"It asks you to download a speech model. The speech recognition engine used "
+"is CMU Sphinx. You can download models suitable for CMU Sphinx for example "
+"from <link "
+"href=\"https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Lang"
+"uage%20Models/\">CMU Sphinx’ sourceforge repository</link>. It has models "
+"for some of the most widespread languages."
+msgstr ""
+"Użytkownik zostanie poproszony o pobranie modelu mowy. Używany mechanizm "
+"rozpoznawania mowy to CMU Sphinx. Można pobrać modele odpowiednie dla "
+"mechanizmu CMU Sphinx na przykład z <link "
+"href=\"https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Lang"
+"uage%20Models/\">repozytorium SourceForge projektu CMU Sphinx</link>. Są "
+"w nim modele dla wielu najczęściej używanych języków."
+
+#. (itstool) path: page/p
+#: C/asr-setup.page:22
+msgid ""
+"If it’s compressed, uncompress the model. Save it to a folder where it can "
+"stay. Parlatype doesn’t copy the model internally."
+msgstr ""
+"Jeśli model jest skompresowany, to należy go zdekompresować do katalogu, "
+"w którym może zostać. Parlatype nie przechowuje wewnętrznej kopii modelu."
+
+#. (itstool) path: page/p
+#: C/asr-setup.page:24
+msgid ""
+"Usually the assistant will find all the files needed and you just have to "
+"give this configuration a name for your own reference. You can have several "
+"configurations, e.g. for different languages."
+msgstr ""
+"Zwykle asystent znajdzie wszystkie wymagane pliki i należy tylko nadać tej "
+"konfiguracji nazwę. Można mieć kilka konfiguracji, np. dla różnych języków."
+
+#. (itstool) path: page/p
+#: C/asr-setup.page:26
+msgid ""
+"If the assistant doesn’t find all the components or finds more than "
+"expected, it will ask you to specify their location or to choose between "
+"them. The next sections explains those components."
+msgstr ""
+"Jeśli asystent nie znajdzie wszystkich składników lub znajdzie więcej niż "
+"potrzebuje, to zapyta użytkownika o podanie ich położenia lub wybór między "
+"znalezionymi. Następna sekcja wyjaśnia te składniki."
+
+#. (itstool) path: section/title
+#: C/asr-setup.page:29
+msgid "Models"
+msgstr "Modele"
+
+#. (itstool) path: section/p
+#: C/asr-setup.page:31
+msgid ""
+"A model consists of a so called acoustic and language model and a dictionary:"
+msgstr ""
+"Model składa się z tak zwanego modelu akustycznego, modelu języka i słownika:"
+
+#. (itstool) path: item/title
+#: C/asr-setup.page:35
+msgid "Acoustic model"
+msgstr "Model akustyczny"
+
+#. (itstool) path: item/p
+#: C/asr-setup.page:36
+msgid ""
+"It consists of several files usually in their own folder: "
+"<file>feat.params</file>, <file>mdef</file>, <file>means</file> and some "
+"others."
+msgstr ""
+"Składa się z kilku plików, zwykle w oddzielnych katalogach: "
+"<file>feat.params</file>, <file>mdef</file>, <file>means</file> i kilka "
+"innych."
+
+#. (itstool) path: item/title
+#: C/asr-setup.page:39
+msgid "Language model"
+msgstr "Model języka"
+
+#. (itstool) path: item/p
+#: C/asr-setup.page:40
+msgid ""
+"<app>Parlatype</app> needs a binary language model. That’s a single file "
+"with the extension <file>.lm.bin</file>. Models can have several language "
+"models. They have often one for high quality and one for low quality "
+"recordings. Typical low quality recordings are from telephones with a sample "
+"rate of 8000 Hz. Those language models have often <file>phone</file>, "
+"<file>8k</file> or similar as part of their file name."
+msgstr ""
+"<app>Parlatype</app> wymaga binarnego modelu języka. Jest to jeden plik "
+"o rozszerzeniu <file>.lm.bin</file>. Modele mogą mieć kilka modeli języków. "
+"Zwykle jest dostępny jeden dla wysokiej jakości i jeden dla niskiej jakości "
+"nagrań. Typowe nagrania niskiej jakości są z telefonów i mają częstotliwość "
+"próbkowania 8000 Hz. Te modele języków zwykle zawierają słowo "
+"<file>phone</file>, <file>8k</file> lub podobne w nazwie pliku."
+
+#. (itstool) path: item/title
+#: C/asr-setup.page:43
+msgid "Dictionary"
+msgstr "Słownik"
+
+#. (itstool) path: item/p
+#: C/asr-setup.page:44
+msgid ""
+"Dictionaries have the extension <file>.dict</file> or <file>.dic</file>."
+msgstr "Słowniki mają rozszerzenie <file>.dict</file> lub <file>.dic</file>."
+
+#. (itstool) path: section/p
+#: C/asr-setup.page:48
+msgid ""
+"All those elements should be somewhere in the folder selected. It doesn’t "
+"matter whether there are subfolders or how they are named."
+msgstr ""
+"Wszystkie te elementy powinny być gdzieś w wybranym katalogu. Nie ma "
+"znaczenia, czy są w podkatalogach ani jakie mają nazwy."
 
 #. (itstool) path: info/desc
 #: C/libreoffice-helpers.page:7

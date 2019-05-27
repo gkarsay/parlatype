@@ -6,29 +6,28 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: parlatype\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-13 11:09+0200\n"
-"PO-Revision-Date: 2018-05-20 08:02+0000\n"
-"Last-Translator: Jiri Grönroos <Unknown>\n"
+"Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
+"POT-Creation-Date: 2019-05-27 19:03+0200\n"
+"PO-Revision-Date: 2018-06-04 12:45+0000\n"
+"Last-Translator: Gabor Karsay <gabor.karsay@gmx.at>\n"
 "Language-Team: Finnish <fi@li.org>\n"
-"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2018-05-27 20:04+0000\n"
-"X-Generator: Launchpad (build 18667)\n"
+"X-Launchpad-Export-Date: 2019-05-27 17:32+0000\n"
+"X-Generator: Launchpad (build 18968)\n"
+"Language: fi\n"
 
 #: data/com.github.gkarsay.parlatype.appdata.xml.in:7
-#: data/com.github.gkarsay.parlatype.desktop.in:4 src/pt-app.c:84
-#: src/pt-app.c:263 src/resources/window.ui:32
-#: src/resources/window-headerbar.ui:7
+#: data/com.github.gkarsay.parlatype.desktop.in:4 src/pt-app.c:189
+#: src/resources/window.ui:32
 msgid "Parlatype"
 msgstr "Parlatype"
 
 #: data/com.github.gkarsay.parlatype.appdata.xml.in:8
-msgid "Media player for manual speech transcription"
-msgstr "Mediasoitin manuaaliseen puheen transkriptioon"
+msgid "Media player for speech transcription"
+msgstr ""
 
 #: data/com.github.gkarsay.parlatype.appdata.xml.in:11
 msgid ""
@@ -54,58 +53,48 @@ msgstr "Transkriptio;"
 msgid "com.github.gkarsay.parlatype"
 msgstr ""
 
-#: data/com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in:6
+#: libreoffice/com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in:6
 msgid "LibreOffice/Parlatype Helpers"
 msgstr "LibreOffice-/Parlatype-avustajat"
 
-#: data/com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in:7
+#: libreoffice/com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in:7
 msgid "Control Parlatype using LibreOffice macros"
 msgstr "Hallitse Parlatypea käyttäen LibreOffice-makroja"
 
-#: src/main.c:36
-msgid "Fatal error"
-msgstr "Vakava virhe"
-
-#: src/main.c:40
-#, c-format
-msgid ""
-"Parlatype needs GStreamer 1.x to run. Please check your installation of "
-"GStreamer and make sure you have the \"Good Plugins\" installed.\n"
-"Parlatype will quit now, it received this error message: %s"
+#: src/pt-app.c:43
+msgid "Show the application’s version"
 msgstr ""
 
-#: src/pt-app.c:55
-msgid "Show the application's version"
-msgstr "Näytä sovelluksen versio"
+#: src/pt-app.c:52
+msgid "Enable automatic speech recognition"
+msgstr ""
 
-#: src/pt-app.c:75
-msgid "Recent Files"
-msgstr "Viimeisimmät tiedostot"
+#: src/pt-app.c:60
+msgid "Use internal textpad for automatic speech recognition"
+msgstr ""
 
-#: src/pt-app.c:77 src/pt-app.c:137 src/pt-app.c:144
-#: src/resources/goto-dialog.ui:26
-msgid "_Cancel"
-msgstr "_Peru"
-
-#: src/pt-app.c:78 src/pt-app.c:136 src/pt-app.c:145
-#: src/resources/window-headerbar.ui:12
-msgid "_Open"
-msgstr "_Avaa"
-
-#: src/pt-app.c:90 src/pt-app.c:167
-msgid "All files"
-msgstr "Kaikki tiedostot"
-
-#: src/pt-app.c:133 src/pt-app.c:141
+#: src/pt-app.c:83
 msgid "Open Audio File"
 msgstr "Avaa äänitiedosto"
 
-#: src/pt-app.c:166
+#: src/pt-app.c:86 src/resources/window-headerbar.ui:12
+msgid "_Open"
+msgstr "_Avaa"
+
+#: src/pt-app.c:87 src/resources/goto-dialog.ui:26
+msgid "_Cancel"
+msgstr "_Peru"
+
+#: src/pt-app.c:106
 msgid "Audio files"
 msgstr "Äänitiedostot"
 
+#: src/pt-app.c:107
+msgid "All files"
+msgstr "Kaikki tiedostot"
+
 #. Translators: %s is a detailed error message
-#: src/pt-app.c:230
+#: src/pt-app.c:156
 #, c-format
 msgid "Error opening help: %s"
 msgstr "Virhe ohjetta avatessa: %s"
@@ -114,27 +103,108 @@ msgstr "Virhe ohjetta avatessa: %s"
 #. copyright holders of code from other projects. Instead of
 #. "including" it could also say "with" or just "Code from
 #. other projects:"
-#: src/pt-app.c:248
+#: src/pt-app.c:174
 msgid "Including code from other projects:"
 msgstr "Sisältää koodia muista projekteista:"
 
-#: src/pt-app.c:266
+#: src/pt-app.c:192
 msgid "A basic transcription utility"
 msgstr ""
 
-#: src/pt-app.c:270
+#: src/pt-app.c:196
 msgid "translator-credits"
 msgstr ""
 "Launchpad Contributions:\n"
+"  Gabor Karsay https://launchpad.net/~gabor-karsay\n"
 "  Jiri Grönroos https://launchpad.net/~jiri-gronroos"
 
-#: src/pt-app.c:379
+#: src/pt-app.c:321
 msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
 "ignored.\n"
 msgstr ""
 "Varoitus: Parlatype käsittelee vain yhden tiedoston kerrallaan. Muut "
 "tiedostot ohitetaan.\n"
+
+#: src/pt-asr-assistant.c:193
+msgid "The folder contains no acoustic model."
+msgstr ""
+
+#: src/pt-asr-assistant.c:299
+msgid "Please select …"
+msgstr ""
+
+#: src/pt-asr-assistant.c:337
+msgid "Missing parameters"
+msgstr ""
+
+#: src/pt-asr-assistant.c:380
+msgid "Timed out"
+msgstr ""
+
+#: src/pt-asr-assistant.c:381
+msgid ""
+"Scanning the folder took too long. Please make sure to open a folder with "
+"model data only."
+msgstr ""
+
+#: src/pt-asr-assistant.c:384
+msgid "Scanning the folder failed"
+msgstr ""
+
+#: src/pt-asr-assistant.c:399
+msgid "Nothing found"
+msgstr ""
+
+#: src/pt-asr-assistant.c:400
+msgid "This folder doesn’t contain a suitable model."
+msgstr ""
+
+#: src/pt-asr-assistant.c:450
+msgid ""
+"The folder contains no language model. Please choose a language model from "
+"another folder."
+msgstr ""
+
+#: src/pt-asr-assistant.c:458
+msgid "The folder contains several language models."
+msgstr ""
+
+#: src/pt-asr-assistant.c:468
+msgid ""
+"The folder contains no dictionary. Please choose a dictionary from another "
+"folder."
+msgstr ""
+
+#: src/pt-asr-assistant.c:476
+msgid "The folder contains several dictionaries."
+msgstr ""
+
+#: src/pt-asr-assistant.c:485
+msgid ""
+"The folder contains no acoustic model. Please choose an acoustic model from "
+"another folder."
+msgstr ""
+
+#: src/pt-asr-assistant.c:493
+msgid "The folder contains several acoustic models."
+msgstr ""
+
+#: src/pt-asr-assistant.c:610
+msgid "Download model"
+msgstr ""
+
+#: src/pt-asr-assistant.c:617
+msgid "Finish configuration"
+msgstr ""
+
+#: src/pt-asr-output.c:209
+msgid "Select output for automatic speech recognition"
+msgstr ""
+
+#: src/pt-asr-output.c:210
+msgid "Please open and switch focus to a word processor."
+msgstr ""
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
@@ -150,55 +220,137 @@ msgstr ""
 #. or the "Go to ..." dialog. There is a label like
 #. "Jump back:", "Jump forward:", "Jump back on pause:"
 #. or "Go to position:" before.
-#: src/pt-goto-dialog.c:79 src/pt-preferences.c:79 src/pt-preferences.c:89
-#: src/pt-preferences.c:99
+#: src/pt-goto-dialog.c:79 src/pt-preferences.c:98 src/pt-preferences.c:108
+#: src/pt-preferences.c:118
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "sekunti"
 msgstr[1] "sekuntia"
 
-#: src/pt-window.c:302
+#: src/pt-preferences.c:289
+msgid "Deleting configuration"
+msgstr ""
+
+#: src/pt-preferences.c:290
+#, c-format
+msgid "Do you really want to delete “%s”?"
+msgstr ""
+
+#: src/pt-window.c:219
+#, c-format
+msgid "Found %s"
+msgstr ""
+
+#: src/pt-window.c:220
+msgid "Press “Play” to start automatic speech recognition."
+msgstr ""
+
+#: src/pt-window.c:423
 #, c-format
 msgid "Jump back 1 second"
 msgid_plural "Jump back %d seconds"
 msgstr[0] "Siirry takaisinpäin 1 sekunti"
 msgstr[1] "Siirry takaisinpäin %d sekuntia"
 
-#: src/pt-window.c:317
+#: src/pt-window.c:440
 #, c-format
 msgid "Jump forward 1 second"
 msgid_plural "Jump forward %d seconds"
 msgstr[0] "Siirry eteenpäin 1 sekunti"
 msgstr[1] "Siirry eteenpäin %d sekuntia"
 
-#: src/pt-window.c:334
+#: src/pt-window.c:459
 msgid "Pause"
 msgstr "Keskeytä"
 
-#: src/pt-window.c:337
+#: src/pt-window.c:462
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/pt-window.c:344
+#: src/pt-window.c:469
 msgid "Start playing"
 msgstr "Aloita toistaminen"
 
-#: src/pt-window.c:380
-#, fuzzy, c-format
+#: src/pt-window.c:505
+#, c-format
 msgid "Go to time in clipboard: %s"
-msgstr "Siirry leikepöydällä olevaan aikaleimaan"
+msgstr ""
 
-#: src/pt-window.c:382 src/pt-window.c:996
-#, fuzzy
+#: src/pt-window.c:507 src/pt-window.c:1246
 msgid "Go to time in clipboard"
-msgstr "Siirry leikepöydällä olevaan aikaleimaan"
+msgstr ""
 
-#: src/resources/goto-dialog.ui:13 src/resources/menus.ui:34
-msgid "Go to ..."
-msgstr "Siirry..."
+#: src/pt-window.c:1162
+#, c-format
+msgid ""
+"Parlatype needs GStreamer 1.x to run. Please check your installation of "
+"GStreamer and make sure you have the “Good Plugins” installed.\n"
+"Parlatype will quit now, it received this error message: %s"
+msgstr ""
+
+#: src/pt-window.c:1165
+msgid "Fatal error"
+msgstr "Vakava virhe"
+
+#: src/resources/asr-assistant.ui:15
+msgid ""
+"Before you can start, you have to download a so called acoustic and language "
+"model. This is a set of files made for a specific language."
+msgstr ""
+
+#: src/resources/asr-assistant.ui:30
+msgid ""
+"Parlatype uses CMU Sphinx as its speech recognition engine. You can download "
+"models suitable for CMU Sphinx for example from <a "
+"href=\"https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Lang"
+"uage%20Models/\">CMU Sphinx’ sourceforge repository</a>. It has models for "
+"some of the most widespread languages."
+msgstr ""
+
+#: src/resources/asr-assistant.ui:45
+msgid ""
+"If it’s compressed, uncompress the model. Save it to a folder where it can "
+"stay. Parlatype doesn’t copy the model internally."
+msgstr ""
+
+#: src/resources/asr-assistant.ui:59
+msgid "When you are finished, specify the folder with the model:"
+msgstr ""
+
+#: src/resources/asr-assistant.ui:96
+msgid "Language model"
+msgstr ""
+
+#: src/resources/asr-assistant.ui:125
+msgid "Select language model"
+msgstr ""
+
+#: src/resources/asr-assistant.ui:157
+msgid "Dictionary"
+msgstr ""
+
+#: src/resources/asr-assistant.ui:186
+msgid "Select dictionary"
+msgstr ""
+
+#: src/resources/asr-assistant.ui:218
+msgid "Acoustic model"
+msgstr ""
+
+#: src/resources/asr-assistant.ui:248
+msgid "Select acoustic model folder"
+msgstr ""
+
+#: src/resources/asr-assistant.ui:285
+msgid "Setup is completed. Please give this configuration a name:"
+msgstr ""
+
+#: src/resources/goto-dialog.ui:13 src/resources/menus.ui:46
+msgid "Go to…"
+msgstr ""
 
 #: src/resources/goto-dialog.ui:40
 msgid "_OK"
@@ -217,87 +369,88 @@ msgid "Open a media file"
 msgstr "Avaa mediatiedosto"
 
 #: src/resources/help-overlay.ui:27
-msgid "Open recently used media files"
-msgstr "Avaa äskettäin käytettyjä mediatiedostoja"
-
-#: src/resources/help-overlay.ui:34
 msgid "Show/hide action menu"
 msgstr "Näytä/piilota toimintovalikko"
 
-#: src/resources/help-overlay.ui:41
+#: src/resources/help-overlay.ui:34
 msgid "Quit"
 msgstr "Lopeta"
 
-#: src/resources/help-overlay.ui:49 src/resources/preferences.ui:273
+#: src/resources/help-overlay.ui:42 src/resources/preferences.ui:274
 msgid "Waveform"
 msgstr "Aaltomuoto"
 
-#: src/resources/help-overlay.ui:54
+#: src/resources/help-overlay.ui:47
 msgid "Play/Pause"
 msgstr "Toista/pidä tauko"
 
-#: src/resources/help-overlay.ui:62 src/resources/help-overlay.ui:70
+#: src/resources/help-overlay.ui:55 src/resources/help-overlay.ui:63
 msgid "Jump back"
 msgstr "Siirry taaksepäin"
 
-#: src/resources/help-overlay.ui:78 src/resources/help-overlay.ui:86
+#: src/resources/help-overlay.ui:71 src/resources/help-overlay.ui:79
 msgid "Jump forward"
 msgstr "Siirry eteenpäin"
 
-#: src/resources/help-overlay.ui:93
+#: src/resources/help-overlay.ui:86
 msgid "Zoom in"
 msgstr "Lähennä"
 
-#: src/resources/help-overlay.ui:100
+#: src/resources/help-overlay.ui:93
 msgid "Zoom out"
 msgstr "Loitonna"
 
-#: src/resources/help-overlay.ui:107
+#: src/resources/help-overlay.ui:100
 msgid "Open “Go to” dialog"
 msgstr "Avaa \"Siirry\"-ikkuna"
 
-#: src/resources/help-overlay.ui:114
+#: src/resources/help-overlay.ui:107
 msgid "Copy timestamp to clipboard"
 msgstr "Kopioi aikaleima leikepöydälle"
 
-#: src/resources/help-overlay.ui:121
+#: src/resources/help-overlay.ui:114
 msgid "Go to timestamp in clipboard"
 msgstr "Siirry leikepöydällä olevaan aikaleimaan"
 
-#: src/resources/help-overlay.ui:129 src/resources/menus.ui:15
+#: src/resources/help-overlay.ui:122 src/resources/menus.ui:27
 msgid "Help"
 msgstr "Ohje"
 
-#: src/resources/help-overlay.ui:134
+#: src/resources/help-overlay.ui:127
 msgid "Show help"
 msgstr "Näytä ohje"
 
-#: src/resources/help-overlay.ui:141
+#: src/resources/help-overlay.ui:134
 msgid "Show keyboard shortcuts"
 msgstr "Näytä pikanäppäimet"
 
 #: src/resources/menus.ui:7
+msgid "Manual transcription"
+msgstr ""
+
+#: src/resources/menus.ui:12
+msgid "Automatic transcription"
+msgstr ""
+
+#: src/resources/menus.ui:19
 msgid "Preferences"
 msgstr "Asetukset"
 
-#: src/resources/menus.ui:11
+#: src/resources/menus.ui:23
 msgid "_Keyboard Shortcuts"
 msgstr "_Pikanäppäimet"
 
-#: src/resources/menus.ui:19
-#, fuzzy
+#: src/resources/menus.ui:31
 msgid "About Parlatype"
-msgstr "Parlatype"
+msgstr ""
 
-#: src/resources/menus.ui:26
-#, fuzzy
+#: src/resources/menus.ui:38
 msgid "Copy time to clipboard"
-msgstr "Kopioi aikaleima leikepöydälle"
+msgstr ""
 
-#: src/resources/menus.ui:30
-#, fuzzy
+#: src/resources/menus.ui:42
 msgid "Go to cursor"
-msgstr "_Liikkuva kursori"
+msgstr ""
 
 #. This refers to: "Characters around timestamps"
 #: src/resources/preferences.ui:42
@@ -305,7 +458,7 @@ msgid "None"
 msgstr ""
 
 #: src/resources/preferences.ui:46
-msgid "#Hashtags#"
+msgid "#Number signs#"
 msgstr ""
 
 #: src/resources/preferences.ui:50
@@ -325,144 +478,166 @@ msgid "- (hyphen)"
 msgstr ""
 
 #: src/resources/preferences.ui:86
-#, fuzzy
 msgid "Full seconds"
-msgstr "sekunti"
+msgstr ""
 
 #: src/resources/preferences.ui:90
-#, fuzzy
 msgid "10th seconds"
-msgstr "sekunti"
+msgstr ""
 
 #: src/resources/preferences.ui:94
-#, fuzzy
 msgid "100th seconds"
-msgstr "sekunti"
+msgstr ""
 
 #: src/resources/preferences.ui:102
 msgid "Parlatype Preferences"
 msgstr "Parlatypen asetukset"
 
-#: src/resources/preferences.ui:143
+#: src/resources/preferences.ui:144
 msgid "_Pixels per second:"
 msgstr "_Pikseliä sekunnissa:"
 
-#: src/resources/preferences.ui:173
+#: src/resources/preferences.ui:174
 msgid "Show _time scale"
 msgstr "Näytä a_ika-asteikko"
 
 #. Resolution of the waveform image
-#: src/resources/preferences.ui:191
+#: src/resources/preferences.ui:192
 msgid "Resolution"
 msgstr "Tarkkuus"
 
 #. A section in preferences, how to display the waveform.
-#: src/resources/preferences.ui:206
+#: src/resources/preferences.ui:207
 msgid "Display"
 msgstr "Esitystapa"
 
-#: src/resources/preferences.ui:219
+#: src/resources/preferences.ui:220
 msgid "_Moving cursor"
 msgstr "_Liikkuva kursori"
 
-#: src/resources/preferences.ui:236
+#: src/resources/preferences.ui:237
 msgid "_Fixed cursor"
 msgstr "_Kiinteä kursori"
 
-#: src/resources/preferences.ui:293
-msgid "Jump back on _pause:"
+#: src/resources/preferences.ui:291
+msgid "Jumps"
 msgstr ""
 
-#: src/resources/preferences.ui:385
-msgid "Jump _back:"
-msgstr "Siirry t_aaksepäin:"
-
-#: src/resources/preferences.ui:399
+#: src/resources/preferences.ui:393
 msgid "Jump _forward:"
 msgstr "Siirry _eteenpäin:"
 
-#: src/resources/preferences.ui:418
-msgid "Controls"
-msgstr "Säätimet"
+#: src/resources/preferences.ui:407
+msgid "Jump _back:"
+msgstr "Siirry t_aaksepäin:"
 
-#: src/resources/preferences.ui:464
-msgid "Hours and zeroes"
+#: src/resources/preferences.ui:421
+msgid "Jump back on _pause:"
+msgstr ""
+
+#: src/resources/preferences.ui:444
+msgid "Pressing “Play” at the end of file"
+msgstr ""
+
+#: src/resources/preferences.ui:458
+msgid "Replay file"
 msgstr ""
 
 #: src/resources/preferences.ui:477
-msgid "Always show hours and leading zeroes"
+msgid "Pressing “Play” at the end of selection"
 msgstr ""
 
-#: src/resources/preferences.ui:495
-msgid "Precision"
+#: src/resources/preferences.ui:491
+msgid "Replay selection"
 msgstr ""
 
-#: src/resources/preferences.ui:511
-msgid "Characters around timestamps"
-msgstr ""
+#: src/resources/preferences.ui:513
+msgid "Controls"
+msgstr "Säätimet"
 
-#: src/resources/preferences.ui:527
-msgid "Examples"
+#: src/resources/preferences.ui:556
+msgid "Hours and zeroes"
 msgstr ""
 
 #: src/resources/preferences.ui:569
+msgid "Always show hours and leading zeroes"
+msgstr ""
+
+#: src/resources/preferences.ui:587
+msgid "Precision"
+msgstr ""
+
+#: src/resources/preferences.ui:603
+msgid "Characters around timestamps"
+msgstr ""
+
+#: src/resources/preferences.ui:619
+msgid "Examples"
+msgstr ""
+
+#: src/resources/preferences.ui:661
 msgid "Precision:"
 msgstr ""
 
-#: src/resources/preferences.ui:601
+#: src/resources/preferences.ui:693
 msgid "Fraction separator:"
 msgstr ""
 
-#: src/resources/preferences.ui:647
-#, fuzzy
+#: src/resources/preferences.ui:736
 msgid "Timestamps"
-msgstr "Kopioi aikaleima"
+msgstr ""
 
-#: src/resources/preferences.ui:665
+#: src/resources/preferences.ui:867
+msgid "Language model:"
+msgstr ""
+
+#: src/resources/preferences.ui:894
+msgid "Dictionary:"
+msgstr ""
+
+#: src/resources/preferences.ui:921
+msgid "Acoustic model folder:"
+msgstr ""
+
+#: src/resources/preferences.ui:969
+msgid "There is no configuration"
+msgstr ""
+
+#: src/resources/preferences.ui:979
+msgid "Add a configuration"
+msgstr ""
+
+#: src/resources/preferences.ui:1008
+msgid "Speech recognition"
+msgstr ""
+
+#: src/resources/preferences.ui:1026
 msgid "Remember _size"
 msgstr "Muista _koko"
 
-#: src/resources/preferences.ui:680
+#: src/resources/preferences.ui:1041
 msgid "Remember _position"
 msgstr "Muista _sijainti"
 
-#: src/resources/preferences.ui:695
+#: src/resources/preferences.ui:1056
 msgid "Start on _top"
 msgstr "K_äynnistä päällimmäisenä"
 
-#: src/resources/preferences.ui:717
+#: src/resources/preferences.ui:1078
 msgid "Window"
 msgstr "Ikkuna"
 
-#: src/resources/window.ui:145
+#: src/resources/window.ui:142
 msgid "_Play"
 msgstr "T_oista"
 
-#: src/resources/window.ui:324
+#: src/resources/window.ui:312
 msgid "Speed:"
 msgstr "Nopeus:"
 
-#: src/resources/window-headerbar.ui:13
+#: src/resources/window-headerbar.ui:17
 msgid "Open a file"
 msgstr "Avaa tiedosto"
 
-#~ msgid "_Close"
-#~ msgstr "_Sulje"
-
-#~ msgid "View follows cursor"
-#~ msgstr "Näkymä seuraa kursoria"
-
-#~ msgid "Open File"
-#~ msgstr "Avaa tiedosto"
-
-#~ msgid "Info"
-#~ msgstr "Tiedot"
-
-#~ msgid "_File"
-#~ msgstr "_Tiedosto"
-
-#~ msgid "_Edit"
-#~ msgstr "_Muokkaa"
-
-#~ msgid "_Help"
-#~ msgstr "_Ohje"
+#~ msgid "Media player for manual speech transcription"
+#~ msgstr "Mediasoitin manuaaliseen puheen transkriptioon"

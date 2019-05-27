@@ -1,4 +1,4 @@
-# Slovak translation for parlatype
+# English (Canada) translation for parlatype
 # Copyright (c) 2017 Rosetta Contributors and Canonical Ltd 2017
 # This file is distributed under the same license as the parlatype package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2019-05-27 19:04+0200\n"
-"PO-Revision-Date: 2017-11-23 21:21+0000\n"
-"Last-Translator: Launchpad Translations Administrators <Unknown>\n"
-"Language-Team: Slovak <sk@li.org>\n"
+"PO-Revision-Date: 2017-04-15 00:00+0000\n"
+"Last-Translator: Anthony Harrington <Unknown>\n"
+"Language-Team: English (Canada) <en_CA@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2019-05-27 17:32+0000\n"
 "X-Generator: Launchpad (build 18968)\n"
-"Language: sk\n"
+"Language: en_CA\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"

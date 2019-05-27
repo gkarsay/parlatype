@@ -7,26 +7,27 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
-"POT-Creation-Date: 2019-02-11 19:41+0100\n"
-"PO-Revision-Date: 2019-03-30 15:29+0000\n"
+"POT-Creation-Date: 2019-05-27 19:03+0200\n"
+"PO-Revision-Date: 2019-05-27 17:09+0000\n"
 "Last-Translator: Stephan Woidowski <swoidowski@t-online.de>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2019-04-23 19:48+0000\n"
-"X-Generator: Launchpad (build 18928)\n"
+"X-Launchpad-Export-Date: 2019-05-27 17:32+0000\n"
+"X-Generator: Launchpad (build 18968)\n"
+"Language: en_GB\n"
 
 #: data/com.github.gkarsay.parlatype.appdata.xml.in:7
-#: data/com.github.gkarsay.parlatype.desktop.in:4 src/pt-app.c:178
+#: data/com.github.gkarsay.parlatype.desktop.in:4 src/pt-app.c:189
 #: src/resources/window.ui:32
 msgid "Parlatype"
 msgstr "Parlatype"
 
 #: data/com.github.gkarsay.parlatype.appdata.xml.in:8
-msgid "Media player for manual speech transcription"
-msgstr "Media player for manual speech transcription"
+msgid "Media player for speech transcription"
+msgstr ""
 
 #: data/com.github.gkarsay.parlatype.appdata.xml.in:11
 msgid ""
@@ -52,44 +53,48 @@ msgstr "Transcription;"
 msgid "com.github.gkarsay.parlatype"
 msgstr "com.github.gkarsay.parlatype"
 
-#: data/com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in:6
+#: libreoffice/com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in:6
 msgid "LibreOffice/Parlatype Helpers"
 msgstr "LibreOffice/Parlatype Helpers"
 
-#: data/com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in:7
+#: libreoffice/com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in:7
 msgid "Control Parlatype using LibreOffice macros"
 msgstr "Control Parlatype using LibreOffice macros"
 
-#: src/pt-app.c:42
+#: src/pt-app.c:43
 msgid "Show the application’s version"
 msgstr "Show the application’s version"
 
-#: src/pt-app.c:50
+#: src/pt-app.c:52
+msgid "Enable automatic speech recognition"
+msgstr ""
+
+#: src/pt-app.c:60
 msgid "Use internal textpad for automatic speech recognition"
 msgstr "Use internal textpad for automatic speech recognition"
 
-#: src/pt-app.c:72
+#: src/pt-app.c:83
 msgid "Open Audio File"
 msgstr "Open Audio File"
 
-#: src/pt-app.c:75 src/resources/window-headerbar.ui:12
+#: src/pt-app.c:86 src/resources/window-headerbar.ui:12
 msgid "_Open"
 msgstr "_Open"
 
-#: src/pt-app.c:76 src/resources/goto-dialog.ui:26
+#: src/pt-app.c:87 src/resources/goto-dialog.ui:26
 msgid "_Cancel"
 msgstr "_Cancel"
 
-#: src/pt-app.c:95
+#: src/pt-app.c:106
 msgid "Audio files"
 msgstr "Audio files"
 
-#: src/pt-app.c:96
+#: src/pt-app.c:107
 msgid "All files"
 msgstr "All files"
 
 #. Translators: %s is a detailed error message
-#: src/pt-app.c:145
+#: src/pt-app.c:156
 #, c-format
 msgid "Error opening help: %s"
 msgstr "Error opening help: %s"
@@ -98,15 +103,15 @@ msgstr "Error opening help: %s"
 #. copyright holders of code from other projects. Instead of
 #. "including" it could also say "with" or just "Code from
 #. other projects:"
-#: src/pt-app.c:163
+#: src/pt-app.c:174
 msgid "Including code from other projects:"
 msgstr "Including code from other projects:"
 
-#: src/pt-app.c:181
+#: src/pt-app.c:192
 msgid "A basic transcription utility"
 msgstr "A basic transcription utility"
 
-#: src/pt-app.c:185
+#: src/pt-app.c:196
 msgid "translator-credits"
 msgstr ""
 "Launchpad Contributions:\n"
@@ -115,7 +120,7 @@ msgstr ""
 "  Gabor Karsay https://launchpad.net/~gabor-karsay\n"
 "  Stephan Woidowski https://launchpad.net/~swoidowski"
 
-#: src/pt-app.c:301
+#: src/pt-app.c:321
 msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
 "ignored.\n"
@@ -225,18 +230,18 @@ msgstr "%d:%02d:%02d"
 #. or the "Go to ..." dialog. There is a label like
 #. "Jump back:", "Jump forward:", "Jump back on pause:"
 #. or "Go to position:" before.
-#: src/pt-goto-dialog.c:79 src/pt-preferences.c:96 src/pt-preferences.c:106
-#: src/pt-preferences.c:116
+#: src/pt-goto-dialog.c:79 src/pt-preferences.c:98 src/pt-preferences.c:108
+#: src/pt-preferences.c:118
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "second"
 msgstr[1] "seconds"
 
-#: src/pt-preferences.c:287
+#: src/pt-preferences.c:289
 msgid "Deleting configuration"
 msgstr "Deleting configuration"
 
-#: src/pt-preferences.c:288
+#: src/pt-preferences.c:290
 #, c-format
 msgid "Do you really want to delete “%s”?"
 msgstr "Do you really want to delete “%s”?"
@@ -393,7 +398,7 @@ msgstr "Show/hide action menu"
 msgid "Quit"
 msgstr "Quit"
 
-#: src/resources/help-overlay.ui:42 src/resources/preferences.ui:271
+#: src/resources/help-overlay.ui:42 src/resources/preferences.ui:274
 msgid "Waveform"
 msgstr "Waveform"
 
@@ -510,137 +515,137 @@ msgstr "100th seconds"
 msgid "Parlatype Preferences"
 msgstr "Parlatype Preferences"
 
-#: src/resources/preferences.ui:141
+#: src/resources/preferences.ui:144
 msgid "_Pixels per second:"
 msgstr "_Pixels per second:"
 
-#: src/resources/preferences.ui:171
+#: src/resources/preferences.ui:174
 msgid "Show _time scale"
 msgstr "Show _time scale"
 
 #. Resolution of the waveform image
-#: src/resources/preferences.ui:189
+#: src/resources/preferences.ui:192
 msgid "Resolution"
 msgstr "Resolution"
 
 #. A section in preferences, how to display the waveform.
-#: src/resources/preferences.ui:204
+#: src/resources/preferences.ui:207
 msgid "Display"
 msgstr "Display"
 
-#: src/resources/preferences.ui:217
+#: src/resources/preferences.ui:220
 msgid "_Moving cursor"
 msgstr "_Moving cursor"
 
-#: src/resources/preferences.ui:234
+#: src/resources/preferences.ui:237
 msgid "_Fixed cursor"
 msgstr "_Fixed cursor"
 
-#: src/resources/preferences.ui:288
+#: src/resources/preferences.ui:291
 msgid "Jumps"
 msgstr "Jumps"
 
-#: src/resources/preferences.ui:390
+#: src/resources/preferences.ui:393
 msgid "Jump _forward:"
 msgstr "Jump _forward:"
 
-#: src/resources/preferences.ui:404
+#: src/resources/preferences.ui:407
 msgid "Jump _back:"
 msgstr "Jump _back:"
 
-#: src/resources/preferences.ui:418
+#: src/resources/preferences.ui:421
 msgid "Jump back on _pause:"
 msgstr "Jump back on _pause:"
 
-#: src/resources/preferences.ui:441
+#: src/resources/preferences.ui:444
 msgid "Pressing “Play” at the end of file"
 msgstr "Pressing “Play” at the end of file"
 
-#: src/resources/preferences.ui:455
+#: src/resources/preferences.ui:458
 msgid "Replay file"
 msgstr "Replay file"
 
-#: src/resources/preferences.ui:474
+#: src/resources/preferences.ui:477
 msgid "Pressing “Play” at the end of selection"
 msgstr "Pressing “Play” at the end of selection"
 
-#: src/resources/preferences.ui:488
+#: src/resources/preferences.ui:491
 msgid "Replay selection"
 msgstr "Replay selection"
 
-#: src/resources/preferences.ui:510
+#: src/resources/preferences.ui:513
 msgid "Controls"
 msgstr "Controls"
 
-#: src/resources/preferences.ui:553
+#: src/resources/preferences.ui:556
 msgid "Hours and zeroes"
 msgstr "Hours and zeroes"
 
-#: src/resources/preferences.ui:566
+#: src/resources/preferences.ui:569
 msgid "Always show hours and leading zeroes"
 msgstr "Always show hours and leading zeroes"
 
-#: src/resources/preferences.ui:584
+#: src/resources/preferences.ui:587
 msgid "Precision"
 msgstr "Precision"
 
-#: src/resources/preferences.ui:600
+#: src/resources/preferences.ui:603
 msgid "Characters around timestamps"
 msgstr "Characters around timestamps"
 
-#: src/resources/preferences.ui:616
+#: src/resources/preferences.ui:619
 msgid "Examples"
 msgstr "Examples"
 
-#: src/resources/preferences.ui:658
+#: src/resources/preferences.ui:661
 msgid "Precision:"
 msgstr "Precision:"
 
-#: src/resources/preferences.ui:690
+#: src/resources/preferences.ui:693
 msgid "Fraction separator:"
 msgstr "Fraction separator:"
 
-#: src/resources/preferences.ui:733
+#: src/resources/preferences.ui:736
 msgid "Timestamps"
 msgstr "Timestamps"
 
-#: src/resources/preferences.ui:864
+#: src/resources/preferences.ui:867
 msgid "Language model:"
 msgstr "Language model:"
 
-#: src/resources/preferences.ui:891
+#: src/resources/preferences.ui:894
 msgid "Dictionary:"
 msgstr "Dictionary:"
 
-#: src/resources/preferences.ui:918
+#: src/resources/preferences.ui:921
 msgid "Acoustic model folder:"
 msgstr "Acoustic model folder:"
 
-#: src/resources/preferences.ui:966
+#: src/resources/preferences.ui:969
 msgid "There is no configuration"
 msgstr "There is no configuration"
 
-#: src/resources/preferences.ui:976
+#: src/resources/preferences.ui:979
 msgid "Add a configuration"
 msgstr "Add a configuration"
 
-#: src/resources/preferences.ui:1005
+#: src/resources/preferences.ui:1008
 msgid "Speech recognition"
 msgstr "Speech recognition"
 
-#: src/resources/preferences.ui:1023
+#: src/resources/preferences.ui:1026
 msgid "Remember _size"
 msgstr "Remember _size"
 
-#: src/resources/preferences.ui:1038
+#: src/resources/preferences.ui:1041
 msgid "Remember _position"
 msgstr "Remember _position"
 
-#: src/resources/preferences.ui:1053
+#: src/resources/preferences.ui:1056
 msgid "Start on _top"
 msgstr "Start on _top"
 
-#: src/resources/preferences.ui:1075
+#: src/resources/preferences.ui:1078
 msgid "Window"
 msgstr "Window"
 
@@ -655,3 +660,6 @@ msgstr "Speed:"
 #: src/resources/window-headerbar.ui:17
 msgid "Open a file"
 msgstr "Open a file"
+
+#~ msgid "Media player for manual speech transcription"
+#~ msgstr "Media player for manual speech transcription"
