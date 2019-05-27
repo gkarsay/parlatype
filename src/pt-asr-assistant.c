@@ -190,6 +190,7 @@ hmm_chooser_file_set_cb (GtkFileChooserButton *button,
 		gtk_widget_hide (self->priv->hmm_message);
 	} else {
 		gtk_label_set_text (GTK_LABEL (self->priv->hmm_message),
+	/* Translators: This feature is disabled by default, its translation has low priority. */
 		               _("The folder contains no acoustic model."));
 		gtk_widget_show (self->priv->hmm_message);
 	}
@@ -296,6 +297,7 @@ fill_list (GtkListStore *list,
 	base = g_file_new_for_uri (base_uri);
 
 	gtk_list_store_append (list, &iter);
+	/* Translators: This feature is disabled by default, its translation has low priority. */
 	gtk_list_store_set (list, &iter, 0, _("Please select …"), -1);
 
 	for (i = 0; i < array->len; i++) {
@@ -334,6 +336,7 @@ add_model_page (PtAsrAssistant *self)
 	self->priv->hmm_heading = GTK_WIDGET (gtk_builder_get_object (builder, "hmm_heading"));
 
 	gtk_assistant_insert_page (GTK_ASSISTANT (self), self->priv->models, 1);
+	/* Translators: This feature is disabled by default, its translation has low priority. */
 	gtk_assistant_set_page_title (GTK_ASSISTANT (self), self->priv->models, _("Missing parameters"));
 	gtk_assistant_set_page_type (GTK_ASSISTANT (self), self->priv->models, GTK_ASSISTANT_PAGE_CONTENT);
 	gtk_assistant_set_page_complete (GTK_ASSISTANT (self), self->priv->models, FALSE);
@@ -377,10 +380,13 @@ recursive_search_finished (PtAsrAssistant *self,
 	if (error) {
 		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 			error_message (self,
+	/* Translators: This feature is disabled by default, its translation has low priority. */
 			               _("Timed out"),
+	/* Translators: This feature is disabled by default, its translation has low priority. */
 			               _("Scanning the folder took too long. Please make sure to open a folder with model data only."));
 		} else {
 			error_message (self,
+	/* Translators: This feature is disabled by default, its translation has low priority. */
 			               _("Scanning the folder failed"),
 			               error->message);
 		}
@@ -396,7 +402,9 @@ recursive_search_finished (PtAsrAssistant *self,
 
 	if (nothing_found) {
 		error_message (self,
+	/* Translators: This feature is disabled by default, its translation has low priority. */
 		               _("Nothing found"),
+	/* Translators: This feature is disabled by default, its translation has low priority. */
 		               _("This folder doesn’t contain a suitable model."));
 		search_result_free (r);
 		g_free (folder_uri);
@@ -447,6 +455,7 @@ recursive_search_finished (PtAsrAssistant *self,
 
 	if (r->lms->len == 0) {
 		gtk_label_set_text (GTK_LABEL (self->priv->lm_message),
+	/* Translators: This feature is disabled by default, its translation has low priority. */
 		               _("The folder contains no language model. Please choose a language model from another folder."));
 		gtk_widget_show (self->priv->lm_heading);
 		gtk_widget_show (self->priv->lm_message);
@@ -455,6 +464,7 @@ recursive_search_finished (PtAsrAssistant *self,
 
 	if (r->lms->len > 1) {
 		gtk_label_set_text (GTK_LABEL (self->priv->lm_message),
+	/* Translators: This feature is disabled by default, its translation has low priority. */
 		               _("The folder contains several language models."));
 		fill_list (self->priv->lm_list, r->lms, folder_uri);
 		gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->lm_combo), 0);
@@ -465,6 +475,7 @@ recursive_search_finished (PtAsrAssistant *self,
 
 	if (r->dicts->len == 0) {
 		gtk_label_set_text (GTK_LABEL (self->priv->dict_message),
+	/* Translators: This feature is disabled by default, its translation has low priority. */
 		               _("The folder contains no dictionary. Please choose a dictionary from another folder."));
 		gtk_widget_show (self->priv->dict_heading);
 		gtk_widget_show (self->priv->dict_message);
@@ -473,6 +484,7 @@ recursive_search_finished (PtAsrAssistant *self,
 
 	if (r->dicts->len > 1) {
 		gtk_label_set_text (GTK_LABEL (self->priv->dict_message),
+	/* Translators: This feature is disabled by default, its translation has low priority. */
 		               _("The folder contains several dictionaries."));
 		fill_list (self->priv->dict_list, r->dicts, folder_uri);
 		gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->dict_combo), 0);
@@ -482,6 +494,7 @@ recursive_search_finished (PtAsrAssistant *self,
 	}
 	if (r->hmms->len == 0) {
 		gtk_label_set_text (GTK_LABEL (self->priv->hmm_message),
+	/* Translators: This feature is disabled by default, its translation has low priority. */
 		               _("The folder contains no acoustic model. Please choose an acoustic model from another folder."));
 		gtk_widget_show (self->priv->hmm_heading);
 		gtk_widget_show (self->priv->hmm_message);
@@ -490,6 +503,7 @@ recursive_search_finished (PtAsrAssistant *self,
 
 	if (r->hmms->len > 1) {
 		gtk_label_set_text (GTK_LABEL (self->priv->hmm_message),
+	/* Translators: This feature is disabled by default, its translation has low priority. */
 		               _("The folder contains several acoustic models."));
 		fill_list (self->priv->hmm_list, r->hmms, folder_uri);
 		gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->hmm_combo), 0);
@@ -607,6 +621,7 @@ pt_asr_assistant_init (PtAsrAssistant *self)
 
 	self->priv->intro = GTK_WIDGET (gtk_builder_get_object (builder, "intro"));
 	gtk_assistant_append_page (GTK_ASSISTANT (self), self->priv->intro);
+	/* Translators: This feature is disabled by default, its translation has low priority. */
 	gtk_assistant_set_page_title (GTK_ASSISTANT (self), self->priv->intro, _("Download model"));
 	gtk_assistant_set_page_type (GTK_ASSISTANT (self), self->priv->intro, GTK_ASSISTANT_PAGE_INTRO);
 	gtk_assistant_set_page_complete (GTK_ASSISTANT (self), self->priv->intro, FALSE);
@@ -614,6 +629,7 @@ pt_asr_assistant_init (PtAsrAssistant *self)
 
 	self->priv->summary = GTK_WIDGET (gtk_builder_get_object (builder, "summary"));
 	gtk_assistant_append_page (GTK_ASSISTANT (self), self->priv->summary);
+	/* Translators: This feature is disabled by default, its translation has low priority. */
 	gtk_assistant_set_page_title (GTK_ASSISTANT (self), self->priv->summary, _("Finish configuration"));
 	gtk_assistant_set_page_type (GTK_ASSISTANT (self), self->priv->summary, GTK_ASSISTANT_PAGE_CONFIRM);
 	self->priv->name_entry = GTK_WIDGET (gtk_builder_get_object (builder, "name_entry"));

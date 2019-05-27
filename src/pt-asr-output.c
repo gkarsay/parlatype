@@ -206,7 +206,9 @@ show_dialog (PtAsrOutput *self,
 	gchar     *message;
 	gchar     *secondary_message;
 
+	/* Translators: This feature is disabled by default, its translation has low priority. */
 	message = _("Select output for automatic speech recognition");
+	/* Translators: This feature is disabled by default, its translation has low priority. */
 	secondary_message = _("Please open and switch focus to a word processor.");
 
         self->priv->dialog = gtk_message_dialog_new (

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.1 -->
+<!-- Generated with glade 3.20.0 -->
 <interface>
   <requires lib="gtk+" version="3.18"/>
   <object class="GtkAdjustment" id="adj_back">
@@ -102,14 +102,10 @@
     <property name="title" translatable="yes">Parlatype Preferences</property>
     <property name="window_position">center</property>
     <property name="type_hint">dialog</property>
-    <child>
-      <placeholder/>
-    </child>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox1">
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
-        <property name="border_width">0</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox" id="dialog-action_area1">
             <property name="can_focus">False</property>
@@ -864,7 +860,7 @@
                           <object class="GtkLabel">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">Language model:</property>
+                            <property name="label" translatable="yes" comments="Translators: This feature is disabled by default, its translation has low priority.">Language model:</property>
                             <property name="xalign">0</property>
                           </object>
                           <packing>
@@ -891,7 +887,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="margin_top">12</property>
-                            <property name="label" translatable="yes">Dictionary:</property>
+                            <property name="label" translatable="yes" comments="Translators: This feature is disabled by default, its translation has low priority.">Dictionary:</property>
                             <property name="xalign">0</property>
                           </object>
                           <packing>
@@ -918,7 +914,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="margin_top">12</property>
-                            <property name="label" translatable="yes">Acoustic model folder:</property>
+                            <property name="label" translatable="yes" comments="Translators: This feature is disabled by default, its translation has low priority.">Acoustic model folder:</property>
                             <property name="xalign">0</property>
                           </object>
                           <packing>
@@ -966,7 +962,7 @@
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">There is no configuration</property>
+                        <property name="label" translatable="yes" comments="Translators: This feature is disabled by default, its translation has low priority.">There is no configuration</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -976,7 +972,7 @@
                     </child>
                     <child>
                       <object class="GtkButton">
-                        <property name="label" translatable="yes">Add a configuration</property>
+                        <property name="label" translatable="yes" comments="Translators: This feature is disabled by default, its translation has low priority.">Add a configuration</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -1005,7 +1001,7 @@
               <object class="GtkLabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Speech recognition</property>
+                <property name="label" translatable="yes" comments="Translators: This feature is disabled by default, its translation has low priority.">Speech recognition</property>
               </object>
               <packing>
                 <property name="position">3</property>
