@@ -1,0 +1,136 @@
+#!/bin/bash
+
+# This script copies all translation files from a Parlatype launchpad download
+# to their respective folders in Parlatype.
+
+IMPORT_FILE=launchpad-export.tar.gz
+TEMP_DIR=launchpad-temp
+SCRIPT=./launchpad-import
+
+echo "Maintenance script to import translations from Launchpad."
+echo "Download from https://translations.launchpad.net/parlatype/trunk/+export"
+echo "and save as $IMPORT_FILE into this folder."
+echo
+
+if [ "$0" != "$SCRIPT" ]
+then
+	echo "Script must be run from Parlatype root folder – quitting now."
+	exit 1
+fi
+
+# Test for import file
+if [ ! -e "$IMPORT_FILE" ]
+then
+	echo "$IMPORT_FILE not found – quitting now."
+	exit 1
+fi
+
+# Don't overwrite old files
+mkdir $TEMP_DIR 2>&- || {
+	echo "Remove folder $TEMP_DIR first – quitting now."	
+	exit 1
+}
+
+while true
+do
+	echo -n "Continue? [Y|n] "
+	read result
+	if [ "$result" == "n" ]
+	then
+		exit 1
+	fi
+	if [ "$result" == "Y" ] || [ "$result" == "y" ] || [ "$result" == "" ]
+	then
+		break
+	fi
+done
+
+# Extract all po files (ignore pot files)
+echo "Extracting files …"
+tar -xvzf $IMPORT_FILE -C $TEMP_DIR --wildcards *.po
+
+# Directory structure is
+# $TEMP_DIR
+#  ├── help
+#  ├── libparlatype
+#  └── parlatype
+
+# Rename files, remove prepended strings
+echo "Renaming files …"
+folder=$TEMP_DIR/help
+for file in `ls $folder`
+do
+	mv $folder/$file $folder/${file#parlatype-}
+done
+
+folder=$TEMP_DIR/libparlatype
+for file in `ls $folder`
+do
+	mv $folder/$file $folder/${file#libparlatype-}
+done
+
+folder=$TEMP_DIR/parlatype
+for file in `ls $folder`
+do
+	mv $folder/$file $folder/${file#parlatype-}
+done
+
+# Special case: he has no translations, added for testing purposes and can't
+# be removed from launchpad anymore.
+echo "Removing special case he.po …"
+rm $TEMP_DIR/help/he.po
+rm $TEMP_DIR/libparlatype/he.po
+rm $TEMP_DIR/parlatype/he.po
+
+# Check translations
+echo "Checking translations …"
+count=0
+for file in `find $TEMP_DIR/ -name *.po`
+do
+	msgfmt -c $file || let "count += 1"
+done
+# There is some unwanted output
+rm messages.mo
+
+if (( count > 0 ))
+then
+	echo "Some translations have errors."
+	while true
+	do
+		echo -n "Dou you want to continue anyway? [y|N] "
+		read result
+		if [ "$result" == "y" ]
+		then
+			break
+		fi
+		if [ "$result" == "N" ] || [ "$result" == "n" ] || [ "$result" == "" ]
+		then
+			exit 1
+		fi
+	done
+fi
+
+# Copy files
+echo "Copying files …"
+folder=$TEMP_DIR/help
+for file in `ls $folder`
+do
+	lang_code=${file%.po}
+	mkdir -p help/$lang_code
+	cp $folder/$file help/$lang_code
+done
+
+folder=$TEMP_DIR/libparlatype
+for file in `ls $folder`
+do
+	cp $folder/$file libparlatype/po
+done
+
+folder=$TEMP_DIR/parlatype
+for file in `ls $folder`
+do
+	cp $folder/$file po
+done
+
+echo "Deleting temporary folder …"
+rm -r $TEMP_DIR
