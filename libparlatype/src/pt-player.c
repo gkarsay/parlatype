@@ -699,6 +699,8 @@ pt_player_play (PtPlayer *player)
 			/* Note: changes position if outside selection */
 			pt_player_set_selection (player, start, end);
 		}
+	} else {
+		selection = pt_player_selection_active (player);
 	}
 
 	if (!pt_player_query_position (player, &pos))
