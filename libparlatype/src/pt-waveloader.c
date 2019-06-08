@@ -465,6 +465,7 @@ pt_waveloader_get_data (PtWaveloader *wl,
 	}
 
 	if (lseek (wl->priv->fd, 0, SEEK_SET) != 0) {
+		g_free (array);
 		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
 			          "MESSAGE", "Sample not loaded");
 		return NULL;
