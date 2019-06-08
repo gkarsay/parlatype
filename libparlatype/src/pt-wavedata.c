@@ -50,7 +50,7 @@ G_DEFINE_BOXED_TYPE (PtWavedata, pt_wavedata, pt_wavedata_copy, pt_wavedata_free
  *
  * Creates a copy of @data.
  *
- * Return value: a new #PtWavedata, free after use with pt_wavedata_free()
+ * Return value: (transfer full) (nullable): a new #PtWavedata, free after use with pt_wavedata_free()
  */
 PtWavedata*
 pt_wavedata_copy (PtWavedata *data)
@@ -59,9 +59,10 @@ pt_wavedata_copy (PtWavedata *data)
 	new = g_new0 (PtWavedata, 1);
 	
 	if (!(new->array = g_try_malloc (sizeof (gfloat) * data->length))) {
+		g_free (new);
 		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
 			          "MESSAGE", "Copying wavedata failed");
-		return data;
+		return NULL;
 	}
 
 	memcpy (new->array, data->array, sizeof (gfloat) * new->length);
@@ -83,7 +84,9 @@ void pt_wavedata_free (PtWavedata *data)
 	if (!data)
 		return;
 
-	g_free (data->array);
+	if (data->array)
+		g_free (data->array);
+
 	g_free (data);
 }
 
@@ -96,7 +99,7 @@ void pt_wavedata_free (PtWavedata *data)
  *
  * Constructs a new #PtWavedata.
  *
- * Returns: (transfer full): new data, free after use with pt_wavedata_free()
+ * Returns: (transfer full) (nullable): new data, free after use with pt_wavedata_free()
  */
 PtWavedata*
 pt_wavedata_new (gfloat *array,
@@ -108,9 +111,10 @@ pt_wavedata_new (gfloat *array,
 	data = g_new0 (PtWavedata, 1);
 
 	if (!(data->array = g_try_malloc (sizeof (gfloat) * length))) {
+		g_free (data);
 		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
 			          "MESSAGE", "Creating new wavedata failed");
-		return data;
+		return NULL;
 	}
 	
 	memcpy (data->array, array, sizeof(gfloat) * length);
