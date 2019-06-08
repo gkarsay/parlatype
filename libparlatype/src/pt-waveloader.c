@@ -407,7 +407,7 @@ pt_waveloader_get_duration (PtWaveloader *wl)
  * doesn’t have to be necessarily exactly the requested resolution, it might be
  * a bit differnt, depending on the bit rate.
  *
- * Return value: (transfer full): the #PtWavedata, after use free with pt_wavedata_free()
+ * Return value: (transfer full) (nullable): the #PtWavedata, after use free with pt_wavedata_free()
  */
 PtWavedata*
 pt_waveloader_get_data (PtWaveloader *wl,
