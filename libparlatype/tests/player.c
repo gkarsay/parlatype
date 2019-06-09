@@ -200,6 +200,7 @@ player_open_cancel (void)
 	g_assert_false (success);
 	g_assert_error (error, G_IO_ERROR, G_IO_ERROR_CANCELLED);
 
+	g_error_free (error);
 	g_free (testfile);
 	g_free (testuri);
 	g_object_unref (testplayer);
