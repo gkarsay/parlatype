@@ -2101,6 +2101,7 @@ add_element (GstBin     *parent,
 
 	child_name = gst_element_get_name (child);
 	cmp = gst_bin_get_by_name (parent, child_name);
+	g_free (child_name);
 	if (cmp) {
 		gst_object_unref (cmp);
 		/* element is already in bin */
