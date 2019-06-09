@@ -2212,6 +2212,9 @@ pt_player_dispose (GObject *object)
 		gst_object_unref (GST_OBJECT (player->priv->play));
 		player->priv->play = NULL;
 		remove_message_bus (player);
+
+		gst_object_unref (GST_OBJECT (player->priv->tee_playpad));
+		gst_object_unref (GST_OBJECT (player->priv->tee_sphinxpad));
 	}
 
 	g_clear_object (&player->priv->wl);
