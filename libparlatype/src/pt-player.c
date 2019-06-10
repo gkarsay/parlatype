@@ -608,6 +608,7 @@ pt_player_open_uri (PtPlayer *player,
 
 	g_main_context_unref (context);
 	g_main_loop_unref (data.loop);
+	g_object_unref (data.res);
 
 	return result;
 }
@@ -2221,7 +2222,6 @@ pt_player_dispose (GObject *object)
 
 		gst_object_unref (GST_OBJECT (player->priv->play));
 		player->priv->play = NULL;
-		remove_message_bus (player);
 
 		gst_object_unref (GST_OBJECT (player->priv->tee_playpad));
 		gst_object_unref (GST_OBJECT (player->priv->tee_sphinxpad));
