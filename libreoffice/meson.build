@@ -3,7 +3,7 @@ install_data(
 	install_dir: get_option('libreoffice-dir')
 )
 
-lo_metainfo = app_id + '.libreoffice-helpers.metainfo.xml'
+lo_metainfo = app_id + '.libreoffice_helpers.metainfo.xml'
 i18n.merge_file(
 	input: lo_metainfo + '.in',
 	output: lo_metainfo,

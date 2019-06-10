@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="addon">
-	<id>com.github.gkarsay.parlatype.libreoffice-helpers</id>
+	<id>com.github.gkarsay.parlatype.libreoffice_helpers</id>
 	<extends>com.github.gkarsay.parlatype.desktop</extends>
 	<extends>libreoffice-writer.desktop</extends>
 	<name>LibreOffice/Parlatype Helpers</name>
