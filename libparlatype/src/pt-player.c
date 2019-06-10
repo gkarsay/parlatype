@@ -2209,6 +2209,16 @@ pt_player_dispose (GObject *object)
 		metadata_save_position (player);
 		
 		gst_element_set_state (player->priv->play, GST_STATE_NULL);
+
+#ifdef HAVE_ASR
+		/* Add all possible elements because elements without a parent
+		   won't be destroyed. */
+		add_element (GST_BIN (player->priv->audio_bin),
+		             player->priv->play_bin, player->priv->tee_playpad);
+		add_element (GST_BIN (player->priv->audio_bin),
+		             player->priv->sphinx_bin, player->priv->tee_sphinxpad);
+#endif
+
 		gst_object_unref (GST_OBJECT (player->priv->play));
 		player->priv->play = NULL;
 		remove_message_bus (player);
