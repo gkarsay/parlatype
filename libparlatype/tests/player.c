@@ -205,6 +205,7 @@ player_open_cancel (void)
 	g_free (testuri);
 	g_object_unref (testplayer);
 	g_main_loop_unref (data.loop);
+	g_object_unref (data.res);
 }
 
 static void
