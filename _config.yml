@@ -4,5 +4,5 @@ header_pages:
   - news.md
   - features.md
   - installation.md
-feed:
-  path: feed.xml
+plugins:
+  - jekyll-feed
