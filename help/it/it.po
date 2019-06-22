@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
-"POT-Creation-Date: 2019-05-27 19:04+0200\n"
+"POT-Creation-Date: 2019-05-27 20:57+0200\n"
 "PO-Revision-Date: 2017-04-18 19:09+0000\n"
 "Last-Translator: Luca Ciavatta <luca.ciavatta@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2019-05-27 17:32+0000\n"
-"X-Generator: Launchpad (build 18968)\n"
+"X-Launchpad-Export-Date: 2019-06-22 10:41+0000\n"
+"X-Generator: Launchpad (build 18989)\n"
 "Language: it\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
@@ -38,6 +38,8 @@ msgid "Parlatype"
 msgstr "Parlatype"
 
 #. (itstool) path: credit/name
+#. Translators: This feature is disabled by default, its translation has
+#. low priority.
 #: C/index.page:10
 #: C/drag-and-drop.page:8
 #: C/first-steps.page:8
@@ -46,8 +48,8 @@ msgstr "Parlatype"
 #: C/preferences.page:8
 #: C/selections.page:8
 #: C/timestamps.page:8
-#: C/asr.page:8
-#: C/asr-setup.page:8
+#: C/asr.page:9
+#: C/asr-setup.page:9
 #: C/libreoffice-helpers.page:9
 msgid "Gabor Karsay"
 msgstr "Gabor Karsay"
@@ -812,17 +814,23 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: info/desc
-#: C/asr.page:6
+#. Translators: This feature is disabled by default, its translation has
+#. low priority.
+#: C/asr.page:7
 msgid "Let Parlatype do part of the transcription work"
 msgstr ""
 
 #. (itstool) path: page/title
-#: C/asr.page:14
+#. Translators: This feature is disabled by default, its translation has
+#. low priority.
+#: C/asr.page:15
 msgid "Automatic speech recognition"
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/asr.page:16
+#. Translators: This feature is disabled by default, its translation has
+#. low priority.
+#: C/asr.page:17
 msgid ""
 "<app>Parlatype</app> offers automatic speech recognition that is done on "
 "your computer. No data is sent over the network. Keep in mind that automatic "
@@ -831,24 +839,25 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: note/p
-#: C/asr.page:18
+#. Translators: This feature is disabled by default, its translation has
+#. low priority.
+#: C/asr.page:19
 msgid ""
 "Automatic speech recognition is disabled by default. In order to try it, you "
 "have run <app>Parlatype</app> with this parameter:"
 msgstr ""
 
-#. (itstool) path: note/p
-#: C/asr.page:19
-msgid "<cmd>parlatype --with-asr</cmd>"
-msgstr ""
-
 #. (itstool) path: section/title
-#: C/asr.page:22
+#. Translators: This feature is disabled by default, its translation has
+#. low priority.
+#: C/asr.page:23
 msgid "Start speech recognition"
 msgstr ""
 
 #. (itstool) path: section/p
-#: C/asr.page:23
+#. Translators: This feature is disabled by default, its translation has
+#. low priority.
+#: C/asr.page:24
 msgid ""
 "Open the primary menu and click on <gui>Automatic transcription</gui>. If "
 "you don’t have a language model yet, an assistant will guide you in that "
@@ -859,7 +868,9 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: section/p
-#: C/asr.page:25
+#. Translators: This feature is disabled by default, its translation has
+#. low priority.
+#: C/asr.page:26
 msgid ""
 "If no word processor is recognized you can use an internal textpad as a "
 "fallback solution. To use that textpad start <app>Parlatype</app> with the "
@@ -867,7 +878,9 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: section/p
-#: C/asr.page:27
+#. Translators: This feature is disabled by default, its translation has
+#. low priority.
+#: C/asr.page:28
 msgid ""
 "Now press <gui>Play</gui> in <app>Parlatype</app> and the recognized speech "
 "will be printed to that window. Output is silent because the speed is "
@@ -876,14 +889,18 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: section/p
-#: C/asr.page:29
+#. Translators: This feature is disabled by default, its translation has
+#. low priority.
+#: C/asr.page:30
 msgid ""
 "Output is without punctuation or capitalization, you have to add or correct "
 "that yourself."
 msgstr ""
 
 #. (itstool) path: note/p
-#: C/asr.page:31
+#. Translators: This feature is disabled by default, its translation has
+#. low priority.
+#: C/asr.page:32
 msgid ""
 "<em>Accuracy</em> depends on many factors like quality of the recording, "
 "background noise, speaker’s dialect or pronounciation and the speech model "
@@ -894,17 +911,23 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: info/desc
-#: C/asr-setup.page:6
+#. Translators: This feature is disabled by default, its translation has
+#. low priority.
+#: C/asr-setup.page:7
 msgid "Setup automatic speech transcription"
 msgstr ""
 
 #. (itstool) path: page/title
-#: C/asr-setup.page:14
+#. Translators: This feature is disabled by default, its translation has
+#. low priority.
+#: C/asr-setup.page:15
 msgid "Setup automatic speech recognition"
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/asr-setup.page:16
+#. Translators: This feature is disabled by default, its translation has
+#. low priority.
+#: C/asr-setup.page:17
 msgid ""
 "<app>Parlatype</app> doesn’t ship the language model needed for speech "
 "recognition. You will have to download it. There is an assistant that guides "
@@ -912,7 +935,9 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/asr-setup.page:18
+#. Translators: This feature is disabled by default, its translation has
+#. low priority.
+#: C/asr-setup.page:19
 msgid ""
 "The assistant can be started either from the Preferences dialog, tab "
 "<gui>Speech recognition</gui> or – if you have no setup yet – from the "
@@ -920,7 +945,9 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/asr-setup.page:20
+#. Translators: This feature is disabled by default, its translation has
+#. low priority.
+#: C/asr-setup.page:21
 msgid ""
 "It asks you to download a speech model. The speech recognition engine used "
 "is CMU Sphinx. You can download models suitable for CMU Sphinx for example "
@@ -931,14 +958,18 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/asr-setup.page:22
+#. Translators: This feature is disabled by default, its translation has
+#. low priority.
+#: C/asr-setup.page:23
 msgid ""
 "If it’s compressed, uncompress the model. Save it to a folder where it can "
 "stay. Parlatype doesn’t copy the model internally."
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/asr-setup.page:24
+#. Translators: This feature is disabled by default, its translation has
+#. low priority.
+#: C/asr-setup.page:25
 msgid ""
 "Usually the assistant will find all the files needed and you just have to "
 "give this configuration a name for your own reference. You can have several "
@@ -946,7 +977,9 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/asr-setup.page:26
+#. Translators: This feature is disabled by default, its translation has
+#. low priority.
+#: C/asr-setup.page:27
 msgid ""
 "If the assistant doesn’t find all the components or finds more than "
 "expected, it will ask you to specify their location or to choose between "
@@ -954,23 +987,31 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: section/title
-#: C/asr-setup.page:29
+#. Translators: This feature is disabled by default, its translation has
+#. low priority.
+#: C/asr-setup.page:30
 msgid "Models"
 msgstr ""
 
 #. (itstool) path: section/p
-#: C/asr-setup.page:31
+#. Translators: This feature is disabled by default, its translation has
+#. low priority.
+#: C/asr-setup.page:32
 msgid ""
 "A model consists of a so called acoustic and language model and a dictionary:"
 msgstr ""
 
 #. (itstool) path: item/title
-#: C/asr-setup.page:35
+#. Translators: This feature is disabled by default, its translation has
+#. low priority.
+#: C/asr-setup.page:36
 msgid "Acoustic model"
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/asr-setup.page:36
+#. Translators: This feature is disabled by default, its translation has
+#. low priority.
+#: C/asr-setup.page:37
 msgid ""
 "It consists of several files usually in their own folder: "
 "<file>feat.params</file>, <file>mdef</file>, <file>means</file> and some "
@@ -978,12 +1019,16 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: item/title
-#: C/asr-setup.page:39
+#. Translators: This feature is disabled by default, its translation has
+#. low priority.
+#: C/asr-setup.page:40
 msgid "Language model"
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/asr-setup.page:40
+#. Translators: This feature is disabled by default, its translation has
+#. low priority.
+#: C/asr-setup.page:41
 msgid ""
 "<app>Parlatype</app> needs a binary language model. That’s a single file "
 "with the extension <file>.lm.bin</file>. Models can have several language "
@@ -994,18 +1039,24 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: item/title
-#: C/asr-setup.page:43
+#. Translators: This feature is disabled by default, its translation has
+#. low priority.
+#: C/asr-setup.page:44
 msgid "Dictionary"
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/asr-setup.page:44
+#. Translators: This feature is disabled by default, its translation has
+#. low priority.
+#: C/asr-setup.page:45
 msgid ""
 "Dictionaries have the extension <file>.dict</file> or <file>.dic</file>."
 msgstr ""
 
 #. (itstool) path: section/p
-#: C/asr-setup.page:48
+#. Translators: This feature is disabled by default, its translation has
+#. low priority.
+#: C/asr-setup.page:49
 msgid ""
 "All those elements should be somewhere in the folder selected. It doesn’t "
 "matter whether there are subfolders or how they are named."

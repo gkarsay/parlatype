@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
-"POT-Creation-Date: 2019-05-27 19:03+0200\n"
+"POT-Creation-Date: 2019-05-27 21:09+0200\n"
 "PO-Revision-Date: 2019-03-13 22:48+0000\n"
 "Last-Translator: Moo <hazap@hotmail.com>\n"
 "Language-Team: Lithuanian <lt@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "(n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2019-05-27 17:32+0000\n"
-"X-Generator: Launchpad (build 18968)\n"
+"X-Launchpad-Export-Date: 2019-06-22 10:40+0000\n"
+"X-Generator: Launchpad (build 18989)\n"
 "Language: lt\n"
 
 #: data/com.github.gkarsay.parlatype.appdata.xml.in:7
@@ -126,23 +126,28 @@ msgstr ""
 "Įspėjimas: Parlatype vienu metu apdoroja tik vieną failą. Kitų failų yra "
 "nepaisoma.\n"
 
-#: src/pt-asr-assistant.c:193
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:194
 msgid "The folder contains no acoustic model."
 msgstr "Aplanke nėra jokio akustinio modelio."
 
-#: src/pt-asr-assistant.c:299
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:301
 msgid "Please select …"
 msgstr "Pasirinkite…"
 
-#: src/pt-asr-assistant.c:337
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:340
 msgid "Missing parameters"
 msgstr "Trūksta parametrų"
 
-#: src/pt-asr-assistant.c:380
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:384
 msgid "Timed out"
 msgstr "Pasibaigė skirtas laikas"
 
-#: src/pt-asr-assistant.c:381
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:386
 msgid ""
 "Scanning the folder took too long. Please make sure to open a folder with "
 "model data only."
@@ -150,40 +155,48 @@ msgstr ""
 "Aplanko peržiūra užtruko per ilgai. Užtikrinkite, kad atvertumėte aplanką "
 "tik su modelio duomenimis."
 
-#: src/pt-asr-assistant.c:384
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:390
 msgid "Scanning the folder failed"
 msgstr "Aplanko peržiūra nepavyko"
 
-#: src/pt-asr-assistant.c:399
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:406
 msgid "Nothing found"
 msgstr "Nieko nerasta"
 
-#: src/pt-asr-assistant.c:400
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:408
 msgid "This folder doesn’t contain a suitable model."
 msgstr "Šiame aplanke nėra tinkamo modelio."
 
-#: src/pt-asr-assistant.c:450
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:459
 msgid ""
 "The folder contains no language model. Please choose a language model from "
 "another folder."
 msgstr ""
 "Aplanke nėra jokio kalbos modelio. Pasirinkite kalbos modelį iš kito aplanko."
 
-#: src/pt-asr-assistant.c:458
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:468
 msgid "The folder contains several language models."
 msgstr "Aplanke yra keli kalbos modeliai"
 
-#: src/pt-asr-assistant.c:468
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:479
 msgid ""
 "The folder contains no dictionary. Please choose a dictionary from another "
 "folder."
 msgstr "Aplanke nėra jokio žodyno. Pasirinkite žodyną iš kito aplanko."
 
-#: src/pt-asr-assistant.c:476
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:488
 msgid "The folder contains several dictionaries."
 msgstr "Aplanke yra keli žodynai."
 
-#: src/pt-asr-assistant.c:485
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:498
 msgid ""
 "The folder contains no acoustic model. Please choose an acoustic model from "
 "another folder."
@@ -191,23 +204,28 @@ msgstr ""
 "Aplanke nėra jokio akustinio modelio. Pasirinkite akustinį modelį iš kito "
 "aplanko."
 
-#: src/pt-asr-assistant.c:493
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:507
 msgid "The folder contains several acoustic models."
 msgstr "Aplanke yra keli akustiniai modeliai."
 
-#: src/pt-asr-assistant.c:610
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:625
 msgid "Download model"
 msgstr "Atsisiųsti modelį"
 
-#: src/pt-asr-assistant.c:617
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:633
 msgid "Finish configuration"
 msgstr "Užbaigti konfigūraciją"
 
-#: src/pt-asr-output.c:209
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-output.c:210
 msgid "Select output for automatic speech recognition"
 msgstr "Pasirinkite automatinio šnekos atpažinimo išvestį"
 
-#: src/pt-asr-output.c:210
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-output.c:212
 msgid "Please open and switch focus to a word processor."
 msgstr "Atverkite ir perjunkite fokusavimą į tekstų rengyklę."
 
@@ -309,6 +327,7 @@ msgstr ""
 msgid "Fatal error"
 msgstr "Lemtingoji klaida"
 
+#. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:15
 msgid ""
 "Before you can start, you have to download a so called acoustic and language "
@@ -317,6 +336,7 @@ msgstr ""
 "Prieš pradėdami, turite atsisiųsti taip vadinamą akustinį ir kalbos modelį. "
 "Tai yra failų, sukurtų tam tikrai kalbai, rinkinys."
 
+#. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:30
 msgid ""
 "Parlatype uses CMU Sphinx as its speech recognition engine. You can download "
@@ -331,6 +351,7 @@ msgstr ""
 "uage%20Models/\">CMU Sphinx sourceforge saugyklos</a>. Joje yra kai kurių "
 "labiausiai paplitusių kalbų modeliai."
 
+#. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:45
 msgid ""
 "If it’s compressed, uncompress the model. Save it to a folder where it can "
@@ -339,10 +360,12 @@ msgstr ""
 "Jeigu modelis yra suglaudintas, išglaudinkite jį. Įrašykite jį į aplanką, "
 "kuriame jį laikysite. Parlatype nekopijuoja modelio į atskirą katalogą."
 
+#. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:59
 msgid "When you are finished, specify the folder with the model:"
 msgstr "Užbaigę, nurodykite aplanką su modeliu:"
 
+#. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:96
 msgid "Language model"
 msgstr "Kalbos modelis"
@@ -351,22 +374,27 @@ msgstr "Kalbos modelis"
 msgid "Select language model"
 msgstr "Pasirinkite kalbos modelį"
 
+#. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:157
 msgid "Dictionary"
 msgstr "Žodynas"
 
+#. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:186
 msgid "Select dictionary"
 msgstr "Pasirinkite žodyną"
 
+#. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:218
 msgid "Acoustic model"
 msgstr "Akustinis modelis"
 
+#. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:248
 msgid "Select acoustic model folder"
 msgstr "Pasirinkite akustinio modelio aplanką"
 
+#. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:285
 msgid "Setup is completed. Please give this configuration a name:"
 msgstr "Sąranka užbaigta. Suteikite šiai konfigūracijai pavadinimą:"
@@ -399,7 +427,7 @@ msgstr "Rodyti/slėpti veiksmų meniu"
 msgid "Quit"
 msgstr "Išeiti"
 
-#: src/resources/help-overlay.ui:42 src/resources/preferences.ui:274
+#: src/resources/help-overlay.ui:42 src/resources/preferences.ui:270
 msgid "Waveform"
 msgstr "Bangos forma"
 
@@ -516,137 +544,143 @@ msgstr "100-oji sekundžių dalis"
 msgid "Parlatype Preferences"
 msgstr "Parlatype nuostatos"
 
-#: src/resources/preferences.ui:144
+#: src/resources/preferences.ui:140
 msgid "_Pixels per second:"
 msgstr "_Pikselių per sekundę:"
 
-#: src/resources/preferences.ui:174
+#: src/resources/preferences.ui:170
 msgid "Show _time scale"
 msgstr "Rodyti _laiko mastelį"
 
 #. Resolution of the waveform image
-#: src/resources/preferences.ui:192
+#: src/resources/preferences.ui:188
 msgid "Resolution"
 msgstr "Raiška"
 
 #. A section in preferences, how to display the waveform.
-#: src/resources/preferences.ui:207
+#: src/resources/preferences.ui:203
 msgid "Display"
 msgstr "Rodymas"
 
-#: src/resources/preferences.ui:220
+#: src/resources/preferences.ui:216
 msgid "_Moving cursor"
 msgstr "_Judantis žymeklis"
 
-#: src/resources/preferences.ui:237
+#: src/resources/preferences.ui:233
 msgid "_Fixed cursor"
 msgstr "_Fiksuotas žymeklis"
 
-#: src/resources/preferences.ui:291
+#: src/resources/preferences.ui:287
 msgid "Jumps"
 msgstr "Peršokimai"
 
-#: src/resources/preferences.ui:393
+#: src/resources/preferences.ui:389
 msgid "Jump _forward:"
 msgstr "Peršokti p_irmyn:"
 
-#: src/resources/preferences.ui:407
+#: src/resources/preferences.ui:403
 msgid "Jump _back:"
 msgstr "Peršokti _atgal:"
 
-#: src/resources/preferences.ui:421
+#: src/resources/preferences.ui:417
 msgid "Jump back on _pause:"
 msgstr "Pristabdžius, _peršokti atgal:"
 
-#: src/resources/preferences.ui:444
+#: src/resources/preferences.ui:440
 msgid "Pressing “Play” at the end of file"
 msgstr "Paspaudus \"Groti\" failo pabaigoje"
 
-#: src/resources/preferences.ui:458
+#: src/resources/preferences.ui:454
 msgid "Replay file"
 msgstr "Iš naujo groti failą"
 
-#: src/resources/preferences.ui:477
+#: src/resources/preferences.ui:473
 msgid "Pressing “Play” at the end of selection"
 msgstr "Paspaudus \"Groti\" žymėjimo pabaigoje"
 
-#: src/resources/preferences.ui:491
+#: src/resources/preferences.ui:487
 msgid "Replay selection"
 msgstr "Iš naujo groti žymėjimą"
 
-#: src/resources/preferences.ui:513
+#: src/resources/preferences.ui:509
 msgid "Controls"
 msgstr "Valdikliai"
 
-#: src/resources/preferences.ui:556
+#: src/resources/preferences.ui:552
 msgid "Hours and zeroes"
 msgstr "Valandos ir nuliai"
 
-#: src/resources/preferences.ui:569
+#: src/resources/preferences.ui:565
 msgid "Always show hours and leading zeroes"
 msgstr "Visada rodyti valandas ir priekinius nulius"
 
-#: src/resources/preferences.ui:587
+#: src/resources/preferences.ui:583
 msgid "Precision"
 msgstr "Tikslumas"
 
-#: src/resources/preferences.ui:603
+#: src/resources/preferences.ui:599
 msgid "Characters around timestamps"
 msgstr "Simboliai aplink laiko žymas"
 
-#: src/resources/preferences.ui:619
+#: src/resources/preferences.ui:615
 msgid "Examples"
 msgstr "Pavyzdžiai"
 
-#: src/resources/preferences.ui:661
+#: src/resources/preferences.ui:657
 msgid "Precision:"
 msgstr "Tikslumas:"
 
-#: src/resources/preferences.ui:693
+#: src/resources/preferences.ui:689
 msgid "Fraction separator:"
 msgstr "Trupmenų skirtuvas:"
 
-#: src/resources/preferences.ui:736
+#: src/resources/preferences.ui:732
 msgid "Timestamps"
 msgstr "Laiko žymos"
 
-#: src/resources/preferences.ui:867
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/resources/preferences.ui:863
 msgid "Language model:"
 msgstr "Kalbos modelis:"
 
-#: src/resources/preferences.ui:894
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/resources/preferences.ui:890
 msgid "Dictionary:"
 msgstr "Žodynas:"
 
-#: src/resources/preferences.ui:921
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/resources/preferences.ui:917
 msgid "Acoustic model folder:"
 msgstr "Akustinio modelio aplankas:"
 
-#: src/resources/preferences.ui:969
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/resources/preferences.ui:965
 msgid "There is no configuration"
 msgstr "Nėra konfigūracijos"
 
-#: src/resources/preferences.ui:979
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/resources/preferences.ui:975
 msgid "Add a configuration"
 msgstr "Pridėti konfigūraciją"
 
-#: src/resources/preferences.ui:1008
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/resources/preferences.ui:1004
 msgid "Speech recognition"
 msgstr "Šnekos atpažinimas"
 
-#: src/resources/preferences.ui:1026
+#: src/resources/preferences.ui:1022
 msgid "Remember _size"
 msgstr "Prisiminti _dydį"
 
-#: src/resources/preferences.ui:1041
+#: src/resources/preferences.ui:1037
 msgid "Remember _position"
 msgstr "Prisiminti _poziciją"
 
-#: src/resources/preferences.ui:1056
+#: src/resources/preferences.ui:1052
 msgid "Start on _top"
 msgstr "Paleisti viršuje"
 
-#: src/resources/preferences.ui:1078
+#: src/resources/preferences.ui:1074
 msgid "Window"
 msgstr "Langas"
 
@@ -661,6 +695,3 @@ msgstr "Greitis:"
 #: src/resources/window-headerbar.ui:17
 msgid "Open a file"
 msgstr "Atverti failą"
-
-#~ msgid "Media player for manual speech transcription"
-#~ msgstr "Medijos grotuvas, skirtas rankinei kalbėjimo transkripcijai"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-27 19:03+0200\n"
-"PO-Revision-Date: 2019-02-11 19:12+0000\n"
+"POT-Creation-Date: 2019-05-27 21:09+0200\n"
+"PO-Revision-Date: 2019-05-28 18:17+0000\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2019-05-27 17:32+0000\n"
-"X-Generator: Launchpad (build 18968)\n"
+"X-Launchpad-Export-Date: 2019-06-22 10:40+0000\n"
+"X-Generator: Launchpad (build 18989)\n"
 "Language: pl\n"
 
 #: data/com.github.gkarsay.parlatype.appdata.xml.in:7
@@ -28,7 +28,7 @@ msgstr "Parlatype"
 
 #: data/com.github.gkarsay.parlatype.appdata.xml.in:8
 msgid "Media player for speech transcription"
-msgstr ""
+msgstr "Odtwarzacz multimedialny do transkrypcji mowy"
 
 #: data/com.github.gkarsay.parlatype.appdata.xml.in:11
 msgid ""
@@ -68,7 +68,7 @@ msgstr "Wyświetla wersję programu"
 
 #: src/pt-app.c:52
 msgid "Enable automatic speech recognition"
-msgstr ""
+msgstr "Włącza automatyczne rozpoznawanie mowy"
 
 #: src/pt-app.c:60
 msgid "Use internal textpad for automatic speech recognition"
@@ -128,23 +128,28 @@ msgstr ""
 "Ostrzeżenie: Parlatype obsługuje tylko jeden plik naraz. Pozostałe pliki są "
 "ignorowane.\n"
 
-#: src/pt-asr-assistant.c:193
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:194
 msgid "The folder contains no acoustic model."
 msgstr "Katalog nie zawiera modelu akustycznego."
 
-#: src/pt-asr-assistant.c:299
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:301
 msgid "Please select …"
 msgstr "Proszę wybrać…"
 
-#: src/pt-asr-assistant.c:337
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:340
 msgid "Missing parameters"
 msgstr "Brak parametrów"
 
-#: src/pt-asr-assistant.c:380
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:384
 msgid "Timed out"
 msgstr "Przekroczono czas odpowiedzi"
 
-#: src/pt-asr-assistant.c:381
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:386
 msgid ""
 "Scanning the folder took too long. Please make sure to open a folder with "
 "model data only."
@@ -152,19 +157,23 @@ msgstr ""
 "Skanowanie katalogu trwało za długo. Proszę się upewnić, że otwierany jest "
 "katalog tylko z danymi modelu."
 
-#: src/pt-asr-assistant.c:384
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:390
 msgid "Scanning the folder failed"
 msgstr "Skanowanie katalogu się nie powiodło"
 
-#: src/pt-asr-assistant.c:399
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:406
 msgid "Nothing found"
 msgstr "Nic nie odnaleziono"
 
-#: src/pt-asr-assistant.c:400
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:408
 msgid "This folder doesn’t contain a suitable model."
 msgstr "Ten katalog nie zawiera odpowiedniego modelu."
 
-#: src/pt-asr-assistant.c:450
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:459
 msgid ""
 "The folder contains no language model. Please choose a language model from "
 "another folder."
@@ -172,22 +181,26 @@ msgstr ""
 "Katalog nie zawiera modelu języka. Proszę wybrać model języka z innego "
 "katalogu."
 
-#: src/pt-asr-assistant.c:458
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:468
 msgid "The folder contains several language models."
 msgstr "Katalog zawiera kilka modeli języków."
 
-#: src/pt-asr-assistant.c:468
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:479
 msgid ""
 "The folder contains no dictionary. Please choose a dictionary from another "
 "folder."
 msgstr ""
 "Katalog nie zawiera słownika. Proszę wybrać słownik z innego katalogu."
 
-#: src/pt-asr-assistant.c:476
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:488
 msgid "The folder contains several dictionaries."
 msgstr "Katalog zawiera kilka słowników."
 
-#: src/pt-asr-assistant.c:485
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:498
 msgid ""
 "The folder contains no acoustic model. Please choose an acoustic model from "
 "another folder."
@@ -195,23 +208,28 @@ msgstr ""
 "Katalog nie zawiera modelu akustycznego. Proszę wybrać model akustyczny "
 "z innego katalogu."
 
-#: src/pt-asr-assistant.c:493
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:507
 msgid "The folder contains several acoustic models."
 msgstr "Katalog zawiera kilka modeli akustycznych."
 
-#: src/pt-asr-assistant.c:610
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:625
 msgid "Download model"
 msgstr "Pobieranie modelu"
 
-#: src/pt-asr-assistant.c:617
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:633
 msgid "Finish configuration"
 msgstr "Kończenie konfiguracji"
 
-#: src/pt-asr-output.c:209
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-output.c:210
 msgid "Select output for automatic speech recognition"
 msgstr "Wybór wyjścia do automatycznego rozpoznawania mowy"
 
-#: src/pt-asr-output.c:210
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-output.c:212
 msgid "Please open and switch focus to a word processor."
 msgstr "Proszę otworzyć i aktywować procesor tekstu."
 
@@ -313,6 +331,7 @@ msgstr ""
 msgid "Fatal error"
 msgstr "Błąd krytyczny"
 
+#. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:15
 msgid ""
 "Before you can start, you have to download a so called acoustic and language "
@@ -321,6 +340,7 @@ msgstr ""
 "Przed rozpoczęciem należy pobrać tak zwany model akustyczny i model języka. "
 "Jest to zestaw plików dla konkretnego języka."
 
+#. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:30
 msgid ""
 "Parlatype uses CMU Sphinx as its speech recognition engine. You can download "
@@ -335,6 +355,7 @@ msgstr ""
 "uage%20Models/\">repozytorium SourceForge projektu CMU Sphinx</a>. Są w nim "
 "modele dla wielu najczęściej używanych języków."
 
+#. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:45
 msgid ""
 "If it’s compressed, uncompress the model. Save it to a folder where it can "
@@ -343,10 +364,12 @@ msgstr ""
 "Jeśli model jest skompresowany, to należy go zdekompresować do katalogu, "
 "w którym może zostać. Parlatype nie przechowuje wewnętrznej kopii modelu."
 
+#. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:59
 msgid "When you are finished, specify the folder with the model:"
 msgstr "Po ukończeniu należy podać katalog z modelem:"
 
+#. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:96
 msgid "Language model"
 msgstr "Model języka"
@@ -355,22 +378,27 @@ msgstr "Model języka"
 msgid "Select language model"
 msgstr "Wybierz model języka"
 
+#. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:157
 msgid "Dictionary"
 msgstr "Słownik"
 
+#. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:186
 msgid "Select dictionary"
 msgstr "Wybierz słownik"
 
+#. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:218
 msgid "Acoustic model"
 msgstr "Model akustyczny"
 
+#. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:248
 msgid "Select acoustic model folder"
 msgstr "Wybierz katalog z modelem akustycznym"
 
+#. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:285
 msgid "Setup is completed. Please give this configuration a name:"
 msgstr "Ukończono konfigurację. Proszę nadać jej nazwę:"
@@ -403,7 +431,7 @@ msgstr "Wyświetl/ukryj menu działań"
 msgid "Quit"
 msgstr "Zakończ"
 
-#: src/resources/help-overlay.ui:42 src/resources/preferences.ui:274
+#: src/resources/help-overlay.ui:42 src/resources/preferences.ui:270
 msgid "Waveform"
 msgstr "Przebieg fali"
 
@@ -520,137 +548,143 @@ msgstr "Setna sekundy"
 msgid "Parlatype Preferences"
 msgstr "Preferencje programu Parlatype"
 
-#: src/resources/preferences.ui:144
+#: src/resources/preferences.ui:140
 msgid "_Pixels per second:"
 msgstr "_Piksele na sekundę:"
 
-#: src/resources/preferences.ui:174
+#: src/resources/preferences.ui:170
 msgid "Show _time scale"
 msgstr "Podziałka _czasu"
 
 #. Resolution of the waveform image
-#: src/resources/preferences.ui:192
+#: src/resources/preferences.ui:188
 msgid "Resolution"
 msgstr "Rozdzielczość"
 
 #. A section in preferences, how to display the waveform.
-#: src/resources/preferences.ui:207
+#: src/resources/preferences.ui:203
 msgid "Display"
 msgstr "Wyświetlanie"
 
-#: src/resources/preferences.ui:220
+#: src/resources/preferences.ui:216
 msgid "_Moving cursor"
 msgstr "_Kursor się porusza"
 
-#: src/resources/preferences.ui:237
+#: src/resources/preferences.ui:233
 msgid "_Fixed cursor"
 msgstr "_Stały kursor"
 
-#: src/resources/preferences.ui:291
+#: src/resources/preferences.ui:287
 msgid "Jumps"
 msgstr "Przejścia"
 
-#: src/resources/preferences.ui:393
+#: src/resources/preferences.ui:389
 msgid "Jump _forward:"
 msgstr "Przejście _naprzód:"
 
-#: src/resources/preferences.ui:407
+#: src/resources/preferences.ui:403
 msgid "Jump _back:"
 msgstr "Prz_ejście wstecz:"
 
-#: src/resources/preferences.ui:421
+#: src/resources/preferences.ui:417
 msgid "Jump back on _pause:"
 msgstr "Przejście _wstecz przy wstrzymaniu:"
 
-#: src/resources/preferences.ui:444
+#: src/resources/preferences.ui:440
 msgid "Pressing “Play” at the end of file"
 msgstr "Kliknięcie „Odtwórz” na końcu pliku"
 
-#: src/resources/preferences.ui:458
+#: src/resources/preferences.ui:454
 msgid "Replay file"
 msgstr "Powtórzenie pliku"
 
-#: src/resources/preferences.ui:477
+#: src/resources/preferences.ui:473
 msgid "Pressing “Play” at the end of selection"
 msgstr "Kliknięcie „Odtwórz” na końcu zaznaczenia"
 
-#: src/resources/preferences.ui:491
+#: src/resources/preferences.ui:487
 msgid "Replay selection"
 msgstr "Powtórzenie zaznaczenia"
 
-#: src/resources/preferences.ui:513
+#: src/resources/preferences.ui:509
 msgid "Controls"
 msgstr "Sterowanie"
 
-#: src/resources/preferences.ui:556
+#: src/resources/preferences.ui:552
 msgid "Hours and zeroes"
 msgstr "Godziny i zera"
 
-#: src/resources/preferences.ui:569
+#: src/resources/preferences.ui:565
 msgid "Always show hours and leading zeroes"
 msgstr "Wyświetlanie godzin i początkowych zer"
 
-#: src/resources/preferences.ui:587
+#: src/resources/preferences.ui:583
 msgid "Precision"
 msgstr "Dokładność"
 
-#: src/resources/preferences.ui:603
+#: src/resources/preferences.ui:599
 msgid "Characters around timestamps"
 msgstr "Znaki wokół czasów"
 
-#: src/resources/preferences.ui:619
+#: src/resources/preferences.ui:615
 msgid "Examples"
 msgstr "Przykłady"
 
-#: src/resources/preferences.ui:661
+#: src/resources/preferences.ui:657
 msgid "Precision:"
 msgstr "Dokładność:"
 
-#: src/resources/preferences.ui:693
+#: src/resources/preferences.ui:689
 msgid "Fraction separator:"
 msgstr "Separator dziesiętny:"
 
-#: src/resources/preferences.ui:736
+#: src/resources/preferences.ui:732
 msgid "Timestamps"
 msgstr "Czasy"
 
-#: src/resources/preferences.ui:867
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/resources/preferences.ui:863
 msgid "Language model:"
 msgstr "Model języka:"
 
-#: src/resources/preferences.ui:894
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/resources/preferences.ui:890
 msgid "Dictionary:"
 msgstr "Słownik:"
 
-#: src/resources/preferences.ui:921
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/resources/preferences.ui:917
 msgid "Acoustic model folder:"
 msgstr "Katalog z modelem akustycznym:"
 
-#: src/resources/preferences.ui:969
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/resources/preferences.ui:965
 msgid "There is no configuration"
 msgstr "Nie ma konfiguracji"
 
-#: src/resources/preferences.ui:979
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/resources/preferences.ui:975
 msgid "Add a configuration"
 msgstr "Dodaj konfigurację"
 
-#: src/resources/preferences.ui:1008
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/resources/preferences.ui:1004
 msgid "Speech recognition"
 msgstr "Rozpoznawanie mowy"
 
-#: src/resources/preferences.ui:1026
+#: src/resources/preferences.ui:1022
 msgid "Remember _size"
 msgstr "Pamiętanie _rozmiaru"
 
-#: src/resources/preferences.ui:1041
+#: src/resources/preferences.ui:1037
 msgid "Remember _position"
 msgstr "Pamiętanie p_ozycji"
 
-#: src/resources/preferences.ui:1056
+#: src/resources/preferences.ui:1052
 msgid "Start on _top"
 msgstr "_Uruchamianie zawsze na wierzchu"
 
-#: src/resources/preferences.ui:1078
+#: src/resources/preferences.ui:1074
 msgid "Window"
 msgstr "Okno"
 
@@ -665,6 +699,3 @@ msgstr "Prędkość:"
 #: src/resources/window-headerbar.ui:17
 msgid "Open a file"
 msgstr "Otwiera plik"
-
-#~ msgid "Media player for manual speech transcription"
-#~ msgstr "Odtwarzacz multimedialny do ręcznej transkrypcji mowy"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
-"POT-Creation-Date: 2019-05-27 19:03+0200\n"
+"POT-Creation-Date: 2019-05-27 21:09+0200\n"
 "PO-Revision-Date: 2018-06-04 12:45+0000\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gmx.at>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2019-05-27 17:32+0000\n"
-"X-Generator: Launchpad (build 18968)\n"
+"X-Launchpad-Export-Date: 2019-06-22 10:40+0000\n"
+"X-Generator: Launchpad (build 18989)\n"
 "Language: fi\n"
 
 #: data/com.github.gkarsay.parlatype.appdata.xml.in:7
@@ -126,83 +126,101 @@ msgstr ""
 "Varoitus: Parlatype käsittelee vain yhden tiedoston kerrallaan. Muut "
 "tiedostot ohitetaan.\n"
 
-#: src/pt-asr-assistant.c:193
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:194
 msgid "The folder contains no acoustic model."
 msgstr ""
 
-#: src/pt-asr-assistant.c:299
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:301
 msgid "Please select …"
 msgstr ""
 
-#: src/pt-asr-assistant.c:337
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:340
 msgid "Missing parameters"
 msgstr ""
 
-#: src/pt-asr-assistant.c:380
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:384
 msgid "Timed out"
 msgstr ""
 
-#: src/pt-asr-assistant.c:381
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:386
 msgid ""
 "Scanning the folder took too long. Please make sure to open a folder with "
 "model data only."
 msgstr ""
 
-#: src/pt-asr-assistant.c:384
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:390
 msgid "Scanning the folder failed"
 msgstr ""
 
-#: src/pt-asr-assistant.c:399
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:406
 msgid "Nothing found"
 msgstr ""
 
-#: src/pt-asr-assistant.c:400
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:408
 msgid "This folder doesn’t contain a suitable model."
 msgstr ""
 
-#: src/pt-asr-assistant.c:450
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:459
 msgid ""
 "The folder contains no language model. Please choose a language model from "
 "another folder."
 msgstr ""
 
-#: src/pt-asr-assistant.c:458
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:468
 msgid "The folder contains several language models."
 msgstr ""
 
-#: src/pt-asr-assistant.c:468
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:479
 msgid ""
 "The folder contains no dictionary. Please choose a dictionary from another "
 "folder."
 msgstr ""
 
-#: src/pt-asr-assistant.c:476
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:488
 msgid "The folder contains several dictionaries."
 msgstr ""
 
-#: src/pt-asr-assistant.c:485
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:498
 msgid ""
 "The folder contains no acoustic model. Please choose an acoustic model from "
 "another folder."
 msgstr ""
 
-#: src/pt-asr-assistant.c:493
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:507
 msgid "The folder contains several acoustic models."
 msgstr ""
 
-#: src/pt-asr-assistant.c:610
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:625
 msgid "Download model"
 msgstr ""
 
-#: src/pt-asr-assistant.c:617
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-assistant.c:633
 msgid "Finish configuration"
 msgstr ""
 
-#: src/pt-asr-output.c:209
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-output.c:210
 msgid "Select output for automatic speech recognition"
 msgstr ""
 
-#: src/pt-asr-output.c:210
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/pt-asr-output.c:212
 msgid "Please open and switch focus to a word processor."
 msgstr ""
 
@@ -295,12 +313,14 @@ msgstr ""
 msgid "Fatal error"
 msgstr "Vakava virhe"
 
+#. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:15
 msgid ""
 "Before you can start, you have to download a so called acoustic and language "
 "model. This is a set of files made for a specific language."
 msgstr ""
 
+#. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:30
 msgid ""
 "Parlatype uses CMU Sphinx as its speech recognition engine. You can download "
@@ -310,16 +330,19 @@ msgid ""
 "some of the most widespread languages."
 msgstr ""
 
+#. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:45
 msgid ""
 "If it’s compressed, uncompress the model. Save it to a folder where it can "
 "stay. Parlatype doesn’t copy the model internally."
 msgstr ""
 
+#. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:59
 msgid "When you are finished, specify the folder with the model:"
 msgstr ""
 
+#. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:96
 msgid "Language model"
 msgstr ""
@@ -328,22 +351,27 @@ msgstr ""
 msgid "Select language model"
 msgstr ""
 
+#. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:157
 msgid "Dictionary"
 msgstr ""
 
+#. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:186
 msgid "Select dictionary"
 msgstr ""
 
+#. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:218
 msgid "Acoustic model"
 msgstr ""
 
+#. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:248
 msgid "Select acoustic model folder"
 msgstr ""
 
+#. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:285
 msgid "Setup is completed. Please give this configuration a name:"
 msgstr ""
@@ -376,7 +404,7 @@ msgstr "Näytä/piilota toimintovalikko"
 msgid "Quit"
 msgstr "Lopeta"
 
-#: src/resources/help-overlay.ui:42 src/resources/preferences.ui:274
+#: src/resources/help-overlay.ui:42 src/resources/preferences.ui:270
 msgid "Waveform"
 msgstr "Aaltomuoto"
 
@@ -493,137 +521,143 @@ msgstr ""
 msgid "Parlatype Preferences"
 msgstr "Parlatypen asetukset"
 
-#: src/resources/preferences.ui:144
+#: src/resources/preferences.ui:140
 msgid "_Pixels per second:"
 msgstr "_Pikseliä sekunnissa:"
 
-#: src/resources/preferences.ui:174
+#: src/resources/preferences.ui:170
 msgid "Show _time scale"
 msgstr "Näytä a_ika-asteikko"
 
 #. Resolution of the waveform image
-#: src/resources/preferences.ui:192
+#: src/resources/preferences.ui:188
 msgid "Resolution"
 msgstr "Tarkkuus"
 
 #. A section in preferences, how to display the waveform.
-#: src/resources/preferences.ui:207
+#: src/resources/preferences.ui:203
 msgid "Display"
 msgstr "Esitystapa"
 
-#: src/resources/preferences.ui:220
+#: src/resources/preferences.ui:216
 msgid "_Moving cursor"
 msgstr "_Liikkuva kursori"
 
-#: src/resources/preferences.ui:237
+#: src/resources/preferences.ui:233
 msgid "_Fixed cursor"
 msgstr "_Kiinteä kursori"
 
-#: src/resources/preferences.ui:291
+#: src/resources/preferences.ui:287
 msgid "Jumps"
 msgstr ""
 
-#: src/resources/preferences.ui:393
+#: src/resources/preferences.ui:389
 msgid "Jump _forward:"
 msgstr "Siirry _eteenpäin:"
 
-#: src/resources/preferences.ui:407
+#: src/resources/preferences.ui:403
 msgid "Jump _back:"
 msgstr "Siirry t_aaksepäin:"
 
-#: src/resources/preferences.ui:421
+#: src/resources/preferences.ui:417
 msgid "Jump back on _pause:"
 msgstr ""
 
-#: src/resources/preferences.ui:444
+#: src/resources/preferences.ui:440
 msgid "Pressing “Play” at the end of file"
 msgstr ""
 
-#: src/resources/preferences.ui:458
+#: src/resources/preferences.ui:454
 msgid "Replay file"
 msgstr ""
 
-#: src/resources/preferences.ui:477
+#: src/resources/preferences.ui:473
 msgid "Pressing “Play” at the end of selection"
 msgstr ""
 
-#: src/resources/preferences.ui:491
+#: src/resources/preferences.ui:487
 msgid "Replay selection"
 msgstr ""
 
-#: src/resources/preferences.ui:513
+#: src/resources/preferences.ui:509
 msgid "Controls"
 msgstr "Säätimet"
 
-#: src/resources/preferences.ui:556
+#: src/resources/preferences.ui:552
 msgid "Hours and zeroes"
 msgstr ""
 
-#: src/resources/preferences.ui:569
+#: src/resources/preferences.ui:565
 msgid "Always show hours and leading zeroes"
 msgstr ""
 
-#: src/resources/preferences.ui:587
+#: src/resources/preferences.ui:583
 msgid "Precision"
 msgstr ""
 
-#: src/resources/preferences.ui:603
+#: src/resources/preferences.ui:599
 msgid "Characters around timestamps"
 msgstr ""
 
-#: src/resources/preferences.ui:619
+#: src/resources/preferences.ui:615
 msgid "Examples"
 msgstr ""
 
-#: src/resources/preferences.ui:661
+#: src/resources/preferences.ui:657
 msgid "Precision:"
 msgstr ""
 
-#: src/resources/preferences.ui:693
+#: src/resources/preferences.ui:689
 msgid "Fraction separator:"
 msgstr ""
 
-#: src/resources/preferences.ui:736
+#: src/resources/preferences.ui:732
 msgid "Timestamps"
 msgstr ""
 
-#: src/resources/preferences.ui:867
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/resources/preferences.ui:863
 msgid "Language model:"
 msgstr ""
 
-#: src/resources/preferences.ui:894
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/resources/preferences.ui:890
 msgid "Dictionary:"
 msgstr ""
 
-#: src/resources/preferences.ui:921
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/resources/preferences.ui:917
 msgid "Acoustic model folder:"
 msgstr ""
 
-#: src/resources/preferences.ui:969
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/resources/preferences.ui:965
 msgid "There is no configuration"
 msgstr ""
 
-#: src/resources/preferences.ui:979
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/resources/preferences.ui:975
 msgid "Add a configuration"
 msgstr ""
 
-#: src/resources/preferences.ui:1008
+#. Translators: This feature is disabled by default, its translation has low priority.
+#: src/resources/preferences.ui:1004
 msgid "Speech recognition"
 msgstr ""
 
-#: src/resources/preferences.ui:1026
+#: src/resources/preferences.ui:1022
 msgid "Remember _size"
 msgstr "Muista _koko"
 
-#: src/resources/preferences.ui:1041
+#: src/resources/preferences.ui:1037
 msgid "Remember _position"
 msgstr "Muista _sijainti"
 
-#: src/resources/preferences.ui:1056
+#: src/resources/preferences.ui:1052
 msgid "Start on _top"
 msgstr "K_äynnistä päällimmäisenä"
 
-#: src/resources/preferences.ui:1078
+#: src/resources/preferences.ui:1074
 msgid "Window"
 msgstr "Ikkuna"
 
@@ -638,6 +672,3 @@ msgstr "Nopeus:"
 #: src/resources/window-headerbar.ui:17
 msgid "Open a file"
 msgstr "Avaa tiedosto"
-
-#~ msgid "Media player for manual speech transcription"
-#~ msgstr "Mediasoitin manuaaliseen puheen transkriptioon"
