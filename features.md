@@ -18,6 +18,15 @@ Parlatype produces timestamps which you can insert in your transcription. Parlat
 ## LibreOffice Helpers
 Parlatype recommends to use LibreOffice. A set of helpers (macros) can be assigned to key bindings. E.g. insert timestamps or jump to timestamps.
 
+## Automatic speech recognition
+This is a working feature (since version 1.6), however, it’s hidden by default (since version 1.6.1).
+
+You have to find and download speech model data for your language. This step is described in the help pages but I can’t give any support beyond that.
+
+The results for general speech recognition are not overwhelming with the current ASR engine and given the fact that many languages are missing speech model data, this feature is only shown, if Parlatype is run using the option `--with-asr`.
+
+Distributions may decide to compile Parlatype without this feature.
+
 ## Plays almost every audio file
 Parlatype is using the GStreamer framework which supports – with plugins – almost any audio file on your disk. Streaming media is not supported, you have to download it first.
 
