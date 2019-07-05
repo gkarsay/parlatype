@@ -14,6 +14,13 @@ ninja parlatype-update-po
 ninja help-com.github.gkarsay.parlatype-pot
 ninja help-com.github.gkarsay.parlatype-update-po
 
+Workflow for translations:
+1) Update pot files locally
+2) Upload changed pot files to launchpad
+3) Use launchpad-import script
+4) Who worked on translations? Sort in launchpad by “Last changed”, click
+   on Language and note “Last edited by”. Other translators than the last one?!
+
 
 Typography
 ==========
@@ -24,10 +31,40 @@ Apostrophe = Right single quotation mark: U+2019
 Horizontal ellipsis: U+2026 (Alt Gr + .)
 
 
+Help
+====
+
+Mallard cheat seat:
+https://blogs.gnome.org/shaunm/files/2012/01/mallardcheatsheet.png
+
+
+Testing
+=======
+
+- Run test suite:
+  ninja test
+- Build with Clang:
+  CC=clang meson build-clang
+  cd build-clang
+  ninja
+- Static Clang analyzer:
+  ninja scan-build
+  or: SCANBUILD=<your exe> ninja scan-build (for Debian unstable: scan-build-7)
+- Coverage report:
+  meson <other flags> -Db_coverage=true
+  ninja; ninja test; ninja coverage-html
+- Valgrind:
+  meson test --wrap='valgrind --tool=memcheck --leak-check=full --leak-resolution=high --num-callers=20 --suppressions=../libparlatype/tests/glib.supp --suppressions=../libparlatype/tests/gst.supp' --timeout-multiplier=10 player
+
+
 Release
 =======
 
 Import translations from Launchpad
+
+Update data/screenshot.png, if necessary,
+  width >= 620px, 16:9 ratio if possible
+  see https://www.freedesktop.org/software/appstream/docs/chap-Quickstart.html
 
 Update copyright year in about box in src/pt-app.c
 
@@ -60,9 +97,10 @@ Create release page on GitHub:
 
 GitHub Issues:
 - Closed issues: Replace "Fix committed" labels with "Fix released"
+- Close release milestone
 
 Homepage:
-- Publish release notes in News
+- Publish release notes in News, can be more verbose
 - Update reference
 - Update help:
   yelp-build html -o help-online/ help/C/
