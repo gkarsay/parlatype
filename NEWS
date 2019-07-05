@@ -1,3 +1,24 @@
+Overview of Changes in Parlatype 1.6.1 – 2019-07-05
+===================================================
+
+* New: Automatic speech recognition (ASR) is now disabled by default and it’s
+       only shown, if parlatype is launched with the new parameter --with-asr
+* New: Parlatype can be built without ASR (build option asr=false)
+* New: libreoffice helpers’ AppStream ID renamed (hyphen instead of underscore)
+* Fix: Initialize i18n for library, fixes not shown translations in Flatpak
+       or non-standard prefixes
+* Fix: All memory leaks discovered with Valgrind in test suite
+* Fix: All issues discovered with Clang Static Analyzer
+* New or updated languages:
+  - ar:    Ibrahim Saed
+  - cs:    fri
+  - de:    Gabor Karsay
+  - en_GB: Stephan Woidowski
+  - es:    Adolfo Jayme
+  - nl:    Heimen Stoffels
+  - pl:    Piotr Drąg
+
+
 Overview of Changes in Parlatype 1.6 – 2019-04-24
 =================================================
 

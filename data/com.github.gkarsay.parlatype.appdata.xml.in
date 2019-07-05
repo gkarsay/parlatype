@@ -39,6 +39,16 @@
 	</kudos>
 
 	<releases>
+		<release version="1.6.1" date="2019-07-05">
+			<description>
+			<p>This is a minor release with some changes.</p>
+			<ul>
+			<li>Automatic speech recognition (ASR) is now disabled by default and it’s only shown, if parlatype is launched with the new parameter --with-asr</li>
+			<li>Fix internationalization: Some translations were not shown</li>
+			<li>Translation updates for Arabic, British English, Czech, Dutch, German, Polish and Spanish</li>
+			</ul>
+			</description>
+		</release>
 		<release version="1.6" date="2019-04-24">
 			<description>
 			<p>This is a major release with some new features.</p>
