@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Setup automatic speech recognition</title>
+<link rel="stylesheet" type="text/css" href="C.css">
+<script type="text/javascript" src="jquery.js"></script><script type="text/javascript" src="jquery.syntax.js"></script><script type="text/javascript" src="yelp.js"></script>
+</head>
+<body><div class="page" role="main">
+<div class="header"><div class="trails" role="navigation"><div class="trail">
+<a class="trail" href="index.html" title="Parlatype">Parlatype</a> › <a class="trail" href="index.html#topics" title="Help topics">Help topics</a> » </div></div></div>
+<div class="body">
+<div class="hgroup"><h1 class="title"><span class="title">Setup automatic speech recognition</span></h1></div>
+<div class="region">
+<div class="contents">
+<p class="p"><span class="app">Parlatype</span> doesn’t ship the language model needed for speech recognition. You will have to download it. There is an assistant that guides you through that process.</p>
+<p class="p">The assistant can be started either from the Preferences dialog, tab <span class="gui">Speech recognition</span> or – if you have no setup yet – from the primary menu, <span class="gui">Automatic transcription</span>.</p>
+<p class="p">It asks you to download a speech model. The speech recognition engine used is CMU Sphinx. You can download models suitable for CMU Sphinx for example from <span class="link"><a href="https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Language%20Models/" title="https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Language%20Models/">CMU Sphinx’ sourceforge repository</a></span>. It has models for some of the most widespread languages.</p>
+<p class="p">If it’s compressed, uncompress the model. Save it to a folder where it can stay. Parlatype doesn’t copy the model internally.</p>
+<p class="p">Usually the assistant will find all the files needed and you just have to give this configuration a name for your own reference. You can have several configurations, e.g. for different languages.</p>
+<p class="p">If the assistant doesn’t find all the components or finds more than expected, it will ask you to specify their location or to choose between them. The next sections explains those components.</p>
+</div>
+<div id="" class="sect"><div class="inner">
+<div class="hgroup"><h2 class="title"><span class="title">Models</span></h2></div>
+<div class="region"><div class="contents">
+<p class="p">A model consists of a so called acoustic and language model and a dictionary:</p>
+<div class="terms"><div class="inner"><div class="region"><dl class="terms">
+<dt class="terms">Acoustic model</dt>
+<dd class="terms"><p class="p">It consists of several files usually in their own folder: <span class="file">feat.params</span>, <span class="file">mdef</span>, <span class="file">means</span> and some others.</p></dd>
+<dt class="terms">Language model</dt>
+<dd class="terms"><p class="p"><span class="app">Parlatype</span> needs a binary language model. That’s a single file with the extension <span class="file">.lm.bin</span>. Models can have several language models. They have often one for high quality and one for low quality recordings. Typical low quality recordings are from telephones with a sample rate of 8000 Hz. Those language models have often <span class="file">phone</span>, <span class="file">8k</span> or similar as part of their file name.</p></dd>
+<dt class="terms">Dictionary</dt>
+<dd class="terms"><p class="p">Dictionaries have the extension <span class="file">.dict</span> or <span class="file">.dic</span>.</p></dd>
+</dl></div></div></div>
+<p class="p">All those elements should be somewhere in the folder selected. It doesn’t matter whether there are subfolders or how they are named.</p>
+</div></div>
+</div></div>
+<div class="sect sect-links" role="navigation">
+<div class="hgroup"></div>
+<div class="contents"><div class="links guidelinks"><div class="inner">
+<div class="title"><h2><span class="title">More Information</span></h2></div>
+<div class="region"><ul><li class="links "><a href="index.html#topics" title="Help topics">Help topics</a></li></ul></div>
+</div></div></div>
+</div>
+</div>
+<div class="clear"></div>
+</div>
+<div class="footer"><div class="sect about ui-expander" role="contentinfo">
+<div class="yelp-data yelp-data-ui-expander" data-yelp-expanded="false"></div>
+<div class="inner">
+<div class="hgroup"><h2><span class="title">About</span></h2></div>
+<div class="region"><div class="contents">
+<div class="aboutblurb authors">
+<div class="title"><span class="title">Written By</span></div>
+<ul class="credits"><li>Gabor Karsay</li></ul>
+</div>
+<div class="aboutblurb license">
+<div class="title"><span class="title">Creative Commons</span></div>
+<div class="contents"><p class="p">This work is licensed under a
+  <span class="link"><a href="http://creativecommons.org/licenses/by-sa/4.0/" title="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons
+  Attribution-ShareAlike 4.0 International</a></span> license.</p></div>
+</div>
+</div></div>
+</div>
+</div></div>
+</div></body>
+</html>
