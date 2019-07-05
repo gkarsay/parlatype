@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
 "POT-Creation-Date: 2019-05-27 18:59+0200\n"
-"PO-Revision-Date: 2017-08-11 09:39+0000\n"
+"PO-Revision-Date: 2019-07-03 19:40+0000\n"
 "Last-Translator: Adolfo Jayme <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2019-06-22 10:41+0000\n"
-"X-Generator: Launchpad (build 18989)\n"
+"X-Launchpad-Export-Date: 2019-07-05 10:56+0000\n"
+"X-Generator: Launchpad (build 19007)\n"
 "Language: es\n"
 
 #. Translators: %s is a detailed error message.
@@ -126,25 +126,25 @@ msgstr "%d:%02d,%02d"
 #: libparlatype/src/pt-player.c:1903
 #, c-format
 msgid "Failed to load plugin “%s”."
-msgstr ""
+msgstr "No se pudo cargar el complemento «%s»."
 
 #: libparlatype/src/pt-progress-dialog.c:102
 #, c-format
 msgid "Time remaining: 1 second"
 msgid_plural "Time remaining: %d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Tiempo restante: 1 segundo"
+msgstr[1] "Tiempo restante: %d segundos"
 
 #. Translators: this is a time with minutes
 #. and seconds, e.g. Time remaining: 3:20
 #: libparlatype/src/pt-progress-dialog.c:113
 #, c-format
 msgid "Time remaining: %d:%02d"
-msgstr ""
+msgstr "Tiempo restante: %d∶%02d"
 
 #: libparlatype/src/pt-progress-dialog.c:242
 msgid "Loading file…"
-msgstr ""
+msgstr "Cargando el archivo…"
 
 #: libparlatype/src/pt-waveloader.c:343
 msgid "Failed to open temporary file."
@@ -164,7 +164,7 @@ msgstr "Seguir cursor"
 
 #: libparlatype/src/pt-waveviewer.c:1332
 msgid "Scroll automatically to the cursor’s position"
-msgstr ""
+msgstr "Desplazarse automáticamente a la posición del cursor"
 
 #: libparlatype/src/pt-waveviewer.c:1348
 msgid "Fixed cursor"
