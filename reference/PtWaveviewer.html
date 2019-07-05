@@ -163,6 +163,11 @@ mentioned in the release notes for the affected release.
 </tr>
 <tr>
 <td class="signal_type"><span class="returnvalue">void</span></td>
+<td class="signal_name"><a class="link" href="PtWaveviewer.html#PtWaveviewer-follow-cursor-changed" title="The “follow-cursor-changed” signal">follow-cursor-changed</a></td>
+<td class="signal_flags"><a href="../gobject/gobject-Signals.html#G-SIGNAL-RUN-FIRST:CAPS">Run First</a></td>
+</tr>
+<tr>
+<td class="signal_type"><span class="returnvalue">void</span></td>
 <td class="signal_name"><a class="link" href="PtWaveviewer.html#PtWaveviewer-play-toggled" title="The “play-toggled” signal">play-toggled</a></td>
 <td class="signal_flags"><a href="../gobject/gobject-Signals.html#G-SIGNAL-RUN-FIRST:CAPS">Run First</a></td>
 </tr>
@@ -264,7 +269,7 @@ widget is drawn.</p>
 <tr>
 <td class="parameter_name"><p>data</p></td>
 <td class="parameter_description"><p> a <a class="link" href="PtWavedata.html" title="PtWavedata"><span class="type">PtWavedata</span></a>. </p></td>
-<td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="NULL may be passed as the value in, out, in-out; or as a return value."><span class="acronym">nullable</span></acronym>]</span></td>
 </tr>
 </tbody>
 </table></div>
@@ -351,7 +356,7 @@ waveform is scrolling. If FALSE the cursor is moving.</p>
 <a name="PtWaveviewer--follow-cursor"></a><h3>The <code class="literal">“follow-cursor”</code> property</h3>
 <pre class="programlisting">  “follow-cursor”            <a href="../glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a></pre>
 <p>If the widget follows the cursor, it scrolls automatically to the
-cursor's position. Note that the widget will change this property to
+cursor’s position. Note that the widget will change this property to
 FALSE if the user scrolls the widget manually.</p>
 <p>Flags: Read / Write / Construct</p>
 <p>Default value: TRUE</p>
@@ -377,7 +382,7 @@ FALSE if the user scrolls the widget manually.</p>
 <div class="refsect2">
 <a name="PtWaveviewer--selection-end"></a><h3>The <code class="literal">“selection-end”</code> property</h3>
 <pre class="programlisting">  “selection-end”            <a href="../glib/glib-Basic-Types.html#gint64"><span class="type">gint64</span></a></pre>
-<p>End time of selection in milliseconds. If it's equal to the start
+<p>End time of selection in milliseconds. If it’s equal to the start
 time, there is no selection. See also <a class="link" href="PtWaveviewer.html#PtWaveviewer--has-selection" title="The “has-selection” property"><span class="type">“has-selection”</span></a>.</p>
 <p>Flags: Read</p>
 <p>Allowed values: &gt;= 0</p>
@@ -387,7 +392,7 @@ time, there is no selection. See also <a class="link" href="PtWaveviewer.html#Pt
 <div class="refsect2">
 <a name="PtWaveviewer--selection-start"></a><h3>The <code class="literal">“selection-start”</code> property</h3>
 <pre class="programlisting">  “selection-start”          <a href="../glib/glib-Basic-Types.html#gint64"><span class="type">gint64</span></a></pre>
-<p>Start time of selection in milliseconds. If it's equal to the end
+<p>Start time of selection in milliseconds. If it’s equal to the end
 time, there is no selection. See also <a class="link" href="PtWaveviewer.html#PtWaveviewer--has-selection" title="The “has-selection” property"><span class="type">“has-selection”</span></a>.</p>
 <p>Flags: Read</p>
 <p>Allowed values: &gt;= 0</p>
@@ -422,7 +427,7 @@ version 1.6 and integrated into <a class="link" href="PtWaveviewer.html#pt-wavev
 user_function (<a class="link" href="PtWaveviewer.html" title="PtWaveviewer"><span class="type">PtWaveviewer</span></a> *viewer,
                <a href="../glib/glib-Basic-Types.html#gint64"><span class="type">gint64</span></a>        position,
                <a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>      user_data)</pre>
-<p>Signals that the cursor's position was changed by the user.</p>
+<p>Signals that the cursor’s position was changed by the user.</p>
 <div class="refsect3">
 <a name="PtWaveviewer-cursor-changed.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
@@ -440,6 +445,43 @@ user_function (<a class="link" href="PtWaveviewer.html" title="PtWaveviewer"><sp
 <tr>
 <td class="parameter_name"><p>position</p></td>
 <td class="parameter_description"><p>the new position in stream in milliseconds</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>user_data</p></td>
+<td class="parameter_description"><p>user data set when the signal handler was connected.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p>Flags: <a href="../gobject/gobject-Signals.html#G-SIGNAL-RUN-FIRST:CAPS">Run First</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PtWaveviewer-follow-cursor-changed"></a><h3>The <code class="literal">“follow-cursor-changed”</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+user_function (<a class="link" href="PtWaveviewer.html" title="PtWaveviewer"><span class="type">PtWaveviewer</span></a> *viewer,
+               <a href="../glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>      follow,
+               <a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>      user_data)</pre>
+<p>Signals that the <a class="link" href="PtWaveviewer.html#PtWaveviewer--follow-cursor" title="The “follow-cursor” property"><span class="type">“follow-cursor”</span></a> property has changed.</p>
+<div class="refsect3">
+<a name="PtWaveviewer-follow-cursor-changed.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>viewer</p></td>
+<td class="parameter_description"><p>the waveviewer emitting the signal</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>follow</p></td>
+<td class="parameter_description"><p>the new value</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>

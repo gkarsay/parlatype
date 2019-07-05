@@ -110,7 +110,7 @@ mentioned in the release notes for the affected release.
 </div>
 <div class="refsect1">
 <a name="PtWavedata.description"></a><h2>Description</h2>
-<p>Contains all information needed to show a wave form. It's produced by
+<p>Contains all information needed to show a wave form. It’s produced by
 <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> or <a class="link" href="PtWaveloader.html" title="PtWaveloader"><span class="type">PtWaveloader</span></a>. Pass it to <a class="link" href="PtWaveviewer.html" title="PtWaveviewer"><span class="type">PtWaveviewer</span></a> to visualize the wave.
 <a class="link" href="PtWaveviewer.html" title="PtWaveviewer"><span class="type">PtWaveviewer</span></a> copies the data, you can free it immediately with <a class="link" href="PtWavedata.html#pt-wavedata-free" title="pt_wavedata_free ()"><code class="function">pt_wavedata_free()</code></a>.</p>
 <p>There is no need to access the struct members.</p>
@@ -184,7 +184,7 @@ pt_wavedata_new (<em class="parameter"><code><a href="../glib/glib-Basic-Types.h
 <div class="refsect3">
 <a name="pt-wavedata-new.returns"></a><h4>Returns</h4>
 <p> new data, free after use with <a class="link" href="PtWavedata.html#pt-wavedata-free" title="pt_wavedata_free ()"><code class="function">pt_wavedata_free()</code></a>. </p>
-<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>][<acronym title="NULL may be passed as the value in, out, in-out; or as a return value."><span class="acronym">nullable</span></acronym>]</span></p>
 </div>
 </div>
 <hr>
@@ -212,7 +212,8 @@ pt_wavedata_copy (<em class="parameter"><code><a class="link" href="PtWavedata.h
 </div>
 <div class="refsect3">
 <a name="pt-wavedata-copy.returns"></a><h4>Returns</h4>
-<p> a new <a class="link" href="PtWavedata.html" title="PtWavedata"><span class="type">PtWavedata</span></a>, free after use with <a class="link" href="PtWavedata.html#pt-wavedata-free" title="pt_wavedata_free ()"><code class="function">pt_wavedata_free()</code></a></p>
+<p> a new <a class="link" href="PtWavedata.html" title="PtWavedata"><span class="type">PtWavedata</span></a>, free after use with <a class="link" href="PtWavedata.html#pt-wavedata-free" title="pt_wavedata_free ()"><code class="function">pt_wavedata_free()</code></a>. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>][<acronym title="NULL may be passed as the value in, out, in-out; or as a return value."><span class="acronym">nullable</span></acronym>]</span></p>
 </div>
 </div>
 <hr>
@@ -220,7 +221,7 @@ pt_wavedata_copy (<em class="parameter"><code><a class="link" href="PtWavedata.h
 <a name="pt-wavedata-free"></a><h3>pt_wavedata_free ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
 pt_wavedata_free (<em class="parameter"><code><a class="link" href="PtWavedata.html" title="PtWavedata"><span class="type">PtWavedata</span></a> *data</code></em>);</pre>
-<p>Free's <em class="parameter"><code>data</code></em>
+<p>Frees <em class="parameter"><code>data</code></em>
 .</p>
 <p><span class="annotation">[<acronym title="Exposed in C code, not necessarily available in other languages."><span class="acronym">skip</span></acronym>]</span></p>
 <div class="refsect3">
@@ -251,8 +252,8 @@ pt_wavedata_free (<em class="parameter"><code><a class="link" href="PtWavedata.h
 	guint   px_per_sec;
 };
 </pre>
-<p>Contains all information about the wave. Usually you don't have to access
-the struct's members.</p>
+<p>Contains all information about the wave. Usually you don’t have to access
+the struct’s members.</p>
 <div class="refsect3">
 <a name="PtWavedata.members"></a><h4>Members</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
@@ -278,7 +279,7 @@ point in time, but a min and a max value in a certain amount of time, e.g.
 </tr>
 <tr>
 <td class="struct_member_name"><p><a href="../glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a> <em class="structfield"><code><a name="PtWavedata-struct.channels"></a>channels</code></em>;</p></td>
-<td class="struct_member_description"><p>number of channels for future use, currently it's always 1.</p></td>
+<td class="struct_member_description"><p>number of channels for future use, currently it’s always 1.</p></td>
 <td class="struct_member_annotations"> </td>
 </tr>
 <tr>

@@ -24,15 +24,26 @@
   </chapters>
   <functions>
     <keyword type="function" name="pt_player_new ()" link="PtPlayer.html#pt-player-new"/>
+    <keyword type="function" name="pt_player_setup_player ()" link="PtPlayer.html#pt-player-setup-player"/>
+    <keyword type="function" name="pt_player_setup_sphinx ()" link="PtPlayer.html#pt-player-setup-sphinx"/>
     <keyword type="function" name="pt_player_open_uri_async ()" link="PtPlayer.html#pt-player-open-uri-async"/>
     <keyword type="function" name="pt_player_open_uri_finish ()" link="PtPlayer.html#pt-player-open-uri-finish"/>
     <keyword type="function" name="pt_player_open_uri ()" link="PtPlayer.html#pt-player-open-uri"/>
     <keyword type="function" name="pt_player_cancel ()" link="PtPlayer.html#pt-player-cancel"/>
     <keyword type="function" name="pt_player_play ()" link="PtPlayer.html#pt-player-play"/>
+    <keyword type="function" name="pt_player_play_pause ()" link="PtPlayer.html#pt-player-play-pause"/>
     <keyword type="function" name="pt_player_pause ()" link="PtPlayer.html#pt-player-pause"/>
+    <keyword type="function" name="pt_player_pause_and_rewind ()" link="PtPlayer.html#pt-player-pause-and-rewind"/>
+    <keyword type="function" name="pt_player_get_pause ()" link="PtPlayer.html#pt-player-get-pause"/>
+    <keyword type="function" name="pt_player_connect_waveviewer ()" link="PtPlayer.html#pt-player-connect-waveviewer"/>
     <keyword type="function" name="pt_player_set_selection ()" link="PtPlayer.html#pt-player-set-selection"/>
     <keyword type="function" name="pt_player_clear_selection ()" link="PtPlayer.html#pt-player-clear-selection"/>
+    <keyword type="function" name="pt_player_selection_active ()" link="PtPlayer.html#pt-player-selection-active"/>
     <keyword type="function" name="pt_player_jump_relative ()" link="PtPlayer.html#pt-player-jump-relative"/>
+    <keyword type="function" name="pt_player_jump_back ()" link="PtPlayer.html#pt-player-jump-back"/>
+    <keyword type="function" name="pt_player_jump_forward ()" link="PtPlayer.html#pt-player-jump-forward"/>
+    <keyword type="function" name="pt_player_get_back ()" link="PtPlayer.html#pt-player-get-back"/>
+    <keyword type="function" name="pt_player_get_forward ()" link="PtPlayer.html#pt-player-get-forward"/>
     <keyword type="function" name="pt_player_jump_to_position ()" link="PtPlayer.html#pt-player-jump-to-position"/>
     <keyword type="function" name="pt_player_jump_to_permille ()" link="PtPlayer.html#pt-player-jump-to-permille"/>
     <keyword type="function" name="pt_player_get_permille ()" link="PtPlayer.html#pt-player-get-permille"/>
@@ -48,17 +59,33 @@
     <keyword type="function" name="pt_player_get_time_string ()" link="PtPlayer.html#pt-player-get-time-string"/>
     <keyword type="function" name="pt_player_get_current_time_string ()" link="PtPlayer.html#pt-player-get-current-time-string"/>
     <keyword type="function" name="pt_player_get_duration_time_string ()" link="PtPlayer.html#pt-player-get-duration-time-string"/>
+    <keyword type="function" name="pt_player_get_timestamp_for_time ()" link="PtPlayer.html#pt-player-get-timestamp-for-time"/>
     <keyword type="function" name="pt_player_get_timestamp ()" link="PtPlayer.html#pt-player-get-timestamp"/>
+    <keyword type="function" name="pt_player_get_timestamp_position ()" link="PtPlayer.html#pt-player-get-timestamp-position"/>
     <keyword type="function" name="pt_player_string_is_timestamp ()" link="PtPlayer.html#pt-player-string-is-timestamp"/>
     <keyword type="function" name="pt_player_goto_timestamp ()" link="PtPlayer.html#pt-player-goto-timestamp"/>
     <keyword type="function" name="pt_player_get_data ()" link="PtPlayer.html#pt-player-get-data"/>
     <keyword type="struct" name="struct PtPlayer" link="PtPlayer.html#PtPlayer-struct"/>
     <keyword type="enum" name="enum PtPrecisionType" link="PtPlayer.html#PtPrecisionType"/>
+    <keyword type="property" name="The “back” property" link="PtPlayer.html#PtPlayer--back"/>
+    <keyword type="property" name="The “forward” property" link="PtPlayer.html#PtPlayer--forward"/>
+    <keyword type="property" name="The “pause” property" link="PtPlayer.html#PtPlayer--pause"/>
+    <keyword type="property" name="The “repeat-all” property" link="PtPlayer.html#PtPlayer--repeat-all"/>
+    <keyword type="property" name="The “repeat-selection” property" link="PtPlayer.html#PtPlayer--repeat-selection"/>
     <keyword type="property" name="The “speed” property" link="PtPlayer.html#PtPlayer--speed"/>
+    <keyword type="property" name="The “timestamp-delimiter” property" link="PtPlayer.html#PtPlayer--timestamp-delimiter"/>
+    <keyword type="property" name="The “timestamp-fixed” property" link="PtPlayer.html#PtPlayer--timestamp-fixed"/>
+    <keyword type="property" name="The “timestamp-fraction-sep” property" link="PtPlayer.html#PtPlayer--timestamp-fraction-sep"/>
+    <keyword type="property" name="The “timestamp-precision” property" link="PtPlayer.html#PtPlayer--timestamp-precision"/>
     <keyword type="property" name="The “volume” property" link="PtPlayer.html#PtPlayer--volume"/>
+    <keyword type="signal" name="The “asr-final” signal" link="PtPlayer.html#PtPlayer-asr-final"/>
+    <keyword type="signal" name="The “asr-hypothesis” signal" link="PtPlayer.html#PtPlayer-asr-hypothesis"/>
     <keyword type="signal" name="The “end-of-stream” signal" link="PtPlayer.html#PtPlayer-end-of-stream"/>
     <keyword type="signal" name="The “error” signal" link="PtPlayer.html#PtPlayer-error"/>
+    <keyword type="signal" name="The “jumped-back” signal" link="PtPlayer.html#PtPlayer-jumped-back"/>
+    <keyword type="signal" name="The “jumped-forward” signal" link="PtPlayer.html#PtPlayer-jumped-forward"/>
     <keyword type="signal" name="The “load-progress” signal" link="PtPlayer.html#PtPlayer-load-progress"/>
+    <keyword type="signal" name="The “play-toggled” signal" link="PtPlayer.html#PtPlayer-play-toggled"/>
     <keyword type="function" name="pt_progress_dialog_new ()" link="PtProgressDialog.html#pt-progress-dialog-new"/>
     <keyword type="function" name="pt_progress_dialog_set_progress ()" link="PtProgressDialog.html#pt-progress-dialog-set-progress"/>
     <keyword type="struct" name="struct PtProgressDialog" link="PtProgressDialog.html#PtProgressDialog-struct"/>
@@ -76,6 +103,7 @@
     <keyword type="property" name="The “show-ruler” property" link="PtWaveviewer.html#PtWaveviewer--show-ruler"/>
     <keyword type="property" name="The “zoom” property" link="PtWaveviewer.html#PtWaveviewer--zoom"/>
     <keyword type="signal" name="The “cursor-changed” signal" link="PtWaveviewer.html#PtWaveviewer-cursor-changed"/>
+    <keyword type="signal" name="The “follow-cursor-changed” signal" link="PtWaveviewer.html#PtWaveviewer-follow-cursor-changed"/>
     <keyword type="signal" name="The “play-toggled” signal" link="PtWaveviewer.html#PtWaveviewer-play-toggled"/>
     <keyword type="signal" name="The “selection-changed” signal" link="PtWaveviewer.html#PtWaveviewer-selection-changed"/>
     <keyword type="signal" name="The “zoom-in” signal" link="PtWaveviewer.html#PtWaveviewer-zoom-in"/>

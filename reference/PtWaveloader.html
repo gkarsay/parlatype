@@ -183,7 +183,7 @@ calling <a class="link" href="PtWaveloader.html#pt-waveloader-load-async" title=
 <tbody><tr>
 <td class="parameter_name"><p>uri</p></td>
 <td class="parameter_description"><p> URI of the audio file to load. </p></td>
-<td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="NULL may be passed as the value in, out, in-out; or as a return value."><span class="acronym">nullable</span></acronym>]</span></td>
 </tr></tbody>
 </table></div>
 </div>
@@ -224,7 +224,7 @@ in an error, too.</p>
 <tr>
 <td class="parameter_name"><p>error</p></td>
 <td class="parameter_description"><p> a pointer to a NULL <a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>, or NULL. </p></td>
-<td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="NULL may be passed as the value in, out, in-out; or as a return value."><span class="acronym">nullable</span></acronym>]</span></td>
 </tr>
 </tbody>
 </table></div>
@@ -244,7 +244,7 @@ pt_waveloader_load_async (<em class="parameter"><code><a class="link" href="PtWa
                           <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>Writes the raw sample data to a temporary file and also gets the number of
 channels, the bit rate and the exact duration. Load only once and on success
-the data can be retrieved as a <a class="link" href="PtWavedata.html" title="PtWavedata"><span class="type">PtWavedata</span></a>. It's a programmer's error trying
+the data can be retrieved as a <a class="link" href="PtWavedata.html" title="PtWavedata"><span class="type">PtWavedata</span></a>. It’s a programmer’s error trying
 to retrieve the data without prior loading.</p>
 <p>Emits a progress signal while saving the temporary file.</p>
 <p>In your callback call <a class="link" href="PtWaveloader.html#pt-waveloader-load-finish" title="pt_waveloader_load_finish ()"><span class="type">pt_waveloader_load_finish</span></a> to get the result of the
@@ -266,7 +266,7 @@ operation.</p>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
 <td class="parameter_description"><p> a <a href="../gio/GCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or NULL. </p></td>
-<td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="NULL may be passed as the value in, out, in-out; or as a return value."><span class="acronym">nullable</span></acronym>]</span></td>
 </tr>
 <tr>
 <td class="parameter_name"><p>callback</p></td>
@@ -318,7 +318,7 @@ pt_waveloader_get_data (<em class="parameter"><code><a class="link" href="PtWave
 <p>Returns wave data needed for visual representation as raw data. The
 requested resolution is given as pixel per seconds, e.g. 100 means one second
 is represented by 100 samples, is 100 pixels wide. The returned resolution
-doesn't have to be necessarily exactly the requested resolution, it might be
+doesn’t have to be necessarily exactly the requested resolution, it might be
 a bit differnt, depending on the bit rate.</p>
 <div class="refsect3">
 <a name="pt-waveloader-get-data.parameters"></a><h4>Parameters</h4>
@@ -345,7 +345,7 @@ a bit differnt, depending on the bit rate.</p>
 <div class="refsect3">
 <a name="pt-waveloader-get-data.returns"></a><h4>Returns</h4>
 <p> the <a class="link" href="PtWavedata.html" title="PtWavedata"><span class="type">PtWavedata</span></a>, after use free with <a class="link" href="PtWavedata.html#pt-wavedata-free" title="pt_wavedata_free ()"><code class="function">pt_wavedata_free()</code></a>. </p>
-<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>][<acronym title="NULL may be passed as the value in, out, in-out; or as a return value."><span class="acronym">nullable</span></acronym>]</span></p>
 </div>
 </div>
 </div>
