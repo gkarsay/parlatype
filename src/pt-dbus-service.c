@@ -59,7 +59,7 @@ handle_method_call (GDBusConnection       *connection,
 	gchar	 *timestamp = NULL;
 	
 	if (g_strcmp0 (method_name, "GetTimestamp") == 0) {
-		timestamp = pt_player_get_timestamp (win->priv->player);
+		timestamp = pt_player_get_timestamp (win->player);
 		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
 			          "MESSAGE", "t: %s", timestamp);
 		if (!timestamp)
@@ -68,7 +68,7 @@ handle_method_call (GDBusConnection       *connection,
                                                  g_variant_new ("(s)", timestamp));
 	} else if (g_strcmp0 (method_name, "GotoTimestamp") == 0) {
 		g_variant_get (parameters, "(&s)", &timestamp);
-		pt_player_goto_timestamp (win->priv->player, timestamp);
+		pt_player_goto_timestamp (win->player, timestamp);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "PlayPause") == 0) {
 		gboolean state;

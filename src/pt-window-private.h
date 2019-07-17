@@ -32,7 +32,6 @@ struct _PtWindowPrivate
 	gint              dbus_watch_id;
 	GtkRecentManager *recent;
 	GtkAccelGroup    *accels;
-	PtPlayer	 *player;
 
 	GtkWidget  *progress_dlg;
 	gint	    progress_handler_id;

@@ -31,7 +31,8 @@ typedef struct _PtWindowPrivate PtWindowPrivate;
 
 struct _PtWindow
 {
-	GtkApplicationWindow parent;
+	GtkApplicationWindow  parent;
+	PtPlayer             *player;
 
 	/*< private > */
 	PtWindowPrivate *priv;

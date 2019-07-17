@@ -45,16 +45,16 @@ on_media_key_pressed (GDBusProxy *proxy,
 	key = g_variant_get_string (key_parameter, NULL);
 
 	if (g_strcmp0 (key, "Play") == 0 || g_strcmp0 (key, "Pause") == 0 || g_strcmp0 (key, "Stop") == 0) {
-		pt_player_play_pause (win->priv->player);
+		pt_player_play_pause (win->player);
 	}
 
 	if (g_strcmp0 (key, "Previous") == 0 || g_strcmp0 (key, "Rewind") == 0) {
-		pt_player_jump_back (win->priv->player);
+		pt_player_jump_back (win->player);
 		return;
 	}
 
 	if (g_strcmp0 (key, "Next") == 0 || g_strcmp0 (key, "FastForward") == 0) {
-		pt_player_jump_forward (win->priv->player);
+		pt_player_jump_forward (win->player);
 	}
 }
 
