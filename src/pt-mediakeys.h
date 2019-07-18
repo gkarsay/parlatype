@@ -1,4 +1,4 @@
-/* Copyright (C) Gabor Karsay 2016 <gabor.karsay@gmx.at>
+/* Copyright (C) Gabor Karsay 2016, 2019 <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -75,10 +75,34 @@
 #define PT_MEDIAKEYS_H
 
 #include "config.h"
-#include <gtk/gtk.h>
 #include "pt-window.h"
 
-void	setup_mediakeys	(PtWindow *win);
+#define PT_MEDIAKEYS_TYPE		(pt_mediakeys_get_type())
+#define PT_MEDIAKEYS(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), PT_MEDIAKEYS_TYPE, PtMediakeys))
+#define PT_IS_MEDIAKEYS(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_MEDIAKEYS_TYPE))
 
+typedef struct _PtMediakeys		PtMediakeys;
+typedef struct _PtMediakeysClass	PtMediakeysClass;
+typedef struct _PtMediakeysPrivate	PtMediakeysPrivate;
+
+struct _PtMediakeys
+{
+	GObject parent;
+
+	/*< private > */
+	PtMediakeysPrivate *priv;
+};
+
+struct _PtMediakeysClass
+{
+	GObjectClass parent_class;
+};
+
+
+GType		pt_mediakeys_get_type	(void) G_GNUC_CONST;
+
+void		pt_mediakeys_start	(PtMediakeys *self);
+
+PtMediakeys 	*pt_mediakeys_new	(PtWindow *win);
 
 #endif

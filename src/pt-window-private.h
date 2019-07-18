@@ -28,8 +28,6 @@ struct _PtWindowPrivate
 	GSettings	 *editor;
 	PtAsrSettings    *asr_settings;
 	PtAsrOutput      *output;
-	GDBusProxy	 *proxy;
-	gint              dbus_watch_id;
 	GtkRecentManager *recent;
 	GtkAccelGroup    *accels;
 

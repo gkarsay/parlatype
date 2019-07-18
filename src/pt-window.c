@@ -1314,7 +1314,6 @@ pt_window_init (PtWindow *win)
 	setup_player (win);
 	setup_settings (win);
 	setup_accels_actions_headerbar (win);
-	setup_mediakeys (win);		/* this is in pt_mediakeys.c */
 	pt_window_setup_dnd (win);	/* this is in pt_window_dnd.c */
 	setup_dbus_service (win);	/* this is in pt_dbus_service.c */
 	win->priv->asr_settings = NULL;
@@ -1375,7 +1374,6 @@ pt_window_dispose (GObject *object)
 	}
 	remove_timer (win);
 	g_clear_object (&win->priv->editor);
-	g_clear_object (&win->priv->proxy);
 	destroy_progress_dlg (win);
 	g_clear_object (&win->player);
 	g_clear_object (&win->priv->output);
