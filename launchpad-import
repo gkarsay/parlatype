@@ -110,26 +110,59 @@ then
 	done
 fi
 
+
+compare_files () {
+	if [ ! -e "$1" ]
+	then
+		result="new"
+		return
+	fi
+	if [ `diff -y --suppress-common-lines "$1" "$2" | grep -v ^\"X-Generator | grep -v ^\"X-Launchpad-Export-Date | wc -l` == "0" ]
+	then
+		result="no-changes"
+		return
+	fi
+	result="some-changes"
+}
+
 # Copy files
-echo "Copying files …"
+echo "Copying changed files …"
 folder=$TEMP_DIR/help
 for file in `ls $folder`
 do
 	lang_code=${file%.po}
+	compare_files "help/$lang_code/$file" "$folder/$file"
+	if [ "$result" == "no-changes" ]
+	then
+		continue
+	fi
 	mkdir -p help/$lang_code
 	cp $folder/$file help/$lang_code
+	echo help/$lang_code/$file
 done
 
 folder=$TEMP_DIR/libparlatype
 for file in `ls $folder`
 do
+	compare_files "libparlatype/po/$file" "$folder/$file"
+	if [ "$result" == "no-changes" ]
+	then
+		continue
+	fi
 	cp $folder/$file libparlatype/po
+	echo libparlatype/po/$file
 done
 
 folder=$TEMP_DIR/parlatype
 for file in `ls $folder`
 do
+	compare_files "po/$file" "$folder/$file"
+	if [ "$result" == "no-changes" ]
+	then
+		continue
+	fi
 	cp $folder/$file po
+	echo po/$file
 done
 
 echo "Deleting temporary folder …"
