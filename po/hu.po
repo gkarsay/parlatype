@@ -1,23 +1,22 @@
-# Spanish translation for parlatype
-# Copyright (c) 2017 Rosetta Contributors and Canonical Ltd 2017
+# Hungarian translation for parlatype
+# Copyright (c) 2019 Rosetta Contributors and Canonical Ltd 2019
 # This file is distributed under the same license as the parlatype package.
-# VPablo <villumar@gmail.com>, 2017.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: parlatype 1.5\n"
-"Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
+"Project-Id-Version: parlatype\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2019-05-27 21:09+0200\n"
-"PO-Revision-Date: 2019-07-14 11:50+0000\n"
-"Last-Translator: Jorge Toledo <Unknown>\n"
-"Language-Team: Spanish <es@li.org>\n"
+"PO-Revision-Date: 2019-07-06 11:46+0000\n"
+"Last-Translator: Óvári <Unknown>\n"
+"Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Launchpad-Export-Date: 2019-07-18 10:44+0000\n"
 "X-Generator: Launchpad (build 19010)\n"
-"Language: es\n"
 
 #: data/com.github.gkarsay.parlatype.appdata.xml.in:7
 #: data/com.github.gkarsay.parlatype.desktop.in:4 src/pt-app.c:189
@@ -27,27 +26,26 @@ msgstr "Parlatype"
 
 #: data/com.github.gkarsay.parlatype.appdata.xml.in:8
 msgid "Media player for speech transcription"
-msgstr "Reproductor multimedia para transcripción de grabaciones de voz"
+msgstr "Médialejátszó a beszéd átírásához"
 
 #: data/com.github.gkarsay.parlatype.appdata.xml.in:11
 msgid ""
 "Parlatype is an easy to use media player. Its main purpose is to help you "
 "transcribing speech."
 msgstr ""
-"Parlatype es un reproductor de medios fácil de usar. Su principal propósito "
-"es ayudar a transcribir grabaciones de voz."
+"A Parlatype egy könnyen használható médialejátszó. Fő célja a beszéd átírása."
 
 #: data/com.github.gkarsay.parlatype.appdata.xml.in:24
 msgid "Gabor Karsay"
-msgstr "Gabor Karsay"
+msgstr "Karsay Gábor"
 
 #: data/com.github.gkarsay.parlatype.desktop.in:5
 msgid "Transcription utility"
-msgstr "Utilidad de transcripción"
+msgstr "Átírás segédprogram"
 
 #: data/com.github.gkarsay.parlatype.desktop.in:6
 msgid "Transcription;"
-msgstr "Transcripción;"
+msgstr "Átírás;"
 
 #: data/com.github.gkarsay.parlatype.desktop.in:8
 msgid "com.github.gkarsay.parlatype"
@@ -55,50 +53,49 @@ msgstr "com.github.gkarsay.parlatype"
 
 #: libreoffice/com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in:6
 msgid "LibreOffice/Parlatype Helpers"
-msgstr "Auxiliares de LibreOffice/Parlatype"
+msgstr "LibreOffice/Parlatype segítők"
 
 #: libreoffice/com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in:7
 msgid "Control Parlatype using LibreOffice macros"
-msgstr "Controle Parlatype a través de macros de LibreOffice"
+msgstr "A Parlatype vezérlése a LibreOffice makrók használatával"
 
 #: src/pt-app.c:43
 msgid "Show the application’s version"
-msgstr "Mostrar la versión de la aplicación"
+msgstr "Az alkalmazás verziójának megjelenítése"
 
 #: src/pt-app.c:52
 msgid "Enable automatic speech recognition"
-msgstr "Activar el reconocimiento de voz automático"
+msgstr "Önműködő beszédfelismerés engedélyezése"
 
 #: src/pt-app.c:60
 msgid "Use internal textpad for automatic speech recognition"
-msgstr ""
-"Usar editor de textos interno para el reconocimiento automático de voz"
+msgstr "Használja a belső szövegpadt az önműködő beszédfelismeréshez"
 
 #: src/pt-app.c:83
 msgid "Open Audio File"
-msgstr "Abrir archivo de audio"
+msgstr "Hangfájl megnyitása"
 
 #: src/pt-app.c:86 src/resources/window-headerbar.ui:12
 msgid "_Open"
-msgstr "_Abrir"
+msgstr "Meg_nyitás"
 
 #: src/pt-app.c:87 src/resources/goto-dialog.ui:26
 msgid "_Cancel"
-msgstr "_Cancelar"
+msgstr "_Mégse"
 
 #: src/pt-app.c:106
 msgid "Audio files"
-msgstr "Archivos de audio"
+msgstr "Hangfájlok"
 
 #: src/pt-app.c:107
 msgid "All files"
-msgstr "Todos los archivos"
+msgstr "Minden fájl"
 
 #. Translators: %s is a detailed error message
 #: src/pt-app.c:156
 #, c-format
 msgid "Error opening help: %s"
-msgstr "Error al abrir la ayuda: %s"
+msgstr "Hiba a súgó megnyitásakor: %s"
 
 #. Translators: This is part of the about box, followed by the
 #. copyright holders of code from other projects. Instead of
@@ -106,48 +103,45 @@ msgstr "Error al abrir la ayuda: %s"
 #. other projects:"
 #: src/pt-app.c:174
 msgid "Including code from other projects:"
-msgstr "Incluye código de otros proyectos:"
+msgstr "Más projektek kódja:"
 
 #: src/pt-app.c:192
 msgid "A basic transcription utility"
-msgstr "Una utilidad básica de transcripción"
+msgstr "Egy alapvető átírás segédprogram"
 
 #: src/pt-app.c:196
 msgid "translator-credits"
 msgstr ""
 "Launchpad Contributions:\n"
-"  Adolfo Jayme https://launchpad.net/~fitojb\n"
-"  Gabor Karsay https://launchpad.net/~gabor-karsay\n"
-"  Jorge Toledo https://launchpad.net/~eldelacajita\n"
-"  VPablo https://launchpad.net/~villumar"
+"  Óvári https://launchpad.net/~ovari"
 
 #: src/pt-app.c:321
 msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
 "ignored.\n"
 msgstr ""
-"Atención: Parlatype carga únicamente un archivo a la vez. El resto se "
-"ignorará.\n"
+"Figyelmeztetés: A Parlatype egyszerre csak egy fájlt kezel. A többi fájl "
+"figyelmen kívül marad.\n"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:194
 msgid "The folder contains no acoustic model."
-msgstr "La carpeta no contiene ningún modelo acústico."
+msgstr "A mappa nem tartalmaz akusztikus modellt."
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:301
 msgid "Please select …"
-msgstr "Seleccione…"
+msgstr "Kérlek, válassz…"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:340
 msgid "Missing parameters"
-msgstr "Faltan parámetros"
+msgstr "Hiányzó segédváltozók"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:384
 msgid "Timed out"
-msgstr "Tiempo agotado"
+msgstr "Időtúllépés"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:386
@@ -155,23 +149,23 @@ msgid ""
 "Scanning the folder took too long. Please make sure to open a folder with "
 "model data only."
 msgstr ""
-"Escanear la carpeta está llevando demasiado tiempo. Por favor, asegúrate de "
-"abrir una carpeta que sólo contenga datos de modelo."
+"A mappa szkennelése túl sokáig tartott. Kérjük, győződjön meg róla, hogy "
+"csak egy modelladattal rendelkező mappát nyit meg."
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:390
 msgid "Scanning the folder failed"
-msgstr "Fallo al escanear la carpeta"
+msgstr "A mappa keresése sikertelen"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:406
 msgid "Nothing found"
-msgstr "No se encontró nada"
+msgstr "Nincs találat"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:408
 msgid "This folder doesn’t contain a suitable model."
-msgstr "La carpeta no contiene ningún modelo adecuado."
+msgstr "Ez a mappa nem tartalmaz megfelelő modellt."
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:459
@@ -179,13 +173,13 @@ msgid ""
 "The folder contains no language model. Please choose a language model from "
 "another folder."
 msgstr ""
-"La carpeta no contiene ningún modelo lingüístico. Seleccione uno de otra "
-"carpeta."
+"A mappa nem tartalmaz nyelvi modellt. Válasszon nyelvi modellt egy másik "
+"mappából."
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:468
 msgid "The folder contains several language models."
-msgstr "La carpeta contiene varios modelos lingüísticos."
+msgstr "A mappa több nyelvi modellt tartalmaz."
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:479
@@ -193,12 +187,13 @@ msgid ""
 "The folder contains no dictionary. Please choose a dictionary from another "
 "folder."
 msgstr ""
-"La carpeta no contiene ningún diccionario. Seleccione uno desde otra carpeta."
+"A mappa nem tartalmaz szótárat. Kérjük, válasszon ki egy másik mappából "
+"származó szótárat."
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:488
 msgid "The folder contains several dictionaries."
-msgstr "La carpeta contiene varios diccionarios."
+msgstr "A mappa több szótárat tartalmaz."
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:498
@@ -206,33 +201,33 @@ msgid ""
 "The folder contains no acoustic model. Please choose an acoustic model from "
 "another folder."
 msgstr ""
-"La carpeta no contiene ningún modelo acústico. Seleccione uno de otra "
-"carpeta."
+"A mappa nem tartalmaz akusztikus modellt. Válasszon ki egy akusztikus "
+"modellt egy másik mappából."
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:507
 msgid "The folder contains several acoustic models."
-msgstr "La carpeta contiene varios modelos acústicos."
+msgstr "A mappa több akusztikus modellt tartalmaz."
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:625
 msgid "Download model"
-msgstr "Descargar el modelo"
+msgstr "Letöltésmodell"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:633
 msgid "Finish configuration"
-msgstr "Finalizar la configuración"
+msgstr "Beállítás befejezése"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-output.c:210
 msgid "Select output for automatic speech recognition"
-msgstr "Selecciona una salida para el reconocimiento automático de voz"
+msgstr "Válassza ki a kimenetet az önműködő beszédfelismeréshez"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-output.c:212
 msgid "Please open and switch focus to a word processor."
-msgstr "Por favor, abre y cambia el foco a un procesador de textos."
+msgstr "Kérjük, nyissa meg és kapcsoljon fókuszt egy szövegszerkesztőre."
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
@@ -252,64 +247,65 @@ msgstr "%d:%02d:%02d"
 #: src/pt-preferences.c:118
 msgid "second"
 msgid_plural "seconds"
-msgstr[0] "segundo"
-msgstr[1] "segundos"
+msgstr[0] "másodperc"
+msgstr[1] "másodperc"
 
 #: src/pt-preferences.c:289
 msgid "Deleting configuration"
-msgstr "Eliminando la configuración"
+msgstr "Beállítás törlése"
 
 #: src/pt-preferences.c:290
 #, c-format
 msgid "Do you really want to delete “%s”?"
-msgstr "¿Confirma que quiere eliminar «%s»?"
+msgstr "Tényleg törölni szeretné a(z) „%s”-t?"
 
 #: src/pt-window.c:219
 #, c-format
 msgid "Found %s"
-msgstr "Encontrados %s"
+msgstr "Talált %s"
 
 #: src/pt-window.c:220
 msgid "Press “Play” to start automatic speech recognition."
-msgstr "Pulse en «Reproducir» para iniciar el reconocimiento de voz."
+msgstr ""
+"Az önműködő beszédfelismerés elindításához nyomja meg a „Lejátszás” gombot."
 
 #: src/pt-window.c:423
 #, c-format
 msgid "Jump back 1 second"
 msgid_plural "Jump back %d seconds"
-msgstr[0] "Vuelve 1 segundo atrás"
-msgstr[1] "Vuelve %d segundos atrás"
+msgstr[0] "Ugrás vissza 1 másodperc"
+msgstr[1] "Ugrás vissza %d másodperc"
 
 #: src/pt-window.c:440
 #, c-format
 msgid "Jump forward 1 second"
 msgid_plural "Jump forward %d seconds"
-msgstr[0] "Avanza 1 segundo"
-msgstr[1] "Avanza %d segundos"
+msgstr[0] "Ugrás előre 1 másodperc"
+msgstr[1] "Ugrás előre %d másodperc"
 
 #: src/pt-window.c:459
 msgid "Pause"
-msgstr "Pausa"
+msgstr "Szünet"
 
 #: src/pt-window.c:462
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
-msgstr[0] "Pausa y rebobina 1 segundo"
-msgstr[1] "Pausa y rebobina %d segundos"
+msgstr[0] "Szüneteltetés és visszatekerés 1 másodperc"
+msgstr[1] "Szüneteltetés és visszatekerés %d másodperc"
 
 #: src/pt-window.c:469
 msgid "Start playing"
-msgstr "Iniciar la reproducción"
+msgstr "Lejátszás elindítása"
 
 #: src/pt-window.c:505
 #, c-format
 msgid "Go to time in clipboard: %s"
-msgstr "Ir a tiempo en portapapeles: %s"
+msgstr "Ugrás a vágólapon látható időre: %s"
 
 #: src/pt-window.c:507 src/pt-window.c:1246
 msgid "Go to time in clipboard"
-msgstr "Ir a tiempo en portapapeles"
+msgstr "Ugrás a vágólapon látható időre"
 
 #: src/pt-window.c:1162
 #, c-format
@@ -318,14 +314,14 @@ msgid ""
 "GStreamer and make sure you have the “Good Plugins” installed.\n"
 "Parlatype will quit now, it received this error message: %s"
 msgstr ""
-"Parlatype necesita GStreamer 1.x para funcionar. Por favor, comprueba tu "
-"instalación de GStreamer y asegúrate de que tienes los  “Good Plugins” "
-"instalados.\n"
-"Parlatype se cerrará ahora; ha recibido este mensaje de error: %s"
+"A Parlatype használatához GStreamer 1.x szükséges. Kérjük, ellenőrizze a "
+"GStreamer telepítését, és győződjön meg róla, hogy telepítette a „jó "
+"bővítményeket”.\n"
+"A Parlatype most kilép, ezt a hibaüzenetet kapta: %s"
 
 #: src/pt-window.c:1165
 msgid "Fatal error"
-msgstr "Error grave"
+msgstr "Végzetes hiba"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:15
@@ -333,8 +329,8 @@ msgid ""
 "Before you can start, you have to download a so called acoustic and language "
 "model. This is a set of files made for a specific language."
 msgstr ""
-"Antes de empezar, tienes que descargar un modelo acústico y lingüístico. Es "
-"un conjunto de archivos hechos para un idioma específico."
+"Mielőtt elkezdené, le kell töltenie az úgynevezett akusztikus és nyelvi "
+"modellt. Ez egy bizonyos nyelvhez készült fájlok halmaza."
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:30
@@ -345,11 +341,11 @@ msgid ""
 "uage%20Models/\">CMU Sphinx’ sourceforge repository</a>. It has models for "
 "some of the most widespread languages."
 msgstr ""
-"Parlatype usa CMU Sphinx como motor de reconocimiento de voz. Puedes "
-"descargar modelos adecuados para CMU Sphinx desde <a "
+"A Parlatype a CMU Sphinx-et használja beszédfelismerő szolgáltatásaként. A "
+"CMU Sphinxhez alkalmas modelleket például <a "
 "href=\"https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Lang"
-"uage%20Models/\">el repositorio de CMU Sphinx en Sourceforge</a>, por "
-"ejemplo. Tiene modelos para los idiomas más extendidos."
+"uage%20Models/\">CMU Sphinx forrásforrás-tárolójából tölthet le</a>. A "
+"modellek a legelterjedtebb nyelvekre vonatkoznak."
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:45
@@ -357,343 +353,341 @@ msgid ""
 "If it’s compressed, uncompress the model. Save it to a folder where it can "
 "stay. Parlatype doesn’t copy the model internally."
 msgstr ""
-"Si está comprimido, descomprime el modelo. Muévelo a una carpeta donde pueda "
-"permanecer guardado. Parlatype no copia el modelo internamente."
+"Ha tömörített, tömörítse meg a modellt. Mentse el egy mappába, ahol "
+"maradhat. A Parlatype nem másolja a modellt belsőleg."
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:59
 msgid "When you are finished, specify the folder with the model:"
-msgstr "Cuando hayas terminado, especifica la carpeta con el modelo:"
+msgstr "Ha elkészült, adja meg a mappát a modellel:"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:96
 msgid "Language model"
-msgstr "Modelo lingüístico"
+msgstr "Nyelvmodell"
 
 #: src/resources/asr-assistant.ui:125
 msgid "Select language model"
-msgstr "Seleccione un modelo lingüístico"
+msgstr "Válasszon nyelvmodellt"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:157
 msgid "Dictionary"
-msgstr "Diccionario"
+msgstr "Szótár"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:186
 msgid "Select dictionary"
-msgstr "Seleccione un diccionario"
+msgstr "Szótár kiválasztása"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:218
 msgid "Acoustic model"
-msgstr "Modelo acústico"
+msgstr "Akusztikus modell"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:248
 msgid "Select acoustic model folder"
-msgstr "Selecciona la carpeta del modelo acústico"
+msgstr "Válassza ki az akusztikus modellmappát"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:285
 msgid "Setup is completed. Please give this configuration a name:"
-msgstr ""
-"La configuración se ha completado. Por favor, da un nombre a esta "
-"configuración:"
+msgstr "A telepítés befejeződött. Kérjük, adja meg egy konfigurációs név:"
 
 #: src/resources/goto-dialog.ui:13 src/resources/menus.ui:46
 msgid "Go to…"
-msgstr "Ir a…"
+msgstr "Ugrás…"
 
 #: src/resources/goto-dialog.ui:40
 msgid "_OK"
-msgstr "_Aceptar"
+msgstr "_Rendben"
 
 #: src/resources/goto-dialog.ui:70
 msgid "Go to position:"
-msgstr "Ir a la posición:"
+msgstr "Ugrás az időhelyzetére:"
 
 #: src/resources/help-overlay.ui:15
 msgid "General"
-msgstr "General"
+msgstr "Általános"
 
 #: src/resources/help-overlay.ui:20
 msgid "Open a media file"
-msgstr "Abrir archivo multimedia"
+msgstr "Médiafájl megnyitása"
 
 #: src/resources/help-overlay.ui:27
 msgid "Show/hide action menu"
-msgstr "Mostrar u ocultar el menú de acciones"
+msgstr "Művelet menü megjelenítése/elrejtése"
 
 #: src/resources/help-overlay.ui:34
 msgid "Quit"
-msgstr "Salir"
+msgstr "Kilépés"
 
 #: src/resources/help-overlay.ui:42 src/resources/preferences.ui:270
 msgid "Waveform"
-msgstr "Forma de onda"
+msgstr "Hanghullám"
 
 #: src/resources/help-overlay.ui:47
 msgid "Play/Pause"
-msgstr "Reproducir/pausar"
+msgstr "Lejátszás/Szünet"
 
 #: src/resources/help-overlay.ui:55 src/resources/help-overlay.ui:63
 msgid "Jump back"
-msgstr "Saltar hacia atrás"
+msgstr "Ugrás vissza"
 
 #: src/resources/help-overlay.ui:71 src/resources/help-overlay.ui:79
 msgid "Jump forward"
-msgstr "Saltar hacia delante"
+msgstr "Ugrás előre"
 
 #: src/resources/help-overlay.ui:86
 msgid "Zoom in"
-msgstr "Ampliar"
+msgstr "Nagyítás"
 
 #: src/resources/help-overlay.ui:93
 msgid "Zoom out"
-msgstr "Reducir"
+msgstr "Kicsinyítés"
 
 #: src/resources/help-overlay.ui:100
 msgid "Open “Go to” dialog"
-msgstr "Abrir el cuadro de diálogo «Ir a»"
+msgstr "„Ugrás” párbeszédablak megnyitása"
 
 #: src/resources/help-overlay.ui:107
 msgid "Copy timestamp to clipboard"
-msgstr "Copiar la marca cronológica en el portapapeles"
+msgstr "Az időbélyeg másolása a vágólapra"
 
 #: src/resources/help-overlay.ui:114
 msgid "Go to timestamp in clipboard"
-msgstr "Ir a la marca cronológica copiada en el portapapeles"
+msgstr "Ugrás az időbélyegre a vágólapon"
 
 #: src/resources/help-overlay.ui:122 src/resources/menus.ui:27
 msgid "Help"
-msgstr "Ayuda"
+msgstr "Súgó"
 
 #: src/resources/help-overlay.ui:127
 msgid "Show help"
-msgstr "Mostrar la ayuda"
+msgstr "Súgó megjelenítése"
 
 #: src/resources/help-overlay.ui:134
 msgid "Show keyboard shortcuts"
-msgstr "Mostrar atajos de teclado"
+msgstr "Gyorsbillentyűk megjelenítése"
 
 #: src/resources/menus.ui:7
 msgid "Manual transcription"
-msgstr "Transcripción manual"
+msgstr "Kézi átírás"
 
 #: src/resources/menus.ui:12
 msgid "Automatic transcription"
-msgstr "Transcripción automática"
+msgstr "Önműködő átírás"
 
 #: src/resources/menus.ui:19
 msgid "Preferences"
-msgstr "Preferencias"
+msgstr "Beállítások"
 
 #: src/resources/menus.ui:23
 msgid "_Keyboard Shortcuts"
-msgstr "Atajos de teclado"
+msgstr "_Gyorsbillentyűk"
 
 #: src/resources/menus.ui:31
 msgid "About Parlatype"
-msgstr "Acerca de Parlatype"
+msgstr "A Parlatype névjegye"
 
 #: src/resources/menus.ui:38
 msgid "Copy time to clipboard"
-msgstr "Copiar tiempo al portapapeles"
+msgstr "Idő másolása a vágólapra"
 
 #: src/resources/menus.ui:42
 msgid "Go to cursor"
-msgstr "Ir al cursor"
+msgstr "Ugrás a kurzorra"
 
 #. This refers to: "Characters around timestamps"
 #: src/resources/preferences.ui:42
 msgid "None"
-msgstr "Ninguno"
+msgstr "Nincs"
 
 #: src/resources/preferences.ui:46
 msgid "#Number signs#"
-msgstr "#Signos numéricos#"
+msgstr "#Számjelek#"
 
 #: src/resources/preferences.ui:50
 msgid "(Round brackets)"
-msgstr "(Paréntesis)"
+msgstr "(Kerek zárójelek)"
 
 #: src/resources/preferences.ui:54
 msgid "[Square brackets]"
-msgstr "[Corchetes]"
+msgstr "[Szögletes zárójelek]"
 
 #: src/resources/preferences.ui:68
 msgid ". (point)"
-msgstr ". (punto)"
+msgstr ". (pont)"
 
 #: src/resources/preferences.ui:72
 msgid "- (hyphen)"
-msgstr "- (guion)"
+msgstr "- (kötőjel)"
 
 #: src/resources/preferences.ui:86
 msgid "Full seconds"
-msgstr "Segundos completos"
+msgstr "Teljes másodperc"
 
 #: src/resources/preferences.ui:90
 msgid "10th seconds"
-msgstr "Décimas de segundos"
+msgstr "tized másodperc"
 
 #: src/resources/preferences.ui:94
 msgid "100th seconds"
-msgstr "Centésimas de segundos"
+msgstr "század másodperc"
 
 #: src/resources/preferences.ui:102
 msgid "Parlatype Preferences"
-msgstr "Preferencias de Parlatype"
+msgstr "Parlatype beállítások"
 
 #: src/resources/preferences.ui:140
 msgid "_Pixels per second:"
-msgstr "_Píxeles por segundo:"
+msgstr "_Pixel másodpercenként:"
 
 #: src/resources/preferences.ui:170
 msgid "Show _time scale"
-msgstr "Muestra escala de _tiempo"
+msgstr "Idő_mérték megjelenítése"
 
 #. Resolution of the waveform image
 #: src/resources/preferences.ui:188
 msgid "Resolution"
-msgstr "Resolución"
+msgstr "Felbontás"
 
 #. A section in preferences, how to display the waveform.
 #: src/resources/preferences.ui:203
 msgid "Display"
-msgstr "Visualizar"
+msgstr "Megjelenítés"
 
 #: src/resources/preferences.ui:216
 msgid "_Moving cursor"
-msgstr "Cursor _móvil"
+msgstr "_Mozgó kurzor"
 
 #: src/resources/preferences.ui:233
 msgid "_Fixed cursor"
-msgstr "Cursor _fijo"
+msgstr "_Rögzített kurzor"
 
 #: src/resources/preferences.ui:287
 msgid "Jumps"
-msgstr "Saltos"
+msgstr "Ugrások"
 
 #: src/resources/preferences.ui:389
 msgid "Jump _forward:"
-msgstr "Avan_zar:"
+msgstr "Ugrás _előre:"
 
 #: src/resources/preferences.ui:403
 msgid "Jump _back:"
-msgstr "_Volver atrás:"
+msgstr "Ugrás _vissza:"
 
 #: src/resources/preferences.ui:417
 msgid "Jump back on _pause:"
-msgstr "Volver atrás al _pausar:"
+msgstr "Ugrás vissza a _szünetre:"
 
 #: src/resources/preferences.ui:440
 msgid "Pressing “Play” at the end of file"
-msgstr "Al pulsar “Reproducir” al final del archivo"
+msgstr "„Lejátszás” gomb megnyomása a fájl végén"
 
 #: src/resources/preferences.ui:454
 msgid "Replay file"
-msgstr "Reproducir de nuevo el archivo"
+msgstr "Fájl ismétlése"
 
 #: src/resources/preferences.ui:473
 msgid "Pressing “Play” at the end of selection"
-msgstr "Al pulsar \"Reproducir\" al final de la selección"
+msgstr "„Lejátszás” gomb megnyomása a kijelölés végén"
 
 #: src/resources/preferences.ui:487
 msgid "Replay selection"
-msgstr "Reproducir de nuevo la selección"
+msgstr "Kijelölés ismétlése"
 
 #: src/resources/preferences.ui:509
 msgid "Controls"
-msgstr "Controles"
+msgstr "Vezérlők"
 
 #: src/resources/preferences.ui:552
 msgid "Hours and zeroes"
-msgstr "Horas y ceros"
+msgstr "Órak és nullák"
 
 #: src/resources/preferences.ui:565
 msgid "Always show hours and leading zeroes"
-msgstr "Mostrar siempre las horas y los ceros a la izquierda"
+msgstr "Az „órák” és a „vezető nullák” mindig megjelenik"
 
 #: src/resources/preferences.ui:583
 msgid "Precision"
-msgstr "Precisión"
+msgstr "Pontosság"
 
 #: src/resources/preferences.ui:599
 msgid "Characters around timestamps"
-msgstr "Caracteres alrededor de las marcas temporales"
+msgstr "Karakterek az időbélyegek körül"
 
 #: src/resources/preferences.ui:615
 msgid "Examples"
-msgstr "Ejemplos"
+msgstr "Példák"
 
 #: src/resources/preferences.ui:657
 msgid "Precision:"
-msgstr "Precisión:"
+msgstr "Pontosság:"
 
 #: src/resources/preferences.ui:689
 msgid "Fraction separator:"
-msgstr "Separador de fracciones:"
+msgstr "Töredékelválasztó:"
 
 #: src/resources/preferences.ui:732
 msgid "Timestamps"
-msgstr "Marcas cronológicas"
+msgstr "Időbélyegek"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/preferences.ui:863
 msgid "Language model:"
-msgstr "Modelo lingüístico:"
+msgstr "Nyelvmodell:"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/preferences.ui:890
 msgid "Dictionary:"
-msgstr "Diccionario:"
+msgstr "Szótár:"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/preferences.ui:917
 msgid "Acoustic model folder:"
-msgstr "Carpeta de modelo acústico:"
+msgstr "Akusztikus modell mappa:"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/preferences.ui:965
 msgid "There is no configuration"
-msgstr "No hay configuración"
+msgstr "Nincs beállítás"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/preferences.ui:975
 msgid "Add a configuration"
-msgstr "Añadir una configuración"
+msgstr "Beállítás hozzáadása"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/preferences.ui:1004
 msgid "Speech recognition"
-msgstr "Reconocimiento de voz"
+msgstr "Beszédfelismerés"
 
 #: src/resources/preferences.ui:1022
 msgid "Remember _size"
-msgstr "Recordar el _tamaño"
+msgstr "_Méret megőrzése"
 
 #: src/resources/preferences.ui:1037
 msgid "Remember _position"
-msgstr "Recordar la _posición"
+msgstr "_Hely megőrzés"
 
 #: src/resources/preferences.ui:1052
 msgid "Start on _top"
-msgstr "Iniciar _encima de las demás ventanas"
+msgstr "Kezdje a _tetején"
 
 #: src/resources/preferences.ui:1074
 msgid "Window"
-msgstr "Ventana"
+msgstr "Ablak"
 
 #: src/resources/window.ui:142
 msgid "_Play"
-msgstr "_Reproducir"
+msgstr "_Lejátszás"
 
 #: src/resources/window.ui:312
 msgid "Speed:"
-msgstr "Velocidad:"
+msgstr "Sebesség:"
 
 #: src/resources/window-headerbar.ui:17
 msgid "Open a file"
-msgstr "Abrir un archivo"
+msgstr "Fájl megnyitása"

@@ -1,0 +1,186 @@
+# Hungarian translation for parlatype
+# Copyright (c) 2019 Rosetta Contributors and Canonical Ltd 2019
+# This file is distributed under the same license as the parlatype package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: parlatype\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2019-05-27 18:59+0200\n"
+"PO-Revision-Date: 2019-07-06 12:07+0000\n"
+"Last-Translator: Óvári <Unknown>\n"
+"Language-Team: Hungarian <hu@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2019-07-18 10:44+0000\n"
+"X-Generator: Launchpad (build 19010)\n"
+
+#. Translators: %s is a detailed error message.
+#: libparlatype/src/pt-player.c:499
+#, c-format
+msgid "URI not valid: %s"
+msgstr "Az URI nem érvényes: %s"
+
+#. Translators: %s is a detailed error message.
+#: libparlatype/src/pt-player.c:511
+#, c-format
+msgid "File not found: %s"
+msgstr "A fájl nem található: %s"
+
+#. Translators: This is a time format, like "2:05:30" for 2
+#. hours, 5 minutes, and 30 seconds. You may change ":" to
+#. the separator that your locale uses or use "%Id" instead
+#. of "%d" if your locale uses localized digits.
+#: libparlatype/src/pt-player.c:1430 libparlatype/src/pt-waveviewer-ruler.c:174
+#: libparlatype/src/pt-waveviewer-ruler.c:228
+#, c-format
+msgctxt "long time format"
+msgid "%d:%02d:%02d"
+msgstr "%d:%02d:%02d"
+
+#. Translators: This is a time format, like "2:05:30.1" for 2
+#. hours, 5 minutes, 30 seconds, and 1 tenthsecond. You may
+#. change ":" or "." to the separator that your locale uses or
+#. use "%Id" instead of "%d" if your locale uses localized digits.
+#: libparlatype/src/pt-player.c:1437
+#, c-format
+msgctxt "long time format, 1 digit"
+msgid "%d:%02d:%02d.%d"
+msgstr "%d:%02d:%02d.%d"
+
+#. Translators: This is a time format, like "2:05:30.12" for 2
+#. hours, 5 minutes, 30 seconds, and 12 hundrethseconds. You may
+#. change ":" or "." to the separator that your locale uses or
+#. use "%Id" instead of "%d" if your locale uses localized digits.
+#: libparlatype/src/pt-player.c:1444
+#, c-format
+msgctxt "long time format, 2 digits"
+msgid "%d:%02d:%02d.%02d"
+msgstr "%d:%02d:%02d.%02d"
+
+#. Translators: This is a time format, like "05:30" for
+#. 5 minutes, and 30 seconds. You may change ":" to
+#. the separator that your locale uses or use "%I02d" instead
+#. of "%02d" if your locale uses localized digits.
+#: libparlatype/src/pt-player.c:1461
+#, c-format
+msgctxt "short time format"
+msgid "%02d:%02d"
+msgstr "%02d:%02d"
+
+#. Translators: This is a time format, like "05:30.1" for
+#. 5 minutes, 30 seconds, and 1 tenthsecond. You may change
+#. ":" or "." to the separator that your locale uses or
+#. use "%Id" instead of "%d" if your locale uses localized digits.
+#: libparlatype/src/pt-player.c:1468
+#, c-format
+msgctxt "short time format, 1 digit"
+msgid "%02d:%02d.%d"
+msgstr "%02d:%02d.%d"
+
+#. Translators: This is a time format, like "05:30.12" for
+#. 5 minutes, 30 seconds, and 12 hundrethseconds. You may change
+#. ":" or "." to the separator that your locale uses or
+#. use "%Id" instead of "%d" if your locale uses localized digits.
+#: libparlatype/src/pt-player.c:1475
+#, c-format
+msgctxt "short time format, 2 digits"
+msgid "%02d:%02d.%02d"
+msgstr "%02d:%02d.%02d"
+
+#. Translators: This is a time format, like "5:30" for
+#. 5 minutes, and 30 seconds. You may change ":" to
+#. the separator that your locale uses or use "%Id" instead
+#. of "%d" if your locale uses localized digits.
+#: libparlatype/src/pt-player.c:1488 libparlatype/src/pt-waveviewer-ruler.c:179
+#: libparlatype/src/pt-waveviewer-ruler.c:230
+#, c-format
+msgctxt "shortest time format"
+msgid "%d:%02d"
+msgstr "%d:%02d"
+
+#. Translators: This is a time format, like "05:30.1" for
+#. 5 minutes, 30 seconds, and 1 tenthsecond. You may change
+#. ":" or "." to the separator that your locale uses or
+#. use "%Id" instead of "%d" if your locale uses localized digits.
+#: libparlatype/src/pt-player.c:1495
+#, c-format
+msgctxt "shortest time format, 1 digit"
+msgid "%d:%02d.%d"
+msgstr "%d:%02d.%d"
+
+#. Translators: This is a time format, like "05:30.12" for
+#. 5 minutes, 30 seconds, and 12 hundrethseconds. You may change
+#. ":" or "." to the separator that your locale uses or
+#. use "%Id" instead of "%d" if your locale uses localized digits.
+#: libparlatype/src/pt-player.c:1502
+#, c-format
+msgctxt "shortest time format, 2 digits"
+msgid "%d:%02d.%02d"
+msgstr "%d:%02d.%02d"
+
+#: libparlatype/src/pt-player.c:1903
+#, c-format
+msgid "Failed to load plugin “%s”."
+msgstr "Nem sikerült betölteni a(z) „%s” bővítményt."
+
+#: libparlatype/src/pt-progress-dialog.c:102
+#, c-format
+msgid "Time remaining: 1 second"
+msgid_plural "Time remaining: %d seconds"
+msgstr[0] "A hátralévő idő: 1 másodperc"
+msgstr[1] "A hátralévő idő: %d másodperc"
+
+#. Translators: this is a time with minutes
+#. and seconds, e.g. Time remaining: 3:20
+#: libparlatype/src/pt-progress-dialog.c:113
+#, c-format
+msgid "Time remaining: %d:%02d"
+msgstr "A hátralévő idő: %d:%02d"
+
+#: libparlatype/src/pt-progress-dialog.c:242
+msgid "Loading file…"
+msgstr "Fájl betöltése…"
+
+#: libparlatype/src/pt-waveloader.c:343
+msgid "Failed to open temporary file."
+msgstr "Nem sikerült megnyitni az ideiglenes fájlt."
+
+#: libparlatype/src/pt-waveloader.c:356
+msgid "Failed to setup GStreamer pipeline."
+msgstr "Nem sikerült beállítani a GStreamer csővezetéket."
+
+#: libparlatype/src/pt-waveloader.c:375
+msgid "Failed to start GStreamer pipeline."
+msgstr "Nem sikerült elindítani a GStreamer csővezetéket."
+
+#: libparlatype/src/pt-waveviewer.c:1331
+msgid "Follow cursor"
+msgstr "Kurzor nyomonkövetése"
+
+#: libparlatype/src/pt-waveviewer.c:1332
+msgid "Scroll automatically to the cursor’s position"
+msgstr "Önműködő görgetés a kurzor pozíciójához"
+
+#: libparlatype/src/pt-waveviewer.c:1348
+msgid "Fixed cursor"
+msgstr "Rögzített kurzor"
+
+#: libparlatype/src/pt-waveviewer.c:1349
+msgid ""
+"If TRUE, the cursor is in a fixed position and the waveform is moving.\n"
+"If FALSE, the cursor is moving."
+msgstr ""
+"Ha IGAZ, a kurzor rögzített helyzetben van és a hanghullám mozog.\n"
+"Ha HAMIS, a kurzor mozog."
+
+#: libparlatype/src/pt-waveviewer.c:1363
+msgid "Show ruler"
+msgstr "Vonalzó megjelenítése"
+
+#: libparlatype/src/pt-waveviewer.c:1364
+msgid "Show the time scale with time marks"
+msgstr "Mutassa az időméretet időjelekkel"
