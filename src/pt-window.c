@@ -1373,6 +1373,7 @@ pt_window_dispose (GObject *object)
 	g_clear_object (&win->priv->player);
 	g_clear_object (&win->priv->output);
 	g_clear_object (&win->priv->asr_settings);
+	g_clear_object (&win->priv->go_to_timestamp);
 
 	G_OBJECT_CLASS (pt_window_parent_class)->dispose (object);
 }
