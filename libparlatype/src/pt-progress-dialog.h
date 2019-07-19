@@ -20,6 +20,8 @@
 
 #include <gtk/gtk.h>
 
+G_BEGIN_DECLS
+
 #define PT_TYPE_PROGRESS_DIALOG		(pt_progress_dialog_get_type())
 #define PT_PROGRESS_DIALOG(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), PT_TYPE_PROGRESS_DIALOG, PtProgressDialog))
 #define PT_IS_PROGRESS_DIALOG(obj)	(G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_TYPE_PROGRESS_DIALOG))

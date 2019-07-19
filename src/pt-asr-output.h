@@ -56,6 +56,4 @@ void            pt_asr_output_search_app	(PtAsrOutput *self,
 
 PtAsrOutput 	*pt_asr_output_new		(void);
 
-G_END_DECLS
-
 #endif

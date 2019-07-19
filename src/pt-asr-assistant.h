@@ -51,6 +51,4 @@ gchar*		pt_asr_assistant_save_config	(PtAsrAssistant *self,
 
 PtAsrAssistant 	*pt_asr_assistant_new		(GtkWindow     *win);
 
-G_END_DECLS
-
 #endif

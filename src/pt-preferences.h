@@ -46,7 +46,4 @@ GType		pt_preferences_dialog_get_type	(void) G_GNUC_CONST;
 
 void		pt_show_preferences_dialog	(GtkWindow *parent);
 
-
-G_END_DECLS
-
 #endif

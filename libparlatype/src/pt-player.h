@@ -22,6 +22,8 @@
 #include "pt-wavedata.h"
 #include "pt-waveviewer.h"
 
+G_BEGIN_DECLS
+
 #define PT_TYPE_PLAYER		(pt_player_get_type())
 #define PT_PLAYER(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), PT_TYPE_PLAYER, PtPlayer))
 #define PT_IS_PLAYER(obj)	(G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_TYPE_PLAYER))
@@ -143,5 +145,7 @@ gboolean	pt_player_setup_player		(PtPlayer  *player,
 gboolean	pt_player_setup_sphinx		(PtPlayer  *player,
 			                         GError   **error);
 PtPlayer*	pt_player_new			(void);
+
+G_END_DECLS
 
 #endif

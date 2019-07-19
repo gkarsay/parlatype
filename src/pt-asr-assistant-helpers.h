@@ -41,7 +41,4 @@ void		_pt_asr_assistant_recursive_search_async (
 					GAsyncReadyCallback  callback,
 					gpointer             user_data);
 
-
-G_END_DECLS
-
 #endif

@@ -50,7 +50,6 @@ void		pt_waveviewer_ruler_set_ruler	(PtWaveviewerRuler *self,
 				                 gint64             duration);
 GtkWidget	*pt_waveviewer_ruler_new	(void);
 
-
 G_END_DECLS
 
 #endif // PT_WAVEVIEWER_RULER_H

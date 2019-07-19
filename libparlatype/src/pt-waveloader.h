@@ -21,6 +21,8 @@
 #include <gio/gio.h>
 #include "pt-wavedata.h"
 
+G_BEGIN_DECLS
+
 #define PT_TYPE_WAVELOADER		(pt_waveloader_get_type())
 #define PT_WAVELOADER(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), PT_TYPE_WAVELOADER, PtWaveloader))
 #define PT_IS_WAVELOADER(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_TYPE_WAVELOADER))
@@ -65,5 +67,7 @@ PtWavedata*	pt_waveloader_get_data		(PtWaveloader *wl,
 						 gint          pps);
 
 PtWaveloader*	pt_waveloader_new		(gchar *uri);
+
+G_END_DECLS
 
 #endif

@@ -61,8 +61,6 @@ void		pt_waveviewer_set_wave	(PtWaveviewer *self,
 
 GtkWidget	*pt_waveviewer_new	(void);
 
-
-
 G_END_DECLS
 
 #endif // PT_WAVEVIEWER_H

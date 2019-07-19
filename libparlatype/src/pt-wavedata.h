@@ -21,6 +21,8 @@
 #include <glib-object.h>
 #include <glib.h>
 
+G_BEGIN_DECLS
+
 #define PT_TYPE_WAVEDATA		(pt_wavedata_get_type ())
 
 typedef struct _PtWavedata PtWavedata;
@@ -55,5 +57,7 @@ PtWavedata*	pt_wavedata_new		(gfloat *array,
 					 gint64  length,
 					 guint   channels,
 					 guint   px_per_sec);
+
+G_END_DECLS
 
 #endif

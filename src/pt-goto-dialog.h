@@ -51,6 +51,4 @@ void		pt_goto_dialog_set_max	(PtGotoDialog *dlg,
 
 PtGotoDialog 	*pt_goto_dialog_new	(GtkWindow *win);
 
-G_END_DECLS
-
 #endif
