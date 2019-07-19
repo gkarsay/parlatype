@@ -657,7 +657,7 @@ pt_waveloader_class_init (PtWaveloaderClass *klass)
 PtWaveloader *
 pt_waveloader_new (gchar *uri)
 {
-	pt_i18n_init ();
+	_pt_i18n_init ();
 	return g_object_new (PT_TYPE_WAVELOADER,
 			     "uri", uri,
 			     NULL);

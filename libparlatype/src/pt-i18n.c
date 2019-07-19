@@ -41,7 +41,7 @@ pt_i18n_real_init (gpointer data)
 }
 
 void
-pt_i18n_init (void)
+_pt_i18n_init (void)
 {
 	static GOnce my_once = G_ONCE_INIT;
 	g_once (&my_once, pt_i18n_real_init, NULL);

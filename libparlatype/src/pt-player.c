@@ -2690,6 +2690,6 @@ pt_player_class_init (PtPlayerClass *klass)
 PtPlayer *
 pt_player_new (void)
 {
-	pt_i18n_init ();
+	_pt_i18n_init ();
 	return g_object_new (PT_TYPE_PLAYER, NULL);
 }

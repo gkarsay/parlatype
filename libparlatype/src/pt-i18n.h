@@ -22,7 +22,7 @@
 
 G_BEGIN_DECLS
 
-void	pt_i18n_init	(void);
+void	_pt_i18n_init	(void);
 
 G_END_DECLS
 
