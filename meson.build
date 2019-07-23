@@ -21,6 +21,7 @@ conf_inc = include_directories('.', 'libparlatype/src')
 
 prefix = get_option('prefix')
 bindir = join_paths(prefix, get_option('bindir'))
+libdir = join_paths(prefix, get_option('libdir'))
 datadir = join_paths(prefix, get_option('datadir'))
 pkgdatadir = join_paths(datadir, meson.project_name())
 localedir = join_paths(prefix, get_option('localedir'))
@@ -50,3 +51,38 @@ subdir('src')
 if libreoffice
 	subdir('libreoffice')
 endif
+
+status = [
+  '', '',
+  'Parlatype @0@'.format(meson.project_version()),
+  '',
+  'Prefix ................... : @0@'.format(prefix),
+  'With ASR ................. : @0@'.format(asr),
+  'With LibreOffice helpers . : @0@'.format(libreoffice)
+]
+
+if libreoffice
+	status += [
+  'Script folder ............ : @0@'.format(get_option('libreoffice-dir'))
+	]
+endif
+
+status += [
+  '',
+  'With GObject Introspection : @0@'.format(gir),
+  'With API reference ....... : @0@'.format(gtk_doc),
+  'With Glade catalog ....... : @0@'.format(glade),
+  ''
+]
+
+if (prefix != '/usr')
+	status += ['Command to run parlatype:']
+	if (asr)
+		status += ['LD_LIBRARY_PATH=@0@ GST_PLUGIN_PATH=@0@/gstreamer-1.0 @1@/parlatype'.format(libdir, bindir)]
+	else
+		status += ['LD_LIBRARY_PATH=@0@ @1@/parlatype'.format(libdir, bindir)]
+	endif
+	status += ['']
+endif
+
+message('\n '.join(status))
