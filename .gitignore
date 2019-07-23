@@ -4,6 +4,9 @@
 *~
 *.pot
 
+# gnome-builder
+.buildconfig
+
 *.tar.gz
 *.tar.gz.asc
 /build/
