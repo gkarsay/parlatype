@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
 "POT-Creation-Date: 2019-05-27 21:09+0200\n"
-"PO-Revision-Date: 2019-03-13 22:48+0000\n"
+"PO-Revision-Date: 2019-07-22 19:14+0000\n"
 "Last-Translator: Moo <hazap@hotmail.com>\n"
 "Language-Team: Lithuanian <lt@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "(n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2019-07-05 10:56+0000\n"
-"X-Generator: Launchpad (build 19007)\n"
+"X-Launchpad-Export-Date: 2019-07-23 18:40+0000\n"
+"X-Generator: Launchpad (build 19010)\n"
 "Language: lt\n"
 
 #: data/com.github.gkarsay.parlatype.appdata.xml.in:7
@@ -28,14 +28,14 @@ msgstr "Parlatype"
 
 #: data/com.github.gkarsay.parlatype.appdata.xml.in:8
 msgid "Media player for speech transcription"
-msgstr ""
+msgstr "Šnekos transkripcijos medijos leistuvė"
 
 #: data/com.github.gkarsay.parlatype.appdata.xml.in:11
 msgid ""
 "Parlatype is an easy to use media player. Its main purpose is to help you "
 "transcribing speech."
 msgstr ""
-"Parlatype yra lengvas naudoti medijos grotuvas. Jo pagrindinis tikslas yra "
+"Parlatype yra lengva naudoti medijos leistuvė. Jos pagrindinis tikslas yra "
 "padėti jums perrašyti kalbėjimą."
 
 #: data/com.github.gkarsay.parlatype.appdata.xml.in:24
@@ -68,7 +68,7 @@ msgstr "Rodyti programos versiją"
 
 #: src/pt-app.c:52
 msgid "Enable automatic speech recognition"
-msgstr ""
+msgstr "Įjungti automatinį šnekos atpažinimą"
 
 #: src/pt-app.c:60
 msgid "Use internal textpad for automatic speech recognition"
