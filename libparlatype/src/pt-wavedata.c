@@ -103,9 +103,9 @@ void pt_wavedata_free (PtWavedata *data)
  */
 PtWavedata*
 pt_wavedata_new (gfloat *array,
-		 gint64  length,
-		 guint   channels,
-		 guint   px_per_sec)
+                 gint64  length,
+                 guint   channels,
+                 guint   px_per_sec)
 {
 	PtWavedata *data;
 	data = g_new0 (PtWavedata, 1);

@@ -38,7 +38,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtWaveviewerCursor, pt_waveviewer_cursor, GTK_TYPE_D
 
 static gboolean
 pt_waveviewer_cursor_draw (GtkWidget *widget,
-			   cairo_t   *cr)
+                           cairo_t   *cr)
 {
 	PtWaveviewerCursor *self = (PtWaveviewerCursor *) widget;
 
@@ -121,7 +121,7 @@ cache_cursor (PtWaveviewerCursor *self)
 
 static void
 pt_waveviewer_cursor_size_allocate (GtkWidget     *widget,
-				    GtkAllocation *rectangle)
+                                    GtkAllocation *rectangle)
 {
 	GTK_WIDGET_CLASS (pt_waveviewer_cursor_parent_class)->size_allocate (widget, rectangle);
 	/* If widget changed vertical size, cursor’s size has to be adjusted */
@@ -148,8 +148,8 @@ update_cached_style_values (PtWaveviewerCursor *self)
 }
 
 static void
-pt_waveviewer_cursor_state_flags_changed (GtkWidget	 *widget,
-					  GtkStateFlags  flags)
+pt_waveviewer_cursor_state_flags_changed (GtkWidget     *widget,
+                                          GtkStateFlags  flags)
 {
 	update_cached_style_values (PT_WAVEVIEWER_CURSOR (widget));
 	GTK_WIDGET_CLASS (pt_waveviewer_cursor_parent_class)->state_flags_changed (widget, flags);
@@ -175,7 +175,7 @@ pt_waveviewer_cursor_realize (GtkWidget *widget)
 
 void
 pt_waveviewer_cursor_render (PtWaveviewerCursor *self,
-			     gint                position)
+                             gint                position)
 {
 	if (self->priv->position == position)
 		return;
@@ -187,7 +187,7 @@ pt_waveviewer_cursor_render (PtWaveviewerCursor *self,
 
 void
 pt_waveviewer_cursor_set_focus (PtWaveviewerCursor *self,
-			        gboolean            focus)
+                                gboolean            focus)
 {
 	if (self->priv->focus == focus)
 		return;

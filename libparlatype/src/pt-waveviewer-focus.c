@@ -35,7 +35,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtWaveviewerFocus, pt_waveviewer_focus, GTK_TYPE_DRA
 
 static gboolean
 pt_waveviewer_focus_draw (GtkWidget *widget,
-			  cairo_t   *cr)
+                          cairo_t   *cr)
 {
 	PtWaveviewerFocus *self = (PtWaveviewerFocus *) widget;
 
@@ -56,7 +56,7 @@ pt_waveviewer_focus_draw (GtkWidget *widget,
 
 static void
 adj_value_changed (GtkAdjustment *adj,
-		   gpointer       data)
+                   gpointer       data)
 {
 	PtWaveviewerFocus *self = PT_WAVEVIEWER_FOCUS (data);
 
@@ -66,7 +66,7 @@ adj_value_changed (GtkAdjustment *adj,
 
 static void
 pt_waveviewer_focus_hierarchy_changed (GtkWidget *widget,
-				       GtkWidget *old_parent)
+                                       GtkWidget *old_parent)
 {
 	PtWaveviewerFocus *self = PT_WAVEVIEWER_FOCUS (widget);
 
@@ -84,7 +84,7 @@ pt_waveviewer_focus_hierarchy_changed (GtkWidget *widget,
 
 void
 pt_waveviewer_focus_set (PtWaveviewerFocus *self,
-			 gboolean           focus)
+                         gboolean           focus)
 {
 	if (self->priv->focus == focus)
 		return;

@@ -25,7 +25,7 @@
 
 static gboolean
 handle_uri (PtWindow *win,
-	    gchar    *data)
+            gchar    *data)
 {
 	GFile   *file;
 	gchar  **split = NULL;
@@ -71,7 +71,7 @@ handle_uri (PtWindow *win,
 
 static gboolean
 handle_filename (PtWindow *win,
-		 gchar    *data)
+                 gchar    *data)
 {
 	gboolean       success;
 	GList	      *list;
@@ -107,7 +107,7 @@ handle_filename (PtWindow *win,
 
 static gboolean
 handle_dnd_data (PtWindow *win,
-		 gchar    *data)
+                 gchar    *data)
 {
 	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
 	                  "MESSAGE", "Received drag and drop: '%s'", data);
@@ -125,12 +125,12 @@ handle_dnd_data (PtWindow *win,
 }
 
 static gboolean
-win_dnd_drop_cb (GtkWidget	*widget,
-		 GdkDragContext *context,
-		 gint		 x,
-		 gint		 y,
-		 guint		 time,
-		 gpointer	 user_data)
+win_dnd_drop_cb (GtkWidget     *widget,
+                GdkDragContext *context,
+                gint            x,
+                gint            y,
+                guint           time,
+                gpointer        user_data)
 {
 	gboolean  is_valid_drop_site;
 	GdkAtom   target_type;
@@ -161,28 +161,28 @@ win_dnd_drop_cb (GtkWidget	*widget,
 
 	if (have_target) {
 
-                /* Request the data from the source. */
-                gtk_drag_get_data (widget,	/* will receive “drag-data-received” signal */
-				   context,	/* represents the current state of the DnD */
-				   target_type,
-				   time);
-        } else {
-	        /* No target offered by source => error */
+		/* Request the data from the source. */
+		gtk_drag_get_data (widget,	/* will receive “drag-data-received” signal */
+				context,	/* represents the current state of the DnD */
+				target_type,
+				time);
+	} else {
+		/* No target offered by source => error */
 		is_valid_drop_site = FALSE;
-        }
+	}
 
-        return  is_valid_drop_site;
+	return  is_valid_drop_site;
 }
 
 static void
-win_dnd_received_cb (GtkWidget	      *widget,
-		     GdkDragContext   *context,
-		     int	       x,
-		     int	       y,
-		     GtkSelectionData *seldata,
-		     guint	       info,
-		     guint	       time,
-		     gpointer	       user_data)
+win_dnd_received_cb (GtkWidget        *widget,
+                     GdkDragContext   *context,
+                     int               x,
+                     int               y,
+                     GtkSelectionData *seldata,
+                     guint             info,
+                     guint             time,
+                     gpointer       user_data)
 {
 	PtWindow *win = user_data;
 	gchar	 *data;
@@ -208,13 +208,13 @@ win_dnd_received_cb (GtkWidget	      *widget,
 }
 
 static gboolean
-win_dnd_motion_cb (GtkWidget	  *widget,
-		   GdkDragContext *context,
-		   gint		   x,
-		   gint		   y,
-		   guint	   info,
-		   guint	   time,
-		   gpointer	   user_data)
+win_dnd_motion_cb (GtkWidget      *widget,
+                   GdkDragContext *context,
+                   gint            x,
+                   gint            y,
+                   guint           info,
+                   guint           time,
+                   gpointer        user_data)
 {
 	/* We handle this signal ourselves, because using GTK_DEST_DEFAULT_MOTION
 	   drags with source LibreOffice show an icon indicating drag is not

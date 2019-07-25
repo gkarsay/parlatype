@@ -26,11 +26,11 @@
 
 struct _PtWaveviewerRulerPrivate {
 	gboolean  rtl;
-	gint64	  n_samples;
-	gint	  px_per_sec;
+	gint64    n_samples;
+	gint      px_per_sec;
 	gint64    duration;	/* in milliseconds */
 
-	GtkAdjustment   *adj;	/* the parent PtWaveviewer’s adjustment */
+	GtkAdjustment *adj;	/* the parent PtWaveviewer’s adjustment */
 
 	/* Ruler marks */
 	gboolean  time_format_long;
@@ -45,7 +45,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtWaveviewerRuler, pt_waveviewer_ruler, GTK_TYPE_DRA
 
 static gint64
 flip_pixel (PtWaveviewerRuler *self,
-	    gint64             pixel)
+            gint64             pixel)
 {
 	/* In ltr layouts each pixel on the x-axis corresponds to a sample in the array.
 	   In rtl layouts this is flipped, e.g. the first pixel corresponds to
@@ -64,7 +64,7 @@ flip_pixel (PtWaveviewerRuler *self,
 
 static gint64
 time_to_pixel (PtWaveviewerRuler *self,
-	       gint64             ms)
+               gint64             ms)
 {
 	/* Convert a time in 1/1000 seconds to the closest pixel in the drawing area */
 	gint64 result;
@@ -80,7 +80,7 @@ time_to_pixel (PtWaveviewerRuler *self,
 
 static gint64
 pixel_to_time (PtWaveviewerRuler *self,
-	       gint64             pixel)
+               gint64             pixel)
 {
 	/* Convert a position in the drawing area to time in milliseconds */
 	gint64 result;
@@ -101,8 +101,8 @@ pt_waveviewer_ruler_draw (GtkWidget *widget,
 	PtWaveviewerRuler *self = (PtWaveviewerRuler *) widget;
 	gint height = gtk_widget_get_allocated_height (widget);
 
-	gint	        i;		/* counter, pixel on x-axis in the view */
-	gint		sample;		/* sample in the array */
+	gint            i;		/* counter, pixel on x-axis in the view */
+	gint            sample;		/* sample in the array */
 	gchar          *text;
 	PangoLayout    *layout;
 	PangoRectangle  rect;
@@ -110,7 +110,7 @@ pt_waveviewer_ruler_draw (GtkWidget *widget,
 	gint64          tmp_time;
 	GtkStyleContext *context;
 	GdkRGBA         text_color;
-	gdouble left, right;
+	gdouble         left, right;
 
 	cairo_clip_extents (cr, &left, NULL, &right, NULL);
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
@@ -320,7 +320,7 @@ pt_waveviewer_ruler_realize (GtkWidget *widget)
 
 static void
 adj_value_changed (GtkAdjustment *adj,
-		   gpointer       data)
+                   gpointer       data)
 {
 	PtWaveviewerRuler *self = PT_WAVEVIEWER_RULER (data);
 	gint height, width, left;
@@ -335,7 +335,7 @@ adj_value_changed (GtkAdjustment *adj,
 
 static void
 pt_waveviewer_ruler_hierarchy_changed (GtkWidget *widget,
-				       GtkWidget *old_parent)
+                                       GtkWidget *old_parent)
 {
 	PtWaveviewerRuler *self = PT_WAVEVIEWER_RULER (widget);
 
@@ -353,9 +353,9 @@ pt_waveviewer_ruler_hierarchy_changed (GtkWidget *widget,
 
 void
 pt_waveviewer_ruler_set_ruler (PtWaveviewerRuler *self,
-                    	       gint64   n_samples,
-		               gint     px_per_sec,
-	                       gint64   duration)
+                               gint64             n_samples,
+                               gint               px_per_sec,
+                               gint64             duration)
 {
 	self->priv->n_samples = n_samples;
 	self->priv->px_per_sec = px_per_sec;

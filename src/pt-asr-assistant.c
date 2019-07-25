@@ -51,9 +51,9 @@ struct _PtAsrAssistantPrivate
 	GtkListStore *hmm_list;
 
 	/* Data */
-	gchar     *lm_path;
-	gchar     *dict_path;
-	gchar     *hmm_path;
+	gchar *lm_path;
+	gchar *dict_path;
+	gchar *hmm_path;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PtAsrAssistant, pt_asr_assistant, GTK_TYPE_ASSISTANT)

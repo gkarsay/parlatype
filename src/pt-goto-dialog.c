@@ -65,7 +65,7 @@ string_to_time (const char *time_string)
 
 void
 value_changed_cb (GtkSpinButton *spin,
-		  gpointer       data)
+                  gpointer       data)
 {
 	PtGotoDialog  *dlg = (PtGotoDialog *) data;
 	GtkAdjustment *adj;
@@ -81,7 +81,7 @@ value_changed_cb (GtkSpinButton *spin,
 
 gboolean
 output_cb (GtkSpinButton *spin,
-	   PtGotoDialog  *dlg)
+           PtGotoDialog  *dlg)
 {
 	gchar *text;
 
@@ -100,8 +100,8 @@ output_cb (GtkSpinButton *spin,
 
 gint
 input_cb (GtkSpinButton *self,
-	  gdouble	*new_value,
-	  gpointer	 user_data)
+          gdouble       *new_value,
+          gpointer       user_data)
 {
 	gint64 val;
 
@@ -144,14 +144,14 @@ pt_goto_dialog_get_pos (PtGotoDialog *dlg)
 
 void
 pt_goto_dialog_set_pos (PtGotoDialog *dlg,
-			gint	      seconds)
+                        gint         seconds)
 {
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (dlg->priv->spin), (gdouble) seconds);
 }
 
 void
 pt_goto_dialog_set_max (PtGotoDialog *dlg,
-			gint	      seconds)
+                        gint          seconds)
 {
 	gchar *time_string;
 	guint width;

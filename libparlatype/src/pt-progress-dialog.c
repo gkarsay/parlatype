@@ -128,7 +128,7 @@ format_time_string (gint seconds)
  */
 void
 pt_progress_dialog_set_progress (PtProgressDialog *dlg,
-				 gdouble	   progress)
+                                 gdouble           progress)
 {
 	g_return_if_fail (PT_IS_PROGRESS_DIALOG (dlg));
 	g_return_if_fail (progress >= 0 && progress <= 1);

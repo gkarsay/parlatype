@@ -203,8 +203,8 @@ static void
 show_dialog (PtAsrOutput *self,
              GtkWindow   *parent)
 {
-	gchar     *message;
-	gchar     *secondary_message;
+	gchar *message;
+	gchar *secondary_message;
 
 	/* Translators: This feature is disabled by default, its translation has low priority. */
 	message = _("Select output for automatic speech recognition");

@@ -39,17 +39,17 @@ struct _PtWaveloaderPrivate
 	gchar      *uri;
 	gboolean    downmix;
 
-	gint64	    duration;
-	gint	    channels;
-	gint	    rate;
-	gint64	    data_size;
+	gint64      duration;
+	gint        channels;
+	gint        rate;
+	gint64      data_size;
 
-	gint	    bus_watch_id;
-	gint	    progress_timeout;
-	gdouble	    progress;
+	gint        bus_watch_id;
+	gint        progress_timeout;
+	gdouble     progress;
 
-	gint	    fd;
-	FILE	   *tf;
+	gint        fd;
+	FILE       *tf;
 };
 
 enum
@@ -193,7 +193,7 @@ check_progress (GTask *task)
 
 static gint64
 calculate_duration (gint64 data_size,
-		    gint   px_per_sec)
+                    gint   px_per_sec)
 {
 	/* Calculates streams duration from data size exactly the way
 	   pt-waveviewer.c does */
@@ -212,8 +212,8 @@ calculate_duration (gint64 data_size,
 
 static gboolean
 bus_handler (GstBus     *bus,
-	     GstMessage *msg,
-	     gpointer    data)
+             GstMessage *msg,
+             gpointer    data)
 {
 	GTask *task = (GTask *) data;
 	PtWaveloader *wl = g_task_get_source_object (task);
@@ -298,8 +298,8 @@ bus_handler (GstBus     *bus,
  */
 gboolean
 pt_waveloader_load_finish (PtWaveloader  *wl,
-			   GAsyncResult  *result,
-			   GError       **error)
+                           GAsyncResult  *result,
+                           GError       **error)
 {
 	g_return_val_if_fail (g_task_is_valid (result, wl), FALSE);
 
@@ -324,10 +324,10 @@ pt_waveloader_load_finish (PtWaveloader  *wl,
  * operation.
  */
 void
-pt_waveloader_load_async (PtWaveloader	       *wl,
-			  GCancellable	       *cancellable,
-			  GAsyncReadyCallback   callback,
-			  gpointer		user_data)
+pt_waveloader_load_async (PtWaveloader        *wl,
+                          GCancellable        *cancellable,
+                          GAsyncReadyCallback  callback,
+                          gpointer             user_data)
 {
 	GTask  *task;
 	GstBus *bus;
@@ -411,7 +411,7 @@ pt_waveloader_get_duration (PtWaveloader *wl)
  */
 PtWavedata*
 pt_waveloader_get_data (PtWaveloader *wl,
-			gint          pps)
+                        gint          pps)
 {
 	gfloat *array = NULL;
 	gint64 i;
@@ -561,9 +561,9 @@ pt_waveloader_dispose (GObject *object)
 
 static void
 pt_waveloader_set_property (GObject      *object,
-			    guint         property_id,
-			    const GValue *value,
-			    GParamSpec   *pspec)
+                            guint         property_id,
+                            const GValue *value,
+                            GParamSpec   *pspec)
 {
 	PtWaveloader *wl;
 	wl = PT_WAVELOADER (object);
@@ -581,9 +581,9 @@ pt_waveloader_set_property (GObject      *object,
 
 static void
 pt_waveloader_get_property (GObject    *object,
-			    guint       property_id,
-			    GValue     *value,
-			    GParamSpec *pspec)
+                            guint       property_id,
+                            GValue     *value,
+                            GParamSpec *pspec)
 {
 	PtWaveloader *wl;
 	wl = PT_WAVELOADER (object);

@@ -23,10 +23,10 @@
 
 static void
 on_media_key_pressed (GDBusProxy *proxy,
-		      gchar      *sender_name,
-		      gchar      *signal_name,
-		      GVariant   *parameters,
-		      PtWindow   *win)
+                      gchar      *sender_name,
+                      gchar      *signal_name,
+                      GVariant   *parameters,
+                      PtWindow   *win)
 {
 	GVariant    *app_parameter;
 	GVariant    *key_parameter;
@@ -60,8 +60,8 @@ on_media_key_pressed (GDBusProxy *proxy,
 
 static void
 proxy_call_cb (GObject      *source_object,
-	       GAsyncResult *res,
-	       gpointer      user_data)
+               GAsyncResult *res,
+               gpointer      user_data)
 {
 	GVariant *variant;
 	GError *error = NULL;
@@ -94,9 +94,9 @@ grab_mediakeys (PtWindow *win)
 }
 
 static gboolean
-window_focus_in_event_cb (GtkWidget	*widget,
-		          GdkEventFocus *event,
-		          PtWindow	*win)
+window_focus_in_event_cb (GtkWidget     *widget,
+                          GdkEventFocus *event,
+                          PtWindow      *win)
 {
 	grab_mediakeys (win);
 	return FALSE;
@@ -156,7 +156,7 @@ name_appeared_cb (GDBusConnection *connection,
 
 static void
 clean_up (const gchar *name,
-	  PtWindow    *win)
+          PtWindow    *win)
 {
 	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
 	                  "MESSAGE", "Couldn’t find %s", name);

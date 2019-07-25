@@ -24,11 +24,11 @@
 
 struct _PtWaveviewerWaveformPrivate {
 	/* Wavedata */
-	gfloat	 *peaks;
-	gint64	  peaks_size;	/* size of array */
+	gfloat   *peaks;
+	gint64    peaks_size;	/* size of array */
 
 	/* Rendering */
-	GdkRGBA	  wave_color;
+	GdkRGBA   wave_color;
 	gboolean  rtl;
 };
 
@@ -38,7 +38,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtWaveviewerWaveform, pt_waveviewer_waveform, GTK_TY
 
 static gint64
 flip_pixel (PtWaveviewerWaveform *self,
-	    gint64                pixel)
+            gint64                pixel)
 {
 	/* In ltr layouts each pixel on the x-axis corresponds to a sample in the array.
 	   In rtl layouts this is flipped, e.g. the first pixel corresponds to
@@ -59,7 +59,7 @@ flip_pixel (PtWaveviewerWaveform *self,
 
 static gint64
 pixel_to_array (PtWaveviewerWaveform *self,
-		gint64	              pixel)
+                gint64                pixel)
 {
 	/* Convert a position in the drawing area to an index in the peaks array.
 	   The returned index is the peak’s min value, +1 is the max value.
@@ -80,7 +80,7 @@ pixel_to_array (PtWaveviewerWaveform *self,
 
 static gboolean
 pt_waveviewer_waveform_draw (GtkWidget *widget,
-			     cairo_t   *cr)
+                             cairo_t   *cr)
 {
 	PtWaveviewerWaveform *self = (PtWaveviewerWaveform *) widget;
 
@@ -148,8 +148,8 @@ update_cached_style_values (PtWaveviewerWaveform *self)
 }
 
 static void
-pt_waveviewer_waveform_state_flags_changed (GtkWidget	 *widget,
-					    GtkStateFlags  flags)
+pt_waveviewer_waveform_state_flags_changed (GtkWidget     *widget,
+                                            GtkStateFlags  flags)
 {
 	update_cached_style_values (PT_WAVEVIEWER_WAVEFORM (widget));
 	GTK_WIDGET_CLASS (pt_waveviewer_waveform_parent_class)->state_flags_changed (widget, flags);
@@ -175,8 +175,8 @@ pt_waveviewer_waveform_realize (GtkWidget *widget)
 
 void
 pt_waveviewer_waveform_set (PtWaveviewerWaveform *self,
-			    gfloat               *peaks,
-			    gint64                peaks_size)
+                            gfloat               *peaks,
+                            gint64                peaks_size)
 {
 	self->priv->peaks = peaks;
 	self->priv->peaks_size = peaks_size;

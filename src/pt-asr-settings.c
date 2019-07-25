@@ -83,9 +83,9 @@ pt_asr_settings_save_keyfile (PtAsrSettings *settings)
  */
 gboolean
 pt_asr_settings_set_int (PtAsrSettings *settings,
-                         gchar *id,
-                         gchar *field,
-                         gint   value)
+                         gchar         *id,
+                         gchar         *field,
+                         gint           value)
 {
 	g_key_file_set_integer (
 			settings->priv->keyfile,
@@ -108,8 +108,8 @@ pt_asr_settings_set_int (PtAsrSettings *settings,
  */
 gint
 pt_asr_settings_get_int (PtAsrSettings *settings,
-                         gchar *id,
-                         gchar *field)
+                         gchar         *id,
+                         gchar         *field)
 {
 	GError *error = NULL;
 	gint    result;
@@ -141,9 +141,9 @@ pt_asr_settings_get_int (PtAsrSettings *settings,
  */
 gboolean
 pt_asr_settings_set_boolean (PtAsrSettings *settings,
-                             gchar *id,
-                             gchar *field,
-                             gboolean value)
+                             gchar         *id,
+                             gchar         *field,
+                             gboolean       value)
 {
 	g_key_file_set_boolean (
 			settings->priv->keyfile,
@@ -165,8 +165,8 @@ pt_asr_settings_set_boolean (PtAsrSettings *settings,
  */
 gboolean
 pt_asr_settings_get_boolean (PtAsrSettings *settings,
-                             gchar *id,
-                             gchar *field)
+                             gchar         *id,
+                             gchar         *field)
 {
 	GError   *error = NULL;
 	gboolean  result;
@@ -198,9 +198,9 @@ pt_asr_settings_get_boolean (PtAsrSettings *settings,
  */
 gboolean
 pt_asr_settings_set_string (PtAsrSettings *settings,
-                            gchar *id,
-                            gchar *field,
-                            gchar *string)
+                            gchar         *id,
+                            gchar         *field,
+                            gchar         *string)
 {
 	g_key_file_set_string (
 			settings->priv->keyfile,
@@ -223,8 +223,8 @@ pt_asr_settings_set_string (PtAsrSettings *settings,
  */
 gchar*
 pt_asr_settings_get_string (PtAsrSettings *settings,
-                            gchar *id,
-                            gchar *field)
+                            gchar         *id,
+                            gchar         *field)
 {
 	GError *error = NULL;
 	gchar  *result;
@@ -297,8 +297,8 @@ pt_asr_settings_have_configs (PtAsrSettings *settings)
  */
 gchar*
 pt_asr_settings_add_config (PtAsrSettings *settings,
-                            gchar *name,
-                            gchar *type)
+                            gchar         *name,
+                            gchar         *type)
 {
 	gchar *group;
 	gint id = 1;
@@ -345,7 +345,7 @@ pt_asr_settings_add_config (PtAsrSettings *settings,
  */
 gboolean
 pt_asr_settings_remove_config (PtAsrSettings *settings,
-                               gchar *id)
+                               gchar         *id)
 {
 	GError *error = NULL;
 	gboolean result;
@@ -464,9 +464,9 @@ pt_asr_settings_finalize (GObject *object)
 
 static void
 pt_asr_settings_set_property (GObject      *object,
-			      guint         property_id,
-			      const GValue *value,
-			      GParamSpec   *pspec)
+                              guint         property_id,
+                              const GValue *value,
+                              GParamSpec   *pspec)
 {
 	PtAsrSettings *settings = PT_ASR_SETTINGS (object);
 
@@ -483,9 +483,9 @@ pt_asr_settings_set_property (GObject      *object,
 
 static void
 pt_asr_settings_get_property (GObject    *object,
-			      guint       property_id,
-			      GValue     *value,
-			      GParamSpec *pspec)
+                              guint       property_id,
+                              GValue     *value,
+                              GParamSpec *pspec)
 {
 	PtAsrSettings *settings = PT_ASR_SETTINGS (object);
 

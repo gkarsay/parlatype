@@ -34,7 +34,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtWaveviewerSelection, pt_waveviewer_selection, GTK_
 
 static gboolean
 pt_waveviewer_selection_draw (GtkWidget *widget,
-			      cairo_t   *cr)
+                              cairo_t   *cr)
 {
 	PtWaveviewerSelection *self = (PtWaveviewerSelection *) widget;
 
@@ -89,8 +89,8 @@ update_cached_style_values (PtWaveviewerSelection *self)
 }
 
 static void
-pt_waveviewer_selection_state_flags_changed (GtkWidget	   *widget,
-					     GtkStateFlags  flags)
+pt_waveviewer_selection_state_flags_changed (GtkWidget     *widget,
+                                             GtkStateFlags  flags)
 {
 	update_cached_style_values (PT_WAVEVIEWER_SELECTION (widget));
 	GTK_WIDGET_CLASS (pt_waveviewer_selection_parent_class)->state_flags_changed (widget, flags);
@@ -116,8 +116,8 @@ pt_waveviewer_selection_realize (GtkWidget *widget)
 
 void
 pt_waveviewer_selection_set (PtWaveviewerSelection *self,
-			     gint                   start,
-			     gint                   end)
+                             gint                   start,
+                             gint                   end)
 {
 	gint x1, x2, height;
 

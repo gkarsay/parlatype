@@ -123,7 +123,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtPlayer, pt_player, G_TYPE_OBJECT)
 
 static gboolean
 pt_player_query_position (PtPlayer *player,
-			  gpointer  position)
+                          gpointer  position)
 {
 	gboolean result;
 	result = gst_element_query_position (player->priv->play, GST_FORMAT_TIME, position);
@@ -139,7 +139,7 @@ pt_player_clear (PtPlayer *player)
 
 static void
 pt_player_seek (PtPlayer *player,
-		gint64    position)
+                gint64    position)
 {
 	/* Set the pipeline to @position.
 	   The stop position (player->priv->segend) usually doesn’t has to be
@@ -382,20 +382,20 @@ bus_call (GstBus     *bus,
 
 static void
 propagate_progress_cb (PtWaveloader *wl,
-		       gdouble	     progress,
-		       PtPlayer     *player)
+                       gdouble       progress,
+                       PtPlayer     *player)
 {
 	g_signal_emit_by_name (player, "load-progress", progress);
 }
 
 static void
 load_cb (PtWaveloader *wl,
-	 GAsyncResult *res,
-	 gpointer     *data)
+         GAsyncResult *res,
+         gpointer     *data)
 {
-	GTask	 *task = (GTask *) data;
+	GTask    *task = (GTask *) data;
 	PtPlayer *player = g_task_get_source_object (task);
-	GError	 *error = NULL;
+	GError   *error = NULL;
 
 	if (pt_waveloader_load_finish (wl, res, &error)) {
 		player->priv->dur = player->priv->segend = pt_waveloader_get_duration (player->priv->wl);
@@ -437,9 +437,9 @@ load_cb (PtWaveloader *wl,
  * Return value: TRUE if successful, or FALSE with error set
  */
 gboolean
-pt_player_open_uri_finish (PtPlayer	 *player,
-			   GAsyncResult  *result,
-			   GError       **error)
+pt_player_open_uri_finish (PtPlayer      *player,
+                           GAsyncResult  *result,
+                           GError       **error)
 {
 	g_return_val_if_fail (g_task_is_valid (result, player), FALSE);
 
@@ -472,10 +472,10 @@ pt_player_open_uri_finish (PtPlayer	 *player,
  * reaching 100%. Don’t use it to determine whether the operation is finished.
  */
 void
-pt_player_open_uri_async (PtPlayer	      *player,
-			  gchar		      *uri,
-			  GAsyncReadyCallback  callback,
-			  gpointer	       user_data)
+pt_player_open_uri_async (PtPlayer            *player,
+                          gchar               *uri,
+                          GAsyncReadyCallback  callback,
+                          gpointer             user_data)
 {
 	g_return_if_fail (PT_IS_PLAYER (player));
 	g_return_if_fail (uri != NULL);
@@ -547,9 +547,9 @@ typedef struct
 } SyncData;
 
 static void
-quit_loop_cb (PtPlayer	   *player,
-	      GAsyncResult *res,
-	      gpointer      user_data)
+quit_loop_cb (PtPlayer     *player,
+              GAsyncResult *res,
+              gpointer      user_data)
 {
 	SyncData *data = user_data;
 	data->res = g_object_ref (res);
@@ -584,8 +584,8 @@ quit_loop_cb (PtPlayer	   *player,
  */
 gboolean
 pt_player_open_uri (PtPlayer *player,
-		    gchar    *uri,
-		    GError  **error)
+                    gchar    *uri,
+                    GError  **error)
 {
 	g_return_val_if_fail (PT_IS_PLAYER (player), FALSE);
 	g_return_val_if_fail (uri != NULL, FALSE);
@@ -768,8 +768,8 @@ pt_player_play_pause (PtPlayer *player)
  */
 void
 pt_player_set_selection (PtPlayer *player,
-		         gint64    start,
-		         gint64    end)
+                         gint64    start,
+                         gint64    end)
 {
 	g_return_if_fail (PT_IS_PLAYER (player));
 	g_return_if_fail (start < end);
@@ -837,7 +837,7 @@ pt_player_selection_active (PtPlayer *player)
  */
 void
 pt_player_rewind (PtPlayer *player,
-		  gdouble   speed)
+                  gdouble   speed)
 {
 	g_return_if_fail (PT_IS_PLAYER (player));
 	g_return_if_fail (speed != 0);
@@ -878,7 +878,7 @@ pt_player_rewind (PtPlayer *player,
  */
 void
 pt_player_fast_forward (PtPlayer *player,
-			gdouble   speed)
+                        gdouble   speed)
 {
 	g_return_if_fail (PT_IS_PLAYER (player));
 	g_return_if_fail (speed > 0);
@@ -922,7 +922,7 @@ pt_player_fast_forward (PtPlayer *player,
  */
 void
 pt_player_jump_relative (PtPlayer *player,
-			 gint      milliseconds)
+                         gint      milliseconds)
 {
 	g_return_if_fail (PT_IS_PLAYER (player));
 	if (milliseconds == 0)
@@ -1018,7 +1018,7 @@ pt_player_get_forward (PtPlayer *player)
  */
 void
 pt_player_jump_to_position (PtPlayer *player,
-			    gint      milliseconds)
+                            gint      milliseconds)
 {
 	g_return_if_fail (PT_IS_PLAYER (player));
 
@@ -1051,7 +1051,7 @@ pt_player_jump_to_position (PtPlayer *player,
  */
 void
 pt_player_jump_to_permille (PtPlayer *player,
-			    guint     permille)
+                            guint     permille)
 {
 	g_return_if_fail (PT_IS_PLAYER (player));
 	g_return_if_fail (permille <= 1000);
@@ -1107,7 +1107,7 @@ pt_player_get_permille (PtPlayer *player)
  */
 void
 pt_player_set_speed (PtPlayer *player,
-		     gdouble   speed)
+                     gdouble   speed)
 {
 	g_return_if_fail (PT_IS_PLAYER (player));
 	g_return_if_fail (speed > 0);
@@ -1133,7 +1133,7 @@ pt_player_set_speed (PtPlayer *player,
  */
 void
 pt_player_set_volume (PtPlayer *player,
-		      gdouble   volume)
+                      gdouble   volume)
 {
 	g_return_if_fail (PT_IS_PLAYER (player));
 	g_return_if_fail (volume >= 0 && volume <= 1);
@@ -1156,7 +1156,7 @@ pt_player_set_volume (PtPlayer *player,
  */
 void
 pt_player_mute_volume (PtPlayer *player,
-		       gboolean  mute)
+                       gboolean  mute)
 {
 	g_return_if_fail (PT_IS_PLAYER (player));
 
@@ -1218,7 +1218,7 @@ pt_player_get_duration (PtPlayer *player)
  */
 PtWavedata*
 pt_player_get_data (PtPlayer *player,
-		    gint      pps)
+                    gint      pps)
 {
 	return pt_waveloader_get_data (player->priv->wl, pps);
 }
@@ -1264,8 +1264,8 @@ wv_selection_changed_cb (GtkWidget *widget,
 
 static void
 wv_cursor_changed_cb (PtWaveviewer *wv,
-		      gint64        pos,
-		      PtPlayer     *player)
+                      gint64        pos,
+                      PtPlayer     *player)
 {
 	/* user changed cursor position */
 
@@ -1276,7 +1276,7 @@ wv_cursor_changed_cb (PtWaveviewer *wv,
 
 static void
 wv_play_toggled_cb (GtkWidget *widget,
-		    PtPlayer  *player)
+                    PtPlayer  *player)
 {
 	pt_player_play_pause (player);
 }
@@ -1290,7 +1290,7 @@ wv_play_toggled_cb (GtkWidget *widget,
  * #PtWaveviewer and act accordingly.
  */
 void
-pt_player_connect_waveviewer (PtPlayer *player,
+pt_player_connect_waveviewer (PtPlayer     *player,
                               PtWaveviewer *wv)
 {
 	player->priv->wv = wv;
@@ -1350,7 +1350,7 @@ pt_player_get_filename (PtPlayer *player)
 	const gchar *filename = NULL;
 	GFile       *file = NULL;
 	GFileInfo   *info = NULL;
-	gchar	    *result;
+	gchar	      *result;
 
 	file = pt_player_get_file (player);
 
@@ -1404,9 +1404,9 @@ pt_player_get_filename (PtPlayer *player)
  * Return value: (transfer full): the time string
  */
 gchar*
-pt_player_get_time_string (gint  time,
-			   gint  duration,
-			   PtPrecisionType precision)
+pt_player_get_time_string (gint            time,
+                           gint            duration,
+                           PtPrecisionType precision)
 {
 	/* Don’t assert time <= duration because duration is not exact */
 
@@ -1525,8 +1525,8 @@ pt_player_get_time_string (gint  time,
  * Return value: (transfer full): the time string
  */
 gchar*
-pt_player_get_current_time_string (PtPlayer *player,
-				   PtPrecisionType precision)
+pt_player_get_current_time_string (PtPlayer        *player,
+                                   PtPrecisionType  precision)
 {
 	g_return_val_if_fail (PT_IS_PLAYER (player), NULL);
 	g_return_val_if_fail (precision < PT_PRECISION_INVALID, NULL);
@@ -1554,8 +1554,8 @@ pt_player_get_current_time_string (PtPlayer *player,
  * Return value: (transfer full): the time string
  */
 gchar*
-pt_player_get_duration_time_string (PtPlayer *player,
-				    PtPrecisionType precision)
+pt_player_get_duration_time_string (PtPlayer        *player,
+                                    PtPrecisionType  precision)
 {
 	g_return_val_if_fail (PT_IS_PLAYER (player), NULL);
 	g_return_val_if_fail (precision < PT_PRECISION_INVALID, NULL);
@@ -1694,8 +1694,8 @@ pt_player_get_timestamp (PtPlayer *player)
  */
 gint
 pt_player_get_timestamp_position (PtPlayer *player,
-				  gchar    *timestamp,
-				  gboolean  check_duration)
+                                  gchar    *timestamp,
+                                  gboolean  check_duration)
 {
 	gint       h, m, s, ms, result;
 	gchar     *cmp; /* timestamp without delimiters */
@@ -1812,8 +1812,8 @@ pt_player_get_timestamp_position (PtPlayer *player,
  */
 gboolean
 pt_player_string_is_timestamp (PtPlayer *player,
-			       gchar    *timestamp,
-			       gboolean  check_duration)
+                               gchar    *timestamp,
+                               gboolean  check_duration)
 {
 	g_return_val_if_fail (PT_IS_PLAYER (player), FALSE);
 	g_return_val_if_fail (timestamp != NULL, FALSE);
@@ -1833,7 +1833,7 @@ pt_player_string_is_timestamp (PtPlayer *player,
  */
 gboolean
 pt_player_goto_timestamp (PtPlayer *player,
-			  gchar    *timestamp)
+                          gchar    *timestamp)
 {
 	g_return_val_if_fail (PT_IS_PLAYER (player), FALSE);
 	g_return_val_if_fail (timestamp != NULL, FALSE);
@@ -2234,9 +2234,9 @@ pt_player_dispose (GObject *object)
 
 static void
 pt_player_set_property (GObject      *object,
-			guint         property_id,
-			const GValue *value,
-			GParamSpec   *pspec)
+                        guint         property_id,
+                        const GValue *value,
+                        GParamSpec   *pspec)
 {
 	PtPlayer *player;
 	player = PT_PLAYER (object);
@@ -2310,9 +2310,9 @@ pt_player_set_property (GObject      *object,
 
 static void
 pt_player_get_property (GObject    *object,
-			guint       property_id,
-			GValue     *value,
-			GParamSpec *pspec)
+                        guint       property_id,
+                        GValue     *value,
+                        GParamSpec *pspec)
 {
 	PtPlayer *player;
 	player = PT_PLAYER (object);

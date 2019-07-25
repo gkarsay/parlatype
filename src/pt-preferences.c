@@ -86,8 +86,8 @@ struct _PtPreferencesDialogPrivate
 G_DEFINE_TYPE_WITH_PRIVATE (PtPreferencesDialog, pt_preferences_dialog, GTK_TYPE_DIALOG)
 
 void
-spin_back_changed_cb (GtkSpinButton	   *spin,
-		      PtPreferencesDialog  *dlg)
+spin_back_changed_cb (GtkSpinButton       *spin,
+                      PtPreferencesDialog *dlg)
 {
 	gtk_label_set_label (
 			GTK_LABEL (dlg->priv->label_back),
@@ -100,8 +100,8 @@ spin_back_changed_cb (GtkSpinButton	   *spin,
 }
 
 void
-spin_forward_changed_cb (GtkSpinButton	      *spin,
-			 PtPreferencesDialog  *dlg)
+spin_forward_changed_cb (GtkSpinButton       *spin,
+                         PtPreferencesDialog *dlg)
 {
 	gtk_label_set_label (
 			GTK_LABEL (dlg->priv->label_forward),
@@ -110,8 +110,8 @@ spin_forward_changed_cb (GtkSpinButton	      *spin,
 }
 
 void
-spin_pause_changed_cb (GtkSpinButton	    *spin,
-		       PtPreferencesDialog  *dlg)
+spin_pause_changed_cb (GtkSpinButton       *spin,
+                       PtPreferencesDialog *dlg)
 {
 	gtk_label_set_label (
 			GTK_LABEL (dlg->priv->label_pause),
@@ -121,16 +121,16 @@ spin_pause_changed_cb (GtkSpinButton	    *spin,
 
 gchar*
 format_value_cb (GtkScale *scale,
-		 gdouble   value,
-		 gpointer  data)
+                 gdouble   value,
+                 gpointer  data)
 {
 	return g_strdup_printf ("%d", 25 * (gint) value);
 }
 
 gboolean
 get_pps (GValue   *value,
-	 GVariant *variant,
-	 gpointer  data)
+         GVariant *variant,
+         gpointer  data)
 {
 	gint32 pps;
 	pps = g_variant_get_int32 (variant);
@@ -142,8 +142,8 @@ get_pps (GValue   *value,
 
 GVariant*
 set_pps (const GValue       *value,
-	 const GVariantType *type,
-	 gpointer            data)
+         const GVariantType *type,
+         gpointer            data)
 {
 	gdouble pps;
 	pps = g_value_get_double (value);
@@ -166,7 +166,7 @@ update_example_timestamps (PtPreferencesDialog *dlg)
 }
 
 void
-hours_check_toggled (GtkToggleButton *check,
+hours_check_toggled (GtkToggleButton     *check,
                      PtPreferencesDialog *dlg)
 {
 	g_settings_set_boolean (
@@ -277,7 +277,8 @@ initial_asr_button_clicked_cb (GtkButton           *button,
 }
 
 gboolean
-confirm_delete (GtkWindow *parent, gchar *name)
+confirm_delete (GtkWindow *parent,
+                gchar     *name)
 {
 	g_assert_nonnull (name);
 

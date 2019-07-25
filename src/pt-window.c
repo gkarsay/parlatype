@@ -43,12 +43,12 @@ void jump_forward_button_clicked_cb (GtkButton *button, PtWindow *win);
 
 void
 pt_error_message (PtWindow    *parent,
-		  const gchar *message,
-		  const gchar *secondary_message)
+                  const gchar *message,
+                  const gchar *secondary_message)
 {
-        GtkWidget *dialog;
+	GtkWidget *dialog;
 
-        dialog = gtk_message_dialog_new (
+	dialog = gtk_message_dialog_new (
 			GTK_WINDOW (parent),
 			GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 			GTK_MESSAGE_ERROR,
@@ -60,14 +60,14 @@ pt_error_message (PtWindow    *parent,
 				GTK_MESSAGE_DIALOG (dialog),
 		                "%s", secondary_message);
 
-        gtk_dialog_run (GTK_DIALOG (dialog));
-        gtk_widget_destroy (dialog);
+	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
 }
 
 void
 copy_timestamp (GSimpleAction *action,
-		GVariant      *parameter,
-		gpointer       user_data)
+                GVariant      *parameter,
+                gpointer       user_data)
 {
 	PtWindow *win;
 	win = PT_WINDOW (user_data);
@@ -80,8 +80,8 @@ copy_timestamp (GSimpleAction *action,
 
 static void
 clip_text_cb (GtkClipboard *clip,
-	      const gchar  *text,
-	      gpointer      data)
+              const gchar  *text,
+              gpointer      data)
 {
 	PtWindow *win = (PtWindow *) data;
 	gchar *timestamp;
@@ -96,8 +96,8 @@ clip_text_cb (GtkClipboard *clip,
 
 void
 insert_timestamp (GSimpleAction *action,
-		  GVariant      *parameter,
-		  gpointer       user_data)
+                  GVariant      *parameter,
+                  gpointer       user_data)
 {
 	PtWindow *win;
 	win = PT_WINDOW (user_data);
@@ -107,8 +107,8 @@ insert_timestamp (GSimpleAction *action,
 
 void
 goto_position (GSimpleAction *action,
-	       GVariant      *parameter,
-	       gpointer       user_data)
+               GVariant      *parameter,
+               gpointer       user_data)
 {
 	PtWindow *win;
 	win = PT_WINDOW (user_data);
@@ -131,8 +131,8 @@ goto_position (GSimpleAction *action,
 
 void
 goto_cursor (GSimpleAction *action,
-	     GVariant      *parameter,
-	     gpointer       user_data)
+             GVariant      *parameter,
+             gpointer       user_data)
 {
 	PtWindow *win;
 	win = PT_WINDOW (user_data);
@@ -372,7 +372,7 @@ update_time_tick (GtkWidget     *widget,
 
 void
 zoom_in_cb (GtkWidget *widget,
-	    PtWindow  *win)
+            PtWindow  *win)
 {
 	GAction  *action;
 
@@ -382,7 +382,7 @@ zoom_in_cb (GtkWidget *widget,
 
 void
 zoom_out_cb (GtkWidget *widget,
-	     PtWindow  *win)
+             PtWindow  *win)
 {
 	GAction  *action;
 
@@ -476,8 +476,8 @@ change_play_button_tooltip (PtWindow *win)
 
 static void
 update_insert_action_sensitivity_cb (GtkClipboard *clip,
-				     const gchar  *text,
-				     gpointer      data)
+                                     const gchar  *text,
+                                     gpointer      data)
 {
 	PtWindow *win = PT_WINDOW (data);
 	PtPlayer *player = win->priv->player;
@@ -517,8 +517,8 @@ update_insert_action_sensitivity_cb (GtkClipboard *clip,
 
 static void
 update_insert_action_sensitivity (GtkClipboard *clip,
-				  GdkEvent     *event,
-				  gpointer      data)
+                                  GdkEvent     *event,
+                                  gpointer      data)
 {
 	PtWindow  *win = PT_WINDOW (data);
 
@@ -553,7 +553,7 @@ update_goto_cursor_action_sensitivity (PtWaveviewer *waveviewer,
 
 static void
 enable_win_actions (PtWindow *win,
-		    gboolean  state)
+                    gboolean  state)
 {
 	GAction *action;
 
@@ -601,8 +601,8 @@ destroy_progress_dlg (PtWindow *win)
 
 static void
 progress_response_cb (GtkWidget *dialog,
-		      gint       response,
-		      PtWindow  *win)
+                      gint       response,
+                      PtWindow  *win)
 {
 	if (response == GTK_RESPONSE_CANCEL)
 		pt_player_cancel (win->priv->player);
@@ -641,7 +641,7 @@ show_progress_dlg (PtWindow *win)
 
 static void
 pt_window_ready_to_play (PtWindow *win,
-			 gboolean  state)
+                         gboolean  state)
 {
 	/* Set up widget sensitivity/visibility, actions, labels, window title
 	   and timer according to the state of PtPlayer (ready to play or not).
@@ -701,8 +701,8 @@ pt_window_ready_to_play (PtWindow *win,
 
 static void
 player_error_cb (PtPlayer *player,
-		 GError   *error,
-		 PtWindow *win)
+                 GError   *error,
+                 PtWindow *win)
 {
 	destroy_progress_dlg (win);
 	pt_window_ready_to_play (win, FALSE);
@@ -737,7 +737,7 @@ pt_window_get_uri (PtWindow *win)
 
 void
 pt_window_open_file (PtWindow *win,
-		     gchar    *uri)
+                     gchar    *uri)
 {
 	show_progress_dlg (win);
 	pt_window_ready_to_play (win, FALSE);
@@ -749,7 +749,7 @@ pt_window_open_file (PtWindow *win,
 
 static void
 update_play_after_toggle (PtWindow        *win,
-			  GtkToggleButton *button)
+                          GtkToggleButton *button)
 {
 	if (gtk_toggle_button_get_active (button)) {
 		update_time (win);
@@ -762,7 +762,7 @@ update_play_after_toggle (PtWindow        *win,
 
 static void
 player_play_toggled_cb (PtPlayer *player,
-			PtWindow *win)
+                        PtWindow *win)
 {
 	GtkToggleButton *play;
 	play = GTK_TOGGLE_BUTTON (win->priv->button_play);
@@ -777,7 +777,7 @@ player_play_toggled_cb (PtPlayer *player,
 
 void
 play_button_toggled_cb (GtkToggleButton *button,
-			PtWindow	*win)
+                        PtWindow        *win)
 {
 	/* GUI button toggled, block signals from PtPlayer */
 	g_signal_handlers_block_by_func (win->priv->player, player_play_toggled_cb, win);
@@ -789,7 +789,7 @@ play_button_toggled_cb (GtkToggleButton *button,
 
 static void
 player_end_of_stream_cb (PtPlayer *player,
-			 PtWindow *win)
+                         PtWindow *win)
 {
 	/* Don’t jump back */
 	GtkToggleButton *play;
@@ -815,7 +815,7 @@ player_jumped_back_cb (PtPlayer *player,
 
 void
 jump_back_button_clicked_cb (GtkButton *button,
-			     PtWindow  *win)
+                             PtWindow  *win)
 {
 	g_signal_handlers_block_by_func (win->priv->player, player_jumped_back_cb, win);
 	pt_player_jump_back (win->priv->player);
@@ -835,7 +835,7 @@ player_jumped_forward_cb (PtPlayer *player,
 
 void
 jump_forward_button_clicked_cb (GtkButton *button,
-			        PtWindow  *win)
+                                PtWindow  *win)
 {
 	pt_player_jump_forward (win->priv->player);
 }
@@ -843,8 +843,8 @@ jump_forward_button_clicked_cb (GtkButton *button,
 /* currently not used */
 gboolean
 fast_back_button_pressed_cb (GtkButton *button,
-			     GdkEvent  *event,
-			     PtWindow  *win)
+                             GdkEvent  *event,
+                             PtWindow  *win)
 {
 	pt_player_rewind (win->priv->player, 2.0);
 	return FALSE;
@@ -853,8 +853,8 @@ fast_back_button_pressed_cb (GtkButton *button,
 /* currently not used */
 gboolean
 fast_back_button_released_cb (GtkButton *button,
-			      GdkEvent  *event,
-			      PtWindow  *win)
+                              GdkEvent  *event,
+                              PtWindow  *win)
 {
 	pt_player_set_speed (win->priv->player, win->priv->speed);
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->priv->button_play))) {
@@ -868,8 +868,8 @@ fast_back_button_released_cb (GtkButton *button,
 /* currently not used */
 gboolean
 fast_forward_button_pressed_cb (GtkButton *button,
-			        GdkEvent  *event,
-				PtWindow  *win)
+                                GdkEvent  *event,
+                                PtWindow  *win)
 {
 	pt_player_fast_forward (win->priv->player, 2.0);
 	return FALSE;
@@ -878,8 +878,8 @@ fast_forward_button_pressed_cb (GtkButton *button,
 /* currently not used */
 gboolean
 fast_forward_button_released_cb (GtkButton *button,
-			         GdkEvent  *event,
-				 PtWindow  *win)
+                                 GdkEvent  *event,
+                                 PtWindow  *win)
 {
 	pt_player_set_speed (win->priv->player, win->priv->speed);
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->priv->button_play))) {
@@ -892,7 +892,7 @@ fast_forward_button_released_cb (GtkButton *button,
 
 void
 speed_changed_cb (GtkRange *range,
-		  PtWindow *win)
+                  PtWindow *win)
 {
 	win->priv->speed = gtk_range_get_value (range);
 	pt_player_set_speed (win->priv->player, win->priv->speed);
@@ -928,9 +928,9 @@ speed_scale_direction_changed_cb (GtkWidget        *widget,
 
 static void
 swap_accelerators (GtkWidget     *widget,
-		   GtkAccelGroup *accels,
-		   guint          old,
-		   guint          new)
+                   GtkAccelGroup *accels,
+                   guint          old,
+                   guint          new)
 {
 	gtk_widget_remove_accelerator (
 			widget,
@@ -986,8 +986,8 @@ jump_forward_direction_changed_cb (GtkWidget        *widget,
 
 static void
 settings_changed_cb (GSettings *settings,
-		     gchar     *key,
-		     PtWindow  *win)
+                     gchar     *key,
+                     PtWindow  *win)
 {
 	if (g_strcmp0 (key, "rewind-on-pause") == 0) {
 		change_play_button_tooltip (win);
@@ -1022,8 +1022,8 @@ settings_changed_cb (GSettings *settings,
 
 static gboolean
 map_seconds_to_milliseconds (GValue   *value,
-	                     GVariant *variant,
-	                     gpointer  data)
+                             GVariant *variant,
+                             gpointer  data)
 {
 	/* Settings store seconds, PtPlayer wants milliseconds */
 	gint new;
@@ -1035,8 +1035,8 @@ map_seconds_to_milliseconds (GValue   *value,
 
 static GVariant*
 map_milliseconds_to_seconds (const GValue       *value,
-	                     const GVariantType *type,
-	                     gpointer            data)
+                             const GVariantType *type,
+                             gpointer            data)
 {
 	gint new;
 	new = g_value_get_int (value);

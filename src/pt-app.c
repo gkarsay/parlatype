@@ -66,8 +66,8 @@ static GOptionEntry options[] =
 
 static void
 open_cb (GSimpleAction *action,
-	 GVariant      *parameter,
-	 gpointer       app)
+         GVariant      *parameter,
+         gpointer       app)
 {
 	GtkFileChooserNative *dialog;
 	GtkWindow     *win;
@@ -126,8 +126,8 @@ open_cb (GSimpleAction *action,
 
 static void
 prefs_cb (GSimpleAction *action,
-	  GVariant      *parameter,
-	  gpointer       app)
+          GVariant      *parameter,
+          gpointer       app)
 {
 	GtkWindow *win;
 	win = gtk_application_get_active_window (app);
@@ -136,8 +136,8 @@ prefs_cb (GSimpleAction *action,
 
 static void
 help_cb (GSimpleAction *action,
-	 GVariant      *parameter,
-	 gpointer       app)
+         GVariant      *parameter,
+         gpointer       app)
 {
 	GtkWindow *win;
 	win = gtk_application_get_active_window (app);
@@ -162,8 +162,8 @@ help_cb (GSimpleAction *action,
 
 static void
 about_cb (GSimpleAction *action,
-	  GVariant      *parameter,
-	  gpointer       app)
+          GVariant      *parameter,
+          gpointer       app)
 {
 	const gchar *authors[] = {
 		"Gabor Karsay <gabor.karsay@gmx.at>",
@@ -201,8 +201,8 @@ about_cb (GSimpleAction *action,
 
 static void
 quit_cb (GSimpleAction *action,
-	 GVariant      *parameter,
-	 gpointer       app)
+         GVariant      *parameter,
+         gpointer       app)
 {
 	g_application_quit (app);
 }
@@ -307,9 +307,9 @@ pt_app_activate (GApplication *app)
 
 static void
 pt_app_open (GApplication  *app,
-	     GFile	  **files,
-	     gint	    n_files,
-	     const gchar   *hint)
+             GFile       **files,
+             gint          n_files,
+             const gchar  *hint)
 {
 	GtkWindow *win;
 	gchar	  *uri;
