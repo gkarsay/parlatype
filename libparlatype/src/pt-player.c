@@ -1104,10 +1104,6 @@ pt_player_get_permille (PtPlayer *player)
  * A speed of 0 is not allowed, use pt_player_pause() instead.
  * Recommended speed is starting from 0.5 as quality is rather poor below that.
  * Parlatype doesn’t change the pitch during slower or faster playback.
- *
- * Note: If you want to change the speed during playback, you have to use this
- * method. Changing the "speed" property of PtPlayer, will take effect only
- * later.
  */
 void
 pt_player_set_speed (PtPlayer *player,
@@ -2245,11 +2241,15 @@ pt_player_set_property (GObject      *object,
 	PtPlayer *player;
 	player = PT_PLAYER (object);
 	gdouble tmp;
+	gint64 pos;
 	const gchar *tmpchar;
 
 	switch (property_id) {
 	case PROP_SPEED:
 		player->priv->speed = g_value_get_double (value);
+		if (!pt_player_query_position (player, &pos))
+			return;
+		pt_player_seek (player, pos);
 		break;
 	case PROP_VOLUME:
 		tmp = g_value_get_double (value);
