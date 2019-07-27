@@ -2205,8 +2205,7 @@ pt_player_setup_player (PtPlayer  *player,
 static void
 pt_player_dispose (GObject *object)
 {
-	PtPlayer *player;
-	player = PT_PLAYER (object);
+	PtPlayer *player = PT_PLAYER (object);
 
 	if (player->priv->play) {
 		/* remember position */
@@ -2241,8 +2240,7 @@ pt_player_set_property (GObject      *object,
                         const GValue *value,
                         GParamSpec   *pspec)
 {
-	PtPlayer *player;
-	player = PT_PLAYER (object);
+	PtPlayer *player = PT_PLAYER (object);
 	const gchar *tmpchar;
 
 	switch (property_id) {
@@ -2311,8 +2309,7 @@ pt_player_get_property (GObject    *object,
                         GValue     *value,
                         GParamSpec *pspec)
 {
-	PtPlayer *player;
-	player = PT_PLAYER (object);
+	PtPlayer *player = PT_PLAYER (object);
 
 	switch (property_id) {
 	case PROP_SPEED:
