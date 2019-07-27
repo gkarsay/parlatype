@@ -71,29 +71,27 @@ handle_method_call (GDBusConnection       *connection,
 		pt_player_goto_timestamp (win->player, timestamp);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "PlayPause") == 0) {
-		gboolean state;
-		state = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->priv->button_play));
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (win->priv->button_play), !state);
+		pt_player_play_pause (win->player);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 
 	} else if (g_strcmp0 (method_name, "JumpBack") == 0) {
-		gtk_button_clicked (GTK_BUTTON (win->priv->button_jump_back));
+		pt_player_jump_back (win->player);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 
 	} else if (g_strcmp0 (method_name, "JumpForward") == 0) {
-		gtk_button_clicked (GTK_BUTTON (win->priv->button_jump_forward));
+		pt_player_jump_forward (win->player);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 
 	} else if (g_strcmp0 (method_name, "IncreaseSpeed") == 0) {
 		gdouble value;
-		value = gtk_range_get_value (GTK_RANGE (win->priv->speed_scale));
-		gtk_range_set_value (GTK_RANGE (win->priv->speed_scale), value + 0.1);
+		g_object_get (win->player, "speed", &value, NULL);
+		pt_player_set_speed (win->player, value + 0.1);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 
 	} else if (g_strcmp0 (method_name, "DecreaseSpeed") == 0) {
 		gdouble value;
-		value = gtk_range_get_value (GTK_RANGE (win->priv->speed_scale));
-		gtk_range_set_value (GTK_RANGE (win->priv->speed_scale), value - 0.1);
+		g_object_get (win->player, "speed", &value, NULL);
+		pt_player_set_speed (win->player, value + 0.1);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	}
 }
