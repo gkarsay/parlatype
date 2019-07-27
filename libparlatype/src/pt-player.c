@@ -1114,13 +1114,13 @@ pt_player_set_speed (PtPlayer *player,
 
 	gint64 pos;
 
-	if (!pt_player_query_position (player, &pos))
-		return;
-
 	player->priv->speed = speed;
+
+	if (pt_player_query_position (player, &pos))
+		pt_player_seek (player, pos);
+
 	g_object_notify_by_pspec (G_OBJECT (player),
 				  obj_properties[PROP_SPEED]);
-	pt_player_seek (player, pos);
 }
 
 /**
@@ -1138,10 +1138,13 @@ pt_player_set_volume (PtPlayer *player,
 	g_return_if_fail (PT_IS_PLAYER (player));
 	g_return_if_fail (volume >= 0 && volume <= 1);
 
-	gst_stream_volume_set_volume (GST_STREAM_VOLUME (player->priv->play),
-	                              GST_STREAM_VOLUME_FORMAT_CUBIC,
-	                              volume);
 	player->priv->volume = volume;
+
+	if (player->priv->play)
+		gst_stream_volume_set_volume (GST_STREAM_VOLUME (player->priv->play),
+			                      GST_STREAM_VOLUME_FORMAT_CUBIC,
+			                      volume);
+
 	g_object_notify_by_pspec (G_OBJECT (player),
 				  obj_properties[PROP_VOLUME]);
 }
@@ -2240,24 +2243,14 @@ pt_player_set_property (GObject      *object,
 {
 	PtPlayer *player;
 	player = PT_PLAYER (object);
-	gdouble tmp;
-	gint64 pos;
 	const gchar *tmpchar;
 
 	switch (property_id) {
 	case PROP_SPEED:
-		player->priv->speed = g_value_get_double (value);
-		if (!pt_player_query_position (player, &pos))
-			return;
-		pt_player_seek (player, pos);
+		pt_player_set_speed (player, g_value_get_double (value));
 		break;
 	case PROP_VOLUME:
-		tmp = g_value_get_double (value);
-		if (player->priv->play)
-			gst_stream_volume_set_volume (GST_STREAM_VOLUME (player->priv->play),
-				                      GST_STREAM_VOLUME_FORMAT_CUBIC,
-				                      tmp);
-		player->priv->volume = tmp;
+		pt_player_set_volume (player, g_value_get_double (value));
 		break;
 	case PROP_TIMESTAMP_PRECISION:
 		player->priv->timestamp_precision = g_value_get_int (value);
