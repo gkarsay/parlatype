@@ -896,15 +896,6 @@ fast_forward_button_released_cb (GtkButton *button,
 	return FALSE;
 }
 
-void
-speed_changed_cb (GtkRange *range,
-                  PtWindow *win)
-{
-	win->priv->speed = gtk_range_get_value (range);
-	pt_player_set_speed (win->player, win->priv->speed);
-}
-
-
 static void
 player_asr_final_cb (PtPlayer *player,
                      gchar    *word,
@@ -1206,6 +1197,13 @@ setup_player (PtWindow *win)
 	g_object_bind_property (
 			win->priv->volumebutton, "value",
 			win->player, "volume",
+			G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+
+	GtkAdjustment *speed_adjustment;
+	speed_adjustment = gtk_range_get_adjustment (GTK_RANGE (win->priv->speed_scale));
+	g_object_bind_property (
+			speed_adjustment, "value",
+			win->player, "speed",
 			G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
 
 	g_signal_connect (win->player,
