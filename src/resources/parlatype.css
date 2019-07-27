@@ -1,10 +1,5 @@
 /* custom styles for PtWindow */
 
-/* make goto button smaller */
-#goto_cursor_button {
-	padding: 2px;
-}
-
 #time_label {
 	/* Tried Cantarell first, but digits are not always monospace:
 	   They are on Debian 8, but not on Ubuntu 16.4 */
