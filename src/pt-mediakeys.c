@@ -173,8 +173,9 @@ name_appeared_cb (GDBusConnection *connection,
 }
 
 static void
-clean_up (const gchar *name,
-          PtMediakeys *self)
+name_vanished_cb (GDBusConnection *connection,
+                  const gchar     *name,
+                  PtMediakeys     *self)
 {
 	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
 	                  "MESSAGE", "Couldn’t find %s", name);
@@ -184,34 +185,6 @@ clean_up (const gchar *name,
 		self->priv->proxy = NULL;
 	}
 	remove_bus_watch (self);
-}
-
-static void
-name2_vanished_cb (GDBusConnection *connection,
-                   const gchar     *name,
-                   PtMediakeys     *self)
-{
-	clean_up (name, self);
-	/* We are done, nothing found */
-}
-
-static void
-name1_vanished_cb (GDBusConnection *connection,
-                   const gchar     *name,
-                   PtMediakeys     *self)
-{
-	clean_up (name, self);
-
-	/* Now try the legacy org.gnome.SettingsDaemon … */
-	self->priv->dbus_watch_id =
-		g_bus_watch_name (
-				G_BUS_TYPE_SESSION,
-				"org.gnome.SettingsDaemon",
-				G_BUS_NAME_WATCHER_FLAGS_NONE,
-				(GBusNameAppearedCallback) name_appeared_cb,
-				(GBusNameVanishedCallback) name2_vanished_cb,
-				self,
-				NULL);
 }
 
 void
@@ -225,7 +198,7 @@ pt_mediakeys_start (PtMediakeys *self)
 				"org.gnome.SettingsDaemon.MediaKeys",
 				G_BUS_NAME_WATCHER_FLAGS_NONE,
 				(GBusNameAppearedCallback) name_appeared_cb,
-				(GBusNameVanishedCallback) name1_vanished_cb,
+				(GBusNameVanishedCallback) name_vanished_cb,
 				self,
 				NULL);
 }
