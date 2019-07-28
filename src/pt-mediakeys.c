@@ -22,21 +22,11 @@
 
 struct _PtMediakeysPrivate
 {
-	PtWindow   *win;
 	GDBusProxy *proxy;
 	gint        dbus_watch_id;
 };
 
-enum
-{
-	PROP_0,
-	PROP_WIN,
-	N_PROPERTIES
-};
-
-static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
-
-G_DEFINE_TYPE_WITH_PRIVATE (PtMediakeys, pt_mediakeys, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (PtMediakeys, pt_mediakeys, PT_CONTROLLER_TYPE)
 
 static void
 on_media_key_pressed (GDBusProxy  *proxy,
@@ -49,7 +39,7 @@ on_media_key_pressed (GDBusProxy  *proxy,
 	GVariant    *key_parameter;
 	const gchar *app;
 	const gchar *key;
-	PtPlayer    *player = self->priv->win->player;
+	PtPlayer    *player = pt_controller_get_player (PT_CONTROLLER (self));
 
 	if (g_strcmp0 (signal_name, "MediaPlayerKeyPressed") != 0)
 		return;
@@ -164,7 +154,7 @@ name_appeared_cb (GDBusConnection *connection,
 			self);
 
 	g_signal_connect (
-			G_OBJECT (self->priv->win),
+			G_OBJECT (pt_controller_get_window (PT_CONTROLLER (self))),
 			"focus-in-event",
 			G_CALLBACK (window_focus_in_event_cb),
 			self);
@@ -221,60 +211,9 @@ pt_mediakeys_dispose (GObject *object)
 }
 
 static void
-pt_mediakeys_set_property (GObject      *object,
-                           guint         property_id,
-                           const GValue *value,
-                           GParamSpec   *pspec)
-{
-	PtMediakeys *mk = PT_MEDIAKEYS (object);
-
-	switch (property_id) {
-	case PROP_WIN:
-		mk->priv->win = g_value_get_object (value);
-		break;
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-		break;
-	}
-}
-
-static void
-pt_mediakeys_get_property (GObject    *object,
-                           guint       property_id,
-                           GValue     *value,
-                           GParamSpec *pspec)
-{
-	PtMediakeys *mk = PT_MEDIAKEYS (object);
-
-	switch (property_id) {
-	case PROP_WIN:
-		g_value_set_object (value, mk->priv->win);
-		break;
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-		break;
-	}
-}
-static void
 pt_mediakeys_class_init (PtMediakeysClass *klass)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-
-	object_class->set_property = pt_mediakeys_set_property;
-	object_class->get_property = pt_mediakeys_get_property;
-	object_class->dispose =      pt_mediakeys_dispose;
-
-	obj_properties[PROP_WIN] =
-	g_param_spec_object ("win",
-                             "Parent PtWindow",
-                             "Parent PtWindow",
-                             PT_WINDOW_TYPE,
-                             G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_EXPLICIT_NOTIFY);
-
-	g_object_class_install_properties (
-			object_class,
-			N_PROPERTIES,
-			obj_properties);
+	G_OBJECT_CLASS (klass)->dispose = pt_mediakeys_dispose;
 }
 
 PtMediakeys *

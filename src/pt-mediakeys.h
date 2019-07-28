@@ -75,6 +75,7 @@
 #define PT_MEDIAKEYS_H
 
 #include "config.h"
+#include "pt-controller.h"
 #include "pt-window.h"
 
 #define PT_MEDIAKEYS_TYPE		(pt_mediakeys_get_type())
@@ -87,7 +88,7 @@ typedef struct _PtMediakeysPrivate	PtMediakeysPrivate;
 
 struct _PtMediakeys
 {
-	GObject parent;
+	PtController parent;
 
 	/*< private > */
 	PtMediakeysPrivate *priv;
@@ -95,7 +96,7 @@ struct _PtMediakeys
 
 struct _PtMediakeysClass
 {
-	GObjectClass parent_class;
+	PtControllerClass parent_class;
 };
 
 

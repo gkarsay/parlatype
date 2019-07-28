@@ -18,6 +18,7 @@
 #define PT_DBUS_SERVICE_H
 
 #include "config.h"
+#include "pt-controller.h"
 #include "pt-window.h"
 
 #define PT_DBUS_SERVICE_TYPE		(pt_dbus_service_get_type())
@@ -30,7 +31,7 @@ typedef struct _PtDbusServicePrivate	PtDbusServicePrivate;
 
 struct _PtDbusService
 {
-	GObject parent;
+	PtController parent;
 
 	/*< private > */
 	PtDbusServicePrivate *priv;
@@ -38,7 +39,7 @@ struct _PtDbusService
 
 struct _PtDbusServiceClass
 {
-	GObjectClass parent_class;
+	PtControllerClass parent_class;
 };
 
 

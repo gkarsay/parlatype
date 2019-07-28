@@ -24,20 +24,10 @@
 
 struct _PtDbusServicePrivate
 {
-	PtWindow *win;
 	gint      owner_id;
 };
 
-enum
-{
-	PROP_0,
-	PROP_WIN,
-	N_PROPERTIES
-};
-
-static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
-
-G_DEFINE_TYPE_WITH_PRIVATE (PtDbusService, pt_dbus_service, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (PtDbusService, pt_dbus_service, PT_CONTROLLER_TYPE)
 
 static GDBusNodeInfo *introspection_data = NULL;
 
@@ -69,13 +59,13 @@ handle_method_call (GDBusConnection       *connection,
                     GDBusMethodInvocation *invocation,
                     gpointer               user_data)
 {
-	PtWindow *win;
-	win = PT_WINDOW (user_data);
+	PtDbusService *self = PT_DBUS_SERVICE (user_data);
+	PtPlayer      *player = pt_controller_get_player (PT_CONTROLLER (self));
 
 	gchar	 *timestamp = NULL;
 	
 	if (g_strcmp0 (method_name, "GetTimestamp") == 0) {
-		timestamp = pt_player_get_timestamp (win->player);
+		timestamp = pt_player_get_timestamp (player);
 		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
 			          "MESSAGE", "t: %s", timestamp);
 		if (!timestamp)
@@ -84,30 +74,30 @@ handle_method_call (GDBusConnection       *connection,
                                                  g_variant_new ("(s)", timestamp));
 	} else if (g_strcmp0 (method_name, "GotoTimestamp") == 0) {
 		g_variant_get (parameters, "(&s)", &timestamp);
-		pt_player_goto_timestamp (win->player, timestamp);
+		pt_player_goto_timestamp (player, timestamp);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "PlayPause") == 0) {
-		pt_player_play_pause (win->player);
+		pt_player_play_pause (player);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 
 	} else if (g_strcmp0 (method_name, "JumpBack") == 0) {
-		pt_player_jump_back (win->player);
+		pt_player_jump_back (player);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 
 	} else if (g_strcmp0 (method_name, "JumpForward") == 0) {
-		pt_player_jump_forward (win->player);
+		pt_player_jump_forward (player);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 
 	} else if (g_strcmp0 (method_name, "IncreaseSpeed") == 0) {
 		gdouble value;
-		g_object_get (win->player, "speed", &value, NULL);
-		pt_player_set_speed (win->player, value + 0.1);
+		g_object_get (player, "speed", &value, NULL);
+		pt_player_set_speed (player, value + 0.1);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 
 	} else if (g_strcmp0 (method_name, "DecreaseSpeed") == 0) {
 		gdouble value;
-		g_object_get (win->player, "speed", &value, NULL);
-		pt_player_set_speed (win->player, value + 0.1);
+		g_object_get (player, "speed", &value, NULL);
+		pt_player_set_speed (player, value + 0.1);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	}
 }
@@ -168,7 +158,6 @@ static void
 pt_dbus_service_init (PtDbusService *self)
 {
 	self->priv = pt_dbus_service_get_instance_private (self);
-
 	self->priv->owner_id = 0;
 }
 
@@ -187,60 +176,9 @@ pt_dbus_service_dispose (GObject *object)
 }
 
 static void
-pt_dbus_service_set_property (GObject      *object,
-                              guint         property_id,
-                              const GValue *value,
-                              GParamSpec   *pspec)
-{
-	PtDbusService *self = PT_DBUS_SERVICE (object);
-
-	switch (property_id) {
-	case PROP_WIN:
-		self->priv->win = g_value_get_object (value);
-		break;
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-		break;
-	}
-}
-
-static void
-pt_dbus_service_get_property (GObject    *object,
-                              guint       property_id,
-                              GValue     *value,
-                              GParamSpec *pspec)
-{
-	PtDbusService *self = PT_DBUS_SERVICE (object);
-
-	switch (property_id) {
-	case PROP_WIN:
-		g_value_set_object (value, self->priv->win);
-		break;
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-		break;
-	}
-}
-static void
 pt_dbus_service_class_init (PtDbusServiceClass *klass)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-
-	object_class->set_property = pt_dbus_service_set_property;
-	object_class->get_property = pt_dbus_service_get_property;
-	object_class->dispose      = pt_dbus_service_dispose;
-
-	obj_properties[PROP_WIN] =
-	g_param_spec_object ("win",
-                             "Parent PtWindow",
-                             "Parent PtWindow",
-                             PT_WINDOW_TYPE,
-                             G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_EXPLICIT_NOTIFY);
-
-	g_object_class_install_properties (
-			object_class,
-			N_PROPERTIES,
-			obj_properties);
+	G_OBJECT_CLASS (klass)->dispose = pt_dbus_service_dispose;
 }
 
 PtDbusService *
