@@ -27,9 +27,7 @@
 #include <pt-waveviewer.h>
 #include "pt-app.h"
 #include "pt-asr-assistant.h"
-#include "pt-dbus-service.h"
 #include "pt-goto-dialog.h"
-#include "pt-mediakeys.h"
 #include "pt-window.h"
 #include "pt-window-dnd.h"
 #include "pt-window-private.h"
@@ -1313,7 +1311,6 @@ pt_window_init (PtWindow *win)
 	setup_settings (win);
 	setup_accels_actions_headerbar (win);
 	pt_window_setup_dnd (win);	/* this is in pt_window_dnd.c */
-	setup_dbus_service (win);	/* this is in pt_dbus_service.c */
 	win->priv->asr_settings = NULL;
 	win->priv->output = NULL;
 	win->priv->output_handler_id1 = 0;
@@ -1351,8 +1348,6 @@ pt_window_dispose (GObject *object)
 {
 	PtWindow *win;
 	win = PT_WINDOW (object);
-
-	close_dbus_service (win);
 
 	/* Save window size/position on all backends */
 	if (win->priv->editor) {

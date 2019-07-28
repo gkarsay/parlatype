@@ -226,8 +226,7 @@ pt_mediakeys_set_property (GObject      *object,
                            const GValue *value,
                            GParamSpec   *pspec)
 {
-	PtMediakeys *mk;
-	mk = PT_MEDIAKEYS (object);
+	PtMediakeys *mk = PT_MEDIAKEYS (object);
 
 	switch (property_id) {
 	case PROP_WIN:
@@ -245,8 +244,7 @@ pt_mediakeys_get_property (GObject    *object,
                            GValue     *value,
                            GParamSpec *pspec)
 {
-	PtMediakeys *mk;
-	mk = PT_MEDIAKEYS (object);
+	PtMediakeys *mk = PT_MEDIAKEYS (object);
 
 	switch (property_id) {
 	case PROP_WIN:
@@ -264,7 +262,7 @@ pt_mediakeys_class_init (PtMediakeysClass *klass)
 
 	object_class->set_property = pt_mediakeys_set_property;
 	object_class->get_property = pt_mediakeys_get_property;
-	object_class->dispose = pt_mediakeys_dispose;
+	object_class->dispose =      pt_mediakeys_dispose;
 
 	obj_properties[PROP_WIN] =
 	g_param_spec_object ("win",

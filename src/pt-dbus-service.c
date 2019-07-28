@@ -1,4 +1,4 @@
-/* Copyright (C) Gabor Karsay 2016 <gabor.karsay@gmx.at>
+/* Copyright (C) Gabor Karsay 2016, 2019 <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -20,8 +20,24 @@
 #include <glib/gi18n.h>
 #include <pt-player.h>
 #include "pt-window.h"
-#include "pt-window-private.h"
+#include "pt-dbus-service.h"
 
+struct _PtDbusServicePrivate
+{
+	PtWindow *win;
+	gint      owner_id;
+};
+
+enum
+{
+	PROP_0,
+	PROP_WIN,
+	N_PROPERTIES
+};
+
+static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
+
+G_DEFINE_TYPE_WITH_PRIVATE (PtDbusService, pt_dbus_service, G_TYPE_OBJECT)
 
 static GDBusNodeInfo *introspection_data = NULL;
 
@@ -133,27 +149,102 @@ on_name_lost (GDBusConnection *connection,
 }
 
 void
-setup_dbus_service (PtWindow *win)
+pt_dbus_service_start (PtDbusService *self)
 {
 	introspection_data = g_dbus_node_info_new_for_xml (introspection_xml, NULL);
 	g_assert (introspection_data != NULL);
 
-	win->priv->owner_id = g_bus_own_name (G_BUS_TYPE_SESSION,
+	self->priv->owner_id = g_bus_own_name (G_BUS_TYPE_SESSION,
 			"com.github.gkarsay.parlatype",
 			G_BUS_NAME_OWNER_FLAGS_NONE,
 			on_bus_acquired,
 			on_name_acquired,
 			on_name_lost,
-			win,
+			self,
 			NULL);
 }
 
-void
-close_dbus_service (PtWindow *win)
+static void
+pt_dbus_service_init (PtDbusService *self)
 {
-	if (win->priv->owner_id > 0) {
-		g_bus_unown_name (win->priv->owner_id);
+	self->priv = pt_dbus_service_get_instance_private (self);
+
+	self->priv->owner_id = 0;
+}
+
+static void
+pt_dbus_service_dispose (GObject *object)
+{
+	PtDbusService *self = PT_DBUS_SERVICE (object);
+
+	if (self->priv->owner_id > 0) {
+		g_bus_unown_name (self->priv->owner_id);
 		g_dbus_node_info_unref (introspection_data);
-		win->priv->owner_id = 0;
+		self->priv->owner_id = 0;
 	}
+
+	G_OBJECT_CLASS (pt_dbus_service_parent_class)->dispose (object);
+}
+
+static void
+pt_dbus_service_set_property (GObject      *object,
+                              guint         property_id,
+                              const GValue *value,
+                              GParamSpec   *pspec)
+{
+	PtDbusService *self = PT_DBUS_SERVICE (object);
+
+	switch (property_id) {
+	case PROP_WIN:
+		self->priv->win = g_value_get_object (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+pt_dbus_service_get_property (GObject    *object,
+                              guint       property_id,
+                              GValue     *value,
+                              GParamSpec *pspec)
+{
+	PtDbusService *self = PT_DBUS_SERVICE (object);
+
+	switch (property_id) {
+	case PROP_WIN:
+		g_value_set_object (value, self->priv->win);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+static void
+pt_dbus_service_class_init (PtDbusServiceClass *klass)
+{
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+
+	object_class->set_property = pt_dbus_service_set_property;
+	object_class->get_property = pt_dbus_service_get_property;
+	object_class->dispose      = pt_dbus_service_dispose;
+
+	obj_properties[PROP_WIN] =
+	g_param_spec_object ("win",
+                             "Parent PtWindow",
+                             "Parent PtWindow",
+                             PT_WINDOW_TYPE,
+                             G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_EXPLICIT_NOTIFY);
+
+	g_object_class_install_properties (
+			object_class,
+			N_PROPERTIES,
+			obj_properties);
+}
+
+PtDbusService *
+pt_dbus_service_new (PtWindow *win)
+{
+	return g_object_new (PT_DBUS_SERVICE_TYPE, "win", win, NULL);
 }

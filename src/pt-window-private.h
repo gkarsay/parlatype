@@ -19,9 +19,10 @@
 
 #include "config.h"
 #include <gtk/gtk.h>
-#include <pt-asr-output.h>
 #include <pt-player.h>
 #include <pt-wavedata.h>
+#include "pt-asr-output.h"
+#include "pt-asr-settings.h"
 
 struct _PtWindowPrivate
 {
@@ -64,8 +65,6 @@ struct _PtWindowPrivate
 
 	gint	    timer;
 	gdouble	    speed;
-
-	guint	    owner_id;
 };
 
 #endif
