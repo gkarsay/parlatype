@@ -18,6 +18,8 @@ src = [
 	'pt-asr-output.h',
 	'pt-asr-settings.c',
 	'pt-asr-settings.h',
+	'pt-controller.c',
+	'pt-controller.h',
 	'pt-dbus-service.c',
 	'pt-dbus-service.h',
 	'pt-goto-dialog.c',
