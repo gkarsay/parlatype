@@ -345,19 +345,25 @@ static void
 update_time (PtWindow *win)
 {
 	gchar *text;
+	gint64 time;
 
-	text = pt_player_get_current_time_string (win->priv->player, PT_PRECISION_SECOND_10TH);
+	time = pt_player_get_position (win->priv->player);
 
-	if (text == NULL)
-		return;
+	/* Update label only if time has changed at 10th seconds level */
+	if (time/100 != win->priv->last_time) {
+		text = pt_player_get_current_time_string (
+				win->priv->player,
+				PT_PRECISION_SECOND_10TH);
 
-	gtk_label_set_text (GTK_LABEL (win->priv->pos_label), text);
-	g_free (text);
+		if (text == NULL)
+			return;
 
-	g_object_set (win->priv->waveviewer,
-		      "playback-cursor",
-		      pt_player_get_position (win->priv->player),
-		      NULL);
+		gtk_label_set_text (GTK_LABEL (win->priv->pos_label), text);
+		g_free (text);
+		win->priv->last_time = time/100;
+	}
+
+	g_object_set (win->priv->waveviewer, "playback-cursor", time, NULL);
 }
 
 static gboolean
@@ -1317,6 +1323,7 @@ pt_window_init (PtWindow *win)
 	win->priv->output_handler_id2 = 0;
 	win->priv->recent = gtk_recent_manager_get_default ();
 	win->priv->timer = 0;
+	win->priv->last_time = 0;
 	win->priv->progress_dlg = NULL;
 	win->priv->progress_handler_id = 0;
 	win->priv->wavedata = NULL;

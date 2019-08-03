@@ -63,6 +63,8 @@ struct _PtWindowPrivate
 
 	PtWavedata *wavedata;
 
+	gint64      last_time;	// last time to compare if it changed
+
 	gint	    timer;
 	gdouble	    speed;
 
