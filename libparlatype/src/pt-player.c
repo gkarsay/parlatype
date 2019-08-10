@@ -229,7 +229,11 @@ metadata_save_position (PtPlayer *player)
 			&error);
 	
 	if (error) {
-		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+		/* There are valid cases were setting attributes is not
+		 * possible, e.g. in sandboxed environments, containers etc.
+		 * Use G_LOG_LEVEL_INFO because other log levels go to stderr
+		 * and might result in failed tests. */
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
 			          "MESSAGE", "Position not saved: %s", error->message);
 		g_error_free (error);
 	} else {
