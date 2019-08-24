@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2019-05-27 20:57+0200\n"
-"PO-Revision-Date: 2019-07-16 21:37+0000\n"
+"PO-Revision-Date: 2019-08-11 17:30+0000\n"
 "Last-Translator: Jorge Toledo <Unknown>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2019-07-18 10:44+0000\n"
-"X-Generator: Launchpad (build 19010)\n"
+"X-Launchpad-Export-Date: 2019-08-24 11:00+0000\n"
+"X-Generator: Launchpad (build 19031)\n"
 "Language: es\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
@@ -196,6 +196,8 @@ msgid ""
 "external ref='figures/parlatype-main-window.png' "
 "md5='48f6b285bedaf2f9ab0a8760807f0fda'"
 msgstr ""
+"external ref='figures/parlatype-main-window.png' "
+"md5='48f6b285bedaf2f9ab0a8760807f0fda'"
 
 #. (itstool) path: page/p
 #: C/first-steps.page:26
@@ -545,6 +547,8 @@ msgid ""
 "external ref='figures/parlatype-prefs-waveform.png' "
 "md5='9d91fd985b6758d99cdf9479ef54105c'"
 msgstr ""
+"external ref='figures/parlatype-prefs-waveform.png' "
+"md5='9d91fd985b6758d99cdf9479ef54105c'"
 
 #. (itstool) path: item/p
 #: C/preferences.page:26
@@ -587,6 +591,8 @@ msgid ""
 "external ref='figures/parlatype-prefs-controls.png' "
 "md5='e4a386123491d156f4a1415d70fae2fc'"
 msgstr ""
+"external ref='figures/parlatype-prefs-controls.png' "
+"md5='e4a386123491d156f4a1415d70fae2fc'"
 
 #. (itstool) path: item/p
 #: C/preferences.page:38
@@ -636,7 +642,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/preferences.page:47
 msgid "Preferences for timestamps"
-msgstr ""
+msgstr "Preferencias de marca de tiempo"
 
 #. (itstool) path: section/media
 #. This is a reference to an external file such as an image or video. When
@@ -649,6 +655,8 @@ msgid ""
 "external ref='figures/parlatype-prefs-timestamps.png' "
 "md5='03e59b46213ae5cb77eb6a52d9729969'"
 msgstr ""
+"external ref='figures/parlatype-prefs-timestamps.png' "
+"md5='03e59b46213ae5cb77eb6a52d9729969'"
 
 #. (itstool) path: section/p
 #: C/preferences.page:51
@@ -677,6 +685,7 @@ msgstr ""
 msgid ""
 "Precision: Choose between full seconds, 10th seconds or 100th seconds."
 msgstr ""
+"Precisión: Elegir entre segundos completos, décimas o centésimas de segundo."
 
 #. (itstool) path: item/p
 #: C/preferences.page:56
@@ -684,6 +693,8 @@ msgid ""
 "Fraction separator: Choose between a point or a hyphen to separate fractions "
 "of a second."
 msgstr ""
+"Separador de fracciones: Elegir entre punto o guion para separar las "
+"fracciones de segundo."
 
 #. (itstool) path: item/p
 #: C/preferences.page:57
@@ -691,17 +702,21 @@ msgid ""
 "Characters around timestamps: Choose between number signs, round brackets, "
 "square brackets or none."
 msgstr ""
+"Caracteres alrededor de las marcas de tiempo: Elegir entre signos numéricos, "
+"llaves, corchetes o ninguno."
 
 #. (itstool) path: section/title
 #: C/preferences.page:62
 msgid "Preferences for speech recognition"
-msgstr ""
+msgstr "Preferencias de reconocimiento de voz"
 
 #. (itstool) path: note/p
 #: C/preferences.page:65
 msgid ""
 "This tab is only visible, if speech recognition is enabled in Parlatype."
 msgstr ""
+"Esta pestaña sólo es visible si el reconocimiento de voz está activado en "
+"Parlatype."
 
 #. (itstool) path: section/media
 #. This is a reference to an external file such as an image or video. When
@@ -714,6 +729,8 @@ msgid ""
 "external ref='figures/parlatype-prefs-asr.png' "
 "md5='6dee1ebd03b65edbb0bff9811d602c10'"
 msgstr ""
+"external ref='figures/parlatype-prefs-asr.png' "
+"md5='6dee1ebd03b65edbb0bff9811d602c10'"
 
 #. (itstool) path: section/p
 #: C/preferences.page:70
@@ -723,6 +740,10 @@ msgid ""
 "downloading it. You can have as many language models as you need, they can "
 "be added with the <gui>+</gui> button."
 msgstr ""
+"Aquí puedes elegir qué modelo lingüístico usar. Si no tienes aún ningún "
+"modelo lingüístico, un asistente te guiará en el proceso de descargarlo. "
+"Puedes tener tantos modelos lingüísticos como necesites; se pueden añadir "
+"con el botón <gui>+</gui>."
 
 #. (itstool) path: section/p
 #: C/preferences.page:72
@@ -731,6 +752,9 @@ msgid ""
 "on the name, you can see the model’s basic parameters. You could even change "
 "them, but that’s not recommended."
 msgstr ""
+"Para seleccionar un modelo, haz clic en su botón de selección en la lista. "
+"Si haces clic solo en el nombre, verás los parámetros básicos del modelo. "
+"Podrías incluso cambiarlos, pero no es recomendable."
 
 #. (itstool) path: section/p
 #: C/preferences.page:74
@@ -742,7 +766,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/preferences.page:80
 msgid "Preferences for the window"
-msgstr ""
+msgstr "Preferencias de ventana"
 
 #. (itstool) path: section/media
 #. This is a reference to an external file such as an image or video. When
@@ -755,6 +779,8 @@ msgid ""
 "external ref='figures/parlatype-prefs-window.png' "
 "md5='be540a7e2a351b80f5710048450c0735'"
 msgstr ""
+"external ref='figures/parlatype-prefs-window.png' "
+"md5='be540a7e2a351b80f5710048450c0735'"
 
 #. (itstool) path: item/p
 #: C/preferences.page:85
@@ -762,6 +788,8 @@ msgid ""
 "Remember size: On start-up <app>Parlatype</app> sets the window size to the "
 "size it had the last time."
 msgstr ""
+"Recordar tamaño: Al iniciar, <app>Parlatype</app> ajusta el tamaño de la "
+"ventana al que tenía la última vez."
 
 #. (itstool) path: item/p
 #: C/preferences.page:86
@@ -769,6 +797,8 @@ msgid ""
 "Remember position: On start-up <app>Parlatype</app> can position its window "
 "where you had it when you closed <app>Parlatype</app> last time."
 msgstr ""
+"Recordar posición: Al iniciar, <app>Parlatype</app> puede situar la ventana "
+"donde la tenías cuando cerraste <app>Parlatype</app> la última vez."
 
 #. (itstool) path: item/p
 #: C/preferences.page:87
@@ -777,6 +807,9 @@ msgid ""
 "windows. This might be useful if you are working with a maximized word "
 "processor and still want to see the <app>Parlatype</app> window."
 msgstr ""
+"Iniciar encima: Situará <app>Parlatype</app> encima del resto de ventanas al "
+"iniciar. Esto puede ser útil si estás trabajando en un procesador de textos "
+"maximizado y quieres seguir viendo la ventana de <app>Parlatype</app>."
 
 #. (itstool) path: note/p
 #: C/preferences.page:91
@@ -784,6 +817,8 @@ msgid ""
 "<gui>Remember position</gui> and <gui>Start on top</gui> are not available "
 "on Wayland."
 msgstr ""
+"<gui>Recordar posición</gui> e <gui>Iniciar encima</gui> no están "
+"disponibles en Wayland."
 
 #. (itstool) path: info/desc
 #: C/selections.page:6
@@ -802,6 +837,10 @@ msgid ""
 "<gui>Play</gui>, it will play the selection only. When it is finished and "
 "you press <gui>Play</gui> again, it will loop the selection once."
 msgstr ""
+"Puedes seleccionar una parte de la forma de onda con el ratón. La siguiente "
+"vez que pulses <gui>Reproducir</gui>, reproducirá solamente la selección. "
+"Cuando termine, si pulsas <gui>Reproducir</gui> de nuevo, repetirá la "
+"selección una vez más."
 
 #. (itstool) path: note/p
 #: C/selections.page:18
@@ -809,6 +848,8 @@ msgid ""
 "When in selection mode, you can not exit the selection anymore until you "
 "deselect it."
 msgstr ""
+"Estando en modo de selección, no puedes salir de la selección a menos que la "
+"deselecciones."
 
 #. (itstool) path: page/p
 #: C/selections.page:20
@@ -911,7 +952,7 @@ msgstr ""
 #. low priority.
 #: C/asr.page:15
 msgid "Automatic speech recognition"
-msgstr ""
+msgstr "Reconocimiento automático de voz"
 
 #. (itstool) path: page/p
 #. Translators: This feature is disabled by default, its translation has
@@ -938,7 +979,7 @@ msgstr ""
 #. low priority.
 #: C/asr.page:23
 msgid "Start speech recognition"
-msgstr ""
+msgstr "Iniciar reconocimiento de voz"
 
 #. (itstool) path: section/p
 #. Translators: This feature is disabled by default, its translation has
