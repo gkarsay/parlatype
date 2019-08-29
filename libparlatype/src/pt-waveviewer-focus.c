@@ -80,7 +80,6 @@ pt_waveviewer_focus_init (PtWaveviewerFocus *self)
 	self->priv->focus = FALSE;
 
 	gtk_widget_set_name (GTK_WIDGET (self), "focus");
-	gtk_widget_set_events (GTK_WIDGET (self), GDK_ALL_EVENTS_MASK);
 }
 
 static void

@@ -244,8 +244,6 @@ pt_waveviewer_cursor_init (PtWaveviewerCursor *self)
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
 	gtk_style_context_add_class (context, "cursor");
-
-	gtk_widget_set_events (GTK_WIDGET (self), GDK_ALL_EVENTS_MASK);
 }
 
 static void

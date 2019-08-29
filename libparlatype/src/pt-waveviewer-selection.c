@@ -181,8 +181,6 @@ pt_waveviewer_selection_init (PtWaveviewerSelection *self)
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
 	gtk_style_context_add_class (context, "selection");
-
-	gtk_widget_set_events (GTK_WIDGET (self), GDK_ALL_EVENTS_MASK);
 }
 
 static void
