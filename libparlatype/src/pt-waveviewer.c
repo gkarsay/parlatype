@@ -426,9 +426,7 @@ static void
 set_cursor (GtkWidget *widget,
             GdkCursor *cursor)
 {
-	GdkWindow  *gdkwin;
-	gdkwin = gtk_widget_get_window (widget);
-	gdk_window_set_cursor (gdkwin, cursor);
+	gtk_widget_set_cursor (widget, cursor);
 }
 
 static gboolean
@@ -1192,14 +1190,11 @@ static GdkCursor *
 get_resize_cursor (void)
 {
 	GdkCursor  *result;
-	GdkDisplay *display;
 
-	display = gdk_display_get_default ();
-	result = gdk_cursor_new_from_name (display, "ew-resize");
+	result = gdk_cursor_new_from_name ("ew-resize", NULL);
 	if (!result)
-		result = gdk_cursor_new_from_name (display, "col-resize");
-	if (!result)
-		result = gdk_cursor_new_for_display (display, GDK_SB_H_DOUBLE_ARROW);
+		result = gdk_cursor_new_from_name ("col-resize", NULL);
+
 	return result;
 }
 
