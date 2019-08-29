@@ -160,7 +160,6 @@ update_cached_style_values (PtWaveviewerCursor *self)
 	/* Update color */
 
 	GtkStyleContext *context;
-	GtkStateFlags    state;
 	GdkWindow       *window = NULL;
 
 	window = gtk_widget_get_parent_window (GTK_WIDGET (self));
@@ -168,8 +167,8 @@ update_cached_style_values (PtWaveviewerCursor *self)
 		return;
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
-	state = gtk_style_context_get_state (context);
-	gtk_style_context_get_color (context, state, &self->priv->cursor_color);
+	gtk_style_context_get_color (context, &self->priv->cursor_color);
+
 	cache_cursor (self);
 }
 

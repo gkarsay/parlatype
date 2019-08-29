@@ -124,7 +124,6 @@ update_cached_style_values (PtWaveviewerWaveform *self)
 	/* Update color */
 
 	GtkStyleContext *context;
-	GtkStateFlags    state;
 	GdkWindow       *window = NULL;
 
 	window = gtk_widget_get_parent_window (GTK_WIDGET (self));
@@ -132,8 +131,7 @@ update_cached_style_values (PtWaveviewerWaveform *self)
 		return;
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
-	state = gtk_style_context_get_state (context);
-	gtk_style_context_get_color (context, state, &self->priv->wave_color);
+	gtk_style_context_get_color (context, &self->priv->wave_color);
 }
 
 static void

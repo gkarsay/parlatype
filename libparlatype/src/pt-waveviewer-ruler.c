@@ -154,9 +154,7 @@ pt_waveviewer_ruler_draw (GtkWidget *widget,
 
 	/* Primary marks and time strings
 	   Add some padding to show time strings (time_string_width) */
-	gtk_style_context_get_color (context,
-				     gtk_style_context_get_state (context),
-				     &text_color);
+	gtk_style_context_get_color (context, &text_color);
 	gdk_cairo_set_source_rgba (cr, &text_color);
 	for (i = 0 - self->priv->time_string_width; i <= width + self->priv->time_string_width; i += 1) {
 		sample = i + offset;
