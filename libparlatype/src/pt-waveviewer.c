@@ -304,17 +304,22 @@ static gboolean
 pt_waveviewer_key_press_event (GtkWidget   *widget,
                                GdkEventKey *event)
 {
-	PtWaveviewer *self = PT_WAVEVIEWER (widget);
+	PtWaveviewer    *self = PT_WAVEVIEWER (widget);
+	GdkModifierType  state;
+	guint            keyval;
 
-	if (event->type != GDK_KEY_PRESS)
+	if (gdk_event_get_event_type ((GdkEvent*) event) != GDK_KEY_PRESS)
 		return FALSE;
 
 	if (!self->priv->peaks)
 		return FALSE;
 
+	gdk_event_get_state ((GdkEvent*) event, &state);
+	gdk_event_get_keyval ((GdkEvent*) event, &keyval);
+
 	/* no modifier pressed */
-	if (!(event->state & ALL_ACCELS_MASK)) {
-		switch (event->keyval) {
+	if (!(state & ALL_ACCELS_MASK)) {
+		switch (keyval) {
 		case GDK_KEY_Escape:
 			self->priv->dragstart = self->priv->dragend = 0;
 			update_selection (self);
@@ -328,9 +333,9 @@ pt_waveviewer_key_press_event (GtkWidget   *widget,
 	if (self->priv->focus_on_cursor) {
 
 		/* no modifier pressed */
-		if (!(event->state & ALL_ACCELS_MASK)) {
+		if (!(state & ALL_ACCELS_MASK)) {
 
-			switch (event->keyval) {
+			switch (keyval) {
 			case GDK_KEY_Left:
 				g_signal_emit_by_name (self, "cursor-changed", add_subtract_time (self, -2, FALSE));
 				return TRUE;
@@ -353,9 +358,9 @@ pt_waveviewer_key_press_event (GtkWidget   *widget,
 		}
 		/* Only Control is pressed, not together with Shift or Alt
 		   Here we override the default horizontal scroll bindings */
-		else if ((event->state & ALL_ACCELS_MASK) == GDK_CONTROL_MASK) {
+		else if ((state & ALL_ACCELS_MASK) == GDK_CONTROL_MASK) {
 
-			switch (event->keyval) {
+			switch (keyval) {
 			case GDK_KEY_Left:
 				g_signal_emit_by_name (self, "cursor-changed", add_subtract_time (self, -2, TRUE));
 				return TRUE;
@@ -379,10 +384,10 @@ pt_waveviewer_key_press_event (GtkWidget   *widget,
 	} else {
 
 		/* No modifier pressed: Scroll window, depending on text direction */
-		if (!(event->state & ALL_ACCELS_MASK)) {
+		if (!(state & ALL_ACCELS_MASK)) {
 
 			GtkScrollType scroll = GTK_SCROLL_NONE;
-			switch (event->keyval) {
+			switch (keyval) {
 			case GDK_KEY_Left:
 				scroll = GTK_SCROLL_STEP_BACKWARD;
 				break;
@@ -438,29 +443,36 @@ pt_waveviewer_button_press_event (GtkWidget      *widget,
                                   GdkEventButton *event)
 {
 	PtWaveviewer *self = PT_WAVEVIEWER (widget);
+	GdkEventType         type;
+	GdkModifierType      state;
+	guint                button;
+	gdouble              x;
+	gint64               clicked;	/* the sample clicked on */
+	gint64               pos;	/* clicked sample’s position in milliseconds */
 
 	if (!self->priv->peaks)
 		return FALSE;
 
-	gint64 clicked;	/* the sample clicked on */
-	gint64 pos;	/* clicked sample’s position in milliseconds */
-
-	clicked = (gint) event->x;
+	type = gdk_event_get_event_type ((GdkEvent*)event);
+	gdk_event_get_state ((GdkEvent*) event, &state);
+	gdk_event_get_button ((GdkEvent*) event, &button);
+	gdk_event_get_coords ((GdkEvent*) event, &x, NULL);
+	clicked = (gint) x;
 	pos = pixel_to_time (self, clicked);
 
 
 	/* Single left click, no other keys pressed: new selection or changing selection */
-	if (event->type == GDK_BUTTON_PRESS
-	    && event->button == GDK_BUTTON_PRIMARY
-	    && !(event->state & ALL_ACCELS_MASK)) {
+	if (type == GDK_BUTTON_PRESS
+	    && button == GDK_BUTTON_PRIMARY
+	    && !(state & ALL_ACCELS_MASK)) {
 		/* set position as start and end point, for new selection */
 		self->priv->dragstart = self->priv->dragend = pos;
 
 		/* if over selection border: snap to selection border, changing selection */
-		if (pointer_in_range (self, event->x, self->priv->sel_start)) {
+		if (pointer_in_range (self, x, self->priv->sel_start)) {
 			self->priv->dragstart = self->priv->sel_end;
 			self->priv->dragend = self->priv->sel_start;
-		} else if (pointer_in_range (self, event->x, self->priv->sel_end)) {
+		} else if (pointer_in_range (self, x, self->priv->sel_end)) {
 			self->priv->dragstart = self->priv->sel_start;
 			self->priv->dragend = self->priv->sel_end;
 		}
@@ -471,9 +483,9 @@ pt_waveviewer_button_press_event (GtkWidget      *widget,
 	}
 
 	/* Single left click with Shift pressed and existing selection: enlarge selection */
-	if (event->type == GDK_BUTTON_PRESS
-	    && event->button == GDK_BUTTON_PRIMARY
-	    && (event->state & ALL_ACCELS_MASK) == GDK_SHIFT_MASK
+	if (type == GDK_BUTTON_PRESS
+	    && button == GDK_BUTTON_PRIMARY
+	    && (state & ALL_ACCELS_MASK) == GDK_SHIFT_MASK
 	    && self->priv->sel_start != self->priv->sel_end) {
 
 		self->priv->dragend = pos;
@@ -489,7 +501,7 @@ pt_waveviewer_button_press_event (GtkWidget      *widget,
 	}
 
 	/* Single right click: change cursor */
-	if (event->type == GDK_BUTTON_PRESS && event->button == GDK_BUTTON_SECONDARY) {
+	if (type == GDK_BUTTON_PRESS && button == GDK_BUTTON_SECONDARY) {
 		g_signal_emit_by_name (self, "cursor-changed", pos);
 		return TRUE;
 	}
@@ -502,9 +514,15 @@ pt_waveviewer_scroll_event (GtkWidget      *widget,
                             GdkEventScroll *event)
 {
 	PtWaveviewer *self = PT_WAVEVIEWER (widget);
+	GdkModifierType      state;
+	gdouble              delta_x;
+	gdouble              delta_y;
+
+	gdk_event_get_state ((GdkEvent*) event, &state);
+	gdk_event_get_scroll_deltas ((GdkEvent*) event, &delta_x, &delta_y);
 
 	/* No modifier pressed: scrolling back and forth */
-	if (!(event->state & ALL_ACCELS_MASK)) {
+	if (!(state & ALL_ACCELS_MASK)) {
 		gtk_propagate_event
 			(gtk_scrolled_window_get_hscrollbar (GTK_SCROLLED_WINDOW (widget)),
 			(GdkEvent*)event);
@@ -512,12 +530,12 @@ pt_waveviewer_scroll_event (GtkWidget      *widget,
 	}
 
 	/* Only Control pressed: zoom in or out */
-	if ((event->state & ALL_ACCELS_MASK) == GDK_CONTROL_MASK) {
-		if (event->delta_y < 0 || event->delta_x < 0) {
+	if ((state & ALL_ACCELS_MASK) == GDK_CONTROL_MASK) {
+		if (delta_y < 0 || delta_x < 0) {
 			g_signal_emit_by_name (self, "zoom-out");
 			return TRUE;
 		}
-		if (event->delta_y > 0 || event->delta_x > 0) {
+		if (delta_y > 0 || delta_x > 0) {
 			g_signal_emit_by_name (self, "zoom-in");
 			return TRUE;
 		}
@@ -532,24 +550,27 @@ pt_waveviewer_motion_notify_event (GtkWidget      *widget,
                                    GdkEventMotion *event)
 {
 	PtWaveviewer *self = PT_WAVEVIEWER (widget);
+	GdkModifierType      state;
+	gdouble              x;
+	gint64               clicked;	/* the sample clicked on */
+	gint64               pos;	/* clicked sample’s position in milliseconds */
 
 	if (!self->priv->peaks)
 		return FALSE;
 
-	gint64 clicked;	/* the sample clicked on */
-	gint64 pos;	/* clicked sample’s position in milliseconds */
-
-	clicked = (gint) event->x;
+	gdk_event_get_state ((GdkEvent*) event, &state);
+	gdk_event_get_coords ((GdkEvent*) event, &x, NULL);
+	clicked = (gint) x;
 	pos = pixel_to_time (self, clicked);
 
 	/* Right mouse button sets cursor */
-	if (event->state & GDK_BUTTON3_MASK) {
+	if (state & GDK_BUTTON3_MASK) {
 		g_signal_emit_by_name (self, "cursor-changed", pos);
 		return TRUE;
 	}
 
 	/* Left mouse button (with or without Shift key) sets selection */
-	if (event->state & GDK_BUTTON1_MASK || event->state & GDK_BUTTON1_MASK & GDK_SHIFT_MASK) {
+	if (state & GDK_BUTTON1_MASK || state & GDK_BUTTON1_MASK & GDK_SHIFT_MASK) {
 		self->priv->dragend = pos;
 		update_selection (self);
 		return TRUE;
@@ -557,8 +578,8 @@ pt_waveviewer_motion_notify_event (GtkWidget      *widget,
 
 	/* No button or any other button: change pointer cursor over selection border */
 	if (self->priv->sel_start != self->priv->sel_end) {
-		if (pointer_in_range (self, event->x, self->priv->sel_start)
-		    || pointer_in_range (self, event->x, self->priv->sel_end)) {
+		if (pointer_in_range (self, x, self->priv->sel_start)
+		    || pointer_in_range (self, x, self->priv->sel_end)) {
 			set_cursor (widget, self->priv->arrows);
 		} else {
 			set_cursor (widget, NULL);
@@ -572,7 +593,10 @@ static gboolean
 pt_waveviewer_button_release_event (GtkWidget      *widget,
                                     GdkEventButton *event)
 {
-	if (event->button == GDK_BUTTON_PRIMARY) {
+	guint button;
+
+	gdk_event_get_button ((GdkEvent*) event, &button);
+	if (button == GDK_BUTTON_PRIMARY) {
 		set_cursor (widget, NULL);
 		return TRUE;
 	}
