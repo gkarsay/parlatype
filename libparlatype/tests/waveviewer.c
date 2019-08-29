@@ -142,7 +142,7 @@ main (int argc, char *argv[])
 
 	g_test_add_func ("/waveviewer/empty", waveviewer_empty);
 	g_test_add_func ("/waveviewer/loaded", waveviewer_loaded);
-	gtk_init (NULL, NULL);
+	gtk_init ();
 
 	return g_test_run ();
 }

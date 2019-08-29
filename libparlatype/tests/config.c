@@ -341,7 +341,7 @@ main (int argc, char *argv[])
 	g_test_add_func ("/config/crafted_valid", crafted_valid);
 	g_test_add_func ("/config/dist_valid", dist_valid);
 	g_test_add_func ("/config/apply", apply);
-	gtk_init (NULL, NULL);
+	gtk_init ();
 
 	return g_test_run ();
 }
