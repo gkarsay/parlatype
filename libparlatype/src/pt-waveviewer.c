@@ -1242,7 +1242,7 @@ pt_waveviewer_init (PtWaveviewer *self)
 
 	css_file = g_file_new_for_uri ("resource:///org/parlatype/libparlatype/pt-waveviewer.css");
 	provider = gtk_css_provider_new ();
-	gtk_css_provider_load_from_file (provider, css_file, NULL);
+	gtk_css_provider_load_from_file (provider, css_file);
 	gtk_style_context_add_provider_for_screen (
 			gdk_screen_get_default (),
 			GTK_STYLE_PROVIDER (provider),
