@@ -124,11 +124,10 @@ cache_cursor (PtWaveviewerCursor *self)
 	cairo_t *cr;
 	gint height = gtk_widget_get_allocated_height (GTK_WIDGET (self));
 
-	self->priv->cursor = gdk_window_create_similar_surface (gtk_widget_get_window (GTK_WIDGET (self)),
+	self->priv->cursor = gdk_surface_create_similar_surface (gtk_widget_get_surface (GTK_WIDGET (self)),
 	                                             CAIRO_CONTENT_COLOR_ALPHA,
 	                                             MARKER_BOX_W,
 	                                             height);
-
 	cr = cairo_create (self->priv->cursor);
 
 	gdk_cairo_set_source_rgba (cr, &self->priv->cursor_color);
@@ -160,11 +159,6 @@ update_cached_style_values (PtWaveviewerCursor *self)
 	/* Update color */
 
 	GtkStyleContext *context;
-	GdkWindow       *window = NULL;
-
-	window = gtk_widget_get_parent_window (GTK_WIDGET (self));
-	if (!window)
-		return;
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
 	gtk_style_context_get_color (context, &self->priv->cursor_color);

@@ -90,11 +90,6 @@ update_cached_style_values (PtWaveviewerSelection *self)
 	/* Update color */
 
 	GtkStyleContext *context;
-	GdkWindow       *window = NULL;
-
-	window = gtk_widget_get_parent_window (GTK_WIDGET (self));
-	if (!window)
-		return;
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
 	gtk_style_context_get_color (context, &self->priv->selection_color);
