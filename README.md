@@ -66,11 +66,11 @@ $ sudo ninja install
 ```
 
 ### Build from tarball
-Download the latest release tarball from https://github.com/gkarsay/parlatype/releases/latest. Assuming it’s version 1.6.1 and you want the program only:
+Download the latest release tarball from https://github.com/gkarsay/parlatype/releases/latest. Assuming it’s version 1.6.2 and you want the program only:
 ```
-$ wget https://github.com/gkarsay/parlatype/releases/download/v1.6.1/parlatype-1.6.1.tar.gz
-$ tar -zxvf parlatype-1.6.1.tar.gz
-$ cd parlatype-1.6.1/
+$ wget https://github.com/gkarsay/parlatype/releases/download/v1.6.2/parlatype-1.6.2.tar.gz
+$ tar -zxvf parlatype-1.6.2.tar.gz
+$ cd parlatype-1.6.2/
 $ meson build --prefix=/usr
 $ cd build
 $ ninja

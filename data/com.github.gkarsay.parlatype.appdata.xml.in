@@ -39,6 +39,15 @@
 	</kudos>
 
 	<releases>
+		<release version="1.6.2" date="2019-08-31">
+			<description>
+			<p>This is a minor release.</p>
+			<ul>
+			<li>Update time label only if time has changed. This is a performance increase, cursor movement should be smoother on slower systems.</li>
+			<li>Translation updates for Hungarian, Lithuanian and Spanish</li>
+			</ul>
+			</description>
+		</release>
 		<release version="1.6.1" date="2019-07-05">
 			<description>
 			<p>This is a minor release with some changes.</p>

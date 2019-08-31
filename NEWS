@@ -1,10 +1,26 @@
+Overview of Changes in Parlatype 1.6.2 – 2019-08-31
+===================================================
+
+* New: Update time label only if time has changed. This is a performance
+       increase, cursor movement should be smoother on slower systems.
+* Fix: Various fixes or improvements for the build system
+  - Fixed pkg-config cflags
+  - Fixed failing unit test
+  - Fixed extern C declarations for C++
+  - Added Meson configuration message
+* New or updated languages:
+  - es: Adolfo Jayme, Jorge Toledo
+  - hu: Óvári
+  - lt: Moo
+
+
 Overview of Changes in Parlatype 1.6.1 – 2019-07-05
 ===================================================
 
 * New: Automatic speech recognition (ASR) is now disabled by default and it’s
        only shown, if parlatype is launched with the new parameter --with-asr
 * New: Parlatype can be built without ASR (build option asr=false)
-* New: libreoffice helpers’ AppStream ID renamed (hyphen instead of underscore)
+* New: libreoffice helpers’ AppStream ID renamed (underscore instead of hyphen)
 * Fix: Initialize i18n for library, fixes not shown translations in Flatpak
        or non-standard prefixes
 * Fix: All memory leaks discovered with Valgrind in test suite

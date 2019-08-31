@@ -2,7 +2,7 @@
 # refer to the libtool manual, section "Updating library version information":
 # http://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html
 
-libparlatype_version = '2.1.0'
+libparlatype_version = '2.1.1'
 
 # API or namespace version for GIR = first number of libparlatype_version + .0
 libparlatype_api_version = '2.0'
