@@ -539,7 +539,7 @@ file_delete_finished (GObject      *source_object,
 		g_signal_connect_swapped (dialog, "response",
 		                          G_CALLBACK (gtk_widget_destroy), dialog);
 
-		gtk_widget_show_all (dialog);
+		gtk_widget_show (dialog);
 		g_error_free (error);
 	}
 }
@@ -600,7 +600,7 @@ confirm_delete (PtConfigRow *row)
 	g_signal_connect (dialog, "response",
 	                  G_CALLBACK (confirm_delete_response_cb), row);
 
-	gtk_widget_show_all (dialog);
+	gtk_widget_show (dialog);
 
 	g_free (secondary_message);
 }
@@ -634,7 +634,7 @@ details_button_clicked_cb (GtkButton *button,
 	g_object_get (row, "config", &config, NULL);
 	GtkWidget *parent = gtk_widget_get_ancestor (GTK_WIDGET (button), PT_TYPE_PREFERENCES_DIALOG);
 	PtAsrDialog *dlg = pt_asr_dialog_new (GTK_WINDOW (parent));
-	gtk_widget_show_all (GTK_WIDGET (dlg));
+	gtk_widget_show (GTK_WIDGET (dlg));
 	pt_asr_dialog_set_config (dlg, config);
 }
 
@@ -679,7 +679,7 @@ import_copy_ready_cb (GObject      *source_object,
 		g_signal_connect_swapped (err_dialog, "response",
 		                          G_CALLBACK (gtk_widget_destroy), err_dialog);
 
-		gtk_widget_show_all (err_dialog);
+		gtk_widget_show (err_dialog);
 		g_error_free (error);
 	}
 }
@@ -733,7 +733,7 @@ import_dialog_response_cb (GtkDialog *dialog,
 		g_signal_connect_swapped (err_dialog, "response",
 		                          G_CALLBACK (gtk_widget_destroy), err_dialog);
 
-		gtk_widget_show_all (err_dialog);
+		gtk_widget_show (err_dialog);
 		g_object_unref (config);
 		return;
 	}

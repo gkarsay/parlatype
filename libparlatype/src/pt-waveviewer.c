@@ -1233,8 +1233,6 @@ pt_waveviewer_init (PtWaveviewer *self)
 			PT_WAVEVIEWER_WAVEFORM (self->priv->waveform),
 			self->priv->peaks);
 
-	gtk_widget_show_all (GTK_WIDGET (self));
-
 	css_file = g_file_new_for_uri ("resource:///org/parlatype/libparlatype/pt-waveviewer.css");
 	provider = gtk_css_provider_new ();
 	gtk_css_provider_load_from_file (provider, css_file);
