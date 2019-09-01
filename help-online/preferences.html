@@ -5,15 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>Preferences</title>
 <link rel="stylesheet" type="text/css" href="C.css">
-<script type="text/javascript" src="jquery.js"></script><script type="text/javascript" src="jquery.syntax.js"></script><script type="text/javascript" src="yelp.js"></script>
+<script type="text/javascript" src="highlight.pack.js"></script><script>
+document.addEventListener('DOMContentLoaded', function() {
+  var matches = document.querySelectorAll('code.syntax')
+  for (var i = 0; i < matches.length; i++) {
+    hljs.highlightBlock(matches[i]);
+  }
+}, false);</script><script type="text/javascript" src="yelp.js"></script>
 </head>
-<body><div class="page" role="main">
-<div class="header"><div class="trails" role="navigation"><div class="trail">
-<a class="trail" href="index.html" title="Parlatype">Parlatype</a> › <a class="trail" href="index.html#topics" title="Help topics">Help topics</a> » </div></div></div>
-<div class="body">
-<div class="hgroup"><h1 class="title"><span class="title">Preferences</span></h1></div>
+<body><main><div class="page">
+<header><div class="inner pagewide"><div class="trails" role="navigation"><div class="trail">
+<a class="trail" href="index.html" title="Parlatype">Parlatype</a> › <a class="trail" href="index.html#topics" title="Help topics">Help topics</a> » </div></div></div></header><article><div class="hgroup pagewide"><h1 class="title"><span class="title">Preferences</span></h1></div>
 <div class="region">
-<div class="contents">
+<div class="contents pagewide">
 <p class="p">To open the preferences dialog click on the primary menu in the headerbar.</p>
 <div role="navigation" class="links sectionlinks"><div class="inner"><div class="region"><ul>
 <li class="links "><a href="preferences.html#waveform" title="Preferences for the waveform">Preferences for the waveform</a></li>
@@ -23,9 +27,9 @@
 <li class="links "><a href="preferences.html#window" title="Preferences for the window">Preferences for the window</a></li>
 </ul></div></div></div>
 </div>
-<div id="waveform" class="sect"><div class="inner">
-<div class="hgroup"><h2 class="title"><span class="title">Preferences for the waveform</span></h2></div>
-<div class="region"><div class="contents">
+<section id="waveform"><div class="inner">
+<div class="hgroup pagewide"><h2 class="title"><span class="title">Preferences for the waveform</span></h2></div>
+<div class="region"><div class="contents pagewide">
 <div class="media media-image floatend"><div class="inner"><img src="figures/parlatype-prefs-waveform.png" class="media media-block" alt=""></div></div>
 <div class="list"><div class="inner"><div class="region"><ul class="list">
 <li class="list"><p class="p">Resolution: The resolution of the waveform image is given in pixels per second, e.g. the default resolution of 100 means, that one second is shown with a width of 100 pixels.</p></li>
@@ -33,10 +37,9 @@
 <li class="list"><p class="p">Show time scale: Turn the time scale on or off.</p></li>
 </ul></div></div></div>
 </div></div>
-</div></div>
-<div id="controls" class="sect"><div class="inner">
-<div class="hgroup"><h2 class="title"><span class="title">Preferences for controls</span></h2></div>
-<div class="region"><div class="contents">
+</div></section><section id="controls"><div class="inner">
+<div class="hgroup pagewide"><h2 class="title"><span class="title">Preferences for controls</span></h2></div>
+<div class="region"><div class="contents pagewide">
 <div class="media media-image floatend"><div class="inner"><img src="figures/parlatype-prefs-controls.png" class="media media-block" alt=""></div></div>
 <div class="list"><div class="inner"><div class="region"><ul class="list">
 <li class="list"><p class="p">Jump back on pause: <span class="app">Parlatype</span> will rewind a few seconds on each pause, this way you can easier resume typing. Set this value to 0 if you don’t want this behaviour.</p></li>
@@ -46,13 +49,19 @@
 <li class="list"><p class="p">Pressing <span class="gui">Play</span> at the end of selection – Replay selection: Whether you want to repeat the selection. If not, it will replay a few seconds like on pause.</p></li>
 </ul></div></div></div>
 </div></div>
-</div></div>
-<div id="timestamps" class="sect"><div class="inner">
-<div class="hgroup"><h2 class="title"><span class="title">Preferences for timestamps</span></h2></div>
-<div class="region"><div class="contents">
+</div></section><section id="timestamps"><div class="inner">
+<div class="hgroup pagewide"><h2 class="title"><span class="title">Preferences for timestamps</span></h2></div>
+<div class="region"><div class="contents pagewide">
 <div class="media media-image floatend"><div class="inner"><img src="figures/parlatype-prefs-timestamps.png" class="media media-block" alt=""></div></div>
 <p class="p">These settings affect how <span class="app">Parlatype</span> formats timestamps. If you need a certain format in your transcription, you can adjust it here.</p>
-<div class="note" title="Note"><div class="inner"><div class="region"><div class="contents"><p class="p">There are no settings for <span class="em">reading</span> timestamps. <span class="app">Parlatype</span> reads and accepts all of these formats.</p></div></div></div></div>
+<div class="note" title="Note">
+<svg height="24" width="24" version="1.1">
+ <g>
+  <path class="yelp-svg-fill" d="m4 3h16c0.554 0 1 0.446 1 1v11h-6v6h-11c-0.554 0-1-0.446-1-1v-16c0-0.554 0.446-1 1-1z"></path>
+  <path class="yelp-svg-fill" d="m17 16h4l-5 5v-4c0-0.554 0.446-1 1-1z"></path>
+ </g>
+</svg><div class="inner"><div class="region"><div class="contents"><p class="p">There are no settings for <span class="em">reading</span> timestamps. <span class="app">Parlatype</span> reads and accepts all of these formats.</p></div></div></div>
+</div>
 <div class="list"><div class="inner"><div class="region"><ul class="list">
 <li class="list"><p class="p">Always show hours and leading zeroes: Whether to show a fixed number of digits. Changing any of these values will show an updated example in the <span class="gui">Example</span> section below.</p></li>
 <li class="list"><p class="p">Precision: Choose between full seconds, 10th seconds or 100th seconds.</p></li>
@@ -60,56 +69,67 @@
 <li class="list"><p class="p">Characters around timestamps: Choose between number signs, round brackets, square brackets or none.</p></li>
 </ul></div></div></div>
 </div></div>
-</div></div>
-<div id="asr" class="sect"><div class="inner">
-<div class="hgroup"><h2 class="title"><span class="title">Preferences for speech recognition</span></h2></div>
-<div class="region"><div class="contents">
-<div class="note" title="Note"><div class="inner"><div class="region"><div class="contents"><p class="p">This tab is only visible, if speech recognition is enabled in Parlatype.</p></div></div></div></div>
+</div></section><section id="asr"><div class="inner">
+<div class="hgroup pagewide"><h2 class="title"><span class="title">Preferences for speech recognition</span></h2></div>
+<div class="region"><div class="contents pagewide">
+<div class="note" title="Note">
+<svg height="24" width="24" version="1.1">
+ <g>
+  <path class="yelp-svg-fill" d="m4 3h16c0.554 0 1 0.446 1 1v11h-6v6h-11c-0.554 0-1-0.446-1-1v-16c0-0.554 0.446-1 1-1z"></path>
+  <path class="yelp-svg-fill" d="m17 16h4l-5 5v-4c0-0.554 0.446-1 1-1z"></path>
+ </g>
+</svg><div class="inner"><div class="region"><div class="contents"><p class="p">This tab is only visible, if speech recognition is enabled in Parlatype.</p></div></div></div>
+</div>
 <div class="media media-image floatend"><div class="inner"><img src="figures/parlatype-prefs-asr.png" class="media media-block" alt=""></div></div>
 <p class="p">Here you can choose which language model to use. If you don’t have a language model yet, an assistant will guide you through the process of downloading it. You can have as many language models as you need, they can be added with the <span class="gui">+</span> button.</p>
 <p class="p">To select a model click on its radio button in the list. If you click just on the name, you can see the model’s basic parameters. You could even change them, but that’s not recommended.</p>
 <p class="p">The <span class="gui">-</span> button removes a model from the list. The model’s files however are <span class="em">not</span> deleted, just the model entry is removed.</p>
 </div></div>
-</div></div>
-<div id="window" class="sect"><div class="inner">
-<div class="hgroup"><h2 class="title"><span class="title">Preferences for the window</span></h2></div>
-<div class="region"><div class="contents">
+</div></section><section id="window"><div class="inner">
+<div class="hgroup pagewide"><h2 class="title"><span class="title">Preferences for the window</span></h2></div>
+<div class="region"><div class="contents pagewide">
 <div class="media media-image floatend"><div class="inner"><img src="figures/parlatype-prefs-window.png" class="media media-block" alt=""></div></div>
 <div class="list"><div class="inner"><div class="region"><ul class="list">
 <li class="list"><p class="p">Remember size: On start-up <span class="app">Parlatype</span> sets the window size to the size it had the last time.</p></li>
 <li class="list"><p class="p">Remember position: On start-up <span class="app">Parlatype</span> can position its window where you had it when you closed <span class="app">Parlatype</span> last time.</p></li>
 <li class="list"><p class="p">Start on top: This will put <span class="app">Parlatype</span> on start-up on top of other windows. This might be useful if you are working with a maximized word processor and still want to see the <span class="app">Parlatype</span> window.</p></li>
 </ul></div></div></div>
-<div class="note" title="Note"><div class="inner"><div class="region"><div class="contents"><p class="p"><span class="gui">Remember position</span> and <span class="gui">Start on top</span> are not available on Wayland.</p></div></div></div></div>
+<div class="note" title="Note">
+<svg height="24" width="24" version="1.1">
+ <g>
+  <path class="yelp-svg-fill" d="m4 3h16c0.554 0 1 0.446 1 1v11h-6v6h-11c-0.554 0-1-0.446-1-1v-16c0-0.554 0.446-1 1-1z"></path>
+  <path class="yelp-svg-fill" d="m17 16h4l-5 5v-4c0-0.554 0.446-1 1-1z"></path>
+ </g>
+</svg><div class="inner"><div class="region"><div class="contents"><p class="p"><span class="gui">Remember position</span> and <span class="gui">Start on top</span> are not available on Wayland.</p></div></div></div>
+</div>
 </div></div>
-</div></div>
-<div class="sect sect-links" role="navigation">
-<div class="hgroup"></div>
-<div class="contents"><div class="links guidelinks"><div class="inner">
+</div></section><section class="links" role="navigation"><div class="inner">
+<div class="hgroup pagewide"></div>
+<div class="contents pagewide"><div class="links guidelinks"><div class="inner">
 <div class="title"><h2><span class="title">More Information</span></h2></div>
 <div class="region"><ul><li class="links "><a href="index.html#topics" title="Help topics">Help topics</a></li></ul></div>
 </div></div></div>
+</div></section>
 </div>
-</div>
-<div class="clear"></div>
-</div>
-<div class="footer"><div class="sect about ui-expander" role="contentinfo">
-<div class="yelp-data yelp-data-ui-expander" data-yelp-expanded="false"></div>
+<div class="clear"></div></article><footer><div class="inner pagewide"><footer class="about ui-expander" role="contentinfo"><div class="yelp-data yelp-data-ui-expander" data-yelp-expanded="false"></div>
 <div class="inner">
 <div class="hgroup"><h2><span class="title">About</span></h2></div>
 <div class="region"><div class="contents">
-<div class="aboutblurb authors">
+<div class="credits">
+<div class="credits-authors">
 <div class="title"><span class="title">Written By</span></div>
 <ul class="credits"><li>Gabor Karsay</li></ul>
 </div>
-<div class="aboutblurb license">
+<div class="credits-blank"></div>
+<div class="credits-blank"></div>
+</div>
+<div class="license">
 <div class="title"><span class="title">Creative Commons</span></div>
 <div class="contents"><p class="p">This work is licensed under a
   <span class="link"><a href="http://creativecommons.org/licenses/by-sa/4.0/" title="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons
   Attribution-ShareAlike 4.0 International</a></span> license.</p></div>
 </div>
 </div></div>
-</div>
-</div></div>
-</div></body>
+</div></footer></div></footer>
+</div></main></body>
 </html>

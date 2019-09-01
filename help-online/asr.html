@@ -5,58 +5,72 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>Automatic speech recognition</title>
 <link rel="stylesheet" type="text/css" href="C.css">
-<script type="text/javascript" src="jquery.js"></script><script type="text/javascript" src="jquery.syntax.js"></script><script type="text/javascript" src="yelp.js"></script>
+<script type="text/javascript" src="highlight.pack.js"></script><script>
+document.addEventListener('DOMContentLoaded', function() {
+  var matches = document.querySelectorAll('code.syntax')
+  for (var i = 0; i < matches.length; i++) {
+    hljs.highlightBlock(matches[i]);
+  }
+}, false);</script><script type="text/javascript" src="yelp.js"></script>
 </head>
-<body><div class="page" role="main">
-<div class="header"><div class="trails" role="navigation"><div class="trail">
-<a class="trail" href="index.html" title="Parlatype">Parlatype</a> › <a class="trail" href="index.html#topics" title="Help topics">Help topics</a> » </div></div></div>
-<div class="body">
-<div class="hgroup"><h1 class="title"><span class="title">Automatic speech recognition</span></h1></div>
+<body><main><div class="page">
+<header><div class="inner pagewide"><div class="trails" role="navigation"><div class="trail">
+<a class="trail" href="index.html" title="Parlatype">Parlatype</a> › <a class="trail" href="index.html#topics" title="Help topics">Help topics</a> » </div></div></div></header><article><div class="hgroup pagewide"><h1 class="title"><span class="title">Automatic speech recognition</span></h1></div>
 <div class="region">
-<div class="contents">
+<div class="contents pagewide">
 <p class="p"><span class="app">Parlatype</span> offers automatic speech recognition that is done on your computer. No data is sent over the network. Keep in mind that automatic transcription is far from being perfect, it will <span class="em">always</span> need manual corrections.</p>
-<div class="note note-important" title="Important"><div class="inner"><div class="region"><div class="contents">
+<div class="note note-important" title="Important">
+<svg height="24" width="24" version="1.1">
+ <path class="yelp-svg-fill" d="m12.5 2a9.5 9.5 0 0 0 -9.5 9.5 9.5 9.5 0 0 0 9.5 9.5 9.5 9.5 0 0 0 9.5 -9.5 9.5 9.5 0 0 0 -9.5 -9.5zm0 3a1.5 1.5 0 0 1 1.5 1.5v6a1.5 1.5 0 0 1 -1.5 1.5 1.5 1.5 0 0 1 -1.5 -1.5v-6a1.5 1.5 0 0 1 1.5 -1.5zm0 10.5a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1 -1.5 1.5 1.5 1.5 0 0 1 -1.5 -1.5 1.5 1.5 0 0 1 1.5 -1.5z"></path>
+</svg><div class="inner"><div class="region"><div class="contents">
 <p class="p">Automatic speech recognition is disabled by default. In order to try it, you have run <span class="app">Parlatype</span> with this parameter:</p>
 <p class="p"><span class="cmd">parlatype --with-asr</span></p>
-</div></div></div></div>
+</div></div></div>
 </div>
-<div id="" class="sect"><div class="inner">
-<div class="hgroup"><h2 class="title"><span class="title">Start speech recognition</span></h2></div>
-<div class="region"><div class="contents">
+</div>
+<section id=""><div class="inner">
+<div class="hgroup pagewide"><h2 class="title"><span class="title">Start speech recognition</span></h2></div>
+<div class="region"><div class="contents pagewide">
 <p class="p">Open the primary menu and click on <span class="gui">Automatic transcription</span>. If you don’t have a language model yet, an assistant will guide you in that process (see <span class="link"><a href="asr-setup.html" title="Setup automatic speech recognition">Setup automatic speech recognition</a></span>). Otherwise a dialog will pop up asking you to give focus to a word processor. Any word processor with support for accessibility should work, like <span class="app">LibreOffice</span> or <span class="app">Gedit</span>.</p>
 <p class="p">If no word processor is recognized you can use an internal textpad as a fallback solution. To use that textpad start <span class="app">Parlatype</span> with the textpad option: <span class="cmd">parlatype --textpad</span>.</p>
 <p class="p">Now press <span class="gui">Play</span> in <span class="app">Parlatype</span> and the recognized speech will be printed to that window. Output is silent because the speed is dependent on your machine’s power and may be slower or faster than real-time speech.</p>
 <p class="p">Output is without punctuation or capitalization, you have to add or correct that yourself.</p>
-<div class="note" title="Note"><div class="inner"><div class="region"><div class="contents"><p class="p"><span class="em">Accuracy</span> depends on many factors like quality of the recording, background noise, speaker’s dialect or pronounciation and the speech model used. For general transcription you can expect an word error rate between 10 and 50 %. Alas this means that in some case manual transcription from the start will be faster than automatic transcription and the following correction process.</p></div></div></div></div>
+<div class="note" title="Note">
+<svg height="24" width="24" version="1.1">
+ <g>
+  <path class="yelp-svg-fill" d="m4 3h16c0.554 0 1 0.446 1 1v11h-6v6h-11c-0.554 0-1-0.446-1-1v-16c0-0.554 0.446-1 1-1z"></path>
+  <path class="yelp-svg-fill" d="m17 16h4l-5 5v-4c0-0.554 0.446-1 1-1z"></path>
+ </g>
+</svg><div class="inner"><div class="region"><div class="contents"><p class="p"><span class="em">Accuracy</span> depends on many factors like quality of the recording, background noise, speaker’s dialect or pronounciation and the speech model used. For general transcription you can expect an word error rate between 10 and 50 %. Alas this means that in some case manual transcription from the start will be faster than automatic transcription and the following correction process.</p></div></div></div>
+</div>
 </div></div>
-</div></div>
-<div class="sect sect-links" role="navigation">
-<div class="hgroup"></div>
-<div class="contents"><div class="links guidelinks"><div class="inner">
+</div></section><section class="links" role="navigation"><div class="inner">
+<div class="hgroup pagewide"></div>
+<div class="contents pagewide"><div class="links guidelinks"><div class="inner">
 <div class="title"><h2><span class="title">More Information</span></h2></div>
 <div class="region"><ul><li class="links "><a href="index.html#topics" title="Help topics">Help topics</a></li></ul></div>
 </div></div></div>
+</div></section>
 </div>
-</div>
-<div class="clear"></div>
-</div>
-<div class="footer"><div class="sect about ui-expander" role="contentinfo">
-<div class="yelp-data yelp-data-ui-expander" data-yelp-expanded="false"></div>
+<div class="clear"></div></article><footer><div class="inner pagewide"><footer class="about ui-expander" role="contentinfo"><div class="yelp-data yelp-data-ui-expander" data-yelp-expanded="false"></div>
 <div class="inner">
 <div class="hgroup"><h2><span class="title">About</span></h2></div>
 <div class="region"><div class="contents">
-<div class="aboutblurb authors">
+<div class="credits">
+<div class="credits-authors">
 <div class="title"><span class="title">Written By</span></div>
 <ul class="credits"><li>Gabor Karsay</li></ul>
 </div>
-<div class="aboutblurb license">
+<div class="credits-blank"></div>
+<div class="credits-blank"></div>
+</div>
+<div class="license">
 <div class="title"><span class="title">Creative Commons</span></div>
 <div class="contents"><p class="p">This work is licensed under a
   <span class="link"><a href="http://creativecommons.org/licenses/by-sa/4.0/" title="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons
   Attribution-ShareAlike 4.0 International</a></span> license.</p></div>
 </div>
 </div></div>
-</div>
-</div></div>
-</div></body>
+</div></footer></div></footer>
+</div></main></body>
 </html>

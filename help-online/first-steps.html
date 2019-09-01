@@ -5,15 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>First steps with Parlatype</title>
 <link rel="stylesheet" type="text/css" href="C.css">
-<script type="text/javascript" src="jquery.js"></script><script type="text/javascript" src="jquery.syntax.js"></script><script type="text/javascript" src="yelp.js"></script>
+<script type="text/javascript" src="highlight.pack.js"></script><script>
+document.addEventListener('DOMContentLoaded', function() {
+  var matches = document.querySelectorAll('code.syntax')
+  for (var i = 0; i < matches.length; i++) {
+    hljs.highlightBlock(matches[i]);
+  }
+}, false);</script><script type="text/javascript" src="yelp.js"></script>
 </head>
-<body><div class="page" role="main">
-<div class="header"></div>
-<div class="body">
-<div class="hgroup"><h1 class="title"><span class="title">First steps with Parlatype</span></h1></div>
-<div class="region"><div class="contents">
+<body><main><div class="page">
+<header><div class="inner pagewide"></div></header><article><div class="hgroup pagewide"><h1 class="title"><span class="title">First steps with Parlatype</span></h1></div>
+<div class="region"><div class="contents pagewide">
 <p class="p"><span class="app">Parlatype</span> is an easy to use audio player to help you transcribing or annotating recorded speech. You need to run a word processor, e.g. <span class="app">LibreOffice</span>, too. Launch <span class="app">Parlatype</span> and open an audio file by clicking on the <span class="gui">Open</span> button in the upper left corner.</p>
-<div class="note" title="Note"><div class="inner"><div class="region"><div class="contents"><p class="p">You can also drag and drop a file on <span class="app">Parlatype</span>.</p></div></div></div></div>
+<div class="note" title="Note">
+<svg height="24" width="24" version="1.1">
+ <g>
+  <path class="yelp-svg-fill" d="m4 3h16c0.554 0 1 0.446 1 1v11h-6v6h-11c-0.554 0-1-0.446-1-1v-16c0-0.554 0.446-1 1-1z"></path>
+  <path class="yelp-svg-fill" d="m17 16h4l-5 5v-4c0-0.554 0.446-1 1-1z"></path>
+ </g>
+</svg><div class="inner"><div class="region"><div class="contents"><p class="p">You can also drag and drop a file on <span class="app">Parlatype</span>.</p></div></div></div>
+</div>
 <p class="p">In the lower left corner there are the controls with a <span class="gui">Play</span> button which toggles between play and pause. Whenever you pause, <span class="app">Parlatype</span> rewinds a few seconds to make it easier to resume. This can be changed in the <span class="link"><a href="preferences.html" title="Preferences">Preferences</a></span>.</p>
 <div class="media media-image"><div class="inner"><img src="figures/parlatype-main-window.png" class="media media-block" alt=""></div></div>
 <p class="p">The buttons <span class="gui">Jump back</span> and <span class="gui">Jump forward</span> in the lower left corner skip a few seconds back or ahead. The amount of time can be changed in the <span class="link"><a href="preferences.html" title="Preferences">Preferences</a></span>.</p>
@@ -22,25 +33,25 @@
 <p class="p">Clicking in the view with the right mouse button will put the cursor there, also holding the right mouse button pressed and moving it. The left mouse button is for <span class="link"><a href="selections.html" title="Selections">Selections</a></span>.</p>
 <p class="p">The <span class="gui">speed scale</span> next to the <span class="gui">volume</span> button in the lower right corner lets you adjust the speed of playback. A value of 1 means normal speed, everything lower (down to 0.5) is slower, everything above is faster.</p>
 </div></div>
-<div class="clear"></div>
-</div>
-<div class="footer"><div class="sect about ui-expander" role="contentinfo">
-<div class="yelp-data yelp-data-ui-expander" data-yelp-expanded="false"></div>
+<div class="clear"></div></article><footer><div class="inner pagewide"><footer class="about ui-expander" role="contentinfo"><div class="yelp-data yelp-data-ui-expander" data-yelp-expanded="false"></div>
 <div class="inner">
 <div class="hgroup"><h2><span class="title">About</span></h2></div>
 <div class="region"><div class="contents">
-<div class="aboutblurb authors">
+<div class="credits">
+<div class="credits-authors">
 <div class="title"><span class="title">Written By</span></div>
 <ul class="credits"><li>Gabor Karsay</li></ul>
 </div>
-<div class="aboutblurb license">
+<div class="credits-blank"></div>
+<div class="credits-blank"></div>
+</div>
+<div class="license">
 <div class="title"><span class="title">Creative Commons</span></div>
 <div class="contents"><p class="p">This work is licensed under a
   <span class="link"><a href="http://creativecommons.org/licenses/by-sa/4.0/" title="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons
   Attribution-ShareAlike 4.0 International</a></span> license.</p></div>
 </div>
 </div></div>
-</div>
-</div></div>
-</div></body>
+</div></footer></div></footer>
+</div></main></body>
 </html>

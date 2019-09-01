@@ -5,58 +5,62 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>Parlatype</title>
 <link rel="stylesheet" type="text/css" href="C.css">
-<script type="text/javascript" src="jquery.js"></script><script type="text/javascript" src="jquery.syntax.js"></script><script type="text/javascript" src="yelp.js"></script>
+<script type="text/javascript" src="highlight.pack.js"></script><script>
+document.addEventListener('DOMContentLoaded', function() {
+  var matches = document.querySelectorAll('code.syntax')
+  for (var i = 0; i < matches.length; i++) {
+    hljs.highlightBlock(matches[i]);
+  }
+}, false);</script><script type="text/javascript" src="yelp.js"></script>
 </head>
-<body><div class="page" role="main">
-<div class="header"></div>
-<div class="body">
-<div class="hgroup"><h1 class="title"><span class="title">
+<body><main><div class="page">
+<header><div class="inner pagewide"></div></header><article><div class="hgroup pagewide"><h1 class="title"><span class="title">
   <span class="media"><span class="media media-image"><img src="figures/parlatype-icon.png" class="media media-inline" alt=""></span></span>
   Parlatype
 </span></h1></div>
 <div class="region">
-<div class="contents">
+<div class="contents pagewide">
 <p class="p"><span class="app">Parlatype</span> is an easy to use media player. Its main purpose is to help you transcribing speech.</p>
 <p class="p">For a quick overview have a look at <span class="link"><a href="first-steps.html" title="First steps with Parlatype">First steps with Parlatype</a></span>. Other topics are covered below.</p>
 </div>
-<div id="topics" class="sect"><div class="inner">
-<div class="hgroup"><h2 class="title"><span class="title">Help topics</span></h2></div>
-<div class="region"><div class="contents"><div class="links topiclinks"><div class="inner"><div class="region">
-<div class="links-twocolumn">
+<section id="topics"><div class="inner">
+<div class="hgroup pagewide"><h2 class="title"><span class="title">Help topics</span></h2></div>
+<div class="region"><div class="contents pagewide"><div class="links topiclinks"><div class="inner"><div class="region"><div class="links-twocolumn">
+<div class="links-divs">
 <div class="linkdiv "><a class="linkdiv" href="asr.html" title="Automatic speech recognition"><span class="title">Automatic speech recognition</span><span class="linkdiv-dash"> — </span><span class="desc">Let Parlatype do part of the transcription work</span></a></div>
 <div class="linkdiv "><a class="linkdiv" href="drag-and-drop.html" title="Drag and Drop"><span class="title">Drag and Drop</span><span class="linkdiv-dash"> — </span><span class="desc">Drop files, file names or timestamps on Parlatype</span></a></div>
 <div class="linkdiv "><a class="linkdiv" href="keyboard-shortcuts.html" title="Keyboard shortcuts"><span class="title">Keyboard shortcuts</span><span class="linkdiv-dash"> — </span><span class="desc">Standard keyboard shortcuts in Parlatype</span></a></div>
 <div class="linkdiv "><a class="linkdiv" href="libreoffice-helpers.html" title="LibreOffice Helpers"><span class="title">LibreOffice Helpers</span><span class="linkdiv-dash"> — </span><span class="desc">Use Parlatype with LibreOffice</span></a></div>
 <div class="linkdiv "><a class="linkdiv" href="control.html" title="Media keys"><span class="title">Media keys</span><span class="linkdiv-dash"> — </span><span class="desc">How to control Parlatype with media keys</span></a></div>
 </div>
-<div class="links-twocolumn">
+<div class="links-divs">
 <div class="linkdiv "><a class="linkdiv" href="preferences.html" title="Preferences"><span class="title">Preferences</span><span class="linkdiv-dash"> — </span><span class="desc">How to customize Parlatype</span></a></div>
 <div class="linkdiv "><a class="linkdiv" href="selections.html" title="Selections"><span class="title">Selections</span><span class="linkdiv-dash"> — </span><span class="desc">How to play and repeat a selection</span></a></div>
 <div class="linkdiv "><a class="linkdiv" href="asr-setup.html" title="Setup automatic speech recognition"><span class="title">Setup automatic speech recognition</span><span class="linkdiv-dash"> — </span><span class="desc">Setup automatic speech transcription</span></a></div>
 <div class="linkdiv "><a class="linkdiv" href="timestamps.html" title="Timestamps"><span class="title">Timestamps</span><span class="linkdiv-dash"> — </span><span class="desc">Set and go to timestamps</span></a></div>
 </div>
-</div></div></div></div></div>
-</div></div>
+</div></div></div></div></div></div>
+</div></section>
 </div>
-<div class="clear"></div>
-</div>
-<div class="footer"><div class="sect about ui-expander" role="contentinfo">
-<div class="yelp-data yelp-data-ui-expander" data-yelp-expanded="false"></div>
+<div class="clear"></div></article><footer><div class="inner pagewide"><footer class="about ui-expander" role="contentinfo"><div class="yelp-data yelp-data-ui-expander" data-yelp-expanded="false"></div>
 <div class="inner">
 <div class="hgroup"><h2><span class="title">About</span></h2></div>
 <div class="region"><div class="contents">
-<div class="aboutblurb authors">
+<div class="credits">
+<div class="credits-authors">
 <div class="title"><span class="title">Written By</span></div>
 <ul class="credits"><li>Gabor Karsay</li></ul>
 </div>
-<div class="aboutblurb license">
+<div class="credits-blank"></div>
+<div class="credits-blank"></div>
+</div>
+<div class="license">
 <div class="title"><span class="title">Creative Commons</span></div>
 <div class="contents"><p class="p">This work is licensed under a
   <span class="link"><a href="http://creativecommons.org/licenses/by-sa/4.0/" title="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons
   Attribution-ShareAlike 4.0 International</a></span> license.</p></div>
 </div>
 </div></div>
-</div>
-</div></div>
-</div></body>
+</div></footer></div></footer>
+</div></main></body>
 </html>
