@@ -8,7 +8,7 @@
 <link rel="up" href="pt02.html" title="Part II. Main backend: PtPlayer">
 <link rel="prev" href="pt02.html" title="Part II. Main backend: PtPlayer">
 <link rel="next" href="pt03.html" title="Part III. GtkWidgets">
-<meta name="generator" content="GTK-Doc V1.25 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.28 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -582,7 +582,7 @@ pt_player_new (<em class="parameter"><code><span class="type">void</span></code>
 <p>After use <a href="../gobject/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a> it.</p>
 <div class="refsect3">
 <a name="pt-player-new.returns"></a><h4>Returns</h4>
-<p> a new pt_player. </p>
+<p>a new pt_player. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
 </div>
@@ -611,7 +611,7 @@ do anything with the <a class="link" href="PtPlayer.html" title="PtPlayer"><span
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p> return location for an error, or NULL. </p></td>
+<td class="parameter_description"><p>return location for an error, or NULL. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="NULL may be passed as the value in, out, in-out; or as a return value."><span class="acronym">nullable</span></acronym>]</span></td>
 </tr>
 </tbody>
@@ -650,7 +650,7 @@ the results. Start recognition with <a class="link" href="PtPlayer.html#pt-playe
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p> return location for an error, or NULL. </p></td>
+<td class="parameter_description"><p>return location for an error, or NULL. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="NULL may be passed as the value in, out, in-out; or as a return value."><span class="acronym">nullable</span></acronym>]</span></td>
 </tr>
 </tbody>
@@ -704,12 +704,12 @@ reaching 100%. Don’t use it to determine whether the operation is finished.</p
 </tr>
 <tr>
 <td class="parameter_name"><p>callback</p></td>
-<td class="parameter_description"><p> a <a href="../gio/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> to call when the operation is complete. </p></td>
+<td class="parameter_description"><p>a <a href="../gio/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> to call when the operation is complete. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="The callback is valid until first called."><span class="acronym">scope async</span></acronym>]</span></td>
 </tr>
 <tr>
 <td class="parameter_name"><p>user_data</p></td>
-<td class="parameter_description"><p> user_data for callback. </p></td>
+<td class="parameter_description"><p>user_data for callback. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym>]</span></td>
 </tr>
 </tbody>
@@ -746,7 +746,7 @@ in an error, too.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p> a pointer to a NULL <a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>, or NULL. </p></td>
+<td class="parameter_description"><p>a pointer to a NULL <a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>, or NULL. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="NULL may be passed as the value in, out, in-out; or as a return value."><span class="acronym">nullable</span></acronym>]</span></td>
 </tr>
 </tbody>
@@ -799,7 +799,7 @@ However, it doesn’t emit 100%, the operation is finished when TRUE is returned
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p> return location for an error, or NULL. </p></td>
+<td class="parameter_description"><p>return location for an error, or NULL. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="NULL may be passed as the value in, out, in-out; or as a return value."><span class="acronym">nullable</span></acronym>]</span></td>
 </tr>
 </tbody>
@@ -1530,7 +1530,7 @@ pt_player_get_uri (<em class="parameter"><code><a class="link" href="PtPlayer.ht
 </div>
 <div class="refsect3">
 <a name="pt-player-get-uri.returns"></a><h4>Returns</h4>
-<p> the uri. </p>
+<p>the uri. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
 </div>
@@ -1557,7 +1557,7 @@ pt_player_get_filename (<em class="parameter"><code><a class="link" href="PtPlay
 </div>
 <div class="refsect3">
 <a name="pt-player-get-filename.returns"></a><h4>Returns</h4>
-<p> the file name. </p>
+<p>the file name. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
 </div>
@@ -1601,7 +1601,7 @@ in long format, too.</p>
 </div>
 <div class="refsect3">
 <a name="pt-player-get-time-string.returns"></a><h4>Returns</h4>
-<p> the time string. </p>
+<p>the time string. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
 </div>
@@ -1637,7 +1637,7 @@ pt_player_get_current_time_string (<em class="parameter"><code><a class="link" h
 </div>
 <div class="refsect3">
 <a name="pt-player-get-current-time-string.returns"></a><h4>Returns</h4>
-<p> the time string. </p>
+<p>the time string. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
 </div>
@@ -1673,7 +1673,7 @@ pt_player_get_duration_time_string (<em class="parameter"><code><a class="link" 
 </div>
 <div class="refsect3">
 <a name="pt-player-get-duration-time-string.returns"></a><h4>Returns</h4>
-<p> the time string. </p>
+<p>the time string. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
 </div>
@@ -1720,7 +1720,7 @@ whether duration is less than one hour or more than (including) an hour
 </div>
 <div class="refsect3">
 <a name="pt-player-get-timestamp-for-time.returns"></a><h4>Returns</h4>
-<p> the timestamp. </p>
+<p>the timestamp. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
 </div>
@@ -1750,7 +1750,7 @@ be influenced with <a class="link" href="PtPlayer.html#PtPlayer--timestamp-preci
 </div>
 <div class="refsect3">
 <a name="pt-player-get-timestamp.returns"></a><h4>Returns</h4>
-<p> the timestamp. </p>
+<p>the timestamp. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
 </div>
@@ -1912,7 +1912,7 @@ a bit differnt, depending on the bit rate.</p>
 </div>
 <div class="refsect3">
 <a name="pt-player-get-data.returns"></a><h4>Returns</h4>
-<p> the <a class="link" href="PtWavedata.html" title="PtWavedata"><span class="type">PtWavedata</span></a>. </p>
+<p>the <a class="link" href="PtWavedata.html" title="PtWavedata"><span class="type">PtWavedata</span></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
 </div>
@@ -2355,6 +2355,6 @@ to pause or play.</p>
 </div>
 </div>
 <div class="footer">
-<hr>Generated by GTK-Doc V1.25</div>
+<hr>Generated by GTK-Doc V1.28</div>
 </body>
 </html>
