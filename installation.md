@@ -11,7 +11,7 @@ Parlatype is hosted on [Flathub](https://flathub.org/). Following the [instructi
 There is an AUR package for Parlatype: [https://aur.archlinux.org/packages/parlatype/](https://aur.archlinux.org/packages/parlatype/).
 
 ## Debian
-Parlatype is in testing (Debian Buster), link to tracker: [https://tracker.debian.org/pkg/parlatype](https://tracker.debian.org/pkg/parlatype).
+Parlatype is in Debian 10 (Buster), link to tracker: [https://tracker.debian.org/pkg/parlatype](https://tracker.debian.org/pkg/parlatype).
 
 ## openSUSE
 
@@ -29,7 +29,7 @@ zypper in parlatype
 ```
 
 ## Ubuntu
-Parlatype is in Ubuntu's repository since 18.04 (Bionic Beaver).
+Parlatype is in Ubuntu’s repository since 18.04 (Bionic Beaver).
 
 There is a PPA with stable releases of Parlatype at [https://launchpad.net/~gabor-karsay/+archive/ubuntu/parlatype](https://launchpad.net/~gabor-karsay/+archive/ubuntu/parlatype).
 
