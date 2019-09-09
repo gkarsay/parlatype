@@ -77,6 +77,9 @@ struct _PtWaveviewerPrivate {
 	GtkWidget  *focus;
 	GtkWidget  *cursor;
 	GtkWidget  *selection;
+
+	/* Event handling */
+	GtkGesture *button;
 };
 
 enum
@@ -439,30 +442,30 @@ set_cursor (GtkWidget *widget,
 }
 
 static gboolean
-pt_waveviewer_button_press_event (GtkWidget      *widget,
-                                  GdkEventButton *event)
+pt_waveviewer_button_press_event (GtkGestureMultiPress *gesture,
+                                  gint                  n_press,
+                                  gdouble               x,
+                                  gdouble               y,
+                                  gpointer              user_data)
 {
-	PtWaveviewer *self = PT_WAVEVIEWER (widget);
-	GdkEventType         type;
+	PtWaveviewer *self = PT_WAVEVIEWER (user_data);
 	GdkModifierType      state;
 	guint                button;
-	gdouble              x;
 	gint64               clicked;	/* the sample clicked on */
 	gint64               pos;	/* clicked sample’s position in milliseconds */
 
 	if (!self->priv->peaks)
 		return FALSE;
 
-	type = gdk_event_get_event_type ((GdkEvent*)event);
-	gdk_event_get_state ((GdkEvent*) event, &state);
-	gdk_event_get_button ((GdkEvent*) event, &button);
-	gdk_event_get_coords ((GdkEvent*) event, &x, NULL);
+	if (!gtk_get_current_event_state (&state))
+		return FALSE;
+
+	button = gtk_gesture_single_get_current_button (GTK_GESTURE_SINGLE (gesture));
 	clicked = (gint) x;
 	pos = pixel_to_time (self, clicked);
 
-
 	/* Single left click, no other keys pressed: new selection or changing selection */
-	if (type == GDK_BUTTON_PRESS
+	if (n_press == 1
 	    && button == GDK_BUTTON_PRIMARY
 	    && !(state & ALL_ACCELS_MASK)) {
 		/* set position as start and end point, for new selection */
@@ -477,13 +480,13 @@ pt_waveviewer_button_press_event (GtkWidget      *widget,
 			self->priv->dragend = self->priv->sel_end;
 		}
 
-		set_cursor (widget, self->priv->arrows);
+		set_cursor (GTK_WIDGET (self), self->priv->arrows);
 		update_selection (self);
 		return TRUE;
 	}
 
 	/* Single left click with Shift pressed and existing selection: enlarge selection */
-	if (type == GDK_BUTTON_PRESS
+	if (n_press == 1
 	    && button == GDK_BUTTON_PRIMARY
 	    && (state & ALL_ACCELS_MASK) == GDK_SHIFT_MASK
 	    && self->priv->sel_start != self->priv->sel_end) {
@@ -495,13 +498,13 @@ pt_waveviewer_button_press_event (GtkWidget      *widget,
 		else
 			self->priv->dragstart = self->priv->sel_start;
 
-		set_cursor (widget, self->priv->arrows);
+		set_cursor (GTK_WIDGET (self), self->priv->arrows);
 		update_selection (self);
 		return TRUE;
 	}
 
 	/* Single right click: change cursor */
-	if (type == GDK_BUTTON_PRESS && button == GDK_BUTTON_SECONDARY) {
+	if (n_press == 1 && button == GDK_BUTTON_SECONDARY) {
 		g_signal_emit_by_name (self, "cursor-changed", pos);
 		return TRUE;
 	}
@@ -590,14 +593,17 @@ pt_waveviewer_motion_notify_event (GtkWidget      *widget,
 }
 
 static gboolean
-pt_waveviewer_button_release_event (GtkWidget      *widget,
-                                    GdkEventButton *event)
+pt_waveviewer_button_release_event (GtkGestureMultiPress *gesture,
+                                    gint                  n_press,
+                                    gdouble               x,
+                                    gdouble               y,
+                                    gpointer              user_data)
 {
 	guint button;
 
-	gdk_event_get_button ((GdkEvent*) event, &button);
-	if (button == GDK_BUTTON_PRIMARY) {
-		set_cursor (widget, NULL);
+	button = gtk_gesture_single_get_current_button (GTK_GESTURE_SINGLE (gesture));
+	if (n_press == 1 && button == GDK_BUTTON_PRIMARY) {
+		set_cursor (GTK_WIDGET (user_data), NULL);
 		return TRUE;
 	}
 	return FALSE;
@@ -1011,6 +1017,16 @@ pt_waveviewer_finalize (GObject *object)
 }
 
 static void
+pt_waveviewer_dispose (GObject *object)
+{
+	PtWaveviewer *self = PT_WAVEVIEWER (object);
+
+	g_clear_object (&self->priv->button);
+
+	G_OBJECT_CLASS (pt_waveviewer_parent_class)->dispose (object);
+}
+
+static void
 pt_waveviewer_get_property (GObject    *object,
                             guint       property_id,
                             GValue     *value,
@@ -1190,6 +1206,22 @@ pt_waveviewer_init (PtWaveviewer *self)
 			G_CALLBACK (size_allocate_cb),
 			self);
 
+	/* Setup event handling */
+	self->priv->button = gtk_gesture_multi_press_new (box);
+	gtk_gesture_single_set_exclusive (GTK_GESTURE_SINGLE (self->priv->button), TRUE);
+	gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (self->priv->button), 0);
+	gtk_event_controller_set_propagation_phase (GTK_EVENT_CONTROLLER (self->priv->button), GTK_PHASE_CAPTURE);
+	g_signal_connect (
+			self->priv->button,
+			"pressed",
+			G_CALLBACK (pt_waveviewer_button_press_event),
+			self);
+	g_signal_connect (
+			self->priv->button,
+			"released",
+			G_CALLBACK (pt_waveviewer_button_release_event),
+			self);
+
 	/* If overriding these vfuncs something’s going wrong, note that focus-in
 	   an focus-out need GdkEventFocus as 2nd parameter in vfunc */
 	g_signal_connect (self, "focus", G_CALLBACK (pt_waveviewer_focus), NULL);
@@ -1206,10 +1238,9 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 	gobject_class->set_property = pt_waveviewer_set_property;
 	gobject_class->get_property = pt_waveviewer_get_property;
 	gobject_class->constructed  = pt_waveviewer_constructed;
+	gobject_class->dispose      = pt_waveviewer_dispose;
 	gobject_class->finalize     = pt_waveviewer_finalize;
 
-	widget_class->button_press_event   = pt_waveviewer_button_press_event;
-	widget_class->button_release_event = pt_waveviewer_button_release_event;
 	widget_class->direction_changed    = pt_waveviewer_direction_changed;
 	widget_class->key_press_event      = pt_waveviewer_key_press_event;
 	widget_class->motion_notify_event  = pt_waveviewer_motion_notify_event;
