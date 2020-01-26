@@ -78,9 +78,9 @@ status += [
 if (prefix != '/usr')
 	status += ['Command to run parlatype:']
 	if (asr)
-		status += ['LD_LIBRARY_PATH=@0@ GST_PLUGIN_PATH=@0@/gstreamer-1.0 @1@/parlatype'.format(libdir, bindir)]
+		status += ['LD_LIBRARY_PATH=@0@ GST_PLUGIN_PATH=@0@/gstreamer-1.0 XDG_DATA_DIRS=$XDG_DATA_DIRS:@1@ @2@/parlatype'.format(libdir, datadir, bindir)]
 	else
-		status += ['LD_LIBRARY_PATH=@0@ @1@/parlatype'.format(libdir, bindir)]
+		status += ['LD_LIBRARY_PATH=@0@ XDG_DATA_DIRS=$XDG_DATA_DIRS:@1@ @2@/parlatype'.format(libdir, datadir, bindir)]
 	endif
 	status += ['']
 endif
