@@ -18,6 +18,8 @@
 #include "config.h"
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>	
+#include "pt-dbus-service.h"
+#include "pt-mediakeys.h"
 #include "pt-preferences.h"
 #include "pt-window.h"
 #include "pt-app.h"
@@ -27,6 +29,8 @@ struct _PtAppPrivate
 	gboolean       asr;
 	gboolean       atspi;
 	PtAsrSettings *asr_settings;
+	PtMediakeys   *mediakeys;
+	PtDbusService *dbus_service;
 };
 
 
@@ -291,16 +295,22 @@ pt_app_startup (GApplication *app)
 }
 
 static void
-pt_app_activate (GApplication *app)
+pt_app_activate (GApplication *application)
 {
-	GList *windows;
+	PtApp    *app = PT_APP (application);
+	GList    *windows;
 	PtWindow *win;
 
-	windows = gtk_application_get_windows (GTK_APPLICATION (app));
-	if (windows)
+	windows = gtk_application_get_windows (GTK_APPLICATION (application));
+	if (windows) {
 		win = PT_WINDOW (windows->data);
-	else
-		win = pt_window_new (PT_APP (app));
+	} else {
+		win = pt_window_new (app);
+		app->priv->mediakeys = pt_mediakeys_new (win);
+		pt_mediakeys_start (app->priv->mediakeys);
+		app->priv->dbus_service = pt_dbus_service_new (win);
+		pt_dbus_service_start (app->priv->dbus_service);
+	}
 
 	gtk_window_present (GTK_WINDOW (win));
 }
@@ -383,6 +393,8 @@ pt_app_init (PtApp *app)
 {
 	app->priv = pt_app_get_instance_private (app);
 
+	app->priv->mediakeys = NULL;
+	app->priv->dbus_service = NULL;
 	g_application_add_main_option_entries (G_APPLICATION (app), options);
 
 	/* In Flatpak's sandbox ATSPI doesn't work */
@@ -404,6 +416,8 @@ pt_app_finalize (GObject *object)
 	PtApp *app = PT_APP (object);
 
 	g_clear_object (&app->priv->asr_settings);
+	g_clear_object (&app->priv->mediakeys);
+	g_clear_object (&app->priv->dbus_service);
 
 	G_OBJECT_CLASS (pt_app_parent_class)->dispose (object);
 }

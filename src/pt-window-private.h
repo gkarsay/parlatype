@@ -19,20 +19,18 @@
 
 #include "config.h"
 #include <gtk/gtk.h>
-#include <pt-asr-output.h>
 #include <pt-player.h>
 #include <pt-wavedata.h>
+#include "pt-asr-output.h"
+#include "pt-asr-settings.h"
 
 struct _PtWindowPrivate
 {
 	GSettings	 *editor;
 	PtAsrSettings    *asr_settings;
 	PtAsrOutput      *output;
-	GDBusProxy	 *proxy;
-	gint              dbus_watch_id;
 	GtkRecentManager *recent;
 	GtkAccelGroup    *accels;
-	PtPlayer	 *player;
 
 	GtkWidget  *progress_dlg;
 	gint	    progress_handler_id;
@@ -67,8 +65,6 @@ struct _PtWindowPrivate
 
 	gint	    timer;
 	gdouble	    speed;
-
-	guint	    owner_id;
 };
 
 #endif

@@ -1104,10 +1104,6 @@ pt_player_get_permille (PtPlayer *player)
  * A speed of 0 is not allowed, use pt_player_pause() instead.
  * Recommended speed is starting from 0.5 as quality is rather poor below that.
  * Parlatype doesn’t change the pitch during slower or faster playback.
- *
- * Note: If you want to change the speed during playback, you have to use this
- * method. Changing the "speed" property of PtPlayer, will take effect only
- * later.
  */
 void
 pt_player_set_speed (PtPlayer *player,
@@ -1118,13 +1114,13 @@ pt_player_set_speed (PtPlayer *player,
 
 	gint64 pos;
 
-	if (!pt_player_query_position (player, &pos))
-		return;
-
 	player->priv->speed = speed;
+
+	if (pt_player_query_position (player, &pos))
+		pt_player_seek (player, pos);
+
 	g_object_notify_by_pspec (G_OBJECT (player),
 				  obj_properties[PROP_SPEED]);
-	pt_player_seek (player, pos);
 }
 
 /**
@@ -1142,10 +1138,13 @@ pt_player_set_volume (PtPlayer *player,
 	g_return_if_fail (PT_IS_PLAYER (player));
 	g_return_if_fail (volume >= 0 && volume <= 1);
 
-	gst_stream_volume_set_volume (GST_STREAM_VOLUME (player->priv->play),
-	                              GST_STREAM_VOLUME_FORMAT_CUBIC,
-	                              volume);
 	player->priv->volume = volume;
+
+	if (player->priv->play)
+		gst_stream_volume_set_volume (GST_STREAM_VOLUME (player->priv->play),
+			                      GST_STREAM_VOLUME_FORMAT_CUBIC,
+			                      volume);
+
 	g_object_notify_by_pspec (G_OBJECT (player),
 				  obj_properties[PROP_VOLUME]);
 }
@@ -2206,8 +2205,7 @@ pt_player_setup_player (PtPlayer  *player,
 static void
 pt_player_dispose (GObject *object)
 {
-	PtPlayer *player;
-	player = PT_PLAYER (object);
+	PtPlayer *player = PT_PLAYER (object);
 
 	if (player->priv->play) {
 		/* remember position */
@@ -2242,22 +2240,15 @@ pt_player_set_property (GObject      *object,
                         const GValue *value,
                         GParamSpec   *pspec)
 {
-	PtPlayer *player;
-	player = PT_PLAYER (object);
-	gdouble tmp;
+	PtPlayer *player = PT_PLAYER (object);
 	const gchar *tmpchar;
 
 	switch (property_id) {
 	case PROP_SPEED:
-		player->priv->speed = g_value_get_double (value);
+		pt_player_set_speed (player, g_value_get_double (value));
 		break;
 	case PROP_VOLUME:
-		tmp = g_value_get_double (value);
-		if (player->priv->play)
-			gst_stream_volume_set_volume (GST_STREAM_VOLUME (player->priv->play),
-				                      GST_STREAM_VOLUME_FORMAT_CUBIC,
-				                      tmp);
-		player->priv->volume = tmp;
+		pt_player_set_volume (player, g_value_get_double (value));
 		break;
 	case PROP_TIMESTAMP_PRECISION:
 		player->priv->timestamp_precision = g_value_get_int (value);
@@ -2318,8 +2309,7 @@ pt_player_get_property (GObject    *object,
                         GValue     *value,
                         GParamSpec *pspec)
 {
-	PtPlayer *player;
-	player = PT_PLAYER (object);
+	PtPlayer *player = PT_PLAYER (object);
 
 	switch (property_id) {
 	case PROP_SPEED:

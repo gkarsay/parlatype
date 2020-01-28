@@ -1,4 +1,4 @@
-/* Copyright (C) Gabor Karsay 2016 <gabor.karsay@gmx.at>
+/* Copyright (C) Gabor Karsay 2016, 2019 <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -18,10 +18,35 @@
 #define PT_DBUS_SERVICE_H
 
 #include "config.h"
+#include "pt-controller.h"
 #include "pt-window.h"
 
+#define PT_DBUS_SERVICE_TYPE		(pt_dbus_service_get_type())
+#define PT_DBUS_SERVICE(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), PT_DBUS_SERVICE_TYPE, PtDbusService))
+#define PT_IS_DBUS_SERVICE(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_DBUS_SERVICE_TYPE))
 
-void	setup_dbus_service	(PtWindow *win);
-void	close_dbus_service	(PtWindow *win);
+typedef struct _PtDbusService		PtDbusService;
+typedef struct _PtDbusServiceClass	PtDbusServiceClass;
+typedef struct _PtDbusServicePrivate	PtDbusServicePrivate;
+
+struct _PtDbusService
+{
+	PtController parent;
+
+	/*< private > */
+	PtDbusServicePrivate *priv;
+};
+
+struct _PtDbusServiceClass
+{
+	PtControllerClass parent_class;
+};
+
+
+GType		pt_dbus_service_get_type	(void) G_GNUC_CONST;
+
+void		pt_dbus_service_start		(PtDbusService *self);
+
+PtDbusService 	*pt_dbus_service_new		(PtWindow *win);
 
 #endif

@@ -112,7 +112,7 @@ handle_dnd_data (PtWindow *win,
 	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
 	                  "MESSAGE", "Received drag and drop: '%s'", data);
 
-	if (pt_player_goto_timestamp (win->priv->player, data))
+	if (pt_player_goto_timestamp (win->player, data))
 		return TRUE;
 
 	if (handle_uri (win, data))

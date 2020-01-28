@@ -27,9 +27,7 @@
 #include <pt-waveviewer.h>
 #include "pt-app.h"
 #include "pt-asr-assistant.h"
-#include "pt-dbus-service.h"
 #include "pt-goto-dialog.h"
-#include "pt-mediakeys.h"
 #include "pt-window.h"
 #include "pt-window-dnd.h"
 #include "pt-window-private.h"
@@ -73,7 +71,7 @@ copy_timestamp (GSimpleAction *action,
 	win = PT_WINDOW (user_data);
 	const gchar  *timestamp = NULL;
 
-	timestamp = pt_player_get_timestamp (win->priv->player);
+	timestamp = pt_player_get_timestamp (win->player);
 	if (timestamp)
 		gtk_clipboard_set_text (win->priv->clip, timestamp, -1);
 }
@@ -88,7 +86,7 @@ clip_text_cb (GtkClipboard *clip,
 
 	if (text) {
 		timestamp = g_strdup (text);
-		pt_player_goto_timestamp (win->priv->player, timestamp);
+		pt_player_goto_timestamp (win->player, timestamp);
 		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
 		g_free (timestamp);
 	}
@@ -117,12 +115,12 @@ goto_position (GSimpleAction *action,
 	gint	      pos;
 
 	dlg = pt_goto_dialog_new (GTK_WINDOW (win));
-	pt_goto_dialog_set_pos (dlg, pt_player_get_position (win->priv->player) / 1000);
-	pt_goto_dialog_set_max (dlg, pt_player_get_duration (win->priv->player) / 1000);
+	pt_goto_dialog_set_pos (dlg, pt_player_get_position (win->player) / 1000);
+	pt_goto_dialog_set_max (dlg, pt_player_get_duration (win->player) / 1000);
 
 	if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK) {
 		pos = pt_goto_dialog_get_pos (dlg);
-		pt_player_jump_to_position (win->priv->player, pos * 1000);
+		pt_player_jump_to_position (win->player, pos * 1000);
 		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
 	}
 
@@ -179,9 +177,9 @@ setup_sphinx (PtWindow *win)
 	pt_asr_settings_apply_config (
 			win->priv->asr_settings,
 			g_settings_get_string (win->priv->editor, "asr-config"),
-			win->priv->player);
+			win->player);
 
-	pt_player_setup_sphinx (win->priv->player, &error);
+	pt_player_setup_sphinx (win->player, &error);
 	if (error) {
 		pt_error_message (win, error->message, NULL);
 		g_clear_error (&error);
@@ -283,7 +281,7 @@ set_mode_playback (PtWindow *win)
 {
 	GError *error = NULL;
 
-	pt_player_setup_player (win->priv->player, &error);
+	pt_player_setup_player (win->player, &error);
 	if (error) {
 		pt_error_message (win, error->message, NULL);
 		g_clear_error (&error);
@@ -347,12 +345,12 @@ update_time (PtWindow *win)
 	gchar *text;
 	gint64 time;
 
-	time = pt_player_get_position (win->priv->player);
+	time = pt_player_get_position (win->player);
 
 	/* Update label only if time has changed at 10th seconds level */
 	if (time/100 != win->priv->last_time) {
 		text = pt_player_get_current_time_string (
-				win->priv->player,
+				win->player,
 				PT_PRECISION_SECOND_10TH);
 
 		if (text == NULL)
@@ -424,7 +422,7 @@ change_jump_back_tooltip (PtWindow *win)
 	gchar *back;
 	gint   seconds;
 
-	seconds = pt_player_get_back (win->priv->player) / 1000;
+	seconds = pt_player_get_back (win->player) / 1000;
 	back = g_strdup_printf (
 			ngettext ("Jump back 1 second",
 				  "Jump back %d seconds",
@@ -441,7 +439,7 @@ change_jump_forward_tooltip (PtWindow *win)
 	gchar *forward;
 	gint   seconds;
 
-	seconds = pt_player_get_forward (win->priv->player) / 1000;
+	seconds = pt_player_get_forward (win->player) / 1000;
 	forward = g_strdup_printf (
 			ngettext ("Jump forward 1 second",
 				  "Jump forward %d seconds",
@@ -459,7 +457,7 @@ change_play_button_tooltip (PtWindow *win)
 	gint      pause;
 	gboolean  free_me = FALSE;
 
-	pause = pt_player_get_pause (win->priv->player) / 1000;
+	pause = pt_player_get_pause (win->player) / 1000;
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->priv->button_play))) {
 		if (pause == 0) {
 			play = _("Pause");
@@ -486,7 +484,7 @@ update_insert_action_sensitivity_cb (GtkClipboard *clip,
                                      gpointer      data)
 {
 	PtWindow *win = PT_WINDOW (data);
-	PtPlayer *player = win->priv->player;
+	PtPlayer *player = win->player;
 	gchar    *timestamp = NULL;
 	gboolean  result = FALSE;
 	GAction  *action;
@@ -596,7 +594,7 @@ static void
 destroy_progress_dlg (PtWindow *win)
 {
 	if (win->priv->progress_handler_id > 0) {
-		g_signal_handler_disconnect (win->priv->player, win->priv->progress_handler_id);
+		g_signal_handler_disconnect (win->player, win->priv->progress_handler_id);
 		win->priv->progress_handler_id = 0;
 	}
 
@@ -611,7 +609,7 @@ progress_response_cb (GtkWidget *dialog,
                       PtWindow  *win)
 {
 	if (response == GTK_RESPONSE_CANCEL)
-		pt_player_cancel (win->priv->player);
+		pt_player_cancel (win->player);
 		/* This will trigger an error */
 }
 
@@ -637,7 +635,7 @@ show_progress_dlg (PtWindow *win)
 			  win);
 
 	win->priv->progress_handler_id =
-		g_signal_connect_swapped (win->priv->player,
+		g_signal_connect_swapped (win->player,
 					  "load-progress",
 					  G_CALLBACK (pt_progress_dialog_set_progress),
 					  PT_PROGRESS_DIALOG (win->priv->progress_dlg));
@@ -670,14 +668,14 @@ pt_window_ready_to_play (PtWindow *win,
 		open_context = gtk_widget_get_style_context (win->priv->button_open);
 		gtk_style_context_remove_class (open_context, "suggested-action");
 		destroy_progress_dlg (win);
-		display_name = pt_player_get_filename (win->priv->player);
+		display_name = pt_player_get_filename (win->player);
 		if (display_name) {
 			gtk_window_set_title (GTK_WINDOW (win), display_name);
 			g_free (display_name);
 		}
 
 		gchar *uri = NULL;
-		uri = pt_player_get_uri (win->priv->player);
+		uri = pt_player_get_uri (win->player);
 		if (uri) {
 			gtk_recent_manager_add_item (win->priv->recent, uri);
 			g_free (uri);
@@ -687,7 +685,7 @@ pt_window_ready_to_play (PtWindow *win,
 		change_jump_back_tooltip (win);
 		change_jump_forward_tooltip (win);
 		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
-		win->priv->wavedata = pt_player_get_data (win->priv->player,
+		win->priv->wavedata = pt_player_get_data (win->player,
 							  g_settings_get_int (win->priv->editor, "pps"));
 		pt_waveviewer_set_wave (PT_WAVEVIEWER (win->priv->waveviewer),
 					win->priv->wavedata);
@@ -738,7 +736,7 @@ open_cb (PtPlayer     *player,
 gchar*
 pt_window_get_uri (PtWindow *win)
 {
-	return pt_player_get_uri (win->priv->player);
+	return pt_player_get_uri (win->player);
 }
 
 void
@@ -747,7 +745,7 @@ pt_window_open_file (PtWindow *win,
 {
 	show_progress_dlg (win);
 	pt_window_ready_to_play (win, FALSE);
-	pt_player_open_uri_async (win->priv->player,
+	pt_player_open_uri_async (win->player,
 				  uri,
 				  (GAsyncReadyCallback) open_cb,
 				  win);
@@ -786,9 +784,9 @@ play_button_toggled_cb (GtkToggleButton *button,
                         PtWindow        *win)
 {
 	/* GUI button toggled, block signals from PtPlayer */
-	g_signal_handlers_block_by_func (win->priv->player, player_play_toggled_cb, win);
-	pt_player_play_pause (win->priv->player);
-	g_signal_handlers_unblock_by_func (win->priv->player, player_play_toggled_cb, win);
+	g_signal_handlers_block_by_func (win->player, player_play_toggled_cb, win);
+	pt_player_play_pause (win->player);
+	g_signal_handlers_unblock_by_func (win->player, player_play_toggled_cb, win);
 
 	update_play_after_toggle (win, button);
 }
@@ -804,7 +802,7 @@ player_end_of_stream_cb (PtPlayer *player,
 	g_signal_handlers_block_by_func (play, play_button_toggled_cb, win);
 	gtk_toggle_button_set_active (play, FALSE);
 	g_signal_handlers_unblock_by_func (play, play_button_toggled_cb, win);
-	pt_player_pause (win->priv->player);
+	pt_player_pause (win->player);
 	change_play_button_tooltip (win);
 }
 
@@ -823,9 +821,9 @@ void
 jump_back_button_clicked_cb (GtkButton *button,
                              PtWindow  *win)
 {
-	g_signal_handlers_block_by_func (win->priv->player, player_jumped_back_cb, win);
-	pt_player_jump_back (win->priv->player);
-	g_signal_handlers_unblock_by_func (win->priv->player, player_jumped_back_cb, win);
+	g_signal_handlers_block_by_func (win->player, player_jumped_back_cb, win);
+	pt_player_jump_back (win->player);
+	g_signal_handlers_unblock_by_func (win->player, player_jumped_back_cb, win);
 }
 
 static void
@@ -843,7 +841,7 @@ void
 jump_forward_button_clicked_cb (GtkButton *button,
                                 PtWindow  *win)
 {
-	pt_player_jump_forward (win->priv->player);
+	pt_player_jump_forward (win->player);
 }
 
 /* currently not used */
@@ -852,7 +850,7 @@ fast_back_button_pressed_cb (GtkButton *button,
                              GdkEvent  *event,
                              PtWindow  *win)
 {
-	pt_player_rewind (win->priv->player, 2.0);
+	pt_player_rewind (win->player, 2.0);
 	return FALSE;
 }
 
@@ -862,11 +860,11 @@ fast_back_button_released_cb (GtkButton *button,
                               GdkEvent  *event,
                               PtWindow  *win)
 {
-	pt_player_set_speed (win->priv->player, win->priv->speed);
+	pt_player_set_speed (win->player, win->priv->speed);
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->priv->button_play))) {
-		pt_player_play (win->priv->player);
+		pt_player_play (win->player);
 	} else {
-		pt_player_pause (win->priv->player);
+		pt_player_pause (win->player);
 	}
 	return FALSE;
 }
@@ -877,7 +875,7 @@ fast_forward_button_pressed_cb (GtkButton *button,
                                 GdkEvent  *event,
                                 PtWindow  *win)
 {
-	pt_player_fast_forward (win->priv->player, 2.0);
+	pt_player_fast_forward (win->player, 2.0);
 	return FALSE;
 }
 
@@ -887,23 +885,14 @@ fast_forward_button_released_cb (GtkButton *button,
                                  GdkEvent  *event,
                                  PtWindow  *win)
 {
-	pt_player_set_speed (win->priv->player, win->priv->speed);
+	pt_player_set_speed (win->player, win->priv->speed);
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->priv->button_play))) {
-		pt_player_play (win->priv->player);
+		pt_player_play (win->player);
 	} else {
-		pt_player_pause (win->priv->player);
+		pt_player_pause (win->player);
 	}
 	return FALSE;
 }
-
-void
-speed_changed_cb (GtkRange *range,
-                  PtWindow *win)
-{
-	win->priv->speed = gtk_range_get_value (range);
-	pt_player_set_speed (win->priv->player, win->priv->speed);
-}
-
 
 static void
 player_asr_final_cb (PtPlayer *player,
@@ -1012,9 +1001,9 @@ settings_changed_cb (GSettings *settings,
 
 	if (g_strcmp0 (key, "pps") == 0) {
 		gchar *uri;
-		uri = pt_player_get_uri (win->priv->player);
+		uri = pt_player_get_uri (win->player);
 		if (uri) {
-			win->priv->wavedata = pt_player_get_data (win->priv->player,
+			win->priv->wavedata = pt_player_get_data (win->player,
 								  g_settings_get_int (win->priv->editor, "pps"));
 			g_object_set (win->priv->waveviewer, "zoom", TRUE, NULL);
 			pt_waveviewer_set_wave (PT_WAVEVIEWER (win->priv->waveviewer),
@@ -1057,7 +1046,7 @@ setup_settings (PtWindow *win)
 
 	g_settings_bind_with_mapping (
 			win->priv->editor, "rewind-on-pause",
-			win->priv->player, "pause",
+			win->player, "pause",
 			G_SETTINGS_BIND_GET,
 			map_seconds_to_milliseconds,
 			map_milliseconds_to_seconds,
@@ -1065,7 +1054,7 @@ setup_settings (PtWindow *win)
 
 	g_settings_bind_with_mapping (
 			win->priv->editor, "jump-back",
-			win->priv->player, "back",
+			win->player, "back",
 			G_SETTINGS_BIND_GET,
 			map_seconds_to_milliseconds,
 			map_milliseconds_to_seconds,
@@ -1073,7 +1062,7 @@ setup_settings (PtWindow *win)
 
 	g_settings_bind_with_mapping (
 			win->priv->editor, "jump-forward",
-			win->priv->player, "forward",
+			win->player, "forward",
 			G_SETTINGS_BIND_GET,
 			map_seconds_to_milliseconds,
 			map_milliseconds_to_seconds,
@@ -1081,12 +1070,12 @@ setup_settings (PtWindow *win)
 
 	g_settings_bind (
 			win->priv->editor, "repeat-all",
-			win->priv->player, "repeat-all",
+			win->player, "repeat-all",
 			G_SETTINGS_BIND_GET);
 
 	g_settings_bind (
 			win->priv->editor, "repeat-selection",
-			win->priv->player, "repeat-selection",
+			win->player, "repeat-selection",
 			G_SETTINGS_BIND_GET);
 
 	g_settings_bind (
@@ -1101,22 +1090,22 @@ setup_settings (PtWindow *win)
 
 	g_settings_bind (
 			win->priv->editor, "timestamp-precision",
-			win->priv->player, "timestamp-precision",
+			win->player, "timestamp-precision",
 			G_SETTINGS_BIND_GET);
 
 	g_settings_bind (
 			win->priv->editor, "timestamp-fixed",
-			win->priv->player, "timestamp-fixed",
+			win->player, "timestamp-fixed",
 			G_SETTINGS_BIND_GET);
 
 	g_settings_bind (
 			win->priv->editor, "timestamp-delimiter",
-			win->priv->player, "timestamp-delimiter",
+			win->player, "timestamp-delimiter",
 			G_SETTINGS_BIND_GET);
 
 	g_settings_bind (
 			win->priv->editor, "timestamp-fraction-sep",
-			win->priv->player, "timestamp-fraction-sep",
+			win->player, "timestamp-fraction-sep",
 			G_SETTINGS_BIND_GET);
 
 	/* connect to tooltip changer */
@@ -1162,8 +1151,8 @@ setup_player (PtWindow *win)
 {
 	GError *error = NULL;
 
-	win->priv->player = pt_player_new ();
-	if (!pt_player_setup_player (win->priv->player, &error)) {
+	win->player = pt_player_new ();
+	if (!pt_player_setup_player (win->player, &error)) {
 		gchar *secondary_message = g_strdup_printf (
 			_("Parlatype needs GStreamer 1.x to run. Please check your installation of "
                         "GStreamer and make sure you have the “Good Plugins” installed.\n"
@@ -1175,45 +1164,52 @@ setup_player (PtWindow *win)
 	}
 
 	pt_player_connect_waveviewer (
-			win->priv->player,
+			win->player,
 			PT_WAVEVIEWER (win->priv->waveviewer));
 
-	g_signal_connect (win->priv->player,
+	g_signal_connect (win->player,
 			"end-of-stream",
 			G_CALLBACK (player_end_of_stream_cb),
 			win);
 
-	g_signal_connect (win->priv->player,
+	g_signal_connect (win->player,
 			"error",
 			G_CALLBACK (player_error_cb),
 			win);
 
-	g_signal_connect (win->priv->player,
+	g_signal_connect (win->player,
 			"play-toggled",
 			G_CALLBACK (player_play_toggled_cb),
 			win);
 
-	g_signal_connect (win->priv->player,
+	g_signal_connect (win->player,
 			"jumped-back",
 			G_CALLBACK (player_jumped_back_cb),
 			win);
 
-	g_signal_connect (win->priv->player,
+	g_signal_connect (win->player,
 			"jumped-forward",
 			G_CALLBACK (player_jumped_forward_cb),
 			win);
 
 	g_object_bind_property (
 			win->priv->volumebutton, "value",
-			win->priv->player, "volume",
+			win->player, "volume",
 			G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
 
-	g_signal_connect (win->priv->player,
+	GtkAdjustment *speed_adjustment;
+	speed_adjustment = gtk_range_get_adjustment (GTK_RANGE (win->priv->speed_scale));
+	g_object_bind_property (
+			speed_adjustment, "value",
+			win->player, "speed",
+			G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+
+	g_signal_connect (win->player,
 			"asr-final",
 			G_CALLBACK (player_asr_final_cb),
 			win);
 
-	g_signal_connect (win->priv->player,
+	g_signal_connect (win->player,
 			"asr-hypothesis",
 			G_CALLBACK (player_asr_hypothesis_cb),
 			win);
@@ -1314,9 +1310,7 @@ pt_window_init (PtWindow *win)
 	setup_player (win);
 	setup_settings (win);
 	setup_accels_actions_headerbar (win);
-	setup_mediakeys (win);		/* this is in pt_mediakeys.c */
 	pt_window_setup_dnd (win);	/* this is in pt_window_dnd.c */
-	setup_dbus_service (win);	/* this is in pt_dbus_service.c */
 	win->priv->asr_settings = NULL;
 	win->priv->output = NULL;
 	win->priv->output_handler_id1 = 0;
@@ -1355,8 +1349,6 @@ pt_window_dispose (GObject *object)
 	PtWindow *win;
 	win = PT_WINDOW (object);
 
-	close_dbus_service (win);
-
 	/* Save window size/position on all backends */
 	if (win->priv->editor) {
 		gint x;
@@ -1375,9 +1367,8 @@ pt_window_dispose (GObject *object)
 	}
 	remove_timer (win);
 	g_clear_object (&win->priv->editor);
-	g_clear_object (&win->priv->proxy);
 	destroy_progress_dlg (win);
-	g_clear_object (&win->priv->player);
+	g_clear_object (&win->player);
 	g_clear_object (&win->priv->output);
 	g_clear_object (&win->priv->asr_settings);
 	g_clear_object (&win->priv->go_to_timestamp);

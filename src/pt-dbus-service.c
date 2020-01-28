@@ -1,4 +1,4 @@
-/* Copyright (C) Gabor Karsay 2016 <gabor.karsay@gmx.at>
+/* Copyright (C) Gabor Karsay 2016, 2019 <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -20,8 +20,14 @@
 #include <glib/gi18n.h>
 #include <pt-player.h>
 #include "pt-window.h"
-#include "pt-window-private.h"
+#include "pt-dbus-service.h"
 
+struct _PtDbusServicePrivate
+{
+	gint      owner_id;
+};
+
+G_DEFINE_TYPE_WITH_PRIVATE (PtDbusService, pt_dbus_service, PT_CONTROLLER_TYPE)
 
 static GDBusNodeInfo *introspection_data = NULL;
 
@@ -53,13 +59,13 @@ handle_method_call (GDBusConnection       *connection,
                     GDBusMethodInvocation *invocation,
                     gpointer               user_data)
 {
-	PtWindow *win;
-	win = PT_WINDOW (user_data);
+	PtDbusService *self = PT_DBUS_SERVICE (user_data);
+	PtPlayer      *player = pt_controller_get_player (PT_CONTROLLER (self));
 
 	gchar	 *timestamp = NULL;
 	
 	if (g_strcmp0 (method_name, "GetTimestamp") == 0) {
-		timestamp = pt_player_get_timestamp (win->priv->player);
+		timestamp = pt_player_get_timestamp (player);
 		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
 			          "MESSAGE", "t: %s", timestamp);
 		if (!timestamp)
@@ -68,32 +74,30 @@ handle_method_call (GDBusConnection       *connection,
                                                  g_variant_new ("(s)", timestamp));
 	} else if (g_strcmp0 (method_name, "GotoTimestamp") == 0) {
 		g_variant_get (parameters, "(&s)", &timestamp);
-		pt_player_goto_timestamp (win->priv->player, timestamp);
+		pt_player_goto_timestamp (player, timestamp);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "PlayPause") == 0) {
-		gboolean state;
-		state = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->priv->button_play));
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (win->priv->button_play), !state);
+		pt_player_play_pause (player);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 
 	} else if (g_strcmp0 (method_name, "JumpBack") == 0) {
-		gtk_button_clicked (GTK_BUTTON (win->priv->button_jump_back));
+		pt_player_jump_back (player);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 
 	} else if (g_strcmp0 (method_name, "JumpForward") == 0) {
-		gtk_button_clicked (GTK_BUTTON (win->priv->button_jump_forward));
+		pt_player_jump_forward (player);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 
 	} else if (g_strcmp0 (method_name, "IncreaseSpeed") == 0) {
 		gdouble value;
-		value = gtk_range_get_value (GTK_RANGE (win->priv->speed_scale));
-		gtk_range_set_value (GTK_RANGE (win->priv->speed_scale), value + 0.1);
+		g_object_get (player, "speed", &value, NULL);
+		pt_player_set_speed (player, value + 0.1);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 
 	} else if (g_strcmp0 (method_name, "DecreaseSpeed") == 0) {
 		gdouble value;
-		value = gtk_range_get_value (GTK_RANGE (win->priv->speed_scale));
-		gtk_range_set_value (GTK_RANGE (win->priv->speed_scale), value - 0.1);
+		g_object_get (player, "speed", &value, NULL);
+		pt_player_set_speed (player, value + 0.1);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	}
 }
@@ -135,27 +139,50 @@ on_name_lost (GDBusConnection *connection,
 }
 
 void
-setup_dbus_service (PtWindow *win)
+pt_dbus_service_start (PtDbusService *self)
 {
 	introspection_data = g_dbus_node_info_new_for_xml (introspection_xml, NULL);
 	g_assert (introspection_data != NULL);
 
-	win->priv->owner_id = g_bus_own_name (G_BUS_TYPE_SESSION,
+	self->priv->owner_id = g_bus_own_name (G_BUS_TYPE_SESSION,
 			"com.github.gkarsay.parlatype",
 			G_BUS_NAME_OWNER_FLAGS_NONE,
 			on_bus_acquired,
 			on_name_acquired,
 			on_name_lost,
-			win,
+			self,
 			NULL);
 }
 
-void
-close_dbus_service (PtWindow *win)
+static void
+pt_dbus_service_init (PtDbusService *self)
 {
-	if (win->priv->owner_id > 0) {
-		g_bus_unown_name (win->priv->owner_id);
+	self->priv = pt_dbus_service_get_instance_private (self);
+	self->priv->owner_id = 0;
+}
+
+static void
+pt_dbus_service_dispose (GObject *object)
+{
+	PtDbusService *self = PT_DBUS_SERVICE (object);
+
+	if (self->priv->owner_id > 0) {
+		g_bus_unown_name (self->priv->owner_id);
 		g_dbus_node_info_unref (introspection_data);
-		win->priv->owner_id = 0;
+		self->priv->owner_id = 0;
 	}
+
+	G_OBJECT_CLASS (pt_dbus_service_parent_class)->dispose (object);
+}
+
+static void
+pt_dbus_service_class_init (PtDbusServiceClass *klass)
+{
+	G_OBJECT_CLASS (klass)->dispose = pt_dbus_service_dispose;
+}
+
+PtDbusService *
+pt_dbus_service_new (PtWindow *win)
+{
+	return g_object_new (PT_DBUS_SERVICE_TYPE, "win", win, NULL);
 }
