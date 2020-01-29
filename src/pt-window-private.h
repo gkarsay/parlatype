@@ -20,7 +20,6 @@
 #include "config.h"
 #include <gtk/gtk.h>
 #include <pt-player.h>
-#include <pt-wavedata.h>
 #include "pt-asr-output.h"
 #include "pt-asr-settings.h"
 
@@ -31,9 +30,6 @@ struct _PtWindowPrivate
 	PtAsrOutput      *output;
 	GtkRecentManager *recent;
 	GtkAccelGroup    *accels;
-
-	GtkWidget  *progress_dlg;
-	gint	    progress_handler_id;
 
 	guint       output_handler_id1;
 	guint       output_handler_id2;
@@ -46,6 +42,7 @@ struct _PtWindowPrivate
 	GtkWidget  *primary_menu_button;
 
 	/* Main window widgets */
+	GtkWidget  *progress;
 	GtkWidget  *button_play;
 	GtkWidget  *button_fast_back;	  // not used
 	GtkWidget  *button_fast_forward;  // not used
@@ -58,8 +55,6 @@ struct _PtWindowPrivate
 	GtkWidget  *speed_scale;
 	GtkWidget  *waveviewer;
 	GMenuModel *secondary_menu;
-
-	PtWavedata *wavedata;
 
 	gint64      last_time;	// last time to compare if it changed
 

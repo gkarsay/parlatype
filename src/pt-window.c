@@ -23,7 +23,6 @@
 #include <gdk/gdkx.h>
 #endif
 #include <pt-player.h>
-#include <pt-progress-dialog.h>
 #include <pt-waveviewer.h>
 #include "pt-app.h"
 #include "pt-asr-assistant.h"
@@ -591,59 +590,6 @@ enable_win_actions (PtWindow *win,
 }
 
 static void
-destroy_progress_dlg (PtWindow *win)
-{
-	if (win->priv->progress_handler_id > 0) {
-		g_signal_handler_disconnect (win->player, win->priv->progress_handler_id);
-		win->priv->progress_handler_id = 0;
-	}
-
-	if (win->priv->progress_dlg) {
-		gtk_widget_destroy (win->priv->progress_dlg);
-	}
-}
-
-static void
-progress_response_cb (GtkWidget *dialog,
-                      gint       response,
-                      PtWindow  *win)
-{
-	if (response == GTK_RESPONSE_CANCEL)
-		pt_player_cancel (win->player);
-		/* This will trigger an error */
-}
-
-static void
-show_progress_dlg (PtWindow *win)
-{
-	if (win->priv->progress_dlg) {
-		/* actually this should never happen */
-		gtk_window_present (GTK_WINDOW (win->priv->progress_dlg));
-		return;
-	}
-
-	win->priv->progress_dlg = GTK_WIDGET (pt_progress_dialog_new (GTK_WINDOW (win)));
-
-	g_signal_connect (win->priv->progress_dlg,
-			  "destroy",
-			  G_CALLBACK (gtk_widget_destroyed),
-			  &win->priv->progress_dlg);
-
-	g_signal_connect (win->priv->progress_dlg,
-			  "response",
-			  G_CALLBACK (progress_response_cb),
-			  win);
-
-	win->priv->progress_handler_id =
-		g_signal_connect_swapped (win->player,
-					  "load-progress",
-					  G_CALLBACK (pt_progress_dialog_set_progress),
-					  PT_PROGRESS_DIALOG (win->priv->progress_dlg));
-
-	gtk_widget_show_all (win->priv->progress_dlg);
-}
-
-static void
 pt_window_ready_to_play (PtWindow *win,
                          gboolean  state)
 {
@@ -667,7 +613,6 @@ pt_window_ready_to_play (PtWindow *win,
 	if (state) {
 		open_context = gtk_widget_get_style_context (win->priv->button_open);
 		gtk_style_context_remove_class (open_context, "suggested-action");
-		destroy_progress_dlg (win);
 		display_name = pt_player_get_filename (win->player);
 		if (display_name) {
 			gtk_window_set_title (GTK_WINDOW (win), display_name);
@@ -685,12 +630,6 @@ pt_window_ready_to_play (PtWindow *win,
 		change_jump_back_tooltip (win);
 		change_jump_forward_tooltip (win);
 		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
-		win->priv->wavedata = pt_player_get_data (win->player,
-							  g_settings_get_int (win->priv->editor, "pps"));
-		pt_waveviewer_set_wave (PT_WAVEVIEWER (win->priv->waveviewer),
-					win->priv->wavedata);
-		pt_wavedata_free (win->priv->wavedata);
-		/* add timer after waveviewer, didn’t update cursor otherwise sometimes */
 		add_timer (win);
 
 	} else {
@@ -699,7 +638,6 @@ pt_window_ready_to_play (PtWindow *win,
 		gtk_widget_set_tooltip_text (win->priv->button_jump_back, NULL);
 		gtk_widget_set_tooltip_text (win->priv->button_jump_forward, NULL);
 		remove_timer (win);
-		pt_waveviewer_set_wave (PT_WAVEVIEWER (win->priv->waveviewer), NULL);
 	}
 }
 
@@ -708,29 +646,25 @@ player_error_cb (PtPlayer *player,
                  GError   *error,
                  PtWindow *win)
 {
-	destroy_progress_dlg (win);
 	pt_window_ready_to_play (win, FALSE);
 	pt_error_message (win, error->message, NULL);
 	/* TODO clear error? */
 }
 
 static void
-open_cb (PtPlayer     *player,
+open_cb (PtWaveviewer *viewer,
 	 GAsyncResult *res,
 	 gpointer     *data)
 {
 	PtWindow *win = (PtWindow *) data;
 	GError	 *error = NULL;
 
-	destroy_progress_dlg (win);
-
-	if (!pt_player_open_uri_finish (player, res, &error)) {
+	if (!pt_waveviewer_load_wave_finish (viewer, res, &error)) {
 		pt_error_message (win, error->message, NULL);
 		g_error_free (error);
+		/* TODO that's it? */
 		return;
 	}
-
-	pt_window_ready_to_play (win, TRUE);
 }
 
 gchar*
@@ -743,10 +677,13 @@ void
 pt_window_open_file (PtWindow *win,
                      gchar    *uri)
 {
-	show_progress_dlg (win);
 	pt_window_ready_to_play (win, FALSE);
-	pt_player_open_uri_async (win->player,
+	if (!pt_player_open_uri (win->player, uri))
+		return;
+	pt_window_ready_to_play (win, TRUE);
+	pt_waveviewer_load_wave_async (PT_WAVEVIEWER (win->priv->waveviewer),
 				  uri,
+				  NULL,
 				  (GAsyncReadyCallback) open_cb,
 				  win);
 }
@@ -998,21 +935,6 @@ settings_changed_cb (GSettings *settings,
 		change_jump_forward_tooltip (win);
 		return;
 	}
-
-	if (g_strcmp0 (key, "pps") == 0) {
-		gchar *uri;
-		uri = pt_player_get_uri (win->player);
-		if (uri) {
-			win->priv->wavedata = pt_player_get_data (win->player,
-								  g_settings_get_int (win->priv->editor, "pps"));
-			g_object_set (win->priv->waveviewer, "zoom", TRUE, NULL);
-			pt_waveviewer_set_wave (PT_WAVEVIEWER (win->priv->waveviewer),
-						win->priv->wavedata);
-			pt_wavedata_free (win->priv->wavedata);
-			g_free (uri);
-		}
-		return;
-	}
 }
 
 static gboolean
@@ -1043,6 +965,11 @@ static void
 setup_settings (PtWindow *win)
 {
 	win->priv->editor = g_settings_new ("com.github.gkarsay.parlatype");
+
+	g_settings_bind (
+			win->priv->editor, "pps",
+			win->priv->waveviewer, "pps",
+			G_SETTINGS_BIND_GET);
 
 	g_settings_bind_with_mapping (
 			win->priv->editor, "rewind-on-pause",
@@ -1318,9 +1245,6 @@ pt_window_init (PtWindow *win)
 	win->priv->recent = gtk_recent_manager_get_default ();
 	win->priv->timer = 0;
 	win->priv->last_time = 0;
-	win->priv->progress_dlg = NULL;
-	win->priv->progress_handler_id = 0;
-	win->priv->wavedata = NULL;
 	win->priv->clip_handler_id = 0;
 	win->priv->clip = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 
@@ -1341,6 +1265,11 @@ pt_window_init (PtWindow *win)
 			"follow-cursor-changed",
 			G_CALLBACK (update_goto_cursor_action_sensitivity),
 			win);
+
+	g_signal_connect_swapped (win->priv->waveviewer,
+				  "load-progress",
+				  G_CALLBACK (gtk_progress_bar_set_fraction),
+				  GTK_PROGRESS_BAR (win->priv->progress));
 }
 
 static void
@@ -1367,7 +1296,6 @@ pt_window_dispose (GObject *object)
 	}
 	remove_timer (win);
 	g_clear_object (&win->priv->editor);
-	destroy_progress_dlg (win);
 	g_clear_object (&win->player);
 	g_clear_object (&win->priv->output);
 	g_clear_object (&win->priv->asr_settings);
@@ -1384,6 +1312,7 @@ pt_window_class_init (PtWindowClass *klass)
 
 	gobject_class->dispose      = pt_window_dispose;
 	gtk_widget_class_set_template_from_resource (widget_class, "/com/github/gkarsay/parlatype/window.ui");
+	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, progress);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_play);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_fast_back);	// not used
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_fast_forward);	// not used
