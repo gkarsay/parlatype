@@ -5,12 +5,9 @@
 
 <chapter id="gallery" xmlns:xi="http://www.w3.org/2003/XInclude">
   <title>Widget gallery</title>
-	<para>Parlatype provides two GtkWidgets, PtProgressDialog and PtWaveviewer.
+	<para>Parlatype provides one widget: PtWaveviewer.
 	</para>
   <para role="gallery">
-    <link linkend="PtProgressDialog">
-      <inlinegraphic fileref="pt-progress-dialog.png" format="PNG"></inlinegraphic>
-    </link>
     <link linkend="PtWaveviewer">
       <inlinegraphic fileref="pt-waveviewer.png" format="PNG"></inlinegraphic>
     </link>

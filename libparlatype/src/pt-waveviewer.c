@@ -127,7 +127,8 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtWaveviewer, pt_waveviewer, GTK_TYPE_SCROLLED_WINDO
  * @stability: Unstable
  * @include: parlatype/pt-waveviewer.h
  *
- * Displays a waveform provided by #PtPlayer or #PtWaveloader.
+ * Displays a waveform and lets the user interact with it: jumping to a position,
+ * make selections and so on.
  */
 
 
@@ -1131,12 +1132,13 @@ update_waveform_cb (GtkWidget     *widget,
  * pt_waveviewer_load_wave_async:
  * @self: the widget
  * @uri: the URI of the file
- * @cancellable: (nullable): a #GCancellable or NULL
+ * @cancel: (nullable): a #GCancellable or NULL
  * @callback: (scope async): a #GAsyncReadyCallback to call when the operation is complete
  * @user_data: (closure): user data for callback
  *
- * Load waveform for the given URI. The initial resolution is set to
- * #PtWaveviewer:pps. Previous waveform discarded? What happens when cancelled?
+ * Load wave form for the given URI. The initial resolution is set to
+ * #PtWaveviewer:pps. While loading, a #PtWaveviewer::load-progress signal is
+ * emitted. A previous waveform is discarded.
  */
 void
 pt_waveviewer_load_wave_async (PtWaveviewer        *self,

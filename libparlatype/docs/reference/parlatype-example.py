@@ -15,10 +15,10 @@ from gi.repository import GObject
 
 def error_message(message, parent):
     msg = Gtk.MessageDialog(parent=parent,
-                            flags=Gtk.DialogFlags.MODAL,
-                            type=Gtk.MessageType.ERROR,
+                            modal=True,
+                            message_type=Gtk.MessageType.ERROR,
                             buttons=Gtk.ButtonsType.OK,
-                            message_format=message)
+                            text=message)
     msg.run()
     msg.destroy()
 
@@ -46,6 +46,9 @@ class ParlatypeExample:
         self.viewer = builder.get_object('waveviewer')
         self.player.connect_waveviewer(self.viewer)
 
+        self.progress = builder.get_object('progress')
+        self.viewer.connect('load-progress', self.update_progress)
+
         self.button = builder.get_object('button_play')
         self.label = builder.get_object('pos_label')
         follow_cursor = builder.get_object('follow_cursor')
@@ -68,50 +71,35 @@ class ParlatypeExample:
 
         self.win.show_all()
 
-    def open_callback(self, player, result):
-        self.progress.destroy()
-        if self.timer > 0:
-            self.viewer.remove_tick_callback(self.timer)
-            self.timer = 0
-            self.viewer.set_wave(None)
-        try:
-            self.player.open_uri_finish(result)
-            # Get data at a resolution of 100 px per second
-            data = self.player.get_data(100)
-            self.viewer.set_wave(data)
-            self.timer = self.viewer.add_tick_callback(self.update_cursor)
-        except Exception as err:
-            error_message(err.args[0], self.win)
-
-    def progress_update_callback(self, player, value, dialog):
-        self.progress.set_progress(value)
-
-    def progress_response_callback(self, progress, response):
-        if response == Gtk.ResponseType.CANCEL:
-            self.player.cancel()
+    def update_progress(self, viewer, value):
+        self.progress.set_fraction(value)
 
     def open_file(self, filename):
-        # For the PtProgressDialog we have to use the async opening function
-        self.player.open_uri_async(filename, self.open_callback)
-        # PtProgressDialog, connect signals and show only, don't progress.run()
-        self.progress = Pt.ProgressDialog.new(self.win)
-        self.progress.connect("response", self.progress_response_callback)
-        self.player.connect("load-progress",
-                            self.progress_update_callback,
-                            self.progress)
-        self.progress.show_all()
+        try:
+            self.player.open_uri(filename)
+        except Exception as err:
+            error_message(err.args[0], self.win)
+            if self.timer > 0:
+                self.viewer.remove_tick_callback(self.timer)
+                self.timer = 0
+            return
+        # this could also fail, skip checking in this example
+        self.viewer.load_wave_async(filename, None, None)
+        self.timer = self.viewer.add_tick_callback(self.update_cursor)
 
     def filechooser(self, button):
-        dialog = Gtk.FileChooserDialog("Please choose a file", self.win,
-            Gtk.FileChooserAction.OPEN,
-            ("_Cancel", Gtk.ResponseType.CANCEL,
-             "_Open", Gtk.ResponseType.OK))
+        dialog = Gtk.FileChooserDialog(
+            title="Please choose a file",
+            parent=self.win,
+            action=Gtk.FileChooserAction.OPEN)
+        dialog.add_button("_Cancel", Gtk.ResponseType.CANCEL)
+        dialog.add_button("_Open", Gtk.ResponseType.OK)
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
-            self.open_file("file://" + dialog.get_filename())
+            self.open_file(dialog.get_uri())
         dialog.destroy()
 
-    def player_error(self, error):
+    def player_error(self, player, error):
         error_message(error.args[0], self.win)
         Gtk.main_quit
 

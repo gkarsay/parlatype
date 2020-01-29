@@ -442,6 +442,7 @@ pt_waveloader_load_finish (PtWaveloader  *wl,
 /**
  * pt_waveloader_load_async:
  * @wl: a #PtWaveloader
+ * @pps: pixels per second
  * @cancellable: (nullable): a #GCancellable or NULL
  * @callback: (scope async): a #GAsyncReadyCallback to call when the operation is complete
  * @user_data: (closure): user_data for callback
@@ -456,8 +457,10 @@ pt_waveloader_load_finish (PtWaveloader  *wl,
  * While saving data #PtWaveloader::progress is emitted every 30 ms.
  *
  * In your callback call #pt_waveloader_load_finish to get the result of the
- * operation. On success call #pt_waveloader_get_data_async to get data
- * suitable for #PtWaveviewer.
+ * operation.
+ *
+ * You can get a pointer to the #GArray holding the data with #pt_waveloader_get_data
+ * either before loading it or afterwards.
  */
 void
 pt_waveloader_load_async (PtWaveloader        *wl,
@@ -650,25 +653,24 @@ pt_waveloader_resize_real (GTask        *task,
 /**
  * pt_waveloader_resize_async:
  * @wl: a #PtWaveloader
- * @array: a #GArray for the requested data, element size float
  * @pps: the requested pixel per second ratio
  * @cancellable: (nullable): a #GCancellable or NULL
  * @callback: (scope async): a #GAsyncReadyCallback to call when the operation is complete
  * @user_data: (closure): user_data for callback
  *
- * This inserts waveform data into @array at the requested resolution @pps.
- * If @array size has to be changed, #PtWaveloader::array-size-changed is
- * emitted. Any data in @array will be overwritten.
+ * Resizes wave form data at the requested resolution @pps. If the array's
+ * size has to be changed, #PtWaveloader::array-size-changed is emitted.
+ * Any data in the array will be overwritten.
  *
  * The resolution is given as pixel per seconds, e.g. 100 means one second
  * is represented by 100 samples, is 100 pixels wide. @pps must be >= 25 and <= 200.
  *
- * You should have loaded a file with #pt_waveloader_load_async before getting
- * its data. There are no concurrent operations allowed. An error is returned,
+ * You should have loaded a file with #pt_waveloader_load_async before resizing
+ * it. There are no concurrent operations allowed. An error is returned,
  * if the file was not loaded before, if it is still loading or if there is
  * another #pt_waveloader_get_data_async operation going on.
  *
- * Cancelling the operation returns an error and lets @array in an inconsistent
+ * Cancelling the operation returns an error and lets the array in an inconsistent
  * state. Its size will be according to the requested new resolution, but the data
  * will be partly old, partly new.
  *
@@ -732,7 +734,6 @@ quit_loop_cb (PtWaveloader *wl,
 /**
  * pt_waveloader_resize:
  * @wl: a #PtWaveloader
- * @array: a #GArray for the requested data, element size float
  * @pps: the requested pixel per second ratio
  * @error: (nullable): return location for an error, or NULL
  *
@@ -779,9 +780,14 @@ pt_waveloader_resize (PtWaveloader *wl,
  * pt_waveloader_get_data:
  * @wl: a #PtWaveloader
  *
- * TODO: description
+ * This returns the pointer to a GArray that is holding all the wave form data.
+ * It consists of a minimum value in the range of -1 to 0 and a maximum value
+ * in the range of 0 to 1, repeating this until the end. Each min/max pair can
+ * be drawn by the application as one vertical line in the wave form.
  *
- * Return value: (transfer: none) a #GArray with wave data
+ * Don't modify the data.
+ *
+ * Return value: (transfer none): a #GArray with wave data
  */
 GArray *
 pt_waveloader_get_data (PtWaveloader *wl)

@@ -96,23 +96,10 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtPlayer, pt_player, G_TYPE_OBJECT)
  * @include: parlatype/pt-player.h
  *
  * PtPlayer is the GStreamer backend for Parlatype. Construct it with #pt_player_new().
- * Then you have to open a file, either with pt_player_open_uri_async() or
- * pt_player_open_uri(), the blocking version.
+ * Then you have to open a file with pt_player_open_uri().
  *
  * The internal time unit in PtPlayer are milliseconds and for scale widgets there
  * is a scale from 0 to 1000. Use it to jump to a position or to update your widget.
- *
- * While playing PtPlayer emits these signals:
- * - end-of-stream: End of file reached, in the GUI you might want to jump
- *    		       to the beginning, reset play button etc.
- * - error: A fatal error occured, the player is reset. There’s an error message.
- *
- * PtPlayer has two properties:
- * - speed: is a double from 0.5 to 1.5. 1.0 is normal playback, < 1.0 is slower,
- *     > 1.0 is faster. Changing the "speed" property doesn’t change playback though.
- *     Use the method instead.
- * - Volume is a double from 0 to 1. It can be set via the method or setting
-      the "volume" property.
  */
 
 

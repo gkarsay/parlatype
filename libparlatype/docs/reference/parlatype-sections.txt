@@ -5,10 +5,7 @@ PtPlayer
 pt_player_new
 pt_player_setup_player
 pt_player_setup_sphinx
-pt_player_open_uri_async
-pt_player_open_uri_finish
 pt_player_open_uri
-pt_player_cancel
 pt_player_play
 pt_player_play_pause
 pt_player_pause
@@ -43,7 +40,6 @@ pt_player_get_timestamp
 pt_player_get_timestamp_position
 pt_player_string_is_timestamp
 pt_player_goto_timestamp
-pt_player_get_data
 PtPrecisionType
 <SUBSECTION Standard>
 PT_IS_PLAYER
@@ -59,8 +55,11 @@ pt_player_get_type
 <TITLE>PtWaveloader</TITLE>
 PtWaveloader
 pt_waveloader_new
-pt_waveloader_load_finish
 pt_waveloader_load_async
+pt_waveloader_load_finish
+pt_waveloader_resize_async
+pt_waveloader_resize_finish
+pt_waveloader_resize
 pt_waveloader_get_duration
 pt_waveloader_get_data
 <SUBSECTION Standard>
@@ -77,7 +76,8 @@ pt_waveloader_get_type
 <TITLE>PtWaveviewer</TITLE>
 PtWaveviewer
 pt_waveviewer_new
-pt_waveviewer_set_wave
+pt_waveviewer_load_wave_async
+pt_waveviewer_load_wave_finish
 pt_waveviewer_set_follow_cursor
 pt_waveviewer_get_follow_cursor
 <SUBSECTION Standard>
@@ -91,31 +91,3 @@ PtWaveviewerPrivate
 pt_waveviewer_get_type
 parlatype_get_resource
 </SECTION>
-
-<SECTION>
-<FILE>pt-progress-dialog</FILE>
-<TITLE>PtProgressDialog</TITLE>
-PtProgressDialog
-pt_progress_dialog_new
-pt_progress_dialog_set_progress
-<SUBSECTION Standard>
-PT_IS_PROGRESS_DIALOG
-PT_PROGRESS_DIALOG
-PT_TYPE_PROGRESS_DIALOG
-PtProgressDialogClass
-PtProgressDialogPrivate
-pt_progress_dialog_get_type
-</SECTION>
-
-<SECTION>
-<FILE>pt-wavedata</FILE>
-<TITLE>PtWavedata</TITLE>
-PtWavedata
-pt_wavedata_new
-pt_wavedata_copy
-pt_wavedata_free
-<SUBSECTION Standard>
-PT_TYPE_WAVEDATA
-pt_wavedata_get_type
-</SECTION>
-

@@ -29,6 +29,7 @@ gnome.gtkdoc(
 		'using_library.xml',
 		'python_example.xml',
 		'parlatype-example.py',
+		'parlatype-example.ui',
 	],
 	ignore_headers: [
 		'pt-i18n.h',
@@ -39,7 +40,6 @@ gnome.gtkdoc(
 		'pt-waveviewer-waveform.h',
 	],
 	html_assets: [
-		'images/pt-progress-dialog.png',
 		'images/pt-waveviewer.png',
 	],
 	install: true,
