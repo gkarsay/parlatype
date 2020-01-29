@@ -19,7 +19,6 @@
 #define PT_WAVELOADER_H
 
 #include <gio/gio.h>
-#include "pt-wavedata.h"
 
 G_BEGIN_DECLS
 
@@ -57,14 +56,28 @@ gboolean	pt_waveloader_load_finish	(PtWaveloader  *wl,
 						 GError       **error);
 
 void		pt_waveloader_load_async	(PtWaveloader	     *wl,
+						 gint                 pps,
 						 GCancellable	     *cancellable,
 						 GAsyncReadyCallback  callback,
 						 gpointer	      user_data);
 
 gint64		pt_waveloader_get_duration	(PtWaveloader *wl);
 
-PtWavedata*	pt_waveloader_get_data		(PtWaveloader *wl,
-						 gint          pps);
+gboolean	pt_waveloader_resize_finish	(PtWaveloader  *wl,
+						 GAsyncResult  *result,
+						 GError       **error);
+
+void		pt_waveloader_resize_async	(PtWaveloader        *wl,
+						 gint                 pps,
+						 GCancellable        *cancellable,
+						 GAsyncReadyCallback  callback,
+						 gpointer             user_data);
+
+gboolean	pt_waveloader_resize		(PtWaveloader *wl,
+						 gint          pps,
+						 GError      **error);
+
+GArray		*pt_waveloader_get_data		(PtWaveloader *wl);
 
 PtWaveloader*	pt_waveloader_new		(gchar *uri);
 
