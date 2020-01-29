@@ -20,7 +20,6 @@ sources = [
 	'pt-i18n.c',
 	'pt-i18n.h',
 	'pt-player.c',
-	'pt-progress-dialog.c',
 	'pt-waveloader.c',
 	'pt-waveviewer.c',
 	'pt-waveviewer-cursor.c',
@@ -39,7 +38,6 @@ deps = [gtk, gmodule, gstreamer, gstreamer_app, gstreamer_audio, math]
 
 headers = [
 	'pt-player.h',
-	'pt-progress-dialog.h',
 	'pt-waveloader.h',
 	'pt-waveviewer.h',
 ]
@@ -89,7 +87,6 @@ if gir
 	introspection_sources = [
 		headers,
 		'pt-player.c',
-		'pt-progress-dialog.c',
 		'pt-waveloader.c',
 		'pt-waveviewer.c',
 	]
