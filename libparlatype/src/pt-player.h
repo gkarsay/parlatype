@@ -19,7 +19,6 @@
 #define PT_PLAYER_H
 
 #include <gio/gio.h>
-#include "pt-wavedata.h"
 #include "pt-waveviewer.h"
 
 G_BEGIN_DECLS
@@ -71,8 +70,6 @@ typedef enum {
 
 GType		pt_player_get_type		(void) G_GNUC_CONST;
 
-PtWavedata*	pt_player_get_data		(PtPlayer *player,
-						 gint      pps);
 void		pt_player_pause			(PtPlayer *player);
 void		pt_player_pause_and_rewind	(PtPlayer *player);
 gint		pt_player_get_pause		(PtPlayer *player);
@@ -83,17 +80,8 @@ void		pt_player_set_selection		(PtPlayer *player,
 					         gint64    end);
 void		pt_player_clear_selection	(PtPlayer *player);
 gboolean	pt_player_selection_active	(PtPlayer *player);
-gboolean	pt_player_open_uri_finish	(PtPlayer      *player,
-						 GAsyncResult  *result,
-						 GError       **error);
-void		pt_player_open_uri_async	(PtPlayer	     *player,
-						 gchar		     *uri,
-						 GAsyncReadyCallback  callback,
-						 gpointer	      user_data);
 gboolean	pt_player_open_uri		(PtPlayer *player,
-						 gchar    *uri,
-						 GError  **error);
-void		pt_player_cancel		(PtPlayer *player);
+						 gchar    *uri);
 void		pt_player_jump_relative		(PtPlayer *player,
 						 gint      milliseconds);
 void		pt_player_jump_back		(PtPlayer *player);

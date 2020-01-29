@@ -22,7 +22,6 @@
 #include <gst/gst.h>
 #include <gst/audio/streamvolume.h>
 #include "pt-i18n.h"
-#include "pt-waveloader.h"
 #include "pt-waveviewer.h"
 #include "pt-player.h"
 
@@ -58,7 +57,6 @@ struct _PtPlayerPrivate
 	gchar          *timestamp_right;
 	gchar          *timestamp_sep;
 
-	PtWaveloader *wl;
 	PtWaveviewer *wv;
 };
 
@@ -383,188 +381,10 @@ bus_call (GstBus     *bus,
 
 /* -------------------------- opening files --------------------------------- */
 
-
-static void
-propagate_progress_cb (PtWaveloader *wl,
-                       gdouble       progress,
-                       PtPlayer     *player)
-{
-	g_signal_emit_by_name (player, "load-progress", progress);
-}
-
-static void
-load_cb (PtWaveloader *wl,
-         GAsyncResult *res,
-         gpointer     *data)
-{
-	GTask    *task = (GTask *) data;
-	PtPlayer *player = g_task_get_source_object (task);
-	GError   *error = NULL;
-
-	if (pt_waveloader_load_finish (wl, res, &error)) {
-		player->priv->dur = player->priv->segend = pt_waveloader_get_duration (player->priv->wl);
-		player->priv->segstart = 0;
-
-		/* setup message handler */
-		add_message_bus (player);
-
-		pt_player_pause (player);
-
-		/* Block until state changed */
-		gst_element_get_state (
-			player->priv->play,
-			NULL, NULL,
-			GST_CLOCK_TIME_NONE);
-
-		metadata_get_position (player);
-		g_task_return_boolean (task, TRUE);
-
-	} else {
-		g_clear_object (&wl);
-		player->priv->wl = NULL;
-		g_task_return_error (task, error);
-	}
-
-	g_object_unref (player->priv->c);
-	g_object_unref (task);
-}
-
-/**
- * pt_player_open_uri_finish:
- * @player: a #PtPlayer
- * @result: the #GAsyncResult passed to your #GAsyncReadyCallback
- * @error: (nullable): a pointer to a NULL #GError, or NULL
- *
- * Gives the result of the async opening operation. A cancelled operation results
- * in an error, too.
- *
- * Return value: TRUE if successful, or FALSE with error set
- */
-gboolean
-pt_player_open_uri_finish (PtPlayer      *player,
-                           GAsyncResult  *result,
-                           GError       **error)
-{
-	g_return_val_if_fail (g_task_is_valid (result, player), FALSE);
-
-	return g_task_propagate_boolean (G_TASK (result), error);
-}
-
-/**
- * pt_player_open_uri_async:
- * @player: a #PtPlayer
- * @uri: the URI of the file
- * @callback: (scope async): a #GAsyncReadyCallback to call when the operation is complete
- * @user_data: (closure): user_data for callback
- *
- * Opens a local audio file for playback. It doesn’t work with videos or streams.
- * Only one file can be open at a time, playlists are not supported by the
- * backend. Opening a new file will close the previous one.
- *
- * When closing a file or on object destruction PtPlayer tries to write the
- * last position into the file’s metadata. On opening a file it reads the
- * metadata and jumps to the last known position if found.
- *
- * The player is set to the paused state and ready for playback. To start
- * playback use @pt_player_play().
- *
- * This is an asynchronous operation, to get the result call
- * pt_player_open_uri_finish() in your callback. For the blocking version see
- * pt_player_open_uri().
- *
- * While loading the file there is a #PtPlayer::load-progress signal emitted which stops before
- * reaching 100%. Don’t use it to determine whether the operation is finished.
- */
-void
-pt_player_open_uri_async (PtPlayer            *player,
-                          gchar               *uri,
-                          GAsyncReadyCallback  callback,
-                          gpointer             user_data)
-{
-	g_return_if_fail (PT_IS_PLAYER (player));
-	g_return_if_fail (uri != NULL);
-
-	GTask  *task;
-	GFile  *file;
-	gchar  *location = NULL;
-
-	task = g_task_new (player, NULL, callback, user_data);
-
-	/* Change uri to location */
-	file = g_file_new_for_uri (uri);
-	location = g_file_get_path (file);
-	
-	if (!location) {
-		g_task_return_new_error (
-				task,
-				GST_RESOURCE_ERROR,
-				GST_RESOURCE_ERROR_NOT_FOUND,
-				/* Translators: %s is a detailed error message. */
-				_("URI not valid: %s"), uri);
-		g_object_unref (file);
-		g_object_unref (task);
-		return;
-	}
-
-	if (!g_file_query_exists (file, NULL)) {
-		g_task_return_new_error (
-				task,
-				GST_RESOURCE_ERROR,
-				GST_RESOURCE_ERROR_NOT_FOUND,
-				/* Translators: %s is a detailed error message. */
-				_("File not found: %s"), location);
-		g_object_unref (file);
-		g_free (location);
-		g_object_unref (task);
-		return;
-	}
-
-	/* If we had an open file before, remember its position */
-	metadata_save_position (player);
-
-	/* Reset any open streams */
-	pt_player_clear (player);
-	player->priv->dur = -1;
-
-	g_object_set (G_OBJECT (player->priv->play), "uri", uri, NULL);
-	g_object_unref (file);
-	g_free (location);
-
-	g_clear_object (&player->priv->wl);
-	player->priv->wl = pt_waveloader_new (uri);
-	g_signal_connect (player->priv->wl,
-			 "progress",
-			 G_CALLBACK (propagate_progress_cb),
-			 player);
-
-	player->priv->c = g_cancellable_new ();
-	pt_waveloader_load_async (player->priv->wl,
-				  player->priv->c,
-				  (GAsyncReadyCallback) load_cb,
-				  task);
-}
-
-typedef struct
-{
-	GAsyncResult *res;
-	GMainLoop    *loop;
-} SyncData;
-
-static void
-quit_loop_cb (PtPlayer     *player,
-              GAsyncResult *res,
-              gpointer      user_data)
-{
-	SyncData *data = user_data;
-	data->res = g_object_ref (res);
-	g_main_loop_quit (data->loop);
-}
-
 /**
  * pt_player_open_uri:
  * @player: a #PtPlayer
  * @uri: the URI of the file
- * @error: (nullable): return location for an error, or NULL
  *
  * Opens a local audio file for playback. It doesn’t work with videos or streams.
  * Only one file can be open at a time, playlists are not supported by the
@@ -578,55 +398,44 @@ quit_loop_cb (PtPlayer     *player,
  * playback use @pt_player_play().
  *
  * This operation blocks until it is finished. It returns TRUE on success or
- * FALSE and an error. For the asynchronous version see
- * pt_player_open_uri_async().
+ * FALSE on error. Errors are emitted async via #PtPlayer::error signal.
  *
- * While loading the file there is a #PtPlayer::load-progress signal emitted.
- * However, it doesn’t emit 100%, the operation is finished when TRUE is returned.
- *
- * Return value: TRUE if successful, or FALSE with error set
+ * Return value: TRUE if successful, otherwise FALSE
  */
 gboolean
 pt_player_open_uri (PtPlayer *player,
-                    gchar    *uri,
-                    GError  **error)
+                    gchar    *uri)
 {
 	g_return_val_if_fail (PT_IS_PLAYER (player), FALSE);
 	g_return_val_if_fail (uri != NULL, FALSE);
-	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
-	gboolean      result;
-	SyncData      data;
-	GMainContext *context;
+	/* If we had an open file before, remember its position */
+	metadata_save_position (player);
 
-	context = g_main_context_new ();
-	g_main_context_push_thread_default (context);
+	/* Reset any open streams */
+	pt_player_clear (player);
+	player->priv->dur = -1;
 
-	data.loop = g_main_loop_new (context, FALSE);
-	data.res = NULL;
+	g_object_set (G_OBJECT (player->priv->play), "uri", uri, NULL);
 
-	pt_player_open_uri_async (player, uri, (GAsyncReadyCallback) quit_loop_cb, &data);
-	g_main_loop_run (data.loop);
+	/* setup message handler */
+	add_message_bus (player);
 
-	result = pt_player_open_uri_finish (player, data.res, error);
+	pt_player_pause (player);
 
-	g_main_context_unref (context);
-	g_main_loop_unref (data.loop);
-	g_object_unref (data.res);
+	/* Block until state changed, return on failure */
+	if (gst_element_get_state (player->priv->play,
+				   NULL, NULL,
+				   GST_CLOCK_TIME_NONE) == GST_STATE_CHANGE_FAILURE)
+		return FALSE;
 
-	return result;
-}
+	gint64 dur = 0;
+	gst_element_query_duration (player->priv->play, GST_FORMAT_TIME, &dur);
+	player->priv->dur = player->priv->segend = dur;
+	player->priv->segstart = 0;
 
-/**
- * pt_player_cancel:
- * @player: a #PtPlayer
- *
- * Cancels the file opening operation, which triggers an error message.
- */
-void
-pt_player_cancel (PtPlayer *player)
-{
-	g_cancellable_cancel (player->priv->c);
+	metadata_get_position (player);
+	return TRUE;
 }
 
 
@@ -1030,7 +839,7 @@ pt_player_jump_to_position (PtPlayer *player,
 
 	pos = GST_MSECOND * (gint64) milliseconds;
 
-	if (pos > player->priv->segend || pos < player->priv->segstart) {
+	if (pos < player->priv->segstart) {
 		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
 				  "MESSAGE", "Jump to position failed: start = %" G_GINT64_FORMAT, player->priv->segstart);
 		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
@@ -1201,29 +1010,6 @@ pt_player_get_duration (PtPlayer *player)
 	g_return_val_if_fail (PT_IS_PLAYER (player), -1);
 
 	return GST_TIME_AS_MSECONDS (player->priv->dur);
-}
-
-
-/* ------------------------- Waveform stuff --------------------------------- */
-
-/**
- * pt_player_get_data:
- * @player: a #PtPlayer
- * @pps: the requested pixel per second ratio
- *
- * Returns wave data needed for visual representation as raw data. The
- * requested resolution is given as pixel per seconds, e.g. 100 means one second
- * is represented by 100 samples, is 100 pixels wide. The returned resolution
- * doesn’t have to be necessarily exactly the requested resolution, it might be
- * a bit differnt, depending on the bit rate.
- *
- * Return value: (transfer full): the #PtWavedata
- */
-PtWavedata*
-pt_player_get_data (PtPlayer *player,
-                    gint      pps)
-{
-	return pt_waveloader_get_data (player->priv->wl, pps);
 }
 
 
@@ -2229,8 +2015,6 @@ pt_player_dispose (GObject *object)
 		gst_object_unref (GST_OBJECT (player->priv->tee_sphinxpad));
 	}
 
-	g_clear_object (&player->priv->wl);
-
 	G_OBJECT_CLASS (pt_player_parent_class)->dispose (object);
 }
 
@@ -2357,25 +2141,6 @@ pt_player_class_init (PtPlayerClass *klass)
 	G_OBJECT_CLASS (klass)->set_property = pt_player_set_property;
 	G_OBJECT_CLASS (klass)->get_property = pt_player_get_property;
 	G_OBJECT_CLASS (klass)->dispose = pt_player_dispose;
-
-	/**
-	* PtPlayer::load-progress:
-	* @player: the player emitting the signal
-	* @progress: the new progress state, ranging from 0.0 to 1.0
-	*
-	* Indicates progress on a scale from 0.0 to 1.0, however it does not
-	* emit the value 0.0 nor 1.0. Wait for a TRUE player-state-changed
-	* signal or an error signal to dismiss a gui element showing progress.
-	*/
-	g_signal_new ("load-progress",
-		      PT_TYPE_PLAYER,
-		      G_SIGNAL_RUN_FIRST,
-		      0,
-		      NULL,
-		      NULL,
-		      g_cclosure_marshal_VOID__DOUBLE,
-		      G_TYPE_NONE,
-		      1, G_TYPE_DOUBLE);
 
 	/**
 	* PtPlayer::end-of-stream:
