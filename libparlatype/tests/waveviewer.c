@@ -20,6 +20,48 @@
 #include <pt-player.h>
 
 
+/* Helpers to turn async operations into sync ------------------------------- */
+
+typedef struct
+{
+	GAsyncResult *res;
+	GMainLoop    *loop;
+} SyncData;
+
+static SyncData
+create_sync_data (void) {
+	SyncData      data;
+	GMainContext *context;
+
+	/* Note: With other contexts than default the signal emitting test
+	 * doesn't work. PtWaveloader uses g_timeout_add() and that doesn't
+	 * work with g_main_context_push_thread_default (context). */
+	context = g_main_context_default ();
+
+	data.loop = g_main_loop_new (context, FALSE);
+	data.res = NULL;
+	return data;
+}
+
+static void
+free_sync_data (SyncData data) {
+	g_main_loop_unref (data.loop);
+	g_object_unref (data.res);
+}
+
+static void
+quit_loop_cb (PtWaveviewer *wl,
+	      GAsyncResult *res,
+	      gpointer      user_data)
+{
+	SyncData *data = user_data;
+	data->res = g_object_ref (res);
+	g_main_loop_quit (data->loop);
+}
+
+
+/* Tests -------------------------------------------------------------------- */
+
 static void
 waveviewer_empty (void)
 {
@@ -28,7 +70,7 @@ waveviewer_empty (void)
 	gint64 selection_end, selection_start;
 
 	testviewer = pt_waveviewer_new ();
-	g_assert (PT_IS_WAVEVIEWER (testviewer));
+	g_assert_true (PT_IS_WAVEVIEWER (testviewer));
 	g_object_get (testviewer,
 		      "fixed-cursor", &fixed_cursor,
 		      "follow-cursor", &follow_cursor,
@@ -50,26 +92,17 @@ waveviewer_empty (void)
 	gtk_widget_destroy (testviewer);
 }
 
-static gboolean
-stop_main (gpointer user_data)
-{
-	gtk_main_quit ();
-
-	return G_SOURCE_REMOVE;
-}
-
-
 static void
 waveviewer_loaded (void)
 {
 	GError    *error = NULL;
 	PtPlayer  *player;
-	PtWavedata *data;
 	GtkWidget *window;
 	GtkWidget *viewer;
 	gchar     *testfile;
 	gchar     *testuri;
 	gboolean   success;
+	SyncData   data;
 
 	player = pt_player_new ();
 	pt_player_setup_player (player, &error);
@@ -77,25 +110,26 @@ waveviewer_loaded (void)
 
 	testfile = g_test_build_filename (G_TEST_DIST, "data/test1.ogg", NULL);
 	testuri = g_strdup_printf ("file://%s", testfile);
-	success = pt_player_open_uri (player, testuri, &error);
-
-	g_assert_no_error (error);
+	success = pt_player_open_uri (player, testuri);
 	g_assert_true (success);
 
-	data = pt_player_get_data (player, 100);
+	data = create_sync_data ();
 	viewer = pt_waveviewer_new ();
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_default_size (GTK_WINDOW (window), 300, 100);
 	gtk_container_add (GTK_CONTAINER (window), viewer);
 	gtk_widget_show_all (window);
-	pt_waveviewer_set_wave (PT_WAVEVIEWER (viewer), data);
-	pt_wavedata_free (data);
+	pt_waveviewer_load_wave_async (PT_WAVEVIEWER (viewer), testuri, NULL,
+				       (GAsyncReadyCallback) quit_loop_cb, &data);
 
-	g_timeout_add (200, stop_main, viewer);
-	gtk_main ();
+	g_main_loop_run (data.loop);
+	success = pt_waveviewer_load_wave_finish (PT_WAVEVIEWER (viewer), data.res, &error);
+	g_assert_true (success);
+	g_assert_no_error (error);
 
 	g_free (testfile);
 	g_free (testuri);
+	free_sync_data (data);
 	g_object_unref (player);
 	gtk_widget_destroy (window);
 }
