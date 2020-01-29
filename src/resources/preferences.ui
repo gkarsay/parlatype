@@ -23,9 +23,9 @@
     <property name="page_increment">1</property>
   </object>
   <object class="GtkAdjustment" id="adj_pps">
-    <property name="lower">1</property>
-    <property name="upper">8</property>
-    <property name="value">4</property>
+    <property name="lower">25</property>
+    <property name="upper">200</property>
+    <property name="value">100</property>
     <property name="step_increment">1</property>
     <property name="page_increment">1</property>
   </object>
@@ -159,7 +159,6 @@
                     <property name="round_digits">0</property>
                     <property name="digits">0</property>
                     <property name="value_pos">right</property>
-                    <signal name="format-value" handler="format_value_cb" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>

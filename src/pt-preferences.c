@@ -119,38 +119,6 @@ spin_pause_changed_cb (GtkSpinButton       *spin,
 				  (int) gtk_spin_button_get_value_as_int (spin)));
 }
 
-gchar*
-format_value_cb (GtkScale *scale,
-                 gdouble   value,
-                 gpointer  data)
-{
-	return g_strdup_printf ("%d", 25 * (gint) value);
-}
-
-gboolean
-get_pps (GValue   *value,
-         GVariant *variant,
-         gpointer  data)
-{
-	gint32 pps;
-	pps = g_variant_get_int32 (variant);
-	if (pps < 25)
-		pps = 25;
-	g_value_set_double (value, (gdouble) (pps / 25));
-	return TRUE;
-}
-
-GVariant*
-set_pps (const GValue       *value,
-         const GVariantType *type,
-         gpointer            data)
-{
-	gdouble pps;
-	pps = g_value_get_double (value);
-	pps = pps * 25;
-	return g_variant_new_int32 ((gint32) pps);
-}
-
 static void
 update_example_timestamps (PtPreferencesDialog *dlg)
 {
@@ -604,12 +572,10 @@ pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 
 	GtkAdjustment *pps_adj;
 	pps_adj = gtk_range_get_adjustment (GTK_RANGE (dlg->priv->pps_scale));
-	g_settings_bind_with_mapping (
+	g_settings_bind (
 			dlg->priv->editor, "pps",
 			pps_adj, "value",
-			G_SETTINGS_BIND_DEFAULT,
-			get_pps, set_pps,
-			NULL, NULL);
+			G_SETTINGS_BIND_DEFAULT);
 
 	/* make sure labels are set and translated */
 	spin_back_changed_cb (GTK_SPIN_BUTTON (dlg->priv->spin_back), dlg);
