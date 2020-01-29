@@ -20,12 +20,13 @@
 #include <pt-player.h>
 
 
+/* Fixture ------------------------------------------------------------------ */
+
 typedef struct {
 	PtPlayer *testplayer;
 	gchar    *testfile;
 	gchar    *testuri;
 } PtPlayerFixture;
-
 
 static void
 pt_player_fixture_set_up (PtPlayerFixture *fixture,
@@ -49,9 +50,7 @@ pt_player_fixture_set_up (PtPlayerFixture *fixture,
 	fixture->testfile = g_file_get_path (file);
 	fixture->testuri = g_file_get_uri (file);
 
-	success = pt_player_open_uri (fixture->testplayer, fixture->testuri, &error);
-
-	g_assert_no_error (error);
+	success = pt_player_open_uri (fixture->testplayer, fixture->testuri);
 	g_assert_true (success);
 
 	g_object_unref (file);
@@ -67,6 +66,9 @@ pt_player_fixture_tear_down (PtPlayerFixture *fixture,
 	g_free (fixture->testuri);
 }
 
+
+/* Tests -------------------------------------------------------------------- */
+
 static void
 player_new (void)
 {
@@ -74,63 +76,127 @@ player_new (void)
 
 	GError *error = NULL;
 	PtPlayer *testplayer;
+
+	/* Construction properties */
 	gdouble speed, volume;
+	gboolean t_fixed;
+	gint precision;
+	gchar *t_delimiter, *t_separator;
+
+	/* Read/write properties TODO why not construction? */
+	gboolean repeat_all, repeat_selection;
+	gint pause, back, forward;
 
 	testplayer = pt_player_new ();
 	pt_player_setup_player (testplayer, &error);
 	g_assert_no_error (error);
-	g_assert (PT_IS_PLAYER (testplayer));
+	g_assert_true (PT_IS_PLAYER (testplayer));
+	g_object_set (testplayer,
+		      "pause", 0,
+		      "back", 10000,
+		      "forward", 10000,
+		      "repeat-all", FALSE,
+		      "repeat-selection", FALSE,
+		      NULL);
 	g_object_get (testplayer,
 		      "speed", &speed,
 		      "volume", &volume,
+		      "timestamp-precision", &precision,
+		      "timestamp-fixed", &t_fixed,
+		      "timestamp-delimiter", &t_delimiter,
+		      "timestamp-fraction-sep", &t_separator,
+		      "pause", &pause,
+		      "back", &back,
+		      "forward", &forward,
+		      "repeat-all", &repeat_all,
+		      "repeat-selection", &repeat_selection,
 		      NULL);
 	g_assert_cmpfloat (speed, ==, 1.0);
 	g_assert_cmpfloat (volume, ==, 1.0);
+	g_assert_false (t_fixed);
+	g_assert_false (repeat_all);
+	g_assert_false (repeat_selection);
+	g_assert_cmpint (precision, ==, PT_PRECISION_SECOND_10TH);
+	g_assert_cmpint (pause, ==, 0);
+	g_assert_cmpint (back, ==, 10000);
+	g_assert_cmpint (forward, ==, 10000);
+	g_assert_cmpstr (t_delimiter, ==, "#");
+	g_assert_cmpstr (t_separator, ==, ".");
+
+	g_free (t_delimiter);
+	g_free (t_separator);
 	g_object_unref (testplayer);
+}
+
+typedef struct
+{
+	GQuark     domain;
+	gint       code;
+	GMainLoop *loop;
+} ErrorCBData;
+
+static void
+error_cb (PtPlayer *player,
+	  GError   *error,
+	  gpointer  user_data)
+{
+	ErrorCBData *data = user_data;
+	g_assert_error (error, data->domain, data->code);
+	g_main_loop_quit (data->loop);
 }
 
 static void
 player_open_fail (void)
 {
-	GError *error = NULL;
-	PtPlayer *testplayer;
-	gboolean  success;
-	gchar    *path;
-	GFile    *file;
-	gchar    *uri;
+	PtPlayer    *player;
+	ErrorCBData  data;
+	GError      *error = NULL;
+	gboolean     success;
+	gchar       *path;
+	GFile       *file;
+	gchar       *uri;
 
-	testplayer = pt_player_new ();
-	pt_player_setup_player (testplayer, &error);
+	player = pt_player_new ();
+	pt_player_setup_player (player, &error);
 	g_assert_no_error (error);
 
-	success = pt_player_open_uri (testplayer, "foo", &error);
-	g_assert_error (error, GST_RESOURCE_ERROR, GST_RESOURCE_ERROR_NOT_FOUND);
+	/* Fails to open "foo" */
+	data.loop = g_main_loop_new (g_main_context_default (), FALSE);
+	data.domain = GST_RESOURCE_ERROR;
+	data.code = GST_RESOURCE_ERROR_NOT_FOUND;
+	g_signal_connect (player, "error", G_CALLBACK (error_cb), &data);
+	success = pt_player_open_uri (player, "foo");
+	g_main_loop_run (data.loop);
 	g_assert_false (success);
-	g_clear_error (&error);
 
+	/* Fails to open a valid path, not existing file.
+	 * Error domain and code unchanged. */
 	path = g_test_build_filename (G_TEST_DIST, "data", "foo", NULL);
 	file = g_file_new_for_path (path);
 	uri = g_file_get_uri (file);
-	success = pt_player_open_uri (testplayer, uri, &error);
-	g_assert_error (error, GST_RESOURCE_ERROR, GST_RESOURCE_ERROR_NOT_FOUND);
+	success = pt_player_open_uri (player, uri);
+	g_main_loop_run (data.loop);
 	g_assert_false (success);
-	g_clear_error (&error);
+
 	g_object_unref (file);
 	g_free (path);
 	g_free (uri);
 
+	/* Fails to open an existing file of wrong type */
+	data.domain = GST_STREAM_ERROR;
+	data.code = GST_STREAM_ERROR_WRONG_TYPE;
 	path = g_test_build_filename (G_TEST_DIST, "data", "README", NULL);
 	file = g_file_new_for_path (path);
 	uri = g_file_get_uri (file);
-	success = pt_player_open_uri (testplayer, uri, &error);
-	g_assert_error (error, GST_STREAM_ERROR, GST_STREAM_ERROR_WRONG_TYPE);
+	success = pt_player_open_uri (player, uri);
+	g_main_loop_run (data.loop);
 	g_assert_false (success);
-	g_clear_error (&error);
+
 	g_object_unref (file);
 	g_free (path);
 	g_free (uri);
-
-	g_object_unref (testplayer);
+	g_main_loop_unref (data.loop);
+	g_object_unref (player);
 }
 
 static void
@@ -150,64 +216,6 @@ player_open_ogg (PtPlayerFixture *fixture,
 	g_free (getchar);
 }
 
-typedef struct
-{
-	GAsyncResult *res;
-	GMainLoop    *loop;
-} SyncData;
-
-static void
-quit_loop_cb (PtPlayer	   *player,
-	      GAsyncResult *res,
-	      gpointer      user_data)
-{
-	SyncData *data = user_data;
-	data->res = g_object_ref (res);
-	g_main_loop_quit (data->loop);
-}
-
-static void
-player_open_cancel (void)
-{
-	/* open test file async and cancel operation */
-
-	GError *error = NULL;
-	PtPlayer *testplayer;
-	gchar    *testfile;
-	gchar    *testuri;
-	gboolean  success;
-	SyncData      data;
-	GMainContext *context;
-
-	context = g_main_context_new ();
-	g_main_context_push_thread_default (context);
-
-	data.loop = g_main_loop_new (context, FALSE);
-	data.res = NULL;
-
-	testplayer = pt_player_new ();
-	pt_player_setup_player (testplayer, &error);
-	g_assert_no_error (error);
-
-	testfile = g_test_build_filename (G_TEST_DIST, "data/test1.ogg", NULL);
-	testuri = g_strdup_printf ("file://%s", testfile);
-	pt_player_open_uri_async (testplayer, testuri, (GAsyncReadyCallback) quit_loop_cb, &data);
-
-	pt_player_cancel (testplayer);
-	g_main_loop_run (data.loop);
-
-	success = pt_player_open_uri_finish (testplayer, data.res, &error);
-	g_assert_false (success);
-	g_assert_error (error, G_IO_ERROR, G_IO_ERROR_CANCELLED);
-
-	g_error_free (error);
-	g_free (testfile);
-	g_free (testuri);
-	g_object_unref (testplayer);
-	g_main_loop_unref (data.loop);
-	g_object_unref (data.res);
-}
-
 static void
 player_timestamps (PtPlayerFixture *fixture,
 		   gconstpointer    user_data)
@@ -215,7 +223,88 @@ player_timestamps (PtPlayerFixture *fixture,
 	gchar    *timestamp = NULL;
 	gchar    *timestamp2;
 	gboolean  valid;
-	
+
+	/* test for delimiters */
+	g_object_set (fixture->testplayer, "timestamp-delimiter", "#", NULL);
+	timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+	g_assert_cmpstr (timestamp, ==, "#0:00.0#");
+	g_free (timestamp);
+	g_object_set (fixture->testplayer, "timestamp-delimiter", "(", NULL);
+	timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+	g_assert_cmpstr (timestamp, ==, "(0:00.0)");
+	g_free (timestamp);
+	g_object_set (fixture->testplayer, "timestamp-delimiter", "[", NULL);
+	timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+	g_assert_cmpstr (timestamp, ==, "[0:00.0]");
+	g_free (timestamp);
+	g_object_set (fixture->testplayer, "timestamp-delimiter", "None", NULL);
+	timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+	g_assert_cmpstr (timestamp, ==, "0:00.0");
+	g_free (timestamp);
+	g_object_set (fixture->testplayer, "timestamp-delimiter", "something-else", NULL);
+	timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+	g_assert_cmpstr (timestamp, ==, "#0:00.0#");
+	g_free (timestamp);
+	g_object_set (fixture->testplayer, "timestamp-delimiter", NULL, NULL);
+	timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+	g_assert_cmpstr (timestamp, ==, "#0:00.0#");
+	g_free (timestamp);
+
+	/* test for fraction separator */
+	g_object_set (fixture->testplayer, "timestamp-fraction-sep", ".", NULL);
+	timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+	g_assert_cmpstr (timestamp, ==, "#0:00.0#");
+	g_free (timestamp);
+	g_object_set (fixture->testplayer, "timestamp-fraction-sep", "-", NULL);
+	timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+	g_assert_cmpstr (timestamp, ==, "#0:00-0#");
+	g_free (timestamp);
+	g_object_set (fixture->testplayer, "timestamp-fraction-sep", "something-else", NULL);
+	timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+	g_assert_cmpstr (timestamp, ==, "#0:00.0#");
+	g_free (timestamp);
+	g_object_set (fixture->testplayer, "timestamp-fraction-sep", NULL, NULL);
+	timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+	g_assert_cmpstr (timestamp, ==, "#0:00.0#");
+	g_free (timestamp);
+
+	/* Test all code paths of pt_player_get_timestamp_for_time */
+	g_object_set (fixture->testplayer, "timestamp-fixed", TRUE, "timestamp-fraction-sep", ".", NULL);
+	g_object_set (fixture->testplayer, "timestamp-precision", PT_PRECISION_SECOND, NULL);
+	timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+	g_assert_cmpstr (timestamp, ==, "#00:00:00#");
+	g_free (timestamp);
+	g_object_set (fixture->testplayer, "timestamp-precision", PT_PRECISION_SECOND_10TH, NULL);
+	timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+	g_assert_cmpstr (timestamp, ==, "#00:00:00.0#");
+	g_free (timestamp);
+	g_object_set (fixture->testplayer, "timestamp-precision", PT_PRECISION_SECOND_100TH, NULL);
+	timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+	g_assert_cmpstr (timestamp, ==, "#00:00:00.00#");
+	g_free (timestamp);
+	g_object_set (fixture->testplayer, "timestamp-fixed", FALSE, NULL);
+	g_object_set (fixture->testplayer, "timestamp-precision", PT_PRECISION_SECOND, NULL);
+	timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+	g_assert_cmpstr (timestamp, ==, "#0:00#");
+	g_free (timestamp);
+	timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 3600000);
+	g_assert_cmpstr (timestamp, ==, "#0:00:00#");
+	g_free (timestamp);
+	g_object_set (fixture->testplayer, "timestamp-precision", PT_PRECISION_SECOND_10TH, NULL);
+	timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+	g_assert_cmpstr (timestamp, ==, "#0:00.0#");
+	g_free (timestamp);
+	timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 3600000);
+	g_assert_cmpstr (timestamp, ==, "#0:00:00.0#");
+	g_free (timestamp);
+	g_object_set (fixture->testplayer, "timestamp-precision", PT_PRECISION_SECOND_100TH, NULL);
+	timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+	g_assert_cmpstr (timestamp, ==, "#0:00.00#");
+	g_free (timestamp);
+	timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 3600000);
+	g_assert_cmpstr (timestamp, ==, "#0:00:00.00#");
+	g_free (timestamp);
+
 	/* valid timestamps */
 	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "#0:01.2#", FALSE));
 	g_assert_true (pt_player_string_is_timestamp (fixture->testplayer, "0:01.2", FALSE));
@@ -274,7 +363,7 @@ player_timestamps (PtPlayerFixture *fixture,
 	pt_player_goto_timestamp (fixture->testplayer, timestamp);
 	timestamp2 = pt_player_get_timestamp (fixture->testplayer);
 	g_assert_cmpstr (timestamp, ==, timestamp2);
-		
+
 	g_free (timestamp);
 	g_free (timestamp2);
 }
@@ -418,7 +507,6 @@ main (int argc, char *argv[])
 	g_test_add ("/player/open-ogg", PtPlayerFixture, NULL,
 	            pt_player_fixture_set_up, player_open_ogg,
 	            pt_player_fixture_tear_down);
-	g_test_add_func ("/player/open-cancel", player_open_cancel);
 	g_test_add ("/player/timestamps", PtPlayerFixture, NULL,
 	            pt_player_fixture_set_up, player_timestamps,
 	            pt_player_fixture_tear_down);
