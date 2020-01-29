@@ -168,6 +168,8 @@ pt_waveviewer_ruler_draw (GtkWidget *widget,
 			sample = flip_pixel (self, sample);
 		if (sample < 0 || sample > self->priv->n_samples)
 			continue;
+		if (self->priv->px_per_sec * self->priv->primary_modulo == 0)
+			g_print ("oops\n");
 		if (sample % (self->priv->px_per_sec * self->priv->primary_modulo) == 0) {
 			gtk_render_line (context, cr, i, 0, i, PRIMARY_MARK_HEIGHT);
 			if (self->priv->time_format_long) {

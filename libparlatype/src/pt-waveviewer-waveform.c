@@ -24,8 +24,7 @@
 
 struct _PtWaveviewerWaveformPrivate {
 	/* Wavedata */
-	gfloat   *peaks;
-	gint64    peaks_size;	/* size of array */
+	GArray   *peaks;
 
 	/* Rendering */
 	GdkRGBA   wave_color;
@@ -47,7 +46,7 @@ flip_pixel (PtWaveviewerWaveform *self,
 	gint64 samples;
 	gint   widget_width;
 
-	samples = self->priv->peaks_size / 2;
+	samples = self->priv->peaks->len / 2;
 	widget_width = gtk_widget_get_allocated_width (GTK_WIDGET (self));
 
 	/* Case: waveform is shorter than drawing area */
@@ -72,7 +71,7 @@ pixel_to_array (PtWaveviewerWaveform *self,
 
 	result = pixel * 2;
 
-	if (result + 1 >= self->priv->peaks_size)
+	if (result + 1 >= self->priv->peaks->len)
 		result = -1;
 
 	return result;
@@ -84,7 +83,7 @@ pt_waveviewer_waveform_draw (GtkWidget *widget,
 {
 	PtWaveviewerWaveform *self = (PtWaveviewerWaveform *) widget;
 
-	gfloat *peaks = self->priv->peaks;
+	GArray *peaks = self->priv->peaks;
 	GtkStyleContext *context;
 	gint pixel;
 	gint array;
@@ -98,7 +97,7 @@ pt_waveviewer_waveform_draw (GtkWidget *widget,
 	width = gtk_widget_get_allocated_width (widget);
 
 	gtk_render_background (context, cr, 0, 0, width, height);
-	if (!peaks)
+	if (peaks == NULL || peaks->len == 0)
 		return FALSE;
 
 	/* paint waveform */
@@ -113,8 +112,8 @@ pt_waveviewer_waveform_draw (GtkWidget *widget,
 		if (array == -1)
 			/* in ltr we could break, but rtl needs to continue */
 			continue;
-		min = (middle + half * peaks[array] * -1);
-		max = (middle - half * peaks[array + 1]);
+		min = (middle + half * g_array_index (peaks, float, array) * -1);
+		max = (middle - half * g_array_index (peaks, float, array + 1));
 		cairo_move_to (cr, pixel, min);
 		cairo_line_to (cr, pixel, max);
 		/* cairo_stroke also possible after loop, but then slower */
@@ -175,11 +174,9 @@ pt_waveviewer_waveform_realize (GtkWidget *widget)
 
 void
 pt_waveviewer_waveform_set (PtWaveviewerWaveform *self,
-                            gfloat               *peaks,
-                            gint64                peaks_size)
+                            GArray               *peaks)
 {
 	self->priv->peaks = peaks;
-	self->priv->peaks_size = peaks_size;
 	gtk_widget_queue_draw (GTK_WIDGET (self));
 }
 
@@ -191,7 +188,6 @@ pt_waveviewer_waveform_init (PtWaveviewerWaveform *self)
 	GtkStyleContext *context;
 
 	self->priv->peaks = NULL;
-	self->priv->peaks_size = 0;
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
 	gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);

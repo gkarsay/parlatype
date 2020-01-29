@@ -45,8 +45,7 @@ struct _PtWaveviewerWaveformClass {
 
 GType		pt_waveviewer_waveform_get_type	(void) G_GNUC_CONST;
 void		pt_waveviewer_waveform_set	(PtWaveviewerWaveform *self,
-						 gfloat               *peaks,
-						 gint64                peaks_size);
+						 GArray               *peaks);
 GtkWidget	*pt_waveviewer_waveform_new	(void);
 
 G_END_DECLS

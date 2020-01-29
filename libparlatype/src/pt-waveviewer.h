@@ -19,7 +19,6 @@
 #define PT_WAVEVIEWER_H
 
 #include <gtk/gtk.h>
-#include "pt-wavedata.h"
 
 G_BEGIN_DECLS
 
@@ -56,8 +55,15 @@ gboolean	pt_waveviewer_get_follow_cursor (PtWaveviewer *self);
 void		pt_waveviewer_set_follow_cursor (PtWaveviewer *self,
 						 gboolean      follow);
 
-void		pt_waveviewer_set_wave	(PtWaveviewer *self,
-					 PtWavedata   *data);
+gboolean	pt_waveviewer_load_wave_finish (PtWaveviewer  *self,
+                                                GAsyncResult  *result,
+                                                GError       **error);
+
+void		pt_waveviewer_load_wave_async  (PtWaveviewer        *self,
+                                                gchar               *uri,
+                                                GCancellable        *cancel,
+                                                GAsyncReadyCallback  callback,
+                                                gpointer             user_data);
 
 GtkWidget	*pt_waveviewer_new	(void);
 

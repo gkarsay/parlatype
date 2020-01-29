@@ -29,6 +29,7 @@
 #define GETTEXT_PACKAGE "libparlatype"
 #include <glib/gi18n-lib.h>
 #include "pt-marshalers.h"
+#include "pt-waveloader.h"
 #include "pt-waveviewer-ruler.h"
 #include "pt-waveviewer-waveform.h"
 #include "pt-waveviewer-selection.h"
@@ -43,7 +44,8 @@
 
 struct _PtWaveviewerPrivate {
 	/* Wavedata */
-	gfloat   *peaks;
+	PtWaveloader *loader;
+	GArray   *peaks;
 	gint64    peaks_size;	/* size of array */
 	gint      px_per_sec;
 	gint64    duration;	/* in milliseconds */
@@ -55,6 +57,7 @@ struct _PtWaveviewerPrivate {
 	gboolean  show_ruler;
 	gboolean  has_selection;
 	gboolean  zoom;
+	gint      pps;
 
 	gint64    zoom_time;
 	gint      zoom_pos;
@@ -83,6 +86,8 @@ struct _PtWaveviewerPrivate {
 #if GTK_CHECK_VERSION(3,24,0)
 	GtkEventController *motion_ctrl;
 #endif
+
+	guint       tick_handler;
 };
 
 enum
@@ -95,7 +100,7 @@ enum
 	PROP_HAS_SELECTION,
 	PROP_SELECTION_START,
 	PROP_SELECTION_END,
-	PROP_ZOOM,
+	PROP_PPS,
 	N_PROPERTIES
 };
 
@@ -317,7 +322,7 @@ pt_waveviewer_key_press_event (GtkWidget   *widget,
 	if (gdk_event_get_event_type ((GdkEvent*) event) != GDK_KEY_PRESS)
 		return FALSE;
 
-	if (!self->priv->peaks)
+	if (self->priv->peaks->len == 0)
 		return FALSE;
 
 	gdk_event_get_state ((GdkEvent*) event, &state);
@@ -457,7 +462,7 @@ pt_waveviewer_button_press_event (GtkGestureMultiPress *gesture,
 	gint64               clicked;	/* the sample clicked on */
 	gint64               pos;	/* clicked sample’s position in milliseconds */
 
-	if (!self->priv->peaks)
+	if (self->priv->peaks == NULL || self->priv->peaks->len == 0)
 		return FALSE;
 
 	if (!gtk_get_current_event_state (&state))
@@ -535,7 +540,7 @@ pt_waveviewer_scroll_event (GtkWidget      *widget,
 		return TRUE;
 	}
 
-	/* Only Control pressed: zoom in or out */
+	/* Only Control pressed: zoom in or out TODO handle this internally without signals*/
 	if ((state & ALL_ACCELS_MASK) == GDK_CONTROL_MASK) {
 		if (delta_y < 0 || delta_x < 0) {
 			g_signal_emit_by_name (self, "zoom-out");
@@ -577,7 +582,7 @@ pt_waveviewer_motion_notify_event (GtkWidget      *widget,
 	gint64               clicked;	/* the sample clicked on */
 	gint64               pos;	/* clicked sample’s position in milliseconds */
 
-	if (!self->priv->peaks)
+	if (self->priv->peaks == NULL || self->priv->peaks->len == 0)
 		return FALSE;
 
 	clicked = (gint) x;
@@ -770,7 +775,7 @@ pt_waveviewer_focus_in_event (GtkWidget *widget,
                               gpointer   data)
 {
 	PtWaveviewer *self = PT_WAVEVIEWER (widget);
-	if (!self->priv->focus_on_cursor && self->priv->peaks)
+	if (!self->priv->focus_on_cursor && self->priv->peaks->len > 0)
 		focus_widget (self);
 	return FALSE;
 }
@@ -787,7 +792,7 @@ pt_waveviewer_focus (GtkWidget        *widget,
 	   If moving into @direction would stay inside widget: return TRUE */
 
 	/* Don’t focus if empty */
-	if (!self->priv->peaks)
+	if (self->priv->peaks == NULL || self->priv->peaks->len == 0)
 		return FALSE;
 
 	/* Focus chain forward: no-focus -> focus-whole-widget -> focus-cursor -> no-focus */
@@ -886,7 +891,7 @@ size_allocate_cb (GtkWidget    *widget,
 		self->priv->zoom = FALSE;
 	}
 
-	if (self->priv->peaks) {
+	if (self->priv->peaks->len > 0) {
 		pt_waveviewer_cursor_render (
 				PT_WAVEVIEWER_CURSOR (self->priv->cursor),
 				time_to_pixel (self, self->priv->playback_cursor));
@@ -898,6 +903,27 @@ size_allocate_cb (GtkWidget    *widget,
 			time_to_pixel (self, self->priv->sel_end));
 }
 
+static void
+get_anchor_point (PtWaveviewer *self)
+{
+	/* Get an anchor point = zoom_pos, either cursor position or
+	   middle of view. The anchor point is relative to the view.
+	   Get time of that anchor point = zoom_time. */
+
+	gint left;
+
+	left = (gint) gtk_adjustment_get_value (self->priv->adj);
+	if (cursor_is_visible (self)) {
+		self->priv->zoom_time = self->priv->playback_cursor;
+		self->priv->zoom_pos = time_to_pixel (self, self->priv->playback_cursor) - left;
+	} else {
+		self->priv->zoom_pos = (gint) gtk_adjustment_get_page_size (self->priv->adj) / 2;
+		self->priv->zoom_time = pixel_to_time (self, self->priv->zoom_pos + left);
+	}
+}
+
+
+#if 0
 static void
 make_widget_ready (PtWaveviewer *self,
                    gboolean      ready)
@@ -937,7 +963,7 @@ make_widget_ready (PtWaveviewer *self,
 
 	if (!ready) {
 		if (self->priv->peaks) {
-			g_free (self->priv->peaks);
+			g_array_unref (self->priv->peaks);
 			self->priv->peaks = NULL;
 		}
 		self->priv->peaks_size = 0;
@@ -959,11 +985,6 @@ make_widget_ready (PtWaveviewer *self,
 				WAVE_MIN_HEIGHT);
 	}
 
-	pt_waveviewer_waveform_set (
-			PT_WAVEVIEWER_WAVEFORM (self->priv->waveform),
-			self->priv->peaks,
-			self->priv->peaks_size);
-
 	pt_waveviewer_ruler_set_ruler (
 			PT_WAVEVIEWER_RULER (self->priv->ruler),
 			self->priv->peaks_size / 2,
@@ -977,30 +998,6 @@ make_widget_ready (PtWaveviewer *self,
 	   above, size_allocate_cb(). */
 }
 
-static gboolean
-copy_wavedata (PtWaveviewer *self,
-               PtWavedata   *data)
-{
-	/* Copy array. If widget is not owner of its data, bad things can happen
-	   with bindings. */
-	if (!data)
-		return FALSE;
-
-	if (!data->array || !data->length)
-		return FALSE;
-
-	if (!(self->priv->peaks = g_malloc (sizeof (gfloat) * data->length))) {
-		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
-			          "MESSAGE", "Waveviewer failed to allocate memory");
-		return FALSE;
-	}
-
-	memcpy (self->priv->peaks, data->array, sizeof(gfloat) * data->length);
-	self->priv->peaks_size = data->length;
-	self->priv->px_per_sec = data->px_per_sec;
-	return TRUE;
-}
-
 /**
  * pt_waveviewer_set_wave:
  * @self: the widget
@@ -1012,14 +1009,201 @@ copy_wavedata (PtWaveviewer *self,
  */
 void
 pt_waveviewer_set_wave (PtWaveviewer *self,
-                        PtWavedata   *data)
+                        GArray       *data)
 {
 	g_return_if_fail (PT_IS_WAVEVIEWER (self));
 
 	make_widget_ready (self, FALSE);
-	if (!copy_wavedata (self, data))
+	if (data == NULL || data->len == 0)
 		return;
+
+	self->priv->peaks = g_array_ref (data);
+	self->priv->peaks_size = data->len;
+	self->priv->px_per_sec = self->priv->pps;
+
 	make_widget_ready (self, TRUE);
+}
+#endif
+
+static void
+array_size_changed_cb (PtWaveloader *loader,
+		       gpointer      user_data)
+{
+	PtWaveviewer *self = PT_WAVEVIEWER (user_data);
+	gint widget_width;
+
+	if (self->priv->peaks == NULL || self->priv->peaks->len == 0) {
+		self->priv->peaks_size = 0;
+		self->priv->px_per_sec = 0;
+		self->priv->duration = 0;
+		pt_waveviewer_selection_set (
+				PT_WAVEVIEWER_SELECTION (self->priv->selection),
+				0, 0);
+		pt_waveviewer_cursor_render (
+				PT_WAVEVIEWER_CURSOR (self->priv->cursor),
+				-1);
+	} else {
+		self->priv->peaks_size = self->priv->peaks->len;
+		self->priv->px_per_sec = self->priv->pps;
+		self->priv->duration = calculate_duration (self);
+		widget_width = self->priv->peaks_size / 2;
+		gtk_adjustment_set_upper (self->priv->adj, widget_width);
+		gtk_widget_set_size_request (
+				self->priv->waveform,
+				widget_width,
+				WAVE_MIN_HEIGHT);
+	}
+
+	pt_waveviewer_ruler_set_ruler (
+			PT_WAVEVIEWER_RULER (self->priv->ruler),
+			self->priv->peaks_size / 2,
+			self->priv->px_per_sec,
+			self->priv->duration);
+}
+
+static void
+propagate_progress_cb (PtWaveloader *loader,
+                       gdouble       progress,
+                       PtWaveviewer *self)
+{
+	g_signal_emit_by_name (self, "load-progress", progress);
+}
+
+static void
+load_cb (PtWaveloader *loader,
+         GAsyncResult *res,
+         gpointer     *data)
+{
+	GTask        *task = (GTask *) data;
+	PtWaveviewer *self = g_task_get_source_object (task);
+	GError       *error = NULL;
+
+	if (self->priv->tick_handler != 0) {
+		gtk_widget_remove_tick_callback (self->priv->waveform,
+						 self->priv->tick_handler);
+		self->priv->tick_handler = 0;
+	}
+
+	if (pt_waveloader_load_finish (loader, res, &error)) {
+		array_size_changed_cb (NULL, self);
+		gtk_widget_queue_draw (self->priv->waveform);
+		g_task_return_boolean (task, TRUE);
+	} else {
+		g_array_set_size (self->priv->peaks, 0);
+		array_size_changed_cb (NULL, self);
+		g_task_return_error (task, error);
+	}
+
+	g_object_unref (task);
+}
+
+/**
+ * pt_waveviewer_load_wave_finish:
+ * @self: the widget
+ * @result: the #GAsyncResult passed to your #GAsyncReadyCallback
+ * @error: (nullable): a pointer to a NULL #GError, or NULL
+ *
+ * Gives the result of the async load operation. A cancelled operation results
+ * in an error, too.
+ *
+ * Return value: TRUE if successful, or FALSE with error set
+ */
+gboolean
+pt_waveviewer_load_wave_finish (PtWaveviewer  *self,
+                                GAsyncResult  *result,
+                                GError       **error)
+{
+	g_return_val_if_fail (g_task_is_valid (result, self), FALSE);
+
+	return g_task_propagate_boolean (G_TASK (result), error);
+}
+
+static gboolean
+update_waveform_cb (GtkWidget     *widget,
+                    GdkFrameClock *frame_clock,
+                    gpointer       data)
+{
+	gtk_widget_queue_draw (widget);
+	return G_SOURCE_CONTINUE;
+}
+
+/**
+ * pt_waveviewer_load_wave_async:
+ * @self: the widget
+ * @uri: the URI of the file
+ * @cancellable: (nullable): a #GCancellable or NULL
+ * @callback: (scope async): a #GAsyncReadyCallback to call when the operation is complete
+ * @user_data: (closure): user data for callback
+ *
+ * Load waveform for the given URI. The initial resolution is set to
+ * #PtWaveviewer:pps. Previous waveform discarded? What happens when cancelled?
+ */
+void
+pt_waveviewer_load_wave_async (PtWaveviewer        *self,
+                               gchar               *uri,
+                               GCancellable        *cancel,
+                               GAsyncReadyCallback  callback,
+                               gpointer             user_data)
+{
+	g_return_if_fail (PT_IS_WAVEVIEWER (self));
+	g_return_if_fail (uri != NULL);
+
+	GTask  *task;
+	/* TODO think about doing this here or just returning error from waveloader.
+	 * this is meant for "nicer" error messages, requires translation
+	GFile  *file;
+	gchar  *location = NULL;*/
+
+	task = g_task_new (self, NULL, callback, user_data);
+
+#if 0
+	/* Change uri to location */
+	file = g_file_new_for_uri (uri);
+	location = g_file_get_path (file);
+
+	if (!location) {
+		g_task_return_new_error (
+				task,
+				GST_RESOURCE_ERROR,
+				GST_RESOURCE_ERROR_NOT_FOUND,
+				/* Translators: %s is a detailed error message. */
+				_("URI not valid: %s"), uri);
+		g_object_unref (file);
+		g_object_unref (task);
+		return;
+	}
+
+	if (!g_file_query_exists (file, NULL)) {
+		g_task_return_new_error (
+				task,
+				GST_RESOURCE_ERROR,
+				GST_RESOURCE_ERROR_NOT_FOUND,
+				/* Translators: %s is a detailed error message. */
+				_("File not found: %s"), location);
+		g_object_unref (file);
+		g_free (location);
+		g_object_unref (task);
+		return;
+	}
+
+	g_object_unref (file);
+	g_free (location);
+#endif
+
+	g_object_set (self->priv->loader, "uri", uri, NULL);
+	self->priv->px_per_sec = self->priv->pps;
+	if (self->priv->tick_handler == 0) {
+		self->priv->tick_handler =
+			gtk_widget_add_tick_callback (
+				self->priv->waveform,
+				(GtkTickCallback) update_waveform_cb,
+				self, NULL);
+	}
+	pt_waveloader_load_async (self->priv->loader,
+				  self->priv->pps,
+				  cancel,
+				  (GAsyncReadyCallback) load_cb,
+				  task);
 }
 
 static void
@@ -1027,8 +1211,14 @@ pt_waveviewer_finalize (GObject *object)
 {
 	PtWaveviewer *self = PT_WAVEVIEWER (object);
 
-	g_free (self->priv->peaks);
+	g_array_unref (self->priv->peaks);
 	g_clear_object (&self->priv->arrows);
+	g_clear_object (&self->priv->loader);
+	if (self->priv->tick_handler != 0) {
+		gtk_widget_remove_tick_callback (self->priv->waveform,
+						 self->priv->tick_handler);
+		self->priv->tick_handler = 0;
+	}
 
 	G_OBJECT_CLASS (pt_waveviewer_parent_class)->finalize (object);
 }
@@ -1073,6 +1263,9 @@ pt_waveviewer_get_property (GObject    *object,
 	case PROP_SELECTION_END:
 		g_value_set_int64 (value, self->priv->sel_end);
 		break;
+	case PROP_PPS:
+		g_value_set_int (value, self->priv->pps);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -1086,6 +1279,7 @@ pt_waveviewer_set_property (GObject      *object,
                             GParamSpec   *pspec)
 {
 	PtWaveviewer *self = PT_WAVEVIEWER (object);
+	GError *error = NULL;
 
 	switch (property_id) {
 	case PROP_PLAYBACK_CURSOR:
@@ -1118,8 +1312,18 @@ pt_waveviewer_set_property (GObject      *object,
 		gtk_revealer_set_reveal_child (GTK_REVEALER (self->priv->revealer),
 					       self->priv->show_ruler);
 		break;
-	case PROP_ZOOM:
-		self->priv->zoom = g_value_get_boolean (value);
+	case PROP_PPS:
+		self->priv->pps = g_value_get_int (value);
+		if (self->priv->peaks->len == 0)
+			break;
+		get_anchor_point (self);
+		self->priv->zoom = TRUE;
+		if (!pt_waveloader_resize (self->priv->loader,
+				           self->priv->pps,
+				           &error)) {
+			g_print ("%s\n", error->message);
+			g_clear_error (&error);
+		}
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1166,7 +1370,6 @@ pt_waveviewer_init (PtWaveviewer *self)
 	GtkCssProvider  *provider;
 	GFile		*css_file;
 
-	self->priv->peaks = NULL;
 	self->priv->peaks_size = 0;
 	self->priv->duration = 0;
 	self->priv->playback_cursor = 0;
@@ -1183,6 +1386,13 @@ pt_waveviewer_init (PtWaveviewer *self)
 	self->priv->selection = pt_waveviewer_selection_new ();
 	self->priv->ruler = pt_waveviewer_ruler_new ();
 	self->priv->revealer = gtk_revealer_new ();
+	self->priv->loader = pt_waveloader_new (NULL);
+	self->priv->peaks = pt_waveloader_get_data (self->priv->loader);
+	self->priv->tick_handler = 0;
+
+	pt_waveviewer_waveform_set (
+			PT_WAVEVIEWER_WAVEFORM (self->priv->waveform),
+			self->priv->peaks);
 
 	/* Setup scrolled window */
 	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
@@ -1256,6 +1466,17 @@ pt_waveviewer_init (PtWaveviewer *self)
 	g_signal_connect (self, "focus", G_CALLBACK (pt_waveviewer_focus), NULL);
 	g_signal_connect (self, "focus-in-event", G_CALLBACK (pt_waveviewer_focus_in_event), NULL);
 	g_signal_connect (self, "focus-out-event", G_CALLBACK (pt_waveviewer_focus_out_event), NULL);
+
+	g_signal_connect (self->priv->loader,
+			"progress",
+			G_CALLBACK (propagate_progress_cb),
+			self);
+
+	g_signal_connect (self->priv->loader,
+			"array-size-changed",
+			G_CALLBACK (array_size_changed_cb),
+			self);
+
 }
 
 static void
@@ -1280,6 +1501,25 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 	widget_class->scroll_event         = pt_waveviewer_scroll_event;
 	widget_class->state_flags_changed  = pt_waveviewer_state_flags_changed;
 	widget_class->style_updated        = pt_waveviewer_style_updated;
+
+	/**
+	* PtWaveviewer::load-progress:
+	* @viewer: the waveviewer emitting the signal
+	* @progress: the new progress state, ranging from 0.0 to 1.0
+	*
+	* Indicates progress on a scale from 0.0 to 1.0, however it does not
+	* emit the value 0.0 nor 1.0. Wait for a TRUE player-state-changed
+	* signal or an error signal to dismiss a gui element showing progress.
+	*/
+	g_signal_new ("load-progress",
+		      PT_TYPE_WAVEVIEWER,
+		      G_SIGNAL_RUN_FIRST,
+		      0,
+		      NULL,
+		      NULL,
+		      g_cclosure_marshal_VOID__DOUBLE,
+		      G_TYPE_NONE,
+		      1, G_TYPE_DOUBLE);
 
 	/**
 	* PtWaveviewer::cursor-changed:
@@ -1501,21 +1741,19 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
 	/**
-	* PtWaveviewer:zoom:
+	* PtWaveviewer:pps:
 	*
-	* Set this to TRUE to indicate that the next wave data will be the same
-	* waveform but at a different zoom level. PtWaveviewer needs this to
-	* decide which part of the waveform should be shown.
-	* – Note: This will be probably removed with the next API break in
-	* version 1.6 and integrated into pt_waveviewer_set_wave().
+	* Current/requested resolution of waveform in pixels per second.
 	*/
 
-	obj_properties[PROP_ZOOM] =
-	g_param_spec_boolean (
-			"zoom",
-			"Zoom",
-			"Indicates that next wave data will zoom",
-			FALSE,
+	obj_properties[PROP_PPS] =
+	g_param_spec_int (
+			"pps",
+			"Pixels per second",
+			"Current/requested resolution of waveform in pixels per second",
+			25,
+			200,
+			100,
 			G_PARAM_WRITABLE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
 	g_object_class_install_properties (
