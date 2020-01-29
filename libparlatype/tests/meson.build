@@ -1,7 +1,6 @@
 tests = [
 	'player',
 	'progressdialog',
-	'wavedata',
 	'waveloader',
 	'waveviewer',
 ]
