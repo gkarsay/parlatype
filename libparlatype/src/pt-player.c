@@ -826,6 +826,12 @@ pt_player_jump_to_position (PtPlayer *player,
 
 	pos = GST_MSECOND * (gint64) milliseconds;
 
+	if (pos < 0) {
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+				  "MESSAGE", "Jump to position failed: negative value");
+		return;
+	}
+
 	if (pos < player->priv->segstart) {
 		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
 				  "MESSAGE", "Jump to position failed: start = %" G_GINT64_FORMAT, player->priv->segstart);
@@ -911,6 +917,10 @@ pt_player_set_speed (PtPlayer *player,
 	gint64 pos;
 
 	player->priv->speed = speed;
+
+	/* on object construction there is no pipeline yet */
+	if (player->priv->play == NULL)
+		return;
 
 	if (pt_player_query_position (player, &pos))
 		pt_player_seek (player, pos);
@@ -1970,7 +1980,8 @@ pt_player_setup_player (PtPlayer  *player,
 			"audio-filter", player->priv->scaletempo, NULL);
 
 	pt_player_set_state_blocking (player, GST_STATE_PAUSED);
-	pt_player_jump_to_position (player, pos);
+	if (pos > 0)
+		pt_player_jump_to_position (player, pos);
 
 	return TRUE;
 }
