@@ -85,7 +85,7 @@ struct _PtPreferencesDialogPrivate
 
 G_DEFINE_TYPE_WITH_PRIVATE (PtPreferencesDialog, pt_preferences_dialog, GTK_TYPE_DIALOG)
 
-void
+static void
 spin_back_changed_cb (GtkSpinButton       *spin,
                       PtPreferencesDialog *dlg)
 {
@@ -99,7 +99,7 @@ spin_back_changed_cb (GtkSpinButton       *spin,
 				  (int) gtk_spin_button_get_value_as_int (spin)));
 }
 
-void
+static void
 spin_forward_changed_cb (GtkSpinButton       *spin,
                          PtPreferencesDialog *dlg)
 {
@@ -109,7 +109,7 @@ spin_forward_changed_cb (GtkSpinButton       *spin,
 				  (int) gtk_spin_button_get_value_as_int (spin)));
 }
 
-void
+static void
 spin_pause_changed_cb (GtkSpinButton       *spin,
                        PtPreferencesDialog *dlg)
 {
@@ -133,7 +133,7 @@ update_example_timestamps (PtPreferencesDialog *dlg)
 	g_free (example2);
 }
 
-void
+static void
 hours_check_toggled (GtkToggleButton     *check,
                      PtPreferencesDialog *dlg)
 {
@@ -143,7 +143,7 @@ hours_check_toggled (GtkToggleButton     *check,
 	update_example_timestamps (dlg);
 }
 
-void
+static void
 delimiter_combo_changed (GtkComboBox         *widget,
                          PtPreferencesDialog *dlg)
 {
@@ -153,7 +153,7 @@ delimiter_combo_changed (GtkComboBox         *widget,
 	update_example_timestamps (dlg);
 }
 
-void
+static void
 separator_combo_changed (GtkComboBox         *widget,
                          PtPreferencesDialog *dlg)
 {
@@ -163,7 +163,7 @@ separator_combo_changed (GtkComboBox         *widget,
 	update_example_timestamps (dlg);
 }
 
-void
+static void
 precision_combo_changed (GtkComboBox         *widget,
                          PtPreferencesDialog *dlg)
 {
@@ -230,14 +230,14 @@ launch_asr_assistant (PtPreferencesDialog *dlg)
 	g_object_unref (parent);
 }
 
-void
+static void
 add_asr_button_clicked_cb (GtkToolButton       *button,
                            PtPreferencesDialog *dlg)
 {
 	launch_asr_assistant (dlg);
 }
 
-void
+static void
 initial_asr_button_clicked_cb (GtkButton           *button,
                                PtPreferencesDialog *dlg)
 {
@@ -272,7 +272,7 @@ confirm_delete (GtkWindow *parent,
 	return (response == GTK_RESPONSE_YES);
 }
 
-void
+static void
 remove_asr_button_clicked_cb (GtkToolButton       *button,
                               PtPreferencesDialog *dlg)
 {
@@ -351,7 +351,7 @@ set_active (PtPreferencesDialog *dlg,
 	g_free (new);
 }
 
-void
+static void
 asr_default_toggled_cb (GtkCellRendererToggle *cell,
                         gchar                 *path_string,
                         gpointer               user_data)
@@ -406,7 +406,7 @@ get_selected_id (GtkTreeView *view)
 	return id;
 }
 
-void
+static void
 prefs_lm_chooser_file_set_cb (GtkFileChooserButton *button,
                               PtPreferencesDialog  *dlg)
 {
@@ -423,7 +423,7 @@ prefs_lm_chooser_file_set_cb (GtkFileChooserButton *button,
 	g_free (lm_uri);
 }
 
-void
+static void
 prefs_dict_chooser_file_set_cb (GtkFileChooserButton *button,
                                 PtPreferencesDialog  *dlg)
 {
@@ -440,7 +440,7 @@ prefs_dict_chooser_file_set_cb (GtkFileChooserButton *button,
 	g_free (dict_uri);
 }
 
-void
+static void
 prefs_hmm_chooser_file_set_cb (GtkFileChooserButton *button,
                                PtPreferencesDialog  *dlg)
 {
@@ -698,6 +698,20 @@ pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
 
 	/* Bind class to template */
 	gtk_widget_class_set_template_from_resource (widget_class, "/com/github/gkarsay/parlatype/preferences.ui");
+	gtk_widget_class_bind_template_callback(widget_class, add_asr_button_clicked_cb);
+	gtk_widget_class_bind_template_callback(widget_class, asr_default_toggled_cb);
+	gtk_widget_class_bind_template_callback(widget_class, delimiter_combo_changed);
+	gtk_widget_class_bind_template_callback(widget_class, hours_check_toggled);
+	gtk_widget_class_bind_template_callback(widget_class, initial_asr_button_clicked_cb);
+	gtk_widget_class_bind_template_callback(widget_class, precision_combo_changed);
+	gtk_widget_class_bind_template_callback(widget_class, prefs_hmm_chooser_file_set_cb);
+	gtk_widget_class_bind_template_callback(widget_class, prefs_dict_chooser_file_set_cb);
+	gtk_widget_class_bind_template_callback(widget_class, prefs_lm_chooser_file_set_cb);
+	gtk_widget_class_bind_template_callback(widget_class, remove_asr_button_clicked_cb);
+	gtk_widget_class_bind_template_callback(widget_class, separator_combo_changed);
+	gtk_widget_class_bind_template_callback(widget_class, spin_back_changed_cb);
+	gtk_widget_class_bind_template_callback(widget_class, spin_forward_changed_cb);
+	gtk_widget_class_bind_template_callback(widget_class, spin_pause_changed_cb);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, notebook);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, spin_pause);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, spin_back);

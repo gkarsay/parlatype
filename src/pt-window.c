@@ -34,9 +34,9 @@
 
 G_DEFINE_TYPE_WITH_PRIVATE (PtWindow, pt_window, GTK_TYPE_APPLICATION_WINDOW)
 
-void play_button_toggled_cb (GtkToggleButton *button, PtWindow *win);
-void jump_back_button_clicked_cb (GtkButton *button, PtWindow *win);
-void jump_forward_button_clicked_cb (GtkButton *button, PtWindow *win);
+static void play_button_toggled_cb (GtkToggleButton *button, PtWindow *win);
+static void jump_back_button_clicked_cb (GtkButton *button, PtWindow *win);
+static void jump_forward_button_clicked_cb (GtkButton *button, PtWindow *win);
 
 void
 pt_error_message (PtWindow    *parent,
@@ -377,7 +377,7 @@ update_time_tick (GtkWidget     *widget,
 	return G_SOURCE_CONTINUE;
 }
 
-void
+static void
 zoom_in_cb (GtkWidget *widget,
             PtWindow  *win)
 {
@@ -387,7 +387,7 @@ zoom_in_cb (GtkWidget *widget,
 	g_action_activate (action, NULL);
 }
 
-void
+static void
 zoom_out_cb (GtkWidget *widget,
              PtWindow  *win)
 {
@@ -722,7 +722,7 @@ player_play_toggled_cb (PtPlayer *player,
 	update_play_after_toggle (win, play);
 }
 
-void
+static void
 play_button_toggled_cb (GtkToggleButton *button,
                         PtWindow        *win)
 {
@@ -760,7 +760,7 @@ player_jumped_back_cb (PtPlayer *player,
 	g_signal_handlers_unblock_by_func (button, jump_back_button_clicked_cb, win);
 }
 
-void
+static void
 jump_back_button_clicked_cb (GtkButton *button,
                              PtWindow  *win)
 {
@@ -780,7 +780,7 @@ player_jumped_forward_cb (PtPlayer *player,
 	g_signal_handlers_unblock_by_func (button, jump_forward_button_clicked_cb, win);
 }
 
-void
+static void
 jump_forward_button_clicked_cb (GtkButton *button,
                                 PtWindow  *win)
 {
@@ -788,7 +788,7 @@ jump_forward_button_clicked_cb (GtkButton *button,
 }
 
 /* currently not used */
-gboolean
+static gboolean
 fast_back_button_pressed_cb (GtkButton *button,
                              GdkEvent  *event,
                              PtWindow  *win)
@@ -798,7 +798,7 @@ fast_back_button_pressed_cb (GtkButton *button,
 }
 
 /* currently not used */
-gboolean
+static gboolean
 fast_back_button_released_cb (GtkButton *button,
                               GdkEvent  *event,
                               PtWindow  *win)
@@ -813,7 +813,7 @@ fast_back_button_released_cb (GtkButton *button,
 }
 
 /* currently not used */
-gboolean
+static gboolean
 fast_forward_button_pressed_cb (GtkButton *button,
                                 GdkEvent  *event,
                                 PtWindow  *win)
@@ -823,7 +823,7 @@ fast_forward_button_pressed_cb (GtkButton *button,
 }
 
 /* currently not used */
-gboolean
+static gboolean
 fast_forward_button_released_cb (GtkButton *button,
                                  GdkEvent  *event,
                                  PtWindow  *win)
@@ -855,7 +855,7 @@ player_asr_hypothesis_cb (PtPlayer *player,
 }
 #endif
 
-void
+static void
 speed_scale_direction_changed_cb (GtkWidget        *widget,
                                   GtkTextDirection  previous_direction,
                                   gpointer          data)
@@ -886,7 +886,7 @@ swap_accelerators (GtkWidget     *widget,
 			GTK_ACCEL_VISIBLE);
 }
 
-void
+static void
 jump_back_direction_changed_cb (GtkWidget        *widget,
                                 GtkTextDirection  previous_direction,
                                 gpointer          data)
@@ -905,7 +905,7 @@ jump_back_direction_changed_cb (GtkWidget        *widget,
 	swap_accelerators (widget, self->priv->accels, old, new);
 }
 
-void
+static void
 jump_forward_direction_changed_cb (GtkWidget        *widget,
                                    GtkTextDirection  previous_direction,
                                    gpointer          data)
@@ -1326,6 +1326,18 @@ pt_window_class_init (PtWindowClass *klass)
 
 	gobject_class->dispose      = pt_window_dispose;
 	gtk_widget_class_set_template_from_resource (widget_class, "/com/github/gkarsay/parlatype/window.ui");
+	gtk_widget_class_bind_template_callback(widget_class, fast_back_button_pressed_cb);
+	gtk_widget_class_bind_template_callback(widget_class, fast_back_button_released_cb);
+	gtk_widget_class_bind_template_callback(widget_class, fast_forward_button_pressed_cb);
+	gtk_widget_class_bind_template_callback(widget_class, fast_forward_button_released_cb);
+	gtk_widget_class_bind_template_callback(widget_class, jump_back_button_clicked_cb);
+	gtk_widget_class_bind_template_callback(widget_class, jump_back_direction_changed_cb);
+	gtk_widget_class_bind_template_callback(widget_class, jump_forward_button_clicked_cb);
+	gtk_widget_class_bind_template_callback(widget_class, jump_forward_direction_changed_cb);
+	gtk_widget_class_bind_template_callback(widget_class, play_button_toggled_cb);
+	gtk_widget_class_bind_template_callback(widget_class, speed_scale_direction_changed_cb);
+	gtk_widget_class_bind_template_callback(widget_class, zoom_in_cb);
+	gtk_widget_class_bind_template_callback(widget_class, zoom_out_cb);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, progress);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_play);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_fast_back);	// not used

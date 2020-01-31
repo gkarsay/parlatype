@@ -63,7 +63,7 @@ string_to_time (const char *time_string)
 	}
 }
 
-void
+static void
 value_changed_cb (GtkSpinButton *spin,
                   gpointer       data)
 {
@@ -79,7 +79,7 @@ value_changed_cb (GtkSpinButton *spin,
 			ngettext ("second", "seconds", value));
 }
 
-gboolean
+static gboolean
 output_cb (GtkSpinButton *spin,
            PtGotoDialog  *dlg)
 {
@@ -98,7 +98,7 @@ output_cb (GtkSpinButton *spin,
 	return TRUE;
 }
 
-gint
+static gint
 input_cb (GtkSpinButton *self,
           gdouble       *new_value,
           gpointer       user_data)
@@ -132,6 +132,9 @@ pt_goto_dialog_class_init (PtGotoDialogClass *klass)
 
 	/* Bind class to template */
 	gtk_widget_class_set_template_from_resource (widget_class, "/com/github/gkarsay/parlatype/goto-dialog.ui");
+	gtk_widget_class_bind_template_callback(widget_class, input_cb);
+	gtk_widget_class_bind_template_callback(widget_class, output_cb);
+	gtk_widget_class_bind_template_callback(widget_class, value_changed_cb);
 	gtk_widget_class_bind_template_child_private (widget_class, PtGotoDialog, spin);
 	gtk_widget_class_bind_template_child_private (widget_class, PtGotoDialog, seconds_label);
 }

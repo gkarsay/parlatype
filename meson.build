@@ -34,10 +34,6 @@ gettext_package = 'parlatype'
 
 # Checks for libraries.
 gtk = dependency('gtk+-3.0', version: '>= 3.22')
-gmodule = dependency('gmodule-2.0')
-
-# GLib versioned dependency is for the build system,
-# see https://bugzilla.gnome.org/show_bug.cgi?id=774368
 glib = dependency('glib-2.0', version: '>= 2.50.2')
 
 subdir('libparlatype')

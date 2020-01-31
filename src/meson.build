@@ -35,7 +35,6 @@ src = [
 
 parlatype_deps = [
 	gtk,
-	gmodule,
 ]
 
 if asr

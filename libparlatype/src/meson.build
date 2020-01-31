@@ -34,7 +34,7 @@ sources = [
 	'pt-waveviewer-waveform.h',
 ]
 
-deps = [gtk, gmodule, gstreamer, gstreamer_app, gstreamer_audio, math]
+deps = [gtk, gstreamer, gstreamer_app, gstreamer_audio, math]
 
 headers = [
 	'pt-player.h',
