@@ -49,7 +49,7 @@ Parlatype ships its own library, libparlatype. Developers might be interested in
 
 * `libreoffice`: install LibreOffice macros (default: true)
 * `libreoffice-dir`: installation folder for LibreOffice macros (default: /usr/lib/libreoffice/share/Scripts/python)
-* `asr`: build with automatic speech recognition, requires sphinxbase and pocketsphinx (default: true)
+* `asr`: build with automatic speech recognition, requires sphinxbase, pocketsphinx and atspi-2 (default: true)
 * `gir`: install gobject introspection (default: false)
 * `gtk-doc`: install library documentation (default: false)
 * `glade`: install a glade catalog (default: false)

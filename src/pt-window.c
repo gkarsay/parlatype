@@ -168,6 +168,7 @@ zoom_out (GSimpleAction *action,
 	set_zoom (win->priv->editor, -25);
 }
 
+#ifdef HAVE_ASR
 static void
 setup_sphinx (PtWindow *win)
 {
@@ -327,9 +328,12 @@ change_mode (GSimpleAction *action,
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->priv->primary_menu_button)))
 		gtk_button_clicked (GTK_BUTTON (win->priv->primary_menu_button));
 }
+#endif
 
 const GActionEntry win_actions[] = {
+#ifdef HAVE_ASR
 	{ "mode", NULL, "s", "'playback'", change_mode },
+#endif
 	{ "copy", copy_timestamp, NULL, NULL, NULL },
 	{ "insert", insert_timestamp, NULL, NULL, NULL },
 	{ "goto", goto_position, NULL, NULL, NULL },
@@ -560,9 +564,11 @@ enable_win_actions (PtWindow *win,
 {
 	GAction *action;
 
+#ifdef HAVE_ASR
 	/* always active */
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "mode");
 	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), TRUE);
+#endif
 
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "copy");
 	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
@@ -831,6 +837,7 @@ fast_forward_button_released_cb (GtkButton *button,
 	return FALSE;
 }
 
+#ifdef HAVE_ASR
 static void
 player_asr_final_cb (PtPlayer *player,
                      gchar    *word,
@@ -846,6 +853,7 @@ player_asr_hypothesis_cb (PtPlayer *player,
 {
 	pt_asr_output_hypothesis (win->priv->output, word);
 }
+#endif
 
 void
 speed_scale_direction_changed_cb (GtkWidget        *widget,
@@ -1131,6 +1139,7 @@ setup_player (PtWindow *win)
 			win->player, "speed",
 			G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
 
+#ifdef HAVE_ASR
 	g_signal_connect (win->player,
 			"asr-final",
 			G_CALLBACK (player_asr_final_cb),
@@ -1140,6 +1149,7 @@ setup_player (PtWindow *win)
 			"asr-hypothesis",
 			G_CALLBACK (player_asr_hypothesis_cb),
 			win);
+#endif
 }
 
 static void
@@ -1238,10 +1248,12 @@ pt_window_init (PtWindow *win)
 	setup_settings (win);
 	setup_accels_actions_headerbar (win);
 	pt_window_setup_dnd (win);	/* this is in pt_window_dnd.c */
+#ifdef HAVE_ASR
 	win->priv->asr_settings = NULL;
 	win->priv->output = NULL;
 	win->priv->output_handler_id1 = 0;
 	win->priv->output_handler_id2 = 0;
+#endif
 	win->priv->recent = gtk_recent_manager_get_default ();
 	win->priv->timer = 0;
 	win->priv->last_time = 0;
@@ -1297,8 +1309,10 @@ pt_window_dispose (GObject *object)
 	remove_timer (win);
 	g_clear_object (&win->priv->editor);
 	g_clear_object (&win->player);
+#ifdef HAVE_ASR
 	g_clear_object (&win->priv->output);
 	g_clear_object (&win->priv->asr_settings);
+#endif
 	g_clear_object (&win->priv->go_to_timestamp);
 
 	G_OBJECT_CLASS (pt_window_parent_class)->dispose (object);

@@ -14,8 +14,6 @@ src = [
 	'pt-asr-assistant.h',
 	'pt-asr-assistant-helpers.c',
 	'pt-asr-assistant-helpers.h',
-	'pt-asr-output.c',
-	'pt-asr-output.h',
 	'pt-asr-settings.c',
 	'pt-asr-settings.h',
 	'pt-controller.c',
@@ -35,10 +33,23 @@ src = [
 	'pt-window-private.h',
 ]
 
+parlatype_deps = [
+	gtk,
+	gmodule,
+]
+
+if asr
+	src += [
+	'pt-asr-output.c',
+	'pt-asr-output.h',
+	]
+	parlatype_deps += dependency('atspi-2')
+endif
+
 executable('parlatype',
 	src,
 	link_with: libparlatype,
 	include_directories : conf_inc,
 	install: true,
-	dependencies: [ gtk, gmodule, atspi ],
+	dependencies: parlatype_deps,
 )
