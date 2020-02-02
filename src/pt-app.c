@@ -109,7 +109,22 @@ open_cb (GSimpleAction *action,
 	filter_all = gtk_file_filter_new ();
 	gtk_file_filter_set_name (filter_audio, _("Audio files"));
 	gtk_file_filter_set_name (filter_all, _("All files"));
+#ifdef GDK_WINDOWING_WIN32
+	gtk_file_filter_add_pattern (filter_audio, "*.aac");
+	gtk_file_filter_add_pattern (filter_audio, "*.aif");
+	gtk_file_filter_add_pattern (filter_audio, "*.aiff");
+	gtk_file_filter_add_pattern (filter_audio, "*.flac");
+	gtk_file_filter_add_pattern (filter_audio, "*.iff");
+	gtk_file_filter_add_pattern (filter_audio, "*.mpa");
+	gtk_file_filter_add_pattern (filter_audio, "*.mp3");
+	gtk_file_filter_add_pattern (filter_audio, "*.m4a");
+	gtk_file_filter_add_pattern (filter_audio, "*.oga");
+	gtk_file_filter_add_pattern (filter_audio, "*.ogg");
+	gtk_file_filter_add_pattern (filter_audio, "*.wav");
+	gtk_file_filter_add_pattern (filter_audio, "*.wma");
+#else
 	gtk_file_filter_add_mime_type (filter_audio, "audio/*");
+#endif
 	gtk_file_filter_add_pattern (filter_all, "*");
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter_audio);
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter_all);
