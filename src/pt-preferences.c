@@ -496,6 +496,21 @@ asr_selection_changed_cb (GtkTreeSelection *sel,
 }
 
 static void
+setup_non_wayland_env (PtPreferencesDialog *dlg)
+{
+	g_settings_bind (
+		dlg->priv->editor, "remember-position",
+		dlg->priv->pos_check, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
+	g_settings_bind (
+		dlg->priv->editor, "start-on-top",
+		dlg->priv->top_check, "active",
+		G_SETTINGS_BIND_DEFAULT);
+	}
+}
+
+static void
 pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 {
 	dlg->priv = pt_preferences_dialog_get_instance_private (dlg);
@@ -541,23 +556,17 @@ pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 	GdkDisplay *display;
 	display = gdk_display_get_default ();
 #ifdef GDK_WINDOWING_X11
-	if (GDK_IS_X11_DISPLAY (display)) {
-		g_settings_bind (
-				dlg->priv->editor, "remember-position",
-				dlg->priv->pos_check, "active",
-				G_SETTINGS_BIND_DEFAULT);
-
-		g_settings_bind (
-				dlg->priv->editor, "start-on-top",
-				dlg->priv->top_check, "active",
-				G_SETTINGS_BIND_DEFAULT);
-	}
+	if (GDK_IS_X11_DISPLAY (display))
+		setup_non_wayland_env (dlg);
 #endif
 #ifdef GDK_WINDOWING_WAYLAND
 	if (GDK_IS_WAYLAND_DISPLAY (display)) {
 		gtk_widget_hide (dlg->priv->pos_check);
 		gtk_widget_hide (dlg->priv->top_check);
 	}
+#endif
+#ifdef GDK_WINDOWING_WIN32
+	setup_non_wayland_env (dlg);
 #endif
 
 	g_settings_bind (
