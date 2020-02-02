@@ -576,6 +576,12 @@ pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 			dlg->priv->editor, "pps",
 			pps_adj, "value",
 			G_SETTINGS_BIND_DEFAULT);
+	GtkScale *scale = GTK_SCALE (dlg->priv->pps_scale);
+	gtk_scale_add_mark (scale, 25, GTK_POS_TOP, NULL);
+	gtk_scale_add_mark (scale, 62.5, GTK_POS_TOP, NULL);
+	gtk_scale_add_mark (scale, 100, GTK_POS_TOP, NULL);
+	gtk_scale_add_mark (scale, 150, GTK_POS_TOP, NULL);
+	gtk_scale_add_mark (scale, 200, GTK_POS_TOP, NULL);
 
 	/* make sure labels are set and translated */
 	spin_back_changed_cb (GTK_SPIN_BUTTON (dlg->priv->spin_back), dlg);

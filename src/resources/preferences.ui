@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.20.0 -->
+<!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.18"/>
   <object class="GtkAdjustment" id="adj_back">
@@ -158,6 +158,7 @@
                     <property name="fill_level">0</property>
                     <property name="round_digits">0</property>
                     <property name="digits">0</property>
+                    <property name="draw_value">False</property>
                     <property name="value_pos">right</property>
                   </object>
                   <packing>
