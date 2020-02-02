@@ -507,7 +507,6 @@ setup_non_wayland_env (PtPreferencesDialog *dlg)
 		dlg->priv->editor, "start-on-top",
 		dlg->priv->top_check, "active",
 		G_SETTINGS_BIND_DEFAULT);
-	}
 }
 
 static void
