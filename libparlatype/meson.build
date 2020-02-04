@@ -12,7 +12,6 @@ gettext_package_lib = 'libparlatype'
 gstreamer       = dependency('gstreamer-1.0', version : '>= 1.6.3')
 gstreamer_app   = dependency('gstreamer-app-1.0')
 gstreamer_audio = dependency('gstreamer-audio-1.0')
-compiler = meson.get_compiler('c')
 math = compiler.find_library('m', required: false)
 
 subdir('data')

@@ -33,6 +33,16 @@ src = [
 	'pt-window-private.h',
 ]
 
+if host_machine.system() == 'windows'
+	rc = configure_file(
+		input: 'resources/parlatype.rc.in',
+		output: '@BASELINE@',
+		configuration: rc_conf,
+	)
+
+	src += windows.compile_resources(rc)
+endif
+
 parlatype_deps = [
 	gtk,
 ]

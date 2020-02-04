@@ -6,6 +6,12 @@ project('parlatype', 'c',
 
 app_id = 'com.github.gkarsay.parlatype'
 
+version       = meson.project_version()
+version_array = version.split('.')
+major_version = version_array[0].to_int()
+minor_version = version_array[1].to_int()
+micro_version = version_array[2].to_int()
+
 libreoffice = get_option('libreoffice')
 asr =         get_option('asr')
 
@@ -19,22 +25,33 @@ conf.set('HAVE_ASR', asr)
 configure_file(output: 'config.h', configuration: conf)
 conf_inc = include_directories('.', 'libparlatype/src')
 
-prefix = get_option('prefix')
-bindir = join_paths(prefix, get_option('bindir'))
-libdir = join_paths(prefix, get_option('libdir'))
-datadir = join_paths(prefix, get_option('datadir'))
+prefix     = get_option('prefix')
+bindir     = join_paths(prefix, get_option('bindir'))
+libdir     = join_paths(prefix, get_option('libdir'))
+datadir    = join_paths(prefix, get_option('datadir'))
 pkgdatadir = join_paths(datadir, meson.project_name())
-localedir = join_paths(prefix, get_option('localedir'))
+localedir  = join_paths(prefix, get_option('localedir'))
 add_global_arguments('-DLOCALEDIR="@0@"'.format(localedir), language : 'c')
+compiler = meson.get_compiler('c')
 
-gnome = import('gnome')
-i18n = import('i18n')
+gnome   = import('gnome')
+i18n    = import('i18n')
+windows = import('windows')
 
 gettext_package = 'parlatype'
 
 # Checks for libraries.
 gtk = dependency('gtk+-3.0', version: '>= 3.22')
 glib = dependency('glib-2.0', version: '>= 2.50.2')
+
+if host_machine.system() == 'windows'
+  rc_conf = configuration_data()
+  rc_conf.set('MAJOR_VERSION', major_version)
+  rc_conf.set('MINOR_VERSION', minor_version)
+  rc_conf.set('MICRO_VERSION', micro_version)
+  rc_conf.set('VERSION', version)
+  rc_conf.set('SOURCE_DIR', meson.current_source_dir())
+endif
 
 subdir('libparlatype')
 subdir('data')
