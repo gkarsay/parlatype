@@ -51,4 +51,5 @@ executable('parlatype',
 	include_directories : conf_inc,
 	install: true,
 	dependencies: parlatype_deps,
+	gui_app: true,
 )
