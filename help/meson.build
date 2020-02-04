@@ -37,8 +37,14 @@ if libreoffice
 	]
 endif
 
+symlinks = true
+if host_machine.system() == 'windows'
+	symlinks = false
+endif
+
 gnome.yelp(
 	app_id,
 	media: media,
 	sources: sources,
+	symlink_media: symlinks
 )
