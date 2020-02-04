@@ -156,6 +156,11 @@ win_dnd_drop_cb (GtkWidget     *widget,
 			have_target = TRUE;
 			break;
 		}
+		if (iterate->data == gdk_atom_intern ("text/uri-list", TRUE)) {
+			target_type = gdk_atom_intern ("text/uri-list", TRUE);
+			have_target = TRUE;
+			break;
+		}
 		iterate = g_list_next (iterate);
 	}
 
@@ -190,7 +195,7 @@ win_dnd_received_cb (GtkWidget        *widget,
 
 	if ((seldata == NULL) ||
 	    (gtk_selection_data_get_length (seldata) == 0) ||
-	    (info != TARGET_STRING && info != TARGET_UTF8_STRING)) {
+	    (info != TARGET_STRING && info != TARGET_UTF8_STRING && info != TARGET_TEXT_URILIST)) {
 		gtk_drag_finish (context,
 				 FALSE,		/* success */
 				 FALSE,		/* delete source */
@@ -218,7 +223,7 @@ win_dnd_motion_cb (GtkWidget      *widget,
 {
 	/* We handle this signal ourselves, because using GTK_DEST_DEFAULT_MOTION
 	   drags with source LibreOffice show an icon indicating drag is not
-	   possible. */
+	   possible. On win32 this is never called. */
 
 	GdkAtom target_atom;
 

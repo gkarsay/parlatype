@@ -24,12 +24,14 @@
 
 enum {
 	TARGET_STRING,		/* most GNOME apps */
-	TARGET_UTF8_STRING	/* from LibreOffice */
+	TARGET_UTF8_STRING,	/* LibreOffice */
+	TARGET_TEXT_URILIST	/* Windows */
 };
 
 static const GtkTargetEntry drag_target_string[] = {
-	{ "STRING", GTK_TARGET_OTHER_APP, TARGET_STRING } ,
-	{ "UTF8_STRING", GTK_TARGET_OTHER_APP, TARGET_UTF8_STRING }
+	{ "STRING",        GTK_TARGET_OTHER_APP, TARGET_STRING } ,
+	{ "UTF8_STRING",   GTK_TARGET_OTHER_APP, TARGET_UTF8_STRING } ,
+	{ "text/uri-list", GTK_TARGET_OTHER_APP, TARGET_TEXT_URILIST }
 };
 
 
