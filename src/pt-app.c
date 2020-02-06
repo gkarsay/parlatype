@@ -153,20 +153,82 @@ prefs_cb (GSimpleAction *action,
 	pt_show_preferences_dialog (win);
 }
 
+static gchar*
+get_help_uri (void)
+{
+	gchar *uri;
+
+#ifdef GDK_WINDOWING_WIN32
+
+	GRegex     *r_long;
+	GRegex     *r_short;
+	GMatchInfo *match;
+	gchar      *l_raw;
+	gchar      *l_long;
+	gchar      *l_short;
+	gchar      *p_long;
+	gchar      *p_short;
+	gchar      *path;
+	GFile      *file;
+
+	l_raw = g_win32_getlocale ();
+	r_long = g_regex_new ("^[A-Z]*_[A-Z]*", G_REGEX_CASELESS, 0, NULL);
+	r_short = g_regex_new ("^[A-Z]*", G_REGEX_CASELESS, 0, NULL);
+
+	g_regex_match (r_long, l_raw, 0, &match);
+	if (g_match_info_matches (match)) {
+		l_long = g_match_info_fetch (match, 0);
+		p_long = g_build_filename (HELP_DIR, l_long, APP_ID, "index.html", NULL);
+	}
+	g_match_info_free (match);
+
+	g_regex_match (r_short, l_raw, 0, &match);
+	if (g_match_info_matches (match)) {
+		l_short = g_match_info_fetch (match, 0);
+		p_short = g_build_filename (HELP_DIR, l_short, APP_ID, "index.html", NULL);
+	}
+	g_match_info_free (match);
+
+	if (g_file_test (p_long, G_FILE_TEST_EXISTS))
+		path = g_strdup (p_long);
+	else if (g_file_test (p_short, G_FILE_TEST_EXISTS))
+		path = g_strdup (p_short);
+	else path = g_build_filename (HELP_DIR, "C", APP_ID, "index.html", NULL);
+
+	file = g_file_new_for_path (path);
+	uri = g_file_get_uri (file);
+
+	g_object_unref (file);
+	g_free (path);
+	g_free (p_long);
+	g_free (p_short);
+	g_free (l_long);
+	g_free (l_short);
+	g_free (l_raw);
+	g_regex_unref (r_long);
+	g_regex_unref (r_short);
+#else
+	uri = g_strdup_printf ("help:%s", APP_ID);
+#endif
+	return uri;
+}
+
 static void
 help_cb (GSimpleAction *action,
          GVariant      *parameter,
          gpointer       app)
 {
 	GtkWindow *win;
-	win = gtk_application_get_active_window (app);
+	gchar     *uri;
+	GError    *error = NULL;
+	gchar     *errmsg;
 
-	GError *error = NULL;
-	gchar  *errmsg;
+	win = gtk_application_get_active_window (app);
+	uri = get_help_uri ();
 
 	gtk_show_uri_on_window (
 			win,
-			"help:com.github.gkarsay.parlatype",
+			uri,
 			GDK_CURRENT_TIME,
 			&error);
 
@@ -177,6 +239,8 @@ help_cb (GSimpleAction *action,
 		g_free (errmsg);
 		g_error_free (error);
 	}
+
+	g_free (uri);
 }
 
 static void

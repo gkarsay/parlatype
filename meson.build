@@ -15,24 +15,27 @@ micro_version = version_array[2].to_int()
 libreoffice = get_option('libreoffice')
 asr =         get_option('asr')
 
-conf = configuration_data()
-conf.set_quoted('VERSION', meson.project_version())
-conf.set_quoted('PACKAGE_VERSION', meson.project_version())
-conf.set_quoted('PACKAGE', meson.project_name())
-conf.set_quoted('PACKAGE_NAME', meson.project_name())
-conf.set_quoted('PACKAGE_URL', 'https://gkarsay.github.io/parlatype/')
-conf.set('HAVE_ASR', asr)
-configure_file(output: 'config.h', configuration: conf)
-conf_inc = include_directories('.', 'libparlatype/src')
-
 prefix     = get_option('prefix')
 bindir     = join_paths(prefix, get_option('bindir'))
 libdir     = join_paths(prefix, get_option('libdir'))
 datadir    = join_paths(prefix, get_option('datadir'))
 pkgdatadir = join_paths(datadir, meson.project_name())
 localedir  = join_paths(prefix, get_option('localedir'))
+helpdir    = join_paths(datadir, 'help')
 add_global_arguments('-DLOCALEDIR="@0@"'.format(localedir), language : 'c')
 compiler = meson.get_compiler('c')
+
+conf = configuration_data()
+conf.set_quoted('VERSION', meson.project_version())
+conf.set_quoted('PACKAGE_VERSION', meson.project_version())
+conf.set_quoted('PACKAGE', meson.project_name())
+conf.set_quoted('PACKAGE_NAME', meson.project_name())
+conf.set_quoted('PACKAGE_URL', 'https://gkarsay.github.io/parlatype/')
+conf.set_quoted('HELP_DIR', helpdir)
+conf.set_quoted('APP_ID', app_id)
+conf.set('HAVE_ASR', asr)
+configure_file(output: 'config.h', configuration: conf)
+conf_inc = include_directories('.', 'libparlatype/src')
 
 gnome   = import('gnome')
 i18n    = import('i18n')
@@ -62,6 +65,13 @@ subdir('src')
 
 if libreoffice
 	subdir('libreoffice')
+endif
+
+if host_machine.system() == 'windows'
+  meson.add_install_script(
+    'meson_post_install_win32.sh',
+    app_id
+  )
 endif
 
 status = [

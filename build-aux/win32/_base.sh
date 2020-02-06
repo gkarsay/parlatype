@@ -119,15 +119,6 @@ function cleanup_after {
         fi
     done
 
-	# This fails FIXME
-	#while read line; do
-	#	if [[ ${line:0:1} != "#" && ${line:0:1} != " " ]]; then
-	#		dest="${MINGW_ROOT}"/share/help/$line/com.github.gkarsay.parlatype
-	#	    (cd $dest && yelp-build html -o . .)
-	#	    rm $dest/*.page
-	#	fi
-	#done < ../../help/LINGUAS
-
 	build_pacman --noconfirm -Rs \
         mingw-w64-"${ARCH}"-yelp-tools \
         mingw-w64-"${ARCH}"-pkg-config \
