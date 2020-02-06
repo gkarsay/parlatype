@@ -322,6 +322,20 @@ bus_call (GstBus     *bus,
 		g_signal_emit_by_name (player, "end-of-stream");
 		break;
 
+	case GST_MESSAGE_DURATION_CHANGED: {
+		gint64 dur;
+		gst_element_query_duration (player->priv->play, GST_FORMAT_TIME, &dur);
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG, "MESSAGE",
+				  "New duration: %" G_GINT64_FORMAT, dur);
+		if (player->priv->dur != player->priv->segend) {
+			player->priv->dur = dur;
+		} else {
+			player->priv->dur = player->priv->segend = dur;
+			pt_player_query_position (player, &pos);
+			pt_player_seek (player, pos);
+		}
+		break;
+		}
 	case GST_MESSAGE_ERROR: {
 		gchar  *debug;
 		GError *error;
@@ -420,6 +434,8 @@ pt_player_open_uri (PtPlayer *player,
 	gst_element_query_duration (player->priv->play, GST_FORMAT_TIME, &dur);
 	player->priv->dur = player->priv->segend = dur;
 	player->priv->segstart = 0;
+	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG, "MESSAGE",
+			  "Initial duration: %" G_GINT64_FORMAT, dur);
 
 	metadata_get_position (player);
 	return TRUE;
@@ -832,7 +848,10 @@ pt_player_jump_to_position (PtPlayer *player,
 		return;
 	}
 
-	if (pos < player->priv->segstart) {
+	/* TODO on opening a new file and jumping to the initial position,
+	 * sometimes there is no duration yet and the jump is not done. */
+
+	if (pos > player->priv->segend || pos < player->priv->segstart) {
 		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
 				  "MESSAGE", "Jump to position failed: start = %" G_GINT64_FORMAT, player->priv->segstart);
 		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
