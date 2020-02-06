@@ -1,6 +1,6 @@
 # Parlatype
 
-For a screenshot, an overview what Parlatype actually is and packages please visit https://gkarsay.github.io/parlatype/.
+For a screenshot, an overview what Parlatype actually is and packages please visit https://www.parlatype.org.
 
 The following instructions are for developers, contributors and those who want to have the latest version from the master branch.
 
