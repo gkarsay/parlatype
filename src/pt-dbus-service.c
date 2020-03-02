@@ -41,6 +41,9 @@ static const gchar introspection_xml[] =
   "    <method name='GotoTimestamp'>"
   "      <arg type='s' name='timestamp' direction='in'/>"
   "    </method>"
+  "    <method name='GetURI'>"
+  "      <arg type='s' name='uri' direction='out'/>"
+  "    </method>"
   "    <method name='PlayPause' />"
   "    <method name='JumpBack' />"
   "    <method name='JumpForward' />"
@@ -63,6 +66,7 @@ handle_method_call (GDBusConnection       *connection,
 	PtPlayer      *player = pt_controller_get_player (PT_CONTROLLER (self));
 
 	gchar	 *timestamp = NULL;
+	gchar    *uri;
 	
 	if (g_strcmp0 (method_name, "GetTimestamp") == 0) {
 		timestamp = pt_player_get_timestamp (player);
@@ -76,6 +80,12 @@ handle_method_call (GDBusConnection       *connection,
 		g_variant_get (parameters, "(&s)", &timestamp);
 		pt_player_goto_timestamp (player, timestamp);
 		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "GetURI") == 0) {
+		uri = pt_player_get_uri (player);
+		if (!uri)
+			uri = "";
+		g_dbus_method_invocation_return_value (invocation,
+                                                 g_variant_new ("(s)", uri));
 	} else if (g_strcmp0 (method_name, "PlayPause") == 0) {
 		pt_player_play_pause (player);
 		g_dbus_method_invocation_return_value (invocation, NULL);
