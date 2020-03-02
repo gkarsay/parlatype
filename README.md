@@ -11,7 +11,6 @@ The following instructions are for developers, contributors and those who want t
 Parlatype switched its build system to Meson. To build it from source, you need these packages:
 * meson >= 0.47.2 (older versions not tested)
 * gettext >= 0.19.7
-* appstream (main package, not devel version, for metainfo.its rules)
 * gobject-introspection-1.0
 * yelp-tools
 * gtk+-3.0 >= 3.22
@@ -30,25 +29,22 @@ Optional, depending on your configure options:
 Runtime dependencies:
 * GStreamer "Good" Plugins
 * If you need MP3 support for GStreamer versions older than 1.14, you have to install the "Ugly" Plugins.
-* For the LibreOffice helpers obviously LibreOffice (>= 4) and also libreoffice-script-provider-python (Debian) or libreoffice-pyuno (Fedora)
 
 Debian based distros have to be Debian >= 9 (Stretch) or Ubuntu >= 18.04 (Bionic). On Debian Stretch meson must be installed from backports. Install these packages:
 
 ```
-$ sudo apt-get install meson build-essential appstream libgirepository1.0-dev libgladeui-dev gtk-doc-tools yelp-tools libgtk-3-dev libgtk-3-0 libgstreamer1.0-dev libgstreamer1.0-0 libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly libreoffice-script-provider-python libatspi2.0-dev libsphinxbase-dev libpocketsphinx-dev
+$ sudo apt-get install meson build-essential libgirepository1.0-dev libgladeui-dev gtk-doc-tools yelp-tools libgtk-3-dev libgtk-3-0 libgstreamer1.0-dev libgstreamer1.0-0 libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly libatspi2.0-dev libsphinxbase-dev libpocketsphinx-dev
 ```
 On Fedora this should work:
 
 ```
-$ su -c 'dnf install meson appstream gcc gobject-introspection-devel glade-devel gtk-doc yelp-tools gtk3-devel gstreamer1-devel gstreamer1-plugins-base-devel gstreamer1-plugins-good gstreamer1-plugins-ugly libreoffice-pyuno at-spi2-core-devel sphinxbase-devel pocketsphinx-devel'
+$ su -c 'dnf install meson gcc gobject-introspection-devel glade-devel gtk-doc yelp-tools gtk3-devel gstreamer1-devel gstreamer1-plugins-base-devel gstreamer1-plugins-good gstreamer1-plugins-ugly at-spi2-core-devel sphinxbase-devel pocketsphinx-devel'
 ```
 
 ### Configure options
 
 Parlatype ships its own library, libparlatype. Developers might be interested in having a library documentation, gobject introspection and a glade catalog for the widgets. These are the configure options:
 
-* `libreoffice`: install LibreOffice macros (default: true)
-* `libreoffice-dir`: installation folder for LibreOffice macros (default: /usr/lib/libreoffice/share/Scripts/python)
 * `asr`: build with automatic speech recognition, requires sphinxbase, pocketsphinx and atspi-2 (default: true)
 * `gir`: install gobject introspection (default: false)
 * `gtk-doc`: install library documentation (default: false)

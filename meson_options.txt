@@ -1,16 +1,4 @@
 option(
-	'libreoffice',
-	type: 'boolean',
-	value: true,
-	description: 'Install LibreOffice helpers'
-)
-option(
-	'libreoffice-dir',
-	type: 'string',
-	value: '/usr/lib/libreoffice/share/Scripts/python',
-	description: 'Directory to install LibreOffice python scripts'
-)
-option(
 	'gtk-doc',
 	type: 'boolean',
 	value: false,

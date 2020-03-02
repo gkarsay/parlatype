@@ -65,9 +65,6 @@
             "name": "parlatype",
             "buildsystem": "meson",
             "builddir": true,
-            "config-opts": [
-                "-Dlibreoffice=false"
-            ],
             "sources": [
                 {
                     "type": "git",

@@ -12,8 +12,7 @@ major_version = version_array[0].to_int()
 minor_version = version_array[1].to_int()
 micro_version = version_array[2].to_int()
 
-libreoffice = get_option('libreoffice')
-asr =         get_option('asr')
+asr = get_option('asr')
 
 prefix     = get_option('prefix')
 bindir     = join_paths(prefix, get_option('bindir'))
@@ -63,10 +62,6 @@ subdir('help')
 subdir('po')
 subdir('src')
 
-if libreoffice
-	subdir('libreoffice')
-endif
-
 if host_machine.system() == 'windows'
   meson.add_install_script(
     'meson_post_install_win32.sh',
@@ -80,17 +75,6 @@ status = [
   '',
   'Prefix ................... : @0@'.format(prefix),
   'With ASR ................. : @0@'.format(asr),
-  'With LibreOffice helpers . : @0@'.format(libreoffice)
-]
-
-if libreoffice
-	status += [
-  'Script folder ............ : @0@'.format(get_option('libreoffice-dir'))
-	]
-endif
-
-status += [
-  '',
   'With GObject Introspection : @0@'.format(gir),
   'With API reference ....... : @0@'.format(gtk_doc),
   'With Glade catalog ....... : @0@'.format(glade),

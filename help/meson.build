@@ -27,16 +27,6 @@ if asr
 	]
 endif
 
-if libreoffice
-	media += [
-		'figures/lo-customize.png',
-		'figures/lo-menu.png',
-	]
-	sources += [
-		'libreoffice-helpers.page',
-	]
-endif
-
 symlinks = true
 if host_machine.system() == 'windows'
 	symlinks = false
