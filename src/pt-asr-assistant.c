@@ -319,7 +319,7 @@ add_model_page (PtAsrAssistant *self)
 		return;
 
 	GtkBuilder *builder;
-	builder = gtk_builder_new_from_resource ("/com/github/gkarsay/parlatype/asr-assistant.ui");
+	builder = gtk_builder_new_from_resource ("/org/parlatype/parlatype/asr-assistant.ui");
 
 	self->priv->models = GTK_WIDGET (gtk_builder_get_object (builder, "models"));
 	self->priv->lm_chooser = GTK_WIDGET (gtk_builder_get_object (builder, "lm_chooser"));
@@ -617,7 +617,7 @@ pt_asr_assistant_init (PtAsrAssistant *self)
 	self->priv->hmm_path = NULL;
 
 	GtkBuilder *builder;
-	builder = gtk_builder_new_from_resource ("/com/github/gkarsay/parlatype/asr-assistant.ui");
+	builder = gtk_builder_new_from_resource ("/org/parlatype/parlatype/asr-assistant.ui");
 
 	self->priv->intro = GTK_WIDGET (gtk_builder_get_object (builder, "intro"));
 	gtk_assistant_append_page (GTK_ASSISTANT (self), self->priv->intro);

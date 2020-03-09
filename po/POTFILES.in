@@ -1,7 +1,7 @@
 # List of source files which contain translatable strings.
 
-data/com.github.gkarsay.parlatype.appdata.xml.in
-data/com.github.gkarsay.parlatype.desktop.in
+data/org.parlatype.Parlatype.appdata.xml.in
+data/org.parlatype.Parlatype.desktop.in
 src/main.c
 src/pt-app.c
 src/pt-asr-assistant.c

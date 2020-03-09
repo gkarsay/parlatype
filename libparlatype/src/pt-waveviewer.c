@@ -1421,7 +1421,7 @@ pt_waveviewer_init (PtWaveviewer *self)
 	gtk_scrolled_window_set_overlay_scrolling (GTK_SCROLLED_WINDOW (self), FALSE);
 	gtk_widget_show_all (GTK_WIDGET (self));
 
-	css_file = g_file_new_for_uri ("resource:///com/github/gkarsay/libparlatype/pt-waveviewer.css");
+	css_file = g_file_new_for_uri ("resource:///org/parlatype/libparlatype/pt-waveviewer.css");
 	provider = gtk_css_provider_new ();
 	gtk_css_provider_load_from_file (provider, css_file, NULL);
 	gtk_style_context_add_provider_for_screen (

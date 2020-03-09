@@ -428,7 +428,7 @@ pt_asr_settings_constructed (GObject *object)
 		if (g_error_matches (error, G_FILE_ERROR, G_FILE_ERROR_NOENT)) {
 			g_key_file_load_from_file (
 					settings->priv->keyfile,
-					"resource:///com/github/gkarsay/libparlatype/asr.ini",
+					"resource:///org/parlatype/libparlatype/asr.ini",
 					G_KEY_FILE_KEEP_COMMENTS,
 					NULL);
 		} else {

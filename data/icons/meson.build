@@ -4,7 +4,7 @@ foreach icon_size: icon_sizes
 	icon_dir = join_paths(icon_size, 'apps')
 
 	install_data(
-		join_paths(icon_dir, 'com.github.gkarsay.parlatype.png'),
+		join_paths(icon_dir, app_id + '.png'),
 		install_dir: join_paths(datadir, 'icons', 'hicolor', icon_dir),
 	)
 endforeach
@@ -12,6 +12,6 @@ endforeach
 symbolic_dir = join_paths('scalable', 'apps')
 
 install_data(
-	join_paths(symbolic_dir, 'com.github.gkarsay.parlatype-symbolic.svg'),
+	join_paths(symbolic_dir, app_id + '-symbolic.svg'),
 	install_dir: join_paths(datadir, 'icons', 'hicolor', symbolic_dir),
 )

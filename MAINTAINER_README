@@ -11,8 +11,8 @@ ninja libparlatype-pot
 ninja libparlatype-update-po
 ninja parlatype-pot
 ninja parlatype-update-po
-ninja help-com.github.gkarsay.parlatype-pot
-ninja help-com.github.gkarsay.parlatype-update-po
+ninja help-org.parlatype.Parlatype-pot
+ninja help-org.parlatype.Parlatype-update-po
 
 Workflow for translations:
 1) Update pot files locally
@@ -75,7 +75,7 @@ Release commit:
 - Update README.md dependencies if necessary
 - Update library so version in libparlatype/meson.build
 - Update NEWS (release notes)
-- Update data/com.github.gkarsay.parlatype.appdata.xml.in (short release notes)
+- Update data/org.parlatype.Parlatype.appdata.xml.in (short release notes)
 - Commit message "v1.x.x", next line "New major/minor/bugfix release"
 
 Test distribution:

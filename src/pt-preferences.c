@@ -513,7 +513,7 @@ static void
 pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 {
 	dlg->priv = pt_preferences_dialog_get_instance_private (dlg);
-	dlg->priv->editor = g_settings_new ("com.github.gkarsay.parlatype");
+	dlg->priv->editor = g_settings_new (APP_ID);
 	dlg->priv->player = pt_player_new ();
 	pt_player_setup_player (dlg->priv->player, NULL); /* no error handling, already checked in main window */
 
@@ -711,7 +711,7 @@ pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
 	object_class->dispose = pt_preferences_dialog_dispose;
 
 	/* Bind class to template */
-	gtk_widget_class_set_template_from_resource (widget_class, "/com/github/gkarsay/parlatype/preferences.ui");
+	gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/parlatype/preferences.ui");
 	gtk_widget_class_bind_template_callback(widget_class, add_asr_button_clicked_cb);
 	gtk_widget_class_bind_template_callback(widget_class, asr_default_toggled_cb);
 	gtk_widget_class_bind_template_callback(widget_class, delimiter_combo_changed);

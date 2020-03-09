@@ -985,7 +985,7 @@ setup_non_wayland_env (PtWindow *win)
 static void
 setup_settings (PtWindow *win)
 {
-	win->priv->editor = g_settings_new ("com.github.gkarsay.parlatype");
+	win->priv->editor = g_settings_new (APP_ID);
 
 	g_settings_bind (
 			win->priv->editor, "pps",
@@ -1175,7 +1175,7 @@ setup_accels_actions_headerbar (PtWindow *win)
 	GtkWidget     *hbar;
 	GMenuModel    *primary_menu;
 
-	builder = gtk_builder_new_from_resource ("/com/github/gkarsay/parlatype/window-headerbar.ui");
+	builder = gtk_builder_new_from_resource ("/org/parlatype/parlatype/window-headerbar.ui");
 	hbar = GTK_WIDGET (gtk_builder_get_object (builder, "headerbar"));
 	win->priv->button_open = GTK_WIDGET (gtk_builder_get_object (builder, "button_open"));
 	win->priv->primary_menu_button = GTK_WIDGET (gtk_builder_get_object (builder, "primary_menu_button"));
@@ -1183,7 +1183,7 @@ setup_accels_actions_headerbar (PtWindow *win)
 	gtk_builder_connect_signals (builder, win);
 	g_object_unref (builder);
 
-	builder = gtk_builder_new_from_resource ("/com/github/gkarsay/parlatype/menus.ui");
+	builder = gtk_builder_new_from_resource ("/org/parlatype/parlatype/menus.ui");
 	primary_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "primary-menu"));
 	win->priv->secondary_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "secondary-menu"));
 	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (win->priv->primary_menu_button), primary_menu);
@@ -1268,7 +1268,7 @@ pt_window_init (PtWindow *win)
 	win->priv->clip = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 
 	/* Used e.g. by Xfce */
-	gtk_window_set_default_icon_name ("com.github.gkarsay.parlatype");
+	gtk_window_set_default_icon_name (APP_ID);
 
 	/* Flip speed scale for right to left layouts */
 	if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
@@ -1332,7 +1332,7 @@ pt_window_class_init (PtWindowClass *klass)
 	GtkWidgetClass *widget_class  = GTK_WIDGET_CLASS (klass);
 
 	gobject_class->dispose      = pt_window_dispose;
-	gtk_widget_class_set_template_from_resource (widget_class, "/com/github/gkarsay/parlatype/window.ui");
+	gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/parlatype/window.ui");
 	gtk_widget_class_bind_template_callback(widget_class, fast_back_button_pressed_cb);
 	gtk_widget_class_bind_template_callback(widget_class, fast_back_button_released_cb);
 	gtk_widget_class_bind_template_callback(widget_class, fast_forward_button_pressed_cb);

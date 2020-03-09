@@ -273,7 +273,7 @@ about_cb (GSimpleAction *action,
 			"version", PACKAGE_VERSION,
 			"copyright", "© Gabor Karsay 2016–2019",
 			"comments", _("A basic transcription utility"),
-			"logo-icon-name", "com.github.gkarsay.parlatype",
+			"logo-icon-name", APP_ID,
 			"authors", authors,
 			"artists", artists,
 			"translator-credits", _("translator-credits"),
@@ -322,7 +322,7 @@ pt_app_get_asr (PtApp *app)
 static void
 pt_app_startup (GApplication *app)
 {
-	g_application_set_resource_base_path (app, "/com/github/gkarsay/parlatype");
+	g_application_set_resource_base_path (app, "/org/parlatype/parlatype");
 	G_APPLICATION_CLASS (pt_app_parent_class)->startup (app);
 
 	g_action_map_add_action_entries (G_ACTION_MAP (app),
@@ -365,7 +365,7 @@ pt_app_startup (GApplication *app)
 	/* Load custom css */
 	GtkCssProvider *provider;
 	provider = gtk_css_provider_new ();
-	gtk_css_provider_load_from_resource (provider, "/com/github/gkarsay/parlatype/parlatype.css");
+	gtk_css_provider_load_from_resource (provider, "/org/parlatype/parlatype/parlatype.css");
 	gtk_style_context_add_provider_for_screen (
 			gdk_screen_get_default (),
 			GTK_STYLE_PROVIDER (provider),
@@ -518,7 +518,7 @@ PtApp *
 pt_app_new (void)
 {
 	return g_object_new (PT_APP_TYPE,
-			     "application-id", "com.github.gkarsay.parlatype",
+			     "application-id", APP_ID,
 			     "flags", G_APPLICATION_HANDLES_OPEN,
 			     NULL);
 }

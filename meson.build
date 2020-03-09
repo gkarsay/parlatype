@@ -4,7 +4,7 @@ project('parlatype', 'c',
 	license: 'GPL3+',
 )
 
-app_id = 'com.github.gkarsay.parlatype'
+app_id = 'org.parlatype.Parlatype'
 
 version       = meson.project_version()
 version_array = version.split('.')

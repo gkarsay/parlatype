@@ -6,93 +6,189 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
-"Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
-"POT-Creation-Date: 2019-05-27 21:09+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-03-09 14:29+0100\n"
 "PO-Revision-Date: 2018-06-04 12:45+0000\n"
 "Last-Translator: Belkacem Mohammed <belkacem77@gmail.com>\n"
 "Language-Team: Kabyle <kab@li.org>\n"
+"Language: kab\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Launchpad-Export-Date: 2019-07-05 10:56+0000\n"
 "X-Generator: Launchpad (build 19007)\n"
-"Language: kab\n"
 
-#: data/com.github.gkarsay.parlatype.appdata.xml.in:7
-#: data/com.github.gkarsay.parlatype.desktop.in:4 src/pt-app.c:189
+#: data/org.parlatype.Parlatype.appdata.xml.in:7
+#: data/org.parlatype.Parlatype.desktop.in:4 src/pt-app.c:272
 #: src/resources/window.ui:32
 msgid "Parlatype"
 msgstr "Parlatype"
 
-#: data/com.github.gkarsay.parlatype.appdata.xml.in:8
+#: data/org.parlatype.Parlatype.appdata.xml.in:8
 msgid "Media player for speech transcription"
 msgstr ""
 
-#: data/com.github.gkarsay.parlatype.appdata.xml.in:11
+#: data/org.parlatype.Parlatype.appdata.xml.in:11
 msgid ""
 "Parlatype is an easy to use media player. Its main purpose is to help you "
 "transcribing speech."
 msgstr ""
 
-#: data/com.github.gkarsay.parlatype.appdata.xml.in:24
+#: data/org.parlatype.Parlatype.appdata.xml.in:24
 msgid "Gabor Karsay"
 msgstr ""
 
-#: data/com.github.gkarsay.parlatype.desktop.in:5
+#: data/org.parlatype.Parlatype.appdata.xml.in:44
+msgid "This is a minor release."
+msgstr ""
+
+#: data/org.parlatype.Parlatype.appdata.xml.in:46
+msgid ""
+"Update time label only if time has changed. This is a performance increase, "
+"cursor movement should be smoother on slower systems."
+msgstr ""
+
+#: data/org.parlatype.Parlatype.appdata.xml.in:47
+msgid "Translation updates for Hungarian, Lithuanian and Spanish"
+msgstr ""
+
+#: data/org.parlatype.Parlatype.appdata.xml.in:53
+msgid "This is a minor release with some changes."
+msgstr ""
+
+#: data/org.parlatype.Parlatype.appdata.xml.in:55
+msgid ""
+"Automatic speech recognition (ASR) is now disabled by default and it’s only "
+"shown, if parlatype is launched with the new parameter --with-asr"
+msgstr ""
+
+#: data/org.parlatype.Parlatype.appdata.xml.in:56
+msgid "Fix internationalization: Some translations were not shown"
+msgstr ""
+
+#: data/org.parlatype.Parlatype.appdata.xml.in:57
+msgid ""
+"Translation updates for Arabic, British English, Czech, Dutch, German, "
+"Polish and Spanish"
+msgstr ""
+
+#: data/org.parlatype.Parlatype.appdata.xml.in:63
+msgid "This is a major release with some new features."
+msgstr ""
+
+#: data/org.parlatype.Parlatype.appdata.xml.in:65
+msgid "Automatic speech recognition with CMU Sphinx"
+msgstr ""
+
+#: data/org.parlatype.Parlatype.appdata.xml.in:66
+msgid "Design changes, including removal of application menu"
+msgstr ""
+
+#: data/org.parlatype.Parlatype.appdata.xml.in:67
+msgid "Custom timestamps"
+msgstr ""
+
+#: data/org.parlatype.Parlatype.appdata.xml.in:68
+msgid ""
+"Translation updates for Brazilian Portuguese, British English, Czech, "
+"German, Japanese, Lithuanian and Polish"
+msgstr ""
+
+#: data/org.parlatype.Parlatype.appdata.xml.in:74
+msgid "This is a minor maintenance release."
+msgstr ""
+
+#: data/org.parlatype.Parlatype.appdata.xml.in:76
+msgid "Animate scrolling when using keybindings"
+msgstr ""
+
+#: data/org.parlatype.Parlatype.appdata.xml.in:77
+msgid "Change desktop entry category to Audio/Video instead of Utilities"
+msgstr ""
+
+#: data/org.parlatype.Parlatype.appdata.xml.in:78
+msgid "Translation updates for French"
+msgstr ""
+
+#: data/org.parlatype.Parlatype.appdata.xml.in:84
+msgid "This release contains a number of bug fixes and minor improvements."
+msgstr ""
+
+#: data/org.parlatype.Parlatype.appdata.xml.in:86
+msgid "Progress Dialog has now a countdown timer (estimated time left)"
+msgstr ""
+
+#: data/org.parlatype.Parlatype.appdata.xml.in:87
+msgid "Increase max. possible speed to 2.0"
+msgstr ""
+
+#: data/org.parlatype.Parlatype.appdata.xml.in:88
+msgid ""
+"New keyboard shortcuts for Play/Pause (Ctrl + Space), Jump back (Ctrl + "
+"Left), Jump forward (Ctrl + Right)"
+msgstr ""
+
+#: data/org.parlatype.Parlatype.appdata.xml.in:89
+msgid "Scrolling now also possible with vertical scrollbar"
+msgstr ""
+
+#: data/org.parlatype.Parlatype.appdata.xml.in:90
+msgid "Various fixes for waveform and cursor display"
+msgstr ""
+
+#: data/org.parlatype.Parlatype.appdata.xml.in:91
+msgid ""
+"Translation updates for Arabic, British English, Catalan, German, Finnish, "
+"French, Japanese, Lithuanian, Polish, Spanish and Swedish"
+msgstr ""
+
+#: data/org.parlatype.Parlatype.desktop.in:5
 msgid "Transcription utility"
 msgstr ""
 
-#: data/com.github.gkarsay.parlatype.desktop.in:6
+#: data/org.parlatype.Parlatype.desktop.in:6
 msgid "Transcription;"
 msgstr ""
 
-#: data/com.github.gkarsay.parlatype.desktop.in:8
-msgid "com.github.gkarsay.parlatype"
+#: data/org.parlatype.Parlatype.desktop.in:8
+msgid "org.parlatype.Parlatype"
 msgstr ""
 
-#: libreoffice/com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in:6
-msgid "LibreOffice/Parlatype Helpers"
-msgstr ""
-
-#: libreoffice/com.github.gkarsay.parlatype.libreoffice-helpers.metainfo.xml.in:7
-msgid "Control Parlatype using LibreOffice macros"
-msgstr ""
-
-#: src/pt-app.c:43
+#: src/pt-app.c:47
 msgid "Show the application’s version"
 msgstr ""
 
-#: src/pt-app.c:52
+#: src/pt-app.c:56
 msgid "Enable automatic speech recognition"
 msgstr ""
 
-#: src/pt-app.c:60
+#: src/pt-app.c:64
 msgid "Use internal textpad for automatic speech recognition"
 msgstr ""
 
-#: src/pt-app.c:83
+#: src/pt-app.c:87
 msgid "Open Audio File"
 msgstr "Ldi afaylu ameslaw"
 
-#: src/pt-app.c:86 src/resources/window-headerbar.ui:12
+#: src/pt-app.c:90 src/resources/window-headerbar.ui:12
 msgid "_Open"
 msgstr "_Ldi"
 
-#: src/pt-app.c:87 src/resources/goto-dialog.ui:26
+#: src/pt-app.c:91 src/resources/goto-dialog.ui:26
 msgid "_Cancel"
 msgstr "_Sefsex"
 
-#: src/pt-app.c:106
+#: src/pt-app.c:110
 msgid "Audio files"
 msgstr "Ifuyla imeslawen"
 
-#: src/pt-app.c:107
+#: src/pt-app.c:111
 msgid "All files"
 msgstr "Akk ifuyla"
 
 #. Translators: %s is a detailed error message
-#: src/pt-app.c:156
+#: src/pt-app.c:237
 #, c-format
 msgid "Error opening help: %s"
 msgstr "Tuccḍa di tulya n tallalt: %s"
@@ -101,21 +197,21 @@ msgstr "Tuccḍa di tulya n tallalt: %s"
 #. copyright holders of code from other projects. Instead of
 #. "including" it could also say "with" or just "Code from
 #. other projects:"
-#: src/pt-app.c:174
+#: src/pt-app.c:257
 msgid "Including code from other projects:"
 msgstr ""
 
-#: src/pt-app.c:192
+#: src/pt-app.c:275
 msgid "A basic transcription utility"
 msgstr ""
 
-#: src/pt-app.c:196
+#: src/pt-app.c:279
 msgid "translator-credits"
 msgstr ""
 "Launchpad Contributions:\n"
 "  Belkacem Mohammed https://launchpad.net/~belkacem77"
 
-#: src/pt-app.c:321
+#: src/pt-app.c:410
 msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
 "ignored.\n"
@@ -240,63 +336,63 @@ msgid_plural "seconds"
 msgstr[0] "tasint"
 msgstr[1] "tasinin"
 
-#: src/pt-preferences.c:289
+#: src/pt-preferences.c:258
 msgid "Deleting configuration"
 msgstr ""
 
-#: src/pt-preferences.c:290
+#: src/pt-preferences.c:259
 #, c-format
 msgid "Do you really want to delete “%s”?"
 msgstr ""
 
-#: src/pt-window.c:219
+#: src/pt-window.c:217
 #, c-format
 msgid "Found %s"
 msgstr ""
 
-#: src/pt-window.c:220
+#: src/pt-window.c:218
 msgid "Press “Play” to start automatic speech recognition."
 msgstr ""
 
-#: src/pt-window.c:423
+#: src/pt-window.c:430
 #, c-format
 msgid "Jump back 1 second"
 msgid_plural "Jump back %d seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/pt-window.c:440
+#: src/pt-window.c:447
 #, c-format
 msgid "Jump forward 1 second"
 msgid_plural "Jump forward %d seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/pt-window.c:459
+#: src/pt-window.c:466
 msgid "Pause"
 msgstr ""
 
-#: src/pt-window.c:462
+#: src/pt-window.c:469
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/pt-window.c:469
+#: src/pt-window.c:476
 msgid "Start playing"
 msgstr ""
 
-#: src/pt-window.c:505
+#: src/pt-window.c:512
 #, c-format
 msgid "Go to time in clipboard: %s"
 msgstr ""
 
-#: src/pt-window.c:507 src/pt-window.c:1246
+#: src/pt-window.c:514 src/pt-window.c:1192
 msgid "Go to time in clipboard"
 msgstr ""
 
-#: src/pt-window.c:1162
+#: src/pt-window.c:1099
 #, c-format
 msgid ""
 "Parlatype needs GStreamer 1.x to run. Please check your installation of "
@@ -304,7 +400,7 @@ msgid ""
 "Parlatype will quit now, it received this error message: %s"
 msgstr ""
 
-#: src/pt-window.c:1165
+#: src/pt-window.c:1102
 msgid "Fatal error"
 msgstr ""
 
@@ -319,10 +415,10 @@ msgstr ""
 #: src/resources/asr-assistant.ui:30
 msgid ""
 "Parlatype uses CMU Sphinx as its speech recognition engine. You can download "
-"models suitable for CMU Sphinx for example from <a "
-"href=\"https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Lang"
-"uage%20Models/\">CMU Sphinx’ sourceforge repository</a>. It has models for "
-"some of the most widespread languages."
+"models suitable for CMU Sphinx for example from <a href=\"https://"
+"sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Language%20Models/"
+"\">CMU Sphinx’ sourceforge repository</a>. It has models for some of the "
+"most widespread languages."
 msgstr ""
 
 #. Translators: This feature is disabled by default, its translation has low priority.
@@ -399,7 +495,7 @@ msgstr ""
 msgid "Quit"
 msgstr ""
 
-#: src/resources/help-overlay.ui:42 src/resources/preferences.ui:270
+#: src/resources/help-overlay.ui:42 src/resources/preferences.ui:271
 msgid "Waveform"
 msgstr ""
 
@@ -516,151 +612,151 @@ msgstr ""
 msgid "Parlatype Preferences"
 msgstr ""
 
-#: src/resources/preferences.ui:140
+#: src/resources/preferences.ui:141
 msgid "_Pixels per second:"
 msgstr ""
 
-#: src/resources/preferences.ui:170
+#: src/resources/preferences.ui:171
 msgid "Show _time scale"
 msgstr ""
 
 #. Resolution of the waveform image
-#: src/resources/preferences.ui:188
+#: src/resources/preferences.ui:189
 msgid "Resolution"
 msgstr ""
 
 #. A section in preferences, how to display the waveform.
-#: src/resources/preferences.ui:203
+#: src/resources/preferences.ui:204
 msgid "Display"
 msgstr ""
 
-#: src/resources/preferences.ui:216
+#: src/resources/preferences.ui:217
 msgid "_Moving cursor"
 msgstr ""
 
-#: src/resources/preferences.ui:233
+#: src/resources/preferences.ui:234
 msgid "_Fixed cursor"
 msgstr ""
 
-#: src/resources/preferences.ui:287
+#: src/resources/preferences.ui:288
 msgid "Jumps"
 msgstr ""
 
-#: src/resources/preferences.ui:389
+#: src/resources/preferences.ui:390
 msgid "Jump _forward:"
 msgstr ""
 
-#: src/resources/preferences.ui:403
+#: src/resources/preferences.ui:404
 msgid "Jump _back:"
 msgstr ""
 
-#: src/resources/preferences.ui:417
+#: src/resources/preferences.ui:418
 msgid "Jump back on _pause:"
 msgstr ""
 
-#: src/resources/preferences.ui:440
+#: src/resources/preferences.ui:441
 msgid "Pressing “Play” at the end of file"
 msgstr ""
 
-#: src/resources/preferences.ui:454
+#: src/resources/preferences.ui:455
 msgid "Replay file"
 msgstr ""
 
-#: src/resources/preferences.ui:473
+#: src/resources/preferences.ui:474
 msgid "Pressing “Play” at the end of selection"
 msgstr ""
 
-#: src/resources/preferences.ui:487
+#: src/resources/preferences.ui:488
 msgid "Replay selection"
 msgstr ""
 
-#: src/resources/preferences.ui:509
+#: src/resources/preferences.ui:510
 msgid "Controls"
 msgstr ""
 
-#: src/resources/preferences.ui:552
+#: src/resources/preferences.ui:553
 msgid "Hours and zeroes"
 msgstr ""
 
-#: src/resources/preferences.ui:565
+#: src/resources/preferences.ui:566
 msgid "Always show hours and leading zeroes"
 msgstr ""
 
-#: src/resources/preferences.ui:583
+#: src/resources/preferences.ui:584
 msgid "Precision"
 msgstr ""
 
-#: src/resources/preferences.ui:599
+#: src/resources/preferences.ui:600
 msgid "Characters around timestamps"
 msgstr ""
 
-#: src/resources/preferences.ui:615
+#: src/resources/preferences.ui:616
 msgid "Examples"
 msgstr ""
 
-#: src/resources/preferences.ui:657
+#: src/resources/preferences.ui:658
 msgid "Precision:"
 msgstr ""
 
-#: src/resources/preferences.ui:689
+#: src/resources/preferences.ui:690
 msgid "Fraction separator:"
 msgstr ""
 
-#: src/resources/preferences.ui:732
+#: src/resources/preferences.ui:733
 msgid "Timestamps"
 msgstr ""
 
 #. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/preferences.ui:863
+#: src/resources/preferences.ui:864
 msgid "Language model:"
 msgstr ""
 
 #. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/preferences.ui:890
+#: src/resources/preferences.ui:891
 msgid "Dictionary:"
 msgstr ""
 
 #. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/preferences.ui:917
+#: src/resources/preferences.ui:918
 msgid "Acoustic model folder:"
 msgstr ""
 
 #. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/preferences.ui:965
+#: src/resources/preferences.ui:966
 msgid "There is no configuration"
 msgstr ""
 
 #. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/preferences.ui:975
+#: src/resources/preferences.ui:976
 msgid "Add a configuration"
 msgstr ""
 
 #. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/preferences.ui:1004
+#: src/resources/preferences.ui:1005
 msgid "Speech recognition"
 msgstr ""
 
-#: src/resources/preferences.ui:1022
+#: src/resources/preferences.ui:1023
 msgid "Remember _size"
 msgstr ""
 
-#: src/resources/preferences.ui:1037
+#: src/resources/preferences.ui:1038
 msgid "Remember _position"
 msgstr ""
 
-#: src/resources/preferences.ui:1052
+#: src/resources/preferences.ui:1053
 msgid "Start on _top"
 msgstr ""
 
-#: src/resources/preferences.ui:1074
+#: src/resources/preferences.ui:1075
 msgid "Window"
 msgstr ""
 
-#: src/resources/window.ui:142
+#: src/resources/window.ui:168
 msgid "_Play"
 msgstr ""
 
-#: src/resources/window.ui:312
+#: src/resources/window.ui:337
 msgid "Speed:"
 msgstr ""
 
