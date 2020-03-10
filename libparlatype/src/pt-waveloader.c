@@ -787,7 +787,7 @@ pt_waveloader_resize (PtWaveloader *wl,
  *
  * Don't modify the data.
  *
- * Return value: (transfer none): a #GArray with wave data
+ * Return value: (element-type float) (transfer none): a #GArray with wave data
  */
 GArray *
 pt_waveloader_get_data (PtWaveloader *wl)
