@@ -25,7 +25,7 @@ cp libparlatype/po/*.pot $LP_EXPORT_DIR/libparlatype
 cp libparlatype/po/*.po $LP_EXPORT_DIR/libparlatype
 cp po/*.pot $LP_EXPORT_DIR/parlatype
 cp po/*.po $LP_EXPORT_DIR/parlatype
-cp help/*.pot $LP_EXPORT_DIR/help/help.pot
+cp help/org.parlatype.Parlatype.pot $LP_EXPORT_DIR/help/help.pot
 find help/ -iname "*.po" -exec cp {} $LP_EXPORT_DIR/help \;
 tar -C $LP_EXPORT_DIR -czf $LP_EXPORT_FILE libparlatype parlatype help
 rm -r $LP_EXPORT_DIR/

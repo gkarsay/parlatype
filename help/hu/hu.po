@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2019-05-27 20:57+0200\n"
+"POT-Creation-Date: 2020-03-09 17:08+0100\n"
 "PO-Revision-Date: 2019-07-19 06:57+0000\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gmx.at>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2019-07-19 07:04+0000\n"
 "X-Generator: Launchpad (build 19010)\n"
-"Language: hu\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -41,24 +41,15 @@ msgstr "Parlatype"
 #. (itstool) path: credit/name
 #. Translators: This feature is disabled by default, its translation has
 #. low priority.
-#: C/index.page:10
-#: C/drag-and-drop.page:8
-#: C/first-steps.page:8
-#: C/keyboard-shortcuts.page:8
-#: C/media-keys.page:8
-#: C/preferences.page:8
-#: C/selections.page:8
-#: C/timestamps.page:8
-#: C/asr.page:9
-#: C/asr-setup.page:9
-#: C/libreoffice-helpers.page:9
+#: C/index.page:10 C/drag-and-drop.page:8 C/first-steps.page:8
+#: C/keyboard-shortcuts.page:8 C/media-keys.page:8 C/preferences.page:8
+#: C/selections.page:8 C/timestamps.page:8 C/asr.page:9 C/asr-setup.page:9
 msgid "Gabor Karsay"
 msgstr "Karsay Gábor"
 
 #. (itstool) path: info/desc
 #. (itstool) path: page/p
-#: C/index.page:14
-#: C/index.page:23
+#: C/index.page:14 C/index.page:23
 msgid ""
 "<app>Parlatype</app> is an easy to use media player. Its main purpose is to "
 "help you transcribing speech."
@@ -114,12 +105,11 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/drag-and-drop.page:20
 msgid ""
-"File names: Select a file name from a word processor, e.g. "
-"<app>LibreOffice</app>, drop the selected text on <app>Parlatype</app> and "
-"it will open that file. This will always work if the selection contains a "
-"full path. If you select the name only, <app>Parlatype</app> will look up "
-"its full path in the list of recent files and open it if it can find it in "
-"that list."
+"File names: Select a file name from a word processor, e.g. <app>LibreOffice</"
+"app>, drop the selected text on <app>Parlatype</app> and it will open that "
+"file. This will always work if the selection contains a full path. If you "
+"select the name only, <app>Parlatype</app> will look up its full path in the "
+"list of recent files and open it if it can find it in that list."
 msgstr ""
 
 #. (itstool) path: item/p
@@ -132,8 +122,7 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #. (itstool) path: page/title
-#: C/first-steps.page:6
-#: C/first-steps.page:14
+#: C/first-steps.page:6 C/first-steps.page:14
 msgid "First steps with Parlatype"
 msgstr "Első lépések a Parlatype programmal"
 
@@ -595,8 +584,7 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/preferences.page:55
-msgid ""
-"Precision: Choose between full seconds, 10th seconds or 100th seconds."
+msgid "Precision: Choose between full seconds, 10th seconds or 100th seconds."
 msgstr ""
 
 #. (itstool) path: item/p
@@ -786,8 +774,8 @@ msgstr ""
 msgid ""
 "If you select the timestamp in the word processor, you can drag and drop it "
 "on the <app>Parlatype</app> window and it will go to that position. This is "
-"also possible the other way round: Drag the time label from "
-"<app>Parlatype</app> to a word processor and drop it there to insert it."
+"also possible the other way round: Drag the time label from <app>Parlatype</"
+"app> to a word processor and drop it there to insert it."
 msgstr ""
 
 #. (itstool) path: section/title
@@ -958,10 +946,9 @@ msgstr ""
 msgid ""
 "It asks you to download a speech model. The speech recognition engine used "
 "is CMU Sphinx. You can download models suitable for CMU Sphinx for example "
-"from <link "
-"href=\"https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Lang"
-"uage%20Models/\">CMU Sphinx’ sourceforge repository</link>. It has models "
-"for some of the most widespread languages."
+"from <link href=\"https://sourceforge.net/projects/cmusphinx/files/Acoustic"
+"%20and%20Language%20Models/\">CMU Sphinx’ sourceforge repository</link>. It "
+"has models for some of the most widespread languages."
 msgstr ""
 
 #. (itstool) path: page/p
@@ -1020,9 +1007,8 @@ msgstr ""
 #. low priority.
 #: C/asr-setup.page:37
 msgid ""
-"It consists of several files usually in their own folder: "
-"<file>feat.params</file>, <file>mdef</file>, <file>means</file> and some "
-"others."
+"It consists of several files usually in their own folder: <file>feat.params</"
+"file>, <file>mdef</file>, <file>means</file> and some others."
 msgstr ""
 
 #. (itstool) path: item/title
@@ -1067,133 +1053,4 @@ msgstr ""
 msgid ""
 "All those elements should be somewhere in the folder selected. It doesn’t "
 "matter whether there are subfolders or how they are named."
-msgstr ""
-
-#. (itstool) path: info/desc
-#: C/libreoffice-helpers.page:7
-msgid "Use Parlatype with LibreOffice"
-msgstr ""
-
-#. (itstool) path: page/title
-#. (itstool) path: table/title
-#: C/libreoffice-helpers.page:15
-#: C/libreoffice-helpers.page:30
-msgid "LibreOffice Helpers"
-msgstr ""
-
-#. (itstool) path: page/p
-#: C/libreoffice-helpers.page:17
-msgid ""
-"LibreOffice Helpers let you control <app>Parlatype</app> from "
-"<app>LibreOffice</app>. For example, you can jump easily to timestamps."
-msgstr ""
-
-#. (itstool) path: page/p
-#: C/libreoffice-helpers.page:19
-msgid ""
-"To use them, you have to assign keyboard shortcuts in <app>LibreOffice</app> "
-"itself. To do this, open <app>LibreOffice</app>, go to menu <gui>Tools</gui> "
-"and select <gui>Customize</gui>."
-msgstr ""
-
-#. (itstool) path: page/media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/libreoffice-helpers.page:21
-msgctxt "_"
-msgid ""
-"external ref='figures/lo-menu.png' md5='4dd86affb0353b6bdfa2dcfbbeadd494'"
-msgstr ""
-
-#. (itstool) path: page/p
-#: C/libreoffice-helpers.page:23
-msgid ""
-"Go to tab <gui>Keyboard</gui>. In the lower part, <gui>Functions</gui>, "
-"there is a list called <gui>Category</gui>. At the end of that list you’ll "
-"find the entry <gui>LibreOffice Macros</gui>. There is a subcategory "
-"<gui>share</gui> which has a subcategory <gui>Parlatype</gui>. After "
-"selecting <gui>Parlatype</gui> there will be a list of functions in the "
-"<gui>Functions</gui> list. Choose the function you’d like to use, select "
-"from the list <gui>Shortcut keys</gui> above a shortcut and click on the "
-"button <gui>Modify</gui>."
-msgstr ""
-
-#. (itstool) path: page/media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/libreoffice-helpers.page:25
-msgctxt "_"
-msgid ""
-"external ref='figures/lo-customize.png' "
-"md5='081564921275129bee7bbd10220547e7'"
-msgstr ""
-
-#. (itstool) path: page/p
-#: C/libreoffice-helpers.page:27
-msgid "You can select any of these functions:"
-msgstr ""
-
-#. (itstool) path: td/p
-#: C/libreoffice-helpers.page:33
-msgid "Helper’s name"
-msgstr ""
-
-#. (itstool) path: td/p
-#: C/libreoffice-helpers.page:34
-msgid "What it does"
-msgstr ""
-
-#. (itstool) path: td/p
-#: C/libreoffice-helpers.page:40
-msgid ""
-"Toggles between play and pause. Depending on your preferences set in "
-"<app>Parlatype</app> it will rewind a few seconds on pause."
-msgstr ""
-
-#. (itstool) path: td/p
-#: C/libreoffice-helpers.page:44
-msgid ""
-"Jumps back a few seconds, depending on the preferences you set in "
-"<app>Parlatype</app>."
-msgstr ""
-
-#. (itstool) path: td/p
-#: C/libreoffice-helpers.page:48
-msgid ""
-"Jumps forward a few seconds, depending on the preferences you set in "
-"<app>Parlatype</app>."
-msgstr ""
-
-#. (itstool) path: td/p
-#: C/libreoffice-helpers.page:52
-msgid ""
-"Inserts the current timestamp at the cursor’s position. It does not "
-"overwrite any selection."
-msgstr ""
-
-#. (itstool) path: td/p
-#: C/libreoffice-helpers.page:56
-msgid "The same as above, but on a new line."
-msgstr ""
-
-#. (itstool) path: td/p
-#: C/libreoffice-helpers.page:60
-msgid ""
-"If the cursor is set on a timestamp, it will jump to that position. The "
-"cursor has to be somewhere between the two number signs (#). Don’t select "
-"the timestamp, just put the cursor inside."
-msgstr ""
-
-#. (itstool) path: td/p
-#: C/libreoffice-helpers.page:64
-msgid "Increases playback speed."
-msgstr ""
-
-#. (itstool) path: td/p
-#: C/libreoffice-helpers.page:68
-msgid "Decreases playback speed."
 msgstr ""
