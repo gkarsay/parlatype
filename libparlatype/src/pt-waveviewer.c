@@ -1767,8 +1767,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 /**
  * pt_waveviewer_new:
  *
- * Create a new, initially blank waveform viewer widget. Use
- * pt_waveviewer_set_wave() to pass wave data.
+ * Create a new, initially blank waveform viewer widget.
  *
  * After use gtk_widget_destroy() it.
  *
