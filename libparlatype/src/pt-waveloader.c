@@ -71,7 +71,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtWaveloader, pt_waveloader, G_TYPE_OBJECT)
 /**
  * SECTION: pt-waveloader
  * @short_description: Loads the waveform for a given file.
- * @stability: Unstable
+ * @stability: Stable
  * @include: parlatype/pt-waveloader.h
  *
  * An object to load waveform data from an audio file. The raw data can be

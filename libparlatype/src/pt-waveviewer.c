@@ -124,7 +124,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtWaveviewer, pt_waveviewer, GTK_TYPE_SCROLLED_WINDO
 /**
  * SECTION: pt-waveviewer
  * @short_description: A GtkWidget to display a waveform.
- * @stability: Unstable
+ * @stability: Stable
  * @include: parlatype/pt-waveviewer.h
  *
  * Displays a waveform and lets the user interact with it: jumping to a position,

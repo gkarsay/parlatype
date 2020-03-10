@@ -92,7 +92,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtPlayer, pt_player, G_TYPE_OBJECT)
 /**
  * SECTION: pt-player
  * @short_description: The GStreamer backend for Parlatype.
- * @stability: Unstable
+ * @stability: Stable
  * @include: parlatype/pt-player.h
  *
  * PtPlayer is the GStreamer backend for Parlatype. Construct it with #pt_player_new().
