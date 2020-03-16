@@ -4,5 +4,6 @@ header_pages:
   - news.md
   - features.md
   - installation.md
+  - donate.md
 plugins:
   - jekyll-feed

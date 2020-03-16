@@ -8,7 +8,7 @@ Parlatype is a minimal audio player for manual speech transcription, written for
 
 It's intended to be useful for journalists, students, scientists and whoever needs to transcribe audio files.
 
-Parlatype is a pet project done in my free time. Apart from art work, translation management, German translations, bug management, marketing, being web master of this site, packaging for Flathub, packaging for Debian, packaging for various Ubuntu versions, keeping up with the toolkits – I occasionally add new features.
+Parlatype is free and open source software. Please consider a [donation](donate.md), if you like it.
 
 ## Credits
 
