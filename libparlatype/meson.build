@@ -3,7 +3,7 @@
 # http://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html
 # The following string is 'current.revision.age':
 
-libparlatype_version = '2.1.1'
+libparlatype_version = '3.0.0'
 
 # API or namespace version for GIR = first number of libparlatype_version + .0
 libparlatype_api_version = '3.0'

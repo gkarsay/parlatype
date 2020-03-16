@@ -1,5 +1,5 @@
 project('parlatype', 'c',
-	version: '1.6.2',
+	version: '2.0',
 	#meson_version: '>= 0.47.2', # oldest working tested version
 	license: 'GPL3+',
 )
@@ -10,7 +10,11 @@ version       = meson.project_version()
 version_array = version.split('.')
 major_version = version_array[0].to_int()
 minor_version = version_array[1].to_int()
-micro_version = version_array[2].to_int()
+if version_array.length() == 2
+	micro_version = 0
+else
+	micro_version = version_array[2].to_int()
+endif
 
 asr = get_option('asr')
 

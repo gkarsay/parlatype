@@ -1,3 +1,19 @@
+Overview of Changes in Parlatype 2.0 – 2020-03-19
+=================================================
+
+* New: Waveform is loaded on-the-fly, there is no blocking progress dialog.
+       This brings an API bump in libparlatype.
+* New: Waveform can be changed continuously instead of in discrete steps.
+* New: Application ID has been changed to org.parlatype.Parlatype and the
+       homepage moved to https://www.parlatype.org.
+* New: LibreOffice helpers (macros) have been split from the main repository
+       and turned into a LibreOffice extension.
+* New: New D-Bus method GetURI to get currently playing file's URI.
+* New: Internal modularization (PtController objects control Parlatype).
+* New: Event handling is more compatible with GTK 4.
+* New: Parlatype builds on Windows, there is no feature parity though.
+
+
 Overview of Changes in Parlatype 1.6.2 – 2019-08-31
 ===================================================
 

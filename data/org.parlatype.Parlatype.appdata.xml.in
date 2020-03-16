@@ -41,6 +41,15 @@
 	</kudos>
 
 	<releases>
+		<release version="2.0" date="2020-03-19">
+			<description>
+			<p>This is a major release with new features.</p>
+			<ul>
+			<li>Waveform is loaded on-the-fly, there is no blocking progress dialog.</li>
+			<li>Waveform can be changed continuously instead of in discrete steps.</li>
+			</ul>
+			</description>
+		</release>
 		<release version="1.6.2" date="2019-08-31">
 			<description>
 			<p>This is a minor release.</p>
@@ -110,4 +119,3 @@
 	<content_rating type="oars-1.1" />
 	<update_contact>gabor.karsay@gmx.at</update_contact>
 </component>
-
