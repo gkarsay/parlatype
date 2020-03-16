@@ -26,6 +26,7 @@
 
 	<provides>
 		<binary>parlatype</binary>
+		<id>com.github.gkarsay.parlatype.desktop</id>
 	</provides>
 
 	<translation type="gettext">parlatype</translation>
