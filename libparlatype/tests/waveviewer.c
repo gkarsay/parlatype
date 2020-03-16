@@ -108,7 +108,7 @@ waveviewer_loaded (void)
 	pt_player_setup_player (player, &error);
 	g_assert_no_error (error);
 
-	testfile = g_test_build_filename (G_TEST_DIST, "data/test1.ogg", NULL);
+	testfile = g_test_build_filename (G_TEST_DIST, "data", "tick-10sec.ogg", NULL);
 	testuri = g_strdup_printf ("file://%s", testfile);
 	success = pt_player_open_uri (player, testuri);
 	g_assert_true (success);

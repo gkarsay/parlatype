@@ -59,14 +59,14 @@ quit_loop_cb (PtWaveloader *wl,
 /* Other helpers------------------------------------------------------------- */
 
 static PtWaveloader*
-wl_with_test_uri (void)
+wl_with_test_uri (const gchar *name)
 {
 	PtWaveloader *wl;
 	gchar        *path;
 	gchar        *uri;
 	GFile        *file;
 
-	path = g_test_build_filename (G_TEST_DIST, "data", "test1.ogg", NULL);
+	path = g_test_build_filename (G_TEST_DIST, "data", name, NULL);
 	file = g_file_new_for_path (path);
 	uri = g_file_get_uri (file);
 	wl = pt_waveloader_new (uri);
@@ -148,7 +148,7 @@ waveloader_load_cancel (void)
 	gboolean      success;
 
 	data = create_sync_data ();
-	wl = wl_with_test_uri ();
+	wl = wl_with_test_uri ("tick-10sec.ogg");
 	cancel = g_cancellable_new ();
 	pt_waveloader_load_async (wl, 100,
 				  cancel,
@@ -179,7 +179,7 @@ waveloader_resize_cancel (void)
 	gboolean      success;
 
 	data = create_sync_data ();
-	wl = wl_with_test_uri ();
+	wl = wl_with_test_uri ("tick-10sec.ogg");
 	cancel = g_cancellable_new ();
 	pt_waveloader_load_async (wl, 100,
 				  NULL,
@@ -218,7 +218,7 @@ waveloader_resize_without_load (void)
 	gboolean      success;
 
 	data = create_sync_data ();
-	wl = wl_with_test_uri ();
+	wl = wl_with_test_uri ("tick-10sec.ogg");
 	pt_waveloader_resize_async (wl, 100, NULL,
 				    (GAsyncReadyCallback) quit_loop_cb,
 				     &data);
@@ -245,7 +245,7 @@ waveloader_load_pending (void)
 	gboolean      success;
 
 	data = create_sync_data ();
-	wl = wl_with_test_uri ();
+	wl = wl_with_test_uri ("tick-10sec.ogg");
 	pt_waveloader_load_async (wl, 100,
 				  NULL,
 				  NULL,
@@ -273,7 +273,7 @@ waveloader_load_unref (void)
 
 	PtWaveloader *wl;
 
-	wl = wl_with_test_uri ();
+	wl = wl_with_test_uri ("tick-10sec.ogg");
 	pt_waveloader_load_async (wl, 100, NULL, NULL, NULL);
 	g_object_unref (wl);
 }
@@ -316,7 +316,7 @@ waveloader_load_success (void)
 	GArray       *array;
 
 	data = create_sync_data ();
-	wl = wl_with_test_uri ();
+	wl = wl_with_test_uri ("tick-60sec.ogg");
 	array = pt_waveloader_get_data (wl);
 	g_signal_connect (wl, "progress",
 			  G_CALLBACK (progress_cb), NULL);
@@ -339,13 +339,12 @@ waveloader_load_success (void)
 	g_assert_cmpfloat (progress1, <, progress2);
 	g_assert_cmpfloat (progress2, <=, 1);
 
-	//g_print ("array->len = %d\n", array->len);
-	//g_print ("array[42] = %f\n", g_array_index (array, float, 42));
-
 	g_assert_cmpint (array_emit_count, >=, 1);
-	g_assert_cmpint (array->len, ==, 2014);
+	g_assert_cmpint (array->len, ==, 11982);
+
 	/* float value varies a bit! */
-	g_assert_cmpfloat_with_epsilon (g_array_index (array, float, 42), -0.059296, 0.001);
+	g_assert_cmpfloat_with_epsilon (g_array_index (array, float, 0), -0.796143, 0.001);
+	g_assert_cmpfloat_with_epsilon (g_array_index (array, float, 42), 0.0, 0.001);
 
 	g_object_unref (data.res);
 
@@ -360,7 +359,7 @@ waveloader_load_success (void)
 	g_assert_no_error (error);
 	g_assert_true (success);
 	g_assert_cmpint (array_emit_count, >=, 2);
-	g_assert_cmpint (array->len, <, 2014);
+	g_assert_cmpint (array->len, <, 11982);
 
 	free_sync_data (data);
 	g_object_unref (wl);
@@ -377,7 +376,7 @@ waveloader_resize_sync (void)
 	gboolean      success;
 
 	data = create_sync_data ();
-	wl = wl_with_test_uri ();
+	wl = wl_with_test_uri ("tick-10sec.ogg");
 	pt_waveloader_load_async (wl, 100,
 				  NULL,
 				  (GAsyncReadyCallback) quit_loop_cb,
@@ -409,7 +408,7 @@ waveloader_compare_load_resize (void)
 	float         value;
 
 	data = create_sync_data ();
-	wl = wl_with_test_uri ();
+	wl = wl_with_test_uri ("tick-10sec.ogg");
 	array = pt_waveloader_get_data (wl);
 	pt_waveloader_load_async (wl, 100,
 				  NULL,

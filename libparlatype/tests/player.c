@@ -42,7 +42,7 @@ pt_player_fixture_set_up (PtPlayerFixture *fixture,
 	pt_player_setup_player (fixture->testplayer, &error);
 	g_assert_no_error (error);
 
-	path = g_test_build_filename (G_TEST_DIST, "data", "test1.ogg", NULL);
+	path = g_test_build_filename (G_TEST_DIST, "data", "tick-10sec.ogg", NULL);
 	/* In make distcheck the path is something like /_build/../data/test1.ogg".
 	   Although this works we need a "pretty" path to compare and assert it's the same.
 	   To get rid of the "/_build/.." take a detour using GFile. */
@@ -212,7 +212,7 @@ player_open_ogg (PtPlayerFixture *fixture,
 	g_free (getchar);
 
 	getchar = pt_player_get_filename (fixture->testplayer);
-	g_assert_cmpstr (getchar, ==, "test1.ogg");
+	g_assert_cmpstr (getchar, ==, "tick-10sec.ogg");
 	g_free (getchar);
 }
 
@@ -446,15 +446,15 @@ player_timestrings (PtPlayerFixture *fixture,
 
 	/* check duration time strings for given test file */
 	timestring = pt_player_get_duration_time_string (fixture->testplayer, PT_PRECISION_SECOND);
-	g_assert_cmpstr (timestring, ==, "0:10");
+	g_assert_cmpstr (timestring, ==, "0:09");
 	g_free (timestring);
 
 	timestring = pt_player_get_duration_time_string (fixture->testplayer, PT_PRECISION_SECOND_10TH);
-	g_assert_cmpstr (timestring, ==, "0:10.0");
+	g_assert_cmpstr (timestring, ==, "0:09.9");
 	g_free (timestring);
 
 	timestring = pt_player_get_duration_time_string (fixture->testplayer, PT_PRECISION_SECOND_100TH);
-	g_assert_cmpstr (timestring, ==, "0:10.06");
+	g_assert_cmpstr (timestring, ==, "0:09.98");
 	g_free (timestring);
 
 	/* check arbitrary time strings, duration < 10 min, no rounding */
