@@ -17,6 +17,7 @@
     There are bindings for other languages, e.g. in Python Parlatype can be
     imported like this:
     <literallayout>
+      <literal>gi.require_version('Parlatype', '2.0')</literal>
       <literal>from gi.repository import Parlatype</literal>
     </literallayout>
   </para>
