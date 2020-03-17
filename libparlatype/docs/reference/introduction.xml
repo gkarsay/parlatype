@@ -17,4 +17,8 @@
   
   <para>Parlatype is (kind of) stable. That means that the library is versioned,
   API changes are documented, however, it changes frequently.</para>
+
+  <para>The versioning system is a bit confusing: It's coupled to releases of
+  the Parlatype application and this way minor version releases can break the API.
+  GObject Introspection however has an API version.</para>
 </chapter>
