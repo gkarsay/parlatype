@@ -5,6 +5,7 @@ launchpad-export		export-ignore
 launchpad-import		export-ignore
 MAINTAINER_README		export-ignore
 render-icons.py			export-ignore
+build-aux/			export-ignore
 flatpak/			export-ignore
 libparlatype/tests/glib.supp	export-ignore
 libparlatype/tests/gst.supp	export-ignore
