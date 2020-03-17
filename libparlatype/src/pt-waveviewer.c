@@ -834,6 +834,8 @@ pt_waveviewer_focus (GtkWidget        *widget,
  * Get follow-cursor option.
  *
  * Return value: TRUE if cursor is followed, else FALSE
+ *
+ * Since: 1.5
  */
 gboolean
 pt_waveviewer_get_follow_cursor (PtWaveviewer *self)
@@ -849,6 +851,8 @@ pt_waveviewer_get_follow_cursor (PtWaveviewer *self)
  * @follow: new value
  *
  * Set follow-cursor option to TRUE or FALSE. See also #PtWaveviewer:follow-cursor.
+ *
+ * Since: 1.5
  */
 void
 pt_waveviewer_set_follow_cursor (PtWaveviewer *self,
@@ -1108,6 +1112,8 @@ load_cb (PtWaveloader *loader,
  * in an error, too.
  *
  * Return value: TRUE if successful, or FALSE with error set
+ *
+ * Since: 2.0
  */
 gboolean
 pt_waveviewer_load_wave_finish (PtWaveviewer  *self,
@@ -1139,6 +1145,8 @@ update_waveform_cb (GtkWidget     *widget,
  * Load wave form for the given URI. The initial resolution is set to
  * #PtWaveviewer:pps. While loading, a #PtWaveviewer::load-progress signal is
  * emitted. A previous waveform is discarded.
+ *
+ * Since: 2.0
  */
 void
 pt_waveviewer_load_wave_async (PtWaveviewer        *self,
@@ -1772,6 +1780,8 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
  * After use gtk_widget_destroy() it.
  *
  * Returns: the widget
+ *
+ * Since: 1.5
  */
 GtkWidget *
 pt_waveviewer_new (void)

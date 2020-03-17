@@ -426,6 +426,8 @@ bus_handler (GstBus     *bus,
  * in an error, too.
  *
  * Return value: TRUE if successful, or FALSE with error set
+ *
+ * Since: 1.4
  */
 gboolean
 pt_waveloader_load_finish (PtWaveloader  *wl,
@@ -461,6 +463,8 @@ pt_waveloader_load_finish (PtWaveloader  *wl,
  *
  * You can get a pointer to the #GArray holding the data with #pt_waveloader_get_data
  * either before loading it or afterwards.
+ *
+ * Since: 2.0
  */
 void
 pt_waveloader_load_async (PtWaveloader        *wl,
@@ -526,6 +530,8 @@ pt_waveloader_load_async (PtWaveloader        *wl,
  * supposed to be an exact duration, not an estimate.
  *
  * Return value: duration in nanoseconds as used by GStreamer
+ *
+ * Since: 1.4
  */
 gint64
 pt_waveloader_get_duration (PtWaveloader *wl)
@@ -534,15 +540,17 @@ pt_waveloader_get_duration (PtWaveloader *wl)
 }
 
 /**
- * pt_waveloader_get_data_finish:
+ * pt_waveloader_resize_finish:
  * @wl: a #PtWaveloader
  * @result: the #GAsyncResult passed to your #GAsyncReadyCallback
  * @error: (nullable): a pointer to a NULL #GError, or NULL
  *
- * Gives the result of the async get data operation. A cancelled operation results
+ * Gives the result of the async resize operation. A cancelled operation results
  * in an error, too.
  *
  * Return value: TRUE if successful, or FALSE with error set
+ *
+ * Since: 2.0
  */
 gboolean
 pt_waveloader_resize_finish (PtWaveloader  *wl,
@@ -676,6 +684,8 @@ pt_waveloader_resize_real (GTask        *task,
  *
  * In your callback call #pt_waveloader_get_data_finish to get the result of the
  * operation.
+ *
+ * Since: 2.0
  */
 void
 pt_waveloader_resize_async (PtWaveloader        *wl,
@@ -740,6 +750,8 @@ quit_loop_cb (PtWaveloader *wl,
  * Sync version of #pt_waveloader_resize_async.
  *
  * Return value: TRUE if successful, or FALSE with error set
+ *
+ * Since: 2.0
  */
 gboolean
 pt_waveloader_resize (PtWaveloader *wl,
@@ -788,6 +800,8 @@ pt_waveloader_resize (PtWaveloader *wl,
  * Don't modify the data.
  *
  * Return value: (element-type float) (transfer none): a #GArray with wave data
+ *
+ * Since: 2.0
  */
 GArray *
 pt_waveloader_get_data (PtWaveloader *wl)
@@ -959,6 +973,8 @@ pt_waveloader_class_init (PtWaveloaderClass *klass)
  * After use g_object_unref() it.
  *
  * Return value: (transfer full): a new #PtWaveloader
+ *
+ * Since: 1.4
  */
 PtWaveloader *
 pt_waveloader_new (gchar *uri)

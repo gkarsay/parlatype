@@ -402,6 +402,8 @@ bus_call (GstBus     *bus,
  * FALSE on error. Errors are emitted async via #PtPlayer::error signal.
  *
  * Return value: TRUE if successful, otherwise FALSE
+ *
+ * Since: 2.0
  */
 gboolean
 pt_player_open_uri (PtPlayer *player,
@@ -450,6 +452,8 @@ pt_player_open_uri (PtPlayer *player,
  *
  * Sets the player to the paused state, meaning it stops playback and doesn’t
  * change position. To resume playback use @pt_player_play().
+ *
+ * Since: 1.4
  */
 void
 pt_player_pause (PtPlayer *player)
@@ -465,6 +469,8 @@ pt_player_pause (PtPlayer *player)
  *
  * Like @pt_player_pause(), additionally rewinds the value of
  * #PtPlayer:pause in milliseconds.
+ *
+ * Since: 1.6
  */
 void
 pt_player_pause_and_rewind (PtPlayer *player)
@@ -478,6 +484,8 @@ pt_player_pause_and_rewind (PtPlayer *player)
  * @player: a #PtPlayer
  *
  * Return value: time to rewind on pause in milliseconds
+ *
+ * Since: 1.6
  */
 gint
 pt_player_get_pause (PtPlayer *player)
@@ -494,6 +502,8 @@ pt_player_get_pause (PtPlayer *player)
  * Starts playback at the defined speed until it reaches the end of stream (or
  * the end of the selection). If the current position is at the end, playback
  * will start from the beginning of stream or selection.
+ *
+ * Since: 1.4
  */
 void
 pt_player_play (PtPlayer *player)
@@ -539,6 +549,8 @@ pt_player_play (PtPlayer *player)
  * @player: a #PtPlayer
  *
  * Toggles between playback and pause, rewinds on pause.
+ *
+ * Since: 1.6
  */
 void
 pt_player_play_pause (PtPlayer *player)
@@ -581,6 +593,8 @@ pt_player_play_pause (PtPlayer *player)
  * be set to the selection’s start position, otherwise the current position is
  * not changed. Playing will end at the stop position and it’s not possible to
  * jump out of the selection until it is cleared with #pt_player_clear_selection.
+ *
+ * Since: 1.5
  */
 void
 pt_player_set_selection (PtPlayer *player,
@@ -609,6 +623,8 @@ pt_player_set_selection (PtPlayer *player,
  * @player: a #PtPlayer
  *
  * Clear and reset any selection.
+ *
+ * Since: 1.5
  */
 void
 pt_player_clear_selection (PtPlayer *player)
@@ -631,6 +647,8 @@ pt_player_clear_selection (PtPlayer *player)
  * @player: a #PtPlayer
  *
  * Return value: TRUE if there is a selection
+ *
+ * Since: 1.6
  */
 gboolean
 pt_player_selection_active (PtPlayer *player)
@@ -650,6 +668,8 @@ pt_player_selection_active (PtPlayer *player)
  *
  * <note><para>Note that depending on the file/stream format this works more
  * or less good.</para></note>
+ *
+ * Since: 1.5
  */
 void
 pt_player_rewind (PtPlayer *player,
@@ -691,6 +711,8 @@ pt_player_rewind (PtPlayer *player,
  * @speed: the speed
  *
  * Play fast forward at the given speed.
+ *
+ * Since: 1.5
  */
 void
 pt_player_fast_forward (PtPlayer *player,
@@ -735,6 +757,8 @@ pt_player_fast_forward (PtPlayer *player,
  * to the end of stream (or selection). A negative value means jumping back.
  * If the resulting position would be negative (or before the selection), it
  * jumps to position 0:00 (or to the start of the selection).
+ *
+ * Since: 1.4
  */
 void
 pt_player_jump_relative (PtPlayer *player,
@@ -769,6 +793,8 @@ pt_player_jump_relative (PtPlayer *player,
  * @player: a #PtPlayer
  *
  * Jumps back the value of #PtPlayer:back.
+ *
+ * Since: 1.6
  */
 void
 pt_player_jump_back (PtPlayer *player)
@@ -787,6 +813,8 @@ pt_player_jump_back (PtPlayer *player)
  * @player: a #PtPlayer
  *
  * Jumps forward the value of #PtPlayer:forward.
+ *
+ * Since: 1.6
  */
 void
 pt_player_jump_forward (PtPlayer *player)
@@ -800,6 +828,8 @@ pt_player_jump_forward (PtPlayer *player)
  * @player: a #PtPlayer
  *
  * Return value: time to jump back in milliseconds
+ *
+ * Since: 1.6
  */
 gint
 pt_player_get_back (PtPlayer *player)
@@ -814,6 +844,8 @@ pt_player_get_back (PtPlayer *player)
  * @player: a #PtPlayer
  *
  * Return value: time to jump forward in milliseconds
+ *
+ * Since: 1.6
  */
 gint
 pt_player_get_forward (PtPlayer *player)
@@ -831,6 +863,8 @@ pt_player_get_forward (PtPlayer *player)
  * Jumps to a given position in stream. The position is given in @milliseconds
  * starting from position 0:00. A position beyond the duration of stream (or
  * outside the selection) is ignored.
+ *
+ * Since: 1.4
  */
 void
 pt_player_jump_to_position (PtPlayer *player,
@@ -873,6 +907,8 @@ pt_player_jump_to_position (PtPlayer *player,
  * at 1000. This will jump to the given position. If your widget uses a different
  * scale, it’s up to you to convert it to 1/1000. Values beyond 1000 are not
  * allowed, values outside the selection are ignored.
+ *
+ * Since: 1.4
  */
 void
 pt_player_jump_to_permille (PtPlayer *player,
@@ -901,6 +937,8 @@ pt_player_jump_to_permille (PtPlayer *player,
  * Failure in querying the position returns -1.
  *
  * Return value: a scale position between 0 and 1000 or -1 on failure
+ *
+ * Since: 1.4
  */
 gint
 pt_player_get_permille (PtPlayer *player)
@@ -925,6 +963,8 @@ pt_player_get_permille (PtPlayer *player)
  * A speed of 0 is not allowed, use pt_player_pause() instead.
  * Recommended speed is starting from 0.5 as quality is rather poor below that.
  * Parlatype doesn’t change the pitch during slower or faster playback.
+ *
+ * Since: 1.4
  */
 void
 pt_player_set_speed (PtPlayer *player,
@@ -955,6 +995,8 @@ pt_player_set_speed (PtPlayer *player,
  *
  * Sets the volume on a scale between 0 and 1. Instead of using this method
  * you could set the "volume" property.
+ *
+ * Since: 1.4
  */
 void
 pt_player_set_volume (PtPlayer *player,
@@ -981,6 +1023,8 @@ pt_player_set_volume (PtPlayer *player,
  *
  * Mute the player (with TRUE) or set it back to normal volume (with FALSE).
  * This remembers the volume level, so you don’t have to keep track of the old value.
+ *
+ * Since: 1.4
  */
 void
 pt_player_mute_volume (PtPlayer *player,
@@ -998,6 +1042,8 @@ pt_player_mute_volume (PtPlayer *player,
  * Returns the current position in stream.
  *
  * Return value: position in milliseconds or -1 on failure
+ *
+ * Since: 1.5
  */
 gint64
 pt_player_get_position (PtPlayer *player)
@@ -1019,6 +1065,8 @@ pt_player_get_position (PtPlayer *player)
  * Returns the duration of stream.
  *
  * Return value: duration in milliseconds
+ *
+ * Since: 1.5
  */
 gint64
 pt_player_get_duration (PtPlayer *player)
@@ -1093,6 +1141,8 @@ wv_play_toggled_cb (GtkWidget *widget,
  *
  * Connect a #PtWaveviewer. The #PtPlayer will monitor selections made in the
  * #PtWaveviewer and act accordingly.
+ *
+ * Since: 1.6
  */
 void
 pt_player_connect_waveviewer (PtPlayer     *player,
@@ -1127,6 +1177,8 @@ pt_player_connect_waveviewer (PtPlayer     *player,
  * Returns the URI of the currently open file or NULL if it can’t be determined.
  *
  * Return value: (transfer full): the uri
+ *
+ * Since: 1.4
  */
 gchar*
 pt_player_get_uri (PtPlayer *player)
@@ -1145,6 +1197,8 @@ pt_player_get_uri (PtPlayer *player)
  * Returns the display name of the currently open file or NULL if it can’t be determined.
  *
  * Return value: (transfer full): the file name
+ *
+ * Since: 1.4
  */
 gchar*
 pt_player_get_filename (PtPlayer *player)
@@ -1207,6 +1261,8 @@ pt_player_get_filename (PtPlayer *player)
  * in long format, too.
  *
  * Return value: (transfer full): the time string
+ *
+ * Since: 1.4
  */
 gchar*
 pt_player_get_time_string (gint            time,
@@ -1328,6 +1384,8 @@ pt_player_get_time_string (gint            time,
  * If the current position can not be determined, NULL is returned.
  *
  * Return value: (transfer full): the time string
+ *
+ * Since: 1.4
  */
 gchar*
 pt_player_get_current_time_string (PtPlayer        *player,
@@ -1357,6 +1415,8 @@ pt_player_get_current_time_string (PtPlayer        *player,
  * If the duration can not be determined, NULL is returned.
  *
  * Return value: (transfer full): the time string
+ *
+ * Since: 1.4
  */
 gchar*
 pt_player_get_duration_time_string (PtPlayer        *player,
@@ -1387,6 +1447,8 @@ pt_player_get_duration_time_string (PtPlayer        *player,
  * #PtPlayer:timestamp-fraction-sep and #PtPlayer:timestamp-delimiter.
  *
  * Return value: (transfer full): the timestamp
+ *
+ * Since: 1.6
  */
 gchar*
 pt_player_get_timestamp_for_time (PtPlayer *player,
@@ -1468,6 +1530,8 @@ pt_player_get_timestamp_for_time (PtPlayer *player,
  * If the current position can not be determined, NULL is returned.
  *
  * Return value: (transfer full): the timestamp
+ *
+ * Since: 1.4
  */
 gchar*
 pt_player_get_timestamp (PtPlayer *player)
@@ -1496,6 +1560,8 @@ pt_player_get_timestamp (PtPlayer *player)
  *
  * Return value: the time in milliseconds represented by the timestamp or -1
  * for invalid timestamps
+ *
+ * Since: 1.6
  */
 gint
 pt_player_get_timestamp_position (PtPlayer *player,
@@ -1614,6 +1680,8 @@ pt_player_get_timestamp_position (PtPlayer *player,
  * position immediately after.
  *
  * Return value: TRUE if the timestamp is valid, FALSE if not
+ *
+ * Since: 1.4
  */
 gboolean
 pt_player_string_is_timestamp (PtPlayer *player,
@@ -1635,6 +1703,8 @@ pt_player_string_is_timestamp (PtPlayer *player,
  * valid timestamp.
  *
  * Return value: TRUE on success, FALSE if the timestamp is not valid
+ *
+ * Since: 1.4
  */
 gboolean
 pt_player_goto_timestamp (PtPlayer *player,
@@ -1931,6 +2001,8 @@ add_element (GstBin     *parent,
  * the results. Start recognition with pt_player_play().
  *
  * Return value: TRUE on success, FALSE if the pipeline could not be set up
+ *
+ * Since: 1.6
  */
 gboolean
 pt_player_setup_sphinx (PtPlayer  *player,
@@ -1971,6 +2043,8 @@ pt_player_setup_sphinx (PtPlayer  *player,
  * do anything with the #PtPlayer before calling the setup function.
  *
  * Return value: TRUE on success, FALSE if the pipeline could not be set up
+ *
+ * Since: 1.6
  */
 gboolean
 pt_player_setup_player (PtPlayer  *player,
@@ -2462,6 +2536,8 @@ pt_player_class_init (PtPlayerClass *klass)
  * After use g_object_unref() it.
  *
  * Return value: (transfer full): a new pt_player
+ *
+ * Since: 1.6
  */
 PtPlayer *
 pt_player_new (void)
