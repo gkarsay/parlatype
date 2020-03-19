@@ -15,8 +15,8 @@ Whenever you pause playback, it will rewind a few seconds, so that you can easie
 ## Timestamps
 Parlatype produces timestamps which you can insert in your transcription. Parlatype will jump to that position at your will (drag 'n' drop or with LibreOffice Helpers).
 
-## LibreOffice Helpers
-Parlatype recommends to use LibreOffice. A set of helpers (macros) can be assigned to key bindings. E.g. insert timestamps or jump to timestamps.
+## LibreOffice Extension
+Parlatype recommends to use LibreOffice. An extension lets you link a media file to a document and jump to timestamps. A set of macros can be assigned to key bindings, e.g. to insert timestamps.
 
 ## Automatic speech recognition
 This is a working feature (since version 1.6), however, it’s hidden by default (since version 1.6.1).
