@@ -36,20 +36,13 @@
 </tr></table></div>
 <div class="refsect1">
 <a name="PtPlayer.stability-level"></a><h2>Stability Level</h2>
-<acronym title="Unstable interfaces are experimental or transitional. They are typically used to
-give outside developers early access to new or rapidly changing technology, or
-to provide an interim solution to a problem where a more general solution is
-anticipated. No claims are made about either source or binary compatibility from
-one minor release to the next.
-
-The Unstable interface level is a warning that these interfaces are  subject to
-change without warning and should not be used in unbundled products.
-
-Given such caveats, customer impact need not be a factor when considering
-incompatible changes to an Unstable interface in a major or minor release.
-Nonetheless, when such changes are introduced, the changes should still be
-mentioned in the release notes for the affected release.
-"><span class="acronym">Unstable</span></acronym>, unless otherwise indicated
+<acronym title="The intention of a Stable interface is to enable arbitrary third parties to
+develop applications to these interfaces, release them, and have confidence that
+they will run on all minor releases of the product (after the one in which the
+interface was introduced, and within the same major release). Even at a major
+release, incompatible changes are expected to be rare, and to have strong
+justifications.
+"><span class="acronym">Stable</span></acronym>, unless otherwise indicated
 </div>
 <div class="refsect1">
 <a name="PtPlayer.functions"></a><h2>Functions</h2>
@@ -85,34 +78,10 @@ mentioned in the release notes for the affected release.
 </tr>
 <tr>
 <td class="function_type">
-<span class="returnvalue">void</span>
-</td>
-<td class="function_name">
-<a class="link" href="PtPlayer.html#pt-player-open-uri-async" title="pt_player_open_uri_async ()">pt_player_open_uri_async</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">
-<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
-</td>
-<td class="function_name">
-<a class="link" href="PtPlayer.html#pt-player-open-uri-finish" title="pt_player_open_uri_finish ()">pt_player_open_uri_finish</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">
 <a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 </td>
 <td class="function_name">
 <a class="link" href="PtPlayer.html#pt-player-open-uri" title="pt_player_open_uri ()">pt_player_open_uri</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">
-<span class="returnvalue">void</span>
-</td>
-<td class="function_name">
-<a class="link" href="PtPlayer.html#pt-player-cancel" title="pt_player_cancel ()">pt_player_cancel</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -387,14 +356,6 @@ mentioned in the release notes for the affected release.
 <a class="link" href="PtPlayer.html#pt-player-goto-timestamp" title="pt_player_goto_timestamp ()">pt_player_goto_timestamp</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
-<tr>
-<td class="function_type">
-<a class="link" href="PtWavedata.html" title="PtWavedata"><span class="returnvalue">PtWavedata</span></a> *
-</td>
-<td class="function_name">
-<a class="link" href="PtPlayer.html#pt-player-get-data" title="pt_player_get_data ()">pt_player_get_data</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
 </tbody>
 </table></div>
 </div>
@@ -508,11 +469,6 @@ mentioned in the release notes for the affected release.
 </tr>
 <tr>
 <td class="signal_type"><span class="returnvalue">void</span></td>
-<td class="signal_name"><a class="link" href="PtPlayer.html#PtPlayer-load-progress" title="The “load-progress” signal">load-progress</a></td>
-<td class="signal_flags"><a href="../gobject/gobject-Signals.html#G-SIGNAL-RUN-FIRST:CAPS">Run First</a></td>
-</tr>
-<tr>
-<td class="signal_type"><span class="returnvalue">void</span></td>
 <td class="signal_name"><a class="link" href="PtPlayer.html#PtPlayer-play-toggled" title="The “play-toggled” signal">play-toggled</a></td>
 <td class="signal_flags"><a href="../gobject/gobject-Signals.html#G-SIGNAL-RUN-FIRST:CAPS">Run First</a></td>
 </tr>
@@ -552,24 +508,9 @@ mentioned in the release notes for the affected release.
 <div class="refsect1">
 <a name="PtPlayer.description"></a><h2>Description</h2>
 <p>PtPlayer is the GStreamer backend for Parlatype. Construct it with <a class="link" href="PtPlayer.html#pt-player-new" title="pt_player_new ()"><code class="function">pt_player_new()</code></a>.
-Then you have to open a file, either with <a class="link" href="PtPlayer.html#pt-player-open-uri-async" title="pt_player_open_uri_async ()"><code class="function">pt_player_open_uri_async()</code></a> or
-<a class="link" href="PtPlayer.html#pt-player-open-uri" title="pt_player_open_uri ()"><code class="function">pt_player_open_uri()</code></a>, the blocking version.</p>
+Then you have to open a file with <a class="link" href="PtPlayer.html#pt-player-open-uri" title="pt_player_open_uri ()"><code class="function">pt_player_open_uri()</code></a>.</p>
 <p>The internal time unit in PtPlayer are milliseconds and for scale widgets there
 is a scale from 0 to 1000. Use it to jump to a position or to update your widget.</p>
-<p>While playing PtPlayer emits these signals:</p>
-<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
-<li class="listitem"><p>end-of-stream: End of file reached, in the GUI you might want to jump
-		       to the beginning, reset play button etc.</p></li>
-<li class="listitem"><p>error: A fatal error occured, the player is reset. There’s an error message.</p></li>
-</ul></div>
-<p>PtPlayer has two properties:</p>
-<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
-<li class="listitem"><p>speed: is a double from 0.5 to 1.5. 1.0 is normal playback, &lt; 1.0 is slower,
-&gt; 1.0 is faster. Changing the "speed" property doesn’t change playback though.
-Use the method instead.</p></li>
-<li class="listitem"><p>Volume is a double from 0 to 1. It can be set via the method or setting
-  the "volume" property.</p></li>
-</ul></div>
 </div>
 <div class="refsect1">
 <a name="PtPlayer.functions_details"></a><h2>Functions</h2>
@@ -585,6 +526,7 @@ pt_player_new (<em class="parameter"><code><span class="type">void</span></code>
 <p>a new pt_player. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-6.html#api-index-1.6">1.6</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -621,6 +563,7 @@ do anything with the <a class="link" href="PtPlayer.html" title="PtPlayer"><span
 <a name="pt-player-setup-player.returns"></a><h4>Returns</h4>
 <p> TRUE on success, FALSE if the pipeline could not be set up</p>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-6.html#api-index-1.6">1.6</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -660,110 +603,14 @@ the results. Start recognition with <a class="link" href="PtPlayer.html#pt-playe
 <a name="pt-player-setup-sphinx.returns"></a><h4>Returns</h4>
 <p> TRUE on success, FALSE if the pipeline could not be set up</p>
 </div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pt-player-open-uri-async"></a><h3>pt_player_open_uri_async ()</h3>
-<pre class="programlisting"><span class="returnvalue">void</span>
-pt_player_open_uri_async (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>,
-                          <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *uri</code></em>,
-                          <em class="parameter"><code><a href="../gio/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
-                          <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
-<p>Opens a local audio file for playback. It doesn’t work with videos or streams.
-Only one file can be open at a time, playlists are not supported by the
-backend. Opening a new file will close the previous one.</p>
-<p>When closing a file or on object destruction PtPlayer tries to write the
-last position into the file’s metadata. On opening a file it reads the
-metadata and jumps to the last known position if found.</p>
-<p>The player is set to the paused state and ready for playback. To start
-playback use <em class="parameter"><code><a class="link" href="PtPlayer.html#pt-player-play" title="pt_player_play ()"><code class="function">pt_player_play()</code></a></code></em>
-.</p>
-<p>This is an asynchronous operation, to get the result call
-<a class="link" href="PtPlayer.html#pt-player-open-uri-finish" title="pt_player_open_uri_finish ()"><code class="function">pt_player_open_uri_finish()</code></a> in your callback. For the blocking version see
-<a class="link" href="PtPlayer.html#pt-player-open-uri" title="pt_player_open_uri ()"><code class="function">pt_player_open_uri()</code></a>.</p>
-<p>While loading the file there is a <a class="link" href="PtPlayer.html#PtPlayer-load-progress" title="The “load-progress” signal"><span class="type">“load-progress”</span></a> signal emitted which stops before
-reaching 100%. Don’t use it to determine whether the operation is finished.</p>
-<div class="refsect3">
-<a name="pt-player-open-uri-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table class="informaltable" width="100%" border="0">
-<colgroup>
-<col width="150px" class="parameters_name">
-<col class="parameters_description">
-<col width="200px" class="parameters_annotations">
-</colgroup>
-<tbody>
-<tr>
-<td class="parameter_name"><p>player</p></td>
-<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
-<td class="parameter_annotations"> </td>
-</tr>
-<tr>
-<td class="parameter_name"><p>uri</p></td>
-<td class="parameter_description"><p>the URI of the file</p></td>
-<td class="parameter_annotations"> </td>
-</tr>
-<tr>
-<td class="parameter_name"><p>callback</p></td>
-<td class="parameter_description"><p>a <a href="../gio/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> to call when the operation is complete. </p></td>
-<td class="parameter_annotations"><span class="annotation">[<acronym title="The callback is valid until first called."><span class="acronym">scope async</span></acronym>]</span></td>
-</tr>
-<tr>
-<td class="parameter_name"><p>user_data</p></td>
-<td class="parameter_description"><p>user_data for callback. </p></td>
-<td class="parameter_annotations"><span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym>]</span></td>
-</tr>
-</tbody>
-</table></div>
-</div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pt-player-open-uri-finish"></a><h3>pt_player_open_uri_finish ()</h3>
-<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
-pt_player_open_uri_finish (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>,
-                           <em class="parameter"><code><a href="../gio/GAsyncResult.html#GAsyncResult-struct"><span class="type">GAsyncResult</span></a> *result</code></em>,
-                           <em class="parameter"><code><a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
-<p>Gives the result of the async opening operation. A cancelled operation results
-in an error, too.</p>
-<div class="refsect3">
-<a name="pt-player-open-uri-finish.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table class="informaltable" width="100%" border="0">
-<colgroup>
-<col width="150px" class="parameters_name">
-<col class="parameters_description">
-<col width="200px" class="parameters_annotations">
-</colgroup>
-<tbody>
-<tr>
-<td class="parameter_name"><p>player</p></td>
-<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
-<td class="parameter_annotations"> </td>
-</tr>
-<tr>
-<td class="parameter_name"><p>result</p></td>
-<td class="parameter_description"><p>the <a href="../gio/GAsyncResult.html#GAsyncResult-struct"><span class="type">GAsyncResult</span></a> passed to your <a href="../gio/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a></p></td>
-<td class="parameter_annotations"> </td>
-</tr>
-<tr>
-<td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>a pointer to a NULL <a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>, or NULL. </p></td>
-<td class="parameter_annotations"><span class="annotation">[<acronym title="NULL may be passed as the value in, out, in-out; or as a return value."><span class="acronym">nullable</span></acronym>]</span></td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<div class="refsect3">
-<a name="pt-player-open-uri-finish.returns"></a><h4>Returns</h4>
-<p> TRUE if successful, or FALSE with error set</p>
-</div>
+<p class="since">Since: <a class="link" href="api-index-1-6.html#api-index-1.6">1.6</a></p>
 </div>
 <hr>
 <div class="refsect2">
 <a name="pt-player-open-uri"></a><h3>pt_player_open_uri ()</h3>
 <pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 pt_player_open_uri (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>,
-                    <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *uri</code></em>,
-                    <em class="parameter"><code><a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+                    <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *uri</code></em>);</pre>
 <p>Opens a local audio file for playback. It doesn’t work with videos or streams.
 Only one file can be open at a time, playlists are not supported by the
 backend. Opening a new file will close the previous one.</p>
@@ -774,10 +621,7 @@ metadata and jumps to the last known position if found.</p>
 playback use <em class="parameter"><code><a class="link" href="PtPlayer.html#pt-player-play" title="pt_player_play ()"><code class="function">pt_player_play()</code></a></code></em>
 .</p>
 <p>This operation blocks until it is finished. It returns TRUE on success or
-FALSE and an error. For the asynchronous version see
-<a class="link" href="PtPlayer.html#pt-player-open-uri-async" title="pt_player_open_uri_async ()"><code class="function">pt_player_open_uri_async()</code></a>.</p>
-<p>While loading the file there is a <a class="link" href="PtPlayer.html#PtPlayer-load-progress" title="The “load-progress” signal"><span class="type">“load-progress”</span></a> signal emitted.
-However, it doesn’t emit 100%, the operation is finished when TRUE is returned.</p>
+FALSE on error. Errors are emitted async via <a class="link" href="PtPlayer.html#PtPlayer-error" title="The “error” signal"><span class="type">“error”</span></a> signal.</p>
 <div class="refsect3">
 <a name="pt-player-open-uri.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
@@ -797,40 +641,14 @@ However, it doesn’t emit 100%, the operation is finished when TRUE is returned
 <td class="parameter_description"><p>the URI of the file</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
-<tr>
-<td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>return location for an error, or NULL. </p></td>
-<td class="parameter_annotations"><span class="annotation">[<acronym title="NULL may be passed as the value in, out, in-out; or as a return value."><span class="acronym">nullable</span></acronym>]</span></td>
-</tr>
 </tbody>
 </table></div>
 </div>
 <div class="refsect3">
 <a name="pt-player-open-uri.returns"></a><h4>Returns</h4>
-<p> TRUE if successful, or FALSE with error set</p>
+<p> TRUE if successful, otherwise FALSE</p>
 </div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pt-player-cancel"></a><h3>pt_player_cancel ()</h3>
-<pre class="programlisting"><span class="returnvalue">void</span>
-pt_player_cancel (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>);</pre>
-<p>Cancels the file opening operation, which triggers an error message.</p>
-<div class="refsect3">
-<a name="pt-player-cancel.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table class="informaltable" width="100%" border="0">
-<colgroup>
-<col width="150px" class="parameters_name">
-<col class="parameters_description">
-<col width="200px" class="parameters_annotations">
-</colgroup>
-<tbody><tr>
-<td class="parameter_name"><p>player</p></td>
-<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
-<td class="parameter_annotations"> </td>
-</tr></tbody>
-</table></div>
-</div>
+<p class="since">Since: <a class="link" href="api-index-2-0.html#api-index-2.0">2.0</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -855,6 +673,7 @@ will start from the beginning of stream or selection.</p>
 </tr></tbody>
 </table></div>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-4.html#api-index-1.4">1.4</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -877,6 +696,7 @@ pt_player_play_pause (<em class="parameter"><code><a class="link" href="PtPlayer
 </tr></tbody>
 </table></div>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-6.html#api-index-1.6">1.6</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -901,6 +721,7 @@ change position. To resume playback use <em class="parameter"><code><a class="li
 </tr></tbody>
 </table></div>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-4.html#api-index-1.4">1.4</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -925,6 +746,7 @@ pt_player_pause_and_rewind (<em class="parameter"><code><a class="link" href="Pt
 </tr></tbody>
 </table></div>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-6.html#api-index-1.6">1.6</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -950,6 +772,7 @@ pt_player_get_pause (<em class="parameter"><code><a class="link" href="PtPlayer.
 <a name="pt-player-get-pause.returns"></a><h4>Returns</h4>
 <p> time to rewind on pause in milliseconds</p>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-6.html#api-index-1.6">1.6</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -981,6 +804,7 @@ pt_player_connect_waveviewer (<em class="parameter"><code><a class="link" href="
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-6.html#api-index-1.6">1.6</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1020,6 +844,7 @@ jump out of the selection until it is cleared with <a class="link" href="PtPlaye
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-5.html#api-index-1.5">1.5</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1042,6 +867,7 @@ pt_player_clear_selection (<em class="parameter"><code><a class="link" href="PtP
 </tr></tbody>
 </table></div>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-5.html#api-index-1.5">1.5</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1067,6 +893,7 @@ pt_player_selection_active (<em class="parameter"><code><a class="link" href="Pt
 <a name="pt-player-selection-active.returns"></a><h4>Returns</h4>
 <p> TRUE if there is a selection</p>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-6.html#api-index-1.6">1.6</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1102,6 +929,7 @@ jumps to position 0:00 (or to the start of the selection).</p>
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-4.html#api-index-1.4">1.4</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1124,6 +952,7 @@ pt_player_jump_back (<em class="parameter"><code><a class="link" href="PtPlayer.
 </tr></tbody>
 </table></div>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-6.html#api-index-1.6">1.6</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1146,6 +975,7 @@ pt_player_jump_forward (<em class="parameter"><code><a class="link" href="PtPlay
 </tr></tbody>
 </table></div>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-6.html#api-index-1.6">1.6</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1171,6 +1001,7 @@ pt_player_get_back (<em class="parameter"><code><a class="link" href="PtPlayer.h
 <a name="pt-player-get-back.returns"></a><h4>Returns</h4>
 <p> time to jump back in milliseconds</p>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-6.html#api-index-1.6">1.6</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1196,6 +1027,7 @@ pt_player_get_forward (<em class="parameter"><code><a class="link" href="PtPlaye
 <a name="pt-player-get-forward.returns"></a><h4>Returns</h4>
 <p> time to jump forward in milliseconds</p>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-6.html#api-index-1.6">1.6</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1229,6 +1061,7 @@ outside the selection) is ignored.</p>
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-4.html#api-index-1.4">1.4</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1262,6 +1095,7 @@ allowed, values outside the selection are ignored.</p>
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-4.html#api-index-1.4">1.4</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1291,6 +1125,7 @@ current position in stream, this gives the position on a scale between 0 and
 <a name="pt-player-get-permille.returns"></a><h4>Returns</h4>
 <p> a scale position between 0 and 1000 or -1 on failure</p>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-4.html#api-index-1.4">1.4</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1303,9 +1138,6 @@ Normal speed is 1.0, everything above that is faster, everything below slower.
 A speed of 0 is not allowed, use <a class="link" href="PtPlayer.html#pt-player-pause" title="pt_player_pause ()"><code class="function">pt_player_pause()</code></a> instead.
 Recommended speed is starting from 0.5 as quality is rather poor below that.
 Parlatype doesn’t change the pitch during slower or faster playback.</p>
-<p>Note: If you want to change the speed during playback, you have to use this
-method. Changing the "speed" property of PtPlayer, will take effect only
-later.</p>
 <div class="refsect3">
 <a name="pt-player-set-speed.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
@@ -1328,6 +1160,7 @@ later.</p>
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-4.html#api-index-1.4">1.4</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1359,6 +1192,7 @@ you could set the "volume" property.</p>
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-4.html#api-index-1.4">1.4</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1390,6 +1224,7 @@ This remembers the volume level, so you don’t have to keep track of the old va
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-4.html#api-index-1.4">1.4</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1424,6 +1259,7 @@ or less good.</p></div>
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-5.html#api-index-1.5">1.5</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1454,6 +1290,7 @@ pt_player_fast_forward (<em class="parameter"><code><a class="link" href="PtPlay
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-5.html#api-index-1.5">1.5</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1480,6 +1317,7 @@ pt_player_get_position (<em class="parameter"><code><a class="link" href="PtPlay
 <a name="pt-player-get-position.returns"></a><h4>Returns</h4>
 <p> position in milliseconds or -1 on failure</p>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-5.html#api-index-1.5">1.5</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1506,6 +1344,7 @@ pt_player_get_duration (<em class="parameter"><code><a class="link" href="PtPlay
 <a name="pt-player-get-duration.returns"></a><h4>Returns</h4>
 <p> duration in milliseconds</p>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-5.html#api-index-1.5">1.5</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1533,6 +1372,7 @@ pt_player_get_uri (<em class="parameter"><code><a class="link" href="PtPlayer.ht
 <p>the uri. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-4.html#api-index-1.4">1.4</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1560,6 +1400,7 @@ pt_player_get_filename (<em class="parameter"><code><a class="link" href="PtPlay
 <p>the file name. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-4.html#api-index-1.4">1.4</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1604,6 +1445,7 @@ in long format, too.</p>
 <p>the time string. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-4.html#api-index-1.4">1.4</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1640,6 +1482,7 @@ pt_player_get_current_time_string (<em class="parameter"><code><a class="link" h
 <p>the time string. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-4.html#api-index-1.4">1.4</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1676,6 +1519,7 @@ pt_player_get_duration_time_string (<em class="parameter"><code><a class="link" 
 <p>the time string. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-4.html#api-index-1.4">1.4</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1723,6 +1567,7 @@ whether duration is less than one hour or more than (including) an hour
 <p>the timestamp. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-6.html#api-index-1.6">1.6</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1753,6 +1598,7 @@ be influenced with <a class="link" href="PtPlayer.html#PtPlayer--timestamp-preci
 <p>the timestamp. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-4.html#api-index-1.4">1.4</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1795,6 +1641,7 @@ invalid timestamps.</p>
 <p> the time in milliseconds represented by the timestamp or -1
 for invalid timestamps</p>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-6.html#api-index-1.6">1.6</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1841,6 +1688,7 @@ position immediately after.</p>
 <a name="pt-player-string-is-timestamp.returns"></a><h4>Returns</h4>
 <p> TRUE if the timestamp is valid, FALSE if not</p>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-4.html#api-index-1.4">1.4</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1876,45 +1724,7 @@ valid timestamp.</p>
 <a name="pt-player-goto-timestamp.returns"></a><h4>Returns</h4>
 <p> TRUE on success, FALSE if the timestamp is not valid</p>
 </div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pt-player-get-data"></a><h3>pt_player_get_data ()</h3>
-<pre class="programlisting"><a class="link" href="PtWavedata.html" title="PtWavedata"><span class="returnvalue">PtWavedata</span></a> *
-pt_player_get_data (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>,
-                    <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a> pps</code></em>);</pre>
-<p>Returns wave data needed for visual representation as raw data. The
-requested resolution is given as pixel per seconds, e.g. 100 means one second
-is represented by 100 samples, is 100 pixels wide. The returned resolution
-doesn’t have to be necessarily exactly the requested resolution, it might be
-a bit differnt, depending on the bit rate.</p>
-<div class="refsect3">
-<a name="pt-player-get-data.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table class="informaltable" width="100%" border="0">
-<colgroup>
-<col width="150px" class="parameters_name">
-<col class="parameters_description">
-<col width="200px" class="parameters_annotations">
-</colgroup>
-<tbody>
-<tr>
-<td class="parameter_name"><p>player</p></td>
-<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
-<td class="parameter_annotations"> </td>
-</tr>
-<tr>
-<td class="parameter_name"><p>pps</p></td>
-<td class="parameter_description"><p>the requested pixel per second ratio</p></td>
-<td class="parameter_annotations"> </td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<div class="refsect3">
-<a name="pt-player-get-data.returns"></a><h4>Returns</h4>
-<p>the <a class="link" href="PtWavedata.html" title="PtWavedata"><span class="type">PtWavedata</span></a>. </p>
-<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
-</div>
+<p class="since">Since: <a class="link" href="api-index-1-4.html#api-index-1.4">1.4</a></p>
 </div>
 </div>
 <div class="refsect1">
@@ -2269,45 +2079,6 @@ forward.</p>
 <tr>
 <td class="parameter_name"><p>player</p></td>
 <td class="parameter_description"><p>the player emitting the signal</p></td>
-<td class="parameter_annotations"> </td>
-</tr>
-<tr>
-<td class="parameter_name"><p>user_data</p></td>
-<td class="parameter_description"><p>user data set when the signal handler was connected.</p></td>
-<td class="parameter_annotations"> </td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<p>Flags: <a href="../gobject/gobject-Signals.html#G-SIGNAL-RUN-FIRST:CAPS">Run First</a></p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="PtPlayer-load-progress"></a><h3>The <code class="literal">“load-progress”</code> signal</h3>
-<pre class="programlisting"><span class="returnvalue">void</span>
-user_function (<a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player,
-               <a href="../glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a>   progress,
-               <a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>  user_data)</pre>
-<p>Indicates progress on a scale from 0.0 to 1.0, however it does not
-emit the value 0.0 nor 1.0. Wait for a TRUE player-state-changed
-signal or an error signal to dismiss a gui element showing progress.</p>
-<div class="refsect3">
-<a name="PtPlayer-load-progress.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table class="informaltable" width="100%" border="0">
-<colgroup>
-<col width="150px" class="parameters_name">
-<col class="parameters_description">
-<col width="200px" class="parameters_annotations">
-</colgroup>
-<tbody>
-<tr>
-<td class="parameter_name"><p>player</p></td>
-<td class="parameter_description"><p>the player emitting the signal</p></td>
-<td class="parameter_annotations"> </td>
-</tr>
-<tr>
-<td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>the new progress state, ranging from 0.0 to 1.0</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>

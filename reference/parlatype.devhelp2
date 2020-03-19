@@ -11,60 +11,58 @@
     </sub>
     <sub name="GtkWidgets" link="pt03.html">
       <sub name="Widget gallery" link="gallery.html"/>
-      <sub name="PtProgressDialog" link="PtProgressDialog.html"/>
       <sub name="PtWaveviewer" link="PtWaveviewer.html"/>
     </sub>
     <sub name="Internals: Get Wavedata" link="pt04.html">
-      <sub name="PtWavedata" link="PtWavedata.html"/>
       <sub name="PtWaveloader" link="PtWaveloader.html"/>
     </sub>
     <sub name="Object Hierarchy" link="object-tree.html"/>
     <sub name="API Index" link="api-index-full.html"/>
+    <sub name="Index of new or changed symbols in 1.4" link="api-index-1-4.html"/>
+    <sub name="Index of new or changed symbols in 1.5" link="api-index-1-5.html"/>
+    <sub name="Index of new or changed symbols in 1.6" link="api-index-1-6.html"/>
+    <sub name="Index of new or changed symbols in 2.0" link="api-index-2-0.html"/>
     <sub name="Annotation Glossary" link="annotation-glossary.html"/>
   </chapters>
   <functions>
-    <keyword type="function" name="pt_player_new ()" link="PtPlayer.html#pt-player-new"/>
-    <keyword type="function" name="pt_player_setup_player ()" link="PtPlayer.html#pt-player-setup-player"/>
-    <keyword type="function" name="pt_player_setup_sphinx ()" link="PtPlayer.html#pt-player-setup-sphinx"/>
-    <keyword type="function" name="pt_player_open_uri_async ()" link="PtPlayer.html#pt-player-open-uri-async"/>
-    <keyword type="function" name="pt_player_open_uri_finish ()" link="PtPlayer.html#pt-player-open-uri-finish"/>
-    <keyword type="function" name="pt_player_open_uri ()" link="PtPlayer.html#pt-player-open-uri"/>
-    <keyword type="function" name="pt_player_cancel ()" link="PtPlayer.html#pt-player-cancel"/>
-    <keyword type="function" name="pt_player_play ()" link="PtPlayer.html#pt-player-play"/>
-    <keyword type="function" name="pt_player_play_pause ()" link="PtPlayer.html#pt-player-play-pause"/>
-    <keyword type="function" name="pt_player_pause ()" link="PtPlayer.html#pt-player-pause"/>
-    <keyword type="function" name="pt_player_pause_and_rewind ()" link="PtPlayer.html#pt-player-pause-and-rewind"/>
-    <keyword type="function" name="pt_player_get_pause ()" link="PtPlayer.html#pt-player-get-pause"/>
-    <keyword type="function" name="pt_player_connect_waveviewer ()" link="PtPlayer.html#pt-player-connect-waveviewer"/>
-    <keyword type="function" name="pt_player_set_selection ()" link="PtPlayer.html#pt-player-set-selection"/>
-    <keyword type="function" name="pt_player_clear_selection ()" link="PtPlayer.html#pt-player-clear-selection"/>
-    <keyword type="function" name="pt_player_selection_active ()" link="PtPlayer.html#pt-player-selection-active"/>
-    <keyword type="function" name="pt_player_jump_relative ()" link="PtPlayer.html#pt-player-jump-relative"/>
-    <keyword type="function" name="pt_player_jump_back ()" link="PtPlayer.html#pt-player-jump-back"/>
-    <keyword type="function" name="pt_player_jump_forward ()" link="PtPlayer.html#pt-player-jump-forward"/>
-    <keyword type="function" name="pt_player_get_back ()" link="PtPlayer.html#pt-player-get-back"/>
-    <keyword type="function" name="pt_player_get_forward ()" link="PtPlayer.html#pt-player-get-forward"/>
-    <keyword type="function" name="pt_player_jump_to_position ()" link="PtPlayer.html#pt-player-jump-to-position"/>
-    <keyword type="function" name="pt_player_jump_to_permille ()" link="PtPlayer.html#pt-player-jump-to-permille"/>
-    <keyword type="function" name="pt_player_get_permille ()" link="PtPlayer.html#pt-player-get-permille"/>
-    <keyword type="function" name="pt_player_set_speed ()" link="PtPlayer.html#pt-player-set-speed"/>
-    <keyword type="function" name="pt_player_set_volume ()" link="PtPlayer.html#pt-player-set-volume"/>
-    <keyword type="function" name="pt_player_mute_volume ()" link="PtPlayer.html#pt-player-mute-volume"/>
-    <keyword type="function" name="pt_player_rewind ()" link="PtPlayer.html#pt-player-rewind"/>
-    <keyword type="function" name="pt_player_fast_forward ()" link="PtPlayer.html#pt-player-fast-forward"/>
-    <keyword type="function" name="pt_player_get_position ()" link="PtPlayer.html#pt-player-get-position"/>
-    <keyword type="function" name="pt_player_get_duration ()" link="PtPlayer.html#pt-player-get-duration"/>
-    <keyword type="function" name="pt_player_get_uri ()" link="PtPlayer.html#pt-player-get-uri"/>
-    <keyword type="function" name="pt_player_get_filename ()" link="PtPlayer.html#pt-player-get-filename"/>
-    <keyword type="function" name="pt_player_get_time_string ()" link="PtPlayer.html#pt-player-get-time-string"/>
-    <keyword type="function" name="pt_player_get_current_time_string ()" link="PtPlayer.html#pt-player-get-current-time-string"/>
-    <keyword type="function" name="pt_player_get_duration_time_string ()" link="PtPlayer.html#pt-player-get-duration-time-string"/>
-    <keyword type="function" name="pt_player_get_timestamp_for_time ()" link="PtPlayer.html#pt-player-get-timestamp-for-time"/>
-    <keyword type="function" name="pt_player_get_timestamp ()" link="PtPlayer.html#pt-player-get-timestamp"/>
-    <keyword type="function" name="pt_player_get_timestamp_position ()" link="PtPlayer.html#pt-player-get-timestamp-position"/>
-    <keyword type="function" name="pt_player_string_is_timestamp ()" link="PtPlayer.html#pt-player-string-is-timestamp"/>
-    <keyword type="function" name="pt_player_goto_timestamp ()" link="PtPlayer.html#pt-player-goto-timestamp"/>
-    <keyword type="function" name="pt_player_get_data ()" link="PtPlayer.html#pt-player-get-data"/>
+    <keyword type="function" name="pt_player_new ()" link="PtPlayer.html#pt-player-new" since="1.6"/>
+    <keyword type="function" name="pt_player_setup_player ()" link="PtPlayer.html#pt-player-setup-player" since="1.6"/>
+    <keyword type="function" name="pt_player_setup_sphinx ()" link="PtPlayer.html#pt-player-setup-sphinx" since="1.6"/>
+    <keyword type="function" name="pt_player_open_uri ()" link="PtPlayer.html#pt-player-open-uri" since="2.0"/>
+    <keyword type="function" name="pt_player_play ()" link="PtPlayer.html#pt-player-play" since="1.4"/>
+    <keyword type="function" name="pt_player_play_pause ()" link="PtPlayer.html#pt-player-play-pause" since="1.6"/>
+    <keyword type="function" name="pt_player_pause ()" link="PtPlayer.html#pt-player-pause" since="1.4"/>
+    <keyword type="function" name="pt_player_pause_and_rewind ()" link="PtPlayer.html#pt-player-pause-and-rewind" since="1.6"/>
+    <keyword type="function" name="pt_player_get_pause ()" link="PtPlayer.html#pt-player-get-pause" since="1.6"/>
+    <keyword type="function" name="pt_player_connect_waveviewer ()" link="PtPlayer.html#pt-player-connect-waveviewer" since="1.6"/>
+    <keyword type="function" name="pt_player_set_selection ()" link="PtPlayer.html#pt-player-set-selection" since="1.5"/>
+    <keyword type="function" name="pt_player_clear_selection ()" link="PtPlayer.html#pt-player-clear-selection" since="1.5"/>
+    <keyword type="function" name="pt_player_selection_active ()" link="PtPlayer.html#pt-player-selection-active" since="1.6"/>
+    <keyword type="function" name="pt_player_jump_relative ()" link="PtPlayer.html#pt-player-jump-relative" since="1.4"/>
+    <keyword type="function" name="pt_player_jump_back ()" link="PtPlayer.html#pt-player-jump-back" since="1.6"/>
+    <keyword type="function" name="pt_player_jump_forward ()" link="PtPlayer.html#pt-player-jump-forward" since="1.6"/>
+    <keyword type="function" name="pt_player_get_back ()" link="PtPlayer.html#pt-player-get-back" since="1.6"/>
+    <keyword type="function" name="pt_player_get_forward ()" link="PtPlayer.html#pt-player-get-forward" since="1.6"/>
+    <keyword type="function" name="pt_player_jump_to_position ()" link="PtPlayer.html#pt-player-jump-to-position" since="1.4"/>
+    <keyword type="function" name="pt_player_jump_to_permille ()" link="PtPlayer.html#pt-player-jump-to-permille" since="1.4"/>
+    <keyword type="function" name="pt_player_get_permille ()" link="PtPlayer.html#pt-player-get-permille" since="1.4"/>
+    <keyword type="function" name="pt_player_set_speed ()" link="PtPlayer.html#pt-player-set-speed" since="1.4"/>
+    <keyword type="function" name="pt_player_set_volume ()" link="PtPlayer.html#pt-player-set-volume" since="1.4"/>
+    <keyword type="function" name="pt_player_mute_volume ()" link="PtPlayer.html#pt-player-mute-volume" since="1.4"/>
+    <keyword type="function" name="pt_player_rewind ()" link="PtPlayer.html#pt-player-rewind" since="1.5"/>
+    <keyword type="function" name="pt_player_fast_forward ()" link="PtPlayer.html#pt-player-fast-forward" since="1.5"/>
+    <keyword type="function" name="pt_player_get_position ()" link="PtPlayer.html#pt-player-get-position" since="1.5"/>
+    <keyword type="function" name="pt_player_get_duration ()" link="PtPlayer.html#pt-player-get-duration" since="1.5"/>
+    <keyword type="function" name="pt_player_get_uri ()" link="PtPlayer.html#pt-player-get-uri" since="1.4"/>
+    <keyword type="function" name="pt_player_get_filename ()" link="PtPlayer.html#pt-player-get-filename" since="1.4"/>
+    <keyword type="function" name="pt_player_get_time_string ()" link="PtPlayer.html#pt-player-get-time-string" since="1.4"/>
+    <keyword type="function" name="pt_player_get_current_time_string ()" link="PtPlayer.html#pt-player-get-current-time-string" since="1.4"/>
+    <keyword type="function" name="pt_player_get_duration_time_string ()" link="PtPlayer.html#pt-player-get-duration-time-string" since="1.4"/>
+    <keyword type="function" name="pt_player_get_timestamp_for_time ()" link="PtPlayer.html#pt-player-get-timestamp-for-time" since="1.6"/>
+    <keyword type="function" name="pt_player_get_timestamp ()" link="PtPlayer.html#pt-player-get-timestamp" since="1.4"/>
+    <keyword type="function" name="pt_player_get_timestamp_position ()" link="PtPlayer.html#pt-player-get-timestamp-position" since="1.6"/>
+    <keyword type="function" name="pt_player_string_is_timestamp ()" link="PtPlayer.html#pt-player-string-is-timestamp" since="1.4"/>
+    <keyword type="function" name="pt_player_goto_timestamp ()" link="PtPlayer.html#pt-player-goto-timestamp" since="1.4"/>
     <keyword type="struct" name="struct PtPlayer" link="PtPlayer.html#PtPlayer-struct"/>
     <keyword type="enum" name="enum PtPrecisionType" link="PtPlayer.html#PtPrecisionType"/>
     <keyword type="property" name="The “back” property" link="PtPlayer.html#PtPlayer--back"/>
@@ -84,48 +82,42 @@
     <keyword type="signal" name="The “error” signal" link="PtPlayer.html#PtPlayer-error"/>
     <keyword type="signal" name="The “jumped-back” signal" link="PtPlayer.html#PtPlayer-jumped-back"/>
     <keyword type="signal" name="The “jumped-forward” signal" link="PtPlayer.html#PtPlayer-jumped-forward"/>
-    <keyword type="signal" name="The “load-progress” signal" link="PtPlayer.html#PtPlayer-load-progress"/>
     <keyword type="signal" name="The “play-toggled” signal" link="PtPlayer.html#PtPlayer-play-toggled"/>
-    <keyword type="function" name="pt_progress_dialog_new ()" link="PtProgressDialog.html#pt-progress-dialog-new"/>
-    <keyword type="function" name="pt_progress_dialog_set_progress ()" link="PtProgressDialog.html#pt-progress-dialog-set-progress"/>
-    <keyword type="struct" name="struct PtProgressDialog" link="PtProgressDialog.html#PtProgressDialog-struct"/>
-    <keyword type="function" name="pt_waveviewer_new ()" link="PtWaveviewer.html#pt-waveviewer-new"/>
-    <keyword type="function" name="pt_waveviewer_set_wave ()" link="PtWaveviewer.html#pt-waveviewer-set-wave"/>
-    <keyword type="function" name="pt_waveviewer_set_follow_cursor ()" link="PtWaveviewer.html#pt-waveviewer-set-follow-cursor"/>
-    <keyword type="function" name="pt_waveviewer_get_follow_cursor ()" link="PtWaveviewer.html#pt-waveviewer-get-follow-cursor"/>
+    <keyword type="function" name="pt_waveviewer_new ()" link="PtWaveviewer.html#pt-waveviewer-new" since="1.5"/>
+    <keyword type="function" name="pt_waveviewer_load_wave_async ()" link="PtWaveviewer.html#pt-waveviewer-load-wave-async" since="2.0"/>
+    <keyword type="function" name="pt_waveviewer_load_wave_finish ()" link="PtWaveviewer.html#pt-waveviewer-load-wave-finish" since="2.0"/>
+    <keyword type="function" name="pt_waveviewer_set_follow_cursor ()" link="PtWaveviewer.html#pt-waveviewer-set-follow-cursor" since="1.5"/>
+    <keyword type="function" name="pt_waveviewer_get_follow_cursor ()" link="PtWaveviewer.html#pt-waveviewer-get-follow-cursor" since="1.5"/>
     <keyword type="struct" name="struct PtWaveviewer" link="PtWaveviewer.html#PtWaveviewer-struct"/>
     <keyword type="property" name="The “fixed-cursor” property" link="PtWaveviewer.html#PtWaveviewer--fixed-cursor"/>
     <keyword type="property" name="The “follow-cursor” property" link="PtWaveviewer.html#PtWaveviewer--follow-cursor"/>
     <keyword type="property" name="The “has-selection” property" link="PtWaveviewer.html#PtWaveviewer--has-selection"/>
     <keyword type="property" name="The “playback-cursor” property" link="PtWaveviewer.html#PtWaveviewer--playback-cursor"/>
+    <keyword type="property" name="The “pps” property" link="PtWaveviewer.html#PtWaveviewer--pps"/>
     <keyword type="property" name="The “selection-end” property" link="PtWaveviewer.html#PtWaveviewer--selection-end"/>
     <keyword type="property" name="The “selection-start” property" link="PtWaveviewer.html#PtWaveviewer--selection-start"/>
     <keyword type="property" name="The “show-ruler” property" link="PtWaveviewer.html#PtWaveviewer--show-ruler"/>
-    <keyword type="property" name="The “zoom” property" link="PtWaveviewer.html#PtWaveviewer--zoom"/>
     <keyword type="signal" name="The “cursor-changed” signal" link="PtWaveviewer.html#PtWaveviewer-cursor-changed"/>
     <keyword type="signal" name="The “follow-cursor-changed” signal" link="PtWaveviewer.html#PtWaveviewer-follow-cursor-changed"/>
+    <keyword type="signal" name="The “load-progress” signal" link="PtWaveviewer.html#PtWaveviewer-load-progress"/>
     <keyword type="signal" name="The “play-toggled” signal" link="PtWaveviewer.html#PtWaveviewer-play-toggled"/>
     <keyword type="signal" name="The “selection-changed” signal" link="PtWaveviewer.html#PtWaveviewer-selection-changed"/>
     <keyword type="signal" name="The “zoom-in” signal" link="PtWaveviewer.html#PtWaveviewer-zoom-in"/>
     <keyword type="signal" name="The “zoom-out” signal" link="PtWaveviewer.html#PtWaveviewer-zoom-out"/>
-    <keyword type="function" name="pt_wavedata_new ()" link="PtWavedata.html#pt-wavedata-new"/>
-    <keyword type="function" name="pt_wavedata_copy ()" link="PtWavedata.html#pt-wavedata-copy"/>
-    <keyword type="function" name="pt_wavedata_free ()" link="PtWavedata.html#pt-wavedata-free"/>
-    <keyword type="struct" name="struct PtWavedata" link="PtWavedata.html#PtWavedata-struct"/>
-    <keyword type="function" name="pt_waveloader_new ()" link="PtWaveloader.html#pt-waveloader-new"/>
-    <keyword type="function" name="pt_waveloader_load_finish ()" link="PtWaveloader.html#pt-waveloader-load-finish"/>
-    <keyword type="function" name="pt_waveloader_load_async ()" link="PtWaveloader.html#pt-waveloader-load-async"/>
-    <keyword type="function" name="pt_waveloader_get_duration ()" link="PtWaveloader.html#pt-waveloader-get-duration"/>
-    <keyword type="function" name="pt_waveloader_get_data ()" link="PtWaveloader.html#pt-waveloader-get-data"/>
+    <keyword type="function" name="pt_waveloader_new ()" link="PtWaveloader.html#pt-waveloader-new" since="1.4"/>
+    <keyword type="function" name="pt_waveloader_load_async ()" link="PtWaveloader.html#pt-waveloader-load-async" since="2.0"/>
+    <keyword type="function" name="pt_waveloader_load_finish ()" link="PtWaveloader.html#pt-waveloader-load-finish" since="1.4"/>
+    <keyword type="function" name="pt_waveloader_resize_async ()" link="PtWaveloader.html#pt-waveloader-resize-async" since="2.0"/>
+    <keyword type="function" name="pt_waveloader_resize_finish ()" link="PtWaveloader.html#pt-waveloader-resize-finish" since="2.0"/>
+    <keyword type="function" name="pt_waveloader_resize ()" link="PtWaveloader.html#pt-waveloader-resize" since="2.0"/>
+    <keyword type="function" name="pt_waveloader_get_duration ()" link="PtWaveloader.html#pt-waveloader-get-duration" since="1.4"/>
+    <keyword type="function" name="pt_waveloader_get_data ()" link="PtWaveloader.html#pt-waveloader-get-data" since="2.0"/>
     <keyword type="struct" name="struct PtWaveloader" link="PtWaveloader.html#PtWaveloader-struct"/>
     <keyword type="property" name="The “uri” property" link="PtWaveloader.html#PtWaveloader--uri"/>
+    <keyword type="signal" name="The “array-size-changed” signal" link="PtWaveloader.html#PtWaveloader-array-size-changed"/>
     <keyword type="signal" name="The “progress” signal" link="PtWaveloader.html#PtWaveloader-progress"/>
     <keyword type="constant" name="PT_PRECISION_SECOND" link="PtPlayer.html#PT-PRECISION-SECOND:CAPS"/>
     <keyword type="constant" name="PT_PRECISION_SECOND_10TH" link="PtPlayer.html#PT-PRECISION-SECOND-10TH:CAPS"/>
     <keyword type="constant" name="PT_PRECISION_SECOND_100TH" link="PtPlayer.html#PT-PRECISION-SECOND-100TH:CAPS"/>
-    <keyword type="member" name="PtWavedata-struct.array" link="PtWavedata.html#PtWavedata-struct.array"/>
-    <keyword type="member" name="PtWavedata-struct.length" link="PtWavedata.html#PtWavedata-struct.length"/>
-    <keyword type="member" name="PtWavedata-struct.channels" link="PtWavedata.html#PtWavedata-struct.channels"/>
-    <keyword type="member" name="PtWavedata-struct.px-per-sec" link="PtWavedata.html#PtWavedata-struct.px-per-sec"/>
   </functions>
 </book>

@@ -6,7 +6,7 @@
 <meta name="generator" content="DocBook XSL Stylesheets V1.79.1">
 <link rel="home" href="index.html" title="Parlatype Reference Manual">
 <link rel="up" href="pt03.html" title="Part III. GtkWidgets">
-<link rel="prev" href="PtProgressDialog.html" title="PtProgressDialog">
+<link rel="prev" href="gallery.html" title="Widget gallery">
 <link rel="next" href="pt04.html" title="Part IV. Internals: Get Wavedata">
 <meta name="generator" content="GTK-Doc V1.28 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
@@ -23,7 +23,7 @@
 </td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
 <td><a accesskey="u" href="pt03.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
-<td><a accesskey="p" href="PtProgressDialog.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
+<td><a accesskey="p" href="gallery.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
 <td><a accesskey="n" href="pt04.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
 </tr></table>
 <div class="refentry">
@@ -37,20 +37,13 @@
 </tr></table></div>
 <div class="refsect1">
 <a name="PtWaveviewer.stability-level"></a><h2>Stability Level</h2>
-<acronym title="Unstable interfaces are experimental or transitional. They are typically used to
-give outside developers early access to new or rapidly changing technology, or
-to provide an interim solution to a problem where a more general solution is
-anticipated. No claims are made about either source or binary compatibility from
-one minor release to the next.
-
-The Unstable interface level is a warning that these interfaces are  subject to
-change without warning and should not be used in unbundled products.
-
-Given such caveats, customer impact need not be a factor when considering
-incompatible changes to an Unstable interface in a major or minor release.
-Nonetheless, when such changes are introduced, the changes should still be
-mentioned in the release notes for the affected release.
-"><span class="acronym">Unstable</span></acronym>, unless otherwise indicated
+<acronym title="The intention of a Stable interface is to enable arbitrary third parties to
+develop applications to these interfaces, release them, and have confidence that
+they will run on all minor releases of the product (after the one in which the
+interface was introduced, and within the same major release). Even at a major
+release, incompatible changes are expected to be rare, and to have strong
+justifications.
+"><span class="acronym">Stable</span></acronym>, unless otherwise indicated
 </div>
 <div class="refsect1">
 <a name="PtWaveviewer.functions"></a><h2>Functions</h2>
@@ -73,7 +66,15 @@ mentioned in the release notes for the affected release.
 <span class="returnvalue">void</span>
 </td>
 <td class="function_name">
-<a class="link" href="PtWaveviewer.html#pt-waveviewer-set-wave" title="pt_waveviewer_set_wave ()">pt_waveviewer_set_wave</a> <span class="c_punctuation">()</span>
+<a class="link" href="PtWaveviewer.html#pt-waveviewer-load-wave-async" title="pt_waveviewer_load_wave_async ()">pt_waveviewer_load_wave_async</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="PtWaveviewer.html#pt-waveviewer-load-wave-finish" title="pt_waveviewer_load_wave_finish ()">pt_waveviewer_load_wave_finish</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -125,6 +126,11 @@ mentioned in the release notes for the affected release.
 <td class="property_flags">Write</td>
 </tr>
 <tr>
+<td class="property_type"><a href="../glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a></td>
+<td class="property_name"><a class="link" href="PtWaveviewer.html#PtWaveviewer--pps" title="The “pps” property">pps</a></td>
+<td class="property_flags">Write / Construct</td>
+</tr>
+<tr>
 <td class="property_type"><a href="../glib/glib-Basic-Types.html#gint64"><span class="type">gint64</span></a></td>
 <td class="property_name"><a class="link" href="PtWaveviewer.html#PtWaveviewer--selection-end" title="The “selection-end” property">selection-end</a></td>
 <td class="property_flags">Read</td>
@@ -138,11 +144,6 @@ mentioned in the release notes for the affected release.
 <td class="property_type"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a></td>
 <td class="property_name"><a class="link" href="PtWaveviewer.html#PtWaveviewer--show-ruler" title="The “show-ruler” property">show-ruler</a></td>
 <td class="property_flags">Read / Write / Construct</td>
-</tr>
-<tr>
-<td class="property_type"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a></td>
-<td class="property_name"><a class="link" href="PtWaveviewer.html#PtWaveviewer--zoom" title="The “zoom” property">zoom</a></td>
-<td class="property_flags">Write / Construct</td>
 </tr>
 </tbody>
 </table></div>
@@ -164,6 +165,11 @@ mentioned in the release notes for the affected release.
 <tr>
 <td class="signal_type"><span class="returnvalue">void</span></td>
 <td class="signal_name"><a class="link" href="PtWaveviewer.html#PtWaveviewer-follow-cursor-changed" title="The “follow-cursor-changed” signal">follow-cursor-changed</a></td>
+<td class="signal_flags"><a href="../gobject/gobject-Signals.html#G-SIGNAL-RUN-FIRST:CAPS">Run First</a></td>
+</tr>
+<tr>
+<td class="signal_type"><span class="returnvalue">void</span></td>
+<td class="signal_name"><a class="link" href="PtWaveviewer.html#PtWaveviewer-load-progress" title="The “load-progress” signal">load-progress</a></td>
 <td class="signal_flags"><a href="../gobject/gobject-Signals.html#G-SIGNAL-RUN-FIRST:CAPS">Run First</a></td>
 </tr>
 <tr>
@@ -226,7 +232,8 @@ PtWaveviewer implements
 </div>
 <div class="refsect1">
 <a name="PtWaveviewer.description"></a><h2>Description</h2>
-<p>Displays a waveform provided by <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> or <a class="link" href="PtWaveloader.html" title="PtWaveloader"><span class="type">PtWaveloader</span></a>.</p>
+<p>Displays a waveform and lets the user interact with it: jumping to a position,
+make selections and so on.</p>
 </div>
 <div class="refsect1">
 <a name="PtWaveviewer.functions_details"></a><h2>Functions</h2>
@@ -234,26 +241,28 @@ PtWaveviewer implements
 <a name="pt-waveviewer-new"></a><h3>pt_waveviewer_new ()</h3>
 <pre class="programlisting"><a href="../gtk3/GtkWidget.html#GtkWidget-struct"><span class="returnvalue">GtkWidget</span></a> *
 pt_waveviewer_new (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
-<p>Create a new, initially blank waveform viewer widget. Use
-<a class="link" href="PtWaveviewer.html#pt-waveviewer-set-wave" title="pt_waveviewer_set_wave ()"><code class="function">pt_waveviewer_set_wave()</code></a> to pass wave data.</p>
+<p>Create a new, initially blank waveform viewer widget.</p>
 <p>After use <a href="../gtk3/GtkWidget.html#gtk-widget-destroy"><code class="function">gtk_widget_destroy()</code></a> it.</p>
 <div class="refsect3">
 <a name="pt-waveviewer-new.returns"></a><h4>Returns</h4>
 <p> the widget</p>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-5.html#api-index-1.5">1.5</a></p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="pt-waveviewer-set-wave"></a><h3>pt_waveviewer_set_wave ()</h3>
+<a name="pt-waveviewer-load-wave-async"></a><h3>pt_waveviewer_load_wave_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
-pt_waveviewer_set_wave (<em class="parameter"><code><a class="link" href="PtWaveviewer.html" title="PtWaveviewer"><span class="type">PtWaveviewer</span></a> *self</code></em>,
-                        <em class="parameter"><code><a class="link" href="PtWavedata.html" title="PtWavedata"><span class="type">PtWavedata</span></a> *data</code></em>);</pre>
-<p>Set wave data to show in the widget. The data is copied internally and may
-be freed immediately after calling this function. If <em class="parameter"><code>data</code></em>
- is NULL, a blank
-widget is drawn.</p>
+pt_waveviewer_load_wave_async (<em class="parameter"><code><a class="link" href="PtWaveviewer.html" title="PtWaveviewer"><span class="type">PtWaveviewer</span></a> *self</code></em>,
+                               <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *uri</code></em>,
+                               <em class="parameter"><code><a href="../gio/GCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> *cancel</code></em>,
+                               <em class="parameter"><code><a href="../gio/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                               <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+<p>Load wave form for the given URI. The initial resolution is set to
+<a class="link" href="PtWaveviewer.html#PtWaveviewer--pps" title="The “pps” property"><span class="type">“pps”</span></a>. While loading, a <a class="link" href="PtWaveviewer.html#PtWaveviewer-load-progress" title="The “load-progress” signal"><span class="type">“load-progress”</span></a> signal is
+emitted. A previous waveform is discarded.</p>
 <div class="refsect3">
-<a name="pt-waveviewer-set-wave.parameters"></a><h4>Parameters</h4>
+<a name="pt-waveviewer-load-wave-async.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -267,13 +276,71 @@ widget is drawn.</p>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
-<td class="parameter_name"><p>data</p></td>
-<td class="parameter_description"><p>a <a class="link" href="PtWavedata.html" title="PtWavedata"><span class="type">PtWavedata</span></a>. </p></td>
+<td class="parameter_name"><p>uri</p></td>
+<td class="parameter_description"><p>the URI of the file</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>cancel</p></td>
+<td class="parameter_description"><p>a <a href="../gio/GCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or NULL. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="NULL may be passed as the value in, out, in-out; or as a return value."><span class="acronym">nullable</span></acronym>]</span></td>
+</tr>
+<tr>
+<td class="parameter_name"><p>callback</p></td>
+<td class="parameter_description"><p>a <a href="../gio/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> to call when the operation is complete. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="The callback is valid until first called."><span class="acronym">scope async</span></acronym>]</span></td>
+</tr>
+<tr>
+<td class="parameter_name"><p>user_data</p></td>
+<td class="parameter_description"><p>user data for callback. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym>]</span></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: <a class="link" href="api-index-2-0.html#api-index-2.0">2.0</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-waveviewer-load-wave-finish"></a><h3>pt_waveviewer_load_wave_finish ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+pt_waveviewer_load_wave_finish (<em class="parameter"><code><a class="link" href="PtWaveviewer.html" title="PtWaveviewer"><span class="type">PtWaveviewer</span></a> *self</code></em>,
+                                <em class="parameter"><code><a href="../gio/GAsyncResult.html#GAsyncResult-struct"><span class="type">GAsyncResult</span></a> *result</code></em>,
+                                <em class="parameter"><code><a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>Gives the result of the async load operation. A cancelled operation results
+in an error, too.</p>
+<div class="refsect3">
+<a name="pt-waveviewer-load-wave-finish.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>self</p></td>
+<td class="parameter_description"><p>the widget</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>result</p></td>
+<td class="parameter_description"><p>the <a href="../gio/GAsyncResult.html#GAsyncResult-struct"><span class="type">GAsyncResult</span></a> passed to your <a href="../gio/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>error</p></td>
+<td class="parameter_description"><p>a pointer to a NULL <a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>, or NULL. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="NULL may be passed as the value in, out, in-out; or as a return value."><span class="acronym">nullable</span></acronym>]</span></td>
 </tr>
 </tbody>
 </table></div>
 </div>
+<div class="refsect3">
+<a name="pt-waveviewer-load-wave-finish.returns"></a><h4>Returns</h4>
+<p> TRUE if successful, or FALSE with error set</p>
+</div>
+<p class="since">Since: <a class="link" href="api-index-2-0.html#api-index-2.0">2.0</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -304,6 +371,7 @@ pt_waveviewer_set_follow_cursor (<em class="parameter"><code><a class="link" hre
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-5.html#api-index-1.5">1.5</a></p>
 </div>
 <hr>
 <div class="refsect2">
@@ -330,6 +398,7 @@ pt_waveviewer_get_follow_cursor (<em class="parameter"><code><a class="link" hre
 <a name="pt-waveviewer-get-follow-cursor.returns"></a><h4>Returns</h4>
 <p> TRUE if cursor is followed, else FALSE</p>
 </div>
+<p class="since">Since: <a class="link" href="api-index-1-5.html#api-index-1.5">1.5</a></p>
 </div>
 </div>
 <div class="refsect1">
@@ -380,6 +449,15 @@ FALSE if the user scrolls the widget manually.</p>
 </div>
 <hr>
 <div class="refsect2">
+<a name="PtWaveviewer--pps"></a><h3>The <code class="literal">“pps”</code> property</h3>
+<pre class="programlisting">  “pps”                      <a href="../glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a></pre>
+<p>Current/requested resolution of waveform in pixels per second.</p>
+<p>Flags: Write / Construct</p>
+<p>Allowed values: [25,200]</p>
+<p>Default value: 100</p>
+</div>
+<hr>
+<div class="refsect2">
 <a name="PtWaveviewer--selection-end"></a><h3>The <code class="literal">“selection-end”</code> property</h3>
 <pre class="programlisting">  “selection-end”            <a href="../glib/glib-Basic-Types.html#gint64"><span class="type">gint64</span></a></pre>
 <p>End time of selection in milliseconds. If it’s equal to the start
@@ -405,18 +483,6 @@ time, there is no selection. See also <a class="link" href="PtWaveviewer.html#Pt
 <p>Whether the ruler is shown (TRUE) or not (FALSE).</p>
 <p>Flags: Read / Write / Construct</p>
 <p>Default value: TRUE</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="PtWaveviewer--zoom"></a><h3>The <code class="literal">“zoom”</code> property</h3>
-<pre class="programlisting">  “zoom”                     <a href="../glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a></pre>
-<p>Set this to TRUE to indicate that the next wave data will be the same
-waveform but at a different zoom level. PtWaveviewer needs this to
-decide which part of the waveform should be shown.
-– Note: This will be probably removed with the next API break in
-version 1.6 and integrated into <a class="link" href="PtWaveviewer.html#pt-waveviewer-set-wave" title="pt_waveviewer_set_wave ()"><code class="function">pt_waveviewer_set_wave()</code></a>.</p>
-<p>Flags: Write / Construct</p>
-<p>Default value: FALSE</p>
 </div>
 </div>
 <div class="refsect1">
@@ -482,6 +548,45 @@ user_function (<a class="link" href="PtWaveviewer.html" title="PtWaveviewer"><sp
 <tr>
 <td class="parameter_name"><p>follow</p></td>
 <td class="parameter_description"><p>the new value</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>user_data</p></td>
+<td class="parameter_description"><p>user data set when the signal handler was connected.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p>Flags: <a href="../gobject/gobject-Signals.html#G-SIGNAL-RUN-FIRST:CAPS">Run First</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PtWaveviewer-load-progress"></a><h3>The <code class="literal">“load-progress”</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+user_function (<a class="link" href="PtWaveviewer.html" title="PtWaveviewer"><span class="type">PtWaveviewer</span></a> *viewer,
+               <a href="../glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a>       progress,
+               <a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>      user_data)</pre>
+<p>Indicates progress on a scale from 0.0 to 1.0, however it does not
+emit the value 0.0 nor 1.0. Wait for a TRUE player-state-changed
+signal or an error signal to dismiss a gui element showing progress.</p>
+<div class="refsect3">
+<a name="PtWaveviewer-load-progress.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>viewer</p></td>
+<td class="parameter_description"><p>the waveviewer emitting the signal</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>progress</p></td>
+<td class="parameter_description"><p>the new progress state, ranging from 0.0 to 1.0</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
