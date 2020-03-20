@@ -58,6 +58,8 @@ struct _PtAsrAssistantPrivate
 
 G_DEFINE_TYPE_WITH_PRIVATE (PtAsrAssistant, pt_asr_assistant, GTK_TYPE_ASSISTANT)
 
+static void folder_chooser_file_set_cb (GtkFileChooserButton *button, PtAsrAssistant *self);
+
 
 static gchar*
 get_path_for_uri (gchar *uri)
@@ -72,7 +74,7 @@ get_path_for_uri (gchar *uri)
 	return path;
 }
 
-void
+static void
 name_entry_changed_cb (GtkEntry       *entry,
                        PtAsrAssistant *self)
 {
@@ -91,7 +93,7 @@ check_models_complete (PtAsrAssistant *self)
 			self->priv->lm_path && self->priv->dict_path && self->priv->hmm_path);
 }
 
-void
+static void
 lm_chooser_file_set_cb (GtkFileChooserButton *button,
                         PtAsrAssistant       *self)
 {
@@ -109,7 +111,7 @@ lm_chooser_file_set_cb (GtkFileChooserButton *button,
 	check_models_complete (self);
 }
 
-void
+static void
 dict_chooser_file_set_cb (GtkFileChooserButton *button,
                           PtAsrAssistant       *self)
 {
@@ -172,7 +174,7 @@ check_hmm_folder (gchar *folder_uri)
 	return (hits > 4);
 }
 
-void
+static void
 hmm_chooser_file_set_cb (GtkFileChooserButton *button,
                          PtAsrAssistant       *self)
 {
@@ -199,7 +201,7 @@ hmm_chooser_file_set_cb (GtkFileChooserButton *button,
 	check_models_complete (self);
 }
 
-void
+static void
 lm_combo_changed_cb (GtkComboBox    *combo,
                      PtAsrAssistant *self)
 {
@@ -220,7 +222,7 @@ lm_combo_changed_cb (GtkComboBox    *combo,
 	check_models_complete (self);
 }
 
-void
+static void
 dict_combo_changed_cb (GtkComboBox    *combo,
                        PtAsrAssistant *self)
 {
@@ -240,7 +242,7 @@ dict_combo_changed_cb (GtkComboBox    *combo,
 	check_models_complete (self);
 }
 
-void
+static void
 hmm_combo_changed_cb (GtkComboBox    *combo,
                       PtAsrAssistant *self)
 {
@@ -346,6 +348,16 @@ add_model_page (PtAsrAssistant *self)
 	gtk_combo_box_set_model (GTK_COMBO_BOX (self->priv->dict_combo), GTK_TREE_MODEL (self->priv->dict_list));
 	gtk_combo_box_set_model (GTK_COMBO_BOX (self->priv->hmm_combo), GTK_TREE_MODEL (self->priv->hmm_list));
 
+	gtk_builder_add_callback_symbols (builder,
+			"folder_chooser_file_set_cb", G_CALLBACK (folder_chooser_file_set_cb),
+			"hmm_combo_changed_cb", G_CALLBACK (hmm_combo_changed_cb),
+			"dict_combo_changed_cb", G_CALLBACK (dict_combo_changed_cb),
+			"lm_combo_changed_cb", G_CALLBACK (lm_combo_changed_cb),
+			"hmm_chooser_file_set_cb", G_CALLBACK (hmm_chooser_file_set_cb),
+			"dict_chooser_file_set_cb", G_CALLBACK (dict_chooser_file_set_cb),
+			"lm_chooser_file_set_cb", G_CALLBACK (lm_chooser_file_set_cb),
+			"name_entry_changed_cb", G_CALLBACK (name_entry_changed_cb),
+			NULL);
 	gtk_builder_connect_signals (builder, self);
 	g_object_unref (builder);
 }
@@ -523,7 +535,7 @@ recursive_search_finished (PtAsrAssistant *self,
 	search_result_free (r);
 }
 
-void
+static void
 folder_chooser_file_set_cb (GtkFileChooserButton *button,
                             PtAsrAssistant       *self)
 {
@@ -637,6 +649,16 @@ pt_asr_assistant_init (PtAsrAssistant *self)
 	gtk_widget_show_all (self->priv->summary);
 
 	gtk_window_set_default_size (GTK_WINDOW (self), 500, -1);
+	gtk_builder_add_callback_symbols (builder,
+			"folder_chooser_file_set_cb", G_CALLBACK (folder_chooser_file_set_cb),
+			"hmm_combo_changed_cb", G_CALLBACK (hmm_combo_changed_cb),
+			"dict_combo_changed_cb", G_CALLBACK (dict_combo_changed_cb),
+			"lm_combo_changed_cb", G_CALLBACK (lm_combo_changed_cb),
+			"hmm_chooser_file_set_cb", G_CALLBACK (hmm_chooser_file_set_cb),
+			"dict_chooser_file_set_cb", G_CALLBACK (dict_chooser_file_set_cb),
+			"lm_chooser_file_set_cb", G_CALLBACK (lm_chooser_file_set_cb),
+			"name_entry_changed_cb", G_CALLBACK (name_entry_changed_cb),
+			NULL);
 	gtk_builder_connect_signals (builder, self);
 	g_object_unref (builder);
 
