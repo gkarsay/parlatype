@@ -683,6 +683,20 @@ void
 pt_window_open_file (PtWindow *win,
                      gchar    *uri)
 {
+	g_return_if_fail (uri != NULL);
+
+	gchar *current_uri;
+	gint cmp = 1;
+
+	/* Don't reload already loaded waveform */
+	current_uri = pt_player_get_uri (win->player);
+	if (current_uri) {
+		cmp = g_strcmp0 (current_uri, uri);
+		g_free (current_uri);
+	}
+	if (cmp == 0)
+		return;
+
 	pt_window_ready_to_play (win, FALSE);
 	if (!pt_player_open_uri (win->player, uri))
 		return;
