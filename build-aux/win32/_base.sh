@@ -83,7 +83,7 @@ function install_parlatype {
     git clone "${DIR}"/../.. "${REPO_CLONE}"
 
     (cd "${REPO_CLONE}" && git checkout "$1") || exit 1
-	(cd "${REPO_CLONE}" && meson build -Dasr=false -Dlibreoffice=false)
+	(cd "${REPO_CLONE}" && meson build -Dasr=false)
 	(cd "${REPO_CLONE}"/build && ninja && ninja install)
 
     PT_VERSION_STRING=`${MINGW_ROOT}/bin/parlatype --version`
