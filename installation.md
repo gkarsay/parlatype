@@ -4,7 +4,7 @@ title: Install
 ---
 
 ## Flatpak
-Parlatype is hosted on [Flathub](https://flathub.org/). Following the [instructions](https://flatpak.org/setup/) there you can install the [Parlatype package](https://flathub.org/apps/details/com.github.gkarsay.parlatype). Please note that the LibreOffice helpers are not included in this package.
+Parlatype is hosted on [Flathub](https://flathub.org/). Following the [instructions](https://flatpak.org/setup/) there you can install the [Parlatype package](https://flathub.org/apps/details/org.parlatype.Parlatype).
 
 ## Arch Linux
 
