@@ -68,7 +68,7 @@ msgid ""
 "shown, if parlatype is launched with the new parameter --with-asr"
 msgstr ""
 "Il riconoscimento vocale automatico (ASR) è ora disabilitato per impostazione predefinita ed è solo"
-"mostrato, se parlatype viene lanciato con il nuovo parametro --con-asr"
+"mostrato, se parlatype viene lanciato con il nuovo parametro --with-asr"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:56
 msgid "Fix internationalization: Some translations were not shown"
@@ -243,7 +243,7 @@ msgstr "La cartella non contiene alcun modello acustico"
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:301
 msgid "Please select …"
-msgstr "Seleziona..."
+msgstr "Seleziona ..."
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:340
@@ -369,7 +369,7 @@ msgstr "Eliminazione della configurazione"
 #: src/pt-preferences.c:259
 #, c-format
 msgid "Do you really want to delete “%s”?"
-msgstr "Vuoi veramente cancellare “%s”?"
+msgstr "Vuoi veramente cancellare \"%s\"?"
 
 #: src/pt-window.c:217
 #, c-format
@@ -378,7 +378,7 @@ msgstr "Trovato %s"
 
 #: src/pt-window.c:218
 msgid "Press “Play” to start automatic speech recognition."
-msgstr "Premere "Riproduci" per avviare il riconoscimento vocale automatico."
+msgstr "Premere "\Riproduci\" per avviare il riconoscimento vocale automatico."
 
 #: src/pt-window.c:430
 #, c-format
@@ -426,7 +426,7 @@ msgid ""
 "Parlatype will quit now, it received this error message: %s"
 msgstr ""
 "Per eseguire Parlatype è necessario GStreamer 1.x. Controlla l'installazione di "
-"GStreamer e assicurati di avere installato "Good Plugin".\n"
+"GStreamer e assicurati di avere "Good Plugin" installato.\n"
 "Parlatype verrà chiuso ora, ha ricevuto questo messaggio di errore: %s"
 
 #: src/pt-window.c:1102
@@ -640,7 +640,7 @@ msgstr "Secondi completi"
 
 #: src/resources/preferences.ui:90
 msgid "10th seconds"
-msgstr ""10 secondi""
+msgstr "10 secondi"
 
 #: src/resources/preferences.ui:94
 msgid "100th seconds"
@@ -682,11 +682,11 @@ msgstr "Salti"
 
 #: src/resources/preferences.ui:390
 msgid "Jump _forward:"
-msgstr "Salta_avanti:"
+msgstr "Salta avanti:"
 
 #: src/resources/preferences.ui:404
 msgid "Jump _back:"
-msgstr "Salta _indietro:"
+msgstr "Salta indietro:"
 
 #: src/resources/preferences.ui:418
 msgid "Jump back on _pause:"
@@ -784,7 +784,7 @@ msgstr "Ricorda la _posizione"
 
 #: src/resources/preferences.ui:1053
 msgid "Start on _top"
-msgstr "inizia in_cima"
+msgstr "inizia in cima"
 
 #: src/resources/preferences.ui:1075
 msgid "Window"
