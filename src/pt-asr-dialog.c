@@ -57,7 +57,7 @@ name_entry_activate_cb (GtkEntry *entry,
 	PtAsrDialog *dlg = PT_ASR_DIALOG (user_data);
 	gchar const *name;
 
-	name = gtk_entry_get_text (entry);
+	name = gtk_editable_get_text (GTK_EDITABLE (entry));
 	gtk_window_set_title (GTK_WINDOW (dlg), name);
 	pt_config_set_name (dlg->priv->config, (void*)name);
 }
@@ -81,7 +81,7 @@ pt_asr_dialog_set_config (PtAsrDialog *dlg,
 
 	name = pt_config_get_name (config);
 	gtk_window_set_title (GTK_WINDOW (dlg), name);
-	gtk_entry_set_text (GTK_ENTRY (dlg->priv->name_entry), name);
+	gtk_editable_set_text (GTK_EDITABLE (dlg->priv->name_entry), name);
 
 	g_signal_connect (dlg->priv->name_entry, "activate", G_CALLBACK (name_entry_activate_cb), dlg);
 
