@@ -70,10 +70,13 @@ open_dialog_response_cb (GtkDialog *dialog,
 			 gpointer   user_data)
 {
 	PtWindow *win = PT_WINDOW (user_data);
+	GFile    *result;
 	gchar    *uri = NULL;
 
 	if (response_id == GTK_RESPONSE_ACCEPT) {
-		uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (dialog));
+		result = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
+		uri = g_file_get_uri (result);
+		g_object_unref (result);
 	}
 
 	if (uri) {
@@ -117,7 +120,7 @@ open_cb (GSimpleAction *action,
 		home_path = g_get_home_dir ();
 		dir = g_file_new_for_path (home_path);
 	}
-	gtk_file_chooser_set_current_folder_file (
+	gtk_file_chooser_set_current_folder (
 		GTK_FILE_CHOOSER (dialog), dir, NULL);
 
 	filter_audio = gtk_file_filter_new ();

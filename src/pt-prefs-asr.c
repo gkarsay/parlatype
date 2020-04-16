@@ -690,8 +690,7 @@ import_dialog_response_cb (GtkDialog *dialog,
                            gpointer   user_data)
 {
 	PtPrefsAsr  *page = PT_PREFS_ASR (user_data);
-	gchar       *uri = NULL;
-	GFile       *source;
+	GFile       *source = NULL;
 	PtConfig    *config;
 	GtkWidget   *parent;
 	GtkWidget   *err_dialog;
@@ -701,16 +700,13 @@ import_dialog_response_cb (GtkDialog *dialog,
 	GFile       *dest;
 
 	if (response_id == GTK_RESPONSE_ACCEPT) {
-		uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (dialog));
+		source = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
 	}
 
 	g_object_unref (dialog);
 
-	if (!uri)
+	if (!source)
 		return;
-
-	source = g_file_new_for_uri (uri);
-	g_free (uri);
 
 	config = pt_config_new (source);
 	g_object_unref (source);
@@ -785,7 +781,7 @@ import_button_clicked_cb (GtkButton *button,
 	/* Set current folder to the user’s home directory */
 	home_path = g_get_home_dir ();
 	home = g_file_new_for_path (home_path);
-	gtk_file_chooser_set_current_folder_file (
+	gtk_file_chooser_set_current_folder (
 		GTK_FILE_CHOOSER (dialog), home, NULL);
 
 	filter_asr = gtk_file_filter_new ();

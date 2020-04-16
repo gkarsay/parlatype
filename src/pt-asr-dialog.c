@@ -76,6 +76,7 @@ pt_asr_dialog_set_config (PtAsrDialog *dlg,
 	gchar *str;
 	GtkWidget *label;
 	gchar *engine = NULL;
+	GFile *folder;
 
 	dlg->priv->config = config;
 
@@ -164,8 +165,11 @@ pt_asr_dialog_set_config (PtAsrDialog *dlg,
 	g_free (str);
 
 	str = pt_config_get_base_folder (config);
+	folder = g_file_new_for_path (str);
+
 	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dlg->priv->folder_button),
-	                                     str);
+	                                     folder, NULL);
+	g_object_unref (folder);
 }
 
 static void
