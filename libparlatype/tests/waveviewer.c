@@ -115,7 +115,7 @@ waveviewer_loaded (void)
 
 	data = create_sync_data ();
 	viewer = pt_waveviewer_new ();
-	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	window = gtk_window_new ();
 	gtk_window_set_default_size (GTK_WINDOW (window), 300, 100);
 	gtk_container_add (GTK_CONTAINER (window), viewer);
 	pt_waveviewer_load_wave_async (PT_WAVEVIEWER (viewer), testuri, NULL,
