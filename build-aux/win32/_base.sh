@@ -86,6 +86,9 @@ function install_parlatype {
 	(cd "${REPO_CLONE}" && meson build -Dasr=false)
 	(cd "${REPO_CLONE}"/build && ninja && ninja install)
 
+    "${MINGW_ROOT}"/bin/gtk-update-icon-cache-3.0.exe \
+        "${MINGW_ROOT}"/share/icons/hicolor
+
     PT_VERSION_STRING=`${MINGW_ROOT}/bin/parlatype --version`
 	PT_VERSION=${PT_VERSION_STRING:10}
 	PT_VERSION_DESC="$PT_VERSION"
