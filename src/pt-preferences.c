@@ -552,8 +552,12 @@ pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 			dlg->priv->size_check, "active",
 			G_SETTINGS_BIND_DEFAULT);
 
+#ifdef GDK_WINDOWING_WIN32
+	setup_non_wayland_env (dlg);
+#else
 	GdkDisplay *display;
 	display = gdk_display_get_default ();
+#endif
 #ifdef GDK_WINDOWING_X11
 	if (GDK_IS_X11_DISPLAY (display))
 		setup_non_wayland_env (dlg);
@@ -563,9 +567,6 @@ pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 		gtk_widget_hide (dlg->priv->pos_check);
 		gtk_widget_hide (dlg->priv->top_check);
 	}
-#endif
-#ifdef GDK_WINDOWING_WIN32
-	setup_non_wayland_env (dlg);
 #endif
 
 	g_settings_bind (
