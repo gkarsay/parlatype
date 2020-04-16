@@ -160,6 +160,8 @@ get_help_uri (void)
 
 #ifdef GDK_WINDOWING_WIN32
 
+	gchar      *exe_path;
+	gchar      *help_path;
 	GRegex     *r_long;
 	GRegex     *r_short;
 	GMatchInfo *match;
@@ -171,6 +173,8 @@ get_help_uri (void)
 	gchar      *path;
 	GFile      *file;
 
+	exe_path = g_win32_get_package_installation_directory_of_module (NULL);
+	help_path = g_build_filename(exe_path, "share", "help", NULL);
 	l_raw = g_win32_getlocale ();
 	r_long = g_regex_new ("^[A-Z]*_[A-Z]*", G_REGEX_CASELESS, 0, NULL);
 	r_short = g_regex_new ("^[A-Z]*", G_REGEX_CASELESS, 0, NULL);
@@ -178,14 +182,14 @@ get_help_uri (void)
 	g_regex_match (r_long, l_raw, 0, &match);
 	if (g_match_info_matches (match)) {
 		l_long = g_match_info_fetch (match, 0);
-		p_long = g_build_filename (HELP_DIR, l_long, APP_ID, "index.html", NULL);
+		p_long = g_build_filename (help_path, l_long, APP_ID, "index.html", NULL);
 	}
 	g_match_info_free (match);
 
 	g_regex_match (r_short, l_raw, 0, &match);
 	if (g_match_info_matches (match)) {
 		l_short = g_match_info_fetch (match, 0);
-		p_short = g_build_filename (HELP_DIR, l_short, APP_ID, "index.html", NULL);
+		p_short = g_build_filename (help_path, l_short, APP_ID, "index.html", NULL);
 	}
 	g_match_info_free (match);
 
@@ -193,7 +197,7 @@ get_help_uri (void)
 		path = g_strdup (p_long);
 	else if (g_file_test (p_short, G_FILE_TEST_EXISTS))
 		path = g_strdup (p_short);
-	else path = g_build_filename (HELP_DIR, "C", APP_ID, "index.html", NULL);
+	else path = g_build_filename (help_path, "C", APP_ID, "index.html", NULL);
 
 	file = g_file_new_for_path (path);
 	uri = g_file_get_uri (file);
@@ -207,6 +211,8 @@ get_help_uri (void)
 	g_free (l_raw);
 	g_regex_unref (r_long);
 	g_regex_unref (r_short);
+	g_free (help_path);
+	g_free (exe_path);
 #else
 	uri = g_strdup_printf ("help:%s", APP_ID);
 #endif
