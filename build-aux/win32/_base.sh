@@ -76,30 +76,6 @@ function install_deps {
         mingw-w64-"${ARCH}"-gsl
 }
 
-function install_parlatype {
-    [ -z "$1" ] && (echo "Missing arg"; exit 1)
-
-    rm -Rf "${REPO_CLONE}"
-    git clone "${DIR}"/../.. "${REPO_CLONE}"
-
-    (cd "${REPO_CLONE}" && git checkout "$1") || exit 1
-	(cd "${REPO_CLONE}" && meson build -Dasr=false)
-	(cd "${REPO_CLONE}"/build && ninja && ninja install)
-
-    "${MINGW_ROOT}"/bin/gtk-update-icon-cache-3.0.exe \
-        "${MINGW_ROOT}"/share/icons/hicolor
-
-    PT_VERSION_STRING=`${MINGW_ROOT}/bin/parlatype --version`
-	PT_VERSION=${PT_VERSION_STRING:10}
-	PT_VERSION_DESC="$PT_VERSION"
-    if [ "$1" = "master" ]
-    then
-        local GIT_REV=$(git rev-list --count HEAD)
-        local GIT_HASH=$(git rev-parse --short HEAD)
-        PT_VERSION_DESC="$PT_VERSION-rev$GIT_REV-$GIT_HASH"
-    fi
-}
-
 function cleanup_before {
     # remove some larger ones
     rm -Rf "${MINGW_ROOT}/share/icons/Adwaita/512x512"
@@ -114,6 +90,30 @@ function cleanup_before {
         "${MINGW_ROOT}"/share/icons/hicolor
 }
 
+function install_parlatype {
+    [ -z "$1" ] && (echo "Missing arg"; exit 1)
+
+    rm -Rf "${REPO_CLONE}"
+    git clone "${DIR}"/../.. "${REPO_CLONE}"
+
+    (cd "${REPO_CLONE}" && git checkout "$1") || exit 1
+    (cd "${REPO_CLONE}" && meson build -Dasr=false)
+    (cd "${REPO_CLONE}"/build && ninja && ninja install)
+
+    "${MINGW_ROOT}"/bin/gtk-update-icon-cache-3.0.exe \
+        "${MINGW_ROOT}"/share/icons/hicolor
+
+    PT_VERSION_STRING=`${MINGW_ROOT}/bin/parlatype --version`
+    PT_VERSION=${PT_VERSION_STRING:10}
+    PT_VERSION_DESC="$PT_VERSION"
+    if [ "$1" = "master" ]
+    then
+        local GIT_REV=$(git rev-list --count HEAD)
+        local GIT_HASH=$(git rev-parse --short HEAD)
+        PT_VERSION_DESC="$PT_VERSION-rev$GIT_REV-$GIT_HASH"
+    fi
+}
+
 function cleanup_after {
     # delete translations we don't support
     for d in "${MINGW_ROOT}"/share/locale/*/LC_MESSAGES; do
@@ -122,7 +122,7 @@ function cleanup_after {
         fi
     done
 
-	build_pacman --noconfirm -Rs \
+    build_pacman --noconfirm -Rs \
         mingw-w64-"${ARCH}"-yelp-tools \
         mingw-w64-"${ARCH}"-pkg-config \
         mingw-w64-"${ARCH}"-gcc \
@@ -131,7 +131,7 @@ function cleanup_after {
     build_pacman --noconfirm -Rdds \
         mingw-w64-"${ARCH}"-python
 
-	find "${MINGW_ROOT}" -regextype "posix-extended" -name "*.exe" -a ! \
+    find "${MINGW_ROOT}" -regextype "posix-extended" -name "*.exe" -a ! \
         -iregex ".*/(parlatype|gspawn-)[^/]*\\.exe" \
         -exec rm -f {} \;
 
