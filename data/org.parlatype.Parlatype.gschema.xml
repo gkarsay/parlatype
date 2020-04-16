@@ -60,7 +60,7 @@
 			<description>Remember window's position</description>
 		</key>
 		<key name="remember-size" type="b">
-			<default>false</default>
+			<default>true</default>
 			<summary>Remember window's size</summary>
 			<description>Remember window's size</description>
 		</key>
