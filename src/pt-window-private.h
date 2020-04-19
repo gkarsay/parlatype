@@ -21,7 +21,6 @@
 #include <gtk/gtk.h>
 #include <pt-player.h>
 #ifdef HAVE_ASR
-#include "pt-asr-output.h"
 #include "pt-asr-settings.h"
 #endif
 
@@ -33,9 +32,6 @@ struct _PtWindowPrivate
 
 #ifdef HAVE_ASR
 	PtAsrSettings    *asr_settings;
-	PtAsrOutput      *output;
-	guint             output_handler_id1;
-	guint             output_handler_id2;
 #endif
 
 	GtkClipboard *clip;

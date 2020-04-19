@@ -62,14 +62,6 @@ parlatype_deps = [
 	gtk,
 ]
 
-if asr
-	src += [
-	'pt-asr-output.c',
-	'pt-asr-output.h',
-	]
-	parlatype_deps += dependency('atspi-2')
-endif
-
 executable('parlatype',
 	src,
 	link_with: libparlatype,

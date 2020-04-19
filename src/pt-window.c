@@ -187,61 +187,6 @@ setup_sphinx (PtWindow *win)
 }
 
 static void
-asr_output_search_cancelled_cb (PtAsrOutput *output,
-                                PtWindow    *win)
-{
-	GAction  *action;
-	GVariant *state;
-
-	g_signal_handler_disconnect (win->priv->output, win->priv->output_handler_id1);
-	g_signal_handler_disconnect (win->priv->output, win->priv->output_handler_id2);
-	g_clear_object (&win->priv->output);
-
-	action = g_action_map_lookup_action (G_ACTION_MAP (win), "mode");
-	state = g_variant_new_string ("playback");
-	g_simple_action_set_state (G_SIMPLE_ACTION (action), state);
-}
-
-static void
-asr_output_app_found_cb (PtAsrOutput *output,
-                         PtWindow    *win)
-{
-	GApplication  *app;
-	GNotification *notification;
-	gchar         *summary;
-	gchar         *message;
-
-	g_signal_handler_disconnect (win->priv->output, win->priv->output_handler_id1);
-	g_signal_handler_disconnect (win->priv->output, win->priv->output_handler_id2);
-
-	summary = g_strdup_printf (_("Found %s"), pt_asr_output_get_app_name (output));
-	message = _("Press “Play” to start automatic speech recognition.");
-	notification = g_notification_new (summary);
-	g_notification_set_body (notification, message);
-	app = G_APPLICATION (gtk_window_get_application (GTK_WINDOW (win)));
-	g_application_send_notification (app, "app-found", notification);
-
-	setup_sphinx (win);
-
-	g_application_withdraw_notification (app, "app-found");
-	g_object_unref (notification);
-	g_free (summary);
-}
-
-static void
-set_mode_asr (PtWindow *win)
-{
-	win->priv->output = pt_asr_output_new ();
-	win->priv->output_handler_id1 = g_signal_connect (
-			win->priv->output, "app-found",
-			G_CALLBACK (asr_output_app_found_cb), win);
-	win->priv->output_handler_id2 = g_signal_connect (
-			win->priv->output, "search-cancelled",
-			G_CALLBACK (asr_output_search_cancelled_cb), win);
-	pt_asr_output_search_app (win->priv->output, GTK_WINDOW (win));
-}
-
-static void
 asr_assistant_cancel_cb (GtkAssistant *assistant,
                          gpointer      user_data)
 {
@@ -304,12 +249,11 @@ change_mode (GSimpleAction *action,
 
 	mode = g_variant_get_string (state, NULL);
 	if (g_strcmp0 (mode, "playback") == 0) {
-		g_clear_object (&win->priv->output);
 		set_mode_playback (win);
 	} else if (g_strcmp0 (mode, "asr") == 0) {
 		if (pt_asr_settings_have_configs (win->priv->asr_settings)) {
 			/* TODO && have config saved in GSettings */
-			set_mode_asr (win);
+			setup_sphinx (win);
 		} else {
 			launch_asr_assistant (win);
 			return;
@@ -852,24 +796,6 @@ fast_forward_button_released_cb (GtkButton *button,
 	return FALSE;
 }
 
-#ifdef HAVE_ASR
-static void
-player_asr_final_cb (PtPlayer *player,
-                     gchar    *word,
-                     PtWindow *win)
-{
-	pt_asr_output_final (win->priv->output, word);
-}
-
-static void
-player_asr_hypothesis_cb (PtPlayer *player,
-                          gchar    *word,
-                          PtWindow *win)
-{
-	pt_asr_output_hypothesis (win->priv->output, word);
-}
-#endif
-
 static void
 speed_scale_direction_changed_cb (GtkWidget        *widget,
                                   GtkTextDirection  previous_direction,
@@ -1236,18 +1162,6 @@ setup_player (PtWindow *win)
 			speed_adjustment, "value",
 			win->player, "speed",
 			G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
-
-#ifdef HAVE_ASR
-	g_signal_connect (win->player,
-			"asr-final",
-			G_CALLBACK (player_asr_final_cb),
-			win);
-
-	g_signal_connect (win->player,
-			"asr-hypothesis",
-			G_CALLBACK (player_asr_hypothesis_cb),
-			win);
-#endif
 }
 
 static void
@@ -1400,9 +1314,6 @@ pt_window_init (PtWindow *win)
 	pt_window_setup_dnd (win);	/* this is in pt_window_dnd.c */
 #ifdef HAVE_ASR
 	win->priv->asr_settings = NULL;
-	win->priv->output = NULL;
-	win->priv->output_handler_id1 = 0;
-	win->priv->output_handler_id2 = 0;
 #endif
 	win->priv->recent = gtk_recent_manager_get_default ();
 	win->priv->timer = 0;
@@ -1460,7 +1371,6 @@ pt_window_dispose (GObject *object)
 	g_clear_object (&win->priv->editor);
 	g_clear_object (&win->player);
 #ifdef HAVE_ASR
-	g_clear_object (&win->priv->output);
 	g_clear_object (&win->priv->asr_settings);
 #endif
 	g_clear_object (&win->priv->go_to_timestamp);

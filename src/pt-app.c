@@ -35,7 +35,6 @@
 struct _PtAppPrivate
 {
 	gboolean       asr;
-	gboolean       atspi;
 	PtAsrSettings *asr_settings;
 #ifdef G_OS_UNIX
 	PtMediakeys   *mediakeys;
@@ -69,14 +68,6 @@ static GOptionEntry options[] =
 	  G_OPTION_ARG_NONE,
 	  NULL,
 	  N_("Enable automatic speech recognition"),
-	  NULL
-	},
-	{ "textpad",
-	  't',
-	  G_OPTION_FLAG_NONE,
-	  G_OPTION_ARG_NONE,
-	  NULL,
-	  N_("Use internal textpad for automatic speech recognition"),
 	  NULL
 	},
 #endif
@@ -255,13 +246,6 @@ pt_app_get_asr_settings (PtApp *app)
 }
 
 gboolean
-pt_app_get_atspi (PtApp *app)
-{
-	g_assert (PT_IS_APP (app));
-	return app->priv->atspi;
-}
-
-gboolean
 pt_app_get_asr (PtApp *app)
 {
 	g_assert (PT_IS_APP (app));
@@ -401,10 +385,6 @@ pt_app_handle_local_options (GApplication *application,
 		app->priv->asr = TRUE;
 	}
 
-	if (g_variant_dict_contains (options, "textpad")) {
-		app->priv->atspi = FALSE;
-	}
-
 	return -1;
 }
 
@@ -428,16 +408,6 @@ get_asr_settings_filename (void)
 	return filename;
 }
 
-static gboolean
-is_flatpak (void)
-{
-	/* Flatpak sandboxes have a file ".flatpak-info" in their filesystem root.
-	   It's a keyfile, an example how to read is get_flatpak_information() in
-	   https://gitlab.gnome.org/GNOME/recipes/blob/master/src/gr-about-dialog.c */
-
-	return (g_file_test ("/.flatpak-info", G_FILE_TEST_EXISTS));
-}
-
 static void
 pt_app_init (PtApp *app)
 {
@@ -453,12 +423,6 @@ pt_app_init (PtApp *app)
 	app->priv->win32pipe = NULL;
 #endif
 	g_application_add_main_option_entries (G_APPLICATION (app), options);
-
-	/* In Flatpak's sandbox ATSPI doesn't work */
-	if (is_flatpak ())
-		app->priv->atspi = FALSE;
-	else
-		app->priv->atspi = TRUE;
 
 	app->priv->asr = FALSE;
 	gchar *asr_settings_filename;
