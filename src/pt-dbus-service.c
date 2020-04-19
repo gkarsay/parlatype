@@ -49,8 +49,50 @@ static const gchar introspection_xml[] =
   "    <method name='JumpForward' />"
   "    <method name='IncreaseSpeed' />"
   "    <method name='DecreaseSpeed' />"
+  "    <method name='TestHypothesisSignal'>"
+  "      <arg type='s' name='message' direction='in'/>"
+  "    </method>"
+  "    <method name='TestFinalSignal'>"
+  "      <arg type='s' name='message' direction='in'/>"
+  "    </method>"
+  "    <signal name='ASRHypothesis'>"
+  "      <arg type='s' name='string' direction='out'/>"
+  "    </signal>"
+  "    <signal name='ASRFinal'>"
+  "      <arg type='s' name='string' direction='out'/>"
+  "    </signal>"
   "  </interface>"
   "</node>";
+
+static void
+player_asr_final_cb (PtPlayer *player,
+                     gchar    *word,
+                     gpointer  user_data)
+{
+	GDBusConnection *connection = G_DBUS_CONNECTION (user_data);
+	g_dbus_connection_emit_signal (connection,
+				       NULL,
+				       "/org/parlatype/parlatype",
+				       "org.parlatype.Parlatype",
+				       "ASRFinal",
+				       g_variant_new ("(s)", word),
+				       NULL);
+}
+
+static void
+player_asr_hypothesis_cb (PtPlayer *player,
+                          gchar    *word,
+                          gpointer  user_data)
+{
+	GDBusConnection *connection = G_DBUS_CONNECTION (user_data);
+	g_dbus_connection_emit_signal (connection,
+				       NULL,
+				       "/org/parlatype/parlatype",
+				       "org.parlatype.Parlatype",
+				       "ASRHypothesis",
+				       g_variant_new ("(s)", word),
+				       NULL);
+}
 
 static void
 handle_method_call (GDBusConnection       *connection,
@@ -109,6 +151,16 @@ handle_method_call (GDBusConnection       *connection,
 		g_object_get (player, "speed", &value, NULL);
 		pt_player_set_speed (player, value - 0.1);
 		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "TestHypothesisSignal") == 0) {
+		gchar *message;
+		g_variant_get (parameters, "(&s)", &message);
+		player_asr_hypothesis_cb (NULL, message, connection);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "TestFinalSignal") == 0) {
+		gchar *message;
+		g_variant_get (parameters, "(&s)", &message);
+		player_asr_final_cb (NULL, message, connection);
+		g_dbus_method_invocation_return_value (invocation, NULL);
 	}
 }
 
@@ -122,6 +174,8 @@ on_bus_acquired (GDBusConnection *connection,
                  const gchar     *name,
                  gpointer         user_data)
 {
+	PtDbusService *self = PT_DBUS_SERVICE (user_data);
+	PtPlayer      *player = pt_controller_get_player (PT_CONTROLLER (self));
 	guint registration_id;
 
 	registration_id = g_dbus_connection_register_object (connection,
@@ -132,6 +186,16 @@ on_bus_acquired (GDBusConnection *connection,
                                                        NULL,  /* user_data_free_func */
                                                        NULL); /* GError */
 	g_assert (registration_id > 0);
+
+	g_signal_connect (player,
+			"asr-final",
+			G_CALLBACK (player_asr_final_cb),
+			connection);
+
+	g_signal_connect (player,
+			"asr-hypothesis",
+			G_CALLBACK (player_asr_hypothesis_cb),
+			connection);
 }
 
 static void
