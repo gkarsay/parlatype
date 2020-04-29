@@ -49,6 +49,8 @@ if host_machine.system() == 'windows'
 	windows.compile_resources(rc),
 	'pt-win32-datacopy.c',
 	'pt-win32-datacopy.h',
+	'pt-win32-pipe.c',
+	'pt-win32-pipe.h',
 	]
 endif
 
