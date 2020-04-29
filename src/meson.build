@@ -18,12 +18,8 @@ src = [
 	'pt-asr-settings.h',
 	'pt-controller.c',
 	'pt-controller.h',
-	'pt-dbus-service.c',
-	'pt-dbus-service.h',
 	'pt-goto-dialog.c',
 	'pt-goto-dialog.h',
-	'pt-mediakeys.c',
-	'pt-mediakeys.h',
 	'pt-preferences.c',
 	'pt-preferences.h',
 	'pt-window.c',
@@ -32,6 +28,15 @@ src = [
 	'pt-window-dnd.h',
 	'pt-window-private.h',
 ]
+
+if host_machine.system() != 'windows'
+	src += [
+	'pt-dbus-service.c',
+	'pt-dbus-service.h',
+	'pt-mediakeys.c',
+	'pt-mediakeys.h',
+	]
+endif
 
 if host_machine.system() == 'windows'
 	rc = configure_file(
