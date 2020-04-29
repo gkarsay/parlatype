@@ -23,6 +23,7 @@
   #include "pt-mediakeys.h"
 #endif
 #ifdef G_OS_WIN32
+  #include <windows.h>
   #include "pt-win32-datacopy.h"
 #endif
 #include "pt-preferences.h"
@@ -396,6 +397,29 @@ pt_app_activate (GApplication *application)
 	GList    *windows;
 	PtWindow *win;
 
+#ifdef G_OS_WIN32
+	/* In an MSYS2 environment we have D-Bus and everything works like on
+	 * Linux. The installer doesn't have D-Bus though and we have to
+	 * ensure uniqueness in a different way. */
+
+	GDBusConnection *dbus;
+	dbus = g_application_get_dbus_connection (application);
+	if (!dbus) {
+		HWND other_instance = FindWindow (PT_HIDDEN_WINDOW_CLASS,
+			                          PT_HIDDEN_WINDOW_TITLE);
+		if (other_instance) {
+			COPYDATASTRUCT data;
+			data.dwData = PRESENT_WINDOW;
+			data.cbData = 0;
+			data.lpData = NULL;
+			SendMessage ((HWND) other_instance, WM_COPYDATA,
+				     (WPARAM) 0,
+				     (LPARAM) (LPVOID) &data);
+			g_application_quit (application);
+		}
+	}
+#endif
+
 	windows = gtk_application_get_windows (GTK_APPLICATION (application));
 	if (windows) {
 		win = PT_WINDOW (windows->data);
@@ -425,14 +449,34 @@ pt_app_open (GApplication  *app,
 	GtkWindow *win;
 	gchar	  *uri;
 
-	pt_app_activate (app);
-	win = gtk_application_get_active_window (GTK_APPLICATION (app));
-
 	if (n_files > 1) {
 		g_print (_("Warning: Parlatype handles only one file at a time. The other files are ignored.\n"));
 	}
 
 	uri = g_file_get_uri (files[0]);
+
+#ifdef G_OS_WIN32
+	GDBusConnection *dbus;
+	dbus = g_application_get_dbus_connection (app);
+	if (!dbus) {
+		HWND other_instance = FindWindow (PT_HIDDEN_WINDOW_CLASS,
+			                          PT_HIDDEN_WINDOW_TITLE);
+		if (other_instance) {
+			COPYDATASTRUCT data;
+			data.dwData = OPEN_FILE;
+			data.cbData = sizeof (char) * strlen (uri);
+			data.lpData = uri;
+			SendMessage ((HWND) other_instance, WM_COPYDATA,
+				     (WPARAM) 0,
+				     (LPARAM) (LPVOID) &data);
+			g_free (uri);
+			g_application_quit (app);
+		}
+	}
+#endif
+
+	pt_app_activate (app);
+	win = gtk_application_get_active_window (GTK_APPLICATION (app));
 	pt_window_open_file (PT_WINDOW (win), uri);
 	g_free (uri);
 }
