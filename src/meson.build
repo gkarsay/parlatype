@@ -45,7 +45,11 @@ if host_machine.system() == 'windows'
 		configuration: rc_conf,
 	)
 
-	src += windows.compile_resources(rc)
+	src += [
+	windows.compile_resources(rc),
+	'pt-win32-datacopy.c',
+	'pt-win32-datacopy.h',
+	]
 endif
 
 parlatype_deps = [

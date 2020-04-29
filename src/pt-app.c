@@ -22,6 +22,9 @@
   #include "pt-dbus-service.h"
   #include "pt-mediakeys.h"
 #endif
+#ifdef G_OS_WIN32
+  #include "pt-win32-datacopy.h"
+#endif
 #include "pt-preferences.h"
 #include "pt-window.h"
 #include "pt-app.h"
@@ -34,6 +37,9 @@ struct _PtAppPrivate
 #ifdef G_OS_UNIX
 	PtMediakeys   *mediakeys;
 	PtDbusService *dbus_service;
+#endif
+#ifdef G_OS_WIN32
+	PtWin32Datacopy *win32datacopy;
 #endif
 };
 
@@ -401,6 +407,10 @@ pt_app_activate (GApplication *application)
 		app->priv->dbus_service = pt_dbus_service_new (win);
 		pt_dbus_service_start (app->priv->dbus_service);
 #endif
+#ifdef G_OS_WIN32
+		app->priv->win32datacopy = pt_win32_datacopy_new (win);
+		pt_win32_datacopy_start (app->priv->win32datacopy);
+#endif
 	}
 
 	gtk_window_present (GTK_WINDOW (win));
@@ -488,6 +498,9 @@ pt_app_init (PtApp *app)
 	app->priv->mediakeys = NULL;
 	app->priv->dbus_service = NULL;
 #endif
+#ifdef G_OS_WIN32
+	app->priv->win32datacopy = NULL;
+#endif
 	g_application_add_main_option_entries (G_APPLICATION (app), options);
 
 	/* In Flatpak's sandbox ATSPI doesn't work */
@@ -512,6 +525,9 @@ pt_app_finalize (GObject *object)
 #ifdef G_OS_UNIX
 	g_clear_object (&app->priv->mediakeys);
 	g_clear_object (&app->priv->dbus_service);
+#endif
+#ifdef G_OS_WIN32
+	g_clear_object (&app->priv->win32datacopy);
 #endif
 
 	G_OBJECT_CLASS (pt_app_parent_class)->dispose (object);
