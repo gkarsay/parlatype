@@ -11,12 +11,12 @@ msgstr ""
 "PO-Revision-Date: 2017-04-18 18:57+0000\n"
 "Last-Translator: Ari Setyo Wibowo <mr.a.contact@gmail.com>\n"
 "Language-Team: Indonesian <id@li.org>\n"
-"Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2019-07-05 10:56+0000\n"
-"X-Generator: Launchpad (build 19007)\n"
+"X-Launchpad-Export-Date: 2020-04-30 19:08+0000\n"
+"X-Generator: Launchpad (build fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398)\n"
+"Language: id\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -40,15 +40,23 @@ msgstr "Parlatype"
 #. (itstool) path: credit/name
 #. Translators: This feature is disabled by default, its translation has
 #. low priority.
-#: C/index.page:10 C/drag-and-drop.page:8 C/first-steps.page:8
-#: C/keyboard-shortcuts.page:8 C/media-keys.page:8 C/preferences.page:8
-#: C/selections.page:8 C/timestamps.page:8 C/asr.page:9 C/asr-setup.page:9
+#: C/index.page:10
+#: C/drag-and-drop.page:8
+#: C/first-steps.page:8
+#: C/keyboard-shortcuts.page:8
+#: C/media-keys.page:8
+#: C/preferences.page:8
+#: C/selections.page:8
+#: C/timestamps.page:8
+#: C/asr.page:9
+#: C/asr-setup.page:9
 msgid "Gabor Karsay"
 msgstr "Gabor Karsay"
 
 #. (itstool) path: info/desc
 #. (itstool) path: page/p
-#: C/index.page:14 C/index.page:23
+#: C/index.page:14
+#: C/index.page:23
 msgid ""
 "<app>Parlatype</app> is an easy to use media player. Its main purpose is to "
 "help you transcribing speech."
@@ -105,18 +113,19 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/drag-and-drop.page:20
 msgid ""
-"File names: Select a file name from a word processor, e.g. <app>LibreOffice</"
-"app>, drop the selected text on <app>Parlatype</app> and it will open that "
-"file. This will always work if the selection contains a full path. If you "
-"select the name only, <app>Parlatype</app> will look up its full path in the "
-"list of recent files and open it if it can find it in that list."
+"File names: Select a file name from a word processor, e.g. "
+"<app>LibreOffice</app>, drop the selected text on <app>Parlatype</app> and "
+"it will open that file. This will always work if the selection contains a "
+"full path. If you select the name only, <app>Parlatype</app> will look up "
+"its full path in the list of recent files and open it if it can find it in "
+"that list."
 msgstr ""
 "Nama berkas: Pilih sebuah nama berkas dari suatu pemroses kata, seperti. "
 "<app>LibreOffice</app>, jatuhkan teks terpilih pada <app>Parlatype</app> dan "
 "ia akan membuka berkas tersebut. Ini akan selalu bekerja jika pilihan "
-"mengandung alamat penuh. Jika Anda hanya memilih nama saja, <app>Parlatype</"
-"app> akan mencari alamat penuh dalam daftar berkas terakhir dan akan "
-"membukanya jika tidak menemukan dari daftar."
+"mengandung alamat penuh. Jika Anda hanya memilih nama saja, "
+"<app>Parlatype</app> akan mencari alamat penuh dalam daftar berkas terakhir "
+"dan akan membukanya jika tidak menemukan dari daftar."
 
 #. (itstool) path: item/p
 #: C/drag-and-drop.page:21
@@ -128,7 +137,8 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #. (itstool) path: page/title
-#: C/first-steps.page:6 C/first-steps.page:14
+#: C/first-steps.page:6
+#: C/first-steps.page:14
 msgid "First steps with Parlatype"
 msgstr "Langkah pertama dengan Parlatype"
 
@@ -244,9 +254,9 @@ msgid ""
 "are described in <link xref=\"control\"/>. Shortcut keys for the window are "
 "listed below."
 msgstr ""
-"Pintasan papan ketik untuk kendali <app>Parlatype</app>, seperti <key>Main</"
-"key>, dideskripsikan di <link xref=\"control\"/>. Tombol pintasan untuk "
-"jendela terdaftar di bawah ini."
+"Pintasan papan ketik untuk kendali <app>Parlatype</app>, seperti "
+"<key>Main</key>, dideskripsikan di <link xref=\"control\"/>. Tombol pintasan "
+"untuk jendela terdaftar di bawah ini."
 
 #. (itstool) path: table/title
 #: C/keyboard-shortcuts.page:19
@@ -573,8 +583,8 @@ msgid ""
 "Jump forward: Configures how many seconds to skip when the <gui>Jump "
 "forward</gui> button is pressed."
 msgstr ""
-"Lompat maju: Atur berapa detik untuk melewati saat tombol <gui>Lompat maju</"
-"gui> ditekan."
+"Lompat maju: Atur berapa detik untuk melewati saat tombol <gui>Lompat "
+"maju</gui> ditekan."
 
 #. (itstool) path: item/p
 #: C/preferences.page:41
@@ -633,7 +643,8 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/preferences.page:55
-msgid "Precision: Choose between full seconds, 10th seconds or 100th seconds."
+msgid ""
+"Precision: Choose between full seconds, 10th seconds or 100th seconds."
 msgstr ""
 
 #. (itstool) path: item/p
@@ -737,8 +748,8 @@ msgid ""
 msgstr ""
 "Mulai di atas: Ini akan meletakkan <app>Parlatype</app> saat start-up di "
 "atas jendela lainnya. Ini mungkin berguna saat Anda bekerja dengan pengolah "
-"kata yang termaksimalkan dan tetap ingin melihat jendela <app>Parlatype</"
-"app>."
+"kata yang termaksimalkan dan tetap ingin melihat jendela "
+"<app>Parlatype</app>."
 
 #. (itstool) path: note/p
 #: C/preferences.page:91
@@ -839,8 +850,8 @@ msgstr "Seret dan jatuhkan"
 msgid ""
 "If you select the timestamp in the word processor, you can drag and drop it "
 "on the <app>Parlatype</app> window and it will go to that position. This is "
-"also possible the other way round: Drag the time label from <app>Parlatype</"
-"app> to a word processor and drop it there to insert it."
+"also possible the other way round: Drag the time label from "
+"<app>Parlatype</app> to a word processor and drop it there to insert it."
 msgstr ""
 "Jika Anda memilih informasi waktu di pengolah kata, Anda dapat menyeret dan "
 "menjatuhkannya pada jendela <app>Parlatype</app> dan ia akan pergi ke posisi "
@@ -1019,9 +1030,10 @@ msgstr ""
 msgid ""
 "It asks you to download a speech model. The speech recognition engine used "
 "is CMU Sphinx. You can download models suitable for CMU Sphinx for example "
-"from <link href=\"https://sourceforge.net/projects/cmusphinx/files/Acoustic"
-"%20and%20Language%20Models/\">CMU Sphinx’ sourceforge repository</link>. It "
-"has models for some of the most widespread languages."
+"from <link "
+"href=\"https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Lang"
+"uage%20Models/\">CMU Sphinx’ sourceforge repository</link>. It has models "
+"for some of the most widespread languages."
 msgstr ""
 
 #. (itstool) path: page/p
@@ -1080,8 +1092,9 @@ msgstr ""
 #. low priority.
 #: C/asr-setup.page:37
 msgid ""
-"It consists of several files usually in their own folder: <file>feat.params</"
-"file>, <file>mdef</file>, <file>means</file> and some others."
+"It consists of several files usually in their own folder: "
+"<file>feat.params</file>, <file>mdef</file>, <file>means</file> and some "
+"others."
 msgstr ""
 
 #. (itstool) path: item/title
@@ -1127,78 +1140,3 @@ msgid ""
 "All those elements should be somewhere in the folder selected. It doesn’t "
 "matter whether there are subfolders or how they are named."
 msgstr ""
-
-#~ msgid "Use Parlatype with LibreOffice"
-#~ msgstr "Gunakan Parlatype dengan LibreOffice"
-
-#~ msgid "LibreOffice Helpers"
-#~ msgstr "Bantuan LibreOffice"
-
-#~ msgid ""
-#~ "LibreOffice Helpers let you control <app>Parlatype</app> from "
-#~ "<app>LibreOffice</app>. For example, you can jump easily to timestamps."
-#~ msgstr ""
-#~ "Bantuan LibreOffice mengizinkan Anda mengendalikan <app>Parlatype</app> "
-#~ "dari <app>LibreOffice</app>. Misalnya, Anda dapat dengan mudah melompat "
-#~ "ke informasi waktu."
-
-#~ msgid ""
-#~ "To use them, you have to assign keyboard shortcuts in <app>LibreOffice</"
-#~ "app> itself. To do this, open <app>LibreOffice</app>, go to menu "
-#~ "<gui>Tools</gui> and select <gui>Customize</gui>."
-#~ msgstr ""
-#~ "Untuk mengunakannya, Anda harus memasang pintasan papan ketik di "
-#~ "<app>LibreOffice</app> sendiri. Untuk melakukannya, buka "
-#~ "<app>LibreOffice</app>, pergi ke menu <gui>Perkakas</gui> dan pilih "
-#~ "<gui>Kustomasi</gui>."
-
-#~ msgctxt "_"
-#~ msgid ""
-#~ "external ref='figures/lo-menu.png' md5='4dd86affb0353b6bdfa2dcfbbeadd494'"
-#~ msgstr ""
-#~ "external ref='figures/lo-menu.png' md5='4dd86affb0353b6bdfa2dcfbbeadd494'"
-
-#~ msgctxt "_"
-#~ msgid ""
-#~ "external ref='figures/lo-customize.png' "
-#~ "md5='081564921275129bee7bbd10220547e7'"
-#~ msgstr ""
-#~ "external ref='figures/lo-customize.png' "
-#~ "md5='081564921275129bee7bbd10220547e7'"
-
-#~ msgid "You can select any of these functions:"
-#~ msgstr "Anda dapat memilih fungsi yang mana saja:"
-
-#~ msgid "What it does"
-#~ msgstr "Apa yang dilakukan"
-
-#~ msgid ""
-#~ "Toggles between play and pause. Depending on your preferences set in "
-#~ "<app>Parlatype</app> it will rewind a few seconds on pause."
-#~ msgstr ""
-#~ "Beralih antara main dan jeda. Tergantung pada preferensi yang Anda "
-#~ "tentukan di <app>Parlatype</app> akan diputar kembali beberapa detik saat "
-#~ "jeda."
-
-#~ msgid ""
-#~ "Jumps back a few seconds, depending on the preferences you set in "
-#~ "<app>Parlatype</app>."
-#~ msgstr ""
-#~ "Lompat mundur beberapa detik, tergantung preferensi yang Anda tentukan di "
-#~ "<app>Parlatype</app>."
-
-#~ msgid ""
-#~ "Jumps forward a few seconds, depending on the preferences you set in "
-#~ "<app>Parlatype</app>."
-#~ msgstr ""
-#~ "Lompat maju beberapa detik, tergantung preferensi yang Anda tentukan di "
-#~ "<app>Parlatype</app>."
-
-#~ msgid "The same as above, but on a new line."
-#~ msgstr "Sama dengan atas, tapi di baris baru."
-
-#~ msgid "Increases playback speed."
-#~ msgstr "Tambah kecepatan main."
-
-#~ msgid "Decreases playback speed."
-#~ msgstr "Kurangi kecepatan main."

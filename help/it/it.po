@@ -11,12 +11,12 @@ msgstr ""
 "PO-Revision-Date: 2017-04-18 19:09+0000\n"
 "Last-Translator: Luca Ciavatta <luca.ciavatta@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
-"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2019-07-05 10:56+0000\n"
-"X-Generator: Launchpad (build 19007)\n"
+"X-Launchpad-Export-Date: 2020-04-30 19:08+0000\n"
+"X-Generator: Launchpad (build fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398)\n"
+"Language: it\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -40,15 +40,23 @@ msgstr "Parlatype"
 #. (itstool) path: credit/name
 #. Translators: This feature is disabled by default, its translation has
 #. low priority.
-#: C/index.page:10 C/drag-and-drop.page:8 C/first-steps.page:8
-#: C/keyboard-shortcuts.page:8 C/media-keys.page:8 C/preferences.page:8
-#: C/selections.page:8 C/timestamps.page:8 C/asr.page:9 C/asr-setup.page:9
+#: C/index.page:10
+#: C/drag-and-drop.page:8
+#: C/first-steps.page:8
+#: C/keyboard-shortcuts.page:8
+#: C/media-keys.page:8
+#: C/preferences.page:8
+#: C/selections.page:8
+#: C/timestamps.page:8
+#: C/asr.page:9
+#: C/asr-setup.page:9
 msgid "Gabor Karsay"
 msgstr "Gabor Karsay"
 
 #. (itstool) path: info/desc
 #. (itstool) path: page/p
-#: C/index.page:14 C/index.page:23
+#: C/index.page:14
+#: C/index.page:23
 msgid ""
 "<app>Parlatype</app> is an easy to use media player. Its main purpose is to "
 "help you transcribing speech."
@@ -102,11 +110,12 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/drag-and-drop.page:20
 msgid ""
-"File names: Select a file name from a word processor, e.g. <app>LibreOffice</"
-"app>, drop the selected text on <app>Parlatype</app> and it will open that "
-"file. This will always work if the selection contains a full path. If you "
-"select the name only, <app>Parlatype</app> will look up its full path in the "
-"list of recent files and open it if it can find it in that list."
+"File names: Select a file name from a word processor, e.g. "
+"<app>LibreOffice</app>, drop the selected text on <app>Parlatype</app> and "
+"it will open that file. This will always work if the selection contains a "
+"full path. If you select the name only, <app>Parlatype</app> will look up "
+"its full path in the list of recent files and open it if it can find it in "
+"that list."
 msgstr ""
 
 #. (itstool) path: item/p
@@ -119,7 +128,8 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #. (itstool) path: page/title
-#: C/first-steps.page:6 C/first-steps.page:14
+#: C/first-steps.page:6
+#: C/first-steps.page:14
 msgid "First steps with Parlatype"
 msgstr "Primi passi con Parlatype"
 
@@ -577,7 +587,8 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/preferences.page:55
-msgid "Precision: Choose between full seconds, 10th seconds or 100th seconds."
+msgid ""
+"Precision: Choose between full seconds, 10th seconds or 100th seconds."
 msgstr ""
 
 #. (itstool) path: item/p
@@ -767,8 +778,8 @@ msgstr "Trascina e rilascia"
 msgid ""
 "If you select the timestamp in the word processor, you can drag and drop it "
 "on the <app>Parlatype</app> window and it will go to that position. This is "
-"also possible the other way round: Drag the time label from <app>Parlatype</"
-"app> to a word processor and drop it there to insert it."
+"also possible the other way round: Drag the time label from "
+"<app>Parlatype</app> to a word processor and drop it there to insert it."
 msgstr ""
 
 #. (itstool) path: section/title
@@ -939,9 +950,10 @@ msgstr ""
 msgid ""
 "It asks you to download a speech model. The speech recognition engine used "
 "is CMU Sphinx. You can download models suitable for CMU Sphinx for example "
-"from <link href=\"https://sourceforge.net/projects/cmusphinx/files/Acoustic"
-"%20and%20Language%20Models/\">CMU Sphinx’ sourceforge repository</link>. It "
-"has models for some of the most widespread languages."
+"from <link "
+"href=\"https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Lang"
+"uage%20Models/\">CMU Sphinx’ sourceforge repository</link>. It has models "
+"for some of the most widespread languages."
 msgstr ""
 
 #. (itstool) path: page/p
@@ -1000,8 +1012,9 @@ msgstr ""
 #. low priority.
 #: C/asr-setup.page:37
 msgid ""
-"It consists of several files usually in their own folder: <file>feat.params</"
-"file>, <file>mdef</file>, <file>means</file> and some others."
+"It consists of several files usually in their own folder: "
+"<file>feat.params</file>, <file>mdef</file>, <file>means</file> and some "
+"others."
 msgstr ""
 
 #. (itstool) path: item/title
@@ -1047,32 +1060,3 @@ msgid ""
 "All those elements should be somewhere in the folder selected. It doesn’t "
 "matter whether there are subfolders or how they are named."
 msgstr ""
-
-#~ msgid "Use Parlatype with LibreOffice"
-#~ msgstr "Utilizzare Parlatype con LibreOffice"
-
-#~ msgid "You can select any of these functions:"
-#~ msgstr "È possibile selezionare le seguenti funzioni:"
-
-#~ msgid "What it does"
-#~ msgstr "Che cosa fa"
-
-#~ msgid ""
-#~ "Jumps back a few seconds, depending on the preferences you set in "
-#~ "<app>Parlatype</app>."
-#~ msgstr ""
-#~ "Indietro di qualche secondo, dipende dalle preferenze impostate in "
-#~ "<app>Parlatype</app>."
-
-#~ msgid ""
-#~ "Jumps forward a few seconds, depending on the preferences you set in "
-#~ "<app>Parlatype</app>."
-#~ msgstr ""
-#~ "Avanti di qualche secondo, dipende dalle preferenze impostate in "
-#~ "<app>Parlatype</app>."
-
-#~ msgid "Increases playback speed."
-#~ msgstr "Aumenta la velocità di riproduzione."
-
-#~ msgid "Decreases playback speed."
-#~ msgstr "Diminuisce la velocità di riproduzione."

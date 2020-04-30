@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2020-03-09 17:08+0100\n"
-"PO-Revision-Date: 2019-08-11 17:30+0000\n"
-"Last-Translator: Jorge Toledo <Unknown>\n"
+"PO-Revision-Date: 2020-03-09 16:27+0000\n"
+"Last-Translator: Gabor Karsay <gabor.karsay@gmx.at>\n"
 "Language-Team: Spanish <es@li.org>\n"
-"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2019-08-24 11:00+0000\n"
-"X-Generator: Launchpad (build 19031)\n"
+"X-Launchpad-Export-Date: 2020-04-30 19:08+0000\n"
+"X-Generator: Launchpad (build fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398)\n"
+"Language: es\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -42,15 +42,23 @@ msgstr "Parlatype"
 #. (itstool) path: credit/name
 #. Translators: This feature is disabled by default, its translation has
 #. low priority.
-#: C/index.page:10 C/drag-and-drop.page:8 C/first-steps.page:8
-#: C/keyboard-shortcuts.page:8 C/media-keys.page:8 C/preferences.page:8
-#: C/selections.page:8 C/timestamps.page:8 C/asr.page:9 C/asr-setup.page:9
+#: C/index.page:10
+#: C/drag-and-drop.page:8
+#: C/first-steps.page:8
+#: C/keyboard-shortcuts.page:8
+#: C/media-keys.page:8
+#: C/preferences.page:8
+#: C/selections.page:8
+#: C/timestamps.page:8
+#: C/asr.page:9
+#: C/asr-setup.page:9
 msgid "Gabor Karsay"
 msgstr "Gabor Karsay"
 
 #. (itstool) path: info/desc
 #. (itstool) path: page/p
-#: C/index.page:14 C/index.page:23
+#: C/index.page:14
+#: C/index.page:23
 msgid ""
 "<app>Parlatype</app> is an easy to use media player. Its main purpose is to "
 "help you transcribing speech."
@@ -69,8 +77,8 @@ msgid ""
 "For a quick overview have a look at <link xref=\"first-steps\"/>. Other "
 "topics are covered below."
 msgstr ""
-"Para obtener un panorama general breve, consulte <link xref=\"first-steps\"/"
-">. A continuación se tratan otros temas."
+"Para obtener un panorama general breve, consulte <link xref=\"first-"
+"steps\"/>. A continuación se tratan otros temas."
 
 #. (itstool) path: section/title
 #: C/index.page:27
@@ -109,11 +117,12 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/drag-and-drop.page:20
 msgid ""
-"File names: Select a file name from a word processor, e.g. <app>LibreOffice</"
-"app>, drop the selected text on <app>Parlatype</app> and it will open that "
-"file. This will always work if the selection contains a full path. If you "
-"select the name only, <app>Parlatype</app> will look up its full path in the "
-"list of recent files and open it if it can find it in that list."
+"File names: Select a file name from a word processor, e.g. "
+"<app>LibreOffice</app>, drop the selected text on <app>Parlatype</app> and "
+"it will open that file. This will always work if the selection contains a "
+"full path. If you select the name only, <app>Parlatype</app> will look up "
+"its full path in the list of recent files and open it if it can find it in "
+"that list."
 msgstr ""
 "Nombres de archivo: seleccione un nombre de archivo en un procesador de "
 "textos, p. ej., <app>LibreOffice</app>, suelte el texto seleccionado en "
@@ -136,7 +145,8 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #. (itstool) path: page/title
-#: C/first-steps.page:6 C/first-steps.page:14
+#: C/first-steps.page:6
+#: C/first-steps.page:14
 msgid "First steps with Parlatype"
 msgstr "Primeros pasos con Parlatype"
 
@@ -171,8 +181,8 @@ msgstr ""
 "En la esquina inferior izquierda hay controles con un botón de "
 "<gui>Reproducir</gui> que alterna entre reproducción y pausa. Cuando pausas, "
 "<app>Parlatype</app> rebobina unos pocos segundos para hacer que sea más "
-"fácil retomar la transcripción. Esto se puede cambiar en las <link xref="
-"\"preferencias\"/>."
+"fácil retomar la transcripción. Esto se puede cambiar en las <link "
+"xref=\"preferencias\"/>."
 
 #. (itstool) path: page/media
 #. This is a reference to an external file such as an image or video. When
@@ -197,8 +207,8 @@ msgid ""
 msgstr ""
 "Los botones <gui>Volver atrás</gui> y <gui>Avanzar</gui> en la esquina "
 "inferior izquierda saltan varios segundos hacia atrás o hacia adelante. La "
-"cantidad de segundos del salto se puede cambiar en las  <link xref="
-"\"preferencias\"/>."
+"cantidad de segundos del salto se puede cambiar en las  <link "
+"xref=\"preferencias\"/>."
 
 #. (itstool) path: page/p
 #: C/first-steps.page:28
@@ -267,8 +277,9 @@ msgid ""
 "listed below."
 msgstr ""
 "Los atajos de teclado de <app>Parlatype</app>, que permiten controlar "
-"acciones como <key>Reproducir</key>, se describen en <link xref=\"control\"/"
-">. Los atajos de teclado para la ventana se enumeran a continuación."
+"acciones como <key>Reproducir</key>, se describen en <link "
+"xref=\"control\"/>. Los atajos de teclado para la ventana se enumeran a "
+"continuación."
 
 #. (itstool) path: table/title
 #: C/keyboard-shortcuts.page:19
@@ -444,8 +455,8 @@ msgid ""
 "This will affect other media players, e.g. <app>Totem</app> or "
 "<app>Rhythmbox</app>, as well."
 msgstr ""
-"Ello también afectará otros reproductores de multimedia, como <app>Totem</"
-"app> o <app>Rhythmbox</app>."
+"Ello también afectará otros reproductores de multimedia, como "
+"<app>Totem</app> o <app>Rhythmbox</app>."
 
 #. (itstool) path: page/p
 #: C/media-keys.page:24
@@ -670,7 +681,8 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/preferences.page:55
-msgid "Precision: Choose between full seconds, 10th seconds or 100th seconds."
+msgid ""
+"Precision: Choose between full seconds, 10th seconds or 100th seconds."
 msgstr ""
 "Precisión: Elegir entre segundos completos, décimas o centésimas de segundo."
 
@@ -893,8 +905,8 @@ msgstr "Arrastrar y soltar"
 msgid ""
 "If you select the timestamp in the word processor, you can drag and drop it "
 "on the <app>Parlatype</app> window and it will go to that position. This is "
-"also possible the other way round: Drag the time label from <app>Parlatype</"
-"app> to a word processor and drop it there to insert it."
+"also possible the other way round: Drag the time label from "
+"<app>Parlatype</app> to a word processor and drop it there to insert it."
 msgstr ""
 
 #. (itstool) path: section/title
@@ -1065,9 +1077,10 @@ msgstr ""
 msgid ""
 "It asks you to download a speech model. The speech recognition engine used "
 "is CMU Sphinx. You can download models suitable for CMU Sphinx for example "
-"from <link href=\"https://sourceforge.net/projects/cmusphinx/files/Acoustic"
-"%20and%20Language%20Models/\">CMU Sphinx’ sourceforge repository</link>. It "
-"has models for some of the most widespread languages."
+"from <link "
+"href=\"https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Lang"
+"uage%20Models/\">CMU Sphinx’ sourceforge repository</link>. It has models "
+"for some of the most widespread languages."
 msgstr ""
 
 #. (itstool) path: page/p
@@ -1126,8 +1139,9 @@ msgstr ""
 #. low priority.
 #: C/asr-setup.page:37
 msgid ""
-"It consists of several files usually in their own folder: <file>feat.params</"
-"file>, <file>mdef</file>, <file>means</file> and some others."
+"It consists of several files usually in their own folder: "
+"<file>feat.params</file>, <file>mdef</file>, <file>means</file> and some "
+"others."
 msgstr ""
 
 #. (itstool) path: item/title
@@ -1173,41 +1187,3 @@ msgid ""
 "All those elements should be somewhere in the folder selected. It doesn’t "
 "matter whether there are subfolders or how they are named."
 msgstr ""
-
-#~ msgid "Use Parlatype with LibreOffice"
-#~ msgstr "Uso de Parlatype con LibreOffice"
-
-#~ msgid "LibreOffice Helpers"
-#~ msgstr "Auxiliares de LibreOffice"
-
-#~ msgid ""
-#~ "LibreOffice Helpers let you control <app>Parlatype</app> from "
-#~ "<app>LibreOffice</app>. For example, you can jump easily to timestamps."
-#~ msgstr ""
-#~ "Los auxiliares de LibreOffice le permiten controlar <app>Parlatype</app> "
-#~ "desde <app>LibreOffice</app>. Por ejemplo, puede desplazarse con "
-#~ "facilidad por las marcas cronológicas."
-
-#~ msgid ""
-#~ "To use them, you have to assign keyboard shortcuts in <app>LibreOffice</"
-#~ "app> itself. To do this, open <app>LibreOffice</app>, go to menu "
-#~ "<gui>Tools</gui> and select <gui>Customize</gui>."
-#~ msgstr ""
-#~ "Para utilizarlos, debe asignarles atajos de teclado en <app>LibreOffice</"
-#~ "app>. Para hacerlo, abra <app>LibreOffice</app>, diríjase al menú "
-#~ "<gui>Herramientas</gui> y seleccione <gui>Personalizar</gui>."
-
-#~ msgid "You can select any of these functions:"
-#~ msgstr "Puede seleccionar cualesquiera de estas funciones:"
-
-#~ msgid "What it does"
-#~ msgstr "Para qué sirve"
-
-#~ msgid "The same as above, but on a new line."
-#~ msgstr "Idéntico a la función anterior, pero en un renglón nuevo."
-
-#~ msgid "Increases playback speed."
-#~ msgstr "Aumenta la velocidad de reproducción."
-
-#~ msgid "Decreases playback speed."
-#~ msgstr "Disminuye la velocidad de reproducción."

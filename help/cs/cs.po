@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2020-03-09 17:08+0100\n"
-"PO-Revision-Date: 2019-05-17 10:05+0000\n"
+"PO-Revision-Date: 2020-03-09 16:27+0000\n"
 "Last-Translator: fri <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
-"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2019-07-05 10:56+0000\n"
-"X-Generator: Launchpad (build 19007)\n"
+"X-Launchpad-Export-Date: 2020-04-30 19:08+0000\n"
+"X-Generator: Launchpad (build fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398)\n"
+"Language: cs\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -42,15 +42,23 @@ msgstr "Parlatype"
 #. (itstool) path: credit/name
 #. Translators: This feature is disabled by default, its translation has
 #. low priority.
-#: C/index.page:10 C/drag-and-drop.page:8 C/first-steps.page:8
-#: C/keyboard-shortcuts.page:8 C/media-keys.page:8 C/preferences.page:8
-#: C/selections.page:8 C/timestamps.page:8 C/asr.page:9 C/asr-setup.page:9
+#: C/index.page:10
+#: C/drag-and-drop.page:8
+#: C/first-steps.page:8
+#: C/keyboard-shortcuts.page:8
+#: C/media-keys.page:8
+#: C/preferences.page:8
+#: C/selections.page:8
+#: C/timestamps.page:8
+#: C/asr.page:9
+#: C/asr-setup.page:9
 msgid "Gabor Karsay"
 msgstr "Gabor Karsay"
 
 #. (itstool) path: info/desc
 #. (itstool) path: page/p
-#: C/index.page:14 C/index.page:23
+#: C/index.page:14
+#: C/index.page:23
 msgid ""
 "<app>Parlatype</app> is an easy to use media player. Its main purpose is to "
 "help you transcribing speech."
@@ -106,11 +114,12 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/drag-and-drop.page:20
 msgid ""
-"File names: Select a file name from a word processor, e.g. <app>LibreOffice</"
-"app>, drop the selected text on <app>Parlatype</app> and it will open that "
-"file. This will always work if the selection contains a full path. If you "
-"select the name only, <app>Parlatype</app> will look up its full path in the "
-"list of recent files and open it if it can find it in that list."
+"File names: Select a file name from a word processor, e.g. "
+"<app>LibreOffice</app>, drop the selected text on <app>Parlatype</app> and "
+"it will open that file. This will always work if the selection contains a "
+"full path. If you select the name only, <app>Parlatype</app> will look up "
+"its full path in the list of recent files and open it if it can find it in "
+"that list."
 msgstr ""
 "Názvy souborů: Vyberte název souboru z textového editoru, např. "
 "<app>LibreOffice</app>, upusťte vybraný text na <app>Parlatype</app> a "
@@ -129,7 +138,8 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #. (itstool) path: page/title
-#: C/first-steps.page:6 C/first-steps.page:14
+#: C/first-steps.page:6
+#: C/first-steps.page:14
 msgid "First steps with Parlatype"
 msgstr "První kroky s Parlatype"
 
@@ -212,8 +222,8 @@ msgid ""
 "button is for <link xref=\"selections\"/>."
 msgstr ""
 "Klepnutí v pohledu pravým tlačítkem myši tam dá ukazatel, také podržení "
-"pravého tlačítka myši a pohybování jím. Levé tlačítko myši je pro <link xref="
-"\"selections\"/>."
+"pravého tlačítka myši a pohybování jím. Levé tlačítko myši je pro <link "
+"xref=\"selections\"/>."
 
 #. (itstool) path: page/p
 #: C/first-steps.page:34
@@ -245,9 +255,9 @@ msgid ""
 "are described in <link xref=\"control\"/>. Shortcut keys for the window are "
 "listed below."
 msgstr ""
-"Klávesové zkratky pro ovládání <app>Parlatype</app>, jako je <key>Přehrát</"
-"key>, jsou popsány v <link xref=\"control\"/>. Klávesy zkratek pro okno jsou "
-"uvedeny níže."
+"Klávesové zkratky pro ovládání <app>Parlatype</app>, jako je "
+"<key>Přehrát</key>, jsou popsány v <link xref=\"control\"/>. Klávesy zkratek "
+"pro okno jsou uvedeny níže."
 
 #. (itstool) path: table/title
 #: C/keyboard-shortcuts.page:19
@@ -461,8 +471,8 @@ msgid ""
 "<link href=\"help:gnome-help/keyboard-shortcuts-set\">official "
 "documentation</link>."
 msgstr ""
-"Podrobné pokyny, jak v GNOME měnit klávesové zkratky, naleznete v <link href="
-"\"help:gnome-help/keyboard-shortcuts-set\">oficiální dokumentaci</link>."
+"Podrobné pokyny, jak v GNOME měnit klávesové zkratky, naleznete v <link "
+"href=\"help:gnome-help/keyboard-shortcuts-set\">oficiální dokumentaci</link>."
 
 #. (itstool) path: page/p
 #: C/media-keys.page:35
@@ -634,7 +644,8 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/preferences.page:55
-msgid "Precision: Choose between full seconds, 10th seconds or 100th seconds."
+msgid ""
+"Precision: Choose between full seconds, 10th seconds or 100th seconds."
 msgstr ""
 
 #. (itstool) path: item/p
@@ -843,8 +854,8 @@ msgstr "Tažení a upuštění"
 msgid ""
 "If you select the timestamp in the word processor, you can drag and drop it "
 "on the <app>Parlatype</app> window and it will go to that position. This is "
-"also possible the other way round: Drag the time label from <app>Parlatype</"
-"app> to a word processor and drop it there to insert it."
+"also possible the other way round: Drag the time label from "
+"<app>Parlatype</app> to a word processor and drop it there to insert it."
 msgstr ""
 "Pokud časové razítko vyberete v textovém editoru, můžete je táhnout a "
 "upustit na okno <app>Parlatype</app> a ono půjde na tu polohu. Toto je možné "
@@ -1022,9 +1033,10 @@ msgstr ""
 msgid ""
 "It asks you to download a speech model. The speech recognition engine used "
 "is CMU Sphinx. You can download models suitable for CMU Sphinx for example "
-"from <link href=\"https://sourceforge.net/projects/cmusphinx/files/Acoustic"
-"%20and%20Language%20Models/\">CMU Sphinx’ sourceforge repository</link>. It "
-"has models for some of the most widespread languages."
+"from <link "
+"href=\"https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Lang"
+"uage%20Models/\">CMU Sphinx’ sourceforge repository</link>. It has models "
+"for some of the most widespread languages."
 msgstr ""
 
 #. (itstool) path: page/p
@@ -1083,8 +1095,9 @@ msgstr ""
 #. low priority.
 #: C/asr-setup.page:37
 msgid ""
-"It consists of several files usually in their own folder: <file>feat.params</"
-"file>, <file>mdef</file>, <file>means</file> and some others."
+"It consists of several files usually in their own folder: "
+"<file>feat.params</file>, <file>mdef</file>, <file>means</file> and some "
+"others."
 msgstr ""
 
 #. (itstool) path: item/title
@@ -1130,76 +1143,3 @@ msgid ""
 "All those elements should be somewhere in the folder selected. It doesn’t "
 "matter whether there are subfolders or how they are named."
 msgstr ""
-
-#~ msgid "Use Parlatype with LibreOffice"
-#~ msgstr "Používání Parlatype s LibreOffice"
-
-#~ msgid "LibreOffice Helpers"
-#~ msgstr "Pomocníci LibreOffice"
-
-#~ msgid ""
-#~ "LibreOffice Helpers let you control <app>Parlatype</app> from "
-#~ "<app>LibreOffice</app>. For example, you can jump easily to timestamps."
-#~ msgstr ""
-#~ "Pomocníci LibreOffice umožňují <app>Parlatype</app> ovládat z "
-#~ "<app>LibreOffice</app>. Například můžete snadno skákat na časová razítka."
-
-#~ msgid ""
-#~ "To use them, you have to assign keyboard shortcuts in <app>LibreOffice</"
-#~ "app> itself. To do this, open <app>LibreOffice</app>, go to menu "
-#~ "<gui>Tools</gui> and select <gui>Customize</gui>."
-#~ msgstr ""
-#~ "Abyste je použil, musíte v <app>LibreOffice</app> přiřadit klávesové "
-#~ "zkratky. Kvůli tomu otevřete <app>LibreOffice</app>, jděte do nabídky "
-#~ "<gui>Nástroje</gui> a vyberte <gui>Přizpůsobit</gui>."
-
-#~ msgctxt "_"
-#~ msgid ""
-#~ "external ref='figures/lo-menu.png' md5='4dd86affb0353b6bdfa2dcfbbeadd494'"
-#~ msgstr ""
-#~ "external ref='figures/lo-menu.png' md5='4dd86affb0353b6bdfa2dcfbbeadd494'"
-
-#~ msgctxt "_"
-#~ msgid ""
-#~ "external ref='figures/lo-customize.png' "
-#~ "md5='081564921275129bee7bbd10220547e7'"
-#~ msgstr ""
-#~ "external ref='figures/lo-customize.png' "
-#~ "md5='081564921275129bee7bbd10220547e7'"
-
-#~ msgid "You can select any of these functions:"
-#~ msgstr "Můžete vybrat kteroukoli z těchto funkcí:"
-
-#~ msgid "What it does"
-#~ msgstr "Co to dělá"
-
-#~ msgid ""
-#~ "Toggles between play and pause. Depending on your preferences set in "
-#~ "<app>Parlatype</app> it will rewind a few seconds on pause."
-#~ msgstr ""
-#~ "Přepíná mezi přehráváním a pozastavením. V závislosti na nastaveních "
-#~ "provedených v <app>Parlatype</app>, provede při pozastavení přetočení o "
-#~ "několik sekund."
-
-#~ msgid ""
-#~ "Jumps back a few seconds, depending on the preferences you set in "
-#~ "<app>Parlatype</app>."
-#~ msgstr ""
-#~ "Poskočí o několik sekund dozadu, v závislosti na nastaveních provedených "
-#~ "v <app>Parlatype</app>."
-
-#~ msgid ""
-#~ "Jumps forward a few seconds, depending on the preferences you set in "
-#~ "<app>Parlatype</app>."
-#~ msgstr ""
-#~ "Poskočí o několik sekund dopředu, v závislosti na nastaveních provedených "
-#~ "v <app>Parlatype</app>."
-
-#~ msgid "The same as above, but on a new line."
-#~ msgstr "Stejně jako výše, ale na novém řádku."
-
-#~ msgid "Increases playback speed."
-#~ msgstr "Zvýší rychlost přehrávání."
-
-#~ msgid "Decreases playback speed."
-#~ msgstr "Sníží rychlost přehrávání."
