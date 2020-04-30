@@ -566,17 +566,19 @@ pt_player_play_pause (PtPlayer *player)
 
 	switch (state) {
 	case GST_STATE_NULL:
-		/* fall through */
+		/* If we don't do anything, make sure to return	without emitting
+		 * a signal. It would toggle the play button in the GUI. */
+		return;
 	case GST_STATE_PAUSED:
 		pt_player_play (player);
 		break;
 	case GST_STATE_PLAYING:
 		pt_player_pause_and_rewind (player);
+		break;
 	case GST_STATE_VOID_PENDING:
-		/* fall through */
+		return;
 	case GST_STATE_READY:
-		/* don’t know what to do */
-		;
+		return;
 	}
 
 	g_signal_emit_by_name (player, "play-toggled");
