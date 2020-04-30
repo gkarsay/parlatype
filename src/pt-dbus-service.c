@@ -107,7 +107,7 @@ handle_method_call (GDBusConnection       *connection,
 	} else if (g_strcmp0 (method_name, "DecreaseSpeed") == 0) {
 		gdouble value;
 		g_object_get (player, "speed", &value, NULL);
-		pt_player_set_speed (player, value + 0.1);
+		pt_player_set_speed (player, value - 0.1);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	}
 }
