@@ -29,6 +29,7 @@ struct _PtPlayerPrivate
 {
 	GstElement *play;
 	GstElement *scaletempo;
+	GstElement *volume_changer;
 	GstElement *play_bin;
 	GstElement *sphinx_bin;
 	GstElement *audio_bin;
@@ -343,7 +344,7 @@ bus_call (GstBus     *bus,
 			break;
 
 		gdouble volume;
-		volume = gst_stream_volume_get_volume (GST_STREAM_VOLUME (player->priv->play),
+		volume = gst_stream_volume_get_volume (GST_STREAM_VOLUME (player->priv->volume_changer),
 			                               GST_STREAM_VOLUME_FORMAT_CUBIC);
 		if (player->priv->volume != volume) {
 			player->priv->volume = volume;
@@ -1028,7 +1029,7 @@ pt_player_get_volume (PtPlayer *player)
 
 	if (player->priv->play) {
 		volume = gst_stream_volume_get_volume (
-				GST_STREAM_VOLUME (player->priv->play),
+				GST_STREAM_VOLUME (player->priv->volume_changer),
 				GST_STREAM_VOLUME_FORMAT_CUBIC);
 		if (player->priv->volume != volume)
 			player->priv->volume = volume;
@@ -1056,7 +1057,7 @@ pt_player_set_volume (PtPlayer *player,
 	player->priv->volume = volume;
 
 	if (player->priv->play)
-		gst_stream_volume_set_volume (GST_STREAM_VOLUME (player->priv->play),
+		gst_stream_volume_set_volume (GST_STREAM_VOLUME (player->priv->volume_changer),
 			                      GST_STREAM_VOLUME_FORMAT_CUBIC,
 			                      volume);
 
@@ -1082,7 +1083,7 @@ pt_player_get_mute (PtPlayer *player)
 	gboolean retval = FALSE;
 
 	if (player->priv->play)
-		retval = gst_stream_volume_get_mute (GST_STREAM_VOLUME (player->priv->play));
+		retval = gst_stream_volume_get_mute (GST_STREAM_VOLUME (player->priv->volume_changer));
 
 	return retval;
 }
@@ -1104,7 +1105,7 @@ pt_player_set_mute (PtPlayer *player,
 	g_return_if_fail (PT_IS_PLAYER (player));
 
 	if (player->priv->play)
-		gst_stream_volume_set_mute (GST_STREAM_VOLUME (player->priv->play), mute);
+		gst_stream_volume_set_mute (GST_STREAM_VOLUME (player->priv->volume_changer), mute);
 }
 
 /**
@@ -1827,6 +1828,7 @@ pt_player_init (PtPlayer *player)
 	player->priv->wv = NULL;
 	player->sphinx = NULL;
 	player->priv->scaletempo = NULL;
+	player->priv->volume_changer = NULL;
 	player->priv->play_bin = NULL;
 	player->priv->sphinx_bin = NULL;
 }
@@ -1836,7 +1838,7 @@ notify_volume_idle_cb (PtPlayer *player)
 {
 	gdouble vol;
 
-	vol = gst_stream_volume_get_volume (GST_STREAM_VOLUME (player->priv->play),
+	vol = gst_stream_volume_get_volume (GST_STREAM_VOLUME (player->priv->volume_changer),
 	                                    GST_STREAM_VOLUME_FORMAT_CUBIC);
 	player->priv->volume = vol;
 	g_object_notify_by_pspec (G_OBJECT (player),
@@ -1862,7 +1864,7 @@ notify_mute_idle_cb (PtPlayer *player)
 {
 	gboolean mute;
 
-	mute = gst_stream_volume_get_mute (GST_STREAM_VOLUME (player->priv->play));
+	mute = gst_stream_volume_get_mute (GST_STREAM_VOLUME (player->priv->volume_changer));
 	player->priv->mute = mute;
 	g_object_notify_by_pspec (G_OBJECT (player),
 	                          obj_properties[PROP_MUTE]);
@@ -1946,6 +1948,27 @@ create_sphinx_bin (PtPlayer  *player,
 }
 #endif
 
+#ifndef G_OS_WIN32
+static gboolean
+have_pulseaudio_server (void)
+{
+	/* Adapted from Quod Libet ...quodlibet/player/gstbe/util.py:
+	 * If we have a pulsesink we can get the server presence through
+	 * setting the ready state */
+	GstElement           *pulse;
+	GstStateChangeReturn  state;
+
+	pulse = gst_element_factory_make ("pulsesink", NULL);
+	if (!pulse)
+		return FALSE;
+	gst_element_set_state (pulse, GST_STATE_READY);
+	state = gst_element_get_state (pulse, NULL, NULL, GST_CLOCK_TIME_NONE);
+	gst_element_set_state (pulse, GST_STATE_NULL);
+	gst_object_unref (pulse);
+	return (state != GST_STATE_CHANGE_FAILURE);
+}
+#endif
+
 static GstElement*
 create_play_bin (PtPlayer  *player,
                  GError   **error)
@@ -1953,21 +1976,68 @@ create_play_bin (PtPlayer  *player,
 	GError *earlier_error = NULL;
 
 	/* Create gstreamer elements */
-	GstElement *capsfilter;
-	GstElement *audiosink;
-	GstElement *queue;
+	GstElement   *capsfilter;
+	GstElement   *audiosink;
+	GstElement   *queue;
+	gchar        *sink;
+	GObjectClass *sinkclass;
+	GParamSpec   *has_volume;
+	GParamSpec   *has_mute;
 
 	capsfilter = make_element ("capsfilter", "audiofilter", &earlier_error);
 	/* defined error propagation; skipping any cleanup */
 	PROPAGATE_ERROR_NULL
-	audiosink = make_element ("autoaudiosink", "audiosink", &earlier_error);
-	PROPAGATE_ERROR_NULL
+
 	queue = make_element ("queue", "player_queue", &earlier_error);
 	PROPAGATE_ERROR_NULL
 
+	/* Choose an audiosink ourselves instead of relying on autoaudiosink.
+	 * It chose waveformsink on win32 (not a good choice) and it will be
+	 * a fakesink until the first stream is loaded, so we can't query the
+	 * sinks properties until then. */
+
+#ifdef G_OS_WIN32
+	sink = "directsoundsink";
+#else
+	if (have_pulseaudio_server ())
+		sink = "pulsesink";
+	else
+		sink = "alsasink";
+#endif
+	audiosink = make_element (sink, "audiosink", &earlier_error);
+	PROPAGATE_ERROR_NULL
+
+	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
+		          "MESSAGE", "Audio sink is %s", sink);
+
+	/* Audiosinks without a "volume" property can be controlled by the
+	 * playbin element, but there is a noticable delay in setting the volume.
+	 * Create a "volume" element for those audiosinks.
+	 * Note: Query is generic, it's actually only for alsasink.
+	 * The exception for directsoundsink is because "mute" doesn't work. */
+
+	sinkclass = G_OBJECT_GET_CLASS(audiosink);
+	has_volume = g_object_class_find_property (sinkclass, "volume");
+	has_mute =   g_object_class_find_property (sinkclass, "mute");
+
+	if ((!has_volume && !has_mute) || g_strcmp0 (sink, "directsoundsink") == 0) {
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
+		                  "MESSAGE", "Creating a \"volume\" element for %s", sink);
+		player->priv->volume_changer = make_element ("volume", "volume", &earlier_error);
+		PROPAGATE_ERROR_NULL
+	}
+
 	GstElement *audio = gst_bin_new ("player-audiobin");
-	gst_bin_add_many (GST_BIN (audio), queue, capsfilter, audiosink, NULL);
-	gst_element_link_many (queue, capsfilter, audiosink, NULL);
+	if (player->priv->volume_changer) {
+		gst_bin_add_many (GST_BIN (audio), queue, capsfilter,
+				  player->priv->volume_changer, audiosink, NULL);
+		gst_element_link_many (queue, capsfilter,
+				       player->priv->volume_changer, audiosink, NULL);
+	} else {
+		gst_bin_add_many (GST_BIN (audio), queue, capsfilter, audiosink, NULL);
+		gst_element_link_many (queue, capsfilter, audiosink, NULL);
+		player->priv->volume_changer = audiosink;
+	}
 
 	/* create ghost pad for audiosink */
 	GstPad *audiopad = gst_element_get_static_pad (queue, "sink");
@@ -2010,6 +2080,8 @@ Note 3: The original intent was to dynamically switch the tee element to either
         omitted. On the other hand, maybe they could be somehow synced to have
         audio and recognition in real time.
 
+Note 4: autoaudiosink (in the upper right corner) was replaced by a chosen sink
+        and an optional "volume" element.
 */
 
 static void
