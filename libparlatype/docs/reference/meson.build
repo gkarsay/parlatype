@@ -18,6 +18,7 @@ gnome.gtkdoc(
 	scan_args: [
 		'--source-dir=' + join_paths(meson.source_root(), 'libparlatype', 'src'),
 		'--rebuild-types',
+		'--deprecated-guards="PT_DISABLE_DEPRECATED"',
 	],
 	mkdb_args: [
 		'--xml-mode',

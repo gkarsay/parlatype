@@ -100,8 +100,11 @@ void		pt_player_set_volume		(PtPlayer *player,
 gboolean	pt_player_get_mute		(PtPlayer *player);
 void		pt_player_set_mute		(PtPlayer *player,
 						 gboolean  mute);
+#ifndef PT_DISABLE_DEPRECATED
+G_DEPRECATED_FOR(pt_player_set_mute)
 void		pt_player_mute_volume		(PtPlayer *player,
 						 gboolean  mute);
+#endif
 void		pt_player_rewind		(PtPlayer *player,
 						 gdouble   speed);
 void		pt_player_fast_forward		(PtPlayer *player,

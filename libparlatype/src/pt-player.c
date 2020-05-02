@@ -1072,15 +1072,13 @@ pt_player_set_mute (PtPlayer *player,
  * This remembers the volume level, so you don’t have to keep track of the old value.
  *
  * Since: 1.4
+ * Deprecated: 2.1: Use pt_player_set_mute() instead.
  */
 void
 pt_player_mute_volume (PtPlayer *player,
                        gboolean  mute)
 {
-	g_return_if_fail (PT_IS_PLAYER (player));
-
-	if (player->priv->play)
-		gst_stream_volume_set_mute (GST_STREAM_VOLUME (player->priv->play), mute);
+	pt_player_set_mute (player, mute);
 }
 
 /**
