@@ -1103,7 +1103,21 @@ setup_settings (PtWindow *win)
 #endif
 }
 
-gboolean
+static void
+update_mute (GObject    *gobject,
+             GParamSpec *pspec,
+             gpointer    user_data)
+{
+	PtWindow *win = PT_WINDOW (user_data);
+	if (pt_player_get_mute (win->player)) {
+		const gchar* mute_icon [] = {(gchar*)win->priv->vol_icons[0], NULL};
+		gtk_scale_button_set_icons (GTK_SCALE_BUTTON (win->priv->volumebutton), mute_icon);
+	} else {
+		gtk_scale_button_set_icons (GTK_SCALE_BUTTON (win->priv->volumebutton), (const gchar**) win->priv->vol_icons);
+	}
+}
+
+static gboolean
 volume_button_event_cb (GtkWidget *volumebutton,
                         GdkEvent  *event,
                         gpointer   user_data)
@@ -1111,6 +1125,7 @@ volume_button_event_cb (GtkWidget *volumebutton,
 	PtWindow *win = PT_WINDOW (user_data);
 	gtk_scale_button_set_value (GTK_SCALE_BUTTON (volumebutton),
 	                            pt_player_get_volume (win->player));
+	update_mute (NULL, NULL, win);
 	return FALSE;
 }
 
@@ -1165,9 +1180,16 @@ setup_player (PtWindow *win)
 			win->player, "volume",
 			G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
 
+	g_object_get (win->priv->volumebutton, "icons", &win->priv->vol_icons, NULL);
+
 	g_signal_connect (win->priv->volumebutton,
 			"event",
 			G_CALLBACK (volume_button_event_cb),
+			win);
+
+	g_signal_connect (win->player,
+			"notify::mute",
+			G_CALLBACK (update_mute),
 			win);
 
 	GtkAdjustment *speed_adjustment;
