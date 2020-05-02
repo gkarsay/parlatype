@@ -17,7 +17,7 @@ Parlatype is free and open source software. Please consider a [donation](donate.
 - The icon is based on work from the GNOME team.
 - Many thanks to all the translators at Launchpad, bug reporters and contributors at Github!
 - Ross Gammon sponsored the package in Debian.
-- glimhyt packaged it in Arch Linux.
+- gllmhyt packaged it in Arch Linux.
 - Julian Richen helped getting it into Flathub.
 - Michael Vetter brought it to openSUSE.
 - devhell contributed footpedal documentation.
