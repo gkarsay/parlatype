@@ -95,6 +95,7 @@ void		pt_player_jump_to_permille	(PtPlayer *player,
 gint		pt_player_get_permille		(PtPlayer *player);
 void		pt_player_set_speed		(PtPlayer *player,
 						 gdouble   speed);
+gdouble		pt_player_get_volume		(PtPlayer *player);
 void		pt_player_set_volume		(PtPlayer *player,
 						 gdouble   volume);
 gboolean	pt_player_get_mute		(PtPlayer *player);

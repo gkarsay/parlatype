@@ -993,6 +993,36 @@ pt_player_set_speed (PtPlayer *player,
 }
 
 /**
+ * pt_player_get_volume:
+ * @player: a #PtPlayer
+ *
+ * Gets the volume on a scale between 0 and 1.
+ *
+ * Return value: the current volume
+ *
+ * Since: 2.1
+ */
+gdouble
+pt_player_get_volume (PtPlayer *player)
+{
+	g_return_val_if_fail (PT_IS_PLAYER (player), -1);
+
+	gdouble volume;
+
+	/* Pulseaudio sink does not propagate volume changes in GST_STATE_PAUSED
+	 * or lower. Ask for real value and update cached volume. */
+
+	if (player->priv->play) {
+		volume = gst_stream_volume_get_volume (
+				GST_STREAM_VOLUME (player->priv->play),
+				GST_STREAM_VOLUME_FORMAT_CUBIC);
+		if (player->priv->volume != volume)
+			player->priv->volume = volume;
+	}
+	return player->priv->volume;
+}
+
+/**
  * pt_player_set_volume:
  * @player: a #PtPlayer
  * @volume: volume
