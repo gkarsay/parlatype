@@ -97,6 +97,7 @@ void		pt_player_set_speed		(PtPlayer *player,
 						 gdouble   speed);
 void		pt_player_set_volume		(PtPlayer *player,
 						 gdouble   volume);
+gboolean	pt_player_get_mute		(PtPlayer *player);
 void		pt_player_mute_volume		(PtPlayer *player,
 						 gboolean  mute);
 void		pt_player_rewind		(PtPlayer *player,

@@ -25,6 +25,7 @@ pt_player_jump_to_permille
 pt_player_get_permille
 pt_player_set_speed
 pt_player_set_volume
+pt_player_get_mute
 pt_player_mute_volume
 pt_player_rewind
 pt_player_fast_forward

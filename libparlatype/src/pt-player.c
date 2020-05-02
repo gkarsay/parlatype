@@ -1021,6 +1021,29 @@ pt_player_set_volume (PtPlayer *player,
 }
 
 /**
+ * pt_player_get_mute:
+ * @player: a #PtPlayer
+ *
+ * Get mute state of the audio stream.
+
+ * Return value: TRUE for muted state, FALSE for normal state
+ *
+ * Since: 2.1
+ */
+gboolean
+pt_player_get_mute (PtPlayer *player)
+{
+	g_return_val_if_fail (PT_IS_PLAYER (player), FALSE);
+
+	gboolean retval = FALSE;
+
+	if (player->priv->play)
+		retval = gst_stream_volume_get_mute (GST_STREAM_VOLUME (player->priv->play));
+
+	return retval;
+}
+
+/**
  * pt_player_mute_volume:
  * @player: a #PtPlayer
  * @mute: a gboolean
