@@ -40,6 +40,7 @@ struct _PtPlayerPrivate
 	gint64	    dur;
 	gdouble	    speed;
 	gdouble     volume;
+	gboolean    mute;
 	gint        pause;
 	gint        back;
 	gint        forward;
@@ -64,6 +65,7 @@ enum
 {
 	PROP_0,
 	PROP_SPEED,
+	PROP_MUTE,
 	PROP_VOLUME,
 	PROP_TIMESTAMP_PRECISION,
 	PROP_TIMESTAMP_FIXED,
@@ -1034,7 +1036,8 @@ pt_player_mute_volume (PtPlayer *player,
 {
 	g_return_if_fail (PT_IS_PLAYER (player));
 
-	gst_stream_volume_set_mute (GST_STREAM_VOLUME (player->priv->play), mute);
+	if (player->priv->play)
+		gst_stream_volume_set_mute (GST_STREAM_VOLUME (player->priv->play), mute);
 }
 
 /**
@@ -1769,6 +1772,28 @@ vol_changed (GObject    *object,
 	g_source_set_name_by_id (id, "[parlatype] notify_volume_idle_cb");
 }
 
+static gboolean
+notify_mute_idle_cb (PtPlayer *player)
+{
+	gboolean mute;
+
+	mute = gst_stream_volume_get_mute (GST_STREAM_VOLUME (player->priv->play));
+	player->priv->mute = mute;
+	g_object_notify_by_pspec (G_OBJECT (player),
+	                          obj_properties[PROP_MUTE]);
+	return FALSE;
+}
+
+static void
+mute_changed (GObject    *object,
+              GParamSpec *pspec,
+              PtPlayer   *player)
+{
+	guint id;
+	id = g_idle_add ((GSourceFunc) notify_mute_idle_cb, player);
+	g_source_set_name_by_id (id, "[parlatype] notify_mute_idle_cb");
+}
+
 static GstElement*
 make_element (gchar   *factoryname,
               gchar   *name,
@@ -1952,6 +1977,8 @@ pt_player_setup_pipeline (PtPlayer  *player,
 	   Syncing is done only in Play state */
 	g_signal_connect (G_OBJECT (player->priv->play),
 			"notify::volume", G_CALLBACK (vol_changed), player);
+	g_signal_connect (G_OBJECT (player->priv->play),
+			"notify::mute", G_CALLBACK (mute_changed), player);
 	return TRUE;
 }
 
@@ -2127,6 +2154,9 @@ pt_player_set_property (GObject      *object,
 	case PROP_VOLUME:
 		pt_player_set_volume (player, g_value_get_double (value));
 		break;
+	case PROP_MUTE:
+		pt_player_mute_volume (player, g_value_get_boolean (value));
+		break;
 	case PROP_TIMESTAMP_PRECISION:
 		player->priv->timestamp_precision = g_value_get_int (value);
 		break;
@@ -2194,6 +2224,9 @@ pt_player_get_property (GObject    *object,
 		break;
 	case PROP_VOLUME:
 		g_value_set_double (value, player->priv->volume);
+		break;
+	case PROP_MUTE:
+		g_value_set_boolean (value, player->priv->mute);
 		break;
 	case PROP_TIMESTAMP_PRECISION:
 		g_value_set_int (value, player->priv->timestamp_precision);
@@ -2391,6 +2424,19 @@ pt_player_class_init (PtPlayerClass *klass)
 			0.0,	/* minimum */
 			1.0,	/* maximum */
 			1.0,
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+
+	/**
+	* PtPlayer:mute:
+	*
+	* Mute state of the audio stream.
+	*/
+	obj_properties[PROP_MUTE] =
+	g_param_spec_boolean (
+			"mute",
+			"Mute",
+			"Mute state of audio stream",
+			FALSE,
 			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
 
 	/**
