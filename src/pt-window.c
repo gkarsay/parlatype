@@ -1103,6 +1103,17 @@ setup_settings (PtWindow *win)
 #endif
 }
 
+gboolean
+volume_button_event_cb (GtkWidget *volumebutton,
+                        GdkEvent  *event,
+                        gpointer   user_data)
+{
+	PtWindow *win = PT_WINDOW (user_data);
+	gtk_scale_button_set_value (GTK_SCALE_BUTTON (volumebutton),
+	                            pt_player_get_volume (win->player));
+	return FALSE;
+}
+
 static void
 setup_player (PtWindow *win)
 {
@@ -1153,6 +1164,11 @@ setup_player (PtWindow *win)
 			win->priv->volumebutton, "value",
 			win->player, "volume",
 			G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+
+	g_signal_connect (win->priv->volumebutton,
+			"event",
+			G_CALLBACK (volume_button_event_cb),
+			win);
 
 	GtkAdjustment *speed_adjustment;
 	speed_adjustment = gtk_range_get_adjustment (GTK_RANGE (win->priv->speed_scale));
