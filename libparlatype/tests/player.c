@@ -390,11 +390,11 @@ player_volume_speed (PtPlayerFixture *fixture,
 	g_assert_cmpfloat (speed, ==, 0.7);
 
 	/* mute doesn't change the volume */
-	pt_player_mute_volume (fixture->testplayer, TRUE);
+	pt_player_set_mute (fixture->testplayer, TRUE);
 	g_object_get (fixture->testplayer, "volume", &volume, NULL);
 	g_assert_cmpfloat (volume, ==, 0.7);
 
-	pt_player_mute_volume (fixture->testplayer, FALSE);
+	pt_player_set_mute (fixture->testplayer, FALSE);
 	g_object_get (fixture->testplayer, "volume", &volume, NULL);
 	g_assert_cmpfloat (volume, ==, 0.7);
 

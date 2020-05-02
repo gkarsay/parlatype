@@ -2196,7 +2196,7 @@ pt_player_set_property (GObject      *object,
 		pt_player_set_volume (player, g_value_get_double (value));
 		break;
 	case PROP_MUTE:
-		pt_player_mute_volume (player, g_value_get_boolean (value));
+		pt_player_set_mute (player, g_value_get_boolean (value));
 		break;
 	case PROP_TIMESTAMP_PRECISION:
 		player->priv->timestamp_precision = g_value_get_int (value);
