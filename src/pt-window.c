@@ -615,6 +615,7 @@ pt_window_ready_to_play (PtWindow *win,
 	gtk_widget_set_sensitive (win->priv->button_jump_back, state);
 	gtk_widget_set_sensitive (win->priv->button_jump_forward, state);
 	gtk_widget_set_sensitive (win->priv->speed_scale, state);
+	gtk_widget_set_sensitive (win->priv->volumebutton, state);
 
 	if (state) {
 		open_context = gtk_widget_get_style_context (win->priv->button_open);
