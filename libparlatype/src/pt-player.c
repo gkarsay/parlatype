@@ -338,6 +338,20 @@ bus_call (GstBus     *bus,
 		}
 		break;
 		}
+	case GST_MESSAGE_STATE_CHANGED: {
+		if (GST_MESSAGE_SRC(msg) != GST_OBJECT (player->priv->play))
+			break;
+
+		gdouble volume;
+		volume = gst_stream_volume_get_volume (GST_STREAM_VOLUME (player->priv->play),
+			                               GST_STREAM_VOLUME_FORMAT_CUBIC);
+		if (player->priv->volume != volume) {
+			player->priv->volume = volume;
+			g_object_notify_by_pspec (G_OBJECT (player),
+			                          obj_properties[PROP_VOLUME]);
+		}
+		break;
+		}
 	case GST_MESSAGE_ERROR: {
 		gchar  *debug;
 		GError *error;
