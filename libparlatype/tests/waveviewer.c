@@ -99,7 +99,8 @@ waveviewer_loaded (void)
 	PtPlayer  *player;
 	GtkWidget *window;
 	GtkWidget *viewer;
-	gchar     *testfile;
+	GFile     *testfile;
+	gchar     *testpath;
 	gchar     *testuri;
 	gboolean   success;
 	SyncData   data;
@@ -108,8 +109,9 @@ waveviewer_loaded (void)
 	pt_player_setup_player (player, &error);
 	g_assert_no_error (error);
 
-	testfile = g_test_build_filename (G_TEST_DIST, "data", "tick-10sec.ogg", NULL);
-	testuri = g_strdup_printf ("file://%s", testfile);
+	testpath = g_test_build_filename (G_TEST_DIST, "data", "tick-10sec.ogg", NULL);
+	testfile = g_file_new_for_path (testpath);
+	testuri = g_file_get_uri (testfile);
 	success = pt_player_open_uri (player, testuri);
 	g_assert_true (success);
 
@@ -127,8 +129,9 @@ waveviewer_loaded (void)
 	g_assert_true (success);
 	g_assert_no_error (error);
 
-	g_free (testfile);
+	g_free (testpath);
 	g_free (testuri);
+	g_object_unref (testfile);
 	free_sync_data (data);
 	g_object_unref (player);
 	gtk_widget_destroy (window);
