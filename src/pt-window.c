@@ -1129,6 +1129,27 @@ volume_button_event_cb (GtkWidget *volumebutton,
 	return FALSE;
 }
 
+static gboolean
+volume_button_press_event (GtkGestureMultiPress *gesture,
+                           gint                  n_press,
+                           gdouble               x,
+                           gdouble               y,
+                           gpointer              user_data)
+{
+	PtWindow *win = PT_WINDOW (user_data);
+	guint     button;
+	gboolean  current_mute;
+
+	button = gtk_gesture_single_get_current_button (GTK_GESTURE_SINGLE (gesture));
+
+	if (n_press == 1 && button == GDK_BUTTON_SECONDARY) {
+		current_mute = pt_player_get_mute (win->player);
+		pt_player_set_mute (win->player, !current_mute);
+		return TRUE;
+	}
+	return FALSE;
+}
+
 static void
 setup_player (PtWindow *win)
 {
@@ -1190,6 +1211,16 @@ setup_player (PtWindow *win)
 	g_signal_connect (win->player,
 			"notify::mute",
 			G_CALLBACK (update_mute),
+			win);
+
+	/* Setup event handling */
+	win->priv->vol_event = gtk_gesture_multi_press_new (win->priv->volumebutton);
+	gtk_gesture_single_set_exclusive (GTK_GESTURE_SINGLE (win->priv->vol_event), TRUE);
+	gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (win->priv->vol_event), 0);
+	gtk_event_controller_set_propagation_phase (GTK_EVENT_CONTROLLER (win->priv->vol_event), GTK_PHASE_CAPTURE);
+	g_signal_connect (win->priv->vol_event,
+			"pressed",
+			G_CALLBACK (volume_button_press_event),
 			win);
 
 	GtkAdjustment *speed_adjustment;
@@ -1374,6 +1405,7 @@ pt_window_dispose (GObject *object)
 	g_clear_object (&win->priv->asr_settings);
 #endif
 	g_clear_object (&win->priv->go_to_timestamp);
+	g_clear_object (&win->priv->vol_event);
 
 	G_OBJECT_CLASS (pt_window_parent_class)->dispose (object);
 }
