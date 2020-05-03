@@ -2294,7 +2294,7 @@ pt_player_get_property (GObject    *object,
 		g_value_set_double (value, player->priv->speed);
 		break;
 	case PROP_VOLUME:
-		g_value_set_double (value, player->priv->volume);
+		g_value_set_double (value, pt_player_get_volume (player));
 		break;
 	case PROP_MUTE:
 		g_value_set_boolean (value, player->priv->mute);
@@ -2483,10 +2483,16 @@ pt_player_class_init (PtPlayerClass *klass)
 			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
 
 	/**
-	* PtPlayer:volume:
-	*
-	* The volume for playback.
-	*/
+	 * PtPlayer:volume:
+	 *
+	 * The volume for playback.
+	 *
+	 * <note><para>Pulseaudio sink does not propagate volume changes at GST_STATE_PAUSED
+	 * or lower. This property will notify of changes only in GST_STATE_PLAYING and
+	 * on state changes, e.g. from GST_STATE_READY to GST_STATE_PAUSED. Getting this
+	 * property returns the real current volume level even if there was no notification before.
+	 * </para></note>
+	 */
 	obj_properties[PROP_VOLUME] =
 	g_param_spec_double (
 			"volume",
