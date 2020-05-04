@@ -25,6 +25,7 @@
 #ifdef G_OS_WIN32
   #include <windows.h>
   #include "pt-win32-datacopy.h"
+  #include "pt-win32-hotkeys.h"
   #include "pt-win32-pipe.h"
 #endif
 #include "pt-preferences.h"
@@ -42,6 +43,7 @@ struct _PtAppPrivate
 #endif
 #ifdef G_OS_WIN32
 	PtWin32Datacopy *win32datacopy;
+	PtWin32Hotkeys  *win32hotkeys;
 	PtWin32Pipe     *win32pipe;
 #endif
 };
@@ -436,6 +438,8 @@ pt_app_activate (GApplication *application)
 #ifdef G_OS_WIN32
 		app->priv->win32datacopy = pt_win32_datacopy_new (win);
 		pt_win32_datacopy_start (app->priv->win32datacopy);
+		app->priv->win32hotkeys = pt_win32_hotkeys_new (win);
+		pt_win32_hotkeys_start (app->priv->win32hotkeys);
 		app->priv->win32pipe = pt_win32_pipe_new (win);
 		pt_win32_pipe_start (app->priv->win32pipe);
 #endif
@@ -548,6 +552,7 @@ pt_app_init (PtApp *app)
 #endif
 #ifdef G_OS_WIN32
 	app->priv->win32datacopy = NULL;
+	app->priv->win32hotkeys = NULL;
 	app->priv->win32pipe = NULL;
 #endif
 	g_application_add_main_option_entries (G_APPLICATION (app), options);
@@ -577,6 +582,7 @@ pt_app_finalize (GObject *object)
 #endif
 #ifdef G_OS_WIN32
 	g_clear_object (&app->priv->win32datacopy);
+	g_clear_object (&app->priv->win32hotkeys);
 	g_clear_object (&app->priv->win32pipe);
 #endif
 
