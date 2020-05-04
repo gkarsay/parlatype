@@ -1104,16 +1104,22 @@ setup_settings (PtWindow *win)
 }
 
 static void
-update_mute (GObject    *gobject,
-             GParamSpec *pspec,
-             gpointer    user_data)
+volume_button_update_mute (GObject    *gobject,
+                           GParamSpec *pspec,
+                           gpointer    user_data)
 {
+	/* Switch icons of volume button depending on mute state.
+	 * If muted, only the mute icon is shown (volume can still be adjusted).
+	 * In normal state restore original icon set. */
+
 	PtWindow *win = PT_WINDOW (user_data);
+	GtkScaleButton *volumebutton = GTK_SCALE_BUTTON (win->priv->volumebutton);
+	const gchar* mute_icon [] = {(gchar*)win->priv->vol_icons[0], NULL};
+
 	if (pt_player_get_mute (win->player)) {
-		const gchar* mute_icon [] = {(gchar*)win->priv->vol_icons[0], NULL};
-		gtk_scale_button_set_icons (GTK_SCALE_BUTTON (win->priv->volumebutton), mute_icon);
+		gtk_scale_button_set_icons (volumebutton, mute_icon);
 	} else {
-		gtk_scale_button_set_icons (GTK_SCALE_BUTTON (win->priv->volumebutton), (const gchar**) win->priv->vol_icons);
+		gtk_scale_button_set_icons (volumebutton, (const gchar**) win->priv->vol_icons);
 	}
 }
 
@@ -1122,10 +1128,14 @@ volume_button_event_cb (GtkWidget *volumebutton,
                         GdkEvent  *event,
                         gpointer   user_data)
 {
+	/* This is for pulseaudiosink in paused state. It doesn't notify of
+	 * volume/mute changes. Update values when user is interacting with
+	 * the volume button. */
+
 	PtWindow *win = PT_WINDOW (user_data);
 	gtk_scale_button_set_value (GTK_SCALE_BUTTON (volumebutton),
 	                            pt_player_get_volume (win->player));
-	update_mute (NULL, NULL, win);
+	volume_button_update_mute (NULL, NULL, win);
 	return FALSE;
 }
 
@@ -1136,6 +1146,8 @@ volume_button_press_event (GtkGestureMultiPress *gesture,
                            gdouble               y,
                            gpointer              user_data)
 {
+	/* Switch mute state on click with secondary button */
+
 	PtWindow *win = PT_WINDOW (user_data);
 	guint     button;
 	gboolean  current_mute;
@@ -1196,33 +1208,6 @@ setup_player (PtWindow *win)
 			G_CALLBACK (player_jumped_forward_cb),
 			win);
 
-	g_object_bind_property (
-			win->priv->volumebutton, "value",
-			win->player, "volume",
-			G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
-
-	g_object_get (win->priv->volumebutton, "icons", &win->priv->vol_icons, NULL);
-
-	g_signal_connect (win->priv->volumebutton,
-			"event",
-			G_CALLBACK (volume_button_event_cb),
-			win);
-
-	g_signal_connect (win->player,
-			"notify::mute",
-			G_CALLBACK (update_mute),
-			win);
-
-	/* Setup event handling */
-	win->priv->vol_event = gtk_gesture_multi_press_new (win->priv->volumebutton);
-	gtk_gesture_single_set_exclusive (GTK_GESTURE_SINGLE (win->priv->vol_event), TRUE);
-	gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (win->priv->vol_event), 0);
-	gtk_event_controller_set_propagation_phase (GTK_EVENT_CONTROLLER (win->priv->vol_event), GTK_PHASE_CAPTURE);
-	g_signal_connect (win->priv->vol_event,
-			"pressed",
-			G_CALLBACK (volume_button_press_event),
-			win);
-
 	GtkAdjustment *speed_adjustment;
 	speed_adjustment = gtk_range_get_adjustment (GTK_RANGE (win->priv->speed_scale));
 	g_object_bind_property (
@@ -1241,6 +1226,47 @@ setup_player (PtWindow *win)
 			G_CALLBACK (player_asr_hypothesis_cb),
 			win);
 #endif
+}
+
+static void
+setup_volume (PtWindow *win)
+{
+	/* Bind volume button to player volume. Bidirectional, because some
+	 * audiosinks can change their state externally, and it makes no
+	 * difference for other audiosinks. */
+	g_object_bind_property (
+			win->priv->volumebutton, "value",
+			win->player, "volume",
+			G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+
+	g_signal_connect (win->priv->volumebutton,
+			"event",
+			G_CALLBACK (volume_button_event_cb),
+			win);
+
+	/* Get complete icon set of volume button to change it depending on
+	 * mute state. */
+	g_object_get (win->priv->volumebutton,
+	              "icons", &win->priv->vol_icons, NULL);
+
+	g_signal_connect (win->player,
+			"notify::mute",
+			G_CALLBACK (volume_button_update_mute),
+			win);
+
+	/* Switch mute state on mouse click with secondary button */
+	win->priv->vol_event = gtk_gesture_multi_press_new (
+			win->priv->volumebutton);
+	gtk_gesture_single_set_exclusive (
+			GTK_GESTURE_SINGLE (win->priv->vol_event), TRUE);
+	gtk_gesture_single_set_button (
+			GTK_GESTURE_SINGLE (win->priv->vol_event), 0);
+	gtk_event_controller_set_propagation_phase (
+			GTK_EVENT_CONTROLLER (win->priv->vol_event), GTK_PHASE_CAPTURE);
+	g_signal_connect (win->priv->vol_event,
+			"pressed",
+			G_CALLBACK (volume_button_press_event),
+			win);
 }
 
 static void
@@ -1338,6 +1364,7 @@ pt_window_init (PtWindow *win)
 	setup_player (win);
 	setup_settings (win);
 	setup_accels_actions_headerbar (win);
+	setup_volume (win);
 	pt_window_setup_dnd (win);	/* this is in pt_window_dnd.c */
 #ifdef HAVE_ASR
 	win->priv->asr_settings = NULL;
