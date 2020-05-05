@@ -20,6 +20,7 @@
 #include <gtk/gtk.h>
 #include <pt-player.h>
 #include "pt-window.h"
+#include "pt-win32-helpers.h"
 #include "pt-win32-pipe.h"
 
 struct _PtWin32PipePrivate
@@ -33,30 +34,6 @@ struct _PtWin32PipePrivate
 #define BUFSIZE 1024
 
 G_DEFINE_TYPE_WITH_PRIVATE (PtWin32Pipe, pt_win32_pipe, PT_CONTROLLER_TYPE)
-
-static gchar*
-GetLastWinError (void)
-{
-	LPVOID lpMsgBuf;
-
-	FormatMessage (
-		FORMAT_MESSAGE_ALLOCATE_BUFFER |
-		FORMAT_MESSAGE_FROM_SYSTEM |
-		FORMAT_MESSAGE_IGNORE_INSERTS,
-		NULL,
-		GetLastError (),
-		MAKELANGID (LANG_NEUTRAL, SUBLANG_NEUTRAL),
-		(LPTSTR) &lpMsgBuf,
-		0,
-		NULL
-		);
-
-	gchar *msg = g_strdup ((gchar*) lpMsgBuf);
-
-	LocalFree (lpMsgBuf);
-
-	return msg;
-}
 
 
 static char*
@@ -104,7 +81,7 @@ start_server (gpointer data)
 	                                    NULL);                     /* default security */
 
 	if (self->priv->pipe == INVALID_HANDLE_VALUE) {
-		error = GetLastWinError ();
+		error = pt_win32_get_last_error_msg ();
 		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
 		                  "MESSAGE", "Creating message pipe failed: %s",
 		                  error);
@@ -124,7 +101,7 @@ start_server (gpointer data)
 		self->priv->conn = ConnectNamedPipe(self->priv->pipe, NULL);  /* NULL for sync operations */
 
 		if (self->priv->conn == 0) {
-			error = GetLastWinError ();
+			error = pt_win32_get_last_error_msg ();
 			g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
 					  "MESSAGE", "Client not connected: %s", error);
 			g_free (error);
@@ -149,7 +126,7 @@ start_server (gpointer data)
 				g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
 				                  "MESSAGE", "Client disconnected");
 			} else {
-				error = GetLastWinError ();
+				error = pt_win32_get_last_error_msg ();
 				g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
 				                  "MESSAGE", "Error reading request: %s",
 				                  error);
@@ -179,7 +156,7 @@ start_server (gpointer data)
 
 		numread = 0;
 		if (!WriteFile (self->priv->pipe, answer, strlen(answer) * sizeof(char), &numread, NULL)) {
-			error = GetLastWinError ();
+			error = pt_win32_get_last_error_msg ();
 			g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
 			                  "MESSAGE", "Error sending answer: %d", error);
 			g_free (error);

@@ -49,6 +49,8 @@ if host_machine.system() == 'windows'
 	windows.compile_resources(rc),
 	'pt-win32-datacopy.c',
 	'pt-win32-datacopy.h',
+	'pt-win32-helpers.c',
+	'pt-win32-helpers.h',
 	'pt-win32-hotkeys.c',
 	'pt-win32-hotkeys.h',
 	'pt-win32-pipe.c',

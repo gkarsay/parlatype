@@ -20,6 +20,7 @@
 #include <gtk/gtk.h>
 #include <pt-player.h>
 #include "pt-window.h"
+#include "pt-win32-helpers.h"
 #include "pt-win32-datacopy.h"
 
 struct _PtWin32DatacopyPrivate
@@ -32,26 +33,6 @@ struct _PtWin32DatacopyPrivate
 G_DEFINE_TYPE_WITH_PRIVATE (PtWin32Datacopy, pt_win32_datacopy, PT_CONTROLLER_TYPE)
 
 
-static void
-LogLastWinError (void)
-{
-	LPVOID lpMsgBuf;
-
-	FormatMessage (FORMAT_MESSAGE_ALLOCATE_BUFFER
-	                 | FORMAT_MESSAGE_FROM_SYSTEM
-	                 | FORMAT_MESSAGE_IGNORE_INSERTS,
-	               NULL,
-	               GetLastError (),
-	               MAKELANGID (LANG_NEUTRAL, SUBLANG_NEUTRAL),
-	               (LPTSTR) &lpMsgBuf,
-	               0,
-	               NULL);
-
-	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
-	                  "MESSAGE", "RegisterClass error: %s", (gchar*) lpMsgBuf);
-
-	LocalFree (lpMsgBuf);
-}
 
 static void
 pt_win32_datacopy_copydata_cb (HWND              window,
@@ -155,7 +136,8 @@ message_handler (HWND hwnd,
 void
 pt_win32_datacopy_start (PtWin32Datacopy *self)
 {
-	WNDCLASS wc;
+	WNDCLASS  wc;
+	gchar    *err;
 
 	memset (&wc, 0, sizeof (wc));
 	wc.lpfnWndProc	 = message_handler;
@@ -163,7 +145,10 @@ pt_win32_datacopy_start (PtWin32Datacopy *self)
 	wc.lpszClassName = PT_HIDDEN_WINDOW_CLASS;
 
 	if (!RegisterClass (&wc)) {
-		LogLastWinError ();
+		err = pt_win32_get_last_error_msg ();
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+			          "MESSAGE", "RegisterClass error: %s", err);
+		g_free (err);
 		return;
 	}
 

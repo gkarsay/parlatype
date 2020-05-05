@@ -23,8 +23,8 @@
   #include "pt-mediakeys.h"
 #endif
 #ifdef G_OS_WIN32
-  #include <windows.h>
   #include "pt-win32-datacopy.h"
+  #include "pt-win32-helpers.h"
   #include "pt-win32-hotkeys.h"
   #include "pt-win32-pipe.h"
 #endif
@@ -124,19 +124,8 @@ open_cb (GSimpleAction *action,
 	filter_all = gtk_file_filter_new ();
 	gtk_file_filter_set_name (filter_audio, _("Audio files"));
 	gtk_file_filter_set_name (filter_all, _("All files"));
-#ifdef GDK_WINDOWING_WIN32
-	gtk_file_filter_add_pattern (filter_audio, "*.aac");
-	gtk_file_filter_add_pattern (filter_audio, "*.aif");
-	gtk_file_filter_add_pattern (filter_audio, "*.aiff");
-	gtk_file_filter_add_pattern (filter_audio, "*.flac");
-	gtk_file_filter_add_pattern (filter_audio, "*.iff");
-	gtk_file_filter_add_pattern (filter_audio, "*.mpa");
-	gtk_file_filter_add_pattern (filter_audio, "*.mp3");
-	gtk_file_filter_add_pattern (filter_audio, "*.m4a");
-	gtk_file_filter_add_pattern (filter_audio, "*.oga");
-	gtk_file_filter_add_pattern (filter_audio, "*.ogg");
-	gtk_file_filter_add_pattern (filter_audio, "*.wav");
-	gtk_file_filter_add_pattern (filter_audio, "*.wma");
+#ifdef G_OS_WIN32
+	pt_win32_add_audio_patterns (filter_audio);
 #else
 	gtk_file_filter_add_mime_type (filter_audio, "audio/*");
 #endif
@@ -168,72 +157,6 @@ prefs_cb (GSimpleAction *action,
 	pt_show_preferences_dialog (win);
 }
 
-static gchar*
-get_help_uri (void)
-{
-	gchar *uri;
-
-#ifdef GDK_WINDOWING_WIN32
-
-	gchar      *exe_path;
-	gchar      *help_path;
-	GRegex     *r_long;
-	GRegex     *r_short;
-	GMatchInfo *match;
-	gchar      *l_raw;
-	gchar      *l_long;
-	gchar      *l_short;
-	gchar      *p_long;
-	gchar      *p_short;
-	gchar      *path;
-	GFile      *file;
-
-	exe_path = g_win32_get_package_installation_directory_of_module (NULL);
-	help_path = g_build_filename(exe_path, "share", "help", NULL);
-	l_raw = g_win32_getlocale ();
-	r_long = g_regex_new ("^[A-Z]*_[A-Z]*", G_REGEX_CASELESS, 0, NULL);
-	r_short = g_regex_new ("^[A-Z]*", G_REGEX_CASELESS, 0, NULL);
-
-	g_regex_match (r_long, l_raw, 0, &match);
-	if (g_match_info_matches (match)) {
-		l_long = g_match_info_fetch (match, 0);
-		p_long = g_build_filename (help_path, l_long, APP_ID, "index.html", NULL);
-	}
-	g_match_info_free (match);
-
-	g_regex_match (r_short, l_raw, 0, &match);
-	if (g_match_info_matches (match)) {
-		l_short = g_match_info_fetch (match, 0);
-		p_short = g_build_filename (help_path, l_short, APP_ID, "index.html", NULL);
-	}
-	g_match_info_free (match);
-
-	if (g_file_test (p_long, G_FILE_TEST_EXISTS))
-		path = g_strdup (p_long);
-	else if (g_file_test (p_short, G_FILE_TEST_EXISTS))
-		path = g_strdup (p_short);
-	else path = g_build_filename (help_path, "C", APP_ID, "index.html", NULL);
-
-	file = g_file_new_for_path (path);
-	uri = g_file_get_uri (file);
-
-	g_object_unref (file);
-	g_free (path);
-	g_free (p_long);
-	g_free (p_short);
-	g_free (l_long);
-	g_free (l_short);
-	g_free (l_raw);
-	g_regex_unref (r_long);
-	g_regex_unref (r_short);
-	g_free (help_path);
-	g_free (exe_path);
-#else
-	uri = g_strdup_printf ("help:%s", APP_ID);
-#endif
-	return uri;
-}
-
 static void
 help_cb (GSimpleAction *action,
          GVariant      *parameter,
@@ -245,7 +168,12 @@ help_cb (GSimpleAction *action,
 	gchar     *errmsg;
 
 	win = gtk_application_get_active_window (app);
-	uri = get_help_uri ();
+
+#ifdef G_OS_WIN32
+	uri = pt_win32_get_help_uri ();
+#else
+	uri = g_strdup_printf ("help:%s", APP_ID);
+#endif
 
 	gtk_show_uri_on_window (
 			win,
@@ -402,26 +330,8 @@ pt_app_activate (GApplication *application)
 	PtWindow *win;
 
 #ifdef G_OS_WIN32
-	/* In an MSYS2 environment we have D-Bus and everything works like on
-	 * Linux. The installer doesn't have D-Bus though and we have to
-	 * ensure uniqueness in a different way. */
-
-	GDBusConnection *dbus;
-	dbus = g_application_get_dbus_connection (application);
-	if (!dbus) {
-		HWND other_instance = FindWindow (PT_HIDDEN_WINDOW_CLASS,
-			                          PT_HIDDEN_WINDOW_TITLE);
-		if (other_instance) {
-			COPYDATASTRUCT data;
-			data.dwData = PRESENT_WINDOW;
-			data.cbData = 0;
-			data.lpData = NULL;
-			SendMessage ((HWND) other_instance, WM_COPYDATA,
-				     (WPARAM) 0,
-				     (LPARAM) (LPVOID) &data);
-			g_application_quit (application);
-		}
-	}
+	if (pt_win32_present_other_instance (application))
+		g_application_quit (application);
 #endif
 
 	windows = gtk_application_get_windows (GTK_APPLICATION (application));
@@ -464,22 +374,9 @@ pt_app_open (GApplication  *app,
 	uri = g_file_get_uri (files[0]);
 
 #ifdef G_OS_WIN32
-	GDBusConnection *dbus;
-	dbus = g_application_get_dbus_connection (app);
-	if (!dbus) {
-		HWND other_instance = FindWindow (PT_HIDDEN_WINDOW_CLASS,
-			                          PT_HIDDEN_WINDOW_TITLE);
-		if (other_instance) {
-			COPYDATASTRUCT data;
-			data.dwData = OPEN_FILE;
-			data.cbData = sizeof (char) * strlen (uri);
-			data.lpData = uri;
-			SendMessage ((HWND) other_instance, WM_COPYDATA,
-				     (WPARAM) 0,
-				     (LPARAM) (LPVOID) &data);
-			g_free (uri);
-			g_application_quit (app);
-		}
+	if (pt_win32_open_in_other_instance (app, uri)) {
+		g_free (uri);
+		g_application_quit (app);
 	}
 #endif
 

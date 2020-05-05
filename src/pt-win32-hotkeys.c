@@ -20,6 +20,7 @@
 #include <gtk/gtk.h>
 #include <pt-player.h>
 #include "pt-window.h"
+#include "pt-win32-helpers.h"
 #include "pt-win32-hotkeys.h"
 
 struct _PtWin32HotkeysPrivate
@@ -85,7 +86,8 @@ message_handler (HWND   hwnd,
 void
 pt_win32_hotkeys_start (PtWin32Hotkeys *self)
 {
-	WNDCLASS wc;
+	WNDCLASS  wc;
+	gchar    *err;
 
 	memset (&wc, 0, sizeof (wc));
 	wc.lpfnWndProc	 = message_handler;
@@ -93,7 +95,10 @@ pt_win32_hotkeys_start (PtWin32Hotkeys *self)
 	wc.lpszClassName = PT_HOTKEY_WINDOW_CLASS;
 
 	if (!RegisterClass (&wc)) {
-		//LogLastWinError ();
+		err = pt_win32_get_last_error_msg ();
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+			          "MESSAGE", "RegisterClass error: %s", err);
+		g_free (err);
 		return;
 	}
 
