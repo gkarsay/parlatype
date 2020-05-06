@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-09 14:29+0100\n"
-"PO-Revision-Date: 2020-03-09 16:24+0000\n"
-"Last-Translator: Gabor Karsay <gabor.karsay@gmx.at>\n"
+"PO-Revision-Date: 2020-05-05 22:49+0000\n"
+"Last-Translator: ThiagoRyuuga <Unknown>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2020-04-30 19:08+0000\n"
+"X-Launchpad-Export-Date: 2020-05-06 13:24+0000\n"
 "X-Generator: Launchpad (build fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398)\n"
 "Language: pt_BR\n"
 
@@ -26,7 +26,7 @@ msgstr "Parlatype"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:8
 msgid "Media player for speech transcription"
-msgstr ""
+msgstr "PLayer de mídia para transcrição de fala"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:11
 msgid ""
@@ -38,45 +38,52 @@ msgstr ""
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:24
 msgid "Gabor Karsay"
-msgstr ""
+msgstr "Gabor Karsay"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:44
 msgid "This is a minor release."
-msgstr ""
+msgstr "Esta é uma release menor"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:46
 msgid ""
 "Update time label only if time has changed. This is a performance increase, "
 "cursor movement should be smoother on slower systems."
 msgstr ""
+"Atualizar mostrador de tempo apenas se houver alterações. Isto aumentará a "
+"performance, os movimentos do cursor deverão ser mais suaves em sistemas "
+"mais lentos."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:47
 msgid "Translation updates for Hungarian, Lithuanian and Spanish"
-msgstr ""
+msgstr "Atualizações de tradução para Húngaro, Lituano e Espanhol"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:53
 msgid "This is a minor release with some changes."
-msgstr ""
+msgstr "Esta é uma release menor com algumas alterações"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:55
 msgid ""
 "Automatic speech recognition (ASR) is now disabled by default and it’s only "
 "shown, if parlatype is launched with the new parameter --with-asr"
 msgstr ""
+"Reconhecimento automático de fala (ASR) está desabilitado por padrão e será "
+"exibido apenas se o parlatype seja iniciado com o novo parâmetro --with-asr"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:56
 msgid "Fix internationalization: Some translations were not shown"
-msgstr ""
+msgstr "Correção de internacionalização: Algumas traduções não eram exibidas"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:57
 msgid ""
 "Translation updates for Arabic, British English, Czech, Dutch, German, "
 "Polish and Spanish"
 msgstr ""
+"Atualizações de tradução para árabe, inglês da Inglaterra, tcheco, holandês, "
+"alemão, polonês e espanhol"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:63
 msgid "This is a major release with some new features."
-msgstr ""
+msgstr "Este é uma release maior com algumas características novas."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:65
 msgid "Automatic speech recognition with CMU Sphinx"
@@ -212,7 +219,8 @@ msgstr ""
 "André \"decko\" de Brito <brito.afa@gmail.com>\n"
 "Launchpad Contributions:\n"
 "  André decko de Brito https://launchpad.net/~brito-afa\n"
-"  Gabor Karsay https://launchpad.net/~gabor-karsay"
+"  Gabor Karsay https://launchpad.net/~gabor-karsay\n"
+"  ThiagoRyuuga https://launchpad.net/~thiagoryuuga"
 
 #: src/pt-app.c:410
 msgid ""

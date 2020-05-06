@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-09 17:10+0100\n"
-"PO-Revision-Date: 2018-06-04 13:09+0000\n"
-"Last-Translator: archi02 <Unknown>\n"
+"PO-Revision-Date: 2020-05-02 13:41+0000\n"
+"Last-Translator: Jean-Marc <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2020-04-30 19:08+0000\n"
+"X-Launchpad-Export-Date: 2020-05-06 13:24+0000\n"
 "X-Generator: Launchpad (build fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398)\n"
 "Language: fr\n"
 
@@ -113,11 +113,11 @@ msgstr "%d:%02d.%02d"
 #: libparlatype/src/pt-player.c:1711
 #, c-format
 msgid "Failed to load plugin “%s”."
-msgstr ""
+msgstr "Impossible de charger le greffon « %s »."
 
 #: libparlatype/src/pt-waveloader.c:489 libparlatype/src/pt-waveloader.c:707
 msgid "Waveloader has outstanding operation."
-msgstr ""
+msgstr "Waveloader a un fonctionnement exceptionnel."
 
 #: libparlatype/src/pt-waveloader.c:504
 msgid "Failed to setup GStreamer pipeline."
@@ -125,7 +125,7 @@ msgstr "Échec de configuration du pipeline GStreamer."
 
 #: libparlatype/src/pt-waveloader.c:698
 msgid "No Array!"
-msgstr ""
+msgstr "Pas de tableau !"
 
 #. Translators: %s is a detailed error message.
 #: libparlatype/src/pt-waveviewer.c:1172
@@ -137,7 +137,7 @@ msgstr "Adresse non valide : %s"
 #: libparlatype/src/pt-waveviewer.c:1184
 #, c-format
 msgid "File not found: %s"
-msgstr "Fichier non trouvé: %s"
+msgstr "Fichier introuvable : %s"
 
 #: libparlatype/src/pt-waveviewer.c:1660
 msgid "Follow cursor"
@@ -145,7 +145,7 @@ msgstr "Suivre le curseur"
 
 #: libparlatype/src/pt-waveviewer.c:1661
 msgid "Scroll automatically to the cursor’s position"
-msgstr ""
+msgstr "Faire défiler automatiquement jusqu'à la position du curseur"
 
 #: libparlatype/src/pt-waveviewer.c:1677
 msgid "Fixed cursor"
@@ -157,13 +157,13 @@ msgid ""
 "If FALSE, the cursor is moving."
 msgstr ""
 "Si VRAI, le curseur est placé à une position fixe et le graphique "
-"représentant le spectre sonore se déplace.\n"
+"représentant l'onde sonore se déplace.\n"
 "Si FAUX, le curseur se déplace."
 
 #: libparlatype/src/pt-waveviewer.c:1692
 msgid "Show ruler"
-msgstr "Montrer la règle"
+msgstr "Afficher la règle"
 
 #: libparlatype/src/pt-waveviewer.c:1693
 msgid "Show the time scale with time marks"
-msgstr "Montrer l'échelle de temps avec les marqueurs"
+msgstr "Afficher l'échelle de temps avec les marqueurs"
