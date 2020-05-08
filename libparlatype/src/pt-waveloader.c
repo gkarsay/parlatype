@@ -705,7 +705,9 @@ pt_waveloader_resize_async (PtWaveloader        *wl,
 				task,
 				GST_CORE_ERROR,
 				GST_CORE_ERROR_FAILED,
-				_("No Array!"));
+				/* error message not for users, maybe
+				 * g_return_if_fail() would be better here. */
+				 "No Array!");
 		g_object_unref (task);
 		return;
 	}
@@ -714,7 +716,9 @@ pt_waveloader_resize_async (PtWaveloader        *wl,
 				task,
 				GST_CORE_ERROR,
 				GST_CORE_ERROR_FAILED,
-				_("Waveloader has outstanding operation."));
+				/* error message not for users, should be
+				 * handled by application */
+				"Waveloader has outstanding operation.");
 		g_object_unref (task);
 		return;
 	}
