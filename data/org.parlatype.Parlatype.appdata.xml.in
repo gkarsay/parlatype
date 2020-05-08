@@ -52,53 +52,76 @@
 		</release>
 		<release version="1.6.2" date="2019-08-31">
 			<description>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<p>This is a minor release.</p>
 			<ul>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<li>Update time label only if time has changed. This is a performance increase, cursor movement should be smoother on slower systems.</li>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<li>Translation updates for Hungarian, Lithuanian and Spanish</li>
 			</ul>
 			</description>
 		</release>
 		<release version="1.6.1" date="2019-07-05">
 			<description>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<p>This is a minor release with some changes.</p>
 			<ul>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<li>Automatic speech recognition (ASR) is now disabled by default and it’s only shown, if parlatype is launched with the new parameter --with-asr</li>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<li>Fix internationalization: Some translations were not shown</li>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<li>Translation updates for Arabic, British English, Czech, Dutch, German, Polish and Spanish</li>
 			</ul>
 			</description>
 		</release>
 		<release version="1.6" date="2019-04-24">
 			<description>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<p>This is a major release with some new features.</p>
 			<ul>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<li>Automatic speech recognition with CMU Sphinx</li>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<li>Design changes, including removal of application menu</li>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<li>Custom timestamps</li>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<li>Translation updates for Brazilian Portuguese, British English, Czech, German, Japanese, Lithuanian and Polish</li>
 			</ul>
 			</description>
 		</release>
 		<release version="1.5.6" date="2018-08-17">
 			<description>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<p>This is a minor maintenance release.</p>
 			<ul>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<li>Animate scrolling when using keybindings</li>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<li>Change desktop entry category to Audio/Video instead of Utilities</li>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<li>Translation updates for French</li>
 			</ul>
 			</description>
 		</release>
 		<release version="1.5.5" date="2018-06-16">
 			<description>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<p>This release contains a number of bug fixes and minor improvements.</p>
 			<ul>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<li>Progress Dialog has now a countdown timer (estimated time left)</li>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<li>Increase max. possible speed to 2.0</li>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<li>New keyboard shortcuts for Play/Pause (Ctrl + Space), Jump back (Ctrl + Left), Jump forward (Ctrl + Right)</li>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<li>Scrolling now also possible with vertical scrollbar</li>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<li>Various fixes for waveform and cursor display</li>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<li>Translation updates for Arabic, British English, Catalan, German, Finnish, French, Japanese, Lithuanian, Polish, Spanish and Swedish</li>
 			</ul>
 			</description>
