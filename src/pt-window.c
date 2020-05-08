@@ -1123,6 +1123,28 @@ volume_button_update_mute (GObject    *gobject,
 	}
 }
 
+static void
+volume_button_update_volume (GObject    *gobject,
+                             GParamSpec *pspec,
+                             gpointer    user_data)
+{
+	PtWindow *win = PT_WINDOW (user_data);
+	GtkScaleButton *volumebutton = GTK_SCALE_BUTTON (win->priv->volumebutton);
+	gdouble volume = pt_player_get_volume (win->player);
+
+	gtk_scale_button_set_value (volumebutton, volume);
+}
+
+static gboolean
+volume_button_value_changed_cb (GtkWidget *volumebutton,
+                                gdouble    value,
+                                gpointer   user_data)
+{
+	PtWindow *win = PT_WINDOW (user_data);
+	pt_player_set_volume (win->player, value);
+	return FALSE;
+}
+
 static gboolean
 volume_button_event_cb (GtkWidget *volumebutton,
                         GdkEvent  *event,
@@ -1231,13 +1253,18 @@ setup_player (PtWindow *win)
 static void
 setup_volume (PtWindow *win)
 {
-	/* Bind volume button to player volume. Bidirectional, because some
-	 * audiosinks can change their state externally, and it makes no
-	 * difference for other audiosinks. */
-	g_object_bind_property (
-			win->priv->volumebutton, "value",
-			win->player, "volume",
-			G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+	/* Connect to volumebutton's "value-changed" signal and to PtPlayer's
+	 * "notify:volume" signal instead of binding the 2 properties. On
+	 * startup there is no external Pulseaudio volume yet and the binding
+	 * would impose our default volume on Pulseaudio. Instead we want to
+	 * pick up Pulseaudio's volume. That is Parlatype/application specific
+	 * and it even remembers the last value. The first external volume
+	 * signal is sent after a file was opened successfully, until then our
+	 * volume button is insensitive. */
+	g_signal_connect (win->priv->volumebutton,
+			"value-changed",
+			G_CALLBACK (volume_button_value_changed_cb),
+			win);
 
 	g_signal_connect (win->priv->volumebutton,
 			"event",
@@ -1252,6 +1279,11 @@ setup_volume (PtWindow *win)
 	g_signal_connect (win->player,
 			"notify::mute",
 			G_CALLBACK (volume_button_update_mute),
+			win);
+
+	g_signal_connect (win->player,
+			"notify::volume",
+			G_CALLBACK (volume_button_update_volume),
 			win);
 
 	/* Switch mute state on mouse click with secondary button */
