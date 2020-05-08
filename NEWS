@@ -1,3 +1,39 @@
+Overview of Changes in Parlatype 2.1 – 2020-05-XX
+=================================================
+
+* New: Mute/unmute volume by clicking on the volume icon with the pointer's
+       secondary button (usually right mouse button).
+* New: With Pulseaudio Parlatype doesn't change the system volume anymore,
+       just its own application specific volume.
+* New: With Pulseaudio Parlatype picks up the last used volume level.
+* New: Volume icon/button is insensitive as long as there is no media loaded.
+* New: Don't reopen already opened files.
+* New: Set a default window height and in Preferences default to "Remember
+       window's size".
+* Fix: ASR assistant dialog could not be used at all, a regression introduced
+       in version 2.0. However, ASR is not recommended in its current state
+       and plans are to rewrite it in the near future.
+* Fix: D-Bus interface for decreasing speed was doing the opposite.
+* Fix: Many fixes to Windows (win32) port, achieving feature parity with the
+       Linux/UNIX version:
+       - Fix: Parlatype icon not loaded
+       - Fix: Help pages not displayed
+       - Fix: Don't show mediakeys help page (Linux only)
+       - Fix: Volume changes delayed for a few seconds
+       - New: Ensure there is only one instance running.
+       - New: Added hotkeys support (hardcoded for dedicated keyboard buttons
+              Play/Pause, Stop, Previous Track, Next Track)
+       - New: Added win32 specific interprocess communication, thus enabling
+              the LibreOffice extension
+* New or updated translations:
+  ### UPDATE AFTER LAST TRANSLATION IMPORT ###
+  - de:    Stephan Woidowski
+  - en_GB: Stephan Woidowski
+  - id:    Ari Setyo Wibowo
+  - it:    Albano Battistella
+  - pl:    Piotr Drąg
+
+
 Overview of Changes in Parlatype 2.0 – 2020-03-19
 =================================================
 
