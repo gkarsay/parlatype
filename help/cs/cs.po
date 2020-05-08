@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2020-03-09 17:08+0100\n"
+"POT-Creation-Date: 2020-05-08 11:32+0200\n"
 "PO-Revision-Date: 2020-03-09 16:27+0000\n"
 "Last-Translator: fri <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2020-04-30 19:08+0000\n"
+"X-Launchpad-Export-Date: 2020-05-08 11:32+0000\n"
 "X-Generator: Launchpad (build fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398)\n"
 "Language: cs\n"
 
@@ -46,12 +46,12 @@ msgstr "Parlatype"
 #: C/drag-and-drop.page:8
 #: C/first-steps.page:8
 #: C/keyboard-shortcuts.page:8
-#: C/media-keys.page:8
 #: C/preferences.page:8
 #: C/selections.page:8
 #: C/timestamps.page:8
 #: C/asr.page:9
 #: C/asr-setup.page:9
+#: C/media-keys.page:8
 msgid "Gabor Karsay"
 msgstr "Gabor Karsay"
 
@@ -393,97 +393,6 @@ msgstr "Creative Commons Attribution-ShareAlike 4.0 International"
 #: C/legal.xml:4
 msgid "This work is licensed under a <_:link-1/> license."
 msgstr "Tato práce je licencována pod licencí <_:link-1/>."
-
-#. (itstool) path: info/desc
-#: C/media-keys.page:6
-msgid "How to control Parlatype with media keys"
-msgstr "Jak Parlatype ovládat pomocí multimediálních kláves"
-
-#. (itstool) path: page/title
-#: C/media-keys.page:14
-msgid "Media keys"
-msgstr "Multimediální klávesy"
-
-#. (itstool) path: page/p
-#: C/media-keys.page:16
-msgid ""
-"<app>Parlatype</app>’s basic functions can be controlled with so called "
-"<em>media keys</em>. Media keys are used system wide to control media "
-"players and they are working even if the media player is not in focus or in "
-"the background."
-msgstr ""
-
-#. (itstool) path: page/p
-#: C/media-keys.page:18
-msgid ""
-"You can change the media keys in GNOME settings. You can use dedicated keys "
-"from a multimedia keyboard or use any other key or combination of keys."
-msgstr ""
-"Multimediální klávesy můžete změnit v nastavení GNOME. Můžete použít "
-"stanovené klávesy z multimediální klávesnice nebo použít jinou klávesu nebo "
-"spojení kláves."
-
-#. (itstool) path: note/p
-#: C/media-keys.page:21
-msgid ""
-"This will affect other media players, e.g. <app>Totem</app> or "
-"<app>Rhythmbox</app>, as well."
-msgstr ""
-"Toto ovlivní i ostatní přehrávače, např. <app>Totem</app> nebo "
-"<app>Rhythmbox</app>."
-
-#. (itstool) path: page/p
-#: C/media-keys.page:24
-msgid "<app>Parlatype</app> listens to these key strokes:"
-msgstr "<app>Parlatype</app> naslouchá těmto klávesovým tahům:"
-
-#. (itstool) path: item/p
-#: C/media-keys.page:26
-msgid ""
-"<key>Play</key>, <key>Pause</key>, <key>Stop</key>: Each of these keys "
-"toggles between playing and pause."
-msgstr ""
-"<key>Přehrát</key>, <key>Pozastavit</key>, <key>Zastavit</key>: Každá z "
-"těchto kláves přepíná mezi přehrávání a pozastavením."
-
-#. (itstool) path: item/p
-#: C/media-keys.page:27
-msgid ""
-"<key>Rewind</key>, <key>Previous</key>: Each of these keys will jump back "
-"the time you selected in Preferences."
-msgstr ""
-"<key>Přetočit</key>, <key>Předchozí</key>: Každá z těchto kláves provede "
-"skok zpět o dobu vybranou v Nastavení."
-
-#. (itstool) path: item/p
-#: C/media-keys.page:28
-msgid ""
-"<key>Fast Forward</key>, <key>Next</key>: Each of these keys will jump ahead "
-"the time you selected in Preferences."
-msgstr ""
-"<key>Rychle vpřed</key>, <key>Další</key>: Každá z těchto kláves provede "
-"skok vpřed o dobu vybranou v Nastavení."
-
-#. (itstool) path: note/p
-#: C/media-keys.page:32
-msgid ""
-"For detailed instructions how to change keyboard shortcuts in GNOME see the "
-"<link href=\"help:gnome-help/keyboard-shortcuts-set\">official "
-"documentation</link>."
-msgstr ""
-"Podrobné pokyny, jak v GNOME měnit klávesové zkratky, naleznete v <link "
-"href=\"help:gnome-help/keyboard-shortcuts-set\">oficiální dokumentaci</link>."
-
-#. (itstool) path: page/p
-#: C/media-keys.page:35
-msgid ""
-"If you are using a dedicated foot pedal, it should be possible to map the "
-"foot pedal signals to any of the keys. This is not well tested, however. Any "
-"feedback regarding foot pedals is welcome."
-msgstr ""
-"Pokud používáte vyhrazený nožní pedál, mělo by být možné přiřadit signály "
-"nožního pedálu kterékoli z kláves. Není to ale dobře vyzkoušeno. Je vítána "
-"jakákoli zpětná vazba týkající se nožních pedálů."
 
 #. (itstool) path: info/desc
 #: C/preferences.page:6
@@ -1143,3 +1052,94 @@ msgid ""
 "All those elements should be somewhere in the folder selected. It doesn’t "
 "matter whether there are subfolders or how they are named."
 msgstr ""
+
+#. (itstool) path: info/desc
+#: C/media-keys.page:6
+msgid "How to control Parlatype with media keys"
+msgstr "Jak Parlatype ovládat pomocí multimediálních kláves"
+
+#. (itstool) path: page/title
+#: C/media-keys.page:14
+msgid "Media keys"
+msgstr "Multimediální klávesy"
+
+#. (itstool) path: page/p
+#: C/media-keys.page:16
+msgid ""
+"<app>Parlatype</app>’s basic functions can be controlled with so called "
+"<em>media keys</em>. Media keys are used system wide to control media "
+"players and they are working even if the media player is not in focus or in "
+"the background."
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/media-keys.page:18
+msgid ""
+"You can change the media keys in GNOME settings. You can use dedicated keys "
+"from a multimedia keyboard or use any other key or combination of keys."
+msgstr ""
+"Multimediální klávesy můžete změnit v nastavení GNOME. Můžete použít "
+"stanovené klávesy z multimediální klávesnice nebo použít jinou klávesu nebo "
+"spojení kláves."
+
+#. (itstool) path: note/p
+#: C/media-keys.page:21
+msgid ""
+"This will affect other media players, e.g. <app>Totem</app> or "
+"<app>Rhythmbox</app>, as well."
+msgstr ""
+"Toto ovlivní i ostatní přehrávače, např. <app>Totem</app> nebo "
+"<app>Rhythmbox</app>."
+
+#. (itstool) path: page/p
+#: C/media-keys.page:24
+msgid "<app>Parlatype</app> listens to these key strokes:"
+msgstr "<app>Parlatype</app> naslouchá těmto klávesovým tahům:"
+
+#. (itstool) path: item/p
+#: C/media-keys.page:26
+msgid ""
+"<key>Play</key>, <key>Pause</key>, <key>Stop</key>: Each of these keys "
+"toggles between playing and pause."
+msgstr ""
+"<key>Přehrát</key>, <key>Pozastavit</key>, <key>Zastavit</key>: Každá z "
+"těchto kláves přepíná mezi přehrávání a pozastavením."
+
+#. (itstool) path: item/p
+#: C/media-keys.page:27
+msgid ""
+"<key>Rewind</key>, <key>Previous</key>: Each of these keys will jump back "
+"the time you selected in Preferences."
+msgstr ""
+"<key>Přetočit</key>, <key>Předchozí</key>: Každá z těchto kláves provede "
+"skok zpět o dobu vybranou v Nastavení."
+
+#. (itstool) path: item/p
+#: C/media-keys.page:28
+msgid ""
+"<key>Fast Forward</key>, <key>Next</key>: Each of these keys will jump ahead "
+"the time you selected in Preferences."
+msgstr ""
+"<key>Rychle vpřed</key>, <key>Další</key>: Každá z těchto kláves provede "
+"skok vpřed o dobu vybranou v Nastavení."
+
+#. (itstool) path: note/p
+#: C/media-keys.page:32
+msgid ""
+"For detailed instructions how to change keyboard shortcuts in GNOME see the "
+"<link href=\"help:gnome-help/keyboard-shortcuts-set\">official "
+"documentation</link>."
+msgstr ""
+"Podrobné pokyny, jak v GNOME měnit klávesové zkratky, naleznete v <link "
+"href=\"help:gnome-help/keyboard-shortcuts-set\">oficiální dokumentaci</link>."
+
+#. (itstool) path: page/p
+#: C/media-keys.page:35
+msgid ""
+"If you are using a dedicated foot pedal, it should be possible to map the "
+"foot pedal signals to any of the keys. This is not well tested, however. Any "
+"feedback regarding foot pedals is welcome."
+msgstr ""
+"Pokud používáte vyhrazený nožní pedál, mělo by být možné přiřadit signály "
+"nožního pedálu kterékoli z kláves. Není to ale dobře vyzkoušeno. Je vítána "
+"jakákoli zpětná vazba týkající se nožních pedálů."

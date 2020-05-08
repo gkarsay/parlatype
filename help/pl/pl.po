@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2020-03-09 17:08+0100\n"
+"POT-Creation-Date: 2020-05-08 11:32+0200\n"
 "PO-Revision-Date: 2019-05-28 18:19+0000\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2020-04-30 19:08+0000\n"
+"X-Launchpad-Export-Date: 2020-05-08 11:32+0000\n"
 "X-Generator: Launchpad (build fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398)\n"
 "Language: pl\n"
 
@@ -45,12 +45,12 @@ msgstr "Parlatype"
 #: C/drag-and-drop.page:8
 #: C/first-steps.page:8
 #: C/keyboard-shortcuts.page:8
-#: C/media-keys.page:8
 #: C/preferences.page:8
 #: C/selections.page:8
 #: C/timestamps.page:8
 #: C/asr.page:9
 #: C/asr-setup.page:9
+#: C/media-keys.page:8
 msgid "Gabor Karsay"
 msgstr "Gabor Karsay"
 
@@ -408,102 +408,6 @@ msgstr "Creative Commons Attribution-Share Alike 4.0 International"
 #: C/legal.xml:4
 msgid "This work is licensed under a <_:link-1/> license."
 msgstr "Na warunkach licencji <_:link-1/>."
-
-#. (itstool) path: info/desc
-#: C/media-keys.page:6
-msgid "How to control Parlatype with media keys"
-msgstr "Jak sterować programem Parlatype za pomocą klawiszy multimedialnych"
-
-#. (itstool) path: page/title
-#: C/media-keys.page:14
-msgid "Media keys"
-msgstr "Klawisze multimedialne"
-
-#. (itstool) path: page/p
-#: C/media-keys.page:16
-msgid ""
-"<app>Parlatype</app>’s basic functions can be controlled with so called "
-"<em>media keys</em>. Media keys are used system wide to control media "
-"players and they are working even if the media player is not in focus or in "
-"the background."
-msgstr ""
-"Podstawowe funkcje programu <app>Parlatype</app> mogą być sterowane za "
-"pomocą tak zwanych <em>klawiszy multimedialnych</em>. Klawisze multimedialne "
-"są używane do sterowania odtwarzaczami multimediów i działają także, kiedy "
-"odtwarzacz nie jest aktywny lub w tle."
-
-#. (itstool) path: page/p
-#: C/media-keys.page:18
-msgid ""
-"You can change the media keys in GNOME settings. You can use dedicated keys "
-"from a multimedia keyboard or use any other key or combination of keys."
-msgstr ""
-"Można zmienić klawisze multimedialne w ustawieniach GNOME. Można używać "
-"specjalnych klawiszy na klawiaturach multimedialnych lub dowolnego innego "
-"klawisza lub kombinacji klawiszy."
-
-#. (itstool) path: note/p
-#: C/media-keys.page:21
-msgid ""
-"This will affect other media players, e.g. <app>Totem</app> or "
-"<app>Rhythmbox</app>, as well."
-msgstr ""
-"Wpływa to także na inne odtwarzacze multimedialne, np. <app>Totem</app> "
-"i <app>Rhythmbox</app>."
-
-#. (itstool) path: page/p
-#: C/media-keys.page:24
-msgid "<app>Parlatype</app> listens to these key strokes:"
-msgstr "<app>Parlatype</app> nasłuchuje tych klawiszy:"
-
-#. (itstool) path: item/p
-#: C/media-keys.page:26
-msgid ""
-"<key>Play</key>, <key>Pause</key>, <key>Stop</key>: Each of these keys "
-"toggles between playing and pause."
-msgstr ""
-"<key>Odtwórz</key>, <key>Wstrzymaj</key>, <key>Zatrzymaj</key>: każdy z tych "
-"klawiszy przełącza między odtwarzaniem a wstrzymaniem."
-
-#. (itstool) path: item/p
-#: C/media-keys.page:27
-msgid ""
-"<key>Rewind</key>, <key>Previous</key>: Each of these keys will jump back "
-"the time you selected in Preferences."
-msgstr ""
-"<key>Przewiń do tyłu</key>, <key>Poprzedni</key>: każdy z tych klawiszy "
-"przewinie w tył o czas wybrany w preferencjach."
-
-#. (itstool) path: item/p
-#: C/media-keys.page:28
-msgid ""
-"<key>Fast Forward</key>, <key>Next</key>: Each of these keys will jump ahead "
-"the time you selected in Preferences."
-msgstr ""
-"<key>Przewiń do przodu</key>, <key>Następny</key>: każdy z tych klawiszy "
-"przewinie do przodu o czas wybrany w preferencjach."
-
-#. (itstool) path: note/p
-#: C/media-keys.page:32
-msgid ""
-"For detailed instructions how to change keyboard shortcuts in GNOME see the "
-"<link href=\"help:gnome-help/keyboard-shortcuts-set\">official "
-"documentation</link>."
-msgstr ""
-"<link href=\"help:gnome-help/keyboard-shortcuts-set\">Oficjalna "
-"dokumentacja</link> zawiera szczegółowe instrukcje zmiany skrótów "
-"klawiszowych w środowisku GNOME."
-
-#. (itstool) path: page/p
-#: C/media-keys.page:35
-msgid ""
-"If you are using a dedicated foot pedal, it should be possible to map the "
-"foot pedal signals to any of the keys. This is not well tested, however. Any "
-"feedback regarding foot pedals is welcome."
-msgstr ""
-"Jeśli używany jest specjalny pedał, to można przypisać go do dowolnego "
-"z klawiszy. Nie zostało to dobrze przetestowane. Opinie na temat obsługi "
-"pedału są mile widziane."
 
 #. (itstool) path: info/desc
 #: C/preferences.page:6
@@ -1273,3 +1177,99 @@ msgid ""
 msgstr ""
 "Wszystkie te elementy powinny być gdzieś w wybranym katalogu. Nie ma "
 "znaczenia, czy są w podkatalogach ani jakie mają nazwy."
+
+#. (itstool) path: info/desc
+#: C/media-keys.page:6
+msgid "How to control Parlatype with media keys"
+msgstr "Jak sterować programem Parlatype za pomocą klawiszy multimedialnych"
+
+#. (itstool) path: page/title
+#: C/media-keys.page:14
+msgid "Media keys"
+msgstr "Klawisze multimedialne"
+
+#. (itstool) path: page/p
+#: C/media-keys.page:16
+msgid ""
+"<app>Parlatype</app>’s basic functions can be controlled with so called "
+"<em>media keys</em>. Media keys are used system wide to control media "
+"players and they are working even if the media player is not in focus or in "
+"the background."
+msgstr ""
+"Podstawowe funkcje programu <app>Parlatype</app> mogą być sterowane za "
+"pomocą tak zwanych <em>klawiszy multimedialnych</em>. Klawisze multimedialne "
+"są używane do sterowania odtwarzaczami multimediów i działają także, kiedy "
+"odtwarzacz nie jest aktywny lub w tle."
+
+#. (itstool) path: page/p
+#: C/media-keys.page:18
+msgid ""
+"You can change the media keys in GNOME settings. You can use dedicated keys "
+"from a multimedia keyboard or use any other key or combination of keys."
+msgstr ""
+"Można zmienić klawisze multimedialne w ustawieniach GNOME. Można używać "
+"specjalnych klawiszy na klawiaturach multimedialnych lub dowolnego innego "
+"klawisza lub kombinacji klawiszy."
+
+#. (itstool) path: note/p
+#: C/media-keys.page:21
+msgid ""
+"This will affect other media players, e.g. <app>Totem</app> or "
+"<app>Rhythmbox</app>, as well."
+msgstr ""
+"Wpływa to także na inne odtwarzacze multimedialne, np. <app>Totem</app> "
+"i <app>Rhythmbox</app>."
+
+#. (itstool) path: page/p
+#: C/media-keys.page:24
+msgid "<app>Parlatype</app> listens to these key strokes:"
+msgstr "<app>Parlatype</app> nasłuchuje tych klawiszy:"
+
+#. (itstool) path: item/p
+#: C/media-keys.page:26
+msgid ""
+"<key>Play</key>, <key>Pause</key>, <key>Stop</key>: Each of these keys "
+"toggles between playing and pause."
+msgstr ""
+"<key>Odtwórz</key>, <key>Wstrzymaj</key>, <key>Zatrzymaj</key>: każdy z tych "
+"klawiszy przełącza między odtwarzaniem a wstrzymaniem."
+
+#. (itstool) path: item/p
+#: C/media-keys.page:27
+msgid ""
+"<key>Rewind</key>, <key>Previous</key>: Each of these keys will jump back "
+"the time you selected in Preferences."
+msgstr ""
+"<key>Przewiń do tyłu</key>, <key>Poprzedni</key>: każdy z tych klawiszy "
+"przewinie w tył o czas wybrany w preferencjach."
+
+#. (itstool) path: item/p
+#: C/media-keys.page:28
+msgid ""
+"<key>Fast Forward</key>, <key>Next</key>: Each of these keys will jump ahead "
+"the time you selected in Preferences."
+msgstr ""
+"<key>Przewiń do przodu</key>, <key>Następny</key>: każdy z tych klawiszy "
+"przewinie do przodu o czas wybrany w preferencjach."
+
+#. (itstool) path: note/p
+#: C/media-keys.page:32
+msgid ""
+"For detailed instructions how to change keyboard shortcuts in GNOME see the "
+"<link href=\"help:gnome-help/keyboard-shortcuts-set\">official "
+"documentation</link>."
+msgstr ""
+"<link href=\"help:gnome-help/keyboard-shortcuts-set\">Oficjalna "
+"dokumentacja</link> zawiera szczegółowe instrukcje zmiany skrótów "
+"klawiszowych w środowisku GNOME."
+
+#. (itstool) path: page/p
+#: C/media-keys.page:35
+msgid ""
+"If you are using a dedicated foot pedal, it should be possible to map the "
+"foot pedal signals to any of the keys. This is not well tested, however. Any "
+"feedback regarding foot pedals is welcome."
+msgstr ""
+"Jeśli używany jest specjalny pedał, to można przypisać go do dowolnego "
+"z klawiszy. Nie zostało to dobrze przetestowane. Opinie na temat obsługi "
+"pedału są mile widziane."

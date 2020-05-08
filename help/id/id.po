@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
-"POT-Creation-Date: 2020-03-09 17:08+0100\n"
+"POT-Creation-Date: 2020-05-08 11:32+0200\n"
 "PO-Revision-Date: 2017-04-18 18:57+0000\n"
 "Last-Translator: Ari Setyo Wibowo <mr.a.contact@gmail.com>\n"
 "Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2020-04-30 19:08+0000\n"
+"X-Launchpad-Export-Date: 2020-05-08 11:32+0000\n"
 "X-Generator: Launchpad (build fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398)\n"
 "Language: id\n"
 
@@ -44,12 +44,12 @@ msgstr "Parlatype"
 #: C/drag-and-drop.page:8
 #: C/first-steps.page:8
 #: C/keyboard-shortcuts.page:8
-#: C/media-keys.page:8
 #: C/preferences.page:8
 #: C/selections.page:8
 #: C/timestamps.page:8
 #: C/asr.page:9
 #: C/asr-setup.page:9
+#: C/media-keys.page:8
 msgid "Gabor Karsay"
 msgstr "Gabor Karsay"
 
@@ -392,98 +392,6 @@ msgstr "Creative Commons Attribution-ShareAlike 4.0 Internasional"
 #: C/legal.xml:4
 msgid "This work is licensed under a <_:link-1/> license."
 msgstr "Pekerjaan ini dilisensikan di bawah lisensi <_:link-1/>."
-
-#. (itstool) path: info/desc
-#: C/media-keys.page:6
-msgid "How to control Parlatype with media keys"
-msgstr "Bagaimana mengendalikan Parlatype dengan tombol media"
-
-#. (itstool) path: page/title
-#: C/media-keys.page:14
-msgid "Media keys"
-msgstr "Tombol media"
-
-#. (itstool) path: page/p
-#: C/media-keys.page:16
-msgid ""
-"<app>Parlatype</app>’s basic functions can be controlled with so called "
-"<em>media keys</em>. Media keys are used system wide to control media "
-"players and they are working even if the media player is not in focus or in "
-"the background."
-msgstr ""
-
-#. (itstool) path: page/p
-#: C/media-keys.page:18
-msgid ""
-"You can change the media keys in GNOME settings. You can use dedicated keys "
-"from a multimedia keyboard or use any other key or combination of keys."
-msgstr ""
-"Anda dapat mengganti tombol media di pengaturan GNOME. Anda dapat "
-"menggunakan tombol terdedikasi dari papan ketik multimedia atau menggunakan "
-"tombol lain atau kombinasi tombol."
-
-#. (itstool) path: note/p
-#: C/media-keys.page:21
-msgid ""
-"This will affect other media players, e.g. <app>Totem</app> or "
-"<app>Rhythmbox</app>, as well."
-msgstr ""
-"Ini akan memengaruhi pemutar media lainnya, seperti. <app>Totem</app> atau "
-"<app>Rhythmbox</app>, juga."
-
-#. (itstool) path: page/p
-#: C/media-keys.page:24
-msgid "<app>Parlatype</app> listens to these key strokes:"
-msgstr "<app>Parlatype</app> menyimak ketukan tombol ini:"
-
-#. (itstool) path: item/p
-#: C/media-keys.page:26
-msgid ""
-"<key>Play</key>, <key>Pause</key>, <key>Stop</key>: Each of these keys "
-"toggles between playing and pause."
-msgstr ""
-"<key>Main</key>, <key>Jeda</key>, <key>Henti</key>: Tiap tombol beralih "
-"antara main dan jeda."
-
-#. (itstool) path: item/p
-#: C/media-keys.page:27
-msgid ""
-"<key>Rewind</key>, <key>Previous</key>: Each of these keys will jump back "
-"the time you selected in Preferences."
-msgstr ""
-"<key>Putar-kembali</key>, <key>Sebelumnya</key>: Tiap tombol akan lompat "
-"mundur pada waktu yang Anda pilih di Preferensi."
-
-#. (itstool) path: item/p
-#: C/media-keys.page:28
-msgid ""
-"<key>Fast Forward</key>, <key>Next</key>: Each of these keys will jump ahead "
-"the time you selected in Preferences."
-msgstr ""
-"<key>Maju Cepat</key>, <key>Berikutnya</key>: Tiap tombol akan lompat maju "
-"pada waktu yang Anda pilih di Preferensi."
-
-#. (itstool) path: note/p
-#: C/media-keys.page:32
-msgid ""
-"For detailed instructions how to change keyboard shortcuts in GNOME see the "
-"<link href=\"help:gnome-help/keyboard-shortcuts-set\">official "
-"documentation</link>."
-msgstr ""
-"Untuk instruksi terperinci bagaimana mengganti pintasan papan ketik di GNOME "
-"lihat pada <link href=\"help:gnome-help/keyboard-shortcuts-set\">dokumentasi "
-"resmi</link>."
-
-#. (itstool) path: page/p
-#: C/media-keys.page:35
-msgid ""
-"If you are using a dedicated foot pedal, it should be possible to map the "
-"foot pedal signals to any of the keys. This is not well tested, however. Any "
-"feedback regarding foot pedals is welcome."
-msgstr ""
-"Jika Anda menggunakan pedal kaki terdedikasi, itu memungkinkan untuk "
-"memetakan sinyal pedal kaki ke tombol apa saja. Namun, ini belum teruji "
-"dengan baik. Semua umpan balik tentang pedal kaki sangat diterima."
 
 #. (itstool) path: info/desc
 #: C/preferences.page:6
@@ -1140,3 +1048,95 @@ msgid ""
 "All those elements should be somewhere in the folder selected. It doesn’t "
 "matter whether there are subfolders or how they are named."
 msgstr ""
+
+#. (itstool) path: info/desc
+#: C/media-keys.page:6
+msgid "How to control Parlatype with media keys"
+msgstr "Bagaimana mengendalikan Parlatype dengan tombol media"
+
+#. (itstool) path: page/title
+#: C/media-keys.page:14
+msgid "Media keys"
+msgstr "Tombol media"
+
+#. (itstool) path: page/p
+#: C/media-keys.page:16
+msgid ""
+"<app>Parlatype</app>’s basic functions can be controlled with so called "
+"<em>media keys</em>. Media keys are used system wide to control media "
+"players and they are working even if the media player is not in focus or in "
+"the background."
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/media-keys.page:18
+msgid ""
+"You can change the media keys in GNOME settings. You can use dedicated keys "
+"from a multimedia keyboard or use any other key or combination of keys."
+msgstr ""
+"Anda dapat mengganti tombol media di pengaturan GNOME. Anda dapat "
+"menggunakan tombol terdedikasi dari papan ketik multimedia atau menggunakan "
+"tombol lain atau kombinasi tombol."
+
+#. (itstool) path: note/p
+#: C/media-keys.page:21
+msgid ""
+"This will affect other media players, e.g. <app>Totem</app> or "
+"<app>Rhythmbox</app>, as well."
+msgstr ""
+"Ini akan memengaruhi pemutar media lainnya, seperti. <app>Totem</app> atau "
+"<app>Rhythmbox</app>, juga."
+
+#. (itstool) path: page/p
+#: C/media-keys.page:24
+msgid "<app>Parlatype</app> listens to these key strokes:"
+msgstr "<app>Parlatype</app> menyimak ketukan tombol ini:"
+
+#. (itstool) path: item/p
+#: C/media-keys.page:26
+msgid ""
+"<key>Play</key>, <key>Pause</key>, <key>Stop</key>: Each of these keys "
+"toggles between playing and pause."
+msgstr ""
+"<key>Main</key>, <key>Jeda</key>, <key>Henti</key>: Tiap tombol beralih "
+"antara main dan jeda."
+
+#. (itstool) path: item/p
+#: C/media-keys.page:27
+msgid ""
+"<key>Rewind</key>, <key>Previous</key>: Each of these keys will jump back "
+"the time you selected in Preferences."
+msgstr ""
+"<key>Putar-kembali</key>, <key>Sebelumnya</key>: Tiap tombol akan lompat "
+"mundur pada waktu yang Anda pilih di Preferensi."
+
+#. (itstool) path: item/p
+#: C/media-keys.page:28
+msgid ""
+"<key>Fast Forward</key>, <key>Next</key>: Each of these keys will jump ahead "
+"the time you selected in Preferences."
+msgstr ""
+"<key>Maju Cepat</key>, <key>Berikutnya</key>: Tiap tombol akan lompat maju "
+"pada waktu yang Anda pilih di Preferensi."
+
+#. (itstool) path: note/p
+#: C/media-keys.page:32
+msgid ""
+"For detailed instructions how to change keyboard shortcuts in GNOME see the "
+"<link href=\"help:gnome-help/keyboard-shortcuts-set\">official "
+"documentation</link>."
+msgstr ""
+"Untuk instruksi terperinci bagaimana mengganti pintasan papan ketik di GNOME "
+"lihat pada <link href=\"help:gnome-help/keyboard-shortcuts-set\">dokumentasi "
+"resmi</link>."
+
+#. (itstool) path: page/p
+#: C/media-keys.page:35
+msgid ""
+"If you are using a dedicated foot pedal, it should be possible to map the "
+"foot pedal signals to any of the keys. This is not well tested, however. Any "
+"feedback regarding foot pedals is welcome."
+msgstr ""
+"Jika Anda menggunakan pedal kaki terdedikasi, itu memungkinkan untuk "
+"memetakan sinyal pedal kaki ke tombol apa saja. Namun, ini belum teruji "
+"dengan baik. Semua umpan balik tentang pedal kaki sangat diterima."
