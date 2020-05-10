@@ -27,6 +27,11 @@ localedir  = join_paths(prefix, get_option('localedir'))
 add_global_arguments('-DLOCALEDIR="@0@"'.format(localedir), language : 'c')
 compiler = meson.get_compiler('c')
 
+gettext_package = 'parlatype'
+# library message catalog is API versioned for parallel installs
+# keep in sync with API version as defined in libparlatype/meson.build
+gettext_package_lib = 'libparlatype3'
+
 conf = configuration_data()
 conf.set_quoted('VERSION', meson.project_version())
 conf.set_quoted('PACKAGE_VERSION', meson.project_version())
@@ -34,6 +39,7 @@ conf.set_quoted('PACKAGE', meson.project_name())
 conf.set_quoted('PACKAGE_NAME', meson.project_name())
 conf.set_quoted('PACKAGE_URL', 'https://www.parlatype.org')
 conf.set_quoted('APP_ID', app_id)
+conf.set_quoted('GETTEXT_LIB', gettext_package_lib)
 conf.set('HAVE_ASR', asr)
 configure_file(output: 'config.h', configuration: conf)
 conf_inc = include_directories('.', 'libparlatype/src')
@@ -41,8 +47,6 @@ conf_inc = include_directories('.', 'libparlatype/src')
 gnome   = import('gnome')
 i18n    = import('i18n')
 windows = import('windows')
-
-gettext_package = 'parlatype'
 
 # Checks for libraries.
 gtk = dependency('gtk+-3.0', version: '>= 3.22')

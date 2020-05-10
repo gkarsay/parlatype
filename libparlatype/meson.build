@@ -8,8 +8,6 @@ libparlatype_version = '3.0.0'
 # API or namespace version for GIR = first number of libparlatype_version + .0
 libparlatype_api_version = '3.0'
 
-gettext_package_lib = 'libparlatype'
-
 gstreamer       = dependency('gstreamer-1.0', version : '>= 1.6.3')
 gstreamer_app   = dependency('gstreamer-app-1.0')
 gstreamer_audio = dependency('gstreamer-audio-1.0')

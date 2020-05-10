@@ -15,7 +15,8 @@
  */
 
 
-#define GETTEXT_PACKAGE "libparlatype"
+#include "config.h"
+#define GETTEXT_PACKAGE GETTEXT_LIB
 #include <glib/gi18n-lib.h>
 
 /* Initialize i18n for the library.

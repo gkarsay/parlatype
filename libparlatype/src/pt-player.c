@@ -17,7 +17,7 @@
 
 #include "config.h"
 #include <gio/gio.h>
-#define GETTEXT_PACKAGE "libparlatype"
+#define GETTEXT_PACKAGE GETTEXT_LIB
 #include <glib/gi18n-lib.h>
 #include <gst/gst.h>
 #include <gst/audio/streamvolume.h>
