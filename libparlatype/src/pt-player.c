@@ -500,6 +500,8 @@ pt_player_pause_and_rewind (PtPlayer *player)
  * pt_player_get_pause:
  * @player: a #PtPlayer
  *
+ * Returns the value of #PtPlayer:pause.
+ *
  * Return value: time to rewind on pause in milliseconds
  *
  * Since: 1.6
@@ -664,6 +666,8 @@ pt_player_clear_selection (PtPlayer *player)
 /**
  * pt_player_selection_active:
  * @player: a #PtPlayer
+ *
+ * Returns whether there is currently a selection set or not.
  *
  * Return value: TRUE if there is a selection
  *
@@ -846,6 +850,8 @@ pt_player_jump_forward (PtPlayer *player)
  * pt_player_get_back:
  * @player: a #PtPlayer
  *
+ * Returns the value of #PtPlayer:back.
+ *
  * Return value: time to jump back in milliseconds
  *
  * Since: 1.6
@@ -861,6 +867,8 @@ pt_player_get_back (PtPlayer *player)
 /**
  * pt_player_get_forward:
  * @player: a #PtPlayer
+ *
+ * Returns the value of #PtPlayer:forward.
  *
  * Return value: time to jump forward in milliseconds
  *
