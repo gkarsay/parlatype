@@ -54,7 +54,7 @@ i18n    = import('i18n')
 windows = import('windows')
 
 # Checks for libraries.
-gtk = dependency('gtk+-3.0', version: '>= 3.22')
+gtk  = dependency('gtk4', version: '>= 4.0')
 glib = dependency('glib-2.0', version: '>= 2.58')
 
 if host_machine.system() == 'windows'
