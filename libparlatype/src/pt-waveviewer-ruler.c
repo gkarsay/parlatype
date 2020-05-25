@@ -264,17 +264,6 @@ calculate_height (PtWaveviewerRuler *self)
 }
 
 static void
-pt_waveviewer_ruler_style_updated (GtkWidget *widget)
-{
-	PtWaveviewerRuler *self = PT_WAVEVIEWER_RULER (widget);
-
-	GTK_WIDGET_CLASS (pt_waveviewer_ruler_parent_class)->style_updated (widget);
-
-	calculate_height (self);
-	gtk_widget_queue_draw (widget);
-}
-
-static void
 adj_value_changed (GtkAdjustment *adj,
                    gpointer       data)
 {
@@ -338,7 +327,6 @@ pt_waveviewer_ruler_class_init (PtWaveviewerRulerClass *klass)
 
 	widget_class->draw                = pt_waveviewer_ruler_draw;
 	widget_class->hierarchy_changed   = pt_waveviewer_ruler_hierarchy_changed;
-	widget_class->style_updated       = pt_waveviewer_ruler_style_updated;
 }
 
 GtkWidget *

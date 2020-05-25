@@ -178,17 +178,6 @@ pt_waveviewer_cursor_state_flags_changed (GtkWidget     *widget,
 }
 
 static void
-pt_waveviewer_cursor_style_updated (GtkWidget *widget)
-{
-	PtWaveviewerCursor *self = (PtWaveviewerCursor *) widget;
-
-	GTK_WIDGET_CLASS (pt_waveviewer_cursor_parent_class)->style_updated (widget);
-
-	update_cached_style_values (self);
-	draw_cursor (self);
-}
-
-static void
 pt_waveviewer_cursor_realize (GtkWidget *widget)
 {
 	GTK_WIDGET_CLASS (pt_waveviewer_cursor_parent_class)->realize (widget);
@@ -265,7 +254,6 @@ pt_waveviewer_cursor_class_init (PtWaveviewerCursorClass *klass)
 	widget_class->realize             = pt_waveviewer_cursor_realize;
 	widget_class->size_allocate       = pt_waveviewer_cursor_size_allocate;
 	widget_class->state_flags_changed = pt_waveviewer_cursor_state_flags_changed;
-	widget_class->style_updated       = pt_waveviewer_cursor_style_updated;
 }
 
 GtkWidget *

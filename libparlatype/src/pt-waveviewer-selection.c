@@ -104,17 +104,6 @@ pt_waveviewer_selection_state_flags_changed (GtkWidget     *widget,
 }
 
 static void
-pt_waveviewer_selection_style_updated (GtkWidget *widget)
-{
-	PtWaveviewerSelection *self = (PtWaveviewerSelection *) widget;
-
-	GTK_WIDGET_CLASS (pt_waveviewer_selection_parent_class)->style_updated (widget);
-
-	update_cached_style_values (self);
-	gtk_widget_queue_draw (GTK_WIDGET (self));
-}
-
-static void
 pt_waveviewer_selection_realize (GtkWidget *widget)
 {
 	GTK_WIDGET_CLASS (pt_waveviewer_selection_parent_class)->realize (widget);
@@ -187,7 +176,6 @@ pt_waveviewer_selection_class_init (PtWaveviewerSelectionClass *klass)
 	widget_class->hierarchy_changed   = pt_waveviewer_selection_hierarchy_changed;
 	widget_class->realize             = pt_waveviewer_selection_realize;
 	widget_class->state_flags_changed = pt_waveviewer_selection_state_flags_changed;
-	widget_class->style_updated       = pt_waveviewer_selection_style_updated;
 }
 
 GtkWidget *
