@@ -430,11 +430,11 @@ set_cursor (GtkWidget *widget,
 }
 
 static gboolean
-pt_waveviewer_button_press_event (GtkGestureMultiPress *gesture,
-                                  gint                  n_press,
-                                  gdouble               x,
-                                  gdouble               y,
-                                  gpointer              user_data)
+pt_waveviewer_button_press_event (GtkGestureClick *gesture,
+                                  gint             n_press,
+                                  gdouble          x,
+                                  gdouble          y,
+                                  gpointer         user_data)
 {
 	PtWaveviewer *self = PT_WAVEVIEWER (user_data);
 	GdkModifierType      state;
@@ -583,11 +583,11 @@ pt_waveviewer_motion_event (GtkEventControllerMotion *ctrl,
 }
 
 static gboolean
-pt_waveviewer_button_release_event (GtkGestureMultiPress *gesture,
-                                    gint                  n_press,
-                                    gdouble               x,
-                                    gdouble               y,
-                                    gpointer              user_data)
+pt_waveviewer_button_release_event (GtkGestureClick *gesture,
+                                    gint             n_press,
+                                    gdouble          x,
+                                    gdouble          y,
+                                    gpointer         user_data)
 {
 	guint button;
 
@@ -1029,10 +1029,6 @@ pt_waveviewer_finalize (GObject *object)
 static void
 pt_waveviewer_dispose (GObject *object)
 {
-	PtWaveviewer *self = PT_WAVEVIEWER (object);
-
-	g_clear_object (&self->priv->button);
-
 	G_OBJECT_CLASS (pt_waveviewer_parent_class)->dispose (object);
 }
 
@@ -1230,7 +1226,7 @@ pt_waveviewer_init (PtWaveviewer *self)
 	g_object_unref (provider);
 
 	/* Setup event handling */
-	self->priv->button = gtk_gesture_multi_press_new (self->priv->scrollbox);
+	self->priv->button = gtk_gesture_click_new ();
 	gtk_gesture_single_set_exclusive (GTK_GESTURE_SINGLE (self->priv->button), TRUE);
 	gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (self->priv->button), 0);
 	gtk_event_controller_set_propagation_phase (GTK_EVENT_CONTROLLER (self->priv->button), GTK_PHASE_CAPTURE);
@@ -1244,6 +1240,7 @@ pt_waveviewer_init (PtWaveviewer *self)
 			"released",
 			G_CALLBACK (pt_waveviewer_button_release_event),
 			self);
+	gtk_widget_add_controller (self->priv->scrollbox, GTK_EVENT_CONTROLLER (self->priv->button));
 
 	self->priv->motion_ctrl = gtk_event_controller_motion_new ();
 	g_signal_connect (

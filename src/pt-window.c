@@ -1019,11 +1019,11 @@ volume_button_event_cb (GtkWidget *volumebutton,
 }
 
 static gboolean
-volume_button_press_event (GtkGestureMultiPress *gesture,
-                           gint                  n_press,
-                           gdouble               x,
-                           gdouble               y,
-                           gpointer              user_data)
+volume_button_press_event (GtkGestureClick *gesture,
+                           gint             n_press,
+                           gdouble          x,
+                           gdouble          y,
+                           gpointer         user_data)
 {
 	/* Switch mute state on click with secondary button */
 
@@ -1111,18 +1111,20 @@ setup_volume (PtWindow *win)
 			win);
 
 	/* Switch mute state on mouse click with secondary button */
-	win->priv->vol_event = gtk_gesture_multi_press_new (
-			win->priv->volumebutton);
+	GtkGesture *vol_event;
+	vol_event = gtk_gesture_click_new ();
 	gtk_gesture_single_set_exclusive (
-			GTK_GESTURE_SINGLE (win->priv->vol_event), TRUE);
+			GTK_GESTURE_SINGLE (vol_event), TRUE);
 	gtk_gesture_single_set_button (
-			GTK_GESTURE_SINGLE (win->priv->vol_event), 0);
+			GTK_GESTURE_SINGLE (vol_event), 0);
 	gtk_event_controller_set_propagation_phase (
-			GTK_EVENT_CONTROLLER (win->priv->vol_event), GTK_PHASE_CAPTURE);
-	g_signal_connect (win->priv->vol_event,
+			GTK_EVENT_CONTROLLER (vol_event), GTK_PHASE_CAPTURE);
+	g_signal_connect (vol_event,
 			"pressed",
 			G_CALLBACK (volume_button_press_event),
 			win);
+	gtk_widget_add_controller (win->priv->volumebutton,
+	                           GTK_EVENT_CONTROLLER (vol_event));
 }
 
 static void
