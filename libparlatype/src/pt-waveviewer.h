@@ -42,14 +42,14 @@ typedef struct _PtWaveviewerPrivate	PtWaveviewerPrivate;
  * The #PtWaveviewer contains only private fields and should not be directly accessed.
  */
 struct _PtWaveviewer {
-	GtkScrolledWindow parent;
+	GtkWidget parent;
 
 	/*< private > */
 	PtWaveviewerPrivate *priv;
 };
 
 struct _PtWaveviewerClass {
-	GtkScrolledWindowClass klass;
+	GtkWidgetClass klass;
 };
 
 GType		pt_waveviewer_get_type	(void) G_GNUC_CONST;

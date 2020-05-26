@@ -86,6 +86,7 @@ struct _PtWaveviewerPrivate {
 	/* Subwidgets */
 	GtkWidget  *scrollbox;
 	GtkWidget  *overlay;
+	GtkWidget  *scrolled_window;
 	GtkWidget  *waveform;
 	GtkWidget  *revealer;
 	GtkWidget  *ruler;
@@ -130,7 +131,7 @@ static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PtWaveviewer, pt_waveviewer, GTK_TYPE_SCROLLED_WINDOW);
+G_DEFINE_TYPE_WITH_PRIVATE (PtWaveviewer, pt_waveviewer, GTK_TYPE_WIDGET);
 
 
 static gint64
@@ -1027,6 +1028,10 @@ pt_waveviewer_finalize (GObject *object)
 static void
 pt_waveviewer_dispose (GObject *object)
 {
+	PtWaveviewer *self = PT_WAVEVIEWER (object);
+
+	g_clear_pointer (&self->priv->scrolled_window, gtk_widget_unparent);
+
 	G_OBJECT_CLASS (pt_waveviewer_parent_class)->dispose (object);
 }
 
@@ -1296,6 +1301,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 	gobject_class->finalize     = pt_waveviewer_finalize;
 
 	gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/libparlatype/pt-waveviewer.ui");
+	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, scrolled_window);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, scrollbox);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, revealer);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, ruler);
@@ -1304,6 +1310,8 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, selection);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, cursor);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, focus);
+
+	gtk_widget_class_set_layout_manager_type (widget_class, GTK_TYPE_BIN_LAYOUT);
 
 	/**
 	* PtWaveviewer::load-progress:
