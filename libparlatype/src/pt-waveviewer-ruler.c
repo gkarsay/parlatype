@@ -203,15 +203,17 @@ calculate_height (PtWaveviewerRuler *self)
 	PangoRectangle   rect;
 	gchar           *time_format;
 	gint             ruler_height;
-	GdkWindow       *window = NULL;
+	GtkNative       *native;
+	GdkSurface      *gdk_surface;
 
-	window = gtk_widget_get_parent_window (GTK_WIDGET (self));
-	if (!window || self->priv->n_samples == 0) {
+	native = gtk_widget_get_native (GTK_WIDGET (self));
+	if (!native || self->priv->n_samples == 0) {
 		gtk_widget_set_size_request (GTK_WIDGET (self), 0, 0);
 		return;
 	}
 
-	surface = gdk_window_create_similar_surface (window,
+	gdk_surface = gtk_native_get_surface (native);
+	surface = gdk_surface_create_similar_surface (gdk_surface,
 	                                             CAIRO_CONTENT_COLOR,
 	                                             100, 100);
 	cr = cairo_create (surface);

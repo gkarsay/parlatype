@@ -118,8 +118,12 @@ cache_cursor (PtWaveviewerCursor *self)
 
 	cairo_t *cr;
 	gint height = gtk_widget_get_allocated_height (GTK_WIDGET (self));
+	GtkNative *native;
+	GdkSurface *surface;
 
-	self->priv->cursor = gdk_surface_create_similar_surface (gtk_widget_get_surface (GTK_WIDGET (self)),
+	native = gtk_widget_get_native (GTK_WIDGET (self));
+	surface = gtk_native_get_surface (native);
+	self->priv->cursor = gdk_surface_create_similar_surface (surface,
 	                                             CAIRO_CONTENT_COLOR_ALPHA,
 	                                             MARKER_BOX_W,
 	                                             height);
