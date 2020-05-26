@@ -95,9 +95,8 @@ struct _PtWaveviewerPrivate {
 
 	/* Event handling */
 	GtkGesture *button;
-#if GTK_CHECK_VERSION(3,24,0)
 	GtkEventController *motion_ctrl;
-#endif
+	GtkEventController *scroll_ctrl;
 
 	guint       tick_handler;
 };
@@ -501,24 +500,27 @@ pt_waveviewer_button_press_event (GtkGestureClick *gesture,
 }
 
 static gboolean
-pt_waveviewer_scroll_event (GtkWidget      *widget,
-                            GdkEventScroll *event)
+pt_waveviewer_scroll_event (GtkEventControllerScroll *ctrl,
+                            gdouble                   delta_x,
+                            gdouble                   delta_y,
+                            gpointer                  user_data)
 {
-	PtWaveviewer *self = PT_WAVEVIEWER (widget);
+	PtWaveviewer *self = PT_WAVEVIEWER (user_data);
 	GdkModifierType      state;
-	gdouble              delta_x;
-	gdouble              delta_y;
+	GdkEvent            *event;
 
-	gdk_event_get_state ((GdkEvent*) event, &state);
-	gdk_event_get_scroll_deltas ((GdkEvent*) event, &delta_x, &delta_y);
+	event = gtk_get_current_event ();
+	gtk_get_current_event_state (&state);
 
 	/* No modifier pressed: scrolling back and forth */
 	if (!(state & ALL_ACCELS_MASK)) {
 		gtk_propagate_event
-			(gtk_scrolled_window_get_hscrollbar (GTK_SCROLLED_WINDOW (widget)),
+			(gtk_scrolled_window_get_hscrollbar (GTK_SCROLLED_WINDOW (self)),
 			(GdkEvent*)event);
+		gdk_event_free (event);
 		return TRUE;
 	}
+	gdk_event_free (event);
 
 	/* Only Control pressed: zoom in or out TODO handle this internally without signals*/
 	if ((state & ALL_ACCELS_MASK) == GDK_CONTROL_MASK) {
@@ -1250,6 +1252,15 @@ pt_waveviewer_init (PtWaveviewer *self)
 			self);
 	gtk_widget_add_controller (self->priv->scrollbox, self->priv->motion_ctrl);
 
+	self->priv->scroll_ctrl = gtk_event_controller_scroll_new (GTK_EVENT_CONTROLLER_SCROLL_HORIZONTAL | GTK_EVENT_CONTROLLER_SCROLL_VERTICAL);
+	gtk_event_controller_set_propagation_phase (GTK_EVENT_CONTROLLER (self->priv->scroll_ctrl), GTK_PHASE_CAPTURE);
+	g_signal_connect (
+			self->priv->scroll_ctrl,
+			"scroll",
+			G_CALLBACK (pt_waveviewer_scroll_event),
+			self);
+	gtk_widget_add_controller (GTK_WIDGET (self), self->priv->scroll_ctrl);
+
 	/* If overriding these vfuncs something’s going wrong, note that focus-in
 	   an focus-out need GdkEventFocus as 2nd parameter in vfunc */
 	g_signal_connect (self, "focus", G_CALLBACK (pt_waveviewer_focus), NULL);
@@ -1281,7 +1292,6 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 	gobject_class->finalize     = pt_waveviewer_finalize;
 
 	widget_class->key_press_event      = pt_waveviewer_key_press_event;
-	widget_class->scroll_event         = pt_waveviewer_scroll_event;
 
 	gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/libparlatype/pt-waveviewer.ui");
 	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, scrollbox);
