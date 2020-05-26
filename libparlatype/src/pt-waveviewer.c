@@ -537,7 +537,6 @@ pt_waveviewer_scroll_event (GtkWidget      *widget,
 }
 
 static gboolean
-#if GTK_CHECK_VERSION(3,24,0)
 pt_waveviewer_motion_event (GtkEventControllerMotion *ctrl,
                             gdouble                   x,
 			    gdouble                   y,
@@ -545,22 +544,11 @@ pt_waveviewer_motion_event (GtkEventControllerMotion *ctrl,
 {
 	PtWaveviewer *self = PT_WAVEVIEWER (user_data);
 	GdkModifierType      state;
+	gint64               clicked;	/* the sample clicked on */
+	gint64               pos;	/* clicked sample’s position in milliseconds */
 
 	gtk_get_current_event_state (&state);
 
-#else
-pt_waveviewer_motion_notify_event (GtkWidget      *widget,
-                                   GdkEventMotion *event)
-{
-	PtWaveviewer *self = PT_WAVEVIEWER (widget);
-	GdkModifierType      state;
-	gdouble              x;
-
-	gdk_event_get_state ((GdkEvent*) event, &state);
-	gdk_event_get_coords ((GdkEvent*) event, &x, NULL);
-#endif
-	gint64               clicked;	/* the sample clicked on */
-	gint64               pos;	/* clicked sample’s position in milliseconds */
 
 	if (self->priv->peaks == NULL || self->priv->peaks->len == 0)
 		return FALSE;
@@ -1044,9 +1032,6 @@ pt_waveviewer_dispose (GObject *object)
 	PtWaveviewer *self = PT_WAVEVIEWER (object);
 
 	g_clear_object (&self->priv->button);
-#if GTK_CHECK_VERSION(3,24,0)
-	g_clear_object (&self->priv->motion_ctrl);
-#endif
 
 	G_OBJECT_CLASS (pt_waveviewer_parent_class)->dispose (object);
 }
@@ -1260,14 +1245,13 @@ pt_waveviewer_init (PtWaveviewer *self)
 			G_CALLBACK (pt_waveviewer_button_release_event),
 			self);
 
-#if GTK_CHECK_VERSION(3,24,0)
-	self->priv->motion_ctrl = gtk_event_controller_motion_new (self->priv->scrollbox);
+	self->priv->motion_ctrl = gtk_event_controller_motion_new ();
 	g_signal_connect (
 			self->priv->motion_ctrl,
 			"motion",
 			G_CALLBACK (pt_waveviewer_motion_event),
 			self);
-#endif
+	gtk_widget_add_controller (self->priv->scrollbox, self->priv->motion_ctrl);
 
 	/* If overriding these vfuncs something’s going wrong, note that focus-in
 	   an focus-out need GdkEventFocus as 2nd parameter in vfunc */
@@ -1300,10 +1284,6 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 	gobject_class->finalize     = pt_waveviewer_finalize;
 
 	widget_class->key_press_event      = pt_waveviewer_key_press_event;
-#if GTK_CHECK_VERSION(3,24,0)
-#else
-	widget_class->motion_notify_event  = pt_waveviewer_motion_notify_event;
-#endif
 	widget_class->scroll_event         = pt_waveviewer_scroll_event;
 
 	gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/libparlatype/pt-waveviewer.ui");
