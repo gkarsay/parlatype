@@ -42,24 +42,26 @@ struct _PtWaveviewerFocusPrivate {
 G_DEFINE_TYPE_WITH_PRIVATE (PtWaveviewerFocus, pt_waveviewer_focus, GTK_TYPE_DRAWING_AREA);
 
 
-static gboolean
-pt_waveviewer_focus_draw (GtkWidget *widget,
-                          cairo_t   *cr)
+static void
+pt_waveviewer_focus_draw (GtkDrawingArea *widget,
+                          cairo_t        *cr,
+                          int             content_width,
+                          int             content_height,
+                          gpointer        user_data)
 {
 	PtWaveviewerFocus *self = (PtWaveviewerFocus *) widget;
 
 	if (!self->priv->focus)
-		return FALSE;
+		return;
 
 	GtkStyleContext *context;
 	gint height, width;
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
-	height = gtk_widget_get_allocated_height (widget);
-	width = gtk_widget_get_allocated_width (widget);
+	height = gtk_widget_get_allocated_height (GTK_WIDGET (widget));
+	width = gtk_widget_get_allocated_width (GTK_WIDGET (widget));
 
 	gtk_render_focus (context, cr, 0 , 0, width, height);
-	return FALSE;
 }
 
 void
@@ -80,6 +82,8 @@ pt_waveviewer_focus_init (PtWaveviewerFocus *self)
 	self->priv->focus = FALSE;
 
 	gtk_widget_set_name (GTK_WIDGET (self), "focus");
+	gtk_drawing_area_set_draw_func (GTK_DRAWING_AREA (self), pt_waveviewer_focus_draw, NULL, NULL);
+
 }
 
 static void
@@ -87,7 +91,7 @@ pt_waveviewer_focus_class_init (PtWaveviewerFocusClass *klass)
 {
 	GtkWidgetClass *widget_class  = GTK_WIDGET_CLASS (klass);
 
-	widget_class->draw = pt_waveviewer_focus_draw;
+	widget_class->hierarchy_changed = pt_waveviewer_focus_hierarchy_changed;
 }
 
 GtkWidget *

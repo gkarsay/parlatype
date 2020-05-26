@@ -56,9 +56,12 @@ struct _PtWaveviewerSelectionPrivate {
 G_DEFINE_TYPE_WITH_PRIVATE (PtWaveviewerSelection, pt_waveviewer_selection, GTK_TYPE_DRAWING_AREA);
 
 
-static gboolean
-pt_waveviewer_selection_draw (GtkWidget *widget,
-                              cairo_t   *cr)
+static void
+pt_waveviewer_selection_draw (GtkDrawingArea *widget,
+                              cairo_t        *cr,
+                              int             content_width,
+                              int             content_height,
+                              gpointer        user_data)
 {
 	PtWaveviewerSelection *self = (PtWaveviewerSelection *) widget;
 
@@ -67,21 +70,19 @@ pt_waveviewer_selection_draw (GtkWidget *widget,
 	gint offset;
 	gint left, right;
 
-	height = gtk_widget_get_allocated_height (widget);
-	width = gtk_widget_get_allocated_width (widget);
+	height = gtk_widget_get_allocated_height (GTK_WIDGET (widget));
+	width = gtk_widget_get_allocated_width (GTK_WIDGET (widget));
 
 	offset = (gint) gtk_adjustment_get_value (self->priv->adj);
 	left = CLAMP (self->priv->start - offset, 0, width);
 	right = CLAMP (self->priv->end - offset, 0, width);
 
 	if (left == right)
-		return FALSE;
+		return;
 
 	gdk_cairo_set_source_rgba (cr, &self->priv->selection_color);
 	cairo_rectangle (cr, left, 0, right - left, height);
 	cairo_fill (cr);
-
-	return FALSE;
 }
 
 static void
@@ -165,6 +166,7 @@ pt_waveviewer_selection_init (PtWaveviewerSelection *self)
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
 	gtk_style_context_add_class (context, "selection");
+	gtk_drawing_area_set_draw_func (GTK_DRAWING_AREA (self), pt_waveviewer_selection_draw, NULL, NULL);
 }
 
 static void
@@ -172,7 +174,6 @@ pt_waveviewer_selection_class_init (PtWaveviewerSelectionClass *klass)
 {
 	GtkWidgetClass *widget_class  = GTK_WIDGET_CLASS (klass);
 
-	widget_class->draw                = pt_waveviewer_selection_draw;
 	widget_class->hierarchy_changed   = pt_waveviewer_selection_hierarchy_changed;
 	widget_class->realize             = pt_waveviewer_selection_realize;
 	widget_class->state_flags_changed = pt_waveviewer_selection_state_flags_changed;

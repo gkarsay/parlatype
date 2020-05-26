@@ -76,9 +76,12 @@ pixel_to_array (PtWaveviewerWaveform *self,
 	return result;
 }
 
-static gboolean
-pt_waveviewer_waveform_draw (GtkWidget *widget,
-                             cairo_t   *cr)
+static void
+pt_waveviewer_waveform_draw (GtkDrawingArea *widget,
+                             cairo_t        *cr,
+                             int             content_width,
+                             int             content_height,
+                             gpointer        user_data)
 {
 	PtWaveviewerWaveform *self = (PtWaveviewerWaveform *) widget;
 
@@ -90,13 +93,13 @@ pt_waveviewer_waveform_draw (GtkWidget *widget,
 	gint width, height, offset;
 	gint half, middle;
 
-	context = gtk_widget_get_style_context (widget);
-	height = gtk_widget_get_allocated_height (widget);
-	width = gtk_widget_get_allocated_width (widget);
+	context = gtk_widget_get_style_context (GTK_WIDGET (widget));
+	height = gtk_widget_get_allocated_height (GTK_WIDGET (widget));
+	width = gtk_widget_get_allocated_width (GTK_WIDGET (widget));
 
 	gtk_render_background (context, cr, 0, 0, width, height);
 	if (peaks == NULL || peaks->len == 0)
-		return FALSE;
+		return;
 
 	/* paint waveform */
 	offset = (gint) gtk_adjustment_get_value (self->priv->adj);
@@ -114,8 +117,6 @@ pt_waveviewer_waveform_draw (GtkWidget *widget,
 		/* cairo_stroke also possible after loop, but then slower */
 		cairo_stroke (cr);
 	}
-
-	return FALSE;
 }
 
 static void
@@ -189,6 +190,8 @@ pt_waveviewer_waveform_init (PtWaveviewerWaveform *self)
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
 	gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
+
+	gtk_drawing_area_set_draw_func (GTK_DRAWING_AREA (self), pt_waveviewer_waveform_draw, NULL, NULL);
 }
 
 static void
@@ -196,7 +199,6 @@ pt_waveviewer_waveform_class_init (PtWaveviewerWaveformClass *klass)
 {
 	GtkWidgetClass *widget_class  = GTK_WIDGET_CLASS (klass);
 
-	widget_class->draw                = pt_waveviewer_waveform_draw;
 	widget_class->hierarchy_changed   = pt_waveviewer_waveform_hierarchy_changed;
 	widget_class->realize             = pt_waveviewer_waveform_realize;
 	widget_class->state_flags_changed = pt_waveviewer_waveform_state_flags_changed;

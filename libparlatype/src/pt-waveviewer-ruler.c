@@ -96,12 +96,15 @@ pixel_to_time (PtWaveviewerRuler *self,
 	return result;
 }
 
-static gboolean
-pt_waveviewer_ruler_draw (GtkWidget *widget,
-                          cairo_t   *cr)
+static void
+pt_waveviewer_ruler_draw (GtkDrawingArea *widget,
+                          cairo_t        *cr,
+                          int             content_width,
+                          int             content_height,
+                          gpointer        user_data)
 {
 	PtWaveviewerRuler *self = (PtWaveviewerRuler *) widget;
-	gint height = gtk_widget_get_allocated_height (widget);
+	gint height = gtk_widget_get_allocated_height (GTK_WIDGET (widget));
 
 	gint            i;		/* counter, pixel on x-axis in the view */
 	gint            sample;		/* sample in the array */
@@ -122,7 +125,7 @@ pt_waveviewer_ruler_draw (GtkWidget *widget,
 	gtk_render_background (context, cr, 0, 0, width, height);
 
 	if (self->priv->n_samples == 0)
-		return FALSE;
+		return;
 
 	/* ruler marks */
 
@@ -188,7 +191,6 @@ pt_waveviewer_ruler_draw (GtkWidget *widget,
 			g_object_unref (layout);
 		}
 	}
-	return FALSE;
 }
 
 static void
@@ -318,6 +320,7 @@ pt_waveviewer_ruler_init (PtWaveviewerRuler *self)
 	gtk_widget_set_name (GTK_WIDGET (self), "ruler");
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
 	gtk_style_context_add_class (context, GTK_STYLE_CLASS_MARK);
+	gtk_drawing_area_set_draw_func (GTK_DRAWING_AREA (self), pt_waveviewer_ruler_draw, NULL, NULL);
 }
 
 static void
@@ -325,7 +328,6 @@ pt_waveviewer_ruler_class_init (PtWaveviewerRulerClass *klass)
 {
 	GtkWidgetClass *widget_class  = GTK_WIDGET_CLASS (klass);
 
-	widget_class->draw                = pt_waveviewer_ruler_draw;
 	widget_class->hierarchy_changed   = pt_waveviewer_ruler_hierarchy_changed;
 }
 
