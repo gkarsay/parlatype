@@ -162,8 +162,7 @@ adj_value_changed (GtkAdjustment *adj,
 }
 
 static void
-pt_waveviewer_waveform_hierarchy_changed (GtkWidget *widget,
-                                          GtkWidget *old_parent)
+pt_waveviewer_waveform_root (GtkWidget *widget)
 {
 	PtWaveviewerWaveform *self = PT_WAVEVIEWER_WAVEFORM (widget);
 
@@ -199,8 +198,8 @@ pt_waveviewer_waveform_class_init (PtWaveviewerWaveformClass *klass)
 {
 	GtkWidgetClass *widget_class  = GTK_WIDGET_CLASS (klass);
 
-	widget_class->hierarchy_changed   = pt_waveviewer_waveform_hierarchy_changed;
 	widget_class->realize             = pt_waveviewer_waveform_realize;
+	widget_class->root                = pt_waveviewer_waveform_root;
 	widget_class->state_flags_changed = pt_waveviewer_waveform_state_flags_changed;
 }
 

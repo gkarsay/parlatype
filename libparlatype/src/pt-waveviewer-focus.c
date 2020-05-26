@@ -60,7 +60,6 @@ pt_waveviewer_focus_draw (GtkDrawingArea *widget,
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
 	height = gtk_widget_get_allocated_height (GTK_WIDGET (widget));
 	width = gtk_widget_get_allocated_width (GTK_WIDGET (widget));
-
 	gtk_render_focus (context, cr, 0 , 0, width, height);
 }
 
@@ -89,9 +88,6 @@ pt_waveviewer_focus_init (PtWaveviewerFocus *self)
 static void
 pt_waveviewer_focus_class_init (PtWaveviewerFocusClass *klass)
 {
-	GtkWidgetClass *widget_class  = GTK_WIDGET_CLASS (klass);
-
-	widget_class->hierarchy_changed = pt_waveviewer_focus_hierarchy_changed;
 }
 
 GtkWidget *

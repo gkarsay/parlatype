@@ -276,8 +276,7 @@ adj_value_changed (GtkAdjustment *adj,
 }
 
 static void
-pt_waveviewer_ruler_hierarchy_changed (GtkWidget *widget,
-                                       GtkWidget *old_parent)
+pt_waveviewer_ruler_root (GtkWidget *widget)
 {
 	PtWaveviewerRuler *self = PT_WAVEVIEWER_RULER (widget);
 
@@ -328,9 +327,9 @@ pt_waveviewer_ruler_init (PtWaveviewerRuler *self)
 static void
 pt_waveviewer_ruler_class_init (PtWaveviewerRulerClass *klass)
 {
-	GtkWidgetClass *widget_class  = GTK_WIDGET_CLASS (klass);
+	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
-	widget_class->hierarchy_changed   = pt_waveviewer_ruler_hierarchy_changed;
+	widget_class->root = pt_waveviewer_ruler_root;
 }
 
 GtkWidget *

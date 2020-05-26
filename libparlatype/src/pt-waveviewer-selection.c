@@ -120,8 +120,7 @@ adj_value_changed (GtkAdjustment *adj,
 }
 
 static void
-pt_waveviewer_selection_hierarchy_changed (GtkWidget *widget,
-                                           GtkWidget *old_parent)
+pt_waveviewer_selection_root (GtkWidget *widget)
 {
 	/* When added as a child to the PtWaveviewer, get its horizontal
 	 * GtkAdjustment */
@@ -174,8 +173,8 @@ pt_waveviewer_selection_class_init (PtWaveviewerSelectionClass *klass)
 {
 	GtkWidgetClass *widget_class  = GTK_WIDGET_CLASS (klass);
 
-	widget_class->hierarchy_changed   = pt_waveviewer_selection_hierarchy_changed;
 	widget_class->realize             = pt_waveviewer_selection_realize;
+	widget_class->root                = pt_waveviewer_selection_root;
 	widget_class->state_flags_changed = pt_waveviewer_selection_state_flags_changed;
 }
 
