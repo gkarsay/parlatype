@@ -97,6 +97,7 @@ struct _PtWaveviewerPrivate {
 	GtkGesture *button;
 	GtkEventController *motion_ctrl;
 	GtkEventController *scroll_ctrl;
+	GtkEventController *key_ctrl;
 
 	guint       tick_handler;
 };
@@ -293,21 +294,16 @@ update_selection (PtWaveviewer *self)
 }
 
 static gboolean
-pt_waveviewer_key_press_event (GtkWidget   *widget,
-                               GdkEventKey *event)
+pt_waveviewer_key_press_event (GtkEventControllerKey *ctrl,
+                               guint                  keyval,
+                               guint                  keycode,
+                               GdkModifierType        state,
+                               gpointer               user_data)
 {
-	PtWaveviewer    *self = PT_WAVEVIEWER (widget);
-	GdkModifierType  state;
-	guint            keyval;
-
-	if (gdk_event_get_event_type ((GdkEvent*) event) != GDK_KEY_PRESS)
-		return FALSE;
+	PtWaveviewer    *self = PT_WAVEVIEWER (user_data);
 
 	if (self->priv->peaks->len == 0)
 		return FALSE;
-
-	gdk_event_get_state ((GdkEvent*) event, &state);
-	gdk_event_get_keyval ((GdkEvent*) event, &keyval);
 
 	/* no modifier pressed */
 	if (!(state & ALL_ACCELS_MASK)) {
@@ -1261,6 +1257,14 @@ pt_waveviewer_init (PtWaveviewer *self)
 			self);
 	gtk_widget_add_controller (GTK_WIDGET (self), self->priv->scroll_ctrl);
 
+	self->priv->key_ctrl = gtk_event_controller_key_new ();
+	g_signal_connect (
+			self->priv->key_ctrl,
+			"key-pressed",
+			G_CALLBACK (pt_waveviewer_key_press_event),
+			self);
+	gtk_widget_add_controller (self->priv->scrollbox, self->priv->key_ctrl);
+
 	/* If overriding these vfuncs something’s going wrong, note that focus-in
 	   an focus-out need GdkEventFocus as 2nd parameter in vfunc */
 	g_signal_connect (self, "focus", G_CALLBACK (pt_waveviewer_focus), NULL);
@@ -1290,8 +1294,6 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 	gobject_class->constructed  = pt_waveviewer_constructed;
 	gobject_class->dispose      = pt_waveviewer_dispose;
 	gobject_class->finalize     = pt_waveviewer_finalize;
-
-	widget_class->key_press_event      = pt_waveviewer_key_press_event;
 
 	gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/libparlatype/pt-waveviewer.ui");
 	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, scrollbox);
