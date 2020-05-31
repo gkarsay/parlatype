@@ -456,7 +456,7 @@ msgstr "Нажмите “Пуск” для запуска автоматиче
 #, c-format
 msgid "Jump back 1 second"
 msgid_plural "Jump back %d seconds"
-msgstr[0] "Перемотка назад на 1 секунду"
+msgstr[0] "Перемотка назад на %d секунду"
 msgstr[1] "Перемотка назад на %d секунды"
 msgstr[2] "Перемотка назад на %d секунд"
 
@@ -464,7 +464,7 @@ msgstr[2] "Перемотка назад на %d секунд"
 #, c-format
 msgid "Jump forward 1 second"
 msgid_plural "Jump forward %d seconds"
-msgstr[0] "Перемотка вперёд на 1 секунду"
+msgstr[0] "Перемотка вперёд на %d секунду"
 msgstr[1] "Перемотка вперёд на %d секунды"
 msgstr[2] "Перемотка вперёд на %d секунд"
 
@@ -476,7 +476,7 @@ msgstr "Пауза"
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
-msgstr[0] "Пауза и перемотка назад на 1 секунду"
+msgstr[0] "Пауза и перемотка назад на %d секунду"
 msgstr[1] "Пауза и перемотка назад на %d секунды"
 msgstr[2] "Пауза и перемотка назад на %d секунд"
 

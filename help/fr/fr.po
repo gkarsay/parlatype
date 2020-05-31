@@ -75,7 +75,7 @@ msgid ""
 "For a quick overview have a look at <link xref=\"first-steps\"/>. Other "
 "topics are covered below."
 msgstr ""
-"Pour un aperçu rapide, consultez <link xref =« Premiers pas »/>. D'autres "
+"Pour un aperçu rapide, consultez <link xref=\"Premiers pas\"/>. D'autres "
 "sujets sont abordés ci-dessous."
 
 #. (itstool) path: section/title
@@ -181,7 +181,7 @@ msgstr ""
 "Dans le coin inférieur gauche se trouvent les commandes avec un bouton "
 "<gui>Lecture</gui> qui bascule entre lecture et pause. À chaque pause, "
 "<app>Parlatype</app> rembobine de quelques secondes pour faciliter la "
-"reprise. Cela peut être modifié dans les <link xref=« Préférences »/>."
+"reprise. Cela peut être modifié dans les <link xref=\"Préférences\"/>."
 
 #. (itstool) path: page/media
 #. This is a reference to an external file such as an image or video. When
@@ -206,7 +206,7 @@ msgid ""
 msgstr ""
 "Les boutons <gui>Saut arrière</gui> et <gui>Saut avant</gui> dans le coin "
 "inférieur gauche permettent des sauts de quelques secondes en arrière ou en "
-"avant. La durée peut être modifiée dans les <link xref=« Préférences »/>."
+"avant. La durée peut être modifiée dans les <link xref=\"Préférences\"/>."
 
 #. (itstool) path: page/p
 #: C/first-steps.page:28
@@ -276,7 +276,7 @@ msgid ""
 "listed below."
 msgstr ""
 "Les raccourcis clavier pour les commandes de <app>Parlatype</app>, comme "
-"<key>Lecture</key>, sont décrites dans <link xref =« Commandes »>. Les "
+"<key>Lecture</key>, sont décrites dans <link xref=\"Commandes\"/>. Les "
 "touches de raccourci pour la fenêtre sont répertoriées ci-dessous."
 
 #. (itstool) path: table/title
@@ -950,7 +950,7 @@ msgid ""
 msgstr ""
 "Ouvrez le menu principal et cliquez sur <gui>Transcription "
 "automatique</gui>. Si vous n’avez pas encore de modèle de langue, un "
-"assistant vous guidera dans ce processus (voir <link xref =« asr-setup » "
+"assistant vous guidera dans ce processus (voir <link xref=\"asr-setup\""
 "/>). Sinon, une boîte de dialogue apparaîtra vous demandant d'ouvrir un "
 "traitement de texte. Tout traitement de texte prenant en charge "
 "l'accessibilité devrait fonctionner, comme <app>LibreOffice</app> ou "
