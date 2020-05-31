@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-08 11:33+0200\n"
-"PO-Revision-Date: 2018-06-04 12:48+0000\n"
+"PO-Revision-Date: 2020-05-15 13:52+0000\n"
 "Last-Translator: Shinichirou Yamada "
 "<yamada_strong_yamada_nice_64bit@yahoo.co.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2020-05-08 11:32+0000\n"
-"X-Generator: Launchpad (build fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398)\n"
+"X-Launchpad-Export-Date: 2020-05-31 16:44+0000\n"
+"X-Generator: Launchpad (build 275d46a24253e557e4403d52832837e4bfa425b6)\n"
 "Language: ja\n"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:7
@@ -28,21 +28,21 @@ msgstr "Parlatype"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:8
 msgid "Media player for speech transcription"
-msgstr ""
+msgstr "スピーチの文字起こしのためのメディアプレーヤー"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:11
 msgid ""
 "Parlatype is an easy to use media player. Its main purpose is to help you "
 "transcribing speech."
-msgstr "Parlatype は使いやすいメディアプレイヤーです。その主目的はあなたがスピーチを転写するのを助けることにあります。"
+msgstr "Parlatype はスピーチの文字起こしを補助するための、使いやすいメディアプレーヤーです。"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:25
 msgid "Gabor Karsay"
-msgstr ""
+msgstr "Gabor Karsay"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:46
 msgid "This is a minor release with bug fixes and minor new features."
-msgstr ""
+msgstr "これはバグフィックスとマイナーな新機能を含んだマイナーリリースです。"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:48
 msgid ""
@@ -208,31 +208,31 @@ msgstr ""
 
 #: data/org.parlatype.Parlatype.desktop.in:5
 msgid "Transcription utility"
-msgstr "転写ユーティリティー"
+msgstr "音声反訳ユーティリティ"
 
 #: data/org.parlatype.Parlatype.desktop.in:6
 msgid "Transcription;"
-msgstr "Transcription;トランスクリプション;書き起こし;転写;"
+msgstr "Transcription;トランスクリプション;転写;書き起こし;文字起こし;テープ起こし;音声反訳;"
 
 #: data/org.parlatype.Parlatype.desktop.in:8
 msgid "org.parlatype.Parlatype"
-msgstr ""
+msgstr "org.parlatype.Parlatype"
 
 #: src/pt-app.c:62
 msgid "Show the application’s version"
-msgstr ""
+msgstr "アプリケーションのバージョンを表示する"
 
 #: src/pt-app.c:71
 msgid "Enable automatic speech recognition"
-msgstr ""
+msgstr "自動音声認識を有効にする"
 
 #: src/pt-app.c:79
 msgid "Use internal textpad for automatic speech recognition"
-msgstr ""
+msgstr "自動音声認識に内蔵テキストパッドを使用する"
 
 #: src/pt-app.c:102
 msgid "Open Audio File"
-msgstr "音楽ファイルを開く"
+msgstr "音声ファイルを開く"
 
 #: src/pt-app.c:105 src/resources/window-headerbar.ui:12
 msgid "_Open"
@@ -244,7 +244,7 @@ msgstr "キャンセル(_C)"
 
 #: src/pt-app.c:125
 msgid "Audio files"
-msgstr "音楽ファイル"
+msgstr "音声ファイル"
 
 #: src/pt-app.c:126
 msgid "All files"
@@ -254,7 +254,7 @@ msgstr "すべてのファイル"
 #: src/pt-app.c:186
 #, c-format
 msgid "Error opening help: %s"
-msgstr "ヘルプを開く際にエラー: %s"
+msgstr "ヘルプを開くときにエラー: %s"
 
 #. Translators: This is part of the about box, followed by the
 #. copyright holders of code from other projects. Instead of
@@ -266,7 +266,7 @@ msgstr "他のプロジェクトによるコードを内包しています:"
 
 #: src/pt-app.c:224
 msgid "A basic transcription utility"
-msgstr "ベーシックな転写ユーティリティー"
+msgstr "ベーシックな音声反訳ユーティリティ"
 
 #: src/pt-app.c:228
 msgid "translator-credits"
@@ -283,100 +283,100 @@ msgstr "警告: Parlatype は一度にファイルを一つだけ処理します
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:196
 msgid "The folder contains no acoustic model."
-msgstr ""
+msgstr "フォルダーに音響モデルがありません。"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:303
 msgid "Please select …"
-msgstr ""
+msgstr "選択してください…"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:342
 msgid "Missing parameters"
-msgstr ""
+msgstr "パラメーターがありません"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:396
 msgid "Timed out"
-msgstr ""
+msgstr "タイムアウトしました"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:398
 msgid ""
 "Scanning the folder took too long. Please make sure to open a folder with "
 "model data only."
-msgstr ""
+msgstr "フォルダーのスキャンに時間がかかりすぎました。開くフォルダーにモデルデータしかないことを確認してください。"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:402
 msgid "Scanning the folder failed"
-msgstr ""
+msgstr "フォルダーのスキャンに失敗しました"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:418
 msgid "Nothing found"
-msgstr ""
+msgstr "何も見つかりませんでした"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:420
 msgid "This folder doesn’t contain a suitable model."
-msgstr ""
+msgstr "このフォルダーには適切なモデルがありません。"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:471
 msgid ""
 "The folder contains no language model. Please choose a language model from "
 "another folder."
-msgstr ""
+msgstr "フォルダーに言語モデルがありません。別のフォルダーから言語モデルを選択してください。"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:480
 msgid "The folder contains several language models."
-msgstr ""
+msgstr "フォルダーに複数の言語モデルがあります。"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:491
 msgid ""
 "The folder contains no dictionary. Please choose a dictionary from another "
 "folder."
-msgstr ""
+msgstr "フォルダーに辞書がありません。別のフォルダーから辞書を選択してください。"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:500
 msgid "The folder contains several dictionaries."
-msgstr ""
+msgstr "フォルダーに複数の辞書があります。"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:510
 msgid ""
 "The folder contains no acoustic model. Please choose an acoustic model from "
 "another folder."
-msgstr ""
+msgstr "フォルダーに音響モデルがありません。別のフォルダーから音響モデルを選択してください。"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:519
 msgid "The folder contains several acoustic models."
-msgstr ""
+msgstr "フォルダーに複数の音響モデルがあります。"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:637
 msgid "Download model"
-msgstr ""
+msgstr "モデルをダウンロード"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:645
 msgid "Finish configuration"
-msgstr ""
+msgstr "設定完了"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-output.c:210
 msgid "Select output for automatic speech recognition"
-msgstr ""
+msgstr "自動音声認識の出力を選択"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-output.c:212
 msgid "Please open and switch focus to a word processor."
-msgstr ""
+msgstr "ワードプロセッサーを開いてフォーカスを切り替えてください。"
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
@@ -400,21 +400,21 @@ msgstr[0] "秒"
 
 #: src/pt-preferences.c:258
 msgid "Deleting configuration"
-msgstr ""
+msgstr "設定の削除"
 
 #: src/pt-preferences.c:259
 #, c-format
 msgid "Do you really want to delete “%s”?"
-msgstr ""
+msgstr "本当に“%s”を削除しますか?"
 
 #: src/pt-window.c:217
 #, c-format
 msgid "Found %s"
-msgstr ""
+msgstr "%s が見つかりました"
 
 #: src/pt-window.c:218
 msgid "Press “Play” to start automatic speech recognition."
-msgstr ""
+msgstr "“再生”を押すと自動音声認識を開始します。"
 
 #: src/pt-window.c:430
 #, c-format
@@ -445,11 +445,11 @@ msgstr "再生を開始する"
 #: src/pt-window.c:512
 #, c-format
 msgid "Go to time in clipboard: %s"
-msgstr ""
+msgstr "クリップボード内の時間に移動: %s"
 
 #: src/pt-window.c:514 src/pt-window.c:1334
 msgid "Go to time in clipboard"
-msgstr ""
+msgstr "クリップボード内の時間に移動"
 
 #: src/pt-window.c:1195
 #, c-format
@@ -458,6 +458,9 @@ msgid ""
 "GStreamer and make sure you have the “Good Plugins” installed.\n"
 "Parlatype will quit now, it received this error message: %s"
 msgstr ""
+"Parlatype の実行には GStreamer 1.x が必要です。GStreamer の“Good "
+"Plugins”がインストールされていることを確認してください。\n"
+"Parlatype を終了します。エラーメッセージ: %s"
 
 #: src/pt-window.c:1198
 msgid "Fatal error"
@@ -468,7 +471,7 @@ msgstr "致命的なエラー"
 msgid ""
 "Before you can start, you have to download a so called acoustic and language "
 "model. This is a set of files made for a specific language."
-msgstr ""
+msgstr "まずは、いわゆる音響モデルと言語モデルをダウンロードする必要があります。これは特定の言語用に作成されたファイルのセットです。"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:30
@@ -479,56 +482,60 @@ msgid ""
 "uage%20Models/\">CMU Sphinx’ sourceforge repository</a>. It has models for "
 "some of the most widespread languages."
 msgstr ""
+"Parlatype は音声認識エンジンとして CMU Sphinx を使用しています。CMU Sphinx 用のモデルは、例えば <a "
+"href=\"https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Lang"
+"uage%20Models/\">CMU Sphinx の SourceForge のリポジトリ</a> からダウンロードできます。その CMU "
+"Sphinx のリポジトリには、話者の多いいくつかの言語のモデルがあります。"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:45
 msgid ""
 "If it’s compressed, uncompress the model. Save it to a folder where it can "
 "stay. Parlatype doesn’t copy the model internally."
-msgstr ""
+msgstr "圧縮されている場合は適当なフォルダーに解凍 (展開) してください。Parlatype は内部でモデルをコピーせず直接使用します。"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:59
 msgid "When you are finished, specify the folder with the model:"
-msgstr ""
+msgstr "解凍 (展開) や配置を終えたら、モデルがあるフォルダーを指定してください:"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:96
 msgid "Language model"
-msgstr ""
+msgstr "言語モデル"
 
 #: src/resources/asr-assistant.ui:125
 msgid "Select language model"
-msgstr ""
+msgstr "言語モデルを選択"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:157
 msgid "Dictionary"
-msgstr ""
+msgstr "辞書"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:186
 msgid "Select dictionary"
-msgstr ""
+msgstr "辞書を選択"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:218
 msgid "Acoustic model"
-msgstr ""
+msgstr "音響モデル"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:248
 msgid "Select acoustic model folder"
-msgstr ""
+msgstr "音響モデルフォルダーを選択"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:285
 msgid "Setup is completed. Please give this configuration a name:"
-msgstr ""
+msgstr "セットアップが完了しました。この設定の名前を入力してください:"
 
 #: src/resources/goto-dialog.ui:13 src/resources/menus.ui:46
 msgid "Go to…"
-msgstr ""
+msgstr "移動…"
 
 #: src/resources/goto-dialog.ui:40
 msgid "_OK"
@@ -588,7 +595,7 @@ msgstr "クリップボードにタイムスタンプをコピーする"
 
 #: src/resources/help-overlay.ui:114
 msgid "Go to timestamp in clipboard"
-msgstr "クリップボードのタイムスタンプに移動する"
+msgstr "クリップボード内のタイムスタンプに移動する"
 
 #: src/resources/help-overlay.ui:122 src/resources/menus.ui:27
 msgid "Help"
@@ -604,11 +611,11 @@ msgstr "キーボードショートカットを表示する"
 
 #: src/resources/menus.ui:7
 msgid "Manual transcription"
-msgstr ""
+msgstr "手動文字起こし"
 
 #: src/resources/menus.ui:12
 msgid "Automatic transcription"
-msgstr ""
+msgstr "自動文字起こし"
 
 #: src/resources/menus.ui:19
 msgid "Preferences"
@@ -620,52 +627,52 @@ msgstr "キーボードショートカット(_K)"
 
 #: src/resources/menus.ui:31
 msgid "About Parlatype"
-msgstr ""
+msgstr "Parlatype について"
 
 #: src/resources/menus.ui:38
 msgid "Copy time to clipboard"
-msgstr ""
+msgstr "クリップボードに時間をコピー"
 
 #: src/resources/menus.ui:42
 msgid "Go to cursor"
-msgstr ""
+msgstr "カーソル位置に移動"
 
 #. This refers to: "Characters around timestamps"
 #: src/resources/preferences.ui:42
 msgid "None"
-msgstr ""
+msgstr "なし"
 
 #: src/resources/preferences.ui:46
 msgid "#Number signs#"
-msgstr ""
+msgstr "#番号記号#"
 
 #: src/resources/preferences.ui:50
 msgid "(Round brackets)"
-msgstr ""
+msgstr "(丸かっこ)"
 
 #: src/resources/preferences.ui:54
 msgid "[Square brackets]"
-msgstr ""
+msgstr "[鉤かっこ]"
 
 #: src/resources/preferences.ui:68
 msgid ". (point)"
-msgstr ""
+msgstr ". (点)"
 
 #: src/resources/preferences.ui:72
 msgid "- (hyphen)"
-msgstr ""
+msgstr "- (ハイフン)"
 
 #: src/resources/preferences.ui:86
 msgid "Full seconds"
-msgstr ""
+msgstr "秒"
 
 #: src/resources/preferences.ui:90
 msgid "10th seconds"
-msgstr ""
+msgstr "1/10 秒"
 
 #: src/resources/preferences.ui:94
 msgid "100th seconds"
-msgstr ""
+msgstr "1/100 秒"
 
 #: src/resources/preferences.ui:102
 msgid "Parlatype Preferences"
@@ -673,7 +680,7 @@ msgstr "Parlatype の設定"
 
 #: src/resources/preferences.ui:141
 msgid "_Pixels per second:"
-msgstr "1秒辺りのピクセル数(_P):"
+msgstr "1 秒あたりのピクセル数(_P):"
 
 #: src/resources/preferences.ui:171
 msgid "Show _time scale"
@@ -699,7 +706,7 @@ msgstr "カーソルを固定する(_F)"
 
 #: src/resources/preferences.ui:288
 msgid "Jumps"
-msgstr ""
+msgstr "移動"
 
 #: src/resources/preferences.ui:390
 msgid "Jump _forward:"
@@ -715,19 +722,19 @@ msgstr "一時停止時に戻る位置(_P):"
 
 #: src/resources/preferences.ui:441
 msgid "Pressing “Play” at the end of file"
-msgstr ""
+msgstr "再生完了後に“再生”を押した場合"
 
 #: src/resources/preferences.ui:455
 msgid "Replay file"
-msgstr ""
+msgstr "ファイルを再生し直す"
 
 #: src/resources/preferences.ui:474
 msgid "Pressing “Play” at the end of selection"
-msgstr ""
+msgstr "選択部分の再生完了後に“再生”を押した場合"
 
 #: src/resources/preferences.ui:488
 msgid "Replay selection"
-msgstr ""
+msgstr "選択部分を再生し直す"
 
 #: src/resources/preferences.ui:510
 msgid "Controls"
@@ -735,65 +742,65 @@ msgstr "コントロール"
 
 #: src/resources/preferences.ui:553
 msgid "Hours and zeroes"
-msgstr ""
+msgstr "時間と 0"
 
 #: src/resources/preferences.ui:566
 msgid "Always show hours and leading zeroes"
-msgstr ""
+msgstr "常に表記を時分秒にして二桁目を省略しない"
 
 #: src/resources/preferences.ui:584
 msgid "Precision"
-msgstr ""
+msgstr "精度"
 
 #: src/resources/preferences.ui:600
 msgid "Characters around timestamps"
-msgstr ""
+msgstr "タイムスタンプを囲う文字"
 
 #: src/resources/preferences.ui:616
 msgid "Examples"
-msgstr ""
+msgstr "例"
 
 #: src/resources/preferences.ui:658
 msgid "Precision:"
-msgstr ""
+msgstr "精度:"
 
 #: src/resources/preferences.ui:690
 msgid "Fraction separator:"
-msgstr ""
+msgstr "小数点に使用する文字:"
 
 #: src/resources/preferences.ui:733
 msgid "Timestamps"
-msgstr ""
+msgstr "タイムスタンプ"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/preferences.ui:864
 msgid "Language model:"
-msgstr ""
+msgstr "言語モデル:"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/preferences.ui:891
 msgid "Dictionary:"
-msgstr ""
+msgstr "辞書:"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/preferences.ui:918
 msgid "Acoustic model folder:"
-msgstr ""
+msgstr "音響モデルフォルダー:"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/preferences.ui:966
 msgid "There is no configuration"
-msgstr ""
+msgstr "設定はありません"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/preferences.ui:976
 msgid "Add a configuration"
-msgstr ""
+msgstr "設定を追加"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/preferences.ui:1005
 msgid "Speech recognition"
-msgstr ""
+msgstr "音声認識"
 
 #: src/resources/preferences.ui:1023
 msgid "Remember _size"

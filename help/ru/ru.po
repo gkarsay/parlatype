@@ -1,32 +1,28 @@
-# Spanish translation for parlatype
-# Copyright (c) 2017 Rosetta Contributors and Canonical Ltd 2017
+# Russian translation for parlatype
+# Copyright (c) 2020 Rosetta Contributors and Canonical Ltd 2020
 # This file is distributed under the same license as the parlatype package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2020-05-08 11:32+0200\n"
-"PO-Revision-Date: 2020-05-09 17:02+0000\n"
-"Last-Translator: Rodrigo Lledó <rodhos92@gmail.com>\n"
-"Language-Team: Spanish <es@li.org>\n"
+"PO-Revision-Date: 2020-05-24 14:27+0000\n"
+"Last-Translator: Aleksey Kabanov <Unknown>\n"
+"Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2020-05-31 16:44+0000\n"
 "X-Generator: Launchpad (build 275d46a24253e557e4403d52832837e4bfa425b6)\n"
-"Language: es\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
 msgstr ""
 "Launchpad Contributions:\n"
-"  Adolfo Jayme https://launchpad.net/~fitojb\n"
-"  Gabor Karsay https://launchpad.net/~gabor-karsay\n"
-"  Jorge Toledo https://launchpad.net/~eldelacajita\n"
-"  Rodrigo Lledó https://launchpad.net/~rodhos-hp"
+"  Aleksey Kabanov https://launchpad.net/~ak099"
 
 #. (itstool) path: info/title
 #: C/index.page:7
@@ -64,8 +60,8 @@ msgid ""
 "<app>Parlatype</app> is an easy to use media player. Its main purpose is to "
 "help you transcribing speech."
 msgstr ""
-"<app>Parlatype</app> es un reproductor multimedia sencillo de utilizar. Su "
-"propósito principal es ayudarle a transcribir el lenguaje hablado."
+"<app>Parlatype</app> — простой в использовании медиапроигрыватель. Его "
+"основным назначением является помощь в транскрибировании речи."
 
 #. (itstool) path: page/title
 #: C/index.page:18
@@ -78,24 +74,23 @@ msgid ""
 "For a quick overview have a look at <link xref=\"first-steps\"/>. Other "
 "topics are covered below."
 msgstr ""
-"Para obtener un panorama general breve, consulte <link xref=\"first-"
-"steps\"/>. A continuación se tratan otros temas."
+"Для быстрого знакомства смотрите <link xref=\"first-steps\"/>. Другие темы "
+"приведены ниже."
 
 #. (itstool) path: section/title
 #: C/index.page:27
 msgid "Help topics"
-msgstr "Temas de ayuda"
+msgstr "Темы справки"
 
 #. (itstool) path: info/desc
 #: C/drag-and-drop.page:6
 msgid "Drop files, file names or timestamps on Parlatype"
-msgstr ""
-"Arrastre archivos, nombres de archivo o marcas cronológicas en Parlatype"
+msgstr "Перетаскивание файлов, имён файлов или меток времени в Parlatype"
 
 #. (itstool) path: page/title
 #: C/drag-and-drop.page:14
 msgid "Drag and Drop"
-msgstr "Arrastrar y soltar"
+msgstr "Перетаскивание"
 
 #. (itstool) path: page/p
 #: C/drag-and-drop.page:16
@@ -103,8 +98,8 @@ msgid ""
 "You can drop files, file names or timestamps on <app>Parlatype</app>’s "
 "window."
 msgstr ""
-"Puedes arrastrar archivos, nombres de archivo o marcas de tiempo a la "
-"ventana de <app>Parlatype</app>."
+"Вы можете перетаскивать файлы, имена файлов или метки времени в окно "
+"<app>Parlatype</app>."
 
 #. (itstool) path: item/p
 #: C/drag-and-drop.page:19
@@ -112,8 +107,8 @@ msgid ""
 "Files: Drag and drop a file from a file manager, e.g. <app>Files</app>, on "
 "<app>Parlatype</app> and it will open that file."
 msgstr ""
-"Archivos: arrastre y suelte un archivo desde un gestor de archivos, p. ej., "
-"<app>Nautilus</app>, en <app>Parlatype</app>, y este abrirá el archivo."
+"Файлы: перетащите файл из файлового менеджера, например <app>Файлы</app> в  "
+"<app>Parlatype</app>, и он откроет этот файл."
 
 #. (itstool) path: item/p
 #: C/drag-and-drop.page:20
@@ -125,12 +120,12 @@ msgid ""
 "its full path in the list of recent files and open it if it can find it in "
 "that list."
 msgstr ""
-"Nombres de archivo: seleccione un nombre de archivo en un procesador de "
-"textos, p. ej., <app>LibreOffice</app>, suelte el texto seleccionado en "
-"<app>Parlatype</app> y se abrirá el archivo referido. Esto funcionará "
-"siempre si la selección contiene una ruta de acceso completa. Si selecciona "
-"solo el nombre, <app>Parlatype</app> localizará su ruta completa en la lista "
-"de archivos recientes y, si es capaz de encontrarlo, lo abrirá."
+"Имена файлов: выделите имя файла в текстовом редакторе, например, из "
+"<app>LibreOffice</app>, перетащите выделенный текст в <app>Parlatype</app>, "
+"и он откроет этот файл. Это работает, если выделение содержит полный путь к "
+"файлу. Если выделено только имя, <app>Parlatype</app> поищет полный путь в "
+"списке недавно открывавшихся файлов, и откроет файл, если найдёт его в этом "
+"списке."
 
 #. (itstool) path: item/p
 #: C/drag-and-drop.page:21
@@ -139,17 +134,18 @@ msgid ""
 "a timestamp from a word processor, e.g. <app>LibreOffice</app>, drop the "
 "selected text on <app>Parlatype</app> and it will jump to that position."
 msgstr ""
-"Marcas de tiempo: Puedes arrastrar y soltar marcas de tiempo (timestamps) a "
-"<app>Parlatype</app>. Selecciona una marca de tiempo en un procesador de "
-"textos como <app>LibreOffice</app>, arrastra el texto seleccionado a "
-"<app>Parlatype</app>, y el reproductor saltará a esa posición."
+"Метки времени: вы можете перетаскивать метки времени в окно "
+"<app>Parlatype</app>. Выделите метку времени в текстовом редакторе, "
+"например, из <app>LibreOffice</app>, перетащите выделенный текст в "
+"<app>Parlatype</app>, и программа перейдёт в соответствующую позицию "
+"аудиозаписи."
 
 #. (itstool) path: info/desc
 #. (itstool) path: page/title
 #: C/first-steps.page:6
 #: C/first-steps.page:14
 msgid "First steps with Parlatype"
-msgstr "Primeros pasos con Parlatype"
+msgstr "Первые шаги в Parlatype"
 
 #. (itstool) path: page/p
 #: C/first-steps.page:16
@@ -159,17 +155,16 @@ msgid ""
 "<app>LibreOffice</app>, too. Launch <app>Parlatype</app> and open an audio "
 "file by clicking on the <gui>Open</gui> button in the upper left corner."
 msgstr ""
-"<app>Parlatype</app> es un reproductor de audio sencillo de usar que puede "
-"ayudarle a transcribir o añadir anotaciones a grabaciones de discursos. "
-"Necesitará asimismo ejecutar un procesador de textos, p. ej., "
-"<app>LibreOffice</app>. Inicie <app>Parlatype</app> y abra un archivo de "
-"audio mediante el botón <gui>Abrir</gui> que se sitúa en la esquina superior "
-"izquierda."
+"<app>Parlatype</app> — простой в использовании аудиоплеер, помогающий в "
+"транскрибировании или аннотации аудиозаписей речи. Вам также понадобится "
+"запустить текстовый редактор, например, из <app>LibreOffice</app>. Запустите "
+" <app>Parlatype</app> и откройте аудиофайл щелчком на кнопке "
+"<gui>Открыть</gui> в верхнем левом углу."
 
 #. (itstool) path: note/p
 #: C/first-steps.page:19
 msgid "You can also drag and drop a file on <app>Parlatype</app>."
-msgstr "También puedes arrastrar y soltar un archivo a <app>Parlatype</app>."
+msgstr "Можно также просто перетащить файл в окно <app>Parlatype</app>."
 
 #. (itstool) path: page/p
 #: C/first-steps.page:22
@@ -179,11 +174,11 @@ msgid ""
 "<app>Parlatype</app> rewinds a few seconds to make it easier to resume. This "
 "can be changed in the <link xref=\"preferences\"/>."
 msgstr ""
-"En la esquina inferior izquierda hay controles con un botón de "
-"<gui>Reproducir</gui> que alterna entre reproducción y pausa. Cuando pausas, "
-"<app>Parlatype</app> rebobina unos pocos segundos para hacer que sea más "
-"fácil retomar la transcripción. Esto se puede cambiar en las <link "
-"xref=\"preferencias\"/>."
+"В левом нижнем углу расположены элементы управления с кнопкой "
+"<gui>Пуск</gui>, переключающей режимы воспроизведения и паузы. При "
+"постановке на паузу, <app>Parlatype</app> перематывает запись на несколько "
+"секунд назад, чтобы было проще продолжить транскрибацию. Время перемотки "
+"можно изменить в разделе <link xref=\"preferences\"/>."
 
 #. (itstool) path: page/media
 #. This is a reference to an external file such as an image or video. When
@@ -206,10 +201,10 @@ msgid ""
 "left corner skip a few seconds back or ahead. The amount of time can be "
 "changed in the <link xref=\"preferences\"/>."
 msgstr ""
-"Los botones <gui>Volver atrás</gui> y <gui>Avanzar</gui> en la esquina "
-"inferior izquierda saltan varios segundos hacia atrás o hacia adelante. La "
-"cantidad de segundos del salto se puede cambiar en las  <link "
-"xref=\"preferencias\"/>."
+"Кнопки <gui>Перемотать назад</gui> и <gui>Перемотать вперёд</gui> в левом "
+"нижнем углу перематывают на несколько секунд назад или вперёд. "
+"Продолжительность перемотки можно изменить в разделе <link "
+"xref=\"preferences\"/>."
 
 #. (itstool) path: page/p
 #: C/first-steps.page:28
@@ -218,10 +213,10 @@ msgid ""
 "scroll manually by clicking on or dragging the scroll bar or using the "
 "standard keybindings. Automatic scrolling is stopped then."
 msgstr ""
-"La vista se desplaza automáticamente de modo que el cursor siempre sea "
-"visible. Puedes desplazarla manualmente haciendo clic y arrastrando la barra "
-"de desplazamiento o usando los atajos de teclado estándar. En ese caso, el "
-"desplazamiento automático se detiene."
+"Рабочая область автоматически прокручивается, чтобы курсор всегда был виден. "
+"Можно выполнить прокрутку вручную, щёлкнув в нужном месте полосы прокрутки "
+"или перетащив полозок на ней, либо с помощью стандартных комбинаций клавиш. "
+"В этом случае автоматическая прокрутка останавливается."
 
 #. (itstool) path: page/p
 #: C/first-steps.page:30
@@ -231,10 +226,10 @@ msgid ""
 "cursor</gui>. Clicking on the <gui>Play</gui> button also turns automatic "
 "scrolling on."
 msgstr ""
-"Para volver a la posición del cursor y dejar que la vista vuelva a "
-"desplazarse automáticamente, haz clic en el botón de la marca de tiempo y a "
-"continuación en <gui>Ir al cursor</gui>. Haciendo clic en el botón "
-"<gui>Reproducir</gui> también activa el desplazamiento automático."
+"Чтобы вернуться в позицию курсора и вновь активировать автоматическую "
+"прокрутку,  щёлкните на кнопке меню, отображающей время, и выберите  "
+"<gui>Перейти к курсору</gui>. Щелчок на кнопке <gui>Пуск</gui> также "
+"включает автоматическую прокрутку."
 
 #. (itstool) path: page/p
 #: C/first-steps.page:32
@@ -243,9 +238,10 @@ msgid ""
 "also holding the right mouse button pressed and moving it. The left mouse "
 "button is for <link xref=\"selections\"/>."
 msgstr ""
-"Hacer clic en la vista del reproductor con el botón derecho del ratón "
-"situará el cursor en ese punto. También se puede mover el cursor pulsando y "
-"arrastrando el botón derecho del ratón."
+"Щелчок в рабочей области правой кнопкой мыши перемещает курсор в указанную "
+"позицию, а при перемещении мыши с нажатой правой кнопкой курсор движется "
+"вслед за указателем мыши. Назначение левой кнопки мыши — <link "
+"xref=\"selections\"/>."
 
 #. (itstool) path: page/p
 #: C/first-steps.page:34
@@ -255,20 +251,20 @@ msgid ""
 "normal speed, everything lower (down to 0.5) is slower, everything above is "
 "faster."
 msgstr ""
-"La <gui>escala de velocidad</gui> junto al botón de <gui>volumen</gui>, en "
-"la esquina inferior derecha, permite ajustar la velocidad de reproducción. "
-"Un valor de 1 significa velocidad normal. Un valor por debajo (hasta 0.5) es "
-"más lento, y todo lo que esté por encima es más rápido."
+"Движок <gui>Скорость</gui> рядом со кнопкой с изображением "
+"<gui>динамика</gui> в правом нижнем углу позволяет регулировать скорость "
+"воспроизведения. Значение 1 устанавливает обычную скорость, меньшие значения "
+"(вплоть до  0.5) замедляют воспроизведение, а большие ускоряют его."
 
 #. (itstool) path: info/desc
 #: C/keyboard-shortcuts.page:6
 msgid "Standard keyboard shortcuts in Parlatype"
-msgstr "Atajos de teclado estándares de Parlatype"
+msgstr "Стандартные комбинации клавиш в Parlatype"
 
 #. (itstool) path: page/title
 #: C/keyboard-shortcuts.page:14
 msgid "Keyboard shortcuts"
-msgstr "Atajos de teclado"
+msgstr "Комбинации клавиш"
 
 #. (itstool) path: page/p
 #: C/keyboard-shortcuts.page:16
@@ -277,30 +273,29 @@ msgid ""
 "are described in <link xref=\"control\"/>. Shortcut keys for the window are "
 "listed below."
 msgstr ""
-"Los atajos de teclado de <app>Parlatype</app>, que permiten controlar "
-"acciones como <key>Reproducir</key>, se describen en <link "
-"xref=\"control\"/>. Los atajos de teclado para la ventana se enumeran a "
-"continuación."
+"Комбинации клавиш <app>Parlatype</app> для управления воспроизведением, типа "
+"<key>Пуск</key>, описаны в разделе <link xref=\"control\"/>. Остальные "
+"комбинации клавиш перечислены ниже."
 
 #. (itstool) path: table/title
 #: C/keyboard-shortcuts.page:19
 msgid "Standard Shortcut keys"
-msgstr "Atajos de teclado estándares"
+msgstr "Стандартные комбинации клавиш"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:22
 msgid "To Do This"
-msgstr "Para realizar esto…"
+msgstr "Действие"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:23
 msgid "Press This"
-msgstr "… Oprima:"
+msgstr "Клавиши"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:28
 msgid "Show help"
-msgstr "Mostrar ayuda"
+msgstr "Показать справку"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:29
@@ -310,77 +305,77 @@ msgstr "<key>F1</key>"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:32
 msgid "Open file"
-msgstr "Abrir un archivo"
+msgstr "Открыть файл"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:33
 msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>O</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:36
 msgid "Play/Pause"
-msgstr "Reproducir/pausar"
+msgstr "Воспроизведение/Пауза"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:37
 msgid "<keyseq><key>Ctrl</key><key>Space</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>Espacio</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>пробел</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:40
 msgid "Go to …"
-msgstr "Ir a…"
+msgstr "Перейти …"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:41
 msgid "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>G</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:44
 msgid "Jump back"
-msgstr "Saltar hacia atrás"
+msgstr "Перемотать назад"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:45
 msgid "<keyseq><key>Ctrl</key><key>Left</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>Izquierda</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>стрелка влево</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:48
 msgid "Jump forward"
-msgstr "Saltar hacia delante"
+msgstr "Перемотать вперёд"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:49
 msgid "<keyseq><key>Ctrl</key><key>Right</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>Derecha</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>стрелка вправо</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:52
 msgid "Copy timestamp"
-msgstr "Copiar la marca cronológica"
+msgstr "Копировать метку времени"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:53
 msgid "<keyseq><key>Ctrl</key><key>c</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>C</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>c</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:56
 msgid "Insert timestamp"
-msgstr "Insertar una marca cronológica"
+msgstr "Вставить метку времени"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:57
 msgid "<keyseq><key>Ctrl</key><key>v</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>V</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>v</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:60
 msgid "Zoom in"
-msgstr "Ampliar"
+msgstr "Увеличить масштаб"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:61
@@ -390,7 +385,7 @@ msgstr "<keyseq><key>Ctrl</key><key>+</key></keyseq>"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:64
 msgid "Zoom out"
-msgstr "Reducir"
+msgstr "Уменьшить масштаб"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:65
@@ -400,45 +395,45 @@ msgstr "<keyseq><key>Ctrl</key><key>-</key></keyseq>"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:68
 msgid "Quit"
-msgstr "Salir"
+msgstr "Выход"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:69
 msgid "<keyseq><key>Ctrl</key><key>q</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>Q</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>q</key></keyseq>"
 
 #. (itstool) path: p/link
 #: C/legal.xml:5
 msgid "Creative Commons Attribution-ShareAlike 4.0 International"
-msgstr "Creative Commons Reconocimiento-Compartir Igual 4.0 Internacional"
+msgstr "Creative Commons Attribution-ShareAlike 4.0 International"
 
 #. (itstool) path: license/p
 #: C/legal.xml:4
 msgid "This work is licensed under a <_:link-1/> license."
-msgstr "Esta obra está disponible bajo la licencia <_:link-1/>."
+msgstr "Этот документ распространяется под лицензией <_:link-1/> license."
 
 #. (itstool) path: info/desc
 #: C/preferences.page:6
 msgid "How to customize Parlatype"
-msgstr "Cómo personalizar Parlatype"
+msgstr "Как настроить Parlatype"
 
 #. (itstool) path: page/title
 #: C/preferences.page:14
 msgid "Preferences"
-msgstr "Preferencias"
+msgstr "Настройки"
 
 #. (itstool) path: page/p
 #: C/preferences.page:16
 msgid ""
 "To open the preferences dialog click on the primary menu in the headerbar."
 msgstr ""
-"Para abrir el cuadro de diálogo de preferencias, haz clic en el menú "
-"principal en la barra de encabezado."
+"Для открытия диалогового окна настроек щёлкните на основном меню в заголовке "
+"окна."
 
 #. (itstool) path: section/title
 #: C/preferences.page:21
 msgid "Preferences for the waveform"
-msgstr "Preferencias relativas al visor de forma de onda"
+msgstr "Настройки графика звука"
 
 #. (itstool) path: section/media
 #. This is a reference to an external file such as an image or video. When
@@ -461,9 +456,9 @@ msgid ""
 "second, e.g. the default resolution of 100 means, that one second is shown "
 "with a width of 100 pixels."
 msgstr ""
-"Resolución: La resolución de la forma de onda se da en píxeles por segundo. "
-"Por ejemplo, la resolución predeterminada de 100 significa que un segundo se "
-"muestra con una anchura de 100 píxeles."
+"Разрешение: разрешение графика звука задаётся в пикселях на секунду, т.е. по "
+"умолчанию разрешение 100 означает, что одна секунда звука отображается на "
+"ширине 100 пикселей графика."
 
 #. (itstool) path: item/p
 #: C/preferences.page:27
@@ -471,18 +466,20 @@ msgid ""
 "Fixed vs. moving cursor: There are two modes, how to follow the cursor. On "
 "slower systems a moving cursor might be smoother."
 msgstr ""
-"Cursor fijo vs. móvil: Hay dos modos de seguimiento del cursor. En sistemas "
-"más lentos, es posible que sea más fluido el modo de cursor en movimiento."
+"Фиксированный или движущийся курсор: существует два режима перемещения "
+"курсора по графику. На более медленных компьютерах режим движущегося курсора "
+"может быть более плавным."
 
 #. (itstool) path: item/p
 #: C/preferences.page:28
 msgid "Show time scale: Turn the time scale on or off."
-msgstr "Mostrar escala de tiempo: Muestra u oculta la escala de tiempo."
+msgstr ""
+"Показать шкалу времени: включение или отключение показа шкалы времени."
 
 #. (itstool) path: section/title
 #: C/preferences.page:33
 msgid "Preferences for controls"
-msgstr "Preferencias de controles"
+msgstr "Настройки элементов управления"
 
 #. (itstool) path: section/media
 #. This is a reference to an external file such as an image or video. When
@@ -505,9 +502,10 @@ msgid ""
 "pause, this way you can easier resume typing. Set this value to 0 if you "
 "don’t want this behaviour."
 msgstr ""
-"Saltar atrás al pausar: <app>Parlatype</app> rebobinará algunos segundos "
-"cada vez que se pause, haciendo más sencillo retomar la transcripción. Pon "
-"este valor a 0 si no quieres este comportamiento."
+"Перемотка назад на паузе: <app>Parlatype</app> при приостановке "
+"воспроизведения перематывает аудиозапись на несколько секунд назад, чтобы "
+"потом было удобнее продолжить транскрибирование. Задайте значение 0, если "
+"эта перемотка вам не нужна."
 
 #. (itstool) path: item/p
 #: C/preferences.page:39
@@ -515,8 +513,8 @@ msgid ""
 "Jump back: Configures how many seconds to skip when the <gui>Jump back</gui> "
 "button is pressed."
 msgstr ""
-"Saltar atrás: Establece cuántos segundos ha de saltar cuando se presiona el "
-"botón <gui>Saltar atrás</gui>."
+"Перемотать назад: количество секунд перемотки при нажатии кнопки "
+"<gui>Перемотать назад</gui>."
 
 #. (itstool) path: item/p
 #: C/preferences.page:40
@@ -524,8 +522,8 @@ msgid ""
 "Jump forward: Configures how many seconds to skip when the <gui>Jump "
 "forward</gui> button is pressed."
 msgstr ""
-"Saltar adelante: Establece cuántos segundos ha de saltar cuando se presiona "
-"el botón <gui>Saltar adelante</gui>."
+"Перемотать вперёд: количество секунд перемотки при нажатии кнопки "
+"<gui>Перемотать вперёд</gui>."
 
 #. (itstool) path: item/p
 #: C/preferences.page:41
@@ -534,9 +532,10 @@ msgid ""
 "to repeat the file at the end. If not, it will replay a few seconds like on "
 "pause."
 msgstr ""
-"Pulsar <gui>Reproducir</gui> al final del archivo – Reproducir archivo: "
-"indica si quiere repetir el archivo al final. Si no, se reproducirán algunos "
-"segundos como en pausa."
+"Нажатие <gui>Пуск</gui> в конце файла – Повторное воспроизведение файла: "
+"если вы хотите, чтобы файл был повторно воспроизведён с начала. Если нет, то "
+"будут заново воспроизведены лишь несколько секунд, как при постановке на "
+"паузу."
 
 #. (itstool) path: item/p
 #: C/preferences.page:42
@@ -545,14 +544,15 @@ msgid ""
 "you want to repeat the selection. If not, it will replay a few seconds like "
 "on pause."
 msgstr ""
-"Pulsar <gui>Reproducir</gui> al final de la selección – Reproducir "
-"selección: indica si quiere repetir la selección. Si no, se reproducirán "
-"algunos segundos como en pausa."
+"Нажатие <gui>Пуск</gui> в конце выделения – Повторное воспроизведение "
+"выделенного: если вы хотите заново воспроизвести выделение. Если нет, то "
+"будут заново воспроизведены лишь несколько секунд, как при постановке на "
+"паузу."
 
 #. (itstool) path: section/title
 #: C/preferences.page:47
 msgid "Preferences for timestamps"
-msgstr "Preferencias de marca de tiempo"
+msgstr "Настройки меток времени"
 
 #. (itstool) path: section/media
 #. This is a reference to an external file such as an image or video. When
@@ -574,9 +574,9 @@ msgid ""
 "These settings affect how <app>Parlatype</app> formats timestamps. If you "
 "need a certain format in your transcription, you can adjust it here."
 msgstr ""
-"Estas configuraciones afectan la manera en que <app>Parlatype</app> da "
-"formato a las marcas de tiempo. Si necesita un formato determinado en su "
-"transcripción, puede ajustarlo aquí."
+"Эти настройки влияют на форматы меток времени в <app>Parlatype</app>. Если в "
+"ваших транскрипциях требуется определённый формат меток, то вы можете "
+"настроить его здесь."
 
 #. (itstool) path: note/p
 #: C/preferences.page:52
@@ -584,8 +584,8 @@ msgid ""
 "There are no settings for <em>reading</em> timestamps. <app>Parlatype</app> "
 "reads and accepts all of these formats."
 msgstr ""
-"Estas no son configuraciones para <em>leer</em> marcas de tiempo. "
-"<app>Parlatype</app> lee y acepta todos estos formatos."
+"Нет настроек для <em>чтения</em> меток времени. <app>Parlatype</app> читает "
+"и принимает все эти форматы."
 
 #. (itstool) path: item/p
 #: C/preferences.page:54
@@ -594,16 +594,16 @@ msgid ""
 "digits. Changing any of these values will show an updated example in the "
 "<gui>Example</gui> section below."
 msgstr ""
-"Mostrar siempre las horas y los ceros principales: indica si se muestra un "
-"número fijo de dígitos. Al cambiar cualquiera de estos valores se mostrará "
-"un ejemplo actualizado en la sección <gui>Ejemplo</gui> de abajo."
+"Всегда показывать часы и предшествующие нули: всегда отображать "
+"фиксированное число цифр. Увидеть результат включения этой опции можно в "
+"разделе <gui>Примеры</gui> внизу окна."
 
 #. (itstool) path: item/p
 #: C/preferences.page:55
 msgid ""
 "Precision: Choose between full seconds, 10th seconds or 100th seconds."
 msgstr ""
-"Precisión: Elegir entre segundos completos, décimas o centésimas de segundo."
+"Точность: выбор между показом полных секунд, десятых и сотых долей секунды."
 
 #. (itstool) path: item/p
 #: C/preferences.page:56
@@ -611,8 +611,8 @@ msgid ""
 "Fraction separator: Choose between a point or a hyphen to separate fractions "
 "of a second."
 msgstr ""
-"Separador de fracciones: Elegir entre punto o guion para separar las "
-"fracciones de segundo."
+"Разделитель дроби: выбор между точкой и дефисом в качестве десятичного "
+"разделителя долей секунды."
 
 #. (itstool) path: item/p
 #: C/preferences.page:57
@@ -620,21 +620,20 @@ msgid ""
 "Characters around timestamps: Choose between number signs, round brackets, "
 "square brackets or none."
 msgstr ""
-"Caracteres alrededor de las marcas de tiempo: Elegir entre signos numéricos, "
-"llaves, corchetes o ninguno."
+"Символы возле меток времени: решётки (#), круглые скобки, квадратные скобки "
+"или никаких символов."
 
 #. (itstool) path: section/title
 #: C/preferences.page:62
 msgid "Preferences for speech recognition"
-msgstr "Preferencias de reconocimiento de voz"
+msgstr "Настройки распознавания речи"
 
 #. (itstool) path: note/p
 #: C/preferences.page:65
 msgid ""
 "This tab is only visible, if speech recognition is enabled in Parlatype."
 msgstr ""
-"Esta pestaña sólo es visible si el reconocimiento de voz está activado en "
-"Parlatype."
+"Эта вкладка видна только когда в Parlatype включено распознавание речи."
 
 #. (itstool) path: section/media
 #. This is a reference to an external file such as an image or video. When
@@ -658,10 +657,10 @@ msgid ""
 "downloading it. You can have as many language models as you need, they can "
 "be added with the <gui>+</gui> button."
 msgstr ""
-"Aquí puedes elegir qué modelo lingüístico usar. Si no tienes aún ningún "
-"modelo lingüístico, un asistente te guiará en el proceso de descargarlo. "
-"Puedes tener tantos modelos lingüísticos como necesites; se pueden añadir "
-"con el botón <gui>+</gui>."
+"Здесь вы можете выбрать, какую языковую модель следует использовать. Если у "
+"вас ещё нет языковой модели, помощник проведёт вас через процесс её "
+"загрузки. Можно загрузить любое нужное количество языковых моделей, они "
+"добавляются с помощью кнопки <gui>+</gui>."
 
 #. (itstool) path: section/p
 #: C/preferences.page:72
@@ -670,9 +669,9 @@ msgid ""
 "on the name, you can see the model’s basic parameters. You could even change "
 "them, but that’s not recommended."
 msgstr ""
-"Para seleccionar un modelo, haz clic en su botón de selección en la lista. "
-"Si haces clic solo en el nombre, verás los parámetros básicos del modelo. "
-"Podrías incluso cambiarlos, pero no es recomendable."
+"Чтобы выбрать модель, щёлкните на её радиокнопке в списке. При щелчке на её "
+"имени вы увидите базовые параметры модели. Вы даже можете изменить их, хотя "
+"это не рекомендуется."
 
 #. (itstool) path: section/p
 #: C/preferences.page:74
@@ -680,13 +679,13 @@ msgid ""
 "The <gui>-</gui> button removes a model from the list. The model’s files "
 "however are <em>not</em> deleted, just the model entry is removed."
 msgstr ""
-"El botón <gui>-</gui> elimina el modelo de la lista. Sin embargo, los "
-"archivos del modelo <em>no</em> se eliminan, sólo desaparece de la lista."
+"Кнопка <gui>-</gui> убирает модель из списка. Сами файлы модели <em>не</em> "
+"удаляются, удаляется лишь строка  из списка."
 
 #. (itstool) path: section/title
 #: C/preferences.page:80
 msgid "Preferences for the window"
-msgstr "Preferencias de ventana"
+msgstr "Настройки окна"
 
 #. (itstool) path: section/media
 #. This is a reference to an external file such as an image or video. When
@@ -708,8 +707,8 @@ msgid ""
 "Remember size: On start-up <app>Parlatype</app> sets the window size to the "
 "size it had the last time."
 msgstr ""
-"Recordar tamaño: Al iniciar, <app>Parlatype</app> ajusta el tamaño de la "
-"ventana al que tenía la última vez."
+"Запомнить размер: при следующем запуске <app>Parlatype</app> восстановит "
+"запомненный в прошлый раз размер окна."
 
 #. (itstool) path: item/p
 #: C/preferences.page:86
@@ -717,8 +716,8 @@ msgid ""
 "Remember position: On start-up <app>Parlatype</app> can position its window "
 "where you had it when you closed <app>Parlatype</app> last time."
 msgstr ""
-"Recordar posición: Al iniciar, <app>Parlatype</app> puede situar la ventana "
-"donde la tenías cuando cerraste <app>Parlatype</app> la última vez."
+"Запомнить позицию: при следующем запуске окно <app>Parlatype</app> будет "
+"размещено в том же месте экрана, где оно было закрыто в прошлый раз."
 
 #. (itstool) path: item/p
 #: C/preferences.page:87
@@ -727,9 +726,10 @@ msgid ""
 "windows. This might be useful if you are working with a maximized word "
 "processor and still want to see the <app>Parlatype</app> window."
 msgstr ""
-"Iniciar encima: Situará <app>Parlatype</app> encima del resto de ventanas al "
-"iniciar. Esto puede ser útil si estás trabajando en un procesador de textos "
-"maximizado y quieres seguir viendo la ventana de <app>Parlatype</app>."
+"Запускать поверх других окон: при следующем запуске окно "
+"<app>Parlatype</app> будет размещено поверх других окон. Это может быть "
+"полезно, если вы работаете с развёрнутым во весь экран окном текстового "
+"редактора и хотите одновременно видеть окно <app>Parlatype</app>."
 
 #. (itstool) path: note/p
 #: C/preferences.page:91
@@ -737,18 +737,18 @@ msgid ""
 "<gui>Remember position</gui> and <gui>Start on top</gui> are not available "
 "on Wayland."
 msgstr ""
-"<gui>Recordar posición</gui> e <gui>Iniciar encima</gui> no están "
-"disponibles en Wayland."
+"Опции <gui>Запомнить позицию</gui> и <gui>Запускать поверх других окон</gui> "
+"недоступны в Wayland."
 
 #. (itstool) path: info/desc
 #: C/selections.page:6
 msgid "How to play and repeat a selection"
-msgstr "Cómo reproducir y repetir una selección"
+msgstr "Как воспроизводить и повторять выделенное"
 
 #. (itstool) path: page/title
 #: C/selections.page:14
 msgid "Selections"
-msgstr "Selecciones"
+msgstr "Выделение"
 
 #. (itstool) path: page/p
 #: C/selections.page:16
@@ -757,10 +757,10 @@ msgid ""
 "<gui>Play</gui>, it will play the selection only. When it is finished and "
 "you press <gui>Play</gui> again, it will loop the selection once."
 msgstr ""
-"Puedes seleccionar una parte de la forma de onda con el ratón. La siguiente "
-"vez que pulses <gui>Reproducir</gui>, reproducirá solamente la selección. "
-"Cuando termine, si pulsas <gui>Reproducir</gui> de nuevo, repetirá la "
-"selección una vez más."
+"Вы можете выделить часть графика звука мышью. При следующем нажатии кнопки "
+"<gui>Пуск</gui> будет воспроизведена только выделенная часть. Когда "
+"воспроизведение завершится и вы нажмёте <gui>Пуск</gui> снова, выделение "
+"будет воспроизведено повторно."
 
 #. (itstool) path: note/p
 #: C/selections.page:18
@@ -768,8 +768,7 @@ msgid ""
 "When in selection mode, you can not exit the selection anymore until you "
 "deselect it."
 msgstr ""
-"Estando en modo de selección, no puedes salir de la selección a menos que la "
-"deselecciones."
+"Из режима воспроизведения выделенного можно выйти, только сняв выделение."
 
 #. (itstool) path: page/p
 #: C/selections.page:20
@@ -779,10 +778,10 @@ msgid ""
 "<key>Shift</key> key pressed, an already existing selection will be enlarged "
 "to that point."
 msgstr ""
-"Se pueden hacer selecciones con el ratón (o dispositivo de puntero) con el "
-"botón izquierdo del ratón, manteniendo el botón y arrastrando el puntero. Si "
-"pulsa mientras mantiene la tecla <key>Mayús</key> pulsada, se agrandará la "
-"sección existente hasta ese punto."
+"Чтобы сделать выделение, нажмите левую кнопку мыши, и перемещайте мышь, "
+"удерживая кнопку нажатой. Если вы щёлкнете левой кнопкой при нажатой клавише "
+"<key>Shift</key>, то уже существующее выделение будет расширено до того "
+"места, на котором выполнен щелчок."
 
 #. (itstool) path: page/p
 #: C/selections.page:22
@@ -790,23 +789,24 @@ msgid ""
 "To deselect click once with the left button into the waveform. If the "
 "waveform has keyboard focus, you can press <key>Escape</key>."
 msgstr ""
-"Para deseleccionar pulse una vez con el botón izquierdo en la forma de onda. "
-"Si la forma de onda está ligada al teclado, puede pulsar  <key>Escapar</key>."
+"Для снятия выделения щёлкните левой кнопкой в любом месте графика звука. "
+"Если фокус клавиатурного ввода находится в графике звука, то можно также "
+"нажать клавишу <key>Escape</key>."
 
 #. (itstool) path: info/desc
 #: C/timestamps.page:6
 msgid "Set and go to timestamps"
-msgstr "Establecer y desplazarse a marcas cronológicas"
+msgstr "Установка меток времени и переход к ним"
 
 #. (itstool) path: page/title
 #: C/timestamps.page:14
 msgid "Timestamps"
-msgstr "Marcas cronológicas"
+msgstr "Метки времени"
 
 #. (itstool) path: page/p
 #: C/timestamps.page:16
 msgid "Timestamps help you to navigate in your transcription."
-msgstr "Las marcas cronológicas le ayudar a navegar por la transcripción."
+msgstr "Метки времени помогают перемещаться по вашей транскрипции."
 
 #. (itstool) path: note/p
 #: C/timestamps.page:19
@@ -814,8 +814,8 @@ msgid ""
 "Timestamps can look like this: #03:45.2#. You can select them with or "
 "without the number signs."
 msgstr ""
-"Las marcas de tiempo tienen la forma: #03:45.2#. Puede seleccionarlas con o "
-"sin los signos numéricos."
+"Метки времени имеют вид наподобие: #03:45.2#. Вы можете выбрать формат меток "
+"с символами решётки или без них."
 
 #. (itstool) path: page/p
 #: C/timestamps.page:22
@@ -823,13 +823,13 @@ msgid ""
 "<app>Parlatype</app> can produce different timestamp formats, they can be "
 "set in <link xref=\"preferences#timestamps\"/>."
 msgstr ""
-"<app>Parlatype</app> puede producir diferentes formatos de marcas de tiempo, "
-"se pueden establecer en <link xref=\"preferences#timestamps\"/>."
+"<app>Parlatype</app> может создавать метки времени в нескольких форматах, "
+"нужный можно выбрать в  окне  <link xref=\"preferences#timestamps\"/>."
 
 #. (itstool) path: section/title
 #: C/timestamps.page:25
 msgid "Drag and drop"
-msgstr "Arrastrar y soltar"
+msgstr "Перетаскивание"
 
 #. (itstool) path: section/p
 #: C/timestamps.page:27
@@ -839,16 +839,15 @@ msgid ""
 "also possible the other way round: Drag the time label from "
 "<app>Parlatype</app> to a word processor and drop it there to insert it."
 msgstr ""
-"Si selecciona la marca de tiempo en el procesador de texto, puede arrastrar "
-"y soltar en la ventana de <app>Parlatype</app> e irá a esa posición. Esto "
-"también es posible de la manera opuesta: arrastrar la etiqueta de tiempo "
-"desde <app>Parlatype</app> a un procesador de texto y soltarla ahí para "
-"insertarla."
+"Выделенную в текстовом редакторе метку времени можно перетащить в окно "
+"<app>Parlatype</app>, и программа перейдёт к соответствующей позиции в "
+"аудиофайле. Можно сделать и наоборот: перетащить метку времени из "
+"<app>Parlatype</app> в текстовый редактор, чтобы вставить её туда."
 
 #. (itstool) path: section/title
 #: C/timestamps.page:31
 msgid "Using the clipboard"
-msgstr "Uso del portapapeles"
+msgstr "Использование буфера обмена"
 
 #. (itstool) path: section/p
 #: C/timestamps.page:33
@@ -856,8 +855,8 @@ msgid ""
 "Clicking on the menu button that is showing the current time you can "
 "<gui>Copy time to clipboard</gui> or <gui>Go to time in clipboard</gui>."
 msgstr ""
-"Al pulsar en el botón de menú que muestra el tiempo actual puede <gui>Copiar "
-"el tiempo al portapapeles</gui> o <gui>Ir al tiempo del portapapeles</gui>."
+"Щёлкнув на кнопке меню с временем, можно <gui>Копировать время в буфер "
+"обмена</gui> или <gui>Перейти к времени в буфере обмена</gui>."
 
 #. (itstool) path: section/p
 #: C/timestamps.page:35
@@ -868,11 +867,11 @@ msgid ""
 "to the clipboard. Changing to the word processor you can insert now the "
 "timestamp in your transcription."
 msgstr ""
-"Esto también se puede realizar mediante atajos de teclado. Primero asegúrese "
-"de que la ventana de <app>Parlatype</app> está activa. Usando la combinación "
-"de teclas <keyseq><key>Ctrl</key><key>c</key></keyseq> se copia la marca de "
-"tiempo actual al portapapeles. Si cambia al procesador de texto puede "
-"insertar la marca de tiempo en su transcripción."
+"Это можно сделать и с помощью комбинаций клавиш. Сначала убедитесь, что "
+"фокус ввода находится в окне <app>Parlatype</app> . Комбинация клавиш "
+"<keyseq><key>Ctrl</key><key>c</key></keyseq> копирует текущую метку времени "
+"в буфер обмена. Переключившись в текстовый редактор, вы сможете вставить "
+"скопированную метку в вашу транскрипцию."
 
 #. (itstool) path: section/p
 #: C/timestamps.page:36
@@ -881,23 +880,23 @@ msgid ""
 "the clipboard. Once you have changed focus to <app>Parlatype</app> press "
 "<keyseq><key>Ctrl</key><key>v</key></keyseq>."
 msgstr ""
-"Para ir a la posición de una marca de tiempo, copie la marca de tiempo en el "
-"procesador de texto al portapapeles. Después de cambiar la ventana activa a "
-"<app>Parlatype</app> presione <keyseq><key>Ctrl</key><key>v</key></keyseq>."
+"Для перехода к позиции, соответствующей метке времени, скопируйте метку из "
+"текстового редактора в буфер обмена. Переключившись в окно "
+"<app>Parlatype</app>, нажмите <keyseq><key>Ctrl</key><key>v</key></keyseq>."
 
 #. (itstool) path: info/desc
 #. Translators: This feature is disabled by default, its translation has
 #. low priority.
 #: C/asr.page:7
 msgid "Let Parlatype do part of the transcription work"
-msgstr "Dejar a Parlatype hacer parte del trabajo de transcripción"
+msgstr "Позвольте Parlatype выполнить часть работы по транскрибации"
 
 #. (itstool) path: page/title
 #. Translators: This feature is disabled by default, its translation has
 #. low priority.
 #: C/asr.page:15
 msgid "Automatic speech recognition"
-msgstr "Reconocimiento automático de voz"
+msgstr "Автоматическое распознавание речи"
 
 #. (itstool) path: page/p
 #. Translators: This feature is disabled by default, its translation has
@@ -909,6 +908,10 @@ msgid ""
 "transcription is far from being perfect, it will <em>always</em> need manual "
 "corrections."
 msgstr ""
+"<app>Parlatype</app> предоставляет возможность автоматического распознавания "
+"речи компьютером. При этом по сети не передаются никакие данные. Учтите, что "
+"автоматическая транскрибация пока ещё далека от совершенства, после неё "
+"<em>всегда</em> требуется корректировка вручную."
 
 #. (itstool) path: note/p
 #. Translators: This feature is disabled by default, its translation has
@@ -918,13 +921,15 @@ msgid ""
 "Automatic speech recognition is disabled by default. In order to try it, you "
 "have run <app>Parlatype</app> with this parameter:"
 msgstr ""
+"Автоматическое распознавание речи по умолчанию отключено. Чтобы попробовать "
+"её, запустите <app>Parlatype</app> со следующим параметром:"
 
 #. (itstool) path: section/title
 #. Translators: This feature is disabled by default, its translation has
 #. low priority.
 #: C/asr.page:23
 msgid "Start speech recognition"
-msgstr "Iniciar reconocimiento de voz"
+msgstr "Запуск распознавания речи"
 
 #. (itstool) path: section/p
 #. Translators: This feature is disabled by default, its translation has
@@ -938,6 +943,13 @@ msgid ""
 "support for accessibility should work, like <app>LibreOffice</app> or "
 "<app>Gedit</app>."
 msgstr ""
+"Откройте главное меню и выберите <gui>Автоматическая транскрибация</gui>. "
+"Если у вас ещё нет языковой модели, помощник сопроводит вас в этом процессе  "
+"(см. <link xref=\"asr-setup\"/>). В противном случае откроется диалоговое "
+"окно, которое попроси перевести фокус ввода в текстовый редактор. Должен "
+"подойти любой текстовый редактор с поддержкой специальных возможностей, "
+"например, текстовый процессор из <app>LibreOffice</app> или редактор "
+"<app>Gedit</app>."
 
 #. (itstool) path: section/p
 #. Translators: This feature is disabled by default, its translation has
@@ -948,6 +960,9 @@ msgid ""
 "fallback solution. To use that textpad start <app>Parlatype</app> with the "
 "textpad option: <cmd>parlatype --textpad</cmd>."
 msgstr ""
+"Если ни один из имеющихся у вас текстовых редакторов не подоходит, можете "
+"воспользоваться встроенным текстовым редактором. Для этого запустите "
+"<app>Parlatype</app> с параметром: <cmd>parlatype --textpad</cmd>."
 
 #. (itstool) path: section/p
 #. Translators: This feature is disabled by default, its translation has
@@ -959,6 +974,10 @@ msgid ""
 "dependent on your machine’s power and may be slower or faster than real-time "
 "speech."
 msgstr ""
+"Теперь нажмите <gui>Пуск</gui> в <app>Parlatype</app> и распознаваемая речь "
+"будет выводиться в окно редактора. Вывод беззвучен, так как скорость зависит "
+"от мощности компьютера и может быть медленнее или быстрее, чем речь в "
+"реальном времени."
 
 #. (itstool) path: section/p
 #. Translators: This feature is disabled by default, its translation has
@@ -968,6 +987,8 @@ msgid ""
 "Output is without punctuation or capitalization, you have to add or correct "
 "that yourself."
 msgstr ""
+"Вывод не содержит пунктуации и не учитывает регистра букв, вам придётся "
+"поправить всё это вручную."
 
 #. (itstool) path: note/p
 #. Translators: This feature is disabled by default, its translation has
@@ -981,20 +1002,26 @@ msgid ""
 "start will be faster than automatic transcription and the following "
 "correction process."
 msgstr ""
+"<em>Точность</em> зависит от многих факторов, таких как качество записи, "
+"фоновые шумы, акцент или особенности произношения говорящего, а также "
+"используемая речевая модель. Для типовой транскрибации можно ожидать "
+"содержание ошибок в диапазоне от 10 до 50 %. К сожалению, это означает, что "
+"в некоторых случаях транскрибирование полностью вручную окажется быстрее, "
+"чем автоматическое с последующей коррекцией ошибок."
 
 #. (itstool) path: info/desc
 #. Translators: This feature is disabled by default, its translation has
 #. low priority.
 #: C/asr-setup.page:7
 msgid "Setup automatic speech transcription"
-msgstr ""
+msgstr "Настройка автоматического транскрибирования речи"
 
 #. (itstool) path: page/title
 #. Translators: This feature is disabled by default, its translation has
 #. low priority.
 #: C/asr-setup.page:15
 msgid "Setup automatic speech recognition"
-msgstr "Configurar el reconocimiento de voz automático"
+msgstr "Настройка автоматического распознавания речи"
 
 #. (itstool) path: page/p
 #. Translators: This feature is disabled by default, its translation has
@@ -1005,6 +1032,9 @@ msgid ""
 "recognition. You will have to download it. There is an assistant that guides "
 "you through that process."
 msgstr ""
+"<app>Parlatype</app> не поставляется с языковыми моделями, необходимыми для "
+"распознавания речи. Вам нужно будет загрузить их. В программе имеется "
+"помощник, который проведёт вас через этот процесс."
 
 #. (itstool) path: page/p
 #. Translators: This feature is disabled by default, its translation has
@@ -1015,6 +1045,10 @@ msgid ""
 "<gui>Speech recognition</gui> or – if you have no setup yet – from the "
 "primary menu, <gui>Automatic transcription</gui>."
 msgstr ""
+"Помощник запускается либо из диалогового окна настроек (вкладка "
+"<gui>Распознавание речи</gui>), либо – если вы ещё не настраивали "
+"распознавание – из главного меню, пункт <gui>Автоматическое "
+"транскрибирование</gui>."
 
 #. (itstool) path: page/p
 #. Translators: This feature is disabled by default, its translation has
@@ -1028,6 +1062,12 @@ msgid ""
 "uage%20Models/\">CMU Sphinx’ sourceforge repository</link>. It has models "
 "for some of the most widespread languages."
 msgstr ""
+"Он попросит загрузить речевую модель. В качестве движка распознавания речи "
+"используется CMU Sphinx. Подходящие для CMU Sphinx можно загрузить, "
+"например, из <link "
+"href=\"https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Lang"
+"uage%20Models/\">sourceforge-репозитория CMU Sphinx</link>. Там содержатся "
+"модели для большинства основных языков."
 
 #. (itstool) path: page/p
 #. Translators: This feature is disabled by default, its translation has
@@ -1037,8 +1077,8 @@ msgid ""
 "If it’s compressed, uncompress the model. Save it to a folder where it can "
 "stay. Parlatype doesn’t copy the model internally."
 msgstr ""
-"Si está comprimido, descomprima el modelo. Guárdelo en una carpeta donde "
-"pueda permanecer. Parlatype no copia el modelo internamente."
+"Если модель сжата, распакуйте её. Сохраните её в нужную папку. Parlatype не "
+"копирует модели самостоятельно."
 
 #. (itstool) path: page/p
 #. Translators: This feature is disabled by default, its translation has
@@ -1049,6 +1089,9 @@ msgid ""
 "give this configuration a name for your own reference. You can have several "
 "configurations, e.g. for different languages."
 msgstr ""
+"Обычно помощник находит все нужные файлы, и вам останется лишь дать имя этой "
+"конфигурации для собственного удобства. Можно создать несколько "
+"конфигураций, например, для нескольких языков."
 
 #. (itstool) path: page/p
 #. Translators: This feature is disabled by default, its translation has
@@ -1059,13 +1102,16 @@ msgid ""
 "expected, it will ask you to specify their location or to choose between "
 "them. The next sections explains those components."
 msgstr ""
+"Если помощник не найдёт все компоненты или найдёт больше ожидаемого, он "
+"попросит указать их местоположение или выбрать нужные из имеющихся. В "
+"следующем разделе описываются эти компоненты."
 
 #. (itstool) path: section/title
 #. Translators: This feature is disabled by default, its translation has
 #. low priority.
 #: C/asr-setup.page:30
 msgid "Models"
-msgstr "Modelos"
+msgstr "Модели"
 
 #. (itstool) path: section/p
 #. Translators: This feature is disabled by default, its translation has
@@ -1074,13 +1120,14 @@ msgstr "Modelos"
 msgid ""
 "A model consists of a so called acoustic and language model and a dictionary:"
 msgstr ""
+"Модель состоит из так называемых акустической и языковой модели и словаря:"
 
 #. (itstool) path: item/title
 #. Translators: This feature is disabled by default, its translation has
 #. low priority.
 #: C/asr-setup.page:36
 msgid "Acoustic model"
-msgstr "Modelo acústico"
+msgstr "Акустическая модель"
 
 #. (itstool) path: item/p
 #. Translators: This feature is disabled by default, its translation has
@@ -1091,13 +1138,16 @@ msgid ""
 "<file>feat.params</file>, <file>mdef</file>, <file>means</file> and some "
 "others."
 msgstr ""
+"Она состоит из нескольких файлов, обычно в их собственной папке: "
+"<file>feat.params</file>, <file>mdef</file>, <file>means</file> и некоторые "
+"другие."
 
 #. (itstool) path: item/title
 #. Translators: This feature is disabled by default, its translation has
 #. low priority.
 #: C/asr-setup.page:40
 msgid "Language model"
-msgstr "Modelo lingüístico"
+msgstr "Языковая модель"
 
 #. (itstool) path: item/p
 #. Translators: This feature is disabled by default, its translation has
@@ -1111,13 +1161,19 @@ msgid ""
 "rate of 8000 Hz. Those language models have often <file>phone</file>, "
 "<file>8k</file> or similar as part of their file name."
 msgstr ""
+"<app>Parlatype</app> требуется двоичная языковая модель. Это один файл с "
+"расширением <file>.lm.bin</file>. Модели могут иметь несколько языковых "
+"моделей. Зачастую одна для высококачественных записей и одна для "
+"низкокачественных. Типичные записи низкого качества — с телефона с частотой "
+"дискретизации 8000 Гц. Эти языковые модели часто содержат в имени файла "
+"<file>phone</file>, <file>8k</file> или что-то подобное."
 
 #. (itstool) path: item/title
 #. Translators: This feature is disabled by default, its translation has
 #. low priority.
 #: C/asr-setup.page:44
 msgid "Dictionary"
-msgstr "Diccionario"
+msgstr "Словарь"
 
 #. (itstool) path: item/p
 #. Translators: This feature is disabled by default, its translation has
@@ -1125,8 +1181,7 @@ msgstr "Diccionario"
 #: C/asr-setup.page:45
 msgid ""
 "Dictionaries have the extension <file>.dict</file> or <file>.dic</file>."
-msgstr ""
-"Los diccionarios tienen la extensión <file>.dict</file> o <file>.dic</file>."
+msgstr "Словари имеют расширение <file>.dict</file> или <file>.dic</file>."
 
 #. (itstool) path: section/p
 #. Translators: This feature is disabled by default, its translation has
@@ -1136,16 +1191,18 @@ msgid ""
 "All those elements should be somewhere in the folder selected. It doesn’t "
 "matter whether there are subfolders or how they are named."
 msgstr ""
+"Все эти элементы должны находиться где-то в отдельной папке. Не имеет "
+"значения, есть ли в ней вложенные папки, и как они называются."
 
 #. (itstool) path: info/desc
 #: C/media-keys.page:6
 msgid "How to control Parlatype with media keys"
-msgstr "Cómo controlar Parlatype con las teclas multimedia"
+msgstr "Как управлять Parlatype с помощью медиаклавиш"
 
 #. (itstool) path: page/title
 #: C/media-keys.page:14
 msgid "Media keys"
-msgstr "Teclas multimedia"
+msgstr "Мультимедийные клавиши"
 
 #. (itstool) path: page/p
 #: C/media-keys.page:16
@@ -1155,10 +1212,10 @@ msgid ""
 "players and they are working even if the media player is not in focus or in "
 "the background."
 msgstr ""
-"Las funciones básicas de <app>Parlatype</app> se pueden controlar con las "
-"llamadas <em>teclas multimedia</em>. Las teclas multimedia se usan en todo "
-"el sistema para controlar los reproductores multimedia y funcionan incluso "
-"aunque el reproductor no esté en foco o en el fondo."
+"Основными функциями <app>Parlatype</app> можно управлять с помощью так "
+"называемых <em>мультимедийных клавиш</em>. Это общесистемные клавиши для "
+"управления мультимедийными проигрывателями, которые работают даже если окно "
+"медиапроигрывателя не имеет фокуса или он работает в фоновом режиме."
 
 #. (itstool) path: page/p
 #: C/media-keys.page:18
@@ -1166,9 +1223,9 @@ msgid ""
 "You can change the media keys in GNOME settings. You can use dedicated keys "
 "from a multimedia keyboard or use any other key or combination of keys."
 msgstr ""
-"Es posible modificar las teclas multimedia en la configuración de GNOME. "
-"Puede emplear las teclas especializadas de un teclado multimedia, o bien, "
-"utilizar cualquier otra tecla o combinación de teclas."
+"Вы можете изменить мультимедийные клавиши в настройках GNOME. Можно "
+"использовать в их качестве специальные клавиши на мультимедийных "
+"клавиатурах, либо назначить какие-то другие клавиши или комбинации клавиш."
 
 #. (itstool) path: note/p
 #: C/media-keys.page:21
@@ -1176,13 +1233,13 @@ msgid ""
 "This will affect other media players, e.g. <app>Totem</app> or "
 "<app>Rhythmbox</app>, as well."
 msgstr ""
-"Ello también afectará otros reproductores de multimedia, como "
-"<app>Totem</app> o <app>Rhythmbox</app>."
+"Это изменение повлияет также на другие медиапроигрыватели, например "
+"<app>Totem</app> или <app>Rhythmbox</app>."
 
 #. (itstool) path: page/p
 #: C/media-keys.page:24
 msgid "<app>Parlatype</app> listens to these key strokes:"
-msgstr "<app>Parlatype</app> reacciona a estas teclas:"
+msgstr "<app>Parlatype</app> реагирует на следующие типы клавиш:"
 
 #. (itstool) path: item/p
 #: C/media-keys.page:26
@@ -1190,8 +1247,8 @@ msgid ""
 "<key>Play</key>, <key>Pause</key>, <key>Stop</key>: Each of these keys "
 "toggles between playing and pause."
 msgstr ""
-"<key>Reproducir</key>, <key>Pausar</key>, <key>Detener</key>: Cada una de "
-"estas teclas alterna entre la reproducción y la pausa."
+"<key>Play</key>, <key>Pause</key>, <key>Stop</key>: каждая из них "
+"переключает между воспроизведением и паузой."
 
 #. (itstool) path: item/p
 #: C/media-keys.page:27
@@ -1199,8 +1256,8 @@ msgid ""
 "<key>Rewind</key>, <key>Previous</key>: Each of these keys will jump back "
 "the time you selected in Preferences."
 msgstr ""
-"<key>Rebobinar</key>, <key>Anterior</key>: Cada una de estas teclas saltará "
-"hacia atrás el tiempo que hayas seleccionado en Preferencias."
+"<key>Rewind</key>, <key>Previous</key>: каждая из этих клавиш перематывает "
+"на назад на количество секунд, заданное в настройках."
 
 #. (itstool) path: item/p
 #: C/media-keys.page:28
@@ -1208,8 +1265,8 @@ msgid ""
 "<key>Fast Forward</key>, <key>Next</key>: Each of these keys will jump ahead "
 "the time you selected in Preferences."
 msgstr ""
-"<key>Avanzar</key>, <key>Siguiente</key>: Cada una de estas teclas saltará "
-"hacia adelante el tiempo que hayas seleccionado en Preferencias."
+"<key>Fast Forward</key>, <key>Next</key>: каждая из этих клавиш перематывает "
+"вперёд на количество секунд, заданное в настройках."
 
 #. (itstool) path: note/p
 #: C/media-keys.page:32
@@ -1218,9 +1275,9 @@ msgid ""
 "<link href=\"help:gnome-help/keyboard-shortcuts-set\">official "
 "documentation</link>."
 msgstr ""
-"Para obtener instrucciones detalladas sobre cómo modificar los atajos de "
-"teclado de GNOME, consulte la <link href=\"help:gnome-help/keyboard-"
-"shortcuts-set\">documentación oficial</link>."
+"За подробными инструкциями по изменению комбинаций клавиш в GNOME обратитесь "
+"к <link href=\"help:gnome-help/keyboard-shortcuts-set\">официальной "
+"документации</link>."
 
 #. (itstool) path: page/p
 #: C/media-keys.page:35
@@ -1229,6 +1286,7 @@ msgid ""
 "foot pedal signals to any of the keys. This is not well tested, however. Any "
 "feedback regarding foot pedals is welcome."
 msgstr ""
-"Si estás usando un pedal dedicado, debería ser posible mapear las señales "
-"del pedal a cualquiera de esas teclas. Sin embargo, esto no se ha probado "
-"exhaustivamente. Cualquier feedback sobre el uso de pedales será bienvenido."
+"Если вы используете специальную ножную педаль, она должна уметь "
+"преобразовывать сигналы педали в нажатия клавиш. Это пока не очень хорошо "
+"оттестировано. Приветствуются любые сообщения о проблемах, касающихся ножных "
+"педалей."

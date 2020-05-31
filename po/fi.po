@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-08 11:33+0200\n"
-"PO-Revision-Date: 2020-03-09 16:27+0000\n"
-"Last-Translator: Gabor Karsay <gabor.karsay@gmx.at>\n"
+"PO-Revision-Date: 2020-05-08 16:21+0000\n"
+"Last-Translator: Jiri Grönroos <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2020-05-08 11:32+0000\n"
-"X-Generator: Launchpad (build fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398)\n"
+"X-Launchpad-Export-Date: 2020-05-31 16:44+0000\n"
+"X-Generator: Launchpad (build 275d46a24253e557e4403d52832837e4bfa425b6)\n"
 "Language: fi\n"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:7
@@ -27,7 +27,7 @@ msgstr "Parlatype"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:8
 msgid "Media player for speech transcription"
-msgstr ""
+msgstr "Mediatoistin puheen transkriptioon"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:11
 msgid ""
@@ -39,7 +39,7 @@ msgstr ""
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:25
 msgid "Gabor Karsay"
-msgstr ""
+msgstr "Gabor Karsay"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:46
 msgid "This is a minor release with bug fixes and minor new features."
@@ -63,12 +63,12 @@ msgstr ""
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:51
 msgid "Translation updates for several languages."
-msgstr ""
+msgstr "Kielikäännösten päivityksiä useiden kielten osalta."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:58
 msgid "This is a major release with new features."
-msgstr ""
+msgstr "Tämä on merkittävä julkaisu uusien ominaisuuksien kera."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:61
@@ -83,7 +83,7 @@ msgstr ""
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:70
 msgid "This is a minor release."
-msgstr ""
+msgstr "Tämä on pieni julkaisu."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:73
@@ -100,7 +100,7 @@ msgstr ""
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:82
 msgid "This is a minor release with some changes."
-msgstr ""
+msgstr "Tämä on pieni julkaisu joidenkin muutosten kera."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:85
@@ -139,7 +139,7 @@ msgstr ""
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:103
 msgid "Custom timestamps"
-msgstr ""
+msgstr "Mukautetut aikaleimat"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:105
@@ -217,15 +217,15 @@ msgstr "Transkriptio;"
 
 #: data/org.parlatype.Parlatype.desktop.in:8
 msgid "org.parlatype.Parlatype"
-msgstr ""
+msgstr "org.parlatype.Parlatype"
 
 #: src/pt-app.c:62
 msgid "Show the application’s version"
-msgstr ""
+msgstr "Näytä sovelluksen versio"
 
 #: src/pt-app.c:71
 msgid "Enable automatic speech recognition"
-msgstr ""
+msgstr "Käytä automaattista puheentunnistusta"
 
 #: src/pt-app.c:79
 msgid "Use internal textpad for automatic speech recognition"
@@ -287,22 +287,22 @@ msgstr ""
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:196
 msgid "The folder contains no acoustic model."
-msgstr ""
+msgstr "Tämä kansio ei sisällä akustista mallia."
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:303
 msgid "Please select …"
-msgstr ""
+msgstr "Valitse…"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:342
 msgid "Missing parameters"
-msgstr ""
+msgstr "Parametreja puuttuu"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:396
 msgid "Timed out"
-msgstr ""
+msgstr "Aikakatkaisu"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:398
@@ -319,12 +319,12 @@ msgstr ""
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:418
 msgid "Nothing found"
-msgstr ""
+msgstr "Mitään ei löytynyt"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:420
 msgid "This folder doesn’t contain a suitable model."
-msgstr ""
+msgstr "Tämä kansio ei sisällä soveltuvaa mallia."
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:471
@@ -332,11 +332,13 @@ msgid ""
 "The folder contains no language model. Please choose a language model from "
 "another folder."
 msgstr ""
+"Tämä kansio ei sisällä kielimallia. Valitse kielimalli jostain toisesta "
+"kansiosta."
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:480
 msgid "The folder contains several language models."
-msgstr ""
+msgstr "Tämä kansio sisältää useita kielimalleja."
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:491
@@ -344,11 +346,12 @@ msgid ""
 "The folder contains no dictionary. Please choose a dictionary from another "
 "folder."
 msgstr ""
+"Tämä kansio ei sisällä sanastoa. Valitse sanasto jostain toisesta kansiosta."
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:500
 msgid "The folder contains several dictionaries."
-msgstr ""
+msgstr "Tämä kansio sisältää useita sanastoja."
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:510
@@ -356,21 +359,23 @@ msgid ""
 "The folder contains no acoustic model. Please choose an acoustic model from "
 "another folder."
 msgstr ""
+"Tämä kansio ei sisällä akustista mallia. Valitse akustinen malli jostain "
+"toisesta kansiosta."
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:519
 msgid "The folder contains several acoustic models."
-msgstr ""
+msgstr "Tämä kansio sisältää useita akustisia malleja."
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:637
 msgid "Download model"
-msgstr ""
+msgstr "Lataa malli"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:645
 msgid "Finish configuration"
-msgstr ""
+msgstr "Viimeistele määritys"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-output.c:210
@@ -405,28 +410,29 @@ msgstr[1] "sekuntia"
 
 #: src/pt-preferences.c:258
 msgid "Deleting configuration"
-msgstr ""
+msgstr "Poistetaan määritys"
 
 #: src/pt-preferences.c:259
 #, c-format
 msgid "Do you really want to delete “%s”?"
-msgstr ""
+msgstr "Poistetaanko “%s”?"
 
 #: src/pt-window.c:217
 #, c-format
 msgid "Found %s"
-msgstr ""
+msgstr "Löytyi %s"
 
 #: src/pt-window.c:218
 msgid "Press “Play” to start automatic speech recognition."
 msgstr ""
+"Paina toistopainiketta aloittaaksesi automaattisen puheentunnistuksen."
 
 #: src/pt-window.c:430
 #, c-format
 msgid "Jump back 1 second"
 msgid_plural "Jump back %d seconds"
-msgstr[0] "Siirry takaisinpäin 1 sekunti"
-msgstr[1] "Siirry takaisinpäin %d sekuntia"
+msgstr[0] "Siirry taaksepäin 1 sekunti"
+msgstr[1] "Siirry taaksepäin %d sekuntia"
 
 #: src/pt-window.c:447
 #, c-format
@@ -443,8 +449,8 @@ msgstr "Keskeytä"
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Keskeytä ja siirry taaksepäin 1 sekunti"
+msgstr[1] "Keskeytä ja siirry taaksepäin %d sekuntia"
 
 #: src/pt-window.c:476
 msgid "Start playing"
@@ -453,11 +459,11 @@ msgstr "Aloita toistaminen"
 #: src/pt-window.c:512
 #, c-format
 msgid "Go to time in clipboard: %s"
-msgstr ""
+msgstr "Siirry leikepöydällä olevaan aikaan: %s"
 
 #: src/pt-window.c:514 src/pt-window.c:1334
 msgid "Go to time in clipboard"
-msgstr ""
+msgstr "Siirry leikepöydällä olevaan aikaan"
 
 #: src/pt-window.c:1195
 #, c-format
@@ -503,40 +509,40 @@ msgstr ""
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:96
 msgid "Language model"
-msgstr ""
+msgstr "Kielimalli"
 
 #: src/resources/asr-assistant.ui:125
 msgid "Select language model"
-msgstr ""
+msgstr "Valitse kielimalli"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:157
 msgid "Dictionary"
-msgstr ""
+msgstr "Sanasto"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:186
 msgid "Select dictionary"
-msgstr ""
+msgstr "Valitse sanasto"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:218
 msgid "Acoustic model"
-msgstr ""
+msgstr "Akustinen malli"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:248
 msgid "Select acoustic model folder"
-msgstr ""
+msgstr "Valitse akustisen mallin kansio"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:285
 msgid "Setup is completed. Please give this configuration a name:"
-msgstr ""
+msgstr "Asetukset ovat valmiit. Anna tälle määritykselle nimi:"
 
 #: src/resources/goto-dialog.ui:13 src/resources/menus.ui:46
 msgid "Go to…"
-msgstr ""
+msgstr "Siirry…"
 
 #: src/resources/goto-dialog.ui:40
 msgid "_OK"
@@ -612,11 +618,11 @@ msgstr "Näytä pikanäppäimet"
 
 #: src/resources/menus.ui:7
 msgid "Manual transcription"
-msgstr ""
+msgstr "Manuaalinen transkriptio"
 
 #: src/resources/menus.ui:12
 msgid "Automatic transcription"
-msgstr ""
+msgstr "Automaattinen transkriptio"
 
 #: src/resources/menus.ui:19
 msgid "Preferences"
@@ -628,52 +634,52 @@ msgstr "_Pikanäppäimet"
 
 #: src/resources/menus.ui:31
 msgid "About Parlatype"
-msgstr ""
+msgstr "Tietoja - Parlatype"
 
 #: src/resources/menus.ui:38
 msgid "Copy time to clipboard"
-msgstr ""
+msgstr "Kopioi aika leikepöydälle"
 
 #: src/resources/menus.ui:42
 msgid "Go to cursor"
-msgstr ""
+msgstr "Siirry kohdistimeen"
 
 #. This refers to: "Characters around timestamps"
 #: src/resources/preferences.ui:42
 msgid "None"
-msgstr ""
+msgstr "Ei mitään"
 
 #: src/resources/preferences.ui:46
 msgid "#Number signs#"
-msgstr ""
+msgstr "#Numeromerkit#"
 
 #: src/resources/preferences.ui:50
 msgid "(Round brackets)"
-msgstr ""
+msgstr "(Kaarisulut)"
 
 #: src/resources/preferences.ui:54
 msgid "[Square brackets]"
-msgstr ""
+msgstr "[Hakasulut]"
 
 #: src/resources/preferences.ui:68
 msgid ". (point)"
-msgstr ""
+msgstr ". (piste)"
 
 #: src/resources/preferences.ui:72
 msgid "- (hyphen)"
-msgstr ""
+msgstr "- (tavuviiva)"
 
 #: src/resources/preferences.ui:86
 msgid "Full seconds"
-msgstr ""
+msgstr "Täydet sekunnit"
 
 #: src/resources/preferences.ui:90
 msgid "10th seconds"
-msgstr ""
+msgstr "Kymmenesosasekunnit"
 
 #: src/resources/preferences.ui:94
 msgid "100th seconds"
-msgstr ""
+msgstr "Sadasosasekunnit"
 
 #: src/resources/preferences.ui:102
 msgid "Parlatype Preferences"
@@ -707,7 +713,7 @@ msgstr "_Kiinteä kursori"
 
 #: src/resources/preferences.ui:288
 msgid "Jumps"
-msgstr ""
+msgstr "Hypyt"
 
 #: src/resources/preferences.ui:390
 msgid "Jump _forward:"
@@ -719,23 +725,23 @@ msgstr "Siirry t_aaksepäin:"
 
 #: src/resources/preferences.ui:418
 msgid "Jump back on _pause:"
-msgstr ""
+msgstr "Siirry taaksepäin _keskeytyksessä:"
 
 #: src/resources/preferences.ui:441
 msgid "Pressing “Play” at the end of file"
-msgstr ""
+msgstr "Toistopainikkeen painaminen tiedoston lopuksi"
 
 #: src/resources/preferences.ui:455
 msgid "Replay file"
-msgstr ""
+msgstr "Toista tiedosto uudelleen"
 
 #: src/resources/preferences.ui:474
 msgid "Pressing “Play” at the end of selection"
-msgstr ""
+msgstr "Toistopainikkeen painaminen valinnan lopuksi"
 
 #: src/resources/preferences.ui:488
 msgid "Replay selection"
-msgstr ""
+msgstr "Toista valinta uudelleen"
 
 #: src/resources/preferences.ui:510
 msgid "Controls"
@@ -743,65 +749,65 @@ msgstr "Säätimet"
 
 #: src/resources/preferences.ui:553
 msgid "Hours and zeroes"
-msgstr ""
+msgstr "Tunnit ja nollat"
 
 #: src/resources/preferences.ui:566
 msgid "Always show hours and leading zeroes"
-msgstr ""
+msgstr "Näytä aina tunnit ja etunollat"
 
 #: src/resources/preferences.ui:584
 msgid "Precision"
-msgstr ""
+msgstr "Tarkkuus"
 
 #: src/resources/preferences.ui:600
 msgid "Characters around timestamps"
-msgstr ""
+msgstr "Merkit aikaleimojen ympärillä"
 
 #: src/resources/preferences.ui:616
 msgid "Examples"
-msgstr ""
+msgstr "Esimerkit"
 
 #: src/resources/preferences.ui:658
 msgid "Precision:"
-msgstr ""
+msgstr "Tarkkuus:"
 
 #: src/resources/preferences.ui:690
 msgid "Fraction separator:"
-msgstr ""
+msgstr "Murto-osan erotin:"
 
 #: src/resources/preferences.ui:733
 msgid "Timestamps"
-msgstr ""
+msgstr "Aikaleimat"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/preferences.ui:864
 msgid "Language model:"
-msgstr ""
+msgstr "Kielimalli:"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/preferences.ui:891
 msgid "Dictionary:"
-msgstr ""
+msgstr "Sanasto:"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/preferences.ui:918
 msgid "Acoustic model folder:"
-msgstr ""
+msgstr "Akustisen mallin kansio:"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/preferences.ui:966
 msgid "There is no configuration"
-msgstr ""
+msgstr "Ei määrityksiä"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/preferences.ui:976
 msgid "Add a configuration"
-msgstr ""
+msgstr "Lisää määritys"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/preferences.ui:1005
 msgid "Speech recognition"
-msgstr ""
+msgstr "Puheentunnistus"
 
 #: src/resources/preferences.ui:1023
 msgid "Remember _size"

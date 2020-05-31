@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
 "POT-Creation-Date: 2020-05-08 11:32+0200\n"
-"PO-Revision-Date: 2017-04-18 19:09+0000\n"
-"Last-Translator: Luca Ciavatta <luca.ciavatta@gmail.com>\n"
+"PO-Revision-Date: 2020-05-15 08:27+0000\n"
+"Last-Translator: Marco Ciampa <ciampix@posteo.net>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2020-05-08 11:32+0000\n"
-"X-Generator: Launchpad (build fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398)\n"
+"X-Launchpad-Export-Date: 2020-05-31 16:44+0000\n"
+"X-Generator: Launchpad (build 275d46a24253e557e4403d52832837e4bfa425b6)\n"
 "Language: it\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
@@ -23,7 +23,8 @@ msgctxt "_"
 msgid "translator-credits"
 msgstr ""
 "Launchpad Contributions:\n"
-"  Luca Ciavatta https://launchpad.net/~cialu"
+"  Luca Ciavatta https://launchpad.net/~cialu\n"
+"  Marco Ciampa https://launchpad.net/~ciampix"
 
 #. (itstool) path: info/title
 #: C/index.page:7
@@ -106,6 +107,8 @@ msgid ""
 "Files: Drag and drop a file from a file manager, e.g. <app>Files</app>, on "
 "<app>Parlatype</app> and it will open that file."
 msgstr ""
+"File: trascina e rilascia un file da un file manager, cioè <app>File</app>, "
+"su <app>Parlatype</app> e lui aprirà quel file."
 
 #. (itstool) path: item/p
 #: C/drag-and-drop.page:20

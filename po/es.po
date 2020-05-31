@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-08 11:33+0200\n"
-"PO-Revision-Date: 2020-03-09 16:27+0000\n"
-"Last-Translator: Gabor Karsay <gabor.karsay@gmx.at>\n"
+"PO-Revision-Date: 2020-05-09 17:13+0000\n"
+"Last-Translator: Rodrigo Lledó <rodhos92@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2020-05-08 11:32+0000\n"
-"X-Generator: Launchpad (build fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398)\n"
+"X-Launchpad-Export-Date: 2020-05-31 16:44+0000\n"
+"X-Generator: Launchpad (build 275d46a24253e557e4403d52832837e4bfa425b6)\n"
 "Language: es\n"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:7
@@ -44,31 +44,37 @@ msgstr "Gabor Karsay"
 #: data/org.parlatype.Parlatype.appdata.xml.in:46
 msgid "This is a minor release with bug fixes and minor new features."
 msgstr ""
+"Esta es una versión menor con correcciones de errores y características "
+"menores nuevas."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:48
 msgid ""
 "Mute/unmute volume by clicking on the volume icon with the pointer’s "
 "secondary button (usually right mouse button)."
 msgstr ""
+"Silenciar/activar el volumen pulsando el icono de volumen con el botón "
+"secundario del puntero (generalmente el botón derecho del ratón)."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:49
 msgid ""
 "With Pulseaudio Parlatype doesn’t change the system volume anymore, just its "
 "own application specific volume."
 msgstr ""
+"Con Pulseaudio Parlatype ya no cambia el volumen del sistema, solo su propio "
+"volumen específico de la aplicación."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:50
 msgid "The initial volume level is picked up from Pulseaudio."
-msgstr ""
+msgstr "El nivel de volumen inicial se obtiene de Pulseaudio."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:51
 msgid "Translation updates for several languages."
-msgstr ""
+msgstr "Actualizaciones de traducción para varios idiomas."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:58
 msgid "This is a major release with new features."
-msgstr ""
+msgstr "Este es un lanzamiento mayor con características nuevas."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:61
@@ -83,7 +89,7 @@ msgstr ""
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:70
 msgid "This is a minor release."
-msgstr ""
+msgstr "Este es un lanzamiento menor."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:73
@@ -277,6 +283,7 @@ msgstr ""
 "  Adolfo Jayme https://launchpad.net/~fitojb\n"
 "  Gabor Karsay https://launchpad.net/~gabor-karsay\n"
 "  Jorge Toledo https://launchpad.net/~eldelacajita\n"
+"  Rodrigo Lledó https://launchpad.net/~rodhos-hp\n"
 "  VPablo https://launchpad.net/~villumar"
 
 #: src/pt-app.c:371

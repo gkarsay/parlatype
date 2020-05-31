@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2020-05-08 11:32+0200\n"
-"PO-Revision-Date: 2020-05-02 14:03+0000\n"
+"PO-Revision-Date: 2020-05-16 15:26+0000\n"
 "Last-Translator: Jean-Marc <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2020-05-08 11:32+0000\n"
-"X-Generator: Launchpad (build fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398)\n"
+"X-Launchpad-Export-Date: 2020-05-31 16:44+0000\n"
+"X-Generator: Launchpad (build 275d46a24253e557e4403d52832837e4bfa425b6)\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -376,7 +376,7 @@ msgstr "<keyseq><key>Ctrl</key><key>v</key></keyseq>"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:60
 msgid "Zoom in"
-msgstr "Zoom avant"
+msgstr "Agrandir"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:61
@@ -386,7 +386,7 @@ msgstr "<keyseq><key>Ctrl</key><key>+</key></keyseq>"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:64
 msgid "Zoom out"
-msgstr "Zoom arrière"
+msgstr "Réduire"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:65
@@ -533,6 +533,9 @@ msgid ""
 "to repeat the file at the end. If not, it will replay a few seconds like on "
 "pause."
 msgstr ""
+"Appuyer sur <gui>Lecture</gui> à la fin du fichier - Relire le fichier : si "
+"vous souhaitez répéter le fichier à la fin. Sinon, il sera relu quelques "
+"secondes comme en pause."
 
 #. (itstool) path: item/p
 #: C/preferences.page:42
@@ -541,6 +544,9 @@ msgid ""
 "you want to repeat the selection. If not, it will replay a few seconds like "
 "on pause."
 msgstr ""
+"Appuyer sur <gui>Lecture</gui> à la fin de la sélection - Relire la "
+"sélection : si vous souhaitez répéter la sélection à la fin. Sinon, elle "
+"sera relue quelques secondes comme en pause."
 
 #. (itstool) path: section/title
 #: C/preferences.page:47
