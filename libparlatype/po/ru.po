@@ -16,6 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2020-05-31 16:44+0000\n"
 "X-Generator: Launchpad (build 275d46a24253e557e4403d52832837e4bfa425b6)\n"
+"Language: ru\n"
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to

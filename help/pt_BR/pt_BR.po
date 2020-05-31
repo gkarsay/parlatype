@@ -16,6 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2020-05-31 16:44+0000\n"
 "X-Generator: Launchpad (build 275d46a24253e557e4403d52832837e4bfa425b6)\n"
+"Language: pt_BR\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
