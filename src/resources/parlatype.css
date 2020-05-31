@@ -20,5 +20,5 @@ progressbar > trough {
 
 progressbar > trough.full > progress {
 	background-color: transparent;
-	border: 0
+	border: 0;
 }
