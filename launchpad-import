@@ -5,18 +5,16 @@
 
 IMPORT_FILE=launchpad-export.tar.gz
 TEMP_DIR=launchpad-temp
-SCRIPT=./launchpad-import
 
 echo "Maintenance script to import translations from Launchpad."
 echo "Download from https://translations.launchpad.net/parlatype/trunk/+export"
 echo "and save as $IMPORT_FILE into this folder."
 echo
 
-if [ "$0" != "$SCRIPT" ]
-then
-	echo "Script must be run from Parlatype root folder – quitting now."
+cd `dirname "$0"` || {
+	echo "Error: Could not change to script dir"
 	exit 1
-fi
+}
 
 # Test for import file
 if [ ! -e "$IMPORT_FILE" ]

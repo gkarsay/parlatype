@@ -5,13 +5,11 @@
 
 LP_EXPORT_FILE=launchpad-upload.tar.gz
 LP_EXPORT_DIR=launchpad-temp
-SCRIPT=./launchpad-export
 
-if [ "$0" != "$SCRIPT" ]
-then
-	echo "Script must be run from Parlatype root folder – quitting now."
+cd `dirname "$0"` || {
+	echo "Error: Could not change to script dir"
 	exit 1
-fi
+}
 
 mkdir $LP_EXPORT_DIR 2>&- || {
 	echo "Remove folder $LP_EXPORT_DIR first – quitting now."	
