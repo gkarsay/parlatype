@@ -8,7 +8,7 @@ The following instructions are for developers, contributors and those who want t
 
 ### Dependencies
 
-Parlatype switched its build system to Meson. To build it from source, you need these packages:
+To build Parlatype from source you need these packages:
 * meson >= 0.47.2 (older versions not tested)
 * gettext >= 0.19.7
 * gobject-introspection-1.0
