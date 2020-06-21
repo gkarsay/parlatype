@@ -72,8 +72,7 @@ function install_deps {
         mingw-w64-"${ARCH}"-shared-mime-info \
         mingw-w64-"${ARCH}"-ncurses \
         mingw-w64-"${ARCH}"-tk \
-        mingw-w64-"${ARCH}"-tcl \
-        mingw-w64-"${ARCH}"-gsl
+        mingw-w64-"${ARCH}"-tcl
 }
 
 function cleanup_before {
@@ -96,9 +95,12 @@ function install_parlatype {
     rm -Rf "${REPO_CLONE}"
     git clone "${DIR}"/../.. "${REPO_CLONE}"
 
-    (cd "${REPO_CLONE}" && git checkout "$1") || exit 1
-    (cd "${REPO_CLONE}" && meson build -Dasr=false)
-    (cd "${REPO_CLONE}"/build && ninja && ninja install)
+    cd "${REPO_CLONE}"
+    git checkout "$1"
+    meson build -Dasr=false
+    cd build; ninja; ninja install
+    meson test
+    cd "${DIR}"
 
     "${MINGW_ROOT}"/bin/gtk-update-icon-cache-3.0.exe \
         "${MINGW_ROOT}"/share/icons/hicolor
@@ -122,13 +124,11 @@ function cleanup_after {
         fi
     done
 
-    build_pacman --noconfirm -Rs \
+    build_pacman --noconfirm -Rdds \
         mingw-w64-"${ARCH}"-yelp-tools \
         mingw-w64-"${ARCH}"-pkg-config \
         mingw-w64-"${ARCH}"-gcc \
-        mingw-w64-"${ARCH}"-meson
-
-    build_pacman --noconfirm -Rdds \
+        mingw-w64-"${ARCH}"-meson \
         mingw-w64-"${ARCH}"-python
 
     find "${MINGW_ROOT}" -regextype "posix-extended" -name "*.exe" -a ! \
