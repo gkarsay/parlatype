@@ -1,24 +1,24 @@
-Overview of Changes in Parlatype 2.1 – 2020-05-XX
+Overview of Changes in Parlatype 2.1 – 2020-06-21
 =================================================
 
-* New: Mute/unmute volume by clicking on the volume icon with the pointer's
+* New: Mute/unmute volume by clicking on the volume icon with the pointer’s
        secondary button (usually right mouse button).
-* New: With Pulseaudio Parlatype doesn't change the system volume anymore,
+* New: With Pulseaudio Parlatype doesn’t change the system volume anymore,
        just its own application specific volume.
 * New: With Pulseaudio Parlatype picks up the last used volume level.
 * New: Volume icon/button is insensitive as long as there is no media loaded.
-* New: Don't reopen already opened files.
-* New: Set a default window height and in Preferences default to "Remember
-       window's size".
+* New: Don’t reopen already opened files.
+* New: Set a default window height and in Preferences default to “Remember
+       window’s size”.
 * Fix: ASR assistant dialog could not be used at all, a regression introduced
        in version 2.0. However, ASR is not recommended in its current state
-       and plans are to rewrite it in the near future.
+       and plans are to rewrite it.
 * Fix: D-Bus interface for decreasing speed was doing the opposite.
 * Fix: Many fixes to Windows (win32) port, achieving feature parity with the
        Linux/UNIX version:
        - Fix: Parlatype icon not loaded
        - Fix: Help pages not displayed
-       - Fix: Don't show mediakeys help page (Linux only)
+       - Fix: Don’t show mediakeys help page (Linux only)
        - Fix: Volume changes delayed for a few seconds
        - New: Ensure there is only one instance running.
        - New: Added hotkeys support (hardcoded for dedicated keyboard buttons
@@ -26,12 +26,21 @@ Overview of Changes in Parlatype 2.1 – 2020-05-XX
        - New: Added win32 specific interprocess communication, thus enabling
               the LibreOffice extension
 * New or updated translations:
-  ### UPDATE AFTER LAST TRANSLATION IMPORT ###
+  - ca:    VPablo
   - de:    Stephan Woidowski
+  - en_AU: Jared Norris
   - en_GB: Stephan Woidowski
+  - es:    Rodrigo Lledó
+  - fi:    Jiri Grönroos
+  - fr:    Jean-Marc
   - id:    Ari Setyo Wibowo
   - it:    Albano Battistella
+           Marco Ciampa
+  - ja:    Shinichirou Yamada
   - pl:    Piotr Drąg
+  - pt_BR: ThiagoRyuuga
+           Celio Alves
+  - ru:    Aleksey Kabanov
 
 
 Overview of Changes in Parlatype 2.0 – 2020-03-19
@@ -44,7 +53,7 @@ Overview of Changes in Parlatype 2.0 – 2020-03-19
        homepage moved to https://www.parlatype.org.
 * New: LibreOffice helpers (macros) have been split from the main repository
        and turned into a LibreOffice extension.
-* New: New D-Bus method GetURI to get currently playing file's URI.
+* New: New D-Bus method GetURI to get currently playing file’s URI.
 * New: Internal modularization (PtController objects control Parlatype).
 * New: Event handling is more compatible with GTK 4.
 * New: Parlatype builds on Windows, there is no feature parity though.
@@ -130,8 +139,8 @@ Overview of Changes in Parlatype 1.5.5 – 2018-06-16
   - Ctrl + arrow-left: jump back
   - Ctrl + arrow-right: jump forward
 * New: Increase max. possible speed to 2.0, fix #33
-* New: "Insert timestamp" only active if there is a valid timestamp
-* Various fixes of waveform and cursor display after changing waveform's resolution, switching text direction (for right-to-left languages), and selections in right-to-left layouts
+* New: “Insert timestamp” only active if there is a valid timestamp
+* Various fixes of waveform and cursor display after changing waveform’s resolution, switching text direction (for right-to-left languages), and selections in right-to-left layouts
 * Fix compilation on hurd-i386 and kfreebsd-*
 * New or updated translations:
   - ar: Ahmed Shubbar
@@ -173,8 +182,8 @@ Overview of Changes in Parlatype 1.5.2 – 2017-08-10
 
 * Fix #12: Waveform not displayed on KDE/Plasma desktop 
 * Fix #15: Pitch changes with GStreamer 1.2 
-* Fix #7: Don't show options that are not available on Wayland 
-* In GNOME help, showing the complete list of help documents, Parlatype's
+* Fix #7: Don’t show options that are not available on Wayland
+* In GNOME help, showing the complete list of help documents, Parlatype’s
   icon is shown again. This was a regression introduced with version 1.5.1.
 * Changed icon for action menu to GNOME default icon
 * New: Added a symbolic icon, shown in GNOME shell (with GTK+ 3.16 or later)
@@ -194,7 +203,7 @@ Overview of Changes in Parlatype 1.5.1 – 2017-07-08
 * Fix: Several regressions that appeared in GTK+ 3.20 and 3.22
 * Fix #10: Fixed/improved volume control
 * Fix: Several memory leaks
-* Fix: Regression: didn't jump to cursor on opening file
+* Fix: Regression: didn’t jump to cursor on opening file
 * Fix: Some artifacts in waveform rendering
 * Fix: Rendering waveform if widget changes size (no blank space)
 * New: Reacts immediately to theme changes
@@ -225,8 +234,8 @@ Overview of Changes in Parlatype 1.5 – 2017-03-14
 * New: Waveviewer or cursor can be focused and moved (keyboard)
 * New: Waveviewer supports right-to-left languages
 * New: Use a menubar if preferred by desktop environment (e.g. Unitiy, Xfce)
-* New: "Follow-cursor" button jumps to cursor position
-* New: Time label can be drag'n'dropped
+* New: “Follow-cursor” button jumps to cursor position
+* New: Time label can be drag’n’dropped
 * Updated help pages, screenshots and documentation
 * Translation updates:
  British English
@@ -263,7 +272,7 @@ Overview of Changes in Parlatype 1.4 – 2016-10-29
 Overview of Changes in Parlatype 1.3 – 2016-09-04
 =================================================
 
-* Fix: Don't rewind at end of stream like at pause
+* Fix: Don’t rewind at end of stream like at pause
 * New: Display waveform. This feature is using code from Buzztrax.
 * New: Show progress while loading waveform
 * Translation updates:
@@ -284,7 +293,7 @@ Overview of Changes in Parlatype 1.1 – 2016-07-29
 =================================================
 
 * New: Help system
-* New: Drag'n'Drop support
+* New: Drag’n’Drop support
 * New: Goto dialog
 * New: LibreOffice macros (calling DBUS service)
 * New preferences/settings: Window always on top
