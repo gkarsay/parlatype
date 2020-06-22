@@ -554,8 +554,6 @@ pt_window_ready_to_play (PtWindow *win,
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (win->priv->button_play), FALSE);
 
 	gtk_widget_set_sensitive (win->priv->button_play, state);
-	gtk_widget_set_sensitive (win->priv->button_fast_back, state);
-	gtk_widget_set_sensitive (win->priv->button_fast_forward, state);
 	gtk_widget_set_sensitive (win->priv->button_jump_back, state);
 	gtk_widget_set_sensitive (win->priv->button_jump_forward, state);
 	gtk_widget_set_sensitive (win->priv->speed_scale, state);
@@ -746,55 +744,23 @@ jump_forward_button_clicked_cb (GtkButton *button,
 	pt_player_jump_forward (win->player);
 }
 
-/* currently not used */
-static gboolean
-fast_back_button_pressed_cb (GtkButton *button,
-                             GdkEvent  *event,
-                             PtWindow  *win)
+#ifdef HAVE_ASR
+static void
+player_asr_final_cb (PtPlayer *player,
+                     gchar    *word,
+                     PtWindow *win)
 {
-	pt_player_rewind (win->player, 2.0);
-	return FALSE;
+	pt_asr_output_final (win->priv->output, word);
 }
 
-/* currently not used */
-static gboolean
-fast_back_button_released_cb (GtkButton *button,
-                              GdkEvent  *event,
-                              PtWindow  *win)
+static void
+player_asr_hypothesis_cb (PtPlayer *player,
+                          gchar    *word,
+                          PtWindow *win)
 {
-	pt_player_set_speed (win->player, win->priv->speed);
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->priv->button_play))) {
-		pt_player_play (win->player);
-	} else {
-		pt_player_pause (win->player);
-	}
-	return FALSE;
+	pt_asr_output_hypothesis (win->priv->output, word);
 }
-
-/* currently not used */
-static gboolean
-fast_forward_button_pressed_cb (GtkButton *button,
-                                GdkEvent  *event,
-                                PtWindow  *win)
-{
-	pt_player_fast_forward (win->player, 2.0);
-	return FALSE;
-}
-
-/* currently not used */
-static gboolean
-fast_forward_button_released_cb (GtkButton *button,
-                                 GdkEvent  *event,
-                                 PtWindow  *win)
-{
-	pt_player_set_speed (win->player, win->priv->speed);
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->priv->button_play))) {
-		pt_player_play (win->player);
-	} else {
-		pt_player_pause (win->player);
-	}
-	return FALSE;
-}
+#endif
 
 static void
 speed_scale_direction_changed_cb (GtkWidget        *widget,
@@ -1387,10 +1353,6 @@ pt_window_class_init (PtWindowClass *klass)
 
 	gobject_class->dispose      = pt_window_dispose;
 	gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/parlatype/window.ui");
-	gtk_widget_class_bind_template_callback(widget_class, fast_back_button_pressed_cb);
-	gtk_widget_class_bind_template_callback(widget_class, fast_back_button_released_cb);
-	gtk_widget_class_bind_template_callback(widget_class, fast_forward_button_pressed_cb);
-	gtk_widget_class_bind_template_callback(widget_class, fast_forward_button_released_cb);
 	gtk_widget_class_bind_template_callback(widget_class, jump_back_button_clicked_cb);
 	gtk_widget_class_bind_template_callback(widget_class, jump_back_direction_changed_cb);
 	gtk_widget_class_bind_template_callback(widget_class, jump_forward_button_clicked_cb);
@@ -1401,8 +1363,6 @@ pt_window_class_init (PtWindowClass *klass)
 	gtk_widget_class_bind_template_callback(widget_class, zoom_out_cb);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, progress);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_play);
-	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_fast_back);	// not used
-	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_fast_forward);	// not used
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_jump_back);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_jump_forward);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, volumebutton);

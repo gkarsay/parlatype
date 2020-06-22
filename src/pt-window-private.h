@@ -44,8 +44,6 @@ struct _PtWindowPrivate
 	/* Main window widgets */
 	GtkWidget  *progress;
 	GtkWidget  *button_play;
-	GtkWidget  *button_fast_back;	  // not used
-	GtkWidget  *button_fast_forward;  // not used
 	GtkWidget  *button_jump_back;
 	GtkWidget  *button_jump_forward;
 	GtkWidget  *volumebutton;
