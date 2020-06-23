@@ -1148,7 +1148,7 @@ setup_volume (PtWindow *win)
 }
 
 static void
-setup_accels_actions_headerbar (PtWindow *win)
+setup_accels_actions_menus (PtWindow *win)
 {
 	/* Actions */	
 	g_action_map_add_action_entries (G_ACTION_MAP (win),
@@ -1158,18 +1158,9 @@ setup_accels_actions_headerbar (PtWindow *win)
 
 	enable_win_actions (win, FALSE);
 
-	/* GtkHeader workaround for glade 3.16 + Menu button */
+	/* Setup menus */
 	GtkBuilder    *builder;
-	GtkWidget     *hbar;
 	GMenuModel    *primary_menu;
-
-	builder = gtk_builder_new_from_resource ("/org/parlatype/parlatype/window-headerbar.ui");
-	hbar = GTK_WIDGET (gtk_builder_get_object (builder, "headerbar"));
-	win->priv->button_open = GTK_WIDGET (gtk_builder_get_object (builder, "button_open"));
-	win->priv->primary_menu_button = GTK_WIDGET (gtk_builder_get_object (builder, "primary_menu_button"));
-	gtk_window_set_titlebar (GTK_WINDOW (win), hbar);
-	gtk_builder_connect_signals (builder, win);
-	g_object_unref (builder);
 
 	builder = gtk_builder_new_from_resource ("/org/parlatype/parlatype/menus.ui");
 	primary_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "primary-menu"));
@@ -1241,7 +1232,7 @@ pt_window_init (PtWindow *win)
 
 	setup_player (win);
 	setup_settings (win);
-	setup_accels_actions_headerbar (win);
+	setup_accels_actions_menus (win);
 	setup_volume (win);
 	pt_window_setup_dnd (win);	/* this is in pt_window_dnd.c */
 #ifdef HAVE_ASR
@@ -1327,6 +1318,8 @@ pt_window_class_init (PtWindowClass *klass)
 	gtk_widget_class_bind_template_callback(widget_class, speed_scale_direction_changed_cb);
 	gtk_widget_class_bind_template_callback(widget_class, zoom_in_cb);
 	gtk_widget_class_bind_template_callback(widget_class, zoom_out_cb);
+	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, primary_menu_button);
+	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_open);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, progress);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_play);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_jump_back);
