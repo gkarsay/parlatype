@@ -707,34 +707,10 @@ player_end_of_stream_cb (PtPlayer *player,
 }
 
 static void
-player_jumped_back_cb (PtPlayer *player,
-                       PtWindow *win)
-{
-	GtkButton *button;
-	button = GTK_BUTTON (win->priv->button_jump_back);
-	g_signal_handlers_block_by_func (button, jump_back_button_clicked_cb, win);
-	gtk_button_clicked (button);
-	g_signal_handlers_unblock_by_func (button, jump_back_button_clicked_cb, win);
-}
-
-static void
 jump_back_button_clicked_cb (GtkButton *button,
                              PtWindow  *win)
 {
-	g_signal_handlers_block_by_func (win->player, player_jumped_back_cb, win);
 	pt_player_jump_back (win->player);
-	g_signal_handlers_unblock_by_func (win->player, player_jumped_back_cb, win);
-}
-
-static void
-player_jumped_forward_cb (PtPlayer *player,
-                          PtWindow *win)
-{
-	GtkButton *button;
-	button = GTK_BUTTON (win->priv->button_jump_forward);
-	g_signal_handlers_block_by_func (button, jump_forward_button_clicked_cb, win);
-	gtk_button_clicked (button);
-	g_signal_handlers_unblock_by_func (button, jump_forward_button_clicked_cb, win);
 }
 
 static void
@@ -1110,16 +1086,6 @@ setup_player (PtWindow *win)
 	g_signal_connect (win->player,
 			"play-toggled",
 			G_CALLBACK (player_play_toggled_cb),
-			win);
-
-	g_signal_connect (win->player,
-			"jumped-back",
-			G_CALLBACK (player_jumped_back_cb),
-			win);
-
-	g_signal_connect (win->player,
-			"jumped-forward",
-			G_CALLBACK (player_jumped_forward_cb),
 			win);
 
 	GtkAdjustment *speed_adjustment;
