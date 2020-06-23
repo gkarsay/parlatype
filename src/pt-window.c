@@ -1181,14 +1181,6 @@ setup_accels_actions_menus (PtWindow *win)
 	win->priv->accels = gtk_accel_group_new ();
 	gtk_window_add_accel_group (GTK_WINDOW (win), win->priv->accels);
 	
-	gtk_widget_add_accelerator (
-			win->priv->primary_menu_button,
-			"clicked",
-			win->priv->accels,
-			GDK_KEY_F10,
-			0,
-			GTK_ACCEL_VISIBLE);
-
 	guint jump_back, jump_forward;
 	if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_LTR) {
 		jump_back = GDK_KEY_Left;
