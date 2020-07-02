@@ -74,6 +74,8 @@ struct _PtWaveviewerPrivate {
 	gboolean         focus_on_cursor;
 
 	/* Subwidgets */
+	GtkWidget  *box;
+	GtkWidget  *overlay;
 	GtkWidget  *waveform;
 	GtkWidget  *revealer;
 	GtkWidget  *ruler;
@@ -1376,7 +1378,8 @@ pt_waveviewer_init (PtWaveviewer *self)
 {
 	self->priv = pt_waveviewer_get_instance_private (self);
 
-	GtkWidget       *box, *overlay;
+	gtk_widget_init_template (GTK_WIDGET (self));
+
 	GtkCssProvider  *provider;
 	GFile		*css_file;
 
@@ -1395,7 +1398,6 @@ pt_waveviewer_init (PtWaveviewer *self)
 	self->priv->cursor = pt_waveviewer_cursor_new ();
 	self->priv->selection = pt_waveviewer_selection_new ();
 	self->priv->ruler = pt_waveviewer_ruler_new ();
-	self->priv->revealer = gtk_revealer_new ();
 	self->priv->loader = pt_waveloader_new (NULL);
 	self->priv->peaks = pt_waveloader_get_data (self->priv->loader);
 	self->priv->tick_handler = 0;
@@ -1405,28 +1407,11 @@ pt_waveviewer_init (PtWaveviewer *self)
 			self->priv->peaks);
 
 	/* Setup scrolled window */
-	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-	overlay = gtk_overlay_new ();
-	gtk_revealer_set_transition_type (GTK_REVEALER (self->priv->revealer),
-					  GTK_REVEALER_TRANSITION_TYPE_SLIDE_UP);
-	gtk_revealer_set_transition_duration (GTK_REVEALER (self->priv->revealer), 200);
-	gtk_container_add (GTK_CONTAINER (overlay), self->priv->waveform);
-	gtk_overlay_add_overlay (GTK_OVERLAY (overlay), self->priv->selection);
-	gtk_overlay_add_overlay (GTK_OVERLAY (overlay), self->priv->cursor);
-	gtk_overlay_add_overlay (GTK_OVERLAY (overlay), self->priv->focus);
-	gtk_container_add (GTK_CONTAINER (box), overlay);
-	gtk_widget_set_vexpand (overlay, TRUE);
+	gtk_container_add (GTK_CONTAINER (self->priv->overlay), self->priv->waveform);
+	gtk_overlay_add_overlay (GTK_OVERLAY (self->priv->overlay), self->priv->selection);
+	gtk_overlay_add_overlay (GTK_OVERLAY (self->priv->overlay), self->priv->cursor);
+	gtk_overlay_add_overlay (GTK_OVERLAY (self->priv->overlay), self->priv->focus);
 	gtk_container_add (GTK_CONTAINER (self->priv->revealer), self->priv->ruler);
-	gtk_container_add (GTK_CONTAINER (box), self->priv->revealer);
-	gtk_container_add (GTK_CONTAINER (self), box);
-	gtk_scrolled_window_set_policy (
-			GTK_SCROLLED_WINDOW (self),
-			GTK_POLICY_ALWAYS,
-			GTK_POLICY_NEVER);
-	gtk_scrolled_window_set_shadow_type (
-			GTK_SCROLLED_WINDOW (self),
-			GTK_SHADOW_IN);
-	gtk_scrolled_window_set_overlay_scrolling (GTK_SCROLLED_WINDOW (self), FALSE);
 	gtk_widget_show_all (GTK_WIDGET (self));
 
 	css_file = g_file_new_for_uri ("resource:///org/parlatype/libparlatype/pt-waveviewer.css");
@@ -1447,7 +1432,7 @@ pt_waveviewer_init (PtWaveviewer *self)
 			self);
 
 	/* Setup event handling */
-	self->priv->button = gtk_gesture_multi_press_new (box);
+	self->priv->button = gtk_gesture_multi_press_new (self->priv->box);
 	gtk_gesture_single_set_exclusive (GTK_GESTURE_SINGLE (self->priv->button), TRUE);
 	gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (self->priv->button), 0);
 	gtk_event_controller_set_propagation_phase (GTK_EVENT_CONTROLLER (self->priv->button), GTK_PHASE_CAPTURE);
@@ -1463,7 +1448,7 @@ pt_waveviewer_init (PtWaveviewer *self)
 			self);
 
 #if GTK_CHECK_VERSION(3,24,0)
-	self->priv->motion_ctrl = gtk_event_controller_motion_new (box);
+	self->priv->motion_ctrl = gtk_event_controller_motion_new (self->priv->box);
 	g_signal_connect (
 			self->priv->motion_ctrl,
 			"motion",
@@ -1511,6 +1496,11 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 	widget_class->scroll_event         = pt_waveviewer_scroll_event;
 	widget_class->state_flags_changed  = pt_waveviewer_state_flags_changed;
 	widget_class->style_updated        = pt_waveviewer_style_updated;
+
+	gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/libparlatype/pt-waveviewer.ui");
+	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, revealer);
+	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, overlay);
+	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, box);
 
 	/**
 	* PtWaveviewer::load-progress:
