@@ -54,7 +54,7 @@ pt_error_message (PtWindow    *parent,
 		                "%s", secondary_message);
 
 	g_signal_connect_swapped (dialog, "response",
-			          G_CALLBACK (gtk_widget_destroy), dialog);
+			          G_CALLBACK (gtk_window_destroy), dialog);
 
 	gtk_widget_show (dialog);
 }
@@ -114,7 +114,7 @@ goto_dialog_response_cb (GtkDialog *dlg,
 		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
 	}
 
-	gtk_widget_destroy (GTK_WIDGET (dlg));
+	gtk_window_destroy (GTK_WINDOW (dlg));
 }
 
 

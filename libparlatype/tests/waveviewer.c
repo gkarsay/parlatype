@@ -89,7 +89,7 @@ waveviewer_empty (void)
 	pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (testviewer), FALSE);
 	g_assert_false (pt_waveviewer_get_follow_cursor (PT_WAVEVIEWER (testviewer)));
 
-	gtk_widget_destroy (testviewer);
+	g_object_unref (testviewer);
 }
 
 static void
@@ -131,7 +131,7 @@ waveviewer_loaded (void)
 	g_object_unref (testfile);
 	free_sync_data (data);
 	g_object_unref (player);
-	gtk_widget_destroy (window);
+	gtk_window_destroy (GTK_WINDOW (window));
 }
 
 int

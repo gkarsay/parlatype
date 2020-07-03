@@ -359,6 +359,13 @@ pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, label_example2);
 }
 
+static void
+prefs_destroy_cb (GtkWidget *widget,
+		  gpointer   user_data)
+{
+	preferences_dialog = NULL;
+}
+
 void
 pt_show_preferences_dialog (GtkWindow *parent)
 {
@@ -369,8 +376,8 @@ pt_show_preferences_dialog (GtkWindow *parent)
 				NULL));
 		g_signal_connect (preferences_dialog,
 				  "destroy",
-				  G_CALLBACK (gtk_widget_destroyed),
-				  &preferences_dialog);
+				  G_CALLBACK (prefs_destroy_cb),
+				  NULL);
 	}
 
 	if (parent != gtk_window_get_transient_for (GTK_WINDOW (preferences_dialog))) {
