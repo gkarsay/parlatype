@@ -720,24 +720,6 @@ jump_forward_button_clicked_cb (GtkButton *button,
 	pt_player_jump_forward (win->player);
 }
 
-#ifdef HAVE_ASR
-static void
-player_asr_final_cb (PtPlayer *player,
-                     gchar    *word,
-                     PtWindow *win)
-{
-	pt_asr_output_final (win->priv->output, word);
-}
-
-static void
-player_asr_hypothesis_cb (PtPlayer *player,
-                          gchar    *word,
-                          PtWindow *win)
-{
-	pt_asr_output_hypothesis (win->priv->output, word);
-}
-#endif
-
 static void
 speed_scale_direction_changed_cb (GtkWidget        *widget,
                                   GtkTextDirection  previous_direction,
