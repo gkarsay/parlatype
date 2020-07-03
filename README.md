@@ -16,7 +16,6 @@ To build Parlatype from source you need these packages:
 * gtk+-3.0 >= 3.22
 * gstreamer-1.0 >= 1.6.3
 * gstreamer-plugins-base-1.0
-* atspi-2
 * sphinxbase
 * pocketsphinx
 
@@ -45,7 +44,7 @@ $ su -c 'dnf install meson gcc gobject-introspection-devel glade-devel gtk-doc y
 
 Parlatype ships its own library, libparlatype. Developers might be interested in having a library documentation, gobject introspection and a glade catalog for the widgets. These are the configure options:
 
-* `asr`: build with automatic speech recognition, requires sphinxbase, pocketsphinx and atspi-2 (default: true)
+* `asr`: build with automatic speech recognition, requires sphinxbase and pocketsphinx (default: true)
 * `gir`: install gobject introspection (default: false)
 * `gtk-doc`: install library documentation (default: false)
 * `glade`: install a glade catalog (default: false)
