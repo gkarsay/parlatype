@@ -75,6 +75,26 @@ static GOptionEntry options[] =
 };
 
 static void
+open_dialog_response_cb (GtkDialog *dialog,
+			 gint       response_id,
+			 gpointer   user_data)
+{
+	PtWindow *win = PT_WINDOW (user_data);
+	gchar    *uri = NULL;
+
+	if (response_id == GTK_RESPONSE_ACCEPT) {
+		uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (dialog));
+	}
+
+	if (uri) {
+		pt_window_open_file (PT_WINDOW (win), uri);
+		g_free (uri);
+	}
+
+	g_object_unref (dialog);
+}
+
+static void
 open_cb (GSimpleAction *action,
          GVariant      *parameter,
          gpointer       app)
@@ -86,7 +106,6 @@ open_cb (GSimpleAction *action,
 	GFile	      *current, *dir;
 	GtkFileFilter *filter_audio;
 	GtkFileFilter *filter_all;
-	gchar         *uri = NULL;
 
 	win = gtk_application_get_active_window (app);
 	dialog = gtk_file_chooser_native_new (
@@ -125,17 +144,10 @@ open_cb (GSimpleAction *action,
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter_all);
 	gtk_file_chooser_set_filter (GTK_FILE_CHOOSER (dialog), filter_audio);
 
-	if (gtk_native_dialog_run (GTK_NATIVE_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
-		uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (dialog));
-	}
+	g_signal_connect (dialog, "response", G_CALLBACK (open_dialog_response_cb), win);
+	gtk_native_dialog_show (GTK_NATIVE_DIALOG (dialog));
 
 	g_object_unref (dir);
-	g_object_unref (dialog);
-
-	if (uri) {
-		pt_window_open_file (PT_WINDOW (win), uri);
-		g_free (uri);
-	}
 }
 
 static void
