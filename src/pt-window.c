@@ -1043,14 +1043,26 @@ setup_player (PtWindow *win)
 
 	win->player = pt_player_new ();
 	if (!pt_player_setup_player (win->player, &error)) {
-		gchar *secondary_message = g_strdup_printf (
-			_("Parlatype needs GStreamer 1.x to run. Please check your installation of "
-                        "GStreamer and make sure you have the “Good Plugins” installed.\n"
-                        "Parlatype will quit now, it received this error message: %s"), error->message);
-		pt_error_message (win, _("Fatal error"), secondary_message);
+		GtkWidget *dialog;
+		dialog = gtk_message_dialog_new (
+				GTK_WINDOW (win),
+				GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+				GTK_MESSAGE_ERROR,
+				GTK_BUTTONS_OK,
+				_("Fatal error"));
+
+		gtk_message_dialog_format_secondary_text (
+				GTK_MESSAGE_DIALOG (dialog),
+				_("Parlatype needs GStreamer 1.x to run. Please check your installation of "
+				"GStreamer and make sure you have the “Good Plugins” installed.\n"
+				"Parlatype will quit now, it received this error message: %s"), error->message);
+
 		g_clear_error (&error);
-		g_free (secondary_message);
-		exit (2);
+		g_signal_connect_swapped (dialog, "response",
+				G_CALLBACK (exit), GINT_TO_POINTER(2));
+
+		gtk_widget_show_all (dialog);
+		return;
 	}
 
 	pt_player_connect_waveviewer (
