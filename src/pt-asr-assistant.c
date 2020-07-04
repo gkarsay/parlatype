@@ -267,9 +267,9 @@ error_message (PtAsrAssistant *self,
                const gchar    *message,
                const gchar    *secondary_message)
 {
-        GtkWidget *dialog;
+	GtkWidget *dialog;
 
-        dialog = gtk_message_dialog_new (
+	dialog = gtk_message_dialog_new (
 			GTK_WINDOW (self),
 			GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 			GTK_MESSAGE_ERROR,
@@ -279,10 +279,12 @@ error_message (PtAsrAssistant *self,
 	if (secondary_message)
 		gtk_message_dialog_format_secondary_text (
 				GTK_MESSAGE_DIALOG (dialog),
-		                "%s", secondary_message);
+				"%s", secondary_message);
 
-        gtk_dialog_run (GTK_DIALOG (dialog));
-        gtk_widget_destroy (dialog);
+	g_signal_connect_swapped (dialog, "response",
+	                          G_CALLBACK (gtk_widget_destroy), dialog);
+
+	gtk_widget_show_all (dialog);
 }
 
 static void
