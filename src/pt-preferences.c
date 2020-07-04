@@ -244,32 +244,52 @@ initial_asr_button_clicked_cb (GtkButton           *button,
 	launch_asr_assistant (dlg);
 }
 
-gboolean
-confirm_delete (GtkWindow *parent,
-                gchar     *name)
+static void
+remove_confirm_cb (GtkDialog *dialog,
+                   gint       response_id,
+                   gpointer   user_data)
 {
-	g_assert_nonnull (name);
+	PtPreferencesDialog *prefs = PT_PREFERENCES_DIALOG (user_data);
+	GtkTreeSelection *sel;
+	GtkTreeIter       iter;
+	gboolean          active;
+	gboolean          last;
+	gchar            *id;
 
-	GtkWidget       *dialog;
-	gchar		*message;
-	gchar		*secondary_message;
-	gint		 response;
+	gtk_widget_destroy (GTK_WIDGET (dialog));
 
-	message = _("Deleting configuration");
-	secondary_message = g_strdup_printf (_("Do you really want to delete “%s”?"), name);
-	dialog = gtk_message_dialog_new (parent,
-                                   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-                                   GTK_MESSAGE_QUESTION,
-                                   GTK_BUTTONS_YES_NO,
-                                   "%s", message);
+	if (response_id != GTK_RESPONSE_YES)
+		return;
 
-	gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog), "%s", secondary_message);
-	response = gtk_dialog_run (GTK_DIALOG (dialog));
+	sel = gtk_tree_view_get_selection (GTK_TREE_VIEW (prefs->priv->asr_view));
+	if (!gtk_tree_selection_get_selected (sel, NULL, &iter))
+		return;
 
-	gtk_widget_destroy (dialog);
-	g_free (secondary_message);
+	gtk_tree_model_get (
+			GTK_TREE_MODEL (prefs->priv->asr_store), &iter,
+			0, &active, 1, &id, -1);
 
-	return (response == GTK_RESPONSE_YES);
+	gtk_list_store_remove (prefs->priv->asr_store, &iter);
+	pt_asr_settings_remove_config (prefs->priv->asr_settings, id);
+
+	last = !gtk_tree_model_get_iter_first (GTK_TREE_MODEL (prefs->priv->asr_store), &iter);
+	if (last) {
+		gtk_widget_hide (prefs->priv->asr_ready_box);
+		gtk_widget_show (prefs->priv->asr_initial_box);
+		g_settings_set_string (prefs->priv->editor, "asr-config", "none");
+	} else {
+		gtk_tree_selection_select_iter (sel, &iter);
+		if (active) {
+			g_free (id);
+			gtk_tree_model_get (
+					GTK_TREE_MODEL (prefs->priv->asr_store),
+					&iter, 1, &id, -1);
+			g_settings_set_string (prefs->priv->editor, "asr-config", id);
+			gtk_list_store_set (prefs->priv->asr_store, &iter, 0, TRUE, -1);
+		}
+	}
+
+	g_free (id);
 }
 
 static void
@@ -278,43 +298,32 @@ remove_asr_button_clicked_cb (GtkToolButton       *button,
 {
 	GtkTreeSelection *sel;
 	GtkTreeIter       iter;
-	gboolean          active;
-	gboolean          last;
 	gchar            *name;
-	gchar            *id;
+	GtkWidget        *dialog;
 
 	sel = gtk_tree_view_get_selection (GTK_TREE_VIEW (dlg->priv->asr_view));
-
 	if (!gtk_tree_selection_get_selected (sel, NULL, &iter))
 		return;
 
 	gtk_tree_model_get (
 			GTK_TREE_MODEL (dlg->priv->asr_store), &iter,
-			0, &active, 1, &id, 2, &name, -1);
-	if (confirm_delete (GTK_WINDOW (dlg), name)) {
-		gtk_list_store_remove (dlg->priv->asr_store, &iter);
-		pt_asr_settings_remove_config (dlg->priv->asr_settings, id);
+			2, &name, -1);
 
-		last = !gtk_tree_model_get_iter_first (GTK_TREE_MODEL (dlg->priv->asr_store), &iter);
-		if (last) {
-			gtk_widget_hide (dlg->priv->asr_ready_box);
-			gtk_widget_show (dlg->priv->asr_initial_box);
-			g_settings_set_string (dlg->priv->editor, "asr-config", "none");
-		} else {
-			gtk_tree_selection_select_iter (sel, &iter);
-			if (active) {
-				g_free (id);
-				gtk_tree_model_get (
-						GTK_TREE_MODEL (dlg->priv->asr_store),
-						&iter, 1, &id, -1);
-				g_settings_set_string (dlg->priv->editor, "asr-config", id);
-				gtk_list_store_set (dlg->priv->asr_store, &iter, 0, TRUE, -1);
-			}
-		}
-	}
+	dialog = gtk_message_dialog_new (GTK_WINDOW (dlg),
+			GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+			GTK_MESSAGE_QUESTION,
+			GTK_BUTTONS_YES_NO,
+			_("Deleting configuration"));
 
+	gtk_message_dialog_format_secondary_text (
+			GTK_MESSAGE_DIALOG (dialog),
+			_("Do you really want to delete “%s”?"), name);
+
+	g_signal_connect (dialog, "response",
+			G_CALLBACK (remove_confirm_cb), dlg);
+
+	gtk_widget_show_all (dialog);
 	g_free (name);
-	g_free (id);
 }
 
 static void
