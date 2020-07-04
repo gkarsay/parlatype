@@ -57,8 +57,10 @@ pt_error_message (PtWindow    *parent,
 				GTK_MESSAGE_DIALOG (dialog),
 		                "%s", secondary_message);
 
-	gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy (dialog);
+	g_signal_connect_swapped (dialog, "response",
+			          G_CALLBACK (gtk_widget_destroy), dialog);
+
+	gtk_widget_show_all (dialog);
 }
 
 void
