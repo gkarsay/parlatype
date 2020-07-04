@@ -613,7 +613,6 @@ player_error_cb (PtPlayer *player,
 {
 	pt_window_ready_to_play (win, FALSE);
 	pt_error_message (win, error->message, NULL);
-	/* TODO clear error? */
 }
 
 static void
@@ -627,8 +626,8 @@ open_cb (PtWaveviewer *viewer,
 	if (!pt_waveviewer_load_wave_finish (viewer, res, &error)) {
 		pt_error_message (win, error->message, NULL);
 		g_error_free (error);
-		/* TODO that's it? */
-		return;
+		/* Very unlikely situation: Stream is open and playable,
+		 * but loading the waveform failed. */
 	}
 }
 
