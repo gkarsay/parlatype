@@ -104,6 +104,24 @@ insert_timestamp (GSimpleAction *action,
 	gtk_clipboard_request_text (win->priv->clip, clip_text_cb, win);
 }
 
+static void
+goto_dialog_response_cb (GtkDialog *dlg,
+                         gint       response_id,
+                         gpointer   user_data)
+{
+	PtWindow *win = PT_WINDOW (user_data);
+	gint pos;
+
+	if (response_id == GTK_RESPONSE_OK) {
+		pos = pt_goto_dialog_get_pos (PT_GOTO_DIALOG (dlg));
+		pt_player_jump_to_position (win->player, pos * 1000);
+		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
+	}
+
+	gtk_widget_destroy (GTK_WIDGET (dlg));
+}
+
+
 void
 goto_position (GSimpleAction *action,
                GVariant      *parameter,
@@ -113,19 +131,15 @@ goto_position (GSimpleAction *action,
 	win = PT_WINDOW (user_data);
 
 	PtGotoDialog *dlg;
-	gint	      pos;
 
 	dlg = pt_goto_dialog_new (GTK_WINDOW (win));
 	pt_goto_dialog_set_pos (dlg, pt_player_get_position (win->player) / 1000);
 	pt_goto_dialog_set_max (dlg, pt_player_get_duration (win->player) / 1000);
 
-	if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_OK) {
-		pos = pt_goto_dialog_get_pos (dlg);
-		pt_player_jump_to_position (win->player, pos * 1000);
-		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
-	}
+	g_signal_connect (dlg, "response",
+			  G_CALLBACK (goto_dialog_response_cb), win);
 
-	gtk_widget_destroy (GTK_WIDGET (dlg));
+	gtk_widget_show_all (GTK_WIDGET (dlg));
 }
 
 void
