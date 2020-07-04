@@ -160,8 +160,6 @@ help_cb (GSimpleAction *action,
 {
 	GtkWindow *win;
 	gchar     *uri;
-	GError    *error = NULL;
-	gchar     *errmsg;
 
 	win = gtk_application_get_active_window (app);
 
@@ -171,20 +169,7 @@ help_cb (GSimpleAction *action,
 	uri = g_strdup_printf ("help:%s", APP_ID);
 #endif
 
-	gtk_show_uri_on_window (
-			win,
-			uri,
-			GDK_CURRENT_TIME,
-			&error);
-
-	if (error) {
-		/* Translators: %s is a detailed error message */
-		errmsg = g_strdup_printf (_("Error opening help: %s"), error->message);
-		pt_error_message (PT_WINDOW (win), errmsg, NULL);
-		g_free (errmsg);
-		g_error_free (error);
-	}
-
+	gtk_show_uri (win, uri, GDK_CURRENT_TIME);
 	g_free (uri);
 }
 
