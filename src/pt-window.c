@@ -1003,15 +1003,18 @@ volume_button_value_changed_cb (GtkWidget *volumebutton,
 }
 
 static gboolean
-volume_button_event_cb (GtkWidget *volumebutton,
-                        GdkEvent  *event,
-                        gpointer   user_data)
+volume_button_event_cb (GtkEventControllerLegacy *ctrl,
+                        GdkEvent                 *event,
+                        gpointer                  user_data)
 {
 	/* This is for pulseaudiosink in paused state. It doesn't notify of
 	 * volume/mute changes. Update values when user is interacting with
 	 * the volume button. */
 
-	PtWindow *win = PT_WINDOW (user_data);
+	PtWindow  *win = PT_WINDOW (user_data);
+	GtkWidget *volumebutton;
+
+	volumebutton = gtk_event_controller_get_widget (GTK_EVENT_CONTROLLER (ctrl));
 	gtk_scale_button_set_value (GTK_SCALE_BUTTON (volumebutton),
 	                            pt_player_get_volume (win->player));
 	volume_button_update_mute (NULL, NULL, win);
@@ -1090,10 +1093,14 @@ setup_volume (PtWindow *win)
 			G_CALLBACK (volume_button_value_changed_cb),
 			win);
 
-	g_signal_connect (win->priv->volumebutton,
+	GtkEventController *v_event;
+	v_event = gtk_event_controller_legacy_new ();
+	g_signal_connect (v_event,
 			"event",
 			G_CALLBACK (volume_button_event_cb),
 			win);
+	gtk_widget_add_controller (win->priv->volumebutton,
+	                           GTK_EVENT_CONTROLLER (v_event));
 
 	/* Get complete icon set of volume button to change it depending on
 	 * mute state. */
