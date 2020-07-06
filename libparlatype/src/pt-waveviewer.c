@@ -433,6 +433,7 @@ pt_waveviewer_button_press_event (GtkGestureClick *gesture,
                                   gpointer         user_data)
 {
 	PtWaveviewer *self = PT_WAVEVIEWER (user_data);
+	GdkEvent            *event;
 	GdkModifierType      state;
 	guint                button;
 	gint64               clicked;	/* the sample clicked on */
@@ -441,8 +442,8 @@ pt_waveviewer_button_press_event (GtkGestureClick *gesture,
 	if (self->priv->peaks == NULL || self->priv->peaks->len == 0)
 		return FALSE;
 
-	if (!gtk_get_current_event_state (&state))
-		return FALSE;
+	event = gtk_event_controller_get_current_event (GTK_EVENT_CONTROLLER (gesture));
+	state = gdk_event_get_modifier_state (event);
 
 	button = gtk_gesture_single_get_current_button (GTK_GESTURE_SINGLE (gesture));
 	clicked = (gint) x;
@@ -503,11 +504,11 @@ pt_waveviewer_scroll_event (GtkEventControllerScroll *ctrl,
                             gpointer                  user_data)
 {
 	PtWaveviewer *self = PT_WAVEVIEWER (user_data);
-	GdkModifierType      state;
 	GdkEvent            *event;
+	GdkModifierType      state;
 
-	event = gtk_get_current_event ();
-	gtk_get_current_event_state (&state);
+	event = gtk_event_controller_get_current_event (GTK_EVENT_CONTROLLER (ctrl));
+	state = gdk_event_get_modifier_state (event);
 
 	/* No modifier pressed: scrolling back and forth */
 	if (!(state & ALL_ACCELS_MASK)) {
@@ -542,12 +543,13 @@ pt_waveviewer_motion_event (GtkEventControllerMotion *ctrl,
 			    gpointer                  user_data)
 {
 	PtWaveviewer *self = PT_WAVEVIEWER (user_data);
+	GdkEvent            *event;
 	GdkModifierType      state;
 	gint64               clicked;	/* the sample clicked on */
 	gint64               pos;	/* clicked sample’s position in milliseconds */
 
-	gtk_get_current_event_state (&state);
-
+	event = gtk_event_controller_get_current_event (GTK_EVENT_CONTROLLER (ctrl));
+	state = gdk_event_get_modifier_state (event);
 
 	if (self->priv->peaks == NULL || self->priv->peaks->len == 0)
 		return FALSE;
