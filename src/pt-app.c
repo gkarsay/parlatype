@@ -282,6 +282,7 @@ pt_app_startup (GApplication *app)
 	const gchar *help_accels[2] = { "F1", NULL };
 	const gchar *zoom_in_accels[3] = { "<Primary>plus", "<Primary>KP_Add", NULL };
 	const gchar *zoom_out_accels[3] = { "<Primary>minus", "<Primary>KP_Subtract", NULL };
+	const char *play_accels[2] = {"<Primary>space", NULL};
 
 	gtk_application_set_accels_for_action (GTK_APPLICATION (app),
 			"app.quit", quit_accels);
@@ -306,6 +307,9 @@ pt_app_startup (GApplication *app)
 
 	gtk_application_set_accels_for_action (GTK_APPLICATION (app),
 			"win.zoom-out", zoom_out_accels);
+
+	gtk_application_set_accels_for_action (GTK_APPLICATION (app),
+			"win.play", play_accels);
 
 	/* Load custom css */
 	GtkCssProvider *provider;

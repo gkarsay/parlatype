@@ -153,6 +153,16 @@ goto_cursor (GSimpleAction *action,
 	pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
 }
 
+void
+play (GSimpleAction *action,
+      GVariant      *parameter,
+      gpointer       user_data)
+{
+	PtWindow *win = PT_WINDOW (user_data);
+
+	pt_player_play_pause (win->player);
+}
+
 static void
 set_zoom (GSettings *editor,
           gint       step)
@@ -299,7 +309,8 @@ const GActionEntry win_actions[] = {
 	{ "goto", goto_position, NULL, NULL, NULL },
 	{ "goto-cursor", goto_cursor, NULL, NULL, NULL },
 	{ "zoom-in", zoom_in, NULL, NULL, NULL },
-	{ "zoom-out", zoom_out, NULL, NULL, NULL }
+	{ "zoom-out", zoom_out, NULL, NULL, NULL },
+	{ "play", play, NULL, NULL, NULL }
 };
 
 static void
@@ -1212,14 +1223,6 @@ setup_accels_actions_menus (PtWindow *win)
 			"clicked",
 			win->priv->accels,
 			jump_forward,
-			GDK_CONTROL_MASK,
-			GTK_ACCEL_VISIBLE);
-
-	gtk_widget_add_accelerator (
-			win->priv->button_play,
-			"clicked",
-			win->priv->accels,
-			GDK_KEY_space,
 			GDK_CONTROL_MASK,
 			GTK_ACCEL_VISIBLE);
 }
