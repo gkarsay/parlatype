@@ -27,7 +27,7 @@ struct _PtWindowPrivate
 	GtkRecentManager *recent;
 	PtConfig         *asr_config;
 
-	GtkClipboard *clip;
+	GdkClipboard *clip;
 	gulong        clip_handler_id;
 
 	/* Headerbar widgets */

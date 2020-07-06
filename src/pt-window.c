@@ -70,23 +70,29 @@ copy_timestamp (GSimpleAction *action,
 
 	timestamp = pt_player_get_timestamp (win->player);
 	if (timestamp)
-		gtk_clipboard_set_text (win->priv->clip, timestamp, -1);
+		gdk_clipboard_set_text (win->priv->clip, timestamp);
 }
 
 static void
-clip_text_cb (GtkClipboard *clip,
-              const gchar  *text,
+clip_text_cb (GdkClipboard *clip,
+              GAsyncResult *res,
               gpointer      data)
 {
 	PtWindow *win = (PtWindow *) data;
+	GError *error = NULL;
 	gchar *timestamp;
 
-	if (text) {
-		timestamp = g_strdup (text);
-		pt_player_goto_timestamp (win->player, timestamp);
-		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
-		g_free (timestamp);
+	timestamp = gdk_clipboard_read_text_finish (clip, res, &error);
+
+	if (!timestamp) {
+		pt_error_message (win, _("Error"), error->message);
+		g_clear_error (&error);
+		return;
 	}
+
+	pt_player_goto_timestamp (win->player, timestamp);
+	pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
+	g_free (timestamp);
 }
 
 void
@@ -97,7 +103,11 @@ insert_timestamp (GSimpleAction *action,
 	PtWindow *win;
 	win = PT_WINDOW (user_data);
 
-	gtk_clipboard_request_text (win->priv->clip, clip_text_cb, win);
+	gdk_clipboard_read_text_async (
+			win->priv->clip,
+			NULL,
+			(GAsyncReadyCallback) clip_text_cb,
+			win);
 }
 
 static void
@@ -428,22 +438,23 @@ change_play_button_tooltip (PtWindow *win)
 }
 
 static void
-update_insert_action_sensitivity_cb (GtkClipboard *clip,
-                                     const gchar  *text,
+update_insert_action_sensitivity_cb (GdkClipboard *clip,
+                                     GAsyncResult *res,
                                      gpointer      data)
 {
 	PtWindow *win = PT_WINDOW (data);
 	PtPlayer *player = win->player;
+	gchar    *text;
 	gchar    *timestamp = NULL;
 	gboolean  result = FALSE;
 	GAction  *action;
 	gint      pos;
 	gchar    *label;
 
+	text = gdk_clipboard_read_text_finish (clip, res, NULL);
+
 	if (text) {
-		timestamp = g_strdup (text);
-		pos = pt_player_get_timestamp_position (player, timestamp, TRUE);
-		g_free (timestamp);
+		pos = pt_player_get_timestamp_position (player, text, TRUE);
 		timestamp = NULL;
 		if (pos >= 0) {
 			result = TRUE;
@@ -469,26 +480,15 @@ update_insert_action_sensitivity_cb (GtkClipboard *clip,
 }
 
 static void
-update_insert_action_sensitivity (GtkClipboard *clip,
-                                  GdkEvent     *event,
+update_insert_action_sensitivity (GdkClipboard *clip,
                                   gpointer      data)
 {
 	PtWindow  *win = PT_WINDOW (data);
 
-#ifdef GDK_WINDOWING_X11
-	GAction    *action;
-	GdkDisplay *display;
-	display = gtk_clipboard_get_display (clip);
-	if (GDK_IS_X11_DISPLAY (display) && !gdk_display_supports_selection_notification (display)) {
-		action = g_action_map_lookup_action (G_ACTION_MAP (win), "insert");
-		g_simple_action_set_enabled (G_SIMPLE_ACTION (action), TRUE);
-		return;
-	}
-#endif
-
-	gtk_clipboard_request_text (
+	gdk_clipboard_read_text_async (
 			clip,
-			update_insert_action_sensitivity_cb,
+			NULL,
+			(GAsyncReadyCallback) update_insert_action_sensitivity_cb,
 			win);
 }
 
@@ -522,7 +522,7 @@ enable_win_actions (PtWindow *win,
 		action = g_action_map_lookup_action (G_ACTION_MAP (win), "insert");
 		g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
 	} else {
-		update_insert_action_sensitivity (win->priv->clip, NULL, win);
+		update_insert_action_sensitivity (win->priv->clip, win);
 	}
 
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "goto");
@@ -1177,7 +1177,7 @@ pt_window_init (PtWindow *win)
 	win->priv->timer = 0;
 	win->priv->last_time = 0;
 	win->priv->clip_handler_id = 0;
-	win->priv->clip = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+	win->priv->clip = gtk_widget_get_clipboard (GTK_WIDGET (win));
 
 	/* Used e.g. by Xfce */
 	gtk_window_set_default_icon_name (APP_ID);
@@ -1189,7 +1189,7 @@ pt_window_init (PtWindow *win)
 	pt_window_ready_to_play (win, FALSE);
 
 	win->priv->clip_handler_id = g_signal_connect (win->priv->clip,
-			"owner-change",
+			"changed",
 			G_CALLBACK (update_insert_action_sensitivity),
 			win);
 	g_signal_connect (win->priv->waveviewer,
