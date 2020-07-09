@@ -77,11 +77,8 @@ pixel_to_array (PtWaveviewerWaveform *self,
 }
 
 static void
-pt_waveviewer_waveform_draw (GtkDrawingArea *widget,
-                             cairo_t        *cr,
-                             int             content_width,
-                             int             content_height,
-                             gpointer        user_data)
+pt_waveviewer_waveform_snapshot (GtkWidget  *widget,
+				 GtkSnapshot *snapshot)
 {
 	PtWaveviewerWaveform *self = (PtWaveviewerWaveform *) widget;
 
@@ -97,7 +94,10 @@ pt_waveviewer_waveform_draw (GtkDrawingArea *widget,
 	height = gtk_widget_get_allocated_height (GTK_WIDGET (widget));
 	width = gtk_widget_get_allocated_width (GTK_WIDGET (widget));
 
-	gtk_render_background (context, cr, 0, 0, width, height);
+	gtk_style_context_get_color (context, &self->priv->wave_color);
+	gtk_snapshot_render_background (snapshot, context,
+                               0, 0,
+                               width, height);
 	if (peaks == NULL || peaks->len == 0)
 		return;
 
@@ -105,17 +105,14 @@ pt_waveviewer_waveform_draw (GtkDrawingArea *widget,
 	offset = (gint) gtk_adjustment_get_value (self->priv->adj);
 	half = height / 2 - 1;
 	middle = height / 2;
-	gdk_cairo_set_source_rgba (cr, &self->priv->wave_color);
 	for (pixel = 0; pixel <= width; pixel += 1) {
 		array = pixel_to_array (self, pixel + offset);
 		if (array == -1)
 			break;
 		min = (middle + half * g_array_index (peaks, float, array) * -1);
 		max = (middle - half * g_array_index (peaks, float, array + 1));
-		cairo_move_to (cr, pixel, min);
-		cairo_line_to (cr, pixel, max);
-		/* cairo_stroke also possible after loop, but then slower */
-		cairo_stroke (cr);
+		gtk_snapshot_append_color (snapshot, &self->priv->wave_color,
+					   &GRAPHENE_RECT_INIT(pixel, max, 1, min-max));
 	}
 }
 
@@ -189,8 +186,6 @@ pt_waveviewer_waveform_init (PtWaveviewerWaveform *self)
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
 	gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
-
-	gtk_drawing_area_set_draw_func (GTK_DRAWING_AREA (self), pt_waveviewer_waveform_draw, NULL, NULL);
 }
 
 static void
@@ -200,6 +195,7 @@ pt_waveviewer_waveform_class_init (PtWaveviewerWaveformClass *klass)
 
 	widget_class->realize             = pt_waveviewer_waveform_realize;
 	widget_class->root                = pt_waveviewer_waveform_root;
+	widget_class->snapshot            = pt_waveviewer_waveform_snapshot;
 	widget_class->state_flags_changed = pt_waveviewer_waveform_state_flags_changed;
 }
 
