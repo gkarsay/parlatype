@@ -13,6 +13,9 @@ local:
 	pt_waveviewer_ruler_get_type;
 	pt_waveviewer_ruler_new;
 	pt_waveviewer_ruler_set_ruler;
+	pt_waveviewer_scrollbox_get_type;
+	pt_waveviewer_scrollbox_new;
+	pt_waveviewer_scrollbox_set;
 	pt_waveviewer_selection_get_type;
 	pt_waveviewer_selection_new;
 	pt_waveviewer_selection_set;
