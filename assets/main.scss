@@ -37,10 +37,11 @@
 
 /* Add icon in title as background */
 .site-title {
-	background-image: url("../images/icon32x32.png");
+	background-image: url("../images/org.parlatype.Parlatype.svg");
+	background-size: 50px;
 	background-repeat: no-repeat;
-	background-position: left 12px;
-	padding-left: 40px;
+	background-position: top 2px left 0px;
+	padding-left: 60px;
 }
 
 /* Make header sticky */
