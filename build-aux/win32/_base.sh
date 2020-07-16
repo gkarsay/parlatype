@@ -102,9 +102,6 @@ function install_parlatype {
     meson test
     cd "${DIR}"
 
-    "${MINGW_ROOT}"/bin/gtk-update-icon-cache-3.0.exe \
-        "${MINGW_ROOT}"/share/icons/hicolor
-
     PT_VERSION_STRING=`${MINGW_ROOT}/bin/parlatype --version`
     PT_VERSION=${PT_VERSION_STRING:10}
     PT_VERSION_DESC="$PT_VERSION"
