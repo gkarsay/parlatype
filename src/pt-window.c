@@ -152,6 +152,26 @@ goto_cursor (GSimpleAction *action,
 }
 
 void
+jump_back (GSimpleAction *action,
+           GVariant      *parameter,
+           gpointer       user_data)
+{
+	PtWindow *win = PT_WINDOW (user_data);
+
+	pt_player_jump_back (win->player);
+}
+
+void
+jump_forward (GSimpleAction *action,
+              GVariant      *parameter,
+              gpointer       user_data)
+{
+	PtWindow *win = PT_WINDOW (user_data);
+
+	pt_player_jump_forward (win->player);
+}
+
+void
 play (GSimpleAction *action,
       GVariant      *parameter,
       gpointer       user_data)
@@ -308,6 +328,8 @@ const GActionEntry win_actions[] = {
 	{ "goto-cursor", goto_cursor, NULL, NULL, NULL },
 	{ "zoom-in", zoom_in, NULL, NULL, NULL },
 	{ "zoom-out", zoom_out, NULL, NULL, NULL },
+	{ "jump-back", jump_back, NULL, NULL, NULL },
+	{ "jump-forward", jump_forward, NULL, NULL, NULL },
 	{ "play", play, NULL, NULL, NULL }
 };
 
@@ -731,20 +753,6 @@ player_end_of_stream_cb (PtPlayer *player,
 }
 
 static void
-jump_back_button_clicked_cb (GtkButton *button,
-                             PtWindow  *win)
-{
-	pt_player_jump_back (win->player);
-}
-
-static void
-jump_forward_button_clicked_cb (GtkButton *button,
-                                PtWindow  *win)
-{
-	pt_player_jump_forward (win->player);
-}
-
-static void
 speed_scale_direction_changed_cb (GtkWidget        *widget,
                                   GtkTextDirection  previous_direction,
                                   gpointer          data)
@@ -1136,26 +1144,6 @@ setup_accels_actions_menus (PtWindow *win)
 	if (!pt_app_get_asr (PT_APP (app))) {
 		g_menu_remove (G_MENU (primary_menu), 0);
 	}
-
-	/* Accels */
-	win->priv->accels = gtk_accel_group_new ();
-	gtk_window_add_accel_group (GTK_WINDOW (win), win->priv->accels);
-
-	gtk_widget_add_accelerator (
-			win->priv->button_jump_back,
-			"clicked",
-			win->priv->accels,
-			GDK_KEY_Left,
-			GDK_CONTROL_MASK,
-			GTK_ACCEL_VISIBLE);
-
-	gtk_widget_add_accelerator (
-			win->priv->button_jump_forward,
-			"clicked",
-			win->priv->accels,
-			GDK_KEY_Right,
-			GDK_CONTROL_MASK,
-			GTK_ACCEL_VISIBLE);
 }
 
 static void
@@ -1245,8 +1233,6 @@ pt_window_class_init (PtWindowClass *klass)
 
 	gobject_class->dispose      = pt_window_dispose;
 	gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/parlatype/window.ui");
-	gtk_widget_class_bind_template_callback(widget_class, jump_back_button_clicked_cb);
-	gtk_widget_class_bind_template_callback(widget_class, jump_forward_button_clicked_cb);
 	gtk_widget_class_bind_template_callback(widget_class, play_button_toggled_cb);
 	gtk_widget_class_bind_template_callback(widget_class, speed_scale_direction_changed_cb);
 	gtk_widget_class_bind_template_callback(widget_class, zoom_in_cb);

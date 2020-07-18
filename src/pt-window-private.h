@@ -28,7 +28,6 @@ struct _PtWindowPrivate
 {
 	GSettings	 *editor;
 	GtkRecentManager *recent;
-	GtkAccelGroup    *accels;
 
 #ifdef HAVE_ASR
 	PtAsrSettings    *asr_settings;
