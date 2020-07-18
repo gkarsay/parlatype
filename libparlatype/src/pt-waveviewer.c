@@ -70,7 +70,6 @@ struct _PtWaveviewerPrivate {
 	GdkCursor *arrows;
 
 	GtkAdjustment   *adj;
-	gboolean         rtl;
 	gboolean         focus_on_cursor;
 
 	/* Subwidgets */
@@ -135,27 +134,6 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtWaveviewer, pt_waveviewer, GTK_TYPE_SCROLLED_WINDO
 
 
 static gint64
-flip_pixel (PtWaveviewer *self,
-            gint64        pixel)
-{
-	/* In ltr layouts each pixel on the x-axis corresponds to a sample in the array.
-	   In rtl layouts this is flipped, e.g. the first pixel corresponds to
-	   the last sample in the array. */
-
-	gint64 samples;
-	gint   widget_width;
-
-	samples = self->priv->peaks_size / 2;
-	widget_width = gtk_widget_get_allocated_width (self->priv->waveform);
-
-	/* Case: waveform is shorter than drawing area */
-	if (samples < widget_width)
-		return (widget_width - pixel);
-	else
-		return (samples - pixel);
-}
-
-static gint64
 time_to_pixel (PtWaveviewer *self,
                gint64        ms)
 {
@@ -164,9 +142,6 @@ time_to_pixel (PtWaveviewer *self,
 
 	result = ms * self->priv->px_per_sec;
 	result = result / 1000;
-
-	if (self->priv->rtl)
-		result = flip_pixel (self, result);
 
 	return result;
 }
@@ -177,9 +152,6 @@ pixel_to_time (PtWaveviewer *self,
 {
 	/* Convert a position in the drawing area to time in milliseconds */
 	gint64 result;
-
-	if (self->priv->rtl)
-		pixel = flip_pixel (self, pixel);
 
 	result = pixel * 1000;
 	result = result / self->priv->px_per_sec;
@@ -209,12 +181,8 @@ scroll_to_cursor (PtWaveviewer *self)
 		gtk_adjustment_set_value (self->priv->adj, cursor_pos - offset);
 	} else {
 		if (cursor_pos < first_visible || cursor_pos > last_visible) {
-			if (self->priv->rtl)
-				/* cursor visible far right */
-				gtk_adjustment_set_value (self->priv->adj, cursor_pos - page_width);
-			else
-				/* cursor visible far left */
-				gtk_adjustment_set_value (self->priv->adj, cursor_pos);
+			/* cursor visible far left */
+			gtk_adjustment_set_value (self->priv->adj, cursor_pos);
 		}
 	}
 }
@@ -245,8 +213,6 @@ add_subtract_time (PtWaveviewer *self,
 	gint   one_pixel;
 
 	one_pixel = 1000 / self->priv->px_per_sec;
-	if (self->priv->rtl)
-		one_pixel = one_pixel * -1;
 	result = self->priv->playback_cursor + pixel * one_pixel;
 
 	/* Return result in range */
@@ -409,16 +375,16 @@ pt_waveviewer_key_press_event (GtkWidget   *widget,
 				scroll = GTK_SCROLL_STEP_FORWARD;
 				break;
 			case GDK_KEY_Page_Up:
-				scroll = self->priv->rtl ? GTK_SCROLL_PAGE_FORWARD : GTK_SCROLL_PAGE_BACKWARD;
+				scroll = GTK_SCROLL_PAGE_BACKWARD;
 				break;
 			case GDK_KEY_Page_Down:
-				scroll = self->priv->rtl ? GTK_SCROLL_PAGE_BACKWARD : GTK_SCROLL_PAGE_FORWARD;
+				scroll = GTK_SCROLL_PAGE_FORWARD;
 				break;
 			case GDK_KEY_Home:
-				scroll = self->priv->rtl ? GTK_SCROLL_END : GTK_SCROLL_START;
+				scroll = GTK_SCROLL_START;
 				break;
 			case GDK_KEY_End:
-				scroll = self->priv->rtl ? GTK_SCROLL_START : GTK_SCROLL_END;
+				scroll = GTK_SCROLL_END;
 				break;
 			}
 			if (scroll != GTK_SCROLL_NONE) {
@@ -632,76 +598,6 @@ pt_waveviewer_button_release_event (GtkGestureMultiPress *gesture,
 		return TRUE;
 	}
 	return FALSE;
-}
-
-static void
-update_cached_style_values (PtWaveviewer *self)
-{
-	/* Only direction is cached */
-
-	GtkStyleContext *context;
-	GtkStateFlags    state;
-	GdkWindow       *window = NULL;
-
-	window = gtk_widget_get_parent_window (GTK_WIDGET (self));
-	if (!window)
-		return;
-
-	context = gtk_widget_get_style_context (GTK_WIDGET (self));
-	state = gtk_style_context_get_state (context);
-
-	if (state & GTK_STATE_FLAG_DIR_RTL)
-		self->priv->rtl = TRUE;
-	else
-		self->priv->rtl = FALSE;
-}
-
-static void
-pt_waveviewer_state_flags_changed (GtkWidget     *widget,
-                                   GtkStateFlags  flags)
-{
-	update_cached_style_values (PT_WAVEVIEWER (widget));
-	GTK_WIDGET_CLASS (pt_waveviewer_parent_class)->state_flags_changed (widget, flags);
-}
-
-static void
-pt_waveviewer_style_updated (GtkWidget *widget)
-{
-	PtWaveviewer *self = PT_WAVEVIEWER (widget);
-	GTK_WIDGET_CLASS (pt_waveviewer_parent_class)->style_updated (widget);
-	update_cached_style_values (self);
-}
-
-static void
-pt_waveviewer_direction_changed (GtkWidget        *widget,
-                                 GtkTextDirection  direction)
-{
-	PtWaveviewer *self = PT_WAVEVIEWER (widget);
-	gint widget_width, first_visible, page_width;
-
-	/* This is called after state-flags-changed signal.
-	   The waveform handles repainting itself, here we have to flip
-	   the GtkAdjustment and recalculate the cursor’s position */
-	widget_width = gtk_widget_get_allocated_width (self->priv->waveform);
-	first_visible = (gint) gtk_adjustment_get_value (self->priv->adj);
-	page_width = (gint) gtk_adjustment_get_page_size (self->priv->adj);
-	gtk_adjustment_set_value (
-			self->priv->adj,
-			widget_width - first_visible - page_width);
-
-	if (self->priv->peaks)
-		pt_waveviewer_cursor_render (
-				PT_WAVEVIEWER_CURSOR (self->priv->cursor),
-				time_to_pixel (self, self->priv->playback_cursor));
-
-	GTK_WIDGET_CLASS (pt_waveviewer_parent_class)->direction_changed (widget, direction);
-}
-
-static void
-pt_waveviewer_realize (GtkWidget *widget)
-{
-	GTK_WIDGET_CLASS (pt_waveviewer_parent_class)->realize (widget);
-	update_cached_style_values (PT_WAVEVIEWER (widget));
 }
 
 static void
@@ -1486,16 +1382,12 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 	gobject_class->dispose      = pt_waveviewer_dispose;
 	gobject_class->finalize     = pt_waveviewer_finalize;
 
-	widget_class->direction_changed    = pt_waveviewer_direction_changed;
 	widget_class->key_press_event      = pt_waveviewer_key_press_event;
 #if GTK_CHECK_VERSION(3,24,0)
 #else
 	widget_class->motion_notify_event  = pt_waveviewer_motion_notify_event;
 #endif
-	widget_class->realize              = pt_waveviewer_realize;
 	widget_class->scroll_event         = pt_waveviewer_scroll_event;
-	widget_class->state_flags_changed  = pt_waveviewer_state_flags_changed;
-	widget_class->style_updated        = pt_waveviewer_style_updated;
 
 	gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/libparlatype/pt-waveviewer.ui");
 	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, revealer);

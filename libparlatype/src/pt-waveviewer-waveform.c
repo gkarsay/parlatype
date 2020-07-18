@@ -28,33 +28,11 @@ struct _PtWaveviewerWaveformPrivate {
 
 	/* Rendering */
 	GdkRGBA   wave_color;
-	gboolean  rtl;
 };
 
 
 G_DEFINE_TYPE_WITH_PRIVATE (PtWaveviewerWaveform, pt_waveviewer_waveform, GTK_TYPE_DRAWING_AREA);
 
-
-static gint64
-flip_pixel (PtWaveviewerWaveform *self,
-            gint64                pixel)
-{
-	/* In ltr layouts each pixel on the x-axis corresponds to a sample in the array.
-	   In rtl layouts this is flipped, e.g. the first pixel corresponds to
-	   the last sample in the array. */
-
-	gint64 samples;
-	gint   widget_width;
-
-	samples = self->priv->peaks->len / 2;
-	widget_width = gtk_widget_get_allocated_width (GTK_WIDGET (self));
-
-	/* Case: waveform is shorter than drawing area */
-	if (samples < widget_width)
-		return (widget_width - pixel);
-	else
-		return (samples - pixel);
-}
 
 static gint64
 pixel_to_array (PtWaveviewerWaveform *self,
@@ -66,11 +44,7 @@ pixel_to_array (PtWaveviewerWaveform *self,
 
 	gint64 result;
 
-	if (self->priv->rtl)
-		pixel = flip_pixel (self, pixel);
-
 	result = pixel * 2;
-
 	if (result + 1 >= self->priv->peaks->len)
 		result = -1;
 
@@ -110,8 +84,7 @@ pt_waveviewer_waveform_draw (GtkWidget *widget,
 	for (pixel = (gint)left; pixel <= (gint)right; pixel += 1) {
 		array = pixel_to_array (self, pixel);
 		if (array == -1)
-			/* in ltr we could break, but rtl needs to continue */
-			continue;
+			break;
 		min = (middle + half * g_array_index (peaks, float, array) * -1);
 		max = (middle - half * g_array_index (peaks, float, array + 1));
 		cairo_move_to (cr, pixel, min);
@@ -139,11 +112,6 @@ update_cached_style_values (PtWaveviewerWaveform *self)
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
 	state = gtk_style_context_get_state (context);
 	gtk_style_context_get_color (context, state, &self->priv->wave_color);
-
-	if (state & GTK_STATE_FLAG_DIR_RTL)
-		self->priv->rtl = TRUE;
-	else
-		self->priv->rtl = FALSE;
 }
 
 static void
