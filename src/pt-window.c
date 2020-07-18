@@ -35,8 +35,6 @@
 G_DEFINE_TYPE_WITH_PRIVATE (PtWindow, pt_window, GTK_TYPE_APPLICATION_WINDOW)
 
 static void play_button_toggled_cb (GtkToggleButton *button, PtWindow *win);
-static void jump_back_button_clicked_cb (GtkButton *button, PtWindow *win);
-static void jump_forward_button_clicked_cb (GtkButton *button, PtWindow *win);
 
 void
 pt_error_message (PtWindow    *parent,
