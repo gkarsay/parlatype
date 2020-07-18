@@ -758,64 +758,6 @@ speed_scale_direction_changed_cb (GtkWidget        *widget,
 }
 
 static void
-swap_accelerators (GtkWidget     *widget,
-                   GtkAccelGroup *accels,
-                   guint          old,
-                   guint          new)
-{
-	gtk_widget_remove_accelerator (
-			widget,
-			accels,
-			old,
-			GDK_CONTROL_MASK);
-	gtk_widget_add_accelerator (
-			widget,
-			"clicked",
-			accels,
-			new,
-			GDK_CONTROL_MASK,
-			GTK_ACCEL_VISIBLE);
-}
-
-static void
-jump_back_direction_changed_cb (GtkWidget        *widget,
-                                GtkTextDirection  previous_direction,
-                                gpointer          data)
-{
-	PtWindow *self = PT_WINDOW (data);
-	guint old, new;
-
-	if (previous_direction == GTK_TEXT_DIR_LTR) {
-		old = GDK_KEY_Left;
-		new = GDK_KEY_Right;
-	} else {
-		old = GDK_KEY_Right;
-		new = GDK_KEY_Left;
-	}
-
-	swap_accelerators (widget, self->priv->accels, old, new);
-}
-
-static void
-jump_forward_direction_changed_cb (GtkWidget        *widget,
-                                   GtkTextDirection  previous_direction,
-                                   gpointer          data)
-{
-	PtWindow *self = PT_WINDOW (data);
-	guint old, new;
-
-	if (previous_direction == GTK_TEXT_DIR_LTR) {
-		old = GDK_KEY_Right;
-		new = GDK_KEY_Left;
-	} else {
-		old = GDK_KEY_Left;
-		new = GDK_KEY_Right;
-	}
-
-	swap_accelerators (widget, self->priv->accels, old, new);
-}
-
-static void
 settings_changed_cb (GSettings *settings,
                      gchar     *key,
                      PtWindow  *win)
@@ -1200,21 +1142,12 @@ setup_accels_actions_menus (PtWindow *win)
 	/* Accels */
 	win->priv->accels = gtk_accel_group_new ();
 	gtk_window_add_accel_group (GTK_WINDOW (win), win->priv->accels);
-	
-	guint jump_back, jump_forward;
-	if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_LTR) {
-		jump_back = GDK_KEY_Left;
-		jump_forward = GDK_KEY_Right;
-	} else {
-		jump_back = GDK_KEY_Right;
-		jump_forward = GDK_KEY_Left;
-	}
 
 	gtk_widget_add_accelerator (
 			win->priv->button_jump_back,
 			"clicked",
 			win->priv->accels,
-			jump_back,
+			GDK_KEY_Left,
 			GDK_CONTROL_MASK,
 			GTK_ACCEL_VISIBLE);
 
@@ -1222,7 +1155,7 @@ setup_accels_actions_menus (PtWindow *win)
 			win->priv->button_jump_forward,
 			"clicked",
 			win->priv->accels,
-			jump_forward,
+			GDK_KEY_Right,
 			GDK_CONTROL_MASK,
 			GTK_ACCEL_VISIBLE);
 }
@@ -1315,9 +1248,7 @@ pt_window_class_init (PtWindowClass *klass)
 	gobject_class->dispose      = pt_window_dispose;
 	gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/parlatype/window.ui");
 	gtk_widget_class_bind_template_callback(widget_class, jump_back_button_clicked_cb);
-	gtk_widget_class_bind_template_callback(widget_class, jump_back_direction_changed_cb);
 	gtk_widget_class_bind_template_callback(widget_class, jump_forward_button_clicked_cb);
-	gtk_widget_class_bind_template_callback(widget_class, jump_forward_direction_changed_cb);
 	gtk_widget_class_bind_template_callback(widget_class, play_button_toggled_cb);
 	gtk_widget_class_bind_template_callback(widget_class, speed_scale_direction_changed_cb);
 	gtk_widget_class_bind_template_callback(widget_class, zoom_in_cb);

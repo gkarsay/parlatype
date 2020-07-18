@@ -129,7 +129,6 @@
                         <property name="receives_default">True</property>
                         <property name="halign">start</property>
                         <signal name="clicked" handler="jump_back_button_clicked_cb" swapped="no"/>
-                        <signal name="direction-changed" handler="jump_back_direction_changed_cb" swapped="no"/>
                         <child>
                           <object class="GtkImage" id="icon_seek_back1">
                             <property name="visible">True</property>
@@ -190,7 +189,6 @@
                         <property name="receives_default">True</property>
                         <property name="halign">start</property>
                         <signal name="clicked" handler="jump_forward_button_clicked_cb" swapped="no"/>
-                        <signal name="direction-changed" handler="jump_forward_direction_changed_cb" swapped="no"/>
                         <child>
                           <object class="GtkImage" id="icon_seek_forward1">
                             <property name="visible">True</property>
