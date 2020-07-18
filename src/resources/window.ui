@@ -113,12 +113,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkBox" id="box3">
+              <object class="GtkBox" id="controls_row_box">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">6</property>
                 <child>
-                  <object class="GtkBox" id="box4">
+                  <object class="GtkBox" id="controls_box">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
@@ -210,32 +210,22 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox" id="box2">
+                  <object class="GtkMenuButton" id="pos_menu_button">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="direction">up</property>
                     <property name="hexpand">True</property>
                     <property name="halign">center</property>
-                    <property name="spacing">12</property>
                     <child>
-                      <object class="GtkMenuButton" id="pos_menu_button">
+                      <object class="GtkLabel" id="pos_label">
+                        <property name="name">time_label</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                        <property name="direction">up</property>
-                        <child>
-                          <object class="GtkLabel" id="pos_label">
-                            <property name="name">time_label</property>
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label">00:00</property>
-                            <property name="single_line_mode">True</property>
-                            <property name="lines">1</property>
-                          </object>
-                        </child>
+                        <property name="can_focus">False</property>
+                        <property name="label">00:00</property>
+                        <property name="single_line_mode">True</property>
+                        <property name="lines">1</property>
                       </object>
-                      <packing>
-                        <property name="position">0</property>
-                      </packing>
                     </child>
                   </object>
                   <packing>
