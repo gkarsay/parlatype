@@ -267,34 +267,38 @@ audio-volume-medium-symbolic</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkScale" id="speed_scale">
-                    <property name="width_request">110</property>
-                    <property name="visible">True</property>
-                    <property name="sensitive">False</property>
-                    <property name="can_focus">True</property>
-                    <property name="halign">end</property>
-                    <property name="adjustment">speed_adj</property>
-                    <property name="lower_stepper_sensitivity">off</property>
-                    <property name="upper_stepper_sensitivity">off</property>
-                    <property name="value_pos">right</property>
-                    <signal name="direction-changed" handler="speed_scale_direction_changed_cb" swapped="no"/>
+                  <object class="GtkBox" id="speed_box">
+                  <property name="visible">True</property>
+                    <child>
+                      <object class="GtkScale" id="speed_scale">
+                        <property name="width_request">110</property>
+                        <property name="visible">True</property>
+                        <property name="sensitive">False</property>
+                        <property name="can_focus">True</property>
+                        <property name="halign">end</property>
+                        <property name="adjustment">speed_adj</property>
+                        <property name="lower_stepper_sensitivity">off</property>
+                        <property name="upper_stepper_sensitivity">off</property>
+                        <property name="value_pos">right</property>
+                      </object>
+                      <packing>
+                        <property name="pack_type">end</property>
+                        <property name="position">5</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label_speed">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="halign">end</property>
+                        <property name="label" translatable="yes">Speed:</property>
+                      </object>
+                      <packing>
+                        <property name="pack_type">end</property>
+                        <property name="position">6</property>
+                      </packing>
+                    </child>
                   </object>
-                  <packing>
-                    <property name="pack_type">end</property>
-                    <property name="position">5</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="label_speed">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="halign">end</property>
-                    <property name="label" translatable="yes">Speed:</property>
-                  </object>
-                  <packing>
-                    <property name="pack_type">end</property>
-                    <property name="position">6</property>
-                  </packing>
                 </child>
               </object>
               <packing>
