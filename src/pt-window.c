@@ -35,8 +35,6 @@
 G_DEFINE_TYPE_WITH_PRIVATE (PtWindow, pt_window, GTK_TYPE_APPLICATION_WINDOW)
 
 static void play_button_toggled_cb (GtkToggleButton *button, PtWindow *win);
-static void jump_back_button_clicked_cb (GtkButton *button, PtWindow *win);
-static void jump_forward_button_clicked_cb (GtkButton *button, PtWindow *win);
 
 void
 pt_error_message (PtWindow    *parent,
@@ -151,6 +149,26 @@ goto_cursor (GSimpleAction *action,
 	win = PT_WINDOW (user_data);
 
 	pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
+}
+
+void
+jump_back (GSimpleAction *action,
+           GVariant      *parameter,
+           gpointer       user_data)
+{
+	PtWindow *win = PT_WINDOW (user_data);
+
+	pt_player_jump_back (win->player);
+}
+
+void
+jump_forward (GSimpleAction *action,
+              GVariant      *parameter,
+              gpointer       user_data)
+{
+	PtWindow *win = PT_WINDOW (user_data);
+
+	pt_player_jump_forward (win->player);
 }
 
 void
@@ -310,6 +328,8 @@ const GActionEntry win_actions[] = {
 	{ "goto-cursor", goto_cursor, NULL, NULL, NULL },
 	{ "zoom-in", zoom_in, NULL, NULL, NULL },
 	{ "zoom-out", zoom_out, NULL, NULL, NULL },
+	{ "jump-back", jump_back, NULL, NULL, NULL },
+	{ "jump-forward", jump_forward, NULL, NULL, NULL },
 	{ "play", play, NULL, NULL, NULL }
 };
 
@@ -732,87 +752,35 @@ player_end_of_stream_cb (PtPlayer *player,
 	change_play_button_tooltip (win);
 }
 
-static void
-jump_back_button_clicked_cb (GtkButton *button,
-                             PtWindow  *win)
+static gboolean
+swap_control_buttons (GtkWidget *box)
 {
-	pt_player_jump_back (win->player);
+	gtk_widget_set_direction (box, GTK_TEXT_DIR_LTR);
+	return FALSE;
 }
 
 static void
-jump_forward_button_clicked_cb (GtkButton *button,
-                                PtWindow  *win)
+pt_window_direction_changed (GtkWidget        *widget,
+                             GtkTextDirection  previous_direction)
 {
-	pt_player_jump_forward (win->player);
-}
+	/* In RTL layouts playback control elements are *not* supposed to be
+	 * mirrored. Undo automatic mirroring for those elements. */
 
-static void
-speed_scale_direction_changed_cb (GtkWidget        *widget,
-                                  GtkTextDirection  previous_direction,
-                                  gpointer          data)
-{
-	if (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
-		gtk_scale_set_value_pos (GTK_SCALE (widget), GTK_POS_LEFT);
+	PtWindow        *self = PT_WINDOW (widget);
+	PtWindowPrivate *priv = self->priv;
+	GtkScale        *speed_scale = GTK_SCALE (priv->speed_scale);
+
+	gtk_widget_set_direction (priv->controls_row_box, GTK_TEXT_DIR_LTR);
+	gtk_widget_set_direction (priv->progress, GTK_TEXT_DIR_LTR);
+
+	if (previous_direction == GTK_TEXT_DIR_LTR)
+		gtk_scale_set_value_pos (speed_scale, GTK_POS_LEFT);
 	else
-		gtk_scale_set_value_pos (GTK_SCALE (widget), GTK_POS_RIGHT);
-}
+		gtk_scale_set_value_pos (speed_scale, GTK_POS_RIGHT);
 
-static void
-swap_accelerators (GtkWidget     *widget,
-                   GtkAccelGroup *accels,
-                   guint          old,
-                   guint          new)
-{
-	gtk_widget_remove_accelerator (
-			widget,
-			accels,
-			old,
-			GDK_CONTROL_MASK);
-	gtk_widget_add_accelerator (
-			widget,
-			"clicked",
-			accels,
-			new,
-			GDK_CONTROL_MASK,
-			GTK_ACCEL_VISIBLE);
-}
-
-static void
-jump_back_direction_changed_cb (GtkWidget        *widget,
-                                GtkTextDirection  previous_direction,
-                                gpointer          data)
-{
-	PtWindow *self = PT_WINDOW (data);
-	guint old, new;
-
-	if (previous_direction == GTK_TEXT_DIR_LTR) {
-		old = GDK_KEY_Left;
-		new = GDK_KEY_Right;
-	} else {
-		old = GDK_KEY_Right;
-		new = GDK_KEY_Left;
-	}
-
-	swap_accelerators (widget, self->priv->accels, old, new);
-}
-
-static void
-jump_forward_direction_changed_cb (GtkWidget        *widget,
-                                   GtkTextDirection  previous_direction,
-                                   gpointer          data)
-{
-	PtWindow *self = PT_WINDOW (data);
-	guint old, new;
-
-	if (previous_direction == GTK_TEXT_DIR_LTR) {
-		old = GDK_KEY_Right;
-		new = GDK_KEY_Left;
-	} else {
-		old = GDK_KEY_Left;
-		new = GDK_KEY_Right;
-	}
-
-	swap_accelerators (widget, self->priv->accels, old, new);
+	/* Swap control buttons in a timeout to avoid a race condition where
+	 * buttons were not rendered correctly linked, reason unknown */
+	g_idle_add ((GSourceFunc) swap_control_buttons, priv->controls_box);
 }
 
 static void
@@ -1196,35 +1164,6 @@ setup_accels_actions_menus (PtWindow *win)
 	if (!pt_app_get_asr (PT_APP (app))) {
 		g_menu_remove (G_MENU (primary_menu), 0);
 	}
-
-	/* Accels */
-	win->priv->accels = gtk_accel_group_new ();
-	gtk_window_add_accel_group (GTK_WINDOW (win), win->priv->accels);
-	
-	guint jump_back, jump_forward;
-	if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_LTR) {
-		jump_back = GDK_KEY_Left;
-		jump_forward = GDK_KEY_Right;
-	} else {
-		jump_back = GDK_KEY_Right;
-		jump_forward = GDK_KEY_Left;
-	}
-
-	gtk_widget_add_accelerator (
-			win->priv->button_jump_back,
-			"clicked",
-			win->priv->accels,
-			jump_back,
-			GDK_CONTROL_MASK,
-			GTK_ACCEL_VISIBLE);
-
-	gtk_widget_add_accelerator (
-			win->priv->button_jump_forward,
-			"clicked",
-			win->priv->accels,
-			jump_forward,
-			GDK_CONTROL_MASK,
-			GTK_ACCEL_VISIBLE);
 }
 
 static void
@@ -1251,9 +1190,9 @@ pt_window_init (PtWindow *win)
 	/* Used e.g. by Xfce */
 	gtk_window_set_default_icon_name (APP_ID);
 
-	/* Flip speed scale for right to left layouts */
+	/* Prepare layout if we have initially RTL */
 	if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
-		gtk_scale_set_value_pos (GTK_SCALE (win->priv->speed_scale), GTK_POS_LEFT);
+		pt_window_direction_changed (GTK_WIDGET (win), GTK_TEXT_DIR_LTR);
 
 	pt_window_ready_to_play (win, FALSE);
 
@@ -1312,19 +1251,18 @@ pt_window_class_init (PtWindowClass *klass)
 	GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
 	GtkWidgetClass *widget_class  = GTK_WIDGET_CLASS (klass);
 
-	gobject_class->dispose      = pt_window_dispose;
+	gobject_class->dispose          = pt_window_dispose;
+	widget_class->direction_changed = pt_window_direction_changed;
+
 	gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/parlatype/window.ui");
-	gtk_widget_class_bind_template_callback(widget_class, jump_back_button_clicked_cb);
-	gtk_widget_class_bind_template_callback(widget_class, jump_back_direction_changed_cb);
-	gtk_widget_class_bind_template_callback(widget_class, jump_forward_button_clicked_cb);
-	gtk_widget_class_bind_template_callback(widget_class, jump_forward_direction_changed_cb);
 	gtk_widget_class_bind_template_callback(widget_class, play_button_toggled_cb);
-	gtk_widget_class_bind_template_callback(widget_class, speed_scale_direction_changed_cb);
 	gtk_widget_class_bind_template_callback(widget_class, zoom_in_cb);
 	gtk_widget_class_bind_template_callback(widget_class, zoom_out_cb);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, primary_menu_button);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_open);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, progress);
+	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, controls_row_box);
+	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, controls_box);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_play);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_jump_back);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_jump_forward);
