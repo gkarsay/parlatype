@@ -752,15 +752,35 @@ player_end_of_stream_cb (PtPlayer *player,
 	change_play_button_tooltip (win);
 }
 
-static void
-speed_scale_direction_changed_cb (GtkWidget        *widget,
-                                  GtkTextDirection  previous_direction,
-                                  gpointer          data)
+static gboolean
+swap_control_buttons (GtkWidget *box)
 {
-	if (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
-		gtk_scale_set_value_pos (GTK_SCALE (widget), GTK_POS_LEFT);
+	gtk_widget_set_direction (box, GTK_TEXT_DIR_LTR);
+	return FALSE;
+}
+
+static void
+pt_window_direction_changed (GtkWidget        *widget,
+                             GtkTextDirection  previous_direction)
+{
+	/* In RTL layouts playback control elements are *not* supposed to be
+	 * mirrored. Undo automatic mirroring for those elements. */
+
+	PtWindow        *self = PT_WINDOW (widget);
+	PtWindowPrivate *priv = self->priv;
+	GtkScale        *speed_scale = GTK_SCALE (priv->speed_scale);
+
+	gtk_widget_set_direction (priv->controls_row_box, GTK_TEXT_DIR_LTR);
+	gtk_widget_set_direction (priv->progress, GTK_TEXT_DIR_LTR);
+
+	if (previous_direction == GTK_TEXT_DIR_LTR)
+		gtk_scale_set_value_pos (speed_scale, GTK_POS_LEFT);
 	else
-		gtk_scale_set_value_pos (GTK_SCALE (widget), GTK_POS_RIGHT);
+		gtk_scale_set_value_pos (speed_scale, GTK_POS_RIGHT);
+
+	/* Swap control buttons in a timeout to avoid a race condition where
+	 * buttons were not rendered correctly linked, reason unknown */
+	g_idle_add ((GSourceFunc) swap_control_buttons, priv->controls_box);
 }
 
 static void
@@ -1170,9 +1190,9 @@ pt_window_init (PtWindow *win)
 	/* Used e.g. by Xfce */
 	gtk_window_set_default_icon_name (APP_ID);
 
-	/* Flip speed scale for right to left layouts */
+	/* Prepare layout if we have initially RTL */
 	if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
-		gtk_scale_set_value_pos (GTK_SCALE (win->priv->speed_scale), GTK_POS_LEFT);
+		pt_window_direction_changed (GTK_WIDGET (win), GTK_TEXT_DIR_LTR);
 
 	pt_window_ready_to_play (win, FALSE);
 
@@ -1231,15 +1251,18 @@ pt_window_class_init (PtWindowClass *klass)
 	GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
 	GtkWidgetClass *widget_class  = GTK_WIDGET_CLASS (klass);
 
-	gobject_class->dispose      = pt_window_dispose;
+	gobject_class->dispose          = pt_window_dispose;
+	widget_class->direction_changed = pt_window_direction_changed;
+
 	gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/parlatype/window.ui");
 	gtk_widget_class_bind_template_callback(widget_class, play_button_toggled_cb);
-	gtk_widget_class_bind_template_callback(widget_class, speed_scale_direction_changed_cb);
 	gtk_widget_class_bind_template_callback(widget_class, zoom_in_cb);
 	gtk_widget_class_bind_template_callback(widget_class, zoom_out_cb);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, primary_menu_button);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_open);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, progress);
+	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, controls_row_box);
+	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, controls_box);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_play);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_jump_back);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_jump_forward);

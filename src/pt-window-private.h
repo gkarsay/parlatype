@@ -41,6 +41,8 @@ struct _PtWindowPrivate
 	GtkWidget  *primary_menu_button;
 
 	/* Main window widgets */
+	GtkWidget  *controls_row_box;
+	GtkWidget  *controls_box;
 	GtkWidget  *progress;
 	GtkWidget  *button_play;
 	GtkWidget  *button_jump_back;
