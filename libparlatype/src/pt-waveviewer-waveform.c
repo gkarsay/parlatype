@@ -19,12 +19,15 @@
 
 
 #include "config.h"
+#include "pt-waveviewer.h"
 #include "pt-waveviewer-waveform.h"
 
 
 struct _PtWaveviewerWaveformPrivate {
 	/* Wavedata */
 	GArray   *peaks;
+
+	GtkAdjustment *adj;	/* the parent PtWaveviewer’s adjustment */
 
 	/* Rendering */
 	GdkRGBA   wave_color;
@@ -149,6 +152,32 @@ pt_waveviewer_waveform_set (PtWaveviewerWaveform *self,
 }
 
 static void
+adj_value_changed (GtkAdjustment *adj,
+                   gpointer       data)
+{
+	PtWaveviewerWaveform *self = PT_WAVEVIEWER_WAVEFORM (data);
+	gtk_widget_queue_draw (GTK_WIDGET (self));
+}
+
+static void
+pt_waveviewer_waveform_hierarchy_changed (GtkWidget *widget,
+                                          GtkWidget *old_parent)
+{
+	PtWaveviewerWaveform *self = PT_WAVEVIEWER_WAVEFORM (widget);
+
+	if (self->priv->adj)
+		return;
+
+	/* Get parent’s GtkAdjustment */
+	GtkWidget *parent = NULL;
+	parent = gtk_widget_get_ancestor (widget, PT_TYPE_WAVEVIEWER);
+	if (parent) {
+		self->priv->adj = gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (parent));
+		g_signal_connect (self->priv->adj, "value-changed", G_CALLBACK (adj_value_changed), self);
+	}
+}
+
+static void
 pt_waveviewer_waveform_init (PtWaveviewerWaveform *self)
 {
 	self->priv = pt_waveviewer_waveform_get_instance_private (self);
@@ -169,6 +198,7 @@ pt_waveviewer_waveform_class_init (PtWaveviewerWaveformClass *klass)
 	GtkWidgetClass *widget_class  = GTK_WIDGET_CLASS (klass);
 
 	widget_class->draw                = pt_waveviewer_waveform_draw;
+	widget_class->hierarchy_changed   = pt_waveviewer_waveform_hierarchy_changed;
 	widget_class->realize             = pt_waveviewer_waveform_realize;
 	widget_class->state_flags_changed = pt_waveviewer_waveform_state_flags_changed;
 	widget_class->style_updated       = pt_waveviewer_waveform_style_updated;
