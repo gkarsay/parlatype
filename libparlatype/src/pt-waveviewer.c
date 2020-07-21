@@ -929,6 +929,33 @@ pt_waveviewer_set_wave (PtWaveviewer *self,
 #endif
 
 static void
+reset_selection (PtWaveviewer *self)
+{
+	PtWaveviewerPrivate *priv = self->priv;
+
+	if (priv->has_selection == FALSE)
+		return;
+
+	g_object_freeze_notify (G_OBJECT (self));
+
+	priv->has_selection = FALSE;
+	g_object_notify_by_pspec (G_OBJECT (self),
+	                          obj_properties[PROP_HAS_SELECTION]);
+
+	if (priv->sel_start > 0) {
+		priv->sel_start = 0;
+		g_object_notify_by_pspec (G_OBJECT (self),
+		                          obj_properties[PROP_SELECTION_START]);
+	}
+
+	priv->sel_end = 0;
+	g_object_notify_by_pspec (G_OBJECT (self),
+	                          obj_properties[PROP_SELECTION_END]);
+
+	g_object_thaw_notify (G_OBJECT (self));
+}
+
+static void
 array_size_changed_cb (PtWaveloader *loader,
 		       gpointer      user_data)
 {
@@ -1097,6 +1124,8 @@ pt_waveviewer_load_wave_async (PtWaveviewer        *self,
 	g_object_unref (file);
 	g_free (location);
 #endif
+
+	reset_selection (self);
 
 	g_object_set (self->priv->loader, "uri", uri, NULL);
 	self->priv->px_per_sec = self->priv->pps;
