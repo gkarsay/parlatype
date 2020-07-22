@@ -440,7 +440,7 @@ pt_waveviewer_button_press_event (GtkGestureMultiPress *gesture,
 
 	button = gtk_gesture_single_get_current_button (GTK_GESTURE_SINGLE (gesture));
 	clicked = (gint) x;
-	pos = pixel_to_time (self, clicked);
+	pos = pixel_to_time (self, clicked + gtk_adjustment_get_value (self->priv->adj));
 
 	/* Single left click, no other keys pressed: new selection or changing selection */
 	if (n_press == 1
@@ -556,7 +556,7 @@ pt_waveviewer_motion_notify_event (GtkWidget      *widget,
 		return FALSE;
 
 	clicked = (gint) x;
-	pos = pixel_to_time (self, clicked);
+	pos = pixel_to_time (self, clicked + gtk_adjustment_get_value (self->priv->adj));
 
 	/* Right mouse button sets cursor */
 	if (state & GDK_BUTTON3_MASK) {
@@ -798,7 +798,7 @@ size_allocate_cb (GtkWidget    *widget,
 	if (self->priv->peaks->len > 0) {
 		pt_waveviewer_cursor_render (
 				PT_WAVEVIEWER_CURSOR (self->priv->cursor),
-				time_to_pixel (self, self->priv->playback_cursor));
+				time_to_pixel (self, self->priv->playback_cursor) - gtk_adjustment_get_value (self->priv->adj));
 	}
 
 	pt_waveviewer_selection_set (
@@ -1128,7 +1128,7 @@ pt_waveviewer_set_property (GObject      *object,
 			scroll_to_cursor (self);
 
 		pt_waveviewer_cursor_render (PT_WAVEVIEWER_CURSOR (self->priv->cursor),
-					     time_to_pixel (self, self->priv->playback_cursor));
+					     time_to_pixel (self, self->priv->playback_cursor) - gtk_adjustment_get_value (self->priv->adj));
 		break;
 	case PROP_FOLLOW_CURSOR:
 		self->priv->follow_cursor = g_value_get_boolean (value);
@@ -1164,15 +1164,32 @@ pt_waveviewer_set_property (GObject      *object,
 }
 
 static void
+adjustment_value_changed_cb (GtkAdjustment *adjustment,
+                             gpointer       user_data)
+{
+	PtWaveviewer *self = PT_WAVEVIEWER (user_data);
+
+	pt_waveviewer_cursor_render (PT_WAVEVIEWER_CURSOR (self->priv->cursor),
+				     time_to_pixel (self, self->priv->playback_cursor) - gtk_adjustment_get_value (self->priv->adj));
+}
+
+static void
 pt_waveviewer_constructed (GObject *object)
 {
 	PtWaveviewer *self = PT_WAVEVIEWER (object);
+
+	GtkWidget *scrollbar = gtk_scrolled_window_get_hscrollbar (GTK_SCROLLED_WINDOW (self));
 	self->priv->adj = gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (self));
-	g_signal_connect (gtk_scrolled_window_get_hscrollbar (GTK_SCROLLED_WINDOW (self)),
+
+	g_signal_connect (self->priv->adj,
+			  "value_changed",
+			  G_CALLBACK (adjustment_value_changed_cb),
+			  self);
+	g_signal_connect (scrollbar,
 			  "button_press_event",
 			  G_CALLBACK (scrollbar_button_press_event_cb),
 			  self);
-	g_signal_connect (gtk_scrolled_window_get_hscrollbar (GTK_SCROLLED_WINDOW (self)),
+	g_signal_connect (scrollbar,
 			  "scroll_event",
 			  G_CALLBACK (scrollbar_scroll_event_cb),
 			  self);
