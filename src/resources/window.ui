@@ -57,7 +57,7 @@
           <object class="GtkMenuButton" id="primary_menu_button">
             <accelerator key="F10" signal="clicked"/>
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can_focus">True</property>
             <property name="receives_default">False</property>
             <property name="direction">none</property>
           </object>
