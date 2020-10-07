@@ -80,17 +80,18 @@ pt_waveviewer_ruler_draw (GtkWidget *widget,
 	gchar          *text;
 	PangoLayout    *layout;
 	PangoRectangle  rect;
-	gint            x_offset;
+	gint            halfwidth;
 	gint64          tmp_time;
 	GtkStyleContext *context;
 	GdkRGBA         text_color;
-	gdouble         left, right;
+	gint            width;
+	gint            offset;
 
-	cairo_clip_extents (cr, &left, NULL, &right, NULL);
+	width = gtk_widget_get_allocated_width (widget);
+	offset = (gint) gtk_adjustment_get_value (self->priv->adj);
+
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
-	gtk_render_background (context, cr,
-                               left, 0,
-                               right, height);
+	gtk_render_background (context, cr, 0, 0, width, height);
 
 	if (self->priv->n_samples == 0)
 		return FALSE;
@@ -101,21 +102,21 @@ pt_waveviewer_ruler_draw (GtkWidget *widget,
 	   Get time of leftmost pixel, convert it to rounded 10th second,
 	   add 10th seconds until we are at the end of the view */
 	if (self->priv->primary_modulo == 1) {
-		tmp_time = pixel_to_time (self, (int)left) / 100 * 100;
-		i = time_to_pixel (self, tmp_time);
-		while (i <= (int)right) {
+		tmp_time = pixel_to_time (self, offset) / 100 * 100;
+		i = time_to_pixel (self, tmp_time) - offset;
+		while (i <= width) {
 			if (tmp_time < self->priv->duration)
 				gtk_render_line (context, cr, i, 0, i, SECONDARY_MARK_HEIGHT);
 			tmp_time += 100;
-			i = time_to_pixel (self, tmp_time);
+			i = time_to_pixel (self, tmp_time) - offset;
 		}
 	}
 
 	/* Case: secondary ruler marks for full seconds.
 	   Use secondary_modulo. */
 	if (self->priv->primary_modulo > 1) {
-		for (i = (int)left; i <= (int)right; i += 1) {
-			sample = i;
+		for (i = 0; i <= width; i += 1) {
+			sample = i + offset;
 			if (sample > self->priv->n_samples)
 				break;
 			if (sample % (self->priv->px_per_sec * self->priv->secondary_modulo) == 0)
@@ -129,8 +130,8 @@ pt_waveviewer_ruler_draw (GtkWidget *widget,
 				     gtk_style_context_get_state (context),
 				     &text_color);
 	gdk_cairo_set_source_rgba (cr, &text_color);
-	for (i = (int)left - self->priv->time_string_width; i <= (int)right + self->priv->time_string_width; i += 1) {
-		sample = i;
+	for (i = 0 - self->priv->time_string_width; i <= width + self->priv->time_string_width; i += 1) {
+		sample = i + offset;
 		if (sample < 0 || sample > self->priv->n_samples)
 			continue;
 		if (self->priv->px_per_sec * self->priv->primary_modulo == 0)
@@ -152,10 +153,10 @@ pt_waveviewer_ruler_draw (GtkWidget *widget,
 
 			/* display timestring only if it is fully visible in drawing area */
 			pango_layout_get_pixel_extents (layout, &rect, NULL);
-			x_offset = (rect.x + rect.width) / 2;
-			if (i - x_offset > 0 && i + x_offset < gtk_widget_get_allocated_width (widget)) {
+			halfwidth = rect.width / 2;
+			if (i - halfwidth > 0 && i + halfwidth < width) {
 				cairo_move_to (cr,
-					       i - x_offset,	/* center at mark */
+					       i - halfwidth,	/* center at mark */
 					       height - rect.y - rect.height -3); /* +3 px above border */
 				pango_cairo_show_layout (cr, layout);
 			}
@@ -235,7 +236,7 @@ calculate_height (PtWaveviewerRuler *self)
 	cairo_destroy (cr);
 	cairo_surface_destroy (surface);
 
-	gtk_widget_set_size_request (GTK_WIDGET (self), self->priv->n_samples, ruler_height);
+	gtk_widget_set_size_request (GTK_WIDGET (self), -1, ruler_height);
 }
 
 static void
@@ -254,14 +255,7 @@ adj_value_changed (GtkAdjustment *adj,
                    gpointer       data)
 {
 	PtWaveviewerRuler *self = PT_WAVEVIEWER_RULER (data);
-	gint height, width, left;
-
-	height = gtk_widget_get_allocated_height (GTK_WIDGET (self));
-	width = (gint) gtk_adjustment_get_page_size (self->priv->adj);
-	left = (gint) gtk_adjustment_get_value (self->priv->adj);
-	gtk_widget_queue_draw_area (GTK_WIDGET (self),
-				    left, 0,
-				    width, height);
+	gtk_widget_queue_draw (GTK_WIDGET (self));
 }
 
 static void
