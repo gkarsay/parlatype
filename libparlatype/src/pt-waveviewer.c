@@ -1202,6 +1202,12 @@ pt_waveviewer_init (PtWaveviewer *self)
 	self->priv = pt_waveviewer_get_instance_private (self);
 
 	g_type_ensure (PT_TYPE_WAVEVIEWER_SCROLLBOX);
+	g_type_ensure (PT_TYPE_WAVEVIEWER_RULER);
+	g_type_ensure (PT_TYPE_WAVEVIEWER_WAVEFORM);
+	g_type_ensure (PT_TYPE_WAVEVIEWER_SELECTION);
+	g_type_ensure (PT_TYPE_WAVEVIEWER_CURSOR);
+	g_type_ensure (PT_TYPE_WAVEVIEWER_FOCUS);
+
 	gtk_widget_init_template (GTK_WIDGET (self));
 
 	GtkCssProvider  *provider;
@@ -1217,11 +1223,6 @@ pt_waveviewer_init (PtWaveviewer *self)
 	self->priv->zoom_time = 0;
 	self->priv->zoom_pos = 0;
 	self->priv->arrows = get_resize_cursor ();
-	self->priv->waveform = pt_waveviewer_waveform_new ();
-	self->priv->focus = pt_waveviewer_focus_new ();
-	self->priv->cursor = pt_waveviewer_cursor_new ();
-	self->priv->selection = pt_waveviewer_selection_new ();
-	self->priv->ruler = pt_waveviewer_ruler_new ();
 	self->priv->loader = pt_waveloader_new (NULL);
 	self->priv->peaks = pt_waveloader_get_data (self->priv->loader);
 	self->priv->tick_handler = 0;
@@ -1230,12 +1231,6 @@ pt_waveviewer_init (PtWaveviewer *self)
 			PT_WAVEVIEWER_WAVEFORM (self->priv->waveform),
 			self->priv->peaks);
 
-	/* Setup scrolled window */
-	gtk_container_add (GTK_CONTAINER (self->priv->overlay), self->priv->waveform);
-	gtk_overlay_add_overlay (GTK_OVERLAY (self->priv->overlay), self->priv->selection);
-	gtk_overlay_add_overlay (GTK_OVERLAY (self->priv->overlay), self->priv->cursor);
-	gtk_overlay_add_overlay (GTK_OVERLAY (self->priv->overlay), self->priv->focus);
-	gtk_container_add (GTK_CONTAINER (self->priv->revealer), self->priv->ruler);
 	gtk_widget_show_all (GTK_WIDGET (self));
 
 	css_file = g_file_new_for_uri ("resource:///org/parlatype/libparlatype/pt-waveviewer.css");
@@ -1312,9 +1307,14 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 	widget_class->scroll_event         = pt_waveviewer_scroll_event;
 
 	gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/libparlatype/pt-waveviewer.ui");
-	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, revealer);
-	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, overlay);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, scrollbox);
+	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, revealer);
+	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, ruler);
+	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, overlay);
+	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, waveform);
+	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, selection);
+	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, cursor);
+	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, focus);
 
 	/**
 	* PtWaveviewer::load-progress:
