@@ -782,32 +782,6 @@ cursor_is_visible (PtWaveviewer *self)
 }
 
 static void
-size_allocate_cb (GtkWidget    *widget,
-                  GdkRectangle *allocation,
-                  gpointer      user_data)
-{
-	PtWaveviewer *self = PT_WAVEVIEWER (user_data);
-
-	if (self->priv->zoom) {
-		gtk_adjustment_set_value (
-				self->priv->adj,
-				time_to_pixel (self, self->priv->zoom_time) - self->priv->zoom_pos);
-		self->priv->zoom = FALSE;
-	}
-
-	if (self->priv->peaks->len > 0) {
-		pt_waveviewer_cursor_render (
-				PT_WAVEVIEWER_CURSOR (self->priv->cursor),
-				time_to_pixel (self, self->priv->playback_cursor) - gtk_adjustment_get_value (self->priv->adj));
-	}
-
-	pt_waveviewer_selection_set (
-			PT_WAVEVIEWER_SELECTION (self->priv->selection),
-			time_to_pixel (self, self->priv->sel_start),
-			time_to_pixel (self, self->priv->sel_end));
-}
-
-static void
 get_anchor_point (PtWaveviewer *self)
 {
 	/* Get an anchor point = zoom_pos, either cursor position or
@@ -1276,12 +1250,6 @@ pt_waveviewer_init (PtWaveviewer *self)
 
 	g_object_unref (css_file);
 	g_object_unref (provider);
-
-	g_signal_connect (
-			GTK_WIDGET (self->priv->waveform),
-			"size-allocate",
-			G_CALLBACK (size_allocate_cb),
-			self);
 
 	/* Setup event handling */
 	self->priv->button = gtk_gesture_multi_press_new (self->priv->scrollbox);
