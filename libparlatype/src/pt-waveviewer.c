@@ -450,10 +450,10 @@ pt_waveviewer_button_press_event (GtkGestureMultiPress *gesture,
 		self->priv->dragstart = self->priv->dragend = pos;
 
 		/* if over selection border: snap to selection border, changing selection */
-		if (pointer_in_range (self, x, self->priv->sel_start)) {
+		if (pointer_in_range (self, x + gtk_adjustment_get_value (self->priv->adj), self->priv->sel_start)) {
 			self->priv->dragstart = self->priv->sel_end;
 			self->priv->dragend = self->priv->sel_start;
-		} else if (pointer_in_range (self, x, self->priv->sel_end)) {
+		} else if (pointer_in_range (self, x + gtk_adjustment_get_value (self->priv->adj), self->priv->sel_end)) {
 			self->priv->dragstart = self->priv->sel_start;
 			self->priv->dragend = self->priv->sel_end;
 		}
@@ -573,8 +573,8 @@ pt_waveviewer_motion_notify_event (GtkWidget      *widget,
 
 	/* No button or any other button: change pointer cursor over selection border */
 	if (self->priv->sel_start != self->priv->sel_end) {
-		if (pointer_in_range (self, x, self->priv->sel_start)
-		    || pointer_in_range (self, x, self->priv->sel_end)) {
+		if (pointer_in_range (self, x + gtk_adjustment_get_value (self->priv->adj), self->priv->sel_start)
+		    || pointer_in_range (self, x + gtk_adjustment_get_value (self->priv->adj), self->priv->sel_end)) {
 			set_cursor (GTK_WIDGET (self), self->priv->arrows);
 		} else {
 			set_cursor (GTK_WIDGET (self), NULL);

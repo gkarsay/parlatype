@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Gabor Karsay <gabor.karsay@gmx.at>
+/* Copyright (C) 2017, 2020 Gabor Karsay <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -19,10 +19,13 @@
 
 
 #include "config.h"
+#include "pt-waveviewer.h"
 #include "pt-waveviewer-selection.h"
 
 
 struct _PtWaveviewerSelectionPrivate {
+	GtkAdjustment *adj;	/* the parent PtWaveviewer’s adjustment */
+
 	GdkRGBA	selection_color;
 	gint    start;
 	gint    end;
@@ -40,34 +43,24 @@ pt_waveviewer_selection_draw (GtkWidget *widget,
 
 	gint height;
 	gint width;
+	gint offset;
+	gint left, right;
 
 	height = gtk_widget_get_allocated_height (widget);
 	width = gtk_widget_get_allocated_width (widget);
 
-	/* clear everything */
-	cairo_set_source_rgba (cr, 0, 0, 0, 0);
-	cairo_rectangle (cr, 0, 0, width, height);
+	offset = (gint) gtk_adjustment_get_value (self->priv->adj);
+	left = CLAMP (self->priv->start - offset, 0, width);
+	right = CLAMP (self->priv->end - offset, 0, width);
+
+	if (left == right)
+		return FALSE;
+
+	gdk_cairo_set_source_rgba (cr, &self->priv->selection_color);
+	cairo_rectangle (cr, left, 0, right - left, height);
 	cairo_fill (cr);
 
-	/* paint selection */
-	if (self->priv->start != self->priv->end) {
-		gdk_cairo_set_source_rgba (cr, &self->priv->selection_color);
-		cairo_rectangle (cr, self->priv->start, 0, self->priv->end - self->priv->start, height);
-		cairo_fill (cr);
-	}
-
 	return FALSE;
-}
-
-static void
-draw_selection (PtWaveviewerSelection *self)
-{
-	gint height;
-
-	height = gtk_widget_get_allocated_height (GTK_WIDGET (self));
-	gtk_widget_queue_draw_area (GTK_WIDGET (self),
-				    self->priv->start, 0,
-				    self->priv->end - self->priv->start, height);
 }
 
 static void
@@ -104,7 +97,7 @@ pt_waveviewer_selection_style_updated (GtkWidget *widget)
 	GTK_WIDGET_CLASS (pt_waveviewer_selection_parent_class)->style_updated (widget);
 
 	update_cached_style_values (self);
-	draw_selection (self);
+	gtk_widget_queue_draw (GTK_WIDGET (self));
 }
 
 static void
@@ -114,67 +107,46 @@ pt_waveviewer_selection_realize (GtkWidget *widget)
 	update_cached_style_values (PT_WAVEVIEWER_SELECTION (widget));
 }
 
+static void
+adj_value_changed (GtkAdjustment *adj,
+                   gpointer       data)
+{
+	PtWaveviewerSelection *self = PT_WAVEVIEWER_SELECTION (data);
+	gtk_widget_queue_draw (GTK_WIDGET (self));
+}
+
+static void
+pt_waveviewer_selection_hierarchy_changed (GtkWidget *widget,
+                                           GtkWidget *old_parent)
+{
+	/* When added as a child to the PtWaveviewer, get its horizontal
+	 * GtkAdjustment */
+
+	PtWaveviewerSelection *self = PT_WAVEVIEWER_SELECTION (widget);
+	GtkWidget *parent = NULL;
+
+	if (self->priv->adj)
+		return;
+
+	parent = gtk_widget_get_ancestor (widget, PT_TYPE_WAVEVIEWER);
+
+	if (!parent)
+		return;
+
+	self->priv->adj = gtk_scrolled_window_get_hadjustment (
+					GTK_SCROLLED_WINDOW (parent));
+	g_signal_connect (self->priv->adj, "value-changed",
+	                  G_CALLBACK (adj_value_changed), self);
+}
+
 void
 pt_waveviewer_selection_set (PtWaveviewerSelection *self,
                              gint                   start,
                              gint                   end)
 {
-	gint x1, x2, height;
-
-	/* Make sure start < end, important for rtl layouts */
-	if (start > end) {
-		x1 = start;
-		start = end;
-		end = x1;
-	}
-
-	/* Case: no change */
-	if (self->priv->start == start && self->priv->end == end)
-		return;
-
-	/* Case: nothing selected before, draw selection only */
-	if (self->priv->start == self->priv->end) {
-		self->priv->start = start;
-		self->priv->end = end;
-		draw_selection (self);
-		return;
-	}
-
-	/* Case: start and end changed, draw old and new selection */
-	if (self->priv->start != start && self->priv->end != end) {
-		draw_selection (self);
-		self->priv->start = start;
-		self->priv->end = end;
-		draw_selection (self);
-		return;
-	}
-
-	if (self->priv->start == start) {
-		/* Case: start unchanged, draw only difference at end */
-		if (self->priv->end < end) {
-			x1 = self->priv->end;
-			x2 = end - self->priv->end;
-		} else {
-			x1 = end;
-			x2 = self->priv->end - end;
-		}
-	} else {
-		/* Case: end unchanged, draw only difference at start */
-		if (self->priv->start < start) {
-			x1 = self->priv->start;
-			x2 = start - self->priv->start;
-		} else {
-			x1 = start;
-			x2 = self->priv->start - start;
-		}
-	}
-
 	self->priv->start = start;
 	self->priv->end = end;
-	height = gtk_widget_get_allocated_height (GTK_WIDGET (self));
-	gtk_widget_queue_draw_area (GTK_WIDGET (self),
-				    x1, 0,
-				    x2, height);
+	gtk_widget_queue_draw (GTK_WIDGET (self));
 }
 
 static void
@@ -186,6 +158,7 @@ pt_waveviewer_selection_init (PtWaveviewerSelection *self)
 
 	self->priv->start = 0;
 	self->priv->end = 0;
+	self->priv->adj = NULL;
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
 	gtk_style_context_add_class (context, "selection");
@@ -199,6 +172,7 @@ pt_waveviewer_selection_class_init (PtWaveviewerSelectionClass *klass)
 	GtkWidgetClass *widget_class  = GTK_WIDGET_CLASS (klass);
 
 	widget_class->draw                = pt_waveviewer_selection_draw;
+	widget_class->hierarchy_changed   = pt_waveviewer_selection_hierarchy_changed;
 	widget_class->realize             = pt_waveviewer_selection_realize;
 	widget_class->state_flags_changed = pt_waveviewer_selection_state_flags_changed;
 	widget_class->style_updated       = pt_waveviewer_selection_style_updated;
