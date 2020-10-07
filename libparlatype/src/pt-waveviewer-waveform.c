@@ -65,9 +65,8 @@ pt_waveviewer_waveform_draw (GtkWidget *widget,
 	gint pixel;
 	gint array;
 	gdouble min, max;
-	gint width, height;
+	gint width, height, offset;
 	gint half, middle;
-	gdouble left, right;
 
 	context = gtk_widget_get_style_context (widget);
 	height = gtk_widget_get_allocated_height (widget);
@@ -78,14 +77,12 @@ pt_waveviewer_waveform_draw (GtkWidget *widget,
 		return FALSE;
 
 	/* paint waveform */
-
-	/* get extents, only render what we’re asked for */
-	cairo_clip_extents (cr, &left, NULL, &right, NULL);
+	offset = (gint) gtk_adjustment_get_value (self->priv->adj);
 	half = height / 2 - 1;
 	middle = height / 2;
 	gdk_cairo_set_source_rgba (cr, &self->priv->wave_color);
-	for (pixel = (gint)left; pixel <= (gint)right; pixel += 1) {
-		array = pixel_to_array (self, pixel);
+	for (pixel = 0; pixel <= width; pixel += 1) {
+		array = pixel_to_array (self, pixel + offset);
 		if (array == -1)
 			break;
 		min = (middle + half * g_array_index (peaks, float, array) * -1);
