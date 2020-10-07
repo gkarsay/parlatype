@@ -912,6 +912,8 @@ load_cb (PtWaveloader *loader,
 	if (pt_waveloader_load_finish (loader, res, &error)) {
 		array_size_changed_cb (NULL, self);
 		gtk_widget_queue_draw (self->priv->waveform);
+		pt_waveviewer_cursor_render (PT_WAVEVIEWER_CURSOR (self->priv->cursor),
+					     time_to_pixel (self, self->priv->playback_cursor) - gtk_adjustment_get_value (self->priv->adj));
 		g_task_return_boolean (task, TRUE);
 	} else {
 		g_array_set_size (self->priv->peaks, 0);
