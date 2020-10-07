@@ -187,6 +187,19 @@ scroll_to_cursor (PtWaveviewer *self)
 	}
 }
 
+static void
+render_cursor (PtWaveviewer *self)
+{
+	PtWaveviewerCursor *cursor;
+	gint offset, pixel;
+
+	cursor = PT_WAVEVIEWER_CURSOR (self->priv->cursor);
+	offset = gtk_adjustment_get_value (self->priv->adj);
+	pixel = time_to_pixel (self, self->priv->playback_cursor);
+
+	pt_waveviewer_cursor_render (cursor, pixel - offset);
+}
+
 static gint64
 calculate_duration (PtWaveviewer *self)
 {
@@ -885,8 +898,7 @@ load_cb (PtWaveloader *loader,
 	if (pt_waveloader_load_finish (loader, res, &error)) {
 		array_size_changed_cb (NULL, self);
 		gtk_widget_queue_draw (self->priv->waveform);
-		pt_waveviewer_cursor_render (PT_WAVEVIEWER_CURSOR (self->priv->cursor),
-					     time_to_pixel (self, self->priv->playback_cursor) - gtk_adjustment_get_value (self->priv->adj));
+		render_cursor (self);
 		g_task_return_boolean (task, TRUE);
 	} else {
 		g_array_set_size (self->priv->peaks, 0);
@@ -1102,8 +1114,7 @@ pt_waveviewer_set_property (GObject      *object,
 		if (self->priv->follow_cursor)
 			scroll_to_cursor (self);
 
-		pt_waveviewer_cursor_render (PT_WAVEVIEWER_CURSOR (self->priv->cursor),
-					     time_to_pixel (self, self->priv->playback_cursor) - gtk_adjustment_get_value (self->priv->adj));
+		render_cursor (self);
 		break;
 	case PROP_FOLLOW_CURSOR:
 		self->priv->follow_cursor = g_value_get_boolean (value);
@@ -1135,8 +1146,7 @@ pt_waveviewer_set_property (GObject      *object,
 		array_size_changed_cb (NULL, self);
 		gtk_adjustment_set_value (self->priv->adj, time_to_pixel (self, self->priv->zoom_time) - self->priv->zoom_pos);
 		gtk_widget_queue_draw (self->priv->waveform);
-		pt_waveviewer_cursor_render (PT_WAVEVIEWER_CURSOR (self->priv->cursor),
-					     time_to_pixel (self, self->priv->playback_cursor) - gtk_adjustment_get_value (self->priv->adj));
+		render_cursor (self);
 		if (self->priv->has_selection) {
 			pt_waveviewer_selection_set (PT_WAVEVIEWER_SELECTION (self->priv->selection),
 					time_to_pixel (self, self->priv->sel_start),
@@ -1155,8 +1165,7 @@ adjustment_value_changed_cb (GtkAdjustment *adjustment,
 {
 	PtWaveviewer *self = PT_WAVEVIEWER (user_data);
 
-	pt_waveviewer_cursor_render (PT_WAVEVIEWER_CURSOR (self->priv->cursor),
-				     time_to_pixel (self, self->priv->playback_cursor) - gtk_adjustment_get_value (self->priv->adj));
+	render_cursor (self);
 }
 
 static void
