@@ -858,7 +858,7 @@ array_size_changed_cb (PtWaveloader *loader,
 		       gpointer      user_data)
 {
 	PtWaveviewer *self = PT_WAVEVIEWER (user_data);
-	gint widget_width;
+	gint width;
 
 	if (self->priv->peaks == NULL || self->priv->peaks->len == 0) {
 		self->priv->peaks_size = 0;
@@ -874,13 +874,10 @@ array_size_changed_cb (PtWaveloader *loader,
 		self->priv->peaks_size = self->priv->peaks->len;
 		self->priv->px_per_sec = self->priv->pps;
 		self->priv->duration = calculate_duration (self);
-		widget_width = self->priv->peaks_size / 2;
-		gtk_adjustment_set_upper (self->priv->adj, widget_width);
-		gtk_widget_set_size_request (
-				self->priv->waveform,
-				widget_width,
-				WAVE_MIN_HEIGHT);
 	}
+
+	width = self->priv->peaks_size / 2;
+	pt_waveviewer_scrollbox_set (PT_WAVEVIEWER_SCROLLBOX (self->priv->scrollbox), width);
 
 	pt_waveviewer_ruler_set_ruler (
 			PT_WAVEVIEWER_RULER (self->priv->ruler),
