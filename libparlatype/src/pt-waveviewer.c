@@ -1,6 +1,6 @@
 /* Copyright (C) 2006-2008 Buzztrax team <buzztrax-devel@buzztrax.org>
  * Copyright (C) 2002 2003 2004 2005 2007 2008 2009 2010, Magnus Hjorth
- * Copyright (C) 2016 Gabor Karsay <gabor.karsay@gmx.at>
+ * Copyright (C) 2016, 2020 Gabor Karsay <gabor.karsay@gmx.at>
  *
  * Original source name waveform-viewer.c, taken from Buzztrax and heavily
  * modified. Original source licenced under LGPL 2 or later.
