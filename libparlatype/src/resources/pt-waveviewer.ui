@@ -9,12 +9,10 @@
     <property name="shadow_type">in</property>
     <property name="overlay_scrolling">False</property>
     <child>
-      <object class="GtkViewport">
+      <object class="PtWaveviewerScrollbox" id="scrollbox">
         <property name="can_focus">False</property>
-        <child>
-          <object class="GtkBox" id="box">
-            <property name="can_focus">False</property>
-            <property name="orientation">vertical</property>
+        <!-- orientation is already vertical, but GtkBuilder ignores it -->
+        <property name="orientation">vertical</property>
             <child>
               <object class="GtkOverlay" id="overlay">
                 <property name="can_focus">False</property>
@@ -35,8 +33,6 @@
                 </child>
               </object>
             </child>
-          </object>
-        </child>
       </object>
     </child>
   </template>

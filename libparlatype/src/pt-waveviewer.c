@@ -32,6 +32,7 @@
 #include "pt-waveloader.h"
 #include "pt-waveviewer-ruler.h"
 #include "pt-waveviewer-waveform.h"
+#include "pt-waveviewer-scrollbox.h"
 #include "pt-waveviewer-selection.h"
 #include "pt-waveviewer-cursor.h"
 #include "pt-waveviewer-focus.h"
@@ -73,7 +74,7 @@ struct _PtWaveviewerPrivate {
 	gboolean         focus_on_cursor;
 
 	/* Subwidgets */
-	GtkWidget  *box;
+	GtkWidget  *scrollbox;
 	GtkWidget  *overlay;
 	GtkWidget  *waveform;
 	GtkWidget  *revealer;
@@ -1200,6 +1201,7 @@ pt_waveviewer_init (PtWaveviewer *self)
 {
 	self->priv = pt_waveviewer_get_instance_private (self);
 
+	g_type_ensure (PT_TYPE_WAVEVIEWER_SCROLLBOX);
 	gtk_widget_init_template (GTK_WIDGET (self));
 
 	GtkCssProvider  *provider;
@@ -1254,7 +1256,7 @@ pt_waveviewer_init (PtWaveviewer *self)
 			self);
 
 	/* Setup event handling */
-	self->priv->button = gtk_gesture_multi_press_new (self->priv->box);
+	self->priv->button = gtk_gesture_multi_press_new (self->priv->scrollbox);
 	gtk_gesture_single_set_exclusive (GTK_GESTURE_SINGLE (self->priv->button), TRUE);
 	gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (self->priv->button), 0);
 	gtk_event_controller_set_propagation_phase (GTK_EVENT_CONTROLLER (self->priv->button), GTK_PHASE_CAPTURE);
@@ -1270,7 +1272,7 @@ pt_waveviewer_init (PtWaveviewer *self)
 			self);
 
 #if GTK_CHECK_VERSION(3,24,0)
-	self->priv->motion_ctrl = gtk_event_controller_motion_new (self->priv->box);
+	self->priv->motion_ctrl = gtk_event_controller_motion_new (self->priv->scrollbox);
 	g_signal_connect (
 			self->priv->motion_ctrl,
 			"motion",
@@ -1318,7 +1320,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 	gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/libparlatype/pt-waveviewer.ui");
 	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, revealer);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, overlay);
-	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, box);
+	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, scrollbox);
 
 	/**
 	* PtWaveviewer::load-progress:
