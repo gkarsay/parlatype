@@ -14,9 +14,19 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* PtWaveviewerFocus is a GtkDrawingArea. It is part of a GtkOverlay stack,
-   on the very top. It renders only a focus line on the visible rectangle of
-   the PtWaveviewer parent. */
+/**
+ * SECTION: pt-waveviewer-focus
+ * @short_description: Internal widget that draws a focus indicator for PtWaveviewer.
+ *
+ * PtWaveviewerFocus is part of a GtkOverlay stack, from bottom to top:
+ * - PtWaveviewerWaveform
+ * - PtWaveviewerSelection
+ * - PtWaveviewerCursor
+ * - PtWaveviewerFocus
+ *
+ * pt_waveviewer_focus_set() is used to set (or remove) the focus indicator.
+ * It is drawn around the currently visible part of the waveform.
+ */
 
 
 #include "config.h"

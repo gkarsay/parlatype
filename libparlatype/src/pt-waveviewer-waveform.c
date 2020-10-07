@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Gabor Karsay <gabor.karsay@gmx.at>
+/* Copyright (C) 2017, 2020 Gabor Karsay <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -14,8 +14,30 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* PtWaveviewerWaveform is a GtkDrawingArea. It is part of a GtkOverlay stack.
-   It renders only the waveform. */
+/**
+ * SECTION: pt-waveviewer-waveform
+ * @short_description: Internal widget that draws the waveform for PtWaveviewer.
+ *
+ * PtWaveviewerCursor is part of a GtkOverlay stack, from bottom to top:
+ * - PtWaveviewerWaveform
+ * - PtWaveviewerSelection
+ * - PtWaveviewerCursor
+ * - PtWaveviewerFocus
+ *
+ * When it's added to PtWaveviewer, it gets the horizontal GtkAdjustment from
+ * its parent (listening for the hierarchy-changed signal).
+ *
+ * pt_waveviewer_waveform_set() is used to pass an array with data to the
+ * widget.
+ *
+ * It listens to changes of the parent's horizontal GtkAdjustment and redraws
+ * itself (scroll movements, size changes).
+ *
+ * The widget listens to the style-updated signal and the state-flags-changed
+ * signal to update its color.
+ *
+ * The widget has the GTK_STYLE_CLASS_VIEW to paint the waveform.
+ */
 
 
 #include "config.h"
@@ -99,7 +121,7 @@ pt_waveviewer_waveform_draw (GtkWidget *widget,
 static void
 update_cached_style_values (PtWaveviewerWaveform *self)
 {
-	/* Update color and direction */
+	/* Update color */
 
 	GtkStyleContext *context;
 	GtkStateFlags    state;

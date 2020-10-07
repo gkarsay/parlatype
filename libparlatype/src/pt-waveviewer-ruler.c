@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Gabor Karsay <gabor.karsay@gmx.at>
+/* Copyright (C) 2017, 2020 Gabor Karsay <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -13,6 +13,34 @@
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+/**
+ * SECTION: pt-waveviewer-ruler
+ * @short_description: Internal widget that draws the ruler for PtWaveviewer.
+ *
+ * When it's added to PtWaveviewer, it gets the horizontal GtkAdjustment from
+ * its parent (listening for the hierarchy-changed signal).
+ *
+ * Use pt_waveviewer_ruler_set_ruler() to set it up. @n_samples is the number
+ * of lines in the waveform or the width of the fully plotted waveform.
+ * @px_per_sec is how many pixels are worth one second and @duration is the
+ * duration in ms of the audio stream.
+ *
+ * The height of the ruler is determined by the height of the system font plus
+ * 5px for marks and 6px for padding.
+ *
+ * Marks (primary and secondary) are computed based on font size and pixel per
+ * second ratio.
+ *
+ * It listens to changes of the parent's horizontal GtkAdjustment and redraws
+ * itself (scroll movements, size changes).
+ *
+ * The widget listens to the style-updated signal (e.g. changed font size, color)
+ * and the state-flags-changed signal to update its height/color.
+ *
+ * The widget has a GTK_STYLE_CLASS_MARK and a name "ruler".
+ */
+
 
 #include "config.h"
 #define GETTEXT_PACKAGE GETTEXT_LIB

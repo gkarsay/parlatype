@@ -17,6 +17,16 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * SECTION: pt-waveloader
+ * @short_description: Loads the waveform for a given file.
+ * @stability: Stable
+ * @include: parlatype/pt-waveloader.h
+ *
+ * An object to load waveform data from an audio file. The raw data can be
+ * used by a widget to visually represent a waveform.
+ */
+
 
 #include "config.h"
 #include <gio/gio.h>
@@ -67,16 +77,6 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PtWaveloader, pt_waveloader, G_TYPE_OBJECT)
 
-
-/**
- * SECTION: pt-waveloader
- * @short_description: Loads the waveform for a given file.
- * @stability: Stable
- * @include: parlatype/pt-waveloader.h
- *
- * An object to load waveform data from an audio file. The raw data can be
- * used by a widget to visually represent a waveform.
- */
 
 static void
 remove_timeout (PtWaveloader *wl)

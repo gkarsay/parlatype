@@ -23,6 +23,17 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * SECTION: pt-waveviewer
+ * @short_description: A GtkWidget to display a waveform.
+ * @stability: Stable
+ * @include: parlatype/pt-waveviewer.h
+ *
+ * Displays a waveform and lets the user interact with it: jumping to a position,
+ * make selections and so on.
+ */
+
+
 #include "config.h"
 #include <math.h>	/* fabs */
 #include <string.h>
@@ -120,17 +131,6 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 
 G_DEFINE_TYPE_WITH_PRIVATE (PtWaveviewer, pt_waveviewer, GTK_TYPE_SCROLLED_WINDOW);
-
-
-/**
- * SECTION: pt-waveviewer
- * @short_description: A GtkWidget to display a waveform.
- * @stability: Stable
- * @include: parlatype/pt-waveviewer.h
- *
- * Displays a waveform and lets the user interact with it: jumping to a position,
- * make selections and so on.
- */
 
 
 static gint64

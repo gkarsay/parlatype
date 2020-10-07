@@ -14,6 +14,32 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * SECTION: pt-waveviewer-scrollbox
+ * @short_description: Internal viewport widget for PtWaveviewer.
+ *
+ * This is a viewport that pretends to have children with the width of a fully
+ * plotted waveform. A regular viewport would scroll its children to the
+ * desired position, however, a fully plotted waveform would be too wide and
+ * would not work with GTK 4 (it is possible in GTK 3 by clipping the drawing
+ * area to the visible extents).
+
+ * PtWaveviewerScrollbox doesn't do anything except creating a horizontal
+ * GtkAdjustment. Notably it doesn't scroll its children.
+ *
+ * Use pt_waveviewer_scrollbox_set() and its parameter @width to set the fake
+ * width of the children, that is the width of the fully plotted waveform.
+ *
+ * Most children (waveform, ruler, selection) get the parent's GtkAdjustment and
+ * decide on their own what to show when there is a scroll event.
+ *
+ * The focus widget doesn't care about scroll events and shows a focus
+ * indicator close to the viewport border.
+ *
+ * Only the cursor widget has to be constantly updated by PtWaveviewer.
+ */
+
+
 #include "config.h"
 #include "pt-waveviewer.h"
 #include "pt-waveviewer-scrollbox.h"

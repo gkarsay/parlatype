@@ -14,8 +14,29 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* PtWaveviewerSelection is a GtkDrawingArea. It is part of a GtkOverlay stack.
-   It renders only the selection. */
+/**
+ * SECTION: pt-waveviewer-selection
+ * @short_description: Internal widget that draws a selection for PtWaveviewer.
+ *
+ * PtWaveviewerSelection is part of a GtkOverlay stack, from bottom to top:
+ * - PtWaveviewerWaveform
+ * - PtWaveviewerSelection
+ * - PtWaveviewerCursor
+ * - PtWaveviewerFocus
+ *
+ * When it's added to PtWaveviewer, it gets the horizontal GtkAdjustment from
+ * its parent (listening for the hierarchy-changed signal).
+ *
+ * pt_waveviewer_selection_set() is used to set (or remove) a selection. The
+ * parameters @start and @end are the first and the last pixel of the selection
+ * of a fully plotted waveform. The widget knows from the parent's GtkAdjustment
+ * which portion of the waveform is currently shown and draws a selection box
+ * if it is currently visible. To remove a selection set @start and @end to
+ * the same value, e.g. zero.
+ *
+ * The widget has a style class "selection" that can be used to set its color
+ * via CSS.
+ */
 
 
 #include "config.h"
