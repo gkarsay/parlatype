@@ -57,7 +57,6 @@ struct _PtWaveviewerPrivate {
 	gboolean  fixed_cursor;
 	gboolean  show_ruler;
 	gboolean  has_selection;
-	gboolean  zoom;
 	gint      pps;
 
 	gint64    zoom_time;
@@ -1125,7 +1124,6 @@ pt_waveviewer_set_property (GObject      *object,
 		if (self->priv->peaks->len == 0)
 			break;
 		get_anchor_point (self);
-		self->priv->zoom = TRUE;
 		if (!pt_waveloader_resize (self->priv->loader,
 				           self->priv->pps,
 				           &error)) {
