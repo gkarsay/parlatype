@@ -1155,6 +1155,18 @@ pt_waveviewer_set_property (GObject      *object,
 				           &error)) {
 			g_print ("%s\n", error->message);
 			g_clear_error (&error);
+			break;
+		}
+
+		array_size_changed_cb (NULL, self);
+		gtk_adjustment_set_value (self->priv->adj, time_to_pixel (self, self->priv->zoom_time) - self->priv->zoom_pos);
+		gtk_widget_queue_draw (self->priv->waveform);
+		pt_waveviewer_cursor_render (PT_WAVEVIEWER_CURSOR (self->priv->cursor),
+					     time_to_pixel (self, self->priv->playback_cursor) - gtk_adjustment_get_value (self->priv->adj));
+		if (self->priv->has_selection) {
+			pt_waveviewer_selection_set (PT_WAVEVIEWER_SELECTION (self->priv->selection),
+					time_to_pixel (self, self->priv->sel_start),
+					time_to_pixel (self, self->priv->sel_end));
 		}
 		break;
 	default:
