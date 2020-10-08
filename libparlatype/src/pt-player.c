@@ -2013,6 +2013,11 @@ create_play_bin (PtPlayer  *player,
 		sink = "alsasink";
 #endif
 	audiosink = make_element (sink, "audiosink", &earlier_error);
+	if (earlier_error != NULL) {
+		g_clear_error (&earlier_error);
+		sink = "autoaudiosink";
+		audiosink = make_element (sink, "audiosink", &earlier_error);
+	}
 	PROPAGATE_ERROR_NULL
 
 	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
