@@ -303,7 +303,7 @@ array_size_changed_cb (PtWaveloader *wl)
 static void
 waveloader_load_success (void)
 {
-	/* Test a successfull load: should return success, no error.
+	/* Test a successful load: should return success, no error.
 	 * Should emit several progress signals, starting from > 0 and ending
 	 * at 1.0. Should emit at least one array-size-changed signal.
 	 * Results for the loaded file should be as in previous runs: check

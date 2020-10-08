@@ -29,7 +29,7 @@
 
 <p>Output is without punctuation or capitalization, you have to add or correct that yourself.</p>
 
-<note><p><em>Accuracy</em> depends on many factors like quality of the recording, background noise, speaker’s dialect or pronounciation and the speech model used. For general transcription you can expect an word error rate between 10 and 50 %. Alas this means that in some case manual transcription from the start will be faster than automatic transcription and the following correction process.</p></note>
+<note><p><em>Accuracy</em> depends on many factors like quality of the recording, background noise, speaker’s dialect or pronunciation and the speech model used. For general transcription you can expect an word error rate between 10 and 50 %. Alas this means that in some case manual transcription from the start will be faster than automatic transcription and the following correction process.</p></note>
 
 
 </section>

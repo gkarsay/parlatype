@@ -2019,7 +2019,7 @@ create_play_bin (PtPlayer  *player,
 		          "MESSAGE", "Audio sink is %s", sink);
 
 	/* Audiosinks without a "volume" property can be controlled by the
-	 * playbin element, but there is a noticable delay in setting the volume.
+	 * playbin element, but there is a noticeable delay in setting the volume.
 	 * Create a "volume" element for those audiosinks.
 	 * Note: Query is generic, it's actually only for alsasink.
 	 * The exception for directsoundsink is because "mute" doesn't work. */

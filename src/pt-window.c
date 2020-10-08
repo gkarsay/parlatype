@@ -575,7 +575,7 @@ enable_win_actions (PtWindow *win,
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "goto");
 	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
 
-	/* always insensitve: either there is no waveform or we are already at cursor position */
+	/* always insensitive: either there is no waveform or we are already at cursor position */
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "goto-cursor");
 	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), FALSE);
 

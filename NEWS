@@ -229,7 +229,7 @@ Overview of Changes in Parlatype 1.5 – 2017-03-14
 * New: Cursor fixed or moving (set in preferences)
 * New: Set resolution of waveviewer in preferences
 * New: Introducing selections in waveviewer (select with left mouse button,
-  enlarge with shift, unselect with Escape button)
+  enlarge with shift, deselect with Escape button)
 * New: At the end of selection, clicking on Play will repeat the selection
 * New: Waveviewer or cursor can be focused and moved (keyboard)
 * New: Waveviewer supports right-to-left languages
