@@ -25,7 +25,7 @@ fi
 
 # Don't overwrite old files
 mkdir $TEMP_DIR 2>&- || {
-	echo "Remove folder $TEMP_DIR first – quitting now."	
+	echo "Remove folder $TEMP_DIR first – quitting now."
 	exit 1
 }
 

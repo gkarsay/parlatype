@@ -4,12 +4,12 @@
  * modify it under the terms of the GNU General Public License as published
  * by the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -136,7 +136,7 @@ check_hmm_folder (gchar *folder_uri)
 	gchar           *folder_path;
 	GFile           *folder;
 	GFileEnumerator *files;
-	gint             hits = 0;	
+	gint             hits = 0;
 
 	folder = g_file_new_for_uri (folder_uri);
 	folder_path = g_file_get_path (folder);
@@ -170,7 +170,7 @@ check_hmm_folder (gchar *folder_uri)
 	g_object_unref (folder);
 	g_object_unref (files);
 	g_free (folder_path);
-	
+
 	return (hits > 4);
 }
 
@@ -186,7 +186,7 @@ hmm_chooser_file_set_cb (GtkFileChooserButton *button,
 	}
 
 	hmm_uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (button));
-	
+
 	if (check_hmm_folder (hmm_uri)) {
 		self->priv->hmm_path = get_path_for_uri (hmm_uri);
 		gtk_widget_hide (self->priv->hmm_message);
@@ -386,7 +386,7 @@ recursive_search_finished (PtAsrAssistant *self,
 	gchar        *hmm_uri;
 	gboolean      nothing_found;
 	gboolean      complete;
-	
+
 	folder_uri = (gchar*)data;
 	r = _pt_asr_assistant_recursive_search_finish (self, res, &error);
 	remove_model_page (self);
@@ -625,7 +625,7 @@ static void
 pt_asr_assistant_init (PtAsrAssistant *self)
 {
 	self->priv = pt_asr_assistant_get_instance_private (self);
-	
+
 	self->priv->lm_path = NULL;
 	self->priv->dict_path = NULL;
 	self->priv->hmm_path = NULL;

@@ -10,11 +10,11 @@
   the Parlatype program, a basic audio player intended for speech transcription.
   The library is published separately as it might be useful for other applicatons
   as well.</para>
-  
+
   <para>PtPlayer is the core GStreamer backend that can be used as an audio
   player. PtWaveviewer is a GtkWidget to show a wave form and uses PtWaveloader
   to extract the wave form from a given file.</para>
-  
+
   <para>Parlatype is (kind of) stable. That means that the library is versioned,
   API changes are documented, however, it changes frequently.</para>
 

@@ -4,12 +4,12 @@
  * modify it under the terms of the GNU General Public License as published
  * by the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -206,7 +206,7 @@ player_open_ogg (PtPlayerFixture *fixture,
 	/* open test file, get and check uri and filename */
 
 	gchar *getchar;
-	
+
 	getchar = pt_player_get_uri (fixture->testplayer);
 	g_assert_cmpstr (getchar, ==, fixture->testuri);
 	g_free (getchar);
@@ -348,7 +348,7 @@ player_timestamps (PtPlayerFixture *fixture,
 	g_assert_cmpint (60200, ==, pt_player_get_timestamp_position (fixture->testplayer, "00:01:00-2", FALSE));
 
 	pt_player_jump_to_position (fixture->testplayer, 1000);
-	
+
 	timestamp = pt_player_get_timestamp (fixture->testplayer);
 	g_assert_nonnull (timestamp);
 
@@ -377,7 +377,7 @@ player_volume_speed (PtPlayerFixture *fixture,
 	GError *error = NULL;
 	PtPlayer *bind_player;
 	gdouble speed, volume;
-	
+
 	pt_player_set_volume (fixture->testplayer, 0.7);
 	pt_player_set_speed (fixture->testplayer, 0.7);
 
@@ -421,7 +421,7 @@ player_volume_speed (PtPlayerFixture *fixture,
 	g_assert_cmpfloat (volume, ==, 0.5);
 	g_assert_cmpfloat (speed, ==, 0.5);
 
-	g_object_unref (bind_player);	
+	g_object_unref (bind_player);
 }
 
 static void

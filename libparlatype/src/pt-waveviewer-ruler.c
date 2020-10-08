@@ -91,7 +91,7 @@ pt_waveviewer_ruler_draw (GtkWidget *widget,
 	gtk_render_background (context, cr,
                                left, 0,
                                right, height);
-	
+
 	if (self->priv->n_samples == 0)
 		return FALSE;
 

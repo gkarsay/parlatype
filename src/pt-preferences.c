@@ -4,12 +4,12 @@
  * modify it under the terms of the GNU General Public License as published
  * by the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -772,7 +772,7 @@ void
 pt_show_preferences_dialog (GtkWindow *parent)
 {
 	if (preferences_dialog == NULL)	{
-	
+
 		preferences_dialog = GTK_WIDGET (g_object_new (PT_TYPE_PREFERENCES_DIALOG,
 				"use-header-bar", TRUE,
 				NULL));
@@ -781,7 +781,7 @@ pt_show_preferences_dialog (GtkWindow *parent)
 				  G_CALLBACK (gtk_widget_destroyed),
 				  &preferences_dialog);
 	}
-	
+
 	if (parent != gtk_window_get_transient_for (GTK_WINDOW (preferences_dialog))) {
 		gtk_window_set_transient_for (GTK_WINDOW (preferences_dialog), GTK_WINDOW (parent));
 		gtk_window_set_modal (GTK_WINDOW (preferences_dialog), FALSE);

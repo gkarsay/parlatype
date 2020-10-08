@@ -4,4 +4,3 @@ libparlatype/src/pt-player.c
 libparlatype/src/pt-waveloader.c
 libparlatype/src/pt-waveviewer.c
 libparlatype/src/pt-waveviewer-ruler.c
-

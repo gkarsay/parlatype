@@ -74,4 +74,3 @@ $ sudo ninja install
 
 ## Bugs
 Please report bugs at https://github.com/gkarsay/parlatype/issues.
-

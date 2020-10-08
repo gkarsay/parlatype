@@ -165,7 +165,7 @@ static GstStaticPadTemplate sink_factory =
                             GST_PAD_SINK,
                             GST_PAD_ALWAYS,
                             GST_STATIC_CAPS("audio/x-raw, "
-		            		    "format = (string) { S16LE }, "
+                                            "format = (string) { S16LE }, "
                                             "channels = (int) 1, "
                                             "rate = (int) 16000")
         );
@@ -496,7 +496,7 @@ gst_parlasphinx_set_property(GObject * object, guint prop_id,
          */
 
         if (value != NULL && ps->ps) {
-    	    ps_set_search(ps->ps, g_value_get_string(value));
+            ps_set_search(ps->ps, g_value_get_string(value));
         }
         break;
     default:
@@ -684,7 +684,7 @@ gst_parlasphinx_chain(GstPad * pad, GstObject *parent, GstBuffer * buffer)
 
     in_speech = ps_get_in_speech(ps->ps);
     if (in_speech && !ps->speech_started) {
-    	ps->speech_started = TRUE;
+        ps->speech_started = TRUE;
     }
     if (!in_speech && ps->speech_started) {
 	gst_parlasphinx_finalize_utt(ps);
@@ -727,8 +727,8 @@ gst_parlasphinx_finalize_utt(GstParlaSphinx *ps)
     hyp = ps_get_hyp(ps->ps, &score);
 
     if (hyp) {
-    	gst_parlasphinx_post_message(ps, TRUE, GST_CLOCK_TIME_NONE,
-    		                      ps_get_prob(ps->ps), hyp);
+        gst_parlasphinx_post_message(ps, TRUE, GST_CLOCK_TIME_NONE,
+                                     ps_get_prob(ps->ps), hyp);
         buffer = gst_buffer_new_and_alloc(strlen(hyp) + 1);
 	gst_buffer_fill(buffer, 0, hyp, strlen(hyp));
 	gst_buffer_fill(buffer, strlen(hyp), "\n", 1);

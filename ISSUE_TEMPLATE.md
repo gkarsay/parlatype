@@ -33,4 +33,3 @@ Please add any other information that might be useful.
 
 For example if there is a problem with the display of the waveform, which theme do you use?
 Maybe a screenshot can illustrate the problem.
-

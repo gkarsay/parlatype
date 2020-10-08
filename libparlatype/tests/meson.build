@@ -25,4 +25,3 @@ foreach t: tests
 		],
 	)
 endforeach
-

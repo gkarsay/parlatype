@@ -4,12 +4,12 @@
  * modify it under the terms of the GNU General Public License as published
  * by the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -40,7 +40,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtAsrSettings, pt_asr_settings, G_TYPE_OBJECT)
 
 /**
  * SECTION: pt-asr-settings
- * @short_description: 
+ * @short_description:
  * @stability: Unstable
  * @include: parlatype/pt-asr-settings.h
  *
@@ -63,7 +63,7 @@ pt_asr_settings_save_keyfile (PtAsrSettings *settings)
 		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
 			          "MESSAGE", "Keyfile not saved: %s", error->message);
 		g_error_free (error);
-	}		
+	}
 
 	return result;
 }
@@ -78,7 +78,7 @@ pt_asr_settings_save_keyfile (PtAsrSettings *settings)
  *
  * Sets a new integer value. If the config doesn’t exist, it will be created.
  * Likewise the field will be created, if it doesn’t exist yet.
- * 
+ *
  * Return value: TRUE on success, FALSE on failure
  */
 gboolean
@@ -103,7 +103,7 @@ pt_asr_settings_set_int (PtAsrSettings *settings,
  *
  * Gets an integer value from a field for a certain config. If it’s not found,
  * the return value is 0.
- * 
+ *
  * Return value: the integer value or 0 in case of failure
  */
 gint
@@ -117,12 +117,12 @@ pt_asr_settings_get_int (PtAsrSettings *settings,
 	result = g_key_file_get_integer (
 			settings->priv->keyfile,
 			id, field, &error);
-	
+
 	if (error) {
 		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
 			          "MESSAGE", "Keyfile value not retrieved: %s", error->message);
 		g_error_free (error);
-	}		
+	}
 
 	return result;
 }
@@ -136,7 +136,7 @@ pt_asr_settings_get_int (PtAsrSettings *settings,
  *
  * Sets a boolean value. If the config doesn’t exist, it will be created.
  * Likewise the field will be created, if it doesn’t exist yet.
- * 
+ *
  * Return value: TRUE on success, FALSE on failure
  */
 gboolean
@@ -160,7 +160,7 @@ pt_asr_settings_set_boolean (PtAsrSettings *settings,
  *
  * Gets a boolean value from a field for a certain config. If it’s not found,
  * the return value is FALSE.
- * 
+ *
  * Return value: the boolean value or FALSE if it wasn’t found
  */
 gboolean
@@ -174,12 +174,12 @@ pt_asr_settings_get_boolean (PtAsrSettings *settings,
 	result = g_key_file_get_boolean (
 			settings->priv->keyfile,
 			id, field, &error);
-	
+
 	if (error) {
 		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
 			          "MESSAGE", "Keyfile value not retrieved: %s", error->message);
 		g_error_free (error);
-	}		
+	}
 
 	return result;
 }
@@ -193,7 +193,7 @@ pt_asr_settings_get_boolean (PtAsrSettings *settings,
  *
  * Sets a new string. If the config doesn’t exist, it will be created.
  * Likewise the field will be created, if it doesn’t exist yet.
- * 
+ *
  * Return value: TRUE on success, FALSE on failure
  */
 gboolean
@@ -218,7 +218,7 @@ pt_asr_settings_set_string (PtAsrSettings *settings,
  *
  * Gets a string from a field for a certain config. If it’s not found,
  * the return value is NULL.
- * 
+ *
  * Return value: a newly allocated string or NULL if it wasn’t found
  */
 gchar*
@@ -232,23 +232,23 @@ pt_asr_settings_get_string (PtAsrSettings *settings,
 	result = g_key_file_get_string (
 			settings->priv->keyfile,
 			id, field, &error);
-	
+
 	if (error) {
 		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
 			          "MESSAGE", "Keyfile value not retrieved: %s", error->message);
 		g_error_free (error);
-	}		
+	}
 
 	return result;
 }
 
-                        
+
 /**
  * pt_asr_settings_get_configs:
  * @settings: a #PtAsrSettings instance
  *
  * Returns the names (IDs) of all saved configurations or NULL, if there are none.
- * 
+ *
  * After use g_object_unref() it.
  *
  * Return value: (array zero-terminated=1)(transfer full): a newly-allocated
@@ -291,7 +291,7 @@ pt_asr_settings_have_configs (PtAsrSettings *settings)
  *
  * Adds a new configuration, with a descriptive name and a type. The name
  * should be but doesn’t have to be unique. The only type allowed is "sphinx".
- * 
+ *
  * Return value: (transfer full): the ID of the new config as a string,
  * or NULL in case of failure
  */
@@ -330,8 +330,8 @@ pt_asr_settings_add_config (PtAsrSettings *settings,
 		g_free (group);
 		group = NULL;
 	}
-	
-	return group;	
+
+	return group;
 }
 
 /**
@@ -340,7 +340,7 @@ pt_asr_settings_add_config (PtAsrSettings *settings,
  * @id: the ID of the config to remove
  *
  * Removes a complete configuration. On success it’s gone forever.
- * 
+ *
  * Return value: TRUE on success, FALSE on failure
  */
 gboolean
@@ -356,7 +356,7 @@ pt_asr_settings_remove_config (PtAsrSettings *settings,
 			          "MESSAGE", "Removing group failed: %s", error->message);
 		g_error_free (error);
 		return result;
-	}		
+	}
 
 	return pt_asr_settings_save_keyfile (settings);
 }
@@ -392,7 +392,7 @@ apply_sphinx (PtAsrSettings *settings,
  * @player: the PtPlayer to setup
  *
  * Applies a configuration to a PtPlayer.
- * 
+ *
  * Return value: TRUE on success, FALSE on failure
  */
 gboolean
@@ -436,7 +436,7 @@ pt_asr_settings_constructed (GObject *object)
 					  "MESSAGE", "Key file not loaded: %s", error->message);
 		}
 		g_error_free (error);
-	}		
+	}
 }
 
 static void

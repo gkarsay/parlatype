@@ -180,8 +180,8 @@ Overview of Changes in Parlatype 1.5.3 – 2017-11-14
 Overview of Changes in Parlatype 1.5.2 – 2017-08-10
 ===================================================
 
-* Fix #12: Waveform not displayed on KDE/Plasma desktop 
-* Fix #15: Pitch changes with GStreamer 1.2 
+* Fix #12: Waveform not displayed on KDE/Plasma desktop
+* Fix #15: Pitch changes with GStreamer 1.2
 * Fix #7: Don’t show options that are not available on Wayland
 * In GNOME help, showing the complete list of help documents, Parlatype’s
   icon is shown again. This was a regression introduced with version 1.5.1.
@@ -248,7 +248,7 @@ Overview of Changes in Parlatype 1.5 – 2017-03-14
  Kurdish
  Latvian
  Malay
- Portuguese 
+ Portuguese
  Spanish
 
 

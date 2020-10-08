@@ -4,12 +4,12 @@
  * modify it under the terms of the GNU General Public License as published
  * by the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -215,7 +215,7 @@ metadata_save_position (PtPlayer *player)
 			G_FILE_QUERY_INFO_NONE,
 			NULL,
 			&error);
-	
+
 	if (error) {
 		/* There are valid cases were setting attributes is not
 		 * possible, e.g. in sandboxed environments, containers etc.
@@ -268,7 +268,7 @@ metadata_get_position (PtPlayer *player)
 					  "MESSAGE", "Metadata: got position");
 		}
 	}
-		
+
 	/* Set either to position or 0 */
 	pt_player_jump_to_position (player, pos);
 
@@ -795,7 +795,7 @@ pt_player_jump_relative (PtPlayer *player,
 
 	if (!pt_player_query_position (player, &pos))
 		return;
-	
+
 	new = pos + GST_MSECOND * (gint64) milliseconds;
 	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
 		          "MESSAGE", "Jump relative: dur = %" G_GINT64_FORMAT, player->priv->dur);
@@ -1328,12 +1328,12 @@ pt_player_get_filename (PtPlayer *player)
 		g_error_free (error);
 		g_object_unref (file);
 		return NULL;
-	}		
-	
+	}
+
 	filename = g_file_info_get_attribute_string (
 				info,
 				G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME);
-	
+
 	if (filename)
 		result = g_strdup (filename);
 	else
@@ -1470,7 +1470,7 @@ pt_player_get_time_string (gint            time,
 		}
 	}
 
-	return result;	
+	return result;
 }
 
 /**
@@ -1749,7 +1749,7 @@ pt_player_get_timestamp_position (PtPlayer *player,
 	}
 
 	g_strfreev (split);
-	
+
 	/* Sanity check */
 	if (s > 59 || m > 59)
 		return -1;
@@ -2281,7 +2281,7 @@ pt_player_dispose (GObject *object)
 	if (player->priv->play) {
 		/* remember position */
 		metadata_save_position (player);
-		
+
 		gst_element_set_state (player->priv->play, GST_STATE_NULL);
 
 #ifdef HAVE_ASR
