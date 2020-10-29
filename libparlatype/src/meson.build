@@ -28,6 +28,8 @@ sources = [
 	'pt-waveviewer-focus.h',
 	'pt-waveviewer-ruler.c',
 	'pt-waveviewer-ruler.h',
+	'pt-waveviewer-scrollbox.c',
+	'pt-waveviewer-scrollbox.h',
 	'pt-waveviewer-selection.c',
 	'pt-waveviewer-selection.h',
 	'pt-waveviewer-waveform.c',

@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Gabor Karsay <gabor.karsay@gmx.at>
+/* Copyright (C) 2017, 2020 Gabor Karsay <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -14,8 +14,34 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* PtWaveviewerCursor is a GtkDrawingArea. It is part of a GtkOverlay stack.
-   It renders only the cursor. */
+/**
+ * SECTION: pt-waveviewer-cursor
+ * @short_description: Internal widget that draws a cursor for PtWaveviewer.
+ *
+ * PtWaveviewerCursor is part of a GtkOverlay stack, from bottom to top:
+ * - PtWaveviewerWaveform
+ * - PtWaveviewerSelection
+ * - PtWaveviewerCursor
+ * - PtWaveviewerFocus
+ *
+ * pt_waveviewer_cursor_render() is used to render the cursor. The parameter
+ * @position is relative to the viewport. That means that the caller has to
+ * compute the position from the absolute position (in terms of a fully plotted
+ * waveform) minus the left position of the viewport (the value of the horizontal
+ * GtkAdjustment).
+ *
+ * A value of -1 hides the cursor.
+ *
+ * pt_waveviewer_cursor_set_focus() renders a focus indicator around the cursor.
+ *
+ * The cursor itself is cached and updated when the style changes, e.g. color
+ * (style-updated signal), state flags change, e.g. window in foreground or
+ * background (state-flags-changed signal) or the widget's vertical size
+ * changes (size-allocate signal).
+ *
+ * The widget has a style class "cursor" that can be used to set its color
+ * via CSS. Horizontal size and shape are immutable.
+ */
 
 
 #include "config.h"

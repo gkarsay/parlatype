@@ -1,4 +1,4 @@
-/* Copyright (C) Gabor Karsay 2016-2019 <gabor.karsay@gmx.at>
+/* Copyright (C) Gabor Karsay 2016-2020 <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -12,6 +12,19 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/**
+ * SECTION: pt-player
+ * @short_description: The GStreamer backend for Parlatype.
+ * @stability: Stable
+ * @include: parlatype/pt-player.h
+ *
+ * PtPlayer is the GStreamer backend for Parlatype. Construct it with #pt_player_new().
+ * Then you have to open a file with pt_player_open_uri().
+ *
+ * The internal time unit in PtPlayer are milliseconds and for scale widgets there
+ * is a scale from 0 to 1000. Use it to jump to a position or to update your widget.
  */
 
 
@@ -90,21 +103,6 @@ static gboolean bus_call (GstBus *bus, GstMessage *msg, gpointer data);
 static void remove_message_bus (PtPlayer *player);
 
 G_DEFINE_TYPE_WITH_PRIVATE (PtPlayer, pt_player, G_TYPE_OBJECT)
-
-
-/**
- * SECTION: pt-player
- * @short_description: The GStreamer backend for Parlatype.
- * @stability: Stable
- * @include: parlatype/pt-player.h
- *
- * PtPlayer is the GStreamer backend for Parlatype. Construct it with #pt_player_new().
- * Then you have to open a file with pt_player_open_uri().
- *
- * The internal time unit in PtPlayer are milliseconds and for scale widgets there
- * is a scale from 0 to 1000. Use it to jump to a position or to update your widget.
- */
-
 
 
 /* -------------------------- static helpers -------------------------------- */

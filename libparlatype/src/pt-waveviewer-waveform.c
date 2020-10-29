@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Gabor Karsay <gabor.karsay@gmx.at>
+/* Copyright (C) 2017, 2020 Gabor Karsay <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -14,17 +14,42 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* PtWaveviewerWaveform is a GtkDrawingArea. It is part of a GtkOverlay stack.
-   It renders only the waveform. */
+/**
+ * SECTION: pt-waveviewer-waveform
+ * @short_description: Internal widget that draws the waveform for PtWaveviewer.
+ *
+ * PtWaveviewerCursor is part of a GtkOverlay stack, from bottom to top:
+ * - PtWaveviewerWaveform
+ * - PtWaveviewerSelection
+ * - PtWaveviewerCursor
+ * - PtWaveviewerFocus
+ *
+ * When it's added to PtWaveviewer, it gets the horizontal GtkAdjustment from
+ * its parent (listening for the hierarchy-changed signal).
+ *
+ * pt_waveviewer_waveform_set() is used to pass an array with data to the
+ * widget.
+ *
+ * It listens to changes of the parent's horizontal GtkAdjustment and redraws
+ * itself (scroll movements, size changes).
+ *
+ * The widget listens to the style-updated signal and the state-flags-changed
+ * signal to update its color.
+ *
+ * The widget has the GTK_STYLE_CLASS_VIEW to paint the waveform.
+ */
 
 
 #include "config.h"
+#include "pt-waveviewer.h"
 #include "pt-waveviewer-waveform.h"
 
 
 struct _PtWaveviewerWaveformPrivate {
 	/* Wavedata */
 	GArray   *peaks;
+
+	GtkAdjustment *adj;	/* the parent PtWaveviewer’s adjustment */
 
 	/* Rendering */
 	GdkRGBA   wave_color;
@@ -62,9 +87,8 @@ pt_waveviewer_waveform_draw (GtkWidget *widget,
 	gint pixel;
 	gint array;
 	gdouble min, max;
-	gint width, height;
+	gint width, height, offset;
 	gint half, middle;
-	gdouble left, right;
 
 	context = gtk_widget_get_style_context (widget);
 	height = gtk_widget_get_allocated_height (widget);
@@ -75,14 +99,12 @@ pt_waveviewer_waveform_draw (GtkWidget *widget,
 		return FALSE;
 
 	/* paint waveform */
-
-	/* get extents, only render what we’re asked for */
-	cairo_clip_extents (cr, &left, NULL, &right, NULL);
+	offset = (gint) gtk_adjustment_get_value (self->priv->adj);
 	half = height / 2 - 1;
 	middle = height / 2;
 	gdk_cairo_set_source_rgba (cr, &self->priv->wave_color);
-	for (pixel = (gint)left; pixel <= (gint)right; pixel += 1) {
-		array = pixel_to_array (self, pixel);
+	for (pixel = 0; pixel <= width; pixel += 1) {
+		array = pixel_to_array (self, pixel + offset);
 		if (array == -1)
 			break;
 		min = (middle + half * g_array_index (peaks, float, array) * -1);
@@ -99,7 +121,7 @@ pt_waveviewer_waveform_draw (GtkWidget *widget,
 static void
 update_cached_style_values (PtWaveviewerWaveform *self)
 {
-	/* Update color and direction */
+	/* Update color */
 
 	GtkStyleContext *context;
 	GtkStateFlags    state;
@@ -149,6 +171,32 @@ pt_waveviewer_waveform_set (PtWaveviewerWaveform *self,
 }
 
 static void
+adj_value_changed (GtkAdjustment *adj,
+                   gpointer       data)
+{
+	PtWaveviewerWaveform *self = PT_WAVEVIEWER_WAVEFORM (data);
+	gtk_widget_queue_draw (GTK_WIDGET (self));
+}
+
+static void
+pt_waveviewer_waveform_hierarchy_changed (GtkWidget *widget,
+                                          GtkWidget *old_parent)
+{
+	PtWaveviewerWaveform *self = PT_WAVEVIEWER_WAVEFORM (widget);
+
+	if (self->priv->adj)
+		return;
+
+	/* Get parent’s GtkAdjustment */
+	GtkWidget *parent = NULL;
+	parent = gtk_widget_get_ancestor (widget, PT_TYPE_WAVEVIEWER);
+	if (parent) {
+		self->priv->adj = gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (parent));
+		g_signal_connect (self->priv->adj, "value-changed", G_CALLBACK (adj_value_changed), self);
+	}
+}
+
+static void
 pt_waveviewer_waveform_init (PtWaveviewerWaveform *self)
 {
 	self->priv = pt_waveviewer_waveform_get_instance_private (self);
@@ -169,6 +217,7 @@ pt_waveviewer_waveform_class_init (PtWaveviewerWaveformClass *klass)
 	GtkWidgetClass *widget_class  = GTK_WIDGET_CLASS (klass);
 
 	widget_class->draw                = pt_waveviewer_waveform_draw;
+	widget_class->hierarchy_changed   = pt_waveviewer_waveform_hierarchy_changed;
 	widget_class->realize             = pt_waveviewer_waveform_realize;
 	widget_class->state_flags_changed = pt_waveviewer_waveform_state_flags_changed;
 	widget_class->style_updated       = pt_waveviewer_waveform_style_updated;

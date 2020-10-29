@@ -14,23 +14,25 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * SECTION: pt-i18n
+ * @short_description: Initialize i18n for the library.
+ *
+ * Libraries have to be initialized just like applications, see
+ * GLib Reference Manual → GLib Utilities → Internationalization
+ *
+ * This is called from pt_player_new() and also from pt_waveloader_new()
+ * because PtWaveloader can be used without a PtPlayer. All other objects
+ * with translations are run after creating either a PtPlayer or PtWaveloader
+ * and don’t need this call anymore.
+ *
+ * “Inspired” by totem-pl-parser.c: totem_pl_parser_init_i18n().
+ */
+
 
 #include "config.h"
 #define GETTEXT_PACKAGE GETTEXT_LIB
 #include <glib/gi18n-lib.h>
-
-/* Initialize i18n for the library.
-
-   Libraries have to be initialized just like applications, see
-   GLib Reference Manual → GLib Utilities → Internationalization
-
-   This is called from pt_player_new() and also from pt_waveloader_new()
-   because PtWaveloader can be used without a PtPlayer. All other objects
-   with translations are run after creating either a PtPlayer or PtWaveloader
-   and don’t need this call anymore.
-
-   “Inspired” by totem-pl-parser.c: totem_pl_parser_init_i18n().
-*/
 
 
 static gpointer

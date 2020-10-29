@@ -9,18 +9,25 @@
     <property name="shadow_type">in</property>
     <property name="overlay_scrolling">False</property>
     <child>
-      <object class="GtkViewport">
+      <object class="PtWaveviewerScrollbox" id="scrollbox">
         <property name="can_focus">False</property>
-        <child>
-          <object class="GtkBox" id="box">
-            <property name="can_focus">False</property>
-            <property name="orientation">vertical</property>
+        <!-- orientation is already vertical, but GtkBuilder ignores it -->
+        <property name="orientation">vertical</property>
             <child>
               <object class="GtkOverlay" id="overlay">
                 <property name="can_focus">False</property>
                 <property name="vexpand">True</property>
                 <child>
-                  <placeholder/>
+                  <object class="PtWaveviewerWaveform" id="waveform"></object>
+                </child>
+                <child type="overlay">
+                  <object class="PtWaveviewerSelection" id="selection"></object>
+                </child>
+                <child type="overlay">
+                  <object class="PtWaveviewerCursor" id="cursor"></object>
+                </child>
+                <child type="overlay">
+                  <object class="PtWaveviewerFocus" id="focus"></object>
                 </child>
               </object>
             </child>
@@ -31,12 +38,10 @@
                 <property name="transition_duration">200</property>
                 <property name="reveal_child">True</property>
                 <child>
-                  <placeholder/>
+                  <object class="PtWaveviewerRuler" id="ruler"></object>
                 </child>
               </object>
             </child>
-          </object>
-        </child>
       </object>
     </child>
   </template>

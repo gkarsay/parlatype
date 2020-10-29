@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Gabor Karsay <gabor.karsay@gmx.at>
+/* Copyright (C) 2017, 2020 Gabor Karsay <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -14,9 +14,19 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* PtWaveviewerFocus is a GtkDrawingArea. It is part of a GtkOverlay stack,
-   on the very top. It renders only a focus line on the visible rectangle of
-   the PtWaveviewer parent. */
+/**
+ * SECTION: pt-waveviewer-focus
+ * @short_description: Internal widget that draws a focus indicator for PtWaveviewer.
+ *
+ * PtWaveviewerFocus is part of a GtkOverlay stack, from bottom to top:
+ * - PtWaveviewerWaveform
+ * - PtWaveviewerSelection
+ * - PtWaveviewerCursor
+ * - PtWaveviewerFocus
+ *
+ * pt_waveviewer_focus_set() is used to set (or remove) the focus indicator.
+ * It is drawn around the currently visible part of the waveform.
+ */
 
 
 #include "config.h"
@@ -25,8 +35,7 @@
 
 
 struct _PtWaveviewerFocusPrivate {
-	gboolean         focus; /* whether to render focus or not */
-	GtkAdjustment   *adj;	/* the parent PtWaveviewer’s adjustment */
+	gboolean focus;
 };
 
 
@@ -39,47 +48,18 @@ pt_waveviewer_focus_draw (GtkWidget *widget,
 {
 	PtWaveviewerFocus *self = (PtWaveviewerFocus *) widget;
 
-	if (!self->priv->focus || !self->priv->adj)
+	if (!self->priv->focus)
 		return FALSE;
 
 	GtkStyleContext *context;
-	gint left, height, width;
+	gint height, width;
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
 	height = gtk_widget_get_allocated_height (widget);
-	width = (gint) gtk_adjustment_get_page_size (self->priv->adj);
-	left = (gint) gtk_adjustment_get_value (self->priv->adj);
+	width = gtk_widget_get_allocated_width (widget);
 
-	gtk_render_focus (context, cr, left, 0, width, height);
+	gtk_render_focus (context, cr, 0 , 0, width, height);
 	return FALSE;
-}
-
-static void
-adj_value_changed (GtkAdjustment *adj,
-                   gpointer       data)
-{
-	PtWaveviewerFocus *self = PT_WAVEVIEWER_FOCUS (data);
-
-	if (self->priv->focus)
-		gtk_widget_queue_draw (GTK_WIDGET (data));
-}
-
-static void
-pt_waveviewer_focus_hierarchy_changed (GtkWidget *widget,
-                                       GtkWidget *old_parent)
-{
-	PtWaveviewerFocus *self = PT_WAVEVIEWER_FOCUS (widget);
-
-	if (self->priv->adj)
-		return;
-
-	/* Get parent’s GtkAdjustment */
-	GtkWidget *parent = NULL;
-	parent = gtk_widget_get_ancestor (widget, PT_TYPE_WAVEVIEWER);
-	if (parent) {
-		self->priv->adj = gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (parent));
-		g_signal_connect (self->priv->adj, "value-changed", G_CALLBACK (adj_value_changed), self);
-	}
 }
 
 void
@@ -98,7 +78,6 @@ pt_waveviewer_focus_init (PtWaveviewerFocus *self)
 	self->priv = pt_waveviewer_focus_get_instance_private (self);
 
 	self->priv->focus = FALSE;
-	self->priv->adj = NULL;
 
 	gtk_widget_set_name (GTK_WIDGET (self), "focus");
 	gtk_widget_set_events (GTK_WIDGET (self), GDK_ALL_EVENTS_MASK);
@@ -109,7 +88,6 @@ pt_waveviewer_focus_class_init (PtWaveviewerFocusClass *klass)
 {
 	GtkWidgetClass *widget_class  = GTK_WIDGET_CLASS (klass);
 
-	widget_class->hierarchy_changed = pt_waveviewer_focus_hierarchy_changed;
 	widget_class->draw = pt_waveviewer_focus_draw;
 }
 
