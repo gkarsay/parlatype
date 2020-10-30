@@ -149,7 +149,7 @@ pt_waveviewer_selection_hierarchy_changed (GtkWidget *widget,
 	if (self->priv->adj)
 		return;
 
-	parent = gtk_widget_get_ancestor (widget, PT_TYPE_WAVEVIEWER);
+	parent = gtk_widget_get_ancestor (widget, GTK_TYPE_SCROLLED_WINDOW);
 
 	if (!parent)
 		return;

@@ -297,7 +297,7 @@ pt_waveviewer_ruler_hierarchy_changed (GtkWidget *widget,
 
 	/* Get parent’s GtkAdjustment */
 	GtkWidget *parent = NULL;
-	parent = gtk_widget_get_ancestor (widget, PT_TYPE_WAVEVIEWER);
+	parent = gtk_widget_get_ancestor (widget, GTK_TYPE_SCROLLED_WINDOW);
 	if (parent) {
 		self->priv->adj = gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (parent));
 		g_signal_connect (self->priv->adj, "value-changed", G_CALLBACK (adj_value_changed), self);
