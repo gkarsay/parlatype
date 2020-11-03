@@ -3,6 +3,9 @@ global:
 	pt_*;
 local:
 	*;
+	pt_position_manager_get_type;
+	pt_position_manager_load;
+	pt_position_manager_save;
 	pt_waveviewer_cursor_get_type;
 	pt_waveviewer_cursor_new;
 	pt_waveviewer_cursor_render;

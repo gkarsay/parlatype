@@ -20,6 +20,8 @@ sources = [
 	'pt-i18n.c',
 	'pt-i18n.h',
 	'pt-player.c',
+	'pt-position-manager.c',
+	'pt-position-manager.h',
 	'pt-waveloader.c',
 	'pt-waveviewer.c',
 	'pt-waveviewer-cursor.c',

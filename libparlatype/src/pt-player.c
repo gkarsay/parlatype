@@ -35,6 +35,7 @@
 #include <gst/gst.h>
 #include <gst/audio/streamvolume.h>
 #include "pt-i18n.h"
+#include "pt-position-manager.h"
 #include "pt-waveviewer.h"
 #include "pt-player.h"
 
@@ -50,6 +51,8 @@ struct _PtPlayerPrivate
 	GstPad     *tee_playpad;
 	GstPad     *tee_sphinxpad;
 	guint	    bus_watch_id;
+
+	PtPositionManager *pos_mgr;
 
 	gint64	    dur;
 	gdouble	    speed;
@@ -95,7 +98,6 @@ enum
 
 static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
 
-#define METADATA_POSITION "metadata::parlatype::position"
 #define ONE_HOUR 3600000
 #define TEN_MINUTES 600000
 
@@ -185,13 +187,8 @@ pt_player_get_file (PtPlayer *player)
 static void
 metadata_save_position (PtPlayer *player)
 {
-	/* Saves current position in milliseconds as metadata to file */
-
-	GError	  *error = NULL;
-	GFile	  *file = NULL;
-	GFileInfo *info;
-	gint64     pos;
-	gchar	   value[64];
+	GFile  *file = NULL;
+	gint64  pos;
 
 	if (!pt_player_query_position (player, &pos))
 		return;
@@ -202,76 +199,24 @@ metadata_save_position (PtPlayer *player)
 
 	pos = pos / GST_MSECOND;
 
-	info = g_file_info_new ();
-	g_snprintf (value, sizeof (value), "%" G_GINT64_FORMAT, pos);
-
-	g_file_info_set_attribute_string (info, METADATA_POSITION, value);
-
-	g_file_set_attributes_from_info (
-			file,
-			info,
-			G_FILE_QUERY_INFO_NONE,
-			NULL,
-			&error);
-
-	if (error) {
-		/* There are valid cases were setting attributes is not
-		 * possible, e.g. in sandboxed environments, containers etc.
-		 * Use G_LOG_LEVEL_INFO because other log levels go to stderr
-		 * and might result in failed tests. */
-		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
-			          "MESSAGE", "Position not saved: %s", error->message);
-		g_error_free (error);
-	} else {
-		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
-			          "MESSAGE", "Position saved");
-	}
-
+	pt_position_manager_save (player->priv->pos_mgr, file, pos);
 	g_object_unref (file);
-	g_object_unref (info);
 }
 
 static void
-metadata_get_position (PtPlayer *player)
+metadata_goto_position (PtPlayer *player)
 {
-	/* Queries position stored in metadata from file.
-	   Sets position to that value or to 0 */
-
-	GError	  *error = NULL;
-	GFile	  *file = NULL;
-	GFileInfo *info;
-	gchar	  *value = NULL;
-	gint64     pos = 0;
+	GFile  *file = NULL;
+	gint64  pos;
 
 	file = pt_player_get_file (player);
 	if (!file)
 		return;
 
-	info = g_file_query_info (file, METADATA_POSITION, G_FILE_QUERY_INFO_NONE, NULL, &error);
-	if (error) {
-		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
-			          "MESSAGE", "Metadata not retrieved: %s", error->message);
-		g_error_free (error);
-		g_object_unref (file);
-		return;
-	}
+	pos = pt_position_manager_load (player->priv->pos_mgr, file);
 
-	value = g_file_info_get_attribute_as_string (info, METADATA_POSITION);
-	if (value) {
-		pos = g_ascii_strtoull (value, NULL, 0);
-		g_free (value);
-
-		if (pos > 0) {
-			g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
-					  "MESSAGE", "Metadata: got position");
-		}
-	}
-
-	/* Set either to position or 0 */
 	pt_player_jump_to_position (player, pos);
-
 	g_object_unref (file);
-	g_object_unref (info);
 }
 
 static void
@@ -454,7 +399,7 @@ pt_player_open_uri (PtPlayer *player,
 	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG, "MESSAGE",
 			  "Initial duration: %" G_GINT64_FORMAT, dur);
 
-	metadata_get_position (player);
+	metadata_goto_position (player);
 	return TRUE;
 }
 
@@ -1837,6 +1782,7 @@ pt_player_init (PtPlayer *player)
 	player->priv->volume_changer = NULL;
 	player->priv->play_bin = NULL;
 	player->priv->sphinx_bin = NULL;
+	player->priv->pos_mgr = pt_position_manager_new ();
 }
 
 static gboolean
@@ -2284,6 +2230,7 @@ pt_player_dispose (GObject *object)
 	if (player->priv->play) {
 		/* remember position */
 		metadata_save_position (player);
+		g_clear_object (&player->priv->pos_mgr);
 
 		gst_element_set_state (player->priv->play, GST_STATE_NULL);
 
