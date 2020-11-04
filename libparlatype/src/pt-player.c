@@ -44,12 +44,7 @@ struct _PtPlayerPrivate
 	GstElement *play;
 	GstElement *scaletempo;
 	GstElement *volume_changer;
-	GstElement *play_bin;
-	GstElement *sphinx_bin;
 	GstElement *audio_bin;
-	GstElement *tee;
-	GstPad     *tee_playpad;
-	GstPad     *tee_sphinxpad;
 	guint	    bus_watch_id;
 
 	PtPositionManager *pos_mgr;
@@ -1780,8 +1775,6 @@ pt_player_init (PtPlayer *player)
 	player->sphinx = NULL;
 	player->priv->scaletempo = NULL;
 	player->priv->volume_changer = NULL;
-	player->priv->play_bin = NULL;
-	player->priv->sphinx_bin = NULL;
 	player->priv->pos_mgr = pt_position_manager_new ();
 }
 
@@ -1861,200 +1854,6 @@ if (earlier_error != NULL) {\
 	return FALSE;\
 }
 
-#ifdef HAVE_ASR
-static GstElement*
-create_sphinx_bin (PtPlayer  *player,
-                   GError   **error)
-{
-	GError *earlier_error = NULL;
-
-	/* Create gstreamer elements */
-	GstElement *queue;
-	GstElement *audioconvert;
-	GstElement *audioresample;
-	GstElement *fakesink;
-
-	player->sphinx = G_OBJECT (make_element ("parlasphinx", "sphinx", &earlier_error));
-	/* defined error propagation; skipping any cleanup */
-	PROPAGATE_ERROR_NULL
-	queue = make_element ("queue", "sphinx_queue", &earlier_error);
-	PROPAGATE_ERROR_NULL
-	audioconvert = make_element ("audioconvert", "audioconvert", &earlier_error);
-	PROPAGATE_ERROR_NULL
-	audioresample = make_element ("audioresample", "audioresample", &earlier_error);
-	PROPAGATE_ERROR_NULL
-	fakesink = make_element ("fakesink", "fakesink", &earlier_error);
-	PROPAGATE_ERROR_NULL
-
-	/* create audio output */
-	GstElement *audio = gst_bin_new ("sphinx-audiobin");
-	gst_bin_add_many (GST_BIN (audio), queue, audioconvert, audioresample, GST_ELEMENT (player->sphinx), fakesink, NULL);
-	gst_element_link_many (queue, audioconvert, audioresample, GST_ELEMENT (player->sphinx), fakesink, NULL);
-
-	/* create ghost pad for audiosink */
-	GstPad *audiopad = gst_element_get_static_pad (queue, "sink");
-	gst_element_add_pad (audio, gst_ghost_pad_new ("sink", audiopad));
-	gst_object_unref (GST_OBJECT (audiopad));
-
-	return audio;
-}
-#endif
-
-#ifndef G_OS_WIN32
-static gboolean
-have_pulseaudio_server (void)
-{
-	/* Adapted from Quod Libet ...quodlibet/player/gstbe/util.py:
-	 * If we have a pulsesink we can get the server presence through
-	 * setting the ready state */
-	GstElement           *pulse;
-	GstStateChangeReturn  state;
-
-	pulse = gst_element_factory_make ("pulsesink", NULL);
-	if (!pulse)
-		return FALSE;
-	gst_element_set_state (pulse, GST_STATE_READY);
-	state = gst_element_get_state (pulse, NULL, NULL, GST_CLOCK_TIME_NONE);
-	gst_element_set_state (pulse, GST_STATE_NULL);
-	gst_object_unref (pulse);
-	return (state != GST_STATE_CHANGE_FAILURE);
-}
-#endif
-
-static GstElement*
-create_play_bin (PtPlayer  *player,
-                 GError   **error)
-{
-	GError *earlier_error = NULL;
-
-	/* Create gstreamer elements */
-	GstElement   *capsfilter;
-	GstElement   *audiosink;
-	GstElement   *queue;
-	gchar        *sink;
-	GObjectClass *sinkclass;
-	GParamSpec   *has_volume;
-	GParamSpec   *has_mute;
-
-	capsfilter = make_element ("capsfilter", "audiofilter", &earlier_error);
-	/* defined error propagation; skipping any cleanup */
-	PROPAGATE_ERROR_NULL
-
-	queue = make_element ("queue", "player_queue", &earlier_error);
-	PROPAGATE_ERROR_NULL
-
-	/* Choose an audiosink ourselves instead of relying on autoaudiosink.
-	 * It chose waveformsink on win32 (not a good choice) and it will be
-	 * a fakesink until the first stream is loaded, so we can't query the
-	 * sinks properties until then. */
-
-#ifdef G_OS_WIN32
-	sink = "directsoundsink";
-#else
-	if (have_pulseaudio_server ())
-		sink = "pulsesink";
-	else
-		sink = "alsasink";
-#endif
-	audiosink = make_element (sink, "audiosink", &earlier_error);
-	if (earlier_error != NULL) {
-		g_clear_error (&earlier_error);
-		sink = "autoaudiosink";
-		audiosink = make_element (sink, "audiosink", &earlier_error);
-	}
-	PROPAGATE_ERROR_NULL
-
-	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
-		          "MESSAGE", "Audio sink is %s", sink);
-
-	/* Audiosinks without a "volume" property can be controlled by the
-	 * playbin element, but there is a noticeable delay in setting the volume.
-	 * Create a "volume" element for those audiosinks.
-	 * Note: Query is generic, it's actually only for alsasink.
-	 * The exception for directsoundsink is because "mute" doesn't work. */
-
-	sinkclass = G_OBJECT_GET_CLASS(audiosink);
-	has_volume = g_object_class_find_property (sinkclass, "volume");
-	has_mute =   g_object_class_find_property (sinkclass, "mute");
-
-	if ((!has_volume && !has_mute) || g_strcmp0 (sink, "directsoundsink") == 0) {
-		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
-		                  "MESSAGE", "Creating a \"volume\" element for %s", sink);
-		player->priv->volume_changer = make_element ("volume", "volume", &earlier_error);
-		PROPAGATE_ERROR_NULL
-	}
-
-	GstElement *audio = gst_bin_new ("player-audiobin");
-	if (player->priv->volume_changer) {
-		gst_bin_add_many (GST_BIN (audio), queue, capsfilter,
-				  player->priv->volume_changer, audiosink, NULL);
-		gst_element_link_many (queue, capsfilter,
-				       player->priv->volume_changer, audiosink, NULL);
-	} else {
-		gst_bin_add_many (GST_BIN (audio), queue, capsfilter, audiosink, NULL);
-		gst_element_link_many (queue, capsfilter, audiosink, NULL);
-		player->priv->volume_changer = audiosink;
-	}
-
-	/* create ghost pad for audiosink */
-	GstPad *audiopad = gst_element_get_static_pad (queue, "sink");
-	gst_element_add_pad (audio, gst_ghost_pad_new ("sink", audiopad));
-	gst_object_unref (GST_OBJECT (audiopad));
-
-	return audio;
-}
-
-/*
-
- .---------.    .-------------------------------------------------------------------------.
- | playbin |    | audio_bin                                                               |
- |         |    | .------.     .--------------------------------------------------------. |
- '---,-----'    | | tee  |     | play_bin                                               | |
-     |          | |      |     | .--------.      .-------------.      .---------------. | |
-     |          | |      |     | | queue  |      | capsfilter  |      | autoaudiosink | | |
-     '------->  sink    src-> sink       src -> sink          src -> sink             | | |
-    audio-sink  | |      |     | '--------'      '-------------'      '---------------' | |
-    property    | |      |     '--------------------------------------------------------' |
-                | |      |                                                                |
-                | |      |     .--------------------------------------------------------. |
-                | |      |     | sphinx_bin                                             | |
-                | |      |     | .--------.                                .----------. | |
-                | |      |     | | queue  |         (audioconvert          | fakesink | | |
-                | |     src-> sink       src -> ...  audioresample ... -> sink        | | |
-                | |      |     | '--------'          pocketsphinx)         '----------' | |
-                | '------'     '--------------------------------------------------------' |
-                |                                                                         |
-                '-------------------------------------------------------------------------'
-
-Note 1: audio_bin is needed. If the audio-sink property of playbin is set to the
-        tee element, there is an internal data stream error.
-
-Note 2: It doesn’t work if play_bin or sphinx_bin are added to audio_bin but are
-        not linked! Either link it or remove it from bin!
-
-Note 3: The original intent was to dynamically switch the tee element to either
-        playback or ASR. Rethink this design, maybe tee element can be completely
-        omitted. On the other hand, maybe they could be somehow synced to have
-        audio and recognition in real time.
-
-Note 4: autoaudiosink (in the upper right corner) was replaced by a chosen sink
-        and an optional "volume" element.
-*/
-
-static void
-link_tee (GstPad     *tee_srcpad,
-          GstElement *sink_bin)
-{
-	GstPad           *sinkpad;
-	GstPadLinkReturn  r;
-
-	sinkpad = gst_element_get_static_pad (sink_bin, "sink");
-	g_assert_nonnull (sinkpad);
-	r = gst_pad_link (tee_srcpad, sinkpad);
-	g_assert (r == GST_PAD_LINK_OK);
-	gst_object_unref (sinkpad);
-}
-
 static gboolean
 pt_player_setup_pipeline (PtPlayer  *player,
                           GError   **error)
@@ -2063,29 +1862,18 @@ pt_player_setup_pipeline (PtPlayer  *player,
 
 	player->priv->play = make_element ("playbin", "play", &earlier_error);
 	PROPAGATE_ERROR_FALSE
-	player->priv->play_bin = create_play_bin (player, &earlier_error);
-	PROPAGATE_ERROR_FALSE
-#ifdef HAVE_ASR
-	player->priv->sphinx_bin = create_sphinx_bin (player, &earlier_error);
-	PROPAGATE_ERROR_FALSE
-#endif
 	player->priv->scaletempo = make_element ("scaletempo", "tempo", &earlier_error);
 	PROPAGATE_ERROR_FALSE
-	player->priv->tee = make_element ("tee", "tee", &earlier_error);
+
+	player->priv->audio_bin = make_element ("ptaudiobin", "audiobin", &earlier_error);
 	PROPAGATE_ERROR_FALSE
-	player->priv->tee_playpad = gst_element_get_request_pad (player->priv->tee, "src_%u");
-	player->priv->tee_sphinxpad = gst_element_get_request_pad (player->priv->tee, "src_%u");
-
-	player->priv->audio_bin = gst_bin_new ("audiobin");
-	gst_bin_add (GST_BIN (player->priv->audio_bin), player->priv->tee);
-
-	/* create ghost pad for audiosink */
-	GstPad *audiopad = gst_element_get_static_pad (player->priv->tee, "sink");
-	gst_element_add_pad (player->priv->audio_bin, gst_ghost_pad_new ("sink", audiopad));
-	gst_object_unref (GST_OBJECT (audiopad));
 
 	g_object_set (G_OBJECT (player->priv->play),
 			"audio-sink", player->priv->audio_bin, NULL);
+
+	g_object_get (G_OBJECT (player->priv->audio_bin),
+		      "volume", &player->priv->volume_changer,
+		      "sphinx", &player->sphinx, NULL);
 
 	/* This is responsible for syncing system volume with Parlatype volume.
 	   Syncing is done only in Play state */
@@ -2094,41 +1882,6 @@ pt_player_setup_pipeline (PtPlayer  *player,
 	g_signal_connect (G_OBJECT (player->priv->play),
 			"notify::mute", G_CALLBACK (mute_changed), player);
 	return TRUE;
-}
-
-static void
-remove_element (GstBin *parent,
-                gchar  *child_name)
-{
-	GstElement *child;
-	child = gst_bin_get_by_name (parent, child_name);
-	if (!child)
-		return;
-
-	/* removing dereferences removed element, we want to keep it */
-	gst_object_ref (child);
-	gst_bin_remove (parent, child);
-}
-
-static void
-add_element (GstBin     *parent,
-             GstElement *child,
-             GstPad     *srcpad)
-{
-	GstElement *cmp;
-	gchar      *child_name;
-
-	child_name = gst_element_get_name (child);
-	cmp = gst_bin_get_by_name (parent, child_name);
-	g_free (child_name);
-	if (cmp) {
-		gst_object_unref (cmp);
-		/* element is already in bin */
-		return;
-	}
-
-	gst_bin_add (parent, child);
-	link_tee (srcpad, child);
 }
 
 /**
@@ -2162,9 +1915,7 @@ pt_player_setup_sphinx (PtPlayer  *player,
 
 	pt_player_set_state_blocking (player, GST_STATE_NULL);
 
-	remove_element (GST_BIN (player->priv->audio_bin), "player-audiobin");
-	add_element (GST_BIN (player->priv->audio_bin),
-			player->priv->sphinx_bin, player->priv->tee_sphinxpad);
+	g_object_set (G_OBJECT (player->priv->audio_bin), "asr", TRUE, NULL);
 
 	/* setting the "audio-filter" property unrefs the previous audio-filter! */
 	gst_object_ref (player->priv->scaletempo);
@@ -2208,9 +1959,7 @@ pt_player_setup_player (PtPlayer  *player,
 
 	pt_player_set_state_blocking (player, GST_STATE_NULL);
 
-	remove_element (GST_BIN (player->priv->audio_bin), "sphinx-audiobin");
-	add_element (GST_BIN (player->priv->audio_bin),
-			player->priv->play_bin, player->priv->tee_playpad);
+	g_object_set (G_OBJECT (player->priv->audio_bin), "player", TRUE, NULL);
 
 	g_object_set (G_OBJECT (player->priv->play),
 			"audio-filter", player->priv->scaletempo, NULL);
@@ -2234,20 +1983,8 @@ pt_player_dispose (GObject *object)
 
 		gst_element_set_state (player->priv->play, GST_STATE_NULL);
 
-#ifdef HAVE_ASR
-		/* Add all possible elements because elements without a parent
-		   won't be destroyed. */
-		add_element (GST_BIN (player->priv->audio_bin),
-		             player->priv->play_bin, player->priv->tee_playpad);
-		add_element (GST_BIN (player->priv->audio_bin),
-		             player->priv->sphinx_bin, player->priv->tee_sphinxpad);
-#endif
-
 		gst_object_unref (GST_OBJECT (player->priv->play));
 		player->priv->play = NULL;
-
-		gst_object_unref (GST_OBJECT (player->priv->tee_playpad));
-		gst_object_unref (GST_OBJECT (player->priv->tee_sphinxpad));
 	}
 
 	G_OBJECT_CLASS (pt_player_parent_class)->dispose (object);

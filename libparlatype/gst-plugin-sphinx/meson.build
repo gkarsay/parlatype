@@ -8,3 +8,10 @@ gstparlasphinx = library('gstparlasphinx', 'gstparlasphinx.c',
 	install: true,
 	install_dir: plugins_install_dir,
 )
+
+gstptaudiobin = library('gstptaudiobin', 'gstptaudiobin.c',
+	include_directories: conf_inc,
+	dependencies: [gstreamer, gstreamer_audio],
+	install: true,
+	install_dir: plugins_install_dir,
+)
