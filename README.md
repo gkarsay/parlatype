@@ -50,7 +50,7 @@ Parlatype ships its own library, libparlatype. Developers might be interested in
 * `glade`: install a glade catalog (default: false)
 
 ### Build from git
-Clone the repository and build with meson. You can use any prefix but you may have to adjust LD_LIBRARY_PATH and GST_PLUGIN_PATH for other prefixes. In this case Meson prints a message with those paths.
+Clone the repository and build with meson. You can use any prefix but you may have to adjust LD_LIBRARY_PATH for other prefixes. In this case Meson prints a message with those paths.
 ```
 $ git clone https://github.com/gkarsay/parlatype.git
 $ cd parlatype
