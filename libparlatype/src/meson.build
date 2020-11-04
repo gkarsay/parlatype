@@ -17,6 +17,8 @@ marshal_h = marshalers[1]
 sources = [
 	gresources,
 	marshalers,
+	'gst/gstptaudiobin.c',
+	'gst/gstptaudiobin.h',
 	'pt-i18n.c',
 	'pt-i18n.h',
 	'pt-player.c',
@@ -39,6 +41,18 @@ sources = [
 ]
 
 deps = [gtk, gstreamer, gstreamer_app, gstreamer_audio, math]
+
+if asr
+	sources += [
+	'gst/gstparlasphinx.c',
+	'gst/gstparlasphinx.h',
+	]
+
+	sphinxbase = dependency('sphinxbase')
+	pocketsphinx = dependency('pocketsphinx')
+
+	deps += [sphinxbase, pocketsphinx]
+endif
 
 headers = [
 	'pt-player.h',

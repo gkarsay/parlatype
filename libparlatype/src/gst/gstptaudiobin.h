@@ -61,6 +61,7 @@ gboolean	gst_pt_audio_bin_setup_sphinx	(GstPtAudioBin  *bin,
 						 GError        **error);
 gboolean	gst_pt_audio_bin_setup_player	(GstPtAudioBin  *bin,
 						 GError        **error);
+gboolean	gst_pt_audio_bin_register	(void);
 
 
 G_END_DECLS

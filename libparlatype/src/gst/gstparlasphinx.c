@@ -792,10 +792,26 @@ plugin_init(GstPlugin * plugin)
     return TRUE;
 }
 
-GST_PLUGIN_DEFINE(GST_VERSION_MAJOR,
-                  GST_VERSION_MINOR,
-                  parlasphinx,
-                  "ParlaSphinx plugin",
-                  plugin_init, PACKAGE_VERSION,
-                  "BSD",
-                  "ParlaSphinx", "http://cmusphinx.sourceforge.net/")
+/**
+ * gst_parlasphinx_register:
+ *
+ * Registers a plugin holding our single element to use privately in this
+ * library.
+ *
+ * Return value: TRUE if successful, otherwise FALSE
+ */
+gboolean
+gst_parlasphinx_register (void)
+{
+	return gst_plugin_register_static (
+			GST_VERSION_MAJOR,
+			GST_VERSION_MINOR,
+			"parlasphinx",
+			"ParlaSphinx plugin",
+			plugin_init,
+			PACKAGE_VERSION,
+			"BSD",
+			"libparlatype",
+			"Parlatype",
+			"https://www.parlatype.org/");
+}

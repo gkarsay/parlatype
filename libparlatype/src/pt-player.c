@@ -34,6 +34,10 @@
 #include <glib/gi18n-lib.h>
 #include <gst/gst.h>
 #include <gst/audio/streamvolume.h>
+#include "gst/gstptaudiobin.h"
+#ifdef HAVE_ASR
+  #include "gst/gstparlasphinx.h"
+#endif
 #include "pt-i18n.h"
 #include "pt-position-manager.h"
 #include "pt-waveviewer.h"
@@ -1776,6 +1780,11 @@ pt_player_init (PtPlayer *player)
 	player->priv->scaletempo = NULL;
 	player->priv->volume_changer = NULL;
 	player->priv->pos_mgr = pt_position_manager_new ();
+
+	gst_pt_audio_bin_register ();
+#ifdef HAVE_ASR
+	gst_parlasphinx_register ();
+#endif
 }
 
 static gboolean

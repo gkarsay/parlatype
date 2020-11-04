@@ -511,10 +511,26 @@ plugin_init (GstPlugin *plugin)
 	                              GST_RANK_NONE, GST_TYPE_PT_AUDIO_BIN));
 }
 
-GST_PLUGIN_DEFINE(GST_VERSION_MAJOR,
-                  GST_VERSION_MINOR,
-                  ptaudiobin,
-                  "Audio bin for Parlatype",
-                  plugin_init, PACKAGE_VERSION,
-                  "GPL",
-                  "Parlatype", "https://www.parlatype.org/")
+/**
+ * gst_pt_audio_bin_register:
+ *
+ * Registers a plugin holding our single element to use privately in this
+ * library.
+ *
+ * Return value: TRUE if successful, otherwise FALSE
+ */
+gboolean
+gst_pt_audio_bin_register (void)
+{
+	return gst_plugin_register_static (
+			GST_VERSION_MAJOR,
+			GST_VERSION_MINOR,
+			"ptaudiobin",
+			"Audio bin for Parlatype",
+			plugin_init,
+			PACKAGE_VERSION,
+			"GPL",
+			"libparlatype",
+			"Parlatype",
+			"https://www.parlatype.org/");
+}

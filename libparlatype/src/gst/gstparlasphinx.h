@@ -93,6 +93,8 @@ GType gst_parlasphinx_get_type(void);
 #define PS_DECODER_TYPE (ps_decoder_get_type())
 GType ps_decoder_get_type(void);
 
+gboolean gst_parlasphinx_register (void);
+
 G_END_DECLS
 
 #endif /* __GST_PARLASPHINX_H__ */
