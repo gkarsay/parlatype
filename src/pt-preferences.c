@@ -646,14 +646,6 @@ pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 	g_free (sep);
 
 	/* setup ASR page */
-	if (!pt_app_get_asr (PT_APP (app))) {
-		gint num;
-		num = gtk_notebook_page_num (GTK_NOTEBOOK (dlg->priv->notebook), dlg->priv->asr_page);
-		g_assert (num != -1);
-		gtk_notebook_remove_page (GTK_NOTEBOOK (dlg->priv->notebook), num);
-		return;
-	}
-
 	GtkTreeSelection *sel;
 	GtkTreeIter       row;
 	GtkTreeIter       active_row;
