@@ -16,6 +16,8 @@ src = [
 	'pt-asr-assistant-helpers.h',
 	'pt-asr-settings.c',
 	'pt-asr-settings.h',
+	'pt-config-row.c',
+	'pt-config-row.h',
 	'pt-controller.c',
 	'pt-controller.h',
 	'pt-goto-dialog.c',
