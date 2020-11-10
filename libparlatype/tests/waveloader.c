@@ -190,6 +190,7 @@ waveloader_resize_cancel (void)
 	success = pt_waveloader_load_finish (wl, data.res, &error);
 	g_assert_true (success);
 	g_assert_no_error (error);
+	g_object_unref (data.res);
 
 	pt_waveloader_resize_async (wl, 100, cancel,
 				    (GAsyncReadyCallback) quit_loop_cb,
@@ -390,6 +391,9 @@ waveloader_resize_sync (void)
 	success = pt_waveloader_resize (wl, 200, &error);
 	g_assert_true (success);
 	g_assert_no_error (error);
+
+	free_sync_data (data);
+	g_object_unref (wl);
 }
 
 static void
