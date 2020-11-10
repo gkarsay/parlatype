@@ -4034,3 +4034,43 @@
    fun:g_slist_prepend
    fun:gst_debug_add_log_function
 }
+
+{
+   Leak of debug function list item
+   Memcheck:Leak
+   fun:*alloc
+   ...
+   fun:g_slist_copy_deep
+   fun:gst_debug_add_log_function
+}
+
+{
+  <Ignore dlopen errors when parsing launch lines>
+  Memcheck:Leak
+  fun:malloc
+  ...
+  fun:g_module_open
+  fun:_priv_gst_plugin_load_file_for_registry
+}
+
+# fixed in https://github.com/libunwind/libunwind/commit/b256722d49a63719c69c0416eba9163a4d069584
+{
+  debian libunwind invalid file descriptor -1 in syscall close()
+  Memcheck:Param
+  msync(start)
+  ...
+  fun:_ULx86_64_step
+  fun:generate_unwind_trace
+  fun:gst_debug_get_stack_trace
+}
+
+# fixed in https://github.com/libunwind/libunwind/commit/b256722d49a63719c69c0416eba9163a4d069584
+{
+  fedora libunwind invalid file descriptor -1 in syscall close()
+  Memcheck:Param
+  write(buf)
+  ...
+  fun:_ULx86_64_step
+  fun:generate_unwind_trace
+  fun:gst_debug_get_stack_trace
+}
