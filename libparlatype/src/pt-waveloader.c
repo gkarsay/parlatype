@@ -305,6 +305,7 @@ check_progress (GTask *task)
 		g_source_remove (wl->priv->bus_watch_id);
 		wl->priv->bus_watch_id = 0;
 		wl->priv->progress_timeout = 0;
+		g_array_set_size (wl->priv->lowres, 0);
 		g_task_return_boolean (task, FALSE);
 		g_object_unref (task);
 		return G_SOURCE_REMOVE;
@@ -655,7 +656,7 @@ pt_waveloader_resize_real (GTask        *task,
 	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
 	                  "MESSAGE", "index_out: %d", index_out);
 
-	g_task_return_boolean (task, result); /* TODO unref task? */
+	g_task_return_boolean (task, result);
 }
 
 /**
@@ -848,6 +849,7 @@ pt_waveloader_dispose (GObject *object)
 	g_free (wl->priv->uri);
 
 	g_array_unref (wl->priv->hires);
+	g_array_unref (wl->priv->lowres);
 
 	if (wl->priv->bus_watch_id > 0) {
 		g_source_remove (wl->priv->bus_watch_id);

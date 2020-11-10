@@ -901,7 +901,6 @@ load_cb (PtWaveloader *loader,
 		render_cursor (self);
 		g_task_return_boolean (task, TRUE);
 	} else {
-		g_array_set_size (self->priv->peaks, 0);
 		array_size_changed_cb (NULL, self);
 		g_task_return_error (task, error);
 	}
@@ -1030,7 +1029,6 @@ pt_waveviewer_finalize (GObject *object)
 {
 	PtWaveviewer *self = PT_WAVEVIEWER (object);
 
-	g_array_unref (self->priv->peaks);
 	g_clear_object (&self->priv->arrows);
 	g_clear_object (&self->priv->loader);
 	if (self->priv->tick_handler != 0) {
