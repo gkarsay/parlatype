@@ -19,6 +19,7 @@ sources = [
 	marshalers,
 	'gst/gstptaudiobin.c',
 	'gst/gstptaudiobin.h',
+	'pt-config.c',
 	'pt-i18n.c',
 	'pt-i18n.h',
 	'pt-player.c',
@@ -40,7 +41,13 @@ sources = [
 	'pt-waveviewer-waveform.h',
 ]
 
-deps = [gtk, gstreamer, gstreamer_app, gstreamer_audio, math]
+deps = [gtk,
+	gstreamer,
+	gstreamer_app,
+	gstreamer_audio,
+	math,
+	gnome_desktop,
+]
 
 if asr
 	sources += [
@@ -55,6 +62,7 @@ if asr
 endif
 
 headers = [
+	'pt-config.h',
 	'pt-player.h',
 	'pt-waveloader.h',
 	'pt-waveviewer.h',
@@ -104,6 +112,7 @@ if gir
 	gir_dep = dependency('gobject-introspection-1.0')
 	introspection_sources = [
 		headers,
+		'pt-config.c',
 		'pt-player.c',
 		'pt-waveloader.c',
 		'pt-waveviewer.c',

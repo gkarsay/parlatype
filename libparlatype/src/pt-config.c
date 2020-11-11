@@ -1,0 +1,778 @@
+/* Copyright (C) Gabor Karsay 2020 <gabor.karsay@gmx.at>
+ *
+ * This program is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+#include "config.h"
+#include <gio/gio.h>
+#define GNOME_DESKTOP_USE_UNSTABLE_API
+#include <libgnome-desktop/gnome-languages.h>
+#include "pt-config.h"
+
+struct _PtConfigPrivate
+{
+	gchar    *path;
+	GFile    *file;
+	GKeyFile *keyfile;
+	gchar    *lang_name;
+	gboolean  is_valid;
+	gboolean  is_installed;
+};
+
+enum
+{
+	PROP_0,
+	PROP_FILE,
+	PROP_IS_VALID,
+	PROP_IS_INSTALLED,
+	N_PROPERTIES
+};
+
+
+static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
+static gboolean pt_config_verify_install (PtConfig *config);
+
+
+G_DEFINE_TYPE_WITH_PRIVATE (PtConfig, pt_config, G_TYPE_OBJECT)
+
+
+/**
+ * SECTION: pt-config
+ * @short_description: Configuration for ASR plugins
+ * @include: parlatype/pt-config.h
+ *
+ * A PtConfig represents a configuration for a GStreamer ASR plugin.
+ * Configuration files are written in .ini-like style. Each file holds one
+ * configuration that is used to instantiate a PtConfig.
+ *
+ * Its main use is to be applied to a GStreamer plugin.
+ *
+ * PtConfig is used for reading configurations in, not for writing them.
+ * To add your own configuration, edit it yourself. Learn more about the file
+ * format in the description of #GKeyFile in general and in
+ * pt_config_is_valid() in particular.
+ *
+ * To delete a configuration, get its #PtConfig:file property, delete the file
+ * and unref the config object.
+ */
+
+
+static gboolean
+pt_config_save (PtConfig *config)
+{
+	GError   *error = NULL;
+	gboolean  result;
+
+	result = g_key_file_save_to_file (
+			config->priv->keyfile,
+			config->priv->path,
+			&error);
+
+	if (error) {
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+			          "MESSAGE", "Keyfile not saved: %s", error->message);
+		g_error_free (error);
+	}
+
+	return result;
+}
+
+static GValue
+pt_config_get_value (PtConfig *config,
+                     gchar    *parameter)
+{
+	GError *error = NULL;
+	gchar *type_string = NULL;
+	GValue result = G_VALUE_INIT;
+
+	type_string = g_key_file_get_string (config->priv->keyfile, "Parameter Types", parameter, &error);
+
+	if (g_strcmp0 (type_string, "G_TYPE_STRING") == 0) {
+		g_value_init (&result, G_TYPE_STRING);
+		gchar *string = g_key_file_get_string (config->priv->keyfile,
+						       "Parameters", parameter, &error);
+		g_value_set_string (&result, string);
+		g_free (string);
+	} else if (g_strcmp0 (type_string, "G_TYPE_INT") == 0) {
+		g_value_init (&result, G_TYPE_INT);
+		gint integer = g_key_file_get_integer (config->priv->keyfile,
+						       "Parameters", parameter, &error);
+		g_value_set_int (&result, integer);
+	} else if (g_strcmp0 (type_string, "G_TYPE_BOOLEAN") == 0) {
+		g_value_init (&result, G_TYPE_BOOLEAN);
+		gboolean boolean = g_key_file_get_boolean (config->priv->keyfile,
+						       "Parameters", parameter, &error);
+		g_value_set_boolean (&result, boolean);
+	} else if (g_strcmp0 (type_string, "PT_TYPE_FILE") == 0) {
+		g_value_init (&result, G_TYPE_STRING);
+		gchar *base = pt_config_get_base_folder (config);
+		gchar **pieces = g_key_file_get_string_list (config->priv->keyfile,
+					"Parameters", parameter, NULL, &error);
+		gchar *relative = g_build_filenamev (pieces);
+		gchar *absolute = g_build_filename (base, relative, NULL);
+		g_value_set_string (&result, absolute);
+		g_free (absolute);
+		g_free (relative);
+		g_strfreev (pieces);
+		g_free (base);
+	} else {
+		g_assert_not_reached ();
+	}
+
+	if (error) {
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+			          "MESSAGE", "Keyfile value not retrieved: %s", error->message);
+		g_error_free (error);
+	}
+
+	g_free (type_string);
+	return result;
+}
+
+static gchar*
+pt_config_get_string (PtConfig *config,
+                      gchar    *group,
+                      gchar    *parameter)
+{
+	GError *error = NULL;
+	gchar *result;
+
+	result = g_key_file_get_string (config->priv->keyfile,
+			group, parameter, &error);
+
+	if (error) {
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+			          "MESSAGE", "Keyfile value not retrieved: %s", error->message);
+		g_error_free (error);
+	}
+
+	return result;
+}
+
+static gboolean
+pt_config_set_string (PtConfig *config,
+                      gchar    *group,
+                      gchar    *parameter,
+                      gchar    *value)
+{
+	g_key_file_set_string (
+			config->priv->keyfile, group, parameter, value);
+
+	return pt_config_save (config);
+}
+
+/**
+ * pt_config_get_name:
+ * @config: a configuration instance
+ *
+ * The human-visible name to identify a configuration.
+ *
+ * Return value: the configuration’s name as a string
+ */
+gchar*
+pt_config_get_name (PtConfig *config)
+{
+	g_return_val_if_fail (PT_IS_CONFIG (config), NULL);
+	g_return_val_if_fail (config->priv->is_valid, NULL);
+
+	return pt_config_get_string (config, "Model", "Name");
+}
+
+/**
+ * pt_config_set_name:
+ * @config: a configuration instance
+ * @name: the new name
+ *
+ * Sets the human-visible name of a configuration. It doesn’t have to be
+ * unique. This saves the new name immediately to the configuration file.
+ *
+ * Return value: TRUE on success, otherwise FALSE
+ */
+gboolean
+pt_config_set_name (PtConfig *config,
+                    gchar    *name)
+{
+	g_return_val_if_fail (PT_IS_CONFIG (config), FALSE);
+	g_return_val_if_fail (config->priv->is_valid, FALSE);
+
+	return pt_config_set_string (config, "Model", "Name", name);
+}
+
+/**
+ * pt_config_set_base_folder:
+ * @config: a configuration instance
+ * @name: the new base folder
+ *
+ * Sets the configuration’s base folder.
+ *
+ * Return value: TRUE on success, otherwise FALSE
+ */
+gboolean
+pt_config_set_base_folder (PtConfig *config,
+                           gchar    *name)
+{
+	g_return_val_if_fail (PT_IS_CONFIG (config), FALSE);
+	g_return_val_if_fail (config->priv->is_valid, FALSE);
+
+	gboolean result;
+	gboolean installed;
+
+	result = pt_config_set_string (config, "Model", "BaseFolder", name);
+	if (result) {
+		installed = pt_config_verify_install (config);
+		if (installed != config->priv->is_installed) {
+			config->priv->is_installed = installed;
+			g_object_notify_by_pspec (G_OBJECT (config),
+			                          obj_properties[PROP_IS_INSTALLED]);
+		}
+	}
+
+	return result;
+}
+
+/**
+ * pt_config_get_base_folder:
+ * @config: a configuration instance
+ *
+ * Gets the configuration’s base folder. If the model is not installed, the
+ * base folder is not set and the return value is NULL. Another reason for
+ * returning NULL is an invalid configuration, check #PtConfig:is-valid for
+ * that
+ *
+ * Return value: the configuaration’s base folder as a string or NULL
+ */
+gchar*
+pt_config_get_base_folder (PtConfig *config)
+{
+	g_return_val_if_fail (PT_IS_CONFIG (config), NULL);
+	g_return_val_if_fail (config->priv->is_valid, NULL);
+
+	return pt_config_get_string (config, "Model", "BaseFolder");
+}
+
+/**
+ * pt_config_get_plugin:
+ * @config: a configuration instance
+ *
+ * Gets the name of the GStreamer plugin the configuration is intended for.
+ * It has to be exactly the string GStreamer uses to instantiate the plugin.
+ *
+ * Return value: the plugin’s name as a string
+ */
+gchar*
+pt_config_get_plugin (PtConfig *config)
+{
+	g_return_val_if_fail (PT_IS_CONFIG (config), NULL);
+	g_return_val_if_fail (config->priv->is_valid, NULL);
+
+	return pt_config_get_string (config, "Model", "Plugin");
+}
+
+/**
+ * pt_config_get_lang_code:
+ * @config: a configuration instance
+ *
+ * Gets the language the model was made for. It’s the ISO 639-1 code
+ * (2 letters) if available, otherwise ISO 639-2 (3 letters).
+ *
+ * Return value: the language code as a string
+ */
+gchar*
+pt_config_get_lang_code (PtConfig *config)
+{
+	g_return_val_if_fail (PT_IS_CONFIG (config), NULL);
+	g_return_val_if_fail (config->priv->is_valid, NULL);
+
+	return pt_config_get_string (config, "Model", "Language");
+}
+
+/**
+ * pt_config_get_lang_name:
+ * @config: a configuration instance
+ *
+ * Gets the localized name of the language the model was made for.
+ *
+ * Return value: the language code as a string
+ */
+gchar*
+pt_config_get_lang_name (PtConfig *config)
+{
+	g_return_val_if_fail (PT_IS_CONFIG (config), NULL);
+	g_return_val_if_fail (config->priv->is_valid, NULL);
+
+	return g_strdup (config->priv->lang_name);
+}
+
+/**
+ * pt_config_get_url:
+ * @config: a configuration instance
+ *
+ * The URL pointing to a download location of the model. The URL is optional
+ * and in case it’s not set, NULL is returned.
+ *
+ * Return value: the model’s URL as a string or NULL
+ */
+gchar*
+pt_config_get_url (PtConfig *config)
+{
+	g_return_val_if_fail (PT_IS_CONFIG (config), NULL);
+	g_return_val_if_fail (config->priv->is_valid, NULL);
+
+	return pt_config_get_string (config, "Model", "URL");
+}
+
+/**
+ * pt_config_get_file:
+ * @config: a configuration instance
+ *
+ * The #GFile that was used to construct this object.
+ *
+ * Return value: the file this object is based on
+ */
+GFile*
+pt_config_get_file (PtConfig *config)
+{
+	g_return_val_if_fail (PT_IS_CONFIG (config), NULL);
+	g_return_val_if_fail (config->priv->is_valid, NULL);
+
+	return config->priv->file;
+}
+
+
+/**
+ * pt_config_apply:
+ * @config: a configuration instance
+ * @plugin: the GStreamer ASR plugin
+ *
+ * Applies a configuration to a GStreamer plugin.
+ *
+ * Return value: TRUE, only for formally invalid configurations FALSE
+ */
+gboolean
+pt_config_apply (PtConfig *config,
+                 GObject  *plugin)
+{
+	g_return_val_if_fail (PT_IS_CONFIG (config), FALSE);
+	g_return_val_if_fail (config->priv->is_valid, FALSE);
+	g_return_val_if_fail (G_IS_OBJECT (plugin), FALSE);
+
+	gchar **parameters = NULL;
+	GValue  value;
+
+	parameters = g_key_file_get_keys (config->priv->keyfile, "Parameters",
+	                                  NULL, NULL);
+
+	g_object_freeze_notify (plugin);
+
+	for (int i = 0; parameters[i] != NULL; i++) {
+		value = pt_config_get_value (config, parameters[i]);
+		g_object_set_property (plugin, parameters[i], &value);
+		g_value_unset (&value);
+	}
+
+	g_object_thaw_notify (plugin);
+
+	g_strfreev (parameters);
+	return TRUE;
+}
+
+static gboolean
+key_is_empty (PtConfig *config,
+              gchar *key)
+{
+	gboolean  result = FALSE;
+	gchar    *value;
+
+	value = g_key_file_get_string (config->priv->keyfile, "Model", key, NULL);
+
+	if (!value)
+		return TRUE;
+	if (g_strcmp0 (value, "") == 0)
+		result = TRUE;
+	g_free (value);
+	return result;
+}
+
+/**
+ * pt_config_is_installed:
+ * @config: a configuration instance
+ *
+ * Checks whether the model is installed.
+ *
+ * Return value: TRUE for an installed model, otherwise FALSE
+ */
+gboolean
+pt_config_is_installed (PtConfig *config)
+{
+	g_return_val_if_fail (PT_IS_CONFIG (config), FALSE);
+	g_return_val_if_fail (config->priv->is_valid, FALSE);
+
+	return config->priv->is_installed;
+}
+
+static gboolean
+type_is_valid (gchar *type)
+{
+	if (!type)
+		return FALSE;
+
+	gchar *valid_types[] = { "G_TYPE_STRING", "G_TYPE_INT",
+		"G_TYPE_BOOLEAN", "PT_TYPE_FILE", NULL };
+
+	for (int i = 0; valid_types[i] != NULL; i++) {
+		if (g_strcmp0 (type, valid_types[i]) == 0)
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+/**
+ * pt_config_is_valid:
+ * @config: the configuration to test
+ *
+ * Checks if a configuration is formally valid:
+ * <itemizedlist>
+ * <listitem><para>
+ * It has the following groups: [Model], [Parameters], [Parameter Types].
+ * </para></listitem>
+ * <listitem><para>
+ * [Model] has the following keys: Name, Plugin, BaseFolder, Language, URL.
+ * </para></listitem>
+ * <listitem><para>
+ * [Parameters] has at least one key.
+ * </para></listitem>
+ * <listitem><para>
+ * Each existing key in [Parameters] has the same key in [Parameter Types].
+ * </para></listitem>
+ * <listitem><para>
+ * Values in [Parameter Types] are literal strings; valid strings are:
+ * G_TYPE_STRING, G_TYPE_INT, G_TYPE_BOOLEAN, PT_TYPE_FILE.
+ * </para></listitem>
+ * <listitem><para>
+ * All keys have non-empty values, except BaseFolder and URL, those might be
+ * empty.
+ * </para></listitem>
+ *</itemizedlist>
+ *
+ * What is not tested:
+ * <itemizedlist>
+ * <listitem><para>
+ * Optional (URL) or unknown groups or keys
+ * </para></listitem>
+ * <listitem><para>
+ * Order of groups and keys.
+ * </para></listitem>
+ * <listitem><para>
+ * If BaseFolder is set.
+ * </para></listitem>
+ * <listitem><para>
+ * If the language code exists.
+ * </para></listitem>
+ * <listitem><para>
+ * If files and paths in [Parameters] are formally valid (relative paths
+ * with a semicolon (;) as separator, e.g. subdir;subdir;file.name
+ * </para></listitem>
+ * <listitem><para>
+ * If files and paths exist on the file system.
+ * </para></listitem>
+ * <listitem><para>
+ * If the plugin is installed.
+ * </para></listitem>
+ * <listitem><para>
+ * If the plugin supports given parameters.
+ * </para></listitem>
+ *</itemizedlist>
+ *
+ * Return value: TRUE for a formally valid configuration, otherwise FALSE
+ */
+gboolean
+pt_config_is_valid (PtConfig *config)
+{
+	g_return_val_if_fail (PT_IS_CONFIG (config), FALSE);
+
+	return config->priv->is_valid;
+}
+
+static gboolean
+is_valid (PtConfig *config)
+{
+	gchar *groups[] = {"Model", "Parameters", "Parameter Types", NULL};
+	gchar *model_keys[] = {"Name", "Plugin", "BaseFolder", "Language", "URL", NULL};
+	gchar *mandatory[] = {"Name", "Plugin", "Language", NULL};
+	gchar **parameters = NULL;
+	gchar *type;
+	gboolean valid = TRUE;
+	int i;
+
+	for (i = 0; groups[i] != NULL; i++) {
+		if (!g_key_file_has_group (config->priv->keyfile, groups[i]))
+			return FALSE;
+	}
+
+	for (i = 0; model_keys[i] != NULL; i++) {
+		if (!g_key_file_has_key (config->priv->keyfile, "Model", model_keys[i], NULL))
+			return FALSE;
+	}
+
+	for (i = 0; mandatory[i] != NULL; i++) {
+		if (key_is_empty (config, mandatory[i]))
+			return FALSE;
+	}
+
+	parameters = g_key_file_get_keys (config->priv->keyfile, "Parameters",
+	                                  NULL, NULL);
+
+	if (!parameters || parameters[0] == NULL)
+		return FALSE;
+
+	for (i = 0; parameters[i] != NULL; i++) {
+		type = g_key_file_get_string (config->priv->keyfile, "Parameter Types", parameters[i], NULL);
+		valid = type_is_valid (type);
+		g_free (type);
+		if (!valid)
+			break;
+	}
+
+	g_strfreev (parameters);
+	return valid;
+}
+
+static gboolean
+pt_config_verify_install (PtConfig *config)
+{
+	gchar   *base_folder;
+	gchar  **parameters = NULL;
+	gchar   *type_string;
+	GValue   value;
+	gboolean result = TRUE;
+
+	base_folder = pt_config_get_base_folder (config);
+	if (!base_folder)
+		return FALSE;
+
+	if (!g_file_test (base_folder, G_FILE_TEST_IS_DIR | G_FILE_TEST_EXISTS))
+		result = FALSE;
+
+	g_free (base_folder);
+	if (!result)
+		return result;
+
+	parameters = g_key_file_get_keys (config->priv->keyfile, "Parameters",
+	                                  NULL, NULL);
+
+	for (int i = 0; parameters[i] != NULL; i++) {
+		type_string = g_key_file_get_string (config->priv->keyfile,
+						     "Parameter Types",
+						     parameters[i],
+						     NULL);
+		if (g_strcmp0 (type_string, "PT_TYPE_FILE") == 0) {
+			value = pt_config_get_value (config, parameters[i]);
+			result = g_file_test (g_value_get_string (&value), G_FILE_TEST_EXISTS);
+			g_value_unset (&value);
+		}
+		g_free (type_string);
+		if (!result)
+			break;
+	}
+
+	g_strfreev (parameters);
+	return result;
+}
+
+static void
+pt_config_constructed (GObject *object)
+{
+	PtConfig *config = PT_CONFIG (object);
+	gboolean loaded;
+	gchar    *code;
+
+	config->priv->keyfile = g_key_file_new ();
+	config->priv->path = g_file_get_path (config->priv->file);
+	loaded = g_key_file_load_from_file (
+			config->priv->keyfile,
+			config->priv->path,
+			G_KEY_FILE_KEEP_COMMENTS,
+			NULL);
+
+	if (!loaded || !is_valid (config))
+		return;
+
+	config->priv->is_valid = TRUE;
+	code = pt_config_get_lang_code (config);
+	config->priv->lang_name = gnome_get_language_from_locale (code, NULL);
+
+	config->priv->is_installed = pt_config_verify_install (config);
+
+	g_free (code);
+}
+
+static void
+pt_config_init (PtConfig *config)
+{
+	config->priv = pt_config_get_instance_private (config);
+
+	config->priv->is_valid = FALSE;
+}
+
+static void
+pt_config_dispose (GObject *object)
+{
+	G_OBJECT_CLASS (pt_config_parent_class)->dispose (object);
+}
+
+static void
+pt_config_finalize (GObject *object)
+{
+	PtConfig *config = PT_CONFIG (object);
+
+	if (config->priv->keyfile)
+		g_key_file_free (config->priv->keyfile);
+	g_object_unref (config->priv->file);
+	g_free (config->priv->path);
+	g_free (config->priv->lang_name);
+
+	G_OBJECT_CLASS (pt_config_parent_class)->finalize (object);
+}
+
+static void
+pt_config_set_property (GObject      *object,
+                        guint         property_id,
+                        const GValue *value,
+                        GParamSpec   *pspec)
+{
+	PtConfig *config = PT_CONFIG (object);
+
+	switch (property_id) {
+	case PROP_FILE:
+		config->priv->file = g_value_dup_object (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+pt_config_get_property (GObject    *object,
+                        guint       property_id,
+                        GValue     *value,
+                        GParamSpec *pspec)
+{
+	PtConfig *config = PT_CONFIG (object);
+
+	switch (property_id) {
+	case PROP_FILE:
+		g_value_set_object (value, config->priv->file);
+		break;
+	case PROP_IS_VALID:
+		g_value_set_boolean (value, config->priv->is_valid);
+		break;
+	case PROP_IS_INSTALLED:
+		g_value_set_boolean (value, config->priv->is_installed);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+pt_config_class_init (PtConfigClass *klass)
+{
+	G_OBJECT_CLASS (klass)->set_property = pt_config_set_property;
+	G_OBJECT_CLASS (klass)->get_property = pt_config_get_property;
+	G_OBJECT_CLASS (klass)->constructed  = pt_config_constructed;
+	G_OBJECT_CLASS (klass)->dispose      = pt_config_dispose;
+	G_OBJECT_CLASS (klass)->finalize     = pt_config_finalize;
+
+	/**
+	 * PtConfig:file:
+	 *
+	 * The file that was used to construct the object and contains
+	 * the configuration settings. This property is immutable and the file
+	 * can not be reloaded.
+	 */
+	obj_properties[PROP_FILE] =
+	g_param_spec_object (
+			"file",
+			"File",
+			"File used to construct object",
+			G_TYPE_FILE,
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
+
+	/**
+	 * PtConfig:is-valid:
+	 *
+	 * Indicates whether the configuration is formally valid. See
+	 * pt_config_is_valid() for the checks done. This property is available
+	 * from the very beginning and is immutable. You can not recover from
+	 * an invalid state.
+	 */
+	obj_properties[PROP_IS_VALID] =
+	g_param_spec_boolean (
+			"is-valid",
+			"Valid",
+			"Whether the config is formally valid",
+			FALSE,
+			G_PARAM_READABLE);
+
+	/**
+	 * PtConfig:is-installed:
+	 *
+	 * Indicates whether the language model is installed.
+	 */
+	obj_properties[PROP_IS_INSTALLED] =
+	g_param_spec_boolean (
+			"is-installed",
+			"Installed",
+			"Whether the language model is installed",
+			FALSE,
+			G_PARAM_READABLE);
+
+	g_object_class_install_properties (
+			G_OBJECT_CLASS (klass),
+			N_PROPERTIES,
+			obj_properties);
+}
+
+/**
+ * pt_config_new:
+ * @file: (not nullable): a file with configuration settings in .ini-like format
+ *
+ * Returns a new configuration instance for the given file. The configuration
+ * is immediately checked for formal validity. This can be queried with
+ * pt_config_is_valid() or the property #PtConfig:is-valid. The property
+ * doesn’t change anymore.
+ *
+ * <note><para>
+ * If the configuration is not valid, all methods are no-operations and
+ * return FALSE or NULL.
+ * </para></note>
+ *
+ * After use g_object_unref() it.
+ *
+ * Return value: (transfer full): a new #PtConfig
+ */
+PtConfig *
+pt_config_new (GFile *file)
+{
+	g_return_val_if_fail (file != NULL, NULL);
+	g_return_val_if_fail (G_IS_FILE (file), NULL);
+
+	return g_object_new (PT_TYPE_CONFIG,
+			"file", file,
+			NULL);
+}
