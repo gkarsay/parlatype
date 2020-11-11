@@ -188,6 +188,17 @@ pt_waveviewer_scrollbox_set_property (GObject      *object,
 }
 
 static void
+pt_waveviewer_scrollbox_destroy (GtkWidget *widget)
+{
+	PtWaveviewerScrollbox *self = PT_WAVEVIEWER_SCROLLBOX (widget);
+	PtWaveviewerScrollboxPrivate *priv = self->priv;
+
+	g_clear_object (&priv->adjustment);
+
+	GTK_WIDGET_CLASS (pt_waveviewer_scrollbox_parent_class)->destroy (widget);
+}
+
+static void
 pt_waveviewer_scrollbox_init (PtWaveviewerScrollbox *self)
 {
 	self->priv = pt_waveviewer_scrollbox_get_instance_private (self);
@@ -207,7 +218,8 @@ pt_waveviewer_scrollbox_class_init (PtWaveviewerScrollboxClass *klass)
 	gobject_class->set_property = pt_waveviewer_scrollbox_set_property;
 	gobject_class->get_property = pt_waveviewer_scrollbox_get_property;
 
-	widget_class->size_allocate       = pt_waveviewer_scrollbox_size_allocate;
+	widget_class->destroy       = pt_waveviewer_scrollbox_destroy;
+	widget_class->size_allocate = pt_waveviewer_scrollbox_size_allocate;
 
 	/* Implementation of GTK_SCROLLABLE */
 	g_object_class_override_property (gobject_class, PROP_HADJUSTMENT,    "hadjustment");
