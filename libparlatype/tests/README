@@ -1,3 +1,4 @@
 Valgrind suppression files downloaded from:
-https://cgit.freedesktop.org/gstreamer/common/tree/gst.supp
-https://git.gnome.org/browse/glib/tree/glib.supp
+https://gitlab.gnome.org/GNOME/gtk/-/blob/gtk-3-24/gtk.supp
+https://gitlab.gnome.org/GNOME/glib/-/blob/master/glib.supp
+https://gitlab.freedesktop.org/gstreamer/gstreamer/-/blob/master/tests/check/gstreamer.supp
