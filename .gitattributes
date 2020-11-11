@@ -5,8 +5,5 @@ data/icons/scalable/org.parlatype.Parlatype.Devel.svg	export-ignore
 data/icons/source		export-ignore
 flatpak/			export-ignore
 ISSUE_TEMPLATE.md		export-ignore
-libparlatype/tests/glib.supp	export-ignore
-libparlatype/tests/gst.supp	export-ignore
-libparlatype/tests/README	export-ignore
 maint/				export-ignore
 src/resources/icons/		export-ignore
