@@ -1,0 +1,12 @@
+#!/bin/bash
+# Creates a code coverage report and launches a webbrowser to show it.
+
+BROWSER=firefox
+
+cd `dirname "$0"` || exit 1
+source cd_builddir_or_exit
+
+meson configure -Db_coverage=true
+ninja && ninja test && ninja coverage-html
+meson configure -Db_coverage=false
+$BROWSER meson-logs/coveragereport/index.html &
