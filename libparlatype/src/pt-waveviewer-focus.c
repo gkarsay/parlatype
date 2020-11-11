@@ -15,8 +15,8 @@
  */
 
 /**
- * SECTION: pt-waveviewer-focus
- * @short_description: Internal widget that draws a focus indicator for PtWaveviewer.
+ * pt-waveviewer-focus
+ * Internal widget that draws a focus indicator for PtWaveviewer.
  *
  * PtWaveviewerFocus is part of a GtkOverlay stack, from bottom to top:
  * - PtWaveviewerWaveform

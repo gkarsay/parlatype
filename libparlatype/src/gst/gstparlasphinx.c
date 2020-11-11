@@ -41,7 +41,7 @@
  */
 
 /**
- * SECTION:element-pocketsphix
+ * element-pocketsphix
  *
  * The element runs the speech recognition on incoming audio buffers and
  * generates an element messages named <classname>&quot;pocketsphinx&quot;</classname>
@@ -489,7 +489,7 @@ gst_parlasphinx_set_property(GObject * object, guint prop_id,
         gst_parlasphinx_set_string(ps, "-jsgf", NULL);
         gst_parlasphinx_set_string(ps, "-lmname", value);
 
-        /**
+        /*
          * Chances are that lmctl is already loaded and all
          * corresponding searches are configured, so we simply
          * try to set the search

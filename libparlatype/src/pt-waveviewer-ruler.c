@@ -15,8 +15,8 @@
  */
 
 /**
- * SECTION: pt-waveviewer-ruler
- * @short_description: Internal widget that draws the ruler for PtWaveviewer.
+ * pt-waveviewer-ruler
+ * Internal widget that draws the ruler for PtWaveviewer.
  *
  * When it's added to PtWaveviewer, it gets the horizontal GtkAdjustment from
  * its parent (listening for the hierarchy-changed signal).

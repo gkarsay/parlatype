@@ -33,9 +33,13 @@ gnome.gtkdoc(
 		'parlatype-example.ui',
 	],
 	ignore_headers: [
+		'gstparlasphinx.h',
+		'gstptaudiobin.h',
 		'pt-i18n.h',
+		'pt-position-manager.h',
 		'pt-waveviewer-cursor.h',
 		'pt-waveviewer-focus.h',
+		'pt-waveviewer-scrollbox.h',
 		'pt-waveviewer-selection.h',
 		'pt-waveviewer-ruler.h',
 		'pt-waveviewer-waveform.h',

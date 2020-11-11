@@ -15,8 +15,8 @@
  */
 
 /**
- * SECTION: pt-i18n
- * @short_description: Initialize i18n for the library.
+ * pt-i18n
+ * Initialize i18n for the library.
  *
  * Libraries have to be initialized just like applications, see
  * GLib Reference Manual → GLib Utilities → Internationalization

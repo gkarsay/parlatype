@@ -15,8 +15,8 @@
  */
 
 /**
- * SECTION: pt-waveviewer-scrollbox
- * @short_description: Internal viewport widget for PtWaveviewer.
+ * pt-waveviewer-scrollbox
+ * Internal viewport widget for PtWaveviewer.
  *
  * This is a viewport that pretends to have children with the width of a fully
  * plotted waveform. A regular viewport would scroll its children to the

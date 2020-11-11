@@ -15,8 +15,8 @@
  */
 
 /**
- * SECTION: pt-waveviewer-selection
- * @short_description: Internal widget that draws a selection for PtWaveviewer.
+ * pt-waveviewer-selection
+ * Internal widget that draws a selection for PtWaveviewer.
  *
  * PtWaveviewerSelection is part of a GtkOverlay stack, from bottom to top:
  * - PtWaveviewerWaveform

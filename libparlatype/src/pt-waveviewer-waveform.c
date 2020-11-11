@@ -15,8 +15,8 @@
  */
 
 /**
- * SECTION: pt-waveviewer-waveform
- * @short_description: Internal widget that draws the waveform for PtWaveviewer.
+ * pt-waveviewer-waveform
+ * Internal widget that draws the waveform for PtWaveviewer.
  *
  * PtWaveviewerCursor is part of a GtkOverlay stack, from bottom to top:
  * - PtWaveviewerWaveform

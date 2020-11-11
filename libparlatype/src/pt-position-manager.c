@@ -15,8 +15,8 @@
  */
 
 /**
- * SECTION: pt-position-manager
- * @short_description: Saves and loads last playback position for a file.
+ * pt-position-manager
+ * Saves and loads last playback position for a file.
  *
  * The current implementation is using g_file_set_attribute() from GIO, which
  * to my knowledge works only with GVFS. The GVFS daemon saves custom

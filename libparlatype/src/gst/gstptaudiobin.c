@@ -15,8 +15,8 @@
  */
 
 /**
- * SECTION: gstptaudiobin
- * @short_description: Audio bin (GstBin) for Parlatype.
+ * gstptaudiobin
+ * Audio bin (GstBin) for Parlatype.
  *
  * An audio bin that can be connected to a playbin element via playbin's
  * audio-filter property. It supports normal playback and silent ASR output
