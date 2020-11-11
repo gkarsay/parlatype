@@ -1,0 +1,99 @@
+# Parlatype suppression file for unit tests
+#
+# Lists leaks where I *think* that they are not our fault.
+# The goal is to have no memory leaks by default to detect new ones
+# automatically running the test suite.
+
+
+# If the widget is created and immediately destroyed.
+# Vanishes if widget is actually shown, not only with a call to
+# gtk_widget_show() but in a loop, so maybe realize or map or something
+# makes the difference.
+{
+	Widget not shown 1/4
+	Memcheck:Leak
+	match-leak-kinds:possible
+	fun:malloc
+	...
+	fun:gtk_widget_init_template
+}
+
+{
+	Widget not shown 2/4
+	Memcheck:Leak
+	match-leak-kinds:possible
+	fun:realloc
+	...
+	fun:gtk_widget_init_template
+}
+
+{
+	Widget not shown 3/4
+	Memcheck:Leak
+	match-leak-kinds:possible
+	fun:malloc
+	...
+	fun:gtk_css_node_declaration_make_writable
+	...
+	fun:_gtk_style_cascade_add_provider
+}
+
+{
+	Widget not shown 4/4
+	Memcheck:Leak
+	match-leak-kinds:possible
+	fun:malloc
+	...
+	fun:gtk_css_node_declaration_make_writable_resize
+	...
+	fun:_gtk_style_cascade_add_provider
+}
+
+# I *think* it's not in parlatype. gnome-desktop-3.0 seems correct to me,
+# I don't understand glibc (__scandir64_tail).
+{
+	glibc?
+	Memcheck:Leak
+	match-leak-kinds:definite
+	fun:malloc
+	fun:__scandir64_tail
+	fun:collect_locales_from_directory
+	fun:collect_locales
+	fun:get_language_count
+	fun:is_unique_language
+	fun:gnome_get_language_from_locale
+	fun:pt_config_constructed
+	...
+	fun:pt_config_new
+}
+
+# TODO: investigate this one
+{
+	GStreamer?
+	Memcheck:Leak
+	match-leak-kinds:definite
+	fun:malloc
+	fun:g_malloc
+	fun:g_slice_alloc
+	fun:gst_buffer_new
+	fun:gst_buffer_new_allocate
+	fun:gst_ogg_demux_chain_peer
+	fun:gst_ogg_demux_activate_chain
+	fun:gst_ogg_demux_perform_seek_pull
+	fun:gst_ogg_demux_loop
+	fun:gst_task_func
+	fun:g_thread_pool_thread_proxy
+	fun:g_thread_proxy
+	fun:start_thread
+	fun:clone
+}
+
+# Very likely Fontconfig
+{
+	Fontconfig?
+	Memcheck:Leak
+	match-leak-kinds:definite
+	fun:malloc
+	...
+	fun:FcConfigParseAndLoadFromMemoryInternal
+}
