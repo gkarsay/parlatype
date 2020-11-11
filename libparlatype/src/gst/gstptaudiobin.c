@@ -381,9 +381,12 @@ gst_pt_audio_bin_dispose (GObject *object)
 		             bin->play_bin, bin->tee_playpad);
 		add_element (GST_BIN (bin),
 		             bin->sphinx_bin, bin->tee_sphinxpad);
+		g_object_unref (bin->sphinx);
 #endif
 		gst_object_unref (GST_OBJECT (bin->tee_playpad));
 		gst_object_unref (GST_OBJECT (bin->tee_sphinxpad));
+		if (bin->volume_changer)
+			gst_object_unref (bin->volume_changer);
 	}
 
 	G_OBJECT_CLASS (gst_pt_audio_bin_parent_class)->dispose (object);
