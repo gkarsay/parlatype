@@ -4,13 +4,13 @@ CMD="git diff-index --check --cached 4b825dc642cb6eb9a060e54bf8d69288fbee4904 --
 
 $CMD
 
-COUNT=`$CMD | wc -l`
-if [ $COUNT -eq 0 ] ; then
+COUNT=$($CMD | wc -l)
+if [ "$COUNT" -eq 0 ] ; then
 	exit 0
 fi
 
 echo
 echo Summary:
 
-$CMD | grep -v -e "^\+" | cut -d":" -f 1 | uniq -c | sort -n -r
+$CMD | grep -v -e "^\\+" | cut -d":" -f 1 | uniq -c | sort -n -r
 exit 1

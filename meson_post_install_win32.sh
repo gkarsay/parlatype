@@ -5,7 +5,7 @@ APP_ID=$1
 
 MSYSTEM=MSYS2 . /etc/profile
 
-while read lang
+while read -r lang
 do
 	if [[ ${lang:0:1} != "#" && ${lang:0:1} != " " ]]
 	then

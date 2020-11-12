@@ -3,10 +3,10 @@
 
 BROWSER=firefox
 
-cd `dirname "$0"` || exit 1
+cd "$(dirname "$0")" || exit 1
 source cd_builddir_or_exit
 
-if `meson configure | grep -s -e 'gtk-doc false'` ; then
+if meson configure | grep -s -e 'gtk-doc false' ; then
 	meson configure -Dgtk-doc=true
 fi
 

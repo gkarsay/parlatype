@@ -1,16 +1,18 @@
+#!/bin/bash
+
 # Changes to meson build dir
 # Must be run from a subfolder of project's root folder
 
 FIND_CMD="find ../ -maxdepth 2 -name meson-private"
-BUILDS=`$FIND_CMD | wc -l`
+BUILDS=$($FIND_CMD | wc -l)
 
-if [ $BUILDS -eq 0 ] ; then
+if [ "$BUILDS" -eq 0 ] ; then
 	echo "Please build the project first."
 	exit 1
-elif [ $BUILDS -gt 1 ] ; then
+elif [ "$BUILDS" -gt 1 ] ; then
 	echo "Scripts operates on one build only. Found more:"
 	$FIND_CMD
 	exit 1
 fi
 
-cd `$FIND_CMD -exec dirname '{}' \;`
+cd "$($FIND_CMD -exec dirname '{}' \;)" || exit 1

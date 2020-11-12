@@ -11,10 +11,7 @@ echo "Download from https://translations.launchpad.net/parlatype/trunk/+export"
 echo "and save as $IMPORT_FILE into this folder."
 echo
 
-cd `dirname "$0"` || {
-	echo "Error: Could not change to script dir"
-	exit 1
-}
+cd "$(dirname "$0")" || exit 1
 
 # Test for import file
 if [ ! -e "$IMPORT_FILE" ]
@@ -32,7 +29,7 @@ mkdir $TEMP_DIR 2>&- || {
 while true
 do
 	echo -n "Continue? [Y|n] "
-	read result
+	read -r result
 	if [ "$result" == "n" ]
 	then
 		exit 1
@@ -45,7 +42,7 @@ done
 
 # Extract all po files (ignore pot files)
 echo "Extracting files …"
-tar -xvzf $IMPORT_FILE -C $TEMP_DIR --wildcards *.po
+tar -xvzf $IMPORT_FILE -C $TEMP_DIR --wildcards -- *.po
 
 # Directory structure is
 # $TEMP_DIR
@@ -55,37 +52,29 @@ tar -xvzf $IMPORT_FILE -C $TEMP_DIR --wildcards *.po
 
 # Rename files, remove prepended strings
 echo "Renaming files …"
-folder=$TEMP_DIR/help
-for file in `ls $folder`
-do
-	mv $folder/$file $folder/${file#parlatype-}
-done
 
-folder=$TEMP_DIR/libparlatype
-for file in `ls $folder`
+for folder in "$TEMP_DIR"/help "$TEMP_DIR"/libparlatype "$TEMP_DIR"/parlatype
 do
-	mv $folder/$file $folder/${file#libparlatype-}
-done
-
-folder=$TEMP_DIR/parlatype
-for file in `ls $folder`
-do
-	mv $folder/$file $folder/${file#parlatype-}
+	cd "$folder" || exit
+	for file in *
+	do
+		mv "$file" "${file/*parlatype-/}"
+	done
+	cd - &>/dev/null || exit
 done
 
 # Special case: he has no translations, added for testing purposes and can't
 # be removed from launchpad anymore.
 echo "Removing special case he.po …"
-rm $TEMP_DIR/help/he.po
-rm $TEMP_DIR/libparlatype/he.po
-rm $TEMP_DIR/parlatype/he.po
+shopt -s globstar
+rm $TEMP_DIR/**/he.po
 
 # Check translations
 echo "Checking translations …"
 count=0
-for file in `find $TEMP_DIR/ -name *.po`
+for file in "$TEMP_DIR"/**/*.po
 do
-	msgfmt -c $file || let "count += 1"
+	msgfmt -c "$file" || (( count += 1 ))
 done
 # There is some unwanted output
 rm messages.mo
@@ -96,7 +85,7 @@ then
 	while true
 	do
 		echo -n "Dou you want to continue anyway? [y|N] "
-		read result
+		read -r result
 		if [ "$result" == "y" ]
 		then
 			break
@@ -108,14 +97,13 @@ then
 	done
 fi
 
-
 compare_files () {
 	if [ ! -e "$1" ]
 	then
 		result="new"
 		return
 	fi
-	if [ `diff -y --suppress-common-lines "$1" "$2" | grep -v ^\"X-Generator | grep -v ^\"X-Launchpad-Export-Date | wc -l` == "0" ]
+	if [ "$(diff -y --suppress-common-lines "$1" "$2" | grep -v ^\"X-Generator | grep -c -v ^\"X-Launchpad-Export-Date)" == "0" ]
 	then
 		result="no-changes"
 		return
@@ -126,41 +114,45 @@ compare_files () {
 # Copy files
 echo "Copying changed files …"
 folder=$TEMP_DIR/help
-for file in `ls $folder`
+
+for file in "$folder"/*
 do
-	lang_code=${file%.po}
-	compare_files "help/$lang_code/$file" "$folder/$file"
+	basename=$(basename "$file")
+	lang_code=${basename%.po}
+	compare_files "../help/$lang_code/$basename" "$file"
 	if [ "$result" == "no-changes" ]
 	then
 		continue
 	fi
-	mkdir -p help/$lang_code
-	cp $folder/$file help/$lang_code
-	echo help/$lang_code/$file
+	mkdir -p help/"$lang_code"
+	cp "$file" ../help/"$lang_code"
+	echo help/"$lang_code"/"$basename"
 done
 
 folder=$TEMP_DIR/libparlatype
-for file in `ls $folder`
+for file in "$folder"/*
 do
-	compare_files "libparlatype/po/$file" "$folder/$file"
+	basename=$(basename "$file")
+	compare_files "../libparlatype/po/$basename" "$file"
 	if [ "$result" == "no-changes" ]
 	then
 		continue
 	fi
-	cp $folder/$file libparlatype/po
-	echo libparlatype/po/$file
+	cp "$file" ../libparlatype/po/
+	echo libparlatype/po/"$basename"
 done
 
 folder=$TEMP_DIR/parlatype
-for file in `ls $folder`
+for file in "$folder"/*
 do
-	compare_files "po/$file" "$folder/$file"
+	basename=$(basename "$file")
+	compare_files "../po/$basename" "$file"
 	if [ "$result" == "no-changes" ]
 	then
 		continue
 	fi
-	cp $folder/$file po
-	echo po/$file
+	cp "$file" ../po
+	echo po/"$basename"
 done
 
 echo "Deleting temporary folder …"

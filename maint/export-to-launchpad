@@ -6,10 +6,7 @@
 LP_EXPORT_FILE=launchpad-upload.tar.gz
 LP_EXPORT_DIR=launchpad-temp
 
-cd `dirname "$0"` || {
-	echo "Error: Could not change to script dir"
-	exit 1
-}
+cd "$(dirname "$0")" || exit 1
 
 mkdir $LP_EXPORT_DIR 2>&- || {
 	echo "Remove folder $LP_EXPORT_DIR first – quitting now."
@@ -19,11 +16,11 @@ mkdir $LP_EXPORT_DIR 2>&- || {
 mkdir $LP_EXPORT_DIR/libparlatype
 mkdir $LP_EXPORT_DIR/parlatype
 mkdir $LP_EXPORT_DIR/help
-cp libparlatype/po/*.pot $LP_EXPORT_DIR/libparlatype
-cp libparlatype/po/*.po $LP_EXPORT_DIR/libparlatype
-cp po/*.pot $LP_EXPORT_DIR/parlatype
-cp po/*.po $LP_EXPORT_DIR/parlatype
-cp help/org.parlatype.Parlatype.pot $LP_EXPORT_DIR/help/help.pot
-find help/ -iname "*.po" -exec cp {} $LP_EXPORT_DIR/help \;
+cp ../libparlatype/po/*.pot $LP_EXPORT_DIR/libparlatype
+cp ../libparlatype/po/*.po $LP_EXPORT_DIR/libparlatype
+cp ../po/*.pot $LP_EXPORT_DIR/parlatype
+cp ../po/*.po $LP_EXPORT_DIR/parlatype
+cp ../help/org.parlatype.Parlatype.pot $LP_EXPORT_DIR/help/help.pot
+find ../help/ -iname "*.po" -exec cp {} $LP_EXPORT_DIR/help \;
 tar -C $LP_EXPORT_DIR -czf $LP_EXPORT_FILE libparlatype parlatype help
-rm -r $LP_EXPORT_DIR/
+rm -r $LP_EXPORT_DIR

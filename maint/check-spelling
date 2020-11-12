@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd `dirname "$0"` || exit
+cd "$(dirname "$0")" || exit 1
 cd ..
 
 codespell --skip="./build,./debian,./.git,*.po,*.pot,*.ogg,*.png,*.ico,*.xcf" \
