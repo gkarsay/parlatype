@@ -1,6 +1,9 @@
 #!/bin/bash
 
 cd "$(dirname "$0")" || exit 1
+
+source command_exists_or_exit "codespell"
+
 cd ..
 
 codespell --skip="./build,./debian,./.git,*.po,*.pot,*.ogg,*.png,*.ico,*.xcf" \
