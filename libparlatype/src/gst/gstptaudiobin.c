@@ -26,13 +26,12 @@
 /*
  .-------------------------------------------------------------------------.
  | pt_audio_bin                                                            |
- | .------.     .--------------------------------------------------------. |
- | | tee  |     | play_bin                                               | |
- | |      |     | .--------.      .-------------.      .---------------. | |
- | |      |     | | queue  |      | capsfilter  |      | autoaudiosink | | |
- sink    src-> sink       src -> sink          src -> sink             | | |
- | |      |     | '--------'      '-------------'      '---------------' | |
- | |      |     '--------------------------------------------------------' |
+ | .------.     .----------------------.                                   |
+ | | tee  |     | pt_audio_play_bin    |                                   |
+ | |      |     |                      |                                   |
+ sink    src-> sink                    |                                   |
+ | |      |     |                      |                                   |
+ | |      |     '----------------------'                                   |
  | |      |                                                                |
  | |      |     .--------------------------------------------------------. |
  | |      |     | sphinx_bin                                             | |
@@ -51,9 +50,6 @@ Note 2: The original intent was to dynamically switch the tee element to either
         playback or ASR. Rethink this design, maybe tee element can be completely
         omitted. On the other hand, maybe they could be somehow synced to have
         audio and recognition in real time.
-
-Note 3: autoaudiosink (in the upper right corner) was replaced by a chosen sink
-        and an optional "volume" element.
 */
 
 #include "config.h"
@@ -62,6 +58,7 @@ Note 3: autoaudiosink (in the upper right corner) was replaced by a chosen sink
 #include <gio/gio.h>
 #include <gst/gst.h>
 #include <gst/audio/streamvolume.h>
+#include "gstptaudioplaybin.h"
 #include "gstptaudiobin.h"
 
 
@@ -70,14 +67,15 @@ GST_DEBUG_CATEGORY_STATIC (gst_pt_audio_bin_debug);
 
 #define parent_class gst_pt_audio_bin_parent_class
 
-G_DEFINE_TYPE (GstPtAudioBin, gst_pt_audio_bin, GST_TYPE_BIN);
-
+G_DEFINE_TYPE_WITH_CODE (GstPtAudioBin, gst_pt_audio_bin, GST_TYPE_BIN,
+                         G_IMPLEMENT_INTERFACE (GST_TYPE_STREAM_VOLUME, NULL));
 
 enum
 {
 	PROP_0,
 	PROP_PLAYER,
 	PROP_ASR,
+	PROP_MUTE,
 	PROP_VOLUME,
 	PROP_SPHINX,
 	N_PROPERTIES
@@ -154,110 +152,6 @@ create_sphinx_bin (GstPtAudioBin *bin,
 }
 #endif
 
-#ifndef G_OS_WIN32
-static gboolean
-have_pulseaudio_server (void)
-{
-	/* Adapted from Quod Libet ...quodlibet/player/gstbe/util.py:
-	 * If we have a pulsesink we can get the server presence through
-	 * setting the ready state */
-	GstElement           *pulse;
-	GstStateChangeReturn  state;
-
-	pulse = gst_element_factory_make ("pulsesink", NULL);
-	if (!pulse)
-		return FALSE;
-	gst_element_set_state (pulse, GST_STATE_READY);
-	state = gst_element_get_state (pulse, NULL, NULL, GST_CLOCK_TIME_NONE);
-	gst_element_set_state (pulse, GST_STATE_NULL);
-	gst_object_unref (pulse);
-	return (state != GST_STATE_CHANGE_FAILURE);
-}
-#endif
-
-static GstElement*
-create_play_bin (GstPtAudioBin *bin,
-                 GError   **error)
-{
-	GError *earlier_error = NULL;
-
-	/* Create gstreamer elements */
-	GstElement   *capsfilter;
-	GstElement   *audiosink;
-	GstElement   *queue;
-	gchar        *sink;
-	GObjectClass *sinkclass;
-	GParamSpec   *has_volume;
-	GParamSpec   *has_mute;
-
-	capsfilter = make_element ("capsfilter", "audiofilter", &earlier_error);
-	/* defined error propagation; skipping any cleanup */
-	PROPAGATE_ERROR_NULL
-
-	queue = make_element ("queue", "player_queue", &earlier_error);
-	PROPAGATE_ERROR_NULL
-
-	/* Choose an audiosink ourselves instead of relying on autoaudiosink.
-	 * It chose waveformsink on win32 (not a good choice) and it will be
-	 * a fakesink until the first stream is loaded, so we can't query the
-	 * sinks properties until then. */
-
-#ifdef G_OS_WIN32
-	sink = "directsoundsink";
-#else
-	if (have_pulseaudio_server ())
-		sink = "pulsesink";
-	else
-		sink = "alsasink";
-#endif
-	audiosink = make_element (sink, "audiosink", &earlier_error);
-	if (earlier_error != NULL) {
-		g_clear_error (&earlier_error);
-		sink = "autoaudiosink";
-		audiosink = make_element (sink, "audiosink", &earlier_error);
-	}
-	PROPAGATE_ERROR_NULL
-
-	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
-		          "MESSAGE", "Audio sink is %s", sink);
-
-	/* Audiosinks without a "volume" property can be controlled by the
-	 * playbin element, but there is a noticeable delay in setting the volume.
-	 * Create a "volume" element for those audiosinks.
-	 * Note: Query is generic, it's actually only for alsasink.
-	 * The exception for directsoundsink is because "mute" doesn't work. */
-
-	sinkclass = G_OBJECT_GET_CLASS(audiosink);
-	has_volume = g_object_class_find_property (sinkclass, "volume");
-	has_mute =   g_object_class_find_property (sinkclass, "mute");
-
-	if ((!has_volume && !has_mute) || g_strcmp0 (sink, "directsoundsink") == 0) {
-		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
-		                  "MESSAGE", "Creating a \"volume\" element for %s", sink);
-		bin->volume_changer = make_element ("volume", "volume", &earlier_error);
-		PROPAGATE_ERROR_NULL
-	}
-
-	GstElement *audio = gst_bin_new ("player-audiobin");
-	if (bin->volume_changer) {
-		gst_bin_add_many (GST_BIN (audio), queue, capsfilter,
-				  bin->volume_changer, audiosink, NULL);
-		gst_element_link_many (queue, capsfilter,
-				       bin->volume_changer, audiosink, NULL);
-	} else {
-		gst_bin_add_many (GST_BIN (audio), queue, capsfilter, audiosink, NULL);
-		gst_element_link_many (queue, capsfilter, audiosink, NULL);
-		bin->volume_changer = audiosink;
-	}
-
-	/* create ghost pad for audiosink */
-	GstPad *audiopad = gst_element_get_static_pad (queue, "sink");
-	gst_element_add_pad (audio, gst_ghost_pad_new ("sink", audiopad));
-	gst_object_unref (GST_OBJECT (audiopad));
-
-	return audio;
-}
-
 static void
 link_tee (GstPad     *tee_srcpad,
           GstElement *sink_bin)
@@ -278,8 +172,9 @@ pt_player_setup_pipeline (GstPtAudioBin *bin,
 {
 	GError *earlier_error = NULL;
 
-	bin->play_bin = create_play_bin (bin, &earlier_error);
+	bin->play_bin = make_element ("ptaudioplaybin", "player-audiobin", &earlier_error);
 	PROPAGATE_ERROR_FALSE
+
 #ifdef HAVE_ASR
 	bin->sphinx_bin = create_sphinx_bin (bin, &earlier_error);
 	PROPAGATE_ERROR_FALSE
@@ -381,12 +276,9 @@ gst_pt_audio_bin_dispose (GObject *object)
 		             bin->play_bin, bin->tee_playpad);
 		add_element (GST_BIN (bin),
 		             bin->sphinx_bin, bin->tee_sphinxpad);
-		g_object_unref (bin->sphinx);
 #endif
 		gst_object_unref (GST_OBJECT (bin->tee_playpad));
 		gst_object_unref (GST_OBJECT (bin->tee_sphinxpad));
-		if (bin->volume_changer)
-			gst_object_unref (bin->volume_changer);
 	}
 
 	G_OBJECT_CLASS (gst_pt_audio_bin_parent_class)->dispose (object);
@@ -401,7 +293,6 @@ gst_pt_audio_bin_set_property (GObject      *object,
 	GstPtAudioBin *bin = GST_PT_AUDIO_BIN (object);
 	gboolean boolval;
 
-
 	switch (property_id) {
 	case PROP_PLAYER:
 		boolval = g_value_get_boolean (value);
@@ -412,6 +303,14 @@ gst_pt_audio_bin_set_property (GObject      *object,
 		boolval = g_value_get_boolean (value);
 		if (boolval)
 			gst_pt_audio_bin_setup_sphinx (bin, NULL);
+		break;
+	case PROP_MUTE:
+		g_object_set (bin->play_bin,
+		              "mute", g_value_get_boolean (value), NULL);
+		break;
+	case PROP_VOLUME:
+		g_object_set (bin->play_bin,
+		              "volume", g_value_get_double (value), NULL);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -426,6 +325,8 @@ gst_pt_audio_bin_get_property (GObject    *object,
                                GParamSpec *pspec)
 {
 	GstPtAudioBin *bin = GST_PT_AUDIO_BIN (object);
+	gboolean mute;
+	gdouble  volume;
 
 	switch (property_id) {
 	case PROP_PLAYER:
@@ -434,8 +335,13 @@ gst_pt_audio_bin_get_property (GObject    *object,
 	case PROP_ASR:
 		g_value_set_boolean (value, bin->asr);
 		break;
+	case PROP_MUTE:
+		g_object_get (bin->play_bin, "mute", &mute, NULL);
+		g_value_set_boolean (value, mute);
+		break;
 	case PROP_VOLUME:
-		g_value_set_object (value, bin->volume_changer);
+		g_object_get (bin->play_bin, "volume", &volume, NULL);
+		g_value_set_double (value, volume);
 		break;
 	case PROP_SPHINX:
 		g_value_set_object (value, bin->sphinx);
@@ -450,11 +356,11 @@ static void
 gst_pt_audio_bin_init (GstPtAudioBin *bin)
 {
 	bin->sphinx = NULL;
-	bin->volume_changer = NULL;
 	bin->play_bin = NULL;
 	bin->sphinx_bin = NULL;
 	bin->tee = NULL;
 
+	gst_pt_audio_play_bin_register ();
 	pt_player_setup_pipeline (bin, NULL);
 	gst_pt_audio_bin_setup_player (bin, NULL);
 }
@@ -482,13 +388,23 @@ gst_pt_audio_bin_class_init (GstPtAudioBinClass *klass)
 			FALSE,
 			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
 
+	obj_properties[PROP_MUTE] =
+	g_param_spec_boolean (
+			"mute",
+			"Mute",
+			"mute channel",
+			FALSE,
+			G_PARAM_READWRITE | GST_PARAM_CONTROLLABLE |
+			                    G_PARAM_STATIC_STRINGS);
+
 	obj_properties[PROP_VOLUME] =
-	g_param_spec_object (
+	g_param_spec_double (
 			"volume",
 			"Volume",
-			"Volume Changer Element",
-			GST_TYPE_ELEMENT,
-			G_PARAM_READABLE);
+			"volume factor, 1.0=100%",
+			0.0, 1.0, 1.0,
+			G_PARAM_READWRITE | GST_PARAM_CONTROLLABLE |
+			                    G_PARAM_STATIC_STRINGS);
 
 	obj_properties[PROP_SPHINX] =
 	g_param_spec_object (

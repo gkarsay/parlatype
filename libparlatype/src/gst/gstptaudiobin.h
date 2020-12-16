@@ -36,8 +36,6 @@ struct _GstPtAudioBin
 {
 	GstBin parent;
 
-	/*< private > */
-	GstElement *volume_changer;
 	GstElement *play_bin;
 	GstElement *sphinx_bin;
 	GObject    *sphinx;
@@ -48,6 +46,8 @@ struct _GstPtAudioBin
 	/* properties */
 	gboolean    player;
 	gboolean    asr;
+	gfloat      volume;
+	gboolean    mute;
 };
 
 struct _GstPtAudioBinClass

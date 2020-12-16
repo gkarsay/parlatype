@@ -19,6 +19,8 @@ sources = [
 	marshalers,
 	'gst/gstptaudiobin.c',
 	'gst/gstptaudiobin.h',
+	'gst/gstptaudioplaybin.c',
+	'gst/gstptaudioplaybin.h',
 	'pt-config.c',
 	'pt-i18n.c',
 	'pt-i18n.h',

@@ -47,7 +47,6 @@ struct _PtPlayerPrivate
 {
 	GstElement *play;
 	GstElement *scaletempo;
-	GstElement *volume_changer;
 	GstElement *audio_bin;
 	guint	    bus_watch_id;
 
@@ -286,7 +285,7 @@ bus_call (GstBus     *bus,
 			break;
 
 		gdouble volume;
-		volume = gst_stream_volume_get_volume (GST_STREAM_VOLUME (player->priv->volume_changer),
+		volume = gst_stream_volume_get_volume (GST_STREAM_VOLUME (player->priv->audio_bin),
 			                               GST_STREAM_VOLUME_FORMAT_CUBIC);
 		if (player->priv->volume != volume) {
 			player->priv->volume = volume;
@@ -979,7 +978,7 @@ pt_player_get_volume (PtPlayer *player)
 
 	if (player->priv->play) {
 		volume = gst_stream_volume_get_volume (
-				GST_STREAM_VOLUME (player->priv->volume_changer),
+				GST_STREAM_VOLUME (player->priv->audio_bin),
 				GST_STREAM_VOLUME_FORMAT_CUBIC);
 		if (player->priv->volume != volume)
 			player->priv->volume = volume;
@@ -1007,7 +1006,7 @@ pt_player_set_volume (PtPlayer *player,
 	player->priv->volume = volume;
 
 	if (player->priv->play)
-		gst_stream_volume_set_volume (GST_STREAM_VOLUME (player->priv->volume_changer),
+		gst_stream_volume_set_volume (GST_STREAM_VOLUME (player->priv->audio_bin),
 			                      GST_STREAM_VOLUME_FORMAT_CUBIC,
 			                      volume);
 
@@ -1033,7 +1032,7 @@ pt_player_get_mute (PtPlayer *player)
 	gboolean retval = FALSE;
 
 	if (player->priv->play)
-		retval = gst_stream_volume_get_mute (GST_STREAM_VOLUME (player->priv->volume_changer));
+		retval = gst_stream_volume_get_mute (GST_STREAM_VOLUME (player->priv->audio_bin));
 
 	return retval;
 }
@@ -1055,7 +1054,7 @@ pt_player_set_mute (PtPlayer *player,
 	g_return_if_fail (PT_IS_PLAYER (player));
 
 	if (player->priv->play)
-		gst_stream_volume_set_mute (GST_STREAM_VOLUME (player->priv->volume_changer), mute);
+		gst_stream_volume_set_mute (GST_STREAM_VOLUME (player->priv->audio_bin), mute);
 }
 
 /**
@@ -1778,7 +1777,6 @@ pt_player_init (PtPlayer *player)
 	player->priv->wv = NULL;
 	player->sphinx = NULL;
 	player->priv->scaletempo = NULL;
-	player->priv->volume_changer = NULL;
 	player->priv->pos_mgr = pt_position_manager_new ();
 
 	gst_pt_audio_bin_register ();
@@ -1792,7 +1790,7 @@ notify_volume_idle_cb (PtPlayer *player)
 {
 	gdouble vol;
 
-	vol = gst_stream_volume_get_volume (GST_STREAM_VOLUME (player->priv->volume_changer),
+	vol = gst_stream_volume_get_volume (GST_STREAM_VOLUME (player->priv->audio_bin),
 	                                    GST_STREAM_VOLUME_FORMAT_CUBIC);
 	player->priv->volume = vol;
 	g_object_notify_by_pspec (G_OBJECT (player),
@@ -1818,7 +1816,7 @@ notify_mute_idle_cb (PtPlayer *player)
 {
 	gboolean mute;
 
-	mute = gst_stream_volume_get_mute (GST_STREAM_VOLUME (player->priv->volume_changer));
+	mute = gst_stream_volume_get_mute (GST_STREAM_VOLUME (player->priv->audio_bin));
 	player->priv->mute = mute;
 	g_object_notify_by_pspec (G_OBJECT (player),
 	                          obj_properties[PROP_MUTE]);
@@ -1881,7 +1879,6 @@ pt_player_setup_pipeline (PtPlayer  *player,
 			"audio-sink", player->priv->audio_bin, NULL);
 
 	g_object_get (G_OBJECT (player->priv->audio_bin),
-		      "volume", &player->priv->volume_changer,
 		      "sphinx", &player->sphinx, NULL);
 
 	/* This is responsible for syncing system volume with Parlatype volume.
