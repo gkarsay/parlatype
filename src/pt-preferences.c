@@ -180,6 +180,48 @@ initial_asr_button_clicked_cb (GtkButton           *button,
 }
 
 static void
+set_active_row (GtkWidget *widget,
+		gpointer   user_data)
+{
+	GtkWidget *active_widget = GTK_WIDGET (user_data);
+	gboolean active;
+
+	active = (widget == active_widget);
+
+	pt_config_row_set_active (PT_CONFIG_ROW (widget), active);
+}
+
+static void
+asr_list_row_activated (GtkListBox    *box,
+                        GtkListBoxRow *row,
+                        gpointer       user_data)
+{
+	PtPreferencesDialog *dlg = PT_PREFERENCES_DIALOG (user_data);
+	PtConfig *config;
+	GFile    *file;
+	gchar    *path;
+
+	g_object_get (PT_CONFIG_ROW (row), "config", &config, NULL);
+
+	if (pt_config_row_get_active (PT_CONFIG_ROW (row))) {
+		g_settings_set_string (dlg->priv->editor, "asr-config", "");
+		gtk_container_foreach (GTK_CONTAINER (box), set_active_row, NULL);
+		g_object_unref (config);
+		return;
+	}
+
+	if (pt_config_is_installed (config)) {
+		file = pt_config_get_file (config);
+		path = g_file_get_path (file);
+		g_settings_set_string (dlg->priv->editor, "asr-config", path);
+		g_free (path);
+		gtk_container_foreach (GTK_CONTAINER (box), set_active_row, row);
+	}
+
+	g_object_unref (config);
+}
+
+static void
 setup_non_wayland_env (PtPreferencesDialog *dlg)
 {
 	g_settings_bind (
@@ -328,12 +370,17 @@ pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 	GFile    *file;
 	GFileEnumerator *files;
 	PtConfigRow *row;
+	gchar    *active_asr;
+	gboolean  active;
 	gint      configs = 0;
 
+	active_asr = g_settings_get_string (dlg->priv->editor, "asr-config");
 	path = g_build_path (G_DIR_SEPARATOR_S,
 			     g_get_user_config_dir (),
 			     PACKAGE, NULL);
 	folder = g_file_new_for_path (path);
+	g_free (path);
+
 	g_file_make_directory (folder, NULL, NULL);
 
 	files = g_file_enumerate_children (folder,
@@ -348,22 +395,25 @@ pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 		if (!info)
 			break;
 
-		const char *name = g_file_info_get_name (info);
-		if (g_str_has_suffix (name, ".asr")) {
+		path = g_file_get_path (file);
+		if (g_str_has_suffix (path, ".asr")) {
 			config = pt_config_new (file);
 			if (pt_config_is_valid (config)) {
 				row = pt_config_row_new (config);
 				gtk_widget_show (GTK_WIDGET (row));
 				gtk_container_add (GTK_CONTAINER (dlg->priv->asr_list), GTK_WIDGET (row));
+				active = (g_strcmp0 (active_asr, path) == 0);
+				pt_config_row_set_active (row, active);
 				configs++;
 			}
 			g_object_unref (config);
 		}
+		g_free (path);
 	}
 
 	g_object_unref (files);
 	g_object_unref (folder);
-	g_free (path);
+	g_free (active_asr);
 
 	if (configs == 0) {
 		gtk_widget_hide (dlg->priv->asr_ready_box);
@@ -403,6 +453,7 @@ pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
 	gtk_widget_class_bind_template_callback(widget_class, spin_back_changed_cb);
 	gtk_widget_class_bind_template_callback(widget_class, spin_forward_changed_cb);
 	gtk_widget_class_bind_template_callback(widget_class, spin_pause_changed_cb);
+	gtk_widget_class_bind_template_callback(widget_class, asr_list_row_activated);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, notebook);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, spin_pause);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, spin_back);

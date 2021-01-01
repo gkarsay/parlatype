@@ -790,6 +790,8 @@
                       <object class="GtkListBox" id="asr_list">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="activate_on_single_click">False</property>
+                        <signal name="row-activated" handler="asr_list_row_activated" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
