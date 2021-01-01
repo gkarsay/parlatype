@@ -20,18 +20,12 @@
 #include "config.h"
 #include <gtk/gtk.h>
 #include <pt-player.h>
-#ifdef HAVE_ASR
-#include "pt-asr-settings.h"
-#endif
 
 struct _PtWindowPrivate
 {
 	GSettings	 *editor;
 	GtkRecentManager *recent;
-
-#ifdef HAVE_ASR
-	PtAsrSettings    *asr_settings;
-#endif
+	PtConfig         *asr_config;
 
 	GtkClipboard *clip;
 	gulong        clip_handler_id;
