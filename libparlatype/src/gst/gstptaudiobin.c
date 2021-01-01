@@ -21,27 +21,19 @@
  * An audio bin that can be connected to a playbin element via playbin's
  * audio-filter property. It supports normal playback and silent ASR output
  * using a parlasphinx element.
- */
-
-/*
- .-------------------------------------------------------------------------.
- | pt_audio_bin                                                            |
- | .------.     .----------------------.                                   |
- | | tee  |     | pt_audio_play_bin    |                                   |
- | |      |     |                      |                                   |
- sink    src-> sink                    |                                   |
- | |      |     |                      |                                   |
- | |      |     '----------------------'                                   |
- | |      |                                                                |
- | |      |     .--------------------------------------------------------. |
- | |      |     | sphinx_bin                                             | |
- | |      |     | .--------.                                .----------. | |
- | |      |     | | queue  |         (audioconvert          | fakesink | | |
- | |     src-> sink       src -> ...  audioresample ... -> sink        | | |
- | |      |     | '--------'          pocketsphinx)         '----------' | |
- | '------'     '--------------------------------------------------------' |
- |                                                                         |
- '-------------------------------------------------------------------------'
+ * .----------------------------------.
+ * | pt_audio_bin                     |
+ * | .------.   .-------------------. |
+ * | | tee  |   | pt_audio_play_bin | |
+ * -->      ---->                   | |
+ * | |      |   |                   | |
+ * | |      |   '-------------------' |
+ * | |      |   .-------------------. |
+ * | |      |   | pt_audio_asr_bin  | |
+ * | |      ---->                   | |
+ * | |      |   |                   | |
+ * | '------'   '-------------------' |
+ * '----------------------------------'
 
 Note 1: It doesn’t work if play_bin or sphinx_bin are added to audio_bin but are
         not linked! Either link it or remove it from bin!
@@ -58,6 +50,8 @@ Note 2: The original intent was to dynamically switch the tee element to either
 #include <gio/gio.h>
 #include <gst/gst.h>
 #include <gst/audio/streamvolume.h>
+#include "pt-config.h"
+#include "gstptaudioasrbin.h"
 #include "gstptaudioplaybin.h"
 #include "gstptaudiobin.h"
 
@@ -77,7 +71,6 @@ enum
 	PROP_ASR,
 	PROP_MUTE,
 	PROP_VOLUME,
-	PROP_SPHINX,
 	N_PROPERTIES
 };
 
@@ -113,45 +106,6 @@ if (earlier_error != NULL) {\
 	return FALSE;\
 }
 
-#ifdef HAVE_ASR
-static GstElement*
-create_sphinx_bin (GstPtAudioBin *bin,
-                   GError   **error)
-{
-	GError *earlier_error = NULL;
-
-	/* Create gstreamer elements */
-	GstElement *queue;
-	GstElement *audioconvert;
-	GstElement *audioresample;
-	GstElement *fakesink;
-
-	bin->sphinx = G_OBJECT (make_element ("parlasphinx", "sphinx", &earlier_error));
-	/* defined error propagation; skipping any cleanup */
-	PROPAGATE_ERROR_NULL
-	queue = make_element ("queue", "sphinx_queue", &earlier_error);
-	PROPAGATE_ERROR_NULL
-	audioconvert = make_element ("audioconvert", "audioconvert", &earlier_error);
-	PROPAGATE_ERROR_NULL
-	audioresample = make_element ("audioresample", "audioresample", &earlier_error);
-	PROPAGATE_ERROR_NULL
-	fakesink = make_element ("fakesink", "fakesink", &earlier_error);
-	PROPAGATE_ERROR_NULL
-
-	/* create audio output */
-	GstElement *audio = gst_bin_new ("sphinx-audiobin");
-	gst_bin_add_many (GST_BIN (audio), queue, audioconvert, audioresample, GST_ELEMENT (bin->sphinx), fakesink, NULL);
-	gst_element_link_many (queue, audioconvert, audioresample, GST_ELEMENT (bin->sphinx), fakesink, NULL);
-
-	/* create ghost pad for audiosink */
-	GstPad *audiopad = gst_element_get_static_pad (queue, "sink");
-	gst_element_add_pad (audio, gst_ghost_pad_new ("sink", audiopad));
-	gst_object_unref (GST_OBJECT (audiopad));
-
-	return audio;
-}
-#endif
-
 static void
 link_tee (GstPad     *tee_srcpad,
           GstElement *sink_bin)
@@ -176,7 +130,7 @@ pt_player_setup_pipeline (GstPtAudioBin *bin,
 	PROPAGATE_ERROR_FALSE
 
 #ifdef HAVE_ASR
-	bin->sphinx_bin = create_sphinx_bin (bin, &earlier_error);
+	bin->sphinx_bin = make_element("ptaudioasrbin", "sphinx-audiobin", &earlier_error);
 	PROPAGATE_ERROR_FALSE
 #endif
 	bin->tee = make_element ("tee", "tee", &earlier_error);
@@ -233,11 +187,7 @@ gboolean
 gst_pt_audio_bin_setup_sphinx (GstPtAudioBin  *bin,
                                GError        **error)
 {
-	GError *earlier_error = NULL;
-
-	if (!bin->tee)
-		pt_player_setup_pipeline (bin, &earlier_error);
-	PROPAGATE_ERROR_FALSE
+	//GError *earlier_error = NULL;
 
 	remove_element (GST_BIN (bin), "player-audiobin");
 	add_element (GST_BIN (bin),
@@ -247,14 +197,24 @@ gst_pt_audio_bin_setup_sphinx (GstPtAudioBin  *bin,
 }
 
 gboolean
+gst_pt_audio_bin_configure_asr (GstPtAudioBin  *self,
+                                PtConfig      *config,
+                                GError       **error)
+{
+	gboolean result;
+	GstPtAudioAsrBin *bin;
+
+	bin = GST_PT_AUDIO_ASR_BIN (self->sphinx_bin);
+	result = gst_pt_audio_asr_bin_configure_asr (bin, config, error);
+
+	return result;
+}
+
+gboolean
 gst_pt_audio_bin_setup_player (GstPtAudioBin  *bin,
                                GError       **error)
 {
-	GError *earlier_error = NULL;
-
-	if (!bin->tee)
-		pt_player_setup_pipeline (bin, &earlier_error);
-	PROPAGATE_ERROR_FALSE
+	//GError *earlier_error = NULL;
 
 	remove_element (GST_BIN (bin), "sphinx-audiobin");
 	add_element (GST_BIN (bin),
@@ -274,8 +234,8 @@ gst_pt_audio_bin_dispose (GObject *object)
 		   won't be destroyed. */
 		add_element (GST_BIN (bin),
 		             bin->play_bin, bin->tee_playpad);
-		add_element (GST_BIN (bin),
-		             bin->sphinx_bin, bin->tee_sphinxpad);
+		//add_element (GST_BIN (bin),
+		//             bin->sphinx_bin, bin->tee_sphinxpad);
 #endif
 		gst_object_unref (GST_OBJECT (bin->tee_playpad));
 		gst_object_unref (GST_OBJECT (bin->tee_sphinxpad));
@@ -343,9 +303,6 @@ gst_pt_audio_bin_get_property (GObject    *object,
 		g_object_get (bin->play_bin, "volume", &volume, NULL);
 		g_value_set_double (value, volume);
 		break;
-	case PROP_SPHINX:
-		g_value_set_object (value, bin->sphinx);
-		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -355,12 +312,12 @@ gst_pt_audio_bin_get_property (GObject    *object,
 static void
 gst_pt_audio_bin_init (GstPtAudioBin *bin)
 {
-	bin->sphinx = NULL;
 	bin->play_bin = NULL;
 	bin->sphinx_bin = NULL;
 	bin->tee = NULL;
 
 	gst_pt_audio_play_bin_register ();
+	gst_pt_audio_asr_bin_register ();
 	pt_player_setup_pipeline (bin, NULL);
 	gst_pt_audio_bin_setup_player (bin, NULL);
 }
@@ -405,14 +362,6 @@ gst_pt_audio_bin_class_init (GstPtAudioBinClass *klass)
 			0.0, 1.0, 1.0,
 			G_PARAM_READWRITE | GST_PARAM_CONTROLLABLE |
 			                    G_PARAM_STATIC_STRINGS);
-
-	obj_properties[PROP_SPHINX] =
-	g_param_spec_object (
-			"sphinx",
-			"Sphinx",
-			"Sphinx Element",
-			G_TYPE_OBJECT,
-			G_PARAM_READABLE);
 
 	g_object_class_install_properties (
 			G_OBJECT_CLASS (klass),

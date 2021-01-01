@@ -19,6 +19,7 @@
 #define GST_PT_AUDIO_BIN_H
 
 #include <gst/gst.h>
+#include "pt-config.h"
 
 G_BEGIN_DECLS
 
@@ -38,7 +39,6 @@ struct _GstPtAudioBin
 
 	GstElement *play_bin;
 	GstElement *sphinx_bin;
-	GObject    *sphinx;
 	GstElement *tee;
 	GstPad     *tee_playpad;
 	GstPad     *tee_sphinxpad;
@@ -59,6 +59,9 @@ struct _GstPtAudioBinClass
 GType		gst_pt_audio_bin_get_type	(void) G_GNUC_CONST;
 gboolean	gst_pt_audio_bin_setup_sphinx	(GstPtAudioBin  *bin,
 						 GError        **error);
+gboolean	gst_pt_audio_bin_configure_asr	(GstPtAudioBin  *bin,
+						 PtConfig  *config,
+						 GError   **error);
 gboolean	gst_pt_audio_bin_setup_player	(GstPtAudioBin  *bin,
 						 GError        **error);
 gboolean	gst_pt_audio_bin_register	(void);

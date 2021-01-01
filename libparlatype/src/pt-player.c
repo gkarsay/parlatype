@@ -38,6 +38,7 @@
 #ifdef HAVE_ASR
   #include "gst/gstparlasphinx.h"
 #endif
+#include "pt-config.h"
 #include "pt-i18n.h"
 #include "pt-position-manager.h"
 #include "pt-waveviewer.h"
@@ -316,7 +317,7 @@ bus_call (GstBus     *bus,
 		}
 
 	case GST_MESSAGE_ELEMENT:
-		if (g_strcmp0 (GST_MESSAGE_SRC_NAME (msg), "sphinx") != 0)
+		if (g_strcmp0 (GST_MESSAGE_SRC_NAME (msg), "asr") != 0)
 			break;
 		const GstStructure *st = gst_message_get_structure (msg);
 		if (g_value_get_boolean (gst_structure_get_value (st, "final"))) {
@@ -1775,7 +1776,6 @@ pt_player_init (PtPlayer *player)
 	player->priv->timestamp_precision = PT_PRECISION_SECOND_10TH;
 	player->priv->timestamp_fixed = FALSE;
 	player->priv->wv = NULL;
-	player->sphinx = NULL;
 	player->priv->scaletempo = NULL;
 	player->priv->pos_mgr = pt_position_manager_new ();
 
@@ -1878,9 +1878,6 @@ pt_player_setup_pipeline (PtPlayer  *player,
 	g_object_set (G_OBJECT (player->priv->play),
 			"audio-sink", player->priv->audio_bin, NULL);
 
-	g_object_get (G_OBJECT (player->priv->audio_bin),
-		      "sphinx", &player->sphinx, NULL);
-
 	/* This is responsible for syncing system volume with Parlatype volume.
 	   Syncing is done only in Play state */
 	g_signal_connect (G_OBJECT (player->priv->play),
@@ -1931,6 +1928,32 @@ pt_player_setup_sphinx (PtPlayer  *player,
 	pt_player_jump_to_position (player, pos);
 
 	return TRUE;
+}
+
+/**
+ * pt_player_configure_asr:
+ * @player: a #PtPlayer
+ * @config: a #PtConfig
+ * @error: (nullable): return location for an error, or NULL
+ *
+ * Configure ASR setup.
+ *
+ * Return value: TRUE on success, otherwise FALSE
+ *
+ * Since: x.x
+ */
+gboolean
+pt_player_configure_asr (PtPlayer  *player,
+                         PtConfig  *config,
+                         GError   **error)
+{
+	gboolean result;
+	GstPtAudioBin *bin;
+
+	bin = GST_PT_AUDIO_BIN (player->priv->audio_bin);
+	result = gst_pt_audio_bin_configure_asr (bin, config, error);
+
+	return result;
 }
 
 /**

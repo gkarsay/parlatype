@@ -19,6 +19,7 @@
 #define PT_PLAYER_H
 
 #include <gio/gio.h>
+#include "pt-config.h"
 #include "pt-waveviewer.h"
 
 G_BEGIN_DECLS
@@ -39,7 +40,6 @@ typedef struct _PtPlayerPrivate PtPlayerPrivate;
 struct _PtPlayer
 {
 	GObject parent;
-	GObject *sphinx;
 
 	/*< private > */
 	PtPlayerPrivate *priv;
@@ -139,6 +139,9 @@ gboolean	pt_player_setup_player		(PtPlayer  *player,
 			                         GError   **error);
 gboolean	pt_player_setup_sphinx		(PtPlayer  *player,
 			                         GError   **error);
+gboolean	pt_player_configure_asr		(PtPlayer  *player,
+						 PtConfig  *config,
+						 GError   **error);
 PtPlayer*	pt_player_new			(void);
 
 G_END_DECLS

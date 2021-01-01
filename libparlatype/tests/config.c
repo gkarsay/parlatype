@@ -16,6 +16,7 @@
 
 
 #include <glib.h>
+#include <gtk/gtk.h>
 #include <pt-config.h>
 #include <pt-config.c>	/* for static methods */
 

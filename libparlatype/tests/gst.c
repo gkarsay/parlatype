@@ -18,6 +18,7 @@
 #include <glib.h>
 #include <gst/gst.h>
 #include <gst/audio/streamvolume.h>
+#include "gst/gstptaudioasrbin.h"
 #include "gst/gstptaudioplaybin.h"
 #include "gst/gstptaudiobin.h"
 
@@ -81,6 +82,7 @@ main (int argc, char *argv[])
 {
 	g_test_init (&argc, &argv, NULL);
 	gst_init (NULL, NULL);
+	gst_pt_audio_asr_bin_register ();
 	gst_pt_audio_play_bin_register ();
 	gst_pt_audio_bin_register ();
 

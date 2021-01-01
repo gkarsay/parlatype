@@ -13,6 +13,8 @@ test_data = [
 extra_sources = [
 	'../src/gst/gstptaudiobin.c',
 	'../src/gst/gstptaudiobin.h',
+	'../src/gst/gstptaudioasrbin.c',
+	'../src/gst/gstptaudioasrbin.h',
 	'../src/gst/gstptaudioplaybin.c',
 	'../src/gst/gstptaudioplaybin.h',
 ]
