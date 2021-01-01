@@ -1138,12 +1138,6 @@ setup_accels_actions_menus (PtWindow *win)
 	g_object_unref (builder);
 	win->priv->go_to_timestamp = g_menu_item_new (_("Go to time in clipboard"), "win.insert");
 	g_menu_insert_item (G_MENU (win->priv->secondary_menu), 1, win->priv->go_to_timestamp);
-
-	GApplication *app;
-	app = g_application_get_default ();
-	if (!pt_app_get_asr (PT_APP (app))) {
-		g_menu_remove (G_MENU (primary_menu), 0);
-	}
 }
 
 static void

@@ -34,7 +34,6 @@
 
 struct _PtAppPrivate
 {
-	gboolean       asr;
 #ifdef G_OS_UNIX
 	PtMediakeys   *mediakeys;
 	PtDbusService *dbus_service;
@@ -60,16 +59,6 @@ static GOptionEntry options[] =
 	  N_("Show the application’s version"),
 	  NULL
 	},
-#ifdef HAVE_ASR
-	{ "with-asr",
-	  'a',
-	  G_OPTION_FLAG_NONE,
-	  G_OPTION_ARG_NONE,
-	  NULL,
-	  N_("Enable automatic speech recognition"),
-	  NULL
-	},
-#endif
 	{ NULL }
 };
 
@@ -249,13 +238,6 @@ const GActionEntry app_actions[] = {
 	{ "quit", quit_cb, NULL, NULL, NULL }
 };
 
-gboolean
-pt_app_get_asr (PtApp *app)
-{
-	g_assert (PT_IS_APP (app));
-	return app->priv->asr;
-}
-
 static void
 pt_app_startup (GApplication *app)
 {
@@ -390,15 +372,9 @@ static gint
 pt_app_handle_local_options (GApplication *application,
                              GVariantDict *options)
 {
-	PtApp *app = PT_APP (application);
-
 	if (g_variant_dict_contains (options, "version")) {
 		g_print ("%s %s\n", PACKAGE, VERSION);
 		return 0;
-	}
-
-	if (g_variant_dict_contains (options, "with-asr")) {
-		app->priv->asr = TRUE;
 	}
 
 	return -1;
@@ -419,8 +395,6 @@ pt_app_init (PtApp *app)
 	app->priv->win32pipe = NULL;
 #endif
 	g_application_add_main_option_entries (G_APPLICATION (app), options);
-
-	app->priv->asr = FALSE;
 }
 
 static void

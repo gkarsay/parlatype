@@ -44,8 +44,6 @@ struct _PtAppClass
 
 GType		pt_app_get_type			(void) G_GNUC_CONST;
 
-gboolean	pt_app_get_asr			(PtApp *app);
-
 PtApp		*pt_app_new			(void);
 
 #endif
