@@ -67,8 +67,6 @@ G_DEFINE_TYPE_WITH_CODE (GstPtAudioBin, gst_pt_audio_bin, GST_TYPE_BIN,
 enum
 {
 	PROP_0,
-	PROP_PLAYER,
-	PROP_ASR,
 	PROP_MUTE,
 	PROP_VOLUME,
 	N_PROPERTIES
@@ -80,30 +78,17 @@ static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
 
 static GstElement*
 make_element (gchar   *factoryname,
-              gchar   *name,
-              GError **error)
+              gchar   *name)
 {
 	GstElement *result;
 
 	result = gst_element_factory_make (factoryname, name);
 	if (!result)
-		g_set_error (error, GST_CORE_ERROR,
-		             GST_CORE_ERROR_MISSING_PLUGIN,
-		             _("Failed to load plugin “%s”."), factoryname);
+		g_log_structured (
+			G_LOG_DOMAIN, G_LOG_LEVEL_CRITICAL, "MESSAGE",
+			_("Failed to load plugin “%s”."), factoryname);
 
 	return result;
-}
-
-#define PROPAGATE_ERROR_NULL \
-if (earlier_error != NULL) {\
-	g_propagate_error (error, earlier_error);\
-	return NULL;\
-}
-
-#define PROPAGATE_ERROR_FALSE \
-if (earlier_error != NULL) {\
-	g_propagate_error (error, earlier_error);\
-	return FALSE;\
 }
 
 static void
@@ -118,34 +103,6 @@ link_tee (GstPad     *tee_srcpad,
 	r = gst_pad_link (tee_srcpad, sinkpad);
 	g_assert (r == GST_PAD_LINK_OK);
 	gst_object_unref (sinkpad);
-}
-
-static gboolean
-pt_player_setup_pipeline (GstPtAudioBin *bin,
-                          GError   **error)
-{
-	GError *earlier_error = NULL;
-
-	bin->play_bin = make_element ("ptaudioplaybin", "player-audiobin", &earlier_error);
-	PROPAGATE_ERROR_FALSE
-
-#ifdef HAVE_ASR
-	bin->sphinx_bin = make_element("ptaudioasrbin", "sphinx-audiobin", &earlier_error);
-	PROPAGATE_ERROR_FALSE
-#endif
-	bin->tee = make_element ("tee", "tee", &earlier_error);
-	PROPAGATE_ERROR_FALSE
-	bin->tee_playpad = gst_element_get_request_pad (bin->tee, "src_%u");
-	bin->tee_sphinxpad = gst_element_get_request_pad (bin->tee, "src_%u");
-
-	gst_bin_add (GST_BIN (bin), bin->tee);
-
-	/* create ghost pad for audiosink */
-	GstPad *audiopad = gst_element_get_static_pad (bin->tee, "sink");
-	gst_element_add_pad (GST_ELEMENT (bin), gst_ghost_pad_new ("sink", audiopad));
-	gst_object_unref (GST_OBJECT (audiopad));
-
-	return TRUE;
 }
 
 static void
@@ -183,17 +140,14 @@ add_element (GstBin     *parent,
 	link_tee (srcpad, child);
 }
 
-gboolean
-gst_pt_audio_bin_setup_sphinx (GstPtAudioBin  *bin,
-                               GError        **error)
+void
+gst_pt_audio_bin_setup_asr (GstPtAudioBin  *bin,
+                            gboolean        state)
 {
-	//GError *earlier_error = NULL;
-
-	remove_element (GST_BIN (bin), "player-audiobin");
-	add_element (GST_BIN (bin),
-			bin->sphinx_bin, bin->tee_sphinxpad);
-
-	return TRUE;
+	if (state)
+		add_element (GST_BIN (bin), bin->sphinx_bin, bin->tee_sphinxpad);
+	else
+		remove_element (GST_BIN (bin), "sphinx-audiobin");
 }
 
 gboolean
@@ -210,17 +164,14 @@ gst_pt_audio_bin_configure_asr (GstPtAudioBin  *self,
 	return result;
 }
 
-gboolean
+void
 gst_pt_audio_bin_setup_player (GstPtAudioBin  *bin,
-                               GError       **error)
+                               gboolean        state)
 {
-	//GError *earlier_error = NULL;
-
-	remove_element (GST_BIN (bin), "sphinx-audiobin");
-	add_element (GST_BIN (bin),
-			bin->play_bin, bin->tee_playpad);
-
-	return TRUE;
+	if (state)
+		add_element (GST_BIN (bin), bin->play_bin, bin->tee_playpad);
+	else
+		remove_element (GST_BIN (bin), "player-audiobin");
 }
 
 static void
@@ -251,19 +202,8 @@ gst_pt_audio_bin_set_property (GObject      *object,
                                GParamSpec   *pspec)
 {
 	GstPtAudioBin *bin = GST_PT_AUDIO_BIN (object);
-	gboolean boolval;
 
 	switch (property_id) {
-	case PROP_PLAYER:
-		boolval = g_value_get_boolean (value);
-		if (boolval)
-			gst_pt_audio_bin_setup_player (bin, NULL);
-		break;
-	case PROP_ASR:
-		boolval = g_value_get_boolean (value);
-		if (boolval)
-			gst_pt_audio_bin_setup_sphinx (bin, NULL);
-		break;
 	case PROP_MUTE:
 		g_object_set (bin->play_bin,
 		              "mute", g_value_get_boolean (value), NULL);
@@ -289,12 +229,6 @@ gst_pt_audio_bin_get_property (GObject    *object,
 	gdouble  volume;
 
 	switch (property_id) {
-	case PROP_PLAYER:
-		g_value_set_boolean (value, bin->player);
-		break;
-	case PROP_ASR:
-		g_value_set_boolean (value, bin->asr);
-		break;
 	case PROP_MUTE:
 		g_object_get (bin->play_bin, "mute", &mute, NULL);
 		g_value_set_boolean (value, mute);
@@ -312,14 +246,22 @@ gst_pt_audio_bin_get_property (GObject    *object,
 static void
 gst_pt_audio_bin_init (GstPtAudioBin *bin)
 {
-	bin->play_bin = NULL;
-	bin->sphinx_bin = NULL;
-	bin->tee = NULL;
-
 	gst_pt_audio_play_bin_register ();
 	gst_pt_audio_asr_bin_register ();
-	pt_player_setup_pipeline (bin, NULL);
-	gst_pt_audio_bin_setup_player (bin, NULL);
+
+	bin->queue = make_element ("queue", "queue");
+	bin->play_bin = make_element ("ptaudioplaybin", "player-audiobin");
+	bin->sphinx_bin = make_element("ptaudioasrbin", "sphinx-audiobin");
+	bin->tee = make_element ("tee", "tee");
+	bin->tee_playpad = gst_element_get_request_pad (bin->tee, "src_%u");
+	bin->tee_sphinxpad = gst_element_get_request_pad (bin->tee, "src_%u");
+
+	gst_bin_add (GST_BIN (bin), bin->tee);
+
+	/* create ghost pad for audiosink */
+	GstPad *audiopad = gst_element_get_static_pad (bin->tee, "sink");
+	gst_element_add_pad (GST_ELEMENT (bin), gst_ghost_pad_new ("sink", audiopad));
+	gst_object_unref (GST_OBJECT (audiopad));
 }
 
 static void
@@ -328,22 +270,6 @@ gst_pt_audio_bin_class_init (GstPtAudioBinClass *klass)
 	G_OBJECT_CLASS (klass)->set_property = gst_pt_audio_bin_set_property;
 	G_OBJECT_CLASS (klass)->get_property = gst_pt_audio_bin_get_property;
 	G_OBJECT_CLASS (klass)->dispose      = gst_pt_audio_bin_dispose;
-
-	obj_properties[PROP_PLAYER] =
-	g_param_spec_boolean (
-			"player",
-			"Player",
-			"Audio to player",
-			TRUE,
-			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
-
-	obj_properties[PROP_ASR] =
-	g_param_spec_boolean (
-			"asr",
-			"ASR",
-			"Audio to ASR",
-			FALSE,
-			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
 
 	obj_properties[PROP_MUTE] =
 	g_param_spec_boolean (

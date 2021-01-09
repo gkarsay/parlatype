@@ -154,7 +154,6 @@ pt_player_seek (PtPlayer *player,
 static void
 pt_player_set_state_blocking (PtPlayer *player,
                               GstState  state)
-
 {
 	g_assert (GST_IS_ELEMENT (player->priv->play));
 
@@ -1767,24 +1766,6 @@ pt_player_goto_timestamp (PtPlayer *player,
 
 /* --------------------- Init and GObject management ------------------------ */
 
-static void
-pt_player_init (PtPlayer *player)
-{
-	gst_init (NULL, NULL);
-	player->priv = pt_player_get_instance_private (player);
-	player->priv->play = NULL;
-	player->priv->timestamp_precision = PT_PRECISION_SECOND_10TH;
-	player->priv->timestamp_fixed = FALSE;
-	player->priv->wv = NULL;
-	player->priv->scaletempo = NULL;
-	player->priv->pos_mgr = pt_position_manager_new ();
-
-	gst_pt_audio_bin_register ();
-#ifdef HAVE_ASR
-	gst_parlasphinx_register ();
-#endif
-}
-
 static gboolean
 notify_volume_idle_cb (PtPlayer *player)
 {
@@ -1872,6 +1853,9 @@ pt_player_setup_pipeline (PtPlayer  *player,
 	player->priv->scaletempo = make_element ("scaletempo", "tempo", &earlier_error);
 	PROPAGATE_ERROR_FALSE
 
+	g_object_set (G_OBJECT (player->priv->play),
+			"audio-filter", player->priv->scaletempo, NULL);
+
 	player->priv->audio_bin = make_element ("ptaudiobin", "audiobin", &earlier_error);
 	PROPAGATE_ERROR_FALSE
 
@@ -1890,7 +1874,7 @@ pt_player_setup_pipeline (PtPlayer  *player,
 /**
  * pt_player_setup_sphinx:
  * @player: a #PtPlayer
- * @error: (nullable): return location for an error, or NULL
+ * @state:
  *
  * Setup the GStreamer pipeline for automatic speech recognition using
  * CMU sphinx. This loads resources like language model and dictionary and
@@ -1899,35 +1883,23 @@ pt_player_setup_pipeline (PtPlayer  *player,
  * #PtPlayer::asr-hypothesis and/or #PtPlayer::asr-final signal to get
  * the results. Start recognition with pt_player_play().
  *
- * Return value: TRUE on success, FALSE if the pipeline could not be set up
- *
- * Since: 1.6
+ * Since: x.x
  */
-gboolean
-pt_player_setup_sphinx (PtPlayer  *player,
-                        GError   **error)
+void
+pt_player_setup_asr (PtPlayer  *player,
+                     gboolean   state)
 {
-	GError *earlier_error = NULL;
-
-	if (!player->priv->play)
-		pt_player_setup_pipeline (player, &earlier_error);
-	PROPAGATE_ERROR_FALSE
-
+	GstPtAudioBin *bin = GST_PT_AUDIO_BIN (player->priv->audio_bin);
 	gint pos;
-	pos = pt_player_get_position (player);
 
+	pos = pt_player_get_position (player);
 	pt_player_set_state_blocking (player, GST_STATE_NULL);
 
-	g_object_set (G_OBJECT (player->priv->audio_bin), "asr", TRUE, NULL);
-
-	/* setting the "audio-filter" property unrefs the previous audio-filter! */
-	gst_object_ref (player->priv->scaletempo);
-	g_object_set (player->priv->play, "audio-filter", NULL, NULL);
+	gst_pt_audio_bin_setup_asr (bin, state);
 
 	pt_player_set_state_blocking (player, GST_STATE_PAUSED);
-	pt_player_jump_to_position (player, pos);
-
-	return TRUE;
+	if (pos > 0)
+		pt_player_jump_to_position (player, pos);
 }
 
 /**
@@ -1959,45 +1931,30 @@ pt_player_configure_asr (PtPlayer  *player,
 /**
  * pt_player_setup_player:
  * @player: a #PtPlayer
- * @error: (nullable): return location for an error, or NULL
+ * @state:
  *
  * Setup the GStreamer pipeline for playback. This or pt_player_setup_sphinx()
  * must be called first on a new PtPlayer object. It’s a programmer’s error to
  * do anything with the #PtPlayer before calling the setup function.
  *
- * Return value: TRUE on success, FALSE if the pipeline could not be set up
- *
- * Since: 1.6
+ * Since: x.x
  */
-gboolean
+void
 pt_player_setup_player (PtPlayer  *player,
-                        GError   **error)
+                        gboolean   state)
 {
-	GError *earlier_error = NULL;
-
-	if (!player->priv->play)
-		pt_player_setup_pipeline (player, &earlier_error);
-	PROPAGATE_ERROR_FALSE
-
+	GstPtAudioBin *bin = GST_PT_AUDIO_BIN (player->priv->audio_bin);
 	gint pos;
+
 	pos = pt_player_get_position (player);
-
-	/* Before removing and adding elements, set state to NULL to be on the
-	   safe side. Without changing volume didn’t work anymore after switching
-	   from playback setup to ASR setup and back again. */
-
 	pt_player_set_state_blocking (player, GST_STATE_NULL);
 
-	g_object_set (G_OBJECT (player->priv->audio_bin), "player", TRUE, NULL);
-
-	g_object_set (G_OBJECT (player->priv->play),
-			"audio-filter", player->priv->scaletempo, NULL);
+	gst_pt_audio_bin_setup_player (bin, state);
 
 	pt_player_set_state_blocking (player, GST_STATE_PAUSED);
 	if (pos > 0)
 		pt_player_jump_to_position (player, pos);
 
-	return TRUE;
 }
 
 static void
@@ -2140,6 +2097,26 @@ pt_player_get_property (GObject    *object,
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
+}
+
+static void
+pt_player_init (PtPlayer *player)
+{
+	gst_init (NULL, NULL);
+	player->priv = pt_player_get_instance_private (player);
+	player->priv->play = NULL;
+	player->priv->timestamp_precision = PT_PRECISION_SECOND_10TH;
+	player->priv->timestamp_fixed = FALSE;
+	player->priv->wv = NULL;
+	player->priv->scaletempo = NULL;
+	player->priv->pos_mgr = pt_position_manager_new ();
+
+	gst_pt_audio_bin_register ();
+#ifdef HAVE_ASR
+	gst_parlasphinx_register ();
+#endif
+
+	pt_player_setup_pipeline (player, NULL);
 }
 
 static void

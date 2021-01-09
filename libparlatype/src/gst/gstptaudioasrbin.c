@@ -46,15 +46,6 @@ GST_DEBUG_CATEGORY_STATIC (gst_pt_audio_asr_bin_debug);
 
 G_DEFINE_TYPE (GstPtAudioAsrBin, gst_pt_audio_asr_bin, GST_TYPE_BIN);
 
-enum
-{
-	PROP_0,
-	PROP_VOLUME,
-	PROP_MUTE,
-	N_PROPERTIES
-};
-
-static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
 
 static GstElement*
 make_element (gchar   *factoryname,
@@ -69,6 +60,12 @@ make_element (gchar   *factoryname,
 			_("Failed to load plugin “%s”."), factoryname);
 
 	return result;
+}
+
+gboolean
+gst_pt_audio_asr_bin_is_configured (GstPtAudioAsrBin  *self)
+{
+	return self->is_configured;
 }
 
 gboolean
@@ -91,6 +88,7 @@ gst_pt_audio_asr_bin_configure_asr (GstPtAudioAsrBin  *self,
 	}
 
 	pt_config_apply (config, G_OBJECT (self->asr_plugin));
+	self->is_configured = TRUE;
 
 	g_free (plugin);
 	return TRUE;
@@ -116,77 +114,15 @@ gst_pt_audio_asr_bin_init (GstPtAudioAsrBin *bin)
 	GstPad *audiopad = gst_element_get_static_pad (queue, "sink");
 	gst_element_add_pad (GST_ELEMENT (bin), gst_ghost_pad_new ("sink", audiopad));
 	gst_object_unref (GST_OBJECT (audiopad));
-}
 
-static void
-gst_pt_audio_asr_bin_set_property (GObject      *object,
-                                   guint         property_id,
-                                   const GValue *value,
-                                   GParamSpec   *pspec)
-{
-	//GstPtAudioAsrBin *bin = GST_PT_AUDIO_ASR_BIN (object);
-
-	switch (property_id) {
-	case PROP_MUTE:
-		break;
-	case PROP_VOLUME:
-		break;
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-		break;
-	}
-}
-
-static void
-gst_pt_audio_asr_bin_get_property (GObject    *object,
-                                   guint       property_id,
-                                   GValue     *value,
-                                   GParamSpec *pspec)
-{
-//	GstPtAudioAsrBin *bin = GST_PT_AUDIO_ASR_BIN (object);
-
-	switch (property_id) {
-	case PROP_MUTE:
-		break;
-	case PROP_VOLUME:
-		break;
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-		break;
-	}
+	bin->asr_plugin = NULL;
+	bin->asr_plugin_name = NULL;
+	bin->is_configured = FALSE;
 }
 
 static void
 gst_pt_audio_asr_bin_class_init (GstPtAudioAsrBinClass *klass)
 {
-	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-
-	gobject_class->get_property = gst_pt_audio_asr_bin_get_property;
-	gobject_class->set_property = gst_pt_audio_asr_bin_set_property;
-
-	obj_properties[PROP_MUTE] =
-	g_param_spec_boolean (
-			"mute",
-			"Mute",
-			"mute channel",
-			FALSE,
-			G_PARAM_READWRITE | GST_PARAM_CONTROLLABLE |
-			                    G_PARAM_STATIC_STRINGS);
-
-	obj_properties[PROP_VOLUME] =
-	g_param_spec_double (
-			"volume",
-			"Volume",
-			"volume factor, 1.0=100%",
-			0.0, 1.0, 1.0,
-			G_PARAM_READWRITE | GST_PARAM_CONTROLLABLE |
-			                    G_PARAM_STATIC_STRINGS);
-
-	g_object_class_install_properties (
-			G_OBJECT_CLASS (klass),
-			N_PROPERTIES,
-			obj_properties);
-
 }
 
 static gboolean

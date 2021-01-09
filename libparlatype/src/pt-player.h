@@ -135,10 +135,10 @@ gboolean	pt_player_goto_timestamp	(PtPlayer *player,
 						 gchar    *timestamp);
 void		pt_player_connect_waveviewer	(PtPlayer *player,
 						 PtWaveviewer *wv);
-gboolean	pt_player_setup_player		(PtPlayer  *player,
-			                         GError   **error);
-gboolean	pt_player_setup_sphinx		(PtPlayer  *player,
-			                         GError   **error);
+void		pt_player_setup_player		(PtPlayer  *player,
+						 gboolean   state);
+void		pt_player_setup_asr		(PtPlayer  *player,
+						 gboolean   state);
 gboolean	pt_player_configure_asr		(PtPlayer  *player,
 						 PtConfig  *config,
 						 GError   **error);

@@ -222,23 +222,15 @@ setup_sphinx (PtWindow *win)
 			win->priv->asr_config,
 			&error);
 
-	pt_player_setup_sphinx (win->player, &error);
-	if (error) {
-		pt_error_message (win, error->message, NULL);
-		g_clear_error (&error);
-	}
+	pt_player_setup_asr (win->player, TRUE);
+	pt_player_setup_player (win->player, FALSE);
 }
 
 static void
 set_mode_playback (PtWindow *win)
 {
-	GError *error = NULL;
-
-	pt_player_setup_player (win->player, &error);
-	if (error) {
-		pt_error_message (win, error->message, NULL);
-		g_clear_error (&error);
-	}
+	pt_player_setup_asr (win->player, FALSE);
+	pt_player_setup_player (win->player, TRUE);
 }
 
 void
@@ -738,8 +730,11 @@ static void
 set_asr_config (PtWindow *win)
 {
 	PtWindowPrivate *priv = win->priv;
-	GFile *asr_file;
-	gchar *asr_path;
+	GFile    *asr_file;
+	gchar    *asr_path;
+	GAction  *action;
+	GVariant *variant;
+	const gchar *mode;
 
 	asr_path = g_settings_get_string (priv->editor, "asr-config");
 	asr_file = g_file_new_for_path (asr_path);
@@ -748,12 +743,21 @@ set_asr_config (PtWindow *win)
 		g_clear_object (&priv->asr_config);
 
 	priv->asr_config = pt_config_new (asr_file);
-	if (!pt_config_is_valid (priv->asr_config)) {
-		g_clear_object (&priv->asr_config);
-	}
-
 	g_object_unref (asr_file);
 	g_free (asr_path);
+
+	if (!pt_config_is_installed (priv->asr_config)) {
+		g_clear_object (&priv->asr_config);
+		return;
+	}
+
+	action = g_action_map_lookup_action (G_ACTION_MAP (win), "mode");
+	variant = g_action_get_state (action);
+	mode = g_variant_get_string (variant, NULL);
+	if (g_strcmp0 (mode, "asr") == 0)
+		setup_sphinx (win);
+
+	g_variant_unref (variant);
 }
 
 static void
@@ -1011,31 +1015,8 @@ volume_button_press_event (GtkGestureMultiPress *gesture,
 static void
 setup_player (PtWindow *win)
 {
-	GError *error = NULL;
-
 	win->player = pt_player_new ();
-	if (!pt_player_setup_player (win->player, &error)) {
-		GtkWidget *dialog;
-		dialog = gtk_message_dialog_new (
-				GTK_WINDOW (win),
-				GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-				GTK_MESSAGE_ERROR,
-				GTK_BUTTONS_OK,
-				_("Fatal error"));
-
-		gtk_message_dialog_format_secondary_text (
-				GTK_MESSAGE_DIALOG (dialog),
-				_("Parlatype needs GStreamer 1.x to run. Please check your installation of "
-				"GStreamer and make sure you have the “Good Plugins” installed.\n"
-				"Parlatype will quit now, it received this error message: %s"), error->message);
-
-		g_clear_error (&error);
-		g_signal_connect_swapped (dialog, "response",
-				G_CALLBACK (exit), GINT_TO_POINTER(2));
-
-		gtk_widget_show_all (dialog);
-		return;
-	}
+	pt_player_setup_player (win->player, TRUE);
 
 	pt_player_connect_waveviewer (
 			win->player,
@@ -1148,8 +1129,8 @@ pt_window_init (PtWindow *win)
 	gtk_widget_init_template (GTK_WIDGET (win));
 
 	setup_player (win);
-	setup_settings (win);
 	setup_accels_actions_menus (win);
+	setup_settings (win);
 	setup_volume (win);
 	pt_window_setup_dnd (win);	/* this is in pt_window_dnd.c */
 
