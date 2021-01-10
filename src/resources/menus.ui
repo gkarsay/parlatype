@@ -4,18 +4,6 @@
   <menu id="primary-menu">
     <section>
       <item>
-        <attribute name="label" translatable="yes">Manual transcription</attribute>
-        <attribute name="action">win.mode</attribute>
-        <attribute name="target">playback</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">Automatic transcription</attribute>
-        <attribute name="action">win.mode</attribute>
-        <attribute name="target">asr</attribute>
-      </item>
-    </section>
-    <section>
-      <item>
         <attribute name="label" translatable="yes">Preferences</attribute>
         <attribute name="action">app.prefs</attribute>
       </item>

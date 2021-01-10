@@ -736,24 +736,45 @@ set_asr_config (PtWindow *win)
 	GVariant *variant;
 	const gchar *mode;
 
-	asr_path = g_settings_get_string (priv->editor, "asr-config");
-	asr_file = g_file_new_for_path (asr_path);
-
+	/* called when config file changed; get rid of old config object first */
 	if (priv->asr_config)
 		g_clear_object (&priv->asr_config);
 
+	/* get new config object */
+	asr_path = g_settings_get_string (priv->editor, "asr-config");
+	asr_file = g_file_new_for_path (asr_path);
 	priv->asr_config = pt_config_new (asr_file);
 	g_object_unref (asr_file);
 	g_free (asr_path);
 
-	if (!pt_config_is_installed (priv->asr_config)) {
-		g_clear_object (&priv->asr_config);
-		return;
-	}
-
+	/* get current mode */
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "mode");
 	variant = g_action_get_state (action);
 	mode = g_variant_get_string (variant, NULL);
+
+	/* not valid: clear object, remove menu, change to playback mode */
+	if (!pt_config_is_valid (priv->asr_config) ||
+	    !pt_config_is_installed (priv->asr_config)) {
+		g_clear_object (&priv->asr_config);
+		if (priv->asr) {
+			g_menu_remove (G_MENU (priv->primary_menu), 0);
+			priv->asr = FALSE;
+		}
+		if (g_strcmp0 (mode, "asr") == 0) {
+			set_mode_playback (win);
+		}
+		g_variant_unref (variant);
+		return;
+	}
+
+	/* valid: add menu, setup ASR plugin */
+	if (!priv->asr) {
+		g_menu_prepend_section (G_MENU (priv->primary_menu),
+		                        NULL, /* label */
+		                        G_MENU_MODEL (priv->asr_menu));
+		priv->asr = TRUE;
+	}
+
 	if (g_strcmp0 (mode, "asr") == 0)
 		setup_sphinx (win);
 
@@ -897,6 +918,7 @@ setup_settings (PtWindow *win)
 			win->player, "timestamp-fraction-sep",
 			G_SETTINGS_BIND_GET);
 
+	win->priv->asr = FALSE;
 	set_asr_config (win);
 
 	/* connect to tooltip changer */
@@ -1108,17 +1130,25 @@ setup_accels_actions_menus (PtWindow *win)
 	enable_win_actions (win, FALSE);
 
 	/* Setup menus */
-	GtkBuilder    *builder;
-	GMenuModel    *primary_menu;
+	PtWindowPrivate *priv = win->priv;
+	GtkBuilder      *builder;
 
 	builder = gtk_builder_new_from_resource ("/org/parlatype/parlatype/menus.ui");
-	primary_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "primary-menu"));
-	win->priv->secondary_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "secondary-menu"));
-	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (win->priv->primary_menu_button), primary_menu);
-	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (win->priv->pos_menu_button), win->priv->secondary_menu);
+	priv->primary_menu   = G_MENU_MODEL (gtk_builder_get_object (builder, "primary-menu"));
+	priv->secondary_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "secondary-menu"));
+	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (priv->primary_menu_button), priv->primary_menu);
+	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (priv->pos_menu_button), priv->secondary_menu);
 	g_object_unref (builder);
-	win->priv->go_to_timestamp = g_menu_item_new (_("Go to time in clipboard"), "win.insert");
-	g_menu_insert_item (G_MENU (win->priv->secondary_menu), 1, win->priv->go_to_timestamp);
+
+	/* Setup ASR menu manually; no success with GtkBuilder */
+	priv->asr_menu = g_menu_new ();
+	GMenuItem *item1 = g_menu_item_new (_("Manual transcription"), "win.mode::playback");
+	GMenuItem *item2 = g_menu_item_new (_("Automatic transcription"), "win.mode::asr");
+	g_menu_append_item (priv->asr_menu, item1);
+	g_menu_append_item (priv->asr_menu, item2);
+
+	priv->go_to_timestamp = g_menu_item_new (_("Go to time in clipboard"), "win.insert");
+	g_menu_insert_item (G_MENU (win->priv->secondary_menu), 1, priv->go_to_timestamp);
 }
 
 static void
@@ -1192,6 +1222,7 @@ pt_window_dispose (GObject *object)
 	g_clear_object (&win->priv->asr_config);
 	g_clear_object (&win->priv->go_to_timestamp);
 	g_clear_object (&win->priv->vol_event);
+	g_clear_object (&win->priv->asr_menu);
 
 	G_OBJECT_CLASS (pt_window_parent_class)->dispose (object);
 }
