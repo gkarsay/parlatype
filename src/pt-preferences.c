@@ -73,7 +73,6 @@ struct _PtPreferencesDialogPrivate
 	GtkWidget     *asr_page;
 	GtkWidget     *asr_initial_box;
 	GtkWidget     *asr_ready_box;
-	GtkWidget     *asr_switch;
 	GtkWidget     *asr_list;
 };
 
@@ -470,7 +469,6 @@ pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, asr_page);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, asr_initial_box);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, asr_ready_box);
-	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, asr_switch);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, asr_list);
 }
 
