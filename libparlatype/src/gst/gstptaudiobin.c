@@ -155,6 +155,8 @@ gst_pt_audio_bin_configure_asr (GstPtAudioBin  *self,
                                 PtConfig      *config,
                                 GError       **error)
 {
+	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
 	gboolean result;
 	GstPtAudioAsrBin *bin;
 

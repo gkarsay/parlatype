@@ -212,18 +212,25 @@ zoom_out (GSimpleAction *action,
 	set_zoom (win->priv->editor, -25);
 }
 
-static void
+static gboolean
 setup_sphinx (PtWindow *win)
 {
 	GError *error = NULL;
+	gboolean success;
 
-	pt_player_configure_asr (
+	success = pt_player_configure_asr (
 			win->player,
 			win->priv->asr_config,
 			&error);
 
-	pt_player_setup_asr (win->player, TRUE);
-	pt_player_setup_player (win->player, FALSE);
+	if (success) {
+		pt_player_setup_asr (win->player, TRUE);
+		pt_player_setup_player (win->player, FALSE);
+	} else {
+		pt_error_message (win, error->message, NULL);
+	}
+
+	return success;
 }
 
 static void
@@ -240,13 +247,14 @@ change_mode (GSimpleAction *action,
 {
 	PtWindow *win = PT_WINDOW (user_data);
 	const gchar *mode;
+	gboolean success = TRUE;
 
 	mode = g_variant_get_string (state, NULL);
 	if (g_strcmp0 (mode, "playback") == 0) {
 		set_mode_playback (win);
 	} else if (g_strcmp0 (mode, "asr") == 0) {
 		if (win->priv->asr_config != NULL) {
-			setup_sphinx (win);
+			success = setup_sphinx (win);
 		} else {
 			return;
 		}
@@ -254,7 +262,8 @@ change_mode (GSimpleAction *action,
 		g_assert_not_reached ();
 	}
 
-	g_simple_action_set_state (action, state);
+	if (success)
+		g_simple_action_set_state (action, state);
 
 	/* On changing state the menu doesn’t close. It seems better to close
 	   it just like every other menu item closes the menu.

@@ -81,8 +81,17 @@ gst_pt_audio_asr_bin_configure_asr (GstPtAudioAsrBin  *self,
 		if (self->asr_plugin)
 			gst_object_unref (self->asr_plugin);
 		g_free (self->asr_plugin_name);
-		self->asr_plugin_name = g_strdup (plugin);
+		self->asr_plugin_name = NULL;
 		self->asr_plugin = make_element (plugin, "asr");
+		if (!self->asr_plugin) {
+			g_set_error (error,
+			             GST_CORE_ERROR,
+			             GST_CORE_ERROR_MISSING_PLUGIN,
+			             _("Failed to load plugin “%s”."), plugin);
+			g_free (plugin);
+			return FALSE;
+		}
+		self->asr_plugin_name = g_strdup (plugin);
 		gst_bin_add (GST_BIN (self), self->asr_plugin);
 		gst_element_link_many (self->audioresample, self->asr_plugin, self->fakesink, NULL);
 	}

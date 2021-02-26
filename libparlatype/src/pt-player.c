@@ -1919,6 +1919,8 @@ pt_player_configure_asr (PtPlayer  *player,
                          PtConfig  *config,
                          GError   **error)
 {
+	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
 	gboolean result;
 	GstPtAudioBin *bin;
 
