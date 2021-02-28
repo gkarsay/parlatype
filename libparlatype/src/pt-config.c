@@ -91,35 +91,18 @@ pt_config_save (PtConfig *config)
 
 static GValue
 pt_config_get_value (PtConfig *config,
-                     gchar    *parameter)
+                     gchar    *group,
+                     gchar    *key,
+                     GType     type)
 {
 	GError *error = NULL;
-	gchar *type_string = NULL;
-	GValue result = G_VALUE_INIT;
+	GValue  result = G_VALUE_INIT;
 
-	type_string = g_key_file_get_string (config->priv->keyfile, "Parameter Types", parameter, &error);
-
-	if (g_strcmp0 (type_string, "G_TYPE_STRING") == 0) {
-		g_value_init (&result, G_TYPE_STRING);
-		gchar *string = g_key_file_get_string (config->priv->keyfile,
-						       "Parameters", parameter, &error);
-		g_value_set_string (&result, string);
-		g_free (string);
-	} else if (g_strcmp0 (type_string, "G_TYPE_INT") == 0) {
-		g_value_init (&result, G_TYPE_INT);
-		gint integer = g_key_file_get_integer (config->priv->keyfile,
-						       "Parameters", parameter, &error);
-		g_value_set_int (&result, integer);
-	} else if (g_strcmp0 (type_string, "G_TYPE_BOOLEAN") == 0) {
-		g_value_init (&result, G_TYPE_BOOLEAN);
-		gboolean boolean = g_key_file_get_boolean (config->priv->keyfile,
-						       "Parameters", parameter, &error);
-		g_value_set_boolean (&result, boolean);
-	} else if (g_strcmp0 (type_string, "PT_TYPE_FILE") == 0) {
+	if (g_strcmp0 (group, "Files") == 0) {
 		g_value_init (&result, G_TYPE_STRING);
 		gchar *base = pt_config_get_base_folder (config);
 		gchar **pieces = g_key_file_get_string_list (config->priv->keyfile,
-					"Parameters", parameter, NULL, &error);
+					"Files", key, NULL, &error);
 		gchar *relative = g_build_filenamev (pieces);
 		gchar *absolute = g_build_filename (base, relative, NULL);
 		g_value_set_string (&result, absolute);
@@ -128,16 +111,53 @@ pt_config_get_value (PtConfig *config,
 		g_strfreev (pieces);
 		g_free (base);
 	} else {
-		g_assert_not_reached ();
+		switch (type) {
+		case (G_TYPE_STRING):
+			g_value_init (&result, G_TYPE_STRING);
+			gchar *string = g_key_file_get_string (config->priv->keyfile,
+			                                       "Parameters", key, &error);
+			g_value_set_string (&result, string);
+			g_free (string);
+			break;
+		case (G_TYPE_UINT):
+		case (G_TYPE_INT):
+			g_value_init (&result, G_TYPE_INT);
+			gint integer = g_key_file_get_integer (config->priv->keyfile,
+			                                       "Parameters", key, &error);
+			g_value_set_int (&result, integer);
+			break;
+		case (G_TYPE_FLOAT):
+			g_value_init (&result, G_TYPE_FLOAT);
+			gfloat floaty = g_key_file_get_double (config->priv->keyfile,
+			                                       "Parameters", key, &error);
+			g_value_set_float (&result, floaty);
+			break;
+		case (G_TYPE_DOUBLE):
+			g_value_init (&result, G_TYPE_DOUBLE);
+			gdouble doubly = g_key_file_get_double (config->priv->keyfile,
+			                                       "Parameters", key, &error);
+			g_value_set_double (&result, doubly);
+			break;
+		case (G_TYPE_BOOLEAN):
+			g_value_init (&result, G_TYPE_BOOLEAN);
+			gboolean boolean = g_key_file_get_boolean (config->priv->keyfile,
+			                                           "Parameters", key, &error);
+			g_value_set_boolean (&result, boolean);
+			break;
+		default:
+			g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+			                  "MESSAGE", "G_TYPE \"%s\" not handled", g_type_name (type));
+			g_assert_not_reached ();
+		}
 	}
 
 	if (error) {
 		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
-			          "MESSAGE", "Keyfile value not retrieved: %s", error->message);
+		                 "MESSAGE", "Keyfile value \"%s\" not retrieved: %s",
+		                  key, error->message);
 		g_error_free (error);
 	}
 
-	g_free (type_string);
 	return result;
 }
 
@@ -154,7 +174,8 @@ pt_config_get_string (PtConfig *config,
 
 	if (error) {
 		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
-			          "MESSAGE", "Keyfile value not retrieved: %s", error->message);
+		                 "MESSAGE", "Keyfile value \"%s\" not retrieved: %s",
+		                  error->message);
 		g_error_free (error);
 	}
 
@@ -368,23 +389,45 @@ pt_config_apply (PtConfig *config,
 	g_return_val_if_fail (config->priv->is_valid, FALSE);
 	g_return_val_if_fail (G_IS_OBJECT (plugin), FALSE);
 
-	gchar **parameters = NULL;
-	GValue  value;
-
-	parameters = g_key_file_get_keys (config->priv->keyfile, "Parameters",
-	                                  NULL, NULL);
+	gchar     **keys = NULL;
+	GParamSpec *spec;
+	GType       type;
+	GValue      value;
+	gchar *groups[] = {"Parameters", "Files", NULL};
 
 	g_object_freeze_notify (plugin);
 
-	for (int i = 0; parameters[i] != NULL; i++) {
-		value = pt_config_get_value (config, parameters[i]);
-		g_object_set_property (plugin, parameters[i], &value);
-		g_value_unset (&value);
+	/* Iterate over all groups and all their keys, get the properties'
+	 * type and set the properties. */
+
+	for (int g = 0; groups[g] != NULL; g++) {
+
+		keys = g_key_file_get_keys (config->priv->keyfile, groups[g],
+		                            NULL, NULL);
+
+		/* "Parameters" is optional */
+		if (!keys)
+			continue;
+
+		for (int k = 0; keys[k] != NULL; k++) {
+			spec = g_object_class_find_property (G_OBJECT_GET_CLASS(plugin), keys[k]);
+			if (!spec) {
+				g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+				                 "MESSAGE", "Plugin doesn't have a property \"%s\"", keys[k]);
+				continue;
+			}
+			type = G_PARAM_SPEC_VALUE_TYPE(spec);
+			value = pt_config_get_value (config, groups[g], keys[k], type);
+			g_object_set_property (plugin, keys[k], &value);
+			g_value_unset (&value);
+		}
+
+		g_strfreev (keys);
+
 	}
 
 	g_object_thaw_notify (plugin);
 
-	g_strfreev (parameters);
 	return TRUE;
 }
 
@@ -422,23 +465,6 @@ pt_config_is_installed (PtConfig *config)
 	return config->priv->is_installed;
 }
 
-static gboolean
-type_is_valid (gchar *type)
-{
-	if (!type)
-		return FALSE;
-
-	gchar *valid_types[] = { "G_TYPE_STRING", "G_TYPE_INT",
-		"G_TYPE_BOOLEAN", "PT_TYPE_FILE", NULL };
-
-	for (int i = 0; valid_types[i] != NULL; i++) {
-		if (g_strcmp0 (type, valid_types[i]) == 0)
-			return TRUE;
-	}
-
-	return FALSE;
-}
-
 /**
  * pt_config_is_valid:
  * @config: the configuration to test
@@ -446,20 +472,13 @@ type_is_valid (gchar *type)
  * Checks if a configuration is formally valid:
  * <itemizedlist>
  * <listitem><para>
- * It has the following groups: [Model], [Parameters], [Parameter Types].
+ * It has the following groups: [Model], [Files]. A [Parameters] group is optional.
  * </para></listitem>
  * <listitem><para>
  * [Model] has the following keys: Name, Plugin, BaseFolder, Language, URL.
  * </para></listitem>
  * <listitem><para>
- * [Parameters] has at least one key.
- * </para></listitem>
- * <listitem><para>
- * Each existing key in [Parameters] has the same key in [Parameter Types].
- * </para></listitem>
- * <listitem><para>
- * Values in [Parameter Types] are literal strings; valid strings are:
- * G_TYPE_STRING, G_TYPE_INT, G_TYPE_BOOLEAN, PT_TYPE_FILE.
+ * [Files] has at least one key.
  * </para></listitem>
  * <listitem><para>
  * All keys have non-empty values, except BaseFolder and URL, those might be
@@ -482,7 +501,7 @@ type_is_valid (gchar *type)
  * If the language code exists.
  * </para></listitem>
  * <listitem><para>
- * If files and paths in [Parameters] are formally valid (relative paths
+ * If files and paths in [Files] are formally valid (relative paths
  * with a semicolon (;) as separator, e.g. subdir;subdir;file.name
  * </para></listitem>
  * <listitem><para>
@@ -509,11 +528,10 @@ pt_config_is_valid (PtConfig *config)
 static gboolean
 is_valid (PtConfig *config)
 {
-	gchar *groups[] = {"Model", "Parameters", "Parameter Types", NULL};
+	gchar *groups[] = {"Model", "Files", NULL};
 	gchar *model_keys[] = {"Name", "Plugin", "BaseFolder", "Language", "URL", NULL};
 	gchar *mandatory[] = {"Name", "Plugin", "Language", NULL};
 	gchar **parameters = NULL;
-	gchar *type;
 	gboolean valid = TRUE;
 	int i;
 
@@ -532,19 +550,11 @@ is_valid (PtConfig *config)
 			return FALSE;
 	}
 
-	parameters = g_key_file_get_keys (config->priv->keyfile, "Parameters",
+	parameters = g_key_file_get_keys (config->priv->keyfile, "Files",
 	                                  NULL, NULL);
 
 	if (!parameters || parameters[0] == NULL)
 		return FALSE;
-
-	for (i = 0; parameters[i] != NULL; i++) {
-		type = g_key_file_get_string (config->priv->keyfile, "Parameter Types", parameters[i], NULL);
-		valid = type_is_valid (type);
-		g_free (type);
-		if (!valid)
-			break;
-	}
 
 	g_strfreev (parameters);
 	return valid;
@@ -554,8 +564,7 @@ static gboolean
 pt_config_verify_install (PtConfig *config)
 {
 	gchar   *base_folder;
-	gchar  **parameters = NULL;
-	gchar   *type_string;
+	gchar  **keys = NULL;
 	GValue   value;
 	gboolean result = TRUE;
 
@@ -563,32 +572,31 @@ pt_config_verify_install (PtConfig *config)
 	if (!base_folder)
 		return FALSE;
 
-	if (!g_file_test (base_folder, G_FILE_TEST_IS_DIR | G_FILE_TEST_EXISTS))
+	if (!g_file_test (base_folder, G_FILE_TEST_IS_DIR | G_FILE_TEST_EXISTS)) {
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
+		                 "MESSAGE", "Base folder \"%s\" not found", base_folder);
 		result = FALSE;
+	}
 
 	g_free (base_folder);
 	if (!result)
 		return result;
 
-	parameters = g_key_file_get_keys (config->priv->keyfile, "Parameters",
-	                                  NULL, NULL);
+	keys = g_key_file_get_keys (config->priv->keyfile, "Files",
+	                            NULL, NULL);
 
-	for (int i = 0; parameters[i] != NULL; i++) {
-		type_string = g_key_file_get_string (config->priv->keyfile,
-						     "Parameter Types",
-						     parameters[i],
-						     NULL);
-		if (g_strcmp0 (type_string, "PT_TYPE_FILE") == 0) {
-			value = pt_config_get_value (config, parameters[i]);
-			result = g_file_test (g_value_get_string (&value), G_FILE_TEST_EXISTS);
-			g_value_unset (&value);
-		}
-		g_free (type_string);
+	for (int i = 0; keys[i] != NULL; i++) {
+		value = pt_config_get_value (config, "Files", keys[i], G_TYPE_NONE);
+		result = g_file_test (g_value_get_string (&value), G_FILE_TEST_EXISTS);
+		if (!result)
+			g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
+			                  "MESSAGE", "File \"%s\" not found", g_value_get_string(&value));
+		g_value_unset (&value);
 		if (!result)
 			break;
 	}
 
-	g_strfreev (parameters);
+	g_strfreev (keys);
 	return result;
 }
 
@@ -596,8 +604,9 @@ static void
 pt_config_constructed (GObject *object)
 {
 	PtConfig *config = PT_CONFIG (object);
-	gboolean loaded;
-	gchar    *code;
+	GError   *error = NULL;
+	gboolean  loaded;
+	gchar     *code;
 
 	config->priv->keyfile = g_key_file_new ();
 	config->priv->path = g_file_get_path (config->priv->file);
@@ -605,7 +614,15 @@ pt_config_constructed (GObject *object)
 			config->priv->keyfile,
 			config->priv->path,
 			G_KEY_FILE_KEEP_COMMENTS,
-			NULL);
+			&error);
+
+	if (!loaded) {
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
+		                  "MESSAGE", "Key file \"%s\" not loaded: %s",
+		                   config->priv->path,
+		                   error->message);
+		g_error_free (error);
+	}
 
 	if (!loaded || !is_valid (config))
 		return;

@@ -7,16 +7,11 @@ BaseFolder = /home/me/model
 Language = de
 URL =
 
+[Files]
+File = subdir;test.dict
+Folder = subdir;subdir
+
 [Parameters]
 Number = 42
 String = Some String
 Boolean = true
-File = subdir;test.dict
-Folder = subdir;subdir
-
-[Parameter Types]
-Number = G_TYPE_INT
-String = G_TYPE_STRING
-Boolean = G_TYPE_BOOLEAN
-File = PT_TYPE_FILE
-Folder = PT_TYPE_FILE

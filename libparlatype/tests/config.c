@@ -68,27 +68,27 @@ static_methods (void)
 	/* pt_config_get_value() works only on a formally valid config.
 	 * Don't test for illegal values. */
 
-	value = pt_config_get_value (config, "String");
+	value = pt_config_get_value (config, "Parameters", "String", G_TYPE_STRING);
 	g_assert_true (G_VALUE_HOLDS (&value, G_TYPE_STRING));
 	g_assert_cmpstr (g_value_get_string (&value), ==, "Some String");
 	g_value_unset (&value);
 
-	value = pt_config_get_value (config, "Number");
+	value = pt_config_get_value (config, "Parameters", "Number", G_TYPE_INT);
 	g_assert_true (G_VALUE_HOLDS (&value, G_TYPE_INT));
 	g_assert_cmpint (g_value_get_int (&value), ==, 42);
 	g_value_unset (&value);
 
-	value = pt_config_get_value (config, "Boolean");
+	value = pt_config_get_value (config, "Parameters", "Boolean", G_TYPE_BOOLEAN);
 	g_assert_true (G_VALUE_HOLDS (&value, G_TYPE_BOOLEAN));
 	g_assert_true (g_value_get_boolean (&value));
 	g_value_unset (&value);
 
-	value = pt_config_get_value (config, "File");
+	value = pt_config_get_value (config, "Files", "File", G_TYPE_NONE);
 	g_assert_true (G_VALUE_HOLDS (&value, G_TYPE_STRING));
 	g_assert_cmpstr (g_value_get_string (&value), ==, "/home/me/model/subdir/test.dict");
 	g_value_unset (&value);
 
-	value = pt_config_get_value (config, "Folder");
+	value = pt_config_get_value (config, "Files", "Folder", G_TYPE_NONE);
 	g_assert_true (G_VALUE_HOLDS (&value, G_TYPE_STRING));
 	g_assert_cmpstr (g_value_get_string (&value), ==, "/home/me/model/subdir/subdir");
 	g_value_unset (&value);

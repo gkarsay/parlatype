@@ -9,13 +9,9 @@ rm invalid*.asr
 # Generate invalid configurations with only one detail changed
 sed '1s;^;NoGroup = 1\n\n;'     $INPUT > invalid-key-without-group.asr
 sed 's/^\[Model\]/[ledoM]/g'    $INPUT > invalid-missing-group-model.asr
-sed '/^\[Parameters\]/d'        $INPUT > invalid-missing-group-parameters.asr
-sed '/^\[Parameter Types\]/d'   $INPUT > invalid-missing-group-types.asr
 sed '/^Name =/d'                $INPUT > invalid-missing-key-name.asr
 sed '/^Plugin =/d'              $INPUT > invalid-missing-key-plugin.asr
 sed '/^BaseFolder =/d'          $INPUT > invalid-missing-key-basefolder.asr
-sed '/G_TYPE_INT/d'             $INPUT > invalid-missing-type.asr
-sed 's/G_TYPE_INT/integer/g'    $INPUT > invalid-wrong-type.asr
 sed 's/^Name =.*$/Name =/g'     $INPUT > invalid-empty-key-name.asr
 sed 's/^Plugin =.*$/Plugin =/g' $INPUT > invalid-empty-key-plugin.asr
 sed 's/^Language =.*$/Language =/g' \
