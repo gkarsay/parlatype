@@ -10,6 +10,8 @@ src = [
 	'main.c',
 	'pt-app.c',
 	'pt-app.h',
+	'pt-asr-dialog.c',
+	'pt-asr-dialog.h',
 	'pt-config-row.c',
 	'pt-config-row.h',
 	'pt-controller.c',

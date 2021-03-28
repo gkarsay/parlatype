@@ -19,6 +19,8 @@
 #include <gio/gio.h>
 #include <glib/gi18n.h>
 #include <pt-config.h>
+#include "pt-asr-dialog.h"
+#include "pt-preferences.h"
 #include "pt-config-row.h"
 
 struct _PtConfigRowPrivate
@@ -27,15 +29,15 @@ struct _PtConfigRowPrivate
 	GtkWidget *name_label;
 	GtkWidget *lang_label;
 	GtkWidget *details_button;
-	GtkWidget *install_button;
-	GtkWidget *activate_button;
-	GtkWidget *active_icon;
+	GtkWidget *activate_switch;
+	gboolean   active;
 };
 
 enum
 {
 	PROP_0,
 	PROP_CONFIG,
+	PROP_ACTIVE,
 	N_PROPERTIES
 };
 
@@ -56,80 +58,99 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtConfigRow, pt_config_row, GTK_TYPE_LIST_BOX_ROW)
 
 
 static void
-details_clicked (GtkButton *button,
-                PtConfigRow *row)
+file_delete_finished (GObject      *source_object,
+                      GAsyncResult *res,
+                      gpointer      user_data)
 {
-	g_print ("Details not implemented\n");
+	PtConfigRow *self  = PT_CONFIG_ROW (user_data);
+	GFile       *file  = G_FILE (source_object);
+	GError      *error = NULL;
+	GtkWidget   *dialog;
+	GtkWidget   *parent;
+
+	if (g_file_delete_finish (file, res, &error)) {
+		if (self->priv->active)
+			pt_config_row_set_active (self, FALSE);
+		gtk_widget_destroy (GTK_WIDGET (self));
+	} else {
+		parent = gtk_widget_get_ancestor (GTK_WIDGET (self),
+		                                  PT_TYPE_PREFERENCES_DIALOG);
+
+		dialog = gtk_message_dialog_new (
+				GTK_WINDOW (parent),
+				GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+				GTK_MESSAGE_ERROR,
+				GTK_BUTTONS_OK,
+				"Error deleting configuration");
+
+		gtk_message_dialog_format_secondary_text (
+				GTK_MESSAGE_DIALOG (dialog),
+				"%s", error->message);
+
+		g_signal_connect_swapped (dialog, "response",
+		                          G_CALLBACK (gtk_widget_destroy), dialog);
+
+		gtk_widget_show_all (dialog);
+		g_error_free (error);
+	}
 }
 
 static void
-install_dialog_response_cb (GtkDialog *dialog,
-                            gint       response_id,
-                            gpointer   user_data)
+asr_dialog_remove_cb (PtAsrDialog *dlg,
+                      gpointer     user_data)
 {
-	PtConfigRow *row = PT_CONFIG_ROW (user_data);
-	gchar       *folder = NULL;
+	PtConfigRow *self = PT_CONFIG_ROW (user_data);
+	GFile *file;
 
-	if (response_id == GTK_RESPONSE_ACCEPT) {
-		folder = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
-	}
+	gtk_widget_destroy (GTK_WIDGET (dlg));
 
-	if (folder) {
-		pt_config_set_base_folder (row->priv->config, folder);
-		g_free (folder);
-	}
-
-	g_object_unref (dialog);
+	file = pt_config_get_file (self->priv->config);
+	g_file_delete_async (file,
+	                     G_PRIORITY_DEFAULT,
+	                     NULL, /* cancellable */
+	                     file_delete_finished,
+	                     self);
 }
 
 
 static void
-install_clicked (GtkButton *button,
+details_clicked (GtkButton   *button,
                  PtConfigRow *row)
 {
-	GtkFileChooserNative *dialog;
-	GtkWindow     *win;
-	const char    *home_path;
-	GFile	      *dir;
-
-	win = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (button)));
-	dialog = gtk_file_chooser_native_new (
-			_("Open Installation Folder"),
-			win,
-			GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
-			_("_Open"),
-			_("_Cancel"));
-
-	home_path = g_get_home_dir ();
-	dir = g_file_new_for_path (home_path);
-
-	gtk_file_chooser_set_current_folder_file (
-		GTK_FILE_CHOOSER (dialog), dir, NULL);
-
-	g_signal_connect (dialog, "response", G_CALLBACK (install_dialog_response_cb), row);
-	gtk_native_dialog_show (GTK_NATIVE_DIALOG (dialog));
-
-	g_object_unref (dir);
+	GtkWidget *parent = gtk_widget_get_ancestor (GTK_WIDGET (button), PT_TYPE_PREFERENCES_DIALOG);
+	PtAsrDialog *dlg = pt_asr_dialog_new (GTK_WINDOW (parent));
+	pt_asr_dialog_set_config (dlg, row->priv->config);
+	g_signal_connect (dlg, "removeme", G_CALLBACK (asr_dialog_remove_cb), row);
+	gtk_widget_show_all (GTK_WIDGET (dlg));
 }
 
 static void
-activate_clicked (GtkButton *button,
-                  PtConfigRow *row)
+activate_clicked (GObject    *object,
+                  GParamSpec *spec,
+                  gpointer    user_data)
 {
-	g_print ("Activate button not implemented\n");
+	PtConfigRow *row = PT_CONFIG_ROW (user_data);
+	gboolean new_state = gtk_switch_get_active (GTK_SWITCH (object));
+
+	if (row->priv->active == new_state)
+		return;
+
+	row->priv->active = new_state;
+	g_object_notify_by_pspec (G_OBJECT (row),
+	                          obj_properties[PROP_ACTIVE]);
 }
 
 gboolean
 pt_config_row_get_active (PtConfigRow *row)
 {
-	return gtk_widget_get_visible (row->priv->active_icon);
+	return row->priv->active;
 }
 
 void
 pt_config_row_set_active (PtConfigRow *row,
                           gboolean     active)
 {
-	gtk_widget_set_visible (row->priv->active_icon, active);
+	gtk_switch_set_active (GTK_SWITCH (row->priv->activate_switch), active);
 }
 
 static void
@@ -143,7 +164,7 @@ pt_config_row_constructed (GObject *object)
 	gtk_label_set_text (GTK_LABEL (priv->lang_label),
 			    pt_config_get_lang_name (priv->config));
 	g_object_bind_property (priv->config, "is-installed",
-				priv->activate_button, "sensitive",
+				priv->activate_switch, "sensitive",
 				G_BINDING_SYNC_CREATE);
 }
 
@@ -151,6 +172,8 @@ static void
 pt_config_row_init (PtConfigRow *row)
 {
 	row->priv = pt_config_row_get_instance_private (row);
+
+	row->priv->active = FALSE;
 
 	gtk_widget_init_template (GTK_WIDGET (row));
 }
@@ -183,6 +206,9 @@ pt_config_row_set_property (GObject      *object,
 	case PROP_CONFIG:
 		row->priv->config = g_value_dup_object (value);
 		break;
+	case PROP_ACTIVE:
+		row->priv->active = g_value_get_boolean (value);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -200,6 +226,9 @@ pt_config_row_get_property (GObject    *object,
 	switch (property_id) {
 	case PROP_CONFIG:
 		g_value_set_object (value, row->priv->config);
+		break;
+	case PROP_ACTIVE:
+		g_value_set_boolean (value, row->priv->active);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -223,11 +252,8 @@ pt_config_row_class_init (PtConfigRowClass *klass)
 	gtk_widget_class_bind_template_child_private (widget_class, PtConfigRow, name_label);
 	gtk_widget_class_bind_template_child_private (widget_class, PtConfigRow, lang_label);
 	gtk_widget_class_bind_template_child_private (widget_class, PtConfigRow, details_button);
-	gtk_widget_class_bind_template_child_private (widget_class, PtConfigRow, install_button);
-	gtk_widget_class_bind_template_child_private (widget_class, PtConfigRow, activate_button);
-	gtk_widget_class_bind_template_child_private (widget_class, PtConfigRow, active_icon);
+	gtk_widget_class_bind_template_child_private (widget_class, PtConfigRow, activate_switch);
 	gtk_widget_class_bind_template_callback (widget_class, details_clicked);
-	gtk_widget_class_bind_template_callback (widget_class, install_clicked);
 	gtk_widget_class_bind_template_callback (widget_class, activate_clicked);
 
 	/**
@@ -242,6 +268,19 @@ pt_config_row_class_init (PtConfigRowClass *klass)
 			"The configuration",
 			PT_TYPE_CONFIG,
 			G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
+
+	/**
+	* PtConfigRow:active:
+	*
+	* Whether the configuration is active.
+	*/
+	obj_properties[PROP_ACTIVE] =
+	g_param_spec_boolean (
+			"active",
+			"Active",
+			"The configuration is active",
+			FALSE,
+			G_PARAM_READWRITE);
 
 	g_object_class_install_properties (
 			G_OBJECT_CLASS (klass),
