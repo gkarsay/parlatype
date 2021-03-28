@@ -20,6 +20,8 @@ src = [
 	'pt-goto-dialog.h',
 	'pt-preferences.c',
 	'pt-preferences.h',
+	'pt-prefs-asr.c',
+	'pt-prefs-asr.h',
 	'pt-window.c',
 	'pt-window.h',
 	'pt-window-dnd.c',
