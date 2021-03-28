@@ -142,6 +142,8 @@ void		pt_player_setup_asr		(PtPlayer  *player,
 gboolean	pt_player_configure_asr		(PtPlayer  *player,
 						 PtConfig  *config,
 						 GError   **error);
+gboolean	pt_player_config_is_loadable	(PtPlayer *player,
+						 PtConfig *config);
 PtPlayer*	pt_player_new			(void);
 
 G_END_DECLS

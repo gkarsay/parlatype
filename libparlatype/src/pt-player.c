@@ -52,6 +52,7 @@ struct _PtPlayerPrivate
 	guint	    bus_watch_id;
 
 	PtPositionManager *pos_mgr;
+	GHashTable *plugins;
 
 	gint64	    dur;
 	gdouble	    speed;
@@ -1931,6 +1932,56 @@ pt_player_configure_asr (PtPlayer  *player,
 }
 
 /**
+ * pt_player_config_is_loadable:
+ * @player: a #PtPlayer
+ * @config: a #PtConfig
+ *
+ * Checks if #PtPlayer is able to load the GStreamer plugin used by @config.
+ *
+ * Return value: TRUE on success, otherwise FALSE
+ *
+ * Since: x.x
+ */
+gboolean
+pt_player_config_is_loadable (PtPlayer *player,
+                              PtConfig *config)
+{
+	g_return_val_if_fail (PT_IS_PLAYER (player), FALSE);
+	g_return_val_if_fail (PT_IS_CONFIG (config), FALSE);
+
+	gchar      *plugin_name;
+	GstElement *plugin;
+	gpointer    pointer;
+	gboolean    result;
+
+	plugin_name = pt_config_get_plugin (config);
+	if (!plugin_name)
+		return FALSE;
+
+	if (g_hash_table_contains (player->priv->plugins, plugin_name)) {
+		pointer = g_hash_table_lookup (player->priv->plugins,
+		                               plugin_name);
+		result = GPOINTER_TO_INT (pointer);
+		g_free (plugin_name);
+		return result;
+	}
+
+	plugin = gst_element_factory_make (plugin_name, NULL);
+
+	if (plugin) {
+		gst_object_unref (plugin);
+		result = TRUE;
+	} else {
+		result = FALSE;
+	}
+
+	g_hash_table_insert (player->priv->plugins,
+	                     plugin_name, GINT_TO_POINTER (result));
+
+	return result;
+}
+
+/**
  * pt_player_setup_player:
  * @player: a #PtPlayer
  * @state:
@@ -1973,6 +2024,8 @@ pt_player_dispose (GObject *object)
 
 		gst_object_unref (GST_OBJECT (player->priv->play));
 		player->priv->play = NULL;
+
+		g_hash_table_destroy (player->priv->plugins);
 	}
 
 	G_OBJECT_CLASS (pt_player_parent_class)->dispose (object);
@@ -2112,6 +2165,8 @@ pt_player_init (PtPlayer *player)
 	player->priv->wv = NULL;
 	player->priv->scaletempo = NULL;
 	player->priv->pos_mgr = pt_position_manager_new ();
+	player->priv->plugins = g_hash_table_new_full (g_str_hash, g_str_equal,
+	                                               g_free, NULL);
 
 	gst_pt_audio_bin_register ();
 #ifdef HAVE_ASR
