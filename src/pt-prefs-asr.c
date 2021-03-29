@@ -161,12 +161,16 @@ asr_setup_config_box (PtPrefsAsr *page)
 	GFileEnumerator *files;
 	PtConfigRow *row;
 	gchar    *active_asr;
-	gboolean  active;
+	gboolean  active_found = FALSE;
 	int       num_valid = 0;
 	int       num_loadable = 0;
 	GtkContainer *asr_list = GTK_CONTAINER (page->priv->asr_list);
 
 	active_asr = g_settings_get_string (page->priv->editor, "asr-config");
+	if (g_strcmp0 (active_asr, "") == 0) {
+		g_free (active_asr);
+		active_asr = NULL;
+	}
 
 	files = g_file_enumerate_children (page->priv->config_folder,
 	                                   G_FILE_ATTRIBUTE_STANDARD_NAME,
@@ -191,8 +195,10 @@ asr_setup_config_box (PtPrefsAsr *page)
 					row = pt_config_row_new (config);
 					gtk_widget_show (GTK_WIDGET (row));
 					gtk_container_add (asr_list, GTK_WIDGET (row));
-					active = (g_strcmp0 (active_asr, path) == 0);
-					pt_config_row_set_active (row, active);
+					if (active_asr && g_strcmp0 (active_asr, path) == 0) {
+						pt_config_row_set_active (row, TRUE);
+						active_found = TRUE;
+					}
 					g_signal_connect (row, "notify::active", G_CALLBACK (config_activated), page);
 				}
 			} else {
@@ -203,6 +209,9 @@ asr_setup_config_box (PtPrefsAsr *page)
 		}
 		g_free (path);
 	}
+
+	if (active_asr && !active_found)
+		g_settings_set_string (page->priv->editor, "asr-config", "");
 
 	g_clear_object (&files);
 	g_free (active_asr);

@@ -745,7 +745,8 @@ set_asr_config (PtWindow *win)
 	GVariant *variant;
 	const gchar *mode;
 
-	/* called when config file changed; get rid of old config object first */
+	/* called when config file changed (and on startup);
+	 * get rid of old config object first */
 	if (priv->asr_config)
 		g_clear_object (&priv->asr_config);
 
@@ -762,7 +763,8 @@ set_asr_config (PtWindow *win)
 	mode = g_variant_get_string (variant, NULL);
 
 	/* not valid: clear object, remove menu, change to playback mode */
-	if (!pt_config_is_valid (priv->asr_config) ||
+	if (!pt_config_is_valid (priv->asr_config)                        ||
+	    !pt_player_config_is_loadable (win->player, priv->asr_config) ||
 	    !pt_config_is_installed (priv->asr_config)) {
 		g_clear_object (&priv->asr_config);
 		if (priv->asr) {
