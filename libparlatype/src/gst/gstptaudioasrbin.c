@@ -82,7 +82,7 @@ gst_pt_audio_asr_bin_configure_asr (GstPtAudioAsrBin  *self,
 			gst_object_unref (self->asr_plugin);
 		g_free (self->asr_plugin_name);
 		self->asr_plugin_name = NULL;
-		self->asr_plugin = make_element (plugin, "asr");
+		self->asr_plugin = make_element (plugin, plugin);
 		if (!self->asr_plugin) {
 			g_set_error (error,
 			             GST_CORE_ERROR,

@@ -35,8 +35,11 @@
 #include <gst/gst.h>
 #include <gst/audio/streamvolume.h>
 #include "gst/gstptaudiobin.h"
-#ifdef HAVE_ASR
+#ifdef HAVE_POCKETSPHINX
   #include "gst/gstparlasphinx.h"
+#endif
+#ifdef HAVE_DEEPSPEECH
+  #include "gst/gstptdeepspeech.h"
 #endif
 #include "pt-config.h"
 #include "pt-i18n.h"
@@ -317,17 +320,18 @@ bus_call (GstBus     *bus,
 		}
 
 	case GST_MESSAGE_ELEMENT:
-		if (g_strcmp0 (GST_MESSAGE_SRC_NAME (msg), "asr") != 0)
-			break;
-		const GstStructure *st = gst_message_get_structure (msg);
-		if (g_value_get_boolean (gst_structure_get_value (st, "final"))) {
-			g_signal_emit_by_name (player, "asr-final",
-				g_value_get_string (
-					gst_structure_get_value (st, "hypothesis")));
-		} else {
-			g_signal_emit_by_name (player, "asr-hypothesis",
-				g_value_get_string (
-					gst_structure_get_value (st, "hypothesis")));
+		if (g_strcmp0 (GST_MESSAGE_SRC_NAME (msg), "parlasphinx")  == 0 ||
+		    g_strcmp0 (GST_MESSAGE_SRC_NAME (msg), "ptdeepspeech") == 0) {
+			const GstStructure *st = gst_message_get_structure (msg);
+			if (g_value_get_boolean (gst_structure_get_value (st, "final"))) {
+				g_signal_emit_by_name (player, "asr-final",
+					g_value_get_string (
+						gst_structure_get_value (st, "hypothesis")));
+			} else {
+				g_signal_emit_by_name (player, "asr-hypothesis",
+					g_value_get_string (
+						gst_structure_get_value (st, "hypothesis")));
+			}
 		}
 		break;
 
@@ -2169,8 +2173,11 @@ pt_player_init (PtPlayer *player)
 	                                               g_free, NULL);
 
 	gst_pt_audio_bin_register ();
-#ifdef HAVE_ASR
+#ifdef HAVE_POCKETSPHINX
 	gst_parlasphinx_register ();
+#endif
+#ifdef HAVE_DEEPSPEECH
+	gst_ptdeepspeech_register ();
 #endif
 
 	pt_player_setup_pipeline (player, NULL);

@@ -53,7 +53,7 @@ deps = [gtk,
 	gnome_desktop,
 ]
 
-if asr
+if with_pocketsphinx
 	sources += [
 	'gst/gstparlasphinx.c',
 	'gst/gstparlasphinx.h',
@@ -61,8 +61,19 @@ if asr
 
 	sphinxbase = dependency('sphinxbase')
 	pocketsphinx = dependency('pocketsphinx')
-
 	deps += [sphinxbase, pocketsphinx]
+endif
+
+if with_deepspeech
+	sources += [
+	'gst/gstptdeepspeech.c',
+	'gst/gstptdeepspeech.h',
+	'gst/vad_private.c',
+	'gst/vad_private.h',
+	]
+
+	deepspeech = compiler.find_library('deepspeech')
+	deps += [deepspeech]
 endif
 
 headers = [

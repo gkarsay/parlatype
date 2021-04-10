@@ -17,8 +17,14 @@ option(
 	description: 'Install GObject Introspection data, requires gobject-introspection'
 )
 option(
-	'asr',
+	'pocketsphinx',
 	type: 'boolean',
-	value: true,
+	value: false,
 	description: 'Compile with ASR, requires CMU Sphinx'
+)
+option(
+	'deepspeech',
+	type: 'boolean',
+	value: false,
+	description: 'Compile with ASR, requires Mozilla Deepspeech'
 )
