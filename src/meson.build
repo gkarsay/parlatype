@@ -69,4 +69,5 @@ executable('parlatype',
 	install: true,
 	dependencies: parlatype_deps,
 	gui_app: true,
+	c_args: ['-DG_LOG_DOMAIN="parlatype"' ],
 )

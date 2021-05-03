@@ -96,6 +96,7 @@ libparlatype = shared_library(
 	link_args: vflag,
 	link_depends: mapfile,
 	install: true,
+	c_args: ['-DG_LOG_DOMAIN="libparlatype"' ],
 )
 
 libparlatype_dep = declare_dependency(
