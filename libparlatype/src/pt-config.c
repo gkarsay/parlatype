@@ -610,6 +610,9 @@ pt_config_constructed (GObject *object)
 
 	config->priv->keyfile = g_key_file_new ();
 	config->priv->path = g_file_get_path (config->priv->file);
+	if (!config->priv->path) {
+		return;
+	}
 	loaded = g_key_file_load_from_file (
 			config->priv->keyfile,
 			config->priv->path,
