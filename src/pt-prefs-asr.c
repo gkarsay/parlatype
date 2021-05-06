@@ -21,7 +21,9 @@
 #include <pt-app.h>
 #include <pt-player.h>
 #include <pt-config.h>
+#include "pt-asr-dialog.h"
 #include "pt-config-row.h"
+#include "pt-preferences.h"
 #include "pt-prefs-asr.h"
 
 
@@ -32,6 +34,7 @@ struct _PtPrefsAsrPrivate
 
 	GFile     *config_folder;
 
+	GtkWidget *filter_combo;
 	GtkWidget *asr_list;
 
 	GtkWidget *asr_initial_box;
@@ -39,6 +42,8 @@ struct _PtPrefsAsrPrivate
 	GtkWidget *asr_error_box;
 	GtkWidget *asr_error_icon;
 	GtkWidget *asr_error_label;
+
+	int        filter;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PtPrefsAsr, pt_prefs_asr, GTK_TYPE_BOX)
@@ -151,6 +156,127 @@ asr_list_changed_cb (GtkContainer *asr_list,
 	g_list_free (children);
 }
 
+static int
+sort_asr_list (GtkListBoxRow *row1,
+               GtkListBoxRow *row2,
+               gpointer       user_data)
+{
+	/* 1st sort order: 1) Installed
+	 *                 2) Supported
+	 *                 3) Not supported */
+
+	int left = 0;
+	int right = 0;
+	int comp;
+	PtConfig *conf1, *conf2;
+	gchar *str1, *str2;
+	const gchar* const *langs;
+	gboolean prefix1, prefix2;
+
+	if (pt_config_row_get_supported (PT_CONFIG_ROW (row1)))
+		left = 1;
+	if (pt_config_row_is_installed (PT_CONFIG_ROW (row1)) && left == 1)
+		left = 2;
+	if (pt_config_row_get_active (PT_CONFIG_ROW (row1)))
+		left = 3;
+
+	if (pt_config_row_get_supported (PT_CONFIG_ROW (row2)))
+		right = 1;
+	if (pt_config_row_is_installed (PT_CONFIG_ROW (row2)) && right == 1)
+		right = 2;
+	if (pt_config_row_get_active (PT_CONFIG_ROW (row2)))
+		right = 3;
+
+	if (left > right)
+		return -1;
+
+	if (left < right)
+		return 1;
+
+	/* 2nd sort order: Own locale language before other languages */
+
+	g_object_get (row1, "config", &conf1, NULL);
+	g_object_get (row2, "config", &conf2, NULL);
+
+	langs = g_get_language_names ();
+	if (langs[0]) {
+		str1 = pt_config_get_lang_code (conf1);
+		str2 = pt_config_get_lang_code (conf2);
+
+		prefix1 = g_str_has_prefix (str1, langs[0]);
+		prefix2 = g_str_has_prefix (str2, langs[0]);
+
+		g_free (str1);
+		g_free (str2);
+
+		comp = 0;
+		if (prefix1 && !prefix2)
+			comp = -1;
+		if (!prefix1 && prefix2)
+			comp = 1;
+		if (comp != 0)
+			return comp;
+	}
+
+	/* 3rd sort order: Alphabetically by language name */
+
+	str1 = pt_config_get_lang_name (conf1);
+	str2 = pt_config_get_lang_name (conf2);
+
+	comp = g_strcmp0 (str1, str2);
+	g_free (str1);
+	g_free (str2);
+
+	if (comp != 0)
+		return comp;
+
+	/* 4th sort order: Alphabetically by name */
+
+	str1 = pt_config_get_name (conf1);
+	str2 = pt_config_get_name (conf2);
+
+	comp = g_strcmp0 (str1, str2);
+	g_free (str1);
+	g_free (str2);
+
+	return comp;
+}
+
+static gboolean
+filter_asr_list (GtkListBoxRow *row,
+                 gpointer       user_data)
+{
+	PtPrefsAsr *page = PT_PREFS_ASR (user_data);
+	gboolean    supported = TRUE;
+	int         filter;
+
+	filter = page->priv->filter;
+
+	/* Filters: 0 ... installed
+	 *          1 ... supported
+	 *          2 ... all        */
+
+	/* Filter installed and supported
+	 * Theoretically a model can be installed, but not supported */
+	if (filter <= 1)
+		supported = pt_config_row_get_supported (PT_CONFIG_ROW (row));
+
+	/* Filter installed */
+	if (filter == 0) {
+		if (!supported)
+			return FALSE;
+		else
+			return pt_config_row_is_installed (PT_CONFIG_ROW (row));
+	}
+
+	/* Filter supported */
+	if (filter == 1)
+		return supported;
+
+	/* All other rows are visible */
+	return TRUE;
+}
+
 static void
 asr_setup_config_box (PtPrefsAsr *page)
 {
@@ -163,7 +289,6 @@ asr_setup_config_box (PtPrefsAsr *page)
 	gchar    *active_asr;
 	gboolean  active_found = FALSE;
 	int       num_valid = 0;
-	int       num_loadable = 0;
 	GtkContainer *asr_list = GTK_CONTAINER (page->priv->asr_list);
 
 	active_asr = g_settings_get_string (page->priv->editor, "asr-config");
@@ -190,17 +315,15 @@ asr_setup_config_box (PtPrefsAsr *page)
 			config = pt_config_new (file);
 			if (pt_config_is_valid (config)) {
 				num_valid++;
-				if (pt_player_config_is_loadable (page->priv->player, config)) {
-					num_loadable++;
-					row = pt_config_row_new (config);
-					gtk_widget_show (GTK_WIDGET (row));
-					gtk_container_add (asr_list, GTK_WIDGET (row));
-					if (active_asr && g_strcmp0 (active_asr, path) == 0) {
-						pt_config_row_set_active (row, TRUE);
-						active_found = TRUE;
-					}
-					g_signal_connect (row, "notify::active", G_CALLBACK (config_activated), page);
+				row = pt_config_row_new (config);
+				pt_config_row_set_supported (row, pt_player_config_is_loadable (page->priv->player, config));
+				gtk_widget_show (GTK_WIDGET (row));
+				gtk_container_add (asr_list, GTK_WIDGET (row));
+				if (active_asr && g_strcmp0 (active_asr, path) == 0) {
+					pt_config_row_set_active (row, TRUE);
+					active_found = TRUE;
 				}
+				g_signal_connect (row, "notify::active", G_CALLBACK (config_activated), page);
 			} else {
 				g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
 				                  "MESSAGE", "File %s is not valid", path);
@@ -216,19 +339,27 @@ asr_setup_config_box (PtPrefsAsr *page)
 	g_clear_object (&files);
 	g_free (active_asr);
 
-	if (error || (num_valid > 0 && num_loadable == 0)) {
-		gtk_widget_hide (page->priv->asr_initial_box);
+	gtk_list_box_set_filter_func (GTK_LIST_BOX (asr_list),
+                              filter_asr_list,
+                              page,
+                              NULL);
+
+	gtk_list_box_set_sort_func (GTK_LIST_BOX (asr_list),
+                              sort_asr_list,
+                              NULL,
+                              NULL);
+
+	if (error || num_valid == 0) {
 		gtk_widget_hide (page->priv->asr_ready_box);
-		gtk_widget_show (page->priv->asr_error_box);
 		if (error) {
+			gtk_widget_show (page->priv->asr_error_box);
 			gtk_label_set_text (GTK_LABEL (page->priv->asr_error_label),
 			                    _("Failed to read personal configuration files"));
 			g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
 			                  "MESSAGE", "%s", error->message);
 			g_error_free (error);
 		} else {
-			gtk_label_set_text (GTK_LABEL (page->priv->asr_error_label),
-			                    _("There are no configurations available"));
+			gtk_widget_show (page->priv->asr_initial_box);
 		}
 	} else {
 		asr_list_changed_cb (asr_list, NULL, page);
@@ -360,6 +491,99 @@ initial_asr_button_clicked_cb (GtkButton  *button,
 }
 
 static void
+file_delete_finished (GObject      *source_object,
+                      GAsyncResult *res,
+                      gpointer      user_data)
+{
+	PtPrefsAsr  *page = PT_PREFS_ASR (user_data);
+	GFile       *file  = G_FILE (source_object);
+	PtConfigRow *row;
+	GError      *error = NULL;
+	GtkWidget   *dialog;
+	GtkWidget   *parent;
+
+	if (g_file_delete_finish (file, res, &error)) {
+		row = PT_CONFIG_ROW (gtk_list_box_get_selected_row (GTK_LIST_BOX (page->priv->asr_list)));
+		if (pt_config_row_get_active (row))
+			pt_config_row_set_active (row, FALSE);
+		gtk_widget_destroy (GTK_WIDGET (row));
+	} else {
+		parent = gtk_widget_get_ancestor (GTK_WIDGET (page),
+		                                  PT_TYPE_PREFERENCES_DIALOG);
+
+		dialog = gtk_message_dialog_new (
+				GTK_WINDOW (parent),
+				GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+				GTK_MESSAGE_ERROR,
+				GTK_BUTTONS_OK,
+				"Error deleting configuration");
+
+		gtk_message_dialog_format_secondary_text (
+				GTK_MESSAGE_DIALOG (dialog),
+				"%s", error->message);
+
+		g_signal_connect_swapped (dialog, "response",
+		                          G_CALLBACK (gtk_widget_destroy), dialog);
+
+		gtk_widget_show_all (dialog);
+		g_error_free (error);
+	}
+}
+
+static void
+remove_button_clicked_cb (GtkButton   *button,
+                          gpointer     user_data)
+{
+	PtPrefsAsr  *page = PT_PREFS_ASR (user_data);
+	PtConfigRow *row;
+	PtConfig    *config;
+	GFile       *file;
+
+	row = PT_CONFIG_ROW (gtk_list_box_get_selected_row (GTK_LIST_BOX (page->priv->asr_list)));
+	if (!row)
+		return;
+
+	g_object_get (row, "config", &config, NULL);
+	file = pt_config_get_file (config);
+	g_file_delete_async (file,
+	                     G_PRIORITY_DEFAULT,
+	                     NULL, /* cancellable */
+	                     file_delete_finished,
+	                     page);
+}
+
+static void
+details_button_clicked_cb (GtkButton   *button,
+                           gpointer     user_data)
+{
+	PtPrefsAsr  *page = PT_PREFS_ASR (user_data);
+	PtConfigRow *row;
+	PtConfig    *config;
+
+	row = PT_CONFIG_ROW (gtk_list_box_get_selected_row (GTK_LIST_BOX (page->priv->asr_list)));
+	if (!row)
+		return;
+
+	g_object_get (row, "config", &config, NULL);
+	GtkWidget *parent = gtk_widget_get_ancestor (GTK_WIDGET (button), PT_TYPE_PREFERENCES_DIALOG);
+	PtAsrDialog *dlg = pt_asr_dialog_new (GTK_WINDOW (parent));
+	pt_asr_dialog_set_config (dlg, config);
+	gtk_widget_show_all (GTK_WIDGET (dlg));
+}
+
+static void
+filter_combo_changed_cb (GtkComboBox *combo,
+                         gpointer     user_data)
+{
+	PtPrefsAsr *page = PT_PREFS_ASR (user_data);
+	PtPrefsAsrPrivate *priv = page->priv;
+
+	priv->filter = gtk_combo_box_get_active (combo);
+	g_settings_set_int (priv->editor, "asr-filter", priv->filter);
+	gtk_list_box_invalidate_filter (GTK_LIST_BOX (priv->asr_list));
+}
+
+static void
 make_config_dir_cb (GObject      *source_object,
                     GAsyncResult *res,
                     gpointer      user_data)
@@ -401,6 +625,8 @@ pt_prefs_asr_init (PtPrefsAsr *page)
 
 	gtk_widget_init_template (GTK_WIDGET (page));
 
+	page->priv->filter = 2;
+
 	/* make sure config dir exists */
 	path = g_build_path (G_DIR_SEPARATOR_S,
 	                     g_get_user_config_dir (),
@@ -441,6 +667,10 @@ pt_prefs_asr_class_init (PtPrefsAsrClass *klass)
 	gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/parlatype/prefs-asr.ui");
 	gtk_widget_class_bind_template_callback(widget_class, initial_asr_button_clicked_cb);
 	gtk_widget_class_bind_template_callback(widget_class, asr_list_row_activated);
+	gtk_widget_class_bind_template_callback(widget_class, filter_combo_changed_cb);
+	gtk_widget_class_bind_template_callback(widget_class, details_button_clicked_cb);
+	gtk_widget_class_bind_template_callback(widget_class, remove_button_clicked_cb);
+	gtk_widget_class_bind_template_child_private (widget_class, PtPrefsAsr, filter_combo);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPrefsAsr, asr_error_box);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPrefsAsr, asr_initial_box);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPrefsAsr, asr_ready_box);
@@ -453,7 +683,11 @@ static void
 pt_prefs_asr_set_editor (PtPrefsAsr *page,
                          GSettings  *editor)
 {
-	page->priv->editor = editor;
+	PtPrefsAsrPrivate *priv = page->priv;
+
+	priv->editor = editor;
+	priv->filter = g_settings_get_int (editor, "asr-filter");
+	gtk_combo_box_set_active (GTK_COMBO_BOX (priv->filter_combo), priv->filter);
 }
 
 static void

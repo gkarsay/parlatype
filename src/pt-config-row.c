@@ -29,8 +29,9 @@ struct _PtConfigRowPrivate
 	GtkWidget *name_label;
 	GtkWidget *lang_label;
 	GtkWidget *details_button;
-	GtkWidget *activate_switch;
+	GtkWidget *status_image;
 	gboolean   active;
+	gboolean   supported;
 };
 
 enum
@@ -57,87 +58,10 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtConfigRow, pt_config_row, GTK_TYPE_LIST_BOX_ROW)
  */
 
 
-static void
-file_delete_finished (GObject      *source_object,
-                      GAsyncResult *res,
-                      gpointer      user_data)
+gboolean
+pt_config_row_is_installed (PtConfigRow *row)
 {
-	PtConfigRow *self  = PT_CONFIG_ROW (user_data);
-	GFile       *file  = G_FILE (source_object);
-	GError      *error = NULL;
-	GtkWidget   *dialog;
-	GtkWidget   *parent;
-
-	if (g_file_delete_finish (file, res, &error)) {
-		if (self->priv->active)
-			pt_config_row_set_active (self, FALSE);
-		gtk_widget_destroy (GTK_WIDGET (self));
-	} else {
-		parent = gtk_widget_get_ancestor (GTK_WIDGET (self),
-		                                  PT_TYPE_PREFERENCES_DIALOG);
-
-		dialog = gtk_message_dialog_new (
-				GTK_WINDOW (parent),
-				GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-				GTK_MESSAGE_ERROR,
-				GTK_BUTTONS_OK,
-				"Error deleting configuration");
-
-		gtk_message_dialog_format_secondary_text (
-				GTK_MESSAGE_DIALOG (dialog),
-				"%s", error->message);
-
-		g_signal_connect_swapped (dialog, "response",
-		                          G_CALLBACK (gtk_widget_destroy), dialog);
-
-		gtk_widget_show_all (dialog);
-		g_error_free (error);
-	}
-}
-
-static void
-asr_dialog_remove_cb (PtAsrDialog *dlg,
-                      gpointer     user_data)
-{
-	PtConfigRow *self = PT_CONFIG_ROW (user_data);
-	GFile *file;
-
-	gtk_widget_destroy (GTK_WIDGET (dlg));
-
-	file = pt_config_get_file (self->priv->config);
-	g_file_delete_async (file,
-	                     G_PRIORITY_DEFAULT,
-	                     NULL, /* cancellable */
-	                     file_delete_finished,
-	                     self);
-}
-
-
-static void
-details_clicked (GtkButton   *button,
-                 PtConfigRow *row)
-{
-	GtkWidget *parent = gtk_widget_get_ancestor (GTK_WIDGET (button), PT_TYPE_PREFERENCES_DIALOG);
-	PtAsrDialog *dlg = pt_asr_dialog_new (GTK_WINDOW (parent));
-	pt_asr_dialog_set_config (dlg, row->priv->config);
-	g_signal_connect (dlg, "removeme", G_CALLBACK (asr_dialog_remove_cb), row);
-	gtk_widget_show_all (GTK_WIDGET (dlg));
-}
-
-static void
-activate_clicked (GObject    *object,
-                  GParamSpec *spec,
-                  gpointer    user_data)
-{
-	PtConfigRow *row = PT_CONFIG_ROW (user_data);
-	gboolean new_state = gtk_switch_get_active (GTK_SWITCH (object));
-
-	if (row->priv->active == new_state)
-		return;
-
-	row->priv->active = new_state;
-	g_object_notify_by_pspec (G_OBJECT (row),
-	                          obj_properties[PROP_ACTIVE]);
+	return pt_config_is_installed (row->priv->config);
 }
 
 gboolean
@@ -146,11 +70,65 @@ pt_config_row_get_active (PtConfigRow *row)
 	return row->priv->active;
 }
 
+static void
+set_status_image (PtConfigRow *row)
+{
+	GtkImage *status = GTK_IMAGE (row->priv->status_image);
+
+	if (!row->priv->supported) {
+		gtk_widget_show (GTK_WIDGET (status));
+		gtk_image_set_from_icon_name (status,
+					      "action-unavailable-symbolic",
+					      GTK_ICON_SIZE_BUTTON);
+		return;
+	}
+
+	if (!pt_config_is_installed (row->priv->config)) {
+		gtk_widget_show (GTK_WIDGET (status));
+		gtk_image_set_from_icon_name (status,
+					      "folder-download-symbolic",
+					      GTK_ICON_SIZE_BUTTON);
+		return;
+	}
+
+	if (row->priv->active) {
+		gtk_widget_show (GTK_WIDGET (status));
+		gtk_image_set_from_icon_name (status,
+					      "object-select-symbolic",
+					      GTK_ICON_SIZE_BUTTON);
+		return;
+	}
+
+	gtk_widget_hide (GTK_WIDGET (status));
+}
+
 void
 pt_config_row_set_active (PtConfigRow *row,
                           gboolean     active)
 {
-	gtk_switch_set_active (GTK_SWITCH (row->priv->activate_switch), active);
+	if (row->priv->active == active ||
+	    !row->priv->supported       ||
+	    !pt_config_is_installed (row->priv->config))
+		return;
+
+	row->priv->active = active;
+	g_object_notify_by_pspec (G_OBJECT (row),
+	                          obj_properties[PROP_ACTIVE]);
+	set_status_image (row);
+}
+
+gboolean
+pt_config_row_get_supported (PtConfigRow *row)
+{
+	return row->priv->supported;
+}
+
+void
+pt_config_row_set_supported (PtConfigRow *row,
+                             gboolean     supported)
+{
+	row->priv->supported = supported;
+	set_status_image (row);
 }
 
 static void
@@ -163,9 +141,6 @@ pt_config_row_constructed (GObject *object)
 			    pt_config_get_name (priv->config));
 	gtk_label_set_text (GTK_LABEL (priv->lang_label),
 			    pt_config_get_lang_name (priv->config));
-	g_object_bind_property (priv->config, "is-installed",
-				priv->activate_switch, "sensitive",
-				G_BINDING_SYNC_CREATE);
 }
 
 static void
@@ -174,6 +149,7 @@ pt_config_row_init (PtConfigRow *row)
 	row->priv = pt_config_row_get_instance_private (row);
 
 	row->priv->active = FALSE;
+	row->priv->supported = FALSE;
 
 	gtk_widget_init_template (GTK_WIDGET (row));
 }
@@ -251,10 +227,7 @@ pt_config_row_class_init (PtConfigRowClass *klass)
 	gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/parlatype/config-row.ui");
 	gtk_widget_class_bind_template_child_private (widget_class, PtConfigRow, name_label);
 	gtk_widget_class_bind_template_child_private (widget_class, PtConfigRow, lang_label);
-	gtk_widget_class_bind_template_child_private (widget_class, PtConfigRow, details_button);
-	gtk_widget_class_bind_template_child_private (widget_class, PtConfigRow, activate_switch);
-	gtk_widget_class_bind_template_callback (widget_class, details_clicked);
-	gtk_widget_class_bind_template_callback (widget_class, activate_clicked);
+	gtk_widget_class_bind_template_child_private (widget_class, PtConfigRow, status_image);
 
 	/**
 	* PtConfigRow:config:

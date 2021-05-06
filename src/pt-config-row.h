@@ -54,6 +54,10 @@ GType		pt_config_row_get_type		(void) G_GNUC_CONST;
 void		pt_config_row_set_active	(PtConfigRow *row,
 						 gboolean     active);
 gboolean	pt_config_row_get_active	(PtConfigRow *row);
+gboolean	pt_config_row_is_installed	(PtConfigRow *row);
+void		pt_config_row_set_supported	(PtConfigRow *row,
+						 gboolean     supported);
+gboolean	pt_config_row_get_supported	(PtConfigRow *row);
 PtConfigRow*	pt_config_row_new		(PtConfig *config);
 
 #endif

@@ -94,21 +94,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkButton" id="remove_button">
-            <property name="label" translatable="yes">Remove</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="halign">end</property>
-            <signal name="clicked" handler="remove_button_clicked_cb" swapped="no"/>
-            <style>
-              <class name="destructive-action"/>
-            </style>
-          </object>
-          <packing>
-            <property name="left_attach">1</property>
-            <property name="top_attach">4</property>
-          </packing>
+          <placeholder/>
         </child>
         <child>
           <placeholder/>

@@ -105,5 +105,11 @@
 			<summary>ID of active ASR configuration</summary>
 			<description>ID of active ASR configuration</description>
 		</key>
+		<key name="asr-filter" type="i">
+			<range min="0" max="2"/>
+			<default>2</default>
+			<summary>ID of active ASR filter</summary>
+			<description>ID of active ASR filter</description>
+		</key>
 	</schema>
 </schemalist>

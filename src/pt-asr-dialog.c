@@ -77,15 +77,6 @@ file_set_cb (GtkFileChooserButton *widget,
 }
 
 static void
-remove_button_clicked_cb (GtkButton *widget,
-                          gpointer   user_data)
-{
-	PtAsrDialog *dlg = PT_ASR_DIALOG (user_data);
-
-	g_signal_emit_by_name (dlg, "removeme");
-}
-
-static void
 pt_asr_dialog_init (PtAsrDialog *dlg)
 {
 	dlg->priv = pt_asr_dialog_get_instance_private (dlg);
@@ -99,7 +90,6 @@ pt_asr_dialog_class_init (PtAsrDialogClass *klass)
 
 	gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/parlatype/asr-dialog.ui");
 	gtk_widget_class_bind_template_callback(widget_class, file_set_cb);
-	gtk_widget_class_bind_template_callback(widget_class, remove_button_clicked_cb);
 	gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, link_button);
 	gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, folder_button);
 
