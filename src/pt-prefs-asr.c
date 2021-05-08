@@ -36,6 +36,8 @@ struct _PtPrefsAsrPrivate
 
 	GtkWidget *filter_combo;
 	GtkWidget *asr_list;
+	GtkWidget *remove_button;
+	GtkWidget *details_button;
 
 	GtkWidget *asr_initial_box;
 	GtkWidget *asr_ready_box;
@@ -495,20 +497,18 @@ file_delete_finished (GObject      *source_object,
                       GAsyncResult *res,
                       gpointer      user_data)
 {
-	PtPrefsAsr  *page = PT_PREFS_ASR (user_data);
+	PtConfigRow *row = PT_CONFIG_ROW (user_data);
 	GFile       *file  = G_FILE (source_object);
-	PtConfigRow *row;
 	GError      *error = NULL;
 	GtkWidget   *dialog;
 	GtkWidget   *parent;
 
 	if (g_file_delete_finish (file, res, &error)) {
-		row = PT_CONFIG_ROW (gtk_list_box_get_selected_row (GTK_LIST_BOX (page->priv->asr_list)));
 		if (pt_config_row_get_active (row))
 			pt_config_row_set_active (row, FALSE);
 		gtk_widget_destroy (GTK_WIDGET (row));
 	} else {
-		parent = gtk_widget_get_ancestor (GTK_WIDGET (page),
+		parent = gtk_widget_get_ancestor (GTK_WIDGET (row),
 		                                  PT_TYPE_PREFERENCES_DIALOG);
 
 		dialog = gtk_message_dialog_new (
@@ -531,16 +531,16 @@ file_delete_finished (GObject      *source_object,
 }
 
 static void
-remove_button_clicked_cb (GtkButton   *button,
-                          gpointer     user_data)
+confirm_delete_response_cb (GtkDialog *dialog,
+                            gint       response_id,
+                            gpointer   user_data)
 {
-	PtPrefsAsr  *page = PT_PREFS_ASR (user_data);
-	PtConfigRow *row;
+	PtConfigRow *row = PT_CONFIG_ROW (user_data);
 	PtConfig    *config;
 	GFile       *file;
 
-	row = PT_CONFIG_ROW (gtk_list_box_get_selected_row (GTK_LIST_BOX (page->priv->asr_list)));
-	if (!row)
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+	if (response_id != GTK_RESPONSE_YES)
 		return;
 
 	g_object_get (row, "config", &config, NULL);
@@ -549,7 +549,61 @@ remove_button_clicked_cb (GtkButton   *button,
 	                     G_PRIORITY_DEFAULT,
 	                     NULL, /* cancellable */
 	                     file_delete_finished,
-	                     page);
+	                     row);
+}
+
+static void
+confirm_delete (PtConfigRow *row)
+{
+	PtConfig        *config;
+	GtkWidget       *dialog;
+	GtkWidget       *parent;
+	GtkWidget       *yes_button;
+	GtkStyleContext *context;
+	gchar		*message;
+	gchar		*secondary_message;
+	gchar           *name;
+
+	g_object_get (row, "config", &config, NULL);
+	name = pt_config_get_name (config);
+	parent = gtk_widget_get_ancestor (GTK_WIDGET (row), PT_TYPE_PREFERENCES_DIALOG);
+
+	message = _("Delete Model Definition?");
+	secondary_message = g_strdup_printf ("Do you really want to delete »%s«?", name);
+	dialog = gtk_message_dialog_new (GTK_WINDOW (parent),
+                                   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+                                   GTK_MESSAGE_QUESTION,
+                                   GTK_BUTTONS_NONE,
+                                   "%s", message);
+
+	/* Add secondary message and buttons, mark Yes-Button as destructive */
+	gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog), "%s", secondary_message);
+	gtk_dialog_add_button (GTK_DIALOG (dialog), "_Cancel", GTK_RESPONSE_CANCEL);
+	yes_button = gtk_dialog_add_button (GTK_DIALOG (dialog), "_Yes", GTK_RESPONSE_YES);
+	context = gtk_widget_get_style_context (yes_button);
+	gtk_style_context_add_class (context, "destructive-action");
+
+	g_signal_connect (dialog, "response",
+	                  G_CALLBACK (confirm_delete_response_cb), row);
+
+	gtk_widget_show_all (dialog);
+
+	g_free (name);
+	g_free (secondary_message);
+}
+
+static void
+remove_button_clicked_cb (GtkButton   *button,
+                          gpointer     user_data)
+{
+	PtPrefsAsr  *page = PT_PREFS_ASR (user_data);
+	PtConfigRow *row;
+
+	row = PT_CONFIG_ROW (gtk_list_box_get_selected_row (GTK_LIST_BOX (page->priv->asr_list)));
+	if (!row)
+		return;
+
+	confirm_delete (row);
 }
 
 static void
@@ -617,6 +671,19 @@ make_config_dir_cb (GObject      *source_object,
 }
 
 static void
+asr_list_row_selected_cb (GtkListBox    *box,
+                          GtkListBoxRow *row,
+                          gpointer       user_data)
+{
+	PtPrefsAsr *page = PT_PREFS_ASR (user_data);
+	gboolean selected;
+
+	selected = (row != NULL);
+	gtk_widget_set_sensitive (page->priv->remove_button, selected);
+	gtk_widget_set_sensitive (page->priv->details_button, selected);
+}
+
+static void
 pt_prefs_asr_init (PtPrefsAsr *page)
 {
 	gchar *path;
@@ -667,10 +734,13 @@ pt_prefs_asr_class_init (PtPrefsAsrClass *klass)
 	gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/parlatype/prefs-asr.ui");
 	gtk_widget_class_bind_template_callback(widget_class, initial_asr_button_clicked_cb);
 	gtk_widget_class_bind_template_callback(widget_class, asr_list_row_activated);
+	gtk_widget_class_bind_template_callback(widget_class, asr_list_row_selected_cb);
 	gtk_widget_class_bind_template_callback(widget_class, filter_combo_changed_cb);
 	gtk_widget_class_bind_template_callback(widget_class, details_button_clicked_cb);
 	gtk_widget_class_bind_template_callback(widget_class, remove_button_clicked_cb);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPrefsAsr, filter_combo);
+	gtk_widget_class_bind_template_child_private (widget_class, PtPrefsAsr, remove_button);
+	gtk_widget_class_bind_template_child_private (widget_class, PtPrefsAsr, details_button);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPrefsAsr, asr_error_box);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPrefsAsr, asr_initial_box);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPrefsAsr, asr_ready_box);
