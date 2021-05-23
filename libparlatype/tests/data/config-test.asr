@@ -1,15 +1,15 @@
 [Model]
-Name = Test Model
-Plugin = parlasphinx
-BaseFolder = /home/me/model
-Language = de
-URL =
+Name=Test Model
+Plugin=parlasphinx
+BaseFolder=/home/me/model
+Language=de
+URL=
 
 [Files]
-File = subdir;test.dict
-Folder = subdir;subdir
+File=subdir;test.dict
+Folder=subdir;subdir
 
 [Parameters]
-Number = 42
-String = Some String
-Boolean = true
+Number=42
+String=Some String
+Boolean=true

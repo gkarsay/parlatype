@@ -1,4 +1,4 @@
-/* Copyright (C) Gabor Karsay 2020 <gabor.karsay@gmx.at>
+/* Copyright (C) Gabor Karsay 2021 <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -31,7 +31,9 @@ construct (void)
 	GFile    *testfile;
 	GFile    *file;
 	gchar    *testpath;
+	gchar    *name;
 	gboolean  is_valid;
+	gboolean  is_installed;
 
 	testpath = g_test_build_filename (G_TEST_DIST, "data", "config-test.asr", NULL);
 	testfile = g_file_new_for_path (testpath);
@@ -40,11 +42,15 @@ construct (void)
 
 	g_object_get (config,
 		      "file", &file,
+		      "name", &name,
 		      "is-valid", &is_valid,
+		      "is-installed", &is_installed,
 		      NULL);
 
 	g_assert_true (testfile == file);
 	g_assert_true (is_valid);
+	g_assert_false (is_installed);
+	g_assert_cmpstr (name, ==, "Test Model");
 
 	g_object_unref (config);
 	g_object_unref (file);
@@ -109,15 +115,39 @@ public_methods (void)
 	testfile = g_file_new_for_path (testpath);
 	config = pt_config_new (testfile);
 
-	gchar *name, *plugin, *base, *lang_code, *lang_name;
-	gboolean installed;
+	gchar *name, *plugin, *base, *lang_code, *lang_name, *other;
+	gboolean installed, success;
 
+	name = pt_config_get_name (config);
+	g_assert_cmpstr (name, ==, "Test Model");
+
+	/* Change name */
+	success = pt_config_set_name (config, "New Name");
+	g_assert_true (success);
+	name = pt_config_get_name (config);
+	g_assert_cmpstr (name, ==, "New Name");
+
+	/* Reset name again for future tests */
+	success = pt_config_set_name (config, "Test Model");
+	g_assert_true (success);
 	name = pt_config_get_name (config);
 	g_assert_cmpstr (name, ==, "Test Model");
 
 	plugin = pt_config_get_plugin (config);
 	g_assert_cmpstr (plugin, ==, "parlasphinx");
 
+	base = pt_config_get_base_folder (config);
+	g_assert_cmpstr (base, ==, "/home/me/model");
+
+	/* Change base folder */
+	success = pt_config_set_base_folder (config, "/home/me/somewhere_else");
+	g_assert_true (success);
+	base = pt_config_get_base_folder (config);
+	g_assert_cmpstr (base, ==, "/home/me/somewhere_else");
+
+	/* Reset base folder again for future tests */
+	success = pt_config_set_base_folder (config, "/home/me/model");
+	g_assert_true (success);
 	base = pt_config_get_base_folder (config);
 	g_assert_cmpstr (base, ==, "/home/me/model");
 
@@ -129,6 +159,13 @@ public_methods (void)
 
 	installed = pt_config_is_installed (config);
 	g_assert_false (installed);
+
+	other = pt_config_get_other (config, "does-not-exist");
+	g_assert_null (other);
+
+	other = pt_config_get_other (config, "Language");
+	g_assert_cmpstr (other, ==, "de");
+	g_free (other);
 
 	g_object_unref (config);
 	g_object_unref (testfile);

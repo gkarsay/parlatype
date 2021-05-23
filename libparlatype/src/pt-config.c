@@ -239,7 +239,7 @@ pt_config_set_name (PtConfig *config,
 	if (!pt_config_set_string (config, "Model", "Name", name))
 		return FALSE;
 
-	config->priv->name = name;
+	config->priv->name = g_strdup (name);
 	g_object_notify_by_pspec (G_OBJECT (config),
 	                          obj_properties[PROP_NAME]);
 	return TRUE;
