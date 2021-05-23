@@ -1,0 +1,15 @@
+#!/bin/bash
+# Runs installed Parlatype interactively under Valgrind.
+
+cd "$(dirname "$0")" || exit 1
+
+SUPPS='valgrind-suppression'
+valgrind --tool=memcheck \
+         --leak-check=full \
+         --leak-resolution=high \
+         --num-callers=20 \
+         --suppressions=$SUPPS/glib.supp \
+         --suppressions=$SUPPS/gst.supp \
+         --suppressions=$SUPPS/gtk.supp \
+         --suppressions=$SUPPS/pt.supp \
+         parlatype
