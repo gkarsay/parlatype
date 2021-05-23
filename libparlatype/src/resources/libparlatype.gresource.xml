@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/org/parlatype/libparlatype">
-    <file>asr.ini</file>
     <file>pt-waveviewer.css</file>
     <file preprocess="xml-stripblanks">pt-waveviewer.ui</file>
   </gresource>
