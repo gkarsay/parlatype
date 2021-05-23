@@ -6,6 +6,6 @@ source command_exists_or_exit "codespell"
 
 cd ..
 
-codespell --skip="./build,./debian,./.git,*.po,*.pot,*.ogg,*.png,*.ico,*.xcf" \
+codespell --skip="./_build,./build,./debian,./.git,*.po,*.pot,*.ogg,*.png,*.ico,*.xcf,*.gz" \
 	  --ignore-words-list="dur" \
 	  --quiet-level=4
