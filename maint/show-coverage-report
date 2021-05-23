@@ -1,5 +1,6 @@
 #!/bin/bash
 # Creates a code coverage report and launches a webbrowser to show it.
+# First (optional) argument is the meson build dir, if there are several build dirs
 
 BROWSER=firefox
 

@@ -1,5 +1,6 @@
 #!/bin/bash
 # Runs the whole test suite under Valgrind.
+# First (optional) argument is the meson build dir, if there are several build dirs
 # Returns 0 if no memory leaks found.
 
 TESTS="config player waveloader waveviewer"
@@ -20,7 +21,7 @@ source cd_builddir_or_exit
 
 meson test --wrap="$VALGRIND" \
            --timeout-multiplier=10 \
-             "$TESTS"
+             $TESTS  # command fails, if $TESTS is quoted
 
 # Show report
 grep -E -e '^# Start|ERROR SUMMARY' $LOG | sed 's/# //g' | sed 's/==.*SUMMARY: //g'

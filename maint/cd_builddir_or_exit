@@ -3,6 +3,16 @@
 # Changes to meson build dir
 # Must be run from a subfolder of project's root folder
 
+if [ "$1" != "" ] ; then
+	if [ -d ../"$1"/meson-private ] ; then
+		cd ../"$1" || exit 1
+		return
+	else
+		echo "$1 is not a meson build dir."
+		exit 1
+	fi
+fi
+
 FIND_CMD="find ../ -maxdepth 2 -name meson-private"
 BUILDS=$($FIND_CMD | wc -l)
 
@@ -12,6 +22,7 @@ if [ "$BUILDS" -eq 0 ] ; then
 elif [ "$BUILDS" -gt 1 ] ; then
 	echo "Scripts operates on one build only. Found more:"
 	$FIND_CMD
+	echo "You can add the build dir as an argument to the script."
 	exit 1
 fi
 
