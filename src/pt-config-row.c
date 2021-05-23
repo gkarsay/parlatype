@@ -75,32 +75,20 @@ static void
 set_status_image (PtConfigRow *row)
 {
 	GtkImage *status = GTK_IMAGE (row->priv->status_image);
+	gchar    *icon = NULL;
 
-	if (!row->priv->supported) {
-		gtk_widget_show (GTK_WIDGET (status));
-		gtk_image_set_from_icon_name (status,
-					      "action-unavailable-symbolic",
-					      GTK_ICON_SIZE_BUTTON);
-		return;
-	}
+	if (!row->priv->supported)
+		icon = "action-unavailable-symbolic";
+	else if (!row->priv->installed)
+		icon = "folder-download-symbolic";
+	else if (row->priv->active)
+		icon = "object-select-symbolic";
 
-	if (!row->priv->installed) {
-		gtk_widget_show (GTK_WIDGET (status));
-		gtk_image_set_from_icon_name (status,
-					      "folder-download-symbolic",
-					      GTK_ICON_SIZE_BUTTON);
-		return;
-	}
-
-	if (row->priv->active) {
-		gtk_widget_show (GTK_WIDGET (status));
-		gtk_image_set_from_icon_name (status,
-					      "object-select-symbolic",
-					      GTK_ICON_SIZE_BUTTON);
-		return;
-	}
-
-	gtk_widget_hide (GTK_WIDGET (status));
+	if (icon)
+		gtk_image_set_from_icon_name (status, icon,
+		                              GTK_ICON_SIZE_BUTTON);
+	else
+		gtk_image_clear (status);
 }
 
 void
