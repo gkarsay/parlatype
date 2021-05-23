@@ -398,7 +398,7 @@ pt_app_init (PtApp *app)
 }
 
 static void
-pt_app_finalize (GObject *object)
+pt_app_dispose (GObject *object)
 {
 	PtApp *app = PT_APP (object);
 
@@ -421,7 +421,7 @@ pt_app_class_init (PtAppClass *klass)
 	GApplicationClass    *gapp_class    = G_APPLICATION_CLASS (klass);
 	GObjectClass         *gobject_class = G_OBJECT_CLASS (klass);
 
-	gobject_class->finalize          = pt_app_finalize;
+	gobject_class->dispose           = pt_app_dispose;
 	gapp_class->open                 = pt_app_open;
 	gapp_class->activate             = pt_app_activate;
 	gapp_class->startup              = pt_app_startup;
