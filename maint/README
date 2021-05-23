@@ -7,8 +7,8 @@ There are 3 translation templates (lib, app, help).
 Update templates and po files with:
 
 cd build
-ninja libparlatype-pot
-ninja libparlatype-update-po
+ninja libparlatype3-pot
+ninja libparlatype3-update-po
 ninja parlatype-pot
 ninja parlatype-update-po
 ninja help-org.parlatype.Parlatype-pot
