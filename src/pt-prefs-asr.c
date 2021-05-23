@@ -42,7 +42,6 @@ struct _PtPrefsAsrPrivate
 	GtkWidget *asr_initial_box;
 	GtkWidget *asr_ready_box;
 	GtkWidget *asr_error_box;
-	GtkWidget *asr_error_icon;
 	GtkWidget *asr_error_label;
 	GtkWidget *no_result_box;
 
@@ -205,7 +204,6 @@ sort_asr_list (GtkListBoxRow *row1,
 	if (langs[0]) {
 		str1 = pt_config_get_lang_code (conf1);
 		str2 = pt_config_get_lang_code (conf2);
-
 		prefix1 = g_str_has_prefix (langs[0], str1);
 		prefix2 = g_str_has_prefix (langs[0], str2);
 
@@ -215,8 +213,11 @@ sort_asr_list (GtkListBoxRow *row1,
 		if (!prefix1 && prefix2)
 			comp = 1;
 
-		if (comp != 0)
+		if (comp != 0) {
+			g_object_unref (conf1);
+			g_object_unref (conf2);
 			return comp;
+		}
 	}
 
 	/* 3rd sort order: Alphabetically by language name */
@@ -225,15 +226,21 @@ sort_asr_list (GtkListBoxRow *row1,
 	str2 = pt_config_get_lang_name (conf2);
 
 	comp = g_strcmp0 (str1, str2);
-	if (comp != 0)
+	if (comp != 0) {
+		g_object_unref (conf1);
+		g_object_unref (conf2);
 		return comp;
+	}
 
 	/* 4th sort order: Alphabetically by name */
 
 	str1 = pt_config_get_name (conf1);
 	str2 = pt_config_get_name (conf2);
 
-	return (g_strcmp0 (str1, str2));
+	comp = g_strcmp0 (str1, str2);
+	g_object_unref (conf1);
+	g_object_unref (conf2);
+	return comp;
 }
 
 static gboolean
@@ -920,7 +927,6 @@ pt_prefs_asr_class_init (PtPrefsAsrClass *klass)
 	gtk_widget_class_bind_template_child_private (widget_class, PtPrefsAsr, asr_error_box);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPrefsAsr, asr_initial_box);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPrefsAsr, asr_ready_box);
-	gtk_widget_class_bind_template_child_private (widget_class, PtPrefsAsr, asr_error_icon);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPrefsAsr, asr_error_label);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPrefsAsr, asr_list);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPrefsAsr, no_result_box);
