@@ -839,8 +839,9 @@ make_config_dir_cb (GObject      *source_object,
 		g_settings_set_string (page->priv->editor, "asr-config", "");
 		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
 		                  "MESSAGE", "%s", error->message);
-		g_error_free (error);
 	}
+
+	g_clear_error (&error);
 }
 
 static void
