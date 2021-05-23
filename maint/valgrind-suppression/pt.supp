@@ -62,7 +62,6 @@
 	fun:get_language_count
 	fun:is_unique_language
 	fun:gnome_get_language_from_locale
-	fun:pt_config_constructed
 	...
 	fun:pt_config_new
 }
