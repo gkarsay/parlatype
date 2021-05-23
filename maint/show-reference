@@ -6,9 +6,10 @@ BROWSER=firefox
 cd "$(dirname "$0")" || exit 1
 source cd_builddir_or_exit
 
-if meson configure | grep -s -e 'gtk-doc false' ; then
+if meson configure | grep -s -e 'gtk-doc.*false' ; then
 	meson configure -Dgtk-doc=true
 fi
 
-ninja parlatype-doc
-$BROWSER libparlatype/docs/reference/html/index.html &
+if ninja parlatype-doc; then
+	$BROWSER libparlatype/docs/reference/html/index.html &
+fi
