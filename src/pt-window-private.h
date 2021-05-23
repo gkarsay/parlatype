@@ -42,7 +42,7 @@ struct _PtWindowPrivate
 	GtkWidget  *button_jump_back;
 	GtkWidget  *button_jump_forward;
 	GtkWidget  *volumebutton;
-	GStrv      *vol_icons;
+	GStrv       vol_icons;
 	GtkGesture *vol_event;
 	GtkWidget  *pos_menu_button;
 	GtkWidget  *pos_label;

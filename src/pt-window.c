@@ -1236,6 +1236,10 @@ pt_window_dispose (GObject *object)
 	g_clear_object (&win->priv->asr_menu);
 	g_clear_object (&win->priv->asr_menu_item1);
 	g_clear_object (&win->priv->asr_menu_item2);
+	if (win->priv->vol_icons) {
+		g_strfreev (win->priv->vol_icons);
+		win->priv->vol_icons = NULL;
+	}
 
 	G_OBJECT_CLASS (pt_window_parent_class)->dispose (object);
 }
