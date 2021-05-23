@@ -1153,10 +1153,10 @@ setup_accels_actions_menus (PtWindow *win)
 
 	/* Setup ASR menu manually; no success with GtkBuilder */
 	priv->asr_menu = g_menu_new ();
-	GMenuItem *item1 = g_menu_item_new (_("Manual transcription"), "win.mode::playback");
-	GMenuItem *item2 = g_menu_item_new (_("Automatic transcription"), "win.mode::asr");
-	g_menu_append_item (priv->asr_menu, item1);
-	g_menu_append_item (priv->asr_menu, item2);
+	priv->asr_menu_item1 = g_menu_item_new (_("Manual transcription"), "win.mode::playback");
+	priv->asr_menu_item2 = g_menu_item_new (_("Automatic transcription"), "win.mode::asr");
+	g_menu_append_item (priv->asr_menu, priv->asr_menu_item1);
+	g_menu_append_item (priv->asr_menu, priv->asr_menu_item2);
 
 	priv->go_to_timestamp = g_menu_item_new (_("Go to time in clipboard"), "win.insert");
 	g_menu_insert_item (G_MENU (win->priv->secondary_menu), 1, priv->go_to_timestamp);
@@ -1234,6 +1234,8 @@ pt_window_dispose (GObject *object)
 	g_clear_object (&win->priv->go_to_timestamp);
 	g_clear_object (&win->priv->vol_event);
 	g_clear_object (&win->priv->asr_menu);
+	g_clear_object (&win->priv->asr_menu_item1);
+	g_clear_object (&win->priv->asr_menu_item2);
 
 	G_OBJECT_CLASS (pt_window_parent_class)->dispose (object);
 }

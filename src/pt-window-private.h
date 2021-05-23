@@ -53,6 +53,8 @@ struct _PtWindowPrivate
 	GMenuModel *primary_menu;
 	GMenuModel *secondary_menu;
 	GMenu      *asr_menu;
+	GMenuItem  *asr_menu_item1;
+	GMenuItem  *asr_menu_item2;
 	gboolean    asr;
 
 	gint64      last_time;	// last time to compare if it changed
