@@ -1,0 +1,17 @@
+NoGroup = 1
+
+[Model]
+Name = Test Model
+Plugin = parlasphinx
+BaseFolder = /home/me/model
+Language = de
+URL =
+
+[Files]
+File = subdir;test.dict
+Folder = subdir;subdir
+
+[Parameters]
+Number = 42
+String = Some String
+Boolean = true

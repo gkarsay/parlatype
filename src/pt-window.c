@@ -22,10 +22,10 @@
 #ifdef GDK_WINDOWING_X11
 #include <gdk/gdkx.h>
 #endif
+#include <pt-config.h>
 #include <pt-player.h>
 #include <pt-waveviewer.h>
 #include "pt-app.h"
-#include "pt-asr-assistant.h"
 #include "pt-goto-dialog.h"
 #include "pt-window.h"
 #include "pt-window-dnd.h"
@@ -212,69 +212,32 @@ zoom_out (GSimpleAction *action,
 	set_zoom (win->priv->editor, -25);
 }
 
-#ifdef HAVE_ASR
-static void
+static gboolean
 setup_sphinx (PtWindow *win)
 {
 	GError *error = NULL;
+	gboolean success;
 
-	pt_asr_settings_apply_config (
-			win->priv->asr_settings,
-			g_settings_get_string (win->priv->editor, "asr-config"),
-			win->player);
+	success = pt_player_configure_asr (
+			win->player,
+			win->priv->asr_config,
+			&error);
 
-	pt_player_setup_sphinx (win->player, &error);
-	if (error) {
+	if (success) {
+		pt_player_setup_asr (win->player, TRUE);
+		pt_player_setup_player (win->player, FALSE);
+	} else {
 		pt_error_message (win, error->message, NULL);
-		g_clear_error (&error);
 	}
-}
 
-static void
-asr_assistant_cancel_cb (GtkAssistant *assistant,
-                         gpointer      user_data)
-{
-	gtk_widget_destroy (GTK_WIDGET (assistant));
-}
-
-static void
-asr_assistant_close_cb (GtkAssistant *assistant,
-                        PtWindow     *win)
-{
-	gchar            *name;
-	gchar            *id;
-
-	name = pt_asr_assistant_get_name (PT_ASR_ASSISTANT (assistant));
-	id = pt_asr_assistant_save_config (
-			PT_ASR_ASSISTANT (assistant), win->priv->asr_settings);
-	g_settings_set_string (win->priv->editor, "asr-config", id);
-
-	gtk_widget_destroy (GTK_WIDGET (assistant));
-	g_free (name);
-	g_free (id);
-}
-
-static void
-launch_asr_assistant (PtWindow *win)
-{
-	GtkWidget *assistant;
-
-	assistant = GTK_WIDGET (pt_asr_assistant_new (GTK_WINDOW (win)));
-	g_signal_connect (assistant, "cancel", G_CALLBACK (asr_assistant_cancel_cb), NULL);
-	g_signal_connect (assistant, "close", G_CALLBACK (asr_assistant_close_cb), win);
-	gtk_widget_show (assistant);
+	return success;
 }
 
 static void
 set_mode_playback (PtWindow *win)
 {
-	GError *error = NULL;
-
-	pt_player_setup_player (win->player, &error);
-	if (error) {
-		pt_error_message (win, error->message, NULL);
-		g_clear_error (&error);
-	}
+	pt_player_setup_asr (win->player, FALSE);
+	pt_player_setup_player (win->player, TRUE);
 }
 
 void
@@ -284,29 +247,23 @@ change_mode (GSimpleAction *action,
 {
 	PtWindow *win = PT_WINDOW (user_data);
 	const gchar *mode;
-
-	if (!win->priv->asr_settings) {
-		GtkApplication *app;
-		app = gtk_window_get_application (GTK_WINDOW (win));
-		win->priv->asr_settings = g_object_ref (pt_app_get_asr_settings (PT_APP (app)));
-	}
+	gboolean success = TRUE;
 
 	mode = g_variant_get_string (state, NULL);
 	if (g_strcmp0 (mode, "playback") == 0) {
 		set_mode_playback (win);
 	} else if (g_strcmp0 (mode, "asr") == 0) {
-		if (pt_asr_settings_have_configs (win->priv->asr_settings)) {
-			/* TODO && have config saved in GSettings */
-			setup_sphinx (win);
+		if (win->priv->asr_config != NULL) {
+			success = setup_sphinx (win);
 		} else {
-			launch_asr_assistant (win);
 			return;
 		}
 	} else {
 		g_assert_not_reached ();
 	}
 
-	g_simple_action_set_state (action, state);
+	if (success)
+		g_simple_action_set_state (action, state);
 
 	/* On changing state the menu doesn’t close. It seems better to close
 	   it just like every other menu item closes the menu.
@@ -316,12 +273,9 @@ change_mode (GSimpleAction *action,
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->priv->primary_menu_button)))
 		gtk_button_clicked (GTK_BUTTON (win->priv->primary_menu_button));
 }
-#endif
 
 const GActionEntry win_actions[] = {
-#ifdef HAVE_ASR
 	{ "mode", NULL, "s", "'playback'", change_mode },
-#endif
 	{ "copy", copy_timestamp, NULL, NULL, NULL },
 	{ "insert", insert_timestamp, NULL, NULL, NULL },
 	{ "goto", goto_position, NULL, NULL, NULL },
@@ -555,11 +509,9 @@ enable_win_actions (PtWindow *win,
 {
 	GAction *action;
 
-#ifdef HAVE_ASR
 	/* always active */
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "mode");
 	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), TRUE);
-#endif
 
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "copy");
 	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
@@ -784,6 +736,63 @@ pt_window_direction_changed (GtkWidget        *widget,
 }
 
 static void
+set_asr_config (PtWindow *win)
+{
+	PtWindowPrivate *priv = win->priv;
+	GFile    *asr_file;
+	gchar    *asr_path;
+	GAction  *action;
+	GVariant *variant;
+	const gchar *mode;
+
+	/* called when config file changed (and on startup);
+	 * get rid of old config object first */
+	if (priv->asr_config)
+		g_clear_object (&priv->asr_config);
+
+	/* get new config object */
+	asr_path = g_settings_get_string (priv->editor, "asr-config");
+	asr_file = g_file_new_for_path (asr_path);
+	priv->asr_config = pt_config_new (asr_file);
+	g_object_unref (asr_file);
+	g_free (asr_path);
+
+	/* get current mode */
+	action = g_action_map_lookup_action (G_ACTION_MAP (win), "mode");
+	variant = g_action_get_state (action);
+	mode = g_variant_get_string (variant, NULL);
+
+	/* not valid: clear object, remove menu, change to playback mode */
+	if (!pt_config_is_valid (priv->asr_config)                        ||
+	    !pt_player_config_is_loadable (win->player, priv->asr_config) ||
+	    !pt_config_is_installed (priv->asr_config)) {
+		g_clear_object (&priv->asr_config);
+		if (priv->asr) {
+			g_menu_remove (G_MENU (priv->primary_menu), 0);
+			priv->asr = FALSE;
+		}
+		if (g_strcmp0 (mode, "asr") == 0) {
+			set_mode_playback (win);
+		}
+		g_variant_unref (variant);
+		return;
+	}
+
+	/* valid: add menu, setup ASR plugin */
+	if (!priv->asr) {
+		g_menu_prepend_section (G_MENU (priv->primary_menu),
+		                        NULL, /* label */
+		                        G_MENU_MODEL (priv->asr_menu));
+		priv->asr = TRUE;
+	}
+
+	if (g_strcmp0 (mode, "asr") == 0)
+		setup_sphinx (win);
+
+	g_variant_unref (variant);
+}
+
+static void
 settings_changed_cb (GSettings *settings,
                      gchar     *key,
                      PtWindow  *win)
@@ -800,6 +809,11 @@ settings_changed_cb (GSettings *settings,
 
 	if (g_strcmp0 (key, "jump-forward") == 0) {
 		change_jump_forward_tooltip (win);
+		return;
+	}
+
+	if (g_strcmp0 (key, "asr-config") == 0) {
+		set_asr_config (win);
 		return;
 	}
 }
@@ -914,6 +928,9 @@ setup_settings (PtWindow *win)
 			win->priv->editor, "timestamp-fraction-sep",
 			win->player, "timestamp-fraction-sep",
 			G_SETTINGS_BIND_GET);
+
+	win->priv->asr = FALSE;
+	set_asr_config (win);
 
 	/* connect to tooltip changer */
 
@@ -1031,31 +1048,8 @@ volume_button_press_event (GtkGestureMultiPress *gesture,
 static void
 setup_player (PtWindow *win)
 {
-	GError *error = NULL;
-
 	win->player = pt_player_new ();
-	if (!pt_player_setup_player (win->player, &error)) {
-		GtkWidget *dialog;
-		dialog = gtk_message_dialog_new (
-				GTK_WINDOW (win),
-				GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-				GTK_MESSAGE_ERROR,
-				GTK_BUTTONS_OK,
-				_("Fatal error"));
-
-		gtk_message_dialog_format_secondary_text (
-				GTK_MESSAGE_DIALOG (dialog),
-				_("Parlatype needs GStreamer 1.x to run. Please check your installation of "
-				"GStreamer and make sure you have the “Good Plugins” installed.\n"
-				"Parlatype will quit now, it received this error message: %s"), error->message);
-
-		g_clear_error (&error);
-		g_signal_connect_swapped (dialog, "response",
-				G_CALLBACK (exit), GINT_TO_POINTER(2));
-
-		gtk_widget_show_all (dialog);
-		return;
-	}
+	pt_player_setup_player (win->player, TRUE);
 
 	pt_player_connect_waveviewer (
 			win->player,
@@ -1147,23 +1141,25 @@ setup_accels_actions_menus (PtWindow *win)
 	enable_win_actions (win, FALSE);
 
 	/* Setup menus */
-	GtkBuilder    *builder;
-	GMenuModel    *primary_menu;
+	PtWindowPrivate *priv = win->priv;
+	GtkBuilder      *builder;
 
 	builder = gtk_builder_new_from_resource ("/org/parlatype/parlatype/menus.ui");
-	primary_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "primary-menu"));
-	win->priv->secondary_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "secondary-menu"));
-	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (win->priv->primary_menu_button), primary_menu);
-	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (win->priv->pos_menu_button), win->priv->secondary_menu);
+	priv->primary_menu   = G_MENU_MODEL (gtk_builder_get_object (builder, "primary-menu"));
+	priv->secondary_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "secondary-menu"));
+	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (priv->primary_menu_button), priv->primary_menu);
+	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (priv->pos_menu_button), priv->secondary_menu);
 	g_object_unref (builder);
-	win->priv->go_to_timestamp = g_menu_item_new (_("Go to time in clipboard"), "win.insert");
-	g_menu_insert_item (G_MENU (win->priv->secondary_menu), 1, win->priv->go_to_timestamp);
 
-	GApplication *app;
-	app = g_application_get_default ();
-	if (!pt_app_get_asr (PT_APP (app))) {
-		g_menu_remove (G_MENU (primary_menu), 0);
-	}
+	/* Setup ASR menu manually; no success with GtkBuilder */
+	priv->asr_menu = g_menu_new ();
+	GMenuItem *item1 = g_menu_item_new (_("Manual transcription"), "win.mode::playback");
+	GMenuItem *item2 = g_menu_item_new (_("Automatic transcription"), "win.mode::asr");
+	g_menu_append_item (priv->asr_menu, item1);
+	g_menu_append_item (priv->asr_menu, item2);
+
+	priv->go_to_timestamp = g_menu_item_new (_("Go to time in clipboard"), "win.insert");
+	g_menu_insert_item (G_MENU (win->priv->secondary_menu), 1, priv->go_to_timestamp);
 }
 
 static void
@@ -1174,13 +1170,11 @@ pt_window_init (PtWindow *win)
 	gtk_widget_init_template (GTK_WIDGET (win));
 
 	setup_player (win);
-	setup_settings (win);
 	setup_accels_actions_menus (win);
+	setup_settings (win);
 	setup_volume (win);
 	pt_window_setup_dnd (win);	/* this is in pt_window_dnd.c */
-#ifdef HAVE_ASR
-	win->priv->asr_settings = NULL;
-#endif
+
 	win->priv->recent = gtk_recent_manager_get_default ();
 	win->priv->timer = 0;
 	win->priv->last_time = 0;
@@ -1236,11 +1230,10 @@ pt_window_dispose (GObject *object)
 	remove_timer (win);
 	g_clear_object (&win->priv->editor);
 	g_clear_object (&win->player);
-#ifdef HAVE_ASR
-	g_clear_object (&win->priv->asr_settings);
-#endif
+	g_clear_object (&win->priv->asr_config);
 	g_clear_object (&win->priv->go_to_timestamp);
 	g_clear_object (&win->priv->vol_event);
+	g_clear_object (&win->priv->asr_menu);
 
 	G_OBJECT_CLASS (pt_window_parent_class)->dispose (object);
 }

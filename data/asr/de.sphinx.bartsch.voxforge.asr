@@ -1,0 +1,14 @@
+[Model]
+Name=Voxforge 5.2
+Plugin=parlasphinx
+BaseFolder=/home/gabor/Downloads/cmusphinx-de-voxforge-5.2
+Language=de
+Howto=
+URL1=https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Language%20Models/German/cmusphinx-de-voxforge-5.2.tar.gz/download
+License=LGPL
+Publisher=Guenter Bartsch
+
+[Files]
+lm=cmusphinx-cont-voxforge-de-r20171217/etc/voxforge.lm.bin
+dict=cmusphinx-cont-voxforge-de-r20171217/etc/voxforge.dic
+hmm=cmusphinx-cont-voxforge-de-r20171217/model_parameters/voxforge.cd_cont_6000

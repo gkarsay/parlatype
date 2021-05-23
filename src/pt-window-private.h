@@ -20,18 +20,12 @@
 #include "config.h"
 #include <gtk/gtk.h>
 #include <pt-player.h>
-#ifdef HAVE_ASR
-#include "pt-asr-settings.h"
-#endif
 
 struct _PtWindowPrivate
 {
 	GSettings	 *editor;
 	GtkRecentManager *recent;
-
-#ifdef HAVE_ASR
-	PtAsrSettings    *asr_settings;
-#endif
+	PtConfig         *asr_config;
 
 	GtkClipboard *clip;
 	gulong        clip_handler_id;
@@ -55,7 +49,11 @@ struct _PtWindowPrivate
 	GMenuItem  *go_to_timestamp;
 	GtkWidget  *speed_scale;
 	GtkWidget  *waveviewer;
+
+	GMenuModel *primary_menu;
 	GMenuModel *secondary_menu;
+	GMenu      *asr_menu;
+	gboolean    asr;
 
 	gint64      last_time;	// last time to compare if it changed
 

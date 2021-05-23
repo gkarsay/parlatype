@@ -5,7 +5,9 @@
     <file preprocess="xml-stripblanks">menus.ui</file>
     <file preprocess="xml-stripblanks">goto-dialog.ui</file>
     <file preprocess="xml-stripblanks">preferences.ui</file>
-    <file preprocess="xml-stripblanks">asr-assistant.ui</file>
+    <file preprocess="xml-stripblanks">prefs-asr.ui</file>
+    <file preprocess="xml-stripblanks">asr-dialog.ui</file>
+    <file preprocess="xml-stripblanks">config-row.ui</file>
     <file>parlatype.css</file>
   </gresource>
   <gresource prefix="/org/parlatype/parlatype/gtk">

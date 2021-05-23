@@ -16,7 +16,8 @@ else
 	micro_version = version_array[2].to_int()
 endif
 
-asr = get_option('asr')
+with_pocketsphinx = get_option('pocketsphinx')
+with_deepspeech   = get_option('deepspeech')
 
 prefix     = get_option('prefix')
 bindir     = join_paths(prefix, get_option('bindir'))
@@ -40,7 +41,9 @@ conf.set_quoted('PACKAGE_NAME', meson.project_name())
 conf.set_quoted('PACKAGE_URL', 'https://www.parlatype.org')
 conf.set_quoted('APP_ID', app_id)
 conf.set_quoted('GETTEXT_LIB', gettext_package_lib)
-conf.set('HAVE_ASR', asr)
+conf.set_quoted('ASR_DIR', join_paths(datadir, meson.project_name(), 'asr'))
+conf.set('HAVE_POCKETSPHINX', with_pocketsphinx)
+conf.set('HAVE_DEEPSPEECH', with_deepspeech)
 configure_file(output: 'config.h', configuration: conf)
 conf_inc = include_directories('.', 'libparlatype/src')
 
@@ -80,7 +83,8 @@ status = [
   'Parlatype @0@'.format(meson.project_version()),
   '',
   'Prefix ................... : @0@'.format(prefix),
-  'With ASR ................. : @0@'.format(asr),
+  'With Pocketsphinx ........ : @0@'.format(with_pocketsphinx),
+  'With Deepspeech .......... : @0@'.format(with_deepspeech),
   'With GObject Introspection : @0@'.format(gir),
   'With API reference ....... : @0@'.format(gtk_doc),
   'With Glade catalog ....... : @0@'.format(glade),

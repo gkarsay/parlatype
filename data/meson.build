@@ -1,5 +1,10 @@
 subdir('icons')
 
+install_subdir(
+	'asr',
+	install_dir: join_paths(datadir, meson.project_name())
+)
+
 desktop_file = app_id + '.desktop'
 i18n.merge_file(
 	input: desktop_file + '.in',

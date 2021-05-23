@@ -34,6 +34,11 @@
 	</part>
 
 	<part>
+		<title>ASR configuration</title>
+		<xi:include href="xml/pt-config.xml"/>
+	</part>
+
+	<part>
 		<title>GtkWidgets</title>
 		<xi:include href="gallery.xml"/>
 		<xi:include href="xml/pt-waveviewer.xml"/>

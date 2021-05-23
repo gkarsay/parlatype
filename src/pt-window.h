@@ -19,6 +19,7 @@
 
 #include "config.h"
 #include <gtk/gtk.h>
+#include <pt-player.h>
 #include "pt-app.h"
 
 #define PT_WINDOW_TYPE		(pt_window_get_type())

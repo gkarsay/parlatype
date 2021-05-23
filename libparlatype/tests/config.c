@@ -1,0 +1,192 @@
+/* Copyright (C) Gabor Karsay 2020 <gabor.karsay@gmx.at>
+ *
+ * This program is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+#include <glib.h>
+#include <gtk/gtk.h>
+#include <pt-config.h>
+#include <pt-config.c>	/* for static methods */
+
+
+
+/* Tests -------------------------------------------------------------------- */
+
+static void
+construct (void)
+{
+	PtConfig *config;
+	GFile    *testfile;
+	GFile    *file;
+	gchar    *testpath;
+	gboolean  is_valid;
+
+	testpath = g_test_build_filename (G_TEST_DIST, "data", "config-test.asr", NULL);
+	testfile = g_file_new_for_path (testpath);
+	config = pt_config_new (testfile);
+	g_assert_true (PT_IS_CONFIG (config));
+
+	g_object_get (config,
+		      "file", &file,
+		      "is-valid", &is_valid,
+		      NULL);
+
+	g_assert_true (testfile == file);
+	g_assert_true (is_valid);
+
+	g_object_unref (config);
+	g_object_unref (file);
+	g_object_unref (testfile);
+	g_free (testpath);
+}
+
+static void
+static_methods (void)
+{
+	PtConfig *config;
+	GFile    *testfile;
+	gchar    *testpath;
+
+	testpath = g_test_build_filename (G_TEST_DIST, "data", "config-test.asr", NULL);
+	testfile = g_file_new_for_path (testpath);
+	config = pt_config_new (testfile);
+
+	GValue value;
+
+	/* pt_config_get_value() works only on a formally valid config.
+	 * Don't test for illegal values. */
+
+	value = pt_config_get_value (config, "Parameters", "String", G_TYPE_STRING);
+	g_assert_true (G_VALUE_HOLDS (&value, G_TYPE_STRING));
+	g_assert_cmpstr (g_value_get_string (&value), ==, "Some String");
+	g_value_unset (&value);
+
+	value = pt_config_get_value (config, "Parameters", "Number", G_TYPE_INT);
+	g_assert_true (G_VALUE_HOLDS (&value, G_TYPE_INT));
+	g_assert_cmpint (g_value_get_int (&value), ==, 42);
+	g_value_unset (&value);
+
+	value = pt_config_get_value (config, "Parameters", "Boolean", G_TYPE_BOOLEAN);
+	g_assert_true (G_VALUE_HOLDS (&value, G_TYPE_BOOLEAN));
+	g_assert_true (g_value_get_boolean (&value));
+	g_value_unset (&value);
+
+	value = pt_config_get_value (config, "Files", "File", G_TYPE_NONE);
+	g_assert_true (G_VALUE_HOLDS (&value, G_TYPE_STRING));
+	g_assert_cmpstr (g_value_get_string (&value), ==, "/home/me/model/subdir/test.dict");
+	g_value_unset (&value);
+
+	value = pt_config_get_value (config, "Files", "Folder", G_TYPE_NONE);
+	g_assert_true (G_VALUE_HOLDS (&value, G_TYPE_STRING));
+	g_assert_cmpstr (g_value_get_string (&value), ==, "/home/me/model/subdir/subdir");
+	g_value_unset (&value);
+
+	g_object_unref (config);
+	g_object_unref (testfile);
+	g_free (testpath);
+}
+
+static void
+public_methods (void)
+{
+	PtConfig *config;
+	GFile    *testfile;
+	gchar    *testpath;
+
+	testpath = g_test_build_filename (G_TEST_DIST, "data", "config-test.asr", NULL);
+	testfile = g_file_new_for_path (testpath);
+	config = pt_config_new (testfile);
+
+	gchar *name, *plugin, *base, *lang_code, *lang_name;
+	gboolean installed;
+
+	name = pt_config_get_name (config);
+	g_assert_cmpstr (name, ==, "Test Model");
+
+	plugin = pt_config_get_plugin (config);
+	g_assert_cmpstr (plugin, ==, "parlasphinx");
+
+	base = pt_config_get_base_folder (config);
+	g_assert_cmpstr (base, ==, "/home/me/model");
+
+	lang_code = pt_config_get_lang_code (config);
+	g_assert_cmpstr (lang_code, ==, "de");
+
+	lang_name = pt_config_get_lang_name (config);
+	g_assert_cmpstr (lang_name, ==, "German");
+
+	installed = pt_config_is_installed (config);
+	g_assert_false (installed);
+
+	g_object_unref (config);
+	g_object_unref (testfile);
+	g_free (testpath);
+}
+
+static void
+test_is_valid (void)
+{
+	PtConfig *config;
+	gchar    *path;
+	GFile    *folder;
+	GFile    *file;
+	GFileEnumerator *files;
+
+	path = g_test_build_filename (G_TEST_DIST, "data", NULL);
+	folder = g_file_new_for_path (path);
+
+	files = g_file_enumerate_children (folder,
+                                           G_FILE_ATTRIBUTE_STANDARD_NAME,
+                                           G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS,
+                                           NULL,	/* cancellable */
+                                           NULL);
+	while (TRUE) {
+		GFileInfo *info;
+		if (!g_file_enumerator_iterate (files, &info, &file, NULL, NULL))
+			break;
+		if (!info)
+			break;
+
+		const char *name = g_file_info_get_name (info);
+		if (g_str_has_suffix (name, ".asr")) {
+			config = pt_config_new (file);
+			g_print ("Testing %s ", name);
+			if (g_str_has_prefix (name, "invalid"))
+				g_assert_false (pt_config_is_valid (config));
+			else
+				g_assert_true (pt_config_is_valid (config));
+			g_print ("OK\n");
+			g_object_unref (config);
+		}
+	}
+
+	g_object_unref (files);
+	g_object_unref (folder);
+	g_free (path);
+}
+
+int
+main (int argc, char *argv[])
+{
+	g_test_init (&argc, &argv, NULL);
+
+	g_test_add_func ("/config/construct", construct);
+	g_test_add_func ("/config/static_methods", static_methods);
+	g_test_add_func ("/config/public_methods", public_methods);
+	g_test_add_func ("/config/is_valid", test_is_valid);
+	gtk_init (NULL, NULL);
+
+	return g_test_run ();
+}

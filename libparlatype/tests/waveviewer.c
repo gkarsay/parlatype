@@ -106,8 +106,7 @@ waveviewer_loaded (void)
 	SyncData   data;
 
 	player = pt_player_new ();
-	pt_player_setup_player (player, &error);
-	g_assert_no_error (error);
+	pt_player_setup_player (player, TRUE);
 
 	testpath = g_test_build_filename (G_TEST_DIST, "data", "tick-10sec.ogg", NULL);
 	testfile = g_file_new_for_path (testpath);

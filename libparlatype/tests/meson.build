@@ -1,4 +1,6 @@
 tests = [
+	'config',
+	'gst',
 	'player',
 	'waveloader',
 	'waveviewer',
@@ -8,11 +10,20 @@ test_data = [
 	'data/test1.ogg',
 ]
 
+extra_sources = [
+	'../src/gst/gstptaudiobin.c',
+	'../src/gst/gstptaudiobin.h',
+	'../src/gst/gstptaudioasrbin.c',
+	'../src/gst/gstptaudioasrbin.h',
+	'../src/gst/gstptaudioplaybin.c',
+	'../src/gst/gstptaudioplaybin.h',
+]
+
 foreach t: tests
 	exe = executable(
-		t, '@0@.c'.format(t),
+		t, '@0@.c'.format(t), extra_sources,
 		install: false,
-		dependencies: [ libparlatype_dep, gstreamer ],
+		dependencies: [ libparlatype_dep, gstreamer, gstreamer_audio, gnome_desktop ],
 	)
 
 	test(
@@ -21,6 +32,7 @@ foreach t: tests
 		env: [
 			'G_TEST_SRCDIR=@0@'.format(meson.current_source_dir()),
 			'G_TEST_BUILDDIR=@0@'.format(meson.current_build_dir()),
+			'LANGUAGE=C',
 		],
 	)
 endforeach

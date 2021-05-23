@@ -19,7 +19,7 @@ sources = [
 	'timestamps.page',
 ]
 
-if asr
+if with_pocketsphinx or with_deepspeech
 	sources += [
 		'asr.page',
 		'asr-setup.page',

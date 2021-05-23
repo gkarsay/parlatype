@@ -19,7 +19,6 @@
 
 #include "config.h"
 #include <gtk/gtk.h>
-#include "pt-asr-settings.h"
 
 #define PT_APP_TYPE		(pt_app_get_type())
 #define PT_APP(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), PT_APP_TYPE, PtApp))
@@ -44,10 +43,6 @@ struct _PtAppClass
 
 
 GType		pt_app_get_type			(void) G_GNUC_CONST;
-
-PtAsrSettings	*pt_app_get_asr_settings	(PtApp *app);
-
-gboolean	pt_app_get_asr			(PtApp *app);
 
 PtApp		*pt_app_new			(void);
 

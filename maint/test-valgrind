@@ -2,7 +2,7 @@
 # Runs the whole test suite under Valgrind.
 # Returns 0 if no memory leaks found.
 
-TESTS="player waveloader waveviewer"
+TESTS="config player waveloader waveviewer"
 LOG='meson-logs/testlog-valgrind.txt'
 SUPPS='../maint/valgrind-suppression'
 VALGRIND="valgrind --tool=memcheck \

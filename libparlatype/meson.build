@@ -15,6 +15,7 @@ libparlatype_api_version = '3.0'
 gstreamer       = dependency('gstreamer-1.0', version : '>= 1.6.3')
 gstreamer_app   = dependency('gstreamer-app-1.0')
 gstreamer_audio = dependency('gstreamer-audio-1.0')
+gnome_desktop   = dependency('gnome-desktop-3.0')
 math = compiler.find_library('m', required: false)
 
 subdir('data')
