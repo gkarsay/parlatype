@@ -3,7 +3,7 @@
 # First (optional) argument is the meson build dir, if there are several build dirs
 # Returns 0 if no memory leaks found.
 
-TESTS="config player waveloader waveviewer"
+TESTS="config gst player waveloader waveviewer"
 LOG='meson-logs/testlog-valgrind.txt'
 SUPPS='../maint/valgrind-suppression'
 VALGRIND="valgrind --tool=memcheck \
