@@ -119,6 +119,7 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="image">image1</property>
+                        <signal name="clicked" handler="import_button_clicked_cb" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -202,7 +203,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">3</property>
+            <property name="position">4</property>
           </packing>
         </child>
       </object>
@@ -276,7 +277,7 @@
           <object class="GtkLabel" id="asr_error_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label">Placeholder</property>
+            <property name="label">Error Message</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -292,4 +293,22 @@
       </packing>
     </child>
   </template>
+  <object class="GtkBox" id="no_result_box">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="border_width">12</property>
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkLabel" id="no_result_label">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">No results in this view</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+  </object>
 </interface>

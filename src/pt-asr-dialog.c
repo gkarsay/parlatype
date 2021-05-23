@@ -25,42 +25,147 @@
 
 struct _PtAsrDialogPrivate
 {
-	GtkWidget *link_button;
-	GtkWidget *folder_button;
 	PtConfig  *config;
+
+	GtkWidget *name_entry;
+	GtkWidget *lang_value;
+	GtkWidget *engine_label;
+	GtkWidget *engine_value;
+	GtkWidget *plugin_label;
+	GtkWidget *plugin_value;
+	GtkWidget *publisher_label;
+	GtkWidget *publisher_value;
+	GtkWidget *license_label;
+	GtkWidget *license_value;
+
+	GtkWidget *howto_label;
+	GtkWidget *howto_value;
+	GtkWidget *url1_label;
+	GtkWidget *url1_button;
+	GtkWidget *url2_label;
+	GtkWidget *url2_button;
+	GtkWidget *folder_button;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PtAsrDialog, pt_asr_dialog, GTK_TYPE_WINDOW)
 
 
+static void
+name_entry_activate_cb (GtkEntry *entry,
+                        gpointer  user_data)
+{
+	PtAsrDialog *dlg = PT_ASR_DIALOG (user_data);
+	gchar const *name;
+
+	name = gtk_entry_get_text (entry);
+	gtk_window_set_title (GTK_WINDOW (dlg), name);
+	pt_config_set_name (dlg->priv->config, (void*)name);
+}
+
+static gboolean
+have_string (gchar *str)
+{
+	return (str && g_strcmp0 (str, "") != 0);
+}
+
 void
 pt_asr_dialog_set_config (PtAsrDialog *dlg,
                           PtConfig    *config)
 {
-	gchar *link_uri = NULL;
-	gchar *base_folder = NULL;
+	gchar *name;
+	gchar *str;
 	GtkWidget *label;
+	gchar *engine = NULL;
 
 	dlg->priv->config = config;
 
-	gtk_window_set_title (GTK_WINDOW (dlg),
-	                      pt_config_get_name (config));
+	name = pt_config_get_name (config);
+	gtk_window_set_title (GTK_WINDOW (dlg), name);
+	gtk_entry_set_text (GTK_ENTRY (dlg->priv->name_entry), name);
 
-	link_uri = pt_config_get_url (config);
-	gtk_link_button_set_uri (GTK_LINK_BUTTON (dlg->priv->link_button),
-	                         link_uri);
-	gtk_button_set_label (GTK_BUTTON (dlg->priv->link_button), link_uri);
+	g_signal_connect (dlg->priv->name_entry, "activate", G_CALLBACK (name_entry_activate_cb), dlg);
 
-	/* Ellipsize label: This works only after gtk_button_set_label() */
-	label = gtk_bin_get_child (GTK_BIN (dlg->priv->link_button));
-	gtk_label_set_ellipsize (GTK_LABEL (label), PANGO_ELLIPSIZE_END);
+	str = pt_config_get_lang_name (config);
+	gtk_label_set_text (GTK_LABEL (dlg->priv->lang_value), str);
 
-	base_folder = pt_config_get_base_folder (config);
+	str = pt_config_get_plugin (config);
+	if (g_strcmp0 (str, "parlasphinx") == 0)
+		engine = _("CMU Pocketsphinx");
+
+	if (g_strcmp0 (str, "ptdeepspeech") == 0)
+		engine = _("Mozilla DeepSpeech");
+
+	if (engine) {
+		gtk_widget_set_visible (dlg->priv->plugin_label, FALSE);
+		gtk_widget_hide (dlg->priv->plugin_value);
+		gtk_label_set_text (GTK_LABEL (dlg->priv->engine_value), engine);
+	} else {
+		gtk_widget_hide (dlg->priv->engine_label);
+		gtk_widget_hide (dlg->priv->engine_value);
+		gtk_label_set_text (GTK_LABEL (dlg->priv->plugin_value), str);
+	}
+
+	str = pt_config_get_other (config, "Publisher");
+	if (have_string (str)) {
+		gtk_label_set_text (GTK_LABEL (dlg->priv->publisher_value), str);
+	} else {
+		gtk_widget_hide (dlg->priv->publisher_label);
+		gtk_widget_hide (dlg->priv->publisher_value);
+	}
+	g_free (str);
+
+	str = pt_config_get_other (config, "License");
+	if (have_string (str)) {
+		gtk_label_set_text (GTK_LABEL (dlg->priv->license_value), str);
+	} else {
+		gtk_widget_hide (dlg->priv->license_label);
+		gtk_widget_hide (dlg->priv->license_value);
+	}
+	g_free (str);
+
+	/* Installation */
+	str = pt_config_get_other (config, "Howto");
+	if (have_string (str)) {
+		gtk_label_set_text (GTK_LABEL (dlg->priv->howto_value), str);
+	} else {
+		gtk_widget_hide (dlg->priv->howto_label);
+		gtk_widget_hide (dlg->priv->howto_value);
+	}
+	g_free (str);
+
+	str = pt_config_get_other (config, "URL1");
+	if (have_string (str)) {
+		gtk_link_button_set_uri (GTK_LINK_BUTTON (dlg->priv->url1_button),
+			                 str);
+		gtk_button_set_label (GTK_BUTTON (dlg->priv->url1_button), str);
+
+		/* Ellipsize label: This works only after gtk_button_set_label() */
+		label = gtk_bin_get_child (GTK_BIN (dlg->priv->url1_button));
+		gtk_label_set_ellipsize (GTK_LABEL (label), PANGO_ELLIPSIZE_END);
+	} else {
+		gtk_widget_hide (dlg->priv->url1_label);
+		gtk_widget_hide (dlg->priv->url1_button);
+	}
+	g_free (str);
+
+	str = pt_config_get_other (config, "URL2");
+	if (have_string (str)) {
+		gtk_link_button_set_uri (GTK_LINK_BUTTON (dlg->priv->url2_button),
+			                 str);
+		gtk_button_set_label (GTK_BUTTON (dlg->priv->url2_button), str);
+
+		/* Ellipsize label: This works only after gtk_button_set_label() */
+		label = gtk_bin_get_child (GTK_BIN (dlg->priv->url2_button));
+		gtk_label_set_ellipsize (GTK_LABEL (label), PANGO_ELLIPSIZE_END);
+	} else {
+		gtk_widget_hide (dlg->priv->url2_label);
+		gtk_widget_hide (dlg->priv->url2_button);
+	}
+	g_free (str);
+
+	str = pt_config_get_base_folder (config);
 	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dlg->priv->folder_button),
-	                                     base_folder);
-
-	g_free (base_folder);
-	g_free (link_uri);
+	                                     str);
 }
 
 static void
@@ -90,18 +195,23 @@ pt_asr_dialog_class_init (PtAsrDialogClass *klass)
 
 	gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/parlatype/asr-dialog.ui");
 	gtk_widget_class_bind_template_callback(widget_class, file_set_cb);
-	gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, link_button);
+	gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, name_entry);
+	gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, lang_value);
+	gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, engine_label);
+	gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, engine_value);
+	gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, plugin_label);
+	gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, plugin_value);
+	gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, publisher_label);
+	gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, publisher_value);
+	gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, license_label);
+	gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, license_value);
+	gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, howto_label);
+	gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, howto_value);
+	gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, url1_label);
+	gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, url1_button);
+	gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, url2_label);
+	gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, url2_button);
 	gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, folder_button);
-
-	g_signal_new ("removeme",
-	              PT_TYPE_ASR_DIALOG,
-	              G_SIGNAL_RUN_FIRST,
-	              0,
-	              NULL,
-	              NULL,
-	              g_cclosure_marshal_VOID__VOID,
-	              G_TYPE_NONE,
-	              0);
 }
 
 PtAsrDialog *

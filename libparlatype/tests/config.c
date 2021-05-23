@@ -130,11 +130,6 @@ public_methods (void)
 	installed = pt_config_is_installed (config);
 	g_assert_false (installed);
 
-	g_free (name);
-	g_free (plugin);
-	g_free (base);
-	g_free (lang_code);
-	g_free (lang_name);
 	g_object_unref (config);
 	g_object_unref (testfile);
 	g_free (testpath);

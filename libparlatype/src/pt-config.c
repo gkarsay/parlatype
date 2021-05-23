@@ -1,4 +1,4 @@
-/* Copyright (C) Gabor Karsay 2020 <gabor.karsay@gmx.at>
+/* Copyright (C) Gabor Karsay 2021 <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -26,7 +26,11 @@ struct _PtConfigPrivate
 	gchar    *path;
 	GFile    *file;
 	GKeyFile *keyfile;
+	gchar    *name;
 	gchar    *lang_name;
+	gchar    *lang_code;
+	gchar    *plugin;
+	gchar    *base_folder;
 	gboolean  is_valid;
 	gboolean  is_installed;
 };
@@ -37,6 +41,7 @@ enum
 	PROP_FILE,
 	PROP_IS_VALID,
 	PROP_IS_INSTALLED,
+	PROP_NAME,
 	N_PROPERTIES
 };
 
@@ -173,8 +178,8 @@ pt_config_get_string (PtConfig *config,
 			group, parameter, &error);
 
 	if (error) {
-		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
-		                 "MESSAGE", "Keyfile value \"%s\" not retrieved: %s",
+		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+		                 "MESSAGE", "Keyfile value not retrieved: %s",
 		                  error->message);
 		g_error_free (error);
 	}
@@ -200,7 +205,7 @@ pt_config_set_string (PtConfig *config,
  *
  * The human-visible name to identify a configuration.
  *
- * Return value: the configuration’s name as a string
+ * Return value: (transfer none): the configuration’s name as a string
  */
 gchar*
 pt_config_get_name (PtConfig *config)
@@ -208,7 +213,7 @@ pt_config_get_name (PtConfig *config)
 	g_return_val_if_fail (PT_IS_CONFIG (config), NULL);
 	g_return_val_if_fail (config->priv->is_valid, NULL);
 
-	return pt_config_get_string (config, "Model", "Name");
+	return config->priv->name;
 }
 
 /**
@@ -228,7 +233,16 @@ pt_config_set_name (PtConfig *config,
 	g_return_val_if_fail (PT_IS_CONFIG (config), FALSE);
 	g_return_val_if_fail (config->priv->is_valid, FALSE);
 
-	return pt_config_set_string (config, "Model", "Name", name);
+	if (g_strcmp0 (config->priv->name, name) == 0)
+		return TRUE;
+
+	if (!pt_config_set_string (config, "Model", "Name", name))
+		return FALSE;
+
+	config->priv->name = name;
+	g_object_notify_by_pspec (G_OBJECT (config),
+	                          obj_properties[PROP_NAME]);
+	return TRUE;
 }
 
 /**
@@ -272,7 +286,7 @@ pt_config_set_base_folder (PtConfig *config,
  * returning NULL is an invalid configuration, check #PtConfig:is-valid for
  * that
  *
- * Return value: the configuaration’s base folder as a string or NULL
+ * Return value: (transfer none): the configuaration’s base folder as a string or NULL
  */
 gchar*
 pt_config_get_base_folder (PtConfig *config)
@@ -298,7 +312,7 @@ pt_config_get_plugin (PtConfig *config)
 	g_return_val_if_fail (PT_IS_CONFIG (config), NULL);
 	g_return_val_if_fail (config->priv->is_valid, NULL);
 
-	return pt_config_get_string (config, "Model", "Plugin");
+	return config->priv->plugin;
 }
 
 /**
@@ -308,7 +322,7 @@ pt_config_get_plugin (PtConfig *config)
  * Gets the language the model was made for. It’s the ISO 639-1 code
  * (2 letters) if available, otherwise ISO 639-2 (3 letters).
  *
- * Return value: the language code as a string
+ * Return value: (transfer none): the language code as a string
  */
 gchar*
 pt_config_get_lang_code (PtConfig *config)
@@ -316,7 +330,7 @@ pt_config_get_lang_code (PtConfig *config)
 	g_return_val_if_fail (PT_IS_CONFIG (config), NULL);
 	g_return_val_if_fail (config->priv->is_valid, NULL);
 
-	return pt_config_get_string (config, "Model", "Language");
+	return config->priv->lang_code;
 }
 
 /**
@@ -325,7 +339,7 @@ pt_config_get_lang_code (PtConfig *config)
  *
  * Gets the localized name of the language the model was made for.
  *
- * Return value: the language code as a string
+ * Return value: (transfer none) the language code as a string
  */
 gchar*
 pt_config_get_lang_name (PtConfig *config)
@@ -333,44 +347,26 @@ pt_config_get_lang_name (PtConfig *config)
 	g_return_val_if_fail (PT_IS_CONFIG (config), NULL);
 	g_return_val_if_fail (config->priv->is_valid, NULL);
 
-	return g_strdup (config->priv->lang_name);
+	return config->priv->lang_name;
 }
 
 /**
- * pt_config_get_url:
+ * pt_config_get_other:
  * @config: a configuration instance
  *
- * The URL pointing to a download location of the model. The URL is optional
- * and in case it’s not set, NULL is returned.
+ * Get other optional keys. If the key is not set, NULL is returned.
  *
- * Return value: the model’s URL as a string or NULL
+ * Return value: (transfer full): the key’s value as a string or NULL
  */
 gchar*
-pt_config_get_url (PtConfig *config)
+pt_config_get_other (PtConfig *config,
+                     gchar    *key)
 {
 	g_return_val_if_fail (PT_IS_CONFIG (config), NULL);
 	g_return_val_if_fail (config->priv->is_valid, NULL);
 
-	return pt_config_get_string (config, "Model", "URL");
+	return pt_config_get_string (config, "Model", key);
 }
-
-/**
- * pt_config_get_file:
- * @config: a configuration instance
- *
- * The #GFile that was used to construct this object.
- *
- * Return value: the file this object is based on
- */
-GFile*
-pt_config_get_file (PtConfig *config)
-{
-	g_return_val_if_fail (PT_IS_CONFIG (config), NULL);
-	g_return_val_if_fail (config->priv->is_valid, NULL);
-
-	return config->priv->file;
-}
-
 
 /**
  * pt_config_apply:
@@ -475,14 +471,13 @@ pt_config_is_installed (PtConfig *config)
  * It has the following groups: [Model], [Files]. A [Parameters] group is optional.
  * </para></listitem>
  * <listitem><para>
- * [Model] has the following keys: Name, Plugin, BaseFolder, Language, URL.
+ * [Model] has the following keys: Name, Plugin, BaseFolder, Language.
  * </para></listitem>
  * <listitem><para>
  * [Files] has at least one key.
  * </para></listitem>
  * <listitem><para>
- * All keys have non-empty values, except BaseFolder and URL, those might be
- * empty.
+ * All keys have non-empty values, except BaseFolder, which might be empty.
  * </para></listitem>
  *</itemizedlist>
  *
@@ -529,7 +524,7 @@ static gboolean
 is_valid (PtConfig *config)
 {
 	gchar *groups[] = {"Model", "Files", NULL};
-	gchar *model_keys[] = {"Name", "Plugin", "BaseFolder", "Language", "URL", NULL};
+	gchar *model_keys[] = {"Name", "Plugin", "BaseFolder", "Language", NULL};
 	gchar *mandatory[] = {"Name", "Plugin", "Language", NULL};
 	gchar **parameters = NULL;
 	gboolean valid = TRUE;
@@ -563,24 +558,18 @@ is_valid (PtConfig *config)
 static gboolean
 pt_config_verify_install (PtConfig *config)
 {
-	gchar   *base_folder;
 	gchar  **keys = NULL;
 	GValue   value;
 	gboolean result = TRUE;
 
-	base_folder = pt_config_get_base_folder (config);
-	if (!base_folder)
+	if (!config->priv->base_folder)
 		return FALSE;
 
-	if (!g_file_test (base_folder, G_FILE_TEST_IS_DIR | G_FILE_TEST_EXISTS)) {
+	if (!g_file_test (config->priv->base_folder, G_FILE_TEST_IS_DIR | G_FILE_TEST_EXISTS)) {
 		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
-		                 "MESSAGE", "Base folder \"%s\" not found", base_folder);
-		result = FALSE;
+		                 "MESSAGE", "Base folder \"%s\" not found", config->priv->base_folder);
+		return FALSE;
 	}
-
-	g_free (base_folder);
-	if (!result)
-		return result;
 
 	keys = g_key_file_get_keys (config->priv->keyfile, "Files",
 	                            NULL, NULL);
@@ -601,28 +590,58 @@ pt_config_verify_install (PtConfig *config)
 }
 
 static void
-pt_config_constructed (GObject *object)
+free_private (PtConfigPrivate *priv)
 {
-	PtConfig *config = PT_CONFIG (object);
+	if (priv->keyfile)
+		g_key_file_free (priv->keyfile);
+	if (priv->file)
+		g_object_unref (priv->file);
+	g_free (priv->path);
+	g_free (priv->lang_name);
+	g_free (priv->lang_code);
+	g_free (priv->name);
+	g_free (priv->plugin);
+	g_free (priv->base_folder);
+}
+
+static void
+tabula_rasa (PtConfigPrivate *priv)
+{
+	priv->is_valid = FALSE;
+	priv->is_installed = FALSE;
+	priv->path = NULL;
+	priv->file = NULL;
+	priv->keyfile = NULL;
+	priv->name = NULL;
+	priv->lang_name = NULL;
+	priv->lang_code = NULL;
+	priv->plugin = NULL;
+	priv->base_folder = NULL;
+}
+
+static void
+setup_config (PtConfig *config)
+{
+	PtConfigPrivate *priv = config->priv;
 	GError   *error = NULL;
 	gboolean  loaded;
-	gchar     *code;
 
-	config->priv->keyfile = g_key_file_new ();
-	config->priv->path = g_file_get_path (config->priv->file);
-	if (!config->priv->path) {
+	priv->keyfile = g_key_file_new ();
+	priv->path = g_file_get_path (priv->file);
+	if (!priv->path) {
 		return;
 	}
+
 	loaded = g_key_file_load_from_file (
-			config->priv->keyfile,
-			config->priv->path,
+			priv->keyfile,
+			priv->path,
 			G_KEY_FILE_KEEP_COMMENTS,
 			&error);
 
 	if (!loaded) {
 		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
 		                  "MESSAGE", "Key file \"%s\" not loaded: %s",
-		                   config->priv->path,
+		                   priv->path,
 		                   error->message);
 		g_error_free (error);
 	}
@@ -630,13 +649,61 @@ pt_config_constructed (GObject *object)
 	if (!loaded || !is_valid (config))
 		return;
 
-	config->priv->is_valid = TRUE;
-	code = pt_config_get_lang_code (config);
-	config->priv->lang_name = gnome_get_language_from_locale (code, NULL);
+	priv->is_valid     = TRUE;
+	priv->name         = pt_config_get_string (config, "Model", "Name");
+	priv->plugin       = pt_config_get_string (config, "Model", "Plugin");
+	priv->base_folder  = pt_config_get_string (config, "Model", "BaseFolder");
+	priv->lang_code    = pt_config_get_string (config, "Model", "Language");
+	priv->lang_name    = gnome_get_language_from_locale (config->priv->lang_code, NULL);
+	priv->is_installed = pt_config_verify_install (config);
+}
 
-	config->priv->is_installed = pt_config_verify_install (config);
+/**
+ * pt_config_get_file:
+ * @config: a configuration instance
+ *
+ * The #GFile that storing the configuration.
+ *
+ * Return value: (transfer none): the file this object is based on
+ */
+GFile*
+pt_config_get_file (PtConfig *config)
+{
+	g_return_val_if_fail (PT_IS_CONFIG (config), NULL);
+	g_return_val_if_fail (config->priv->is_valid, NULL);
 
-	g_free (code);
+	return config->priv->file;
+}
+
+/**
+ * pt_config_set_file:
+ * @config: a configuration instance
+ * @file: the new file
+ *
+ * Sets a new file, invalidating all fields and reevaluating status.
+ */
+void
+pt_config_set_file (PtConfig *config,
+                    GFile    *file)
+{
+	g_return_if_fail (PT_IS_CONFIG (config));
+	g_return_if_fail (file != NULL);
+
+	PtConfigPrivate *priv = config->priv;
+
+	free_private (priv);
+	tabula_rasa (priv);
+	config->priv->file = g_object_ref (file);
+	setup_config (config);
+}
+
+
+static void
+pt_config_constructed (GObject *object)
+{
+	PtConfig *config = PT_CONFIG (object);
+
+	setup_config (config);
 }
 
 static void
@@ -644,7 +711,7 @@ pt_config_init (PtConfig *config)
 {
 	config->priv = pt_config_get_instance_private (config);
 
-	config->priv->is_valid = FALSE;
+	tabula_rasa (config->priv);
 }
 
 static void
@@ -658,11 +725,7 @@ pt_config_finalize (GObject *object)
 {
 	PtConfig *config = PT_CONFIG (object);
 
-	if (config->priv->keyfile)
-		g_key_file_free (config->priv->keyfile);
-	g_object_unref (config->priv->file);
-	g_free (config->priv->path);
-	g_free (config->priv->lang_name);
+	free_private (config->priv);
 
 	G_OBJECT_CLASS (pt_config_parent_class)->finalize (object);
 }
@@ -677,7 +740,7 @@ pt_config_set_property (GObject      *object,
 
 	switch (property_id) {
 	case PROP_FILE:
-		config->priv->file = g_value_dup_object (value);
+		pt_config_set_file (config, g_value_get_object (value));
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -702,6 +765,9 @@ pt_config_get_property (GObject    *object,
 		break;
 	case PROP_IS_INSTALLED:
 		g_value_set_boolean (value, config->priv->is_installed);
+		break;
+	case PROP_NAME:
+		g_value_set_string (value, config->priv->name);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -760,6 +826,19 @@ pt_config_class_init (PtConfigClass *klass)
 			"Installed",
 			"Whether the language model is installed",
 			FALSE,
+			G_PARAM_READABLE);
+
+	/**
+	 * PtConfig:name:
+	 *
+	 * The display name for the model.
+	 */
+	obj_properties[PROP_NAME] =
+	g_param_spec_string (
+			"name",
+			"Name",
+			"Display name for the model",
+			NULL,
 			G_PARAM_READABLE);
 
 	g_object_class_install_properties (

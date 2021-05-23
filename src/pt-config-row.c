@@ -32,6 +32,7 @@ struct _PtConfigRowPrivate
 	GtkWidget *status_image;
 	gboolean   active;
 	gboolean   supported;
+	gboolean   installed;
 };
 
 enum
@@ -61,7 +62,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtConfigRow, pt_config_row, GTK_TYPE_LIST_BOX_ROW)
 gboolean
 pt_config_row_is_installed (PtConfigRow *row)
 {
-	return pt_config_is_installed (row->priv->config);
+	return row->priv->installed;
 }
 
 gboolean
@@ -83,7 +84,7 @@ set_status_image (PtConfigRow *row)
 		return;
 	}
 
-	if (!pt_config_is_installed (row->priv->config)) {
+	if (!row->priv->installed) {
 		gtk_widget_show (GTK_WIDGET (status));
 		gtk_image_set_from_icon_name (status,
 					      "folder-download-symbolic",
@@ -106,12 +107,14 @@ void
 pt_config_row_set_active (PtConfigRow *row,
                           gboolean     active)
 {
-	if (row->priv->active == active ||
-	    !row->priv->supported       ||
-	    !pt_config_is_installed (row->priv->config))
+	PtConfigRowPrivate *priv = row->priv;
+
+	if (priv->active == active ||
+	    !priv->supported       ||
+	    !priv->installed)
 		return;
 
-	row->priv->active = active;
+	priv->active = active;
 	g_object_notify_by_pspec (G_OBJECT (row),
 	                          obj_properties[PROP_ACTIVE]);
 	set_status_image (row);
@@ -132,15 +135,32 @@ pt_config_row_set_supported (PtConfigRow *row,
 }
 
 static void
+config_is_installed_cb (PtConfig   *config,
+                        GParamSpec *pspec,
+                        gpointer    user_data)
+{
+	PtConfigRow *row = PT_CONFIG_ROW (user_data);
+	row->priv->installed = pt_config_is_installed (config);
+	set_status_image (row);
+}
+
+static void
 pt_config_row_constructed (GObject *object)
 {
 	PtConfigRow *row = PT_CONFIG_ROW (object);
 	PtConfigRowPrivate *priv = row->priv;
 
-	gtk_label_set_text (GTK_LABEL (priv->name_label),
-			    pt_config_get_name (priv->config));
+	g_object_bind_property (
+			priv->config, "name",
+			priv->name_label, "label",
+			G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
 	gtk_label_set_text (GTK_LABEL (priv->lang_label),
 			    pt_config_get_lang_name (priv->config));
+
+	priv->installed = pt_config_is_installed (priv->config);
+	g_signal_connect (
+			priv->config, "notify::is-installed",
+			G_CALLBACK (config_is_installed_cb), row);
 }
 
 static void
@@ -148,8 +168,9 @@ pt_config_row_init (PtConfigRow *row)
 {
 	row->priv = pt_config_row_get_instance_private (row);
 
-	row->priv->active = FALSE;
+	row->priv->active    = FALSE;
 	row->priv->supported = FALSE;
+	row->priv->installed = FALSE;
 
 	gtk_widget_init_template (GTK_WIDGET (row));
 }

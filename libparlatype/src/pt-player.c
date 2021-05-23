@@ -1965,9 +1965,7 @@ pt_player_config_is_loadable (PtPlayer *player,
 	if (g_hash_table_contains (player->priv->plugins, plugin_name)) {
 		pointer = g_hash_table_lookup (player->priv->plugins,
 		                               plugin_name);
-		result = GPOINTER_TO_INT (pointer);
-		g_free (plugin_name);
-		return result;
+		return GPOINTER_TO_INT (pointer);
 	}
 
 	plugin = gst_element_factory_make (plugin_name, NULL);
@@ -1980,7 +1978,7 @@ pt_player_config_is_loadable (PtPlayer *player,
 	}
 
 	g_hash_table_insert (player->priv->plugins,
-	                     plugin_name, GINT_TO_POINTER (result));
+	                     g_strdup (plugin_name), GINT_TO_POINTER (result));
 
 	return result;
 }

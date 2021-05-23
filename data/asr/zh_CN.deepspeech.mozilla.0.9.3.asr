@@ -1,0 +1,17 @@
+[Model]
+Name=Mozilla DeepSpeech official 0.9.3
+Plugin=ptdeepspeech
+BaseFolder=
+Language=zh_CN
+Howto=Save both downloads in a folder and select that folder
+URL1=https://github.com/mozilla/DeepSpeech/releases/download/v0.9.3/deepspeech-0.9.3-models-zh-CN.pbmm
+URL2=https://github.com/mozilla/DeepSpeech/releases/download/v0.9.3/deepspeech-0.9.3-models-zh-CN.scorer
+Publisher=Mozilla
+License=MPL-2.0
+
+[Files]
+speech-model=deepspeech-0.9.3-models-zh-CN.pbmm
+scorer=deepspeech-0.9.3-models-zh-CN.scorer
+
+[Parameters]
+beam-width=500
