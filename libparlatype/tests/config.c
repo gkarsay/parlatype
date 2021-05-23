@@ -54,6 +54,7 @@ construct (void)
 
 	g_object_unref (config);
 	g_object_unref (file);
+	g_free (name);
 	g_object_unref (testfile);
 	g_free (testpath);
 }

@@ -182,14 +182,13 @@ gst_pt_audio_bin_dispose (GObject *object)
 	GstPtAudioBin *bin = GST_PT_AUDIO_BIN (object);
 
 	if (bin->tee) {
-#ifdef HAVE_ASR
 		/* Add all possible elements because elements without a parent
 		   won't be destroyed. */
 		add_element (GST_BIN (bin),
 		             bin->play_bin, bin->tee_playpad);
-		//add_element (GST_BIN (bin),
-		//             bin->sphinx_bin, bin->tee_sphinxpad);
-#endif
+		add_element (GST_BIN (bin),
+		             bin->sphinx_bin, bin->tee_sphinxpad);
+
 		gst_object_unref (GST_OBJECT (bin->tee_playpad));
 		gst_object_unref (GST_OBJECT (bin->tee_sphinxpad));
 	}
@@ -251,7 +250,6 @@ gst_pt_audio_bin_init (GstPtAudioBin *bin)
 	gst_pt_audio_play_bin_register ();
 	gst_pt_audio_asr_bin_register ();
 
-	bin->queue = make_element ("queue", "queue");
 	bin->play_bin = make_element ("ptaudioplaybin", "player-audiobin");
 	bin->sphinx_bin = make_element("ptaudioasrbin", "sphinx-audiobin");
 	bin->tee = make_element ("tee", "tee");

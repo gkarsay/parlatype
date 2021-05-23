@@ -114,7 +114,6 @@ pt_config_get_value (PtConfig *config,
 		g_free (absolute);
 		g_free (relative);
 		g_strfreev (pieces);
-		g_free (base);
 	} else {
 		switch (type) {
 		case (G_TYPE_STRING):
@@ -239,6 +238,7 @@ pt_config_set_name (PtConfig *config,
 	if (!pt_config_set_string (config, "Model", "Name", name))
 		return FALSE;
 
+	g_free (config->priv->name);
 	config->priv->name = g_strdup (name);
 	g_object_notify_by_pspec (G_OBJECT (config),
 	                          obj_properties[PROP_NAME]);
@@ -266,6 +266,8 @@ pt_config_set_base_folder (PtConfig *config,
 
 	result = pt_config_set_string (config, "Model", "BaseFolder", name);
 	if (result) {
+		g_free (config->priv->base_folder);
+		config->priv->base_folder = g_strdup (name);
 		installed = pt_config_verify_install (config);
 		if (installed != config->priv->is_installed) {
 			config->priv->is_installed = installed;
@@ -294,7 +296,7 @@ pt_config_get_base_folder (PtConfig *config)
 	g_return_val_if_fail (PT_IS_CONFIG (config), NULL);
 	g_return_val_if_fail (config->priv->is_valid, NULL);
 
-	return pt_config_get_string (config, "Model", "BaseFolder");
+	return config->priv->base_folder;
 }
 
 /**
@@ -699,15 +701,6 @@ pt_config_set_file (PtConfig *config,
 	setup_config (config);
 }
 
-
-static void
-pt_config_constructed (GObject *object)
-{
-	PtConfig *config = PT_CONFIG (object);
-
-	setup_config (config);
-}
-
 static void
 pt_config_init (PtConfig *config)
 {
@@ -782,7 +775,6 @@ pt_config_class_init (PtConfigClass *klass)
 {
 	G_OBJECT_CLASS (klass)->set_property = pt_config_set_property;
 	G_OBJECT_CLASS (klass)->get_property = pt_config_get_property;
-	G_OBJECT_CLASS (klass)->constructed  = pt_config_constructed;
 	G_OBJECT_CLASS (klass)->dispose      = pt_config_dispose;
 	G_OBJECT_CLASS (klass)->finalize     = pt_config_finalize;
 

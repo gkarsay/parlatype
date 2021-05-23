@@ -39,7 +39,6 @@ struct _GstPtAudioBin
 
 	GstElement *play_bin;
 	GstElement *sphinx_bin;
-	GstElement *queue;
 	GstElement *tee;
 	GstPad     *tee_playpad;
 	GstPad     *tee_sphinxpad;
