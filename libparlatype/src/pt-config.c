@@ -353,8 +353,10 @@ pt_config_get_lang_name (PtConfig *config)
 /**
  * pt_config_get_other:
  * @config: a configuration instance
+ * @key: the name of a key in the [Model] group
  *
- * Get other optional keys. If the key is not set, NULL is returned.
+ * Get other optional keys in the [Model] group. All keys are assumed to be
+ * strings. If the key is not set, NULL is returned.
  *
  * Return value: (transfer full): the key’s value as a string or NULL
  */

@@ -1877,16 +1877,17 @@ pt_player_setup_pipeline (PtPlayer  *player,
 }
 
 /**
- * pt_player_setup_sphinx:
+ * pt_player_setup_asr:
  * @player: a #PtPlayer
- * @state:
+ * @state: enable or disable ASR
  *
- * Setup the GStreamer pipeline for automatic speech recognition using
- * CMU sphinx. This loads resources like language model and dictionary and
- * might take a few seconds.
- * There is no audio output in this mode. Connect to the
- * #PtPlayer::asr-hypothesis and/or #PtPlayer::asr-final signal to get
- * the results. Start recognition with pt_player_play().
+ * A @state of TRUE enables automatic speech recognition. The pipeline should
+ * have been configured before with pt_player_configure_asr().
+ *
+ * A @state of FALSE disables automatic speech recognition. This is the default.
+
+ * To get the results, connect to the #PtPlayer::asr-hypothesis and/or
+ * #PtPlayer::asr-final signal. Start recognition with pt_player_play().
  *
  * Since: x.x
  */
@@ -1986,11 +1987,9 @@ pt_player_config_is_loadable (PtPlayer *player,
 /**
  * pt_player_setup_player:
  * @player: a #PtPlayer
- * @state:
+ * @state: enable or disable audible playback
  *
- * Setup the GStreamer pipeline for playback. This or pt_player_setup_sphinx()
- * must be called first on a new PtPlayer object. It’s a programmer’s error to
- * do anything with the #PtPlayer before calling the setup function.
+ * Setup the GStreamer pipeline for playback.
  *
  * Since: x.x
  */

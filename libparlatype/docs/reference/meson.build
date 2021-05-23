@@ -34,7 +34,10 @@ gnome.gtkdoc(
 	],
 	ignore_headers: [
 		'gstparlasphinx.h',
+		'gstptaudioasrbin.h',
 		'gstptaudiobin.h',
+		'gstptaudioplaybin.h',
+		'gstptdeepspeech.h',
 		'pt-i18n.h',
 		'pt-position-manager.h',
 		'pt-waveviewer-cursor.h',
@@ -43,6 +46,7 @@ gnome.gtkdoc(
 		'pt-waveviewer-selection.h',
 		'pt-waveviewer-ruler.h',
 		'pt-waveviewer-waveform.h',
+		'vad_private.h',
 	],
 	html_assets: [
 		'images/pt-waveviewer.png',

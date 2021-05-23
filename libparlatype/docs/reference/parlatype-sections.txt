@@ -4,7 +4,9 @@
 PtPlayer
 pt_player_new
 pt_player_setup_player
-pt_player_setup_sphinx
+pt_player_setup_asr
+pt_player_configure_asr
+pt_player_config_is_loadable
 pt_player_open_uri
 pt_player_play
 pt_player_play_pause
@@ -103,6 +105,8 @@ pt_config_new
 pt_config_is_valid
 pt_config_is_installed
 pt_config_apply
+pt_config_get_file
+pt_config_set_file
 pt_config_get_name
 pt_config_set_name
 pt_config_get_base_folder
@@ -110,7 +114,7 @@ pt_config_set_base_folder
 pt_config_get_plugin
 pt_config_get_lang_code
 pt_config_get_lang_name
-pt_config_get_url
+pt_config_get_other
 <SUBSECTION Standard>
 PT_CONFIG
 PT_IS_CONFIG
