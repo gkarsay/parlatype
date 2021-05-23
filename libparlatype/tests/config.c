@@ -35,7 +35,7 @@ construct (void)
 	gboolean  is_valid;
 	gboolean  is_installed;
 
-	testpath = g_test_build_filename (G_TEST_DIST, "data", "config-test.asr", NULL);
+	testpath = g_test_build_filename (G_TEST_BUILT, "config-test.asr", NULL);
 	testfile = g_file_new_for_path (testpath);
 	config = pt_config_new (testfile);
 	g_assert_true (PT_IS_CONFIG (config));
@@ -66,7 +66,7 @@ static_methods (void)
 	GFile    *testfile;
 	gchar    *testpath;
 
-	testpath = g_test_build_filename (G_TEST_DIST, "data", "config-test.asr", NULL);
+	testpath = g_test_build_filename (G_TEST_BUILT, "config-test.asr", NULL);
 	testfile = g_file_new_for_path (testpath);
 	config = pt_config_new (testfile);
 
@@ -112,7 +112,7 @@ public_methods (void)
 	GFile    *testfile;
 	gchar    *testpath;
 
-	testpath = g_test_build_filename (G_TEST_DIST, "data", "config-test.asr", NULL);
+	testpath = g_test_build_filename (G_TEST_BUILT, "config-test.asr", NULL);
 	testfile = g_file_new_for_path (testpath);
 	config = pt_config_new (testfile);
 
@@ -181,8 +181,9 @@ test_is_valid (void)
 	GFile    *folder;
 	GFile    *file;
 	GFileEnumerator *files;
+	int       num = 0;
 
-	path = g_test_build_filename (G_TEST_DIST, "data", NULL);
+	path = g_test_build_filename (G_TEST_BUILT, "/", NULL);
 	folder = g_file_new_for_path (path);
 
 	files = g_file_enumerate_children (folder,
@@ -199,6 +200,7 @@ test_is_valid (void)
 
 		const char *name = g_file_info_get_name (info);
 		if (g_str_has_suffix (name, ".asr")) {
+			num++;
 			config = pt_config_new (file);
 			g_print ("Testing %s ", name);
 			if (g_str_has_prefix (name, "invalid"))
@@ -210,6 +212,7 @@ test_is_valid (void)
 		}
 	}
 
+	g_assert_cmpint (num, >, 1);
 	g_object_unref (files);
 	g_object_unref (folder);
 	g_free (path);

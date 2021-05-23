@@ -19,6 +19,9 @@ extra_sources = [
 	'../src/gst/gstptaudioplaybin.h',
 ]
 
+gen_prog = find_program('data/generate_config_data', required: true)
+run_command(gen_prog)
+
 foreach t: tests
 	exe = executable(
 		t, '@0@.c'.format(t), extra_sources,
