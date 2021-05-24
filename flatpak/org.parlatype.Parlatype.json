@@ -22,11 +22,14 @@
     "cleanup" : [
         "*.la",
         "*.a",
+        "/bin/bazel",
         "/include",
+        "/jre",
+        "/lib/debug",
         "/lib/pkgconfig",
-        "/share/man",
-        "/app/bin/bazel",
-        "/app/jre"
+        "/lib/python3.8",
+        "/libexec",
+        "/share/man"
     ],
     "modules" : [
         {
@@ -58,8 +61,7 @@
                     "type" : "file",
                     "url" : "https://github.com/bazelbuild/bazel/releases/download/3.1.0/bazel-3.1.0-dist.zip",
                     "dest-filename" : "bazel.zip",
-                    "sha256" : "d7f40d0cac95a06cea6cb5b7f7769085257caebc3ee84269dd9298da760d5615",
-                    "strip-components" : 0
+                    "sha256" : "d7f40d0cac95a06cea6cb5b7f7769085257caebc3ee84269dd9298da760d5615"
                 }
             ]
         },
@@ -379,9 +381,9 @@
             ],
             "sources" : [
                 {
-                    "type" : "git",
-                    "url" : "https://github.com/cmusphinx/sphinxbase.git",
-                    "commit" : "562d0472aababa9a5fbc5b7518ea174745323e4f"
+                    "type" : "archive",
+                    "url" : "https://github.com/cmusphinx/sphinxbase/archive/9e901850ee4cd1c0b22f2d3b3c15f162564ca283.zip",
+                    "sha256" : "4369fc4416b2bd3a396ca791cee1ca62c7360f549a78a3c754bb49ba0ebc843a"
                 }
             ],
             "cleanup" : [
@@ -395,9 +397,9 @@
             ],
             "sources" : [
                 {
-                    "type" : "git",
-                    "url" : "https://github.com/cmusphinx/pocketsphinx.git",
-                    "commit" : "3bf4fe66ed7c31e020ffbd340f5fc1646ecd7dfb"
+                    "type" : "archive",
+                    "url" : "https://github.com/cmusphinx/pocketsphinx/archive/ab6d6471800966990e12fdb6ed27ae36323cf2c4.zip",
+                    "sha256" : "29ce0c81eda60bef919d42287bcf85d29b8dcb8dcb8dc69998f58a79a6e4a5c0"
                 }
             ],
             "cleanup" : [
@@ -426,11 +428,11 @@
             ],
             "sources" : [
                 {
-                    "type" : "archive",
-                    "url" : "https://github.com/gkarsay/parlatype/releases/download/v2.1/parlatype-2.1.tar.gz",
-                    "sha256" : "13f1f2895a3ae5bb8809bfd0608baa84138e81388d5648577aface7c808aebf6"
+                    "type" : "git",
+                    "path" : "../",
+                    "branch": "master"
                 }
             ]
         }
-    ],
+    ]
 }
