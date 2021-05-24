@@ -173,34 +173,33 @@ public_methods (void)
 	g_free (testpath);
 }
 
-static void
-test_is_valid (void)
+static int
+check_folder_for_configs (GFile *folder)
 {
-	PtConfig *config;
-	gchar    *path;
-	GFile    *folder;
-	GFile    *file;
 	GFileEnumerator *files;
-	int       num = 0;
-
-	path = g_test_build_filename (G_TEST_BUILT, "/", NULL);
-	folder = g_file_new_for_path (path);
+	GFile    *file;
+	PtConfig *config;
+	GError   *error = NULL;
+	int       num_tested = 0;
 
 	files = g_file_enumerate_children (folder,
                                            G_FILE_ATTRIBUTE_STANDARD_NAME,
                                            G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS,
                                            NULL,	/* cancellable */
-                                           NULL);
+                                           &error);
+	g_assert_no_error (error);
+
 	while (TRUE) {
 		GFileInfo *info;
-		if (!g_file_enumerator_iterate (files, &info, &file, NULL, NULL))
-			break;
+		g_file_enumerator_iterate (files, &info, &file, NULL, &error);
+		g_assert_no_error (error);
+
 		if (!info)
 			break;
 
 		const char *name = g_file_info_get_name (info);
 		if (g_str_has_suffix (name, ".asr")) {
-			num++;
+			num_tested++;
 			config = pt_config_new (file);
 			g_print ("Testing %s ", name);
 			if (g_str_has_prefix (name, "invalid"))
@@ -212,8 +211,38 @@ test_is_valid (void)
 		}
 	}
 
-	g_assert_cmpint (num, >, 1);
 	g_object_unref (files);
+	return num_tested;
+}
+
+static void
+crafted_valid (void)
+{
+	gchar *path;
+	GFile *folder;
+	int    num_tested;
+
+	path = g_test_build_filename (G_TEST_BUILT, G_DIR_SEPARATOR_S, NULL);
+	folder = g_file_new_for_path (path);
+	num_tested = check_folder_for_configs (folder);
+	g_assert_cmpint (num_tested, ==, 9);
+
+	g_object_unref (folder);
+	g_free (path);
+}
+
+static void
+dist_valid (void)
+{
+	gchar *path;
+	GFile *folder;
+	int    num_tested;
+
+	path = g_test_build_filename (G_TEST_DIST, "..", "..", "data", "asr", NULL);
+	folder = g_file_new_for_path (path);
+	num_tested = check_folder_for_configs (folder);
+	g_assert_cmpint (num_tested, ==, 5);
+
 	g_object_unref (folder);
 	g_free (path);
 }
@@ -226,7 +255,8 @@ main (int argc, char *argv[])
 	g_test_add_func ("/config/construct", construct);
 	g_test_add_func ("/config/static_methods", static_methods);
 	g_test_add_func ("/config/public_methods", public_methods);
-	g_test_add_func ("/config/is_valid", test_is_valid);
+	g_test_add_func ("/config/crafted_valid", crafted_valid);
+	g_test_add_func ("/config/dist_valid", dist_valid);
 	gtk_init (NULL, NULL);
 
 	return g_test_run ();
