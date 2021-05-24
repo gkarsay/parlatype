@@ -379,7 +379,7 @@ pt_config_get_other (PtConfig *config,
  *
  * Applies a configuration to a GStreamer plugin.
  *
- * Return value: TRUE, only for formally invalid configurations FALSE
+ * Return value: TRUE on success, FALSE if a parameter could not be set
  */
 gboolean
 pt_config_apply (PtConfig *config,
@@ -414,8 +414,18 @@ pt_config_apply (PtConfig *config,
 			if (!spec) {
 				g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
 				                 "MESSAGE", "Plugin doesn't have a property \"%s\"", keys[k]);
-				continue;
+				g_strfreev (keys);
+				g_object_thaw_notify (plugin);
+				return FALSE;
 			}
+			if ((spec->flags & G_PARAM_WRITABLE) == 0) {
+				g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+				                 "MESSAGE", "Property \"%s\" is not writable", keys[k]);
+				g_strfreev (keys);
+				g_object_thaw_notify (plugin);
+				return FALSE;
+			}
+
 			type = G_PARAM_SPEC_VALUE_TYPE(spec);
 			value = pt_config_get_value (config, groups[g], keys[k], type);
 			g_object_set_property (plugin, keys[k], &value);
