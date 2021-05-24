@@ -18,7 +18,7 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <pt-config.h>
-#include <pt-config.c>	/* for static methods */
+#include "mock-plugin.h"
 
 
 
@@ -60,56 +60,10 @@ construct (void)
 }
 
 static void
-static_methods (void)
+main_methods (void)
 {
 	PtConfig *config;
-	GFile    *testfile;
-	gchar    *testpath;
-
-	testpath = g_test_build_filename (G_TEST_BUILT, "config-test.asr", NULL);
-	testfile = g_file_new_for_path (testpath);
-	config = pt_config_new (testfile);
-
-	GValue value;
-
-	/* pt_config_get_value() works only on a formally valid config.
-	 * Don't test for illegal values. */
-
-	value = pt_config_get_value (config, "Parameters", "String", G_TYPE_STRING);
-	g_assert_true (G_VALUE_HOLDS (&value, G_TYPE_STRING));
-	g_assert_cmpstr (g_value_get_string (&value), ==, "Some String");
-	g_value_unset (&value);
-
-	value = pt_config_get_value (config, "Parameters", "Number", G_TYPE_INT);
-	g_assert_true (G_VALUE_HOLDS (&value, G_TYPE_INT));
-	g_assert_cmpint (g_value_get_int (&value), ==, 42);
-	g_value_unset (&value);
-
-	value = pt_config_get_value (config, "Parameters", "Boolean", G_TYPE_BOOLEAN);
-	g_assert_true (G_VALUE_HOLDS (&value, G_TYPE_BOOLEAN));
-	g_assert_true (g_value_get_boolean (&value));
-	g_value_unset (&value);
-
-	value = pt_config_get_value (config, "Files", "File", G_TYPE_NONE);
-	g_assert_true (G_VALUE_HOLDS (&value, G_TYPE_STRING));
-	g_assert_cmpstr (g_value_get_string (&value), ==, "/home/me/model/subdir/test.dict");
-	g_value_unset (&value);
-
-	value = pt_config_get_value (config, "Files", "Folder", G_TYPE_NONE);
-	g_assert_true (G_VALUE_HOLDS (&value, G_TYPE_STRING));
-	g_assert_cmpstr (g_value_get_string (&value), ==, "/home/me/model/subdir/subdir");
-	g_value_unset (&value);
-
-	g_object_unref (config);
-	g_object_unref (testfile);
-	g_free (testpath);
-}
-
-static void
-public_methods (void)
-{
-	PtConfig *config;
-	GFile    *testfile;
+	GFile    *testfile, *nullfile, *cmpfile;
 	gchar    *testpath;
 
 	testpath = g_test_build_filename (G_TEST_BUILT, "config-test.asr", NULL);
@@ -168,8 +122,20 @@ public_methods (void)
 	g_assert_cmpstr (other, ==, "de");
 	g_free (other);
 
+	/* Setting a NULL file and previous file again */
+	nullfile = g_file_new_for_path ("does-not-exist");
+	pt_config_set_file (config, nullfile);
+	g_assert_false (pt_config_is_valid (config));
+
+	pt_config_set_file (config,testfile);
+	g_assert_true (pt_config_is_valid (config));
+
+	cmpfile = pt_config_get_file (config);
+	g_assert_true (cmpfile == testfile);
+
 	g_object_unref (config);
 	g_object_unref (testfile);
+	g_object_unref (nullfile);
 	g_free (testpath);
 }
 
@@ -247,16 +213,62 @@ dist_valid (void)
 	g_free (path);
 }
 
+static void
+apply (void)
+{
+	PtConfig   *config;
+	GFile      *testfile;
+	gchar      *testpath;
+	MockPlugin *plugin;
+	gchar      *prop_file, *prop_string;
+	gint        prop_int;
+	gfloat      prop_float;
+	gdouble     prop_double;
+	gboolean    prop_bool;
+	gboolean    success;
+
+	testpath = g_test_build_filename (G_TEST_DIST, "data", "config-apply.asr", NULL);
+	testfile = g_file_new_for_path (testpath);
+	config = pt_config_new (testfile);
+
+	plugin = mock_plugin_new ();
+	success = pt_config_apply (config, G_OBJECT (plugin));
+	g_assert_true (success);
+
+	g_object_get (plugin, "file",   &prop_file,
+	                      "string", &prop_string,
+	                      "int",    &prop_int,
+	                      "float",  &prop_float,
+	                      "double", &prop_double,
+	                      "bool",   &prop_bool,
+	                      NULL);
+
+	g_assert_cmpstr (prop_file, ==, "/home/me/model/subdir/file.dat");
+	g_assert_cmpstr (prop_string, ==, "Example");
+	g_assert_cmpint (prop_int, ==, 42);
+	g_assert_cmpfloat_with_epsilon (prop_float, 0.42, 0.00001);
+	g_assert_cmpfloat_with_epsilon (prop_double, 0.42, 0.00001);
+	g_assert_true (prop_bool);
+
+	g_free (prop_file);
+	g_free (prop_string);
+	g_object_unref (plugin);
+	g_object_unref (config);
+	g_object_unref (testfile);
+	g_free (testpath);
+}
+
+
 int
 main (int argc, char *argv[])
 {
 	g_test_init (&argc, &argv, NULL);
 
 	g_test_add_func ("/config/construct", construct);
-	g_test_add_func ("/config/static_methods", static_methods);
-	g_test_add_func ("/config/public_methods", public_methods);
+	g_test_add_func ("/config/main_methods", main_methods);
 	g_test_add_func ("/config/crafted_valid", crafted_valid);
 	g_test_add_func ("/config/dist_valid", dist_valid);
+	g_test_add_func ("/config/apply", apply);
 	gtk_init (NULL, NULL);
 
 	return g_test_run ();

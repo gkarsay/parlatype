@@ -17,6 +17,8 @@ extra_sources = [
 	'../src/gst/gstptaudioasrbin.h',
 	'../src/gst/gstptaudioplaybin.c',
 	'../src/gst/gstptaudioplaybin.h',
+	'mock-plugin.c',
+	'mock-plugin.h',
 ]
 
 gen_prog = find_program('data/generate_config_data', required: true)
