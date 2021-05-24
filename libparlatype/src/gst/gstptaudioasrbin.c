@@ -73,13 +73,16 @@ gst_pt_audio_asr_bin_configure_asr (GstPtAudioAsrBin  *self,
                                     PtConfig         *config,
                                     GError          **error)
 {
+	GST_DEBUG_OBJECT (self, "configuring asr");
 	gchar *plugin;
 
 	plugin = pt_config_get_plugin (config);
 	if (!self->asr_plugin_name ||
 	    g_strcmp0 (self->asr_plugin_name, plugin) != 0) {
-		if (self->asr_plugin)
-			gst_object_unref (self->asr_plugin);
+		if (self->asr_plugin) {
+			GST_DEBUG_OBJECT (self, "removing previous plugin");
+			gst_bin_remove (GST_BIN (self), self->asr_plugin);
+		}
 		g_free (self->asr_plugin_name);
 		self->asr_plugin_name = NULL;
 		self->asr_plugin = make_element (plugin, plugin);
@@ -99,7 +102,6 @@ gst_pt_audio_asr_bin_configure_asr (GstPtAudioAsrBin  *self,
 	pt_config_apply (config, G_OBJECT (self->asr_plugin));
 	self->is_configured = TRUE;
 
-	g_free (plugin);
 	return TRUE;
 }
 
