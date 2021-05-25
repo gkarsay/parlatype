@@ -1820,47 +1820,6 @@ mute_changed (GObject    *object,
 	g_source_set_name_by_id (id, "[parlatype] notify_mute_idle_cb");
 }
 
-#define PROPAGATE_ERROR_NULL \
-if (earlier_error != NULL) {\
-	g_propagate_error (error, earlier_error);\
-	return NULL;\
-}
-
-#define PROPAGATE_ERROR_FALSE \
-if (earlier_error != NULL) {\
-	g_propagate_error (error, earlier_error);\
-	return FALSE;\
-}
-
-static gboolean
-pt_player_setup_pipeline (PtPlayer  *player,
-                          GError   **error)
-{
-	GError *earlier_error = NULL;
-
-	player->priv->play = _pt_make_element ("playbin", "play", &earlier_error);
-	PROPAGATE_ERROR_FALSE
-	player->priv->scaletempo = _pt_make_element ("scaletempo", "tempo", &earlier_error);
-	PROPAGATE_ERROR_FALSE
-
-	g_object_set (G_OBJECT (player->priv->play),
-			"audio-filter", player->priv->scaletempo, NULL);
-
-	player->priv->audio_bin = _pt_make_element ("ptaudiobin", "audiobin", &earlier_error);
-	PROPAGATE_ERROR_FALSE
-
-	g_object_set (G_OBJECT (player->priv->play),
-			"audio-sink", player->priv->audio_bin, NULL);
-
-	/* This is responsible for syncing system volume with Parlatype volume.
-	   Syncing is done only in Play state */
-	g_signal_connect (G_OBJECT (player->priv->play),
-			"notify::volume", G_CALLBACK (vol_changed), player);
-	g_signal_connect (G_OBJECT (player->priv->play),
-			"notify::mute", G_CALLBACK (mute_changed), player);
-	return TRUE;
-}
-
 /**
  * pt_player_setup_asr:
  * @player: a #PtPlayer
@@ -2143,16 +2102,18 @@ pt_player_get_property (GObject    *object,
 static void
 pt_player_init (PtPlayer *player)
 {
-	gst_init (NULL, NULL);
 	player->priv = pt_player_get_instance_private (player);
-	player->priv->play = NULL;
-	player->priv->timestamp_precision = PT_PRECISION_SECOND_10TH;
-	player->priv->timestamp_fixed = FALSE;
-	player->priv->wv = NULL;
-	player->priv->scaletempo = NULL;
-	player->priv->pos_mgr = pt_position_manager_new ();
-	player->priv->plugins = g_hash_table_new_full (g_str_hash, g_str_equal,
-	                                               g_free, NULL);
+
+	PtPlayerPrivate *priv = player->priv;
+
+	priv->timestamp_precision = PT_PRECISION_SECOND_10TH;
+	priv->timestamp_fixed = FALSE;
+	priv->wv = NULL;
+	priv->pos_mgr = pt_position_manager_new ();
+	priv->plugins = g_hash_table_new_full (g_str_hash, g_str_equal,
+	                                       g_free, NULL);
+
+	gst_init (NULL, NULL);
 
 	gst_pt_audio_bin_register ();
 #ifdef HAVE_POCKETSPHINX
@@ -2162,7 +2123,20 @@ pt_player_init (PtPlayer *player)
 	gst_ptdeepspeech_register ();
 #endif
 
-	pt_player_setup_pipeline (player, NULL);
+	priv->play       = _pt_make_element ("playbin",    "play",     NULL);
+	priv->scaletempo = _pt_make_element ("scaletempo", "tempo",    NULL);
+	priv->audio_bin  = _pt_make_element ("ptaudiobin", "audiobin", NULL);
+
+	g_object_set (G_OBJECT (priv->play),
+	              "audio-filter", priv->scaletempo,
+	              "audio-sink",   priv->audio_bin, NULL);
+
+	/* This is responsible for syncing system volume with Parlatype volume.
+	   Syncing is done only in Play state */
+	g_signal_connect (G_OBJECT (priv->play),
+			"notify::volume", G_CALLBACK (vol_changed), player);
+	g_signal_connect (G_OBJECT (priv->play),
+			"notify::mute", G_CALLBACK (mute_changed), player);
 }
 
 static void
