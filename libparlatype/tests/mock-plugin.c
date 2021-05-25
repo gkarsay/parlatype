@@ -43,7 +43,7 @@ enum
 
 static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
 
-G_DEFINE_TYPE_WITH_PRIVATE (MockPlugin, mock_plugin, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (MockPlugin, mock_plugin, GST_TYPE_ELEMENT)
 
 
 static void
@@ -134,9 +134,12 @@ mock_plugin_get_property (GObject    *object,
 static void
 mock_plugin_class_init (MockPluginClass *klass)
 {
-	G_OBJECT_CLASS (klass)->set_property = mock_plugin_set_property;
-	G_OBJECT_CLASS (klass)->get_property = mock_plugin_get_property;
-	G_OBJECT_CLASS (klass)->finalize     = mock_plugin_finalize;
+	GObjectClass    *object_class  = (GObjectClass *) klass;
+	GstElementClass *element_class = (GstElementClass *) klass;;
+
+	object_class->set_property = mock_plugin_set_property;
+	object_class->get_property = mock_plugin_get_property;
+	object_class->finalize     = mock_plugin_finalize;
 
 	obj_properties[PROP_FILE] =
 	g_param_spec_string (
@@ -178,6 +181,40 @@ mock_plugin_class_init (MockPluginClass *klass)
 			G_OBJECT_CLASS (klass),
 			N_PROPERTIES,
 			obj_properties);
+
+	gst_element_class_set_static_metadata (
+		element_class,
+		"Parlatype Mock Plugin",
+		"Filter/Audio",
+		"Just for testing",
+		"Gabor Karsay <gabor.karsay@gmx.at>");
+}
+
+static gboolean
+plugin_init (GstPlugin *plugin)
+{
+	if (!gst_element_register(plugin,
+	                          "ptmockplugin",
+	                          GST_RANK_NONE,
+	                          MOCK_TYPE_PLUGIN))
+		return FALSE;
+	return TRUE;
+}
+
+gboolean
+mock_plugin_register (void)
+{
+	return gst_plugin_register_static (
+			GST_VERSION_MAJOR,
+			GST_VERSION_MINOR,
+			"ptmockplugin",
+			"Parlatype Mock Plugin for testing",
+			plugin_init,
+			"1.0",
+			"LGPL",
+			"libparlatype",
+			"Parlatype",
+			"https://www.parlatype.org/");
 }
 
 MockPlugin *
