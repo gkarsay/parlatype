@@ -63,16 +63,21 @@ gst_pt_audio_asr_bin_configure_asr (GstPtAudioAsrBin  *self,
 	gchar *plugin;
 
 	plugin = pt_config_get_plugin (config);
-	if (!self->asr_plugin_name ||
-	    g_strcmp0 (self->asr_plugin_name, plugin) != 0) {
+
+	/* If current plugin name is unlike new plugin name (or NULL) create
+	 * the new plugin first */
+	if (g_strcmp0 (self->asr_plugin_name, plugin) != 0) {
 		if (self->asr_plugin) {
 			GST_DEBUG_OBJECT (self, "removing previous plugin");
 			gst_bin_remove (GST_BIN (self), self->asr_plugin);
 		}
-		g_free (self->asr_plugin_name);
-		self->asr_plugin_name = NULL;
+
 		self->asr_plugin = _pt_make_element (plugin, plugin, error);
+		g_free (self->asr_plugin_name);
+
 		if (!self->asr_plugin) {
+			self->asr_plugin_name = NULL;
+			self->is_configured = FALSE;
 			return FALSE;
 		}
 		self->asr_plugin_name = g_strdup (plugin);
@@ -84,6 +89,16 @@ gst_pt_audio_asr_bin_configure_asr (GstPtAudioAsrBin  *self,
 	self->is_configured = TRUE;
 
 	return TRUE;
+}
+
+static void
+gst_pt_audio_asr_bin_finalize (GObject *object)
+{
+	GstPtAudioAsrBin *self = GST_PT_AUDIO_ASR_BIN (object);
+
+	g_free (self->asr_plugin_name);
+
+	G_OBJECT_CLASS (parent_class)->finalize(object);
 }
 
 static void
@@ -115,6 +130,7 @@ gst_pt_audio_asr_bin_init (GstPtAudioAsrBin *bin)
 static void
 gst_pt_audio_asr_bin_class_init (GstPtAudioAsrBinClass *klass)
 {
+	G_OBJECT_CLASS (klass)->finalize = gst_pt_audio_asr_bin_finalize;
 }
 
 static gboolean
