@@ -34,6 +34,7 @@
 #include <glib/gi18n-lib.h>
 #include <gst/gst.h>
 #include <gst/audio/streamvolume.h>
+#include "gst/gst-helpers.h"
 #include "gst/gstptaudiobin.h"
 #ifdef HAVE_POCKETSPHINX
   #include "gst/gstparlasphinx.h"
@@ -1819,22 +1820,6 @@ mute_changed (GObject    *object,
 	g_source_set_name_by_id (id, "[parlatype] notify_mute_idle_cb");
 }
 
-static GstElement*
-make_element (gchar   *factoryname,
-              gchar   *name,
-              GError **error)
-{
-	GstElement *result;
-
-	result = gst_element_factory_make (factoryname, name);
-	if (!result)
-		g_set_error (error, GST_CORE_ERROR,
-		             GST_CORE_ERROR_MISSING_PLUGIN,
-			    _("Failed to load plugin “%s”."), factoryname);
-
-	return result;
-}
-
 #define PROPAGATE_ERROR_NULL \
 if (earlier_error != NULL) {\
 	g_propagate_error (error, earlier_error);\
@@ -1853,15 +1838,15 @@ pt_player_setup_pipeline (PtPlayer  *player,
 {
 	GError *earlier_error = NULL;
 
-	player->priv->play = make_element ("playbin", "play", &earlier_error);
+	player->priv->play = _pt_make_element ("playbin", "play", &earlier_error);
 	PROPAGATE_ERROR_FALSE
-	player->priv->scaletempo = make_element ("scaletempo", "tempo", &earlier_error);
+	player->priv->scaletempo = _pt_make_element ("scaletempo", "tempo", &earlier_error);
 	PROPAGATE_ERROR_FALSE
 
 	g_object_set (G_OBJECT (player->priv->play),
 			"audio-filter", player->priv->scaletempo, NULL);
 
-	player->priv->audio_bin = make_element ("ptaudiobin", "audiobin", &earlier_error);
+	player->priv->audio_bin = _pt_make_element ("ptaudiobin", "audiobin", &earlier_error);
 	PROPAGATE_ERROR_FALSE
 
 	g_object_set (G_OBJECT (player->priv->play),

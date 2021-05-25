@@ -42,6 +42,7 @@
 #include <gio/gio.h>
 #include <gst/gst.h>
 #include <gst/audio/streamvolume.h>
+#include "gst-helpers.h"
 #include "gstptaudioplaybin.h"
 
 
@@ -63,21 +64,6 @@ enum
 
 static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
 
-
-static GstElement*
-make_element (gchar   *factoryname,
-              gchar   *name)
-{
-	GstElement *result;
-
-	result = gst_element_factory_make (factoryname, name);
-	if (!result)
-		g_log_structured (
-			G_LOG_DOMAIN, G_LOG_LEVEL_CRITICAL, "MESSAGE",
-			_("Failed to load plugin “%s”."), factoryname);
-
-	return result;
-}
 
 #ifndef G_OS_WIN32
 static gboolean
@@ -109,8 +95,8 @@ gst_pt_audio_play_bin_init (GstPtAudioPlayBin *bin)
 	GstElement   *queue;
 	gchar        *sink;
 
-	capsfilter = make_element ("capsfilter", "audiofilter");
-	queue      = make_element ("queue",      "player_queue");
+	capsfilter = _pt_make_element ("capsfilter", "audiofilter",  NULL);
+	queue      = _pt_make_element ("queue",      "player_queue", NULL);
 
 	/* Choose an audiosink ourselves instead of relying on autoaudiosink.
 	 * It chose waveformsink on win32 (not a good choice) and it will be
@@ -128,7 +114,7 @@ gst_pt_audio_play_bin_init (GstPtAudioPlayBin *bin)
 	audiosink = gst_element_factory_make (sink, "audiosink");
 	if (!audiosink) {
 		sink = "autoaudiosink";
-		audiosink = make_element (sink, "audiosink");
+		audiosink = _pt_make_element (sink, "audiosink", NULL);
 	}
 
 	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,

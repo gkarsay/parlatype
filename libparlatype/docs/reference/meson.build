@@ -33,6 +33,7 @@ gnome.gtkdoc(
 		'parlatype-example.ui',
 	],
 	ignore_headers: [
+		'gst-helpers.h',
 		'gstparlasphinx.h',
 		'gstptaudioasrbin.h',
 		'gstptaudiobin.h',

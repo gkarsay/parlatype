@@ -11,6 +11,8 @@ test_data = [
 ]
 
 extra_sources = [
+	'../src/gst/gst-helpers.c',
+	'../src/gst/gst-helpers.h',
 	'../src/gst/gstptaudiobin.c',
 	'../src/gst/gstptaudiobin.h',
 	'../src/gst/gstptaudioasrbin.c',

@@ -17,6 +17,8 @@ marshal_h = marshalers[1]
 sources = [
 	gresources,
 	marshalers,
+	'gst/gst-helpers.c',
+	'gst/gst-helpers.h',
 	'gst/gstptaudiobin.c',
 	'gst/gstptaudiobin.h',
 	'gst/gstptaudioasrbin.c',

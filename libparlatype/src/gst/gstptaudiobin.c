@@ -51,6 +51,7 @@ Note 2: The original intent was to dynamically switch the tee element to either
 #include <gst/gst.h>
 #include <gst/audio/streamvolume.h>
 #include "pt-config.h"
+#include "gst-helpers.h"
 #include "gstptaudioasrbin.h"
 #include "gstptaudioplaybin.h"
 #include "gstptaudiobin.h"
@@ -74,22 +75,6 @@ enum
 
 static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
 
-
-
-static GstElement*
-make_element (gchar   *factoryname,
-              gchar   *name)
-{
-	GstElement *result;
-
-	result = gst_element_factory_make (factoryname, name);
-	if (!result)
-		g_log_structured (
-			G_LOG_DOMAIN, G_LOG_LEVEL_CRITICAL, "MESSAGE",
-			_("Failed to load plugin “%s”."), factoryname);
-
-	return result;
-}
 
 static void
 link_tee (GstPad     *tee_srcpad,
@@ -250,9 +235,9 @@ gst_pt_audio_bin_init (GstPtAudioBin *bin)
 	gst_pt_audio_play_bin_register ();
 	gst_pt_audio_asr_bin_register ();
 
-	bin->play_bin = make_element ("ptaudioplaybin", "player-audiobin");
-	bin->sphinx_bin = make_element("ptaudioasrbin", "sphinx-audiobin");
-	bin->tee = make_element ("tee", "tee");
+	bin->play_bin   = _pt_make_element ("ptaudioplaybin", "player-audiobin", NULL);
+	bin->sphinx_bin = _pt_make_element ("ptaudioasrbin",  "sphinx-audiobin", NULL);
+	bin->tee        = _pt_make_element ("tee",            "tee",             NULL);
 	bin->tee_playpad = gst_element_get_request_pad (bin->tee, "src_%u");
 	bin->tee_sphinxpad = gst_element_get_request_pad (bin->tee, "src_%u");
 

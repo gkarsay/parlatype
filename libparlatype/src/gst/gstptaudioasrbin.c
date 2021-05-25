@@ -36,6 +36,7 @@
 #include <gio/gio.h>
 #include <gst/gst.h>
 #include "pt-config.h"
+#include "gst-helpers.h"
 #include "gstptaudioasrbin.h"
 
 
@@ -46,21 +47,6 @@ GST_DEBUG_CATEGORY_STATIC (gst_pt_audio_asr_bin_debug);
 
 G_DEFINE_TYPE (GstPtAudioAsrBin, gst_pt_audio_asr_bin, GST_TYPE_BIN);
 
-
-static GstElement*
-make_element (gchar   *factoryname,
-              gchar   *name)
-{
-	GstElement *result;
-
-	result = gst_element_factory_make (factoryname, name);
-	if (!result)
-		g_log_structured (
-			G_LOG_DOMAIN, G_LOG_LEVEL_CRITICAL, "MESSAGE",
-			_("Failed to load plugin “%s”."), factoryname);
-
-	return result;
-}
 
 gboolean
 gst_pt_audio_asr_bin_is_configured (GstPtAudioAsrBin  *self)
@@ -85,13 +71,8 @@ gst_pt_audio_asr_bin_configure_asr (GstPtAudioAsrBin  *self,
 		}
 		g_free (self->asr_plugin_name);
 		self->asr_plugin_name = NULL;
-		self->asr_plugin = make_element (plugin, plugin);
+		self->asr_plugin = _pt_make_element (plugin, plugin, error);
 		if (!self->asr_plugin) {
-			g_set_error (error,
-			             GST_CORE_ERROR,
-			             GST_CORE_ERROR_MISSING_PLUGIN,
-			             _("Failed to load plugin “%s”."), plugin);
-			g_free (plugin);
 			return FALSE;
 		}
 		self->asr_plugin_name = g_strdup (plugin);
@@ -111,10 +92,10 @@ gst_pt_audio_asr_bin_init (GstPtAudioAsrBin *bin)
 	GstElement *queue;
 	GstElement *audioconvert;
 
-	queue              = make_element ("queue",         "sphinx_queue");
-	audioconvert       = make_element ("audioconvert",  "audioconvert");
-	bin->audioresample = make_element ("audioresample", "audioresample");
-	bin->fakesink      = make_element ("fakesink",      "fakesink");
+	queue              = _pt_make_element ("queue",         "sphinx_queue",  NULL);
+	audioconvert       = _pt_make_element ("audioconvert",  "audioconvert",  NULL);
+	bin->audioresample = _pt_make_element ("audioresample", "audioresample", NULL);
+	bin->fakesink      = _pt_make_element ("fakesink",      "fakesink",      NULL);
 
 	/* create audio output */
 	gst_bin_add_many (GST_BIN (bin), queue, audioconvert, bin->audioresample,
