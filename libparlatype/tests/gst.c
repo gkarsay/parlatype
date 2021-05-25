@@ -21,7 +21,60 @@
 #include "gst/gstptaudioasrbin.h"
 #include "gst/gstptaudioplaybin.h"
 #include "gst/gstptaudiobin.h"
+#include "mock-plugin.h"
 
+
+static void
+gst_audioasrbin (void)
+{
+
+	GstElement *asr;
+	PtConfig   *good, *bad;
+	GFile      *testfile;
+	gchar      *testpath;
+	GError     *error = NULL;
+	gboolean    success;
+
+	/* Create config with existing plugin */
+	testpath = g_test_build_filename (G_TEST_DIST, "data", "config-mock-plugin.asr", NULL);
+	testfile = g_file_new_for_path (testpath);
+	good = pt_config_new (testfile);
+	g_assert_true (pt_config_is_valid (good));
+	g_object_unref (testfile);
+	g_free (testpath);
+
+	/* Create config with missing plugin*/
+	testpath = g_test_build_filename (G_TEST_DIST, "data", "config-test.asr", NULL);
+	testfile = g_file_new_for_path (testpath);
+	bad = pt_config_new (testfile);
+	g_assert_true (pt_config_is_valid (bad));
+	g_object_unref (testfile);
+	g_free (testpath);
+
+	/* Create Test-Element */
+	asr = gst_element_factory_make ("ptaudioasrbin", "testbin");
+	g_assert_nonnull (asr);
+	g_assert_false (GST_PT_AUDIO_ASR_BIN (asr)->is_configured);
+
+	/* Apply existing plugin */
+	success = gst_pt_audio_asr_bin_configure_asr (GST_PT_AUDIO_ASR_BIN (asr), good, &error);
+	g_assert_true (success);
+	g_assert_no_error (error);
+	g_assert_true (GST_PT_AUDIO_ASR_BIN (asr)->is_configured);
+	g_assert_true (gst_pt_audio_asr_bin_is_configured (GST_PT_AUDIO_ASR_BIN (asr)));
+
+	/* Apply missing plugin */
+	success = gst_pt_audio_asr_bin_configure_asr (GST_PT_AUDIO_ASR_BIN (asr), bad, &error);
+	g_assert_false (success);
+	g_assert_error (error, GST_CORE_ERROR, GST_CORE_ERROR_MISSING_PLUGIN);
+	g_assert_false (GST_PT_AUDIO_ASR_BIN (asr)->is_configured);
+	g_assert_false (gst_pt_audio_asr_bin_is_configured (GST_PT_AUDIO_ASR_BIN (asr)));
+	g_clear_error (&error);
+
+	g_object_unref (good);
+	g_object_unref (bad);
+	gst_object_unref (asr);
+}
 
 static void
 gst_audioplaybin_new (void)
@@ -85,7 +138,9 @@ main (int argc, char *argv[])
 	gst_pt_audio_asr_bin_register ();
 	gst_pt_audio_play_bin_register ();
 	gst_pt_audio_bin_register ();
+	mock_plugin_register ();
 
+	g_test_add_func ("/gst/audioasrbin_new", gst_audioasrbin);
 	g_test_add_func ("/gst/audioplaybin_new", gst_audioplaybin_new);
 	g_test_add_func ("/gst/audiobin_new", gst_audiobin_new);
 

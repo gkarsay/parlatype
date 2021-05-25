@@ -1,0 +1,16 @@
+[Model]
+Name=Test with mock plugin
+Plugin=ptmockplugin
+BaseFolder=/home/me/model
+Language=de
+URL=
+
+[Files]
+file=subdir;file.dat
+
+[Parameters]
+string=Example
+int=42
+double=0.42
+float=0.42
+bool=true
