@@ -20,7 +20,7 @@
  *
  * An audio bin that can be connected to a playbin element via playbin's
  * audio-filter property. It supports normal playback and silent ASR output
- * using a parlasphinx element.
+ * using an ASR plugin.
  * .----------------------------------.
  * | pt_audio_bin                     |
  * | .------.   .-------------------. |
@@ -35,8 +35,8 @@
  * | '------'   '-------------------' |
  * '----------------------------------'
 
-Note 1: It doesn’t work if play_bin or sphinx_bin are added to audio_bin but are
-        not linked! Either link it or remove it from bin!
+Note 1: It doesn’t work if play_audio_play_bin or pt_audio_asr_bin are added to
+        pt_audio_bin but are not linked! Either link it or remove it from bin!
 
 Note 2: The original intent was to dynamically switch the tee element to either
         playback or ASR. Rethink this design, maybe tee element can be completely
@@ -130,9 +130,9 @@ gst_pt_audio_bin_setup_asr (GstPtAudioBin  *bin,
                             gboolean        state)
 {
 	if (state)
-		add_element (GST_BIN (bin), bin->sphinx_bin, bin->tee_sphinxpad);
+		add_element (GST_BIN (bin), bin->asr_bin, bin->tee_asrpad);
 	else
-		remove_element (GST_BIN (bin), "sphinx-audiobin");
+		remove_element (GST_BIN (bin), "asr-audiobin");
 }
 
 gboolean
@@ -145,7 +145,7 @@ gst_pt_audio_bin_configure_asr (GstPtAudioBin  *self,
 	gboolean result;
 	GstPtAudioAsrBin *bin;
 
-	bin = GST_PT_AUDIO_ASR_BIN (self->sphinx_bin);
+	bin = GST_PT_AUDIO_ASR_BIN (self->asr_bin);
 	result = gst_pt_audio_asr_bin_configure_asr (bin, config, error);
 
 	return result;
@@ -158,7 +158,7 @@ gst_pt_audio_bin_setup_player (GstPtAudioBin  *bin,
 	if (state)
 		add_element (GST_BIN (bin), bin->play_bin, bin->tee_playpad);
 	else
-		remove_element (GST_BIN (bin), "player-audiobin");
+		remove_element (GST_BIN (bin), "play-audiobin");
 }
 
 static void
@@ -172,10 +172,10 @@ gst_pt_audio_bin_dispose (GObject *object)
 		add_element (GST_BIN (bin),
 		             bin->play_bin, bin->tee_playpad);
 		add_element (GST_BIN (bin),
-		             bin->sphinx_bin, bin->tee_sphinxpad);
+		             bin->asr_bin, bin->tee_asrpad);
 
 		gst_object_unref (GST_OBJECT (bin->tee_playpad));
-		gst_object_unref (GST_OBJECT (bin->tee_sphinxpad));
+		gst_object_unref (GST_OBJECT (bin->tee_asrpad));
 	}
 
 	G_OBJECT_CLASS (gst_pt_audio_bin_parent_class)->dispose (object);
@@ -235,11 +235,11 @@ gst_pt_audio_bin_init (GstPtAudioBin *bin)
 	gst_pt_audio_play_bin_register ();
 	gst_pt_audio_asr_bin_register ();
 
-	bin->play_bin   = _pt_make_element ("ptaudioplaybin", "player-audiobin", NULL);
-	bin->sphinx_bin = _pt_make_element ("ptaudioasrbin",  "sphinx-audiobin", NULL);
-	bin->tee        = _pt_make_element ("tee",            "tee",             NULL);
+	bin->play_bin = _pt_make_element ("ptaudioplaybin", "play-audiobin", NULL);
+	bin->asr_bin  = _pt_make_element ("ptaudioasrbin",  "asr-audiobin",  NULL);
+	bin->tee      = _pt_make_element ("tee",            "tee",           NULL);
 	bin->tee_playpad = gst_element_get_request_pad (bin->tee, "src_%u");
-	bin->tee_sphinxpad = gst_element_get_request_pad (bin->tee, "src_%u");
+	bin->tee_asrpad  = gst_element_get_request_pad (bin->tee, "src_%u");
 
 	gst_bin_add (GST_BIN (bin), bin->tee);
 

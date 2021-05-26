@@ -107,7 +107,7 @@ gst_pt_audio_asr_bin_init (GstPtAudioAsrBin *bin)
 	GstElement *queue;
 	GstElement *audioconvert;
 
-	queue              = _pt_make_element ("queue",         "sphinx_queue",  NULL);
+	queue              = _pt_make_element ("queue",         "asr_queue",     NULL);
 	audioconvert       = _pt_make_element ("audioconvert",  "audioconvert",  NULL);
 	bin->audioresample = _pt_make_element ("audioresample", "audioresample", NULL);
 	bin->fakesink      = _pt_make_element ("fakesink",      "fakesink",      NULL);

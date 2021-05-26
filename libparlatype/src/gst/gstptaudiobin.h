@@ -38,10 +38,10 @@ struct _GstPtAudioBin
 	GstBin parent;
 
 	GstElement *play_bin;
-	GstElement *sphinx_bin;
+	GstElement *asr_bin;
 	GstElement *tee;
 	GstPad     *tee_playpad;
-	GstPad     *tee_sphinxpad;
+	GstPad     *tee_asrpad;
 
 	/* properties */
 	gboolean    player;
