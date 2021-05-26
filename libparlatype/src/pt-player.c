@@ -1064,24 +1064,6 @@ pt_player_set_mute (PtPlayer *player,
 }
 
 /**
- * pt_player_mute_volume:
- * @player: a #PtPlayer
- * @mute: a gboolean
- *
- * Mute the player (with TRUE) or set it back to normal volume (with FALSE).
- * This remembers the volume level, so you don’t have to keep track of the old value.
- *
- * Since: 1.4
- * Deprecated: 2.1: Use pt_player_set_mute() instead.
- */
-void
-pt_player_mute_volume (PtPlayer *player,
-                       gboolean  mute)
-{
-	pt_player_set_mute (player, mute);
-}
-
-/**
  * pt_player_get_position:
  * @player: a #PtPlayer
  *
