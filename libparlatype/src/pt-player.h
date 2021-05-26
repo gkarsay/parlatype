@@ -90,9 +90,6 @@ gint		pt_player_get_back		(PtPlayer *player);
 gint		pt_player_get_forward		(PtPlayer *player);
 void		pt_player_jump_to_position	(PtPlayer *player,
 						 gint      milliseconds);
-void		pt_player_jump_to_permille	(PtPlayer *player,
-						 guint     permille);
-gint		pt_player_get_permille		(PtPlayer *player);
 void		pt_player_set_speed		(PtPlayer *player,
 						 gdouble   speed);
 gdouble		pt_player_get_volume		(PtPlayer *player);

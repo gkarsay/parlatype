@@ -873,61 +873,6 @@ pt_player_jump_to_position (PtPlayer *player,
 }
 
 /**
- * pt_player_jump_to_permille:
- * @player: a #PtPlayer
- * @permille: scale position between 0 and 1000
- *
- * This is used for scale widgets. Start of stream is at 0, end of stream is
- * at 1000. This will jump to the given position. If your widget uses a different
- * scale, it’s up to you to convert it to 1/1000. Values beyond 1000 are not
- * allowed, values outside the selection are ignored.
- *
- * Since: 1.4
- */
-void
-pt_player_jump_to_permille (PtPlayer *player,
-                            guint     permille)
-{
-	g_return_if_fail (PT_IS_PLAYER (player));
-	g_return_if_fail (permille <= 1000);
-
-	gint64 new;
-
-	new = player->priv->dur * (gint64) permille / 1000;
-	if (new > player->priv->segend || new < player->priv->segstart)
-		return;
-
-	pt_player_seek (player, new);
-}
-
-/**
- * pt_player_get_permille:
- * @player: a #PtPlayer
- *
- * This is used for scale widgets. If the scale has to synchronize with the
- * current position in stream, this gives the position on a scale between 0 and
- * 1000.
- *
- * Failure in querying the position returns -1.
- *
- * Return value: a scale position between 0 and 1000 or -1 on failure
- *
- * Since: 1.4
- */
-gint
-pt_player_get_permille (PtPlayer *player)
-{
-	g_return_val_if_fail (PT_IS_PLAYER (player), -1);
-
-	gint64 pos;
-
-	if (!pt_player_query_position (player, &pos))
-		return -1;
-
-	return (gfloat) pos / (gfloat) player->priv->dur * 1000;
-}
-
-/**
  * pt_player_set_speed:
  * @player: a #PtPlayer
  * @speed: speed
