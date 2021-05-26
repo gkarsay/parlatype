@@ -120,6 +120,10 @@ player_new (void)
 	g_assert_cmpstr (t_delimiter, ==, "#");
 	g_assert_cmpstr (t_separator, ==, ".");
 
+	g_assert_cmpint (pt_player_get_pause (testplayer), ==, pause);
+	g_assert_cmpint (pt_player_get_back (testplayer), ==, back);
+	g_assert_cmpint (pt_player_get_forward (testplayer), ==, forward);
+
 	g_free (t_delimiter);
 	g_free (t_separator);
 	g_object_unref (testplayer);
