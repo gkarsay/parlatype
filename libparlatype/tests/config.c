@@ -21,7 +21,6 @@
 #include "mock-plugin.h"
 
 
-
 /* Tests -------------------------------------------------------------------- */
 
 static void
@@ -89,7 +88,7 @@ main_methods (void)
 	g_assert_cmpstr (name, ==, "Test Model");
 
 	plugin = pt_config_get_plugin (config);
-	g_assert_cmpstr (plugin, ==, "parlasphinx");
+	g_assert_cmpstr (plugin, ==, "unknown-plugin");
 
 	base = pt_config_get_base_folder (config);
 	g_assert_cmpstr (base, ==, "/home/me/model");

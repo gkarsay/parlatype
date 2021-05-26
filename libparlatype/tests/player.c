@@ -18,6 +18,7 @@
 #include <glib.h>
 #include <gst/gst.h> /* error domain */
 #include <pt-player.h>
+#include "mock-plugin.h"
 
 
 /* Fixture ------------------------------------------------------------------ */
@@ -490,6 +491,48 @@ player_timestrings (PtPlayerFixture *fixture,
 	g_free (timestring);
 }
 
+static void
+player_config_loadable (void)
+{
+	PtPlayer *testplayer;
+	PtConfig *good, *bad;
+	GFile    *testfile;
+	gchar    *testpath;
+	gboolean  success;
+
+	/* Create player */
+	testplayer = pt_player_new ();
+	pt_player_setup_player (testplayer, TRUE);
+	g_assert_true (PT_IS_PLAYER (testplayer));
+	mock_plugin_register ();
+
+	/* Create config with existing plugin */
+	testpath = g_test_build_filename (G_TEST_DIST, "data", "config-mock-plugin.asr", NULL);
+	testfile = g_file_new_for_path (testpath);
+	good = pt_config_new (testfile);
+	g_assert_true (pt_config_is_valid (good));
+	g_object_unref (testfile);
+	g_free (testpath);
+
+	/* Create config with missing plugin*/
+	testpath = g_test_build_filename (G_TEST_DIST, "data", "config-test.asr", NULL);
+	testfile = g_file_new_for_path (testpath);
+	bad = pt_config_new (testfile);
+	g_assert_true (pt_config_is_valid (bad));
+	g_object_unref (testfile);
+	g_free (testpath);
+
+	success = pt_player_config_is_loadable (testplayer, good);
+	g_assert_true (success);
+
+	success = pt_player_config_is_loadable (testplayer, bad);
+	g_assert_false (success);
+
+	g_object_unref (good);
+	g_object_unref (bad);
+	g_object_unref (testplayer);
+}
+
 int
 main (int argc, char *argv[])
 {
@@ -509,6 +552,7 @@ main (int argc, char *argv[])
 	g_test_add ("/player/timestrings", PtPlayerFixture, NULL,
 	            pt_player_fixture_set_up, player_timestrings,
 	            pt_player_fixture_tear_down);
+	g_test_add_func ("/player/config-loadable", player_config_loadable);
 
 	return g_test_run ();
 }

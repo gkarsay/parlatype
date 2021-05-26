@@ -1,6 +1,6 @@
 [Model]
 Name=Test Model
-Plugin=parlasphinx
+Plugin=unknown-plugin
 BaseFolder=/home/me/model
 Language=de
 URL=

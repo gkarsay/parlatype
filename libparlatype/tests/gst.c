@@ -21,6 +21,7 @@
 #include "gst/gstptaudioasrbin.h"
 #include "gst/gstptaudioplaybin.h"
 #include "gst/gstptaudiobin.h"
+#include "config.h"
 #include "mock-plugin.h"
 
 
