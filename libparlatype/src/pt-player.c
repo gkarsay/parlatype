@@ -23,8 +23,7 @@
  * PtPlayer is the GStreamer backend for Parlatype. Construct it with #pt_player_new().
  * Then you have to open a file with pt_player_open_uri().
  *
- * The internal time unit in PtPlayer are milliseconds and for scale widgets there
- * is a scale from 0 to 1000. Use it to jump to a position or to update your widget.
+ * The internal time unit in PtPlayer are milliseconds.
  */
 
 
@@ -1760,7 +1759,7 @@ mute_changed (GObject    *object,
  * To get the results, connect to the #PtPlayer::asr-hypothesis and/or
  * #PtPlayer::asr-final signal. Start recognition with pt_player_play().
  *
- * Since: x.x
+ * Since: 3.0
  */
 void
 pt_player_setup_asr (PtPlayer  *player,
@@ -1789,7 +1788,7 @@ pt_player_setup_asr (PtPlayer  *player,
  *
  * Return value: TRUE on success, otherwise FALSE
  *
- * Since: x.x
+ * Since: 3.0
  */
 gboolean
 pt_player_configure_asr (PtPlayer  *player,
@@ -1816,7 +1815,7 @@ pt_player_configure_asr (PtPlayer  *player,
  *
  * Return value: TRUE on success, otherwise FALSE
  *
- * Since: x.x
+ * Since: 3.0
  */
 gboolean
 pt_player_config_is_loadable (PtPlayer *player,
@@ -1862,7 +1861,7 @@ pt_player_config_is_loadable (PtPlayer *player,
  *
  * Setup the GStreamer pipeline for playback.
  *
- * Since: x.x
+ * Since: 3.0
  */
 void
 pt_player_setup_player (PtPlayer  *player,
