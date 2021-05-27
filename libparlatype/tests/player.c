@@ -392,10 +392,12 @@ player_volume_speed (PtPlayerFixture *fixture,
 	pt_player_set_mute (fixture->testplayer, TRUE);
 	g_object_get (fixture->testplayer, "volume", &volume, NULL);
 	g_assert_cmpfloat_with_epsilon (volume, 0.7, 0.00001);
+	g_assert_true (pt_player_get_mute (fixture->testplayer));
 
 	pt_player_set_mute (fixture->testplayer, FALSE);
 	g_object_get (fixture->testplayer, "volume", &volume, NULL);
 	g_assert_cmpfloat_with_epsilon (volume, 0.7, 0.00001);
+	g_assert_false (pt_player_get_mute (fixture->testplayer));
 
 	/* check bind property */
 	bind_player = pt_player_new ();
