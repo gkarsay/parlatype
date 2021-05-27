@@ -46,8 +46,30 @@ struct _PtConfigClass
 	GObjectClass parent_class;
 };
 
+/**
+ * PT_ERROR:
+ *
+ * Error domain for Parlatype. Errors in this domain will be from the
+ * #PtError enumeration. See #GError for more information on error domains.
+ */
+#define PT_ERROR pt_error_quark ()
+
+/**
+ * PtError:
+ * @PT_ERROR_PLUGIN_MISSING_PROPERTY: The plugin doesn't have a property.
+ * @PT_ERROR_PLUGIN_NOT_WRITABLE: The plugin's property is not writable.
+ * @PT_ERROR_PLUGIN_WRONG_VALUE: The value is not valid for the property.
+ *
+ * Error codes for Parlatype in the PT_ERROR domain.
+ */
+typedef enum {
+	PT_ERROR_PLUGIN_MISSING_PROPERTY,
+	PT_ERROR_PLUGIN_NOT_WRITABLE,
+	PT_ERROR_PLUGIN_WRONG_VALUE,
+} PtError;
 
 GType		pt_config_get_type		(void) G_GNUC_CONST;
+GQuark		pt_error_quark			(void);
 
 gchar*		pt_config_get_name		(PtConfig *config);
 gboolean	pt_config_set_name		(PtConfig *config,
@@ -66,7 +88,8 @@ void            pt_config_set_file              (PtConfig *config,
 						 GFile    *file);
 
 gboolean	pt_config_apply			(PtConfig *config,
-						 GObject  *plugin);
+						 GObject  *plugin,
+						 GError  **error);
 gboolean	pt_config_is_valid		(PtConfig *config);
 gboolean	pt_config_is_installed		(PtConfig *config);
 PtConfig*	pt_config_new			(GFile *file);

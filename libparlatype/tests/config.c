@@ -224,15 +224,19 @@ apply (void)
 	gfloat      prop_float;
 	gdouble     prop_double;
 	gboolean    prop_bool;
+	GError     *error = NULL;
 	gboolean    success;
 
 	testpath = g_test_build_filename (G_TEST_DIST, "data", "config-apply.asr", NULL);
 	testfile = g_file_new_for_path (testpath);
 	config = pt_config_new (testfile);
+	g_object_unref (testfile);
+	g_free (testpath);
 
 	plugin = mock_plugin_new ();
-	success = pt_config_apply (config, G_OBJECT (plugin));
+	success = pt_config_apply (config, G_OBJECT (plugin), &error);
 	g_assert_true (success);
+	g_assert_no_error (error);
 
 	g_object_get (plugin, "file",   &prop_file,
 	                      "string", &prop_string,
@@ -251,10 +255,48 @@ apply (void)
 
 	g_free (prop_file);
 	g_free (prop_string);
-	g_object_unref (plugin);
 	g_object_unref (config);
+
+	/* Test for error 1 */
+	testpath = g_test_build_filename (G_TEST_DIST, "data", "config-apply-error1.asr", NULL);
+	testfile = g_file_new_for_path (testpath);
+	config = pt_config_new (testfile);
 	g_object_unref (testfile);
 	g_free (testpath);
+
+	success = pt_config_apply (config, G_OBJECT (plugin), &error);
+	g_assert_false (success);
+	g_assert_error (error, PT_ERROR, PT_ERROR_PLUGIN_MISSING_PROPERTY);
+	g_clear_error (&error);
+	g_object_unref (config);
+
+	/* Test for error 2 */
+	testpath = g_test_build_filename (G_TEST_DIST, "data", "config-apply-error2.asr", NULL);
+	testfile = g_file_new_for_path (testpath);
+	config = pt_config_new (testfile);
+	g_object_unref (testfile);
+	g_free (testpath);
+
+	success = pt_config_apply (config, G_OBJECT (plugin), &error);
+	g_assert_false (success);
+	g_assert_error (error, PT_ERROR, PT_ERROR_PLUGIN_NOT_WRITABLE);
+	g_clear_error (&error);
+	g_object_unref (config);
+
+	/* Test for error 3 */
+	testpath = g_test_build_filename (G_TEST_DIST, "data", "config-apply-error3.asr", NULL);
+	testfile = g_file_new_for_path (testpath);
+	config = pt_config_new (testfile);
+	g_object_unref (testfile);
+	g_free (testpath);
+
+	success = pt_config_apply (config, G_OBJECT (plugin), &error);
+	g_assert_false (success);
+	g_assert_error (error, PT_ERROR, PT_ERROR_PLUGIN_WRONG_VALUE);
+	g_clear_error (&error);
+	g_object_unref (config);
+
+	g_object_unref (plugin);
 }
 
 

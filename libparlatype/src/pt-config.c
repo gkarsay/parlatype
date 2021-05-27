@@ -17,6 +17,8 @@
 
 #include "config.h"
 #include <gio/gio.h>
+#define GETTEXT_PACKAGE GETTEXT_LIB
+#include <glib/gi18n-lib.h>
 #define GNOME_DESKTOP_USE_UNSTABLE_API
 #include <libgnome-desktop/gnome-languages.h>
 #include "pt-config.h"
@@ -73,6 +75,12 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtConfig, pt_config, G_TYPE_OBJECT)
  * and unref the config object.
  */
 
+
+GQuark
+pt_error_quark (void)
+{
+	return g_quark_from_static_string ("pt-error-quark");
+}
 
 static gboolean
 pt_config_save (PtConfig *config)
@@ -376,6 +384,7 @@ pt_config_get_other (PtConfig *config,
  * pt_config_apply:
  * @config: a configuration instance
  * @plugin: the GStreamer ASR plugin
+ * @error: (nullable): return location for an error, or NULL
  *
  * Applies a configuration to a GStreamer plugin.
  *
@@ -383,11 +392,13 @@ pt_config_get_other (PtConfig *config,
  */
 gboolean
 pt_config_apply (PtConfig *config,
-                 GObject  *plugin)
+                 GObject  *plugin,
+                 GError  **error)
 {
 	g_return_val_if_fail (PT_IS_CONFIG (config), FALSE);
 	g_return_val_if_fail (config->priv->is_valid, FALSE);
 	g_return_val_if_fail (G_IS_OBJECT (plugin), FALSE);
+	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
 	gchar     **keys = NULL;
 	GParamSpec *spec;
@@ -412,15 +423,19 @@ pt_config_apply (PtConfig *config,
 		for (int k = 0; keys[k] != NULL; k++) {
 			spec = g_object_class_find_property (G_OBJECT_GET_CLASS(plugin), keys[k]);
 			if (!spec) {
-				g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
-				                 "MESSAGE", "Plugin doesn't have a property \"%s\"", keys[k]);
+				g_set_error (error,
+				             PT_ERROR,
+				             PT_ERROR_PLUGIN_MISSING_PROPERTY,
+				             _("Plugin doesn’t have a property “%s”"), keys[k]);
 				g_strfreev (keys);
 				g_object_thaw_notify (plugin);
 				return FALSE;
 			}
 			if ((spec->flags & G_PARAM_WRITABLE) == 0) {
-				g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
-				                 "MESSAGE", "Property \"%s\" is not writable", keys[k]);
+				g_set_error (error,
+				             PT_ERROR,
+				             PT_ERROR_PLUGIN_NOT_WRITABLE,
+				             _("Plugin property “%s” is not writable"), keys[k]);
 				g_strfreev (keys);
 				g_object_thaw_notify (plugin);
 				return FALSE;
@@ -428,6 +443,19 @@ pt_config_apply (PtConfig *config,
 
 			type = G_PARAM_SPEC_VALUE_TYPE(spec);
 			value = pt_config_get_value (config, groups[g], keys[k], type);
+
+			if (g_param_value_validate (spec, &value)) {
+				/* TRUE == modifying value was necessary == value is not valid */
+				g_set_error (error,
+				             PT_ERROR,
+				             PT_ERROR_PLUGIN_WRONG_VALUE,
+				             _("Value for property “%s” is not valid"), keys[k]);
+				g_strfreev (keys);
+				g_value_unset (&value);
+				g_object_thaw_notify (plugin);
+				return FALSE;
+			}
+
 			g_object_set_property (plugin, keys[k], &value);
 			g_value_unset (&value);
 		}

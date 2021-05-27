@@ -112,6 +112,7 @@ pt_config_get_plugin
 pt_config_get_lang_code
 pt_config_get_lang_name
 pt_config_get_other
+PtError
 <SUBSECTION Standard>
 PT_CONFIG
 PT_IS_CONFIG
@@ -119,4 +120,6 @@ PT_TYPE_CONFIG
 PtConfigClass
 PtConfigPrivate
 pt_config_get_type
+pt_error_quark
+PT_ERROR
 </SECTION>

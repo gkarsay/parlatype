@@ -60,7 +60,8 @@ gst_pt_audio_asr_bin_configure_asr (GstPtAudioAsrBin  *self,
                                     GError          **error)
 {
 	GST_DEBUG_OBJECT (self, "configuring asr");
-	gchar *plugin;
+	gchar    *plugin;
+	gboolean  success;
 
 	plugin = pt_config_get_plugin (config);
 
@@ -85,10 +86,10 @@ gst_pt_audio_asr_bin_configure_asr (GstPtAudioAsrBin  *self,
 		gst_element_link_many (self->audioresample, self->asr_plugin, self->fakesink, NULL);
 	}
 
-	pt_config_apply (config, G_OBJECT (self->asr_plugin));
-	self->is_configured = TRUE;
+	success = pt_config_apply (config, G_OBJECT (self->asr_plugin), error);
+	self->is_configured = success;
 
-	return TRUE;
+	return success;
 }
 
 static void

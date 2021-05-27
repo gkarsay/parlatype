@@ -26,6 +26,7 @@ struct _MockPluginPrivate
 	gfloat    prop_float;
 	gdouble   prop_double;
 	gboolean  prop_bool;
+	gboolean  prop_not_writable;
 };
 
 enum
@@ -37,6 +38,7 @@ enum
 	PROP_FLOAT,
 	PROP_DOUBLE,
 	PROP_BOOL,
+	PROP_NOT_WRITABLE,
 	N_PROPERTIES
 };
 
@@ -92,6 +94,9 @@ mock_plugin_set_property (GObject      *object,
 	case PROP_BOOL:
 		self->priv->prop_bool   = g_value_get_boolean (value);
 		break;
+	case PROP_NOT_WRITABLE:
+		self->priv->prop_not_writable = g_value_get_int (value);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -125,6 +130,9 @@ mock_plugin_get_property (GObject    *object,
 	case PROP_BOOL:
 		g_value_set_boolean (value, self->priv->prop_bool);
 		break;
+	case PROP_NOT_WRITABLE:
+		g_value_set_int (value, self->priv->prop_not_writable);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -156,7 +164,7 @@ mock_plugin_class_init (MockPluginClass *klass)
 	obj_properties[PROP_INT] =
 	g_param_spec_int (
 			"int", "int", "int",
-			G_MININT, G_MAXINT, 0,
+			-100, 100, 0,
 			G_PARAM_READWRITE);
 
 	obj_properties[PROP_FLOAT] =
@@ -176,6 +184,12 @@ mock_plugin_class_init (MockPluginClass *klass)
 			"bool", "bool", "bool",
 			FALSE,
 			G_PARAM_READWRITE);
+
+	obj_properties[PROP_NOT_WRITABLE] =
+	g_param_spec_int (
+			"not-writable", "not-writable", "not-writable",
+			G_MININT, G_MAXINT, 0,
+			G_PARAM_READABLE);
 
 	g_object_class_install_properties (
 			G_OBJECT_CLASS (klass),
