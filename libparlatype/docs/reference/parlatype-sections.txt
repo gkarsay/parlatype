@@ -28,8 +28,6 @@ pt_player_get_volume
 pt_player_set_volume
 pt_player_get_mute
 pt_player_set_mute
-pt_player_rewind
-pt_player_fast_forward
 pt_player_get_position
 pt_player_get_duration
 pt_player_get_uri

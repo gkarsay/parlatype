@@ -98,10 +98,6 @@ void		pt_player_set_volume		(PtPlayer *player,
 gboolean	pt_player_get_mute		(PtPlayer *player);
 void		pt_player_set_mute		(PtPlayer *player,
 						 gboolean  mute);
-void		pt_player_rewind		(PtPlayer *player,
-						 gdouble   speed);
-void		pt_player_fast_forward		(PtPlayer *player,
-						 gdouble   speed);
 gint64		pt_player_get_position		(PtPlayer *player);
 gint64		pt_player_get_duration		(PtPlayer *player);
 gchar*		pt_player_get_uri		(PtPlayer *player);
