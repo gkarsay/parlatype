@@ -216,6 +216,26 @@ player_open_ogg (PtPlayerFixture *fixture,
 }
 
 static void
+player_selections (PtPlayerFixture *fixture,
+                   gconstpointer    user_data)
+{
+	/* set, get and clear a selection */
+
+	gboolean selection;
+
+	selection = pt_player_selection_active (fixture->testplayer);
+	g_assert_false (selection);
+
+	pt_player_set_selection (fixture->testplayer, 1000, 2000);
+	selection = pt_player_selection_active (fixture->testplayer);
+	g_assert_true (selection);
+
+	pt_player_clear_selection (fixture->testplayer);
+	selection = pt_player_selection_active (fixture->testplayer);
+	g_assert_false (selection);
+}
+
+static void
 player_timestamps (PtPlayerFixture *fixture,
 		   gconstpointer    user_data)
 {
@@ -548,6 +568,9 @@ main (int argc, char *argv[])
 	g_test_add_func ("/player/open-fail", player_open_fail);
 	g_test_add ("/player/open-ogg", PtPlayerFixture, NULL,
 	            pt_player_fixture_set_up, player_open_ogg,
+	            pt_player_fixture_tear_down);
+	g_test_add ("/player/selections", PtPlayerFixture, NULL,
+	            pt_player_fixture_set_up, player_selections,
 	            pt_player_fixture_tear_down);
 	g_test_add ("/player/timestamps", PtPlayerFixture, NULL,
 	            pt_player_fixture_set_up, player_timestamps,
