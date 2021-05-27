@@ -213,6 +213,8 @@ pt_config_set_string (PtConfig *config,
  * The human-visible name to identify a configuration.
  *
  * Return value: (transfer none): the configuration’s name as a string
+ *
+ * Since: 3.0
  */
 gchar*
 pt_config_get_name (PtConfig *config)
@@ -232,6 +234,8 @@ pt_config_get_name (PtConfig *config)
  * unique. This saves the new name immediately to the configuration file.
  *
  * Return value: TRUE on success, otherwise FALSE
+ *
+ * Since: 3.0
  */
 gboolean
 pt_config_set_name (PtConfig *config,
@@ -261,6 +265,8 @@ pt_config_set_name (PtConfig *config,
  * Sets the configuration’s base folder.
  *
  * Return value: TRUE on success, otherwise FALSE
+ *
+ * Since: 3.0
  */
 gboolean
 pt_config_set_base_folder (PtConfig *config,
@@ -297,6 +303,8 @@ pt_config_set_base_folder (PtConfig *config,
  * that
  *
  * Return value: (transfer none): the configuaration’s base folder as a string or NULL
+ *
+ * Since: 3.0
  */
 gchar*
 pt_config_get_base_folder (PtConfig *config)
@@ -315,6 +323,8 @@ pt_config_get_base_folder (PtConfig *config)
  * It has to be exactly the string GStreamer uses to instantiate the plugin.
  *
  * Return value: the plugin’s name as a string
+ *
+ * Since: 3.0
  */
 gchar*
 pt_config_get_plugin (PtConfig *config)
@@ -333,6 +343,8 @@ pt_config_get_plugin (PtConfig *config)
  * (2 letters) if available, otherwise ISO 639-2 (3 letters).
  *
  * Return value: (transfer none): the language code as a string
+ *
+ * Since: 3.0
  */
 gchar*
 pt_config_get_lang_code (PtConfig *config)
@@ -350,6 +362,8 @@ pt_config_get_lang_code (PtConfig *config)
  * Gets the localized name of the language the model was made for.
  *
  * Return value: (transfer none) the language code as a string
+ *
+ * Since: 3.0
  */
 gchar*
 pt_config_get_lang_name (PtConfig *config)
@@ -369,6 +383,8 @@ pt_config_get_lang_name (PtConfig *config)
  * strings. If the key is not set, NULL is returned.
  *
  * Return value: (transfer full): the key’s value as a string or NULL
+ *
+ * Since: 3.0
  */
 gchar*
 pt_config_get_other (PtConfig *config,
@@ -389,6 +405,8 @@ pt_config_get_other (PtConfig *config,
  * Applies a configuration to a GStreamer plugin.
  *
  * Return value: TRUE on success, FALSE if a parameter could not be set
+ *
+ * Since: 3.0
  */
 gboolean
 pt_config_apply (PtConfig *config,
@@ -493,6 +511,8 @@ key_is_empty (PtConfig *config,
  * Checks whether the model is installed.
  *
  * Return value: TRUE for an installed model, otherwise FALSE
+ *
+ * Since: 3.0
  */
 gboolean
 pt_config_is_installed (PtConfig *config)
@@ -553,6 +573,8 @@ pt_config_is_installed (PtConfig *config)
  *</itemizedlist>
  *
  * Return value: TRUE for a formally valid configuration, otherwise FALSE
+ *
+ * Since: 3.0
  */
 gboolean
 pt_config_is_valid (PtConfig *config)
@@ -707,6 +729,8 @@ setup_config (PtConfig *config)
  * The #GFile that storing the configuration.
  *
  * Return value: (transfer none): the file this object is based on
+ *
+ * Since: 3.0
  */
 GFile*
 pt_config_get_file (PtConfig *config)
@@ -723,6 +747,8 @@ pt_config_get_file (PtConfig *config)
  * @file: the new file
  *
  * Sets a new file, invalidating all fields and reevaluating status.
+ *
+ * Since: 3.0
  */
 void
 pt_config_set_file (PtConfig *config,
@@ -896,6 +922,8 @@ pt_config_class_init (PtConfigClass *klass)
  * After use g_object_unref() it.
  *
  * Return value: (transfer full): a new #PtConfig
+ *
+ * Since: 3.0
  */
 PtConfig *
 pt_config_new (GFile *file)
