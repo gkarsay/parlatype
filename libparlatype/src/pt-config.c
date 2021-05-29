@@ -563,7 +563,6 @@ pt_config_is_installed (PtConfig *config)
  * supposed to be compatible and are checked only for existence
  * </para></listitem>
  * <listitem><para>
- * <listitem><para>
  * It has the following groups: [Model], [Files]. A [Parameters] group is optional.
  * </para></listitem>
  * <listitem><para>
