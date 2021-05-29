@@ -18,7 +18,7 @@
 #include "config.h"
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <pt-config.h>
+#include <parlatype.h>
 #include "pt-asr-dialog.h"
 
 #define MAX_URI_LENGTH 30

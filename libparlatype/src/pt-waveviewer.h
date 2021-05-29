@@ -18,6 +18,10 @@
 #ifndef PT_WAVEVIEWER_H
 #define PT_WAVEVIEWER_H
 
+#if !defined (__PARLATYPE_H_INSIDE__) && !defined (PARLATYPE_COMPILATION)
+#error "Only <parlatype.h> can be included directly."
+#endif
+
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS

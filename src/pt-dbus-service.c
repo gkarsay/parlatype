@@ -18,7 +18,7 @@
 #include "config.h"
 #include <gio/gio.h>
 #include <glib/gi18n.h>
-#include <pt-player.h>
+#include <parlatype.h>
 #include "pt-window.h"
 #include "pt-dbus-service.h"
 

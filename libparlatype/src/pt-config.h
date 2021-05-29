@@ -18,6 +18,10 @@
 #ifndef PT_CONFIG_H
 #define PT_CONFIG_H
 
+#if !defined (__PARLATYPE_H_INSIDE__) && !defined (PARLATYPE_COMPILATION)
+#error "Only <parlatype.h> can be included directly."
+#endif
+
 #include <gio/gio.h>
 
 #define PT_TYPE_CONFIG		(pt_config_get_type())

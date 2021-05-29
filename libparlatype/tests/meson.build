@@ -48,6 +48,7 @@ foreach t: tests
 			gstreamer,
 			gstreamer_audio,
 		],
+		c_args: '-DPARLATYPE_COMPILATION',
 	)
 
 	test(

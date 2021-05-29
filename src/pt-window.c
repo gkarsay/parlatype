@@ -22,9 +22,7 @@
 #ifdef GDK_WINDOWING_X11
 #include <gdk/gdkx.h>
 #endif
-#include <pt-config.h>
-#include <pt-player.h>
-#include <pt-waveviewer.h>
+#include <parlatype.h>
 #include "pt-app.h"
 #include "pt-goto-dialog.h"
 #include "pt-window.h"

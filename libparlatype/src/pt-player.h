@@ -18,6 +18,10 @@
 #ifndef PT_PLAYER_H
 #define PT_PLAYER_H
 
+#if !defined (__PARLATYPE_H_INSIDE__) && !defined (PARLATYPE_COMPILATION)
+#error "Only <parlatype.h> can be included directly."
+#endif
+
 #include <gio/gio.h>
 #include "pt-config.h"
 #include "pt-waveviewer.h"

@@ -17,7 +17,7 @@
 
 #include "config.h"
 #include <gio/gio.h>
-#include <pt-config.h>
+#include <parlatype.h>
 #include "pt-asr-dialog.h"
 #include "pt-preferences.h"
 #include "pt-config-row.h"

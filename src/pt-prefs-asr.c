@@ -18,9 +18,8 @@
 #include "config.h"
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <pt-app.h>
-#include <pt-player.h>
-#include <pt-config.h>
+#include <parlatype.h>
+#include "pt-app.h"
 #include "pt-asr-dialog.h"
 #include "pt-config-row.h"
 #include "pt-preferences.h"

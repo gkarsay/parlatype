@@ -24,8 +24,8 @@
 #ifdef GDK_WINDOWING_WAYLAND
 #include <gdk/gdkwayland.h>
 #endif
-#include <pt-app.h>
-#include <pt-player.h>
+#include <parlatype.h>
+#include "pt-app.h"
 #include "pt-prefs-asr.h"
 #include "pt-preferences.h"
 

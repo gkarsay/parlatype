@@ -19,8 +19,7 @@
 #define PT_CONFIG_ROW_H
 
 #include <gio/gio.h>
-#include "pt-config.h"
-#include "pt-player.h"
+#include <parlatype.h>
 
 #define PT_TYPE_CONFIG_ROW	(pt_config_row_get_type())
 #define PT_CONFIG_ROW(obj)	(G_TYPE_CHECK_INSTANCE_CAST((obj), PT_TYPE_CONFIG_ROW, PtConfigRow))
