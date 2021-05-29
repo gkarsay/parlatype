@@ -105,7 +105,7 @@ pt_asr_dialog_set_config (PtAsrDialog *dlg,
 		gtk_label_set_text (GTK_LABEL (dlg->priv->plugin_value), str);
 	}
 
-	str = pt_config_get_other (config, "Publisher");
+	str = pt_config_get_key (config, "Publisher");
 	if (have_string (str)) {
 		gtk_label_set_text (GTK_LABEL (dlg->priv->publisher_value), str);
 	} else {
@@ -114,7 +114,7 @@ pt_asr_dialog_set_config (PtAsrDialog *dlg,
 	}
 	g_free (str);
 
-	str = pt_config_get_other (config, "License");
+	str = pt_config_get_key (config, "License");
 	if (have_string (str)) {
 		gtk_label_set_text (GTK_LABEL (dlg->priv->license_value), str);
 	} else {
@@ -124,7 +124,7 @@ pt_asr_dialog_set_config (PtAsrDialog *dlg,
 	g_free (str);
 
 	/* Installation */
-	str = pt_config_get_other (config, "Howto");
+	str = pt_config_get_key (config, "Howto");
 	if (have_string (str)) {
 		gtk_label_set_text (GTK_LABEL (dlg->priv->howto_value), str);
 	} else {
@@ -133,7 +133,7 @@ pt_asr_dialog_set_config (PtAsrDialog *dlg,
 	}
 	g_free (str);
 
-	str = pt_config_get_other (config, "URL1");
+	str = pt_config_get_key (config, "URL1");
 	if (have_string (str)) {
 		gtk_link_button_set_uri (GTK_LINK_BUTTON (dlg->priv->url1_button),
 			                 str);
@@ -148,7 +148,7 @@ pt_asr_dialog_set_config (PtAsrDialog *dlg,
 	}
 	g_free (str);
 
-	str = pt_config_get_other (config, "URL2");
+	str = pt_config_get_key (config, "URL2");
 	if (have_string (str)) {
 		gtk_link_button_set_uri (GTK_LINK_BUTTON (dlg->priv->url2_button),
 			                 str);

@@ -375,7 +375,7 @@ pt_config_get_lang_name (PtConfig *config)
 }
 
 /**
- * pt_config_get_other:
+ * pt_config_get_key:
  * @config: a configuration instance
  * @key: the name of a key in the [Model] group
  *
@@ -387,8 +387,8 @@ pt_config_get_lang_name (PtConfig *config)
  * Since: 3.0
  */
 gchar*
-pt_config_get_other (PtConfig *config,
-                     gchar    *key)
+pt_config_get_key (PtConfig *config,
+                   gchar    *key)
 {
 	g_return_val_if_fail (PT_IS_CONFIG (config), NULL);
 	g_return_val_if_fail (config->priv->is_valid, NULL);

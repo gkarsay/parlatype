@@ -109,7 +109,7 @@ pt_config_set_base_folder
 pt_config_get_plugin
 pt_config_get_lang_code
 pt_config_get_lang_name
-pt_config_get_other
+pt_config_get_key
 PtError
 <SUBSECTION Standard>
 PT_CONFIG

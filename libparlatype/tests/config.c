@@ -114,10 +114,10 @@ main_methods (void)
 	installed = pt_config_is_installed (config);
 	g_assert_false (installed);
 
-	other = pt_config_get_other (config, "does-not-exist");
+	other = pt_config_get_key (config, "does-not-exist");
 	g_assert_null (other);
 
-	other = pt_config_get_other (config, "Language");
+	other = pt_config_get_key (config, "Language");
 	g_assert_cmpstr (other, ==, "de");
 	g_free (other);
 

@@ -80,7 +80,7 @@ gboolean	pt_config_set_base_folder	(PtConfig *config,
 gchar*		pt_config_get_plugin		(PtConfig *config);
 gchar*		pt_config_get_lang_code		(PtConfig *config);
 gchar*		pt_config_get_lang_name		(PtConfig *config);
-gchar*          pt_config_get_other             (PtConfig *config,
+gchar*          pt_config_get_key               (PtConfig *config,
 						 gchar    *key);
 
 GFile*		pt_config_get_file		(PtConfig *config);
