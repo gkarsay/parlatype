@@ -47,12 +47,13 @@ sources = [
 	'pt-waveviewer-waveform.h',
 ]
 
-deps = [gtk,
+deps = [config_h,
+	gnome_desktop,
+	gtk,
 	gstreamer,
 	gstreamer_app,
 	gstreamer_audio,
 	math,
-	gnome_desktop,
 ]
 
 if with_pocketsphinx

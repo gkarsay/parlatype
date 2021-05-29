@@ -41,7 +41,13 @@ foreach t: tests
 	exe = executable(
 		t, '@0@.c'.format(t), extra_sources,
 		install: false,
-		dependencies: [ libparlatype_dep, gstreamer, gstreamer_audio, gnome_desktop ],
+		dependencies: [
+			config_h,
+			libparlatype_dep,
+			gnome_desktop,
+			gstreamer,
+			gstreamer_audio,
+		],
 	)
 
 	test(

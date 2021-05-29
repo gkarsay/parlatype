@@ -373,7 +373,7 @@ pt_app_handle_local_options (GApplication *application,
                              GVariantDict *options)
 {
 	if (g_variant_dict_contains (options, "version")) {
-		g_print ("%s %s\n", PACKAGE, VERSION);
+		g_print ("%s %s\n", PACKAGE_NAME, PACKAGE_VERSION);
 		return 0;
 	}
 

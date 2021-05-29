@@ -879,7 +879,7 @@ pt_prefs_asr_init (PtPrefsAsr *page)
 	/* make sure config dir exists */
 	path = g_build_path (G_DIR_SEPARATOR_S,
 	                     g_get_user_config_dir (),
-	                     PACKAGE, NULL);
+	                     PACKAGE_NAME, NULL);
 
 	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
 	                  "MESSAGE", "config dir: %s", path);

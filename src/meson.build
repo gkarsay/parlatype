@@ -59,6 +59,7 @@ if host_machine.system() == 'windows'
 endif
 
 parlatype_deps = [
+	config_h,
 	gtk,
 ]
 
