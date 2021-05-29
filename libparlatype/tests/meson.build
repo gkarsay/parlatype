@@ -24,8 +24,18 @@ extra_sources = [
 ]
 
 gen_prog = find_program('data/generate_config_data', required: true)
-run_target('generate-config-data', command: gen_prog)
-run_command(gen_prog)
+
+config_input = join_paths(meson.current_source_dir(), 'data', 'config-test.asr')
+
+asr_config_data = custom_target(
+	'asr-config-data',
+	command: [
+		gen_prog,
+		config_input,
+		meson.current_build_dir() ],
+	input: config_input,
+	output: 'config-test.asr', # actually many more
+)
 
 foreach t: tests
 	exe = executable(
@@ -42,5 +52,6 @@ foreach t: tests
 			'G_TEST_BUILDDIR=@0@'.format(meson.current_build_dir()),
 			'LANGUAGE=C',
 		],
+		depends: asr_config_data,
 	)
 endforeach

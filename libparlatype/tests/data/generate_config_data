@@ -1,9 +1,10 @@
 #!/bin/bash
 
-# Take a valid configuration as input
-INPUT="$MESON_SOURCE_ROOT"/"$MESON_SUBDIR"/data/config-test.asr
+# First argument is a valid configuration as input
+INPUT="$1"
 
-DEST="$MESON_BUILD_ROOT"/"$MESON_SUBDIR"
+# Second argument is a directory for output
+DEST="$2"
 
 # Remove old files
 rm "$DEST"/*.asr
@@ -16,7 +17,6 @@ sed '/^Version=/d'                 "$INPUT" > "$DEST"/invalid-missing-key-versio
 sed 's/^Version=.*$/Version=/g'    "$INPUT" > "$DEST"/invalid-empty-key-version.asr
 sed 's/^Version=.*$/Version=2.0/g' "$INPUT" > "$DEST"/invalid-key-version1.asr
 sed 's/^Version=.*$/Version=1/g'   "$INPUT" > "$DEST"/invalid-key-version2.asr
-sed 's/^Version=.*$/Version=1.A'   "$INPUT" > "$DEST"/invalid-key-version3.asr
 sed '1s;^;NoGroup = 1\n\n;'        "$INPUT" > "$DEST"/invalid-key-without-group.asr
 sed 's/^\[Model\]/[ledoM]/g'       "$INPUT" > "$DEST"/invalid-missing-group-model.asr
 sed '/^Name=/d'                    "$INPUT" > "$DEST"/invalid-missing-key-name.asr
