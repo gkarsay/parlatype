@@ -1,4 +1,5 @@
 [Model]
+Version=1.0
 Name=Skribosermo Deepspeech
 Plugin=ptdeepspeech
 BaseFolder=

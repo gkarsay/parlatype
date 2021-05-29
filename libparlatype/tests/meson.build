@@ -24,6 +24,7 @@ extra_sources = [
 ]
 
 gen_prog = find_program('data/generate_config_data', required: true)
+run_target('generate-config-data', command: gen_prog)
 run_command(gen_prog)
 
 foreach t: tests

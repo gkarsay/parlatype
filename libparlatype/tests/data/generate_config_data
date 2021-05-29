@@ -12,12 +12,16 @@ rm "$DEST"/*.asr
 cp "$INPUT" "$DEST"
 
 # Generate invalid configurations with only one detail changed
-sed '1s;^;NoGroup = 1\n\n;'     "$INPUT" > "$DEST"/invalid-key-without-group.asr
-sed 's/^\[Model\]/[ledoM]/g'    "$INPUT" > "$DEST"/invalid-missing-group-model.asr
-sed '/^Name=/d'                 "$INPUT" > "$DEST"/invalid-missing-key-name.asr
-sed '/^Plugin=/d'               "$INPUT" > "$DEST"/invalid-missing-key-plugin.asr
-sed '/^BaseFolder=/d'           "$INPUT" > "$DEST"/invalid-missing-key-basefolder.asr
-sed 's/^Name=.*$/Name=/g'       "$INPUT" > "$DEST"/invalid-empty-key-name.asr
-sed 's/^Plugin=.*$/Plugin=/g'   "$INPUT" > "$DEST"/invalid-empty-key-plugin.asr
-sed 's/^Language=.*$/Language=/g' \
-                                "$INPUT" > "$DEST"/invalid-empty-key-language.asr
+sed '/^Version=/d'                 "$INPUT" > "$DEST"/invalid-missing-key-version.asr
+sed 's/^Version=.*$/Version=/g'    "$INPUT" > "$DEST"/invalid-empty-key-version.asr
+sed 's/^Version=.*$/Version=2.0/g' "$INPUT" > "$DEST"/invalid-key-version1.asr
+sed 's/^Version=.*$/Version=1/g'   "$INPUT" > "$DEST"/invalid-key-version2.asr
+sed 's/^Version=.*$/Version=1.A'   "$INPUT" > "$DEST"/invalid-key-version3.asr
+sed '1s;^;NoGroup = 1\n\n;'        "$INPUT" > "$DEST"/invalid-key-without-group.asr
+sed 's/^\[Model\]/[ledoM]/g'       "$INPUT" > "$DEST"/invalid-missing-group-model.asr
+sed '/^Name=/d'                    "$INPUT" > "$DEST"/invalid-missing-key-name.asr
+sed '/^Plugin=/d'                  "$INPUT" > "$DEST"/invalid-missing-key-plugin.asr
+sed '/^BaseFolder=/d'              "$INPUT" > "$DEST"/invalid-missing-key-basefolder.asr
+sed 's/^Name=.*$/Name=/g'          "$INPUT" > "$DEST"/invalid-empty-key-name.asr
+sed 's/^Plugin=.*$/Plugin=/g'      "$INPUT" > "$DEST"/invalid-empty-key-plugin.asr
+sed 's/^Language=.*$/Language=/g'  "$INPUT" > "$DEST"/invalid-empty-key-language.asr

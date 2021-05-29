@@ -1,4 +1,5 @@
 [Model]
+Version=1.0
 Name=Test Model
 Plugin=unknown-plugin
 BaseFolder=/home/me/model

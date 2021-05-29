@@ -1,4 +1,5 @@
 [Model]
+Version=1.0
 Name=Test to apply Parameters
 Plugin=parlasphinx
 BaseFolder=/home/me/model

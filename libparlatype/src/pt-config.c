@@ -504,6 +504,34 @@ key_is_empty (PtConfig *config,
 	return result;
 }
 
+static gboolean
+pt_config_version_is_valid (PtConfig *config)
+{
+	gchar   *version;
+	gchar  **version_split;
+	gint64   major;
+	gboolean success;
+
+	version = pt_config_get_string (config, "Model", "Version");
+	if (!version || g_strcmp0 (version, "") == 0)
+		return FALSE;
+
+	version_split = g_strsplit (version, ".", 2);
+	success = g_ascii_string_to_signed (version_split[0],
+	                                    10, 1, 1,    /* base, min, max */
+	                                    &major, NULL);
+	if (!success)
+		return FALSE;
+
+	if (!version_split[1])
+		return FALSE;
+
+	success = g_ascii_string_to_signed (version_split[0],
+	                                    10, 0, G_MAXINT,
+	                                    NULL, NULL);
+	return success;
+}
+
 /**
  * pt_config_is_installed:
  * @config: a configuration instance
@@ -529,6 +557,12 @@ pt_config_is_installed (PtConfig *config)
  *
  * Checks if a configuration is formally valid:
  * <itemizedlist>
+ * <listitem><para>
+ * It has a version string of the form 1.x (major.minor). Major versions higher
+ * than 1 are not understood by this version of libparlatype. Minor numbers are
+ * supposed to be compatible and are checked only for existence
+ * </para></listitem>
+ * <listitem><para>
  * <listitem><para>
  * It has the following groups: [Model], [Files]. A [Parameters] group is optional.
  * </para></listitem>
@@ -598,6 +632,9 @@ is_valid (PtConfig *config)
 		if (!g_key_file_has_group (config->priv->keyfile, groups[i]))
 			return FALSE;
 	}
+
+	if (!pt_config_version_is_valid (config))
+		return FALSE;
 
 	for (i = 0; model_keys[i] != NULL; i++) {
 		if (!g_key_file_has_key (config->priv->keyfile, "Model", model_keys[i], NULL))

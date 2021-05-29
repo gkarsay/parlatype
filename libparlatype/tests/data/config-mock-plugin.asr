@@ -1,4 +1,5 @@
 [Model]
+Version=1.0
 Name=Test with mock plugin
 Plugin=ptmockplugin
 BaseFolder=/home/me/model

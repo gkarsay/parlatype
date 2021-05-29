@@ -1,4 +1,5 @@
 [Model]
+Version=1.0
 Name=Mozilla DeepSpeech official 0.9.3
 Plugin=ptdeepspeech
 BaseFolder=

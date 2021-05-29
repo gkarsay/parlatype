@@ -1,4 +1,5 @@
 [Model]
+Version=1.0
 Name=Voxforge 5.2
 Plugin=parlasphinx
 BaseFolder=/home/gabor/Downloads/cmusphinx-de-voxforge-5.2

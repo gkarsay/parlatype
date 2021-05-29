@@ -1,4 +1,5 @@
 [Model]
+Version=1.0
 Name=Sphinx Debian
 Plugin=parlasphinx
 BaseFolder=/usr/share/pocketsphinx/model/en-us
