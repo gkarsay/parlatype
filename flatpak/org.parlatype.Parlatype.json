@@ -430,7 +430,7 @@
                 {
                     "type" : "git",
                     "path" : "../",
-                    "branch": "master"
+                    "branch": "main"
                 }
             ]
         }

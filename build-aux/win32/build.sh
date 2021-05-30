@@ -12,7 +12,7 @@ DIR="$( cd "$( dirname "$0" )" && pwd )"
 source "$DIR"/_base.sh
 
 function main {
-    local GIT_TAG=${1:-"master"}
+    local GIT_TAG=${1:-"main"}
 
     [[ -d "${BUILD_ROOT}" ]] && (echo "${BUILD_ROOT} already exists"; exit 1)
 

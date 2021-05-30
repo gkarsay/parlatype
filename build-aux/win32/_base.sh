@@ -105,7 +105,7 @@ function install_parlatype {
     PT_VERSION_STRING=`${MINGW_ROOT}/bin/parlatype --version`
     PT_VERSION=${PT_VERSION_STRING:10}
     PT_VERSION_DESC="$PT_VERSION"
-    if [ "$1" = "master" ]
+    if [ "$1" = "main" ]
     then
         local GIT_REV=$(git rev-list --count HEAD)
         local GIT_HASH=$(git rev-parse --short HEAD)
