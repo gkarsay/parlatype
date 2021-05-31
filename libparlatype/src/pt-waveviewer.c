@@ -1450,17 +1450,18 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 		      0);
 
 	/**
-	* PtWaveviewer:playback-cursor:
-	*
-	* Current playback position in milliseconds.
-	*/
+	 * PtWaveviewer:playback-cursor:
+	 *
+	 * Current playback position in milliseconds. A value of -1 means an
+	 * invalid or unknown position that will not be rendered.
+	 */
 
 	obj_properties[PROP_PLAYBACK_CURSOR] =
 	g_param_spec_int64 (
 			"playback-cursor",
 			"Cursor position",
 			"Cursor’s position in 1/1000 seconds",
-			0,
+			-1,
 			G_MAXINT64,
 			0,
 			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);

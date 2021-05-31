@@ -203,7 +203,7 @@ void
 pt_waveviewer_cursor_render (PtWaveviewerCursor *self,
                              gint                position)
 {
-	if (self->priv->position == position)
+	if ((self->priv->position == position) || (position < 0))
 		return;
 	/* first erase old position */
 	draw_cursor (self);
