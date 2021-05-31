@@ -293,6 +293,9 @@ update_time (PtWindow *win)
 
 	time = pt_player_get_position (win->player);
 
+	if (time == -1)
+		return;
+
 	/* Update label only if time has changed at 10th seconds level */
 	if (time/100 != win->priv->last_time) {
 		text = pt_player_get_current_time_string (
