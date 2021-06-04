@@ -155,21 +155,6 @@ pt_player_seek (PtPlayer *player,
 		GST_CLOCK_TIME_NONE);
 }
 
-static void
-pt_player_set_state_blocking (PtPlayer *player,
-                              GstState  state)
-{
-	g_assert (GST_IS_ELEMENT (player->priv->play));
-
-	gst_element_set_state (player->priv->play, state);
-
-	/* Block until state changed */
-	gst_element_get_state (
-		player->priv->play,
-		NULL, NULL,
-		GST_CLOCK_TIME_NONE);
-}
-
 static GFile*
 pt_player_get_file (PtPlayer *player)
 {
