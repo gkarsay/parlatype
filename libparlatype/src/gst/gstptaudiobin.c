@@ -76,53 +76,84 @@ enum
 static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
 
 
-static void
-link_tee (GstPad     *tee_srcpad,
-          GstElement *sink_bin)
+static GstPadProbeReturn
+remove_element_cb (GstPad          *pad,
+                   GstPadProbeInfo *info,
+                   gpointer         user_data)
 {
-	GstPad           *sinkpad;
-	GstPadLinkReturn  r;
+	GstElement *child = GST_ELEMENT (user_data);
+	GstPad     *sinkpad;
+	GstObject  *parent;
 
-	sinkpad = gst_element_get_static_pad (sink_bin, "sink");
-	g_assert_nonnull (sinkpad);
-	r = gst_pad_link (tee_srcpad, sinkpad);
-	g_assert (r == GST_PAD_LINK_OK);
-	gst_object_unref (sinkpad);
-}
+	gst_pad_remove_probe (pad, GST_PAD_PROBE_INFO_ID (info));
 
-static void
-remove_element (GstBin *parent,
-                gchar  *child_name)
-{
-	GstElement *child;
-	child = gst_bin_get_by_name (parent, child_name);
-	if (!child)
-		return;
-
-	/* removing dereferences removed element, we want to keep it */
-	gst_object_ref (child);
-	gst_bin_remove (parent, child);
-}
-
-static void
-add_element (GstBin     *parent,
-             GstElement *child,
-             GstPad     *srcpad)
-{
-	GstElement *cmp;
-	gchar      *child_name;
-
-	child_name = gst_element_get_name (child);
-	cmp = gst_bin_get_by_name (parent, child_name);
-	g_free (child_name);
-	if (cmp) {
-		gst_object_unref (cmp);
-		/* element is already in bin */
-		return;
+	parent = gst_element_get_parent (child);
+	if (!parent) {
+		GST_DEBUG_OBJECT (child, "%s has no parent", GST_OBJECT_NAME (child));
+		return GST_PAD_PROBE_OK;
 	}
 
-	gst_bin_add (parent, child);
-	link_tee (srcpad, child);
+	/* Unlink upstream, i.e. child's sink pad */
+	sinkpad = gst_element_get_static_pad (child, "sink");
+	GST_DEBUG_OBJECT (child, "unlinking %s", GST_OBJECT_NAME (child));
+	gst_pad_unlink (pad, sinkpad);
+
+	/* flush element */
+	/* TODO */
+
+	/* set to null or ready */
+	gst_element_set_state (child, GST_STATE_READY);
+
+	/* remove from bin, dereferences removed element, we want to keep it */
+	GST_DEBUG_OBJECT (child, "removing %s from %s", GST_OBJECT_NAME (child), GST_OBJECT_NAME (parent));
+	gst_object_ref (child);
+	gst_bin_remove (GST_BIN (parent), child);
+
+	gst_object_unref (parent);
+	g_object_unref (sinkpad);
+
+	return GST_PAD_PROBE_OK;
+}
+
+static GstPadProbeReturn
+add_element_cb (GstPad          *pad,
+                GstPadProbeInfo *info,
+                gpointer         user_data)
+{
+	GstElement *child = GST_ELEMENT (user_data);
+	GstPad     *sinkpad;
+	GstObject  *tee;
+	GstObject  *bin;
+	GstObject  *parent;
+	GstPadLinkReturn  r;
+
+	gst_pad_remove_probe (pad, GST_PAD_PROBE_INFO_ID (info));
+
+	/* check if in bin */
+	tee = gst_pad_get_parent (pad);
+	bin = gst_object_get_parent (tee);
+	gst_object_unref (tee);
+
+	parent = gst_element_get_parent (child);
+	if (parent) {
+		GST_DEBUG_OBJECT (child, "%s has already a parent %s", GST_OBJECT_NAME (child), GST_OBJECT_NAME (parent));
+		gst_object_unref (parent);
+		gst_object_unref (bin);
+		return GST_PAD_PROBE_OK;
+	}
+
+	GST_DEBUG_OBJECT (child, "adding %s to %s", GST_OBJECT_NAME (child), GST_OBJECT_NAME (bin));
+	gst_bin_add (GST_BIN (bin), child);
+	gst_element_sync_state_with_parent (child);
+
+	sinkpad = gst_element_get_static_pad (child, "sink");
+	r = gst_pad_link (pad, sinkpad);
+	g_assert (r == GST_PAD_LINK_OK);
+
+	gst_object_unref (sinkpad);
+	gst_object_unref (bin);
+
+	return GST_PAD_PROBE_OK;
 }
 
 void
@@ -130,13 +161,17 @@ gst_pt_audio_bin_setup_asr (GstPtAudioBin  *bin,
                             gboolean        state)
 {
 	if (state)
-		add_element (GST_BIN (bin), bin->asr_bin, bin->tee_asrpad);
+		gst_pad_add_probe (bin->tee_asrpad,
+			           GST_PAD_PROBE_TYPE_BLOCKING | GST_PAD_PROBE_TYPE_BLOCK_DOWNSTREAM,
+			           add_element_cb, bin->asr_bin, NULL);
 	else
-		remove_element (GST_BIN (bin), "asr-audiobin");
+		gst_pad_add_probe (bin->tee_asrpad,
+			           GST_PAD_PROBE_TYPE_BLOCKING | GST_PAD_PROBE_TYPE_BLOCK_DOWNSTREAM,
+			           remove_element_cb, bin->asr_bin, NULL);
 }
 
 gboolean
-gst_pt_audio_bin_configure_asr (GstPtAudioBin  *self,
+gst_pt_audio_bin_configure_asr (GstPtAudioBin *self,
                                 PtConfig      *config,
                                 GError       **error)
 {
@@ -156,9 +191,28 @@ gst_pt_audio_bin_setup_player (GstPtAudioBin  *bin,
                                gboolean        state)
 {
 	if (state)
-		add_element (GST_BIN (bin), bin->play_bin, bin->tee_playpad);
+		gst_pad_add_probe (bin->tee_playpad,
+		                   GST_PAD_PROBE_TYPE_BLOCKING | GST_PAD_PROBE_TYPE_BLOCK_DOWNSTREAM,
+		                   add_element_cb, bin->play_bin, NULL);
 	else
-		remove_element (GST_BIN (bin), "play-audiobin");
+		gst_pad_add_probe (bin->tee_playpad,
+		                   GST_PAD_PROBE_TYPE_BLOCKING | GST_PAD_PROBE_TYPE_BLOCK_DOWNSTREAM,
+		                   remove_element_cb, bin->play_bin, NULL);
+}
+
+static void
+unref_element_without_parent (GstElement *element)
+{
+	GstObject *parent;
+
+	parent = gst_element_get_parent (element);
+	if (!parent) {
+		gst_element_set_state (element, GST_STATE_NULL);
+		gst_object_unref (element);
+	} else {
+		gst_object_unref (parent);
+	}
+	element = NULL;
 }
 
 static void
@@ -166,14 +220,13 @@ gst_pt_audio_bin_dispose (GObject *object)
 {
 	GstPtAudioBin *bin = GST_PT_AUDIO_BIN (object);
 
-	if (bin->tee) {
-		/* Add all possible elements because elements without a parent
-		   won't be destroyed. */
-		add_element (GST_BIN (bin),
-		             bin->play_bin, bin->tee_playpad);
-		add_element (GST_BIN (bin),
-		             bin->asr_bin, bin->tee_asrpad);
+	if (bin->play_bin)
+		unref_element_without_parent (bin->play_bin);
 
+	if (bin->asr_bin)
+		unref_element_without_parent (bin->asr_bin);
+
+	if (bin->tee) {
 		gst_object_unref (GST_OBJECT (bin->tee_playpad));
 		gst_object_unref (GST_OBJECT (bin->tee_asrpad));
 	}

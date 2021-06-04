@@ -222,8 +222,8 @@ setup_sphinx (PtWindow *win)
 			&error);
 
 	if (success) {
-		pt_player_setup_asr (win->player, TRUE);
 		pt_player_setup_player (win->player, FALSE);
+		pt_player_setup_asr (win->player, TRUE);
 	} else {
 		pt_error_message (win, error->message, NULL);
 	}

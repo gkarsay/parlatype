@@ -1679,16 +1679,7 @@ pt_player_setup_asr (PtPlayer  *player,
                      gboolean   state)
 {
 	GstPtAudioBin *bin = GST_PT_AUDIO_BIN (player->priv->audio_bin);
-	gint pos;
-
-	pos = pt_player_get_position (player);
-	pt_player_set_state_blocking (player, GST_STATE_NULL);
-
 	gst_pt_audio_bin_setup_asr (bin, state);
-
-	pt_player_set_state_blocking (player, GST_STATE_PAUSED);
-	if (pos > 0)
-		pt_player_jump_to_position (player, pos);
 }
 
 /**
@@ -1781,17 +1772,7 @@ pt_player_setup_player (PtPlayer  *player,
                         gboolean   state)
 {
 	GstPtAudioBin *bin = GST_PT_AUDIO_BIN (player->priv->audio_bin);
-	gint pos;
-
-	pos = pt_player_get_position (player);
-	pt_player_set_state_blocking (player, GST_STATE_NULL);
-
 	gst_pt_audio_bin_setup_player (bin, state);
-
-	pt_player_set_state_blocking (player, GST_STATE_PAUSED);
-	if (pos > 0)
-		pt_player_jump_to_position (player, pos);
-
 }
 
 static void
