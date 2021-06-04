@@ -92,11 +92,9 @@ gst_pt_audio_play_bin_init (GstPtAudioPlayBin *bin)
 	/* Create gstreamer elements */
 	GstElement   *capsfilter;
 	GstElement   *audiosink;
-	GstElement   *queue;
 	gchar        *sink;
 
 	capsfilter = _pt_make_element ("capsfilter", "audiofilter",  NULL);
-	queue      = _pt_make_element ("queue",      "player_queue", NULL);
 
 	/* Choose an audiosink ourselves instead of relying on autoaudiosink.
 	 * It chose waveformsink on win32 (not a good choice) and it will be
@@ -133,19 +131,19 @@ gst_pt_audio_play_bin_init (GstPtAudioPlayBin *bin)
 	}
 
 	if (bin->volume_changer) {
-		gst_bin_add_many (GST_BIN (bin), queue, capsfilter,
+		gst_bin_add_many (GST_BIN (bin), capsfilter,
 				  bin->volume_changer, audiosink, NULL);
-		gst_element_link_many (queue, capsfilter,
+		gst_element_link_many (capsfilter,
 				       bin->volume_changer, audiosink, NULL);
 	} else {
 		gst_bin_add_many (GST_BIN (bin),
-		                  queue, capsfilter, audiosink, NULL);
-		gst_element_link_many (queue, capsfilter, audiosink, NULL);
+		                  capsfilter, audiosink, NULL);
+		gst_element_link_many (capsfilter, audiosink, NULL);
 		bin->volume_changer = audiosink;
 	}
 
 	/* create ghost pad for audiosink */
-	GstPad *audiopad = gst_element_get_static_pad (queue, "sink");
+	GstPad *audiopad = gst_element_get_static_pad (capsfilter, "sink");
 	gst_element_add_pad (GST_ELEMENT (bin),
 	                     gst_ghost_pad_new ("sink", audiopad));
 	gst_object_unref (GST_OBJECT (audiopad));

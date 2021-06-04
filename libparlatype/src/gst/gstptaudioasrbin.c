@@ -105,21 +105,19 @@ gst_pt_audio_asr_bin_finalize (GObject *object)
 static void
 gst_pt_audio_asr_bin_init (GstPtAudioAsrBin *bin)
 {
-	GstElement *queue;
 	GstElement *audioconvert;
 
-	queue              = _pt_make_element ("queue",         "asr_queue",     NULL);
 	audioconvert       = _pt_make_element ("audioconvert",  "audioconvert",  NULL);
 	bin->audioresample = _pt_make_element ("audioresample", "audioresample", NULL);
 	bin->fakesink      = _pt_make_element ("fakesink",      "fakesink",      NULL);
 
 	/* create audio output */
-	gst_bin_add_many (GST_BIN (bin), queue, audioconvert, bin->audioresample,
+	gst_bin_add_many (GST_BIN (bin), audioconvert, bin->audioresample,
 	                  bin->fakesink, NULL);
-	gst_element_link_many (queue, audioconvert, bin->audioresample, NULL);
+	gst_element_link_many (audioconvert, bin->audioresample, NULL);
 
 	/* create ghost pad for audiosink */
-	GstPad *audiopad = gst_element_get_static_pad (queue, "sink");
+	GstPad *audiopad = gst_element_get_static_pad (audioconvert, "sink");
 	gst_element_add_pad (GST_ELEMENT (bin), gst_ghost_pad_new ("sink", audiopad));
 	gst_object_unref (GST_OBJECT (audiopad));
 
