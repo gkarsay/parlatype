@@ -45,13 +45,55 @@ enum
 
 static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
 
+static GstStaticPadTemplate sink_factory =
+	GST_STATIC_PAD_TEMPLATE (
+		"sink",
+		GST_PAD_SINK,
+		GST_PAD_ALWAYS,
+		GST_STATIC_CAPS ("audio/x-raw,format=S16LE,rate=16000,channels=1")
+	);
+
+static GstStaticPadTemplate src_factory =
+	GST_STATIC_PAD_TEMPLATE (
+		"src",
+		GST_PAD_SRC,
+		GST_PAD_ALWAYS,
+		GST_STATIC_CAPS ("audio/x-raw,format=S16LE,rate=16000,channels=1")
+	);
+
 G_DEFINE_TYPE_WITH_PRIVATE (MockPlugin, mock_plugin, GST_TYPE_ELEMENT)
 
+static gboolean
+mock_plugin_event (GstPad    *pad,
+                   GstObject *parent,
+                   GstEvent  *event)
+{
+	return gst_pad_event_default (pad, parent, event);
+}
 
+static GstFlowReturn
+mock_plugin_chain (GstPad    *pad,
+                   GstObject *parent,
+                   GstBuffer *buf)
+{
+	MockPlugin *self = MOCK_PLUGIN (parent);
+
+	return gst_pad_push (self->srcpad, buf);
+}
 static void
 mock_plugin_init (MockPlugin *self)
 {
 	self->priv = mock_plugin_get_instance_private (self);
+
+	self->sinkpad = gst_pad_new_from_static_template (&sink_factory, "sink");
+	GST_PAD_SET_PROXY_CAPS (self->sinkpad);
+	gst_pad_set_chain_function (self->sinkpad, mock_plugin_chain);
+	gst_pad_set_event_function (self->sinkpad, mock_plugin_event);
+	gst_element_add_pad (GST_ELEMENT (self), self->sinkpad);
+
+	self->srcpad = gst_pad_new_from_static_template (&src_factory, "src");
+	GST_PAD_SET_PROXY_CAPS (self->srcpad);
+	gst_element_add_pad (GST_ELEMENT (self), self->srcpad);
 }
 
 static void
@@ -195,6 +237,13 @@ mock_plugin_class_init (MockPluginClass *klass)
 			G_OBJECT_CLASS (klass),
 			N_PROPERTIES,
 			obj_properties);
+
+	gst_element_class_add_pad_template (
+			element_class,
+			gst_static_pad_template_get (&src_factory));
+	gst_element_class_add_pad_template (
+			element_class,
+			gst_static_pad_template_get (&sink_factory));
 
 	gst_element_class_set_static_metadata (
 		element_class,

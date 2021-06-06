@@ -157,14 +157,33 @@ void
 gst_pt_audio_bin_setup_asr (GstPtAudioBin  *bin,
                             gboolean        state)
 {
-	if (state)
+	if (state) {
+		//gst_element_set_state (bin->asr_bin, GST_STATE_READY);
 		gst_pad_add_probe (bin->queue_src_asr,
 		                   GST_PAD_PROBE_TYPE_BLOCKING | GST_PAD_PROBE_TYPE_BLOCK_DOWNSTREAM,
 		                   add_element_cb, bin->asr_bin, NULL);
-	else
+	} else {
+		//gst_element_set_state (bin->asr_bin, GST_STATE_READY);
 		gst_pad_add_probe (bin->queue_src_asr,
 		                   GST_PAD_PROBE_TYPE_BLOCKING | GST_PAD_PROBE_TYPE_BLOCK_DOWNSTREAM,
 		                   remove_element_cb, bin->asr_bin, NULL);
+	}
+}
+
+typedef struct
+{
+	GAsyncResult *res;
+	GMainLoop    *loop;
+} SyncData;
+
+static void
+quit_loop_cb (GstPtAudioBin *self,
+              GAsyncResult  *res,
+              gpointer       user_data)
+{
+	SyncData *data = user_data;
+	data->res = g_object_ref (res);
+	g_main_loop_quit (data->loop);
 }
 
 gboolean
@@ -174,11 +193,27 @@ gst_pt_audio_bin_configure_asr (GstPtAudioBin *self,
 {
 	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
-	gboolean result;
 	GstPtAudioAsrBin *bin;
+	SyncData      data;
+	GMainContext *context;
+	gboolean      result;
 
 	bin = GST_PT_AUDIO_ASR_BIN (self->asr_bin);
-	result = gst_pt_audio_asr_bin_configure_asr (bin, config, error);
+	context = g_main_context_new ();
+	g_main_context_push_thread_default (context);
+
+	data.loop = g_main_loop_new (context, FALSE);
+	data.res = NULL;
+
+	gst_pt_audio_asr_bin_configure_asr_async (bin, config, NULL, (GAsyncReadyCallback) quit_loop_cb, &data);
+	g_main_loop_run (data.loop);
+
+	result = gst_pt_audio_asr_bin_configure_asr_finish (bin, data.res, error);
+
+	g_main_context_pop_thread_default (context);
+	g_main_context_unref (context);
+	g_main_loop_unref (data.loop);
+	g_object_unref (data.res);
 
 	return result;
 }
@@ -187,14 +222,17 @@ void
 gst_pt_audio_bin_setup_player (GstPtAudioBin  *bin,
                                gboolean        state)
 {
-	if (state)
+	if (state) {
+		//gst_element_set_state (bin->play_bin, GST_STATE_READY);
 		gst_pad_add_probe (bin->queue_src_play,
 		                   GST_PAD_PROBE_TYPE_BLOCKING | GST_PAD_PROBE_TYPE_BLOCK_DOWNSTREAM,
 		                   add_element_cb, bin->play_bin, NULL);
-	else
+	} else {
+		//gst_element_set_state (bin->play_bin, GST_STATE_READY);
 		gst_pad_add_probe (bin->queue_src_play,
 		                   GST_PAD_PROBE_TYPE_BLOCKING | GST_PAD_PROBE_TYPE_BLOCK_DOWNSTREAM,
 		                   remove_element_cb, bin->play_bin, NULL);
+	}
 }
 
 static void

@@ -37,6 +37,7 @@ struct _GstPtAudioAsrBin
 {
 	GstBin parent;
 
+	PtConfig   *config;
 	gchar      *asr_plugin_name;
 	GstElement *asr_plugin;
 	GstElement *audioresample;
@@ -52,10 +53,15 @@ struct _GstPtAudioAsrBinClass
 
 GType		gst_pt_audio_asr_bin_get_type	 (void) G_GNUC_CONST;
 
-gboolean	gst_pt_audio_asr_bin_is_configured 	(GstPtAudioAsrBin  *self);
-gboolean	gst_pt_audio_asr_bin_configure_asr	(GstPtAudioAsrBin  *self,
-							 PtConfig         *config,
-							 GError          **error);
+gboolean	gst_pt_audio_asr_bin_is_configured 		(GstPtAudioAsrBin  *self);
+gboolean	gst_pt_audio_asr_bin_configure_asr_finish	(GstPtAudioAsrBin *self,
+                                                                 GAsyncResult     *result,
+                                                                 GError          **error);
+void		gst_pt_audio_asr_bin_configure_asr_async	(GstPtAudioAsrBin   *self,
+                                                                 PtConfig           *config,
+                                                                 GCancellable       *cancellable,
+                                                                 GAsyncReadyCallback callback,
+                                                                 gpointer            user_data);
 
 gboolean	gst_pt_audio_asr_bin_register	 (void);
 
