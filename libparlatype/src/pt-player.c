@@ -1645,29 +1645,6 @@ mute_changed (GObject    *object,
 }
 
 /**
- * pt_player_setup_asr:
- * @player: a #PtPlayer
- * @state: enable or disable ASR
- *
- * A @state of TRUE enables automatic speech recognition. The pipeline should
- * have been configured before with pt_player_configure_asr().
- *
- * A @state of FALSE disables automatic speech recognition. This is the default.
-
- * To get the results, connect to the #PtPlayer::asr-hypothesis and/or
- * #PtPlayer::asr-final signal. Start recognition with pt_player_play().
- *
- * Since: 3.0
- */
-void
-pt_player_setup_asr (PtPlayer  *player,
-                     gboolean   state)
-{
-	GstPtAudioBin *bin = GST_PT_AUDIO_BIN (player->priv->audio_bin);
-	gst_pt_audio_bin_setup_asr (bin, state);
-}
-
-/**
  * pt_player_configure_asr:
  * @player: a #PtPlayer
  * @config: a #PtConfig
@@ -1744,20 +1721,39 @@ pt_player_config_is_loadable (PtPlayer *player,
 }
 
 /**
- * pt_player_setup_player:
+ * pt_player_set_mode:
  * @player: a #PtPlayer
- * @state: enable or disable audible playback
+ * @type: the desired output mode
  *
- * Setup the GStreamer pipeline for playback.
+ * Set output mode.
+ * To get the results in ASR mode, connect to the #PtPlayer::asr-hypothesis and/or
+ * #PtPlayer::asr-final signal. Start recognition with pt_player_play().
  *
  * Since: 3.0
  */
 void
-pt_player_setup_player (PtPlayer  *player,
-                        gboolean   state)
+pt_player_set_mode (PtPlayer  *player,
+                    PtModeType type)
 {
 	GstPtAudioBin *bin = GST_PT_AUDIO_BIN (player->priv->audio_bin);
-	gst_pt_audio_bin_setup_player (bin, state);
+	gst_pt_audio_bin_set_mode (bin, type);
+}
+
+/**
+ * pt_player_get_mode:
+ * @player: a #PtPlayer
+ *
+ * Get current output mode.
+ *
+ * Return value: the current mode
+ *
+ * Since: 3.0
+ */
+PtModeType
+pt_player_get_mode (PtPlayer  *player)
+{
+	GstPtAudioBin *bin = GST_PT_AUDIO_BIN (player->priv->audio_bin);
+	return gst_pt_audio_bin_get_mode (bin);
 }
 
 static void

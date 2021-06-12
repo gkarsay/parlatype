@@ -20,6 +20,7 @@
 
 #include <gst/gst.h>
 #include "pt-config.h"
+#include "pt-player.h"
 
 G_BEGIN_DECLS
 
@@ -36,12 +37,13 @@ typedef struct _GstPtAudioBinClass	GstPtAudioBinClass;
 struct _GstPtAudioBin
 {
 	GstBin parent;
+	PtModeType  mode;
+	PtModeType  pending;
 
 	GstElement *play_bin;
 	GstElement *asr_bin;
-	GstElement *queue;
-	GstPad     *queue_src_play;
-	GstPad     *queue_src_asr;
+	GstPad     *tee_play_src;
+	GstPad     *tee_asr_src;
 
 	/* properties */
 	gboolean    player;
@@ -57,13 +59,12 @@ struct _GstPtAudioBinClass
 
 
 GType		gst_pt_audio_bin_get_type	(void) G_GNUC_CONST;
-void		gst_pt_audio_bin_setup_asr	(GstPtAudioBin  *bin,
-						 gboolean        state);
 gboolean	gst_pt_audio_bin_configure_asr	(GstPtAudioBin  *bin,
 						 PtConfig  *config,
 						 GError   **error);
-void		gst_pt_audio_bin_setup_player	(GstPtAudioBin  *bin,
-						 gboolean        state);
+PtModeType	gst_pt_audio_bin_get_mode	(GstPtAudioBin  *bin);
+void		gst_pt_audio_bin_set_mode	(GstPtAudioBin  *bin,
+						 PtModeType      mode);
 gboolean	gst_pt_audio_bin_register	(void);
 
 
