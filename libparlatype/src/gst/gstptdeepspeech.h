@@ -40,6 +40,8 @@ struct _GstPtDeepspeech
 	GstBaseTransform  element;
 	GstPad           *sinkpad;
 	GstPad           *srcpad;
+	GstSegment        segment;
+	GstClockTime      position;
 
 	/* Deepspeech */
 	gchar            *speech_model_path;

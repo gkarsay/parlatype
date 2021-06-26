@@ -164,14 +164,15 @@ gst_ptdeepspeech_change_state (GstElement     *element,
 {
 	GstPtDeepspeech *deepspeech = GST_PTDEEPSPEECH (element);
 	GstStateChangeReturn ret;
+	GstEvent   *seek = NULL;
+	GstSegment *seg = NULL;
+	gboolean success;
 
 	/* handle upward state changes */
 	switch (transition) {
 	case GST_STATE_CHANGE_NULL_TO_READY:
 		if (!gst_ptdeepspeech_load_model (deepspeech))
 			return GST_STATE_CHANGE_FAILURE;
-		break;
-	case GST_STATE_CHANGE_READY_TO_NULL:
 		break;
 	default:
 		break;
@@ -183,6 +184,20 @@ gst_ptdeepspeech_change_state (GstElement     *element,
 
 	/* handle downward state changes */
 	switch (transition) {
+	case GST_STATE_CHANGE_PLAYING_TO_PAUSED:
+		//get_text (deepspeech, NULL, FINAL);
+		/* Work around a problem with unknown cause:
+		 * When changing to paused position queries return the running
+		 * time instead of stream time */
+		seg = &deepspeech->segment;
+		seek = gst_event_new_seek (1.0, GST_FORMAT_TIME,
+		                           GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE,
+		                           GST_SEEK_TYPE_SET, seg->position,
+		                           GST_SEEK_TYPE_NONE, -1);
+
+		success = gst_pad_push_event (deepspeech->sinkpad, seek);
+		GST_DEBUG_OBJECT (deepspeech, "pushed segment event: %s", success ? "yes" : "no");
+		break;
 	case GST_STATE_CHANGE_READY_TO_NULL:
 		DS_FreeModel (deepspeech->model_state);
 		break;
@@ -203,6 +218,7 @@ gst_ptdeepspeech_chain (GstPad    *pad,
 	GstMapInfo info;
 	int        frame_type;
 	gboolean   final = FALSE;
+	GstClockTime position, duration;
 
 	if (GST_STATE (GST_ELEMENT (deepspeech)) != GST_STATE_PLAYING)
 		return gst_pad_push (deepspeech->srcpad, buf);
@@ -235,14 +251,24 @@ gst_ptdeepspeech_chain (GstPad    *pad,
 	                    (const short *) info.data,
 	                    (unsigned int) info.size/sizeof(short));
 
+	/* Track current position */
+	position = GST_BUFFER_TIMESTAMP (buf);
+	if (GST_CLOCK_TIME_IS_VALID (position)) {
+		duration = GST_BUFFER_DURATION (buf);
+		if (GST_CLOCK_TIME_IS_VALID (duration)) {
+			position += duration;
+		}
+		deepspeech->segment.position = position;
+	}
+
 	if (final) {
 		get_text (deepspeech, buf, FINAL);
-		deepspeech->last_result_time = GST_BUFFER_TIMESTAMP (buf);
+		deepspeech->last_result_time = position;
 	} else {
 		if (!deepspeech->silence_detected &&
-		    (GST_BUFFER_TIMESTAMP (buf) - deepspeech->last_result_time) > GST_MSECOND * 500) {
+		    (position - deepspeech->last_result_time) > GST_MSECOND * 500) {
 			get_text (deepspeech, buf, INTERMEDIATE);
-			deepspeech->last_result_time = GST_BUFFER_TIMESTAMP (buf);
+			deepspeech->last_result_time = position;
 		}
 	}
 
@@ -258,7 +284,7 @@ gst_ptdeepspeech_event (GstPad    *pad,
 	gboolean ret;
 
 	GST_LOG_OBJECT (deepspeech, "Received %s event: %" GST_PTR_FORMAT,
-		GST_EVENT_TYPE_NAME (event), event);
+		GST_EVENT_TYPE_NAME (event), (GST_EVENT_TYPE (event) == GST_EVENT_TAG) ? NULL : event);
 
 	switch (GST_EVENT_TYPE (event)) {
 	case GST_EVENT_CAPS:;
@@ -271,6 +297,10 @@ gst_ptdeepspeech_event (GstPad    *pad,
 		get_text (deepspeech, NULL, FINAL);
 		ret = gst_pad_event_default (pad, parent, event);
 		break;
+	case GST_EVENT_SEGMENT:
+		/* keep current segment, used for tracking current position */
+		gst_event_copy_segment (event, &deepspeech->segment);
+		/* fall through */
 	default:
 		ret = gst_pad_event_default (pad, parent, event);
 	}
