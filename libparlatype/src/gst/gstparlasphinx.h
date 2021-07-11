@@ -75,6 +75,9 @@ struct _GstParlaSphinx
 
     GstClockTime last_result_time; /**< Timestamp of last partial result. */
     char *last_result;             /**< String of last partial result. */
+
+    GstSegment segment;
+    gboolean   eos;
 };
 
 struct _GstParlaSphinxClass
