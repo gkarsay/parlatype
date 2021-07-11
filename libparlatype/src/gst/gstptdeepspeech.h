@@ -41,7 +41,7 @@ struct _GstPtDeepspeech
 	GstPad           *sinkpad;
 	GstPad           *srcpad;
 	GstSegment        segment;
-	GstClockTime      position;
+	gboolean          eos;
 
 	/* Deepspeech */
 	gchar            *speech_model_path;
@@ -54,17 +54,11 @@ struct _GstPtDeepspeech
 	VADFilter        *vad;
 	gint              quiet_bufs;
 	gdouble           silence_threshold;
-	gint              silence_length;
 
-	gboolean silent;
-	guint16 minimum_silence_buffers;
-	guint64 minimum_silence_time;
-
-	guint64 ts_offset;
-	gboolean silence_detected;
-	guint64 consecutive_silence_buffers;
-	guint64 consecutive_silence_time;
-	GstClockTime last_result_time; /**< Timestamp of last partial result. */
+	guint64           silence_time;
+	gint              vad_min_silence;
+	gboolean          in_speech;
+	GstClockTime      last_result_time; /* timestamp of last partial result */
 };
 
 struct _GstPtDeepspeechClass
