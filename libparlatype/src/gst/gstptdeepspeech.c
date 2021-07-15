@@ -187,7 +187,8 @@ gst_ptdeepspeech_change_state (GstElement     *element,
 	case GST_STATE_CHANGE_PLAYING_TO_PAUSED:
 		if (self->eos)
 			break;
-		get_text (self, NULL, FINAL);
+		/* Getting the final result – crashes sometimes */
+		//get_text (self, NULL, FINAL);
 		/* Work around a problem with unknown cause:
 		 * When changing to paused position queries return the running
 		 * time instead of stream time */
