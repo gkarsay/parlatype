@@ -185,9 +185,10 @@ gst_pt_audio_bin_configure_asr (GstPtAudioBin *self,
 	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
 	GstPtAudioAsrBin *bin;
-	SyncData      data;
-	GMainContext *context;
-	gboolean      result;
+	GstEvent         *event;
+	SyncData          data;
+	GMainContext     *context;
+	gboolean          result;
 
 	bin = GST_PT_AUDIO_ASR_BIN (self->asr_bin);
 	context = g_main_context_new ();
@@ -197,6 +198,12 @@ gst_pt_audio_bin_configure_asr (GstPtAudioBin *self,
 	data.res = NULL;
 
 	gst_pt_audio_asr_bin_configure_asr_async (bin, config, NULL, (GAsyncReadyCallback) quit_loop_cb, &data);
+	if (GST_STATE (GST_ELEMENT (self)) == GST_STATE_PAUSED) {
+		/* Pad is blocked and would be stuck in paused. Send a dummy event to unblock pad probe. */
+		event = gst_event_new_custom (GST_EVENT_CUSTOM_DOWNSTREAM_OOB, NULL);
+		result = gst_pad_push_event (self->tee_asr_src, event);
+		GST_DEBUG_OBJECT (self, "Dummy event %s", result ? "sent" : "not sent");
+	}
 	g_main_loop_run (data.loop);
 
 	result = gst_pt_audio_asr_bin_configure_asr_finish (bin, data.res, error);
