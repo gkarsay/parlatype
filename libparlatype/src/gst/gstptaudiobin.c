@@ -112,7 +112,7 @@ change_mode_cb (GstPad          *pad,
 	/* TODO investigate if flushing necessary */
 
 	/* set to null or ready */
-	gst_element_set_state (child, GST_STATE_READY);
+	gst_element_set_state (child, GST_STATE_NULL);
 
 	/* remove from bin, dereferences removed element, we want to keep it */
 	GST_DEBUG_OBJECT (child, "removing %s from %s", GST_OBJECT_NAME (child), GST_OBJECT_NAME (parent));
@@ -200,13 +200,16 @@ gst_pt_audio_bin_configure_asr (GstPtAudioBin *self,
 	gst_pt_audio_asr_bin_configure_asr_async (bin, config, NULL, (GAsyncReadyCallback) quit_loop_cb, &data);
 	if (GST_STATE (GST_ELEMENT (self)) == GST_STATE_PAUSED) {
 		/* Pad is blocked and would be stuck in paused. Send a dummy event to unblock pad probe. */
-		event = gst_event_new_custom (GST_EVENT_CUSTOM_DOWNSTREAM_OOB, NULL);
+		event = gst_event_new_custom (GST_EVENT_CUSTOM_DOWNSTREAM_OOB,
+		                              gst_structure_new_empty ("unblock"));
 		result = gst_pad_push_event (self->tee_asr_src, event);
 		GST_DEBUG_OBJECT (self, "Dummy event %s", result ? "sent" : "not sent");
 	}
 	g_main_loop_run (data.loop);
 
 	result = gst_pt_audio_asr_bin_configure_asr_finish (bin, data.res, error);
+	GST_DEBUG_OBJECT (self, "Finished asr configuration");
+	GST_DEBUG_OBJECT (self, "asr state: %s", gst_element_state_get_name (GST_STATE (GST_ELEMENT (bin))));
 
 	g_main_context_pop_thread_default (context);
 	g_main_context_unref (context);
@@ -254,6 +257,14 @@ gst_pt_audio_bin_set_mode (GstPtAudioBin  *self,
 	gst_pad_add_probe (blockpad,
 	                   GST_PAD_PROBE_TYPE_BLOCKING | GST_PAD_PROBE_TYPE_BLOCK_DOWNSTREAM,
 	                   change_mode_cb, self, NULL);
+
+	if (GST_STATE (GST_ELEMENT (self)) == GST_STATE_PAUSED) {
+		/* Pad is blocked and would be stuck in paused. Send a dummy event to unblock pad probe. */
+		GstEvent *event = gst_event_new_custom (GST_EVENT_CUSTOM_DOWNSTREAM_OOB,
+							gst_structure_new_empty ("unblock"));
+		gboolean result = gst_pad_push_event (self->tee_asr_src, event);
+		GST_DEBUG_OBJECT (self, "Dummy event %s", result ? "sent" : "not sent");
+	}
 }
 
 static void
