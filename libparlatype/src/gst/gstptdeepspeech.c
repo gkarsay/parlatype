@@ -201,6 +201,12 @@ gst_ptdeepspeech_change_state (GstElement     *element,
 		                           GST_SEEK_TYPE_NONE, -1);
 		success = gst_pad_push_event (self->sinkpad, seek);
 		GST_DEBUG_OBJECT (self, "pushed segment event: %s", success ? "yes" : "no");
+		/* This seems to have the same effect: */
+		/*success = gst_pad_push_event (self->srcpad, gst_event_new_flush_start ());
+		GST_DEBUG_OBJECT (self, "flush-start event %s", success ? "sent" : "not sent");
+		success = gst_pad_push_event (self->srcpad, gst_event_new_flush_stop (TRUE));
+		GST_DEBUG_OBJECT (self, "flush-stop event %s", success ? "sent" : "not sent");*/
+
 		break;
 	case GST_STATE_CHANGE_READY_TO_NULL:
 		DS_FreeModel (self->model_state);
@@ -295,6 +301,10 @@ gst_ptdeepspeech_event (GstPad    *pad,
 	self->eos = FALSE;
 
 	switch (GST_EVENT_TYPE (event)) {
+	case GST_EVENT_CUSTOM_DOWNSTREAM_OOB:
+		g_assert (gst_event_has_name (event, "unblock"));
+		gst_event_unref (event);
+		return TRUE;
 	case GST_EVENT_CAPS:;
 		GstCaps * caps;
 
