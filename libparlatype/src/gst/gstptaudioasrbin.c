@@ -87,16 +87,13 @@ configure_plugin (GTask *task)
 
 	GST_DEBUG_OBJECT (self, "creating new plugin %s", plugin);
 	self->asr_plugin = _pt_make_element (plugin, plugin, &error);
-	g_free (self->asr_plugin_name);
 
 	if (!self->asr_plugin) {
-		self->asr_plugin_name = NULL;
 		self->is_configured = FALSE;
 		g_task_return_error (task, error);
 		g_object_unref (task);
 		return;
 	}
-	self->asr_plugin_name = g_strdup (plugin);
 
 	/* Apply config in NULL state */
 	success = pt_config_apply (self->config,
@@ -204,7 +201,6 @@ gst_pt_audio_asr_bin_finalize (GObject *object)
 
 	if (self->config)
 		g_object_unref (self->config);
-	g_free (self->asr_plugin_name);
 
 	G_OBJECT_CLASS (parent_class)->finalize(object);
 }
@@ -234,7 +230,6 @@ gst_pt_audio_asr_bin_init (GstPtAudioAsrBin *bin)
 	gst_object_unref (GST_OBJECT (audioconvert_sink));
 
 	bin->asr_plugin = NULL;
-	bin->asr_plugin_name = NULL;
 	bin->is_configured = FALSE;
 }
 

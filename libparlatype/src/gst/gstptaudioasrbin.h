@@ -38,7 +38,6 @@ struct _GstPtAudioAsrBin
 	GstBin parent;
 
 	PtConfig   *config;
-	gchar      *asr_plugin_name;
 	GstElement *asr_plugin;
 	GstElement *audioresample;
 	GstElement *fakesink;
