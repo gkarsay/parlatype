@@ -74,35 +74,31 @@ configure_plugin (GTask *task)
 	self = g_task_get_source_object (task);
 	plugin = pt_config_get_plugin (self->config);
 
-	if (self->asr_plugin)
+	GST_DEBUG_OBJECT (self, "configuring plugin");
+
+	/* For simplicity always recreate plugin, even if the plugin is the
+	 * same and only its configuration changed */
+	if (self->asr_plugin) {
+		GST_DEBUG_OBJECT (self, "removing previous plugin");
+		/* setting state deadlocks without previous flush-start event */
 		gst_element_set_state (self->asr_plugin, GST_STATE_NULL);
-
-	/* If current plugin name is unlike new plugin name (or NULL) create
-	 * the new plugin first */
-	if (g_strcmp0 (self->asr_plugin_name, plugin) != 0) {
-		if (self->asr_plugin) {
-			GST_DEBUG_OBJECT (self, "removing previous plugin");
-			gst_bin_remove (GST_BIN (self), self->asr_plugin);
-		}
-
-		GST_DEBUG_OBJECT (self, "creating new plugin %s", plugin);
-		self->asr_plugin = _pt_make_element (plugin, plugin, &error);
-		g_free (self->asr_plugin_name);
-
-		if (!self->asr_plugin) {
-			self->asr_plugin_name = NULL;
-			self->is_configured = FALSE;
-			g_task_return_error (task, error);
-			g_object_unref (task);
-			return;
-		}
-		self->asr_plugin_name = g_strdup (plugin);
-		gst_bin_add (GST_BIN (self), self->asr_plugin);
-		gst_element_link_many (self->audioresample,
-		                       self->asr_plugin,
-		                       self->fakesink, NULL);
+		gst_bin_remove (GST_BIN (self), self->asr_plugin);
 	}
 
+	GST_DEBUG_OBJECT (self, "creating new plugin %s", plugin);
+	self->asr_plugin = _pt_make_element (plugin, plugin, &error);
+	g_free (self->asr_plugin_name);
+
+	if (!self->asr_plugin) {
+		self->asr_plugin_name = NULL;
+		self->is_configured = FALSE;
+		g_task_return_error (task, error);
+		g_object_unref (task);
+		return;
+	}
+	self->asr_plugin_name = g_strdup (plugin);
+
+	/* Apply config in NULL state */
 	success = pt_config_apply (self->config,
 	                           G_OBJECT (self->asr_plugin), &error);
 	self->is_configured = success;
@@ -112,39 +108,24 @@ configure_plugin (GTask *task)
 		g_object_unref (task);
 		return;
 	}
+	gst_element_set_state (self->fakesink, GST_STATE_NULL);
 
-	/* set state */
-	GstState state = GST_STATE_TARGET(self);
-	GST_DEBUG_OBJECT (self, "ASR target state: %s",
-	                  gst_element_state_get_name (state));
-	gst_element_set_state (self->asr_plugin, state);
+	gst_bin_add (GST_BIN (self), self->asr_plugin);
+	gst_element_sync_state_with_parent (self->audioresample);
+	gst_element_sync_state_with_parent (self->asr_plugin);
+	gst_element_sync_state_with_parent (self->fakesink);
+
+	gst_element_link_many (self->audioresample,
+	                       self->asr_plugin,
+	                       self->fakesink, NULL);
+
+	gst_element_sync_state_with_parent (GST_ELEMENT (self));
+	GstPad *sinkpad = gst_element_get_static_pad (GST_ELEMENT (self), "sink");
+	success = gst_pad_send_event (sinkpad, gst_event_new_flush_start ());
+	GST_DEBUG_OBJECT (self, "flush-start event %s", success ? "sent" : "not sent");
 
 	g_task_return_boolean (task, TRUE);
 	g_object_unref (task);
-}
-
-
-static GstPadProbeReturn
-event_probe_cb (GstPad          *pad,
-                GstPadProbeInfo *info,
-                gpointer         user_data)
-{
-	GTask *task = G_TASK (user_data);
-	GstPtAudioAsrBin *self;
-	GstEventType      type;
-
-	self = g_task_get_source_object (task);
-	type = GST_EVENT_TYPE (GST_PAD_PROBE_INFO_DATA (info));
-	GST_DEBUG_OBJECT (self, "type: %s", gst_event_type_get_name (type));
-	if (type != GST_EVENT_EOS)
-		return GST_PAD_PROBE_PASS;
-
-	gst_pad_remove_probe (pad, GST_PAD_PROBE_INFO_ID (info));
-	GST_DEBUG_OBJECT (self, "done flushing ASR plugin");
-
-	configure_plugin (task);
-
-	return GST_PAD_PROBE_DROP;
 }
 
 static GstPadProbeReturn
@@ -154,9 +135,7 @@ pad_probe_cb (GstPad          *pad,
 {
 	GTask *task = G_TASK (user_data);
 	GstPtAudioAsrBin *self;
-	GstPad  *srcpad;
 	GstPad  *sinkpad;
-	gulong   probe_id;
 	gboolean success;
 
 	self = g_task_get_source_object (task);
@@ -165,36 +144,20 @@ pad_probe_cb (GstPad          *pad,
 	/* remove the probe first */
 	gst_pad_remove_probe (pad, GST_PAD_PROBE_INFO_ID (info));
 
-	if (!self->asr_plugin) {
-		/* omit flushing, just configure */
-		configure_plugin (task);
-		return GST_PAD_PROBE_OK;
+	/* Send flush-start event if plugin exists (EOS event would deadlock
+	 * in playing state). Don't add event probe, that didn't work before
+	 * and seems like not necessary, just send event without waiting for
+	 * it. */
+	if (self->asr_plugin) {
+		GST_DEBUG_OBJECT (self, "flushing ASR plugin");
+		sinkpad = gst_element_get_static_pad (self->asr_plugin, "sink");
+		g_assert (sinkpad != NULL);
+		success = gst_pad_send_event (sinkpad, gst_event_new_flush_start ());
+		GST_DEBUG_OBJECT (self, "flush-start event %s", success ? "sent" : "not sent");
+		gst_object_unref (sinkpad);
 	}
 
-	GST_DEBUG_OBJECT (self, "flushing ASR plugin");
-
-	/* install new probe for EOS */
-	srcpad = gst_element_get_static_pad (self->asr_plugin, "src");
-	g_assert (srcpad != NULL);
-	probe_id = gst_pad_add_probe (srcpad,
-	                              GST_PAD_PROBE_TYPE_BLOCK |
-	                              GST_PAD_PROBE_TYPE_EVENT_DOWNSTREAM,
-	                              event_probe_cb, task, NULL);
-
-	/* push EOS into the element, the probe will be fired when the
-	 * EOS leaves the effect and it has thus drained all of its data */
-	sinkpad = gst_element_get_static_pad (self->asr_plugin, "sink");
-	g_assert (sinkpad != NULL);
-	success = gst_pad_send_event (sinkpad, gst_event_new_eos ());
-	GST_DEBUG_OBJECT (self, success ? "EOS sent" : "EOS not sent");
-	if (!success) {
-		/* flushing didn't succeed, configure anyway
-		 * ... and it seems like it never succeeds */
-		gst_pad_remove_probe (srcpad, probe_id);
-		configure_plugin (task);
-	}
-	gst_object_unref (srcpad);
-	gst_object_unref (sinkpad);
+	configure_plugin (task);
 
 	return GST_PAD_PROBE_OK;
 }
