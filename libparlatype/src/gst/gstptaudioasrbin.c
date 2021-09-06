@@ -120,9 +120,26 @@ configure_plugin (GTask *task)
 	GstPad *sinkpad = gst_element_get_static_pad (GST_ELEMENT (self), "sink");
 	success = gst_pad_send_event (sinkpad, gst_event_new_flush_start ());
 	GST_DEBUG_OBJECT (self, "flush-start event %s", success ? "sent" : "not sent");
+	success = gst_pad_push_event (sinkpad, gst_event_new_flush_stop (TRUE));
+	GST_DEBUG_OBJECT (self, "flush-stop event %s", success ? "sent" : "not sent");
 
 	g_task_return_boolean (task, TRUE);
 	g_object_unref (task);
+}
+
+static void
+flush_plugin (GstPtAudioAsrBin *self)
+{
+	GstPad  *sinkpad;
+	gboolean success;
+
+	GST_DEBUG_OBJECT (self, "flushing ASR plugin");
+	sinkpad = gst_element_get_static_pad (self->asr_plugin, "sink");
+	g_assert (sinkpad != NULL);
+	success = gst_pad_send_event (sinkpad, gst_event_new_flush_start ());
+	GST_DEBUG_OBJECT (self, "flush-start event %s", success ? "sent" : "not sent");
+	gst_object_unref (sinkpad);
+
 }
 
 static GstPadProbeReturn
@@ -132,8 +149,6 @@ pad_probe_cb (GstPad          *pad,
 {
 	GTask *task = G_TASK (user_data);
 	GstPtAudioAsrBin *self;
-	GstPad  *sinkpad;
-	gboolean success;
 
 	self = g_task_get_source_object (task);
 	GST_DEBUG_OBJECT (self, "pad is blocked now");
@@ -146,12 +161,7 @@ pad_probe_cb (GstPad          *pad,
 	 * and seems like not necessary, just send event without waiting for
 	 * it. */
 	if (self->asr_plugin) {
-		GST_DEBUG_OBJECT (self, "flushing ASR plugin");
-		sinkpad = gst_element_get_static_pad (self->asr_plugin, "sink");
-		g_assert (sinkpad != NULL);
-		success = gst_pad_send_event (sinkpad, gst_event_new_flush_start ());
-		GST_DEBUG_OBJECT (self, "flush-start event %s", success ? "sent" : "not sent");
-		gst_object_unref (sinkpad);
+		flush_plugin (self);
 	}
 
 	configure_plugin (task);
@@ -171,6 +181,7 @@ gst_pt_audio_asr_bin_configure_asr_async (GstPtAudioAsrBin   *self,
 
 	GTask    *task;
 	GstPad   *blockpad;
+	gulong    probe_id;
 	GstState  debug_state;
 
 	task = g_task_new (self, cancellable, callback, user_data);
@@ -188,10 +199,18 @@ gst_pt_audio_asr_bin_configure_asr_async (GstPtAudioAsrBin   *self,
 	                  gst_element_state_get_name (debug_state));
 
 	GST_DEBUG_OBJECT (self, "adding probe for blocking pad");
-	gst_pad_add_probe (blockpad,
+	probe_id = gst_pad_add_probe (blockpad,
 	                   GST_PAD_PROBE_TYPE_BLOCKING |
 	                   GST_PAD_PROBE_TYPE_BLOCK_DOWNSTREAM,
 	                   pad_probe_cb, task, NULL);
+	if (debug_state == GST_STATE_PAUSED) {
+		gst_pad_remove_probe (blockpad, probe_id);
+		if (self->asr_plugin) {
+			flush_plugin (self);
+		}
+		configure_plugin (task);
+		flush_plugin (self);
+	}
 }
 
 static void

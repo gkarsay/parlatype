@@ -189,6 +189,7 @@ gst_pt_audio_bin_configure_asr (GstPtAudioBin *self,
 	SyncData          data;
 	GMainContext     *context;
 	gboolean          result;
+	gboolean          success;
 
 	bin = GST_PT_AUDIO_ASR_BIN (self->asr_bin);
 	context = g_main_context_new ();
@@ -210,6 +211,13 @@ gst_pt_audio_bin_configure_asr (GstPtAudioBin *self,
 	result = gst_pt_audio_asr_bin_configure_asr_finish (bin, data.res, error);
 	GST_DEBUG_OBJECT (self, "Finished asr configuration");
 	GST_DEBUG_OBJECT (self, "asr state: %s", gst_element_state_get_name (GST_STATE (GST_ELEMENT (bin))));
+
+	if (GST_STATE (GST_ELEMENT (self)) == GST_STATE_PAUSED) {
+		success = gst_pad_send_event (self->tee_sink, gst_event_new_flush_start ());
+		GST_DEBUG_OBJECT (self, "flush-start event %s", success ? "sent" : "not sent");
+		success = gst_pad_send_event (self->tee_sink, gst_event_new_flush_stop (TRUE));
+		GST_DEBUG_OBJECT (self, "flush-stop event %s", success ? "sent" : "not sent");
+	}
 
 	g_main_context_pop_thread_default (context);
 	g_main_context_unref (context);
@@ -351,19 +359,18 @@ static void
 gst_pt_audio_bin_init (GstPtAudioBin *self)
 {
 	GstElement *tee;
-	GstPad     *tee_sink;
 	GstPad     *play_sink;
 
 	gst_pt_audio_play_bin_register ();
 	gst_pt_audio_asr_bin_register ();
 
-	tee           = _pt_make_element ("tee",             "tee",           NULL);
+	tee            = _pt_make_element ("tee",             "tee",           NULL);
 	self->play_bin = _pt_make_element ("ptaudioplaybin",  "play-audiobin", NULL);
 	self->asr_bin  = _pt_make_element ("ptaudioasrbin",   "asr-audiobin",  NULL);
 
 	gst_bin_add_many (GST_BIN (self), tee, self->play_bin, NULL);
 
-	tee_sink = gst_element_get_static_pad (tee, "sink");
+	self->tee_sink = gst_element_get_static_pad (tee, "sink");
 	self->tee_play_src = gst_element_get_request_pad (tee, "src_%u");
 	self->tee_asr_src = gst_element_get_request_pad (tee, "src_%u");
 	play_sink = gst_element_get_static_pad (self->play_bin, "sink");
@@ -374,9 +381,8 @@ gst_pt_audio_bin_init (GstPtAudioBin *self)
 
 	/* create ghost pad for audiosink */
 	gst_element_add_pad (GST_ELEMENT (self),
-	                     gst_ghost_pad_new ("sink", tee_sink));
+	                     gst_ghost_pad_new ("sink", self->tee_sink));
 
-	gst_object_unref (GST_OBJECT (tee_sink));
 	gst_object_unref (GST_OBJECT (play_sink));
 }
 

@@ -66,6 +66,9 @@ GST_DEBUG=ptaudioasrbin:5 parlatype
 
 G_MESSAGES_DEBUG=parlatype parlatype
 
+Debugging test suite:
+meson test --gdb testname
+
 
 Release
 =======
