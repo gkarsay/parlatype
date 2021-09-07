@@ -1905,7 +1905,8 @@ pt_player_init (PtPlayer *player)
 {
 	player->priv = pt_player_get_instance_private (player);
 
-	PtPlayerPrivate *priv = player->priv;
+	PtPlayerPrivate   *priv = player->priv;
+	GstElementFactory *factory;
 
 	priv->timestamp_precision = PT_PRECISION_SECOND_10TH;
 	priv->timestamp_fixed = FALSE;
@@ -1916,12 +1917,27 @@ pt_player_init (PtPlayer *player)
 
 	gst_init (NULL, NULL);
 
-	gst_pt_audio_bin_register ();
+	/* Check if elements are already statically registered, otherwise
+	 * gst_element_get_factory() (used e.g. by playbin/decodebin) will
+	 * return an invalid factory. */
+	factory = gst_element_factory_find ("ptaudiobin");
+	if (factory == NULL)
+		gst_pt_audio_bin_register ();
+	else
+		gst_object_unref (factory);
 #ifdef HAVE_POCKETSPHINX
-	gst_parlasphinx_register ();
+	factory = gst_element_factory_find ("parlasphinx");
+	if (factory == NULL)
+		gst_parlasphinx_register ();
+	else
+		gst_object_unref (factory);
 #endif
 #ifdef HAVE_DEEPSPEECH
-	gst_ptdeepspeech_register ();
+	factory = gst_element_factory_find ("ptdeepspeech");
+	if (factory == NULL)
+		gst_ptdeepspeech_register ();
+	else
+		gst_object_unref (factory);
 #endif
 
 	priv->play       = _pt_make_element ("playbin",    "play",     NULL);
