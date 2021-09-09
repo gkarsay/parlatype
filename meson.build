@@ -59,7 +59,7 @@ windows = import('windows')
 
 # Checks for libraries.
 gtk = dependency('gtk+-3.0', version: '>= 3.22')
-glib = dependency('glib-2.0', version: '>= 2.50.2')
+glib = dependency('glib-2.0', version: '>= 2.58')
 
 if host_machine.system() == 'windows'
   rc_conf = configuration_data()

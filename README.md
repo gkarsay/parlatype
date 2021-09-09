@@ -14,6 +14,7 @@ To build Parlatype from source you need these packages:
 * gobject-introspection-1.0
 * yelp-tools
 * gtk+-3.0 >= 3.22
+* glib-2.0 >= 2.58
 * gnome-desktop-3.0
 * gstreamer-1.0 >= 1.6.3
 * gstreamer-plugins-base-1.0
@@ -28,9 +29,8 @@ Optional, depending on your configure options:
 
 Runtime dependencies:
 * GStreamer "Good" Plugins
-* If you need MP3 support for GStreamer versions older than 1.14, you have to install the "Ugly" Plugins.
 
-Debian based distros have to be Debian >= 9 (Stretch) or Ubuntu >= 18.04 (Bionic). On Debian Stretch meson must be installed from backports. Install these packages:
+Debian based distros have to be Debian >= 10 (Buster) or Ubuntu >= 20.04 (Focal). Install these packages:
 
 ```
 $ sudo apt-get install meson build-essential libgirepository1.0-dev libgladeui-dev gtk-doc-tools yelp-tools libgtk-3-dev libgtk-3-0 libgnome-desktop-3-dev libgstreamer1.0-dev libgstreamer1.0-0 libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly libatspi2.0-dev libsphinxbase-dev libpocketsphinx-dev
