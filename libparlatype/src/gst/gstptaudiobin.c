@@ -220,7 +220,7 @@ gst_pt_audio_bin_set_mode (GstPtAudioBin  *self,
 
 	if (self->pending == PT_MODE_ASR &&
 	    !GST_PT_AUDIO_ASR_BIN (self->asr_bin)->is_configured)
-		return; /* FIXME return FALSE, error */
+		return;
 
 	GST_DEBUG_OBJECT (self, "blocking pad for mode switch from %d to %d",
 	                  self->mode, self->pending);
