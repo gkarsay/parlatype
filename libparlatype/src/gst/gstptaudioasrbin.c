@@ -122,6 +122,7 @@ configure_plugin (GTask *task)
 	GST_DEBUG_OBJECT (self, "flush-start event %s", success ? "sent" : "not sent");
 	success = gst_pad_push_event (sinkpad, gst_event_new_flush_stop (TRUE));
 	GST_DEBUG_OBJECT (self, "flush-stop event %s", success ? "sent" : "not sent");
+	gst_object_unref (sinkpad);
 
 	g_task_return_boolean (task, TRUE);
 	g_object_unref (task);
@@ -211,6 +212,7 @@ gst_pt_audio_asr_bin_configure_asr_async (GstPtAudioAsrBin   *self,
 		configure_plugin (task);
 		flush_plugin (self);
 	}
+	gst_object_unref (blockpad);
 }
 
 static void

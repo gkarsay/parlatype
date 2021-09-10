@@ -254,6 +254,8 @@ gst_pt_audio_bin_dispose (GObject *object)
 		unref_element_without_parent (self->play_bin);
 	if (self->asr_bin)
 		unref_element_without_parent (self->asr_bin);
+	if (self->id_sink)
+		gst_object_unref (GST_OBJECT (self->id_sink));
 	if (self->id_src)
 		gst_object_unref (GST_OBJECT (self->id_src));
 
