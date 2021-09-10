@@ -42,9 +42,8 @@ struct _GstPtAudioBin
 
 	GstElement *play_bin;
 	GstElement *asr_bin;
-	GstPad     *tee_sink;
-	GstPad     *tee_play_src;
-	GstPad     *tee_asr_src;
+	GstPad     *id_sink;
+	GstPad     *id_src;
 
 	/* properties */
 	gboolean    player;
