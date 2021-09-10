@@ -159,12 +159,12 @@ gst_pt_audio_play_bin_set_property (GObject      *object,
 
 	switch (property_id) {
 	case PROP_MUTE:
-		g_object_set (bin->volume_changer,
-		              "mute", g_value_get_boolean (value), NULL);
+		bin->mute = g_value_get_boolean (value);
+		g_object_set (bin->volume_changer, "mute", bin->mute, NULL);
 		break;
 	case PROP_VOLUME:
-		g_object_set (bin->volume_changer,
-		              "volume", g_value_get_double (value), NULL);
+		bin->volume = g_value_get_double (value);
+		g_object_set (bin->volume_changer, "volume", bin->volume, NULL);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -179,17 +179,15 @@ gst_pt_audio_play_bin_get_property (GObject    *object,
                                     GParamSpec *pspec)
 {
 	GstPtAudioPlayBin *bin = GST_PT_AUDIO_PLAY_BIN (object);
-	gboolean mute;
-	gdouble  volume;
 
 	switch (property_id) {
 	case PROP_MUTE:
-		g_object_get (bin->volume_changer, "mute", &mute, NULL);
-		g_value_set_boolean (value, mute);
+		g_object_get (bin->volume_changer, "mute", &bin->mute, NULL);
+		g_value_set_boolean (value, bin->mute);
 		break;
 	case PROP_VOLUME:
-		g_object_get (bin->volume_changer, "volume", &volume, NULL);
-		g_value_set_double (value, volume);
+		g_object_get (bin->volume_changer, "volume", &bin->volume, NULL);
+		g_value_set_double (value, bin->volume);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);

@@ -39,7 +39,7 @@ struct _GstPtAudioPlayBin
 	GstElement *volume_changer;
 
 	/* properties */
-	gfloat   volume;
+	gdouble  volume;
 	gboolean mute;
 };
 
