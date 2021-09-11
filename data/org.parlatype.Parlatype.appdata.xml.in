@@ -41,13 +41,28 @@
 	</kudos>
 
 	<releases>
+		<release version="3.0" date="2021-11-02">
+			<description>
+			<p>This is a major release with new features.</p>
+			<ul>
+			<li>Support for Mozilla DeepSpeech.</li>
+			<li>New configuration system for Automatic Speech Recognition.</li>
+			<li>Translation updates for several languages.</li>
+			</ul>
+			</description>
+		</release>
 		<release version="2.1" date="2020-06-21">
 			<description>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<p>This is a minor release with bug fixes and minor new features.</p>
 			<ul>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<li>Mute/unmute volume by clicking on the volume icon with the pointer’s secondary button (usually right mouse button).</li>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<li>With Pulseaudio Parlatype doesn’t change the system volume anymore, just its own application specific volume.</li>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<li>The initial volume level is picked up from Pulseaudio.</li>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<li>Translation updates for several languages.</li>
 			</ul>
 			</description>

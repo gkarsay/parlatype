@@ -1,3 +1,37 @@
+Overview of Changes in Parlatype 3.0 – 2021-11-02
+=================================================
+
+* New: ASR plugin for Mozilla DeepSpeech (needs DeepSpeech at compile time)
+* New: Removed possibility to output ASR results to random applications using
+       assistive technologies and removed internal textpad. ASR results are
+       emitted through D-Bus only and applications like Parlatype LibreOffice
+       Extension can listen to them. Removed (now unnecessary option)
+       --with-asr.
+* New: Rewritten ASR preferences page with Configs per model.
+* New: Internal GStreamer plugins are now private to the lib, which should
+       eliminate all errors related to GStreamer registry.
+* New: Flatpak builds Mozilla DeepSpeech 0.9.
+* New: New App Icon by Tobias Bernard
+* New: Many preparations for GTK 4, maintenance work, modularizing and
+       refactoring code, increased test coverage, fixed memory leaks.
+* New: Main development branch is now called "main".
+* New: Version string includes git commit if applicable
+
+* Fix: Don't mirror waveform in RTL layouts, they expect it to be like in LTR.
+
+* Changed dependencies:
+  - Removed atspi-2
+  - Added iso-codes
+  - Raised glib-2.0 to 2.58
+  - Added optional deepspeech
+
+* New or updated translations:
+  - de: Gabor Karsay
+  - it: albanobattistella
+  - he: Tal Einat
+  - pl: Piotr Drąg
+
+
 Overview of Changes in Parlatype 2.1 – 2020-06-21
 =================================================
 
