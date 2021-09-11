@@ -54,6 +54,19 @@ struct _PtPlayerClass
 	GObjectClass parent_class;
 };
 
+/**
+ * PtModeType:
+ * @PT_MODE_PLAYBACK: normal audible playback
+ * @PT_MODE_ASR: silent automatic speech recognition
+ *
+ * Enum values indicating PtPlayer output mode.
+ */
+typedef enum {
+	PT_MODE_PLAYBACK,
+	PT_MODE_ASR,
+	/*< private >*/
+	PT_MODE_INVALID
+} PtModeType;
 
 /**
  * PtPrecisionType:
@@ -127,10 +140,9 @@ gboolean	pt_player_goto_timestamp	(PtPlayer *player,
 						 gchar    *timestamp);
 void		pt_player_connect_waveviewer	(PtPlayer *player,
 						 PtWaveviewer *wv);
-void		pt_player_setup_player		(PtPlayer  *player,
-						 gboolean   state);
-void		pt_player_setup_asr		(PtPlayer  *player,
-						 gboolean   state);
+void		pt_player_set_mode		(PtPlayer  *player,
+						 PtModeType type);
+PtModeType	pt_player_get_mode		(PtPlayer  *player);
 gboolean	pt_player_configure_asr		(PtPlayer  *player,
 						 PtConfig  *config,
 						 GError   **error);

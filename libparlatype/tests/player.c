@@ -39,7 +39,6 @@ pt_player_fixture_set_up (PtPlayerFixture *fixture,
 	gboolean  success;
 
 	fixture->testplayer = pt_player_new ();
-	pt_player_setup_player (fixture->testplayer, TRUE);
 
 	path = g_test_build_filename (G_TEST_DIST, "data", "tick-10sec.ogg", NULL);
 	/* In make distcheck the path is something like /_build/../data/test1.ogg".
@@ -86,7 +85,6 @@ player_new (void)
 	gint pause, back, forward;
 
 	testplayer = pt_player_new ();
-	pt_player_setup_player (testplayer, TRUE);
 	g_assert_true (PT_IS_PLAYER (testplayer));
 	g_object_set (testplayer,
 		      "pause", 0,
@@ -157,7 +155,6 @@ player_open_fail (void)
 	gchar       *uri;
 
 	player = pt_player_new ();
-	pt_player_setup_player (player, TRUE);
 
 	/* Fails to open "foo" */
 	data.loop = g_main_loop_new (g_main_context_default (), FALSE);
@@ -421,7 +418,6 @@ player_volume_speed (PtPlayerFixture *fixture,
 
 	/* check bind property */
 	bind_player = pt_player_new ();
-	pt_player_setup_player (bind_player, TRUE);
 
 	g_object_bind_property (fixture->testplayer, "volume",
 				bind_player, "volume",
@@ -528,7 +524,6 @@ player_config_loadable (void)
 
 	/* Create player */
 	testplayer = pt_player_new ();
-	pt_player_setup_player (testplayer, TRUE);
 	g_assert_true (PT_IS_PLAYER (testplayer));
 	mock_plugin_register ();
 

@@ -21,27 +21,23 @@
  * An audio bin that can be connected to a playbin element via playbin's
  * audio-filter property. It supports normal playback and silent ASR output
  * using an ASR plugin.
- * .----------------------------------.
- * | pt_audio_bin                     |
- * | .------.   .-------------------. |
- * | | tee  |   | pt_audio_play_bin | |
- * -->      ---->                   | |
- * | |      |   |                   | |
- * | |      |   '-------------------' |
- * | |      |   .-------------------. |
- * | |      |   | pt_audio_asr_bin  | |
- * | |      ---->                   | |
- * | |      |   |                   | |
- * | '------'   '-------------------' |
- * '----------------------------------'
+ * .--------------------------------------.
+ * | pt_audio_bin                         |
+ * | .-----------.  .-------------------. |
+ * | | identity  |  | pt_audio_play_bin | |
+ * -->           |  |                   | |
+ * | | dynamic   --->                   | |
+ * | | linking   |  '-------------------' |
+ * | | to 1 of 2 |  .-------------------. |
+ * | | sinks     --->                   | |
+ * | |           |  | pt_audio_asr_bin  | |
+ * | |           |  |                   | |
+ * | '-----------'  '-------------------' |
+ * '--------------------------------------'
 
 Note 1: It doesn’t work if play_audio_play_bin or pt_audio_asr_bin are added to
         pt_audio_bin but are not linked! Either link it or remove it from bin!
 
-Note 2: The original intent was to dynamically switch the tee element to either
-        playback or ASR. Rethink this design, maybe tee element can be completely
-        omitted. On the other hand, maybe they could be somehow synced to have
-        audio and recognition in real time.
 */
 
 #include "config.h"
@@ -76,107 +72,192 @@ enum
 static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
 
 
-static void
-link_tee (GstPad     *tee_srcpad,
-          GstElement *sink_bin)
+static GstPadProbeReturn
+change_mode_cb (GstPad          *pad,
+                GstPadProbeInfo *info,
+                gpointer         user_data)
 {
-	GstPad           *sinkpad;
+	GstPtAudioBin *self = GST_PT_AUDIO_BIN (user_data);
+	GstElement *old_child, *new_child;
+	GstPad     *sinkpad;
+	GstObject  *parent;
 	GstPadLinkReturn  r;
 
-	sinkpad = gst_element_get_static_pad (sink_bin, "sink");
-	g_assert_nonnull (sinkpad);
-	r = gst_pad_link (tee_srcpad, sinkpad);
-	g_assert (r == GST_PAD_LINK_OK);
-	gst_object_unref (sinkpad);
-}
+	gst_pad_remove_probe (pad, GST_PAD_PROBE_INFO_ID (info));
 
-static void
-remove_element (GstBin *parent,
-                gchar  *child_name)
-{
-	GstElement *child;
-	child = gst_bin_get_by_name (parent, child_name);
-	if (!child)
-		return;
-
-	/* removing dereferences removed element, we want to keep it */
-	gst_object_ref (child);
-	gst_bin_remove (parent, child);
-}
-
-static void
-add_element (GstBin     *parent,
-             GstElement *child,
-             GstPad     *srcpad)
-{
-	GstElement *cmp;
-	gchar      *child_name;
-
-	child_name = gst_element_get_name (child);
-	cmp = gst_bin_get_by_name (parent, child_name);
-	g_free (child_name);
-	if (cmp) {
-		gst_object_unref (cmp);
-		/* element is already in bin */
-		return;
+	/* get element to remove */
+	switch (self->pending) {
+	case (PT_MODE_PLAYBACK):
+		old_child = self->asr_bin;
+		new_child = self->play_bin;
+		break;
+	case (PT_MODE_ASR):
+		old_child = self->play_bin;
+		new_child = self->asr_bin;
+		break;
+	default:
+		g_return_val_if_reached (GST_PAD_PROBE_OK);
 	}
 
-	gst_bin_add (parent, child);
-	link_tee (srcpad, child);
+	parent = gst_element_get_parent (old_child);
+	if (!parent) {
+		GST_DEBUG_OBJECT (old_child, "%s has no parent", GST_OBJECT_NAME (old_child));
+		return GST_PAD_PROBE_OK;
+	}
+
+	/* Unlink upstream, i.e. child's sink pad */
+	sinkpad = gst_element_get_static_pad (old_child, "sink");
+	GST_DEBUG_OBJECT (old_child, "unlinking %s", GST_OBJECT_NAME (old_child));
+	gst_pad_unlink (pad, sinkpad);
+
+	/* TODO investigate if flushing necessary */
+
+	/* set to null or ready */
+	gst_element_set_state (old_child, GST_STATE_NULL);
+
+	/* remove from bin, dereferences removed element, we want to keep it */
+	GST_DEBUG_OBJECT (old_child, "removing %s from %s", GST_OBJECT_NAME (old_child), GST_OBJECT_NAME (parent));
+	gst_object_ref (old_child);
+	gst_bin_remove (GST_BIN (parent), old_child);
+
+	gst_object_unref (parent);
+	g_object_unref (sinkpad);
+
+	/* check if in bin */
+	parent = gst_element_get_parent (new_child);
+	if (parent) {
+		GST_DEBUG_OBJECT (new_child, "%s has already a parent %s",
+		                  GST_OBJECT_NAME (new_child), GST_OBJECT_NAME (parent));
+		gst_object_unref (parent);
+		return GST_PAD_PROBE_OK;
+	}
+
+	GST_DEBUG_OBJECT (new_child, "adding %s to %s",
+	                  GST_OBJECT_NAME (new_child), GST_OBJECT_NAME (self));
+	gst_bin_add (GST_BIN (self), new_child);
+	GST_DEBUG_OBJECT (new_child, "state: %s",
+	                  gst_element_state_get_name (GST_STATE(new_child)));
+
+	gst_element_sync_state_with_parent (new_child);
+	GST_DEBUG_OBJECT (new_child, "state: %s",
+	                  gst_element_state_get_name (GST_STATE(new_child)));
+
+	sinkpad = gst_element_get_static_pad (new_child, "sink");
+	r = gst_pad_link (self->id_src, sinkpad);
+	g_assert (r == GST_PAD_LINK_OK);
+
+	gst_object_unref (sinkpad);
+	GST_DEBUG_OBJECT (self, "switched mode to %d", self->pending);
+	self->mode = self->pending;
+
+	return GST_PAD_PROBE_OK;
 }
 
-void
-gst_pt_audio_bin_setup_asr (GstPtAudioBin  *bin,
-                            gboolean        state)
+typedef struct
 {
-	if (state)
-		add_element (GST_BIN (bin), bin->asr_bin, bin->tee_asrpad);
-	else
-		remove_element (GST_BIN (bin), "asr-audiobin");
+	GAsyncResult *res;
+	GMainLoop    *loop;
+} SyncData;
+
+static void
+quit_loop_cb (GstPtAudioBin *self,
+              GAsyncResult  *res,
+              gpointer       user_data)
+{
+	SyncData *data = user_data;
+	data->res = g_object_ref (res);
+	g_main_loop_quit (data->loop);
 }
 
 gboolean
-gst_pt_audio_bin_configure_asr (GstPtAudioBin  *self,
+gst_pt_audio_bin_configure_asr (GstPtAudioBin *self,
                                 PtConfig      *config,
                                 GError       **error)
 {
 	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
-	gboolean result;
 	GstPtAudioAsrBin *bin;
+	SyncData          data;
+	GMainContext     *context;
+	gboolean          result;
 
 	bin = GST_PT_AUDIO_ASR_BIN (self->asr_bin);
-	result = gst_pt_audio_asr_bin_configure_asr (bin, config, error);
+	context = g_main_context_new ();
+	g_main_context_push_thread_default (context);
+
+	data.loop = g_main_loop_new (context, FALSE);
+	data.res = NULL;
+
+	gst_pt_audio_asr_bin_configure_asr_async (bin, config, NULL, (GAsyncReadyCallback) quit_loop_cb, &data);
+	g_main_loop_run (data.loop);
+
+	result = gst_pt_audio_asr_bin_configure_asr_finish (bin, data.res, error);
+	GST_DEBUG_OBJECT (self, "Finished asr configuration");
+	GST_DEBUG_OBJECT (self, "asr state: %s", gst_element_state_get_name (GST_STATE (GST_ELEMENT (bin))));
+
+	g_main_context_pop_thread_default (context);
+	g_main_context_unref (context);
+	g_main_loop_unref (data.loop);
+	g_object_unref (data.res);
 
 	return result;
 }
 
-void
-gst_pt_audio_bin_setup_player (GstPtAudioBin  *bin,
-                               gboolean        state)
+PtModeType
+gst_pt_audio_bin_get_mode (GstPtAudioBin  *self)
 {
-	if (state)
-		add_element (GST_BIN (bin), bin->play_bin, bin->tee_playpad);
-	else
-		remove_element (GST_BIN (bin), "play-audiobin");
+	return self->mode;
+}
+
+void
+gst_pt_audio_bin_set_mode (GstPtAudioBin  *self,
+                           PtModeType      new)
+{
+	if (self->mode == new)
+		return;
+
+	self->pending = new;
+
+	if (self->pending == PT_MODE_ASR &&
+	    !GST_PT_AUDIO_ASR_BIN (self->asr_bin)->is_configured)
+		return;
+
+	GST_DEBUG_OBJECT (self, "blocking pad for mode switch from %d to %d",
+	                  self->mode, self->pending);
+
+	gst_pad_add_probe (self->id_src,
+	                   GST_PAD_PROBE_TYPE_BLOCKING | GST_PAD_PROBE_TYPE_BLOCK_DOWNSTREAM,
+	                   change_mode_cb, self, NULL);
+}
+
+static void
+unref_element_without_parent (GstElement *element)
+{
+	GstObject *parent;
+
+	parent = gst_element_get_parent (element);
+	if (!parent) {
+		gst_element_set_state (element, GST_STATE_NULL);
+		gst_object_unref (element);
+	} else {
+		gst_object_unref (parent);
+	}
+	element = NULL;
 }
 
 static void
 gst_pt_audio_bin_dispose (GObject *object)
 {
-	GstPtAudioBin *bin = GST_PT_AUDIO_BIN (object);
+	GstPtAudioBin *self = GST_PT_AUDIO_BIN (object);
 
-	if (bin->tee) {
-		/* Add all possible elements because elements without a parent
-		   won't be destroyed. */
-		add_element (GST_BIN (bin),
-		             bin->play_bin, bin->tee_playpad);
-		add_element (GST_BIN (bin),
-		             bin->asr_bin, bin->tee_asrpad);
-
-		gst_object_unref (GST_OBJECT (bin->tee_playpad));
-		gst_object_unref (GST_OBJECT (bin->tee_asrpad));
-	}
+	if (self->play_bin)
+		unref_element_without_parent (self->play_bin);
+	if (self->asr_bin)
+		unref_element_without_parent (self->asr_bin);
+	if (self->id_sink)
+		gst_object_unref (GST_OBJECT (self->id_sink));
+	if (self->id_src)
+		gst_object_unref (GST_OBJECT (self->id_src));
 
 	G_OBJECT_CLASS (gst_pt_audio_bin_parent_class)->dispose (object);
 }
@@ -187,15 +268,15 @@ gst_pt_audio_bin_set_property (GObject      *object,
                                const GValue *value,
                                GParamSpec   *pspec)
 {
-	GstPtAudioBin *bin = GST_PT_AUDIO_BIN (object);
+	GstPtAudioBin *self = GST_PT_AUDIO_BIN (object);
 
 	switch (property_id) {
 	case PROP_MUTE:
-		g_object_set (bin->play_bin,
+		g_object_set (self->play_bin,
 		              "mute", g_value_get_boolean (value), NULL);
 		break;
 	case PROP_VOLUME:
-		g_object_set (bin->play_bin,
+		g_object_set (self->play_bin,
 		              "volume", g_value_get_double (value), NULL);
 		break;
 	default:
@@ -210,17 +291,17 @@ gst_pt_audio_bin_get_property (GObject    *object,
                                GValue     *value,
                                GParamSpec *pspec)
 {
-	GstPtAudioBin *bin = GST_PT_AUDIO_BIN (object);
+	GstPtAudioBin *self = GST_PT_AUDIO_BIN (object);
 	gboolean mute;
 	gdouble  volume;
 
 	switch (property_id) {
 	case PROP_MUTE:
-		g_object_get (bin->play_bin, "mute", &mute, NULL);
+		g_object_get (self->play_bin, "mute", &mute, NULL);
 		g_value_set_boolean (value, mute);
 		break;
 	case PROP_VOLUME:
-		g_object_get (bin->play_bin, "volume", &volume, NULL);
+		g_object_get (self->play_bin, "volume", &volume, NULL);
 		g_value_set_double (value, volume);
 		break;
 	default:
@@ -230,23 +311,33 @@ gst_pt_audio_bin_get_property (GObject    *object,
 }
 
 static void
-gst_pt_audio_bin_init (GstPtAudioBin *bin)
+gst_pt_audio_bin_init (GstPtAudioBin *self)
 {
+	GstElement *identity;
+	GstPad     *play_sink;
+
 	gst_pt_audio_play_bin_register ();
 	gst_pt_audio_asr_bin_register ();
 
-	bin->play_bin = _pt_make_element ("ptaudioplaybin", "play-audiobin", NULL);
-	bin->asr_bin  = _pt_make_element ("ptaudioasrbin",  "asr-audiobin",  NULL);
-	bin->tee      = _pt_make_element ("tee",            "tee",           NULL);
-	bin->tee_playpad = gst_element_get_request_pad (bin->tee, "src_%u");
-	bin->tee_asrpad  = gst_element_get_request_pad (bin->tee, "src_%u");
+	identity       = _pt_make_element ("identity",        "identity",      NULL);
+	self->play_bin = _pt_make_element ("ptaudioplaybin",  "play-audiobin", NULL);
+	self->asr_bin  = _pt_make_element ("ptaudioasrbin",   "asr-audiobin",  NULL);
 
-	gst_bin_add (GST_BIN (bin), bin->tee);
+	gst_bin_add_many (GST_BIN (self), identity, self->play_bin, NULL);
+
+	self->id_sink = gst_element_get_static_pad (identity, "sink");
+	self->id_src  = gst_element_get_static_pad (identity, "src");
+	play_sink = gst_element_get_static_pad (self->play_bin, "sink");
+
+	/* link play bin with identity */
+	gst_pad_link (self->id_src, play_sink);
+	self->mode = PT_MODE_PLAYBACK;
 
 	/* create ghost pad for audiosink */
-	GstPad *audiopad = gst_element_get_static_pad (bin->tee, "sink");
-	gst_element_add_pad (GST_ELEMENT (bin), gst_ghost_pad_new ("sink", audiopad));
-	gst_object_unref (GST_OBJECT (audiopad));
+	gst_element_add_pad (GST_ELEMENT (self),
+	                     gst_ghost_pad_new ("sink", self->id_sink));
+
+	gst_object_unref (GST_OBJECT (play_sink));
 }
 
 static void

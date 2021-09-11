@@ -211,7 +211,7 @@ zoom_out (GSimpleAction *action,
 }
 
 static gboolean
-setup_sphinx (PtWindow *win)
+setup_asr (PtWindow *win)
 {
 	GError *error = NULL;
 	gboolean success;
@@ -221,12 +221,10 @@ setup_sphinx (PtWindow *win)
 			win->priv->asr_config,
 			&error);
 
-	if (success) {
-		pt_player_setup_asr (win->player, TRUE);
-		pt_player_setup_player (win->player, FALSE);
-	} else {
+	if (success)
+		pt_player_set_mode (win->player, PT_MODE_ASR);
+	else
 		pt_error_message (win, error->message, NULL);
-	}
 
 	return success;
 }
@@ -234,8 +232,7 @@ setup_sphinx (PtWindow *win)
 static void
 set_mode_playback (PtWindow *win)
 {
-	pt_player_setup_asr (win->player, FALSE);
-	pt_player_setup_player (win->player, TRUE);
+	pt_player_set_mode (win->player, PT_MODE_PLAYBACK);
 }
 
 void
@@ -252,7 +249,7 @@ change_mode (GSimpleAction *action,
 		set_mode_playback (win);
 	} else if (g_strcmp0 (mode, "asr") == 0) {
 		if (win->priv->asr_config != NULL) {
-			success = setup_sphinx (win);
+			success = setup_asr (win);
 		} else {
 			return;
 		}
@@ -788,7 +785,7 @@ set_asr_config (PtWindow *win)
 	}
 
 	if (g_strcmp0 (mode, "asr") == 0)
-		setup_sphinx (win);
+		setup_asr (win);
 
 	g_variant_unref (variant);
 }
@@ -1050,7 +1047,7 @@ static void
 setup_player (PtWindow *win)
 {
 	win->player = pt_player_new ();
-	pt_player_setup_player (win->player, TRUE);
+	pt_player_set_mode (win->player, PT_MODE_PLAYBACK);
 
 	pt_player_connect_waveviewer (
 			win->player,

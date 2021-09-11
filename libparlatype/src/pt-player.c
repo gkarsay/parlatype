@@ -155,21 +155,6 @@ pt_player_seek (PtPlayer *player,
 		GST_CLOCK_TIME_NONE);
 }
 
-static void
-pt_player_set_state_blocking (PtPlayer *player,
-                              GstState  state)
-{
-	g_assert (GST_IS_ELEMENT (player->priv->play));
-
-	gst_element_set_state (player->priv->play, state);
-
-	/* Block until state changed */
-	gst_element_get_state (
-		player->priv->play,
-		NULL, NULL,
-		GST_CLOCK_TIME_NONE);
-}
-
 static GFile*
 pt_player_get_file (PtPlayer *player)
 {
@@ -464,9 +449,13 @@ pt_player_get_pause (PtPlayer *player)
  * pt_player_play:
  * @player: a #PtPlayer
  *
- * Starts playback at the defined speed until it reaches the end of stream (or
- * the end of the selection). If the current position is at the end, playback
- * will start from the beginning of stream or selection.
+ * Starts playback in playback mode at the defined speed until it reaches the
+ * end of stream (or the end of the selection). If the current position is at
+ * the end, playback will start from the beginning of the stream or selection.
+ *
+ * In ASR mode it starts decoding the stream silently at the fastest possible
+ * speed and emitting textual results via the #PtPlayer::asr-hypothesis and
+ * #PtPlayer::asr-final signals.
  *
  * Since: 1.4
  */
@@ -1660,44 +1649,15 @@ mute_changed (GObject    *object,
 }
 
 /**
- * pt_player_setup_asr:
- * @player: a #PtPlayer
- * @state: enable or disable ASR
- *
- * A @state of TRUE enables automatic speech recognition. The pipeline should
- * have been configured before with pt_player_configure_asr().
- *
- * A @state of FALSE disables automatic speech recognition. This is the default.
-
- * To get the results, connect to the #PtPlayer::asr-hypothesis and/or
- * #PtPlayer::asr-final signal. Start recognition with pt_player_play().
- *
- * Since: 3.0
- */
-void
-pt_player_setup_asr (PtPlayer  *player,
-                     gboolean   state)
-{
-	GstPtAudioBin *bin = GST_PT_AUDIO_BIN (player->priv->audio_bin);
-	gint pos;
-
-	pos = pt_player_get_position (player);
-	pt_player_set_state_blocking (player, GST_STATE_NULL);
-
-	gst_pt_audio_bin_setup_asr (bin, state);
-
-	pt_player_set_state_blocking (player, GST_STATE_PAUSED);
-	if (pos > 0)
-		pt_player_jump_to_position (player, pos);
-}
-
-/**
  * pt_player_configure_asr:
  * @player: a #PtPlayer
  * @config: a #PtConfig
  * @error: (nullable): return location for an error, or NULL
  *
- * Configure ASR setup.
+ * Configure ASR setup with a #PtConfig instance. This is necessary before
+ * switching into #PT_MODE_ASR the first time. The configuration remains if
+ * you switch to normal playback and back to ASR again. Subsequently it can
+ * be changed in both modes.
  *
  * Return value: TRUE on success, otherwise FALSE
  *
@@ -1724,7 +1684,10 @@ pt_player_configure_asr (PtPlayer  *player,
  * @player: a #PtPlayer
  * @config: a #PtConfig
  *
- * Checks if #PtPlayer is able to load the GStreamer plugin used by @config.
+ * Checks if #PtPlayer is able to load the GStreamer plugin used by @config
+ * without actually loading it. It does not guarantee that the plugin is
+ * functional, merely that it is either a private plugin of PtPlayer itself
+ * or an installed external plugin.
  *
  * Return value: TRUE on success, otherwise FALSE
  *
@@ -1768,30 +1731,46 @@ pt_player_config_is_loadable (PtPlayer *player,
 }
 
 /**
- * pt_player_setup_player:
+ * pt_player_set_mode:
  * @player: a #PtPlayer
- * @state: enable or disable audible playback
+ * @type: the desired output mode
  *
- * Setup the GStreamer pipeline for playback.
+ * Set output mode. Initially #PtPlayer is in #PT_MODE_PLAYBACK. Before switching
+ * to #PT_MODE_ASR the programmer has to call pt_player_configure_asr() and check
+ * the result. Setting the mode is an asynchronous operation and when done in
+ * paused state, it will happen only during the change to playing state.
+ *
+ * Currently this works only well when done in paused state, in playing state
+ * there might be a jump in the timeline.
+ *
+ * To get the results in ASR mode, connect to the #PtPlayer::asr-hypothesis and/or
+ * #PtPlayer::asr-final signal. Start recognition with pt_player_play().
  *
  * Since: 3.0
  */
 void
-pt_player_setup_player (PtPlayer  *player,
-                        gboolean   state)
+pt_player_set_mode (PtPlayer  *player,
+                    PtModeType type)
 {
 	GstPtAudioBin *bin = GST_PT_AUDIO_BIN (player->priv->audio_bin);
-	gint pos;
+	gst_pt_audio_bin_set_mode (bin, type);
+}
 
-	pos = pt_player_get_position (player);
-	pt_player_set_state_blocking (player, GST_STATE_NULL);
-
-	gst_pt_audio_bin_setup_player (bin, state);
-
-	pt_player_set_state_blocking (player, GST_STATE_PAUSED);
-	if (pos > 0)
-		pt_player_jump_to_position (player, pos);
-
+/**
+ * pt_player_get_mode:
+ * @player: a #PtPlayer
+ *
+ * Get current output mode.
+ *
+ * Return value: the current mode
+ *
+ * Since: 3.0
+ */
+PtModeType
+pt_player_get_mode (PtPlayer  *player)
+{
+	GstPtAudioBin *bin = GST_PT_AUDIO_BIN (player->priv->audio_bin);
+	return gst_pt_audio_bin_get_mode (bin);
 }
 
 static void
@@ -1943,7 +1922,8 @@ pt_player_init (PtPlayer *player)
 {
 	player->priv = pt_player_get_instance_private (player);
 
-	PtPlayerPrivate *priv = player->priv;
+	PtPlayerPrivate   *priv = player->priv;
+	GstElementFactory *factory;
 
 	priv->timestamp_precision = PT_PRECISION_SECOND_10TH;
 	priv->timestamp_fixed = FALSE;
@@ -1954,12 +1934,27 @@ pt_player_init (PtPlayer *player)
 
 	gst_init (NULL, NULL);
 
-	gst_pt_audio_bin_register ();
+	/* Check if elements are already statically registered, otherwise
+	 * gst_element_get_factory() (used e.g. by playbin/decodebin) will
+	 * return an invalid factory. */
+	factory = gst_element_factory_find ("ptaudiobin");
+	if (factory == NULL)
+		gst_pt_audio_bin_register ();
+	else
+		gst_object_unref (factory);
 #ifdef HAVE_POCKETSPHINX
-	gst_parlasphinx_register ();
+	factory = gst_element_factory_find ("parlasphinx");
+	if (factory == NULL)
+		gst_parlasphinx_register ();
+	else
+		gst_object_unref (factory);
 #endif
 #ifdef HAVE_DEEPSPEECH
-	gst_ptdeepspeech_register ();
+	factory = gst_element_factory_find ("ptdeepspeech");
+	if (factory == NULL)
+		gst_ptdeepspeech_register ();
+	else
+		gst_object_unref (factory);
 #endif
 
 	priv->play       = _pt_make_element ("playbin",    "play",     NULL);
@@ -2072,13 +2067,14 @@ pt_player_class_init (PtPlayerClass *klass)
 		      0);
 
 	/**
-	* PtPlayer::asr-final:
-	* @player: the player emitting the signal
-	* @word: recognized word(s)
-	*
-	* The #PtPlayer::asr-final signal is emitted in automatic speech recognition
-	* mode whenever a word or a sequence of words was recognized.
-	*/
+	 * PtPlayer::asr-final:
+	 * @player: the player emitting the signal
+	 * @word: recognized word(s)
+	 *
+	 * The #PtPlayer::asr-final signal is emitted in automatic speech recognition
+	 * mode whenever a word or a sequence of words was recognized and won’t change
+	 * anymore. For intermediate results see #PtPlayer::asr-hypothesis.
+	 */
 	g_signal_new ("asr-final",
 		      PT_TYPE_PLAYER,
 		      G_SIGNAL_RUN_FIRST,
@@ -2090,19 +2086,21 @@ pt_player_class_init (PtPlayerClass *klass)
 		      1, G_TYPE_STRING);
 
 	/**
-	* PtPlayer::asr-hypothesis:
-	* @player: the player emitting the signal
-	* @word: probably recognized word(s)
-	*
-	* The #PtPlayer::asr-hypothesis signal is emitted in automatic speech recognition
-	* mode as an intermediate result (hypothesis) of recognized words.
-	* The hypothesis can still change, an emitted hypothesis replaces the
-	* former hypothesis and is finalized via the #PtPlayer::asr-final signal.
-	* It’s not necessary to connect to this signal if you want the final
-	* result only. However, it can take a few seconds until a final result
-	* is emitted and without an intermediate hypothesis the end user might
-	* have the impression that there is nothing going on.
-	*/
+	 * PtPlayer::asr-hypothesis:
+	 * @player: the player emitting the signal
+	 * @word: probably recognized word(s)
+	 *
+	 * The #PtPlayer::asr-hypothesis signal is emitted in automatic speech recognition
+	 * mode as an intermediate result (hypothesis) of recognized words.
+	 * The hypothesis can still change. The programmer is responsible for
+	 * replacing an emitted hypothesis by either the next following hypothesis
+	 * or a following #PtPlayer::asr-final signal.
+	 *
+	 * It’s not necessary to connect to this signal if you want the final
+	 * result only. However, it can take a few seconds until a final result
+	 * is emitted and without an intermediate hypothesis the end user might
+	 * have the impression that there is nothing going on.
+	 */
 	g_signal_new ("asr-hypothesis",
 		      PT_TYPE_PLAYER,
 		      G_SIGNAL_RUN_FIRST,
@@ -2301,8 +2299,8 @@ pt_player_class_init (PtPlayerClass *klass)
 /**
  * pt_player_new:
  *
- * Returns a new PtPlayer. You have to set it up for playback with
- * pt_player_setup_player() before doing anything else.
+ * Returns a new PtPlayer in #PT_MODE_PLAYBACK. The next step would be to open
+ * a file with pt_player_open_uri().
  *
  * After use g_object_unref() it.
  *

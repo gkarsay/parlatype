@@ -513,22 +513,30 @@ pt_config_version_is_valid (PtConfig *config)
 	gboolean success;
 
 	version = pt_config_get_string (config, "Model", "Version");
-	if (!version || g_strcmp0 (version, "") == 0)
+	if (!version || g_strcmp0 (version, "") == 0) {
+		g_free (version);
 		return FALSE;
+	}
 
 	version_split = g_strsplit (version, ".", 2);
 	success = g_ascii_string_to_signed (version_split[0],
 	                                    10, 1, 1,    /* base, min, max */
 	                                    &major, NULL);
-	if (!success)
+	g_free (version);
+	if (!success) {
+		g_strfreev (version_split);
 		return FALSE;
+	}
 
-	if (!version_split[1])
+	if (!version_split[1]) {
+		g_strfreev (version_split);
 		return FALSE;
+	}
 
-	success = g_ascii_string_to_signed (version_split[0],
+	success = g_ascii_string_to_signed (version_split[1],
 	                                    10, 0, G_MAXINT,
 	                                    NULL, NULL);
+	g_strfreev (version_split);
 	return success;
 }
 

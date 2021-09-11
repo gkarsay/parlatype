@@ -25,16 +25,55 @@
 #include "mock-plugin.h"
 
 
+/* Helpers to turn async operations into sync ------------------------------- */
+
+typedef struct
+{
+	GAsyncResult *res;
+	GMainLoop    *loop;
+} SyncData;
+
+static SyncData
+create_sync_data (void) {
+	SyncData      data;
+	GMainContext *context;
+
+	context = g_main_context_default ();
+	data.loop = g_main_loop_new (context, FALSE);
+	data.res = NULL;
+
+	return data;
+}
+
+static void
+free_sync_data (SyncData data) {
+	g_main_loop_unref (data.loop);
+	g_object_unref (data.res);
+}
+
+static void
+quit_loop_cb (GstPtAudioAsrBin *bin,
+              GAsyncResult     *res,
+              gpointer          user_data)
+{
+	SyncData *data = user_data;
+	data->res = g_object_ref (res);
+	g_main_loop_quit (data->loop);
+}
+
+/* Tests -------------------------------------------------------------------- */
+
 static void
 gst_audioasrbin (void)
 {
 
-	GstElement *asr;
+	GstPtAudioAsrBin *asr;
 	PtConfig   *good, *bad;
 	GFile      *testfile;
 	gchar      *testpath;
 	GError     *error = NULL;
 	gboolean    success;
+	SyncData    data;
 
 	/* Create config with existing plugin */
 	testpath = g_test_build_filename (G_TEST_DIST, "data", "config-mock-plugin.asr", NULL);
@@ -53,24 +92,32 @@ gst_audioasrbin (void)
 	g_free (testpath);
 
 	/* Create Test-Element */
-	asr = gst_element_factory_make ("ptaudioasrbin", "testbin");
+	asr = GST_PT_AUDIO_ASR_BIN (gst_element_factory_make ("ptaudioasrbin", "testbin"));
 	g_assert_nonnull (asr);
-	g_assert_false (GST_PT_AUDIO_ASR_BIN (asr)->is_configured);
+	g_assert_false (asr->is_configured);
 
 	/* Apply existing plugin */
-	success = gst_pt_audio_asr_bin_configure_asr (GST_PT_AUDIO_ASR_BIN (asr), good, &error);
+	data = create_sync_data ();
+	gst_pt_audio_asr_bin_configure_asr_async (asr, good, NULL, (GAsyncReadyCallback) quit_loop_cb, &data);
+	g_main_loop_run (data.loop);
+	success = gst_pt_audio_asr_bin_configure_asr_finish (asr, data.res, &error);
 	g_assert_true (success);
 	g_assert_no_error (error);
-	g_assert_true (GST_PT_AUDIO_ASR_BIN (asr)->is_configured);
-	g_assert_true (gst_pt_audio_asr_bin_is_configured (GST_PT_AUDIO_ASR_BIN (asr)));
+	g_assert_true (asr->is_configured);
+	g_assert_true (gst_pt_audio_asr_bin_is_configured (asr));
+	free_sync_data (data);
 
 	/* Apply missing plugin */
-	success = gst_pt_audio_asr_bin_configure_asr (GST_PT_AUDIO_ASR_BIN (asr), bad, &error);
+	data = create_sync_data ();
+	gst_pt_audio_asr_bin_configure_asr_async (asr, bad, NULL, (GAsyncReadyCallback) quit_loop_cb, &data);
+	g_main_loop_run (data.loop);
+	success = gst_pt_audio_asr_bin_configure_asr_finish (asr, data.res, &error);
 	g_assert_false (success);
 	g_assert_error (error, GST_CORE_ERROR, GST_CORE_ERROR_MISSING_PLUGIN);
-	g_assert_false (GST_PT_AUDIO_ASR_BIN (asr)->is_configured);
-	g_assert_false (gst_pt_audio_asr_bin_is_configured (GST_PT_AUDIO_ASR_BIN (asr)));
+	g_assert_false (asr->is_configured);
+	g_assert_false (gst_pt_audio_asr_bin_is_configured (asr));
 	g_clear_error (&error);
+	free_sync_data (data);
 
 	g_object_unref (good);
 	g_object_unref (bad);

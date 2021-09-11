@@ -3,8 +3,8 @@
 <TITLE>PtPlayer</TITLE>
 PtPlayer
 pt_player_new
-pt_player_setup_player
-pt_player_setup_asr
+pt_player_set_mode
+pt_player_get_mode
 pt_player_configure_asr
 pt_player_config_is_loadable
 pt_player_open_uri
@@ -41,6 +41,7 @@ pt_player_get_timestamp_position
 pt_player_string_is_timestamp
 pt_player_goto_timestamp
 PtPrecisionType
+PtModeType
 <SUBSECTION Standard>
 PT_IS_PLAYER
 PT_PLAYER

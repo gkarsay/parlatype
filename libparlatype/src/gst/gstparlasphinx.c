@@ -174,8 +174,11 @@ static GstStaticPadTemplate src_factory =
     GST_STATIC_PAD_TEMPLATE("src",
                             GST_PAD_SRC,
                             GST_PAD_ALWAYS,
-                            GST_STATIC_CAPS("text/plain")
-	);
+                            GST_STATIC_CAPS("audio/x-raw, "
+                                            "format = (string) { S16LE }, "
+                                            "channels = (int) 1, "
+                                            "rate = (int) 16000")
+        );
 
 /*
  * Boxing of ps_decoder_t.
@@ -625,25 +628,55 @@ static GstStateChangeReturn
 gst_parlasphinx_change_state(GstElement *element, GstStateChange transition)
 {
     GstParlaSphinx *ps = GST_PARLASPHINX(element);
+    GstStateChangeReturn ret;
+    GstEvent   *seek = NULL;
+    GstSegment *seg = NULL;
+    gboolean success;
 
+    /* handle upward state changes */
     switch (transition) {
          case GST_STATE_CHANGE_NULL_TO_READY:
-	    ps->ps = ps_init(ps->config);
-	    if (ps->ps == NULL) {
-	        GST_ELEMENT_ERROR(GST_ELEMENT(ps), LIBRARY, INIT,
+            ps->ps = ps_init(ps->config);
+            if (ps->ps == NULL) {
+                GST_ELEMENT_ERROR(GST_ELEMENT(ps), LIBRARY, INIT,
                           ("Failed to initialize PocketSphinx"),
                           ("Failed to initialize PocketSphinx"));
-	        return GST_STATE_CHANGE_FAILURE;
-	    }
+                return GST_STATE_CHANGE_FAILURE;
+            }
             break;
-         case GST_STATE_CHANGE_READY_TO_NULL:
-            ps_free(ps->ps);
-            ps->ps = NULL;
-         default:
+        default:
             break;
     }
 
-    return GST_ELEMENT_CLASS(gst_parlasphinx_parent_class)->change_state(element, transition);
+    ret = GST_ELEMENT_CLASS(gst_parlasphinx_parent_class)->change_state(element, transition);
+
+    /* handle downward state changes */
+    switch (transition) {
+        case GST_STATE_CHANGE_PLAYING_TO_PAUSED:
+            if (ps->eos)
+                break;
+            //gst_parlasphinx_finalize_utt(ps); // crash in pocketsphinx
+            /* Work around a problem with unknown cause:
+             * When changing to paused position queries return the running
+             * time instead of stream time */
+            seg = &ps->segment;
+            if (seg->position > seg->stop)
+                seg->position = seg->stop;
+            seek = gst_event_new_seek (1.0, GST_FORMAT_TIME,
+                                       GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE,
+                                       GST_SEEK_TYPE_SET, seg->position,
+                                       GST_SEEK_TYPE_NONE, -1);
+            success = gst_pad_push_event (ps->sinkpad, seek);
+            GST_DEBUG_OBJECT (ps, "pushed segment event: %s", success ? "yes" : "no");
+            break;
+        case GST_STATE_CHANGE_READY_TO_NULL:
+            ps_free(ps->ps);
+            ps->ps = NULL;
+        default:
+            break;
+    }
+
+    return ret;
 }
 
 static void
@@ -665,8 +698,22 @@ gst_parlasphinx_chain(GstPad * pad, GstObject *parent, GstBuffer * buffer)
     GstParlaSphinx *ps;
     GstMapInfo info;
     gboolean in_speech;
+    GstClockTime position, duration;
 
     ps = GST_PARLASPHINX(parent);
+
+    if (GST_STATE (GST_ELEMENT (ps)) != GST_STATE_PLAYING)
+        return gst_pad_push (ps->srcpad, buffer);
+
+    /* Track current position */
+    position = GST_BUFFER_TIMESTAMP (buffer);
+    if (GST_CLOCK_TIME_IS_VALID (position)) {
+        duration = GST_BUFFER_DURATION (buffer);
+        if (GST_CLOCK_TIME_IS_VALID (duration)) {
+            position += duration;
+        }
+    ps->segment.position = position;
+    }
 
     /* Start an utterance for the first buffer we get */
     if (!ps->listening_started) {
@@ -687,7 +734,7 @@ gst_parlasphinx_chain(GstPad * pad, GstObject *parent, GstBuffer * buffer)
         ps->speech_started = TRUE;
     }
     if (!in_speech && ps->speech_started) {
-	gst_parlasphinx_finalize_utt(ps);
+        gst_parlasphinx_finalize_utt(ps);
     } else if (ps->last_result_time == 0
         /* Get a partial result every now and then, see if it is different. */
         /* Check every 100 milliseconds. */
@@ -714,33 +761,27 @@ gst_parlasphinx_chain(GstPad * pad, GstObject *parent, GstBuffer * buffer)
 static void
 gst_parlasphinx_finalize_utt(GstParlaSphinx *ps)
 {
-    GstBuffer *buffer;
     char const *hyp;
     int32 score;
 
     hyp = NULL;
     if (!ps->listening_started)
-	return;
+        return;
 
     ps_end_utt(ps->ps);
     ps->listening_started = FALSE;
     hyp = ps_get_hyp(ps->ps, &score);
 
-    if (hyp) {
+    if (hyp)
         gst_parlasphinx_post_message(ps, TRUE, GST_CLOCK_TIME_NONE,
                                      ps_get_prob(ps->ps), hyp);
-        buffer = gst_buffer_new_and_alloc(strlen(hyp) + 1);
-	gst_buffer_fill(buffer, 0, hyp, strlen(hyp));
-	gst_buffer_fill(buffer, strlen(hyp), "\n", 1);
-	gst_pad_push(ps->srcpad, buffer);
-    }
 
     if (ps->latdir) {
         char *latfile;
         char uttid[16];
 
-	sprintf(uttid, "%09u", ps->uttno);
-	ps->uttno++;
+        sprintf(uttid, "%09u", ps->uttno);
+        ps->uttno++;
         latfile = string_join(ps->latdir, "/", uttid, ".lat", NULL);
         ps_lattice_t *dag;
         if ((dag = ps_get_lattice(ps->ps)))
@@ -755,13 +796,19 @@ gst_parlasphinx_event(GstPad *pad, GstObject *parent, GstEvent *event)
     GstParlaSphinx *ps;
 
     ps = GST_PARLASPHINX(parent);
+    ps->eos = FALSE;
 
     switch (event->type) {
     case GST_EVENT_EOS:
     {
-	gst_parlasphinx_finalize_utt(ps);
+        gst_parlasphinx_finalize_utt(ps);
+        ps->eos = TRUE;
         return gst_pad_event_default(pad, parent, event);
     }
+    case GST_EVENT_SEGMENT:
+        /* keep current segment, used for tracking current position */
+        gst_event_copy_segment (event, &ps->segment);
+        /* fall through */
     default:
         return gst_pad_event_default(pad, parent, event);
     }

@@ -304,6 +304,8 @@ int
 main (int argc, char *argv[])
 {
 	g_test_init (&argc, &argv, NULL);
+	gst_init (NULL, NULL);
+	mock_plugin_register ();
 
 	g_test_add_func ("/config/construct", construct);
 	g_test_add_func ("/config/main_methods", main_methods);

@@ -43,6 +43,7 @@ enum
 	PROP_SPEECH_MODEL,
 	PROP_SCORER,
 	PROP_BEAM_WIDTH,
+	PROP_VAD_MIN_SILENCE,
 	N_PROPERTIES
 };
 
@@ -65,37 +66,37 @@ G_DEFINE_TYPE (GstPtDeepspeech, gst_ptdeepspeech, GST_TYPE_ELEMENT);
 
 
 static gboolean
-gst_ptdeepspeech_load_model (GstPtDeepspeech *deepspeech)
+gst_ptdeepspeech_load_model (GstPtDeepspeech *self)
 {
 	int status;
 
-	status = DS_CreateModel (deepspeech->speech_model_path, &deepspeech->model_state);
+	status = DS_CreateModel (self->speech_model_path, &self->model_state);
 	if (status != DS_ERR_OK) {
-		GST_ELEMENT_ERROR (GST_ELEMENT(deepspeech), LIBRARY, SETTINGS,
+		GST_ELEMENT_ERROR (GST_ELEMENT(self), LIBRARY, SETTINGS,
 		                  ("%s", DS_ErrorCodeToErrorMessage(status)),
-		                  ("model path: %s", deepspeech->speech_model_path));
+		                  ("model path: %s", self->speech_model_path));
 		return FALSE;
 	}
 
-	status = DS_SetModelBeamWidth (deepspeech->model_state, deepspeech->beam_width);
+	status = DS_SetModelBeamWidth (self->model_state, self->beam_width);
 	if (status != DS_ERR_OK) {
-		GST_ELEMENT_ERROR (GST_ELEMENT(deepspeech), LIBRARY, SETTINGS,
+		GST_ELEMENT_ERROR (GST_ELEMENT(self), LIBRARY, SETTINGS,
 		                  ("%s", DS_ErrorCodeToErrorMessage(status)),
-		                  ("beam width: %d", deepspeech->beam_width));
+		                  ("beam width: %d", self->beam_width));
 		return FALSE;
 	}
 
-	status = DS_EnableExternalScorer (deepspeech->model_state, deepspeech->scorer_path);
+	status = DS_EnableExternalScorer (self->model_state, self->scorer_path);
 	if (status != DS_ERR_OK) {
-		GST_ELEMENT_ERROR (GST_ELEMENT(deepspeech), LIBRARY, SETTINGS,
+		GST_ELEMENT_ERROR (GST_ELEMENT(self), LIBRARY, SETTINGS,
 		                  ("%s", DS_ErrorCodeToErrorMessage(status)),
-		                  ("scorer path: %s", deepspeech->scorer_path));
+		                  ("scorer path: %s", self->scorer_path));
 		return FALSE;
 	}
 
-	status = DS_CreateStream (deepspeech->model_state, &deepspeech->streaming_state);
+	status = DS_CreateStream (self->model_state, &self->streaming_state);
 	if (status != DS_ERR_OK) {
-		GST_ELEMENT_ERROR (GST_ELEMENT(deepspeech), LIBRARY, SETTINGS,
+		GST_ELEMENT_ERROR (GST_ELEMENT(self), LIBRARY, SETTINGS,
 		                  ("%s", DS_ErrorCodeToErrorMessage(status)),
 		                  (NULL));
 		return FALSE;
@@ -105,7 +106,7 @@ gst_ptdeepspeech_load_model (GstPtDeepspeech *deepspeech)
 }
 
 static GstMessage *
-gst_ptdeepspeech_message_new (GstPtDeepspeech *deepspeech,
+gst_ptdeepspeech_message_new (GstPtDeepspeech *self,
                               GstBuffer       *buf,
                               const char      *text,
                               gboolean         final)
@@ -122,11 +123,11 @@ gst_ptdeepspeech_message_new (GstPtDeepspeech *deepspeech,
 	                       "hypothesis", G_TYPE_STRING,  text,
 	                        NULL);
 
-	return gst_message_new_element (GST_OBJECT (deepspeech), s);
+	return gst_message_new_element (GST_OBJECT (self), s);
 }
 
 static void
-get_text (GstPtDeepspeech *deepspeech,
+get_text (GstPtDeepspeech *self,
           GstBuffer       *buf,
           gboolean         final)
 {
@@ -135,23 +136,22 @@ get_text (GstPtDeepspeech *deepspeech,
 	int         status;
 
 	if (final)
-		result = DS_FinishStream (deepspeech->streaming_state);
+		result = DS_FinishStream (self->streaming_state);
 	else
-		result = DS_IntermediateDecode (deepspeech->streaming_state);
+		result = DS_IntermediateDecode (self->streaming_state);
 
-	g_print ("result: %s\n", result);
 	if (strlen(result) > 0) {
-		msg = gst_ptdeepspeech_message_new (deepspeech, buf, result, final);
-		gst_element_post_message (GST_ELEMENT (deepspeech), msg);
+		msg = gst_ptdeepspeech_message_new (self, buf, result, final);
+		gst_element_post_message (GST_ELEMENT (self), msg);
 	}
 
 	DS_FreeString (result);
 
 	if (final) {
 		/* Recreate stream, we still need it */
-		status = DS_CreateStream (deepspeech->model_state, &deepspeech->streaming_state);
+		status = DS_CreateStream (self->model_state, &self->streaming_state);
 		if (status != DS_ERR_OK) {
-			GST_ELEMENT_ERROR (GST_ELEMENT(deepspeech), LIBRARY, SETTINGS,
+			GST_ELEMENT_ERROR (GST_ELEMENT(self), LIBRARY, SETTINGS,
 				          ("%s", DS_ErrorCodeToErrorMessage(status)),
 				          (NULL));
 		}
@@ -162,16 +162,17 @@ static GstStateChangeReturn
 gst_ptdeepspeech_change_state (GstElement     *element,
                                GstStateChange  transition)
 {
-	GstPtDeepspeech *deepspeech = GST_PTDEEPSPEECH (element);
+	GstPtDeepspeech *self = GST_PTDEEPSPEECH (element);
 	GstStateChangeReturn ret;
+	GstEvent   *seek = NULL;
+	GstSegment *seg = NULL;
+	gboolean success;
 
 	/* handle upward state changes */
 	switch (transition) {
 	case GST_STATE_CHANGE_NULL_TO_READY:
-		if (!gst_ptdeepspeech_load_model (deepspeech))
+		if (!gst_ptdeepspeech_load_model (self))
 			return GST_STATE_CHANGE_FAILURE;
-		break;
-	case GST_STATE_CHANGE_READY_TO_NULL:
 		break;
 	default:
 		break;
@@ -183,8 +184,32 @@ gst_ptdeepspeech_change_state (GstElement     *element,
 
 	/* handle downward state changes */
 	switch (transition) {
+	case GST_STATE_CHANGE_PLAYING_TO_PAUSED:
+		if (self->eos)
+			break;
+		/* Getting the final result – crashes sometimes */
+		//get_text (self, NULL, FINAL);
+		/* Work around a problem with unknown cause:
+		 * When changing to paused position queries return the running
+		 * time instead of stream time */
+		seg = &self->segment;
+		if (seg->position > seg->stop)
+			seg->position = seg->stop;
+		seek = gst_event_new_seek (1.0, GST_FORMAT_TIME,
+		                           GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE,
+		                           GST_SEEK_TYPE_SET, seg->position,
+		                           GST_SEEK_TYPE_NONE, -1);
+		success = gst_pad_push_event (self->sinkpad, seek);
+		GST_DEBUG_OBJECT (self, "pushed segment event: %s", success ? "yes" : "no");
+		/* This seems to have the same effect: */
+		/*success = gst_pad_push_event (self->srcpad, gst_event_new_flush_start ());
+		GST_DEBUG_OBJECT (self, "flush-start event %s", success ? "sent" : "not sent");
+		success = gst_pad_push_event (self->srcpad, gst_event_new_flush_stop (TRUE));
+		GST_DEBUG_OBJECT (self, "flush-stop event %s", success ? "sent" : "not sent");*/
+
+		break;
 	case GST_STATE_CHANGE_READY_TO_NULL:
-		DS_FreeModel (deepspeech->model_state);
+		DS_FreeModel (self->model_state);
 		break;
 	default:
 		break;
@@ -198,55 +223,69 @@ gst_ptdeepspeech_chain (GstPad    *pad,
                         GstObject *parent,
                         GstBuffer *buf)
 {
-	GstPtDeepspeech *deepspeech = GST_PTDEEPSPEECH (parent);
+	GstPtDeepspeech *self = GST_PTDEEPSPEECH (parent);
 
 	GstMapInfo info;
 	int        frame_type;
 	gboolean   final = FALSE;
+	GstClockTime position, duration;
 
-	if (GST_STATE (GST_ELEMENT (deepspeech)) != GST_STATE_PLAYING)
-		return gst_pad_push (deepspeech->srcpad, buf);
+	/* Don't bother with other states then playing */
+	if (GST_STATE (GST_ELEMENT (self)) != GST_STATE_PLAYING)
+		return gst_pad_push (self->srcpad, buf);
+
+	/* Track current position */
+	position = GST_BUFFER_TIMESTAMP (buf);
+	if (GST_CLOCK_TIME_IS_VALID (position)) {
+		duration = GST_BUFFER_DURATION (buf);
+		if (GST_CLOCK_TIME_IS_VALID (duration)) {
+			position += duration;
+		}
+		self->segment.position = position;
+	}
 
 	gst_buffer_map(buf, &info, GST_MAP_READ);
-	frame_type = vad_update (deepspeech->vad, (gint16 *)info.data, info.size / sizeof (gint16));
 
-	if (frame_type == VAD_SILENCE && !deepspeech->silence_detected) {
-		deepspeech->consecutive_silence_buffers++;
+	/* Is the current buffer silent? */
+	frame_type = vad_update (self->vad, (gint16 *)info.data, info.size / sizeof (gint16));
+	if (frame_type == VAD_SILENCE && self->in_speech) {
 		if (GST_BUFFER_DURATION_IS_VALID (buf)) {
-			deepspeech->consecutive_silence_time += buf->duration;
+			self->silence_time += duration;
 		} else {
 			GST_WARNING
 			("Invalid buffer duration, consecutive_silence_time update not possible");
 		}
 
-		if (deepspeech->consecutive_silence_time >= deepspeech->minimum_silence_time) {
-			deepspeech->silence_detected = TRUE;
+		if (self->silence_time >= (self->vad_min_silence * GST_MSECOND)) {
+			self->in_speech = FALSE;
 			final = TRUE;
 		}
 	}
 
 	if (frame_type != VAD_SILENCE) {
-		deepspeech->consecutive_silence_buffers = 0;
-		deepspeech->consecutive_silence_time = 0;
-		deepspeech->silence_detected = FALSE;
+		self->silence_time = 0;
+		self->in_speech = TRUE;
 	}
 
-	DS_FeedAudioContent (deepspeech->streaming_state,
+	/* Feed DeepSpeech with data */
+	DS_FeedAudioContent (self->streaming_state,
 	                    (const short *) info.data,
 	                    (unsigned int) info.size/sizeof(short));
 
+	/* Get either a final result or an intermediate result every 500
+	 * milliseconds */
 	if (final) {
-		get_text (deepspeech, buf, FINAL);
-		deepspeech->last_result_time = GST_BUFFER_TIMESTAMP (buf);
+		get_text (self, buf, FINAL);
+		self->last_result_time = position;
 	} else {
-		if (!deepspeech->silence_detected &&
-		    (GST_BUFFER_TIMESTAMP (buf) - deepspeech->last_result_time) > GST_MSECOND * 500) {
-			get_text (deepspeech, buf, INTERMEDIATE);
-			deepspeech->last_result_time = GST_BUFFER_TIMESTAMP (buf);
+		if (self->in_speech &&
+		    (position - self->last_result_time) > GST_MSECOND * 500) {
+			get_text (self, buf, INTERMEDIATE);
+			self->last_result_time = position;
 		}
 	}
 
-	return gst_pad_push (deepspeech->srcpad, buf);
+	return gst_pad_push (self->srcpad, buf);
 }
 
 static gboolean
@@ -254,13 +293,18 @@ gst_ptdeepspeech_event (GstPad    *pad,
                         GstObject *parent,
                         GstEvent  *event)
 {
-	GstPtDeepspeech *deepspeech = GST_PTDEEPSPEECH (parent);
+	GstPtDeepspeech *self = GST_PTDEEPSPEECH (parent);
 	gboolean ret;
 
-	GST_LOG_OBJECT (deepspeech, "Received %s event: %" GST_PTR_FORMAT,
-		GST_EVENT_TYPE_NAME (event), event);
+	GST_LOG_OBJECT (self, "Received %s event: %" GST_PTR_FORMAT,
+		GST_EVENT_TYPE_NAME (event), (GST_EVENT_TYPE (event) == GST_EVENT_TAG) ? NULL : event);
+	self->eos = FALSE;
 
 	switch (GST_EVENT_TYPE (event)) {
+	case GST_EVENT_CUSTOM_DOWNSTREAM_OOB:
+		g_assert (gst_event_has_name (event, "unblock"));
+		gst_event_unref (event);
+		return TRUE;
 	case GST_EVENT_CAPS:;
 		GstCaps * caps;
 
@@ -268,9 +312,14 @@ gst_ptdeepspeech_event (GstPad    *pad,
 		ret = gst_pad_event_default (pad, parent, event);
 		break;
 	case GST_EVENT_EOS:
-		get_text (deepspeech, NULL, FINAL);
+		get_text (self, NULL, FINAL);
 		ret = gst_pad_event_default (pad, parent, event);
+		self->eos = TRUE;
 		break;
+	case GST_EVENT_SEGMENT:
+		/* keep current segment, used for tracking current position */
+		gst_event_copy_segment (event, &self->segment);
+		/* fall through */
 	default:
 		ret = gst_pad_event_default (pad, parent, event);
 	}
@@ -280,39 +329,37 @@ gst_ptdeepspeech_event (GstPad    *pad,
 static void
 gst_ptdeepspeech_finalize (GObject *object)
 {
-	GstPtDeepspeech *deepspeech = GST_PTDEEPSPEECH (object);
+	GstPtDeepspeech *self = GST_PTDEEPSPEECH (object);
 
-	vad_destroy (deepspeech->vad);
-	deepspeech->vad = NULL;
+	vad_destroy (self->vad);
+	self->vad = NULL;
 
-	g_free (deepspeech->speech_model_path);
-	g_free (deepspeech->scorer_path);
+	g_free (self->speech_model_path);
+	g_free (self->scorer_path);
 
 	G_OBJECT_CLASS (gst_ptdeepspeech_parent_class)->finalize(object);
 }
 
 static void
-gst_ptdeepspeech_init (GstPtDeepspeech *deepspeech)
+gst_ptdeepspeech_init (GstPtDeepspeech *self)
 {
-	deepspeech->sinkpad = gst_pad_new_from_static_template (&sink_factory, "sink");
-	gst_pad_set_event_function (deepspeech->sinkpad,
+	self->sinkpad = gst_pad_new_from_static_template (&sink_factory, "sink");
+	gst_pad_set_event_function (self->sinkpad,
 	                            GST_DEBUG_FUNCPTR(gst_ptdeepspeech_event));
-	gst_pad_set_chain_function (deepspeech->sinkpad,
+	gst_pad_set_chain_function (self->sinkpad,
 	                            GST_DEBUG_FUNCPTR(gst_ptdeepspeech_chain));
-	GST_PAD_SET_PROXY_CAPS (deepspeech->sinkpad);
-	gst_element_add_pad (GST_ELEMENT (deepspeech), deepspeech->sinkpad);
+	GST_PAD_SET_PROXY_CAPS (self->sinkpad);
+	gst_element_add_pad (GST_ELEMENT (self), self->sinkpad);
 
-	deepspeech->srcpad = gst_pad_new_from_static_template (&src_factory, "src");
-	GST_PAD_SET_PROXY_CAPS (deepspeech->srcpad);
-	gst_element_add_pad (GST_ELEMENT (deepspeech), deepspeech->srcpad);
+	self->srcpad = gst_pad_new_from_static_template (&src_factory, "src");
+	GST_PAD_SET_PROXY_CAPS (self->srcpad);
+	gst_element_add_pad (GST_ELEMENT (self), self->srcpad);
 
-	deepspeech->vad = vad_new (DEFAULT_VAD_HYSTERESIS, DEFAULT_VAD_THRESHOLD);
-	deepspeech->silent = TRUE;
-	deepspeech->consecutive_silence_buffers = 0;
-	deepspeech->consecutive_silence_time = 0;
-	deepspeech->minimum_silence_buffers = 0;
-	deepspeech->minimum_silence_time = 100;
-	deepspeech->last_result_time = GST_CLOCK_TIME_NONE;
+	self->vad = vad_new (DEFAULT_VAD_HYSTERESIS, DEFAULT_VAD_THRESHOLD);
+	self->in_speech = FALSE;
+	self->silence_time = 0;
+	self->last_result_time = GST_CLOCK_TIME_NONE;
+	self->eos = FALSE;
 }
 
 static void
@@ -321,19 +368,22 @@ gst_ptdeepspeech_set_property (GObject      *object,
                                const GValue *value,
                                GParamSpec   *pspec)
 {
-	GstPtDeepspeech *deepspeech = GST_PTDEEPSPEECH (object);
+	GstPtDeepspeech *self = GST_PTDEEPSPEECH (object);
 
 	switch (prop_id) {
 	case PROP_SPEECH_MODEL:
-		g_free (deepspeech->speech_model_path);
-		deepspeech->speech_model_path = g_value_dup_string (value);
+		g_free (self->speech_model_path);
+		self->speech_model_path = g_value_dup_string (value);
 		break;
 	case PROP_SCORER:
-		g_free (deepspeech->scorer_path);
-		deepspeech->scorer_path = g_value_dup_string (value);
+		g_free (self->scorer_path);
+		self->scorer_path = g_value_dup_string (value);
 		break;
 	case PROP_BEAM_WIDTH:
-		deepspeech->beam_width = g_value_get_int (value);
+		self->beam_width = g_value_get_int (value);
+		break;
+	case PROP_VAD_MIN_SILENCE:
+		self->vad_min_silence = g_value_get_int (value);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -347,18 +397,20 @@ gst_ptdeepspeech_get_property (GObject    *object,
                                GValue     *value,
                                GParamSpec *pspec)
 {
-	GstPtDeepspeech *deepspeech = GST_PTDEEPSPEECH (object);
+	GstPtDeepspeech *self = GST_PTDEEPSPEECH (object);
 
 	switch (prop_id) {
 	case PROP_SPEECH_MODEL:
-		g_value_set_string (value, deepspeech->speech_model_path);
+		g_value_set_string (value, self->speech_model_path);
 		break;
 	case PROP_SCORER:
-		g_value_set_string (value, deepspeech->scorer_path);
+		g_value_set_string (value, self->scorer_path);
 		break;
 	case PROP_BEAM_WIDTH:
-		g_value_set_int (value, deepspeech->beam_width);
+		g_value_set_int (value, self->beam_width);
 		break;
+	case PROP_VAD_MIN_SILENCE:
+		g_value_set_int (value, self->vad_min_silence);
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
@@ -399,7 +451,15 @@ gst_ptdeepspeech_class_init (GstPtDeepspeechClass *klass)
 			"Beam Width",
 			"The beam width used by the decoder. A larger beam width generates better results at the cost of decoding time.",
 			0, G_MAXINT, DEFAULT_BEAM_WIDTH,
-			G_PARAM_READWRITE);
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+
+	obj_properties[PROP_VAD_MIN_SILENCE] =
+	g_param_spec_int (
+			"vad-min-silence",
+			"VAD minimum silence",
+			"The minimum time of silence in microseconds for voice activity detection",
+			0, G_MAXINT, 500,
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
 
 	g_object_class_install_properties (
 			G_OBJECT_CLASS (klass),

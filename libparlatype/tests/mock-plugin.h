@@ -30,7 +30,9 @@ typedef struct _MockPluginPrivate	MockPluginPrivate;
 
 struct _MockPlugin
 {
-	GstElement parent;
+	GstElement  parent;
+	GstPad     *sinkpad;
+	GstPad     *srcpad;
 	MockPluginPrivate *priv;
 };
 

@@ -20,13 +20,13 @@
  *
  * This bin is an audio sink for normal playback.
  *
- *  .-----------------------------------------------------------------.
- *  | pt_audio_play_bin                                               |
- *  | .--------.   .-------------.   .-------------.   .------------. |
- *  | | queue  |   | capsfilter  |   | volume      |   | audiosink  | |
- *  -->        ---->             ----> (optional)  ---->            | |
- *  | '--------'   '-------------'   '-------------'   '------------' |
- *  '-----------------------------------------------------------------'
+ *  .----------------------------------------------------.
+ *  | pt_audio_play_bin                                  |
+ *  | .-------------.   .-------------.   .------------. |
+ *  | | capsfilter  |   | volume      |   | audiosink  | |
+ *  -->             ----> (optional)  ---->            | |
+ *  | '-------------'   '-------------'   '------------' |
+ *  '----------------------------------------------------'
  *
  * PtAudioPlaybin implements GstStreamVolume, that means it has "volume" and
  * "mute" properties.
@@ -92,11 +92,9 @@ gst_pt_audio_play_bin_init (GstPtAudioPlayBin *bin)
 	/* Create gstreamer elements */
 	GstElement   *capsfilter;
 	GstElement   *audiosink;
-	GstElement   *queue;
 	gchar        *sink;
 
 	capsfilter = _pt_make_element ("capsfilter", "audiofilter",  NULL);
-	queue      = _pt_make_element ("queue",      "player_queue", NULL);
 
 	/* Choose an audiosink ourselves instead of relying on autoaudiosink.
 	 * It chose waveformsink on win32 (not a good choice) and it will be
@@ -133,19 +131,19 @@ gst_pt_audio_play_bin_init (GstPtAudioPlayBin *bin)
 	}
 
 	if (bin->volume_changer) {
-		gst_bin_add_many (GST_BIN (bin), queue, capsfilter,
+		gst_bin_add_many (GST_BIN (bin), capsfilter,
 				  bin->volume_changer, audiosink, NULL);
-		gst_element_link_many (queue, capsfilter,
+		gst_element_link_many (capsfilter,
 				       bin->volume_changer, audiosink, NULL);
 	} else {
 		gst_bin_add_many (GST_BIN (bin),
-		                  queue, capsfilter, audiosink, NULL);
-		gst_element_link_many (queue, capsfilter, audiosink, NULL);
+		                  capsfilter, audiosink, NULL);
+		gst_element_link_many (capsfilter, audiosink, NULL);
 		bin->volume_changer = audiosink;
 	}
 
 	/* create ghost pad for audiosink */
-	GstPad *audiopad = gst_element_get_static_pad (queue, "sink");
+	GstPad *audiopad = gst_element_get_static_pad (capsfilter, "sink");
 	gst_element_add_pad (GST_ELEMENT (bin),
 	                     gst_ghost_pad_new ("sink", audiopad));
 	gst_object_unref (GST_OBJECT (audiopad));
@@ -161,12 +159,12 @@ gst_pt_audio_play_bin_set_property (GObject      *object,
 
 	switch (property_id) {
 	case PROP_MUTE:
-		g_object_set (bin->volume_changer,
-		              "mute", g_value_get_boolean (value), NULL);
+		bin->mute = g_value_get_boolean (value);
+		g_object_set (bin->volume_changer, "mute", bin->mute, NULL);
 		break;
 	case PROP_VOLUME:
-		g_object_set (bin->volume_changer,
-		              "volume", g_value_get_double (value), NULL);
+		bin->volume = g_value_get_double (value);
+		g_object_set (bin->volume_changer, "volume", bin->volume, NULL);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -181,17 +179,15 @@ gst_pt_audio_play_bin_get_property (GObject    *object,
                                     GParamSpec *pspec)
 {
 	GstPtAudioPlayBin *bin = GST_PT_AUDIO_PLAY_BIN (object);
-	gboolean mute;
-	gdouble  volume;
 
 	switch (property_id) {
 	case PROP_MUTE:
-		g_object_get (bin->volume_changer, "mute", &mute, NULL);
-		g_value_set_boolean (value, mute);
+		g_object_get (bin->volume_changer, "mute", &bin->mute, NULL);
+		g_value_set_boolean (value, bin->mute);
 		break;
 	case PROP_VOLUME:
-		g_object_get (bin->volume_changer, "volume", &volume, NULL);
-		g_value_set_double (value, volume);
+		g_object_get (bin->volume_changer, "volume", &bin->volume, NULL);
+		g_value_set_double (value, bin->volume);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
