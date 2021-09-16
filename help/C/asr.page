@@ -1,7 +1,7 @@
 <page xmlns="http://projectmallard.org/1.0/"
       type="topic"
       id="asr"
-      xmlns:its="http://www.w3.org/2005/11/its" its:locNote="Translators: This feature is disabled by default, its translation has low priority.">
+      xmlns:its="http://www.w3.org/2005/11/its">
 <info>
   <link type="guide" xref="index#topics"/>
   <desc>Let Parlatype do part of the transcription work</desc>
@@ -14,22 +14,41 @@
 
 <title>Automatic speech recognition</title>
 
-<p><app>Parlatype</app> offers automatic speech recognition that is done on your computer. No data is sent over the network. Keep in mind that automatic transcription is far from being perfect, it will <em>always</em> need manual corrections.</p>
+<p><app>Parlatype</app> offers automatic speech recognition that is done on
+your computer. No data is sent over the network.</p>
 
-<note style="important"><p>Automatic speech recognition is disabled by default. In order to try it, you have run <app>Parlatype</app> with this parameter:</p>
-<p xmlns:its="http://www.w3.org/2005/11/its" its:translate="no"><cmd>parlatype --with-asr</cmd></p></note>
+<note><p><app>Parlatype</app> must have been built with <app>PocketSphinx</app>
+or <app>Mozilla DeepSpeech</app>.
+Please note that those libraries might be not available on your platform.
+</p></note>
+
+<note><p><app>Parlatype</app> has no built-in text editor. You need the
+Parlatype Extension for <app>LibreOffice</app>, to output recognized text.
+</p></note>
 
 <section>
 <title>Start speech recognition</title>
-<p>Open the primary menu and click on <gui>Automatic transcription</gui>. If you don’t have a language model yet, an assistant will guide you in that process (see <link xref="asr-setup" />). Otherwise a dialog will pop up asking you to give focus to a word processor. Any word processor with support for accessibility should work, like <app>LibreOffice</app> or <app>Gedit</app>.</p>
 
-<p>If no word processor is recognized you can use an internal textpad as a fallback solution. To use that textpad start <app>Parlatype</app> with the textpad option: <cmd>parlatype --textpad</cmd>.</p>
+<p>Select a language model in the Preferences Dialog,
+<gui>Speech recognition</gui> tab, see <link xref="asr-setup" /> for more details.</p>
 
-<p>Now press <gui>Play</gui> in <app>Parlatype</app> and the recognized speech will be printed to that window. Output is silent because the speed is dependent on your machine’s power and may be slower or faster than real-time speech.</p>
+<p>Open the primary menu and click on <gui>Automatic transcription</gui>.
+This is only available, if you have setup and chosen a language model.</p>
+
+<media type="image" src="figures/asr-switch-to-asr.png"/>
+
+<p>Now press <gui>Play</gui> in <app>Parlatype</app> and the recognized speech
+will be printed in <app>LibreOffice</app>, if the Parlatype Extension is
+installed. Output is silent because decoding speed is dependent on your machine
+and may be slower or faster than real-time speech.</p>
 
 <p>Output is without punctuation or capitalization, you have to add or correct that yourself.</p>
 
-<note><p><em>Accuracy</em> depends on many factors like quality of the recording, background noise, speaker’s dialect or pronunciation and the speech model used. For general transcription you can expect an word error rate between 10 and 50 %. Alas this means that in some case manual transcription from the start will be faster than automatic transcription and the following correction process.</p></note>
+<note><p><em>Accuracy</em> depends on many factors like quality of the
+recording, background noise, speaker’s dialect or pronunciation and the speech
+model used. For general transcription you can expect an word error rate between
+10 and 50 %. Alas this means that in some cases manual transcription from the
+start will be faster than automatic transcription and the following correction process.</p></note>
 
 
 </section>

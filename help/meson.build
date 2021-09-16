@@ -1,4 +1,8 @@
 media = [
+	'figures/asr-setup-initial.png',
+	'figures/asr-setup-downloadable.png',
+	'figures/asr-setup-details.png',
+	'figures/asr-switch-to-asr.png',
 	'figures/parlatype-icon.png',
 	'figures/parlatype-prefs-asr.png',
 	'figures/parlatype-prefs-controls.png',
@@ -6,6 +10,14 @@ media = [
 	'figures/parlatype-prefs-waveform.png',
 	'figures/parlatype-prefs-window.png',
 	'figures/parlatype-main-window.png',
+]
+
+# GNOME icons
+media += [
+	'figures/action-unavailable-symbolic.svg',
+	'figures/emblem-system-symbolic.svg',
+	'figures/folder-download-symbolic.svg',
+	'figures/object-select-symbolic.svg',
 ]
 
 sources = [
