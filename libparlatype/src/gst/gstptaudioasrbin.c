@@ -117,12 +117,6 @@ configure_plugin (GTask *task)
 	                       self->fakesink, NULL);
 
 	gst_element_sync_state_with_parent (GST_ELEMENT (self));
-	GstPad *sinkpad = gst_element_get_static_pad (GST_ELEMENT (self), "sink");
-	success = gst_pad_send_event (sinkpad, gst_event_new_flush_start ());
-	GST_DEBUG_OBJECT (self, "flush-start event %s", success ? "sent" : "not sent");
-	success = gst_pad_push_event (sinkpad, gst_event_new_flush_stop (TRUE));
-	GST_DEBUG_OBJECT (self, "flush-stop event %s", success ? "sent" : "not sent");
-	gst_object_unref (sinkpad);
 
 	g_task_return_boolean (task, TRUE);
 	g_object_unref (task);
