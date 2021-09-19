@@ -691,13 +691,8 @@ static void
 player_end_of_stream_cb (PtPlayer *player,
                          PtWindow *win)
 {
-	/* Don’t jump back */
-	GtkToggleButton *play;
-	play = GTK_TOGGLE_BUTTON (win->priv->button_play);
-
-	g_signal_handlers_block_by_func (play, play_button_toggled_cb, win);
-	gtk_toggle_button_set_active (play, FALSE);
-	g_signal_handlers_unblock_by_func (play, play_button_toggled_cb, win);
+	/* Pause player without jumping back, this will also toggle the
+	 * Play button */
 	pt_player_pause (win->player);
 	change_play_button_tooltip (win);
 }
