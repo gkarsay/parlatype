@@ -180,11 +180,16 @@ gst_pt_audio_asr_bin_configure_asr_async (GstPtAudioAsrBin   *self,
 	GstState  debug_state;
 
 	task = g_task_new (self, cancellable, callback, user_data);
-	blockpad = gst_element_get_static_pad (self->audioresample, "src");
 
-	/* Always unref previous config. Even if it's the same object, the
-	 * base folder could have been changed. Maybe introduce a method to
-	 * compare PtConfigs. */
+	/* TODO Compare PtConfigs properly/investigate whether they are still
+	 * equal if a value has changed */
+	if (self->config && self->config == config) {
+		g_task_return_boolean (task, TRUE);
+		g_object_unref (task);
+		GST_DEBUG_OBJECT (self, "config didn't change");
+		return;
+	}
+
 	if (self->config)
 		g_object_unref (self->config);
 	self->config = g_object_ref (config);
@@ -194,6 +199,7 @@ gst_pt_audio_asr_bin_configure_asr_async (GstPtAudioAsrBin   *self,
 	                  gst_element_state_get_name (debug_state));
 
 	GST_DEBUG_OBJECT (self, "adding probe for blocking pad");
+	blockpad = gst_element_get_static_pad (self->audioresample, "src");
 	probe_id = gst_pad_add_probe (blockpad,
 	                   GST_PAD_PROBE_TYPE_BLOCKING |
 	                   GST_PAD_PROBE_TYPE_BLOCK_DOWNSTREAM,
