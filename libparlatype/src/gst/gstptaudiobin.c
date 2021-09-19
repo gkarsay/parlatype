@@ -213,6 +213,8 @@ void
 gst_pt_audio_bin_set_mode (GstPtAudioBin  *self,
                            PtModeType      new)
 {
+	GstState state, pending;
+
 	if (self->mode == new)
 		return;
 
@@ -224,6 +226,19 @@ gst_pt_audio_bin_set_mode (GstPtAudioBin  *self,
 
 	GST_DEBUG_OBJECT (self, "blocking pad for mode switch from %d to %d",
 	                  self->mode, self->pending);
+
+	/* Wait for any pending state change. Prevents internal stream error
+	 * (unlinked element) when going to PLAYBACK and pt_player_pause() was
+	 * called just before. */
+	gst_element_get_state (
+		GST_ELEMENT (self),
+		&state, &pending,
+		GST_CLOCK_TIME_NONE);
+
+	GST_DEBUG_OBJECT (self, "state: %s",
+	                  gst_element_state_get_name (state));
+	GST_DEBUG_OBJECT (self, "pending: %s",
+	                  gst_element_state_get_name (pending));
 
 	gst_pad_add_probe (self->id_src,
 	                   GST_PAD_PROBE_TYPE_BLOCKING | GST_PAD_PROBE_TYPE_BLOCK_DOWNSTREAM,
