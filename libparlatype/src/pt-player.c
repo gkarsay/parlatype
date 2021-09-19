@@ -408,7 +408,18 @@ pt_player_pause (PtPlayer *player)
 {
 	g_return_if_fail (PT_IS_PLAYER (player));
 
-	gst_element_set_state (player->priv->play, GST_STATE_PAUSED);
+	GstState previous;
+
+	gst_element_get_state (
+		player->priv->play,
+		&previous, NULL,
+		GST_CLOCK_TIME_NONE);
+
+	if (previous != GST_STATE_PAUSED)
+		gst_element_set_state (player->priv->play, GST_STATE_PAUSED);
+
+	if (previous == GST_STATE_PLAYING)
+		g_signal_emit_by_name (player, "play-toggled");
 }
 
 /**
@@ -467,6 +478,7 @@ pt_player_play (PtPlayer *player)
 	gint64 pos;
 	gint64 start, end;
 	gboolean selection;
+	GstState previous;
 
 	if (player->priv->wv) {
 		/* If there is a selection, play it */
@@ -487,6 +499,11 @@ pt_player_play (PtPlayer *player)
 	if (!pt_player_query_position (player, &pos))
 		return;
 
+	gst_element_get_state (
+		player->priv->play,
+		&previous, NULL,
+		GST_CLOCK_TIME_NONE);
+
 	if (pos == player->priv->segend) {
 		if ((selection && player->priv->repeat_selection)
 		    || (!selection && player->priv->repeat_all))
@@ -496,6 +513,8 @@ pt_player_play (PtPlayer *player)
 	}
 
 	gst_element_set_state (player->priv->play, GST_STATE_PLAYING);
+	if (previous == GST_STATE_PAUSED)
+		g_signal_emit_by_name (player, "play-toggled");
 }
 
 /**
@@ -520,8 +539,6 @@ pt_player_play_pause (PtPlayer *player)
 
 	switch (state) {
 	case GST_STATE_NULL:
-		/* If we don't do anything, make sure to return	without emitting
-		 * a signal. It would toggle the play button in the GUI. */
 		return;
 	case GST_STATE_PAUSED:
 		pt_player_play (player);
@@ -534,8 +551,6 @@ pt_player_play_pause (PtPlayer *player)
 	case GST_STATE_READY:
 		return;
 	}
-
-	g_signal_emit_by_name (player, "play-toggled");
 }
 
 
