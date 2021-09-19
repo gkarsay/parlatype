@@ -735,6 +735,7 @@ setup_config (PtConfig *config)
 	gboolean  loaded;
 
 	priv->keyfile = g_key_file_new ();
+	g_key_file_set_list_separator (priv->keyfile, '/');
 	priv->path = g_file_get_path (priv->file);
 	if (!priv->path) {
 		return;

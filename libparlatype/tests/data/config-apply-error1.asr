@@ -7,7 +7,7 @@ Language=de
 URL=
 
 [Files]
-file=subdir;file.dat
+file=subdir/file.dat
 
 [Parameters]
 string=Example

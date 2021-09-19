@@ -7,8 +7,8 @@ Language=de
 URL=
 
 [Files]
-File=subdir;test.dict
-Folder=subdir;subdir
+File=subdir/test.dict
+Folder=subdir/subdir
 
 [Parameters]
 Number=42
