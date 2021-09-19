@@ -244,6 +244,9 @@ change_mode (GSimpleAction *action,
 	const gchar *mode;
 	gboolean success = TRUE;
 
+	/* Work around synchronisation issues in PtPlayer in playing state */
+	pt_player_pause (win->player);
+
 	mode = g_variant_get_string (state, NULL);
 	if (g_strcmp0 (mode, "playback") == 0) {
 		set_mode_playback (win);
