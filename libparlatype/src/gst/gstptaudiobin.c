@@ -84,6 +84,7 @@ change_mode_cb (GstPad          *pad,
 	GstPadLinkReturn  r;
 
 	gst_pad_remove_probe (pad, GST_PAD_PROBE_INFO_ID (info));
+	self->probe_id = 0;
 
 	/* get element to remove */
 	switch (self->pending) {
@@ -215,8 +216,22 @@ gst_pt_audio_bin_set_mode (GstPtAudioBin  *self,
 {
 	GstState state, pending;
 
-	if (self->mode == new)
+	/* Already in requested mode, bail out */
+	if (self->mode    == new &&
+	    self->pending == new)
 		return;
+
+	/* Already in requested mode, but have to cancel a pending change */
+	if (self->mode    == new &&
+	    self->pending != new &&
+	    self->probe_id > 0) {
+		gst_pad_remove_probe(self->id_src, self->probe_id);
+		self->probe_id = 0;
+		GST_DEBUG_OBJECT (self, "cancelled switch from %d to %d",
+			          self->mode, self->pending);
+		self->pending = new;
+		return;
+	}
 
 	self->pending = new;
 
@@ -240,9 +255,10 @@ gst_pt_audio_bin_set_mode (GstPtAudioBin  *self,
 	GST_DEBUG_OBJECT (self, "pending: %s",
 	                  gst_element_state_get_name (pending));
 
-	gst_pad_add_probe (self->id_src,
-	                   GST_PAD_PROBE_TYPE_BLOCKING | GST_PAD_PROBE_TYPE_BLOCK_DOWNSTREAM,
-	                   change_mode_cb, self, NULL);
+	self->probe_id = gst_pad_add_probe (self->id_src,
+	                                    GST_PAD_PROBE_TYPE_BLOCKING |
+	                                    GST_PAD_PROBE_TYPE_BLOCK_DOWNSTREAM,
+	                                    change_mode_cb, self, NULL);
 }
 
 static void
@@ -346,7 +362,9 @@ gst_pt_audio_bin_init (GstPtAudioBin *self)
 
 	/* link play bin with identity */
 	gst_pad_link (self->id_src, play_sink);
-	self->mode = PT_MODE_PLAYBACK;
+	self->mode     = PT_MODE_PLAYBACK;
+	self->pending  = PT_MODE_PLAYBACK;
+	self->probe_id = 0;
 
 	/* create ghost pad for audiosink */
 	gst_element_add_pad (GST_ELEMENT (self),

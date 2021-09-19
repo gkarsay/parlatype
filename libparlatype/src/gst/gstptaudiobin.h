@@ -39,6 +39,7 @@ struct _GstPtAudioBin
 	GstBin parent;
 	PtModeType  mode;
 	PtModeType  pending;
+	gulong      probe_id;
 
 	GstElement *play_bin;
 	GstElement *asr_bin;
