@@ -1755,8 +1755,8 @@ pt_player_config_is_loadable (PtPlayer *player,
  * the result. Setting the mode is an asynchronous operation and when done in
  * paused state, it will happen only during the change to playing state.
  *
- * Currently this works only well when done in paused state, in playing state
- * there might be a jump in the timeline.
+ * <note>Currently this works only well when done in paused state, in playing
+ * state there are severe synchronisation issues.</note>
  *
  * To get the results in ASR mode, connect to the #PtPlayer::asr-hypothesis and/or
  * #PtPlayer::asr-final signal. Start recognition with pt_player_play().
