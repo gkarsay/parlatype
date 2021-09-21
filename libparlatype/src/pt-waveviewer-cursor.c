@@ -203,12 +203,23 @@ void
 pt_waveviewer_cursor_render (PtWaveviewerCursor *self,
                              gint                position)
 {
-	if ((self->priv->position == position) || (position < 0))
+	gint width;
+
+	width = gtk_widget_get_allocated_width (GTK_WIDGET (self));
+	position = CLAMP(position, -1, width + MARKER_BOX_W);
+
+	if (self->priv->position == position)
 		return;
-	/* first erase old position */
+
+	/* invalidate old position */
 	draw_cursor (self);
+
+	/* invalidate new position */
 	self->priv->position = position;
 	draw_cursor (self);
+
+	/* when idle, union of invalidated regions will be cleared and cursor
+	 * will be drawn at self->priv->position */
 }
 
 void
