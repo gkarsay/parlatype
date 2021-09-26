@@ -63,12 +63,6 @@ do
 	cd - &>/dev/null || exit
 done
 
-# Special case: he has no translations, added for testing purposes and can't
-# be removed from launchpad anymore.
-echo "Removing special case he.po …"
-shopt -s globstar
-rm $TEMP_DIR/**/he.po
-
 # Check translations
 echo "Checking translations …"
 count=0
