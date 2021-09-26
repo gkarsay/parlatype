@@ -14,8 +14,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2020-06-18 10:32+0000\n"
-"X-Generator: Launchpad (build 1cbd0aa39df153c901321817f9b57cf3f232b507)\n"
+"X-Launchpad-Export-Date: 2021-09-26 08:44+0000\n"
+"X-Generator: Launchpad (build 732145c78fc09841c9906082a9f784c21494fca6)\n"
 "Language: pt_BR\n"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:7
@@ -300,6 +300,7 @@ msgstr ""
 "Launchpad Contributions:\n"
 "  André decko de Brito https://launchpad.net/~brito-afa\n"
 "  Gabor Karsay https://launchpad.net/~gabor-karsay\n"
+"  Thiago Alves Cavalcante https://launchpad.net/~thiagoalcav\n"
 "  ThiagoRyuuga https://launchpad.net/~thiagoryuuga"
 
 #: src/pt-app.c:371

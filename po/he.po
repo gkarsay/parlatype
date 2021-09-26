@@ -1,50 +1,49 @@
-# Serbian translation for parlatype
-# Copyright (c) 2017 Rosetta Contributors and Canonical Ltd 2017
-# This file is distributed under the same license as the parlatype package.
-# Томица Кораћ <Unknown>, 2017.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
 "POT-Creation-Date: 2020-05-08 11:33+0200\n"
-"PO-Revision-Date: 2019-05-27 17:12+0000\n"
-"Last-Translator: Gabor Karsay <gabor.karsay@gmx.at>\n"
-"Language-Team: Serbian <sr@li.org>\n"
+"PO-Revision-Date: 2020-08-29 10:33+0000\n"
+"Last-Translator: Tal Einat <Unknown>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Launchpad-Export-Date: 2021-09-26 08:44+0000\n"
 "X-Generator: Launchpad (build 732145c78fc09841c9906082a9f784c21494fca6)\n"
-"Language: sr\n"
+"Language: he\n"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:7
 #: data/org.parlatype.Parlatype.desktop.in:4 src/pt-app.c:221
 #: src/resources/window.ui:32
 msgid "Parlatype"
-msgstr "Парлатајп"
+msgstr ""
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:8
 msgid "Media player for speech transcription"
-msgstr ""
+msgstr "נגן מדיה לטובת תמלולש ל דיבור"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:11
 msgid ""
 "Parlatype is an easy to use media player. Its main purpose is to help you "
 "transcribing speech."
 msgstr ""
-"Паратајп је медија плејер лак за употребу. Његова главна намена је помоћ при "
-"транскрибовању."
+"פָּרְלַטַייפּ הוא נגן מדיה קל לשימוש. מטרתו העיקרית היא לעזור לך בתמלול של "
+"דיבור."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:25
 msgid "Gabor Karsay"
-msgstr ""
+msgstr "גאבור קארסיי"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:46
 msgid "This is a minor release with bug fixes and minor new features."
-msgstr ""
+msgstr "זו גרסה מינורית הכוללת תיקוני באגים ויכולות חדשות מינוריות."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:48
 msgid ""
@@ -210,7 +209,7 @@ msgstr ""
 
 #: data/org.parlatype.Parlatype.desktop.in:5
 msgid "Transcription utility"
-msgstr "Алат за транскрипцију."
+msgstr ""
 
 #: data/org.parlatype.Parlatype.desktop.in:6
 msgid "Transcription;"
@@ -234,29 +233,29 @@ msgstr ""
 
 #: src/pt-app.c:102
 msgid "Open Audio File"
-msgstr "Отвори звучни фајл"
+msgstr ""
 
 #: src/pt-app.c:105 src/resources/window-headerbar.ui:12
 msgid "_Open"
-msgstr "_Отвори"
+msgstr ""
 
 #: src/pt-app.c:106 src/resources/goto-dialog.ui:26
 msgid "_Cancel"
-msgstr "_Откажи"
+msgstr ""
 
 #: src/pt-app.c:125
 msgid "Audio files"
-msgstr "Звучни фајлови"
+msgstr ""
 
 #: src/pt-app.c:126
 msgid "All files"
-msgstr "Сви фајлови"
+msgstr ""
 
 #. Translators: %s is a detailed error message
 #: src/pt-app.c:186
 #, c-format
 msgid "Error opening help: %s"
-msgstr "Грешка при отварању помоћи: %s"
+msgstr ""
 
 #. Translators: This is part of the about box, followed by the
 #. copyright holders of code from other projects. Instead of
@@ -264,26 +263,23 @@ msgstr "Грешка при отварању помоћи: %s"
 #. other projects:"
 #: src/pt-app.c:206
 msgid "Including code from other projects:"
-msgstr "Код из осталих пројеката:"
+msgstr ""
 
 #: src/pt-app.c:224
 msgid "A basic transcription utility"
-msgstr "Основни алат за транскрипцију"
+msgstr ""
 
 #: src/pt-app.c:228
 msgid "translator-credits"
 msgstr ""
 "Launchpad Contributions:\n"
-"  Gabor Karsay https://launchpad.net/~gabor-karsay\n"
-"  Томица Кораћ https://launchpad.net/~tomicakorac"
+"  Tal Einat https://launchpad.net/~taleinat"
 
 #: src/pt-app.c:371
 msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
 "ignored.\n"
 msgstr ""
-"Упозорење: Парлатајп ради само са једним фајлом истовремено. Други фајлови "
-"се занемарују.\n"
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/pt-asr-assistant.c:196
@@ -391,7 +387,7 @@ msgstr ""
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
-msgstr "%d:%02d:%02d"
+msgstr ""
 
 #. Translators: This is part of the Preferences dialog
 #. or the "Go to ..." dialog. There is a label like
@@ -401,9 +397,8 @@ msgstr "%d:%02d:%02d"
 #: src/pt-preferences.c:118
 msgid "second"
 msgid_plural "seconds"
-msgstr[0] "секунду"
-msgstr[1] "sekundi"
-msgstr[2] "sekundi"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/pt-preferences.c:258
 msgid "Deleting configuration"
@@ -427,33 +422,30 @@ msgstr ""
 #, c-format
 msgid "Jump back 1 second"
 msgid_plural "Jump back %d seconds"
-msgstr[0] "Врати се %d секунду"
-msgstr[1] "Врати се %d секунде"
-msgstr[2] "Врати се %d секунди"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/pt-window.c:447
 #, c-format
 msgid "Jump forward 1 second"
 msgid_plural "Jump forward %d seconds"
-msgstr[0] "Прескочи %d секунду"
-msgstr[1] "Прескочи %d секунде"
-msgstr[2] "Прескочи %d секунди"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/pt-window.c:466
 msgid "Pause"
-msgstr "Pauza"
+msgstr ""
 
 #: src/pt-window.c:469
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
-msgstr[0] "Застани и врати %d секунду"
-msgstr[1] "Застани и врати %d секунде"
-msgstr[2] "Застани и врати %d секунди"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/pt-window.c:476
 msgid "Start playing"
-msgstr "Покрени"
+msgstr ""
 
 #: src/pt-window.c:512
 #, c-format
@@ -474,7 +466,7 @@ msgstr ""
 
 #: src/pt-window.c:1198
 msgid "Fatal error"
-msgstr "Кобна грешка"
+msgstr ""
 
 #. Translators: This feature is disabled by default, its translation has low priority.
 #: src/resources/asr-assistant.ui:15
@@ -545,11 +537,11 @@ msgstr ""
 
 #: src/resources/goto-dialog.ui:40
 msgid "_OK"
-msgstr "У _реду"
+msgstr ""
 
 #: src/resources/goto-dialog.ui:70
 msgid "Go to position:"
-msgstr "Иди на положај:"
+msgstr ""
 
 #: src/resources/help-overlay.ui:15
 msgid "General"
@@ -565,7 +557,7 @@ msgstr ""
 
 #: src/resources/help-overlay.ui:34
 msgid "Quit"
-msgstr "Излаз"
+msgstr ""
 
 #: src/resources/help-overlay.ui:42 src/resources/preferences.ui:271
 msgid "Waveform"
@@ -605,7 +597,7 @@ msgstr ""
 
 #: src/resources/help-overlay.ui:122 src/resources/menus.ui:27
 msgid "Help"
-msgstr "Помоћ"
+msgstr ""
 
 #: src/resources/help-overlay.ui:127
 msgid "Show help"
@@ -625,7 +617,7 @@ msgstr ""
 
 #: src/resources/menus.ui:19
 msgid "Preferences"
-msgstr "Поставке"
+msgstr ""
 
 #: src/resources/menus.ui:23
 msgid "_Keyboard Shortcuts"
@@ -682,11 +674,11 @@ msgstr ""
 
 #: src/resources/preferences.ui:102
 msgid "Parlatype Preferences"
-msgstr "Поставке Парлатајпа"
+msgstr ""
 
 #: src/resources/preferences.ui:141
 msgid "_Pixels per second:"
-msgstr "_Пиксела по секунди"
+msgstr ""
 
 #: src/resources/preferences.ui:171
 msgid "Show _time scale"
@@ -826,7 +818,7 @@ msgstr ""
 
 #: src/resources/window.ui:169
 msgid "_Play"
-msgstr "_Пусти"
+msgstr ""
 
 #: src/resources/window.ui:338
 msgid "Speed:"
