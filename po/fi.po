@@ -7,20 +7,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-08 11:33+0200\n"
+"POT-Creation-Date: 2021-09-26 11:25+0200\n"
 "PO-Revision-Date: 2020-05-08 16:21+0000\n"
 "Last-Translator: Jiri Grönroos <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Launchpad-Export-Date: 2020-05-31 16:44+0000\n"
 "X-Generator: Launchpad (build 275d46a24253e557e4403d52832837e4bfa425b6)\n"
-"Language: fi\n"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:7
-#: data/org.parlatype.Parlatype.desktop.in:4 src/pt-app.c:221
+#: data/org.parlatype.Parlatype.desktop.in:4 src/pt-app.c:212
 #: src/resources/window.ui:32
 msgid "Parlatype"
 msgstr "Parlatype"
@@ -215,44 +215,32 @@ msgstr "Työkalu transkriptioon"
 msgid "Transcription;"
 msgstr "Transkriptio;"
 
-#: data/org.parlatype.Parlatype.desktop.in:8
-msgid "org.parlatype.Parlatype"
-msgstr "org.parlatype.Parlatype"
-
-#: src/pt-app.c:62
+#: src/pt-app.c:59
 msgid "Show the application’s version"
 msgstr "Näytä sovelluksen versio"
 
-#: src/pt-app.c:71
-msgid "Enable automatic speech recognition"
-msgstr "Käytä automaattista puheentunnistusta"
-
-#: src/pt-app.c:79
-msgid "Use internal textpad for automatic speech recognition"
-msgstr ""
-
-#: src/pt-app.c:102
+#: src/pt-app.c:100
 msgid "Open Audio File"
 msgstr "Avaa äänitiedosto"
 
-#: src/pt-app.c:105 src/resources/window-headerbar.ui:12
+#: src/pt-app.c:103 src/pt-prefs-asr.c:782 src/resources/window.ui:43
 msgid "_Open"
 msgstr "_Avaa"
 
-#: src/pt-app.c:106 src/resources/goto-dialog.ui:26
+#: src/pt-app.c:104 src/pt-prefs-asr.c:783 src/resources/goto-dialog.ui:26
 msgid "_Cancel"
 msgstr "_Peru"
 
-#: src/pt-app.c:125
+#: src/pt-app.c:123
 msgid "Audio files"
 msgstr "Äänitiedostot"
 
-#: src/pt-app.c:126
+#: src/pt-app.c:124 src/pt-prefs-asr.c:794
 msgid "All files"
 msgstr "Kaikki tiedostot"
 
 #. Translators: %s is a detailed error message
-#: src/pt-app.c:186
+#: src/pt-app.c:177
 #, c-format
 msgid "Error opening help: %s"
 msgstr "Virhe ohjetta avatessa: %s"
@@ -261,22 +249,23 @@ msgstr "Virhe ohjetta avatessa: %s"
 #. copyright holders of code from other projects. Instead of
 #. "including" it could also say "with" or just "Code from
 #. other projects:"
-#: src/pt-app.c:206
+#: src/pt-app.c:197
 msgid "Including code from other projects:"
 msgstr "Sisältää koodia muista projekteista:"
 
-#: src/pt-app.c:224
+#: src/pt-app.c:215
 msgid "A basic transcription utility"
 msgstr ""
 
-#: src/pt-app.c:228
+#: src/pt-app.c:219
 msgid "translator-credits"
 msgstr ""
 "Launchpad Contributions:\n"
 "  Gabor Karsay https://launchpad.net/~gabor-karsay\n"
 "  Jiri Grönroos https://launchpad.net/~jiri-gronroos"
 
-#: src/pt-app.c:371
+#: src/pt-app.c:353
+#, c-format
 msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
 "ignored.\n"
@@ -284,107 +273,12 @@ msgstr ""
 "Varoitus: Parlatype käsittelee vain yhden tiedoston kerrallaan. Muut "
 "tiedostot ohitetaan.\n"
 
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:196
-msgid "The folder contains no acoustic model."
-msgstr "Tämä kansio ei sisällä akustista mallia."
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:303
-msgid "Please select …"
-msgstr "Valitse…"
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:342
-msgid "Missing parameters"
-msgstr "Parametreja puuttuu"
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:396
-msgid "Timed out"
-msgstr "Aikakatkaisu"
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:398
-msgid ""
-"Scanning the folder took too long. Please make sure to open a folder with "
-"model data only."
+#: src/pt-asr-dialog.c:93
+msgid "CMU Pocketsphinx"
 msgstr ""
 
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:402
-msgid "Scanning the folder failed"
-msgstr ""
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:418
-msgid "Nothing found"
-msgstr "Mitään ei löytynyt"
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:420
-msgid "This folder doesn’t contain a suitable model."
-msgstr "Tämä kansio ei sisällä soveltuvaa mallia."
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:471
-msgid ""
-"The folder contains no language model. Please choose a language model from "
-"another folder."
-msgstr ""
-"Tämä kansio ei sisällä kielimallia. Valitse kielimalli jostain toisesta "
-"kansiosta."
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:480
-msgid "The folder contains several language models."
-msgstr "Tämä kansio sisältää useita kielimalleja."
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:491
-msgid ""
-"The folder contains no dictionary. Please choose a dictionary from another "
-"folder."
-msgstr ""
-"Tämä kansio ei sisällä sanastoa. Valitse sanasto jostain toisesta kansiosta."
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:500
-msgid "The folder contains several dictionaries."
-msgstr "Tämä kansio sisältää useita sanastoja."
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:510
-msgid ""
-"The folder contains no acoustic model. Please choose an acoustic model from "
-"another folder."
-msgstr ""
-"Tämä kansio ei sisällä akustista mallia. Valitse akustinen malli jostain "
-"toisesta kansiosta."
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:519
-msgid "The folder contains several acoustic models."
-msgstr "Tämä kansio sisältää useita akustisia malleja."
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:637
-msgid "Download model"
-msgstr "Lataa malli"
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:645
-msgid "Finish configuration"
-msgstr "Viimeistele määritys"
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-output.c:210
-msgid "Select output for automatic speech recognition"
-msgstr ""
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-output.c:212
-msgid "Please open and switch focus to a word processor."
+#: src/pt-asr-dialog.c:96
+msgid "Mozilla DeepSpeech"
 msgstr ""
 
 #. Translators: This is a time format, like "2:05:30" for 2
@@ -401,146 +295,154 @@ msgstr ""
 #. or the "Go to ..." dialog. There is a label like
 #. "Jump back:", "Jump forward:", "Jump back on pause:"
 #. or "Go to position:" before.
-#: src/pt-goto-dialog.c:79 src/pt-preferences.c:98 src/pt-preferences.c:108
-#: src/pt-preferences.c:118
+#: src/pt-goto-dialog.c:79 src/pt-preferences.c:85 src/pt-preferences.c:95
+#: src/pt-preferences.c:105
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "sekunti"
 msgstr[1] "sekuntia"
 
-#: src/pt-preferences.c:258
-msgid "Deleting configuration"
-msgstr "Poistetaan määritys"
+#: src/pt-preferences.c:305
+msgid "Speech recognition"
+msgstr "Puheentunnistus"
 
-#: src/pt-preferences.c:259
-#, c-format
-msgid "Do you really want to delete “%s”?"
-msgstr "Poistetaanko “%s”?"
-
-#: src/pt-window.c:217
-#, c-format
-msgid "Found %s"
-msgstr "Löytyi %s"
-
-#: src/pt-window.c:218
-msgid "Press “Play” to start automatic speech recognition."
+#: src/pt-prefs-asr.c:373
+msgid "Failed to read personal configuration files"
 msgstr ""
-"Paina toistopainiketta aloittaaksesi automaattisen puheentunnistuksen."
 
-#: src/pt-window.c:430
+#: src/pt-prefs-asr.c:415
+msgid "Failed to copy shipped configuration files"
+msgstr ""
+
+#: src/pt-prefs-asr.c:585
+msgid "Delete Model Definition?"
+msgstr ""
+
+#: src/pt-prefs-asr.c:673 src/pt-prefs-asr.c:727
+msgid "Error"
+msgstr ""
+
+#: src/pt-prefs-asr.c:731
+msgid "The file is not a valid model definition."
+msgstr ""
+
+#: src/pt-prefs-asr.c:779
+msgid "Import ASR Model Definition"
+msgstr ""
+
+#: src/pt-prefs-asr.c:793
+msgid "Parlatype Model definitions"
+msgstr ""
+
+#: src/pt-prefs-asr.c:844
+msgid "Failed to create personal configuration folder"
+msgstr ""
+
+#: src/pt-window.c:376
 #, c-format
 msgid "Jump back 1 second"
 msgid_plural "Jump back %d seconds"
 msgstr[0] "Siirry taaksepäin 1 sekunti"
 msgstr[1] "Siirry taaksepäin %d sekuntia"
 
-#: src/pt-window.c:447
+#: src/pt-window.c:393
 #, c-format
 msgid "Jump forward 1 second"
 msgid_plural "Jump forward %d seconds"
 msgstr[0] "Siirry eteenpäin 1 sekunti"
 msgstr[1] "Siirry eteenpäin %d sekuntia"
 
-#: src/pt-window.c:466
+#: src/pt-window.c:412
 msgid "Pause"
 msgstr "Keskeytä"
 
-#: src/pt-window.c:469
+#: src/pt-window.c:415
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
 msgstr[0] "Keskeytä ja siirry taaksepäin 1 sekunti"
 msgstr[1] "Keskeytä ja siirry taaksepäin %d sekuntia"
 
-#: src/pt-window.c:476
+#: src/pt-window.c:422
 msgid "Start playing"
 msgstr "Aloita toistaminen"
 
-#: src/pt-window.c:512
+#: src/pt-window.c:458
 #, c-format
 msgid "Go to time in clipboard: %s"
 msgstr "Siirry leikepöydällä olevaan aikaan: %s"
 
-#: src/pt-window.c:514 src/pt-window.c:1334
+#: src/pt-window.c:460 src/pt-window.c:1157
 msgid "Go to time in clipboard"
 msgstr "Siirry leikepöydällä olevaan aikaan"
 
-#: src/pt-window.c:1195
-#, c-format
-msgid ""
-"Parlatype needs GStreamer 1.x to run. Please check your installation of "
-"GStreamer and make sure you have the “Good Plugins” installed.\n"
-"Parlatype will quit now, it received this error message: %s"
+#: src/pt-window.c:1152
+msgid "Manual transcription"
+msgstr "Manuaalinen transkriptio"
+
+#: src/pt-window.c:1153
+msgid "Automatic transcription"
+msgstr "Automaattinen transkriptio"
+
+#: src/resources/asr-dialog.ui:23 src/resources/help-overlay.ui:15
+msgid "General"
+msgstr "Yleiset"
+
+#: src/resources/asr-dialog.ui:46
+#, fuzzy
+msgid "Display Name:"
+msgstr "Esitystapa"
+
+#: src/resources/asr-dialog.ui:58
+#, fuzzy
+msgid "Language:"
+msgstr "Kielimalli:"
+
+#: src/resources/asr-dialog.ui:70
+#, fuzzy
+msgid "Speech Recognition Engine:"
+msgstr "Puheentunnistus"
+
+#: src/resources/asr-dialog.ui:82
+msgid "GStreamer Plugin:"
 msgstr ""
 
-#: src/pt-window.c:1198
-msgid "Fatal error"
-msgstr "Vakava virhe"
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/asr-assistant.ui:15
-msgid ""
-"Before you can start, you have to download a so called acoustic and language "
-"model. This is a set of files made for a specific language."
+#: src/resources/asr-dialog.ui:94
+msgid "Publisher:"
 msgstr ""
 
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/asr-assistant.ui:30
-msgid ""
-"Parlatype uses CMU Sphinx as its speech recognition engine. You can download "
-"models suitable for CMU Sphinx for example from <a "
-"href=\"https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Lang"
-"uage%20Models/\">CMU Sphinx’ sourceforge repository</a>. It has models for "
-"some of the most widespread languages."
+#: src/resources/asr-dialog.ui:106
+msgid "License:"
 msgstr ""
 
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/asr-assistant.ui:45
-msgid ""
-"If it’s compressed, uncompress the model. Save it to a folder where it can "
-"stay. Parlatype doesn’t copy the model internally."
+#: src/resources/asr-dialog.ui:118 src/resources/asr-dialog.ui:130
+#: src/resources/asr-dialog.ui:142 src/resources/asr-dialog.ui:154
+#: src/resources/asr-dialog.ui:166
+msgid "label"
 msgstr ""
 
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/asr-assistant.ui:59
-msgid "When you are finished, specify the folder with the model:"
+#: src/resources/asr-dialog.ui:197
+msgid "Installation"
 msgstr ""
 
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/asr-assistant.ui:96
-msgid "Language model"
-msgstr "Kielimalli"
+#: src/resources/asr-dialog.ui:219 src/resources/asr-dialog.ui:269
+#, fuzzy
+msgid "Download:"
+msgstr "Lataa malli"
 
-#: src/resources/asr-assistant.ui:125
-msgid "Select language model"
-msgstr "Valitse kielimalli"
+#: src/resources/asr-dialog.ui:243
+msgid "Installed:"
+msgstr ""
 
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/asr-assistant.ui:157
-msgid "Dictionary"
-msgstr "Sanasto"
+#: src/resources/asr-dialog.ui:293
+msgid "Instructions:"
+msgstr ""
 
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/asr-assistant.ui:186
-msgid "Select dictionary"
-msgstr "Valitse sanasto"
+#: src/resources/asr-dialog.ui:305
+msgid "Download, unzip to a folder and select that folder."
+msgstr ""
 
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/asr-assistant.ui:218
-msgid "Acoustic model"
-msgstr "Akustinen malli"
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/asr-assistant.ui:248
-msgid "Select acoustic model folder"
-msgstr "Valitse akustisen mallin kansio"
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/asr-assistant.ui:285
-msgid "Setup is completed. Please give this configuration a name:"
-msgstr "Asetukset ovat valmiit. Anna tälle määritykselle nimi:"
-
-#: src/resources/goto-dialog.ui:13 src/resources/menus.ui:46
+#: src/resources/goto-dialog.ui:13 src/resources/menus.ui:34
 msgid "Go to…"
 msgstr "Siirry…"
 
@@ -551,10 +453,6 @@ msgstr "_OK"
 #: src/resources/goto-dialog.ui:70
 msgid "Go to position:"
 msgstr "Siirry sijaintiin:"
-
-#: src/resources/help-overlay.ui:15
-msgid "General"
-msgstr "Yleiset"
 
 #: src/resources/help-overlay.ui:20
 msgid "Open a media file"
@@ -568,7 +466,7 @@ msgstr "Näytä/piilota toimintovalikko"
 msgid "Quit"
 msgstr "Lopeta"
 
-#: src/resources/help-overlay.ui:42 src/resources/preferences.ui:271
+#: src/resources/help-overlay.ui:42 src/resources/preferences.ui:274
 msgid "Waveform"
 msgstr "Aaltomuoto"
 
@@ -604,7 +502,7 @@ msgstr "Kopioi aikaleima leikepöydälle"
 msgid "Go to timestamp in clipboard"
 msgstr "Siirry leikepöydällä olevaan aikaleimaan"
 
-#: src/resources/help-overlay.ui:122 src/resources/menus.ui:27
+#: src/resources/help-overlay.ui:122 src/resources/menus.ui:15
 msgid "Help"
 msgstr "Ohje"
 
@@ -617,30 +515,22 @@ msgid "Show keyboard shortcuts"
 msgstr "Näytä pikanäppäimet"
 
 #: src/resources/menus.ui:7
-msgid "Manual transcription"
-msgstr "Manuaalinen transkriptio"
-
-#: src/resources/menus.ui:12
-msgid "Automatic transcription"
-msgstr "Automaattinen transkriptio"
-
-#: src/resources/menus.ui:19
 msgid "Preferences"
 msgstr "Asetukset"
 
-#: src/resources/menus.ui:23
+#: src/resources/menus.ui:11
 msgid "_Keyboard Shortcuts"
 msgstr "_Pikanäppäimet"
 
-#: src/resources/menus.ui:31
+#: src/resources/menus.ui:19
 msgid "About Parlatype"
 msgstr "Tietoja - Parlatype"
 
-#: src/resources/menus.ui:38
+#: src/resources/menus.ui:26
 msgid "Copy time to clipboard"
 msgstr "Kopioi aika leikepöydälle"
 
-#: src/resources/menus.ui:42
+#: src/resources/menus.ui:30
 msgid "Go to cursor"
 msgstr "Siirry kohdistimeen"
 
@@ -685,154 +575,255 @@ msgstr "Sadasosasekunnit"
 msgid "Parlatype Preferences"
 msgstr "Parlatypen asetukset"
 
-#: src/resources/preferences.ui:141
+#: src/resources/preferences.ui:144
 msgid "_Pixels per second:"
 msgstr "_Pikseliä sekunnissa:"
 
-#: src/resources/preferences.ui:171
+#: src/resources/preferences.ui:174
 msgid "Show _time scale"
 msgstr "Näytä a_ika-asteikko"
 
 #. Resolution of the waveform image
-#: src/resources/preferences.ui:189
+#: src/resources/preferences.ui:192
 msgid "Resolution"
 msgstr "Tarkkuus"
 
 #. A section in preferences, how to display the waveform.
-#: src/resources/preferences.ui:204
+#: src/resources/preferences.ui:207
 msgid "Display"
 msgstr "Esitystapa"
 
-#: src/resources/preferences.ui:217
+#: src/resources/preferences.ui:220
 msgid "_Moving cursor"
 msgstr "_Liikkuva kursori"
 
-#: src/resources/preferences.ui:234
+#: src/resources/preferences.ui:237
 msgid "_Fixed cursor"
 msgstr "_Kiinteä kursori"
 
-#: src/resources/preferences.ui:288
+#: src/resources/preferences.ui:291
 msgid "Jumps"
 msgstr "Hypyt"
 
-#: src/resources/preferences.ui:390
+#: src/resources/preferences.ui:393
 msgid "Jump _forward:"
 msgstr "Siirry _eteenpäin:"
 
-#: src/resources/preferences.ui:404
+#: src/resources/preferences.ui:407
 msgid "Jump _back:"
 msgstr "Siirry t_aaksepäin:"
 
-#: src/resources/preferences.ui:418
+#: src/resources/preferences.ui:421
 msgid "Jump back on _pause:"
 msgstr "Siirry taaksepäin _keskeytyksessä:"
 
-#: src/resources/preferences.ui:441
+#: src/resources/preferences.ui:444
 msgid "Pressing “Play” at the end of file"
 msgstr "Toistopainikkeen painaminen tiedoston lopuksi"
 
-#: src/resources/preferences.ui:455
+#: src/resources/preferences.ui:458
 msgid "Replay file"
 msgstr "Toista tiedosto uudelleen"
 
-#: src/resources/preferences.ui:474
+#: src/resources/preferences.ui:477
 msgid "Pressing “Play” at the end of selection"
 msgstr "Toistopainikkeen painaminen valinnan lopuksi"
 
-#: src/resources/preferences.ui:488
+#: src/resources/preferences.ui:491
 msgid "Replay selection"
 msgstr "Toista valinta uudelleen"
 
-#: src/resources/preferences.ui:510
+#: src/resources/preferences.ui:513
 msgid "Controls"
 msgstr "Säätimet"
 
-#: src/resources/preferences.ui:553
+#: src/resources/preferences.ui:556
 msgid "Hours and zeroes"
 msgstr "Tunnit ja nollat"
 
-#: src/resources/preferences.ui:566
+#: src/resources/preferences.ui:569
 msgid "Always show hours and leading zeroes"
 msgstr "Näytä aina tunnit ja etunollat"
 
-#: src/resources/preferences.ui:584
+#: src/resources/preferences.ui:587
 msgid "Precision"
 msgstr "Tarkkuus"
 
-#: src/resources/preferences.ui:600
+#: src/resources/preferences.ui:603
 msgid "Characters around timestamps"
 msgstr "Merkit aikaleimojen ympärillä"
 
-#: src/resources/preferences.ui:616
+#: src/resources/preferences.ui:619
 msgid "Examples"
 msgstr "Esimerkit"
 
-#: src/resources/preferences.ui:658
+#: src/resources/preferences.ui:661
 msgid "Precision:"
 msgstr "Tarkkuus:"
 
-#: src/resources/preferences.ui:690
+#: src/resources/preferences.ui:693
 msgid "Fraction separator:"
 msgstr "Murto-osan erotin:"
 
-#: src/resources/preferences.ui:733
+#: src/resources/preferences.ui:736
 msgid "Timestamps"
 msgstr "Aikaleimat"
 
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/preferences.ui:864
-msgid "Language model:"
-msgstr "Kielimalli:"
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/preferences.ui:891
-msgid "Dictionary:"
-msgstr "Sanasto:"
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/preferences.ui:918
-msgid "Acoustic model folder:"
-msgstr "Akustisen mallin kansio:"
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/preferences.ui:966
-msgid "There is no configuration"
-msgstr "Ei määrityksiä"
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/preferences.ui:976
-msgid "Add a configuration"
-msgstr "Lisää määritys"
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/preferences.ui:1005
-msgid "Speech recognition"
-msgstr "Puheentunnistus"
-
-#: src/resources/preferences.ui:1023
+#: src/resources/preferences.ui:760
 msgid "Remember _size"
 msgstr "Muista _koko"
 
-#: src/resources/preferences.ui:1038
+#: src/resources/preferences.ui:775
 msgid "Remember _position"
 msgstr "Muista _sijainti"
 
-#: src/resources/preferences.ui:1053
+#: src/resources/preferences.ui:790
 msgid "Start on _top"
 msgstr "K_äynnistä päällimmäisenä"
 
-#: src/resources/preferences.ui:1075
+#: src/resources/preferences.ui:812
 msgid "Window"
 msgstr "Ikkuna"
 
-#: src/resources/window.ui:169
+#: src/resources/prefs-asr.ui:40
+msgid "Speech models"
+msgstr ""
+
+#: src/resources/prefs-asr.ui:57
+msgid "Installed"
+msgstr ""
+
+#: src/resources/prefs-asr.ui:58
+msgid "Supported"
+msgstr ""
+
+#: src/resources/prefs-asr.ui:59
+#, fuzzy
+msgid "All models"
+msgstr "Kaikki tiedostot"
+
+#: src/resources/prefs-asr.ui:227
+msgid "There is no configuration"
+msgstr "Ei määrityksiä"
+
+#: src/resources/prefs-asr.ui:237
+msgid "Add a configuration"
+msgstr "Lisää määritys"
+
+#: src/resources/prefs-asr.ui:305
+msgid "No results in this view"
+msgstr ""
+
+#: src/resources/window.ui:48
+msgid "Open a file"
+msgstr "Avaa tiedosto"
+
+#: src/resources/window.ui:170
 msgid "_Play"
 msgstr "T_oista"
 
-#: src/resources/window.ui:338
+#: src/resources/window.ui:294
 msgid "Speed:"
 msgstr "Nopeus:"
 
-#: src/resources/window-headerbar.ui:17
-msgid "Open a file"
-msgstr "Avaa tiedosto"
+#~ msgid "org.parlatype.Parlatype"
+#~ msgstr "org.parlatype.Parlatype"
+
+#~ msgid "Enable automatic speech recognition"
+#~ msgstr "Käytä automaattista puheentunnistusta"
+
+#~ msgid "The folder contains no acoustic model."
+#~ msgstr "Tämä kansio ei sisällä akustista mallia."
+
+#~ msgid "Please select …"
+#~ msgstr "Valitse…"
+
+#~ msgid "Missing parameters"
+#~ msgstr "Parametreja puuttuu"
+
+#~ msgid "Timed out"
+#~ msgstr "Aikakatkaisu"
+
+#~ msgid "Nothing found"
+#~ msgstr "Mitään ei löytynyt"
+
+#~ msgid "This folder doesn’t contain a suitable model."
+#~ msgstr "Tämä kansio ei sisällä soveltuvaa mallia."
+
+#~ msgid ""
+#~ "The folder contains no language model. Please choose a language model "
+#~ "from another folder."
+#~ msgstr ""
+#~ "Tämä kansio ei sisällä kielimallia. Valitse kielimalli jostain toisesta "
+#~ "kansiosta."
+
+#~ msgid "The folder contains several language models."
+#~ msgstr "Tämä kansio sisältää useita kielimalleja."
+
+#~ msgid ""
+#~ "The folder contains no dictionary. Please choose a dictionary from "
+#~ "another folder."
+#~ msgstr ""
+#~ "Tämä kansio ei sisällä sanastoa. Valitse sanasto jostain toisesta "
+#~ "kansiosta."
+
+#~ msgid "The folder contains several dictionaries."
+#~ msgstr "Tämä kansio sisältää useita sanastoja."
+
+#~ msgid ""
+#~ "The folder contains no acoustic model. Please choose an acoustic model "
+#~ "from another folder."
+#~ msgstr ""
+#~ "Tämä kansio ei sisällä akustista mallia. Valitse akustinen malli jostain "
+#~ "toisesta kansiosta."
+
+#~ msgid "The folder contains several acoustic models."
+#~ msgstr "Tämä kansio sisältää useita akustisia malleja."
+
+#~ msgid "Finish configuration"
+#~ msgstr "Viimeistele määritys"
+
+#~ msgid "Deleting configuration"
+#~ msgstr "Poistetaan määritys"
+
+#, c-format
+#~ msgid "Do you really want to delete “%s”?"
+#~ msgstr "Poistetaanko “%s”?"
+
+#, c-format
+#~ msgid "Found %s"
+#~ msgstr "Löytyi %s"
+
+#~ msgid "Press “Play” to start automatic speech recognition."
+#~ msgstr ""
+#~ "Paina toistopainiketta aloittaaksesi automaattisen puheentunnistuksen."
+
+#~ msgid "Fatal error"
+#~ msgstr "Vakava virhe"
+
+#~ msgid "Language model"
+#~ msgstr "Kielimalli"
+
+#~ msgid "Select language model"
+#~ msgstr "Valitse kielimalli"
+
+#~ msgid "Dictionary"
+#~ msgstr "Sanasto"
+
+#~ msgid "Select dictionary"
+#~ msgstr "Valitse sanasto"
+
+#~ msgid "Acoustic model"
+#~ msgstr "Akustinen malli"
+
+#~ msgid "Select acoustic model folder"
+#~ msgstr "Valitse akustisen mallin kansio"
+
+#~ msgid "Setup is completed. Please give this configuration a name:"
+#~ msgstr "Asetukset ovat valmiit. Anna tälle määritykselle nimi:"
+
+#~ msgid "Dictionary:"
+#~ msgstr "Sanasto:"
+
+#~ msgid "Acoustic model folder:"
+#~ msgstr "Akustisen mallin kansio:"

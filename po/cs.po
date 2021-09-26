@@ -8,20 +8,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-08 11:33+0200\n"
+"POT-Creation-Date: 2021-09-26 11:25+0200\n"
 "PO-Revision-Date: 2020-03-09 16:24+0000\n"
 "Last-Translator: fri <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Launchpad-Export-Date: 2020-05-08 11:32+0000\n"
 "X-Generator: Launchpad (build fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398)\n"
-"Language: cs\n"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:7
-#: data/org.parlatype.Parlatype.desktop.in:4 src/pt-app.c:221
+#: data/org.parlatype.Parlatype.desktop.in:4 src/pt-app.c:212
 #: src/resources/window.ui:32
 msgid "Parlatype"
 msgstr "Parlatype"
@@ -216,44 +216,32 @@ msgstr "Pomůcka pro přepis"
 msgid "Transcription;"
 msgstr "Přepis;"
 
-#: data/org.parlatype.Parlatype.desktop.in:8
-msgid "org.parlatype.Parlatype"
-msgstr "org.parlatype.Parlatype"
-
-#: src/pt-app.c:62
+#: src/pt-app.c:59
 msgid "Show the application’s version"
 msgstr "Ukázat verzi programu"
 
-#: src/pt-app.c:71
-msgid "Enable automatic speech recognition"
-msgstr ""
-
-#: src/pt-app.c:79
-msgid "Use internal textpad for automatic speech recognition"
-msgstr "Použít vnitřní textový blok pro automatické rozpoznávání řeči"
-
-#: src/pt-app.c:102
+#: src/pt-app.c:100
 msgid "Open Audio File"
 msgstr "Otevřít zvukový soubor"
 
-#: src/pt-app.c:105 src/resources/window-headerbar.ui:12
+#: src/pt-app.c:103 src/pt-prefs-asr.c:782 src/resources/window.ui:43
 msgid "_Open"
 msgstr "_Otevřít"
 
-#: src/pt-app.c:106 src/resources/goto-dialog.ui:26
+#: src/pt-app.c:104 src/pt-prefs-asr.c:783 src/resources/goto-dialog.ui:26
 msgid "_Cancel"
 msgstr "_Zrušit"
 
-#: src/pt-app.c:125
+#: src/pt-app.c:123
 msgid "Audio files"
 msgstr "Zvukové soubory"
 
-#: src/pt-app.c:126
+#: src/pt-app.c:124 src/pt-prefs-asr.c:794
 msgid "All files"
 msgstr "Všechny soubory"
 
 #. Translators: %s is a detailed error message
-#: src/pt-app.c:186
+#: src/pt-app.c:177
 #, c-format
 msgid "Error opening help: %s"
 msgstr "Chyba při otevírání nápovědy: %s"
@@ -262,22 +250,23 @@ msgstr "Chyba při otevírání nápovědy: %s"
 #. copyright holders of code from other projects. Instead of
 #. "including" it could also say "with" or just "Code from
 #. other projects:"
-#: src/pt-app.c:206
+#: src/pt-app.c:197
 msgid "Including code from other projects:"
 msgstr "Obsahuje kód z jiných projektů:"
 
-#: src/pt-app.c:224
+#: src/pt-app.c:215
 msgid "A basic transcription utility"
 msgstr "Základní prostředek na přepis"
 
-#: src/pt-app.c:228
+#: src/pt-app.c:219
 msgid "translator-credits"
 msgstr ""
 "Launchpad Contributions:\n"
 "  Gabor Karsay https://launchpad.net/~gabor-karsay\n"
 "  fri https://launchpad.net/~pavelfric"
 
-#: src/pt-app.c:371
+#: src/pt-app.c:353
+#, c-format
 msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
 "ignored.\n"
@@ -285,110 +274,13 @@ msgstr ""
 "Upozornění: Parlatype pracuje pouze s jedním souborem najednou. Ostatní "
 "soubory jsou přehlíženy.\n"
 
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:196
-msgid "The folder contains no acoustic model."
-msgstr "Složka obsahuje akustický model."
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:303
-msgid "Please select …"
-msgstr "Vyberte, prosím, ..."
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:342
-msgid "Missing parameters"
-msgstr "Chybí parametry"
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:396
-msgid "Timed out"
-msgstr "Čas vypršel"
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:398
-msgid ""
-"Scanning the folder took too long. Please make sure to open a folder with "
-"model data only."
+#: src/pt-asr-dialog.c:93
+msgid "CMU Pocketsphinx"
 msgstr ""
-"Prohledávání složky zabralo spoustu času. Ujistěte se, prosím, že otevíráte "
-"složky, v níž jsou pouze modelová data."
 
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:402
-msgid "Scanning the folder failed"
-msgstr "Prohledávání složky selhalo"
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:418
-msgid "Nothing found"
-msgstr "Nic nenalezeno"
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:420
-msgid "This folder doesn’t contain a suitable model."
-msgstr "Tato složka neobsahuje vhodný model."
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:471
-msgid ""
-"The folder contains no language model. Please choose a language model from "
-"another folder."
+#: src/pt-asr-dialog.c:96
+msgid "Mozilla DeepSpeech"
 msgstr ""
-"Složka neobsahuje žádný jazykový model. Vyberte, prosím, jazykový model z "
-"jiné složky."
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:480
-msgid "The folder contains several language models."
-msgstr "Složka obsahuje několik jazykových modelů."
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:491
-msgid ""
-"The folder contains no dictionary. Please choose a dictionary from another "
-"folder."
-msgstr ""
-"Složka neobsahuje žádný slovník. Vyberte, prosím, slovník z jiné složky."
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:500
-msgid "The folder contains several dictionaries."
-msgstr "Složka obsahuje několik slovníků."
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:510
-msgid ""
-"The folder contains no acoustic model. Please choose an acoustic model from "
-"another folder."
-msgstr ""
-"Složka neobsahuje žádný akustický model. Vyberte, prosím, akustický model z "
-"jiné složky."
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:519
-msgid "The folder contains several acoustic models."
-msgstr "Složka obsahuje několik akustický modelů."
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:637
-msgid "Download model"
-msgstr "Stáhnout model"
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-assistant.c:645
-msgid "Finish configuration"
-msgstr "Dokončit nastavení"
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-output.c:210
-msgid "Select output for automatic speech recognition"
-msgstr "Vybrat výstup pro automatické rozpoznávání řeči"
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/pt-asr-output.c:212
-msgid "Please open and switch focus to a word processor."
-msgstr "Otevřete, prosím, a přepněte zaměření na textový editor."
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
@@ -404,33 +296,51 @@ msgstr "%d:%02d:%02d"
 #. or the "Go to ..." dialog. There is a label like
 #. "Jump back:", "Jump forward:", "Jump back on pause:"
 #. or "Go to position:" before.
-#: src/pt-goto-dialog.c:79 src/pt-preferences.c:98 src/pt-preferences.c:108
-#: src/pt-preferences.c:118
+#: src/pt-goto-dialog.c:79 src/pt-preferences.c:85 src/pt-preferences.c:95
+#: src/pt-preferences.c:105
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "sekunda"
 msgstr[1] "sekund"
 msgstr[2] "sekund"
 
-#: src/pt-preferences.c:258
-msgid "Deleting configuration"
-msgstr "Smazání nastavení"
+#: src/pt-preferences.c:305
+msgid "Speech recognition"
+msgstr "Rozpoznávání řeči"
 
-#: src/pt-preferences.c:259
-#, c-format
-msgid "Do you really want to delete “%s”?"
-msgstr "Opravdu chcete smazat “%s”?"
+#: src/pt-prefs-asr.c:373
+msgid "Failed to read personal configuration files"
+msgstr ""
 
-#: src/pt-window.c:217
-#, c-format
-msgid "Found %s"
-msgstr "Nalezeno %s"
+#: src/pt-prefs-asr.c:415
+msgid "Failed to copy shipped configuration files"
+msgstr ""
 
-#: src/pt-window.c:218
-msgid "Press “Play” to start automatic speech recognition."
-msgstr "Stiskněte Přehrát pro spuštění automatického rozpoznávání řeči."
+#: src/pt-prefs-asr.c:585
+msgid "Delete Model Definition?"
+msgstr ""
 
-#: src/pt-window.c:430
+#: src/pt-prefs-asr.c:673 src/pt-prefs-asr.c:727
+msgid "Error"
+msgstr ""
+
+#: src/pt-prefs-asr.c:731
+msgid "The file is not a valid model definition."
+msgstr ""
+
+#: src/pt-prefs-asr.c:779
+msgid "Import ASR Model Definition"
+msgstr ""
+
+#: src/pt-prefs-asr.c:793
+msgid "Parlatype Model definitions"
+msgstr ""
+
+#: src/pt-prefs-asr.c:844
+msgid "Failed to create personal configuration folder"
+msgstr ""
+
+#: src/pt-window.c:376
 #, c-format
 msgid "Jump back 1 second"
 msgid_plural "Jump back %d seconds"
@@ -438,7 +348,7 @@ msgstr[0] "Skočit zpět o 1 sekundu"
 msgstr[1] "Skočit zpět o %d sekundy"
 msgstr[2] "Skočit zpět o %d sekund"
 
-#: src/pt-window.c:447
+#: src/pt-window.c:393
 #, c-format
 msgid "Jump forward 1 second"
 msgid_plural "Jump forward %d seconds"
@@ -446,11 +356,11 @@ msgstr[0] "Skočit vpřed o 1 sekundu"
 msgstr[1] "Skočit vpřed o %d sekundy"
 msgstr[2] "Skočit vpřed o %d sekund"
 
-#: src/pt-window.c:466
+#: src/pt-window.c:412
 msgid "Pause"
 msgstr "Pozastavit"
 
-#: src/pt-window.c:469
+#: src/pt-window.c:415
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
@@ -458,107 +368,86 @@ msgstr[0] "Pozastavit a přetočit o 1 sekundu"
 msgstr[1] "Pozastavit a přetočit o %d sekundy"
 msgstr[2] "Pozastavit a přetočit o %d sekund"
 
-#: src/pt-window.c:476
+#: src/pt-window.c:422
 msgid "Start playing"
 msgstr "Začít přehrávat"
 
-#: src/pt-window.c:512
+#: src/pt-window.c:458
 #, c-format
 msgid "Go to time in clipboard: %s"
 msgstr "Jít na čas ve schránce: %s"
 
-#: src/pt-window.c:514 src/pt-window.c:1334
+#: src/pt-window.c:460 src/pt-window.c:1157
 msgid "Go to time in clipboard"
 msgstr "Jít na čas ve schránce"
 
-#: src/pt-window.c:1195
-#, c-format
-msgid ""
-"Parlatype needs GStreamer 1.x to run. Please check your installation of "
-"GStreamer and make sure you have the “Good Plugins” installed.\n"
-"Parlatype will quit now, it received this error message: %s"
+#: src/pt-window.c:1152
+msgid "Manual transcription"
+msgstr "Ruční přepis"
+
+#: src/pt-window.c:1153
+msgid "Automatic transcription"
+msgstr "Automatický přepis"
+
+#: src/resources/asr-dialog.ui:23 src/resources/help-overlay.ui:15
+msgid "General"
+msgstr "Obecné"
+
+#: src/resources/asr-dialog.ui:46
+#, fuzzy
+msgid "Display Name:"
+msgstr "Zobrazení"
+
+#: src/resources/asr-dialog.ui:58
+#, fuzzy
+msgid "Language:"
+msgstr "Jazykový model:"
+
+#: src/resources/asr-dialog.ui:70
+#, fuzzy
+msgid "Speech Recognition Engine:"
+msgstr "Rozpoznávání řeči"
+
+#: src/resources/asr-dialog.ui:82
+msgid "GStreamer Plugin:"
 msgstr ""
-"Parlatype potřebuje, aby běžel GStreamer 1.x. Prověřte, prosím, instalaci "
-"GStreameru a ujistěte se, že máte nainstalovány “Good Plugins”.\n"
-"Parlatype nyní bude ukončen, přijal toto hlášení o chybě: %s"
 
-#: src/pt-window.c:1198
-msgid "Fatal error"
-msgstr "Vážná chyba"
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/asr-assistant.ui:15
-msgid ""
-"Before you can start, you have to download a so called acoustic and language "
-"model. This is a set of files made for a specific language."
+#: src/resources/asr-dialog.ui:94
+msgid "Publisher:"
 msgstr ""
-"Předtím než budete moci začít, musíte stáhnout tak zvaný akustický a "
-"jazykový model. Jedná se o sadu souborů pro určitý jazyk."
 
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/asr-assistant.ui:30
-msgid ""
-"Parlatype uses CMU Sphinx as its speech recognition engine. You can download "
-"models suitable for CMU Sphinx for example from <a "
-"href=\"https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Lang"
-"uage%20Models/\">CMU Sphinx’ sourceforge repository</a>. It has models for "
-"some of the most widespread languages."
+#: src/resources/asr-dialog.ui:106
+msgid "License:"
 msgstr ""
-"Parlatype používá CMU Sphinx jako stroj na rozpoznávání řeči. Modely vhodné "
-"pro CMU Sphinx ůžete stáhnout například z <a "
-"href=\"https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Lang"
-"uage%20Models/\">CMU Sphinx’ sourceforge repository</a>. Jsou tam modely pro "
-"některé z nějrozšířenějších jazyků."
 
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/asr-assistant.ui:45
-msgid ""
-"If it’s compressed, uncompress the model. Save it to a folder where it can "
-"stay. Parlatype doesn’t copy the model internally."
+#: src/resources/asr-dialog.ui:118 src/resources/asr-dialog.ui:130
+#: src/resources/asr-dialog.ui:142 src/resources/asr-dialog.ui:154
+#: src/resources/asr-dialog.ui:166
+msgid "label"
 msgstr ""
-"Pokud je zkomprimován, rozbalte model. Uložte jej do složky, kde bude moci "
-"zůstat. Parlatype model nekopíruje vnitřně."
 
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/asr-assistant.ui:59
-msgid "When you are finished, specify the folder with the model:"
-msgstr "Až skončíte, stanovte složku s modelem:"
+#: src/resources/asr-dialog.ui:197
+msgid "Installation"
+msgstr ""
 
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/asr-assistant.ui:96
-msgid "Language model"
-msgstr "Jazykový model"
+#: src/resources/asr-dialog.ui:219 src/resources/asr-dialog.ui:269
+#, fuzzy
+msgid "Download:"
+msgstr "Stáhnout model"
 
-#: src/resources/asr-assistant.ui:125
-msgid "Select language model"
-msgstr "Vybrat jazykový model"
+#: src/resources/asr-dialog.ui:243
+msgid "Installed:"
+msgstr ""
 
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/asr-assistant.ui:157
-msgid "Dictionary"
-msgstr "Slovník"
+#: src/resources/asr-dialog.ui:293
+msgid "Instructions:"
+msgstr ""
 
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/asr-assistant.ui:186
-msgid "Select dictionary"
-msgstr "Vybrat slovník"
+#: src/resources/asr-dialog.ui:305
+msgid "Download, unzip to a folder and select that folder."
+msgstr ""
 
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/asr-assistant.ui:218
-msgid "Acoustic model"
-msgstr "Akustický model"
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/asr-assistant.ui:248
-msgid "Select acoustic model folder"
-msgstr "Vybrat složku s akustickým modelem"
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/asr-assistant.ui:285
-msgid "Setup is completed. Please give this configuration a name:"
-msgstr "Nastavení je hotovo. Nastavení, prosím, pojmenujte:"
-
-#: src/resources/goto-dialog.ui:13 src/resources/menus.ui:46
+#: src/resources/goto-dialog.ui:13 src/resources/menus.ui:34
 msgid "Go to…"
 msgstr "Jít na..."
 
@@ -569,10 +458,6 @@ msgstr "_OK"
 #: src/resources/goto-dialog.ui:70
 msgid "Go to position:"
 msgstr "Jít na polohu:"
-
-#: src/resources/help-overlay.ui:15
-msgid "General"
-msgstr "Obecné"
 
 #: src/resources/help-overlay.ui:20
 msgid "Open a media file"
@@ -586,7 +471,7 @@ msgstr "Ukázat/Skrýt nabídku činností"
 msgid "Quit"
 msgstr "Ukončit"
 
-#: src/resources/help-overlay.ui:42 src/resources/preferences.ui:271
+#: src/resources/help-overlay.ui:42 src/resources/preferences.ui:274
 msgid "Waveform"
 msgstr "Křivka"
 
@@ -622,7 +507,7 @@ msgstr "Kopírovat časové razítko do schránky"
 msgid "Go to timestamp in clipboard"
 msgstr "Jít na časové razítko ve schránce"
 
-#: src/resources/help-overlay.ui:122 src/resources/menus.ui:27
+#: src/resources/help-overlay.ui:122 src/resources/menus.ui:15
 msgid "Help"
 msgstr "Nápověda"
 
@@ -635,30 +520,22 @@ msgid "Show keyboard shortcuts"
 msgstr "Ukázat klávesové zkratky"
 
 #: src/resources/menus.ui:7
-msgid "Manual transcription"
-msgstr "Ruční přepis"
-
-#: src/resources/menus.ui:12
-msgid "Automatic transcription"
-msgstr "Automatický přepis"
-
-#: src/resources/menus.ui:19
 msgid "Preferences"
 msgstr "Nastavení"
 
-#: src/resources/menus.ui:23
+#: src/resources/menus.ui:11
 msgid "_Keyboard Shortcuts"
 msgstr "_Klávesové zkratky"
 
-#: src/resources/menus.ui:31
+#: src/resources/menus.ui:19
 msgid "About Parlatype"
 msgstr "O programu Parlatype"
 
-#: src/resources/menus.ui:38
+#: src/resources/menus.ui:26
 msgid "Copy time to clipboard"
 msgstr "Kopírovat čas do schránky"
 
-#: src/resources/menus.ui:42
+#: src/resources/menus.ui:30
 msgid "Go to cursor"
 msgstr "Jít na ukazatel"
 
@@ -703,154 +580,309 @@ msgstr "100. sekund"
 msgid "Parlatype Preferences"
 msgstr "Nastavení Parlatype"
 
-#: src/resources/preferences.ui:141
+#: src/resources/preferences.ui:144
 msgid "_Pixels per second:"
 msgstr "_Obrazových bodů za sekundu:"
 
-#: src/resources/preferences.ui:171
+#: src/resources/preferences.ui:174
 msgid "Show _time scale"
 msgstr "Ukázat ča_sovou stupnici"
 
 #. Resolution of the waveform image
-#: src/resources/preferences.ui:189
+#: src/resources/preferences.ui:192
 msgid "Resolution"
 msgstr "Rozlišení"
 
 #. A section in preferences, how to display the waveform.
-#: src/resources/preferences.ui:204
+#: src/resources/preferences.ui:207
 msgid "Display"
 msgstr "Zobrazení"
 
-#: src/resources/preferences.ui:217
+#: src/resources/preferences.ui:220
 msgid "_Moving cursor"
 msgstr "_Pohybující se ukazatel"
 
-#: src/resources/preferences.ui:234
+#: src/resources/preferences.ui:237
 msgid "_Fixed cursor"
 msgstr "P_evný ukazatel"
 
-#: src/resources/preferences.ui:288
+#: src/resources/preferences.ui:291
 msgid "Jumps"
 msgstr "Skoky"
 
-#: src/resources/preferences.ui:390
+#: src/resources/preferences.ui:393
 msgid "Jump _forward:"
 msgstr "Skočit _vpřed:"
 
-#: src/resources/preferences.ui:404
+#: src/resources/preferences.ui:407
 msgid "Jump _back:"
 msgstr "Skočit zpě_t:"
 
-#: src/resources/preferences.ui:418
+#: src/resources/preferences.ui:421
 msgid "Jump back on _pause:"
 msgstr "Skočit zpět při p_ozastavení:"
 
-#: src/resources/preferences.ui:441
+#: src/resources/preferences.ui:444
 msgid "Pressing “Play” at the end of file"
 msgstr "Stisknutí Přehrát na konci souboru"
 
-#: src/resources/preferences.ui:455
+#: src/resources/preferences.ui:458
 msgid "Replay file"
 msgstr "Přehrát soubor znovu"
 
-#: src/resources/preferences.ui:474
+#: src/resources/preferences.ui:477
 msgid "Pressing “Play” at the end of selection"
 msgstr "Stisknutí Přehrát na konci výběru"
 
-#: src/resources/preferences.ui:488
+#: src/resources/preferences.ui:491
 msgid "Replay selection"
 msgstr "Přehrát výběr znovu"
 
-#: src/resources/preferences.ui:510
+#: src/resources/preferences.ui:513
 msgid "Controls"
 msgstr "Ovládání"
 
-#: src/resources/preferences.ui:553
+#: src/resources/preferences.ui:556
 msgid "Hours and zeroes"
 msgstr "Hodiny a nuly"
 
-#: src/resources/preferences.ui:566
+#: src/resources/preferences.ui:569
 msgid "Always show hours and leading zeroes"
 msgstr "Vždy ukazovat hodiny a nuly na začátku"
 
-#: src/resources/preferences.ui:584
+#: src/resources/preferences.ui:587
 msgid "Precision"
 msgstr "Přesnost"
 
-#: src/resources/preferences.ui:600
+#: src/resources/preferences.ui:603
 msgid "Characters around timestamps"
 msgstr "Znaky okolo časových razítek"
 
-#: src/resources/preferences.ui:616
+#: src/resources/preferences.ui:619
 msgid "Examples"
 msgstr "Príklady"
 
-#: src/resources/preferences.ui:658
+#: src/resources/preferences.ui:661
 msgid "Precision:"
 msgstr "Přesnost:"
 
-#: src/resources/preferences.ui:690
+#: src/resources/preferences.ui:693
 msgid "Fraction separator:"
 msgstr "Oddělovač zlomku:"
 
-#: src/resources/preferences.ui:733
+#: src/resources/preferences.ui:736
 msgid "Timestamps"
 msgstr "Časová razítka"
 
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/preferences.ui:864
-msgid "Language model:"
-msgstr "Jazykový model:"
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/preferences.ui:891
-msgid "Dictionary:"
-msgstr "Slovník:"
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/preferences.ui:918
-msgid "Acoustic model folder:"
-msgstr "Složka s akustickým modelem:"
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/preferences.ui:966
-msgid "There is no configuration"
-msgstr "Není žádné nastavení"
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/preferences.ui:976
-msgid "Add a configuration"
-msgstr "Přidat nastavení"
-
-#. Translators: This feature is disabled by default, its translation has low priority.
-#: src/resources/preferences.ui:1005
-msgid "Speech recognition"
-msgstr "Rozpoznávání řeči"
-
-#: src/resources/preferences.ui:1023
+#: src/resources/preferences.ui:760
 msgid "Remember _size"
 msgstr "Zapamatovat si ve_likost"
 
-#: src/resources/preferences.ui:1038
+#: src/resources/preferences.ui:775
 msgid "Remember _position"
 msgstr "Zapamatovat si polo_hu"
 
-#: src/resources/preferences.ui:1053
+#: src/resources/preferences.ui:790
 msgid "Start on _top"
 msgstr "Začít n_ahoře"
 
-#: src/resources/preferences.ui:1075
+#: src/resources/preferences.ui:812
 msgid "Window"
 msgstr "Okno"
 
-#: src/resources/window.ui:169
+#: src/resources/prefs-asr.ui:40
+msgid "Speech models"
+msgstr ""
+
+#: src/resources/prefs-asr.ui:57
+msgid "Installed"
+msgstr ""
+
+#: src/resources/prefs-asr.ui:58
+msgid "Supported"
+msgstr ""
+
+#: src/resources/prefs-asr.ui:59
+#, fuzzy
+msgid "All models"
+msgstr "Všechny soubory"
+
+#: src/resources/prefs-asr.ui:227
+msgid "There is no configuration"
+msgstr "Není žádné nastavení"
+
+#: src/resources/prefs-asr.ui:237
+msgid "Add a configuration"
+msgstr "Přidat nastavení"
+
+#: src/resources/prefs-asr.ui:305
+msgid "No results in this view"
+msgstr ""
+
+#: src/resources/window.ui:48
+msgid "Open a file"
+msgstr "Otevřít soubor"
+
+#: src/resources/window.ui:170
 msgid "_Play"
 msgstr "_Přehrát"
 
-#: src/resources/window.ui:338
+#: src/resources/window.ui:294
 msgid "Speed:"
 msgstr "Rychlost:"
 
-#: src/resources/window-headerbar.ui:17
-msgid "Open a file"
-msgstr "Otevřít soubor"
+#~ msgid "org.parlatype.Parlatype"
+#~ msgstr "org.parlatype.Parlatype"
+
+#~ msgid "Use internal textpad for automatic speech recognition"
+#~ msgstr "Použít vnitřní textový blok pro automatické rozpoznávání řeči"
+
+#~ msgid "The folder contains no acoustic model."
+#~ msgstr "Složka obsahuje akustický model."
+
+#~ msgid "Please select …"
+#~ msgstr "Vyberte, prosím, ..."
+
+#~ msgid "Missing parameters"
+#~ msgstr "Chybí parametry"
+
+#~ msgid "Timed out"
+#~ msgstr "Čas vypršel"
+
+#~ msgid ""
+#~ "Scanning the folder took too long. Please make sure to open a folder with "
+#~ "model data only."
+#~ msgstr ""
+#~ "Prohledávání složky zabralo spoustu času. Ujistěte se, prosím, že "
+#~ "otevíráte složky, v níž jsou pouze modelová data."
+
+#~ msgid "Scanning the folder failed"
+#~ msgstr "Prohledávání složky selhalo"
+
+#~ msgid "Nothing found"
+#~ msgstr "Nic nenalezeno"
+
+#~ msgid "This folder doesn’t contain a suitable model."
+#~ msgstr "Tato složka neobsahuje vhodný model."
+
+#~ msgid ""
+#~ "The folder contains no language model. Please choose a language model "
+#~ "from another folder."
+#~ msgstr ""
+#~ "Složka neobsahuje žádný jazykový model. Vyberte, prosím, jazykový model z "
+#~ "jiné složky."
+
+#~ msgid "The folder contains several language models."
+#~ msgstr "Složka obsahuje několik jazykových modelů."
+
+#~ msgid ""
+#~ "The folder contains no dictionary. Please choose a dictionary from "
+#~ "another folder."
+#~ msgstr ""
+#~ "Složka neobsahuje žádný slovník. Vyberte, prosím, slovník z jiné složky."
+
+#~ msgid "The folder contains several dictionaries."
+#~ msgstr "Složka obsahuje několik slovníků."
+
+#~ msgid ""
+#~ "The folder contains no acoustic model. Please choose an acoustic model "
+#~ "from another folder."
+#~ msgstr ""
+#~ "Složka neobsahuje žádný akustický model. Vyberte, prosím, akustický model "
+#~ "z jiné složky."
+
+#~ msgid "The folder contains several acoustic models."
+#~ msgstr "Složka obsahuje několik akustický modelů."
+
+#~ msgid "Finish configuration"
+#~ msgstr "Dokončit nastavení"
+
+#~ msgid "Select output for automatic speech recognition"
+#~ msgstr "Vybrat výstup pro automatické rozpoznávání řeči"
+
+#~ msgid "Please open and switch focus to a word processor."
+#~ msgstr "Otevřete, prosím, a přepněte zaměření na textový editor."
+
+#~ msgid "Deleting configuration"
+#~ msgstr "Smazání nastavení"
+
+#, c-format
+#~ msgid "Do you really want to delete “%s”?"
+#~ msgstr "Opravdu chcete smazat “%s”?"
+
+#, c-format
+#~ msgid "Found %s"
+#~ msgstr "Nalezeno %s"
+
+#~ msgid "Press “Play” to start automatic speech recognition."
+#~ msgstr "Stiskněte Přehrát pro spuštění automatického rozpoznávání řeči."
+
+#, c-format
+#~ msgid ""
+#~ "Parlatype needs GStreamer 1.x to run. Please check your installation of "
+#~ "GStreamer and make sure you have the “Good Plugins” installed.\n"
+#~ "Parlatype will quit now, it received this error message: %s"
+#~ msgstr ""
+#~ "Parlatype potřebuje, aby běžel GStreamer 1.x. Prověřte, prosím, instalaci "
+#~ "GStreameru a ujistěte se, že máte nainstalovány “Good Plugins”.\n"
+#~ "Parlatype nyní bude ukončen, přijal toto hlášení o chybě: %s"
+
+#~ msgid "Fatal error"
+#~ msgstr "Vážná chyba"
+
+#~ msgid ""
+#~ "Before you can start, you have to download a so called acoustic and "
+#~ "language model. This is a set of files made for a specific language."
+#~ msgstr ""
+#~ "Předtím než budete moci začít, musíte stáhnout tak zvaný akustický a "
+#~ "jazykový model. Jedná se o sadu souborů pro určitý jazyk."
+
+#~ msgid ""
+#~ "Parlatype uses CMU Sphinx as its speech recognition engine. You can "
+#~ "download models suitable for CMU Sphinx for example from <a href="
+#~ "\"https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and"
+#~ "%20Language%20Models/\">CMU Sphinx’ sourceforge repository</a>. It has "
+#~ "models for some of the most widespread languages."
+#~ msgstr ""
+#~ "Parlatype používá CMU Sphinx jako stroj na rozpoznávání řeči. Modely "
+#~ "vhodné pro CMU Sphinx ůžete stáhnout například z <a href=\"https://"
+#~ "sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Language"
+#~ "%20Models/\">CMU Sphinx’ sourceforge repository</a>. Jsou tam modely pro "
+#~ "některé z nějrozšířenějších jazyků."
+
+#~ msgid ""
+#~ "If it’s compressed, uncompress the model. Save it to a folder where it "
+#~ "can stay. Parlatype doesn’t copy the model internally."
+#~ msgstr ""
+#~ "Pokud je zkomprimován, rozbalte model. Uložte jej do složky, kde bude "
+#~ "moci zůstat. Parlatype model nekopíruje vnitřně."
+
+#~ msgid "When you are finished, specify the folder with the model:"
+#~ msgstr "Až skončíte, stanovte složku s modelem:"
+
+#~ msgid "Language model"
+#~ msgstr "Jazykový model"
+
+#~ msgid "Select language model"
+#~ msgstr "Vybrat jazykový model"
+
+#~ msgid "Dictionary"
+#~ msgstr "Slovník"
+
+#~ msgid "Select dictionary"
+#~ msgstr "Vybrat slovník"
+
+#~ msgid "Acoustic model"
+#~ msgstr "Akustický model"
+
+#~ msgid "Select acoustic model folder"
+#~ msgstr "Vybrat složku s akustickým modelem"
+
+#~ msgid "Setup is completed. Please give this configuration a name:"
+#~ msgstr "Nastavení je hotovo. Nastavení, prosím, pojmenujte:"
+
+#~ msgid "Dictionary:"
+#~ msgstr "Slovník:"
+
+#~ msgid "Acoustic model folder:"
+#~ msgstr "Složka s akustickým modelem:"
