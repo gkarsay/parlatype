@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.1 -->
+<!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkImage" id="image1">
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="icon_name">list-add-symbolic</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">list-add-symbolic</property>
   </object>
   <object class="GtkImage" id="image2">
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="icon_name">list-remove-symbolic</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">list-remove-symbolic</property>
   </object>
   <object class="GtkImage" id="image3">
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="icon_name">emblem-system-symbolic</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">emblem-system-symbolic</property>
   </object>
   <template class="PtPrefsAsr" parent="GtkBox">
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
+    <property name="can-focus">False</property>
     <property name="orientation">vertical</property>
     <child>
       <object class="GtkBox" id="asr_ready_box">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="border_width">12</property>
+        <property name="can-focus">False</property>
+        <property name="border-width">12</property>
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkBox">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="margin_bottom">10</property>
+            <property name="can-focus">False</property>
+            <property name="margin-bottom">10</property>
             <property name="spacing">12</property>
             <child>
               <object class="GtkLabel">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Speech models</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">Language model configurations</property>
                 <attributes>
                   <attribute name="weight" value="bold"/>
                 </attributes>
@@ -51,7 +51,7 @@
             <child>
               <object class="GtkComboBoxText" id="filter_combo">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="active">0</property>
                 <items>
                   <item id="installed" translatable="yes">Installed</item>
@@ -63,7 +63,7 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="pack_type">end</property>
+                <property name="pack-type">end</property>
                 <property name="position">1</property>
               </packing>
             </child>
@@ -77,17 +77,17 @@
         <child>
           <object class="GtkScrolledWindow">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="shadow_type">in</property>
+            <property name="can-focus">True</property>
+            <property name="shadow-type">in</property>
             <child>
               <object class="GtkViewport">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <child>
                   <object class="GtkListBox" id="asr_list">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="activate_on_single_click">False</property>
+                    <property name="can-focus">False</property>
+                    <property name="activate-on-single-click">False</property>
                     <signal name="row-activated" handler="asr_list_row_activated" swapped="no"/>
                     <signal name="row-selected" handler="asr_list_row_selected_cb" swapped="no"/>
                   </object>
@@ -104,20 +104,21 @@
         <child>
           <object class="GtkToolbar">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <child>
               <object class="GtkToolItem">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <child>
                   <object class="GtkBox">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkButton">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">True</property>
+                        <property name="tooltip-text" translatable="yes">Import a language model configuration</property>
                         <property name="image">image1</property>
                         <signal name="clicked" handler="import_button_clicked_cb" swapped="no"/>
                       </object>
@@ -131,8 +132,8 @@
                       <object class="GtkButton" id="remove_button">
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">True</property>
                         <property name="image">image2</property>
                         <signal name="clicked" handler="remove_button_clicked_cb" swapped="no"/>
                       </object>
@@ -156,7 +157,7 @@
             <child>
               <object class="GtkSeparatorToolItem" id="sep1">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="draw">False</property>
               </object>
               <packing>
@@ -167,24 +168,24 @@
             <child>
               <object class="GtkToolItem">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <child>
                   <object class="GtkBox">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkButton" id="details_button">
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">True</property>
                         <property name="image">image3</property>
                         <signal name="clicked" handler="details_button_clicked_cb" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
-                        <property name="pack_type">end</property>
+                        <property name="pack-type">end</property>
                         <property name="position">2</property>
                       </packing>
                     </child>
@@ -216,14 +217,14 @@
     <child>
       <object class="GtkBox" id="asr_initial_box">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="border_width">12</property>
+        <property name="can-focus">False</property>
+        <property name="border-width">12</property>
         <property name="orientation">vertical</property>
         <property name="spacing">12</property>
         <child>
           <object class="GtkLabel">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="label" translatable="yes">There is no configuration</property>
           </object>
           <packing>
@@ -236,8 +237,8 @@
           <object class="GtkButton">
             <property name="label" translatable="yes">Add a configuration</property>
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
             <property name="halign">center</property>
             <signal name="clicked" handler="initial_asr_button_clicked_cb" swapped="no"/>
           </object>
@@ -257,15 +258,15 @@
     <child>
       <object class="GtkBox" id="asr_error_box">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="halign">center</property>
-        <property name="border_width">12</property>
+        <property name="border-width">12</property>
         <property name="spacing">12</property>
         <child>
           <object class="GtkImage" id="asr_error_icon">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="icon_name">dialog-warning-symbolic</property>
+            <property name="can-focus">False</property>
+            <property name="icon-name">dialog-warning-symbolic</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -276,7 +277,7 @@
         <child>
           <object class="GtkLabel" id="asr_error_label">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="label">Error Message</property>
           </object>
           <packing>
@@ -295,13 +296,13 @@
   </template>
   <object class="GtkBox" id="no_result_box">
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="border_width">12</property>
+    <property name="can-focus">False</property>
+    <property name="border-width">12</property>
     <property name="orientation">vertical</property>
     <child>
       <object class="GtkLabel" id="no_result_label">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="label" translatable="yes">No results in this view</property>
       </object>
       <packing>

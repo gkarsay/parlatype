@@ -582,7 +582,7 @@ confirm_delete (PtConfigRow *row)
 	name = pt_config_get_name (config);
 	parent = gtk_widget_get_ancestor (GTK_WIDGET (row), PT_TYPE_PREFERENCES_DIALOG);
 
-	message = _("Delete Model Definition?");
+	message = _("Delete language model configuration?");
 	secondary_message = g_strdup_printf ("Do you really want to delete »%s«?", name);
 	dialog = gtk_message_dialog_new (GTK_WINDOW (parent),
                                    GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -728,7 +728,7 @@ import_dialog_response_cb (GtkDialog *dialog,
 
 		gtk_message_dialog_format_secondary_text (
 				GTK_MESSAGE_DIALOG (err_dialog),
-				_("The file is not a valid model definition."));
+				_("The file is not a valid language model configuration."));
 
 		g_signal_connect_swapped (err_dialog, "response",
 		                          G_CALLBACK (gtk_widget_destroy), err_dialog);
@@ -776,7 +776,7 @@ import_button_clicked_cb (GtkButton *button,
 
 	parent = gtk_widget_get_ancestor (GTK_WIDGET (button), PT_TYPE_PREFERENCES_DIALOG);
 	dialog = gtk_file_chooser_native_new (
-			_("Import ASR Model Definition"),
+			_("Import language model configuration"),
 			GTK_WINDOW (parent),
 			GTK_FILE_CHOOSER_ACTION_OPEN,
 			_("_Open"),
@@ -790,7 +790,7 @@ import_button_clicked_cb (GtkButton *button,
 
 	filter_asr = gtk_file_filter_new ();
 	filter_all = gtk_file_filter_new ();
-	gtk_file_filter_set_name (filter_asr, _("Parlatype Model definitions"));
+	gtk_file_filter_set_name (filter_asr, _("Parlatype language model configurations"));
 	gtk_file_filter_set_name (filter_all, _("All files"));
 	gtk_file_filter_add_pattern (filter_asr, "*.asr");
 	gtk_file_filter_add_pattern (filter_all, "*");
