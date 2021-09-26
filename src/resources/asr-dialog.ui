@@ -233,7 +233,7 @@
               <object class="GtkLabel" id="url1_label">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Download:</property>
+                <property name="label" translatable="yes" comments="Points to a download location">Download:</property>
                 <property name="xalign">0</property>
               </object>
               <packing>
@@ -283,7 +283,7 @@
               <object class="GtkLabel" id="url2_label">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Download:</property>
+                <property name="label" translatable="yes" comments="Points to a download location">Download:</property>
                 <property name="xalign">0</property>
               </object>
               <packing>
