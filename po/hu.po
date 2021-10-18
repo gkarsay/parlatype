@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-26 11:25+0200\n"
+"POT-Creation-Date: 2021-10-18 21:22+0200\n"
 "PO-Revision-Date: 2020-03-09 16:27+0000\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gmx.at>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -226,7 +226,8 @@ msgstr "Hangfájl megnyitása"
 msgid "_Open"
 msgstr "Meg_nyitás"
 
-#: src/pt-app.c:104 src/pt-prefs-asr.c:783 src/resources/goto-dialog.ui:26
+#: src/pt-app.c:104 src/pt-prefs-asr.c:595 src/pt-prefs-asr.c:783
+#: src/resources/goto-dialog.ui:26
 msgid "_Cancel"
 msgstr "_Mégse"
 
@@ -314,7 +315,17 @@ msgid "Failed to copy shipped configuration files"
 msgstr ""
 
 #: src/pt-prefs-asr.c:585
-msgid "Delete Model Definition?"
+#, fuzzy
+msgid "Delete language model configuration?"
+msgstr "Beállítás törlése"
+
+#: src/pt-prefs-asr.c:586
+#, c-format
+msgid "Do you really want to delete “%s”?"
+msgstr "Tényleg törölni szeretné a(z) „%s”-t?"
+
+#: src/pt-prefs-asr.c:596
+msgid "_Yes"
 msgstr ""
 
 #: src/pt-prefs-asr.c:673 src/pt-prefs-asr.c:727
@@ -322,15 +333,17 @@ msgid "Error"
 msgstr ""
 
 #: src/pt-prefs-asr.c:731
-msgid "The file is not a valid model definition."
-msgstr ""
+#, fuzzy
+msgid "The file is not a valid language model configuration."
+msgstr "A mappa több nyelvi modellt tartalmaz."
 
 #: src/pt-prefs-asr.c:779
-msgid "Import ASR Model Definition"
-msgstr ""
+#, fuzzy
+msgid "Import language model configuration"
+msgstr "Nincs beállítás"
 
 #: src/pt-prefs-asr.c:793
-msgid "Parlatype Model definitions"
+msgid "Parlatype language model configurations"
 msgstr ""
 
 #: src/pt-prefs-asr.c:844
@@ -383,61 +396,56 @@ msgstr "Kézi átírás"
 msgid "Automatic transcription"
 msgstr "Önműködő átírás"
 
-#: src/resources/asr-dialog.ui:23 src/resources/help-overlay.ui:15
+#: src/resources/asr-dialog.ui:20 src/resources/help-overlay.ui:15
 msgid "General"
 msgstr "Általános"
 
-#: src/resources/asr-dialog.ui:46
+#: src/resources/asr-dialog.ui:44
 #, fuzzy
 msgid "Display Name:"
 msgstr "Megjelenítés"
 
-#: src/resources/asr-dialog.ui:58
+#: src/resources/asr-dialog.ui:56
 #, fuzzy
 msgid "Language:"
 msgstr "Nyelvmodell:"
 
-#: src/resources/asr-dialog.ui:70
+#: src/resources/asr-dialog.ui:68
 #, fuzzy
 msgid "Speech Recognition Engine:"
 msgstr "Beszédfelismerés"
 
-#: src/resources/asr-dialog.ui:82
+#: src/resources/asr-dialog.ui:80
 msgid "GStreamer Plugin:"
 msgstr ""
 
-#: src/resources/asr-dialog.ui:94
+#: src/resources/asr-dialog.ui:92
 msgid "Publisher:"
 msgstr ""
 
-#: src/resources/asr-dialog.ui:106
+#: src/resources/asr-dialog.ui:104
 msgid "License:"
 msgstr ""
 
-#: src/resources/asr-dialog.ui:118 src/resources/asr-dialog.ui:130
-#: src/resources/asr-dialog.ui:142 src/resources/asr-dialog.ui:154
-#: src/resources/asr-dialog.ui:166
-msgid "label"
-msgstr ""
-
-#: src/resources/asr-dialog.ui:197
+#: src/resources/asr-dialog.ui:213
 msgid "Installation"
 msgstr ""
 
-#: src/resources/asr-dialog.ui:219 src/resources/asr-dialog.ui:269
+#. Points to a download location
+#: src/resources/asr-dialog.ui:236 src/resources/asr-dialog.ui:286
 #, fuzzy
 msgid "Download:"
 msgstr "Letöltésmodell"
 
-#: src/resources/asr-dialog.ui:243
+#: src/resources/asr-dialog.ui:260
 msgid "Installed:"
 msgstr ""
 
-#: src/resources/asr-dialog.ui:293
+#: src/resources/asr-dialog.ui:310
 msgid "Instructions:"
 msgstr ""
 
-#: src/resources/asr-dialog.ui:305
+#: src/resources/asr-dialog.ui:322
 msgid "Download, unzip to a folder and select that folder."
 msgstr ""
 
@@ -685,8 +693,9 @@ msgid "Window"
 msgstr "Ablak"
 
 #: src/resources/prefs-asr.ui:40
-msgid "Speech models"
-msgstr ""
+#, fuzzy
+msgid "Language model configurations"
+msgstr "Nyelvmodell"
 
 #: src/resources/prefs-asr.ui:57
 msgid "Installed"
@@ -701,15 +710,20 @@ msgstr ""
 msgid "All models"
 msgstr "Minden fájl"
 
-#: src/resources/prefs-asr.ui:227
+#: src/resources/prefs-asr.ui:121
+#, fuzzy
+msgid "Import a language model configuration"
+msgstr "Nincs beállítás"
+
+#: src/resources/prefs-asr.ui:228
 msgid "There is no configuration"
 msgstr "Nincs beállítás"
 
-#: src/resources/prefs-asr.ui:237
+#: src/resources/prefs-asr.ui:238
 msgid "Add a configuration"
 msgstr "Beállítás hozzáadása"
 
-#: src/resources/prefs-asr.ui:305
+#: src/resources/prefs-asr.ui:306
 msgid "No results in this view"
 msgstr ""
 
@@ -724,6 +738,14 @@ msgstr "_Lejátszás"
 #: src/resources/window.ui:294
 msgid "Speed:"
 msgstr "Sebesség:"
+
+#, fuzzy
+#~ msgid "Remove this configuration"
+#~ msgstr "Beállítás törlése"
+
+#, fuzzy
+#~ msgid "Setup this configuration"
+#~ msgstr "Beállítás törlése"
 
 #~ msgid "org.parlatype.Parlatype"
 #~ msgstr "org.parlatype.Parlatype"
@@ -769,9 +791,6 @@ msgstr "Sebesség:"
 #~ "A mappa nem tartalmaz nyelvi modellt. Válasszon nyelvi modellt egy másik "
 #~ "mappából."
 
-#~ msgid "The folder contains several language models."
-#~ msgstr "A mappa több nyelvi modellt tartalmaz."
-
 #~ msgid ""
 #~ "The folder contains no dictionary. Please choose a dictionary from "
 #~ "another folder."
@@ -800,13 +819,6 @@ msgstr "Sebesség:"
 
 #~ msgid "Please open and switch focus to a word processor."
 #~ msgstr "Kérjük, nyissa meg és kapcsoljon fókuszt egy szövegszerkesztőre."
-
-#~ msgid "Deleting configuration"
-#~ msgstr "Beállítás törlése"
-
-#, c-format
-#~ msgid "Do you really want to delete “%s”?"
-#~ msgstr "Tényleg törölni szeretné a(z) „%s”-t?"
 
 #, c-format
 #~ msgid "Found %s"
@@ -860,9 +872,6 @@ msgstr "Sebesség:"
 
 #~ msgid "When you are finished, specify the folder with the model:"
 #~ msgstr "Ha elkészült, adja meg a mappát a modellel:"
-
-#~ msgid "Language model"
-#~ msgstr "Nyelvmodell"
 
 #~ msgid "Select language model"
 #~ msgstr "Válasszon nyelvmodellt"

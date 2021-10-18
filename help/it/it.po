@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
-"POT-Creation-Date: 2021-09-26 11:25+0200\n"
+"POT-Creation-Date: 2021-10-18 21:35+0200\n"
 "PO-Revision-Date: 2020-05-15 08:27+0000\n"
 "Last-Translator: Marco Ciampa <ciampix@posteo.net>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -756,7 +756,7 @@ msgstr ""
 #: C/asr.page:25
 msgid ""
 "<app>Parlatype</app> has no built-in text editor. You need the Parlatype "
-"Extension for <app>LibreOffice</app>, to output recognized text."
+"Extension for <app>LibreOffice</app> to output recognized text."
 msgstr ""
 
 #. (itstool) path: section/title
@@ -830,26 +830,29 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/asr-setup.page:17
 msgid ""
-"For speech recognition you need a language model which is basically a set of "
-"files trained with real speech samples. Language models are made for a "
-"specific recognition engine. <app>Parlatype</app> supports language models "
-"made for CMU Sphinx and Mozilla DeepSpeech."
+"For speech recognition you need a language model: one or more files trained "
+"with real speech samples. <app>Parlatype</app> supports language models made "
+"for CMU Sphinx and Mozilla DeepSpeech and ships a couple of <em>language "
+"model configurations</em>."
+msgstr ""
+
+#. (itstool) path: note/p
+#: C/asr-setup.page:22
+msgid ""
+"A <em>language model configuration</em> contains meta data describing the "
+"language model: A name that you can change, the language it was made for, "
+"speech recognition engine, publisher, license etc. It has a (third party) "
+"link, where you can download the files. Part of the configuration is the "
+"base folder, where you have saved the model. Additionally it contains "
+"various parameters for the plugin which are not shown."
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/asr-setup.page:23
+#: C/asr-setup.page:29
 msgid ""
-"<app>Parlatype</app> ships a couple of language model configurations. They "
-"give you a download location and instruct Parlatype how to use those "
-"language models."
-msgstr ""
-
-#. (itstool) path: page/p
-#: C/asr-setup.page:27
-msgid ""
-"Open the Preferences Dialog, go to the <gui>Speech Recognition</gui> tab. "
-"Initially there are no configurations available, click on the <gui>Add a "
-"configuration</gui> button."
+"Open the Preferences Dialog and click on the <gui>Speech Recognition</gui> "
+"tab. Initially there are no configurations available, click on the <gui>Add "
+"a configuration</gui> button."
 msgstr ""
 
 #. (itstool) path: page/media
@@ -857,7 +860,7 @@ msgstr ""
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/asr-setup.page:31
+#: C/asr-setup.page:33
 msgctxt "_"
 msgid ""
 "external ref='figures/asr-setup-initial.png' "
@@ -865,17 +868,17 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: media/span
-#: C/asr-setup.page:34
+#: C/asr-setup.page:36
 msgid "download"
 msgstr ""
 
 #. (itstool) path: media/span
-#: C/asr-setup.page:35
+#: C/asr-setup.page:37
 msgid "unavailable"
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/asr-setup.page:33
+#: C/asr-setup.page:35
 msgid ""
 "If your installation has CMU Sphinx or Mozilla DeepSpeech enabled, you will "
 "see configurations with a <_:media-1/> symbol. Otherwise you will see only "
@@ -887,7 +890,7 @@ msgstr ""
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/asr-setup.page:37
+#: C/asr-setup.page:39
 msgctxt "_"
 msgid ""
 "external ref='figures/asr-setup-downloadable.png' "
@@ -895,12 +898,12 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: media/span
-#: C/asr-setup.page:40
+#: C/asr-setup.page:42
 msgid "settings"
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/asr-setup.page:39
+#: C/asr-setup.page:41
 msgid ""
 "Select a configuration and click on the <_:media-1/> button. There is a "
 "short description of the model and where you can download it. After "
@@ -913,7 +916,7 @@ msgstr ""
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/asr-setup.page:45
+#: C/asr-setup.page:47
 msgctxt "_"
 msgid ""
 "external ref='figures/asr-setup-details.png' "
@@ -921,19 +924,19 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: media/span
-#: C/asr-setup.page:48
+#: C/asr-setup.page:50
 msgid "selected"
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/asr-setup.page:47
+#: C/asr-setup.page:49
 msgid ""
 "An installed model has no symbol next to it. Double click on the model and "
 "it will be selected for speech recognition, a <_:media-1/> symbol appears."
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/asr-setup.page:51
+#: C/asr-setup.page:53
 msgid ""
 "Shipped configurations might get obsolete over time. Therefore you can "
 "import a configuration with the <gui>+</gui> button. Configurations are text "
@@ -941,7 +944,7 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/asr-setup.page:55
+#: C/asr-setup.page:57
 msgid ""
 "With the <gui>-</gui> button you can remove a configuration. This will never "
 "remove downloaded models, only the configuration file."

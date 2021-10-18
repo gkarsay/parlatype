@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-26 11:25+0200\n"
+"POT-Creation-Date: 2021-10-18 21:22+0200\n"
 "PO-Revision-Date: 2020-05-15 08:20+0000\n"
 "Last-Translator: Marco Ciampa <ciampix@posteo.net>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -261,7 +261,8 @@ msgstr "Aprire File Audio"
 msgid "_Open"
 msgstr "_Apri"
 
-#: src/pt-app.c:104 src/pt-prefs-asr.c:783 src/resources/goto-dialog.ui:26
+#: src/pt-app.c:104 src/pt-prefs-asr.c:595 src/pt-prefs-asr.c:783
+#: src/resources/goto-dialog.ui:26
 msgid "_Cancel"
 msgstr "_Annulla"
 
@@ -350,7 +351,17 @@ msgid "Failed to copy shipped configuration files"
 msgstr ""
 
 #: src/pt-prefs-asr.c:585
-msgid "Delete Model Definition?"
+#, fuzzy
+msgid "Delete language model configuration?"
+msgstr "Eliminazione della configurazione"
+
+#: src/pt-prefs-asr.c:586
+#, c-format
+msgid "Do you really want to delete “%s”?"
+msgstr "Vuoi veramente cancellare \"%s\"?"
+
+#: src/pt-prefs-asr.c:596
+msgid "_Yes"
 msgstr ""
 
 #: src/pt-prefs-asr.c:673 src/pt-prefs-asr.c:727
@@ -358,15 +369,17 @@ msgid "Error"
 msgstr ""
 
 #: src/pt-prefs-asr.c:731
-msgid "The file is not a valid model definition."
-msgstr ""
+#, fuzzy
+msgid "The file is not a valid language model configuration."
+msgstr "La cartella contiene diversi modelli di lingua."
 
 #: src/pt-prefs-asr.c:779
-msgid "Import ASR Model Definition"
-msgstr ""
+#, fuzzy
+msgid "Import language model configuration"
+msgstr "Non c'è configurazione"
 
 #: src/pt-prefs-asr.c:793
-msgid "Parlatype Model definitions"
+msgid "Parlatype language model configurations"
 msgstr ""
 
 #: src/pt-prefs-asr.c:844
@@ -419,61 +432,56 @@ msgstr "Trascrizione manuale"
 msgid "Automatic transcription"
 msgstr "Trascrizione automatica"
 
-#: src/resources/asr-dialog.ui:23 src/resources/help-overlay.ui:15
+#: src/resources/asr-dialog.ui:20 src/resources/help-overlay.ui:15
 msgid "General"
 msgstr "Generale"
 
-#: src/resources/asr-dialog.ui:46
+#: src/resources/asr-dialog.ui:44
 #, fuzzy
 msgid "Display Name:"
 msgstr "Visualizzazione"
 
-#: src/resources/asr-dialog.ui:58
+#: src/resources/asr-dialog.ui:56
 #, fuzzy
 msgid "Language:"
 msgstr "Modello linguistico:"
 
-#: src/resources/asr-dialog.ui:70
+#: src/resources/asr-dialog.ui:68
 #, fuzzy
 msgid "Speech Recognition Engine:"
 msgstr "Riconoscimento vocale"
 
-#: src/resources/asr-dialog.ui:82
+#: src/resources/asr-dialog.ui:80
 msgid "GStreamer Plugin:"
 msgstr ""
 
-#: src/resources/asr-dialog.ui:94
+#: src/resources/asr-dialog.ui:92
 msgid "Publisher:"
 msgstr ""
 
-#: src/resources/asr-dialog.ui:106
+#: src/resources/asr-dialog.ui:104
 msgid "License:"
 msgstr ""
 
-#: src/resources/asr-dialog.ui:118 src/resources/asr-dialog.ui:130
-#: src/resources/asr-dialog.ui:142 src/resources/asr-dialog.ui:154
-#: src/resources/asr-dialog.ui:166
-msgid "label"
-msgstr ""
-
-#: src/resources/asr-dialog.ui:197
+#: src/resources/asr-dialog.ui:213
 msgid "Installation"
 msgstr ""
 
-#: src/resources/asr-dialog.ui:219 src/resources/asr-dialog.ui:269
+#. Points to a download location
+#: src/resources/asr-dialog.ui:236 src/resources/asr-dialog.ui:286
 #, fuzzy
 msgid "Download:"
 msgstr "Scarica modello"
 
-#: src/resources/asr-dialog.ui:243
+#: src/resources/asr-dialog.ui:260
 msgid "Installed:"
 msgstr ""
 
-#: src/resources/asr-dialog.ui:293
+#: src/resources/asr-dialog.ui:310
 msgid "Instructions:"
 msgstr ""
 
-#: src/resources/asr-dialog.ui:305
+#: src/resources/asr-dialog.ui:322
 msgid "Download, unzip to a folder and select that folder."
 msgstr ""
 
@@ -721,8 +729,9 @@ msgid "Window"
 msgstr "Finestra"
 
 #: src/resources/prefs-asr.ui:40
-msgid "Speech models"
-msgstr ""
+#, fuzzy
+msgid "Language model configurations"
+msgstr "Modello linguistico"
 
 #: src/resources/prefs-asr.ui:57
 msgid "Installed"
@@ -737,15 +746,20 @@ msgstr ""
 msgid "All models"
 msgstr "Tutti i file"
 
-#: src/resources/prefs-asr.ui:227
+#: src/resources/prefs-asr.ui:121
+#, fuzzy
+msgid "Import a language model configuration"
+msgstr "Non c'è configurazione"
+
+#: src/resources/prefs-asr.ui:228
 msgid "There is no configuration"
 msgstr "Non c'è configurazione"
 
-#: src/resources/prefs-asr.ui:237
+#: src/resources/prefs-asr.ui:238
 msgid "Add a configuration"
 msgstr "Aggiungi una configurazione"
 
-#: src/resources/prefs-asr.ui:305
+#: src/resources/prefs-asr.ui:306
 msgid "No results in this view"
 msgstr ""
 
@@ -760,6 +774,14 @@ msgstr "_Riproduci"
 #: src/resources/window.ui:294
 msgid "Speed:"
 msgstr "Velocità:"
+
+#, fuzzy
+#~ msgid "Remove this configuration"
+#~ msgstr "Eliminazione della configurazione"
+
+#, fuzzy
+#~ msgid "Setup this configuration"
+#~ msgstr "Eliminazione della configurazione"
 
 #~ msgid "org.parlatype.Parlatype"
 #~ msgstr "org.parlatype.Parlatype"
@@ -805,9 +827,6 @@ msgstr "Velocità:"
 #~ "La cartella non contiene alcun modello di lingua. Scegli un modello di "
 #~ "lingua da un'altra cartella."
 
-#~ msgid "The folder contains several language models."
-#~ msgstr "La cartella contiene diversi modelli di lingua."
-
 #~ msgid ""
 #~ "The folder contains no dictionary. Please choose a dictionary from "
 #~ "another folder."
@@ -838,13 +857,6 @@ msgstr "Velocità:"
 #~ msgstr ""
 #~ "Si prega di aprire e spostare la concentrazione su un elaboratore di "
 #~ "testi."
-
-#~ msgid "Deleting configuration"
-#~ msgstr "Eliminazione della configurazione"
-
-#, c-format
-#~ msgid "Do you really want to delete “%s”?"
-#~ msgstr "Vuoi veramente cancellare \"%s\"?"
 
 #, c-format
 #~ msgid "Found %s"
@@ -897,9 +909,6 @@ msgstr "Velocità:"
 
 #~ msgid "When you are finished, specify the folder with the model:"
 #~ msgstr "Al termine, specificare la cartella con il modello:"
-
-#~ msgid "Language model"
-#~ msgstr "Modello linguistico"
 
 #~ msgid "Select language model"
 #~ msgstr "Seleziona il modello di lingua"
