@@ -14,17 +14,19 @@
 
 <title>Setup automatic speech recognition</title>
 
-<p>For speech recognition you need a language model which is basically a set
-of files trained with real speech samples. Language models are made for a
-specific recognition engine.
-<app>Parlatype</app> supports language models made for CMU Sphinx and
-Mozilla DeepSpeech.</p>
+<p>For speech recognition you need a language model: one or more files trained
+with real speech samples. <app>Parlatype</app> supports language models made for
+CMU Sphinx and Mozilla DeepSpeech and ships a couple of <em>language model
+configurations</em>.</p>
 
-<p><app>Parlatype</app> ships a couple of language model configurations.
-They give you a download location and instruct Parlatype how to use those
-language models.</p>
+<note><p>A <em>language model configuration</em> contains meta data describing
+the language model: A name that you can change, the language it was made for,
+speech recognition engine, publisher, license etc. It has a (third party) link,
+where you can download the files. Part of the configuration is the base folder,
+where you have saved the model. Additionally it contains various parameters
+for the plugin which are not shown.</p></note>
 
-<p>Open the Preferences Dialog, go to the <gui>Speech Recognition</gui> tab.
+<p>Open the Preferences Dialog and click on the <gui>Speech Recognition</gui> tab.
 Initially there are no configurations available, click on the
 <gui>Add a configuration</gui> button.</p>
 
