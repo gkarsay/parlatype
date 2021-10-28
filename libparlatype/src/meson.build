@@ -17,6 +17,8 @@ marshal_h = marshalers[1]
 sources = [
 	gresources,
 	marshalers,
+	'contrib/gnome-languages.c',
+	'contrib/gnome-languages.h',
 	'gst/gst-helpers.c',
 	'gst/gst-helpers.h',
 	'gst/gstptaudiobin.c',
@@ -48,7 +50,6 @@ sources = [
 ]
 
 deps = [config_h,
-	gnome_desktop,
 	gtk,
 	gstreamer,
 	gstreamer_app,

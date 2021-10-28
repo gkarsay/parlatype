@@ -44,7 +44,6 @@ foreach t: tests
 		dependencies: [
 			config_h,
 			libparlatype_dep,
-			gnome_desktop,
 			gstreamer,
 			gstreamer_audio,
 		],

@@ -19,8 +19,7 @@
 #include <gio/gio.h>
 #define GETTEXT_PACKAGE GETTEXT_LIB
 #include <glib/gi18n-lib.h>
-#define GNOME_DESKTOP_USE_UNSTABLE_API
-#include <libgnome-desktop/gnome-languages.h>
+#include "contrib/gnome-languages.h"
 #include "pt-config.h"
 
 struct _PtConfigPrivate
