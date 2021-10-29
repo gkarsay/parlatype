@@ -299,7 +299,7 @@ pt_config_set_base_folder (PtConfig *config,
  * Gets the configuration’s base folder. If the model is not installed, the
  * base folder is not set and the return value is NULL. Another reason for
  * returning NULL is an invalid configuration, check #PtConfig:is-valid for
- * that
+ * that.
  *
  * Return value: (transfer none): the configuaration’s base folder as a string or NULL
  *
@@ -425,7 +425,7 @@ pt_config_apply (PtConfig *config,
 
 	g_object_freeze_notify (plugin);
 
-	/* Iterate over all groups and all their keys, get the properties'
+	/* Iterate over all groups and all their keys, get the properties’
 	 * type and set the properties. */
 
 	for (int g = 0; groups[g] != NULL; g++) {
@@ -543,7 +543,8 @@ pt_config_version_is_valid (PtConfig *config)
  * pt_config_is_installed:
  * @config: a configuration instance
  *
- * Checks whether the model is installed.
+ * Checks whether the model is installed, that means the base folder exists
+ * and all files listed in the configuration are located inside the base folder.
  *
  * Return value: TRUE for an installed model, otherwise FALSE
  *
@@ -599,7 +600,7 @@ pt_config_is_installed (PtConfig *config)
  * </para></listitem>
  * <listitem><para>
  * If files and paths in [Files] are formally valid (relative paths
- * with a semicolon (;) as separator, e.g. subdir;subdir;file.name
+ * with a slash as separator, e.g. subdir/subdir/file.name)
  * </para></listitem>
  * <listitem><para>
  * If files and paths exist on the file system.

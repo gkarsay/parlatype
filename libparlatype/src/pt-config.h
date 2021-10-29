@@ -60,8 +60,8 @@ struct _PtConfigClass
 
 /**
  * PtError:
- * @PT_ERROR_PLUGIN_MISSING_PROPERTY: The plugin doesn't have a property.
- * @PT_ERROR_PLUGIN_NOT_WRITABLE: The plugin's property is not writable.
+ * @PT_ERROR_PLUGIN_MISSING_PROPERTY: The plugin doesn’t have a property.
+ * @PT_ERROR_PLUGIN_NOT_WRITABLE: The plugin’s property is not writable.
  * @PT_ERROR_PLUGIN_WRONG_VALUE: The value is not valid for the property.
  *
  * Error codes for Parlatype in the PT_ERROR domain.
