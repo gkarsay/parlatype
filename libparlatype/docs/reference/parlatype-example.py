@@ -27,12 +27,6 @@ class ParlatypeExample:
 
     def __init__(self):
         self.player = Pt.Player.new()
-        try:
-            self.player.setup_player()
-        except Exception as err:
-            error_message(err.args[0], None)
-            exit()
-
         self.player.connect("error", self.player_error)
         self.player.connect("end-of-stream", self.player_end_of_stream)
 
