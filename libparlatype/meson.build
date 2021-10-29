@@ -2,9 +2,9 @@
 # refer to the libtool manual, section "Updating library version information":
 # http://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html
 
-libparlatype_current = 4
+libparlatype_current = 5
 libparlatype_revision = 0
-libparlatype_age = 1
+libparlatype_age = 0
 libparlatype_current_minus_age = libparlatype_current - libparlatype_age
 
 libparlatype_version = '@0@.@1@.@2@'.format(libparlatype_current_minus_age, libparlatype_age, libparlatype_revision)
