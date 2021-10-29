@@ -141,6 +141,11 @@ if gir
 		'pt-waveviewer.c',
 	]
 
+	gir_args = [
+		'-DPARLATYPE_COMPILATION',
+		'--quiet',
+	]
+
 	gnome.generate_gir(libparlatype,
 		sources: introspection_sources,
 		nsversion: libparlatype_api_version,
@@ -148,6 +153,7 @@ if gir
 		symbol_prefix: 'pt_',
 		identifier_prefix: 'Pt',
 		includes: ['GObject-2.0', 'Gtk-3.0'],
-		install: true
+		install: true,
+		extra_args: gir_args,
 	)
 endif
