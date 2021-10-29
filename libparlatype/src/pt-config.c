@@ -360,7 +360,7 @@ pt_config_get_lang_code (PtConfig *config)
  *
  * Gets the localized name of the language the model was made for.
  *
- * Return value: (transfer none) the language code as a string
+ * Return value: (transfer none): the language code as a string
  *
  * Since: 3.0
  */
