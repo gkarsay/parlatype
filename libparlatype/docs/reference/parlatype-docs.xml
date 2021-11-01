@@ -10,8 +10,8 @@
 		<title>Parlatype Reference Manual</title>
 		<releaseinfo>
       for parlatype &version;
-      <!-- The latest version of this documentation can be found on-line at
-      <ulink role="online-location" url="http://[SERVER]/parlatype/index.html">http://[SERVER]/parlatype/</ulink>. -->
+      The latest version of this documentation can be found on-line at
+      <ulink role="online-location" url="https://www.parlatype.org/reference/index.html">https://www.parlatype.org/reference/index.html</ulink>.
 		</releaseinfo>
 		<authorgroup>
 			<author>
