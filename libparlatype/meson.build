@@ -17,6 +17,23 @@ gstreamer_app   = dependency('gstreamer-app-1.0')
 gstreamer_audio = dependency('gstreamer-audio-1.0')
 math = compiler.find_library('m', required: false)
 
+# library message catalog is API versioned for parallel installs
+# keep in sync with API version as defined in libparlatype/meson.build
+gettext_package_lib = 'libparlatype3'
+
+iso_codes = dependency('iso-codes')
+iso_codes_prefix = iso_codes.get_pkgconfig_variable('prefix')
+
+libconf = configuration_data()
+libconf.set_quoted('PACKAGE_VERSION', meson.project_version())
+libconf.set_quoted('GETTEXT_LIB', gettext_package_lib)
+libconf.set_quoted('ISO_CODES_PREFIX', iso_codes_prefix)
+libconf.set('HAVE_POCKETSPHINX', with_pocketsphinx)
+libconf.set('HAVE_DEEPSPEECH', with_deepspeech)
+libconf_input = configure_file(output: 'config.h', configuration: libconf)
+libconf_inc = include_directories('.', 'src')
+
+
 subdir('data')
 subdir('po')
 subdir('src')

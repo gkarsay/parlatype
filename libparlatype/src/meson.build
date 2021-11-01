@@ -49,8 +49,7 @@ sources = [
 	'pt-waveviewer-waveform.h',
 ]
 
-deps = [config_h,
-	gtk,
+deps = [gtk,
 	gstreamer,
 	gstreamer_app,
 	gstreamer_audio,
@@ -96,7 +95,7 @@ libparlatype = shared_library(
 	sources: sources,
 	version: libparlatype_version,
 	dependencies: deps,
-	include_directories: conf_inc,
+	include_directories: libconf_inc,
 	link_args: vflag,
 	link_depends: mapfile,
 	install: true,
@@ -108,7 +107,7 @@ libparlatype = shared_library(
 
 libparlatype_dep = declare_dependency(
 	link_with: libparlatype,
-	include_directories: conf_inc,
+	include_directories: libconf_inc,
 	dependencies: [ gtk, ],
 )
 

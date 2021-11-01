@@ -29,23 +29,13 @@ add_global_arguments('-DLOCALEDIR="@0@"'.format(localedir), language : 'c')
 compiler = meson.get_compiler('c')
 
 gettext_package = 'parlatype'
-# library message catalog is API versioned for parallel installs
-# keep in sync with API version as defined in libparlatype/meson.build
-gettext_package_lib = 'libparlatype3'
-
-iso_codes = dependency('iso-codes')
-iso_codes_prefix = iso_codes.get_pkgconfig_variable('prefix')
 
 conf = configuration_data()
 conf.set_quoted('PACKAGE_VERSION', '@VCS_TAG@')
 conf.set_quoted('PACKAGE_NAME', meson.project_name())
 conf.set_quoted('PACKAGE_URL', 'https://www.parlatype.org')
 conf.set_quoted('APP_ID', app_id)
-conf.set_quoted('GETTEXT_LIB', gettext_package_lib)
 conf.set_quoted('ASR_DIR', join_paths(datadir, meson.project_name(), 'asr'))
-conf.set_quoted('ISO_CODES_PREFIX', iso_codes_prefix)
-conf.set('HAVE_POCKETSPHINX', with_pocketsphinx)
-conf.set('HAVE_DEEPSPEECH', with_deepspeech)
 conf_input = configure_file(output: 'config.h.in', configuration: conf)
 conf_inc = include_directories('.', 'libparlatype/src')
 
