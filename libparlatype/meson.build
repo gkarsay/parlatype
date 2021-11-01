@@ -10,7 +10,7 @@ libparlatype_current_minus_age = libparlatype_current - libparlatype_age
 libparlatype_version = '@0@.@1@.@2@'.format(libparlatype_current_minus_age, libparlatype_age, libparlatype_revision)
 
 # API or namespace version for GIR 'x.0'
-libparlatype_api_version = '3.0'
+libparlatype_api_version = '4.0'
 
 gstreamer       = dependency('gstreamer-1.0', version : '>= 1.6.3')
 gstreamer_app   = dependency('gstreamer-app-1.0')
