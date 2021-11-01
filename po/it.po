@@ -2,15 +2,15 @@
 # Copyright (c) 2017 Rosetta Contributors and Canonical Ltd 2017
 # This file is distributed under the same license as the parlatype package.
 # Luca Ciavatta <luca.ciavatta@gmail.com>, 2017.
-# Albano Battistella <albano_battistella@hotmail.com>,2020.
+# Albano Battistella <albano_battistella@hotmail.com>,2020,2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-18 21:22+0200\n"
-"PO-Revision-Date: 2020-05-15 08:20+0000\n"
-"Last-Translator: Marco Ciampa <ciampix@posteo.net>\n"
+"PO-Revision-Date: 2021-11-01 22:20+0100\n"
+"Last-Translator: Albano Battistella <albano_battistella@hotmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -344,16 +344,15 @@ msgstr "Riconoscimento vocale"
 
 #: src/pt-prefs-asr.c:373
 msgid "Failed to read personal configuration files"
-msgstr ""
+msgstr "Impossibile leggere i file di configurazione personali"
 
 #: src/pt-prefs-asr.c:415
 msgid "Failed to copy shipped configuration files"
-msgstr ""
+msgstr "Impossibile copiare i file di configurazione forniti"
 
 #: src/pt-prefs-asr.c:585
-#, fuzzy
 msgid "Delete language model configuration?"
-msgstr "Eliminazione della configurazione"
+msgstr "Eliminare la configurazione del modello di lingua?"
 
 #: src/pt-prefs-asr.c:586
 #, c-format
@@ -362,29 +361,27 @@ msgstr "Vuoi veramente cancellare \"%s\"?"
 
 #: src/pt-prefs-asr.c:596
 msgid "_Yes"
-msgstr ""
+msgstr "_Si"
 
 #: src/pt-prefs-asr.c:673 src/pt-prefs-asr.c:727
 msgid "Error"
-msgstr ""
+msgstr "Errore"
 
 #: src/pt-prefs-asr.c:731
-#, fuzzy
 msgid "The file is not a valid language model configuration."
-msgstr "La cartella contiene diversi modelli di lingua."
+msgstr "Il file non è una configurazione del modello di lingua valida."
 
 #: src/pt-prefs-asr.c:779
-#, fuzzy
 msgid "Import language model configuration"
-msgstr "Non c'è configurazione"
+msgstr "Importa la configurazione del modello di lingua"
 
 #: src/pt-prefs-asr.c:793
 msgid "Parlatype language model configurations"
-msgstr ""
+msgstr "Configurazioni del modello di lingua Parlatype"
 
 #: src/pt-prefs-asr.c:844
 msgid "Failed to create personal configuration folder"
-msgstr ""
+msgstr "Impossibile creare la cartella di configurazione personale"
 
 #: src/pt-window.c:376
 #, c-format
@@ -437,53 +434,49 @@ msgid "General"
 msgstr "Generale"
 
 #: src/resources/asr-dialog.ui:44
-#, fuzzy
 msgid "Display Name:"
-msgstr "Visualizzazione"
+msgstr "Nome da visualizzare:"
 
 #: src/resources/asr-dialog.ui:56
-#, fuzzy
 msgid "Language:"
-msgstr "Modello linguistico:"
+msgstr "Lingua:"
 
 #: src/resources/asr-dialog.ui:68
-#, fuzzy
 msgid "Speech Recognition Engine:"
-msgstr "Riconoscimento vocale"
+msgstr "Motore di Riconoscimento Vocale:"
 
 #: src/resources/asr-dialog.ui:80
 msgid "GStreamer Plugin:"
-msgstr ""
+msgstr "Plugin GStreamer:"
 
 #: src/resources/asr-dialog.ui:92
 msgid "Publisher:"
-msgstr ""
+msgstr "Editore:"
 
 #: src/resources/asr-dialog.ui:104
 msgid "License:"
-msgstr ""
+msgstr "Licenza:"
 
 #: src/resources/asr-dialog.ui:213
 msgid "Installation"
-msgstr ""
+msgstr "Installazione"
 
 #. Points to a download location
 #: src/resources/asr-dialog.ui:236 src/resources/asr-dialog.ui:286
-#, fuzzy
 msgid "Download:"
-msgstr "Scarica modello"
+msgstr "Download:"
 
 #: src/resources/asr-dialog.ui:260
 msgid "Installed:"
-msgstr ""
+msgstr "Installato:"
 
 #: src/resources/asr-dialog.ui:310
 msgid "Instructions:"
-msgstr ""
+msgstr "Istruzioni:"
 
 #: src/resources/asr-dialog.ui:322
 msgid "Download, unzip to a folder and select that folder."
-msgstr ""
+msgstr "Scarica, decomprimi in una cartella e seleziona quella cartella."
 
 #: src/resources/goto-dialog.ui:13 src/resources/menus.ui:34
 msgid "Go to…"
@@ -729,27 +722,24 @@ msgid "Window"
 msgstr "Finestra"
 
 #: src/resources/prefs-asr.ui:40
-#, fuzzy
 msgid "Language model configurations"
-msgstr "Modello linguistico"
+msgstr "Configurazioni del modello di lingua"
 
 #: src/resources/prefs-asr.ui:57
 msgid "Installed"
-msgstr ""
+msgstr "Installato"
 
 #: src/resources/prefs-asr.ui:58
 msgid "Supported"
-msgstr ""
+msgstr "Supportato"
 
 #: src/resources/prefs-asr.ui:59
-#, fuzzy
 msgid "All models"
-msgstr "Tutti i file"
+msgstr "Tutti i modelli"
 
 #: src/resources/prefs-asr.ui:121
-#, fuzzy
 msgid "Import a language model configuration"
-msgstr "Non c'è configurazione"
+msgstr "Importa una configurazione del modello di lingua"
 
 #: src/resources/prefs-asr.ui:228
 msgid "There is no configuration"
@@ -761,7 +751,7 @@ msgstr "Aggiungi una configurazione"
 
 #: src/resources/prefs-asr.ui:306
 msgid "No results in this view"
-msgstr ""
+msgstr "Nessun risultato in questa visualizzazione"
 
 #: src/resources/window.ui:48
 msgid "Open a file"
@@ -775,13 +765,11 @@ msgstr "_Riproduci"
 msgid "Speed:"
 msgstr "Velocità:"
 
-#, fuzzy
 #~ msgid "Remove this configuration"
-#~ msgstr "Eliminazione della configurazione"
+#~ msgstr "Rimuovi questa configurazione"
 
-#, fuzzy
 #~ msgid "Setup this configuration"
-#~ msgstr "Eliminazione della configurazione"
+#~ msgstr "Imposta questa configurazione"
 
 #~ msgid "org.parlatype.Parlatype"
 #~ msgstr "org.parlatype.Parlatype"
