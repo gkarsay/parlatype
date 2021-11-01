@@ -108,10 +108,10 @@ GitHub Issues:
 
 Homepage:
 - Publish release notes in News, can be more verbose
-- Update reference
-- Update help:
-  yelp-build html -o help-online/ help/C/
+- maint/copy-reference-to-web
+- maint/copy-help-to-web
 - Update translation status (in features.md)
+- Commit and push changes
 
 Packaging:
  - Ping other packagers
