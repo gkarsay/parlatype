@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
-               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY version SYSTEM "version.xml">
 ]>
 
 <chapter id="introduction" xmlns:xi="http://www.w3.org/2003/XInclude">
@@ -15,10 +17,10 @@
   player. PtWaveviewer is a GtkWidget to show a wave form and uses PtWaveloader
   to extract the wave form from a given file.</para>
 
-  <para>Parlatype is (kind of) stable. That means that the library is versioned,
+  <para>Parlatype is stable. That means that the library is versioned,
   API changes are documented, however, it changes frequently.</para>
 
-  <para>The versioning system is a bit confusing: It's coupled to releases of
-  the Parlatype application and this way minor version releases can break the API.
-  GObject Introspection however has an API version.</para>
+  <para>The library versioning is decoupled from release versions. The current
+  release is &version;, the API version is 4.0 (for GObject introspection) and the
+  library’s soname is 5.0.0.</para>
 </chapter>
