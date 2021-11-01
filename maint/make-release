@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Creates and signs a tarball
+#
+# `ninja dist` also creates a tarball, but doesn't respect export-ignore settings
+# https://github.com/mesonbuild/meson/issues/2287
+
+
+cd "$(dirname "$0")" || exit 1
+cd ..
+
+VERSION=$(grep --max-count 1 'version' meson.build | cut --delimiter=\' -f 2)
+TARBALL=parlatype-"$VERSION".tar.gz
+
+
+if [ -e "$TARBALL" ]
+then
+	echo "$TARBALL exists – quitting now."
+	exit 1
+fi
+
+git archive --format=tar --prefix=parlatype-"$VERSION"/ main | gzip > "$TARBALL"
+
+gpg --armor --detach-sign "$TARBALL"
+
+ls -l "$TARBALL"*

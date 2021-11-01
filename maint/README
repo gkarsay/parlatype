@@ -94,14 +94,8 @@ Release commit:
 Test distribution:
 ninja dist
 
-However, `ninja dist` doesn't respect export-ignore settings
-https://github.com/mesonbuild/meson/issues/2287
-
-Therefore:
-git archive --format=tar --prefix=parlatype-$(VERSION)/ main | gzip > parlatype-$(VERSION).tar.gz
-
-Sign tarball:
-gpg --armor --detach-sign "parlatype-$(VERSION).tar.gz"
+Create tarball and sign it:
+maint/make-release
 
 Create release page on GitHub:
 - Write/copy release notes
