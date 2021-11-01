@@ -1,0 +1,20 @@
+#!/bin/bash
+# Creates reference and copies it to GitHub pages.
+# Relies on my personal directory setup.
+# First (optional) argument is the meson build dir, if there are several build dirs
+
+WEBDIR=../../parlatype-website/reference
+
+
+cd "$(dirname "$0")" || exit 1
+source cd_builddir_or_exit
+
+if meson configure | grep -s -e 'gtk-doc.*false' ; then
+	meson configure -Dgtk-doc=true
+fi
+
+if ninja parlatype-doc; then
+	rm $WEBDIR/*
+	cp libparlatype/docs/reference/html/* $WEBDIR
+	ls -l $WEBDIR
+fi
