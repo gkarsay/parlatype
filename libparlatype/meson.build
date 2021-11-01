@@ -9,17 +9,20 @@ libparlatype_current_minus_age = libparlatype_current - libparlatype_age
 
 libparlatype_version = '@0@.@1@.@2@'.format(libparlatype_current_minus_age, libparlatype_age, libparlatype_revision)
 
-# API or namespace version for GIR 'x.0'
-libparlatype_api_version = '4.0'
+# API or namespace version
+# Increment with every API break (changed or removed symbols)
+# For x this will be used as 'x.0', the zero never changes
+libparlatype_api = 4
+
+libparlatype_api_version = '@0@.0'.format(libparlatype_api)
 
 gstreamer       = dependency('gstreamer-1.0', version : '>= 1.6.3')
 gstreamer_app   = dependency('gstreamer-app-1.0')
 gstreamer_audio = dependency('gstreamer-audio-1.0')
 math = compiler.find_library('m', required: false)
 
-# library message catalog is API versioned for parallel installs
-# keep in sync with API version as defined in libparlatype/meson.build
-gettext_package_lib = 'libparlatype3'
+# library message catalog is soname versioned for parallel installs
+gettext_package_lib = 'libparlatype@0@'.format(libparlatype_current_minus_age)
 
 iso_codes = dependency('iso-codes')
 iso_codes_prefix = iso_codes.get_pkgconfig_variable('prefix')
