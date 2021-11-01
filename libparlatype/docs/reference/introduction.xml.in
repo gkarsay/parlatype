@@ -2,7 +2,9 @@
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
                "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
 [
-  <!ENTITY version SYSTEM "version.xml">
+  <!ENTITY version "@PACKAGE_VERSION@">
+  <!ENTITY apiversion "@API_VERSION@">
+  <!ENTITY soname "@SONAME@">
 ]>
 
 <chapter id="introduction" xmlns:xi="http://www.w3.org/2003/XInclude">
@@ -21,6 +23,6 @@
   API changes are documented, however, it changes frequently.</para>
 
   <para>The library versioning is decoupled from release versions. The current
-  release is &version;, the API version is 4.0 (for GObject introspection) and the
-  library’s soname is 5.0.0.</para>
+  release is &version;, the API version is &apiversion; (for GObject introspection) and the
+  library’s soname is &soname;.</para>
 </chapter>
