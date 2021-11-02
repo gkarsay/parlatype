@@ -105,12 +105,11 @@ section section.links > div.inner > div.hgroup {
 }
 h1, h2, h3, h4, h5, h6, h7 {
   margin: 0; padding: 0;
-  color: rgb(75,75,73);
-  font-weight: bold;
+  font-weight: normal;
 }
-h1 { font-size: 2em; }
-h2 { font-size: 1.44em; }
-h3.title, h4.title, h5.title, h6.title, h7.title { font-size: 1.2em; }
+h1 { font-size: 2.4em; }
+h2 { font-size: 1.72em; }
+h3.title, h4.title, h5.title, h6.title, h7.title { font-size: 1.44em; }
 h3, h4, h5, h6, h7 { font-size: 1em; }
 p { line-height: 1.44em; }
 div, pre, p { margin: 0; padding: 0; }
@@ -461,14 +460,13 @@ div.screen {
 }
 ol.steps, ul.steps {
   padding: 0.5em 1em 0.5em 1em;
+  border: solid 1px rgb(244,244,244);
   border-left: solid 4px #f8e45c;
-  box-shadow: 0 1px 2px #c0bfbc;
 }
 ol.steps .steps {
   padding: 0;
   border: none;
   background-color: unset;
-  box-shadow: none;
 }
 li.steps { margin-left: 1.44em; }
 li.steps li.steps { margin-left: 2.4em; }
@@ -518,11 +516,15 @@ span.em-bold {
   font-style: normal; font-weight: bold;
   color: rgb(75,75,73);
 }
+a span.em-bold {
+  color: rgb(43,107,185);
+}
 pre span.error {
   color: rgb(173,25,36);
 }
 span.file { font-family: monospace,monospace; font-size: 0.83em; }
 span.gui, span.guiseq { color: rgb(75,75,73); }
+a span.gui, a span.guiseq { color: rgb(43,107,185); }
 span.input { font-family: monospace,monospace; font-size: 0.83em; }
 pre span.input {
   font-weight: bold;
@@ -535,7 +537,6 @@ kbd {
   background-color: rgb(244,244,244);
   border: solid 1px #c0bfbc;
   border-radius: 2px;
-  box-shadow: 1px 1px 2px #c0bfbc;
   margin: 0 0.2em 0 0.2em;
   padding: 0.2em 0.5em 0 0.5em;
   white-space: nowrap;
@@ -547,7 +548,7 @@ kbd.key-Fn {
 span.key a {
   border-bottom: none;
 }
-a > kbd {
+a kbd {
   color: rgb(43,107,185);
   border-color: rgb(43,107,185);
 }
@@ -555,6 +556,7 @@ span.keyseq {
   color: rgb(75,75,73);
   white-space: nowrap
 }
+a span.keyseq { color: rgb(43,107,185); }
 span.output { font-family: monospace,monospace; font-size: 0.83em; }
 pre span.output {
   color: #000000;
@@ -570,8 +572,7 @@ span.media-audio, span.media-video { display: inline-block; }
 audio, video { display: block; margin: 0; }
 div.media > div.inner { display: inline-block; text-align: center; }
 .media-controls {
-  min-width: 24em;
-  height: 24px;
+  height: 30px;
   margin: 0; padding: 0;
   border-left: solid 1px #000000;
   border-right: solid 1px #000000;
@@ -582,10 +583,6 @@ div.media > div.inner { display: inline-block; text-align: center; }
   border-bottom-right-radius: 4px;
   display: flex;
   align-items: center;
-}
-.media-audio .media-controls {
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
 }
 .media-controls > * {
   flex: 0 1 auto;
@@ -633,8 +630,8 @@ input.media-range::-moz-range-thumb {
   border-radius: 4px;
 }
 button.media-play {
-  height: 24px;
-  padding: 0 2px 0 2px; line-height: 0;
+  height: 30px;
+  padding: 0 6px 0 6px; line-height: 0;
   background-color: rgb(75,75,73);
   border: none;
   border-right: solid 1px #000000;
@@ -649,8 +646,8 @@ button.media-play-playing .media-pause { display: inline; }
 .media-time {
   margin: 0;
   font-size: 16px;
-  height: 24px;
-  line-height: 24px;
+  height: 30px;
+  line-height: 30px;
 }
 .media-time > span {
   padding-right: 8px;
@@ -660,7 +657,19 @@ button.media-play-playing .media-pause { display: inline; }
   color: rgb(234,234,233);
   opacity: 0.8;
 }
-div.media-ttml { margin: 0; padding: 0; }
+.media-controls-ttml {
+  min-width: 630px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+div.media-ttml {
+  margin: 0; padding: 6px 0;
+  background-color: rgb(244,244,244);
+  border: solid 1px #000000;
+  min-height: 24px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
 .media-ttml-pre { white-space: pre; }
 .media-ttml-nopre { white-space: normal; }
 div.media-ttml-div {
@@ -671,13 +680,11 @@ div.media-ttml-div {
 div.media-ttml-p {
   text-align: left;
   display: none;
-  margin: 6px auto 0 auto;
-  padding: 6px;
-  max-width: 24em;
-  border: solid 1px rgb(107,99,41);
-  background-color: rgb(253,251,233);
-  box-shadow: 2px 2px 4px #c0bfbc;
+  margin: 0 auto;
+  max-width: 560px;
+  line-height: 1.44em;
 }
+div.media-ttml-div > * + * { margin-top: 1em; }
 div.yelp-data { display: none; }
 .ui-expander > div.inner > div.title span.title,
 .ui-expander > div.inner > div.hgroup span.title {
@@ -823,7 +830,6 @@ section.ui-expander-preview.ui-expander-c > div.inner > div.region > div.content
     margin-right: 10px;
   }
   ol.steps, ul.steps {
-    box-shadow: none;
     padding: 0;
     padding-left: 6px;
     padding-right: 10px;
@@ -850,7 +856,7 @@ section.ui-expander-preview.ui-expander-c > div.inner > div.region > div.content
 .hljs-built_in  { color: rgb(150,96,43); }
 .hljs-bullet    { color: rgb(46,121,73); }
 .hljs-class     { }
-.hljs-code      { }
+.hljs-code      { color: rgb(75,75,73); }
 .hljs-comment   { color: rgb(102,102,100); }
 .hljs-doctag    { }
 .hljs-formula   { color: rgb(75,75,73); }
@@ -900,8 +906,8 @@ div.link-button {
   color: #ffffff;
   text-shadow: rgb(43,107,185) 1px 1px 0px;
   border: solid 1px rgb(43,107,185);
-  padding: 0.2em 0.5em 0.2em 0.5em;
-  border-radius: 2px;
+  padding: 0.2em 0.83em 0.2em 0.83em;
+  border-radius: 4px;
 }
 .link-button a:visited {
   color: #ffffff;
@@ -909,7 +915,7 @@ div.link-button {
 .link-button a:hover {
   text-decoration: none;
   color: #ffffff;
-  box-shadow: 1px 1px 1px #3584e4;
+  background-color: rgb(73,144,231)
 }
 div.link-button a .desc {
   display: block;
@@ -1006,7 +1012,7 @@ div.ui-overlay {
   display: none;
   position: fixed;
   text-align: center;
-  top: 20px;
+  top: 30px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
@@ -1024,9 +1030,7 @@ div.ui-overlay > div.inner {
   display: inline-block;
   padding: 8px;
   background-color: rgb(244,244,244);
-  border: solid 1px rgb(75,75,73);
-  box-shadow: 0 2px 4px rgb(75,75,73);
-  border-radius: 6px;
+  border-radius: 4px;
   text-align: left;
 }
 div.ui-overlay img, div.ui-overlay video {
@@ -1037,24 +1041,18 @@ div.ui-overlay > div.inner > div.title { margin-top: -4px; }
 a.ui-overlay-close {
   display: block;
   float: right;
-  width: 23px; height: 23px;
-  font-size: 18px; line-height: 23px;
+  width: 30px; height: 30px;
+  font-size: 22px; line-height: 30px;
   font-weight: bold;
   margin-top: -28px;
-  margin-right: -24px;
+  margin-right: -26px;
   padding: 1px 2px 3px 2px;
   text-align: center;
   border: none;
   border-radius: 50%;
-  background-color: #000000;
-  background-image: radial-gradient(circle farthest-corner at 50% 30%, rgb(75,75,73), #000000);
-  border: 3px solid #ffffff; 
+  background-color: #3584e4;
   color: #ffffff;
-  box-shadow: 0 2px 2px #000000;
-  text-shadow: 0 2px 2px #000000;
 }
-
-
 div.links-tiles {
   display: flex;
   flex-flow: row wrap;
@@ -1076,13 +1074,12 @@ div.links-tile:empty { padding: 0 10px; height: 0; }
 div.links-tile > a {
   display: block;
   vertical-align: top;
-  padding: 9px;
-  border-radius: 6px;
-  border: solid 1px #ffffff;
+  padding: 10px;
+  border-radius: 4px;
+  border: none;
 }
 div.links-tile > a:hover {
-  border: solid 1px rgb(241,246,253);
-  box-shadow: 0 1px 2px #3584e4;
+  background-color: rgb(241,246,253);
 }
 div.links-tile > a > span.links-tile-img {
   display: block;

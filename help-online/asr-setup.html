@@ -18,28 +18,47 @@ document.addEventListener('DOMContentLoaded', function() {
 <a class="trail" href="index.html" title="Parlatype">Parlatype</a> › <a class="trail" href="index.html#topics" title="Help topics">Help topics</a> » </div></div></div></header><article><div class="hgroup pagewide"><h1 class="title"><span class="title">Setup automatic speech recognition</span></h1></div>
 <div class="region">
 <div class="contents pagewide">
-<p class="p"><span class="app">Parlatype</span> doesn’t ship the language model needed for speech recognition. You will have to download it. There is an assistant that guides you through that process.</p>
-<p class="p">The assistant can be started either from the Preferences dialog, tab <span class="gui">Speech recognition</span> or – if you have no setup yet – from the primary menu, <span class="gui">Automatic transcription</span>.</p>
-<p class="p">It asks you to download a speech model. The speech recognition engine used is CMU Sphinx. You can download models suitable for CMU Sphinx for example from <span class="link"><a href="https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Language%20Models/" title="https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Language%20Models/">CMU Sphinx’ sourceforge repository</a></span>. It has models for some of the most widespread languages.</p>
-<p class="p">If it’s compressed, uncompress the model. Save it to a folder where it can stay. Parlatype doesn’t copy the model internally.</p>
-<p class="p">Usually the assistant will find all the files needed and you just have to give this configuration a name for your own reference. You can have several configurations, e.g. for different languages.</p>
-<p class="p">If the assistant doesn’t find all the components or finds more than expected, it will ask you to specify their location or to choose between them. The next sections explains those components.</p>
+<p class="p">For speech recognition you need a language model: one or more files trained
+with real speech samples. <span class="app">Parlatype</span> supports language models made for
+CMU Sphinx and Mozilla DeepSpeech and ships a couple of <span class="em">language model
+configurations</span>.</p>
+<div class="note" title="Note">
+<svg height="24" width="24" version="1.1">
+ <g>
+  <path class="yelp-svg-fill" d="m4 3h16c0.554 0 1 0.446 1 1v11h-6v6h-11c-0.554 0-1-0.446-1-1v-16c0-0.554 0.446-1 1-1z"></path>
+  <path class="yelp-svg-fill" d="m17 16h4l-5 5v-4c0-0.554 0.446-1 1-1z"></path>
+ </g>
+</svg><div class="inner"><div class="region"><div class="contents"><p class="p">A <span class="em">language model configuration</span> contains meta data describing
+the language model: A name that you can change, the language it was made for,
+speech recognition engine, publisher, license etc. It has a (third party) link,
+where you can download the files. Part of the configuration is the base folder,
+where you have saved the model. Additionally it contains various parameters
+for the plugin which are not shown.</p></div></div></div>
 </div>
-<section id=""><div class="inner">
-<div class="hgroup pagewide"><h2 class="title"><span class="title">Models</span></h2></div>
-<div class="region"><div class="contents pagewide">
-<p class="p">A model consists of a so called acoustic and language model and a dictionary:</p>
-<div class="terms"><div class="inner"><div class="region"><dl class="terms">
-<dt class="terms">Acoustic model</dt>
-<dd class="terms"><p class="p">It consists of several files usually in their own folder: <span class="file">feat.params</span>, <span class="file">mdef</span>, <span class="file">means</span> and some others.</p></dd>
-<dt class="terms">Language model</dt>
-<dd class="terms"><p class="p"><span class="app">Parlatype</span> needs a binary language model. That’s a single file with the extension <span class="file">.lm.bin</span>. Models can have several language models. They have often one for high quality and one for low quality recordings. Typical low quality recordings are from telephones with a sample rate of 8000 Hz. Those language models have often <span class="file">phone</span>, <span class="file">8k</span> or similar as part of their file name.</p></dd>
-<dt class="terms">Dictionary</dt>
-<dd class="terms"><p class="p">Dictionaries have the extension <span class="file">.dict</span> or <span class="file">.dic</span>.</p></dd>
-</dl></div></div></div>
-<p class="p">All those elements should be somewhere in the folder selected. It doesn’t matter whether there are subfolders or how they are named.</p>
-</div></div>
-</div></section><section class="links" role="navigation"><div class="inner">
+<p class="p">Open the Preferences Dialog and click on the <span class="gui">Speech Recognition</span> tab.
+Initially there are no configurations available, click on the
+<span class="gui">Add a configuration</span> button.</p>
+<div class="media media-image"><div class="inner"><img src="figures/asr-setup-initial.png" class="media media-block" alt=""></div></div>
+<p class="p">If your installation has CMU Sphinx or Mozilla DeepSpeech enabled, you will
+see configurations with a <span class="media"><span class="media media-image"><img src="figures/folder-download-symbolic.svg" class="media media-inline" alt="download"></span></span> symbol.
+Otherwise you will see only configurations with a <span class="media"><span class="media media-image"><img src="figures/action-unavailable-symbolic.svg" class="media media-inline" alt="unavailable"></span></span> symbol.</p>
+<div class="media media-image"><div class="inner"><img src="figures/asr-setup-downloadable.png" class="media media-block" alt=""></div></div>
+<p class="p">Select a configuration and click on the
+<span class="media"><span class="media media-image"><img src="figures/emblem-system-symbolic.svg" class="media media-inline" alt="settings"></span></span> button.
+There is a short description of the model and where you can download it.
+After downloading, you have to set the folder where your download resides.
+You can also change the <span class="gui">Display name</span>.</p>
+<div class="media media-image"><div class="inner"><img src="figures/asr-setup-details.png" class="media media-block" alt=""></div></div>
+<p class="p">An installed model has no symbol next to it. Double click on the model and
+it will be selected for speech recognition, a <span class="media"><span class="media media-image"><img src="figures/object-select-symbolic.svg" class="media media-inline" alt="selected"></span></span> symbol
+appears.</p>
+<p class="p">Shipped configurations might get obsolete over time. Therefore you can
+import a configuration with the <span class="gui">+</span> button. Configurations are text
+files with an .asr ending.</p>
+<p class="p">With the <span class="gui">-</span> button you can remove a configuration.
+This will never remove downloaded models, only the configuration file.</p>
+</div>
+<section class="links" role="navigation"><div class="inner">
 <div class="hgroup pagewide"></div>
 <div class="contents pagewide"><div class="links guidelinks"><div class="inner">
 <div class="title"><h2><span class="title">More Information</span></h2></div>
