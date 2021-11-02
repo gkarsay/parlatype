@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<book xmlns="http://www.devhelp.net/book" title="Parlatype Reference Manual" link="index.html" author="Gabor Karsay" name="parlatype" version="2" language="c">
+<book xmlns="http://www.devhelp.net/book" title="Parlatype Reference Manual" link="index.html" author="Gabor Karsay" name="parlatype" version="2" language="c" online="https://www.parlatype.org/reference/index.html">
   <chapters>
     <sub name="Overview" link="pt01.html">
       <sub name="Introduction" link="introduction.html"/>
@@ -9,11 +9,14 @@
     <sub name="Main backend: PtPlayer" link="pt02.html">
       <sub name="PtPlayer" link="PtPlayer.html"/>
     </sub>
-    <sub name="GtkWidgets" link="pt03.html">
+    <sub name="ASR configuration" link="pt03.html">
+      <sub name="PtConfig" link="PtConfig.html"/>
+    </sub>
+    <sub name="GtkWidgets" link="pt04.html">
       <sub name="Widget gallery" link="gallery.html"/>
       <sub name="PtWaveviewer" link="PtWaveviewer.html"/>
     </sub>
-    <sub name="Internals: Get Wavedata" link="pt04.html">
+    <sub name="Internals: Get Wavedata" link="pt05.html">
       <sub name="PtWaveloader" link="PtWaveloader.html"/>
     </sub>
     <sub name="Object Hierarchy" link="object-tree.html"/>
@@ -22,12 +25,16 @@
     <sub name="Index of new or changed symbols in 1.5" link="api-index-1-5.html"/>
     <sub name="Index of new or changed symbols in 1.6" link="api-index-1-6.html"/>
     <sub name="Index of new or changed symbols in 2.0" link="api-index-2-0.html"/>
+    <sub name="Index of new or changed symbols in 2.1" link="api-index-2-1.html"/>
+    <sub name="Index of new or changed symbols in 3.0" link="api-index-3-0.html"/>
     <sub name="Annotation Glossary" link="annotation-glossary.html"/>
   </chapters>
   <functions>
     <keyword type="function" name="pt_player_new ()" link="PtPlayer.html#pt-player-new" since="1.6"/>
-    <keyword type="function" name="pt_player_setup_player ()" link="PtPlayer.html#pt-player-setup-player" since="1.6"/>
-    <keyword type="function" name="pt_player_setup_sphinx ()" link="PtPlayer.html#pt-player-setup-sphinx" since="1.6"/>
+    <keyword type="function" name="pt_player_set_mode ()" link="PtPlayer.html#pt-player-set-mode" since="3.0"/>
+    <keyword type="function" name="pt_player_get_mode ()" link="PtPlayer.html#pt-player-get-mode" since="3.0"/>
+    <keyword type="function" name="pt_player_configure_asr ()" link="PtPlayer.html#pt-player-configure-asr" since="3.0"/>
+    <keyword type="function" name="pt_player_config_is_loadable ()" link="PtPlayer.html#pt-player-config-is-loadable" since="3.0"/>
     <keyword type="function" name="pt_player_open_uri ()" link="PtPlayer.html#pt-player-open-uri" since="2.0"/>
     <keyword type="function" name="pt_player_play ()" link="PtPlayer.html#pt-player-play" since="1.4"/>
     <keyword type="function" name="pt_player_play_pause ()" link="PtPlayer.html#pt-player-play-pause" since="1.6"/>
@@ -44,13 +51,11 @@
     <keyword type="function" name="pt_player_get_back ()" link="PtPlayer.html#pt-player-get-back" since="1.6"/>
     <keyword type="function" name="pt_player_get_forward ()" link="PtPlayer.html#pt-player-get-forward" since="1.6"/>
     <keyword type="function" name="pt_player_jump_to_position ()" link="PtPlayer.html#pt-player-jump-to-position" since="1.4"/>
-    <keyword type="function" name="pt_player_jump_to_permille ()" link="PtPlayer.html#pt-player-jump-to-permille" since="1.4"/>
-    <keyword type="function" name="pt_player_get_permille ()" link="PtPlayer.html#pt-player-get-permille" since="1.4"/>
     <keyword type="function" name="pt_player_set_speed ()" link="PtPlayer.html#pt-player-set-speed" since="1.4"/>
+    <keyword type="function" name="pt_player_get_volume ()" link="PtPlayer.html#pt-player-get-volume" since="2.1"/>
     <keyword type="function" name="pt_player_set_volume ()" link="PtPlayer.html#pt-player-set-volume" since="1.4"/>
-    <keyword type="function" name="pt_player_mute_volume ()" link="PtPlayer.html#pt-player-mute-volume" since="1.4"/>
-    <keyword type="function" name="pt_player_rewind ()" link="PtPlayer.html#pt-player-rewind" since="1.5"/>
-    <keyword type="function" name="pt_player_fast_forward ()" link="PtPlayer.html#pt-player-fast-forward" since="1.5"/>
+    <keyword type="function" name="pt_player_get_mute ()" link="PtPlayer.html#pt-player-get-mute" since="2.1"/>
+    <keyword type="function" name="pt_player_set_mute ()" link="PtPlayer.html#pt-player-set-mute" since="2.1"/>
     <keyword type="function" name="pt_player_get_position ()" link="PtPlayer.html#pt-player-get-position" since="1.5"/>
     <keyword type="function" name="pt_player_get_duration ()" link="PtPlayer.html#pt-player-get-duration" since="1.5"/>
     <keyword type="function" name="pt_player_get_uri ()" link="PtPlayer.html#pt-player-get-uri" since="1.4"/>
@@ -65,8 +70,10 @@
     <keyword type="function" name="pt_player_goto_timestamp ()" link="PtPlayer.html#pt-player-goto-timestamp" since="1.4"/>
     <keyword type="struct" name="struct PtPlayer" link="PtPlayer.html#PtPlayer-struct"/>
     <keyword type="enum" name="enum PtPrecisionType" link="PtPlayer.html#PtPrecisionType"/>
+    <keyword type="enum" name="enum PtModeType" link="PtPlayer.html#PtModeType"/>
     <keyword type="property" name="The “back” property" link="PtPlayer.html#PtPlayer--back"/>
     <keyword type="property" name="The “forward” property" link="PtPlayer.html#PtPlayer--forward"/>
+    <keyword type="property" name="The “mute” property" link="PtPlayer.html#PtPlayer--mute"/>
     <keyword type="property" name="The “pause” property" link="PtPlayer.html#PtPlayer--pause"/>
     <keyword type="property" name="The “repeat-all” property" link="PtPlayer.html#PtPlayer--repeat-all"/>
     <keyword type="property" name="The “repeat-selection” property" link="PtPlayer.html#PtPlayer--repeat-selection"/>
@@ -83,6 +90,26 @@
     <keyword type="signal" name="The “jumped-back” signal" link="PtPlayer.html#PtPlayer-jumped-back"/>
     <keyword type="signal" name="The “jumped-forward” signal" link="PtPlayer.html#PtPlayer-jumped-forward"/>
     <keyword type="signal" name="The “play-toggled” signal" link="PtPlayer.html#PtPlayer-play-toggled"/>
+    <keyword type="function" name="pt_config_new ()" link="PtConfig.html#pt-config-new" since="3.0"/>
+    <keyword type="function" name="pt_config_is_valid ()" link="PtConfig.html#pt-config-is-valid" since="3.0"/>
+    <keyword type="function" name="pt_config_is_installed ()" link="PtConfig.html#pt-config-is-installed" since="3.0"/>
+    <keyword type="function" name="pt_config_apply ()" link="PtConfig.html#pt-config-apply" since="3.0"/>
+    <keyword type="function" name="pt_config_get_file ()" link="PtConfig.html#pt-config-get-file" since="3.0"/>
+    <keyword type="function" name="pt_config_set_file ()" link="PtConfig.html#pt-config-set-file" since="3.0"/>
+    <keyword type="function" name="pt_config_get_name ()" link="PtConfig.html#pt-config-get-name" since="3.0"/>
+    <keyword type="function" name="pt_config_set_name ()" link="PtConfig.html#pt-config-set-name" since="3.0"/>
+    <keyword type="function" name="pt_config_get_base_folder ()" link="PtConfig.html#pt-config-get-base-folder" since="3.0"/>
+    <keyword type="function" name="pt_config_set_base_folder ()" link="PtConfig.html#pt-config-set-base-folder" since="3.0"/>
+    <keyword type="function" name="pt_config_get_plugin ()" link="PtConfig.html#pt-config-get-plugin" since="3.0"/>
+    <keyword type="function" name="pt_config_get_lang_code ()" link="PtConfig.html#pt-config-get-lang-code" since="3.0"/>
+    <keyword type="function" name="pt_config_get_lang_name ()" link="PtConfig.html#pt-config-get-lang-name" since="3.0"/>
+    <keyword type="function" name="pt_config_get_key ()" link="PtConfig.html#pt-config-get-key" since="3.0"/>
+    <keyword type="struct" name="struct PtConfig" link="PtConfig.html#PtConfig-struct"/>
+    <keyword type="enum" name="enum PtError" link="PtConfig.html#PtError"/>
+    <keyword type="property" name="The “file” property" link="PtConfig.html#PtConfig--file"/>
+    <keyword type="property" name="The “is-installed” property" link="PtConfig.html#PtConfig--is-installed"/>
+    <keyword type="property" name="The “is-valid” property" link="PtConfig.html#PtConfig--is-valid"/>
+    <keyword type="property" name="The “name” property" link="PtConfig.html#PtConfig--name"/>
     <keyword type="function" name="pt_waveviewer_new ()" link="PtWaveviewer.html#pt-waveviewer-new" since="1.5"/>
     <keyword type="function" name="pt_waveviewer_load_wave_async ()" link="PtWaveviewer.html#pt-waveviewer-load-wave-async" since="2.0"/>
     <keyword type="function" name="pt_waveviewer_load_wave_finish ()" link="PtWaveviewer.html#pt-waveviewer-load-wave-finish" since="2.0"/>
@@ -119,5 +146,10 @@
     <keyword type="constant" name="PT_PRECISION_SECOND" link="PtPlayer.html#PT-PRECISION-SECOND:CAPS"/>
     <keyword type="constant" name="PT_PRECISION_SECOND_10TH" link="PtPlayer.html#PT-PRECISION-SECOND-10TH:CAPS"/>
     <keyword type="constant" name="PT_PRECISION_SECOND_100TH" link="PtPlayer.html#PT-PRECISION-SECOND-100TH:CAPS"/>
+    <keyword type="constant" name="PT_MODE_PLAYBACK" link="PtPlayer.html#PT-MODE-PLAYBACK:CAPS"/>
+    <keyword type="constant" name="PT_MODE_ASR" link="PtPlayer.html#PT-MODE-ASR:CAPS"/>
+    <keyword type="constant" name="PT_ERROR_PLUGIN_MISSING_PROPERTY" link="PtConfig.html#PT-ERROR-PLUGIN-MISSING-PROPERTY:CAPS"/>
+    <keyword type="constant" name="PT_ERROR_PLUGIN_NOT_WRITABLE" link="PtConfig.html#PT-ERROR-PLUGIN-NOT-WRITABLE:CAPS"/>
+    <keyword type="constant" name="PT_ERROR_PLUGIN_WRONG_VALUE" link="PtConfig.html#PT-ERROR-PLUGIN-WRONG-VALUE:CAPS"/>
   </functions>
 </book>

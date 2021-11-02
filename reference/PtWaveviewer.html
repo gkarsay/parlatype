@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>PtWaveviewer: Parlatype Reference Manual</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.79.1">
+<meta name="generator" content="DocBook XSL Stylesheets Vsnapshot">
 <link rel="home" href="index.html" title="Parlatype Reference Manual">
-<link rel="up" href="pt03.html" title="Part III. GtkWidgets">
+<link rel="up" href="pt04.html" title="Part IV. GtkWidgets">
 <link rel="prev" href="gallery.html" title="Widget gallery">
-<link rel="next" href="pt04.html" title="Part IV. Internals: Get Wavedata">
-<meta name="generator" content="GTK-Doc V1.28 (XML mode)">
+<link rel="next" href="pt05.html" title="Part V. Internals: Get Wavedata">
+<meta name="generator" content="GTK-Doc V1.33.1 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -22,9 +22,9 @@
                   <a href="#PtWaveviewer.signals" class="shortcut">Signals</a></span>
 </td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
-<td><a accesskey="u" href="pt03.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
+<td><a accesskey="u" href="pt04.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
 <td><a accesskey="p" href="gallery.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
-<td><a accesskey="n" href="pt04.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
+<td><a accesskey="n" href="pt05.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
 </tr></table>
 <div class="refentry">
 <a name="PtWaveviewer"></a><div class="titlepage"></div>
@@ -49,8 +49,8 @@ justifications.
 <a name="PtWaveviewer.functions"></a><h2>Functions</h2>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
-<col width="150px" class="functions_return">
-<col class="functions_name">
+<col width="150px" class="functions_proto_type">
+<col class="functions_proto_name">
 </colgroup>
 <tbody>
 <tr>
@@ -126,7 +126,7 @@ justifications.
 <td class="property_flags">Write</td>
 </tr>
 <tr>
-<td class="property_type"><a href="../glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a></td>
+<td class="property_type"><span class="type">int</span></td>
 <td class="property_name"><a class="link" href="PtWaveviewer.html#PtWaveviewer--pps" title="The “pps” property">pps</a></td>
 <td class="property_flags">Write / Construct</td>
 </tr>
@@ -152,9 +152,9 @@ justifications.
 <a name="PtWaveviewer.signals"></a><h2>Signals</h2>
 <div class="informaltable"><table class="informaltable" border="0">
 <colgroup>
-<col width="150px" class="signals_return">
-<col width="300px" class="signals_name">
-<col width="200px" class="signals_flags">
+<col width="150px" class="signal_proto_type">
+<col width="300px" class="signal_proto_name">
+<col width="200px" class="signal_proto_flags">
 </colgroup>
 <tbody>
 <tr>
@@ -199,8 +199,8 @@ justifications.
 <a name="PtWaveviewer.other"></a><h2>Types and Values</h2>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
-<col width="150px" class="name">
-<col class="description">
+<col width="150px" class="other_proto_type">
+<col class="other_proto_name">
 </colgroup>
 <tbody><tr>
 <td class="datatype_keyword">struct</td>
@@ -417,6 +417,7 @@ pt_waveviewer_get_follow_cursor (<em class="parameter"><code><a class="link" hre
 <p>If TRUE, in follow-cursor mode the cursor is at a fixed position and the
 waveform is scrolling. If FALSE the cursor is moving.</p>
 <p>If <a class="link" href="PtWaveviewer.html#PtWaveviewer--follow-cursor" title="The “follow-cursor” property"><span class="type">“follow-cursor”</span></a> is FALSE, this has no effect.</p>
+<p>Owner: PtWaveviewer</p>
 <p>Flags: Read / Write / Construct</p>
 <p>Default value: TRUE</p>
 </div>
@@ -427,6 +428,7 @@ waveform is scrolling. If FALSE the cursor is moving.</p>
 <p>If the widget follows the cursor, it scrolls automatically to the
 cursor’s position. Note that the widget will change this property to
 FALSE if the user scrolls the widget manually.</p>
+<p>Owner: PtWaveviewer</p>
 <p>Flags: Read / Write / Construct</p>
 <p>Default value: TRUE</p>
 </div>
@@ -435,6 +437,7 @@ FALSE if the user scrolls the widget manually.</p>
 <a name="PtWaveviewer--has-selection"></a><h3>The <code class="literal">“has-selection”</code> property</h3>
 <pre class="programlisting">  “has-selection”            <a href="../glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a></pre>
 <p>Whether something is selected (TRUE) or not (FALSE).</p>
+<p>Owner: PtWaveviewer</p>
 <p>Flags: Read</p>
 <p>Default value: FALSE</p>
 </div>
@@ -442,16 +445,19 @@ FALSE if the user scrolls the widget manually.</p>
 <div class="refsect2">
 <a name="PtWaveviewer--playback-cursor"></a><h3>The <code class="literal">“playback-cursor”</code> property</h3>
 <pre class="programlisting">  “playback-cursor”          <a href="../glib/glib-Basic-Types.html#gint64"><span class="type">gint64</span></a></pre>
-<p>Current playback position in milliseconds.</p>
+<p>Current playback position in milliseconds. A value of -1 means an
+invalid or unknown position that will not be rendered.</p>
+<p>Owner: PtWaveviewer</p>
 <p>Flags: Write</p>
-<p>Allowed values: &gt;= 0</p>
+<p>Allowed values: &gt;= -1</p>
 <p>Default value: 0</p>
 </div>
 <hr>
 <div class="refsect2">
 <a name="PtWaveviewer--pps"></a><h3>The <code class="literal">“pps”</code> property</h3>
-<pre class="programlisting">  “pps”                      <a href="../glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a></pre>
+<pre class="programlisting">  “pps”                      <span class="type">int</span></pre>
 <p>Current/requested resolution of waveform in pixels per second.</p>
+<p>Owner: PtWaveviewer</p>
 <p>Flags: Write / Construct</p>
 <p>Allowed values: [25,200]</p>
 <p>Default value: 100</p>
@@ -462,6 +468,7 @@ FALSE if the user scrolls the widget manually.</p>
 <pre class="programlisting">  “selection-end”            <a href="../glib/glib-Basic-Types.html#gint64"><span class="type">gint64</span></a></pre>
 <p>End time of selection in milliseconds. If it’s equal to the start
 time, there is no selection. See also <a class="link" href="PtWaveviewer.html#PtWaveviewer--has-selection" title="The “has-selection” property"><span class="type">“has-selection”</span></a>.</p>
+<p>Owner: PtWaveviewer</p>
 <p>Flags: Read</p>
 <p>Allowed values: &gt;= 0</p>
 <p>Default value: 0</p>
@@ -472,6 +479,7 @@ time, there is no selection. See also <a class="link" href="PtWaveviewer.html#Pt
 <pre class="programlisting">  “selection-start”          <a href="../glib/glib-Basic-Types.html#gint64"><span class="type">gint64</span></a></pre>
 <p>Start time of selection in milliseconds. If it’s equal to the end
 time, there is no selection. See also <a class="link" href="PtWaveviewer.html#PtWaveviewer--has-selection" title="The “has-selection” property"><span class="type">“has-selection”</span></a>.</p>
+<p>Owner: PtWaveviewer</p>
 <p>Flags: Read</p>
 <p>Allowed values: &gt;= 0</p>
 <p>Default value: 0</p>
@@ -481,6 +489,7 @@ time, there is no selection. See also <a class="link" href="PtWaveviewer.html#Pt
 <a name="PtWaveviewer--show-ruler"></a><h3>The <code class="literal">“show-ruler”</code> property</h3>
 <pre class="programlisting">  “show-ruler”               <a href="../glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a></pre>
 <p>Whether the ruler is shown (TRUE) or not (FALSE).</p>
+<p>Owner: PtWaveviewer</p>
 <p>Flags: Read / Write / Construct</p>
 <p>Default value: TRUE</p>
 </div>
@@ -565,7 +574,7 @@ user_function (<a class="link" href="PtWaveviewer.html" title="PtWaveviewer"><sp
 <a name="PtWaveviewer-load-progress"></a><h3>The <code class="literal">“load-progress”</code> signal</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
 user_function (<a class="link" href="PtWaveviewer.html" title="PtWaveviewer"><span class="type">PtWaveviewer</span></a> *viewer,
-               <a href="../glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a>       progress,
+               <span class="type">double</span>        progress,
                <a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>      user_data)</pre>
 <p>Indicates progress on a scale from 0.0 to 1.0, however it does not
 emit the value 0.0 nor 1.0. Wait for a TRUE player-state-changed
@@ -728,6 +737,6 @@ user_function (<a class="link" href="PtWaveviewer.html" title="PtWaveviewer"><sp
 </div>
 </div>
 <div class="footer">
-<hr>Generated by GTK-Doc V1.28</div>
+<hr>Generated by GTK-Doc V1.33.1</div>
 </body>
 </html>

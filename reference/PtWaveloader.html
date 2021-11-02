@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>PtWaveloader: Parlatype Reference Manual</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.79.1">
+<meta name="generator" content="DocBook XSL Stylesheets Vsnapshot">
 <link rel="home" href="index.html" title="Parlatype Reference Manual">
-<link rel="up" href="pt04.html" title="Part IV. Internals: Get Wavedata">
-<link rel="prev" href="pt04.html" title="Part IV. Internals: Get Wavedata">
+<link rel="up" href="pt05.html" title="Part V. Internals: Get Wavedata">
+<link rel="prev" href="pt05.html" title="Part V. Internals: Get Wavedata">
 <link rel="next" href="object-tree.html" title="Object Hierarchy">
-<meta name="generator" content="GTK-Doc V1.28 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.33.1 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -21,8 +21,8 @@
                   <a href="#PtWaveloader.signals" class="shortcut">Signals</a></span>
 </td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
-<td><a accesskey="u" href="pt04.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
-<td><a accesskey="p" href="pt04.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="pt05.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
+<td><a accesskey="p" href="pt05.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
 <td><a accesskey="n" href="object-tree.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
 </tr></table>
 <div class="refentry">
@@ -48,8 +48,8 @@ justifications.
 <a name="PtWaveloader.functions"></a><h2>Functions</h2>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
-<col width="150px" class="functions_return">
-<col class="functions_name">
+<col width="150px" class="functions_proto_type">
+<col class="functions_proto_name">
 </colgroup>
 <tbody>
 <tr>
@@ -129,7 +129,7 @@ justifications.
 </colgroup>
 <tbody><tr>
 <td class="property_type">
-<a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<span class="type">char</span> *</td>
 <td class="property_name"><a class="link" href="PtWaveloader.html#PtWaveloader--uri" title="The “uri” property">uri</a></td>
 <td class="property_flags">Read / Write / Construct</td>
 </tr></tbody>
@@ -139,9 +139,9 @@ justifications.
 <a name="PtWaveloader.signals"></a><h2>Signals</h2>
 <div class="informaltable"><table class="informaltable" border="0">
 <colgroup>
-<col width="150px" class="signals_return">
-<col width="300px" class="signals_name">
-<col width="200px" class="signals_flags">
+<col width="150px" class="signal_proto_type">
+<col width="300px" class="signal_proto_name">
+<col width="200px" class="signal_proto_flags">
 </colgroup>
 <tbody>
 <tr>
@@ -161,8 +161,8 @@ justifications.
 <a name="PtWaveloader.other"></a><h2>Types and Values</h2>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
-<col width="150px" class="name">
-<col class="description">
+<col width="150px" class="other_proto_type">
+<col class="other_proto_name">
 </colgroup>
 <tbody><tr>
 <td class="datatype_keyword">struct</td>
@@ -214,7 +214,7 @@ calling <a class="link" href="PtWaveloader.html#pt-waveloader-load-async" title=
 <div class="refsect3">
 <a name="pt-waveloader-new.returns"></a><h4>Returns</h4>
 <p>a new <a class="link" href="PtWaveloader.html" title="PtWaveloader"><span class="type">PtWaveloader</span></a>. </p>
-<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+<p><span class="annotation">[<acronym title="The caller owns the data, and is responsible for free it."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
 <p class="since">Since: <a class="link" href="api-index-1-4.html#api-index-1.4">1.4</a></p>
 </div>
@@ -521,7 +521,7 @@ be drawn by the application as one vertical line in the wave form.</p>
 <div class="refsect3">
 <a name="pt-waveloader-get-data.returns"></a><h4>Returns</h4>
 <p>a <a href="../glib/glib-Arrays.html#GArray"><span class="type">GArray</span></a> with wave data. </p>
-<p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> float][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
+<p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> float][<acronym title="The data is owned by the callee, which is responsible of freeing it."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
 <p class="since">Since: <a class="link" href="api-index-2-0.html#api-index-2.0">2.0</a></p>
 </div>
@@ -538,8 +538,9 @@ be drawn by the application as one vertical line in the wave form.</p>
 <a name="PtWaveloader.property-details"></a><h2>Property Details</h2>
 <div class="refsect2">
 <a name="PtWaveloader--uri"></a><h3>The <code class="literal">“uri”</code> property</h3>
-<pre class="programlisting">  “uri”                      <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<pre class="programlisting">  “uri”                      <span class="type">char</span> *</pre>
 <p>URI of the audio file.</p>
+<p>Owner: PtWaveloader</p>
 <p>Flags: Read / Write / Construct</p>
 <p>Default value: ""</p>
 </div>
@@ -581,7 +582,7 @@ user_function (<a class="link" href="PtWaveloader.html" title="PtWaveloader"><sp
 <a name="PtWaveloader-progress"></a><h3>The <code class="literal">“progress”</code> signal</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
 user_function (<a class="link" href="PtWaveloader.html" title="PtWaveloader"><span class="type">PtWaveloader</span></a> *wl,
-               <a href="../glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a>       progress,
+               <span class="type">double</span>        progress,
                <a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>      user_data)</pre>
 <p>Indicates progress on a scale from 0.0 to 1.0, however it does not
 emit the value 0.0 nor 1.0. Wait for a successful operation until
@@ -618,6 +619,6 @@ any gui element showing progress is dismissed.</p>
 </div>
 </div>
 <div class="footer">
-<hr>Generated by GTK-Doc V1.28</div>
+<hr>Generated by GTK-Doc V1.33.1</div>
 </body>
 </html>

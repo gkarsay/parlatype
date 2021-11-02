@@ -1,0 +1,820 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>PtConfig: Parlatype Reference Manual</title>
+<meta name="generator" content="DocBook XSL Stylesheets Vsnapshot">
+<link rel="home" href="index.html" title="Parlatype Reference Manual">
+<link rel="up" href="pt03.html" title="Part III. ASR configuration">
+<link rel="prev" href="pt03.html" title="Part III. ASR configuration">
+<link rel="next" href="pt04.html" title="Part IV. GtkWidgets">
+<meta name="generator" content="GTK-Doc V1.33.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="5"><tr valign="middle">
+<td width="100%" align="left" class="shortcuts">
+<a href="#" class="shortcut">Top</a><span id="nav_description">  <span class="dim">|</span> 
+                  <a href="#PtConfig.description" class="shortcut">Description</a></span><span id="nav_hierarchy">  <span class="dim">|</span> 
+                  <a href="#PtConfig.object-hierarchy" class="shortcut">Object Hierarchy</a></span><span id="nav_properties">  <span class="dim">|</span> 
+                  <a href="#PtConfig.properties" class="shortcut">Properties</a></span>
+</td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
+<td><a accesskey="u" href="pt03.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
+<td><a accesskey="p" href="pt03.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
+<td><a accesskey="n" href="pt04.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
+</tr></table>
+<div class="refentry">
+<a name="PtConfig"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="PtConfig.top_of_page"></a>PtConfig</span></h2>
+<p>PtConfig — Configuration for ASR plugins</p>
+</td>
+<td class="gallery_image" valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsect1">
+<a name="PtConfig.functions"></a><h2>Functions</h2>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="functions_proto_type">
+<col class="functions_proto_name">
+</colgroup>
+<tbody>
+<tr>
+<td class="function_type">
+<a class="link" href="PtConfig.html" title="PtConfig"><span class="returnvalue">PtConfig</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="PtConfig.html#pt-config-new" title="pt_config_new ()">pt_config_new</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="PtConfig.html#pt-config-is-valid" title="pt_config_is_valid ()">pt_config_is_valid</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="PtConfig.html#pt-config-is-installed" title="pt_config_is_installed ()">pt_config_is_installed</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="PtConfig.html#pt-config-apply" title="pt_config_apply ()">pt_config_apply</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../gio/GFile.html#GFile-struct"><span class="returnvalue">GFile</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="PtConfig.html#pt-config-get-file" title="pt_config_get_file ()">pt_config_get_file</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="PtConfig.html#pt-config-set-file" title="pt_config_set_file ()">pt_config_set_file</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="PtConfig.html#pt-config-get-name" title="pt_config_get_name ()">pt_config_get_name</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="PtConfig.html#pt-config-set-name" title="pt_config_set_name ()">pt_config_set_name</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="PtConfig.html#pt-config-get-base-folder" title="pt_config_get_base_folder ()">pt_config_get_base_folder</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="PtConfig.html#pt-config-set-base-folder" title="pt_config_set_base_folder ()">pt_config_set_base_folder</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="PtConfig.html#pt-config-get-plugin" title="pt_config_get_plugin ()">pt_config_get_plugin</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="PtConfig.html#pt-config-get-lang-code" title="pt_config_get_lang_code ()">pt_config_get_lang_code</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="PtConfig.html#pt-config-get-lang-name" title="pt_config_get_lang_name ()">pt_config_get_lang_name</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="PtConfig.html#pt-config-get-key" title="pt_config_get_key ()">pt_config_get_key</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="PtConfig.properties"></a><h2>Properties</h2>
+<div class="informaltable"><table class="informaltable" border="0">
+<colgroup>
+<col width="150px" class="properties_type">
+<col width="300px" class="properties_name">
+<col width="200px" class="properties_flags">
+</colgroup>
+<tbody>
+<tr>
+<td class="property_type">
+<a href="../gio/GFile.html#GFile-struct"><span class="type">GFile</span></a> *</td>
+<td class="property_name"><a class="link" href="PtConfig.html#PtConfig--file" title="The “file” property">file</a></td>
+<td class="property_flags">Read / Write / Construct Only</td>
+</tr>
+<tr>
+<td class="property_type"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a></td>
+<td class="property_name"><a class="link" href="PtConfig.html#PtConfig--is-installed" title="The “is-installed” property">is-installed</a></td>
+<td class="property_flags">Read</td>
+</tr>
+<tr>
+<td class="property_type"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a></td>
+<td class="property_name"><a class="link" href="PtConfig.html#PtConfig--is-valid" title="The “is-valid” property">is-valid</a></td>
+<td class="property_flags">Read</td>
+</tr>
+<tr>
+<td class="property_type">
+<span class="type">char</span> *</td>
+<td class="property_name"><a class="link" href="PtConfig.html#PtConfig--name" title="The “name” property">name</a></td>
+<td class="property_flags">Read</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="PtConfig.other"></a><h2>Types and Values</h2>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="other_proto_type">
+<col class="other_proto_name">
+</colgroup>
+<tbody>
+<tr>
+<td class="datatype_keyword">struct</td>
+<td class="function_name"><a class="link" href="PtConfig.html#PtConfig-struct" title="struct PtConfig">PtConfig</a></td>
+</tr>
+<tr>
+<td class="datatype_keyword">enum</td>
+<td class="function_name"><a class="link" href="PtConfig.html#PtError" title="enum PtError">PtError</a></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="PtConfig.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="screen">    <a href="../gobject/gobject-The-Base-Object-Type.html#GObject-struct">GObject</a>
+    <span class="lineart">╰──</span> PtConfig
+</pre>
+</div>
+<div class="refsect1">
+<a name="PtConfig.includes"></a><h2>Includes</h2>
+<pre class="synopsis">#include &lt;parlatype/pt-config.h&gt;
+</pre>
+</div>
+<div class="refsect1">
+<a name="PtConfig.description"></a><h2>Description</h2>
+<p>A PtConfig represents a configuration for a GStreamer ASR plugin.
+Configuration files are written in .ini-like style. Each file holds one
+configuration that is used to instantiate a PtConfig.</p>
+<p>Its main use is to be applied to a GStreamer plugin.</p>
+<p>PtConfig is used for reading configurations in, not for writing them.
+To add your own configuration, edit it yourself. Learn more about the file
+format in the description of <a href="../glib/glib-Key-value-file-parser.html#GKeyFile"><span class="type">GKeyFile</span></a> in general and in
+<a class="link" href="PtConfig.html#pt-config-is-valid" title="pt_config_is_valid ()"><code class="function">pt_config_is_valid()</code></a> in particular.</p>
+<p>To delete a configuration, get its <a class="link" href="PtConfig.html#PtConfig--file" title="The “file” property"><span class="type">“file”</span></a> property, delete the file
+and unref the config object.</p>
+</div>
+<div class="refsect1">
+<a name="PtConfig.functions_details"></a><h2>Functions</h2>
+<div class="refsect2">
+<a name="pt-config-new"></a><h3>pt_config_new ()</h3>
+<pre class="programlisting"><a class="link" href="PtConfig.html" title="PtConfig"><span class="returnvalue">PtConfig</span></a> *
+pt_config_new (<em class="parameter"><code><a href="../gio/GFile.html#GFile-struct"><span class="type">GFile</span></a> *file</code></em>);</pre>
+<p>Returns a new configuration instance for the given file. The configuration
+is immediately checked for formal validity. This can be queried with
+<a class="link" href="PtConfig.html#pt-config-is-valid" title="pt_config_is_valid ()"><code class="function">pt_config_is_valid()</code></a> or the property <a class="link" href="PtConfig.html#PtConfig--is-valid" title="The “is-valid” property"><span class="type">“is-valid”</span></a>. The property
+doesn’t change anymore.</p>
+<div class="note"><p>
+If the configuration is not valid, all methods are no-operations and
+return FALSE or NULL.
+</p></div>
+<p>After use <a href="../gobject/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a> it.</p>
+<div class="refsect3">
+<a name="pt-config-new.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>file</p></td>
+<td class="parameter_description"><p>a file with configuration settings in .ini-like format. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="NULL must not be passed as the value in, out, in-out; or as a return value."><span class="acronym">not nullable</span></acronym>]</span></td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="pt-config-new.returns"></a><h4>Returns</h4>
+<p>a new <a class="link" href="PtConfig.html" title="PtConfig"><span class="type">PtConfig</span></a>. </p>
+<p><span class="annotation">[<acronym title="The caller owns the data, and is responsible for free it."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+<p class="since">Since: <a class="link" href="api-index-3-0.html#api-index-3.0">3.0</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-config-is-valid"></a><h3>pt_config_is_valid ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+pt_config_is_valid (<em class="parameter"><code><a class="link" href="PtConfig.html" title="PtConfig"><span class="type">PtConfig</span></a> *config</code></em>);</pre>
+<p>Checks if a configuration is formally valid:</p>
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem"><p>
+It has a version string of the form 1.x (major.minor). Major versions higher
+than 1 are not understood by this version of libparlatype. Minor numbers are
+supposed to be compatible and are checked only for existence
+</p></li>
+<li class="listitem"><p>
+It has the following groups: [Model], [Files]. A [Parameters] group is optional.
+</p></li>
+<li class="listitem"><p>
+[Model] has the following keys: Name, Plugin, BaseFolder, Language.
+</p></li>
+<li class="listitem"><p>
+[Files] has at least one key.
+</p></li>
+<li class="listitem"><p>
+All keys have non-empty values, except BaseFolder, which might be empty.
+</p></li>
+</ul></div>
+<p>What is not tested:</p>
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem"><p>
+Optional (URL) or unknown groups or keys
+</p></li>
+<li class="listitem"><p>
+Order of groups and keys.
+</p></li>
+<li class="listitem"><p>
+If BaseFolder is set.
+</p></li>
+<li class="listitem"><p>
+If the language code exists.
+</p></li>
+<li class="listitem"><p>
+If files and paths in [Files] are formally valid (relative paths
+with a slash as separator, e.g. subdir/subdir/file.name)
+</p></li>
+<li class="listitem"><p>
+If files and paths exist on the file system.
+</p></li>
+<li class="listitem"><p>
+If the plugin is installed.
+</p></li>
+<li class="listitem"><p>
+If the plugin supports given parameters.
+</p></li>
+</ul></div>
+<div class="refsect3">
+<a name="pt-config-is-valid.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the configuration to test</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="pt-config-is-valid.returns"></a><h4>Returns</h4>
+<p> TRUE for a formally valid configuration, otherwise FALSE</p>
+</div>
+<p class="since">Since: <a class="link" href="api-index-3-0.html#api-index-3.0">3.0</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-config-is-installed"></a><h3>pt_config_is_installed ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+pt_config_is_installed (<em class="parameter"><code><a class="link" href="PtConfig.html" title="PtConfig"><span class="type">PtConfig</span></a> *config</code></em>);</pre>
+<p>Checks whether the model is installed, that means the base folder exists
+and all files listed in the configuration are located inside the base folder.</p>
+<div class="refsect3">
+<a name="pt-config-is-installed.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>a configuration instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="pt-config-is-installed.returns"></a><h4>Returns</h4>
+<p> TRUE for an installed model, otherwise FALSE</p>
+</div>
+<p class="since">Since: <a class="link" href="api-index-3-0.html#api-index-3.0">3.0</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-config-apply"></a><h3>pt_config_apply ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+pt_config_apply (<em class="parameter"><code><a class="link" href="PtConfig.html" title="PtConfig"><span class="type">PtConfig</span></a> *config</code></em>,
+                 <em class="parameter"><code><a href="../gobject/gobject-The-Base-Object-Type.html#GObject-struct"><span class="type">GObject</span></a> *plugin</code></em>,
+                 <em class="parameter"><code><a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>Applies a configuration to a GStreamer plugin.</p>
+<div class="refsect3">
+<a name="pt-config-apply.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>a configuration instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>plugin</p></td>
+<td class="parameter_description"><p>the GStreamer ASR plugin</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>error</p></td>
+<td class="parameter_description"><p>return location for an error, or NULL. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="NULL may be passed as the value in, out, in-out; or as a return value."><span class="acronym">nullable</span></acronym>]</span></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="pt-config-apply.returns"></a><h4>Returns</h4>
+<p> TRUE on success, FALSE if a parameter could not be set</p>
+</div>
+<p class="since">Since: <a class="link" href="api-index-3-0.html#api-index-3.0">3.0</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-config-get-file"></a><h3>pt_config_get_file ()</h3>
+<pre class="programlisting"><a href="../gio/GFile.html#GFile-struct"><span class="returnvalue">GFile</span></a> *
+pt_config_get_file (<em class="parameter"><code><a class="link" href="PtConfig.html" title="PtConfig"><span class="type">PtConfig</span></a> *config</code></em>);</pre>
+<p>The <a href="../gio/GFile.html#GFile-struct"><span class="type">GFile</span></a> that storing the configuration.</p>
+<div class="refsect3">
+<a name="pt-config-get-file.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>a configuration instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="pt-config-get-file.returns"></a><h4>Returns</h4>
+<p>the file this object is based on. </p>
+<p><span class="annotation">[<acronym title="The data is owned by the callee, which is responsible of freeing it."><span class="acronym">transfer none</span></acronym>]</span></p>
+</div>
+<p class="since">Since: <a class="link" href="api-index-3-0.html#api-index-3.0">3.0</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-config-set-file"></a><h3>pt_config_set_file ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+pt_config_set_file (<em class="parameter"><code><a class="link" href="PtConfig.html" title="PtConfig"><span class="type">PtConfig</span></a> *config</code></em>,
+                    <em class="parameter"><code><a href="../gio/GFile.html#GFile-struct"><span class="type">GFile</span></a> *file</code></em>);</pre>
+<p>Sets a new file, invalidating all fields and reevaluating status.</p>
+<div class="refsect3">
+<a name="pt-config-set-file.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>a configuration instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>file</p></td>
+<td class="parameter_description"><p>the new file</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: <a class="link" href="api-index-3-0.html#api-index-3.0">3.0</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-config-get-name"></a><h3>pt_config_get_name ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+pt_config_get_name (<em class="parameter"><code><a class="link" href="PtConfig.html" title="PtConfig"><span class="type">PtConfig</span></a> *config</code></em>);</pre>
+<p>The human-visible name to identify a configuration.</p>
+<div class="refsect3">
+<a name="pt-config-get-name.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>a configuration instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="pt-config-get-name.returns"></a><h4>Returns</h4>
+<p>the configuration’s name as a string. </p>
+<p><span class="annotation">[<acronym title="The data is owned by the callee, which is responsible of freeing it."><span class="acronym">transfer none</span></acronym>]</span></p>
+</div>
+<p class="since">Since: <a class="link" href="api-index-3-0.html#api-index-3.0">3.0</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-config-set-name"></a><h3>pt_config_set_name ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+pt_config_set_name (<em class="parameter"><code><a class="link" href="PtConfig.html" title="PtConfig"><span class="type">PtConfig</span></a> *config</code></em>,
+                    <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *name</code></em>);</pre>
+<p>Sets the human-visible name of a configuration. It doesn’t have to be
+unique. This saves the new name immediately to the configuration file.</p>
+<div class="refsect3">
+<a name="pt-config-set-name.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>a configuration instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>name</p></td>
+<td class="parameter_description"><p>the new name</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="pt-config-set-name.returns"></a><h4>Returns</h4>
+<p> TRUE on success, otherwise FALSE</p>
+</div>
+<p class="since">Since: <a class="link" href="api-index-3-0.html#api-index-3.0">3.0</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-config-get-base-folder"></a><h3>pt_config_get_base_folder ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+pt_config_get_base_folder (<em class="parameter"><code><a class="link" href="PtConfig.html" title="PtConfig"><span class="type">PtConfig</span></a> *config</code></em>);</pre>
+<p>Gets the configuration’s base folder. If the model is not installed, the
+base folder is not set and the return value is NULL. Another reason for
+returning NULL is an invalid configuration, check <a class="link" href="PtConfig.html#PtConfig--is-valid" title="The “is-valid” property"><span class="type">“is-valid”</span></a> for
+that.</p>
+<div class="refsect3">
+<a name="pt-config-get-base-folder.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>a configuration instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="pt-config-get-base-folder.returns"></a><h4>Returns</h4>
+<p>the configuaration’s base folder as a string or NULL. </p>
+<p><span class="annotation">[<acronym title="The data is owned by the callee, which is responsible of freeing it."><span class="acronym">transfer none</span></acronym>]</span></p>
+</div>
+<p class="since">Since: <a class="link" href="api-index-3-0.html#api-index-3.0">3.0</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-config-set-base-folder"></a><h3>pt_config_set_base_folder ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+pt_config_set_base_folder (<em class="parameter"><code><a class="link" href="PtConfig.html" title="PtConfig"><span class="type">PtConfig</span></a> *config</code></em>,
+                           <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *name</code></em>);</pre>
+<p>Sets the configuration’s base folder.</p>
+<div class="refsect3">
+<a name="pt-config-set-base-folder.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>a configuration instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>name</p></td>
+<td class="parameter_description"><p>the new base folder</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="pt-config-set-base-folder.returns"></a><h4>Returns</h4>
+<p> TRUE on success, otherwise FALSE</p>
+</div>
+<p class="since">Since: <a class="link" href="api-index-3-0.html#api-index-3.0">3.0</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-config-get-plugin"></a><h3>pt_config_get_plugin ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+pt_config_get_plugin (<em class="parameter"><code><a class="link" href="PtConfig.html" title="PtConfig"><span class="type">PtConfig</span></a> *config</code></em>);</pre>
+<p>Gets the name of the GStreamer plugin the configuration is intended for.
+It has to be exactly the string GStreamer uses to instantiate the plugin.</p>
+<div class="refsect3">
+<a name="pt-config-get-plugin.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>a configuration instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="pt-config-get-plugin.returns"></a><h4>Returns</h4>
+<p> the plugin’s name as a string</p>
+</div>
+<p class="since">Since: <a class="link" href="api-index-3-0.html#api-index-3.0">3.0</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-config-get-lang-code"></a><h3>pt_config_get_lang_code ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+pt_config_get_lang_code (<em class="parameter"><code><a class="link" href="PtConfig.html" title="PtConfig"><span class="type">PtConfig</span></a> *config</code></em>);</pre>
+<p>Gets the language the model was made for. It’s the ISO 639-1 code
+(2 letters) if available, otherwise ISO 639-2 (3 letters).</p>
+<div class="refsect3">
+<a name="pt-config-get-lang-code.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>a configuration instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="pt-config-get-lang-code.returns"></a><h4>Returns</h4>
+<p>the language code as a string. </p>
+<p><span class="annotation">[<acronym title="The data is owned by the callee, which is responsible of freeing it."><span class="acronym">transfer none</span></acronym>]</span></p>
+</div>
+<p class="since">Since: <a class="link" href="api-index-3-0.html#api-index-3.0">3.0</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-config-get-lang-name"></a><h3>pt_config_get_lang_name ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+pt_config_get_lang_name (<em class="parameter"><code><a class="link" href="PtConfig.html" title="PtConfig"><span class="type">PtConfig</span></a> *config</code></em>);</pre>
+<p>Gets the localized name of the language the model was made for.</p>
+<div class="refsect3">
+<a name="pt-config-get-lang-name.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>a configuration instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="pt-config-get-lang-name.returns"></a><h4>Returns</h4>
+<p>the language code as a string. </p>
+<p><span class="annotation">[<acronym title="The data is owned by the callee, which is responsible of freeing it."><span class="acronym">transfer none</span></acronym>]</span></p>
+</div>
+<p class="since">Since: <a class="link" href="api-index-3-0.html#api-index-3.0">3.0</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pt-config-get-key"></a><h3>pt_config_get_key ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+pt_config_get_key (<em class="parameter"><code><a class="link" href="PtConfig.html" title="PtConfig"><span class="type">PtConfig</span></a> *config</code></em>,
+                   <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>);</pre>
+<p>Get other optional keys in the [Model] group. All keys are assumed to be
+strings. If the key is not set, NULL is returned.</p>
+<div class="refsect3">
+<a name="pt-config-get-key.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>a configuration instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>key</p></td>
+<td class="parameter_description"><p>the name of a key in the [Model] group</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="pt-config-get-key.returns"></a><h4>Returns</h4>
+<p>the key’s value as a string or NULL. </p>
+<p><span class="annotation">[<acronym title="The caller owns the data, and is responsible for free it."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+<p class="since">Since: <a class="link" href="api-index-3-0.html#api-index-3.0">3.0</a></p>
+</div>
+</div>
+<div class="refsect1">
+<a name="PtConfig.other_details"></a><h2>Types and Values</h2>
+<div class="refsect2">
+<a name="PtConfig-struct"></a><h3>struct PtConfig</h3>
+<pre class="programlisting">struct PtConfig;</pre>
+<p><a class="link" href="PtConfig.html" title="PtConfig"><span class="type">PtConfig</span></a> contains only private fields and should not be directly accessed.</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PtError"></a><h3>enum PtError</h3>
+<p>Error codes for Parlatype in the PT_ERROR domain.</p>
+<div class="refsect3">
+<a name="PtError.members"></a><h4>Members</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="300px" class="enum_members_name">
+<col class="enum_members_description">
+<col width="200px" class="enum_members_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="enum_member_name"><p><a name="PT-ERROR-PLUGIN-MISSING-PROPERTY:CAPS"></a>PT_ERROR_PLUGIN_MISSING_PROPERTY</p></td>
+<td class="enum_member_description">
+<p>The plugin doesn’t have a property.</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+<tr>
+<td class="enum_member_name"><p><a name="PT-ERROR-PLUGIN-NOT-WRITABLE:CAPS"></a>PT_ERROR_PLUGIN_NOT_WRITABLE</p></td>
+<td class="enum_member_description">
+<p>The plugin’s property is not writable.</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+<tr>
+<td class="enum_member_name"><p><a name="PT-ERROR-PLUGIN-WRONG-VALUE:CAPS"></a>PT_ERROR_PLUGIN_WRONG_VALUE</p></td>
+<td class="enum_member_description">
+<p>The value is not valid for the property.</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="refsect1">
+<a name="PtConfig.property-details"></a><h2>Property Details</h2>
+<div class="refsect2">
+<a name="PtConfig--file"></a><h3>The <code class="literal">“file”</code> property</h3>
+<pre class="programlisting">  “file”                     <a href="../gio/GFile.html#GFile-struct"><span class="type">GFile</span></a> *</pre>
+<p>The file that was used to construct the object and contains
+the configuration settings. This property is immutable and the file
+can not be reloaded.</p>
+<p>Owner: PtConfig</p>
+<p>Flags: Read / Write / Construct Only</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PtConfig--is-installed"></a><h3>The <code class="literal">“is-installed”</code> property</h3>
+<pre class="programlisting">  “is-installed”             <a href="../glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a></pre>
+<p>Indicates whether the language model is installed.</p>
+<p>Owner: PtConfig</p>
+<p>Flags: Read</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PtConfig--is-valid"></a><h3>The <code class="literal">“is-valid”</code> property</h3>
+<pre class="programlisting">  “is-valid”                 <a href="../glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a></pre>
+<p>Indicates whether the configuration is formally valid. See
+<a class="link" href="PtConfig.html#pt-config-is-valid" title="pt_config_is_valid ()"><code class="function">pt_config_is_valid()</code></a> for the checks done. This property is available
+from the very beginning and is immutable. You can not recover from
+an invalid state.</p>
+<p>Owner: PtConfig</p>
+<p>Flags: Read</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PtConfig--name"></a><h3>The <code class="literal">“name”</code> property</h3>
+<pre class="programlisting">  “name”                     <span class="type">char</span> *</pre>
+<p>The display name for the model.</p>
+<p>Owner: PtConfig</p>
+<p>Flags: Read</p>
+<p>Default value: NULL</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>Generated by GTK-Doc V1.33.1</div>
+</body>
+</html>
