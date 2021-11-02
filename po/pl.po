@@ -8,17 +8,17 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-18 21:22+0200\n"
-"PO-Revision-Date: 2020-05-10 12:03+0000\n"
+"PO-Revision-Date: 2021-10-23 10:53+0000\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
-"Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2020-05-31 16:44+0000\n"
-"X-Generator: Launchpad (build 275d46a24253e557e4403d52832837e4bfa425b6)\n"
+"X-Launchpad-Export-Date: 2021-11-02 18:32+0000\n"
+"X-Generator: Launchpad (build 5c9d2c413ed946c4f70cb1ddd4149326eda16fc5)\n"
+"Language: pl\n"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:7
 #: data/org.parlatype.Parlatype.desktop.in:4 src/pt-app.c:212
@@ -302,11 +302,11 @@ msgstr ""
 
 #: src/pt-asr-dialog.c:93
 msgid "CMU Pocketsphinx"
-msgstr ""
+msgstr "CMU Pocketsphinx"
 
 #: src/pt-asr-dialog.c:96
 msgid "Mozilla DeepSpeech"
-msgstr ""
+msgstr "Mozilla DeepSpeech"
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
@@ -336,16 +336,15 @@ msgstr "Rozpoznawanie mowy"
 
 #: src/pt-prefs-asr.c:373
 msgid "Failed to read personal configuration files"
-msgstr ""
+msgstr "Odczytanie osobistych plików konfiguracji się nie powiodło"
 
 #: src/pt-prefs-asr.c:415
 msgid "Failed to copy shipped configuration files"
-msgstr ""
+msgstr "Skopiowanie zawartych plików konfiguracji się nie powiodło"
 
 #: src/pt-prefs-asr.c:585
-#, fuzzy
 msgid "Delete language model configuration?"
-msgstr "Usuwanie konfiguracji"
+msgstr "Usunąć konfigurację modelu języka?"
 
 #: src/pt-prefs-asr.c:586
 #, c-format
@@ -354,29 +353,27 @@ msgstr "Na pewno usunąć „%s”?"
 
 #: src/pt-prefs-asr.c:596
 msgid "_Yes"
-msgstr ""
+msgstr "_Tak"
 
 #: src/pt-prefs-asr.c:673 src/pt-prefs-asr.c:727
 msgid "Error"
-msgstr ""
+msgstr "Błąd"
 
 #: src/pt-prefs-asr.c:731
-#, fuzzy
 msgid "The file is not a valid language model configuration."
-msgstr "Katalog zawiera kilka modeli języków."
+msgstr "Plik nie jest prawidłową konfiguracją modelu języka."
 
 #: src/pt-prefs-asr.c:779
-#, fuzzy
 msgid "Import language model configuration"
-msgstr "Nie ma konfiguracji"
+msgstr "Import konfiguracji modelu języka"
 
 #: src/pt-prefs-asr.c:793
 msgid "Parlatype language model configurations"
-msgstr ""
+msgstr "Konfiguracje modeli języków Parlatype"
 
 #: src/pt-prefs-asr.c:844
 msgid "Failed to create personal configuration folder"
-msgstr ""
+msgstr "Utworzenie katalogu osobistej konfiguracji się nie powiodło"
 
 #: src/pt-window.c:376
 #, c-format
@@ -432,53 +429,49 @@ msgid "General"
 msgstr "Ogólne"
 
 #: src/resources/asr-dialog.ui:44
-#, fuzzy
 msgid "Display Name:"
-msgstr "Wyświetlanie"
+msgstr "Wyświetlana nazwa:"
 
 #: src/resources/asr-dialog.ui:56
-#, fuzzy
 msgid "Language:"
-msgstr "Model języka:"
+msgstr "Język:"
 
 #: src/resources/asr-dialog.ui:68
-#, fuzzy
 msgid "Speech Recognition Engine:"
-msgstr "Rozpoznawanie mowy"
+msgstr "Mechanizm rozpoznawania mowy:"
 
 #: src/resources/asr-dialog.ui:80
 msgid "GStreamer Plugin:"
-msgstr ""
+msgstr "Wtyczka GStreamer:"
 
 #: src/resources/asr-dialog.ui:92
 msgid "Publisher:"
-msgstr ""
+msgstr "Wydawca:"
 
 #: src/resources/asr-dialog.ui:104
 msgid "License:"
-msgstr ""
+msgstr "Licencja:"
 
 #: src/resources/asr-dialog.ui:213
 msgid "Installation"
-msgstr ""
+msgstr "Instalacja"
 
 #. Points to a download location
 #: src/resources/asr-dialog.ui:236 src/resources/asr-dialog.ui:286
-#, fuzzy
 msgid "Download:"
-msgstr "Pobieranie modelu"
+msgstr "Pobieranie:"
 
 #: src/resources/asr-dialog.ui:260
 msgid "Installed:"
-msgstr ""
+msgstr "Zainstalowano:"
 
 #: src/resources/asr-dialog.ui:310
 msgid "Instructions:"
-msgstr ""
+msgstr "Instrukcje:"
 
 #: src/resources/asr-dialog.ui:322
 msgid "Download, unzip to a folder and select that folder."
-msgstr ""
+msgstr "Proszę pobrać, rozpakować do katalogu i wybrać ten katalog."
 
 #: src/resources/goto-dialog.ui:13 src/resources/menus.ui:34
 msgid "Go to…"
@@ -724,27 +717,24 @@ msgid "Window"
 msgstr "Okno"
 
 #: src/resources/prefs-asr.ui:40
-#, fuzzy
 msgid "Language model configurations"
-msgstr "Model języka"
+msgstr "Konfiguracje modeli języków"
 
 #: src/resources/prefs-asr.ui:57
 msgid "Installed"
-msgstr ""
+msgstr "Zainstalowano"
 
 #: src/resources/prefs-asr.ui:58
 msgid "Supported"
-msgstr ""
+msgstr "Obsługiwane"
 
 #: src/resources/prefs-asr.ui:59
-#, fuzzy
 msgid "All models"
-msgstr "Wszystkie pliki"
+msgstr "Wszystkie modele"
 
 #: src/resources/prefs-asr.ui:121
-#, fuzzy
 msgid "Import a language model configuration"
-msgstr "Nie ma konfiguracji"
+msgstr "Importuje konfigurację modelu języka"
 
 #: src/resources/prefs-asr.ui:228
 msgid "There is no configuration"
@@ -756,7 +746,7 @@ msgstr "Dodaj konfigurację"
 
 #: src/resources/prefs-asr.ui:306
 msgid "No results in this view"
-msgstr ""
+msgstr "Brak wyników w tym widoku"
 
 #: src/resources/window.ui:48
 msgid "Open a file"
@@ -769,160 +759,3 @@ msgstr "_Odtwórz"
 #: src/resources/window.ui:294
 msgid "Speed:"
 msgstr "Prędkość:"
-
-#, fuzzy
-#~ msgid "Remove this configuration"
-#~ msgstr "Usuwanie konfiguracji"
-
-#, fuzzy
-#~ msgid "Setup this configuration"
-#~ msgstr "Usuwanie konfiguracji"
-
-#~ msgid "org.parlatype.Parlatype"
-#~ msgstr "org.parlatype.Parlatype"
-
-#~ msgid "Enable automatic speech recognition"
-#~ msgstr "Włącza automatyczne rozpoznawanie mowy"
-
-#~ msgid "Use internal textpad for automatic speech recognition"
-#~ msgstr ""
-#~ "Używa wewnętrznego pola tekstowego do automatycznego rozpoznawania mowy"
-
-#~ msgid "The folder contains no acoustic model."
-#~ msgstr "Katalog nie zawiera modelu akustycznego."
-
-#~ msgid "Please select …"
-#~ msgstr "Proszę wybrać…"
-
-#~ msgid "Missing parameters"
-#~ msgstr "Brak parametrów"
-
-#~ msgid "Timed out"
-#~ msgstr "Przekroczono czas odpowiedzi"
-
-#~ msgid ""
-#~ "Scanning the folder took too long. Please make sure to open a folder with "
-#~ "model data only."
-#~ msgstr ""
-#~ "Skanowanie katalogu trwało za długo. Proszę się upewnić, że otwierany "
-#~ "jest katalog tylko z danymi modelu."
-
-#~ msgid "Scanning the folder failed"
-#~ msgstr "Skanowanie katalogu się nie powiodło"
-
-#~ msgid "Nothing found"
-#~ msgstr "Nic nie odnaleziono"
-
-#~ msgid "This folder doesn’t contain a suitable model."
-#~ msgstr "Ten katalog nie zawiera odpowiedniego modelu."
-
-#~ msgid ""
-#~ "The folder contains no language model. Please choose a language model "
-#~ "from another folder."
-#~ msgstr ""
-#~ "Katalog nie zawiera modelu języka. Proszę wybrać model języka z innego "
-#~ "katalogu."
-
-#~ msgid ""
-#~ "The folder contains no dictionary. Please choose a dictionary from "
-#~ "another folder."
-#~ msgstr ""
-#~ "Katalog nie zawiera słownika. Proszę wybrać słownik z innego katalogu."
-
-#~ msgid "The folder contains several dictionaries."
-#~ msgstr "Katalog zawiera kilka słowników."
-
-#~ msgid ""
-#~ "The folder contains no acoustic model. Please choose an acoustic model "
-#~ "from another folder."
-#~ msgstr ""
-#~ "Katalog nie zawiera modelu akustycznego. Proszę wybrać model akustyczny "
-#~ "z innego katalogu."
-
-#~ msgid "The folder contains several acoustic models."
-#~ msgstr "Katalog zawiera kilka modeli akustycznych."
-
-#~ msgid "Finish configuration"
-#~ msgstr "Kończenie konfiguracji"
-
-#~ msgid "Select output for automatic speech recognition"
-#~ msgstr "Wybór wyjścia do automatycznego rozpoznawania mowy"
-
-#~ msgid "Please open and switch focus to a word processor."
-#~ msgstr "Proszę otworzyć i aktywować procesor tekstu."
-
-#, c-format
-#~ msgid "Found %s"
-#~ msgstr "Odnaleziono %s"
-
-#~ msgid "Press “Play” to start automatic speech recognition."
-#~ msgstr "Kliknięcie „Odtwórz” rozpocznie automatyczne rozpoznawanie mowy"
-
-#, c-format
-#~ msgid ""
-#~ "Parlatype needs GStreamer 1.x to run. Please check your installation of "
-#~ "GStreamer and make sure you have the “Good Plugins” installed.\n"
-#~ "Parlatype will quit now, it received this error message: %s"
-#~ msgstr ""
-#~ "Parlatype wymaga biblioteki GStreamer 1.x do działania. Proszę sprawdzić "
-#~ "poprawność instalacji biblioteki GStreamer i upewnić się, że „Dobre "
-#~ "wtyczki” są zainstalowane.\n"
-#~ "Działanie Parlatype zostanie teraz zakończone. Otrzymano ten komunikat "
-#~ "o błędzie: %s"
-
-#~ msgid "Fatal error"
-#~ msgstr "Błąd krytyczny"
-
-#~ msgid ""
-#~ "Before you can start, you have to download a so called acoustic and "
-#~ "language model. This is a set of files made for a specific language."
-#~ msgstr ""
-#~ "Przed rozpoczęciem należy pobrać tak zwany model akustyczny i model "
-#~ "języka. Jest to zestaw plików dla konkretnego języka."
-
-#~ msgid ""
-#~ "Parlatype uses CMU Sphinx as its speech recognition engine. You can "
-#~ "download models suitable for CMU Sphinx for example from <a href="
-#~ "\"https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and"
-#~ "%20Language%20Models/\">CMU Sphinx’ sourceforge repository</a>. It has "
-#~ "models for some of the most widespread languages."
-#~ msgstr ""
-#~ "Parlatype używa CMU Sphinx jako mechanizm rozpoznawania mowy. Można "
-#~ "pobrać modele odpowiednie dla mechanizmu CMU Sphinx na przykład z <a href="
-#~ "\"https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and"
-#~ "%20Language%20Models/\">repozytorium SourceForge projektu CMU Sphinx</a>. "
-#~ "Są w nim modele dla wielu najczęściej używanych języków."
-
-#~ msgid ""
-#~ "If it’s compressed, uncompress the model. Save it to a folder where it "
-#~ "can stay. Parlatype doesn’t copy the model internally."
-#~ msgstr ""
-#~ "Jeśli model jest skompresowany, to należy go zdekompresować do katalogu, "
-#~ "w którym może zostać. Parlatype nie przechowuje wewnętrznej kopii modelu."
-
-#~ msgid "When you are finished, specify the folder with the model:"
-#~ msgstr "Po ukończeniu należy podać katalog z modelem:"
-
-#~ msgid "Select language model"
-#~ msgstr "Wybierz model języka"
-
-#~ msgid "Dictionary"
-#~ msgstr "Słownik"
-
-#~ msgid "Select dictionary"
-#~ msgstr "Wybierz słownik"
-
-#~ msgid "Acoustic model"
-#~ msgstr "Model akustyczny"
-
-#~ msgid "Select acoustic model folder"
-#~ msgstr "Wybierz katalog z modelem akustycznym"
-
-#~ msgid "Setup is completed. Please give this configuration a name:"
-#~ msgstr "Ukończono konfigurację. Proszę nadać jej nazwę:"
-
-#~ msgid "Dictionary:"
-#~ msgstr "Słownik:"
-
-#~ msgid "Acoustic model folder:"
-#~ msgstr "Katalog z modelem akustycznym:"
