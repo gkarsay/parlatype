@@ -18,6 +18,7 @@ endif
 
 with_pocketsphinx = get_option('pocketsphinx')
 with_deepspeech   = get_option('deepspeech')
+with_asr = with_pocketsphinx or with_deepspeech
 
 prefix     = get_option('prefix')
 bindir     = join_paths(prefix, get_option('bindir'))
@@ -36,6 +37,7 @@ conf.set_quoted('PACKAGE_NAME', meson.project_name())
 conf.set_quoted('PACKAGE_URL', 'https://www.parlatype.org')
 conf.set_quoted('APP_ID', app_id)
 conf.set_quoted('ASR_DIR', join_paths(datadir, meson.project_name(), 'asr'))
+conf.set('HAVE_ASR', with_asr)
 conf_input = configure_file(output: 'config.h.in', configuration: conf)
 conf_inc = include_directories('.', 'libparlatype/src')
 

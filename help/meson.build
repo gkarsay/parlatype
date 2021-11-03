@@ -1,8 +1,4 @@
 media = [
-	'figures/asr-setup-initial.png',
-	'figures/asr-setup-downloadable.png',
-	'figures/asr-setup-details.png',
-	'figures/asr-switch-to-asr.png',
 	'figures/parlatype-icon.png',
 	'figures/parlatype-prefs-asr.png',
 	'figures/parlatype-prefs-controls.png',
@@ -31,7 +27,13 @@ sources = [
 	'timestamps.page',
 ]
 
-if with_pocketsphinx or with_deepspeech
+if with_asr
+	media += [
+		'figures/asr-setup-initial.png',
+		'figures/asr-setup-downloadable.png',
+		'figures/asr-setup-details.png',
+		'figures/asr-switch-to-asr.png',
+	]
 	sources += [
 		'asr.page',
 		'asr-setup.page',

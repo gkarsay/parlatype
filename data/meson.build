@@ -1,9 +1,11 @@
 subdir('icons')
 
-install_subdir(
-	'asr',
-	install_dir: join_paths(datadir, meson.project_name())
-)
+if with_asr
+	install_subdir(
+		'asr',
+		install_dir: join_paths(datadir, meson.project_name())
+	)
+endif
 
 desktop_file = app_id + '.desktop'
 i18n.merge_file(

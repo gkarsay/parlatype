@@ -179,9 +179,6 @@ setup_non_wayland_env (PtPreferencesDialog *dlg)
 static void
 pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 {
-	GtkWidget *asr_page;
-	GtkWidget *asr_label;
-
 	dlg->priv = pt_preferences_dialog_get_instance_private (dlg);
 	dlg->priv->editor = g_settings_new (APP_ID);
 	dlg->priv->player = pt_player_new ();
@@ -301,10 +298,14 @@ pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 	g_free (delimiter);
 	g_free (sep);
 
+#ifdef HAVE_ASR
+	GtkWidget *asr_page;
+	GtkWidget *asr_label;
 	asr_page  = pt_prefs_asr_new (dlg->priv->editor, dlg->priv->player);
 	asr_label = gtk_label_new (_("Speech recognition"));
 	gtk_notebook_insert_page (GTK_NOTEBOOK (dlg->priv->notebook),
 	                          asr_page, asr_label, 3);
+#endif
 }
 
 static void
