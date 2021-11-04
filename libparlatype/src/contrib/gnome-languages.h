@@ -30,20 +30,11 @@ G_BEGIN_DECLS
 
 char *        gnome_get_language_from_locale    (const char *locale,
                                                  const char *translation);
-char *        gnome_get_country_from_locale     (const char *locale,
-                                                 const char *translation);
-char **       gnome_get_all_locales             (void);
 gboolean      gnome_parse_locale                (const char *locale,
                                                  char      **language_codep,
                                                  char      **country_codep,
                                                  char      **codesetp,
                                                  char      **modifierp);
-char *        gnome_normalize_locale            (const char *locale);
-gboolean      gnome_language_has_translations   (const char *code);
-char *        gnome_get_language_from_code      (const char *code,
-                                                 const char *translation);
-char *        gnome_get_country_from_code       (const char *code,
-                                                 const char *translation);
 
 G_END_DECLS
 
