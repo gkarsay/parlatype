@@ -18,7 +18,7 @@
 #include "config.h"
 #include <windows.h>
 #include <gtk/gtk.h>
-#include <pt-player.h>
+#include <parlatype.h>
 #include "pt-window.h"
 #include "pt-win32-helpers.h"
 #include "pt-win32-pipe.h"
