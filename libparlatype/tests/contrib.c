@@ -16,11 +16,12 @@
 
 
 #include <glib.h>
+#include <locale.h>
 #include "contrib/gnome-languages.h"
 
 
 static void
-gnome_languages (void)
+gnome_languages_c (void)
 {
 	/* Existing ISO 639 language code */
 	gchar *result = NULL;
@@ -78,12 +79,47 @@ gnome_languages (void)
 	g_assert_null (result);
 }
 
+static void
+gnome_languages_de (void)
+{
+	/* Existing ISO 639 language code */
+	gchar *result = NULL;
+	result = gnome_get_language_from_locale ("de", NULL);
+	g_assert_nonnull (result);
+	g_assert_cmpstr (result, ==, "Deutsch");
+	g_free (result);
+
+	/* Existing ISO 639 language code + existing ISO 3166 territory code */
+	result = NULL;
+	result = gnome_get_language_from_locale ("de_AT", NULL);
+	g_assert_nonnull (result);
+	g_assert_cmpstr (result, ==, "Deutsch (Österreich)");
+	g_free (result);
+
+	/* Existing ISO 639-3 language code */
+	/* TODO This seems to be a bug, investigate and report upstream */
+	/*result = NULL;
+	result = gnome_get_language_from_locale ("gsw", NULL);
+	g_assert_nonnull (result);
+	g_assert_cmpstr (result, ==, "Deutsch, Schweiz");
+	g_free (result);*/
+}
+
 int
 main (int argc, char *argv[])
 {
+
+	const gchar* language = g_getenv ("LANGUAGE");
+
+	setlocale (LC_ALL, "");
+
 	g_test_init (&argc, &argv, NULL);
 
-	g_test_add_func ("/contrib/gnome-languages", gnome_languages);
+	if (g_strcmp0 (language, "C") == 0)
+		g_test_add_func ("/contrib/gnome-languages-c", gnome_languages_c);
+
+	if (g_strcmp0 (language, "de") == 0)
+		g_test_add_func ("/contrib/gnome-languages-de", gnome_languages_de);
 
 	return g_test_run ();
 }

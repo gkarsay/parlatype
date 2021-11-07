@@ -1,6 +1,5 @@
 tests = [
 	'config',
-	'contrib',
 	'gst',
 	'player',
 	'waveloader',
@@ -39,6 +38,31 @@ asr_config_data = custom_target(
 	input: config_input,
 	output: 'config-test.asr', # actually many more
 )
+
+contrib_sources = [
+	'../src/contrib/gnome-languages.c',
+	'../src/contrib/gnome-languages.h',
+]
+
+contrib_exe = executable(
+	'contrib', 'contrib.c', contrib_sources,
+	install: false,
+	dependencies: [
+		libparlatype_dep,
+	],
+)
+
+locales = [ 'C', 'de' ]
+foreach l: locales
+	test(
+		'contrib', contrib_exe,
+		args: [ '--tap', '-k' ],
+		env: [
+			'LANGUAGE=@0@'.format(l),
+		],
+	)
+endforeach
+
 
 foreach t: tests
 	exe = executable(
