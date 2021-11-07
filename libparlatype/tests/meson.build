@@ -1,5 +1,6 @@
 tests = [
 	'config',
+	'contrib',
 	'gst',
 	'player',
 	'waveloader',
@@ -11,6 +12,8 @@ test_data = [
 ]
 
 extra_sources = [
+	'../src/contrib/gnome-languages.c',
+	'../src/contrib/gnome-languages.h',
 	'../src/gst/gst-helpers.c',
 	'../src/gst/gst-helpers.h',
 	'../src/gst/gstptaudiobin.c',
