@@ -98,11 +98,11 @@ gnome_languages_de (void)
 
 	/* Existing ISO 639-3 language code */
 	/* TODO This seems to be a bug, investigate and report upstream */
-	/*result = NULL;
+	result = NULL;
 	result = gnome_get_language_from_locale ("gsw", NULL);
 	g_assert_nonnull (result);
 	g_assert_cmpstr (result, ==, "Deutsch, Schweiz");
-	g_free (result);*/
+	g_free (result);
 }
 
 int

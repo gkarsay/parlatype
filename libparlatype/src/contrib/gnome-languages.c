@@ -225,7 +225,11 @@ get_translated_language (const char *code,
                         name = g_strdup (_("Unspecified"));
                 } else {
                         g_autofree char *tmp = NULL;
-                        translated_name = dgettext ("iso_639", language);
+                        if (strlen (code) == 2) {
+                                translated_name = dgettext ("iso_639", language);
+                        } else {
+                                translated_name = dgettext ("iso_639_3", language);
+                        }
                         tmp = get_first_item_in_semicolon_list (translated_name);
                         name = capitalize_utf8_string (tmp);
                 }
