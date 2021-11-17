@@ -8,16 +8,17 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-18 21:22+0200\n"
-"PO-Revision-Date: 2021-09-26 22:59+0200\n"
-"Last-Translator: Gabor Karsay <gabor.karsay@gxm.at>\n"
-"Language-Team: Deutsch <>\n"
+"PO-Revision-Date: 2021-11-18 20:53+0000\n"
+"Last-Translator: Gabor Karsay <gabor.karsay@gmx.at>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/parlatype/"
+"parlatype/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.9.1-dev\n"
 "X-Launchpad-Export-Date: 2020-05-31 16:44+0000\n"
-"X-Generator: Gtranslator 3.38.0\n"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:7
 #: data/org.parlatype.Parlatype.desktop.in:4 src/pt-app.c:212
@@ -46,7 +47,7 @@ msgstr "Gabor Karsay"
 msgid "This is a minor release with bug fixes and minor new features."
 msgstr ""
 "Dies ist ein kleiner Release mit Fehlerbehebungen und kleineren neuen "
-"Funktionen"
+"Funktionen."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:48
 msgid ""
@@ -70,7 +71,7 @@ msgstr "Der anfängliche Lautstärkepegel wird von Pulseaudio übernommen."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:51
 msgid "Translation updates for several languages."
-msgstr "Übersetzungsaktualisierungen für mehrere Sprachen"
+msgstr "Übersetzungsaktualisierungen für mehrere Sprachen."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:58
