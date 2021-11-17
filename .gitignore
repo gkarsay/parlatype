@@ -2,7 +2,6 @@
 *.lo
 *.la
 *~
-*.pot
 
 # gnome-builder
 .buildconfig
