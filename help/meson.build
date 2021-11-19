@@ -7,14 +7,6 @@ media = [
 	'figures/parlatype-main-window.png',
 ]
 
-# GNOME icons
-media += [
-	'figures/action-unavailable-symbolic.svg',
-	'figures/emblem-system-symbolic.svg',
-	'figures/folder-download-symbolic.svg',
-	'figures/object-select-symbolic.svg',
-]
-
 sources = [
 	'index.page',
 	'drag-and-drop.page',
@@ -32,6 +24,11 @@ if with_asr
 		'figures/asr-setup-downloadable.png',
 		'figures/asr-setup-details.png',
 		'figures/asr-switch-to-asr.png',
+		# GNOME icons
+		'figures/action-unavailable-symbolic.svg',
+		'figures/emblem-system-symbolic.svg',
+		'figures/folder-download-symbolic.svg',
+		'figures/object-select-symbolic.svg',
 	]
 	sources += [
 		'asr.page',
