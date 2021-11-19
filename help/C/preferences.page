@@ -58,24 +58,6 @@
 </list>
 </section>
 
-<section id="asr">
-<title>Preferences for speech recognition</title>
-
-<note>
-<p>This tab is only visible, if speech recognition is enabled in Parlatype.</p>
-</note>
-
-<media type="image" src="figures/parlatype-prefs-asr.png" style="floatend" />
-
-<p>Here you can choose which language model to use. If you don’t have a language model yet, an assistant will guide you through the process of downloading it. You can have as many language models as you need, they can be added with the <gui>+</gui> button.</p>
-
-<p>To select a model click on its radio button in the list. If you click just on the name, you can see the model’s basic parameters. You could even change them, but that’s not recommended.</p>
-
-<p>The <gui>-</gui> button removes a model from the list. The model’s files however are <em>not</em> deleted, just the model entry is removed.</p>
-
-</section>
-
-
 <section id="window">
 <title>Preferences for the window</title>
 
