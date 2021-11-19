@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2021-10-18 21:35+0200\n"
+"Project-Id-Version: Parlatype 3.0\n"
+"POT-Creation-Date: 2021-11-19 14:24+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -431,41 +431,6 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/preferences.page:62
-msgid "Preferences for speech recognition"
-msgstr ""
-
-#. (itstool) path: note/p
-#: C/preferences.page:65
-msgid "This tab is only visible, if speech recognition is enabled in Parlatype."
-msgstr ""
-
-#. (itstool) path: section/media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/preferences.page:68
-msgctxt "_"
-msgid "external ref='figures/parlatype-prefs-asr.png' md5='6dee1ebd03b65edbb0bff9811d602c10'"
-msgstr ""
-
-#. (itstool) path: section/p
-#: C/preferences.page:70
-msgid "Here you can choose which language model to use. If you don’t have a language model yet, an assistant will guide you through the process of downloading it. You can have as many language models as you need, they can be added with the <gui>+</gui> button."
-msgstr ""
-
-#. (itstool) path: section/p
-#: C/preferences.page:72
-msgid "To select a model click on its radio button in the list. If you click just on the name, you can see the model’s basic parameters. You could even change them, but that’s not recommended."
-msgstr ""
-
-#. (itstool) path: section/p
-#: C/preferences.page:74
-msgid "The <gui>-</gui> button removes a model from the list. The model’s files however are <em>not</em> deleted, just the model entry is removed."
-msgstr ""
-
-#. (itstool) path: section/title
-#: C/preferences.page:80
 msgid "Preferences for the window"
 msgstr ""
 
@@ -474,28 +439,28 @@ msgstr ""
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/preferences.page:82
+#: C/preferences.page:64
 msgctxt "_"
 msgid "external ref='figures/parlatype-prefs-window.png' md5='be540a7e2a351b80f5710048450c0735'"
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/preferences.page:85
+#: C/preferences.page:67
 msgid "Remember size: On start-up <app>Parlatype</app> sets the window size to the size it had the last time."
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/preferences.page:86
+#: C/preferences.page:68
 msgid "Remember position: On start-up <app>Parlatype</app> can position its window where you had it when you closed <app>Parlatype</app> last time."
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/preferences.page:87
+#: C/preferences.page:69
 msgid "Start on top: This will put <app>Parlatype</app> on start-up on top of other windows. This might be useful if you are working with a maximized word processor and still want to see the <app>Parlatype</app> window."
 msgstr ""
 
 #. (itstool) path: note/p
-#: C/preferences.page:91
+#: C/preferences.page:73
 msgid "<gui>Remember position</gui> and <gui>Start on top</gui> are not available on Wayland."
 msgstr ""
 
