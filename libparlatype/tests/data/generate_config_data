@@ -12,6 +12,9 @@ rm "$DEST"/*.asr
 # Copy valid input
 cp "$INPUT" "$DEST"
 
+# Generate config with unknown language (otherwise valid)
+sed 's/^Language=.*$/Language=xxx/g'  "$INPUT" > "$DEST"/unknown-language.asr
+
 # Generate invalid configurations with only one detail changed
 sed '/^Version=/d'                 "$INPUT" > "$DEST"/invalid-missing-key-version.asr
 sed 's/^Version=.*$/Version=/g'    "$INPUT" > "$DEST"/invalid-empty-key-version.asr

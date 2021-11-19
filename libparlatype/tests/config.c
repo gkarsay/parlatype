@@ -138,6 +138,30 @@ main_methods (void)
 	g_free (testpath);
 }
 
+static void
+unknown_language (void)
+{
+	PtConfig *config;
+	GFile    *testfile;
+	gchar    *testpath;
+
+	testpath = g_test_build_filename (G_TEST_BUILT, "unknown-language.asr", NULL);
+	testfile = g_file_new_for_path (testpath);
+	config = pt_config_new (testfile);
+
+	gchar *lang_code, *lang_name;
+
+	lang_code = pt_config_get_lang_code (config);
+	g_assert_cmpstr (lang_code, ==, "xxx");
+
+	lang_name = pt_config_get_lang_name (config);
+	g_assert_cmpstr (lang_name, ==, "xxx");
+
+	g_object_unref (config);
+	g_object_unref (testfile);
+	g_free (testpath);
+}
+
 static int
 check_folder_for_configs (GFile *folder)
 {
@@ -309,6 +333,7 @@ main (int argc, char *argv[])
 
 	g_test_add_func ("/config/construct", construct);
 	g_test_add_func ("/config/main_methods", main_methods);
+	g_test_add_func ("/config/unknown_language", unknown_language);
 	g_test_add_func ("/config/crafted_valid", crafted_valid);
 	g_test_add_func ("/config/dist_valid", dist_valid);
 	g_test_add_func ("/config/apply", apply);

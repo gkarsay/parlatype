@@ -764,6 +764,8 @@ setup_config (PtConfig *config)
 	priv->base_folder  = pt_config_get_string (config, "Model", "BaseFolder");
 	priv->lang_code    = pt_config_get_string (config, "Model", "Language");
 	priv->lang_name    = gnome_get_language_from_locale (config->priv->lang_code, NULL);
+	if (!priv->lang_name)
+		priv->lang_name = g_strdup (priv->lang_code);
 	priv->is_installed = pt_config_verify_install (config);
 }
 
