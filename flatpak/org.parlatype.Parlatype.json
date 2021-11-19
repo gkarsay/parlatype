@@ -407,19 +407,6 @@
             ]
         },
         {
-            "name" : "gnome-desktop",
-            "buildsystem" : "meson",
-            "config-opts" : [
-            ],
-            "sources" : [
-                {
-                    "type" : "archive",
-                    "url" : "https://download.gnome.org/sources/gnome-desktop/40/gnome-desktop-40.0.tar.xz",
-                    "sha256" : "20abfd3f831e4e8092b55839311661dc73b2bf13fc9bef71c4a5a4475da9ee04"
-                }
-            ]
-        },
-        {
             "name" : "parlatype",
             "buildsystem" : "meson",
             "config-opts" : [
