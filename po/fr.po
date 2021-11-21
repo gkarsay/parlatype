@@ -8,16 +8,17 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-18 21:22+0200\n"
-"PO-Revision-Date: 2020-05-31 17:57+0000\n"
-"Last-Translator: Gabor Karsay <gabor.karsay@gmx.at>\n"
-"Language-Team: French <fr@li.org>\n"
+"PO-Revision-Date: 2021-11-22 01:50+0000\n"
+"Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/parlatype/"
+"parlatype/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.10-dev\n"
 "X-Launchpad-Export-Date: 2020-06-18 10:32+0000\n"
-"X-Generator: Launchpad (build 1cbd0aa39df153c901321817f9b57cf3f232b507)\n"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:7
 #: data/org.parlatype.Parlatype.desktop.in:4 src/pt-app.c:212
@@ -310,11 +311,11 @@ msgstr ""
 
 #: src/pt-asr-dialog.c:93
 msgid "CMU Pocketsphinx"
-msgstr ""
+msgstr "CMU Pocketsphinx"
 
 #: src/pt-asr-dialog.c:96
 msgid "Mozilla DeepSpeech"
-msgstr ""
+msgstr "Mozilla DeepSpeech"
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
@@ -343,16 +344,15 @@ msgstr "Reconnaissance de la parole"
 
 #: src/pt-prefs-asr.c:373
 msgid "Failed to read personal configuration files"
-msgstr ""
+msgstr "Échec de la lecture des fichiers de configuration personnels"
 
 #: src/pt-prefs-asr.c:415
 msgid "Failed to copy shipped configuration files"
-msgstr ""
+msgstr "Échec de la copie des fichiers de configuration expédiés"
 
 #: src/pt-prefs-asr.c:585
-#, fuzzy
 msgid "Delete language model configuration?"
-msgstr "Suppression de la configuration"
+msgstr "Supprimer la configuration du modèle de langue ?"
 
 #: src/pt-prefs-asr.c:586
 #, c-format
@@ -361,29 +361,27 @@ msgstr "Voulez-vous vraiment supprimer « %s » ?"
 
 #: src/pt-prefs-asr.c:596
 msgid "_Yes"
-msgstr ""
+msgstr "_Oui"
 
 #: src/pt-prefs-asr.c:673 src/pt-prefs-asr.c:727
 msgid "Error"
-msgstr ""
+msgstr "Erreur"
 
 #: src/pt-prefs-asr.c:731
-#, fuzzy
 msgid "The file is not a valid language model configuration."
-msgstr "Le dossier contient plusieurs modèles de langue."
+msgstr "Le fichier n'est pas une configuration de modèle de langue valide."
 
 #: src/pt-prefs-asr.c:779
-#, fuzzy
 msgid "Import language model configuration"
-msgstr "Il n'y a pas de configuration"
+msgstr "Importer la configuration du modèle de langue"
 
 #: src/pt-prefs-asr.c:793
 msgid "Parlatype language model configurations"
-msgstr ""
+msgstr "Configurations du modèle de langue Parlatype"
 
 #: src/pt-prefs-asr.c:844
 msgid "Failed to create personal configuration folder"
-msgstr ""
+msgstr "Échec de la création du dossier de configuration personnel"
 
 #: src/pt-window.c:376
 #, c-format
@@ -436,57 +434,53 @@ msgid "General"
 msgstr "Général"
 
 #: src/resources/asr-dialog.ui:44
-#, fuzzy
 msgid "Display Name:"
-msgstr "Affichage"
+msgstr "Nom d'affichage :"
 
 #: src/resources/asr-dialog.ui:56
-#, fuzzy
 msgid "Language:"
-msgstr "Modèle de langue :"
+msgstr "Langue :"
 
 #: src/resources/asr-dialog.ui:68
-#, fuzzy
 msgid "Speech Recognition Engine:"
-msgstr "Reconnaissance de la parole"
+msgstr "Moteur de reconnaissance vocale :"
 
 #: src/resources/asr-dialog.ui:80
 msgid "GStreamer Plugin:"
-msgstr ""
+msgstr "Greffon GStreamer :"
 
 #: src/resources/asr-dialog.ui:92
 msgid "Publisher:"
-msgstr ""
+msgstr "Éditeur :"
 
 #: src/resources/asr-dialog.ui:104
 msgid "License:"
-msgstr ""
+msgstr "Licence :"
 
 #: src/resources/asr-dialog.ui:213
 msgid "Installation"
-msgstr ""
+msgstr "Installation"
 
 #. Points to a download location
 #: src/resources/asr-dialog.ui:236 src/resources/asr-dialog.ui:286
-#, fuzzy
 msgid "Download:"
-msgstr "Télécharger le modèle"
+msgstr "Téléchargement :"
 
 #: src/resources/asr-dialog.ui:260
 msgid "Installed:"
-msgstr ""
+msgstr "Installé :"
 
 #: src/resources/asr-dialog.ui:310
 msgid "Instructions:"
-msgstr ""
+msgstr "Instructions :"
 
 #: src/resources/asr-dialog.ui:322
 msgid "Download, unzip to a folder and select that folder."
-msgstr ""
+msgstr "Téléchargez, décompressez dans un dossier et sélectionnez ce dossier."
 
 #: src/resources/goto-dialog.ui:13 src/resources/menus.ui:34
 msgid "Go to…"
-msgstr "Aller à..."
+msgstr "Aller à…"
 
 #: src/resources/goto-dialog.ui:40
 msgid "_OK"
@@ -494,7 +488,7 @@ msgstr "_OK"
 
 #: src/resources/goto-dialog.ui:70
 msgid "Go to position:"
-msgstr "Aller à  la position :"
+msgstr "Aller à la position :"
 
 #: src/resources/help-overlay.ui:20
 msgid "Open a media file"
@@ -728,27 +722,24 @@ msgid "Window"
 msgstr "Fenêtre"
 
 #: src/resources/prefs-asr.ui:40
-#, fuzzy
 msgid "Language model configurations"
-msgstr "Modèle de langue"
+msgstr "Configurations des modèles linguistiques"
 
 #: src/resources/prefs-asr.ui:57
 msgid "Installed"
-msgstr ""
+msgstr "Installé"
 
 #: src/resources/prefs-asr.ui:58
 msgid "Supported"
-msgstr ""
+msgstr "Pris en charge"
 
 #: src/resources/prefs-asr.ui:59
-#, fuzzy
 msgid "All models"
-msgstr "Tous les fichiers"
+msgstr "Tous les modèles"
 
 #: src/resources/prefs-asr.ui:121
-#, fuzzy
 msgid "Import a language model configuration"
-msgstr "Il n'y a pas de configuration"
+msgstr "Importer une configuration de modèle de langue"
 
 #: src/resources/prefs-asr.ui:228
 msgid "There is no configuration"
@@ -760,7 +751,7 @@ msgstr "Ajouter une configuration"
 
 #: src/resources/prefs-asr.ui:306
 msgid "No results in this view"
-msgstr ""
+msgstr "Aucun résultat dans cette vue"
 
 #: src/resources/window.ui:48
 msgid "Open a file"
