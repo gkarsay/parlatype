@@ -8,15 +8,17 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2021-10-18 21:35+0200\n"
-"PO-Revision-Date: 2020-06-18 10:30+0000\n"
-"Last-Translator: Jean-Marc <Unknown>\n"
-"Language-Team: French <fr@li.org>\n"
+"PO-Revision-Date: 2021-11-22 01:50+0000\n"
+"Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/parlatype/"
+"parlatype-help/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.10-dev\n"
 "X-Launchpad-Export-Date: 2020-06-18 10:32+0000\n"
-"X-Generator: Launchpad (build 1cbd0aa39df153c901321817f9b57cf3f232b507)\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -306,7 +308,7 @@ msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:36
 msgid "Play/Pause"
-msgstr "Lecture/Pause"
+msgstr "Lecture/pause"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:37
@@ -366,7 +368,7 @@ msgstr "<keyseq><key>Ctrl</key><key>v</key></keyseq>"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:60
 msgid "Zoom in"
-msgstr "Agrandir"
+msgstr "Zoom avant"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:61
@@ -376,7 +378,7 @@ msgstr "<keyseq><key>Ctrl</key><key>+</key></keyseq>"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:64
 msgid "Zoom out"
-msgstr "Réduire"
+msgstr "Zoom arrière"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:65
