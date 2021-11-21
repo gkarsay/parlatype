@@ -9,16 +9,17 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-18 21:22+0200\n"
-"PO-Revision-Date: 2021-11-01 22:20+0100\n"
-"Last-Translator: Albano Battistella <albano_battistella@hotmail.com>\n"
-"Language-Team: Italian <it@li.org>\n"
+"PO-Revision-Date: 2021-11-22 01:50+0000\n"
+"Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
+"Language-Team: Italian <https://hosted.weblate.org/projects/parlatype/"
+"parlatype/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.10-dev\n"
 "X-Launchpad-Export-Date: 2020-05-31 16:44+0000\n"
-"X-Generator: Launchpad (build 275d46a24253e557e4403d52832837e4bfa425b6)\n"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:7
 #: data/org.parlatype.Parlatype.desktop.in:4 src/pt-app.c:212
@@ -237,9 +238,9 @@ msgid ""
 "Translation updates for Arabic, British English, Catalan, German, Finnish, "
 "French, Japanese, Lithuanian, Polish, Spanish and Swedish"
 msgstr ""
-"Aggiornamenti della traduzione per Arabo, Inglese Britannico, Catalano, "
-"Tedesco, Finlandese, Francese, Giapponese, Lituano, Polacco, Spagnolo e "
-"Svedese"
+"Aggiornamenti della traduzione per l'arabo, l'inglese britannico, il "
+"catalano, il tedesco, il finlandese, il francese, il giapponese, il lituano, "
+"il polacco, lo spagnolo e lo svedese"
 
 #: data/org.parlatype.Parlatype.desktop.in:5
 msgid "Transcription utility"
@@ -255,7 +256,7 @@ msgstr "Mostra la versione dell'applicazione"
 
 #: src/pt-app.c:100
 msgid "Open Audio File"
-msgstr "Aprire File Audio"
+msgstr "Aprire file audio"
 
 #: src/pt-app.c:103 src/pt-prefs-asr.c:782 src/resources/window.ui:43
 msgid "_Open"
@@ -311,11 +312,11 @@ msgstr ""
 
 #: src/pt-asr-dialog.c:93
 msgid "CMU Pocketsphinx"
-msgstr ""
+msgstr "CMU Pocketsphinx"
 
 #: src/pt-asr-dialog.c:96
 msgid "Mozilla DeepSpeech"
-msgstr ""
+msgstr "Mozilla DeepSpeech"
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
@@ -357,11 +358,11 @@ msgstr "Eliminare la configurazione del modello di lingua?"
 #: src/pt-prefs-asr.c:586
 #, c-format
 msgid "Do you really want to delete “%s”?"
-msgstr "Vuoi veramente cancellare \"%s\"?"
+msgstr "Vuoi veramente eliminare «%s»?"
 
 #: src/pt-prefs-asr.c:596
 msgid "_Yes"
-msgstr "_Si"
+msgstr "_Sì"
 
 #: src/pt-prefs-asr.c:673 src/pt-prefs-asr.c:727
 msgid "Error"
@@ -443,7 +444,7 @@ msgstr "Lingua:"
 
 #: src/resources/asr-dialog.ui:68
 msgid "Speech Recognition Engine:"
-msgstr "Motore di Riconoscimento Vocale:"
+msgstr "Motore di riconoscimento vocale:"
 
 #: src/resources/asr-dialog.ui:80
 msgid "GStreamer Plugin:"
