@@ -18,12 +18,6 @@
 #include "config.h"
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#ifdef GDK_WINDOWING_X11
-#include <gdk/gdkx.h>
-#endif
-#ifdef GDK_WINDOWING_WAYLAND
-#include <gdk/gdkwayland.h>
-#endif
 #include <parlatype.h>
 #include "pt-app.h"
 #include "pt-prefs-asr.h"
@@ -54,11 +48,6 @@ struct _PtPreferencesDialogPrivate
 	GtkWidget *label_forward;
 	GtkWidget *repeat_all_checkbox;
 	GtkWidget *repeat_selection_checkbox;
-
-	/* Window tab */
-	GtkWidget *size_check;
-	GtkWidget *pos_check;
-	GtkWidget *top_check;
 
 	/* Timestamps tab */
 	GtkWidget *precision_combo;
@@ -163,20 +152,6 @@ precision_combo_changed (GtkComboBox         *widget,
 }
 
 static void
-setup_non_wayland_env (PtPreferencesDialog *dlg)
-{
-	g_settings_bind (
-		dlg->priv->editor, "remember-position",
-		dlg->priv->pos_check, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	g_settings_bind (
-		dlg->priv->editor, "start-on-top",
-		dlg->priv->top_check, "active",
-		G_SETTINGS_BIND_DEFAULT);
-}
-
-static void
 pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 {
 	dlg->priv = pt_preferences_dialog_get_instance_private (dlg);
@@ -208,28 +183,6 @@ pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 			dlg->priv->editor, "repeat-selection",
 			dlg->priv->repeat_selection_checkbox, "active",
 			G_SETTINGS_BIND_DEFAULT);
-
-	g_settings_bind (
-			dlg->priv->editor, "remember-size",
-			dlg->priv->size_check, "active",
-			G_SETTINGS_BIND_DEFAULT);
-
-#ifdef GDK_WINDOWING_WIN32
-	setup_non_wayland_env (dlg);
-#else
-	GdkDisplay *display;
-	display = gdk_display_get_default ();
-#endif
-#ifdef GDK_WINDOWING_X11
-	if (GDK_IS_X11_DISPLAY (display))
-		setup_non_wayland_env (dlg);
-#endif
-#ifdef GDK_WINDOWING_WAYLAND
-	if (GDK_IS_WAYLAND_DISPLAY (display)) {
-		gtk_widget_hide (dlg->priv->pos_check);
-		gtk_widget_hide (dlg->priv->top_check);
-	}
-#endif
 
 	g_settings_bind (
 			dlg->priv->editor, "show-ruler",
@@ -343,9 +296,6 @@ pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, repeat_all_checkbox);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, repeat_selection_checkbox);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, pps_scale);
-	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, size_check);
-	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, pos_check);
-	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, top_check);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, label_pause);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, label_back);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, label_forward);

@@ -19,9 +19,6 @@
 #include <stdlib.h>		/* exit() */
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#ifdef GDK_WINDOWING_X11
-#include <gdk/gdkx.h>
-#endif
 #include <parlatype.h>
 #include "pt-app.h"
 #include "pt-goto-dialog.h"
@@ -829,19 +826,6 @@ map_milliseconds_to_seconds (const GValue       *value,
 }
 
 static void
-setup_non_wayland_env (PtWindow *win)
-{
-	if (g_settings_get_boolean (win->priv->editor, "start-on-top")) {
-		gtk_window_set_keep_above (GTK_WINDOW (win), TRUE);
-	}
-	if (g_settings_get_boolean (win->priv->editor, "remember-position")) {
-		gtk_window_move (GTK_WINDOW (win),
-				 g_settings_get_int (win->priv->editor, "x-pos"),
-				 g_settings_get_int (win->priv->editor, "y-pos"));
-	}
-}
-
-static void
 setup_settings (PtWindow *win)
 {
 	win->priv->editor = g_settings_new (APP_ID);
@@ -932,22 +916,9 @@ setup_settings (PtWindow *win)
 	   - Save last known speed in metadata for each file */
 	win->priv->speed = 1.0;
 
-	if (g_settings_get_boolean (win->priv->editor, "remember-size")) {
-		gtk_window_set_default_size (GTK_WINDOW (win),
-				   g_settings_get_int (win->priv->editor, "width"),
-				   g_settings_get_int (win->priv->editor, "height"));
-	}
-
-#ifdef GDK_WINDOWING_X11
-	GdkDisplay *display;
-	display = gdk_display_get_default ();
-	if (GDK_IS_X11_DISPLAY (display))
-		setup_non_wayland_env (win);
-#endif
-
-#ifdef GDK_WINDOWING_WIN32
-	setup_non_wayland_env (win);
-#endif
+	gtk_window_set_default_size (GTK_WINDOW (win),
+			   g_settings_get_int (win->priv->editor, "width"),
+			   g_settings_get_int (win->priv->editor, "height"));
 }
 
 static void

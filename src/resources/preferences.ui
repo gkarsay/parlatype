@@ -581,63 +581,6 @@
                 </property>
               </object>
             </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <object class="GtkNotebookPage">
-                <property name="position">4</property>
-                <property name="child">
-                  <object class="GtkGrid" id="grid2">
-                    <property name="margin_top">12</property>
-                    <property name="margin_bottom">12</property>
-                    <property name="row_spacing">6</property>
-                    <property name="column_spacing">6</property>
-                    <child>
-                      <object class="GtkCheckButton" id="size_check">
-                        <property name="label" translatable="yes">Remember _size</property>
-                        <property name="focusable">1</property>
-                        <property name="halign">start</property>
-                        <property name="use_underline">1</property>
-                        <layout>
-                          <property name="column">0</property>
-                          <property name="row">0</property>
-                        </layout>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkCheckButton" id="pos_check">
-                        <property name="label" translatable="yes">Remember _position</property>
-                        <property name="focusable">1</property>
-                        <property name="halign">start</property>
-                        <property name="use_underline">1</property>
-                        <layout>
-                          <property name="column">0</property>
-                          <property name="row">1</property>
-                        </layout>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkCheckButton" id="top_check">
-                        <property name="label" translatable="yes">Start on _top</property>
-                        <property name="focusable">1</property>
-                        <property name="halign">start</property>
-                        <property name="use_underline">1</property>
-                        <layout>
-                          <property name="column">0</property>
-                          <property name="row">2</property>
-                        </layout>
-                      </object>
-                    </child>
-                  </object>
-                </property>
-                <property name="tab">
-                  <object class="GtkLabel" id="label8">
-                    <property name="label" translatable="yes">Window</property>
-                  </object>
-                </property>
-              </object>
-            </child>
           </object>
         </child>
       </object>
