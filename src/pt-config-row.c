@@ -84,8 +84,7 @@ set_status_image (PtConfigRow *row)
 		icon = "object-select-symbolic";
 
 	if (icon)
-		gtk_image_set_from_icon_name (status, icon,
-		                              GTK_ICON_SIZE_BUTTON);
+		gtk_image_set_from_icon_name (status, icon);
 	else
 		gtk_image_clear (status);
 }
