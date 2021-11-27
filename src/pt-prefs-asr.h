@@ -40,6 +40,10 @@ struct _PtPrefsAsrClass
 	GtkBoxClass parent_class;
 };
 
+typedef void    (*GtkCallback)     (GtkWidget        *widget,
+				    gpointer          data);
+
+
 
 GType		pt_prefs_asr_get_type	(void) G_GNUC_CONST;
 

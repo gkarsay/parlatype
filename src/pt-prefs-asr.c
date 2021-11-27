@@ -82,13 +82,28 @@ set_active_row (GtkWidget *widget,
 }
 
 static void
+box_foreach (GtkWidget   *box,
+	     GtkCallback  callback,
+	     gpointer     callback_data)
+{
+	GtkWidget *child;
+
+	for (child = gtk_widget_get_first_child (box);
+	     child != NULL;
+	     child = gtk_widget_get_next_sibling (child)) {
+
+		callback(box, callback_data);
+	}
+}
+
+static void
 config_activated (GObject    *object,
                   GParamSpec *spec,
                   gpointer    user_data)
 {
 	PtPrefsAsr   *page = PT_PREFS_ASR (user_data);
 	PtConfigRow  *row  = PT_CONFIG_ROW (object);
-	GtkContainer *box  = GTK_CONTAINER (page->priv->asr_list);
+	GtkWidget    *box  = page->priv->asr_list;
 	PtConfig *config;
 	GFile    *file;
 	gchar    *path;
@@ -98,20 +113,20 @@ config_activated (GObject    *object,
 	/* Only one row can be active, so set all others to inactive.
 	 * Setting another row inactive would emit a signal and the whole
 	 * procedure would start again, so block all signals for now. */
-	gtk_container_foreach (box, block_rows, page);
+	box_foreach (box, block_rows, page);
 
 	if (pt_config_row_get_active (row)) {
 		file = pt_config_get_file (config);
 		path = g_file_get_path (file);
 		g_settings_set_string (page->priv->editor, "asr-config", path);
 		g_free (path);
-		gtk_container_foreach (box, set_active_row, row);
+		box_foreach (box, set_active_row, row);
 	} else {
 		g_settings_set_string (page->priv->editor, "asr-config", "");
-		gtk_container_foreach (box, set_active_row, NULL);
+		box_foreach (box, set_active_row, NULL);
 	}
 
-	gtk_container_foreach (box, unblock_rows, page);
+	box_foreach (box, unblock_rows, page);
 
 	g_object_unref (config);
 }
@@ -138,23 +153,21 @@ asr_list_row_activated (GtkListBox    *box,
 }
 
 static void
-asr_list_changed_cb (GtkContainer *asr_list,
+asr_list_changed_cb (GtkListBox   *asr_list,
                      GtkWidget    *row,
                      gpointer      user_data)
 {
 	PtPrefsAsr *page = PT_PREFS_ASR (user_data);
-	GList *children;
+	GtkWidget *child;
 
-	children = gtk_container_get_children (asr_list);
-	if (children) {
+	child = gtk_widget_get_first_child (GTK_WIDGET (asr_list));
+	if (child) {
 		gtk_widget_show (page->priv->asr_ready_box);
 		gtk_widget_hide (page->priv->asr_initial_box);
 	} else {
 		gtk_widget_hide (page->priv->asr_ready_box);
 		gtk_widget_show (page->priv->asr_initial_box);
 	}
-
-	g_list_free (children);
 }
 
 static int
@@ -305,7 +318,7 @@ asr_setup_config_box (PtPrefsAsr *page)
 	gchar    *active_asr;
 	gboolean  active_found = FALSE;
 	int       num_valid = 0;
-	GtkContainer *asr_list = GTK_CONTAINER (page->priv->asr_list);
+	GtkListBox *asr_list = GTK_LIST_BOX (page->priv->asr_list);
 
 	active_asr = g_settings_get_string (page->priv->editor, "asr-config");
 	if (g_strcmp0 (active_asr, "") == 0) {
@@ -334,7 +347,7 @@ asr_setup_config_box (PtPrefsAsr *page)
 				row = pt_config_row_new (config);
 				pt_config_row_set_supported (row, pt_player_config_is_loadable (page->priv->player, config));
 				gtk_widget_show (GTK_WIDGET (row));
-				gtk_container_add (asr_list, GTK_WIDGET (row));
+				gtk_list_box_append (asr_list, GTK_WIDGET (row));
 				if (active_asr && g_strcmp0 (active_asr, path) == 0) {
 					pt_config_row_set_active (row, TRUE);
 					active_found = TRUE;
@@ -355,12 +368,12 @@ asr_setup_config_box (PtPrefsAsr *page)
 	g_clear_object (&files);
 	g_free (active_asr);
 
-	gtk_list_box_set_filter_func (GTK_LIST_BOX (asr_list),
+	gtk_list_box_set_filter_func (asr_list,
                               filter_asr_list,
                               page,
                               NULL);
 
-	gtk_list_box_set_sort_func (GTK_LIST_BOX (asr_list),
+	gtk_list_box_set_sort_func (asr_list,
                               sort_asr_list,
                               NULL,
                               NULL);
@@ -659,7 +672,7 @@ import_copy_ready_cb (GObject      *source_object,
 		row = pt_config_row_new (config);
 		pt_config_row_set_supported (row, pt_player_config_is_loadable (page->priv->player, config));
 		gtk_widget_show (GTK_WIDGET (row));
-		gtk_container_add (GTK_CONTAINER (page->priv->asr_list), GTK_WIDGET (row));
+		gtk_list_box_append (GTK_LIST_BOX (page->priv->asr_list), GTK_WIDGET (row));
 		g_signal_connect (row, "notify::active", G_CALLBACK (config_activated), page);
 	} else {
 		parent = gtk_widget_get_ancestor (GTK_WIDGET (page),
