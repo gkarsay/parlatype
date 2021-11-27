@@ -943,7 +943,7 @@ setup_settings (PtWindow *win)
 	win->priv->speed = 1.0;
 
 	if (g_settings_get_boolean (win->priv->editor, "remember-size")) {
-		gtk_window_resize (GTK_WINDOW (win),
+		gtk_window_set_default_size (GTK_WINDOW (win),
 				   g_settings_get_int (win->priv->editor, "width"),
 				   g_settings_get_int (win->priv->editor, "height"));
 	}
