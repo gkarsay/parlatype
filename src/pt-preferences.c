@@ -126,7 +126,7 @@ hours_check_toggled (GtkToggleButton     *check,
 {
 	g_settings_set_boolean (
 			dlg->priv->editor, "timestamp-fixed",
-			gtk_toggle_button_get_active (check));
+			gtk_check_button_get_active (GTK_CHECK_BUTTON (check)));
 	update_example_timestamps (dlg);
 }
 
@@ -294,7 +294,7 @@ pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 		precision = 1;
 	gtk_combo_box_set_active (GTK_COMBO_BOX (dlg->priv->precision_combo), precision);
 	gboolean fixed = g_settings_get_boolean (dlg->priv->editor, "timestamp-fixed");
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dlg->priv->hours_check), fixed);
+	gtk_check_button_set_active (GTK_CHECK_BUTTON (dlg->priv->hours_check), fixed);
 	g_free (delimiter);
 	g_free (sep);
 
