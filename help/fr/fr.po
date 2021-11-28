@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2021-10-18 21:35+0200\n"
-"PO-Revision-Date: 2021-11-22 01:50+0000\n"
-"Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
+"PO-Revision-Date: 2021-11-28 22:54+0000\n"
+"Last-Translator: Walter Paulo <polo@tictips.net>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/parlatype/"
 "parlatype-help/fr/>\n"
 "Language: fr\n"
@@ -897,24 +897,30 @@ msgid ""
 "your computer. No data is sent over the network."
 msgstr ""
 "<app>Parlatype</app> offre une reconnaissance automatique de la parole "
-"depuis votre ordinateur. Aucune donnée n'est envoyée sur le réseau. Gardez à "
-"l'esprit que la transcription automatique est loin d'être parfaite, elle "
-"nécessitera <em>toujours</em> des corrections manuelles."
+"depuis votre ordinateur. Aucune donnée n'est envoyée sur le réseau."
 
 #. (itstool) path: note/p
 #: C/asr.page:20
+#, fuzzy
 msgid ""
 "<app>Parlatype</app> must have been built with <app>PocketSphinx</app> or "
 "<app>Mozilla DeepSpeech</app>. Please note that those libraries might be not "
 "available on your platform."
 msgstr ""
+"<app>Parlatype</app> doit avoir été compilé avec <app>PocketSphinx</app> ou "
+"<app>Mozilla DeepSpeech</app>. Veuillez noter que ces bibliothèques sont "
+"susceptibles d'être indisponibles pour votre plate-forme."
 
 #. (itstool) path: note/p
 #: C/asr.page:25
+#, fuzzy
 msgid ""
 "<app>Parlatype</app> has no built-in text editor. You need the Parlatype "
 "Extension for <app>LibreOffice</app> to output recognized text."
 msgstr ""
+"<app>Parlatype</app> ne dispose pas d'un éditeur de texte interne. "
+"L'extension Parlatype pour <app>LibreOffice</app> est nécessaire pour "
+"récupérer le texte reconnu."
 
 #. (itstool) path: section/title
 #: C/asr.page:30
@@ -927,13 +933,20 @@ msgid ""
 "Select a language model in the Preferences Dialog, <gui>Speech recognition</"
 "gui> tab, see <link xref=\"asr-setup\"/> for more details."
 msgstr ""
+"Sélectionner un modèle de langue dans l'onglet <gui>Reconnaissance de la "
+"parole</gui> de la boîte de dialogue Préférences de Parlatype, voir <link "
+"xref=\"asr-setup\"/> pour plus de détails."
 
 #. (itstool) path: section/p
 #: C/asr.page:35
+#, fuzzy
 msgid ""
 "Open the primary menu and click on <gui>Automatic transcription</gui>. This "
 "is only available, if you have setup and chosen a language model."
 msgstr ""
+"Ouvrir le menu hamburger et cliquer sur  <gui>Transcription automatique</"
+"gui>. L'option est uniquement disponible si un modèle de langue a été "
+"configuré et sélectionné."
 
 #. (itstool) path: section/media
 #. This is a reference to an external file such as an image or video. When
@@ -960,9 +973,10 @@ msgid ""
 "machine and may be slower or faster than real-time speech."
 msgstr ""
 "Appuyez maintenant sur <gui>Lecture</gui> dans <app>Parlatype</app> et le "
-"discours reconnu sera imprimé dans cette fenêtre. La sortie est silencieuse "
-"car la vitesse dépend de la puissance de votre appareil et peut être plus "
-"lente ou plus rapide que la parole en temps réel."
+"discours reconnu sera inséré dans <app>LibreOffice</app> si l'extension "
+"Parlatype est installée. La sortie est silencieuse, car la vitesse de "
+"décodage dépend de la puissance d e votre ordinateur et peut être plus lente "
+"ou plus rapide que la parole en temps réel."
 
 #. (itstool) path: section/p
 #: C/asr.page:45
