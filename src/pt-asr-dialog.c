@@ -141,7 +141,7 @@ pt_asr_dialog_set_config (PtAsrDialog *dlg,
 		gtk_button_set_label (GTK_BUTTON (dlg->priv->url1_button), str);
 
 		/* Ellipsize label: This works only after gtk_button_set_label() */
-		label = gtk_bin_get_child (GTK_BIN (dlg->priv->url1_button));
+		label = gtk_widget_get_first_child (dlg->priv->url1_button);
 		gtk_label_set_ellipsize (GTK_LABEL (label), PANGO_ELLIPSIZE_END);
 	} else {
 		gtk_widget_hide (dlg->priv->url1_label);
@@ -156,7 +156,7 @@ pt_asr_dialog_set_config (PtAsrDialog *dlg,
 		gtk_button_set_label (GTK_BUTTON (dlg->priv->url2_button), str);
 
 		/* Ellipsize label: This works only after gtk_button_set_label() */
-		label = gtk_bin_get_child (GTK_BIN (dlg->priv->url2_button));
+		label = gtk_widget_get_first_child (dlg->priv->url2_button);
 		gtk_label_set_ellipsize (GTK_LABEL (label), PANGO_ELLIPSIZE_END);
 	} else {
 		gtk_widget_hide (dlg->priv->url2_label);
