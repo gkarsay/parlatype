@@ -35,6 +35,8 @@ if host_machine.system() != 'windows'
 	'pt-dbus-service.h',
 	'pt-mediakeys.c',
 	'pt-mediakeys.h',
+	'pt-mpris.c',
+	'pt-mpris.h',
 	]
 endif
 

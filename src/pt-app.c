@@ -21,6 +21,7 @@
 #ifdef G_OS_UNIX
   #include "pt-dbus-service.h"
   #include "pt-mediakeys.h"
+  #include "pt-mpris.h"
 #endif
 #ifdef G_OS_WIN32
   #include "pt-win32-datacopy.h"
@@ -36,6 +37,7 @@ struct _PtAppPrivate
 {
 #ifdef G_OS_UNIX
 	PtMediakeys   *mediakeys;
+	PtMpris       *mpris;
 	PtDbusService *dbus_service;
 #endif
 #ifdef G_OS_WIN32
@@ -324,6 +326,8 @@ pt_app_activate (GApplication *application)
 #ifdef G_OS_UNIX
 		app->priv->mediakeys = pt_mediakeys_new (win);
 		pt_mediakeys_start (app->priv->mediakeys);
+		app->priv->mpris = pt_mpris_new (win);
+		pt_mpris_start (app->priv->mpris);
 		app->priv->dbus_service = pt_dbus_service_new (win);
 		pt_dbus_service_start (app->priv->dbus_service);
 #endif
@@ -387,6 +391,7 @@ pt_app_init (PtApp *app)
 
 #ifdef G_OS_UNIX
 	app->priv->mediakeys = NULL;
+	app->priv->mpris = NULL;
 	app->priv->dbus_service = NULL;
 #endif
 #ifdef G_OS_WIN32
@@ -404,6 +409,7 @@ pt_app_dispose (GObject *object)
 
 #ifdef G_OS_UNIX
 	g_clear_object (&app->priv->mediakeys);
+	g_clear_object (&app->priv->mpris);
 	g_clear_object (&app->priv->dbus_service);
 #endif
 #ifdef G_OS_WIN32
