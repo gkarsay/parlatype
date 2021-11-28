@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-18 21:22+0200\n"
-"PO-Revision-Date: 2021-11-27 21:58+0000\n"
+"PO-Revision-Date: 2021-11-28 22:54+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/"
 "parlatype/parlatype/nb_NO/>\n"
@@ -46,44 +46,52 @@ msgid "This is a minor release with bug fixes and minor new features."
 msgstr "Dette er en liten oppdatering med feilfikser og andre små funksjoner."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:48
+#, fuzzy
 msgid ""
 "Mute/unmute volume by clicking on the volume icon with the pointer’s "
 "secondary button (usually right mouse button)."
 msgstr ""
+"Forstum/opphev forstumming ved å klikke på lydstyrkeikonet med musens høyre "
+"knapp."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:49
+#, fuzzy
 msgid ""
 "With Pulseaudio Parlatype doesn’t change the system volume anymore, just its "
 "own application specific volume."
 msgstr ""
+"Med Pulseaudio endrer Parlatype kun sin egen lydstyrke, og ikke "
+"systemlydstyrken."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:50
 msgid "The initial volume level is picked up from Pulseaudio."
-msgstr ""
+msgstr "Den initielle lydstyrken hentes fra Pulseaudio."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:51
 msgid "Translation updates for several languages."
-msgstr ""
+msgstr "Oversettelsesoppdateringer for flere språk."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:58
 msgid "This is a major release with new features."
-msgstr ""
+msgstr "Dette er en storutgivelse med flere funksjoner."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:61
 msgid "Waveform is loaded on-the-fly, there is no blocking progress dialog."
 msgstr ""
+"Bølgeform innlastes som den kommer inn. Det er ingen blokkerende "
+"framdriftsdialog."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:63
 msgid "Waveform can be changed continuously instead of in discrete steps."
-msgstr ""
+msgstr "Bølgeform kan endres kontinuerlig istedenfor i fastsatte steg."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:70
 msgid "This is a minor release."
-msgstr ""
+msgstr "Dette er en liten utgivelse."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:73
@@ -91,16 +99,18 @@ msgid ""
 "Update time label only if time has changed. This is a performance increase, "
 "cursor movement should be smoother on slower systems."
 msgstr ""
+"Oppdater tidsetikett kun hvis tid har endret seg. Dette er en "
+"ytelsesforbedring. Pekerbevegelse bør bli jevnere på trege systemer."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:75
 msgid "Translation updates for Hungarian, Lithuanian and Spanish"
-msgstr ""
+msgstr "Oversettelsesoppdateringer for ungarsk, litauisk og spansk."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:82
 msgid "This is a minor release with some changes."
-msgstr ""
+msgstr "Dette er en liten utgave med noen endringer."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:85
@@ -108,6 +118,8 @@ msgid ""
 "Automatic speech recognition (ASR) is now disabled by default and it’s only "
 "shown, if parlatype is launched with the new parameter --with-asr"
 msgstr ""
+"Automatisk stemmegjenkjennelse (ASR) er nå avskrudd som forvalg og det blir "
+"kun vist hvis Parlatype kjøres med det nye parameteret «--with-asr»"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:87
@@ -286,7 +298,7 @@ msgstr ""
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
-msgstr ""
+msgstr "%d:%02d:%02d"
 
 #. Translators: This is part of the Preferences dialog
 #. or the "Go to ..." dialog. There is a label like
@@ -310,7 +322,7 @@ msgstr "Klarte ikke å lese egendefinerte oppsettsfiler"
 
 #: src/pt-prefs-asr.c:415
 msgid "Failed to copy shipped configuration files"
-msgstr ""
+msgstr "Klarte ikke å kopiere medlfølgende oppsettsfiler"
 
 #: src/pt-prefs-asr.c:585
 #, fuzzy
@@ -332,7 +344,7 @@ msgstr "Feil"
 
 #: src/pt-prefs-asr.c:731
 msgid "The file is not a valid language model configuration."
-msgstr ""
+msgstr "Filen er ikke gyldig språk- og modell-oppsett."
 
 #: src/pt-prefs-asr.c:779
 msgid "Import language model configuration"
@@ -340,11 +352,11 @@ msgstr "Importer språkmodell-oppsett"
 
 #: src/pt-prefs-asr.c:793
 msgid "Parlatype language model configurations"
-msgstr ""
+msgstr "Oppsett for språkmodell i Parlatype"
 
 #: src/pt-prefs-asr.c:844
 msgid "Failed to create personal configuration folder"
-msgstr ""
+msgstr "Klarte ikke å opprette personlig oppsettsmappe"
 
 #: src/pt-window.c:376
 #, c-format
@@ -545,19 +557,19 @@ msgstr ""
 
 #: src/resources/preferences.ui:50
 msgid "(Round brackets)"
-msgstr ""
+msgstr "(Parenteser)"
 
 #: src/resources/preferences.ui:54
 msgid "[Square brackets]"
-msgstr ""
+msgstr "[Hakeparenteser]"
 
 #: src/resources/preferences.ui:68
 msgid ". (point)"
-msgstr ""
+msgstr ". (punktum)"
 
 #: src/resources/preferences.ui:72
 msgid "- (hyphen)"
-msgstr ""
+msgstr "- (bindestrek)"
 
 #: src/resources/preferences.ui:86
 msgid "Full seconds"
@@ -565,15 +577,15 @@ msgstr "Hele sekunder"
 
 #: src/resources/preferences.ui:90
 msgid "10th seconds"
-msgstr ""
+msgstr "Tiendedelssekunder"
 
 #: src/resources/preferences.ui:94
 msgid "100th seconds"
-msgstr ""
+msgstr "Hundredelssekunder"
 
 #: src/resources/preferences.ui:102
 msgid "Parlatype Preferences"
-msgstr ""
+msgstr "Parlatype-innstillinger"
 
 #: src/resources/preferences.ui:144
 msgid "_Pixels per second:"
@@ -592,7 +604,7 @@ msgstr "Oppløsning"
 #. A section in preferences, how to display the waveform.
 #: src/resources/preferences.ui:207
 msgid "Display"
-msgstr ""
+msgstr "Utseende"
 
 #: src/resources/preferences.ui:220
 msgid "_Moving cursor"
@@ -616,23 +628,25 @@ msgstr "Hopp _tilbake:"
 
 #: src/resources/preferences.ui:421
 msgid "Jump back on _pause:"
-msgstr ""
+msgstr "Hopp tilbake ved _pause:"
 
 #: src/resources/preferences.ui:444
+#, fuzzy
 msgid "Pressing “Play” at the end of file"
-msgstr ""
+msgstr "Ved trykking av «Spill» på slutten av filen"
 
 #: src/resources/preferences.ui:458
 msgid "Replay file"
 msgstr "Spill filen igjen"
 
 #: src/resources/preferences.ui:477
+#, fuzzy
 msgid "Pressing “Play” at the end of selection"
-msgstr ""
+msgstr "Ved trykking av «Spill» på slutten av utvalget"
 
 #: src/resources/preferences.ui:491
 msgid "Replay selection"
-msgstr ""
+msgstr "Gjentagelse av utvalg"
 
 #: src/resources/preferences.ui:513
 msgid "Controls"
@@ -643,16 +657,17 @@ msgid "Hours and zeroes"
 msgstr "Timer og nuller"
 
 #: src/resources/preferences.ui:569
+#, fuzzy
 msgid "Always show hours and leading zeroes"
-msgstr ""
+msgstr "Alltid vis timer og innledende nuller"
 
 #: src/resources/preferences.ui:587
 msgid "Precision"
-msgstr ""
+msgstr "Presisjon"
 
 #: src/resources/preferences.ui:603
 msgid "Characters around timestamps"
-msgstr ""
+msgstr "Tegn rundt tidsstempler"
 
 #: src/resources/preferences.ui:619
 msgid "Examples"
@@ -660,11 +675,11 @@ msgstr "Eksempler"
 
 #: src/resources/preferences.ui:661
 msgid "Precision:"
-msgstr ""
+msgstr "Presisjon:"
 
 #: src/resources/preferences.ui:693
 msgid "Fraction separator:"
-msgstr ""
+msgstr "Fraksjonsinndeler:"
 
 #: src/resources/preferences.ui:736
 msgid "Timestamps"
@@ -708,7 +723,7 @@ msgstr "Importer et språkmodell-oppsett"
 
 #: src/resources/prefs-asr.ui:228
 msgid "There is no configuration"
-msgstr ""
+msgstr "Mangler oppsett"
 
 #: src/resources/prefs-asr.ui:238
 msgid "Add a configuration"
@@ -716,7 +731,7 @@ msgstr "Legg til et oppsett"
 
 #: src/resources/prefs-asr.ui:306
 msgid "No results in this view"
-msgstr ""
+msgstr "Ingen resultater i denne visningen"
 
 #: src/resources/window.ui:48
 msgid "Open a file"
