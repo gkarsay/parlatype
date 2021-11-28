@@ -97,7 +97,7 @@
 			<p>This is a minor release with some changes.</p>
 			<ul>
 			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<li>Automatic speech recognition (ASR) is now disabled by default and it’s only shown, if parlatype is launched with the new parameter --with-asr</li>
+			<li>Automatic speech recognition (ASR) is now disabled by default and it’s only shown, if Parlatype is launched with the new parameter \"--with-asr\"</li>
 			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<li>Fix internationalization: Some translations were not shown</li>
 			<!-- Translators: This has very low priority, it's the description for an old release. -->
