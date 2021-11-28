@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-18 21:22+0200\n"
-"PO-Revision-Date: 2021-11-28 22:54+0000\n"
+"PO-Revision-Date: 2021-11-29 23:53+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/"
 "parlatype/parlatype/nb_NO/>\n"
@@ -151,7 +151,7 @@ msgstr ""
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:103
 msgid "Custom timestamps"
-msgstr ""
+msgstr "Egendefinerte tidsstempel"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:105
@@ -193,7 +193,7 @@ msgstr ""
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:131
 msgid "Increase max. possible speed to 2.0"
-msgstr ""
+msgstr "Økt maks. hastighet til 2.0"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:133
@@ -221,15 +221,15 @@ msgstr ""
 
 #: data/org.parlatype.Parlatype.desktop.in:5
 msgid "Transcription utility"
-msgstr ""
+msgstr "Transkriberingsverktøy"
 
 #: data/org.parlatype.Parlatype.desktop.in:6
 msgid "Transcription;"
-msgstr ""
+msgstr "Transkribering;"
 
 #: src/pt-app.c:59
 msgid "Show the application’s version"
-msgstr ""
+msgstr "Vis programversjonen"
 
 #: src/pt-app.c:100
 msgid "Open Audio File"
@@ -254,17 +254,18 @@ msgstr "Alle filer"
 
 #. Translators: %s is a detailed error message
 #: src/pt-app.c:177
-#, c-format
+#, c-format, fuzzy
 msgid "Error opening help: %s"
-msgstr ""
+msgstr "Kunne ikke åpne hjelp: %s"
 
 #. Translators: This is part of the about box, followed by the
 #. copyright holders of code from other projects. Instead of
 #. "including" it could also say "with" or just "Code from
 #. other projects:"
 #: src/pt-app.c:197
+#, fuzzy
 msgid "Including code from other projects:"
-msgstr ""
+msgstr "Med kode fra andre prosjekter:"
 
 #: src/pt-app.c:215
 msgid "A basic transcription utility"
@@ -284,11 +285,11 @@ msgstr ""
 
 #: src/pt-asr-dialog.c:93
 msgid "CMU Pocketsphinx"
-msgstr ""
+msgstr "CMU Pocketsphinx"
 
 #: src/pt-asr-dialog.c:96
 msgid "Mozilla DeepSpeech"
-msgstr ""
+msgstr "Mozilla DeepSpeech"
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
@@ -425,8 +426,9 @@ msgid "GStreamer Plugin:"
 msgstr "GStreamer-programtillegg:"
 
 #: src/resources/asr-dialog.ui:92
+#, fuzzy
 msgid "Publisher:"
-msgstr ""
+msgstr "Utgiver:"
 
 #: src/resources/asr-dialog.ui:104
 msgid "License:"
@@ -553,7 +555,7 @@ msgstr "Ingen"
 
 #: src/resources/preferences.ui:46
 msgid "#Number signs#"
-msgstr ""
+msgstr "#Nummertegn#"
 
 #: src/resources/preferences.ui:50
 msgid "(Round brackets)"
