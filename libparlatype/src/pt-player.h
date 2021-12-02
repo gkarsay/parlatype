@@ -107,6 +107,7 @@ gint		pt_player_get_back		(PtPlayer *player);
 gint		pt_player_get_forward		(PtPlayer *player);
 void		pt_player_jump_to_position	(PtPlayer *player,
 						 gint      milliseconds);
+gdouble		pt_player_get_speed		(PtPlayer *player);
 void		pt_player_set_speed		(PtPlayer *player,
 						 gdouble   speed);
 gdouble		pt_player_get_volume		(PtPlayer *player);

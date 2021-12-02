@@ -23,6 +23,7 @@ pt_player_jump_forward
 pt_player_get_back
 pt_player_get_forward
 pt_player_jump_to_position
+pt_player_get_speed
 pt_player_set_speed
 pt_player_get_volume
 pt_player_set_volume

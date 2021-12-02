@@ -789,6 +789,24 @@ pt_player_jump_to_position (PtPlayer *player,
 }
 
 /**
+ * pt_player_get_speed:
+ * @player: a #PtPlayer
+ *
+ * Returns current playback speed.
+ *
+ * Return value: playback speed
+ *
+ * Since: 3.1
+ */
+gdouble
+pt_player_get_speed (PtPlayer *player)
+{
+	g_return_val_if_fail (PT_IS_PLAYER (player), 1);
+
+	return player->priv->speed;
+}
+
+/**
  * pt_player_set_speed:
  * @player: a #PtPlayer
  * @speed: speed

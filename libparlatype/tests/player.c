@@ -429,10 +429,8 @@ player_volume_speed (PtPlayerFixture *fixture,
 	pt_player_set_volume (fixture->testplayer, 0.5);
 	pt_player_set_speed (fixture->testplayer, 0.5);
 
-	g_object_get (bind_player,
-		      "speed", &speed,
-		      "volume", &volume,
-		      NULL);
+	volume = pt_player_get_volume (bind_player);
+	speed = pt_player_get_speed (bind_player);
 	g_assert_cmpfloat (volume, ==, 0.5);
 	g_assert_cmpfloat (speed, ==, 0.5);
 

@@ -27,6 +27,7 @@ pt_player_get_mode
 pt_player_get_mute
 pt_player_get_pause
 pt_player_get_position
+pt_player_get_speed
 pt_player_get_timestamp
 pt_player_get_timestamp_for_time
 pt_player_get_timestamp_position
