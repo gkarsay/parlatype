@@ -57,6 +57,7 @@ struct _PtPlayerPrivate
 	PtPositionManager *pos_mgr;
 	GHashTable *plugins;
 
+	PtStateType state;
 	gint64	    dur;
 	gdouble	    speed;
 	gdouble     volume;
@@ -84,6 +85,7 @@ struct _PtPlayerPrivate
 enum
 {
 	PROP_0,
+	PROP_STATE,
 	PROP_SPEED,
 	PROP_MUTE,
 	PROP_VOLUME,
@@ -272,6 +274,26 @@ bus_call (GstBus     *bus,
 	case GST_MESSAGE_STATE_CHANGED: {
 		if (GST_MESSAGE_SRC(msg) != GST_OBJECT (player->priv->play))
 			break;
+		GstState old_state, new_state;
+		gst_message_parse_state_changed (msg, &old_state, &new_state, NULL);
+		if (old_state != new_state) {
+			if (new_state == GST_STATE_PLAYING) {
+				player->priv->state = PT_STATE_PLAYING;
+				g_object_notify_by_pspec (G_OBJECT (player),
+					                  obj_properties[PROP_STATE]);
+			}
+			if (new_state == GST_STATE_PAUSED) {
+				player->priv->state = PT_STATE_PAUSED;
+				g_object_notify_by_pspec (G_OBJECT (player),
+					                  obj_properties[PROP_STATE]);
+			}
+			if (new_state <= GST_STATE_READY &&
+			    old_state >= GST_STATE_PAUSED) {
+				player->priv->state = PT_STATE_STOPPED;
+				g_object_notify_by_pspec (G_OBJECT (player),
+					                  obj_properties[PROP_STATE]);
+			}
+		}
 
 		gdouble volume;
 		volume = gst_stream_volume_get_volume (GST_STREAM_VOLUME (player->priv->audio_bin),
@@ -1908,6 +1930,9 @@ pt_player_get_property (GObject    *object,
 	PtPlayer *player = PT_PLAYER (object);
 
 	switch (property_id) {
+	case PROP_STATE:
+		g_value_set_int (value, player->priv->state);
+		break;
 	case PROP_SPEED:
 		g_value_set_double (value, player->priv->speed);
 		break;
@@ -2322,6 +2347,21 @@ pt_player_class_init (PtPlayerClass *klass)
 			"Repeat selection",
 			FALSE,
 			G_PARAM_READWRITE);
+
+	/**
+	* PtPlayer:state:
+	*
+	* The current state of PtPlayer.
+	*/
+	obj_properties[PROP_STATE] =
+	g_param_spec_int (
+			"state",
+			"State",
+			"PtPlayer’s current state",
+			0,	/* minimum = PT_MODE_EMPTY */
+			4,	/* maximum = PT_MODE_INVALID */
+			0,
+			G_PARAM_READABLE);
 
 	g_object_class_install_properties (
 			G_OBJECT_CLASS (klass),
