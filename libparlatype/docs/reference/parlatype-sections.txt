@@ -41,8 +41,9 @@ pt_player_get_timestamp
 pt_player_get_timestamp_position
 pt_player_string_is_timestamp
 pt_player_goto_timestamp
-PtPrecisionType
+PtStateType
 PtModeType
+PtPrecisionType
 <SUBSECTION Standard>
 PT_IS_PLAYER
 PT_PLAYER

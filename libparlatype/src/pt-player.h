@@ -55,6 +55,23 @@ struct _PtPlayerClass
 };
 
 /**
+ * PtStateType:
+ * @PT_STATE_STOPPED: the player is stopped
+ * @PT_STATE_PAUSED: the player is paused
+ * @PT_STATE_PLAYING: the player is currently playing a stream
+ *
+ * Enum values indicating PtPlayer’s current state.
+ */
+typedef enum {
+	PT_STATE_STOPPED,
+	PT_STATE_PAUSED,
+	PT_STATE_PLAYING,
+	/*< private >*/
+	PT_STATE_INVALID
+} PtStateType;
+
+
+/**
  * PtModeType:
  * @PT_MODE_PLAYBACK: normal audible playback
  * @PT_MODE_ASR: silent automatic speech recognition
