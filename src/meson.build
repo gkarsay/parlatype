@@ -37,6 +37,7 @@ if host_machine.system() != 'windows'
 	'pt-mediakeys.h',
 	'pt-mpris.c',
 	'pt-mpris.h',
+	'mpris-spec.h',
 	]
 endif
 
