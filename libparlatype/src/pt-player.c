@@ -86,6 +86,7 @@ enum
 {
 	PROP_0,
 	PROP_STATE,
+	PROP_CURRENT_URI,
 	PROP_SPEED,
 	PROP_MUTE,
 	PROP_VOLUME,
@@ -163,7 +164,7 @@ pt_player_get_file (PtPlayer *player)
 	gchar *uri = NULL;
 	GFile *result = NULL;
 
-	g_object_get (G_OBJECT (player->priv->play), "current_uri", &uri, NULL);
+	g_object_get (G_OBJECT (player->priv->play), "current-uri", &uri, NULL);
 
 	if (uri) {
 		result = g_file_new_for_uri (uri);
@@ -1115,7 +1116,7 @@ pt_player_get_uri (PtPlayer *player)
 	g_return_val_if_fail (PT_IS_PLAYER (player), NULL);
 
 	gchar *uri = NULL;
-	g_object_get (G_OBJECT (player->priv->play), "current_uri", &uri, NULL);
+	g_object_get (G_OBJECT (player->priv->play), "current-uri", &uri, NULL);
 	return uri;
 }
 
@@ -1703,6 +1704,24 @@ mute_changed (GObject    *object,
 	g_source_set_name_by_id (id, "[parlatype] notify_mute_idle_cb");
 }
 
+static gboolean
+notify_uri_idle_cb (PtPlayer *player)
+{
+	g_object_notify_by_pspec (G_OBJECT (player),
+	                          obj_properties[PROP_CURRENT_URI]);
+	return FALSE;
+}
+
+static void
+uri_changed (GObject    *object,
+             GParamSpec *pspec,
+             PtPlayer   *player)
+{
+	guint id;
+	id = g_idle_add ((GSourceFunc) notify_uri_idle_cb, player);
+	g_source_set_name_by_id (id, "[parlatype] notify_uri_idle_cb");
+}
+
 /**
  * pt_player_configure_asr:
  * @player: a #PtPlayer
@@ -1928,10 +1947,16 @@ pt_player_get_property (GObject    *object,
                         GParamSpec *pspec)
 {
 	PtPlayer *player = PT_PLAYER (object);
+	char *uri;
 
 	switch (property_id) {
 	case PROP_STATE:
 		g_value_set_int (value, player->priv->state);
+		break;
+	case PROP_CURRENT_URI:
+		g_object_get (G_OBJECT (player->priv->play), "current-uri", &uri, NULL);
+		g_value_set_string (value, uri);
+		g_free (uri);
 		break;
 	case PROP_SPEED:
 		g_value_set_double (value, player->priv->speed);
@@ -2029,6 +2054,11 @@ pt_player_init (PtPlayer *player)
 			"notify::volume", G_CALLBACK (vol_changed), player);
 	g_signal_connect (G_OBJECT (priv->play),
 			"notify::mute", G_CALLBACK (mute_changed), player);
+
+	/* Forward current-uri changes */
+	g_signal_connect (G_OBJECT (priv->play),
+			"notify::current-uri", G_CALLBACK (uri_changed), player);
+
 }
 
 static void
@@ -2361,6 +2391,19 @@ pt_player_class_init (PtPlayerClass *klass)
 			0,	/* minimum = PT_MODE_EMPTY */
 			4,	/* maximum = PT_MODE_INVALID */
 			0,
+			G_PARAM_READABLE);
+
+	/**
+	* PtPlayer:current-uri:
+	*
+	* URI of the currently loaded stream.
+	*/
+	obj_properties[PROP_CURRENT_URI] =
+	g_param_spec_string (
+			"current-uri",
+			"Current URI",
+			"URI of the currently loaded stream",
+			NULL,
 			G_PARAM_READABLE);
 
 	g_object_class_install_properties (
