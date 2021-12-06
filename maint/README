@@ -16,10 +16,7 @@ ninja help-org.parlatype.Parlatype-update-po
 
 Workflow for translations:
 1) Update pot files locally
-2) Upload changed pot files to launchpad
-3) Use launchpad-import script
-4) Who worked on translations? Sort in launchpad by “Last changed”, click
-   on Language and note “Last edited by”. Other translators than the last one?!
+2) Who worked on translations? TODO: possible to make a list from Weblate commits?
 
 
 Typography
@@ -73,8 +70,6 @@ meson test --gdb testname
 Release
 =======
 
-Import translations from Launchpad
-
 Update data/screenshot.png, if necessary,
   width >= 620px, 16:9 ratio if possible
   see https://www.freedesktop.org/software/appstream/docs/chap-Quickstart.html
@@ -110,7 +105,6 @@ Homepage:
 - Publish release notes in News, can be more verbose
 - maint/copy-reference-to-web
 - maint/copy-help-to-web
-- Update translation status (in features.md)
 - Commit and push changes
 
 Packaging:

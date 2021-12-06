@@ -20,7 +20,7 @@
 
 	<url type="homepage">https://www.parlatype.org</url>
 	<url type="bugtracker">https://github.com/gkarsay/parlatype/issues</url>
-	<url type="translate">https://translations.launchpad.net/parlatype</url>
+	<url type="translate">https://hosted.weblate.org/engage/parlatype/</url>
 	<url type="donation">https://www.parlatype.org/donate.html</url>
 	<developer_name>Gabor Karsay</developer_name>
 
