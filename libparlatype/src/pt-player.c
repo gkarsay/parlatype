@@ -772,16 +772,16 @@ pt_player_jump_to_position (PtPlayer *player,
 		return;
 	}
 
-	/* TODO on opening a new file and jumping to the initial position,
-	 * sometimes there is no duration yet and the jump is not done. */
-
-	if (pos > player->priv->segend || pos < player->priv->segstart) {
+	if (pos < player->priv->segstart) {
 		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
-				  "MESSAGE", "Jump to position failed: start = %" G_GINT64_FORMAT, player->priv->segstart);
+		                  "MESSAGE", "Setting position failed: target %" G_GINT64_FORMAT
+				  " before segstart %" G_GINT64_FORMAT, pos, player->priv->segstart);
+		return;
+	}
+	if (player->priv->segend != -1 && pos > player->priv->segend) {
 		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
-				  "MESSAGE", "Jump to position failed: pos   = %" G_GINT64_FORMAT, pos);
-		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
-				  "MESSAGE", "Jump to position failed: end   = %" G_GINT64_FORMAT, player->priv->segend);
+		                  "MESSAGE", "Setting position failed: target %" G_GINT64_FORMAT
+				  " after segend %" G_GINT64_FORMAT, pos, player->priv->segend);
 		return;
 	}
 
