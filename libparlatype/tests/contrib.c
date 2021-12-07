@@ -97,7 +97,6 @@ gnome_languages_de (void)
 	g_free (result);
 
 	/* Existing ISO 639-3 language code */
-	/* TODO This seems to be a bug, investigate and report upstream */
 	result = NULL;
 	result = gnome_get_language_from_locale ("gsw", NULL);
 	g_assert_nonnull (result);
