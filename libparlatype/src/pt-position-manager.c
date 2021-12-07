@@ -127,7 +127,8 @@ pt_position_manager_load (PtPositionManager *self,
 
 		if (pos > 0) {
 			g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
-			                  "MESSAGE", "Metadata: got position");
+			                  "MESSAGE", "Metadata: last known "
+			                  "position %" G_GINT64_FORMAT " ms", pos);
 		}
 	}
 
