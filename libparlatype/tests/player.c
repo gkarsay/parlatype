@@ -403,17 +403,17 @@ player_volume_speed (PtPlayerFixture *fixture,
 
 	g_assert_cmpfloat (speed, ==, 0.7);
 	/* some audiosinks (pulsesink, directsoundsink) need a tolerance */
-	g_assert_cmpfloat_with_epsilon (volume, 0.7, 0.00001);
+	g_assert_cmpfloat_with_epsilon (volume, 0.7, 0.01);
 
 	/* mute doesn't change the volume */
 	pt_player_set_mute (fixture->testplayer, TRUE);
 	g_object_get (fixture->testplayer, "volume", &volume, NULL);
-	g_assert_cmpfloat_with_epsilon (volume, 0.7, 0.00001);
+	g_assert_cmpfloat_with_epsilon (volume, 0.7, 0.01);
 	g_assert_true (pt_player_get_mute (fixture->testplayer));
 
 	pt_player_set_mute (fixture->testplayer, FALSE);
 	g_object_get (fixture->testplayer, "volume", &volume, NULL);
-	g_assert_cmpfloat_with_epsilon (volume, 0.7, 0.00001);
+	g_assert_cmpfloat_with_epsilon (volume, 0.7, 0.01);
 	g_assert_false (pt_player_get_mute (fixture->testplayer));
 
 	/* check bind property */
@@ -431,7 +431,7 @@ player_volume_speed (PtPlayerFixture *fixture,
 
 	volume = pt_player_get_volume (bind_player);
 	speed = pt_player_get_speed (bind_player);
-	g_assert_cmpfloat (volume, ==, 0.5);
+	g_assert_cmpfloat_with_epsilon (volume, 0.5, 0.01);
 	g_assert_cmpfloat (speed, ==, 0.5);
 
 	g_object_unref (bind_player);
