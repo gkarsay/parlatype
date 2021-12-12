@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Parlatype 3.0\n"
-"POT-Creation-Date: 2021-11-19 14:24+0100\n"
+"Project-Id-Version: Parlatype 3.1\n"
+"POT-Creation-Date: 2021-12-12 19:52+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,8 +34,6 @@ msgstr ""
 #: C/preferences.page:8
 #: C/selections.page:8
 #: C/timestamps.page:8
-#: C/asr.page:9
-#: C/asr-setup.page:9
 #: C/media-keys.page:8
 msgid "Gabor Karsay"
 msgstr ""
@@ -547,171 +545,6 @@ msgstr ""
 #. (itstool) path: section/p
 #: C/timestamps.page:36
 msgid "To go to a timestamp position, copy the timestamp in the word processor to the clipboard. Once you have changed focus to <app>Parlatype</app> press <keyseq><key>Ctrl</key><key>v</key></keyseq>."
-msgstr ""
-
-#. (itstool) path: info/desc
-#: C/asr.page:7
-msgid "Let Parlatype do part of the transcription work"
-msgstr ""
-
-#. (itstool) path: page/title
-#: C/asr.page:15
-msgid "Automatic speech recognition"
-msgstr ""
-
-#. (itstool) path: page/p
-#: C/asr.page:17
-msgid "<app>Parlatype</app> offers automatic speech recognition that is done on your computer. No data is sent over the network."
-msgstr ""
-
-#. (itstool) path: note/p
-#: C/asr.page:20
-msgid "<app>Parlatype</app> must have been built with <app>PocketSphinx</app> or <app>Mozilla DeepSpeech</app>. Please note that those libraries might be not available on your platform."
-msgstr ""
-
-#. (itstool) path: note/p
-#: C/asr.page:25
-msgid "<app>Parlatype</app> has no built-in text editor. You need the Parlatype Extension for <app>LibreOffice</app> to output recognized text."
-msgstr ""
-
-#. (itstool) path: section/title
-#: C/asr.page:30
-msgid "Start speech recognition"
-msgstr ""
-
-#. (itstool) path: section/p
-#: C/asr.page:32
-msgid "Select a language model in the Preferences Dialog, <gui>Speech recognition</gui> tab, see <link xref=\"asr-setup\"/> for more details."
-msgstr ""
-
-#. (itstool) path: section/p
-#: C/asr.page:35
-msgid "Open the primary menu and click on <gui>Automatic transcription</gui>. This is only available, if you have setup and chosen a language model."
-msgstr ""
-
-#. (itstool) path: section/media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/asr.page:38
-msgctxt "_"
-msgid "external ref='figures/asr-switch-to-asr.png' md5='91dc6bffa3b8a3342889d9bfccabc3c8'"
-msgstr ""
-
-#. (itstool) path: section/p
-#: C/asr.page:40
-msgid "Now press <gui>Play</gui> in <app>Parlatype</app> and the recognized speech will be printed in <app>LibreOffice</app>, if the Parlatype Extension is installed. Output is silent because decoding speed is dependent on your machine and may be slower or faster than real-time speech."
-msgstr ""
-
-#. (itstool) path: section/p
-#: C/asr.page:45
-msgid "Output is without punctuation or capitalization, you have to add or correct that yourself."
-msgstr ""
-
-#. (itstool) path: note/p
-#: C/asr.page:47
-msgid "<em>Accuracy</em> depends on many factors like quality of the recording, background noise, speaker’s dialect or pronunciation and the speech model used. For general transcription you can expect an word error rate between 10 and 50 %. Alas this means that in some cases manual transcription from the start will be faster than automatic transcription and the following correction process."
-msgstr ""
-
-#. (itstool) path: info/desc
-#: C/asr-setup.page:7
-msgid "Setup automatic speech transcription"
-msgstr ""
-
-#. (itstool) path: page/title
-#: C/asr-setup.page:15
-msgid "Setup automatic speech recognition"
-msgstr ""
-
-#. (itstool) path: page/p
-#: C/asr-setup.page:17
-msgid "For speech recognition you need a language model: one or more files trained with real speech samples. <app>Parlatype</app> supports language models made for CMU Sphinx and Mozilla DeepSpeech and ships a couple of <em>language model configurations</em>."
-msgstr ""
-
-#. (itstool) path: note/p
-#: C/asr-setup.page:22
-msgid "A <em>language model configuration</em> contains meta data describing the language model: A name that you can change, the language it was made for, speech recognition engine, publisher, license etc. It has a (third party) link, where you can download the files. Part of the configuration is the base folder, where you have saved the model. Additionally it contains various parameters for the plugin which are not shown."
-msgstr ""
-
-#. (itstool) path: page/p
-#: C/asr-setup.page:29
-msgid "Open the Preferences Dialog and click on the <gui>Speech Recognition</gui> tab. Initially there are no configurations available, click on the <gui>Add a configuration</gui> button."
-msgstr ""
-
-#. (itstool) path: page/media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/asr-setup.page:33
-msgctxt "_"
-msgid "external ref='figures/asr-setup-initial.png' md5='31773b99dcbb1ee84e59e119a0bd35c6'"
-msgstr ""
-
-#. (itstool) path: media/span
-#: C/asr-setup.page:36
-msgid "download"
-msgstr ""
-
-#. (itstool) path: media/span
-#: C/asr-setup.page:37
-msgid "unavailable"
-msgstr ""
-
-#. (itstool) path: page/p
-#: C/asr-setup.page:35
-msgid "If your installation has CMU Sphinx or Mozilla DeepSpeech enabled, you will see configurations with a <_:media-1/> symbol. Otherwise you will see only configurations with a <_:media-2/> symbol."
-msgstr ""
-
-#. (itstool) path: page/media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/asr-setup.page:39
-msgctxt "_"
-msgid "external ref='figures/asr-setup-downloadable.png' md5='6e00b08a60952e8f408bec4a024be2e5'"
-msgstr ""
-
-#. (itstool) path: media/span
-#: C/asr-setup.page:42
-msgid "settings"
-msgstr ""
-
-#. (itstool) path: page/p
-#: C/asr-setup.page:41
-msgid "Select a configuration and click on the <_:media-1/> button. There is a short description of the model and where you can download it. After downloading, you have to set the folder where your download resides. You can also change the <gui>Display name</gui>."
-msgstr ""
-
-#. (itstool) path: page/media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/asr-setup.page:47
-msgctxt "_"
-msgid "external ref='figures/asr-setup-details.png' md5='3273410dfb31da8518a64d28af0da7b1'"
-msgstr ""
-
-#. (itstool) path: media/span
-#: C/asr-setup.page:50
-msgid "selected"
-msgstr ""
-
-#. (itstool) path: page/p
-#: C/asr-setup.page:49
-msgid "An installed model has no symbol next to it. Double click on the model and it will be selected for speech recognition, a <_:media-1/> symbol appears."
-msgstr ""
-
-#. (itstool) path: page/p
-#: C/asr-setup.page:53
-msgid "Shipped configurations might get obsolete over time. Therefore you can import a configuration with the <gui>+</gui> button. Configurations are text files with an .asr ending."
-msgstr ""
-
-#. (itstool) path: page/p
-#: C/asr-setup.page:57
-msgid "With the <gui>-</gui> button you can remove a configuration. This will never remove downloaded models, only the configuration file."
 msgstr ""
 
 #. (itstool) path: info/desc
