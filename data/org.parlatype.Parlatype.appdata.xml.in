@@ -41,6 +41,17 @@
 	</kudos>
 
 	<releases>
+		<release version="3.1" date="2021-12-XX">
+			<description>
+			<p>This is a minor release with a new feature.</p>
+			<ul>
+			<li>Added MPRIS interface.</li>
+			<li>Smaller bug fixes.</li>
+			<li>Switched to Weblate for translations.</li>
+			<li>Translation updates for several languages.</li>
+			</ul>
+			</description>
+		</release>
 		<release version="3.0" date="2021-11-02">
 			<description>
 			<p>This is a major release with new features.</p>

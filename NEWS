@@ -3,14 +3,19 @@ Overview of Changes in Parlatype 3.1 – 2021-12-XX
 
 * New: Added MPRIS interface, fix #86
 * New: Switched to Weblate for translations
-* Fix: Fixed build and tests on WIN32
-* Fix: Fixed bug initial
-* help pages
-* builds without ASR
+* Fix: Setting initial position failed in some cases
+* Fix: Build and tests failed on WIN32
+* Fix: Help pages for Preferences Dialog were not updated
+* Fix: Adapt to builds without ASR
 
 * New or updated translations:
-  - xx: TODO
-  - pl: Piotr Drąg
+  - xx:    TODO UPDATE ON RELEASE DAY
+  - de:    Gabor Karsay
+  - fr:    J. Lavoie, Walter Paulo
+  - it:    J. Lavoie
+  - nb_NO: Allan Nordhøy
+  - pl:    Piotr Drąg
+  - sv:    Allan Nordhøy
 
 
 Overview of Changes in Parlatype 3.0 – 2021-11-02
