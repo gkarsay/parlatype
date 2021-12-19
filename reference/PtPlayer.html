@@ -222,6 +222,14 @@ justifications.
 </tr>
 <tr>
 <td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="PtPlayer.html#pt-player-get-speed" title="pt_player_get_speed ()">pt_player_get_speed</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
 <span class="returnvalue">void</span>
 </td>
 <td class="function_name">
@@ -374,6 +382,12 @@ justifications.
 <td class="property_flags">Read / Write</td>
 </tr>
 <tr>
+<td class="property_type">
+<span class="type">char</span> *</td>
+<td class="property_name"><a class="link" href="PtPlayer.html#PtPlayer--current-uri" title="The “current-uri” property">current-uri</a></td>
+<td class="property_flags">Read</td>
+</tr>
+<tr>
 <td class="property_type"><span class="type">int</span></td>
 <td class="property_name"><a class="link" href="PtPlayer.html#PtPlayer--forward" title="The “forward” property">forward</a></td>
 <td class="property_flags">Read / Write</td>
@@ -402,6 +416,11 @@ justifications.
 <td class="property_type"><span class="type">double</span></td>
 <td class="property_name"><a class="link" href="PtPlayer.html#PtPlayer--speed" title="The “speed” property">speed</a></td>
 <td class="property_flags">Read / Write / Construct</td>
+</tr>
+<tr>
+<td class="property_type"><span class="type">int</span></td>
+<td class="property_name"><a class="link" href="PtPlayer.html#PtPlayer--state" title="The “state” property">state</a></td>
+<td class="property_flags">Read</td>
 </tr>
 <tr>
 <td class="property_type">
@@ -494,11 +513,15 @@ justifications.
 </tr>
 <tr>
 <td class="datatype_keyword">enum</td>
-<td class="function_name"><a class="link" href="PtPlayer.html#PtPrecisionType" title="enum PtPrecisionType">PtPrecisionType</a></td>
+<td class="function_name"><a class="link" href="PtPlayer.html#PtStateType" title="enum PtStateType">PtStateType</a></td>
 </tr>
 <tr>
 <td class="datatype_keyword">enum</td>
 <td class="function_name"><a class="link" href="PtPlayer.html#PtModeType" title="enum PtModeType">PtModeType</a></td>
+</tr>
+<tr>
+<td class="datatype_keyword">enum</td>
+<td class="function_name"><a class="link" href="PtPlayer.html#PtPrecisionType" title="enum PtPrecisionType">PtPrecisionType</a></td>
 </tr>
 </tbody>
 </table></div>
@@ -1151,6 +1174,33 @@ outside the selection) is ignored.</p>
 </div>
 <hr>
 <div class="refsect2">
+<a name="pt-player-get-speed"></a><h3>pt_player_get_speed ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a>
+pt_player_get_speed (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>);</pre>
+<p>Returns current playback speed.</p>
+<div class="refsect3">
+<a name="pt-player-get-speed.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>player</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="pt-player-get-speed.returns"></a><h4>Returns</h4>
+<p> playback speed</p>
+</div>
+<p class="since">Since: <a class="link" href="api-index-3-1.html#api-index-3.1">3.1</a></p>
+</div>
+<hr>
+<div class="refsect2">
 <a name="pt-player-set-speed"></a><h3>pt_player_set_speed ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
 pt_player_set_speed (<em class="parameter"><code><a class="link" href="PtPlayer.html" title="PtPlayer"><span class="type">PtPlayer</span></a> *player</code></em>,
@@ -1746,10 +1796,10 @@ valid timestamp.</p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="PtPrecisionType"></a><h3>enum PtPrecisionType</h3>
-<p>Enum values indicating desired precision of time strings.</p>
+<a name="PtStateType"></a><h3>enum PtStateType</h3>
+<p>Enum values indicating PtPlayer’s current state.</p>
 <div class="refsect3">
-<a name="PtPrecisionType.members"></a><h4>Members</h4>
+<a name="PtStateType.members"></a><h4>Members</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="300px" class="enum_members_name">
@@ -1758,23 +1808,23 @@ valid timestamp.</p>
 </colgroup>
 <tbody>
 <tr>
-<td class="enum_member_name"><p><a name="PT-PRECISION-SECOND:CAPS"></a>PT_PRECISION_SECOND</p></td>
+<td class="enum_member_name"><p><a name="PT-STATE-STOPPED:CAPS"></a>PT_STATE_STOPPED</p></td>
 <td class="enum_member_description">
-<p>Rounds to full seconds, e.g. 1:23 (1 minute, 23 seconds)</p>
+<p>the player is stopped</p>
 </td>
 <td class="enum_member_annotations"> </td>
 </tr>
 <tr>
-<td class="enum_member_name"><p><a name="PT-PRECISION-SECOND-10TH:CAPS"></a>PT_PRECISION_SECOND_10TH</p></td>
+<td class="enum_member_name"><p><a name="PT-STATE-PAUSED:CAPS"></a>PT_STATE_PAUSED</p></td>
 <td class="enum_member_description">
-<p>Round to 1/10 seconds, e.g. 1:23.4</p>
+<p>the player is paused</p>
 </td>
 <td class="enum_member_annotations"> </td>
 </tr>
 <tr>
-<td class="enum_member_name"><p><a name="PT-PRECISION-SECOND-100TH:CAPS"></a>PT_PRECISION_SECOND_100TH</p></td>
+<td class="enum_member_name"><p><a name="PT-STATE-PLAYING:CAPS"></a>PT_STATE_PLAYING</p></td>
 <td class="enum_member_description">
-<p>Round to 1/100 seconds, e.g. 1:23.45</p>
+<p>the player is currently playing a stream</p>
 </td>
 <td class="enum_member_annotations"> </td>
 </tr>
@@ -1813,6 +1863,44 @@ valid timestamp.</p>
 </table></div>
 </div>
 </div>
+<hr>
+<div class="refsect2">
+<a name="PtPrecisionType"></a><h3>enum PtPrecisionType</h3>
+<p>Enum values indicating desired precision of time strings.</p>
+<div class="refsect3">
+<a name="PtPrecisionType.members"></a><h4>Members</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="300px" class="enum_members_name">
+<col class="enum_members_description">
+<col width="200px" class="enum_members_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="enum_member_name"><p><a name="PT-PRECISION-SECOND:CAPS"></a>PT_PRECISION_SECOND</p></td>
+<td class="enum_member_description">
+<p>Rounds to full seconds, e.g. 1:23 (1 minute, 23 seconds)</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+<tr>
+<td class="enum_member_name"><p><a name="PT-PRECISION-SECOND-10TH:CAPS"></a>PT_PRECISION_SECOND_10TH</p></td>
+<td class="enum_member_description">
+<p>Round to 1/10 seconds, e.g. 1:23.4</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+<tr>
+<td class="enum_member_name"><p><a name="PT-PRECISION-SECOND-100TH:CAPS"></a>PT_PRECISION_SECOND_100TH</p></td>
+<td class="enum_member_description">
+<p>Round to 1/100 seconds, e.g. 1:23.45</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
 </div>
 <div class="refsect1">
 <a name="PtPlayer.property-details"></a><h2>Property Details</h2>
@@ -1824,6 +1912,15 @@ valid timestamp.</p>
 <p>Flags: Read / Write</p>
 <p>Allowed values: [1000,60000]</p>
 <p>Default value: 10000</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PtPlayer--current-uri"></a><h3>The <code class="literal">“current-uri”</code> property</h3>
+<pre class="programlisting">  “current-uri”              <span class="type">char</span> *</pre>
+<p>URI of the currently loaded stream.</p>
+<p>Owner: PtPlayer</p>
+<p>Flags: Read</p>
+<p>Default value: NULL</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1881,6 +1978,16 @@ valid timestamp.</p>
 <p>Flags: Read / Write / Construct</p>
 <p>Allowed values: [0.1,2]</p>
 <p>Default value: 1</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PtPlayer--state"></a><h3>The <code class="literal">“state”</code> property</h3>
+<pre class="programlisting">  “state”                    <span class="type">int</span></pre>
+<p>The current state of PtPlayer.</p>
+<p>Owner: PtPlayer</p>
+<p>Flags: Read</p>
+<p>Allowed values: [0,4]</p>
+<p>Default value: 0</p>
 </div>
 <hr>
 <div class="refsect2">
