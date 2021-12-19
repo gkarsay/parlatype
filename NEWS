@@ -1,4 +1,4 @@
-Overview of Changes in Parlatype 3.1 – 2021-12-XX
+Overview of Changes in Parlatype 3.1 – 2021-12-19
 =================================================
 
 * New: Added MPRIS interface, fix #86
@@ -9,7 +9,6 @@ Overview of Changes in Parlatype 3.1 – 2021-12-XX
 * Fix: Adapt to builds without ASR
 
 * New or updated translations:
-  - xx:    TODO UPDATE ON RELEASE DAY
   - de:    Gabor Karsay
   - fr:    J. Lavoie, Walter Paulo
   - it:    J. Lavoie
