@@ -8,15 +8,17 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2021-10-18 21:35+0200\n"
-"PO-Revision-Date: 2020-03-09 16:30+0000\n"
-"Last-Translator: Gabor Karsay <gabor.karsay@gmx.at>\n"
-"Language-Team: Finnish <fi@li.org>\n"
+"PO-Revision-Date: 2021-12-21 07:53+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
+"Language-Team: Finnish <https://hosted.weblate.org/projects/parlatype/"
+"parlatype-help/fi/>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.10\n"
 "X-Launchpad-Export-Date: 2020-05-08 11:32+0000\n"
-"X-Generator: Launchpad (build fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398)\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -251,7 +253,7 @@ msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:36
 msgid "Play/Pause"
-msgstr ""
+msgstr "Toista/pidä tauko"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:37
@@ -271,7 +273,7 @@ msgstr "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:44
 msgid "Jump back"
-msgstr ""
+msgstr "Siirry taaksepäin"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:45
@@ -281,7 +283,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:48
 msgid "Jump forward"
-msgstr ""
+msgstr "Siirry eteenpäin"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:49
