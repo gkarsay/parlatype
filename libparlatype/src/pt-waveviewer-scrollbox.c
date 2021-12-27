@@ -46,6 +46,7 @@
 
 
 struct _PtWaveviewerScrollboxPrivate {
+	GdkPaintable  *paintable;
 	GtkAdjustment *adjustment;
 	guint hscroll_policy : 1;
 	gint fake_width;
@@ -74,7 +75,6 @@ pt_waveviewer_scrollbox_set_adjustment_values (PtWaveviewerScrollbox *self)
 
 	gtk_widget_get_allocation (GTK_WIDGET (self), &allocation);
 
-	//g_print ("configure adjustment\n");
 	gtk_adjustment_configure (adj,
 			gtk_adjustment_get_value (adj),
 			0.0,
@@ -115,6 +115,14 @@ pt_waveviewer_scrollbox_set (PtWaveviewerScrollbox *self,
                              gint                   width)
 {
 	self->priv->fake_width = width;
+	pt_waveviewer_scrollbox_set_adjustment_values (self);
+}
+
+static void
+invalidate_size_cb (GdkPaintable *paintable,
+		    gpointer      user_data)
+{
+	PtWaveviewerScrollbox *self = PT_WAVEVIEWER_SCROLLBOX (user_data);
 	pt_waveviewer_scrollbox_set_adjustment_values (self);
 }
 
@@ -192,6 +200,7 @@ pt_waveviewer_scrollbox_dispose (GObject *object)
 	PtWaveviewerScrollbox *self = PT_WAVEVIEWER_SCROLLBOX (object);
 	PtWaveviewerScrollboxPrivate *priv = self->priv;
 
+	g_clear_object (&priv->paintable);
 	g_clear_object (&priv->adjustment);
 
 	G_OBJECT_CLASS (pt_waveviewer_scrollbox_parent_class)->dispose (object);
@@ -204,6 +213,11 @@ pt_waveviewer_scrollbox_init (PtWaveviewerScrollbox *self)
 
 	self->priv->adjustment = NULL;
 	self->priv->fake_width = 0;
+
+	/* watch size changes with a GdkPaintable */
+	self->priv->paintable = gtk_widget_paintable_new (GTK_WIDGET (self));
+	g_signal_connect (self->priv->paintable, "invalidate-size",
+			  G_CALLBACK (invalidate_size_cb), self);
 
 	gtk_widget_set_name (GTK_WIDGET (self), "scrollbox");
 }
