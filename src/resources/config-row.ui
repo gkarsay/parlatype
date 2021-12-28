@@ -4,7 +4,6 @@
   <template class="PtConfigRow" parent="GtkListBoxRow">
     <property name="child">
       <object class="GtkBox" id="rowbox">
-        <property name="border_width">6</property>
         <property name="spacing">12</property>
         <child>
           <object class="GtkBox">
