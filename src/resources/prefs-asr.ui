@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk" version="4.0"/>
-  <object class="GtkImage" id="image1">
-    <property name="icon-name">list-add-symbolic</property>
-  </object>
-  <object class="GtkImage" id="image2">
-    <property name="icon-name">list-remove-symbolic</property>
-  </object>
-  <object class="GtkImage" id="image3">
-    <property name="icon-name">emblem-system-symbolic</property>
-  </object>
   <template class="PtPrefsAsr" parent="GtkBox">
     <property name="orientation">vertical</property>
     <child>
@@ -69,7 +60,11 @@
                         <property name="focusable">1</property>
                         <property name="receives-default">1</property>
                         <property name="tooltip-text" translatable="yes">Import a language model configuration</property>
-                        <property name="image">image1</property>
+                        <child>
+                          <object class="GtkImage" id="image1">
+                            <property name="icon_name">list-add-symbolic</property>
+                          </object>
+                        </child>
                         <signal name="clicked" handler="import_button_clicked_cb" swapped="no"/>
                       </object>
                     </child>
@@ -78,7 +73,11 @@
                         <property name="sensitive">0</property>
                         <property name="focusable">1</property>
                         <property name="receives-default">1</property>
-                        <property name="image">image2</property>
+                        <child>
+                          <object class="GtkImage" id="image2">
+                            <property name="icon_name">list-remove-symbolic</property>
+                          </object>
+                        </child>
                         <signal name="clicked" handler="remove_button_clicked_cb" swapped="no"/>
                       </object>
                     </child>
@@ -101,7 +100,11 @@
                         <property name="sensitive">0</property>
                         <property name="focusable">1</property>
                         <property name="receives-default">1</property>
-                        <property name="image">image3</property>
+                        <child>
+                          <object class="GtkImage" id="image3">
+                            <property name="icon_name">emblem-system-symbolic</property>
+                          </object>
+                        </child>
                         <signal name="clicked" handler="details_button_clicked_cb" swapped="no"/>
                       </object>
                     </child>
