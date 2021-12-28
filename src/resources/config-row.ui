@@ -10,7 +10,7 @@
             <property name="width_request">40</property>
             <child>
               <object class="GtkImage" id="status_image">
-                <property name="stock">gtk-missing-image</property>
+                <property name="icon_name">dialog-error-symbolic</property>
               </object>
             </child>
           </object>
