@@ -63,10 +63,6 @@
           <object class="GtkBox">
             <property name="can-focus">0</property>
             <child>
-              <object class="GtkToolItem">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <child>
                   <object class="GtkBox">
                     <child>
                       <object class="GtkButton">
@@ -90,8 +86,6 @@
                       <class name="linked"/>
                     </style>
                   </object>
-                </child>
-              </object>
             </child>
             <child>
               <object class="GtkSeparator" id="sep1">
@@ -101,10 +95,6 @@
               </object>
             </child>
             <child>
-              <object class="GtkToolItem">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <child>
                   <object class="GtkBox">
                     <child>
                       <object class="GtkButton" id="details_button">
@@ -116,8 +106,6 @@
                       </object>
                     </child>
                   </object>
-                </child>
-              </object>
             </child>
             <style>
               <class name="toolbar"/>
