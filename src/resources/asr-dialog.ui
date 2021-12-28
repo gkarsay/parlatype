@@ -2,7 +2,6 @@
 <interface>
   <requires lib="gtk" version="4.0"/>
   <template class="PtAsrDialog" parent="GtkWindow">
-    <property name="border-width">12</property>
     <property name="default-width">250</property>
     <property name="destroy-with-parent">1</property>
     <property name="child">
