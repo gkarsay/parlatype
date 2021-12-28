@@ -608,19 +608,22 @@ stop_following_cursor (PtWaveviewer *self)
 }
 
 static gboolean
-scrollbar_button_press_event_cb (GtkWidget      *widget,
-                                 GdkEventButton *event,
-                                 gpointer        data)
+scrollbar_button_press_event_cb (GtkGestureClick *gesture,
+                                 gint             n_press,
+                                 gdouble          x,
+                                 gdouble          y,
+                                 gpointer         user_data)
 {
 	/* If user clicks on scrollbar don’t follow cursor anymore.
 	   Otherwise it would scroll immediately back again. */
 
-	stop_following_cursor (PT_WAVEVIEWER (data));
+	stop_following_cursor (PT_WAVEVIEWER (user_data));
 
 	/* Propagate signal */
 	return FALSE;
 }
 
+#if 0
 static gboolean
 scrollbar_scroll_event_cb (GtkWidget      *widget,
                            GdkEventButton *event,
@@ -1153,19 +1156,32 @@ adjustment_value_changed_cb (GtkAdjustment *adjustment,
 static void
 pt_waveviewer_constructed (GObject *object)
 {
-	PtWaveviewer *self = PT_WAVEVIEWER (object);
+	PtWaveviewer        *self = PT_WAVEVIEWER (object);
+	PtWaveviewerPrivate *priv = self->priv;
+	GtkScrolledWindow *scrolled_window = GTK_SCROLLED_WINDOW (priv->scrolled_window);
+	GtkWidget  *scrollbar;
+	GtkGesture *scrollbar_event_handler;
 
-	GtkWidget *scrollbar = gtk_scrolled_window_get_hscrollbar (GTK_SCROLLED_WINDOW (self));
-	self->priv->adj = gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (self));
+	priv->adj = gtk_scrolled_window_get_hadjustment (scrolled_window);
 
-	g_signal_connect (self->priv->adj,
+	g_signal_connect (priv->adj,
 			  "value_changed",
 			  G_CALLBACK (adjustment_value_changed_cb),
 			  self);
-	g_signal_connect (scrollbar,
-			  "button_press_event",
-			  G_CALLBACK (scrollbar_button_press_event_cb),
-			  self);
+
+	scrollbar = gtk_scrolled_window_get_hscrollbar (scrolled_window);
+
+	scrollbar_event_handler = gtk_gesture_click_new ();
+	gtk_gesture_single_set_exclusive (GTK_GESTURE_SINGLE (scrollbar_event_handler), TRUE);
+	gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (scrollbar_event_handler), 0);
+	gtk_event_controller_set_propagation_phase (GTK_EVENT_CONTROLLER (scrollbar_event_handler), GTK_PHASE_CAPTURE);
+	g_signal_connect (
+			scrollbar_event_handler,
+			"pressed",
+			G_CALLBACK (scrollbar_button_press_event_cb),
+			self);
+	gtk_widget_add_controller (scrollbar, GTK_EVENT_CONTROLLER (scrollbar_event_handler));
+
 	g_signal_connect (scrollbar,
 			  "scroll_event",
 			  G_CALLBACK (scrollbar_scroll_event_cb),
