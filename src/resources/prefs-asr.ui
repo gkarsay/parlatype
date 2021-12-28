@@ -15,7 +15,6 @@
     <child>
       <object class="GtkBox" id="asr_ready_box">
         <property name="vexpand">1</property>
-        <property name="border-width">12</property>
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkBox">
@@ -131,7 +130,6 @@
     <child>
       <object class="GtkBox" id="asr_initial_box">
         <property name="vexpand">1</property>
-        <property name="border-width">12</property>
         <property name="orientation">vertical</property>
         <property name="spacing">12</property>
         <child>
@@ -155,7 +153,6 @@
       <object class="GtkBox" id="asr_error_box">
         <property name="vexpand">1</property>
         <property name="halign">center</property>
-        <property name="border-width">12</property>
         <property name="spacing">12</property>
         <child>
           <object class="GtkImage" id="asr_error_icon">
@@ -171,7 +168,6 @@
     </child>
   </template>
   <object class="GtkBox" id="no_result_box">
-    <property name="border-width">12</property>
     <property name="orientation">vertical</property>
     <child>
       <object class="GtkLabel" id="no_result_label">
