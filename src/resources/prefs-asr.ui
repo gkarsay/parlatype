@@ -45,7 +45,7 @@
           <object class="GtkScrolledWindow">
             <property name="vexpand">1</property>
             <property name="focusable">1</property>
-            <property name="shadow-type">in</property>
+            <property name="has-frame">1</property>
             <property name="child">
               <object class="GtkViewport">
                 <property name="child">
