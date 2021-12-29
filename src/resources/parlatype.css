@@ -6,11 +6,6 @@ menubutton {
 	font-weight: 600;
 }
 
-* {
-	transition-property: background-color;
-	transition-duration: 1s;
-}
-
 progressbar > trough {
 	border: 0;
 	background: transparent;
@@ -21,6 +16,14 @@ progressbar > trough.full > progress {
 	border: 0;
 }
 
-grid {
+window > grid {
+  padding: 6px;
+}
+
+notebook > stack {
 	padding: 6px;
+}
+
+row {
+  padding: 6px;
 }
