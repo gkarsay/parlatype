@@ -92,7 +92,8 @@ box_foreach (GtkWidget   *box,
 	     child != NULL;
 	     child = gtk_widget_get_next_sibling (child)) {
 
-		callback(box, callback_data);
+		if (PT_IS_CONFIG_ROW (child))
+			callback (child, callback_data);
 	}
 }
 
@@ -153,15 +154,9 @@ asr_list_row_activated (GtkListBox    *box,
 }
 
 static void
-asr_list_changed_cb (GtkListBox   *asr_list,
-                     GtkWidget    *row,
-                     gpointer      user_data)
+asr_list_changed (PtPrefsAsr *page)
 {
-	PtPrefsAsr *page = PT_PREFS_ASR (user_data);
-	GtkWidget *child;
-
-	child = gtk_widget_get_first_child (GTK_WIDGET (asr_list));
-	if (child) {
+	if (gtk_list_box_get_row_at_index (GTK_LIST_BOX (page->priv->asr_list), 0)) {
 		gtk_widget_show (page->priv->asr_ready_box);
 		gtk_widget_hide (page->priv->asr_initial_box);
 	} else {
@@ -391,7 +386,7 @@ asr_setup_config_box (PtPrefsAsr *page)
 			gtk_widget_show (page->priv->asr_initial_box);
 		}
 	} else {
-		asr_list_changed_cb (asr_list, NULL, page);
+		asr_list_changed (page);
 	}
 }
 
@@ -415,11 +410,7 @@ copy_asr_configs_result (GObject       *source_object,
 	GError *error = NULL;
 
 	if (copy_asr_configs_finish (source_object, res, &error)) {
-		g_signal_handlers_block_by_func (page->priv->asr_list,
-		                                 asr_list_changed_cb, page);
 		asr_setup_config_box (page);
-		g_signal_handlers_unblock_by_func (page->priv->asr_list,
-		                                   asr_list_changed_cb, page);
 	} else {
 		gtk_widget_hide (page->priv->asr_initial_box);
 		gtk_widget_hide (page->priv->asr_ready_box);
@@ -527,13 +518,15 @@ file_delete_finished (GObject      *source_object,
 	PtConfigRow *row = PT_CONFIG_ROW (user_data);
 	GFile       *file  = G_FILE (source_object);
 	GError      *error = NULL;
+	GtkWidget   *listbox;
 	GtkWidget   *dialog;
 	GtkWidget   *parent;
 
 	if (g_file_delete_finish (file, res, &error)) {
 		if (pt_config_row_get_active (row))
 			pt_config_row_set_active (row, FALSE);
-		g_object_unref (row);
+		listbox = gtk_widget_get_parent (GTK_WIDGET (row));
+		gtk_list_box_remove (GTK_LIST_BOX (listbox), GTK_WIDGET (row));
 	} else {
 		parent = gtk_widget_get_ancestor (GTK_WIDGET (row),
 		                                  PT_TYPE_PREFERENCES_DIALOG);
@@ -841,10 +834,6 @@ make_config_dir_cb (GObject      *source_object,
 	                                             G_IO_ERROR_EXISTS))) {
 		gtk_widget_hide (page->priv->asr_error_box);
 		asr_setup_config_box (page);
-		g_signal_connect (page->priv->asr_list, "add",
-		                  G_CALLBACK (asr_list_changed_cb), page);
-		g_signal_connect (page->priv->asr_list, "remove",
-		                  G_CALLBACK (asr_list_changed_cb), page);
 	} else {
 		gtk_widget_hide (page->priv->asr_initial_box);
 		gtk_widget_hide (page->priv->asr_ready_box);
