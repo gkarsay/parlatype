@@ -1213,17 +1213,13 @@ pt_window_init (PtWindow *win)
 static void
 pt_window_dispose (GObject *object)
 {
-	PtWindow *win;
-	win = PT_WINDOW (object);
+	PtWindow *win = PT_WINDOW (object);
+	gint x;
+	gint y;
 
-	/* Save window size/position on all backends */
+	/* Save window size */
 	if (win->priv->editor) {
-		gint x;
-		gint y;
-		gtk_window_get_position (GTK_WINDOW (win), &x, &y);
-		g_settings_set_int (win->priv->editor, "x-pos", x);
-		g_settings_set_int (win->priv->editor, "y-pos", y);
-		gtk_window_get_size (GTK_WINDOW (win), &x, &y);
+		gtk_window_get_default_size (GTK_WINDOW (win), &x, &y);
 		g_settings_set_int (win->priv->editor, "width", x);
 		g_settings_set_int (win->priv->editor, "height", y);
 	}
