@@ -6,16 +6,6 @@
       <object class="GtkBox" id="rowbox">
         <property name="spacing">12</property>
         <child>
-          <object class="GtkBox">
-            <property name="width_request">40</property>
-            <child>
-              <object class="GtkImage" id="status_image">
-                <property name="icon_name">dialog-error-symbolic</property>
-              </object>
-            </child>
-          </object>
-        </child>
-        <child>
           <object class="GtkLabel" id="name_label">
             <property name="valign">baseline</property>
             <property name="label">Model name</property>
@@ -26,11 +16,25 @@
         </child>
         <child>
           <object class="GtkLabel" id="lang_label">
+            <property name="halign">end</property>
+            <property name="hexpand">1</property>
+            <property name="hexpand-set">1</property>
             <property name="valign">baseline</property>
             <property name="label">Language</property>
             <style>
               <class name="dim-label"/>
             </style>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="width_request">25</property>
+            <property name="margin-start">15</property>
+            <child>
+              <object class="GtkImage" id="status_image">
+                <property name="icon_name">dialog-error-symbolic</property>
+              </object>
+            </child>
           </object>
         </child>
       </object>
