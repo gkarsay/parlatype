@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-18 21:22+0200\n"
-"PO-Revision-Date: 2022-01-04 00:55+0000\n"
+"PO-Revision-Date: 2022-01-05 01:55+0000\n"
 "Last-Translator: Reza Almanda <rezaalmanda27@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/parlatype/"
 "parlatype/id/>\n"
@@ -64,27 +64,28 @@ msgstr ""
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:51
 msgid "Translation updates for several languages."
-msgstr ""
+msgstr "Pembaruan terjemahan beberapa bahasa."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:58
 msgid "This is a major release with new features."
-msgstr ""
+msgstr "Rilis besar dengan fitur baru."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:61
 msgid "Waveform is loaded on-the-fly, there is no blocking progress dialog."
-msgstr ""
+msgstr "Waveform dimuat on-the-fly, tidak ada blocking progress dialog."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:63
 msgid "Waveform can be changed continuously instead of in discrete steps."
 msgstr ""
+"Waveform dapat diubah secara terus-menerus pada langkah-langkah diskrit."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:70
 msgid "This is a minor release."
-msgstr ""
+msgstr "Ini merupakan rilis minor."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:73
@@ -96,7 +97,7 @@ msgstr ""
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:75
 msgid "Translation updates for Hungarian, Lithuanian and Spanish"
-msgstr ""
+msgstr "Pembaruan terjemahan hungaria, lithuania dan spanyol"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:82
@@ -140,7 +141,7 @@ msgstr ""
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:103
 msgid "Custom timestamps"
-msgstr ""
+msgstr "Stempel waktu kustom"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:105
@@ -148,11 +149,13 @@ msgid ""
 "Translation updates for Brazilian Portuguese, British English, Czech, "
 "German, Japanese, Lithuanian and Polish"
 msgstr ""
+"Pembaruan terjemahan Bahasa Portugis Brasil, Inggris, Ceko, Jerman, Jepang, "
+"Lithuania, dan Polandia"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:112
 msgid "This is a minor maintenance release."
-msgstr ""
+msgstr "Ini adalah rilis pemeliharaan kecil."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:115
@@ -167,7 +170,7 @@ msgstr ""
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:119
 msgid "Translation updates for French"
-msgstr ""
+msgstr "Pembaruan terjemahan perancis"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:126
@@ -207,6 +210,8 @@ msgid ""
 "Translation updates for Arabic, British English, Catalan, German, Finnish, "
 "French, Japanese, Lithuanian, Polish, Spanish and Swedish"
 msgstr ""
+"Pembaruan terjemahan bahasa Arab, Inggris Raya, Catalan, Jerman, Finlandia, "
+"Prancis, Jepang, Lithuania, Polandia, Spanyol, dan Swedia"
 
 #: data/org.parlatype.Parlatype.desktop.in:5
 msgid "Transcription utility"
@@ -214,11 +219,11 @@ msgstr "Peralatan transkripsi"
 
 #: data/org.parlatype.Parlatype.desktop.in:6
 msgid "Transcription;"
-msgstr ""
+msgstr "Transkripsi;"
 
 #: src/pt-app.c:59
 msgid "Show the application’s version"
-msgstr ""
+msgstr "Tampilkan versi aplikasi"
 
 #: src/pt-app.c:100
 msgid "Open Audio File"
@@ -263,7 +268,8 @@ msgstr "Sebuah peralatan transkrip dasar"
 msgid "translator-credits"
 msgstr ""
 "Launchpad Contributions:\n"
-"  Ari Setyo Wibowo https://launchpad.net/~ari-el-uno"
+"Ari Setyo Wibowo https://launchpad.net/~ari-el-uno\n"
+"Reza Almanda https://github.com/rezaalmanda"
 
 #: src/pt-app.c:353
 #, c-format
@@ -276,11 +282,11 @@ msgstr ""
 
 #: src/pt-asr-dialog.c:93
 msgid "CMU Pocketsphinx"
-msgstr ""
+msgstr "CMU Pocketsphinx"
 
 #: src/pt-asr-dialog.c:96
 msgid "Mozilla DeepSpeech"
-msgstr ""
+msgstr "Mozilla DeepSpeech"
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
@@ -325,7 +331,7 @@ msgstr ""
 
 #: src/pt-prefs-asr.c:596
 msgid "_Yes"
-msgstr ""
+msgstr "_Ya"
 
 #: src/pt-prefs-asr.c:673 src/pt-prefs-asr.c:727
 msgid "Error"
@@ -437,7 +443,7 @@ msgstr "Instruksi:"
 
 #: src/resources/asr-dialog.ui:322
 msgid "Download, unzip to a folder and select that folder."
-msgstr ""
+msgstr "Unduh, unzip folder dan pilih folder tersebut."
 
 #: src/resources/goto-dialog.ui:13 src/resources/menus.ui:34
 msgid "Go to…"
@@ -457,7 +463,7 @@ msgstr "Buka file media"
 
 #: src/resources/help-overlay.ui:27
 msgid "Show/hide action menu"
-msgstr ""
+msgstr "Tampil/sembunyikan menu aksi"
 
 #: src/resources/help-overlay.ui:34
 msgid "Quit"
@@ -517,7 +523,7 @@ msgstr "Preferensi"
 
 #: src/resources/menus.ui:11
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "_Pintasan Keyboard"
 
 #: src/resources/menus.ui:19
 msgid "About Parlatype"
@@ -529,12 +535,12 @@ msgstr ""
 
 #: src/resources/menus.ui:30
 msgid "Go to cursor"
-msgstr ""
+msgstr "Pergi ke kursor"
 
 #. This refers to: "Characters around timestamps"
 #: src/resources/preferences.ui:42
 msgid "None"
-msgstr ""
+msgstr "Kosong"
 
 #: src/resources/preferences.ui:46
 msgid "#Number signs#"
