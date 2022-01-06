@@ -391,13 +391,6 @@ pointer_in_range (PtWaveviewer *self,
 	return (fabs (pointer - (double) time_to_pixel (self, pos)) < 3.0);
 }
 
-static void
-set_cursor (GtkWidget *widget,
-            GdkCursor *cursor)
-{
-	gtk_widget_set_cursor (widget, cursor);
-}
-
 static gboolean
 pt_waveviewer_button_press_event (GtkGestureClick *gesture,
                                   gint             n_press,
@@ -436,7 +429,7 @@ pt_waveviewer_button_press_event (GtkGestureClick *gesture,
 			self->priv->dragend = self->priv->sel_end;
 		}
 
-		set_cursor (GTK_WIDGET (self), self->priv->arrows);
+		gtk_widget_set_cursor (GTK_WIDGET (self), self->priv->arrows);
 		update_selection (self);
 		return TRUE;
 	}
@@ -454,7 +447,7 @@ pt_waveviewer_button_press_event (GtkGestureClick *gesture,
 		else
 			self->priv->dragstart = self->priv->sel_start;
 
-		set_cursor (GTK_WIDGET (self), self->priv->arrows);
+		gtk_widget_set_cursor (GTK_WIDGET (self), self->priv->arrows);
 		update_selection (self);
 		return TRUE;
 	}
@@ -554,9 +547,9 @@ pt_waveviewer_motion_event (GtkEventControllerMotion *ctrl,
 	if (self->priv->sel_start != self->priv->sel_end) {
 		if (pointer_in_range (self, x + gtk_adjustment_get_value (self->priv->adj), self->priv->sel_start)
 		    || pointer_in_range (self, x + gtk_adjustment_get_value (self->priv->adj), self->priv->sel_end)) {
-			set_cursor (GTK_WIDGET (self), self->priv->arrows);
+			gtk_widget_set_cursor (GTK_WIDGET (self), self->priv->arrows);
 		} else {
-			set_cursor (GTK_WIDGET (self), NULL);
+			gtk_widget_set_cursor (GTK_WIDGET (self), NULL);
 		}
 	}
 
@@ -574,7 +567,7 @@ pt_waveviewer_button_release_event (GtkGestureClick *gesture,
 
 	button = gtk_gesture_single_get_current_button (GTK_GESTURE_SINGLE (gesture));
 	if (n_press == 1 && button == GDK_BUTTON_PRIMARY) {
-		set_cursor (GTK_WIDGET (user_data), NULL);
+		gtk_widget_set_cursor (GTK_WIDGET (user_data), NULL);
 		return TRUE;
 	}
 	return FALSE;
