@@ -46,7 +46,6 @@
 #include "pt-waveviewer-scrollbox.h"
 #include "pt-waveviewer-selection.h"
 #include "pt-waveviewer-cursor.h"
-#include "pt-waveviewer-focus.h"
 #include "pt-waveviewer.h"
 
 
@@ -89,7 +88,6 @@ struct _PtWaveviewerPrivate {
 	GtkWidget  *waveform;
 	GtkWidget  *revealer;
 	GtkWidget  *ruler;
-	GtkWidget  *focus;
 	GtkWidget  *cursor;
 	GtkWidget  *selection;
 
@@ -233,7 +231,7 @@ add_subtract_time (PtWaveviewer *self,
 	result = self->priv->playback_cursor + pixel * one_pixel;
 
 	/* Return result in range */
-	if (stay_in_selection)
+	if (stay_in_selection && self->priv->has_selection)
 		return CLAMP (result, self->priv->sel_start, self->priv->sel_end);
 	else
 		return CLAMP (result, 0, self->priv->duration);
@@ -309,6 +307,7 @@ pt_waveviewer_key_press_event (GtkEventControllerKey *ctrl,
 	if (self->priv->peaks->len == 0)
 		return FALSE;
 
+
 	/* no modifier pressed */
 	if (!(state & ALL_ACCELS_MASK)) {
 		switch (keyval) {
@@ -332,10 +331,16 @@ pt_waveviewer_key_press_event (GtkEventControllerKey *ctrl,
 			g_signal_emit_by_name (self, "cursor-changed", add_subtract_time (self, 20, TRUE));
 			return TRUE;
 		case GDK_KEY_Home:
-			g_signal_emit_by_name (self, "cursor-changed", self->priv->sel_start);
+			if (self->priv->has_selection)
+				g_signal_emit_by_name (self, "cursor-changed", self->priv->sel_start);
+			else
+				g_signal_emit_by_name (self, "cursor-changed", 0);
 			return TRUE;
 		case GDK_KEY_End:
-			g_signal_emit_by_name (self, "cursor-changed", self->priv->sel_end);
+			if (self->priv->has_selection)
+				g_signal_emit_by_name (self, "cursor-changed", self->priv->sel_end);
+			else
+				g_signal_emit_by_name (self, "cursor-changed", self->priv->duration);
 			return TRUE;
 		}
 	}
@@ -1126,7 +1131,6 @@ pt_waveviewer_init (PtWaveviewer *self)
 	g_type_ensure (PT_TYPE_WAVEVIEWER_WAVEFORM);
 	g_type_ensure (PT_TYPE_WAVEVIEWER_SELECTION);
 	g_type_ensure (PT_TYPE_WAVEVIEWER_CURSOR);
-	g_type_ensure (PT_TYPE_WAVEVIEWER_FOCUS);
 
 	gtk_widget_init_template (GTK_WIDGET (self));
 
@@ -1240,7 +1244,6 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, waveform);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, selection);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, cursor);
-	gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, focus);
 
 	gtk_widget_class_set_layout_manager_type (widget_class, GTK_TYPE_BIN_LAYOUT);
 

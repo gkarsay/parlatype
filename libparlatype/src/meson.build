@@ -37,8 +37,6 @@ sources = [
 	'pt-waveviewer.c',
 	'pt-waveviewer-cursor.c',
 	'pt-waveviewer-cursor.h',
-	'pt-waveviewer-focus.c',
-	'pt-waveviewer-focus.h',
 	'pt-waveviewer-ruler.c',
 	'pt-waveviewer-ruler.h',
 	'pt-waveviewer-scrollbox.c',

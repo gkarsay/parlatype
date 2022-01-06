@@ -25,9 +25,6 @@
                 <child type="overlay">
                   <object class="PtWaveviewerCursor" id="cursor"/>
                 </child>
-                <child type="overlay">
-                  <object class="PtWaveviewerFocus" id="focus"/>
-                </child>
               </object>
             </child>
             <child>
