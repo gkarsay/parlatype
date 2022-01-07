@@ -44,6 +44,7 @@ struct _PtAsrDialogPrivate
 	GtkWidget *url1_button;
 	GtkWidget *url2_label;
 	GtkWidget *url2_button;
+	GtkWidget *folder_label;
 	GtkWidget *folder_button;
 };
 
@@ -68,6 +69,80 @@ have_string (gchar *str)
 	return (str && g_strcmp0 (str, "") != 0);
 }
 
+static void
+set_folder (PtAsrDialog *dlg,
+            gchar       *folder)
+{
+	GtkLabel *folder_label = GTK_LABEL (dlg->priv->folder_label);
+	GtkButton *folder_button = GTK_BUTTON (dlg->priv->folder_button);
+
+	if (have_string (folder)) {
+		gtk_label_set_text (folder_label, folder);
+		gtk_button_set_label (folder_button, _("Change folder"));
+	} else {
+		gtk_label_set_text (folder_label, _("No"));
+		gtk_button_set_label (folder_button, _("Select model folder"));
+	}
+}
+
+static void
+folder_dialog_response_cb (GtkDialog *dialog,
+                           gint       response_id,
+                           gpointer   user_data)
+{
+	PtAsrDialog *dlg = PT_ASR_DIALOG (user_data);
+	GFile    *result;
+	gchar    *path = NULL;
+
+	if (response_id == GTK_RESPONSE_ACCEPT) {
+		result = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
+		path = g_file_get_path (result);
+		g_object_unref (result);
+	}
+
+	if (path) {
+		pt_config_set_base_folder (dlg->priv->config, path);
+		set_folder (dlg, path);
+		g_free (path);
+	}
+
+	g_object_unref (dialog);
+}
+
+static void
+folder_button_clicked_cb (GtkButton *widget,
+                          gpointer   user_data)
+{
+	PtAsrDialog *dlg = PT_ASR_DIALOG (user_data);
+	GtkFileChooserNative *dialog;
+	const char    *home_path;
+	gchar         *path = NULL;
+	GFile	      *dir;
+
+	dialog = gtk_file_chooser_native_new (
+			_("Select Model Folder"),
+			GTK_WINDOW (dlg),
+			GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
+			_("_Open"),
+			_("_Cancel"));
+
+	/* Set current folder or user’s home directory */
+	path = pt_config_get_base_folder (dlg->priv->config);
+	if (have_string (path)) {
+		dir = g_file_new_for_path (path);
+	} else {
+		home_path = g_get_home_dir ();
+		dir = g_file_new_for_path (home_path);
+	}
+	gtk_file_chooser_set_current_folder (
+		GTK_FILE_CHOOSER (dialog), dir, NULL);
+
+	g_signal_connect (dialog, "response", G_CALLBACK (folder_dialog_response_cb), dlg);
+	gtk_native_dialog_show (GTK_NATIVE_DIALOG (dialog));
+
+	g_object_unref (dir);
+}
+
 void
 pt_asr_dialog_set_config (PtAsrDialog *dlg,
                           PtConfig    *config)
@@ -76,7 +151,6 @@ pt_asr_dialog_set_config (PtAsrDialog *dlg,
 	gchar *str;
 	GtkWidget *label;
 	gchar *engine = NULL;
-	GFile *folder;
 
 	dlg->priv->config = config;
 
@@ -165,24 +239,8 @@ pt_asr_dialog_set_config (PtAsrDialog *dlg,
 	g_free (str);
 
 	str = pt_config_get_base_folder (config);
-	folder = g_file_new_for_path (str);
-
-	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dlg->priv->folder_button),
-	                                     folder, NULL);
-	g_object_unref (folder);
-}
-
-static void
-file_set_cb (GtkFileChooserButton *widget,
-             gpointer              user_data)
-{
-	PtAsrDialog *dlg = PT_ASR_DIALOG (user_data);
-	gchar *path;
-
-	path = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (widget));
-	pt_config_set_base_folder (dlg->priv->config, path);
-
-	g_free (path);
+	set_folder (dlg, str);
+	gtk_label_set_ellipsize (GTK_LABEL (dlg->priv->folder_label), PANGO_ELLIPSIZE_START);
 }
 
 static void
@@ -198,7 +256,7 @@ pt_asr_dialog_class_init (PtAsrDialogClass *klass)
 	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
 	gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/parlatype/asr-dialog.ui");
-	gtk_widget_class_bind_template_callback(widget_class, file_set_cb);
+	gtk_widget_class_bind_template_callback(widget_class, folder_button_clicked_cb);
 	gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, name_entry);
 	gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, lang_value);
 	gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, engine_label);
@@ -215,6 +273,7 @@ pt_asr_dialog_class_init (PtAsrDialogClass *klass)
 	gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, url1_button);
 	gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, url2_label);
 	gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, url2_button);
+	gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, folder_label);
 	gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, folder_button);
 }
 

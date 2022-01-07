@@ -208,8 +208,21 @@
               </object>
             </child>
             <child>
-              <object class="GtkButton" id="folder_button">
-                <property name="focusable">1</property>
+              <object class="GtkBox">
+              <property name="orientation">horizontal</property>
+              <property name="spacing">6</property>
+                <child>
+                  <object class="GtkLabel" id="folder_label">
+                    <property name="label">placeholder</property>
+                    <property name="xalign">0</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton" id="folder_button">
+                    <property name="focusable">1</property>
+                    <signal name="clicked" handler="folder_button_clicked_cb" swapped="no"/>
+                  </object>
+                </child>
                 <layout>
                   <property name="column">1</property>
                   <property name="row">3</property>
