@@ -46,7 +46,6 @@
                   <object class="GtkListBox" id="asr_list">
                     <property name="activate-on-single-click">0</property>
                     <signal name="row-activated" handler="asr_list_row_activated" swapped="no"/>
-                    <signal name="row-selected" handler="asr_list_row_selected_cb" swapped="no"/>
                   </object>
                 </property>
               </object>

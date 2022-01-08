@@ -45,6 +45,7 @@ struct _PtPrefsAsrPrivate
 	GtkWidget *no_result_box;
 
 	int        filter;
+	gulong     asr1;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PtPrefsAsr, pt_prefs_asr, GTK_TYPE_BOX)
@@ -872,6 +873,7 @@ pt_prefs_asr_init (PtPrefsAsr *page)
 
 	page->priv->filter = 2;
 	gtk_list_box_set_placeholder (GTK_LIST_BOX (page->priv->asr_list), page->priv->no_result_box);
+	page->priv->asr1 = g_signal_connect (page->priv->asr_list, "row-selected", G_CALLBACK (asr_list_row_selected_cb), page);
 
 	/* make sure config dir exists */
 	path = g_build_path (G_DIR_SEPARATOR_S,
@@ -897,6 +899,8 @@ pt_prefs_asr_dispose (GObject *object)
 {
 	PtPrefsAsr *page = PT_PREFS_ASR (object);
 
+	if (page->priv->asr1 > 0)
+		g_signal_handler_disconnect (page->priv->asr_list, page->priv->asr1);
 	g_clear_object (&page->priv->config_folder);
 
 	G_OBJECT_CLASS (pt_prefs_asr_parent_class)->dispose (object);
@@ -913,7 +917,6 @@ pt_prefs_asr_class_init (PtPrefsAsrClass *klass)
 	gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/parlatype/prefs-asr.ui");
 	gtk_widget_class_bind_template_callback(widget_class, initial_asr_button_clicked_cb);
 	gtk_widget_class_bind_template_callback(widget_class, asr_list_row_activated);
-	gtk_widget_class_bind_template_callback(widget_class, asr_list_row_selected_cb);
 	gtk_widget_class_bind_template_callback(widget_class, filter_combo_changed_cb);
 	gtk_widget_class_bind_template_callback(widget_class, details_button_clicked_cb);
 	gtk_widget_class_bind_template_callback(widget_class, remove_button_clicked_cb);
