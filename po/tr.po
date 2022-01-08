@@ -8,14 +8,16 @@ msgstr ""
 "Project-Id-Version: Parlatype 3.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-12 19:52+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-01-09 18:53+0000\n"
+"Last-Translator: E-Akcaer <gurbetcii_@hotmail.com>\n"
+"Language-Team: Turkish <https://hosted.weblate.org/projects/parlatype/"
+"parlatype/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.10.1\n"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:7
 #: data/org.parlatype.Parlatype.desktop.in:4 src/pt-app.c:214
@@ -25,40 +27,42 @@ msgstr ""
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:8
 msgid "Media player for speech transcription"
-msgstr ""
+msgstr "Konuşmadan yazıya deşifre için ortam oynatıcısı"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:11
 msgid ""
 "Parlatype is an easy to use media player. Its main purpose is to help you "
 "transcribing speech."
 msgstr ""
+"Parlatype, kullanımı kolay bir ortam oynatıcısıdır. Asıl amacı, konuşmayı "
+"yazıya deşifre etmenize yardım etmektir."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:25
 msgid "Gabor Karsay"
-msgstr ""
+msgstr "Gabor Karsay"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:46
 msgid "This is a minor release with a new feature."
-msgstr ""
+msgstr "Bu, yeni bir özelliği olan ikincil bir sürümdür."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:48
 msgid "Added MPRIS interface."
-msgstr ""
+msgstr "MPRIS arayüzü eklendi."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:49
 msgid "Smaller bug fixes."
-msgstr ""
+msgstr "Küçük hata düzeltmeleri."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:50
 msgid "Switched to Weblate for translations."
-msgstr ""
+msgstr "Çeviriler için Weblate'e geçiş yapıldı."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:51
 #: data/org.parlatype.Parlatype.appdata.xml.in:61
 #: data/org.parlatype.Parlatype.appdata.xml.in:77
 msgid "Translation updates for several languages."
-msgstr ""
+msgstr "Birçok dil için çeviri güncellemeleri."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:57
@@ -68,11 +72,11 @@ msgstr ""
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:59
 msgid "Support for Mozilla DeepSpeech."
-msgstr ""
+msgstr "Mozilla DeepSpeech için destek."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:60
 msgid "New configuration system for Automatic Speech Recognition."
-msgstr ""
+msgstr "Otomatik Konuşma Teşhisi için yeni yapılandırma sistemi."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:68
@@ -237,36 +241,36 @@ msgstr ""
 
 #: data/org.parlatype.Parlatype.desktop.in:5
 msgid "Transcription utility"
-msgstr ""
+msgstr "Deşifre uygulaması"
 
 #: data/org.parlatype.Parlatype.desktop.in:6
 msgid "Transcription;"
-msgstr ""
+msgstr "Deşifre;"
 
 #: src/pt-app.c:61
 msgid "Show the application’s version"
-msgstr ""
+msgstr "Uygulama sürümünü göster"
 
 #: src/pt-app.c:102
 msgid "Open Audio File"
-msgstr ""
+msgstr "Ses Dosyası Aç"
 
 #: src/pt-app.c:105 src/pt-prefs-asr.c:782 src/resources/window.ui:43
 msgid "_Open"
-msgstr ""
+msgstr "_Aç"
 
 #: src/pt-app.c:106 src/pt-prefs-asr.c:595 src/pt-prefs-asr.c:783
 #: src/resources/goto-dialog.ui:26
 msgid "_Cancel"
-msgstr ""
+msgstr "_İptal"
 
 #: src/pt-app.c:125
 msgid "Audio files"
-msgstr ""
+msgstr "Ses dosyaları"
 
 #: src/pt-app.c:126 src/pt-prefs-asr.c:794
 msgid "All files"
-msgstr ""
+msgstr "Tüm dosyalar"
 
 #. Translators: %s is a detailed error message
 #: src/pt-app.c:179
@@ -284,7 +288,7 @@ msgstr ""
 
 #: src/pt-app.c:217
 msgid "A basic transcription utility"
-msgstr ""
+msgstr "Basit bir deşifre uygulaması"
 
 #: src/pt-app.c:221
 msgid "translator-credits"
