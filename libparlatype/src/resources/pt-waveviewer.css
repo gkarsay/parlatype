@@ -18,3 +18,15 @@ scrolledwindow overshoot.left,
 scrolledwindow overshoot.right {
 	background: none;
 }
+
+/* focus ring */
+box > widget:focus:focus-visible	 {
+	transition-property: outline, outline-width, outline-offset, outline-color;
+	transition-duration: 300ms;
+	animation-timing-function: ease-in-out;
+
+	outline: solid;
+	outline-color: alpha(@theme_selected_bg_color, .5);
+	outline-width: 2px;
+	outline-offset: -2px;
+}
