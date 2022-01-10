@@ -248,6 +248,7 @@ pt_asr_dialog_init (PtAsrDialog *dlg)
 {
 	dlg->priv = pt_asr_dialog_get_instance_private (dlg);
 	gtk_widget_init_template (GTK_WIDGET (dlg));
+	gtk_widget_add_css_class (GTK_WIDGET (dlg), "ptdialog");
 }
 
 static void

@@ -27,3 +27,7 @@ notebook > stack {
 row {
   padding: 6px;
 }
+
+.ptdialog > box {
+  padding: 12px;
+}

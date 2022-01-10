@@ -118,6 +118,7 @@ pt_goto_dialog_init (PtGotoDialog *dlg)
 {
 	dlg->priv = pt_goto_dialog_get_instance_private (dlg);
 	gtk_widget_init_template (GTK_WIDGET (dlg));
+	gtk_widget_add_css_class (GTK_WIDGET (dlg), "ptdialog");
 
 	dlg->priv->max = 0;
 
