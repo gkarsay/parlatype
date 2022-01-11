@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Parlatype 3.1\n"
 "POT-Creation-Date: 2021-12-12 19:52+0100\n"
-"PO-Revision-Date: 2022-01-09 18:53+0000\n"
+"PO-Revision-Date: 2022-01-12 10:55+0000\n"
 "Last-Translator: E-Akcaer <gurbetcii_@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/parlatype/"
 "parlatype-help/tr/>\n"
@@ -16,19 +16,19 @@ msgstr ""
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr ""
+msgstr "çevirmen-emeği geçenler: Eakcaer <eakcaer@gmail.com>, 2021."
 
 #. (itstool) path: info/title
 #: C/index.page:7
 msgctxt "text"
 msgid "Parlatype"
-msgstr ""
+msgstr "Parlatype"
 
 #. (itstool) path: info/title
 #: C/index.page:8
 msgctxt "link"
 msgid "Parlatype"
-msgstr ""
+msgstr "Parlatype"
 
 #. (itstool) path: credit/name
 #: C/index.page:10
@@ -184,7 +184,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:28
 msgid "Show help"
-msgstr ""
+msgstr "Yardımı göster"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:29
@@ -204,7 +204,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:36
 msgid "Play/Pause"
-msgstr ""
+msgstr "Oynat/Duraklat"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:37
@@ -224,7 +224,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:44
 msgid "Jump back"
-msgstr ""
+msgstr "Geri atla"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:45
@@ -234,7 +234,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:48
 msgid "Jump forward"
-msgstr ""
+msgstr "İleri atla"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:49
@@ -264,7 +264,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:60
 msgid "Zoom in"
-msgstr ""
+msgstr "Yaklaştır"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:61
@@ -274,7 +274,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:64
 msgid "Zoom out"
-msgstr ""
+msgstr "Uzaklaştır"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:65
@@ -284,7 +284,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:68
 msgid "Quit"
-msgstr ""
+msgstr "Çık"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:69
@@ -309,7 +309,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/preferences.page:14
 msgid "Preferences"
-msgstr ""
+msgstr "Tercihler"
 
 #. (itstool) path: page/p
 #: C/preferences.page:16
@@ -504,7 +504,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/timestamps.page:14
 msgid "Timestamps"
-msgstr ""
+msgstr "Zaman damgaları"
 
 #. (itstool) path: page/p
 #: C/timestamps.page:16
