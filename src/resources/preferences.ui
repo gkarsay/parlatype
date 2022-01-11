@@ -140,6 +140,7 @@
                     <child>
                       <object class="GtkCheckButton" id="ruler_check">
                         <property name="label" translatable="yes">Show _time scale</property>
+                        <property name="margin-start">6</property>
                         <property name="focusable">1</property>
                         <property name="halign">start</property>
                         <property name="margin-start">6</property>
@@ -179,6 +180,7 @@
                     <child>
                       <object class="GtkCheckButton" id="moving_cursor_radio">
                         <property name="label" translatable="yes">_Moving cursor</property>
+                        <property name="margin-start">6</property>
                         <property name="halign">start</property>
                         <property name="use_underline">1</property>
                         <property name="active">1</property>
@@ -191,6 +193,7 @@
                     <child>
                       <object class="GtkCheckButton" id="fixed_cursor_radio">
                         <property name="label" translatable="yes">_Fixed cursor</property>
+                        <property name="margin-start">6</property>
                         <property name="halign">start</property>
                         <property name="use_underline">1</property>
                         <property name="active">1</property>
@@ -200,21 +203,6 @@
                           <property name="row">3</property>
                         </layout>
                       </object>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
                     </child>
                   </object>
                 </property>
@@ -409,6 +397,7 @@
                     <property name="column_spacing">6</property>
                     <child>
                       <object class="GtkLabel" id="label_example1">
+                        <property name="margin-start">6</property>
                         <property name="label">example1</property>
                         <property name="xalign">0</property>
                         <layout>
@@ -419,6 +408,7 @@
                     </child>
                     <child>
                       <object class="GtkLabel" id="label_example2">
+                        <property name="margin-start">6</property>
                         <property name="label">example2</property>
                         <property name="xalign">0</property>
                         <layout>
@@ -443,6 +433,7 @@
                     <child>
                       <object class="GtkCheckButton" id="hours_check">
                         <property name="label" translatable="yes">Always show hours and leading zeroes</property>
+                        <property name="margin-start">6</property>
                         <property name="focusable">1</property>
                         <property name="halign">start</property>
                         <signal name="toggled" handler="hours_check_toggled" swapped="no"/>
@@ -496,6 +487,7 @@
                     </child>
                     <child>
                       <object class="GtkComboBox" id="delimiter_combo">
+                        <property name="margin-start">6</property>
                         <property name="halign">start</property>
                         <property name="model">delimiter_liststore</property>
                         <property name="id_column">0</property>
@@ -514,6 +506,7 @@
                     </child>
                     <child>
                       <object class="GtkGrid" id="precision-grid">
+                        <property name="margin-start">6</property>
                         <property name="halign">start</property>
                         <property name="row_spacing">6</property>
                         <property name="column_spacing">6</property>
