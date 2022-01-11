@@ -269,14 +269,6 @@ change_mode (GSimpleAction *action,
 
 	if (success)
 		g_simple_action_set_state (action, state);
-
-	/* On changing state the menu doesn’t close. It seems better to close
-	   it just like every other menu item closes the menu.
-	   Just in case this behaviour changes in the future, check if the
-	   menu is really open. */
-
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->priv->primary_menu_button)))
-		gtk_button_clicked (GTK_BUTTON (win->priv->primary_menu_button));
 }
 
 const GActionEntry win_actions[] = {
