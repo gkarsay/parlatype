@@ -700,13 +700,6 @@ player_end_of_stream_cb (PtPlayer *player,
 	change_play_button_tooltip (win);
 }
 
-static gboolean
-swap_control_buttons (GtkWidget *box)
-{
-	gtk_widget_set_direction (box, GTK_TEXT_DIR_LTR);
-	return FALSE;
-}
-
 static void
 pt_window_direction_changed (GtkWidget        *widget,
                              GtkTextDirection  previous_direction)
@@ -718,17 +711,14 @@ pt_window_direction_changed (GtkWidget        *widget,
 	PtWindowPrivate *priv = self->priv;
 	GtkScale        *speed_scale = GTK_SCALE (priv->speed_scale);
 
-	gtk_widget_set_direction (priv->controls_row_box, GTK_TEXT_DIR_LTR);
-	gtk_widget_set_direction (priv->progress, GTK_TEXT_DIR_LTR);
+	gtk_widget_set_direction (priv->button_jump_back, GTK_TEXT_DIR_LTR);
+	gtk_widget_set_direction (priv->button_jump_forward, GTK_TEXT_DIR_LTR);
+	gtk_widget_set_direction (priv->controls_box, GTK_TEXT_DIR_LTR);
 
 	if (previous_direction == GTK_TEXT_DIR_LTR)
 		gtk_scale_set_value_pos (speed_scale, GTK_POS_LEFT);
 	else
 		gtk_scale_set_value_pos (speed_scale, GTK_POS_RIGHT);
-
-	/* Swap control buttons in a timeout to avoid a race condition where
-	 * buttons were not rendered correctly linked, reason unknown */
-	g_idle_add ((GSourceFunc) swap_control_buttons, priv->controls_box);
 }
 
 static void
