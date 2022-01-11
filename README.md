@@ -21,7 +21,6 @@ To build Parlatype from source you need these packages:
 * gstreamer-plugins-base-1.0
 
 Optional, depending on your configured options:
-* gladeui-2.0 (>= 3.12.2; with `glade=true`)
 * gtk-doc (with `gtk-doc=true`)
 * desktop-file-utils (if installed, this checks the desktop file)
 * appstream-utils (if installed, this checks the appstream file)
@@ -35,23 +34,22 @@ Debian-based distros have to be Debian >= 10 (Buster) or Ubuntu >= 20.04 (Focal)
 Install these packages:
 
 ```
-$ sudo apt-get install meson build-essential libgirepository1.0-dev libgladeui-dev gtk-doc-tools yelp-tools libgtk-3-dev libgtk-3-0 iso-codes libgstreamer1.0-dev libgstreamer1.0-0 libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly libatspi2.0-dev libsphinxbase-dev libpocketsphinx-dev
+$ sudo apt-get install meson build-essential libgirepository1.0-dev gtk-doc-tools yelp-tools libgtk-3-dev libgtk-3-0 iso-codes libgstreamer1.0-dev libgstreamer1.0-0 libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly libatspi2.0-dev libsphinxbase-dev libpocketsphinx-dev
 ```
 On Fedora this should work:
 
 ```
-$ su -c 'dnf install meson gcc gobject-introspection-devel glade-devel gtk-doc yelp-tools gtk3-devel iso-codes-devel gstreamer1-devel gstreamer1-plugins-base-devel gstreamer1-plugins-good gstreamer1-plugins-ugly at-spi2-core-devel sphinxbase-devel pocketsphinx-devel'
+$ su -c 'dnf install meson gcc gobject-introspection-devel gtk-doc yelp-tools gtk3-devel iso-codes-devel gstreamer1-devel gstreamer1-plugins-base-devel gstreamer1-plugins-good gstreamer1-plugins-ugly at-spi2-core-devel sphinxbase-devel pocketsphinx-devel'
 ```
 
 ### Configure options
 
 Parlatype ships its own library, _libparlatype_. \
-Developers might be interested in having a library documentation, GObject introspection and a Glade catalog for the widgets. \
+Developers might be interested in having a library documentation and GObject introspection. \
 These are the configurable options:
 
 * `gir`: install gobject introspection (default: false)
 * `gtk-doc`: install library documentation (default: false)
-* `glade`: install a glade catalog (default: false)
 * `deepspeech`: build GStreamer plugin for Mozilla DeepSpeech support, requires deepspeech (default: false)
 * `pocketsphinx`: build GStreamer plugin for CMU PocketSphinx support, requires sphinxbase and pocketsphinx (default: false)
 

@@ -89,7 +89,6 @@ status = [
   'With Deepspeech .......... : @0@'.format(with_deepspeech),
   'With GObject Introspection : @0@'.format(gir),
   'With API reference ....... : @0@'.format(gtk_doc),
-  'With Glade catalog ....... : @0@'.format(glade),
   ''
 ]
 
