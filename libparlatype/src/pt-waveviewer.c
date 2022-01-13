@@ -100,6 +100,9 @@ struct _PtWaveviewerPrivate {
 	GtkEventController *key_ctrl;
 	GtkEventController *focus_ctrl;
 
+	gdouble x_motion;
+	gdouble y_motion;
+
 	guint       tick_handler;
 };
 
@@ -512,6 +515,14 @@ pt_waveviewer_motion_event (GtkEventControllerMotion *ctrl,
 	GdkModifierType      state;
 	gint64               clicked;	/* the sample clicked on */
 	gint64               pos;	/* clicked sample’s position in milliseconds */
+
+	/* TODO bug in GTK? investigate
+	 * We get constantly motion events when playing, everything is normal in paused state.
+	 * Filter out motion without changed x y */
+	if (x == self->priv->x_motion && y == self->priv->y_motion)
+		return FALSE;
+	self->priv->x_motion = x;
+	self->priv->y_motion = y;
 
 	state = gtk_event_controller_get_current_event_state (GTK_EVENT_CONTROLLER (ctrl));
 
