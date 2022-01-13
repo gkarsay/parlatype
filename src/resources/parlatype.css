@@ -22,3 +22,7 @@ progressbar > trough.full > progress {
 	background-color: transparent;
 	border: 0;
 }
+
+grid {
+	padding: 6px;
+}
