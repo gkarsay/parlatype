@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Parlatype 3.1\n"
 "POT-Creation-Date: 2021-12-12 19:52+0100\n"
-"PO-Revision-Date: 2022-01-12 10:55+0000\n"
+"PO-Revision-Date: 2022-01-14 16:55+0000\n"
 "Last-Translator: E-Akcaer <gurbetcii_@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/parlatype/"
 "parlatype-help/tr/>\n"
@@ -48,6 +48,8 @@ msgstr "Gabor Karsay"
 #: C/index.page:23
 msgid "<app>Parlatype</app> is an easy to use media player. Its main purpose is to help you transcribing speech."
 msgstr ""
+"<app>Parlatype</app>kullanımı kolay bir ortam oynatıcısıdır. Esas amacı, "
+"konuşmayı yazıya dönüştürmenize yardımcı olmaktır."
 
 #. (itstool) path: page/title
 #: C/index.page:18
@@ -62,7 +64,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/index.page:27
 msgid "Help topics"
-msgstr ""
+msgstr "Yardım konuları"
 
 #. (itstool) path: info/desc
 #: C/drag-and-drop.page:6
@@ -72,7 +74,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/drag-and-drop.page:14
 msgid "Drag and Drop"
-msgstr ""
+msgstr "Sürükle Bırak"
 
 #. (itstool) path: page/p
 #: C/drag-and-drop.page:16
