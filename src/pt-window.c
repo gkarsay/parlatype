@@ -305,7 +305,7 @@ update_time (PtWindow *win)
 		if (text == NULL)
 			return;
 
-		gtk_label_set_text (GTK_LABEL (win->priv->pos_label), text);
+		gtk_menu_button_set_label (GTK_MENU_BUTTON (win->priv->pos_menu_button), text);
 		g_free (text);
 		win->priv->last_time = time/100;
 	}
@@ -582,7 +582,7 @@ pt_window_ready_to_play (PtWindow *win,
 		add_timer (win);
 
 	} else {
-		gtk_label_set_text (GTK_LABEL (win->priv->pos_label), "00:00.0");
+		gtk_menu_button_set_label (GTK_MENU_BUTTON (win->priv->pos_menu_button), "00:00.0");
 		gtk_window_set_title (GTK_WINDOW (win), "Parlatype");
 		gtk_widget_set_tooltip_text (win->priv->button_jump_back, NULL);
 		gtk_widget_set_tooltip_text (win->priv->button_jump_forward, NULL);
@@ -1265,7 +1265,6 @@ pt_window_class_init (PtWindowClass *klass)
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_jump_forward);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, volumebutton);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, pos_menu_button);
-	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, pos_label);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, speed_scale);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, waveviewer);
 }
