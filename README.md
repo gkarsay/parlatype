@@ -30,8 +30,7 @@ Optional, depending on your configured options:
 Runtime dependencies:
 * GStreamer "Good" Plugins
 
-Debian-based distros have to be Debian >= 10 (Buster) or Ubuntu >= 20.04 (Focal). \
-Install these packages:
+On Debian-based distros install these packages:
 
 ```
 $ sudo apt-get install meson build-essential libgirepository1.0-dev gtk-doc-tools yelp-tools libgtk-3-dev libgtk-3-0 iso-codes libgstreamer1.0-dev libgstreamer1.0-0 libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly libatspi2.0-dev libsphinxbase-dev libpocketsphinx-dev
