@@ -214,6 +214,9 @@ calculate_height (PtWaveviewerRuler *self)
 	}
 
 	gdk_surface = gtk_native_get_surface (native);
+	if (!gdk_surface)
+		return;
+
 	surface = gdk_surface_create_similar_surface (gdk_surface,
 	                                             CAIRO_CONTENT_COLOR,
 	                                             100, 100);
