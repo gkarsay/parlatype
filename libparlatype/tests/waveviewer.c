@@ -89,6 +89,7 @@ waveviewer_empty (void)
 	pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (testviewer), FALSE);
 	g_assert_false (pt_waveviewer_get_follow_cursor (PT_WAVEVIEWER (testviewer)));
 
+	g_object_ref_sink (testviewer);
 	g_object_unref (testviewer);
 }
 
