@@ -78,9 +78,7 @@ Update copyright year in about box in src/pt-app.c
 
 Release commit:
 - Update version in meson.build
-- Update version in README.md build instructions
-- Make sure it's the same version everywhere!
-- Update README.md dependencies if necessary
+- Update README.md dependencies (and package names) if necessary
 - Update library so version in libparlatype/meson.build
 - Update NEWS (release notes)
 - Update data/org.parlatype.Parlatype.appdata.xml.in (short release notes)

@@ -52,37 +52,23 @@ These are the configurable options:
 * `deepspeech`: build GStreamer plugin for Mozilla DeepSpeech support, requires deepspeech (default: false)
 * `pocketsphinx`: build GStreamer plugin for CMU PocketSphinx support, requires sphinxbase and pocketsphinx (default: false)
 
-### Build from Git
-Clone the repository and build with Meson. \
+### Build
+Clone the repository or download a tarball from https://github.com/gkarsay/parlatype/releases/.
+
+```
+$ meson build --prefix=/usr
+$ cd build
+$ ninja
+$ sudo ninja install
+```
 You can use any prefix but you may have to adjust LD_LIBRARY_PATH for other prefixes. \
 In this case Meson prints a message with those paths.
-```
-$ git clone https://github.com/gkarsay/parlatype.git
-$ cd parlatype
-$ meson build --prefix=/usr
-$ cd build
-$ ninja
-$ sudo ninja install
-```
 
-### Build from tarball
-Download the latest release tarball from https://github.com/gkarsay/parlatype/releases/latest. \
-Assuming it’s version 3.1 and you only want the program:
-```
-$ wget https://github.com/gkarsay/parlatype/releases/download/v3.1/parlatype-3.1.tar.gz
-$ tar -zxvf parlatype-3.1.tar.gz
-$ cd parlatype-3.1/
-$ meson build --prefix=/usr
-$ cd build
-$ ninja
-$ sudo ninja install
-```
-
-## Bugs
-Please report bugs at https://github.com/gkarsay/parlatype/issues.
-
-### Translate
+## Translate
 [Parlatype on Hosted Weblate](https://hosted.weblate.org/engage/parlatype/). \
 [![Translation status](https://hosted.weblate.org/widgets/parlatype/-/multi-auto.svg)](https://hosted.weblate.org/engage/parlatype/?utm_source=widget)
 
 You can always add other languages.
+
+## Bugs
+Please report bugs at https://github.com/gkarsay/parlatype/issues.
