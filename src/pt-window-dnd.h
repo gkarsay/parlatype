@@ -18,22 +18,7 @@
 #define PT_WINDOW_DND_H
 
 #include "config.h"
-#include <gtk/gtk.h>
 #include "pt-window.h"
-
-
-enum {
-	TARGET_STRING,		/* most GNOME apps */
-	TARGET_UTF8_STRING,	/* LibreOffice */
-	TARGET_TEXT_URILIST	/* Windows */
-};
-
-static const GtkTargetEntry drag_target_string[] = {
-	{ "STRING",        GTK_TARGET_OTHER_APP, TARGET_STRING } ,
-	{ "UTF8_STRING",   GTK_TARGET_OTHER_APP, TARGET_UTF8_STRING } ,
-	{ "text/uri-list", GTK_TARGET_OTHER_APP, TARGET_TEXT_URILIST }
-};
-
 
 void	pt_window_setup_dnd	(PtWindow *win);
 

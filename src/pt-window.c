@@ -19,9 +19,6 @@
 #include <stdlib.h>		/* exit() */
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#ifdef GDK_WINDOWING_X11
-#include <gdk/gdkx.h>
-#endif
 #include <parlatype.h>
 #include "pt-app.h"
 #include "pt-goto-dialog.h"
@@ -54,9 +51,9 @@ pt_error_message (PtWindow    *parent,
 		                "%s", secondary_message);
 
 	g_signal_connect_swapped (dialog, "response",
-			          G_CALLBACK (gtk_widget_destroy), dialog);
+			          G_CALLBACK (gtk_window_destroy), dialog);
 
-	gtk_widget_show_all (dialog);
+	gtk_widget_show (dialog);
 }
 
 void
@@ -70,23 +67,29 @@ copy_timestamp (GSimpleAction *action,
 
 	timestamp = pt_player_get_timestamp (win->player);
 	if (timestamp)
-		gtk_clipboard_set_text (win->priv->clip, timestamp, -1);
+		gdk_clipboard_set_text (win->priv->clip, timestamp);
 }
 
 static void
-clip_text_cb (GtkClipboard *clip,
-              const gchar  *text,
+clip_text_cb (GdkClipboard *clip,
+              GAsyncResult *res,
               gpointer      data)
 {
 	PtWindow *win = (PtWindow *) data;
+	GError *error = NULL;
 	gchar *timestamp;
 
-	if (text) {
-		timestamp = g_strdup (text);
-		pt_player_goto_timestamp (win->player, timestamp);
-		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
-		g_free (timestamp);
+	timestamp = gdk_clipboard_read_text_finish (clip, res, &error);
+
+	if (!timestamp) {
+		pt_error_message (win, _("Error"), error->message);
+		g_clear_error (&error);
+		return;
 	}
+
+	pt_player_goto_timestamp (win->player, timestamp);
+	pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
+	g_free (timestamp);
 }
 
 void
@@ -97,7 +100,11 @@ insert_timestamp (GSimpleAction *action,
 	PtWindow *win;
 	win = PT_WINDOW (user_data);
 
-	gtk_clipboard_request_text (win->priv->clip, clip_text_cb, win);
+	gdk_clipboard_read_text_async (
+			win->priv->clip,
+			NULL,
+			(GAsyncReadyCallback) clip_text_cb,
+			win);
 }
 
 static void
@@ -114,7 +121,7 @@ goto_dialog_response_cb (GtkDialog *dlg,
 		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
 	}
 
-	gtk_widget_destroy (GTK_WIDGET (dlg));
+	gtk_window_destroy (GTK_WINDOW (dlg));
 }
 
 
@@ -135,7 +142,7 @@ goto_position (GSimpleAction *action,
 	g_signal_connect (dlg, "response",
 			  G_CALLBACK (goto_dialog_response_cb), win);
 
-	gtk_widget_show_all (GTK_WIDGET (dlg));
+	gtk_widget_show (GTK_WIDGET (dlg));
 }
 
 void
@@ -262,14 +269,6 @@ change_mode (GSimpleAction *action,
 
 	if (success)
 		g_simple_action_set_state (action, state);
-
-	/* On changing state the menu doesn’t close. It seems better to close
-	   it just like every other menu item closes the menu.
-	   Just in case this behaviour changes in the future, check if the
-	   menu is really open. */
-
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->priv->primary_menu_button)))
-		gtk_button_clicked (GTK_BUTTON (win->priv->primary_menu_button));
 }
 
 const GActionEntry win_actions[] = {
@@ -305,7 +304,7 @@ update_time (PtWindow *win)
 		if (text == NULL)
 			return;
 
-		gtk_label_set_text (GTK_LABEL (win->priv->pos_label), text);
+		gtk_menu_button_set_label (GTK_MENU_BUTTON (win->priv->pos_menu_button), text);
 		g_free (text);
 		win->priv->last_time = time/100;
 	}
@@ -428,22 +427,23 @@ change_play_button_tooltip (PtWindow *win)
 }
 
 static void
-update_insert_action_sensitivity_cb (GtkClipboard *clip,
-                                     const gchar  *text,
+update_insert_action_sensitivity_cb (GdkClipboard *clip,
+                                     GAsyncResult *res,
                                      gpointer      data)
 {
 	PtWindow *win = PT_WINDOW (data);
 	PtPlayer *player = win->player;
+	gchar    *text;
 	gchar    *timestamp = NULL;
 	gboolean  result = FALSE;
 	GAction  *action;
 	gint      pos;
 	gchar    *label;
 
+	text = gdk_clipboard_read_text_finish (clip, res, NULL);
+
 	if (text) {
-		timestamp = g_strdup (text);
-		pos = pt_player_get_timestamp_position (player, timestamp, TRUE);
-		g_free (timestamp);
+		pos = pt_player_get_timestamp_position (player, text, TRUE);
 		timestamp = NULL;
 		if (pos >= 0) {
 			result = TRUE;
@@ -469,26 +469,15 @@ update_insert_action_sensitivity_cb (GtkClipboard *clip,
 }
 
 static void
-update_insert_action_sensitivity (GtkClipboard *clip,
-                                  GdkEvent     *event,
+update_insert_action_sensitivity (GdkClipboard *clip,
                                   gpointer      data)
 {
 	PtWindow  *win = PT_WINDOW (data);
 
-#ifdef GDK_WINDOWING_X11
-	GAction    *action;
-	GdkDisplay *display;
-	display = gtk_clipboard_get_display (clip);
-	if (GDK_IS_X11_DISPLAY (display) && !gdk_display_supports_selection_notification (display)) {
-		action = g_action_map_lookup_action (G_ACTION_MAP (win), "insert");
-		g_simple_action_set_enabled (G_SIMPLE_ACTION (action), TRUE);
-		return;
-	}
-#endif
-
-	gtk_clipboard_request_text (
+	gdk_clipboard_read_text_async (
 			clip,
-			update_insert_action_sensitivity_cb,
+			NULL,
+			(GAsyncReadyCallback) update_insert_action_sensitivity_cb,
 			win);
 }
 
@@ -522,7 +511,7 @@ enable_win_actions (PtWindow *win,
 		action = g_action_map_lookup_action (G_ACTION_MAP (win), "insert");
 		g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
 	} else {
-		update_insert_action_sensitivity (win->priv->clip, NULL, win);
+		update_insert_action_sensitivity (win->priv->clip, win);
 	}
 
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "goto");
@@ -582,7 +571,7 @@ pt_window_ready_to_play (PtWindow *win,
 		add_timer (win);
 
 	} else {
-		gtk_label_set_text (GTK_LABEL (win->priv->pos_label), "00:00.0");
+		gtk_menu_button_set_label (GTK_MENU_BUTTON (win->priv->pos_menu_button), "00:00.0");
 		gtk_window_set_title (GTK_WINDOW (win), "Parlatype");
 		gtk_widget_set_tooltip_text (win->priv->button_jump_back, NULL);
 		gtk_widget_set_tooltip_text (win->priv->button_jump_forward, NULL);
@@ -700,13 +689,6 @@ player_end_of_stream_cb (PtPlayer *player,
 	change_play_button_tooltip (win);
 }
 
-static gboolean
-swap_control_buttons (GtkWidget *box)
-{
-	gtk_widget_set_direction (box, GTK_TEXT_DIR_LTR);
-	return FALSE;
-}
-
 static void
 pt_window_direction_changed (GtkWidget        *widget,
                              GtkTextDirection  previous_direction)
@@ -718,17 +700,14 @@ pt_window_direction_changed (GtkWidget        *widget,
 	PtWindowPrivate *priv = self->priv;
 	GtkScale        *speed_scale = GTK_SCALE (priv->speed_scale);
 
-	gtk_widget_set_direction (priv->controls_row_box, GTK_TEXT_DIR_LTR);
-	gtk_widget_set_direction (priv->progress, GTK_TEXT_DIR_LTR);
+	gtk_widget_set_direction (priv->button_jump_back, GTK_TEXT_DIR_LTR);
+	gtk_widget_set_direction (priv->button_jump_forward, GTK_TEXT_DIR_LTR);
+	gtk_widget_set_direction (priv->controls_box, GTK_TEXT_DIR_LTR);
 
 	if (previous_direction == GTK_TEXT_DIR_LTR)
 		gtk_scale_set_value_pos (speed_scale, GTK_POS_LEFT);
 	else
 		gtk_scale_set_value_pos (speed_scale, GTK_POS_RIGHT);
-
-	/* Swap control buttons in a timeout to avoid a race condition where
-	 * buttons were not rendered correctly linked, reason unknown */
-	g_idle_add ((GSourceFunc) swap_control_buttons, priv->controls_box);
 }
 
 static void
@@ -839,19 +818,6 @@ map_milliseconds_to_seconds (const GValue       *value,
 }
 
 static void
-setup_non_wayland_env (PtWindow *win)
-{
-	if (g_settings_get_boolean (win->priv->editor, "start-on-top")) {
-		gtk_window_set_keep_above (GTK_WINDOW (win), TRUE);
-	}
-	if (g_settings_get_boolean (win->priv->editor, "remember-position")) {
-		gtk_window_move (GTK_WINDOW (win),
-				 g_settings_get_int (win->priv->editor, "x-pos"),
-				 g_settings_get_int (win->priv->editor, "y-pos"));
-	}
-}
-
-static void
 setup_settings (PtWindow *win)
 {
 	win->priv->editor = g_settings_new (APP_ID);
@@ -942,22 +908,9 @@ setup_settings (PtWindow *win)
 	   - Save last known speed in metadata for each file */
 	win->priv->speed = 1.0;
 
-	if (g_settings_get_boolean (win->priv->editor, "remember-size")) {
-		gtk_window_resize (GTK_WINDOW (win),
-				   g_settings_get_int (win->priv->editor, "width"),
-				   g_settings_get_int (win->priv->editor, "height"));
-	}
-
-#ifdef GDK_WINDOWING_X11
-	GdkDisplay *display;
-	display = gdk_display_get_default ();
-	if (GDK_IS_X11_DISPLAY (display))
-		setup_non_wayland_env (win);
-#endif
-
-#ifdef GDK_WINDOWING_WIN32
-	setup_non_wayland_env (win);
-#endif
+	gtk_window_set_default_size (GTK_WINDOW (win),
+			   g_settings_get_int (win->priv->editor, "width"),
+			   g_settings_get_int (win->priv->editor, "height"));
 }
 
 static void
@@ -1003,15 +956,18 @@ volume_button_value_changed_cb (GtkWidget *volumebutton,
 }
 
 static gboolean
-volume_button_event_cb (GtkWidget *volumebutton,
-                        GdkEvent  *event,
-                        gpointer   user_data)
+volume_button_event_cb (GtkEventControllerLegacy *ctrl,
+                        GdkEvent                 *event,
+                        gpointer                  user_data)
 {
 	/* This is for pulseaudiosink in paused state. It doesn't notify of
 	 * volume/mute changes. Update values when user is interacting with
 	 * the volume button. */
 
-	PtWindow *win = PT_WINDOW (user_data);
+	PtWindow  *win = PT_WINDOW (user_data);
+	GtkWidget *volumebutton;
+
+	volumebutton = gtk_event_controller_get_widget (GTK_EVENT_CONTROLLER (ctrl));
 	gtk_scale_button_set_value (GTK_SCALE_BUTTON (volumebutton),
 	                            pt_player_get_volume (win->player));
 	volume_button_update_mute (NULL, NULL, win);
@@ -1019,11 +975,11 @@ volume_button_event_cb (GtkWidget *volumebutton,
 }
 
 static gboolean
-volume_button_press_event (GtkGestureMultiPress *gesture,
-                           gint                  n_press,
-                           gdouble               x,
-                           gdouble               y,
-                           gpointer              user_data)
+volume_button_press_event (GtkGestureClick *gesture,
+                           gint             n_press,
+                           gdouble          x,
+                           gdouble          y,
+                           gpointer         user_data)
 {
 	/* Switch mute state on click with secondary button */
 
@@ -1090,10 +1046,14 @@ setup_volume (PtWindow *win)
 			G_CALLBACK (volume_button_value_changed_cb),
 			win);
 
-	g_signal_connect (win->priv->volumebutton,
+	GtkEventController *v_event;
+	v_event = gtk_event_controller_legacy_new ();
+	g_signal_connect (v_event,
 			"event",
 			G_CALLBACK (volume_button_event_cb),
 			win);
+	gtk_widget_add_controller (win->priv->volumebutton,
+	                           GTK_EVENT_CONTROLLER (v_event));
 
 	/* Get complete icon set of volume button to change it depending on
 	 * mute state. */
@@ -1111,18 +1071,20 @@ setup_volume (PtWindow *win)
 			win);
 
 	/* Switch mute state on mouse click with secondary button */
-	win->priv->vol_event = gtk_gesture_multi_press_new (
-			win->priv->volumebutton);
+	GtkGesture *vol_event;
+	vol_event = gtk_gesture_click_new ();
 	gtk_gesture_single_set_exclusive (
-			GTK_GESTURE_SINGLE (win->priv->vol_event), TRUE);
+			GTK_GESTURE_SINGLE (vol_event), TRUE);
 	gtk_gesture_single_set_button (
-			GTK_GESTURE_SINGLE (win->priv->vol_event), 0);
+			GTK_GESTURE_SINGLE (vol_event), 0);
 	gtk_event_controller_set_propagation_phase (
-			GTK_EVENT_CONTROLLER (win->priv->vol_event), GTK_PHASE_CAPTURE);
-	g_signal_connect (win->priv->vol_event,
+			GTK_EVENT_CONTROLLER (vol_event), GTK_PHASE_CAPTURE);
+	g_signal_connect (vol_event,
 			"pressed",
 			G_CALLBACK (volume_button_press_event),
 			win);
+	gtk_widget_add_controller (win->priv->volumebutton,
+	                           GTK_EVENT_CONTROLLER (vol_event));
 }
 
 static void
@@ -1175,7 +1137,7 @@ pt_window_init (PtWindow *win)
 	win->priv->timer = 0;
 	win->priv->last_time = 0;
 	win->priv->clip_handler_id = 0;
-	win->priv->clip = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+	win->priv->clip = gtk_widget_get_clipboard (GTK_WIDGET (win));
 
 	/* Used e.g. by Xfce */
 	gtk_window_set_default_icon_name (APP_ID);
@@ -1187,7 +1149,7 @@ pt_window_init (PtWindow *win)
 	pt_window_ready_to_play (win, FALSE);
 
 	win->priv->clip_handler_id = g_signal_connect (win->priv->clip,
-			"owner-change",
+			"changed",
 			G_CALLBACK (update_insert_action_sensitivity),
 			win);
 	g_signal_connect (win->priv->waveviewer,
@@ -1204,17 +1166,13 @@ pt_window_init (PtWindow *win)
 static void
 pt_window_dispose (GObject *object)
 {
-	PtWindow *win;
-	win = PT_WINDOW (object);
+	PtWindow *win = PT_WINDOW (object);
+	gint x;
+	gint y;
 
-	/* Save window size/position on all backends */
+	/* Save window size */
 	if (win->priv->editor) {
-		gint x;
-		gint y;
-		gtk_window_get_position (GTK_WINDOW (win), &x, &y);
-		g_settings_set_int (win->priv->editor, "x-pos", x);
-		g_settings_set_int (win->priv->editor, "y-pos", y);
-		gtk_window_get_size (GTK_WINDOW (win), &x, &y);
+		gtk_window_get_default_size (GTK_WINDOW (win), &x, &y);
 		g_settings_set_int (win->priv->editor, "width", x);
 		g_settings_set_int (win->priv->editor, "height", y);
 	}
@@ -1263,7 +1221,6 @@ pt_window_class_init (PtWindowClass *klass)
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_jump_forward);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, volumebutton);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, pos_menu_button);
-	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, pos_label);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, speed_scale);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, waveviewer);
 }

@@ -5,12 +5,6 @@ option(
 	description: 'Install library reference, requires gtk-doc'
 )
 option(
-	'glade',
-	type: 'boolean',
-	value: false,
-	description: 'Install glade catalog, requires gladeui-2.0'
-)
-option(
 	'gir',
 	type: 'boolean',
 	value: false,

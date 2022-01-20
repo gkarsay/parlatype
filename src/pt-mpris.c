@@ -146,7 +146,7 @@ handle_root_method_call (GDBusConnection *connection,
 		gtk_window_present_with_time (GTK_WINDOW (window), GDK_CURRENT_TIME);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "Quit") == 0) {
-		gtk_widget_destroy (GTK_WIDGET (window));
+		gtk_window_destroy (GTK_WINDOW (window));
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else {
 		g_dbus_method_invocation_return_error (invocation,

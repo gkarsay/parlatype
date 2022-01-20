@@ -54,21 +54,6 @@
 			<summary>Window's height</summary>
 			<description>Window's height</description>
 		</key>
-		<key name="remember-position" type="b">
-			<default>false</default>
-			<summary>Remember window's position</summary>
-			<description>Remember window's position</description>
-		</key>
-		<key name="remember-size" type="b">
-			<default>true</default>
-			<summary>Remember window's size</summary>
-			<description>Remember window's size</description>
-		</key>
-		<key name="start-on-top" type="b">
-			<default>false</default>
-			<summary>Start window on top</summary>
-			<description>Start window on top</description>
-		</key>
 		<key name="show-ruler" type="b">
 			<default>true</default>
 			<summary>Show ruler</summary>

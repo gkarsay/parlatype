@@ -37,7 +37,6 @@ libconf_input = configure_file(output: 'config.h', configuration: libconf)
 libconf_inc = include_directories('.', 'src')
 
 
-subdir('data')
 subdir('po')
 subdir('src')
 subdir('tests')

@@ -1,16 +1,9 @@
 /* custom styles for PtWindow */
 
-#time_label {
-	/* Tried Cantarell first, but digits are not always monospace:
-	   They are on Debian 8, but not on Ubuntu 16.4 */
+menubutton {
 	font-family: monospace;
 	font-size: 150%;
 	font-weight: 600;
-}
-
-* {
-	transition-property: background-color;
-	transition-duration: 1s;
 }
 
 progressbar > trough {
@@ -21,4 +14,20 @@ progressbar > trough {
 progressbar > trough.full > progress {
 	background-color: transparent;
 	border: 0;
+}
+
+window > grid {
+  padding: 6px;
+}
+
+notebook > stack {
+	padding: 6px;
+}
+
+row {
+  padding: 6px;
+}
+
+.ptdialog > box {
+  padding: 12px;
 }

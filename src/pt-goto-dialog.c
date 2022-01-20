@@ -92,7 +92,7 @@ output_cb (GtkSpinButton *spin,
 			gtk_spin_button_get_value_as_int (spin) * 1000,
 			dlg->priv->max, 0);
 
-	gtk_entry_set_text (GTK_ENTRY (spin), text);
+	gtk_editable_set_text (GTK_EDITABLE (spin), text);
 	g_free (text);
 
 	return TRUE;
@@ -105,7 +105,7 @@ input_cb (GtkSpinButton *self,
 {
 	gint64 val;
 
-	val = string_to_time (gtk_entry_get_text (GTK_ENTRY (self)));
+	val = string_to_time (gtk_editable_get_text (GTK_EDITABLE (self)));
 	if (val == -1)
 		return GTK_INPUT_ERROR;
 
@@ -118,6 +118,7 @@ pt_goto_dialog_init (PtGotoDialog *dlg)
 {
 	dlg->priv = pt_goto_dialog_get_instance_private (dlg);
 	gtk_widget_init_template (GTK_WIDGET (dlg));
+	gtk_widget_add_css_class (GTK_WIDGET (dlg), "ptdialog");
 
 	dlg->priv->max = 0;
 
@@ -168,7 +169,7 @@ pt_goto_dialog_set_max (PtGotoDialog *dlg,
 	width = strlen (time_string);
 	g_free (time_string);
 
-	gtk_entry_set_width_chars (GTK_ENTRY (dlg->priv->spin), width);
+	gtk_editable_set_width_chars (GTK_EDITABLE (dlg->priv->spin), width);
 }
 
 PtGotoDialog *

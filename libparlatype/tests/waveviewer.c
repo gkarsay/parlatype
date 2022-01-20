@@ -89,7 +89,8 @@ waveviewer_empty (void)
 	pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (testviewer), FALSE);
 	g_assert_false (pt_waveviewer_get_follow_cursor (PT_WAVEVIEWER (testviewer)));
 
-	gtk_widget_destroy (testviewer);
+	g_object_ref_sink (testviewer);
+	g_object_unref (testviewer);
 }
 
 static void
@@ -115,10 +116,9 @@ waveviewer_loaded (void)
 
 	data = create_sync_data ();
 	viewer = pt_waveviewer_new ();
-	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	window = gtk_window_new ();
 	gtk_window_set_default_size (GTK_WINDOW (window), 300, 100);
-	gtk_container_add (GTK_CONTAINER (window), viewer);
-	gtk_widget_show_all (window);
+	gtk_window_set_child (GTK_WINDOW (window), viewer);
 	pt_waveviewer_load_wave_async (PT_WAVEVIEWER (viewer), testuri, NULL,
 				       (GAsyncReadyCallback) quit_loop_cb, &data);
 
@@ -132,7 +132,7 @@ waveviewer_loaded (void)
 	g_object_unref (testfile);
 	free_sync_data (data);
 	g_object_unref (player);
-	gtk_widget_destroy (window);
+	gtk_window_destroy (GTK_WINDOW (window));
 }
 
 int
@@ -142,7 +142,7 @@ main (int argc, char *argv[])
 
 	g_test_add_func ("/waveviewer/empty", waveviewer_empty);
 	g_test_add_func ("/waveviewer/loaded", waveviewer_loaded);
-	gtk_init (NULL, NULL);
+	gtk_init ();
 
 	return g_test_run ();
 }

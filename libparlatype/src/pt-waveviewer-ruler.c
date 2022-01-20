@@ -96,12 +96,12 @@ pixel_to_time (PtWaveviewerRuler *self,
 	return result;
 }
 
-static gboolean
-pt_waveviewer_ruler_draw (GtkWidget *widget,
-                          cairo_t   *cr)
+static void
+pt_waveviewer_ruler_snapshot (GtkWidget   *widget,
+			      GtkSnapshot *snapshot)
 {
 	PtWaveviewerRuler *self = (PtWaveviewerRuler *) widget;
-	gint height = gtk_widget_get_allocated_height (widget);
+	gdouble height = gtk_widget_get_allocated_height (GTK_WIDGET (widget));
 
 	gint            i;		/* counter, pixel on x-axis in the view */
 	gint            sample;		/* sample in the array */
@@ -119,10 +119,13 @@ pt_waveviewer_ruler_draw (GtkWidget *widget,
 	offset = (gint) gtk_adjustment_get_value (self->priv->adj);
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
-	gtk_render_background (context, cr, 0, 0, width, height);
+	gtk_style_context_get_color (context, &text_color);
+	gtk_snapshot_render_background (snapshot, context,
+                               0, 0,
+                               width, height);
 
 	if (self->priv->n_samples == 0)
-		return FALSE;
+		return;
 
 	/* ruler marks */
 
@@ -134,7 +137,8 @@ pt_waveviewer_ruler_draw (GtkWidget *widget,
 		i = time_to_pixel (self, tmp_time) - offset;
 		while (i <= width) {
 			if (tmp_time < self->priv->duration)
-				gtk_render_line (context, cr, i, 0, i, SECONDARY_MARK_HEIGHT);
+				gtk_snapshot_append_color (snapshot, &text_color,
+							   &GRAPHENE_RECT_INIT(i, 0, 1, SECONDARY_MARK_HEIGHT));
 			tmp_time += 100;
 			i = time_to_pixel (self, tmp_time) - offset;
 		}
@@ -148,22 +152,21 @@ pt_waveviewer_ruler_draw (GtkWidget *widget,
 			if (sample > self->priv->n_samples)
 				break;
 			if (sample % (self->priv->px_per_sec * self->priv->secondary_modulo) == 0)
-				gtk_render_line (context, cr, i, 0, i, SECONDARY_MARK_HEIGHT);
+				gtk_snapshot_append_color (snapshot, &text_color,
+							   &GRAPHENE_RECT_INIT(i, 0, 1, SECONDARY_MARK_HEIGHT));
 		}
 	}
 
 	/* Primary marks and time strings
 	   Add some padding to show time strings (time_string_width) */
-	gtk_style_context_get_color (context,
-				     gtk_style_context_get_state (context),
-				     &text_color);
-	gdk_cairo_set_source_rgba (cr, &text_color);
+	gtk_style_context_get_color (context, &text_color);
 	for (i = 0 - self->priv->time_string_width; i <= width + self->priv->time_string_width; i += 1) {
 		sample = i + offset;
 		if (sample < 0 || sample > self->priv->n_samples)
 			continue;
 		if (sample % (self->priv->px_per_sec * self->priv->primary_modulo) == 0) {
-			gtk_render_line (context, cr, i, 0, i, PRIMARY_MARK_HEIGHT);
+			gtk_snapshot_append_color (snapshot, &text_color,
+						   &GRAPHENE_RECT_INIT(i, 0, 1, PRIMARY_MARK_HEIGHT));
 			if (self->priv->time_format_long) {
 				text = g_strdup_printf (C_("long time format", "%d:%02d:%02d"),
 							sample/self->priv->px_per_sec / 3600,
@@ -175,22 +178,20 @@ pt_waveviewer_ruler_draw (GtkWidget *widget,
 							sample/self->priv->px_per_sec % 60);
 			}
 			layout = gtk_widget_create_pango_layout (GTK_WIDGET (self), text);
-			pango_cairo_update_layout (cr, layout);
 
 			/* display timestring only if it is fully visible in drawing area */
 			pango_layout_get_pixel_extents (layout, &rect, NULL);
 			halfwidth = rect.width / 2;
 			if (i - halfwidth > 0 && i + halfwidth < width) {
-				cairo_move_to (cr,
-					       i - halfwidth,	/* center at mark */
-					       height - rect.y - rect.height -3); /* +3 px above border */
-				pango_cairo_show_layout (cr, layout);
+				gtk_snapshot_render_layout (snapshot, context,
+							    i - halfwidth,	/* center at mark */
+							    height - rect.y - rect.height -3, /* +3 px above border */
+							    layout);
 			}
 			g_free (text);
 			g_object_unref (layout);
 		}
 	}
-	return FALSE;
 }
 
 static void
@@ -203,15 +204,20 @@ calculate_height (PtWaveviewerRuler *self)
 	PangoRectangle   rect;
 	gchar           *time_format;
 	gint             ruler_height;
-	GdkWindow       *window = NULL;
+	GtkNative       *native;
+	GdkSurface      *gdk_surface;
 
-	window = gtk_widget_get_parent_window (GTK_WIDGET (self));
-	if (!window || self->priv->n_samples == 0) {
+	native = gtk_widget_get_native (GTK_WIDGET (self));
+	if (!native || self->priv->n_samples == 0) {
 		gtk_widget_set_size_request (GTK_WIDGET (self), 0, 0);
 		return;
 	}
 
-	surface = gdk_window_create_similar_surface (window,
+	gdk_surface = gtk_native_get_surface (native);
+	if (!gdk_surface)
+		return;
+
+	surface = gdk_surface_create_similar_surface (gdk_surface,
 	                                             CAIRO_CONTENT_COLOR,
 	                                             100, 100);
 	cr = cairo_create (surface);
@@ -266,17 +272,6 @@ calculate_height (PtWaveviewerRuler *self)
 }
 
 static void
-pt_waveviewer_ruler_style_updated (GtkWidget *widget)
-{
-	PtWaveviewerRuler *self = PT_WAVEVIEWER_RULER (widget);
-
-	GTK_WIDGET_CLASS (pt_waveviewer_ruler_parent_class)->style_updated (widget);
-
-	calculate_height (self);
-	gtk_widget_queue_draw (widget);
-}
-
-static void
 adj_value_changed (GtkAdjustment *adj,
                    gpointer       data)
 {
@@ -285,8 +280,7 @@ adj_value_changed (GtkAdjustment *adj,
 }
 
 static void
-pt_waveviewer_ruler_hierarchy_changed (GtkWidget *widget,
-                                       GtkWidget *old_parent)
+pt_waveviewer_ruler_root (GtkWidget *widget)
 {
 	PtWaveviewerRuler *self = PT_WAVEVIEWER_RULER (widget);
 
@@ -330,17 +324,16 @@ pt_waveviewer_ruler_init (PtWaveviewerRuler *self)
 
 	gtk_widget_set_name (GTK_WIDGET (self), "ruler");
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
-	gtk_style_context_add_class (context, GTK_STYLE_CLASS_MARK);
+	gtk_style_context_add_class (context, "mark");
 }
 
 static void
 pt_waveviewer_ruler_class_init (PtWaveviewerRulerClass *klass)
 {
-	GtkWidgetClass *widget_class  = GTK_WIDGET_CLASS (klass);
+	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
-	widget_class->draw                = pt_waveviewer_ruler_draw;
-	widget_class->hierarchy_changed   = pt_waveviewer_ruler_hierarchy_changed;
-	widget_class->style_updated       = pt_waveviewer_ruler_style_updated;
+	widget_class->root     = pt_waveviewer_ruler_root;
+	widget_class->snapshot = pt_waveviewer_ruler_snapshot;
 }
 
 GtkWidget *

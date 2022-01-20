@@ -20,7 +20,6 @@
 #include <glib/gi18n.h>
 #ifdef G_OS_UNIX
   #include "pt-dbus-service.h"
-  #include "pt-mediakeys.h"
   #include "pt-mpris.h"
 #endif
 #ifdef G_OS_WIN32
@@ -36,7 +35,6 @@
 struct _PtAppPrivate
 {
 #ifdef G_OS_UNIX
-	PtMediakeys   *mediakeys;
 	PtMpris       *mpris;
 	PtDbusService *dbus_service;
 #endif
@@ -70,10 +68,13 @@ open_dialog_response_cb (GtkDialog *dialog,
 			 gpointer   user_data)
 {
 	PtWindow *win = PT_WINDOW (user_data);
+	GFile    *result;
 	gchar    *uri = NULL;
 
 	if (response_id == GTK_RESPONSE_ACCEPT) {
-		uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (dialog));
+		result = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
+		uri = g_file_get_uri (result);
+		g_object_unref (result);
 	}
 
 	if (uri) {
@@ -117,7 +118,7 @@ open_cb (GSimpleAction *action,
 		home_path = g_get_home_dir ();
 		dir = g_file_new_for_path (home_path);
 	}
-	gtk_file_chooser_set_current_folder_file (
+	gtk_file_chooser_set_current_folder (
 		GTK_FILE_CHOOSER (dialog), dir, NULL);
 
 	filter_audio = gtk_file_filter_new ();
@@ -157,8 +158,6 @@ help_cb (GSimpleAction *action,
 {
 	GtkWindow *win;
 	gchar     *uri;
-	GError    *error = NULL;
-	gchar     *errmsg;
 
 	win = gtk_application_get_active_window (app);
 
@@ -168,20 +167,7 @@ help_cb (GSimpleAction *action,
 	uri = g_strdup_printf ("help:%s", APP_ID);
 #endif
 
-	gtk_show_uri_on_window (
-			win,
-			uri,
-			GDK_CURRENT_TIME,
-			&error);
-
-	if (error) {
-		/* Translators: %s is a detailed error message */
-		errmsg = g_strdup_printf (_("Error opening help: %s"), error->message);
-		pt_error_message (PT_WINDOW (win), errmsg, NULL);
-		g_free (errmsg);
-		g_error_free (error);
-	}
-
+	gtk_show_uri (win, uri, GDK_CURRENT_TIME);
 	g_free (uri);
 }
 
@@ -299,8 +285,8 @@ pt_app_startup (GApplication *app)
 	GtkCssProvider *provider;
 	provider = gtk_css_provider_new ();
 	gtk_css_provider_load_from_resource (provider, "/org/parlatype/parlatype/parlatype.css");
-	gtk_style_context_add_provider_for_screen (
-			gdk_screen_get_default (),
+	gtk_style_context_add_provider_for_display (
+			gdk_display_get_default (),
 			GTK_STYLE_PROVIDER (provider),
 			GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 	g_object_unref (provider);
@@ -324,8 +310,6 @@ pt_app_activate (GApplication *application)
 	} else {
 		win = pt_window_new (app);
 #ifdef G_OS_UNIX
-		app->priv->mediakeys = pt_mediakeys_new (win);
-		pt_mediakeys_start (app->priv->mediakeys);
 		app->priv->mpris = pt_mpris_new (win);
 		pt_mpris_start (app->priv->mpris);
 		app->priv->dbus_service = pt_dbus_service_new (win);
@@ -390,7 +374,6 @@ pt_app_init (PtApp *app)
 	app->priv = pt_app_get_instance_private (app);
 
 #ifdef G_OS_UNIX
-	app->priv->mediakeys = NULL;
 	app->priv->mpris = NULL;
 	app->priv->dbus_service = NULL;
 #endif
@@ -408,7 +391,6 @@ pt_app_dispose (GObject *object)
 	PtApp *app = PT_APP (object);
 
 #ifdef G_OS_UNIX
-	g_clear_object (&app->priv->mediakeys);
 	g_clear_object (&app->priv->mpris);
 	g_clear_object (&app->priv->dbus_service);
 #endif

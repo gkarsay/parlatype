@@ -18,12 +18,6 @@
 #include "config.h"
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#ifdef GDK_WINDOWING_X11
-#include <gdk/gdkx.h>
-#endif
-#ifdef GDK_WINDOWING_WAYLAND
-#include <gdk/gdkwayland.h>
-#endif
 #include <parlatype.h>
 #include "pt-app.h"
 #include "pt-prefs-asr.h"
@@ -54,11 +48,6 @@ struct _PtPreferencesDialogPrivate
 	GtkWidget *label_forward;
 	GtkWidget *repeat_all_checkbox;
 	GtkWidget *repeat_selection_checkbox;
-
-	/* Window tab */
-	GtkWidget *size_check;
-	GtkWidget *pos_check;
-	GtkWidget *top_check;
 
 	/* Timestamps tab */
 	GtkWidget *precision_combo;
@@ -126,7 +115,7 @@ hours_check_toggled (GtkToggleButton     *check,
 {
 	g_settings_set_boolean (
 			dlg->priv->editor, "timestamp-fixed",
-			gtk_toggle_button_get_active (check));
+			gtk_check_button_get_active (GTK_CHECK_BUTTON (check)));
 	update_example_timestamps (dlg);
 }
 
@@ -163,20 +152,6 @@ precision_combo_changed (GtkComboBox         *widget,
 }
 
 static void
-setup_non_wayland_env (PtPreferencesDialog *dlg)
-{
-	g_settings_bind (
-		dlg->priv->editor, "remember-position",
-		dlg->priv->pos_check, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	g_settings_bind (
-		dlg->priv->editor, "start-on-top",
-		dlg->priv->top_check, "active",
-		G_SETTINGS_BIND_DEFAULT);
-}
-
-static void
 pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 {
 	dlg->priv = pt_preferences_dialog_get_instance_private (dlg);
@@ -208,28 +183,6 @@ pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 			dlg->priv->editor, "repeat-selection",
 			dlg->priv->repeat_selection_checkbox, "active",
 			G_SETTINGS_BIND_DEFAULT);
-
-	g_settings_bind (
-			dlg->priv->editor, "remember-size",
-			dlg->priv->size_check, "active",
-			G_SETTINGS_BIND_DEFAULT);
-
-#ifdef GDK_WINDOWING_WIN32
-	setup_non_wayland_env (dlg);
-#else
-	GdkDisplay *display;
-	display = gdk_display_get_default ();
-#endif
-#ifdef GDK_WINDOWING_X11
-	if (GDK_IS_X11_DISPLAY (display))
-		setup_non_wayland_env (dlg);
-#endif
-#ifdef GDK_WINDOWING_WAYLAND
-	if (GDK_IS_WAYLAND_DISPLAY (display)) {
-		gtk_widget_hide (dlg->priv->pos_check);
-		gtk_widget_hide (dlg->priv->top_check);
-	}
-#endif
 
 	g_settings_bind (
 			dlg->priv->editor, "show-ruler",
@@ -294,7 +247,7 @@ pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 		precision = 1;
 	gtk_combo_box_set_active (GTK_COMBO_BOX (dlg->priv->precision_combo), precision);
 	gboolean fixed = g_settings_get_boolean (dlg->priv->editor, "timestamp-fixed");
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dlg->priv->hours_check), fixed);
+	gtk_check_button_set_active (GTK_CHECK_BUTTON (dlg->priv->hours_check), fixed);
 	g_free (delimiter);
 	g_free (sep);
 
@@ -343,9 +296,6 @@ pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, repeat_all_checkbox);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, repeat_selection_checkbox);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, pps_scale);
-	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, size_check);
-	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, pos_check);
-	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, top_check);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, label_pause);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, label_back);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, label_forward);
@@ -359,6 +309,13 @@ pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, label_example2);
 }
 
+static void
+prefs_destroy_cb (GtkWidget *widget,
+		  gpointer   user_data)
+{
+	preferences_dialog = NULL;
+}
+
 void
 pt_show_preferences_dialog (GtkWindow *parent)
 {
@@ -369,8 +326,8 @@ pt_show_preferences_dialog (GtkWindow *parent)
 				NULL));
 		g_signal_connect (preferences_dialog,
 				  "destroy",
-				  G_CALLBACK (gtk_widget_destroyed),
-				  &preferences_dialog);
+				  G_CALLBACK (prefs_destroy_cb),
+				  NULL);
 	}
 
 	if (parent != gtk_window_get_transient_for (GTK_WINDOW (preferences_dialog))) {

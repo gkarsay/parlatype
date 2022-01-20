@@ -76,9 +76,9 @@ pixel_to_array (PtWaveviewerWaveform *self,
 	return result;
 }
 
-static gboolean
-pt_waveviewer_waveform_draw (GtkWidget *widget,
-                             cairo_t   *cr)
+static void
+pt_waveviewer_waveform_snapshot (GtkWidget  *widget,
+				 GtkSnapshot *snapshot)
 {
 	PtWaveviewerWaveform *self = (PtWaveviewerWaveform *) widget;
 
@@ -90,32 +90,30 @@ pt_waveviewer_waveform_draw (GtkWidget *widget,
 	gint width, height, offset;
 	gint half, middle;
 
-	context = gtk_widget_get_style_context (widget);
-	height = gtk_widget_get_allocated_height (widget);
-	width = gtk_widget_get_allocated_width (widget);
+	context = gtk_widget_get_style_context (GTK_WIDGET (widget));
+	height = gtk_widget_get_allocated_height (GTK_WIDGET (widget));
+	width = gtk_widget_get_allocated_width (GTK_WIDGET (widget));
 
-	gtk_render_background (context, cr, 0, 0, width, height);
+	gtk_style_context_get_color (context, &self->priv->wave_color);
+	gtk_snapshot_render_background (snapshot, context,
+                               0, 0,
+                               width, height);
 	if (peaks == NULL || peaks->len == 0)
-		return FALSE;
+		return;
 
 	/* paint waveform */
 	offset = (gint) gtk_adjustment_get_value (self->priv->adj);
 	half = height / 2 - 1;
 	middle = height / 2;
-	gdk_cairo_set_source_rgba (cr, &self->priv->wave_color);
 	for (pixel = 0; pixel <= width; pixel += 1) {
 		array = pixel_to_array (self, pixel + offset);
 		if (array == -1)
 			break;
 		min = (middle + half * g_array_index (peaks, float, array) * -1);
 		max = (middle - half * g_array_index (peaks, float, array + 1));
-		cairo_move_to (cr, pixel, min);
-		cairo_line_to (cr, pixel, max);
-		/* cairo_stroke also possible after loop, but then slower */
-		cairo_stroke (cr);
+		gtk_snapshot_append_color (snapshot, &self->priv->wave_color,
+					   &GRAPHENE_RECT_INIT(pixel, max, 1, min-max));
 	}
-
-	return FALSE;
 }
 
 static void
@@ -124,16 +122,9 @@ update_cached_style_values (PtWaveviewerWaveform *self)
 	/* Update color */
 
 	GtkStyleContext *context;
-	GtkStateFlags    state;
-	GdkWindow       *window = NULL;
-
-	window = gtk_widget_get_parent_window (GTK_WIDGET (self));
-	if (!window)
-		return;
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
-	state = gtk_style_context_get_state (context);
-	gtk_style_context_get_color (context, state, &self->priv->wave_color);
+	gtk_style_context_get_color (context, &self->priv->wave_color);
 }
 
 static void
@@ -142,17 +133,6 @@ pt_waveviewer_waveform_state_flags_changed (GtkWidget     *widget,
 {
 	update_cached_style_values (PT_WAVEVIEWER_WAVEFORM (widget));
 	GTK_WIDGET_CLASS (pt_waveviewer_waveform_parent_class)->state_flags_changed (widget, flags);
-}
-
-static void
-pt_waveviewer_waveform_style_updated (GtkWidget *widget)
-{
-	PtWaveviewerWaveform *self = (PtWaveviewerWaveform *) widget;
-
-	GTK_WIDGET_CLASS (pt_waveviewer_waveform_parent_class)->style_updated (widget);
-
-	update_cached_style_values (self);
-	gtk_widget_queue_draw (GTK_WIDGET (self));
 }
 
 static void
@@ -179,8 +159,7 @@ adj_value_changed (GtkAdjustment *adj,
 }
 
 static void
-pt_waveviewer_waveform_hierarchy_changed (GtkWidget *widget,
-                                          GtkWidget *old_parent)
+pt_waveviewer_waveform_root (GtkWidget *widget)
 {
 	PtWaveviewerWaveform *self = PT_WAVEVIEWER_WAVEFORM (widget);
 
@@ -206,9 +185,7 @@ pt_waveviewer_waveform_init (PtWaveviewerWaveform *self)
 	self->priv->peaks = NULL;
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));
-	gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
-
-	gtk_widget_set_events (GTK_WIDGET (self), GDK_ALL_EVENTS_MASK);
+	gtk_style_context_add_class (context, "view");
 }
 
 static void
@@ -216,11 +193,10 @@ pt_waveviewer_waveform_class_init (PtWaveviewerWaveformClass *klass)
 {
 	GtkWidgetClass *widget_class  = GTK_WIDGET_CLASS (klass);
 
-	widget_class->draw                = pt_waveviewer_waveform_draw;
-	widget_class->hierarchy_changed   = pt_waveviewer_waveform_hierarchy_changed;
 	widget_class->realize             = pt_waveviewer_waveform_realize;
+	widget_class->root                = pt_waveviewer_waveform_root;
+	widget_class->snapshot            = pt_waveviewer_waveform_snapshot;
 	widget_class->state_flags_changed = pt_waveviewer_waveform_state_flags_changed;
-	widget_class->style_updated       = pt_waveviewer_waveform_style_updated;
 }
 
 GtkWidget *

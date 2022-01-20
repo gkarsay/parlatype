@@ -11,9 +11,6 @@ local:
 	pt_waveviewer_cursor_new;
 	pt_waveviewer_cursor_render;
 	pt_waveviewer_cursor_set_focus;
-	pt_waveviewer_focus_get_type;
-	pt_waveviewer_focus_new;
-	pt_waveviewer_focus_set;
 	pt_waveviewer_ruler_get_type;
 	pt_waveviewer_ruler_new;
 	pt_waveviewer_ruler_set_ruler;

@@ -33,8 +33,6 @@ if host_machine.system() != 'windows'
 	src += [
 	'pt-dbus-service.c',
 	'pt-dbus-service.h',
-	'pt-mediakeys.c',
-	'pt-mediakeys.h',
 	'pt-mpris.c',
 	'pt-mpris.h',
 	'mpris-spec.h',

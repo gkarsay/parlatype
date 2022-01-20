@@ -27,7 +27,7 @@ struct _PtWindowPrivate
 	GtkRecentManager *recent;
 	PtConfig         *asr_config;
 
-	GtkClipboard *clip;
+	GdkClipboard *clip;
 	gulong        clip_handler_id;
 
 	/* Headerbar widgets */
@@ -45,7 +45,6 @@ struct _PtWindowPrivate
 	GStrv       vol_icons;
 	GtkGesture *vol_event;
 	GtkWidget  *pos_menu_button;
-	GtkWidget  *pos_label;
 	GMenuItem  *go_to_timestamp;
 	GtkWidget  *speed_scale;
 	GtkWidget  *waveviewer;
