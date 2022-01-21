@@ -1,7 +1,7 @@
 project('parlatype', 'c',
-	version: '3.1',
-	#meson_version: '>= 0.47.2', # oldest working tested version
-	license: 'GPL3+',
+        version: '3.1',
+        #meson_version: '>= 0.47.2', # oldest working tested version
+        license: 'GPL3+',
 )
 
 app_id = 'org.parlatype.Parlatype'
@@ -11,9 +11,9 @@ version_array = version.split('.')
 major_version = version_array[0].to_int()
 minor_version = version_array[1].to_int()
 if version_array.length() == 2
-	micro_version = 0
+  micro_version = 0
 else
-	micro_version = version_array[2].to_int()
+  micro_version = version_array[2].to_int()
 endif
 
 with_pocketsphinx = get_option('pocketsphinx')
@@ -42,11 +42,11 @@ conf_input = configure_file(output: 'config.h.in', configuration: conf)
 conf_inc = include_directories('.', 'libparlatype/src')
 
 config_h = declare_dependency(
-	sources: vcs_tag(
-		command: [ 'git', 'describe', '--tags' ],
-		input: conf_input,
-		output: 'config.h',
-	)
+  sources: vcs_tag(
+    command: [ 'git', 'describe', '--tags' ],
+    input: conf_input,
+    output: 'config.h',
+  )
 )
 
 gnome   = import('gnome')
@@ -54,7 +54,7 @@ i18n    = import('i18n')
 windows = import('windows')
 
 # Checks for libraries.
-gtk  = dependency('gtk4', version: '>= 4.0')
+gtk  = dependency('gtk4',     version: '>= 4.0')
 glib = dependency('glib-2.0', version: '>= 2.58')
 
 if host_machine.system() == 'windows'
