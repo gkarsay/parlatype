@@ -81,23 +81,18 @@ if host_machine.system() == 'windows'
 endif
 
 
-
-status = [
-  '', '',
-  'Parlatype @0@'.format(meson.project_version()),
-  '',
-  'Prefix ................... : @0@'.format(prefix),
-  'With Pocketsphinx ........ : @0@'.format(with_pocketsphinx),
-  'With Deepspeech .......... : @0@'.format(with_deepspeech),
-  'With GObject Introspection : @0@'.format(gir),
-  'With API reference ....... : @0@'.format(gtk_doc),
-  ''
-]
-
+summary('prefix', prefix, section: 'Directories')
 if (prefix != '/usr')
-  status += ['Command to run parlatype:']
-  status += ['LD_LIBRARY_PATH=@0@ XDG_DATA_DIRS=$XDG_DATA_DIRS:@1@ @2@/parlatype'.format(libdir, datadir, bindir)]
-  status += ['']
+  summary(
+    'Run command',
+    'LD_LIBRARY_PATH=@0@ XDG_DATA_DIRS=$XDG_DATA_DIRS:@1@ @2@/parlatype'.format(libdir, datadir, bindir),
+    section: 'Directories')
 endif
 
-message('\n '.join(status))
+summary({
+  'gtk_doc'     : gtk_doc,
+  'gir'         : gir,
+  'pocketsphinx': with_pocketsphinx,
+  'deepspeech': with_deepspeech,
+  }, section: 'Configuration',
+)
