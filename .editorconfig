@@ -1,0 +1,21 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+trim_trailing_whitespace = true
+
+[*.ui]
+indent_size = 2
+indent_style = space
+
+[*.xml]
+indent_size = 2
+indent_style = space
+
+[meson.build]
+indent_size = 2
+indent_style = space
+
+[*.md]
+max_line_length = 80
