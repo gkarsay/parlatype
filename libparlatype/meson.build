@@ -25,7 +25,7 @@ math = compiler.find_library('m', required: false)
 gettext_package_lib = 'libparlatype@0@'.format(libparlatype_current_minus_age)
 
 iso_codes = dependency('iso-codes')
-iso_codes_prefix = iso_codes.get_pkgconfig_variable('prefix')
+iso_codes_prefix = iso_codes.get_variable(pkgconfig: 'prefix')
 
 libconf = configuration_data()
 libconf.set_quoted('PACKAGE_VERSION', meson.project_version())

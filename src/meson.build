@@ -70,6 +70,6 @@ executable('parlatype',
            include_directories : conf_inc,
            install: true,
            dependencies: parlatype_deps,
-           gui_app: true,
+           win_subsystem: 'windows',
            c_args: ['-DG_LOG_DOMAIN="parlatype"' ],
 )

@@ -1,6 +1,6 @@
 project('parlatype', 'c',
         version: '3.1',
-        #meson_version: '>= 0.47.2', # oldest working tested version
+        meson_version: '>= 0.56.0',
         license: 'GPL3+',
 )
 
@@ -79,6 +79,8 @@ if host_machine.system() == 'windows'
     app_id
   )
 endif
+
+
 
 status = [
   '', '',
