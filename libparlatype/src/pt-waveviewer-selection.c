@@ -45,7 +45,7 @@
 
 struct _PtWaveviewerSelection
 {
-  GtkDrawingArea parent;
+  GtkWidget parent;
 
   GtkAdjustment *adj; /* the parent PtWaveviewer’s adjustment */
 
@@ -54,14 +54,11 @@ struct _PtWaveviewerSelection
   gint    end;
 };
 
-G_DEFINE_TYPE (PtWaveviewerSelection, pt_waveviewer_selection, GTK_TYPE_DRAWING_AREA);
+G_DEFINE_TYPE (PtWaveviewerSelection, pt_waveviewer_selection, GTK_TYPE_WIDGET);
 
 static void
-pt_waveviewer_selection_draw (GtkDrawingArea *widget,
-                              cairo_t        *cr,
-                              int             content_width,
-                              int             content_height,
-                              gpointer        user_data)
+pt_waveviewer_selection_snapshot (GtkWidget   *widget,
+                                  GtkSnapshot *snapshot)
 {
   PtWaveviewerSelection *self = (PtWaveviewerSelection *) widget;
 
@@ -70,8 +67,8 @@ pt_waveviewer_selection_draw (GtkDrawingArea *widget,
   gint offset;
   gint left, right;
 
-  height = gtk_widget_get_height (GTK_WIDGET (widget));
-  width = gtk_widget_get_width (GTK_WIDGET (widget));
+  height = gtk_widget_get_height (widget);
+  width = gtk_widget_get_width (widget);
 
   offset = (gint) gtk_adjustment_get_value (self->adj);
   left = CLAMP (self->start - offset, 0, width);
@@ -80,30 +77,31 @@ pt_waveviewer_selection_draw (GtkDrawingArea *widget,
   if (left == right)
     return;
 
-  gdk_cairo_set_source_rgba (cr, &self->selection_color);
-  cairo_rectangle (cr, left, 0, right - left, height);
-  cairo_fill (cr);
+  gtk_snapshot_append_color (snapshot, &self->selection_color,
+                             &GRAPHENE_RECT_INIT (left, 0, right - left, height));
 }
 
 static void
-update_cached_style_values (PtWaveviewerSelection *self)
+pt_waveviewer_selection_css_changed (GtkWidget         *widget,
+                                     GtkCssStyleChange *change)
 {
-  gtk_widget_get_color (GTK_WIDGET (self), &self->selection_color);
+  /* Sometimes the color was not picked up if called early in init,
+   * so this is the first color assignment. */
+
+  PtWaveviewerSelection *self = PT_WAVEVIEWER_SELECTION (widget);
+  gtk_widget_get_color (widget, &self->selection_color);
+  GTK_WIDGET_CLASS (pt_waveviewer_selection_parent_class)->css_changed (widget, change);
 }
 
 static void
 pt_waveviewer_selection_state_flags_changed (GtkWidget    *widget,
                                              GtkStateFlags flags)
 {
-  update_cached_style_values (PT_WAVEVIEWER_SELECTION (widget));
-  GTK_WIDGET_CLASS (pt_waveviewer_selection_parent_class)->state_flags_changed (widget, flags);
-}
+  PtWaveviewerSelection *self = PT_WAVEVIEWER_SELECTION (widget);
 
-static void
-pt_waveviewer_selection_realize (GtkWidget *widget)
-{
-  GTK_WIDGET_CLASS (pt_waveviewer_selection_parent_class)->realize (widget);
-  update_cached_style_values (PT_WAVEVIEWER_SELECTION (widget));
+  gtk_widget_get_color (widget, &self->selection_color);
+  gtk_widget_queue_draw (widget);
+  GTK_WIDGET_CLASS (pt_waveviewer_selection_parent_class)->state_flags_changed (widget, flags);
 }
 
 static void
@@ -164,7 +162,6 @@ pt_waveviewer_selection_init (PtWaveviewerSelection *self)
   self->adj = NULL;
 
   gtk_widget_add_css_class (GTK_WIDGET (self), "selection");
-  gtk_drawing_area_set_draw_func (GTK_DRAWING_AREA (self), pt_waveviewer_selection_draw, NULL, NULL);
 }
 
 static void
@@ -172,8 +169,9 @@ pt_waveviewer_selection_class_init (PtWaveviewerSelectionClass *klass)
 {
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
-  widget_class->realize = pt_waveviewer_selection_realize;
+  widget_class->css_changed = pt_waveviewer_selection_css_changed;
   widget_class->root = pt_waveviewer_selection_root;
+  widget_class->snapshot = pt_waveviewer_selection_snapshot;
   widget_class->state_flags_changed = pt_waveviewer_selection_state_flags_changed;
 }
 
