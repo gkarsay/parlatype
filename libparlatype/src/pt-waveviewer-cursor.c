@@ -22,7 +22,6 @@
  * - PtWaveviewerWaveform
  * - PtWaveviewerSelection
  * - PtWaveviewerCursor
- * - PtWaveviewerFocus
  *
  * pt_waveviewer_cursor_render() is used to render the cursor. The parameter
  * @position is relative to the viewport. That means that the caller has to
@@ -32,7 +31,6 @@
  *
  * A value of -1 hides the cursor.
  *
- * pt_waveviewer_cursor_set_focus() renders a focus indicator around the cursor.
  *
  * The cursor itself is cached and updated when the style changes, e.g. color
  * (style-updated signal), state flags change, e.g. window in foreground or
@@ -55,7 +53,6 @@ struct _PtWaveviewerCursorPrivate {
 	cairo_surface_t *cursor;
 	GdkRGBA	         cursor_color;
 	gint             position;
-	gboolean         focus;
 };
 
 
@@ -89,16 +86,6 @@ pt_waveviewer_cursor_draw (GtkDrawingArea *widget,
 	cairo_set_source_surface (cr, self->priv->cursor,
 	                          self->priv->position - MARKER_BOX_W / 2, 0);
 	cairo_paint (cr);
-
-	/* render focus */
-	if (self->priv->focus) {
-		context = gtk_widget_get_style_context (GTK_WIDGET (widget));
-		gtk_render_focus (context, cr,
-				  self->priv->position - MARKER_BOX_W / 2 - 2,
-				  1,
-				  MARKER_BOX_W + 4,
-				  height - 2);
-	}
 }
 
 static void
@@ -206,16 +193,6 @@ pt_waveviewer_cursor_render (PtWaveviewerCursor *self,
 	 * will be drawn at self->priv->position */
 }
 
-void
-pt_waveviewer_cursor_set_focus (PtWaveviewerCursor *self,
-                                gboolean            focus)
-{
-	if (self->priv->focus == focus)
-		return;
-	self->priv->focus = focus;
-	draw_cursor (self);
-}
-
 static void
 pt_waveviewer_cursor_init (PtWaveviewerCursor *self)
 {
@@ -224,7 +201,6 @@ pt_waveviewer_cursor_init (PtWaveviewerCursor *self)
 	GtkStyleContext *context;
 
 	self->priv->cursor = NULL;
-	self->priv->focus = FALSE;
 	self->priv->position = -1;
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (self));

@@ -22,7 +22,6 @@
  * - PtWaveviewerWaveform
  * - PtWaveviewerSelection
  * - PtWaveviewerCursor
- * - PtWaveviewerFocus
  *
  * When it's added to PtWaveviewer, it gets the horizontal GtkAdjustment from
  * its parent (listening for the hierarchy-changed signal).

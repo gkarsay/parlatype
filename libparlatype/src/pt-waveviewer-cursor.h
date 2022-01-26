@@ -46,8 +46,6 @@ struct _PtWaveviewerCursorClass {
 GType		pt_waveviewer_cursor_get_type	(void) G_GNUC_CONST;
 void		pt_waveviewer_cursor_render	(PtWaveviewerCursor *self,
 						 gint                position);
-void		pt_waveviewer_cursor_set_focus	(PtWaveviewerCursor *self,
-						 gboolean            focus);
 GtkWidget	*pt_waveviewer_cursor_new	(void);
 
 G_END_DECLS
