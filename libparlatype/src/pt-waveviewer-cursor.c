@@ -68,30 +68,12 @@ pt_waveviewer_cursor_draw (GtkDrawingArea *widget,
 {
 	PtWaveviewerCursor *self = (PtWaveviewerCursor *) widget;
 
-	GtkStyleContext *context;
-	gint height;
-	gint width;
-
-	height = gtk_widget_get_allocated_height (GTK_WIDGET (widget));
-	width = gtk_widget_get_allocated_width (GTK_WIDGET (widget));
-
-	/* clear everything */
-	cairo_set_source_rgba (cr, 0, 0, 0, 0);
-	cairo_rectangle (cr, 0, 0, width, height);
-	cairo_fill (cr);
-
-	/* paint cursor */
 	if (self->priv->position == -1)
 		return;
+
 	cairo_set_source_surface (cr, self->priv->cursor,
 	                          self->priv->position - MARKER_BOX_W / 2, 0);
 	cairo_paint (cr);
-}
-
-static void
-draw_cursor (PtWaveviewerCursor *self)
-{
-	gtk_widget_queue_draw (GTK_WIDGET (self));
 }
 
 static void
@@ -182,15 +164,8 @@ pt_waveviewer_cursor_render (PtWaveviewerCursor *self,
 	if (self->priv->position == position)
 		return;
 
-	/* invalidate old position */
-	draw_cursor (self);
-
-	/* invalidate new position */
 	self->priv->position = position;
-	draw_cursor (self);
-
-	/* when idle, union of invalidated regions will be cleared and cursor
-	 * will be drawn at self->priv->position */
+	gtk_widget_queue_draw (GTK_WIDGET (self));
 }
 
 static void
@@ -227,6 +202,7 @@ pt_waveviewer_cursor_class_init (PtWaveviewerCursorClass *klass)
 	GtkWidgetClass *widget_class  = GTK_WIDGET_CLASS (klass);
 
 	gobject_class->finalize           = pt_waveviewer_cursor_finalize;
+
 	widget_class->realize             = pt_waveviewer_cursor_realize;
 	widget_class->size_allocate       = pt_waveviewer_cursor_size_allocate;
 	widget_class->state_flags_changed = pt_waveviewer_cursor_state_flags_changed;
