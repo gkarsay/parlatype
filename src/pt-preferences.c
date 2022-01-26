@@ -38,6 +38,7 @@ struct _PtPreferencesDialogPrivate
 	GtkWidget *pps_scale;
 	GtkWidget *ruler_check;
 	GtkWidget *fixed_cursor_radio;
+	GtkWidget *moving_cursor_radio;
 
 	/* Controls tab */
 	GtkWidget *spin_pause;
@@ -157,6 +158,7 @@ pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 	dlg->priv = pt_preferences_dialog_get_instance_private (dlg);
 	dlg->priv->editor = g_settings_new (APP_ID);
 	dlg->priv->player = pt_player_new ();
+	gboolean active;
 
 	gtk_widget_init_template (GTK_WIDGET (dlg));
 	g_settings_bind (
@@ -193,6 +195,11 @@ pt_preferences_dialog_init (PtPreferencesDialog *dlg)
 			dlg->priv->editor, "fixed-cursor",
 			dlg->priv->fixed_cursor_radio, "active",
 			G_SETTINGS_BIND_DEFAULT);
+
+	/* If "fixed-cursor" is TRUE on startup, both radio buttons are active
+	 * although they are in a group. */
+	active = gtk_check_button_get_active (GTK_CHECK_BUTTON (dlg->priv->fixed_cursor_radio));
+	gtk_check_button_set_active (GTK_CHECK_BUTTON (dlg->priv->moving_cursor_radio), !active);
 
 	GtkAdjustment *pps_adj;
 	pps_adj = gtk_range_get_adjustment (GTK_RANGE (dlg->priv->pps_scale));
@@ -301,6 +308,7 @@ pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, label_forward);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, ruler_check);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, fixed_cursor_radio);
+	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, moving_cursor_radio);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, precision_combo);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, separator_combo);
 	gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, delimiter_combo);
