@@ -668,14 +668,15 @@ pt_waveviewer_set_follow_cursor (PtWaveviewer *self,
 {
 	g_return_if_fail (PT_IS_WAVEVIEWER (self));
 
-	if (self->priv->follow_cursor != follow) {
-		self->priv->follow_cursor = follow;
-		g_object_notify_by_pspec (G_OBJECT (self),
-					  obj_properties[PROP_FOLLOW_CURSOR]);
-		g_signal_emit_by_name (self, "follow-cursor-changed", self->priv->follow_cursor);
-		if (follow)
-			scroll_to_cursor (self);
-	}
+	if (self->priv->follow_cursor == follow)
+		return;
+
+	self->priv->follow_cursor = follow;
+	g_object_notify_by_pspec (G_OBJECT (self),
+				  obj_properties[PROP_FOLLOW_CURSOR]);
+	g_signal_emit_by_name (self, "follow-cursor-changed", self->priv->follow_cursor);
+	if (follow)
+		scroll_to_cursor (self);
 }
 
 static gboolean
