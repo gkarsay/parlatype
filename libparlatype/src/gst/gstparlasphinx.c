@@ -215,8 +215,6 @@ gst_parlasphinx_class_init(GstParlaSphinxClass * klass)
     gobject_class->get_property = gst_parlasphinx_get_property;
     gobject_class->finalize = gst_parlasphinx_finalize;
 
-    /* TODO: We will bridge cmd_ln.h properties to GObject
-     * properties here somehow eventually. */
     g_object_class_install_property
         (gobject_class, PROP_HMM_DIR,
          g_param_spec_string("hmm", "HMM Directory",
