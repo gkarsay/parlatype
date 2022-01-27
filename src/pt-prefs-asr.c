@@ -44,6 +44,7 @@ struct _PtPrefsAsrPrivate
 	GtkWidget *asr_error_label;
 	GtkWidget *no_result_box;
 
+	gchar     *env_lang;
 	int        filter;
 	gulong     asr1;
 };
@@ -175,12 +176,12 @@ sort_asr_list (GtkListBoxRow *row1,
 	 *                 2) Supported
 	 *                 3) Not supported */
 
+	PtPrefsAsr *page = PT_PREFS_ASR (user_data);
 	int left = 0;
 	int right = 0;
 	int comp;
 	PtConfig *conf1, *conf2;
 	gchar *str1, *str2;
-	const gchar* const *langs;
 	gboolean prefix1, prefix2;
 
 	if (pt_config_row_get_supported (PT_CONFIG_ROW (row1)))
@@ -208,12 +209,11 @@ sort_asr_list (GtkListBoxRow *row1,
 	g_object_get (row1, "config", &conf1, NULL);
 	g_object_get (row2, "config", &conf2, NULL);
 
-	langs = g_get_language_names (); /* TODO: cache */
-	if (langs[0]) {
+	if (page->priv->env_lang) {
 		str1 = pt_config_get_lang_code (conf1);
 		str2 = pt_config_get_lang_code (conf2);
-		prefix1 = g_str_has_prefix (langs[0], str1);
-		prefix2 = g_str_has_prefix (langs[0], str2);
+		prefix1 = g_str_has_prefix (page->priv->env_lang, str1);
+		prefix2 = g_str_has_prefix (page->priv->env_lang, str2);
 
 		comp = 0;
 		if (prefix1 && !prefix2)
@@ -371,7 +371,7 @@ asr_setup_config_box (PtPrefsAsr *page)
 
 	gtk_list_box_set_sort_func (asr_list,
                               sort_asr_list,
-                              NULL,
+                              page,
                               NULL);
 
 	if (error || num_valid == 0) {
@@ -865,6 +865,7 @@ asr_list_row_selected_cb (GtkListBox    *box,
 static void
 pt_prefs_asr_init (PtPrefsAsr *page)
 {
+	const gchar* const *env_langs;
 	gchar *path;
 
 	page->priv = pt_prefs_asr_get_instance_private (page);
@@ -874,6 +875,11 @@ pt_prefs_asr_init (PtPrefsAsr *page)
 	page->priv->filter = 2;
 	gtk_list_box_set_placeholder (GTK_LIST_BOX (page->priv->asr_list), page->priv->no_result_box);
 	page->priv->asr1 = g_signal_connect (page->priv->asr_list, "row-selected", G_CALLBACK (asr_list_row_selected_cb), page);
+
+	/* get language to sort it first */
+	env_langs = g_get_language_names ();
+	if (env_langs[0])
+		page->priv->env_lang = g_strdup (env_langs[0]);
 
 	/* make sure config dir exists */
 	path = g_build_path (G_DIR_SEPARATOR_S,
@@ -902,6 +908,7 @@ pt_prefs_asr_dispose (GObject *object)
 	if (page->priv->asr1 > 0)
 		g_signal_handler_disconnect (page->priv->asr_list, page->priv->asr1);
 	g_clear_object (&page->priv->config_folder);
+	g_free (page->priv->env_lang);
 
 	G_OBJECT_CLASS (pt_prefs_asr_parent_class)->dispose (object);
 }
