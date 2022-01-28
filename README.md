@@ -10,7 +10,7 @@ The following instructions are for developers, contributors and those who want t
 ### Dependencies
 
 To build Parlatype from source you need these packages:
-* meson >= 0.47.2 (older versions not tested)
+* meson >= 0.56.0
 * gettext >= 0.19.7
 * gobject-introspection-1.0
 * yelp-tools
