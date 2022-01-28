@@ -52,6 +52,8 @@
 #define ALL_ACCELS_MASK	(GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_ALT_MASK)
 #define CURSOR_POSITION 0.5
 #define WAVE_MIN_HEIGHT 20
+#define PPS_MIN 25
+#define PPS_MAX 200
 
 struct _PtWaveviewerPrivate {
 	/* Wavedata */
@@ -123,13 +125,12 @@ enum {
 	FOLLOW_CURSOR_CHANGED,
 	SELECTION_CHANGED,
 	PLAY_TOGGLED,
-	ZOOM_IN,
-	ZOOM_OUT,
 	LAST_SIGNAL
 };
 
 static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
 static guint signals[LAST_SIGNAL] = { 0 };
+static void pt_waveviewer_set_pps (PtWaveviewer *self, int pps);
 
 
 G_DEFINE_TYPE_WITH_PRIVATE (PtWaveviewer, pt_waveviewer, GTK_TYPE_WIDGET);
@@ -487,14 +488,13 @@ pt_waveviewer_scroll_event (GtkEventControllerScroll *ctrl,
 		}
 	}
 
-	/* Only Control pressed: zoom in or out TODO handle this internally without signals*/
 	if ((state & ALL_ACCELS_MASK) == GDK_CONTROL_MASK) {
 		if (delta_y < 0 || delta_x < 0) {
-			g_signal_emit_by_name (self, "zoom-out");
+			pt_waveviewer_set_pps (self, self->priv->pps - 10);
 			return TRUE;
 		}
 		if (delta_y > 0 || delta_x > 0) {
-			g_signal_emit_by_name (self, "zoom-in");
+			pt_waveviewer_set_pps (self, self->priv->pps + 10);
 			return TRUE;
 		}
 
@@ -771,6 +771,45 @@ array_size_changed_cb (PtWaveloader *loader,
 }
 
 static void
+pt_waveviewer_set_pps (PtWaveviewer *self,
+                       int           pps)
+{
+	PtWaveviewerPrivate *priv = self->priv;
+	GError *error = NULL;
+
+	pps = CLAMP (pps, PPS_MIN, PPS_MAX);
+
+	if (priv->pps == pps)
+		return;
+
+	priv->pps = pps;
+
+	if (priv->peaks->len == 0)
+		return;
+
+	get_anchor_point (self);
+	if (!pt_waveloader_resize (priv->loader, priv->pps, &error)) {
+		g_print ("%s\n", error->message);
+		g_clear_error (&error);
+		return;
+	}
+
+	array_size_changed_cb (NULL, self);
+	gtk_adjustment_set_value (priv->adj,
+	                          time_to_pixel (self, priv->zoom_time) - priv->zoom_pos);
+	gtk_widget_queue_draw (priv->waveform);
+	render_cursor (self);
+	if (priv->has_selection) {
+		pt_waveviewer_selection_set (PT_WAVEVIEWER_SELECTION (priv->selection),
+		                             time_to_pixel (self, priv->sel_start),
+		                             time_to_pixel (self, priv->sel_end));
+	}
+
+	g_object_notify_by_pspec (G_OBJECT (self),
+	                          obj_properties[PROP_PPS]);
+}
+
+static void
 propagate_progress_cb (PtWaveloader *loader,
                        gdouble       progress,
                        PtWaveviewer *self)
@@ -991,7 +1030,6 @@ pt_waveviewer_set_property (GObject      *object,
                             GParamSpec   *pspec)
 {
 	PtWaveviewer *self = PT_WAVEVIEWER (object);
-	GError *error = NULL;
 
 	switch (property_id) {
 	case PROP_PLAYBACK_CURSOR:
@@ -1024,27 +1062,7 @@ pt_waveviewer_set_property (GObject      *object,
 					       self->priv->show_ruler);
 		break;
 	case PROP_PPS:
-		self->priv->pps = g_value_get_int (value);
-		if (self->priv->peaks->len == 0)
-			break;
-		get_anchor_point (self);
-		if (!pt_waveloader_resize (self->priv->loader,
-				           self->priv->pps,
-				           &error)) {
-			g_print ("%s\n", error->message);
-			g_clear_error (&error);
-			break;
-		}
-
-		array_size_changed_cb (NULL, self);
-		gtk_adjustment_set_value (self->priv->adj, time_to_pixel (self, self->priv->zoom_time) - self->priv->zoom_pos);
-		gtk_widget_queue_draw (self->priv->waveform);
-		render_cursor (self);
-		if (self->priv->has_selection) {
-			pt_waveviewer_selection_set (PT_WAVEVIEWER_SELECTION (self->priv->selection),
-					time_to_pixel (self, self->priv->sel_start),
-					time_to_pixel (self, self->priv->sel_end));
-		}
+		pt_waveviewer_set_pps (self, g_value_get_int (value));
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1334,40 +1352,6 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 		      0);
 
 	/**
-	* PtWaveviewer::zoom-in:
-	* @viewer: the waveviewer emitting the signal
-	*
-	* Signals that the user requested to zoom into the waveform.
-	*/
-	signals[ZOOM_IN] =
-	g_signal_new ("zoom-in",
-		      PT_TYPE_WAVEVIEWER,
-		      G_SIGNAL_RUN_FIRST,
-		      0,
-		      NULL,
-		      NULL,
-		      g_cclosure_marshal_VOID__VOID,
-		      G_TYPE_NONE,
-		      0);
-
-	/**
-	* PtWaveviewer::zoom-out:
-	* @viewer: the waveviewer emitting the signal
-	*
-	* Signals that the user requested to zoom out of the waveform.
-	*/
-	signals[ZOOM_OUT] =
-	g_signal_new ("zoom-out",
-		      PT_TYPE_WAVEVIEWER,
-		      G_SIGNAL_RUN_FIRST,
-		      0,
-		      NULL,
-		      NULL,
-		      g_cclosure_marshal_VOID__VOID,
-		      G_TYPE_NONE,
-		      0);
-
-	/**
 	 * PtWaveviewer:playback-cursor:
 	 *
 	 * Current playback position in milliseconds. A value of -1 means an
@@ -1491,10 +1475,10 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 			"pps",
 			"Pixels per second",
 			"Current/requested resolution of waveform in pixels per second",
-			25,
-			200,
+			PPS_MIN,
+			PPS_MAX,
 			100,
-			G_PARAM_WRITABLE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
 	g_object_class_install_properties (
 			gobject_class,

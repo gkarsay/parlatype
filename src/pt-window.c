@@ -323,26 +323,6 @@ update_time_tick (GtkWidget     *widget,
 }
 
 static void
-zoom_in_cb (GtkWidget *widget,
-            PtWindow  *win)
-{
-	GAction  *action;
-
-	action = g_action_map_lookup_action (G_ACTION_MAP (win), "zoom-in");
-	g_action_activate (action, NULL);
-}
-
-static void
-zoom_out_cb (GtkWidget *widget,
-             PtWindow  *win)
-{
-	GAction  *action;
-
-	action = g_action_map_lookup_action (G_ACTION_MAP (win), "zoom-out");
-	g_action_activate (action, NULL);
-}
-
-static void
 add_timer (PtWindow *win)
 {
 	if (win->priv->timer == 0) {
@@ -825,7 +805,7 @@ setup_settings (PtWindow *win)
 	g_settings_bind (
 			win->priv->editor, "pps",
 			win->priv->waveviewer, "pps",
-			G_SETTINGS_BIND_GET);
+			G_SETTINGS_BIND_DEFAULT);
 
 	g_settings_bind_with_mapping (
 			win->priv->editor, "rewind-on-pause",
@@ -1209,8 +1189,6 @@ pt_window_class_init (PtWindowClass *klass)
 
 	gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/parlatype/window.ui");
 	gtk_widget_class_bind_template_callback(widget_class, play_button_toggled_cb);
-	gtk_widget_class_bind_template_callback(widget_class, zoom_in_cb);
-	gtk_widget_class_bind_template_callback(widget_class, zoom_out_cb);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, primary_menu_button);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_open);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, progress);

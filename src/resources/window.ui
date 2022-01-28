@@ -68,8 +68,6 @@
                     <property name="can_focus">True</property>
                     <property name="hexpand">True</property>
                     <property name="vexpand">True</property>
-                    <signal name="zoom-in" handler="zoom_in_cb" swapped="no"/>
-                    <signal name="zoom-out" handler="zoom_out_cb" swapped="no"/>
                   </object>
                 </child>
                 <child>
