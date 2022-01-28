@@ -572,13 +572,6 @@ pt_waveviewer_button_release_event (GtkGestureClick *gesture,
 	return FALSE;
 }
 
-static void
-stop_following_cursor (PtWaveviewer *self)
-{
-	if (self->priv->peaks)
-		pt_waveviewer_set_follow_cursor (self, FALSE);
-}
-
 static gboolean
 scrollbar_button_press_event_cb (GtkGestureClick *gesture,
                                  gint             n_press,
@@ -589,7 +582,7 @@ scrollbar_button_press_event_cb (GtkGestureClick *gesture,
 	/* If user clicks on scrollbar don’t follow cursor anymore.
 	   Otherwise it would scroll immediately back again. */
 
-	stop_following_cursor (PT_WAVEVIEWER (user_data));
+	pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (user_data), FALSE);
 
 	/* Propagate signal */
 	return FALSE;
@@ -604,7 +597,7 @@ scrollbar_scroll_event_cb (GtkEventControllerScroll *ctrl,
 	/* If user scrolls on scrollbar don’t follow cursor anymore.
 	   Otherwise it would scroll immediately back again. */
 
-	stop_following_cursor (PT_WAVEVIEWER (user_data));
+	pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (user_data), FALSE);
 
 	/* Propagate signal */
 	return FALSE;
@@ -671,10 +664,12 @@ pt_waveviewer_set_follow_cursor (PtWaveviewer *self,
 		return;
 
 	self->priv->follow_cursor = follow;
-	g_object_notify_by_pspec (G_OBJECT (self),
-				  obj_properties[PROP_FOLLOW_CURSOR]);
-	if (follow)
+
+	if (follow && self->priv->peaks)
 		scroll_to_cursor (self);
+
+	g_object_notify_by_pspec (G_OBJECT (self),
+	                          obj_properties[PROP_FOLLOW_CURSOR]);
 }
 
 static gboolean
@@ -1046,9 +1041,7 @@ pt_waveviewer_set_property (GObject      *object,
 		render_cursor (self);
 		break;
 	case PROP_FOLLOW_CURSOR:
-		self->priv->follow_cursor = g_value_get_boolean (value);
-		if (gtk_widget_get_realized (GTK_WIDGET (self)) && self->priv->follow_cursor)
-			scroll_to_cursor (self);
+		pt_waveviewer_set_follow_cursor (self, g_value_get_boolean (value));
 		break;
 	case PROP_FIXED_CURSOR:
 		self->priv->fixed_cursor = g_value_get_boolean (value);
