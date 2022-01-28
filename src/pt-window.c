@@ -462,15 +462,18 @@ update_insert_action_sensitivity (GdkClipboard *clip,
 }
 
 static void
-update_goto_cursor_action_sensitivity (PtWaveviewer *waveviewer,
-                                       gboolean      new,
-                                       gpointer      data)
+update_goto_cursor_action_sensitivity (GObject    *gobject,
+                                       GParamSpec *pspec,
+                                       gpointer    user_data)
 {
-	PtWindow  *win = PT_WINDOW (data);
-	GAction    *action;
+	PtWaveviewer *viewer = PT_WAVEVIEWER (gobject);
+	PtWindow     *win = PT_WINDOW (user_data);
+	GAction      *action;
+	gboolean      follow;
 
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "goto-cursor");
-	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), !new);
+	follow = pt_waveviewer_get_follow_cursor (viewer);
+	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), !follow);
 }
 
 static void
@@ -1133,7 +1136,7 @@ pt_window_init (PtWindow *win)
 			G_CALLBACK (update_insert_action_sensitivity),
 			win);
 	g_signal_connect (win->priv->waveviewer,
-			"follow-cursor-changed",
+			"notify::follow-cursor",
 			G_CALLBACK (update_goto_cursor_action_sensitivity),
 			win);
 

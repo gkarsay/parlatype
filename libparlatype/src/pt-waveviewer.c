@@ -122,7 +122,6 @@ enum
 
 enum {
 	CURSOR_CHANGED,
-	FOLLOW_CURSOR_CHANGED,
 	SELECTION_CHANGED,
 	PLAY_TOGGLED,
 	LAST_SIGNAL
@@ -674,7 +673,6 @@ pt_waveviewer_set_follow_cursor (PtWaveviewer *self,
 	self->priv->follow_cursor = follow;
 	g_object_notify_by_pspec (G_OBJECT (self),
 				  obj_properties[PROP_FOLLOW_CURSOR]);
-	g_signal_emit_by_name (self, "follow-cursor-changed", self->priv->follow_cursor);
 	if (follow)
 		scroll_to_cursor (self);
 }
@@ -1051,7 +1049,6 @@ pt_waveviewer_set_property (GObject      *object,
 		self->priv->follow_cursor = g_value_get_boolean (value);
 		if (gtk_widget_get_realized (GTK_WIDGET (self)) && self->priv->follow_cursor)
 			scroll_to_cursor (self);
-		g_signal_emit_by_name (self, "follow-cursor-changed", self->priv->follow_cursor);
 		break;
 	case PROP_FIXED_CURSOR:
 		self->priv->fixed_cursor = g_value_get_boolean (value);
@@ -1295,25 +1292,6 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 		      _pt_cclosure_marshal_VOID__INT64,
 		      G_TYPE_NONE,
 		      1, G_TYPE_INT64);
-
-	/**
-	* PtWaveviewer::follow-cursor-changed:
-	* @viewer: the waveviewer emitting the signal
-	* @follow: the new value
-	*
-	* Signals that the #PtWaveviewer:follow-cursor property has changed.
-	*/
-	signals[FOLLOW_CURSOR_CHANGED] =
-	g_signal_new ("follow-cursor-changed",
-		      PT_TYPE_WAVEVIEWER,
-		      G_SIGNAL_RUN_FIRST,
-		      0,
-		      NULL,
-		      NULL,
-		      g_cclosure_marshal_VOID__BOOLEAN,
-		      G_TYPE_NONE,
-		      1, G_TYPE_BOOLEAN);
-
 
 	/**
 	* PtWaveviewer::selection-changed:
