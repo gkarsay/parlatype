@@ -50,32 +50,14 @@
             <child>
               <object class="GtkShortcutsShortcut">
                 <property name="visible">1</property>
-                <property name="accelerator">&lt;ctrl&gt;Left</property>
-                <property name="direction">GTK_TEXT_DIR_LTR</property>
+                <property name="accelerator">&lt;ctrl&gt;A</property>
                 <property name="title" translatable="yes">Jump back</property>
               </object>
             </child>
             <child>
               <object class="GtkShortcutsShortcut">
                 <property name="visible">1</property>
-                <property name="accelerator">&lt;ctrl&gt;Right</property>
-                <property name="direction">GTK_TEXT_DIR_RTL</property>
-                <property name="title" translatable="yes">Jump back</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="visible">1</property>
-                <property name="accelerator">&lt;ctrl&gt;Right</property>
-                <property name="direction">GTK_TEXT_DIR_LTR</property>
-                <property name="title" translatable="yes">Jump forward</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="visible">1</property>
-                <property name="accelerator">&lt;ctrl&gt;Left</property>
-                <property name="direction">GTK_TEXT_DIR_RTL</property>
+                <property name="accelerator">&lt;ctrl&gt;S</property>
                 <property name="title" translatable="yes">Jump forward</property>
               </object>
             </child>

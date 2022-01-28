@@ -244,8 +244,8 @@ pt_app_startup (GApplication *app)
 	const gchar *help_accels[2] = { "F1", NULL };
 	const gchar *zoom_in_accels[3] = { "<Primary>plus", "<Primary>KP_Add", NULL };
 	const gchar *zoom_out_accels[3] = { "<Primary>minus", "<Primary>KP_Subtract", NULL };
-	const char *jump_back_accels[2] = {"<Primary>Left", NULL};
-	const char *jump_forward_accels[2] = {"<Primary>Right", NULL};
+	const char *jump_back_accels[2] = {"<Primary>A", NULL};
+	const char *jump_forward_accels[2] = {"<Primary>S", NULL};
 	const char *play_accels[2] = {"<Primary>space", NULL};
 
 	gtk_application_set_accels_for_action (GTK_APPLICATION (app),

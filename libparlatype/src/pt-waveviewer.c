@@ -349,11 +349,9 @@ pt_waveviewer_key_press_event (GtkEventControllerKey *ctrl,
 
 		GtkScrollType scroll = GTK_SCROLL_NONE;
 		switch (keyval) {
-		/* TODO Parlatype's keybinding CTRL + Left draws first, jumps backward */
 		case GDK_KEY_Left:
 			scroll = GTK_SCROLL_STEP_BACKWARD;
 			break;
-		/* TODO Parlatype's keybinding CTRL + Right draws first, jumps forward */
 		case GDK_KEY_Right:
 			scroll = GTK_SCROLL_STEP_FORWARD;
 			break;
