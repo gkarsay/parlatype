@@ -281,8 +281,8 @@ waveloader_load_unref (void)
 
 static gint array_emit_count = 0;
 static gint progress_emit_count = 0;
-static gdouble progress1 = 0;
-static gdouble progress2 = 0;
+static gdouble first_progress = 0;
+static gdouble last_progress = 0;
 
 static void
 progress_cb (PtWaveloader *wl,
@@ -290,9 +290,8 @@ progress_cb (PtWaveloader *wl,
 {
 	progress_emit_count++;
 	if (progress_emit_count == 1)
-		progress1 = progress;
-	else if (progress_emit_count == 2)
-		progress2 = progress;
+		first_progress = progress;
+	last_progress = progress;
 }
 
 static void
@@ -333,12 +332,11 @@ waveloader_load_success (void)
 	g_assert_true (success);
 	g_assert_no_error (error);
 
-	/* Check signal emission. Hopefully we get also on faster machines
-	 * at least 2 progress signals. */
+	/* Check signal emission. */
 	g_assert_cmpint (progress_emit_count, >=, 2);
-	g_assert_cmpfloat (progress1, >, 0);
-	g_assert_cmpfloat (progress1, <, progress2);
-	g_assert_cmpfloat (progress2, <=, 1);
+	g_assert_cmpfloat (first_progress, >, 0);
+	g_assert_cmpfloat (first_progress, <, 1);
+	g_assert_cmpfloat (last_progress, ==, 1);
 
 	g_assert_cmpint (array_emit_count, >=, 1);
 	g_assert_cmpint (array->len, ==, 11982);

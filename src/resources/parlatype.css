@@ -7,13 +7,8 @@ menubutton {
 }
 
 progressbar > trough {
-	border: 0;
-	background: transparent;
-}
-
-progressbar > trough.full > progress {
-	background-color: transparent;
-	border: 0;
+  background: transparent;
+  border: transparent;
 }
 
 window > grid {

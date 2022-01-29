@@ -438,7 +438,7 @@ pt_waveloader_load_finish (PtWaveloader  *wl,
 	g_return_val_if_fail (g_task_is_valid (result, wl), FALSE);
 
 	wl->priv->load_pending = FALSE;
-	g_signal_emit_by_name (wl, "progress", 1);
+	g_signal_emit_by_name (wl, "progress", result ? 1.0 : 0.0);
 	return g_task_propagate_boolean (G_TASK (result), error);
 }
 
@@ -561,7 +561,7 @@ pt_waveloader_resize_finish (PtWaveloader  *wl,
 	g_return_val_if_fail (g_task_is_valid (result, wl), FALSE);
 
 	wl->priv->data_pending = FALSE;
-	g_signal_emit_by_name (wl, "progress", 1);
+	g_signal_emit_by_name (wl, "progress", result ? 1.0 : 0.0);
 	return g_task_propagate_boolean (G_TASK (result), error);
 }
 
@@ -914,14 +914,15 @@ pt_waveloader_class_init (PtWaveloaderClass *klass)
 	G_OBJECT_CLASS (klass)->dispose = pt_waveloader_dispose;
 
 	/**
-	* PtWaveloader::progress:
-	* @wl: the waveloader emitting the signal
-	* @progress: the new progress state, ranging from 0.0 to 1.0
-	*
-	* Indicates progress on a scale from 0.0 to 1.0, however it does not
-	* emit the value 0.0 nor 1.0. Wait for a successful operation until
-	* any gui element showing progress is dismissed.
-	*/
+	 * PtWaveloader::progress:
+	 * @wl: the waveloader emitting the signal
+	 * @progress: the new progress state, ranging from 0.0 to 1.0
+	 *
+	 * While loading or resizing a waveform a progress signal is emitted,
+	 * starting with a value greater than 0.0.
+	 * At the end of the operation, 1.0 is emitted in case of success,
+	 * otherwise 0.0.
+	 */
 	signals[PROGRESS] =
 	g_signal_new ("progress",
 		      PT_TYPE_WAVELOADER,

@@ -1104,6 +1104,18 @@ setup_accels_actions_menus (PtWindow *win)
 }
 
 static void
+progressbar_cb (PtWaveviewer *viewer,
+                double        fraction,
+                gpointer      user_data)
+{
+	GtkProgressBar *progressbar = GTK_PROGRESS_BAR (user_data);
+
+	if (fraction == 1)
+		fraction = 0;
+	gtk_progress_bar_set_fraction (progressbar, fraction);
+}
+
+static void
 pt_window_init (PtWindow *win)
 {
 	win->priv = pt_window_get_instance_private (win);
@@ -1140,10 +1152,10 @@ pt_window_init (PtWindow *win)
 			G_CALLBACK (update_goto_cursor_action_sensitivity),
 			win);
 
-	g_signal_connect_swapped (win->priv->waveviewer,
-				  "load-progress",
-				  G_CALLBACK (gtk_progress_bar_set_fraction),
-				  GTK_PROGRESS_BAR (win->priv->progress));
+	g_signal_connect (win->priv->waveviewer,
+	                  "load-progress",
+	                  G_CALLBACK (progressbar_cb),
+	                  GTK_PROGRESS_BAR (win->priv->progress));
 }
 
 static void
