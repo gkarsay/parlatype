@@ -289,8 +289,6 @@ check_progress (GTask *task)
 	   If it’s removed, the message bus has to be removed, too, and also
 	   the other way round. */
 
-	/* TODO think about moving all this to new_sample_cb() */
-
 	PtWaveloader *wl = g_task_get_source_object (task);
 
 	gint64  dur;
