@@ -44,6 +44,7 @@ struct _PtWaveloaderPrivate
 	GstElement *fmt;
 
 	GArray     *hires;
+	gint        hires_index;
 	GArray     *lowres;
 	gint        lowres_pps;
 	gint        lowres_index;
@@ -137,7 +138,8 @@ calc_lowres_len (gint hires_len,
 
 static void
 convert_one_second (PtWaveloader *wl,
-		    gint          nr)
+                    gint         *index_in,
+                    gint         *index_out)
 {
 	gint pps = wl->priv->lowres_pps;
 	gint k, m;
@@ -149,9 +151,8 @@ convert_one_second (PtWaveloader *wl,
 	chunk_size = 8000 / pps;
 	mod = 8000 % pps;
 
-	gint index_in = nr * 8000;
 	gint correct;
-	if (index_in >= wl->priv->hires->len)
+	if (*index_in >= wl->priv->hires->len)
 		return;
 
 	/* Loop data worth 1 second */
@@ -165,13 +166,13 @@ convert_one_second (PtWaveloader *wl,
 			correct = 1;
 		for (m = 0; m < (chunk_size + correct); m++) {
 			/* Get highest and lowest value */
-			d = g_array_index (wl->priv->hires, gint16, index_in);
+			d = g_array_index (wl->priv->hires, gint16, *index_in);
 			if (d < vmin)
 				vmin = d;
 			if (d > vmax)
 				vmax = d;
-			index_in++;
-			if (index_in == wl->priv->hires->len)
+			*index_in += 1;
+			if (*index_in == wl->priv->hires->len)
 				break;
 		}
 		/* Always include 0, looks better at higher resolutions */
@@ -182,11 +183,11 @@ convert_one_second (PtWaveloader *wl,
 		/* Save as a float in the range 0 to 1 */
 		vmin = vmin / 32768.0;
 		vmax = vmax / 32768.0;
-		memcpy (wl->priv->lowres->data + wl->priv->lowres_index * sizeof (float), &vmin, sizeof (float));
-		wl->priv->lowres_index++;
-		memcpy (wl->priv->lowres->data + wl->priv->lowres_index * sizeof (float), &vmax, sizeof (float));
-		wl->priv->lowres_index++;
-		if (index_in == wl->priv->hires->len)
+		memcpy (wl->priv->lowres->data + *index_out * sizeof (float), &vmin, sizeof (float));
+		*index_out += 1;
+		memcpy (wl->priv->lowres->data + *index_out * sizeof (float), &vmax, sizeof (float));
+		*index_out += 1;
+		if (*index_in == wl->priv->hires->len)
 			break;
 	}
 }
@@ -212,10 +213,8 @@ new_sample_cb (GstAppSink *sink,
 
 	/* If hires has more than one second of new data available, add it to
 	 * lowres. The very last data will be added at the EOS signal. */
-	gint hires_full_seconds = wl->priv->hires->len / 8000;
-	gint lowres_full_seconds = wl->priv->lowres_index / 2 / wl->priv->lowres_pps;
 	gint pps = wl->priv->lowres_pps;
-	if (hires_full_seconds > lowres_full_seconds) {
+	if (wl->priv->hires->len - wl->priv->hires_index >= 8000) {
 		/* Make sure lowres is big enough */
 		if (wl->priv->lowres_index + pps * 2 + 1 > wl->priv->lowres->len) {
 			g_array_set_size (wl->priv->lowres, wl->priv->lowres_index + pps * 2 + 2);
@@ -223,7 +222,7 @@ new_sample_cb (GstAppSink *sink,
 					  "MESSAGE", "lowres->len resized in new_sample_cb: %d",
 					  wl->priv->lowres_index + pps * 2 + 2);
 		}
-		convert_one_second (wl, lowres_full_seconds);
+		convert_one_second (wl, &wl->priv->hires_index, &wl->priv->lowres_index);
 	}
 
 	return GST_FLOW_OK;
@@ -375,12 +374,9 @@ bus_handler (GstBus     *bus,
 		g_array_set_size (wl->priv->lowres, calc_lowres_len (wl->priv->hires->len, wl->priv->lowres_pps));
 
 		/* while hires has more full seconds than lowres ... */
-		while (wl->priv->hires->len / 8000 > wl->priv->lowres_index / 2 / wl->priv->lowres_pps) {
-			convert_one_second (wl, wl->priv->lowres_index / 2 / wl->priv->lowres_pps);
+		while (wl->priv->hires->len > wl->priv->hires_index) {
+			convert_one_second (wl, &wl->priv->hires_index, &wl->priv->lowres_index);
 		}
-
-		/* ... and now add the last data */
-		convert_one_second (wl, (wl->priv->lowres_index / 2 / wl->priv->lowres_pps));
 
 		/* query length and convert to samples */
 		if (!gst_element_query_duration (wl->priv->pipeline, GST_FORMAT_TIME, &wl->priv->duration)) {
@@ -483,6 +479,7 @@ pt_waveloader_load_async (PtWaveloader        *wl,
 	g_array_set_size (wl->priv->lowres, pps * 60);
 	wl->priv->lowres_pps = pps;
 	wl->priv->lowres_index = 0;
+	wl->priv->hires_index = 0;
 
 	if (wl->priv->load_pending) {
 		g_task_return_new_error (
