@@ -556,7 +556,6 @@ pt_waveloader_resize_finish (PtWaveloader  *wl,
 	g_return_val_if_fail (g_task_is_valid (result, wl), FALSE);
 
 	wl->priv->data_pending = FALSE;
-	g_signal_emit_by_name (wl, "progress", result ? 1.0 : 0.0);
 	return g_task_propagate_boolean (G_TASK (result), error);
 }
 
@@ -569,6 +568,8 @@ pt_waveloader_resize_real (GTask        *task,
 	PtWaveloader *wl = source_object;
 	gint pps = GPOINTER_TO_INT (task_data);
 	gint lowres_len;
+	gint index_in = 0;
+	gint index_out = 0;
 	gboolean result = TRUE;
 
 	lowres_len = calc_lowres_len (wl->priv->hires->len, pps);
@@ -577,13 +578,7 @@ pt_waveloader_resize_real (GTask        *task,
 		g_signal_emit_by_name (wl, "array-size-changed");
 	}
 
-	gint index_in = 0;
-	gint index_out = 0;
-	gdouble progress = 0;
-
 	while (wl->priv->hires->len > index_in) {
-		progress = (gdouble) index_out / lowres_len;
-		g_signal_emit_by_name (wl, "progress", progress);
 
 		if (g_cancellable_is_cancelled (cancellable)) {
 			result = FALSE;
@@ -870,7 +865,7 @@ pt_waveloader_class_init (PtWaveloaderClass *klass)
 	 * @wl: the waveloader emitting the signal
 	 * @progress: the new progress state, ranging from 0.0 to 1.0
 	 *
-	 * While loading or resizing a waveform a progress signal is emitted,
+	 * While loading a waveform a progress signal is emitted,
 	 * starting with a value greater than 0.0.
 	 * At the end of the operation, 1.0 is emitted in case of success,
 	 * otherwise 0.0.
