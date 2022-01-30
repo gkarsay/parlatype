@@ -118,6 +118,9 @@ calc_lowres_len (gint hires_len,
 	mod = 8000 % pps;	    /* remainder of ratio */
 
 	for (i = 0; i < pps; i++) {
+		if (remains <= 0)
+			break;
+
 		result += 1;
 
 		/* If there is a remainder for in_rate/out_rate, correct
@@ -126,8 +129,6 @@ calc_lowres_len (gint hires_len,
 		if (i < mod)
 			correct = 1;
 		remains -= (ratio + correct);
-		if (remains <= 0)
-			break;
 	}
 
 	/* We have min/max pairs */
