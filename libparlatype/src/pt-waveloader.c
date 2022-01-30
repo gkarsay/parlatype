@@ -160,7 +160,8 @@ convert_one_second (PtWaveloader *wl,
 		vmin = 0;
 		vmax = 0;
 		/* If there is a remainder for in_rate/out_rate, correct
-		 * it by reading in an additional sample. */
+		 * it by reading in an additional sample. So the first n min/max
+		 * pairs will use an additional sample, where n is the remainder. */
 		correct = 0;
 		if (k < mod)
 			correct = 1;
