@@ -46,7 +46,7 @@ struct _PtWaveloaderPrivate
 	GArray     *hires;
 	gint        hires_index;
 	GArray     *lowres;
-	gint        lowres_pps;
+	gint        pps;
 	gint        lowres_index;
 
 	gchar      *uri;
@@ -141,7 +141,7 @@ convert_one_second (PtWaveloader *wl,
                     gint         *index_in,
                     gint         *index_out)
 {
-	gint pps = wl->priv->lowres_pps;
+	gint pps = wl->priv->pps;
 	gint k, m;
 	gint16 d;
 	gfloat vmin, vmax;
@@ -213,7 +213,7 @@ new_sample_cb (GstAppSink *sink,
 
 	/* If hires has more than one second of new data available, add it to
 	 * lowres. The very last data will be added at the EOS signal. */
-	gint pps = wl->priv->lowres_pps;
+	gint pps = wl->priv->pps;
 	if (wl->priv->hires->len - wl->priv->hires_index >= 8000) {
 		/* Make sure lowres is big enough */
 		if (wl->priv->lowres_index + pps * 2 + 1 > wl->priv->lowres->len) {
@@ -318,7 +318,7 @@ check_progress (GTask *task)
 
 	if (dur > wl->priv->duration) {
 		wl->priv->duration = dur;
-		new_size = wl->priv->duration / 1000000000 * wl->priv->lowres_pps * 2;
+		new_size = wl->priv->duration / 1000000000 * wl->priv->pps * 2;
 		if (wl->priv->lowres->len != new_size) {
 			g_array_set_size (wl->priv->lowres, new_size);
 			g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
@@ -371,7 +371,7 @@ bus_handler (GstBus     *bus,
 	case GST_MESSAGE_EOS: {
 
 		/* convert remaining data from hires to lowres */
-		g_array_set_size (wl->priv->lowres, calc_lowres_len (wl->priv->hires->len, wl->priv->lowres_pps));
+		g_array_set_size (wl->priv->lowres, calc_lowres_len (wl->priv->hires->len, wl->priv->pps));
 
 		/* while hires has more full seconds than lowres ... */
 		while (wl->priv->hires->len > wl->priv->hires_index) {
@@ -385,7 +385,7 @@ bus_handler (GstBus     *bus,
 
 		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
 				  "MESSAGE", "Sample decoded: hires->len=%d, lowres->len=%d, pps=%d, duration=%" GST_TIME_FORMAT,
-		                  wl->priv->hires->len, wl->priv->lowres->len, wl->priv->lowres_pps, GST_TIME_ARGS (wl->priv->duration));
+		                  wl->priv->hires->len, wl->priv->lowres->len, wl->priv->pps, GST_TIME_ARGS (wl->priv->duration));
 
 		remove_timeout (wl);
 		wl->priv->bus_watch_id = 0;
@@ -396,7 +396,7 @@ bus_handler (GstBus     *bus,
 	case GST_MESSAGE_DURATION_CHANGED: {
 		gst_element_query_duration (wl->priv->pipeline, GST_FORMAT_TIME, &wl->priv->duration);
 		gint new_size;
-		new_size = wl->priv->duration / 1000000000 * wl->priv->lowres_pps * 2;
+		new_size = wl->priv->duration / 1000000000 * wl->priv->pps * 2;
 		g_array_set_size (wl->priv->lowres, new_size);
 		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
 				  "MESSAGE", "Duration changed signal: %" GST_TIME_FORMAT" lowres resized to len %d",
@@ -477,7 +477,7 @@ pt_waveloader_load_async (PtWaveloader        *wl,
 	task = g_task_new (wl, cancellable, callback, user_data);
 	/* Lets have an initial size of 60 sec */
 	g_array_set_size (wl->priv->lowres, pps * 60);
-	wl->priv->lowres_pps = pps;
+	wl->priv->pps = pps;
 	wl->priv->lowres_index = 0;
 	wl->priv->hires_index = 0;
 
