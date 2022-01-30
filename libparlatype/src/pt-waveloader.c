@@ -566,21 +566,12 @@ pt_waveloader_resize_real (GTask        *task,
 			   gpointer      task_data,
 		           GCancellable *cancellable)
 {
-	/* TODO share code with convert_one_second() */
-
 	PtWaveloader *wl = source_object;
 	gint pps = GPOINTER_TO_INT (task_data);
-	gint k, m;
-	gint16 d;
-	gfloat vmin, vmax;
-	gint chunk_size;
-	gint mod;
 	gint lowres_len;
 	gboolean result = TRUE;
 
 	lowres_len = calc_lowres_len (wl->priv->hires->len, pps);
-	chunk_size = 8000 / pps;
-	mod = 8000 % pps;
 	if (wl->priv->lowres == NULL || wl->priv->lowres->len != lowres_len) {
 		g_array_set_size (wl->priv->lowres, lowres_len);
 		g_signal_emit_by_name (wl, "array-size-changed");
@@ -590,8 +581,7 @@ pt_waveloader_resize_real (GTask        *task,
 	gint index_out = 0;
 	gdouble progress = 0;
 
-	gint correct;
-	while (index_in < wl->priv->hires->len && index_out < lowres_len) {
+	while (wl->priv->hires->len > index_in) {
 		progress = (gdouble) index_out / lowres_len;
 		g_signal_emit_by_name (wl, "progress", progress);
 
@@ -599,41 +589,8 @@ pt_waveloader_resize_real (GTask        *task,
 			result = FALSE;
 			break;
 		}
-		/* Loop data worth 1 second */
-		for (k = 0; k < pps; k++) {
-			vmin = 0;
-			vmax = 0;
-			/* If there is a remainder for in_rate/out_rate, correct
-			 * it by reading in an additional sample. */
-			correct = 0;
-			if (k < mod)
-				correct = 1;
-			for (m = 0; m < (chunk_size + correct); m++) {
-				/* Get highest and lowest value */
-				d = g_array_index (wl->priv->hires, gint16, index_in);
-				if (d < vmin)
-					vmin = d;
-				if (d > vmax)
-					vmax = d;
-				index_in++;
-				if (index_in == wl->priv->hires->len)
-					break;
-			}
-			/* Always include 0, looks better at higher resolutions */
-			if (vmin > 0 && vmax > 0)
-				vmin = 0;
-			else if (vmin < 0 && vmax < 0)
-				vmax = 0;
-			/* Save as a float in the range 0 to 1 */
-			vmin = vmin / 32768.0;
-			vmax = vmax / 32768.0;
-			memcpy (wl->priv->lowres->data + index_out * sizeof (float), &vmin, sizeof (float));
-			index_out++;
-			memcpy (wl->priv->lowres->data + index_out * sizeof (float), &vmax, sizeof (float));
-			index_out++;
-			if (index_out > lowres_len - 2)
-				break;
-		}
+
+		convert_one_second (wl, &index_in, &index_out);
 	}
 
 	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
