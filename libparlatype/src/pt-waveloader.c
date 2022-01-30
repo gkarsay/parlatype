@@ -137,11 +137,12 @@ calc_lowres_len (gint hires_len,
 }
 
 static void
-convert_one_second (PtWaveloader *wl,
-                    gint         *index_in,
-                    gint         *index_out)
+convert_one_second (GArray *in,
+                    GArray *out,
+                    gint   *index_in,
+                    gint   *index_out,
+                    gint    pps)
 {
-	gint pps = wl->priv->pps;
 	gint k, m;
 	gint16 d;
 	gfloat vmin, vmax;
@@ -152,7 +153,7 @@ convert_one_second (PtWaveloader *wl,
 	mod = 8000 % pps;
 
 	gint correct;
-	if (*index_in >= wl->priv->hires->len)
+	if (*index_in >= in->len)
 		return;
 
 	/* Loop data worth 1 second */
@@ -167,13 +168,13 @@ convert_one_second (PtWaveloader *wl,
 			correct = 1;
 		for (m = 0; m < (chunk_size + correct); m++) {
 			/* Get highest and lowest value */
-			d = g_array_index (wl->priv->hires, gint16, *index_in);
+			d = g_array_index (in, gint16, *index_in);
 			if (d < vmin)
 				vmin = d;
 			if (d > vmax)
 				vmax = d;
 			*index_in += 1;
-			if (*index_in == wl->priv->hires->len)
+			if (*index_in == in->len)
 				break;
 		}
 		/* Always include 0, looks better at higher resolutions */
@@ -184,11 +185,11 @@ convert_one_second (PtWaveloader *wl,
 		/* Save as a float in the range 0 to 1 */
 		vmin = vmin / 32768.0;
 		vmax = vmax / 32768.0;
-		memcpy (wl->priv->lowres->data + *index_out * sizeof (float), &vmin, sizeof (float));
+		memcpy (out->data + *index_out * sizeof (float), &vmin, sizeof (float));
 		*index_out += 1;
-		memcpy (wl->priv->lowres->data + *index_out * sizeof (float), &vmax, sizeof (float));
+		memcpy (out->data + *index_out * sizeof (float), &vmax, sizeof (float));
 		*index_out += 1;
-		if (*index_in == wl->priv->hires->len)
+		if (*index_in == in->len)
 			break;
 	}
 }
@@ -223,7 +224,11 @@ new_sample_cb (GstAppSink *sink,
 					  "MESSAGE", "lowres->len resized in new_sample_cb: %d",
 					  wl->priv->lowres_index + pps * 2 + 2);
 		}
-		convert_one_second (wl, &wl->priv->hires_index, &wl->priv->lowres_index);
+		convert_one_second (wl->priv->hires,
+		                    wl->priv->lowres,
+		                    &wl->priv->hires_index,
+		                    &wl->priv->lowres_index,
+		                    pps);
 	}
 
 	return GST_FLOW_OK;
@@ -376,7 +381,11 @@ bus_handler (GstBus     *bus,
 
 		/* while hires has more full seconds than lowres ... */
 		while (wl->priv->hires->len > wl->priv->hires_index) {
-			convert_one_second (wl, &wl->priv->hires_index, &wl->priv->lowres_index);
+			convert_one_second (wl->priv->hires,
+			                    wl->priv->lowres,
+			                    &wl->priv->hires_index,
+			                    &wl->priv->lowres_index,
+			                    wl->priv->pps);
 		}
 
 		/* query length and convert to samples */
@@ -586,7 +595,11 @@ pt_waveloader_resize_real (GTask        *task,
 			break;
 		}
 
-		convert_one_second (wl, &index_in, &index_out);
+		convert_one_second (wl->priv->hires,
+		                    wl->priv->lowres,
+		                    &index_in,
+		                    &index_out,
+		                    pps);
 	}
 
 	g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
