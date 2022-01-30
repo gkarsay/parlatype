@@ -2,6 +2,7 @@ tests = [
   'config',
   'gst',
   'player',
+  'waveloader-static',
   'waveloader',
   'waveviewer',
 ]
@@ -21,6 +22,8 @@ extra_sources = [
   '../src/gst/gstptaudioasrbin.h',
   '../src/gst/gstptaudioplaybin.c',
   '../src/gst/gstptaudioplaybin.h',
+  '../src/pt-i18n.c',
+  '../src/pt-i18n.h',
   'mock-plugin.c',
   'mock-plugin.h',
 ]
@@ -73,6 +76,7 @@ foreach t: tests
       config_h,
       libparlatype_dep,
       gstreamer,
+      gstreamer_app,
       gstreamer_audio,
     ],
     c_args: '-DPARLATYPE_COMPILATION',
