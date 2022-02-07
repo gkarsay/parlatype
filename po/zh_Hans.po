@@ -8,14 +8,16 @@ msgstr ""
 "Project-Id-Version: Parlatype 3.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-12 19:52+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-02-09 09:56+0000\n"
+"Last-Translator: poi <erbaotao@outlook.com>\n"
+"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
+"parlatype/parlatype/zh_Hans/>\n"
 "Language: zh_Hans\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 4.11-dev\n"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:7
 #: data/org.parlatype.Parlatype.desktop.in:4 src/pt-app.c:214
@@ -25,40 +27,40 @@ msgstr ""
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:8
 msgid "Media player for speech transcription"
-msgstr ""
+msgstr "用于文字记写语音的媒体播放器"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:11
 msgid ""
 "Parlatype is an easy to use media player. Its main purpose is to help you "
 "transcribing speech."
-msgstr ""
+msgstr "Parlatype 是一个易于使用的媒体播放器。它的主要作用是帮助您用文字记写语音。"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:25
 msgid "Gabor Karsay"
-msgstr ""
+msgstr "Gabor Karsay"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:46
 msgid "This is a minor release with a new feature."
-msgstr ""
+msgstr "这是一个增加了新功能的次级版本。"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:48
 msgid "Added MPRIS interface."
-msgstr ""
+msgstr "增加了 MPRIS 接口。"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:49
 msgid "Smaller bug fixes."
-msgstr ""
+msgstr "修正了一些小错误。"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:50
 msgid "Switched to Weblate for translations."
-msgstr ""
+msgstr "转向使用 Weblate 翻译此软件。"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:51
 #: data/org.parlatype.Parlatype.appdata.xml.in:61
 #: data/org.parlatype.Parlatype.appdata.xml.in:77
 msgid "Translation updates for several languages."
-msgstr ""
+msgstr "更新了几种语言的翻译。"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:57
@@ -262,17 +264,17 @@ msgstr ""
 
 #: src/pt-app.c:125
 msgid "Audio files"
-msgstr ""
+msgstr "音频文件"
 
 #: src/pt-app.c:126 src/pt-prefs-asr.c:794
 msgid "All files"
-msgstr ""
+msgstr "任意文件"
 
 #. Translators: %s is a detailed error message
 #: src/pt-app.c:179
 #, c-format
 msgid "Error opening help: %s"
-msgstr ""
+msgstr "帮助打开出错：%s"
 
 #. Translators: This is part of the about box, followed by the
 #. copyright holders of code from other projects. Instead of
@@ -280,11 +282,11 @@ msgstr ""
 #. other projects:"
 #: src/pt-app.c:199
 msgid "Including code from other projects:"
-msgstr ""
+msgstr "此软件的编写包含了以下其他项目的代码："
 
 #: src/pt-app.c:217
 msgid "A basic transcription utility"
-msgstr ""
+msgstr "一个基本而实用的记写工具"
 
 #: src/pt-app.c:221
 msgid "translator-credits"
@@ -295,15 +297,15 @@ msgstr ""
 msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
 "ignored.\n"
-msgstr ""
+msgstr "注意：Parlatype 一次只处理一个文件，会忽略多余的文件。\n"
 
 #: src/pt-asr-dialog.c:93
 msgid "CMU Pocketsphinx"
-msgstr ""
+msgstr "卡内基梅隆大学的 Pocketsphinx"
 
 #: src/pt-asr-dialog.c:96
 msgid "Mozilla DeepSpeech"
-msgstr ""
+msgstr "Mozilla DeepSpeech"
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
@@ -313,7 +315,7 @@ msgstr ""
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
-msgstr ""
+msgstr "%d:%02d:%02d"
 
 #. Translators: This is part of the Preferences dialog
 #. or the "Go to ..." dialog. There is a label like
@@ -323,164 +325,160 @@ msgstr ""
 #: src/pt-preferences.c:105
 msgid "second"
 msgid_plural "seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "秒"
 
 #: src/pt-preferences.c:305
 msgid "Speech recognition"
-msgstr ""
+msgstr "语音识别"
 
 #: src/pt-prefs-asr.c:373
 msgid "Failed to read personal configuration files"
-msgstr ""
+msgstr "未能读取个人配置文件"
 
 #: src/pt-prefs-asr.c:415
 msgid "Failed to copy shipped configuration files"
-msgstr ""
+msgstr "未能复制默认配置文件"
 
 #: src/pt-prefs-asr.c:585
 msgid "Delete language model configuration?"
-msgstr ""
+msgstr "删除语言模型配置？"
 
 #: src/pt-prefs-asr.c:586
 #, c-format
 msgid "Do you really want to delete “%s”?"
-msgstr ""
+msgstr "真的要删除“%s”吗？"
 
 #: src/pt-prefs-asr.c:596
 msgid "_Yes"
-msgstr ""
+msgstr "是 (Y)"
 
 #: src/pt-prefs-asr.c:673 src/pt-prefs-asr.c:727
 msgid "Error"
-msgstr ""
+msgstr "出错"
 
 #: src/pt-prefs-asr.c:731
 msgid "The file is not a valid language model configuration."
-msgstr ""
+msgstr "该文件不是有效的语言模型配置文件。"
 
 #: src/pt-prefs-asr.c:779
 msgid "Import language model configuration"
-msgstr ""
+msgstr "导入语言模型配置"
 
 #: src/pt-prefs-asr.c:793
 msgid "Parlatype language model configurations"
-msgstr ""
+msgstr "Parlatype 所用语言模型的配置"
 
 #: src/pt-prefs-asr.c:844
 msgid "Failed to create personal configuration folder"
-msgstr ""
+msgstr "未能创建个人配置文件夹"
 
 #: src/pt-window.c:376
 #, c-format
 msgid "Jump back 1 second"
 msgid_plural "Jump back %d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "回跳 %d 秒"
 
 #: src/pt-window.c:393
 #, c-format
 msgid "Jump forward 1 second"
 msgid_plural "Jump forward %d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "前跳 %d 秒"
 
 #: src/pt-window.c:412
 msgid "Pause"
-msgstr ""
+msgstr "暂停"
 
 #: src/pt-window.c:415
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "暂停，倒退 %d 秒"
 
 #: src/pt-window.c:422
 msgid "Start playing"
-msgstr ""
+msgstr "开始播放"
 
 #: src/pt-window.c:458
 #, c-format
 msgid "Go to time in clipboard: %s"
-msgstr ""
+msgstr "去往剪贴板中的时刻：%s"
 
 #: src/pt-window.c:460 src/pt-window.c:1157
 msgid "Go to time in clipboard"
-msgstr ""
+msgstr "去往剪贴板中的时刻"
 
 #: src/pt-window.c:1152
 msgid "Manual transcription"
-msgstr ""
+msgstr "手动记写"
 
 #: src/pt-window.c:1153
 msgid "Automatic transcription"
-msgstr ""
+msgstr "自动转录"
 
 #: src/resources/asr-dialog.ui:20 src/resources/help-overlay.ui:15
 msgid "General"
-msgstr ""
+msgstr "总体"
 
 #: src/resources/asr-dialog.ui:44
 msgid "Display Name:"
-msgstr ""
+msgstr "显示名称："
 
 #: src/resources/asr-dialog.ui:56
 msgid "Language:"
-msgstr ""
+msgstr "语言："
 
 #: src/resources/asr-dialog.ui:68
 msgid "Speech Recognition Engine:"
-msgstr ""
+msgstr "语音识别引擎："
 
 #: src/resources/asr-dialog.ui:80
 msgid "GStreamer Plugin:"
-msgstr ""
+msgstr "GStreamer 插件："
 
 #: src/resources/asr-dialog.ui:92
 msgid "Publisher:"
-msgstr ""
+msgstr "发行者："
 
 #: src/resources/asr-dialog.ui:104
 msgid "License:"
-msgstr ""
+msgstr "证书："
 
 #: src/resources/asr-dialog.ui:213
 msgid "Installation"
-msgstr ""
+msgstr "安装"
 
 #. Points to a download location
 #: src/resources/asr-dialog.ui:236 src/resources/asr-dialog.ui:286
 msgid "Download:"
-msgstr ""
+msgstr "下载位置："
 
 #: src/resources/asr-dialog.ui:260
 msgid "Installed:"
-msgstr ""
+msgstr "已安装上："
 
 #: src/resources/asr-dialog.ui:310
 msgid "Instructions:"
-msgstr ""
+msgstr "说明："
 
 #: src/resources/asr-dialog.ui:322
 msgid "Download, unzip to a folder and select that folder."
-msgstr ""
+msgstr "下载，解压到一个文件夹，然后选择那个文件夹。"
 
 #: src/resources/goto-dialog.ui:13 src/resources/menus.ui:34
 msgid "Go to…"
-msgstr ""
+msgstr "去往……"
 
 #: src/resources/goto-dialog.ui:40
 msgid "_OK"
-msgstr ""
+msgstr "好的 (O)"
 
 #: src/resources/goto-dialog.ui:70
 msgid "Go to position:"
-msgstr ""
+msgstr "转到这个位置："
 
 #: src/resources/help-overlay.ui:20
 msgid "Open a media file"
-msgstr ""
+msgstr "打开媒体文件"
 
 #: src/resources/help-overlay.ui:27
 msgid "Show/hide action menu"
@@ -488,267 +486,267 @@ msgstr ""
 
 #: src/resources/help-overlay.ui:34
 msgid "Quit"
-msgstr ""
+msgstr "退出"
 
 #: src/resources/help-overlay.ui:42 src/resources/preferences.ui:274
 msgid "Waveform"
-msgstr ""
+msgstr "波形"
 
 #: src/resources/help-overlay.ui:47
 msgid "Play/Pause"
-msgstr ""
+msgstr "播放 / 暂停"
 
 #: src/resources/help-overlay.ui:55 src/resources/help-overlay.ui:63
 msgid "Jump back"
-msgstr ""
+msgstr "回跳"
 
 #: src/resources/help-overlay.ui:71 src/resources/help-overlay.ui:79
 msgid "Jump forward"
-msgstr ""
+msgstr "前跳"
 
 #: src/resources/help-overlay.ui:86
 msgid "Zoom in"
-msgstr ""
+msgstr "拉近"
 
 #: src/resources/help-overlay.ui:93
 msgid "Zoom out"
-msgstr ""
+msgstr "放远"
 
 #: src/resources/help-overlay.ui:100
 msgid "Open “Go to” dialog"
-msgstr ""
+msgstr "打开“去往”对话框"
 
 #: src/resources/help-overlay.ui:107
 msgid "Copy timestamp to clipboard"
-msgstr ""
+msgstr "把时间戳复制到剪贴板"
 
 #: src/resources/help-overlay.ui:114
 msgid "Go to timestamp in clipboard"
-msgstr ""
+msgstr "去往剪贴板中时间戳的位置"
 
 #: src/resources/help-overlay.ui:122 src/resources/menus.ui:15
 msgid "Help"
-msgstr ""
+msgstr "帮助"
 
 #: src/resources/help-overlay.ui:127
 msgid "Show help"
-msgstr ""
+msgstr "显示帮助"
 
 #: src/resources/help-overlay.ui:134
 msgid "Show keyboard shortcuts"
-msgstr ""
+msgstr "显示键盘快捷键作用"
 
 #: src/resources/menus.ui:7
 msgid "Preferences"
-msgstr ""
+msgstr "个人设置"
 
 #: src/resources/menus.ui:11
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "键盘快捷键 (K)"
 
 #: src/resources/menus.ui:19
 msgid "About Parlatype"
-msgstr ""
+msgstr "Parlatype 介绍"
 
 #: src/resources/menus.ui:26
 msgid "Copy time to clipboard"
-msgstr ""
+msgstr "把时间复制到剪贴板"
 
 #: src/resources/menus.ui:30
 msgid "Go to cursor"
-msgstr ""
+msgstr "去往光标处"
 
 #. This refers to: "Characters around timestamps"
 #: src/resources/preferences.ui:42
 msgid "None"
-msgstr ""
+msgstr "无"
 
 #: src/resources/preferences.ui:46
 msgid "#Number signs#"
-msgstr ""
+msgstr "#井号#"
 
 #: src/resources/preferences.ui:50
 msgid "(Round brackets)"
-msgstr ""
+msgstr "(圆括号)"
 
 #: src/resources/preferences.ui:54
 msgid "[Square brackets]"
-msgstr ""
+msgstr "[方括号]"
 
 #: src/resources/preferences.ui:68
 msgid ". (point)"
-msgstr ""
+msgstr ".（点）"
 
 #: src/resources/preferences.ui:72
 msgid "- (hyphen)"
-msgstr ""
+msgstr "-（连字符）"
 
 #: src/resources/preferences.ui:86
 msgid "Full seconds"
-msgstr ""
+msgstr "一秒"
 
 #: src/resources/preferences.ui:90
 msgid "10th seconds"
-msgstr ""
+msgstr "十分之一秒"
 
 #: src/resources/preferences.ui:94
 msgid "100th seconds"
-msgstr ""
+msgstr "百分之一秒"
 
 #: src/resources/preferences.ui:102
 msgid "Parlatype Preferences"
-msgstr ""
+msgstr "Parlatype 个人设置"
 
 #: src/resources/preferences.ui:144
 msgid "_Pixels per second:"
-msgstr ""
+msgstr "一秒用多少像素表示 (P)："
 
 #: src/resources/preferences.ui:174
 msgid "Show _time scale"
-msgstr ""
+msgstr "显示时间刻度"
 
 #. Resolution of the waveform image
 #: src/resources/preferences.ui:192
 msgid "Resolution"
-msgstr ""
+msgstr "波形图分辨率"
 
 #. A section in preferences, how to display the waveform.
 #: src/resources/preferences.ui:207
 msgid "Display"
-msgstr ""
+msgstr "波形图显示"
 
 #: src/resources/preferences.ui:220
 msgid "_Moving cursor"
-msgstr ""
+msgstr "移动光标 (M)"
 
 #: src/resources/preferences.ui:237
 msgid "_Fixed cursor"
-msgstr ""
+msgstr "固定光标 (F)"
 
 #: src/resources/preferences.ui:291
 msgid "Jumps"
-msgstr ""
+msgstr "跳跃"
 
 #: src/resources/preferences.ui:393
 msgid "Jump _forward:"
-msgstr ""
+msgstr "前跳 (F)："
 
 #: src/resources/preferences.ui:407
 msgid "Jump _back:"
-msgstr ""
+msgstr "回跳 (B)："
 
 #: src/resources/preferences.ui:421
 msgid "Jump back on _pause:"
-msgstr ""
+msgstr "回跳暂停 (P)："
 
 #: src/resources/preferences.ui:444
 msgid "Pressing “Play” at the end of file"
-msgstr ""
+msgstr "在文件末尾按下“播放”键"
 
 #: src/resources/preferences.ui:458
 msgid "Replay file"
-msgstr ""
+msgstr "重新播放文件"
 
 #: src/resources/preferences.ui:477
 msgid "Pressing “Play” at the end of selection"
-msgstr ""
+msgstr "在选中部分末尾按下“播放”键"
 
 #: src/resources/preferences.ui:491
 msgid "Replay selection"
-msgstr ""
+msgstr "重新播放选中部分"
 
 #: src/resources/preferences.ui:513
 msgid "Controls"
-msgstr ""
+msgstr "操控"
 
 #: src/resources/preferences.ui:556
 msgid "Hours and zeroes"
-msgstr ""
+msgstr "小时位与零"
 
 #: src/resources/preferences.ui:569
 msgid "Always show hours and leading zeroes"
-msgstr ""
+msgstr "始终显示小时数和前导零"
 
 #: src/resources/preferences.ui:587
 msgid "Precision"
-msgstr ""
+msgstr "精密度"
 
 #: src/resources/preferences.ui:603
 msgid "Characters around timestamps"
-msgstr ""
+msgstr "靠近时间戳的字符"
 
 #: src/resources/preferences.ui:619
 msgid "Examples"
-msgstr ""
+msgstr "例子"
 
 #: src/resources/preferences.ui:661
 msgid "Precision:"
-msgstr ""
+msgstr "精密度："
 
 #: src/resources/preferences.ui:693
 msgid "Fraction separator:"
-msgstr ""
+msgstr "分数分隔符："
 
 #: src/resources/preferences.ui:736
 msgid "Timestamps"
-msgstr ""
+msgstr "时间戳"
 
 #: src/resources/preferences.ui:760
 msgid "Remember _size"
-msgstr ""
+msgstr "记住大小 (S)"
 
 #: src/resources/preferences.ui:775
 msgid "Remember _position"
-msgstr ""
+msgstr "记住位置 (P)"
 
 #: src/resources/preferences.ui:790
 msgid "Start on _top"
-msgstr ""
+msgstr "启动时在前端打开窗口 (T)"
 
 #: src/resources/preferences.ui:812
 msgid "Window"
-msgstr ""
+msgstr "窗口"
 
 #: src/resources/prefs-asr.ui:40
 msgid "Language model configurations"
-msgstr ""
+msgstr "语言模型配置"
 
 #: src/resources/prefs-asr.ui:57
 msgid "Installed"
-msgstr ""
+msgstr "已安装"
 
 #: src/resources/prefs-asr.ui:58
 msgid "Supported"
-msgstr ""
+msgstr "可用"
 
 #: src/resources/prefs-asr.ui:59
 msgid "All models"
-msgstr ""
+msgstr "所有模型"
 
 #: src/resources/prefs-asr.ui:121
 msgid "Import a language model configuration"
-msgstr ""
+msgstr "导入语言模型配置"
 
 #: src/resources/prefs-asr.ui:228
 msgid "There is no configuration"
-msgstr ""
+msgstr "未经配置"
 
 #: src/resources/prefs-asr.ui:238
 msgid "Add a configuration"
-msgstr ""
+msgstr "添加一种配置"
 
 #: src/resources/prefs-asr.ui:306
 msgid "No results in this view"
-msgstr ""
+msgstr "此视图中没有结果"
 
 #: src/resources/window.ui:48
 msgid "Open a file"
-msgstr ""
+msgstr "打开文件"
 
 #: src/resources/window.ui:170
 msgid "_Play"
-msgstr ""
+msgstr "播放 (P)"
 
 #: src/resources/window.ui:294
 msgid "Speed:"
-msgstr ""
+msgstr "速度："
