@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Parlatype 3.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-12 19:52+0100\n"
-"PO-Revision-Date: 2022-02-09 09:56+0000\n"
+"PO-Revision-Date: 2022-02-11 06:56+0000\n"
 "Last-Translator: poi <erbaotao@outlook.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "parlatype/parlatype/zh_Hans/>\n"
@@ -27,7 +27,7 @@ msgstr ""
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:8
 msgid "Media player for speech transcription"
-msgstr "用于文字记写语音的媒体播放器"
+msgstr "用于文字记写转写语音的媒体播放器"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:11
 msgid ""
@@ -66,7 +66,7 @@ msgstr "更新了几种语言的翻译。"
 #: data/org.parlatype.Parlatype.appdata.xml.in:57
 #: data/org.parlatype.Parlatype.appdata.xml.in:84
 msgid "This is a major release with new features."
-msgstr ""
+msgstr "这是一个主要版本，添加了新功能。"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:59
 msgid "Support for Mozilla DeepSpeech."
@@ -74,46 +74,46 @@ msgstr ""
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:60
 msgid "New configuration system for Automatic Speech Recognition."
-msgstr ""
+msgstr "配置自动语音识别的新系统。"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:68
 msgid "This is a minor release with bug fixes and minor new features."
-msgstr ""
+msgstr "这是一个次级版本，修正了软件错误，添加了一些细小的功能。"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:71
 msgid ""
 "Mute/unmute volume by clicking on the volume icon with the pointer’s "
 "secondary button (usually right mouse button)."
-msgstr ""
+msgstr "指针副键（通常为鼠标右键）点击音量图标可以静音、取消静音。"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:73
 msgid ""
 "With Pulseaudio Parlatype doesn’t change the system volume anymore, just its "
 "own application specific volume."
-msgstr ""
+msgstr "Parlatype 使用了 PulseAudio，不再改变系统音量，而只改变自己应用程序的特定音量。"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:75
 msgid "The initial volume level is picked up from Pulseaudio."
-msgstr ""
+msgstr "初始的音量大小是从 PulseAudio 获取的。"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:87
 msgid "Waveform is loaded on-the-fly, there is no blocking progress dialog."
-msgstr ""
+msgstr "波形是运行时即时加载的，进度对话框不会阻断加载。"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:89
 msgid "Waveform can be changed continuously instead of in discrete steps."
-msgstr ""
+msgstr "波形不以每步长离散改变，而是可以连续改变。"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:96
 msgid "This is a minor release."
-msgstr ""
+msgstr "这是一个次级版本。"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:99
@@ -239,7 +239,7 @@ msgstr ""
 
 #: data/org.parlatype.Parlatype.desktop.in:5
 msgid "Transcription utility"
-msgstr ""
+msgstr "实用的记写转写工具"
 
 #: data/org.parlatype.Parlatype.desktop.in:6
 msgid "Transcription;"
@@ -247,20 +247,20 @@ msgstr ""
 
 #: src/pt-app.c:61
 msgid "Show the application’s version"
-msgstr ""
+msgstr "显示应用程序版本"
 
 #: src/pt-app.c:102
 msgid "Open Audio File"
-msgstr ""
+msgstr "打开音频文件"
 
 #: src/pt-app.c:105 src/pt-prefs-asr.c:782 src/resources/window.ui:43
 msgid "_Open"
-msgstr ""
+msgstr "打开 (O)"
 
 #: src/pt-app.c:106 src/pt-prefs-asr.c:595 src/pt-prefs-asr.c:783
 #: src/resources/goto-dialog.ui:26
 msgid "_Cancel"
-msgstr ""
+msgstr "取消 (C)"
 
 #: src/pt-app.c:125
 msgid "Audio files"
@@ -286,7 +286,7 @@ msgstr "此软件的编写包含了以下其他项目的代码："
 
 #: src/pt-app.c:217
 msgid "A basic transcription utility"
-msgstr "一个基本而实用的记写工具"
+msgstr "一个基本而实用的记写转写工具"
 
 #: src/pt-app.c:221
 msgid "translator-credits"
@@ -413,7 +413,7 @@ msgstr "手动记写"
 
 #: src/pt-window.c:1153
 msgid "Automatic transcription"
-msgstr "自动转录"
+msgstr "自动转换"
 
 #: src/resources/asr-dialog.ui:20 src/resources/help-overlay.ui:15
 msgid "General"
@@ -482,7 +482,7 @@ msgstr "打开媒体文件"
 
 #: src/resources/help-overlay.ui:27
 msgid "Show/hide action menu"
-msgstr ""
+msgstr "显示 / 隐藏操作菜单"
 
 #: src/resources/help-overlay.ui:34
 msgid "Quit"
