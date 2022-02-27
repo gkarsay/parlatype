@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Parlatype 3.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-12 19:52+0100\n"
-"PO-Revision-Date: 2022-02-11 06:56+0000\n"
+"PO-Revision-Date: 2022-02-28 09:54+0000\n"
 "Last-Translator: poi <erbaotao@outlook.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "parlatype/parlatype/zh_Hans/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.11-dev\n"
+"X-Generator: Weblate 4.11.1-dev\n"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:7
 #: data/org.parlatype.Parlatype.desktop.in:4 src/pt-app.c:214
@@ -120,68 +120,70 @@ msgstr "这是一个次级版本。"
 msgid ""
 "Update time label only if time has changed. This is a performance increase, "
 "cursor movement should be smoother on slower systems."
-msgstr ""
+msgstr "等到时间变动了再更新时间标签。这提高了软件运行的性能，在性能较低的计算机系统"
+"中移动光标应该会更流畅。"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:101
 msgid "Translation updates for Hungarian, Lithuanian and Spanish"
-msgstr ""
+msgstr "更新了匈牙利语、立陶宛语和西班牙语的翻译"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:108
 msgid "This is a minor release with some changes."
-msgstr ""
+msgstr "这是一个做了些更改的次级版本。"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:111
 msgid ""
 "Automatic speech recognition (ASR) is now disabled by default and it’s only "
 "shown, if Parlatype is launched with the new parameter \\\"--with-asr\\\""
-msgstr ""
+msgstr "自动语音识别现在默认是关上的，只有使用了新参数 \\“--with-asr\\”启动 "
+"Parlatype 时才会显示出来"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:113
 msgid "Fix internationalization: Some translations were not shown"
-msgstr ""
+msgstr "修正国际化问题：一些翻译没有显示出来"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:115
 msgid ""
 "Translation updates for Arabic, British English, Czech, Dutch, German, "
 "Polish and Spanish"
-msgstr ""
+msgstr "更新了阿拉伯语、英式英语、捷克语、荷兰语、德语、波兰语和西班牙语的翻译"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:122
 msgid "This is a major release with some new features."
-msgstr ""
+msgstr "这是一个主要版本，添加了一些新功能。"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:125
 msgid "Automatic speech recognition with CMU Sphinx"
-msgstr ""
+msgstr "使用 CMU Sphinx 进行自动语音识别"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:127
 msgid "Design changes, including removal of application menu"
-msgstr ""
+msgstr "移除了应用程序菜单，还更改了一些别的设计"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:129
 msgid "Custom timestamps"
-msgstr ""
+msgstr "时间戳自定义"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:131
 msgid ""
 "Translation updates for Brazilian Portuguese, British English, Czech, "
 "German, Japanese, Lithuanian and Polish"
-msgstr ""
+msgstr "更新了巴西式葡萄牙语、英式英语、捷克语、德语、日语、立陶宛语和波兰语的翻译"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:138
 msgid "This is a minor maintenance release."
-msgstr ""
+msgstr "这是一个次级维护版本。"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:141
@@ -191,51 +193,54 @@ msgstr ""
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:143
 msgid "Change desktop entry category to Audio/Video instead of Utilities"
-msgstr ""
+msgstr "把桌面条目的类别由“Utility”（小型实用程序，“附件”）改为“AudioVideo”【多媒体（"
+"音频 / 视频）应用程序】"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:145
 msgid "Translation updates for French"
-msgstr ""
+msgstr "更新了法语的翻译"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:152
 msgid "This release contains a number of bug fixes and minor improvements."
-msgstr ""
+msgstr "这个版本修正了一些错误，有些次要的改进。"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:155
 msgid "Progress Dialog has now a countdown timer (estimated time left)"
-msgstr ""
+msgstr "进度对话框新增了倒计时（预测的剩余时间）"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:157
 msgid "Increase max. possible speed to 2.0"
-msgstr ""
+msgstr "把可能的最大速度提高到了 2.0"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:159
 msgid ""
 "New keyboard shortcuts for Play/Pause (Ctrl + Space), Jump back (Ctrl + "
 "Left), Jump forward (Ctrl + Right)"
-msgstr ""
+msgstr "新增键盘快捷键：播放 / 暂停（Ctrl + 空格）、回跳（Ctrl + 左方向键）、前跳（"
+"Ctrl + 右方向键）"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:161
 msgid "Scrolling now also possible with vertical scrollbar"
-msgstr ""
+msgstr "现在，滚动也能用竖向滚动条了"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:163
 msgid "Various fixes for waveform and cursor display"
-msgstr ""
+msgstr "多处修正了波形和光标显示"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:165
 msgid ""
 "Translation updates for Arabic, British English, Catalan, German, Finnish, "
 "French, Japanese, Lithuanian, Polish, Spanish and Swedish"
-msgstr ""
+msgstr "更新了阿拉伯语、英式英语、加泰罗尼亚语、德语、芬兰语、法语、日语、立陶宛语、"
+"波兰语、西班牙语和瑞典语的翻译"
 
 #: data/org.parlatype.Parlatype.desktop.in:5
 msgid "Transcription utility"
@@ -243,7 +248,7 @@ msgstr "实用的记写转写工具"
 
 #: data/org.parlatype.Parlatype.desktop.in:6
 msgid "Transcription;"
-msgstr ""
+msgstr "转录;记写;转记;记录;转写;语音转文字;语音识别;文字记录;"
 
 #: src/pt-app.c:61
 msgid "Show the application’s version"
