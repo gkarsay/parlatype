@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Parlatype 3.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-12 19:52+0100\n"
-"PO-Revision-Date: 2022-02-28 09:54+0000\n"
+"PO-Revision-Date: 2022-03-02 15:56+0000\n"
 "Last-Translator: poi <erbaotao@outlook.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "parlatype/parlatype/zh_Hans/>\n"
@@ -608,7 +608,7 @@ msgstr "一秒用多少像素表示 (P)："
 
 #: src/resources/preferences.ui:174
 msgid "Show _time scale"
-msgstr "显示时间刻度"
+msgstr "显示时间刻度 (T)"
 
 #. Resolution of the waveform image
 #: src/resources/preferences.ui:192
