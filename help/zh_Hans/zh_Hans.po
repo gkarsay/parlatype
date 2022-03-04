@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Parlatype 3.1\n"
 "POT-Creation-Date: 2021-12-12 19:52+0100\n"
-"PO-Revision-Date: 2022-03-02 15:56+0000\n"
+"PO-Revision-Date: 2022-03-06 06:55+0000\n"
 "Last-Translator: poi <erbaotao@outlook.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "parlatype/parlatype-help/zh_Hans/>\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.11.1-dev\n"
+"X-Generator: Weblate 4.12-dev\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -149,7 +149,7 @@ msgstr ""
 #: C/first-steps.page:26
 msgid "The buttons <gui>Jump back</gui> and <gui>Jump forward</gui> in the lower left corner skip a few seconds back or ahead. The amount of time can be changed in the <link xref=\"preferences\"/>."
 msgstr ""
-"左下角的按钮<gui>回跳</gui>和<gui>前跳</gui>是用来往回或向前跳几秒钟的。"
+"左下角的按钮<gui>回退</gui>和<gui>前跳</gui>是用来往回或向前跳几秒钟的。"
 "跳多长时间可以在 <link xref=\"preferences\"/> 里更改。"
 
 #. (itstool) path: page/p
@@ -162,8 +162,8 @@ msgstr "为使光标不跑丢，视图会自动滚动。点击或拖动滚动条
 #: C/first-steps.page:30
 msgid "To get back to the cursor’s position and let the view scroll automatically again, click on the menu button showing the time and then on <gui>Go to cursor</gui>. Clicking on the <gui>Play</gui> button also turns automatic scrolling on."
 msgstr ""
-"要想返回光标的位置并且让视图重新自动滚动，可以点击显示有时间的菜单按钮，然后"
-"点<gui>去往光标处</gui>。点击<gui>播放</gui>按钮也能继续自动滚动。"
+"点击显示有时间的菜单按钮，然后点<gui>转到光标处</gui>，就可以返回光标的位置并"
+"且让视图重新自动滚动。点击<gui>播放</gui>按钮也能继续自动滚动。"
 
 #. (itstool) path: page/p
 #: C/first-steps.page:32
@@ -243,7 +243,7 @@ msgstr "<keyseq><key>Ctrl</key><key>空格</key></keyseq>"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:40
 msgid "Go to …"
-msgstr "去往……"
+msgstr "转到……"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:41
@@ -253,7 +253,7 @@ msgstr "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:44
 msgid "Jump back"
-msgstr "回跳"
+msgstr "回退"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:45
@@ -397,14 +397,13 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/preferences.page:38
 msgid "Jump back on pause: <app>Parlatype</app> will rewind a few seconds on each pause, this way you can easier resume typing. Set this value to 0 if you don’t want this behaviour."
-msgstr ""
-"回跳暂停：每当您暂停时， <app>Parlatype</app> "
-"软件就会自动倒退几秒钟，以便于您继续打字。想关闭此功能，把值设成 0 即可。"
+msgstr "回退暂停：每当您暂停时， <app>Parlatype</app> "
+"软件就会自动倒退几秒钟，以便于您继续打字。把值设成 0 就能关闭此功能。"
 
 #. (itstool) path: item/p
 #: C/preferences.page:39
 msgid "Jump back: Configures how many seconds to skip when the <gui>Jump back</gui> button is pressed."
-msgstr "回跳：设置按一次<gui>回跳</gui>按钮跳多少秒。"
+msgstr "回退：设置按一次<gui>回退</gui>按钮跳多少秒。"
 
 #. (itstool) path: item/p
 #: C/preferences.page:40
@@ -442,37 +441,40 @@ msgstr ""
 #. (itstool) path: section/p
 #: C/preferences.page:51
 msgid "These settings affect how <app>Parlatype</app> formats timestamps. If you need a certain format in your transcription, you can adjust it here."
-msgstr ""
+msgstr "这里的设置用来调整 <app>Parlatype</app> "
+"所给时间戳的格式。可以根据您记写、转写所需要的形式调整格式。"
 
 #. (itstool) path: note/p
 #: C/preferences.page:52
 msgid "There are no settings for <em>reading</em> timestamps. <app>Parlatype</app> reads and accepts all of these formats."
-msgstr ""
+msgstr "<app>Parlatype</app> "
+"可以正确读取这里所有的格式。因此，我们没有提供调控时间戳<em>读取</em>的设置。"
 
 #. (itstool) path: item/p
 #: C/preferences.page:54
 msgid "Always show hours and leading zeroes: Whether to show a fixed number of digits. Changing any of these values will show an updated example in the <gui>Example</gui> section below."
-msgstr ""
+msgstr "始终显示小时数和前导零：是否要保持数字的位数不变。下面的<gui>例子</gui>会实时"
+"显示不同设置的效果。"
 
 #. (itstool) path: item/p
 #: C/preferences.page:55
 msgid "Precision: Choose between full seconds, 10th seconds or 100th seconds."
-msgstr ""
+msgstr "精密度：可以选择 1 秒、0.1 秒或 0.01 秒。"
 
 #. (itstool) path: item/p
 #: C/preferences.page:56
 msgid "Fraction separator: Choose between a point or a hyphen to separate fractions of a second."
-msgstr ""
+msgstr "小数分隔符：选择用小数点还是连接号分隔秒钟的小数部分。"
 
 #. (itstool) path: item/p
 #: C/preferences.page:57
 msgid "Characters around timestamps: Choose between number signs, round brackets, square brackets or none."
-msgstr ""
+msgstr "时间戳记号：可以选择井号、圆括号、方括号或者什么都不加。"
 
 #. (itstool) path: section/title
 #: C/preferences.page:62
 msgid "Preferences for the window"
-msgstr ""
+msgstr "窗口设置"
 
 #. (itstool) path: section/media
 #. This is a reference to an external file such as an image or video. When
@@ -487,47 +489,55 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/preferences.page:67
 msgid "Remember size: On start-up <app>Parlatype</app> sets the window size to the size it had the last time."
-msgstr ""
+msgstr "记住大小：打开 <app>Parlatype</app> 时窗口自动恢复为软件上次使用时的大小。"
 
 #. (itstool) path: item/p
 #: C/preferences.page:68
 msgid "Remember position: On start-up <app>Parlatype</app> can position its window where you had it when you closed <app>Parlatype</app> last time."
-msgstr ""
+msgstr "记住位置：打开 <app>Parlatype</app> 时，自动把窗口定位在 <app>Parlatype</"
+"app> 上次关闭时的位置。"
 
 #. (itstool) path: item/p
 #: C/preferences.page:69
 msgid "Start on top: This will put <app>Parlatype</app> on start-up on top of other windows. This might be useful if you are working with a maximized word processor and still want to see the <app>Parlatype</app> window."
 msgstr ""
+"启动时在前端打开窗口：启动 <app>Parlatype</app> 时把窗口叠在别的窗口上面。假"
+"设您正在使用文字处理软件（并且窗口是最大化的），此时您想打开本软件，"
+"这项设置就能让 <app>Parlatype</app> 窗口不会被文字处理软件的窗口挡住看不见。"
 
 #. (itstool) path: note/p
 #: C/preferences.page:73
 msgid "<gui>Remember position</gui> and <gui>Start on top</gui> are not available on Wayland."
-msgstr ""
+msgstr "Wayland 上无法使用<gui>记住位置</gui>和<gui>启动时在前端打开窗口</gui>功能。"
 
 #. (itstool) path: info/desc
 #: C/selections.page:6
 msgid "How to play and repeat a selection"
-msgstr ""
+msgstr "如何播放、重播选中部分"
 
 #. (itstool) path: page/title
 #: C/selections.page:14
 msgid "Selections"
-msgstr ""
+msgstr "选中部分"
 
 #. (itstool) path: page/p
 #: C/selections.page:16
 msgid "You can select a piece of the waveform with the mouse. Next time you press <gui>Play</gui>, it will play the selection only. When it is finished and you press <gui>Play</gui> again, it will loop the selection once."
 msgstr ""
+"用鼠标就可以选中一段波形图。再点击<gui>播放</gui>，就可以只播放被选中的那段音"
+"频。播放结束，再点击<gui>播放</gui>，就可以再播一遍这段音频。"
 
 #. (itstool) path: note/p
 #: C/selections.page:18
 msgid "When in selection mode, you can not exit the selection anymore until you deselect it."
-msgstr ""
+msgstr "当选择模式生效时，想退出选择状态，必须先“取消选择”。"
 
 #. (itstool) path: page/p
 #: C/selections.page:20
 msgid "Selections can be made with the mouse (or pointer device) with a left click, holding the mouse button and dragging the pointer. If you click with <key>Shift</key> key pressed, an already existing selection will be enlarged to that point."
 msgstr ""
+"用鼠标（或其他指针设备）左键按下不松开，再拖动指针，就可以选中一段音频。按住 "
+"<key>Shift</key> 点击鼠标，就可以扩展已经选中的范围，会扩展到点击的位置。"
 
 #. (itstool) path: page/p
 #: C/selections.page:22
@@ -537,7 +547,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/timestamps.page:6
 msgid "Set and go to timestamps"
-msgstr ""
+msgstr "设置时间戳、去往时间戳处"
 
 #. (itstool) path: page/title
 #: C/timestamps.page:14
@@ -547,99 +557,121 @@ msgstr "时间戳"
 #. (itstool) path: page/p
 #: C/timestamps.page:16
 msgid "Timestamps help you to navigate in your transcription."
-msgstr ""
+msgstr "时间戳便于在记写转写的过程中跳转到某个时间。"
 
 #. (itstool) path: note/p
 #: C/timestamps.page:19
 msgid "Timestamps can look like this: #03:45.2#. You can select them with or without the number signs."
-msgstr ""
+msgstr "比如，“#03:45.2#”就是一个时间戳。您也可以把时间戳设置成不带井号的样子。"
 
 #. (itstool) path: page/p
 #: C/timestamps.page:22
 msgid "<app>Parlatype</app> can produce different timestamp formats, they can be set in <link xref=\"preferences#timestamps\"/>."
 msgstr ""
+"<app>Parlatype</app> 支持多种时间戳格式，可以在 <link xref=\"preferences#"
+"timestamps\"/> 处设置。"
 
 #. (itstool) path: section/title
 #: C/timestamps.page:25
 msgid "Drag and drop"
-msgstr ""
+msgstr "拖放"
 
 #. (itstool) path: section/p
 #: C/timestamps.page:27
 msgid "If you select the timestamp in the word processor, you can drag and drop it on the <app>Parlatype</app> window and it will go to that position. This is also possible the other way round: Drag the time label from <app>Parlatype</app> to a word processor and drop it there to insert it."
 msgstr ""
+"可以先在文字处理软件里选中时间戳，再把它拖拽到 <app>Parlatype</app> "
+"的窗口里，音频就会自动转到时间戳标记的位置。也可以反过来，把时间标签从 "
+"<app>Parlatype</app> 里拖拽到文字处理软件里可以插入时间标签。"
 
 #. (itstool) path: section/title
 #: C/timestamps.page:31
 msgid "Using the clipboard"
-msgstr ""
+msgstr "复制粘贴"
 
 #. (itstool) path: section/p
 #: C/timestamps.page:33
 msgid "Clicking on the menu button that is showing the current time you can <gui>Copy time to clipboard</gui> or <gui>Go to time in clipboard</gui>."
-msgstr ""
+msgstr "<gui>把时间复制到剪贴板</gui>和<gui>转到剪贴板中的时刻</gui>按钮就在现在正显"
+"示着的菜单里。"
 
 #. (itstool) path: section/p
 #: C/timestamps.page:35
 msgid "This can also be done with keyboard shortcuts. First make sure, the <app>Parlatype</app> window has focus. With the key sequence <keyseq><key>Ctrl</key><key>c</key></keyseq> the current timestamp is copied to the clipboard. Changing to the word processor you can insert now the timestamp in your transcription."
 msgstr ""
+"也可以使用键盘快捷键。首先检查 <app>Parlatype</app> 窗口是不是当前窗口。按下 "
+"<keyseq><key>Ctrl</key><key>c</key></keyseq>，当前的时间戳就复制下来了。切换"
+"到文字处理软件的窗口，就可以在记写转写的文字中插入时间戳了。"
 
 #. (itstool) path: section/p
 #: C/timestamps.page:36
 msgid "To go to a timestamp position, copy the timestamp in the word processor to the clipboard. Once you have changed focus to <app>Parlatype</app> press <keyseq><key>Ctrl</key><key>v</key></keyseq>."
 msgstr ""
+"可以通过复制粘贴转到时间戳对应的位置。先在文字处理软件中复制时间戳，再切换到 "
+"<app>Parlatype</app> 的窗口，按 "
+"<keyseq><key>Ctrl</key><key>v</key></keyseq>，就可以转到对应位置了。"
 
 #. (itstool) path: info/desc
 #: C/media-keys.page:6
 msgid "How to control Parlatype with media keys"
-msgstr ""
+msgstr "用多媒体键操作 Parlatype"
 
 #. (itstool) path: page/title
 #: C/media-keys.page:14
 msgid "Media keys"
-msgstr ""
+msgstr "多媒体键"
 
 #. (itstool) path: page/p
 #: C/media-keys.page:16
 msgid "<app>Parlatype</app>’s basic functions can be controlled with so called <em>media keys</em>. Media keys are used system wide to control media players and they are working even if the media player is not in focus or in the background."
 msgstr ""
+"<app>Parlatype</app> 的基本功能可以用所谓的<em>多媒体键</em>操作。多媒体键可"
+"以在操作系统的范围内操控媒体播放器，就算媒体播放器不是当前窗口，或者在后台，"
+"按这些按键也能控制媒体的播放。"
 
 #. (itstool) path: page/p
 #: C/media-keys.page:18
 msgid "You can change the media keys in GNOME settings. You can use dedicated keys from a multimedia keyboard or use any other key or combination of keys."
-msgstr ""
+msgstr "可以在 GNOME 的设置里设定多媒体键。可以用多媒体键盘上的专门按键作为多媒体键，"
+"也可以用别的个别按键或者组合按键。"
 
 #. (itstool) path: note/p
 #: C/media-keys.page:21
 msgid "This will affect other media players, e.g. <app>Totem</app> or <app>Rhythmbox</app>, as well."
-msgstr ""
+msgstr "别的媒体播放器，比如 <app>Totem</app> 或 <app>Rhythmbox</app> "
+"的多媒体键也会定为那里设置的按键。"
 
 #. (itstool) path: page/p
 #: C/media-keys.page:24
 msgid "<app>Parlatype</app> listens to these key strokes:"
-msgstr ""
+msgstr "<app>Parlatype</app> 会监测这些按键是否被按："
 
 #. (itstool) path: item/p
 #: C/media-keys.page:26
 msgid "<key>Play</key>, <key>Pause</key>, <key>Stop</key>: Each of these keys toggles between playing and pause."
-msgstr ""
+msgstr "<key>播放</key>、<key>暂停</key>、<key>停止</key>：这些按键用来播放、暂停。"
 
 #. (itstool) path: item/p
 #: C/media-keys.page:27
 msgid "<key>Rewind</key>, <key>Previous</key>: Each of these keys will jump back the time you selected in Preferences."
-msgstr ""
+msgstr "<key>快退</key>、<key>前一项</key>：这些按键用来回退您在“个人设置”中设置好的"
+"时间量。"
 
 #. (itstool) path: item/p
 #: C/media-keys.page:28
 msgid "<key>Fast Forward</key>, <key>Next</key>: Each of these keys will jump ahead the time you selected in Preferences."
-msgstr ""
+msgstr "<key>快进</key>、<key>后一项</key>：这些按键用来前跳您在“个人设置”中设置好的"
+"时间量。"
 
 #. (itstool) path: note/p
 #: C/media-keys.page:32
 msgid "For detailed instructions how to change keyboard shortcuts in GNOME see the <link href=\"help:gnome-help/keyboard-shortcuts-set\">official documentation</link>."
 msgstr ""
+"您如果想详细地了解一下如何在 GNOME 中修改键盘快捷键，可以参阅 <link href="
+"\"help:gnome-help/keyboard-shortcuts-set\"> 官方文档 </link>。"
 
 #. (itstool) path: page/p
 #: C/media-keys.page:35
 msgid "If you are using a dedicated foot pedal, it should be possible to map the foot pedal signals to any of the keys. This is not well tested, however. Any feedback regarding foot pedals is welcome."
-msgstr ""
+msgstr "如果使用专用脚踏板的话，脚踏板的信号应该是可以映射到任意按键上的。不过，我们"
+"没有仔细测试过这种用法。欢迎反馈有关脚踏板的消息。"
