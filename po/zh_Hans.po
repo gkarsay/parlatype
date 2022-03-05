@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Parlatype 3.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-12 19:52+0100\n"
-"PO-Revision-Date: 2022-03-02 15:56+0000\n"
+"PO-Revision-Date: 2022-03-06 06:55+0000\n"
 "Last-Translator: poi <erbaotao@outlook.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "parlatype/parlatype/zh_Hans/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.11.1-dev\n"
+"X-Generator: Weblate 4.12-dev\n"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:7
 #: data/org.parlatype.Parlatype.desktop.in:4 src/pt-app.c:214
@@ -221,7 +221,7 @@ msgstr "把可能的最大速度提高到了 2.0"
 msgid ""
 "New keyboard shortcuts for Play/Pause (Ctrl + Space), Jump back (Ctrl + "
 "Left), Jump forward (Ctrl + Right)"
-msgstr "新增键盘快捷键：播放 / 暂停（Ctrl + 空格）、回跳（Ctrl + 左方向键）、前跳（"
+msgstr "新增键盘快捷键：播放 / 暂停（Ctrl + 空格）、回退（Ctrl + 左方向键）、前跳（"
 "Ctrl + 右方向键）"
 
 #. Translators: This has very low priority, it's the description for an old release.
@@ -381,7 +381,7 @@ msgstr "未能创建个人配置文件夹"
 #, c-format
 msgid "Jump back 1 second"
 msgid_plural "Jump back %d seconds"
-msgstr[0] "回跳 %d 秒"
+msgstr[0] "回退 %d 秒"
 
 #: src/pt-window.c:393
 #, c-format
@@ -406,11 +406,11 @@ msgstr "开始播放"
 #: src/pt-window.c:458
 #, c-format
 msgid "Go to time in clipboard: %s"
-msgstr "去往剪贴板中的时刻：%s"
+msgstr "转到剪贴板中的时刻：%s"
 
 #: src/pt-window.c:460 src/pt-window.c:1157
 msgid "Go to time in clipboard"
-msgstr "去往剪贴板中的时刻"
+msgstr "转到剪贴板中的时刻"
 
 #: src/pt-window.c:1152
 msgid "Manual transcription"
@@ -471,7 +471,7 @@ msgstr "下载，解压到一个文件夹，然后选择那个文件夹。"
 
 #: src/resources/goto-dialog.ui:13 src/resources/menus.ui:34
 msgid "Go to…"
-msgstr "去往……"
+msgstr "转到……"
 
 #: src/resources/goto-dialog.ui:40
 msgid "_OK"
@@ -503,7 +503,7 @@ msgstr "播放 / 暂停"
 
 #: src/resources/help-overlay.ui:55 src/resources/help-overlay.ui:63
 msgid "Jump back"
-msgstr "回跳"
+msgstr "回退"
 
 #: src/resources/help-overlay.ui:71 src/resources/help-overlay.ui:79
 msgid "Jump forward"
@@ -519,7 +519,7 @@ msgstr "放远"
 
 #: src/resources/help-overlay.ui:100
 msgid "Open “Go to” dialog"
-msgstr "打开“去往”对话框"
+msgstr "打开“转到”对话框"
 
 #: src/resources/help-overlay.ui:107
 msgid "Copy timestamp to clipboard"
@@ -527,7 +527,7 @@ msgstr "把时间戳复制到剪贴板"
 
 #: src/resources/help-overlay.ui:114
 msgid "Go to timestamp in clipboard"
-msgstr "去往剪贴板中时间戳的位置"
+msgstr "转到剪贴板中时间戳的位置"
 
 #: src/resources/help-overlay.ui:122 src/resources/menus.ui:15
 msgid "Help"
@@ -559,7 +559,7 @@ msgstr "把时间复制到剪贴板"
 
 #: src/resources/menus.ui:30
 msgid "Go to cursor"
-msgstr "去往光标处"
+msgstr "转到光标处"
 
 #. This refers to: "Characters around timestamps"
 #: src/resources/preferences.ui:42
@@ -630,7 +630,7 @@ msgstr "固定光标 (F)"
 
 #: src/resources/preferences.ui:291
 msgid "Jumps"
-msgstr "跳跃"
+msgstr "回退和前跳"
 
 #: src/resources/preferences.ui:393
 msgid "Jump _forward:"
@@ -638,11 +638,11 @@ msgstr "前跳 (F)："
 
 #: src/resources/preferences.ui:407
 msgid "Jump _back:"
-msgstr "回跳 (B)："
+msgstr "回退 (B)："
 
 #: src/resources/preferences.ui:421
 msgid "Jump back on _pause:"
-msgstr "回跳暂停 (P)："
+msgstr "回退暂停 (P)："
 
 #: src/resources/preferences.ui:444
 msgid "Pressing “Play” at the end of file"
@@ -678,7 +678,7 @@ msgstr "精密度"
 
 #: src/resources/preferences.ui:603
 msgid "Characters around timestamps"
-msgstr "靠近时间戳的字符"
+msgstr "时间戳记号"
 
 #: src/resources/preferences.ui:619
 msgid "Examples"
@@ -690,7 +690,7 @@ msgstr "精密度："
 
 #: src/resources/preferences.ui:693
 msgid "Fraction separator:"
-msgstr "分数分隔符："
+msgstr "小数分隔符："
 
 #: src/resources/preferences.ui:736
 msgid "Timestamps"
