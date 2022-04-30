@@ -8,15 +8,17 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
 "POT-Creation-Date: 2021-10-18 21:35+0200\n"
-"PO-Revision-Date: 2020-05-15 08:27+0000\n"
-"Last-Translator: Marco Ciampa <ciampix@posteo.net>\n"
-"Language-Team: Italian <it@li.org>\n"
+"PO-Revision-Date: 2022-05-01 18:10+0000\n"
+"Last-Translator: albanobattistella <albano_battistella@hotmail.com>\n"
+"Language-Team: Italian <https://hosted.weblate.org/projects/parlatype/"
+"parlatype-help/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.12.1\n"
 "X-Launchpad-Export-Date: 2020-05-31 16:44+0000\n"
-"X-Generator: Launchpad (build 275d46a24253e557e4403d52832837e4bfa425b6)\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -237,7 +239,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:28
 msgid "Show help"
-msgstr "Mostra l'aiuto"
+msgstr "Mostra aiuto"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:29
@@ -257,7 +259,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:36
 msgid "Play/Pause"
-msgstr ""
+msgstr "Riproduci/Pausa"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:37
@@ -362,7 +364,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/preferences.page:14
 msgid "Preferences"
-msgstr ""
+msgstr "Preferenze"
 
 #. (itstool) path: page/p
 #: C/preferences.page:16
@@ -662,7 +664,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/timestamps.page:14
 msgid "Timestamps"
-msgstr "Marche temporali"
+msgstr "Marcature temporali"
 
 #. (itstool) path: page/p
 #: C/timestamps.page:16
