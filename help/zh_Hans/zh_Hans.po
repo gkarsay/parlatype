@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Parlatype 3.1\n"
 "POT-Creation-Date: 2021-12-12 19:52+0100\n"
-"PO-Revision-Date: 2022-03-06 06:55+0000\n"
-"Last-Translator: poi <erbaotao@outlook.com>\n"
+"PO-Revision-Date: 2022-05-11 23:17+0000\n"
+"Last-Translator: Eric <alchemillatruth@purelymail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "parlatype/parlatype-help/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.12-dev\n"
+"X-Generator: Weblate 4.12.1\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -83,10 +83,9 @@ msgstr "可以把文件、文件名或时间戳拖放到 <app>Parlatype</app> �
 
 #. (itstool) path: item/p
 #: C/drag-and-drop.page:19
-#, fuzzy
 msgid "Files: Drag and drop a file from a file manager, e.g. <app>Files</app>, on <app>Parlatype</app> and it will open that file."
-msgstr "文件：把文件从文件管理器里，比如从<app>所有文件</app>里，拖拽到 "
-"<app>Parlatype</app> 里，就能打开文件。"
+msgstr "文件：从文件管理器比如<app>Files</app>将文件拖放到 "
+"<app>Parlatype</app>上就能打开那个文件。"
 
 #. (itstool) path: item/p
 #: C/drag-and-drop.page:20
@@ -192,8 +191,8 @@ msgstr "键盘快捷键"
 #: C/keyboard-shortcuts.page:16
 msgid "Keyboard shortcuts for <app>Parlatype</app> control, like <key>Play</key>, are described in <link xref=\"control\"/>. Shortcut keys for the window are listed below."
 msgstr ""
-"<key>播放</key>等键盘快捷键可以控制 <app>Parlatype</app>，在 <link xref="
-"\"control\"/> 可以查到这些快捷键的说明。下面列出了窗口所用的快捷键。"
+"<app>Parlatype</app>操作如<key>播放</key>等的键盘快捷键在 <link xref="
+"\"control\"/> 中有描述。下面列出了窗口的快捷键。"
 
 #. (itstool) path: table/title
 #: C/keyboard-shortcuts.page:19
@@ -447,8 +446,7 @@ msgstr "这里的设置用来调整 <app>Parlatype</app> "
 #. (itstool) path: note/p
 #: C/preferences.page:52
 msgid "There are no settings for <em>reading</em> timestamps. <app>Parlatype</app> reads and accepts all of these formats."
-msgstr "<app>Parlatype</app> "
-"可以正确读取这里所有的格式。因此，我们没有提供调控时间戳<em>读取</em>的设置。"
+msgstr "没有 <em>读取</em>时间戳的设置。<app>Parlatype</app>读取并接受所有这些格式。"
 
 #. (itstool) path: item/p
 #: C/preferences.page:54
