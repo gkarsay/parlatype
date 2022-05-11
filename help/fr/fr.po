@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2021-10-18 21:35+0200\n"
-"PO-Revision-Date: 2021-11-28 22:54+0000\n"
-"Last-Translator: Walter Paulo <polo@tictips.net>\n"
+"PO-Revision-Date: 2022-05-11 23:17+0000\n"
+"Last-Translator: Mathieu B. <mathieu.bousquet2@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/parlatype/"
 "parlatype-help/fr/>\n"
 "Language: fr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.10-dev\n"
+"X-Generator: Weblate 4.12.1\n"
 "X-Launchpad-Export-Date: 2020-06-18 10:32+0000\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
@@ -328,7 +328,7 @@ msgstr "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:44
 msgid "Jump back"
-msgstr "Saut arrière"
+msgstr "Reculer"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:45
@@ -338,7 +338,7 @@ msgstr "<keyseq><key>Ctrl</key><key>Gauche</key></keyseq>"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:48
 msgid "Jump forward"
-msgstr "Saut avant"
+msgstr "Avancer"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:49
@@ -762,7 +762,7 @@ msgid ""
 "deselect it."
 msgstr ""
 "En mode sélection, vous ne pourrez plus quitter la sélection à moins de la "
-"désélectionner"
+"désélectionner."
 
 #. (itstool) path: page/p
 #: C/selections.page:20
@@ -807,7 +807,7 @@ msgid ""
 "Timestamps can look like this: #03:45.2#. You can select them with or "
 "without the number signs."
 msgstr ""
-"Les horodatages peuvent ressembler à ceci : # 03: 45.2 #. Vous pouvez les "
+"Les horodatages peuvent ressembler à ceci : #03:45.2#. Vous pouvez les "
 "sélectionner avec ou sans les signes numériques."
 
 #. (itstool) path: page/p
@@ -1188,7 +1188,7 @@ msgid ""
 "<app>Rhythmbox</app>, as well."
 msgstr ""
 "Cela affectera d'autres lecteurs multimédia comme <app>Totem</app> ou "
-"<app>Rhythmbox</app>"
+"<app>Rhythmbox</app>."
 
 #. (itstool) path: page/p
 #: C/media-keys.page:24
