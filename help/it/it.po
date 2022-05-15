@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
 "POT-Creation-Date: 2021-10-18 21:35+0200\n"
-"PO-Revision-Date: 2022-05-01 18:10+0000\n"
+"PO-Revision-Date: 2022-05-16 08:49+0000\n"
 "Last-Translator: albanobattistella <albano_battistella@hotmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/parlatype/"
 "parlatype-help/it/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.12.1\n"
+"X-Generator: Weblate 4.13-dev\n"
 "X-Launchpad-Export-Date: 2020-05-31 16:44+0000\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
@@ -176,6 +176,10 @@ msgid ""
 "scroll manually by clicking on or dragging the scroll bar or using the "
 "standard keybindings. Automatic scrolling is stopped then."
 msgstr ""
+"La vista scorre automaticamente in modo che il cursore sia sempre visibile. "
+"È possibile scorrere manualmente facendo clic o trascinando la barra di "
+"scorrimento o utilizzando le combinazioni di tasti standard. Lo scorrimento "
+"automatico viene quindi interrotto."
 
 #. (itstool) path: page/p
 #: C/first-steps.page:30
@@ -229,12 +233,12 @@ msgstr "Scorciatoie da tastiera standard"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:22
 msgid "To Do This"
-msgstr ""
+msgstr "Per fare questo"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:23
 msgid "Press This"
-msgstr ""
+msgstr "Premi questo"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:28
@@ -254,7 +258,7 @@ msgstr "Apri file"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:33
 msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:36
@@ -264,7 +268,7 @@ msgstr "Riproduci/Pausa"
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:37
 msgid "<keyseq><key>Ctrl</key><key>Space</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>Spazio</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:40
@@ -359,7 +363,7 @@ msgstr "Questo lavoro è rilasciato sotto licenza <_:link-1/>."
 #. (itstool) path: info/desc
 #: C/preferences.page:6
 msgid "How to customize Parlatype"
-msgstr ""
+msgstr "Come personalizzare Parlatype"
 
 #. (itstool) path: page/title
 #: C/preferences.page:14
@@ -396,6 +400,9 @@ msgid ""
 "second, e.g. the default resolution of 100 means, that one second is shown "
 "with a width of 100 pixels."
 msgstr ""
+"Risoluzione: la risoluzione dell'immagine della forma d'onda è espressa in "
+"pixel al secondo, ad es. la risoluzione predefinita di 100 significa che un "
+"secondo viene mostrato con una larghezza di 100 pixel."
 
 #. (itstool) path: item/p
 #: C/preferences.page:27
@@ -403,16 +410,18 @@ msgid ""
 "Fixed vs. moving cursor: There are two modes, how to follow the cursor. On "
 "slower systems a moving cursor might be smoother."
 msgstr ""
+"Cursore fisso o mobile: ci sono due modalità, come seguire il cursore. Su "
+"sistemi più lenti un cursore in movimento potrebbe essere più fluido."
 
 #. (itstool) path: item/p
 #: C/preferences.page:28
 msgid "Show time scale: Turn the time scale on or off."
-msgstr ""
+msgstr "Mostra scala temporale: attiva o disattiva la scala temporale."
 
 #. (itstool) path: section/title
 #: C/preferences.page:33
 msgid "Preferences for controls"
-msgstr ""
+msgstr "Preferenze per i controlli"
 
 #. (itstool) path: section/media
 #. This is a reference to an external file such as an image or video. When
@@ -506,7 +515,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/preferences.page:55
 msgid "Precision: Choose between full seconds, 10th seconds or 100th seconds."
-msgstr ""
+msgstr "Precisione: scegli tra secondi interi, 10 secondi o 100 secondi."
 
 #. (itstool) path: item/p
 #: C/preferences.page:56
@@ -514,6 +523,8 @@ msgid ""
 "Fraction separator: Choose between a point or a hyphen to separate fractions "
 "of a second."
 msgstr ""
+"Separatore di frazioni: scegli tra un punto o un trattino per separare le "
+"frazioni di un secondo."
 
 #. (itstool) path: item/p
 #: C/preferences.page:57
@@ -572,7 +583,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/preferences.page:80
 msgid "Preferences for the window"
-msgstr ""
+msgstr "Preferenze per la finestra"
 
 #. (itstool) path: section/media
 #. This is a reference to an external file such as an image or video. When
