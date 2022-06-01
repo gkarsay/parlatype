@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Parlatype 3.1\n"
 "POT-Creation-Date: 2021-12-12 19:52+0100\n"
-"PO-Revision-Date: 2022-05-11 23:17+0000\n"
-"Last-Translator: Eric <alchemillatruth@purelymail.com>\n"
+"PO-Revision-Date: 2022-06-02 07:18+0000\n"
+"Last-Translator: poi <erbaotao@outlook.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "parlatype/parlatype-help/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.12.1\n"
+"X-Generator: Weblate 4.13-dev\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -540,7 +540,8 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/selections.page:22
 msgid "To deselect click once with the left button into the waveform. If the waveform has keyboard focus, you can press <key>Escape</key>."
-msgstr ""
+msgstr "左键点击一次波形图中的地方就可以“取消选择”。如果键盘控制的当前位置是波形图，"
+"按<key>退出（Escape）</key>也可以。"
 
 #. (itstool) path: info/desc
 #: C/timestamps.page:6
