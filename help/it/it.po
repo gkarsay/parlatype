@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
 "POT-Creation-Date: 2021-10-18 21:35+0200\n"
-"PO-Revision-Date: 2022-05-16 08:49+0000\n"
+"PO-Revision-Date: 2022-06-12 14:18+0000\n"
 "Last-Translator: albanobattistella <albano_battistella@hotmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/parlatype/"
 "parlatype-help/it/>\n"
@@ -92,6 +92,8 @@ msgid ""
 "You can drop files, file names or timestamps on <app>Parlatype</app>’s "
 "window."
 msgstr ""
+"Puoi rilasciare file, nomi di file o timestamp nella finestra di "
+"<app>Parlatype</app>."
 
 #. (itstool) path: item/p
 #: C/drag-and-drop.page:19
@@ -138,7 +140,7 @@ msgstr ""
 #. (itstool) path: note/p
 #: C/first-steps.page:19
 msgid "You can also drag and drop a file on <app>Parlatype</app>."
-msgstr ""
+msgstr "Puoi anche trascinare e rilasciare un file su <app>Parlatype</app>."
 
 #. (itstool) path: page/p
 #: C/first-steps.page:22
@@ -160,6 +162,8 @@ msgid ""
 "external ref='figures/parlatype-main-window.png' "
 "md5='48f6b285bedaf2f9ab0a8760807f0fda'"
 msgstr ""
+"ref esterno='figures/parlatype-main-window.png' "
+"md5='48f6b285bedaf2f9ab0a8760807f0fda'"
 
 #. (itstool) path: page/p
 #: C/first-steps.page:26
@@ -338,7 +342,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:65
 msgid "<keyseq><key>Ctrl</key><key>-</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>-</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/keyboard-shortcuts.page:68
@@ -375,11 +379,13 @@ msgstr "Preferenze"
 msgid ""
 "To open the preferences dialog click on the primary menu in the headerbar."
 msgstr ""
+"Per aprire la finestra di dialogo delle preferenze, fai clic sul menu "
+"principale nella barra dell'intestazione."
 
 #. (itstool) path: section/title
 #: C/preferences.page:21
 msgid "Preferences for the waveform"
-msgstr ""
+msgstr "Preferenze per la forma d'onda"
 
 #. (itstool) path: section/media
 #. This is a reference to an external file such as an image or video. When
@@ -434,6 +440,8 @@ msgid ""
 "external ref='figures/parlatype-prefs-controls.png' "
 "md5='e4a386123491d156f4a1415d70fae2fc'"
 msgstr ""
+"ref esterno='figures/parlatype-prefs-controls.png' "
+"md5='e4a386123491d156f4a1415d70fae2fc'"
 
 #. (itstool) path: item/p
 #: C/preferences.page:38
@@ -476,7 +484,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/preferences.page:47
 msgid "Preferences for timestamps"
-msgstr ""
+msgstr "Preferenze per timestamp"
 
 #. (itstool) path: section/media
 #. This is a reference to an external file such as an image or video. When
@@ -489,6 +497,8 @@ msgid ""
 "external ref='figures/parlatype-prefs-timestamps.png' "
 "md5='03e59b46213ae5cb77eb6a52d9729969'"
 msgstr ""
+"ref esterno='figures/parlatype-prefs-timestamps.png' "
+"md5='03e59b46213ae5cb77eb6a52d9729969'"
 
 #. (itstool) path: section/p
 #: C/preferences.page:51
@@ -532,6 +542,8 @@ msgid ""
 "Characters around timestamps: Choose between number signs, round brackets, "
 "square brackets or none."
 msgstr ""
+"Caratteri intorno ai timestamp: scegli tra segni numerici, parentesi tonde, "
+"parentesi quadre o nessuno."
 
 #. (itstool) path: section/title
 #: C/preferences.page:62
@@ -596,6 +608,8 @@ msgid ""
 "external ref='figures/parlatype-prefs-window.png' "
 "md5='be540a7e2a351b80f5710048450c0735'"
 msgstr ""
+"ref esterno='figures/parlatype-prefs-window.png' "
+"md5='be540a7e2a351b80f5710048450c0735'"
 
 #. (itstool) path: item/p
 #: C/preferences.page:85
@@ -650,6 +664,8 @@ msgid ""
 "When in selection mode, you can not exit the selection anymore until you "
 "deselect it."
 msgstr ""
+"Quando sei in modalità selezione, non puoi più uscire dalla selezione finché "
+"non la deseleziona."
 
 #. (itstool) path: page/p
 #: C/selections.page:20
@@ -670,7 +686,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/timestamps.page:6
 msgid "Set and go to timestamps"
-msgstr ""
+msgstr "Imposta e vai a timestamp"
 
 #. (itstool) path: page/title
 #: C/timestamps.page:14
@@ -680,7 +696,7 @@ msgstr "Marcature temporali"
 #. (itstool) path: page/p
 #: C/timestamps.page:16
 msgid "Timestamps help you to navigate in your transcription."
-msgstr ""
+msgstr "I timestamp ti aiutano a navigare nella tua trascrizione."
 
 #. (itstool) path: note/p
 #: C/timestamps.page:19
@@ -688,6 +704,8 @@ msgid ""
 "Timestamps can look like this: #03:45.2#. You can select them with or "
 "without the number signs."
 msgstr ""
+"I timestamp possono assomigliare a questo: #03:45.2#. Puoi selezionarli con "
+"o senza i segni numerici."
 
 #. (itstool) path: page/p
 #: C/timestamps.page:22
@@ -713,7 +731,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/timestamps.page:31
 msgid "Using the clipboard"
-msgstr ""
+msgstr "Usando gli appunti"
 
 #. (itstool) path: section/p
 #: C/timestamps.page:33
@@ -988,6 +1006,9 @@ msgid ""
 "You can change the media keys in GNOME settings. You can use dedicated keys "
 "from a multimedia keyboard or use any other key or combination of keys."
 msgstr ""
+"Puoi modificare le chiavi multimediali nelle impostazioni di GNOME. È "
+"possibile utilizzare tasti dedicati da una tastiera multimediale o "
+"utilizzare qualsiasi altro tasto o combinazione di tasti."
 
 #. (itstool) path: note/p
 #: C/media-keys.page:21
@@ -1021,6 +1042,8 @@ msgid ""
 "<key>Fast Forward</key>, <key>Next</key>: Each of these keys will jump ahead "
 "the time you selected in Preferences."
 msgstr ""
+"<key>Avanzamento veloce</key>, <key>Prossimo</key>: ognuno di questi tasti "
+"avanzerà nel tempo selezionato in Preferenze."
 
 #. (itstool) path: note/p
 #: C/media-keys.page:32
@@ -1029,6 +1052,9 @@ msgid ""
 "<link href=\"help:gnome-help/keyboard-shortcuts-set\">official "
 "documentation</link>."
 msgstr ""
+"Per istruzioni dettagliate su come modificare le scorciatoie da tastiera in "
+"GNOME, vedere la <link href=\"help:gnome-help/keyboard-shortcuts-set\""
+">documentazione ufficiale</link>."
 
 #. (itstool) path: page/p
 #: C/media-keys.page:35
@@ -1037,3 +1063,6 @@ msgid ""
 "foot pedal signals to any of the keys. This is not well tested, however. Any "
 "feedback regarding foot pedals is welcome."
 msgstr ""
+"Se si utilizza un pedale dedicato, dovrebbe essere possibile mappare i "
+"segnali del pedale su qualsiasi tasto. Questo non è ben testato, tuttavia. "
+"Qualsiasi feedback in merito ai pedali è il benvenuto."
