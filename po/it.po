@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-18 21:22+0200\n"
-"PO-Revision-Date: 2022-05-01 18:10+0000\n"
+"PO-Revision-Date: 2022-06-20 11:14+0000\n"
 "Last-Translator: albanobattistella <albano_battistella@hotmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/parlatype/"
 "parlatype/it/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.12.1\n"
+"X-Generator: Weblate 4.13.1-dev\n"
 "X-Launchpad-Export-Date: 2020-05-31 16:44+0000\n"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:7
@@ -299,7 +299,7 @@ msgstr ""
 "Launchpad Contributions:\n"
 "  Luca Ciavatta https://launchpad.net/~cialu\n"
 "  Marco Ciampa https://launchpad.net/~ciampix\n"
-"  albano https://launchpad.net/~albano-battistella"
+"  Albano  Battistella https://launchpad.net/~albano-battistella"
 
 #: src/pt-app.c:353
 #, c-format
@@ -521,11 +521,11 @@ msgstr "Salta avanti"
 
 #: src/resources/help-overlay.ui:86
 msgid "Zoom in"
-msgstr "Zoom avanti"
+msgstr "Aumenta lo zoom"
 
 #: src/resources/help-overlay.ui:93
 msgid "Zoom out"
-msgstr "Zoom indietro"
+msgstr "Diminuisci lo zoom"
 
 #: src/resources/help-overlay.ui:100
 msgid "Open “Go to” dialog"
@@ -582,7 +582,7 @@ msgstr "#Segni numerici#"
 
 #: src/resources/preferences.ui:50
 msgid "(Round brackets)"
-msgstr "(Round brackets)"
+msgstr "(Parentesi tonde)"
 
 #: src/resources/preferences.ui:54
 msgid "[Square brackets]"
