@@ -43,3 +43,6 @@ screenshots = executable('pt-screenshots',
     '-DPARLATYPE_COMPILATION',
   ],
 )
+
+run_target('generate-screenshots',
+  command: '../maint/generate-screenshots')
