@@ -1248,14 +1248,13 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 	gtk_widget_class_set_layout_manager_type (widget_class, GTK_TYPE_BIN_LAYOUT);
 
 	/**
-	* PtWaveviewer::load-progress:
-	* @viewer: the waveviewer emitting the signal
-	* @progress: the new progress state, ranging from 0.0 to 1.0
-	*
-	* Indicates progress on a scale from 0.0 to 1.0, however it does not
-	* emit the value 0.0 nor 1.0. Wait for a TRUE player-state-changed
-	* signal or an error signal to dismiss a gui element showing progress.
-	*/
+	 * PtWaveviewer::load-progress:
+	 * @viewer: the waveviewer emitting the signal
+	 * @progress: the new progress state, ranging from 0.0 to 1.0
+	 *
+	 * Indicates progress on a scale from 0.0 to 1.0. The value 0.0 is not
+	 * emitted, the last signal (on success) is 1.0.
+	 */
 	g_signal_new ("load-progress",
 		      PT_TYPE_WAVEVIEWER,
 		      G_SIGNAL_RUN_FIRST,
