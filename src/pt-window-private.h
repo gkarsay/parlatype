@@ -47,7 +47,6 @@ struct _PtWindowPrivate
 	GtkWidget  *pos_menu_button;
 	GMenuItem  *go_to_timestamp;
 	GtkWidget  *speed_scale;
-	GtkWidget  *waveviewer;
 
 	GMenuModel *primary_menu;
 	GMenuModel *secondary_menu;

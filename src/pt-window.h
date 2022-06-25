@@ -34,6 +34,7 @@ struct _PtWindow
 {
 	GtkApplicationWindow  parent;
 	PtPlayer             *player;
+	GtkWidget            *waveviewer;
 
 	/*< private > */
 	PtWindowPrivate *priv;

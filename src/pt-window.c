@@ -88,7 +88,7 @@ clip_text_cb (GdkClipboard *clip,
 	}
 
 	pt_player_goto_timestamp (win->player, timestamp);
-	pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
+	pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->waveviewer), TRUE);
 	g_free (timestamp);
 }
 
@@ -118,7 +118,7 @@ goto_dialog_response_cb (GtkDialog *dlg,
 	if (response_id == GTK_RESPONSE_OK) {
 		pos = pt_goto_dialog_get_pos (PT_GOTO_DIALOG (dlg));
 		pt_player_jump_to_position (win->player, pos * 1000);
-		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
+		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->waveviewer), TRUE);
 	}
 
 	gtk_window_destroy (GTK_WINDOW (dlg));
@@ -153,7 +153,7 @@ goto_cursor (GSimpleAction *action,
 	PtWindow *win;
 	win = PT_WINDOW (user_data);
 
-	pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
+	pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->waveviewer), TRUE);
 }
 
 void
@@ -309,7 +309,7 @@ update_time (PtWindow *win)
 		win->priv->last_time = time/100;
 	}
 
-	g_object_set (win->priv->waveviewer, "playback-cursor", time, NULL);
+	g_object_set (win->waveviewer, "playback-cursor", time, NULL);
 }
 
 static gboolean
@@ -327,7 +327,7 @@ add_timer (PtWindow *win)
 {
 	if (win->priv->timer == 0) {
 		win->priv->timer = gtk_widget_add_tick_callback (
-						win->priv->waveviewer,
+						win->waveviewer,
 						update_time_tick,
 						win,
 						NULL);
@@ -338,7 +338,7 @@ static void
 remove_timer (PtWindow *win)
 {
 	if (win->priv->timer > 0) {
-		gtk_widget_remove_tick_callback (win->priv->waveviewer,
+		gtk_widget_remove_tick_callback (win->waveviewer,
 						 win->priv->timer);
 		win->priv->timer = 0;
 	}
@@ -550,7 +550,7 @@ pt_window_ready_to_play (PtWindow *win,
 		change_play_button_tooltip (win);
 		change_jump_back_tooltip (win);
 		change_jump_forward_tooltip (win);
-		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
+		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->waveviewer), TRUE);
 		add_timer (win);
 
 	} else {
@@ -615,7 +615,7 @@ pt_window_open_file (PtWindow *win,
 	if (!pt_player_open_uri (win->player, uri))
 		return;
 	pt_window_ready_to_play (win, TRUE);
-	pt_waveviewer_load_wave_async (PT_WAVEVIEWER (win->priv->waveviewer),
+	pt_waveviewer_load_wave_async (PT_WAVEVIEWER (win->waveviewer),
 				  uri,
 				  NULL,
 				  (GAsyncReadyCallback) open_cb,
@@ -628,7 +628,7 @@ update_play_after_toggle (PtWindow        *win,
 {
 	if (gtk_toggle_button_get_active (button)) {
 		update_time (win);
-		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
+		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->waveviewer), TRUE);
 	}
 
 	change_play_button_tooltip (win);
@@ -807,7 +807,7 @@ setup_settings (PtWindow *win)
 
 	g_settings_bind (
 			win->priv->editor, "pps",
-			win->priv->waveviewer, "pps",
+			win->waveviewer, "pps",
 			G_SETTINGS_BIND_DEFAULT);
 
 	g_settings_bind_with_mapping (
@@ -846,12 +846,12 @@ setup_settings (PtWindow *win)
 
 	g_settings_bind (
 			win->priv->editor, "show-ruler",
-			win->priv->waveviewer, "show-ruler",
+			win->waveviewer, "show-ruler",
 			G_SETTINGS_BIND_GET);
 
 	g_settings_bind (
 			win->priv->editor, "fixed-cursor",
-			win->priv->waveviewer, "fixed-cursor",
+			win->waveviewer, "fixed-cursor",
 			G_SETTINGS_BIND_GET);
 
 	g_settings_bind (
@@ -988,7 +988,7 @@ setup_player (PtWindow *win)
 
 	pt_player_connect_waveviewer (
 			win->player,
-			PT_WAVEVIEWER (win->priv->waveviewer));
+			PT_WAVEVIEWER (win->waveviewer));
 
 	g_signal_connect (win->player,
 			"end-of-stream",
@@ -1147,12 +1147,12 @@ pt_window_init (PtWindow *win)
 			"changed",
 			G_CALLBACK (update_insert_action_sensitivity),
 			win);
-	g_signal_connect (win->priv->waveviewer,
+	g_signal_connect (win->waveviewer,
 			"notify::follow-cursor",
 			G_CALLBACK (update_goto_cursor_action_sensitivity),
 			win);
 
-	g_signal_connect (win->priv->waveviewer,
+	g_signal_connect (win->waveviewer,
 	                  "load-progress",
 	                  G_CALLBACK (progressbar_cb),
 	                  GTK_PROGRESS_BAR (win->priv->progress));
@@ -1215,7 +1215,7 @@ pt_window_class_init (PtWindowClass *klass)
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, volumebutton);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, pos_menu_button);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, speed_scale);
-	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, waveviewer);
+	gtk_widget_class_bind_template_child (widget_class, PtWindow, waveviewer);
 }
 
 PtWindow *
