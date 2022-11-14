@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Parlatype 3.1\n"
 "POT-Creation-Date: 2021-12-12 19:52+0100\n"
-"PO-Revision-Date: 2022-01-14 16:55+0000\n"
+"PO-Revision-Date: 2022-11-15 08:48+0000\n"
 "Last-Translator: E-Akcaer <gurbetcii_@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/parlatype/"
 "parlatype-help/tr/>\n"
@@ -11,12 +11,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.10.1\n"
+"X-Generator: Weblate 4.15-dev\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr "çevirmen-emeği geçenler: Eakcaer <eakcaer@gmail.com>, 2021."
+msgstr "çevirmen-emeği geçenler: Eakcaer <eakcaer.54@gmail.com>, 2021."
 
 #. (itstool) path: info/title
 #: C/index.page:7
@@ -68,8 +68,9 @@ msgstr "Yardım konuları"
 
 #. (itstool) path: info/desc
 #: C/drag-and-drop.page:6
+#, fuzzy
 msgid "Drop files, file names or timestamps on Parlatype"
-msgstr ""
+msgstr "Dosyaları, dosya adlarını veya zaman damgalarını Parlatype'e bırakın"
 
 #. (itstool) path: page/title
 #: C/drag-and-drop.page:14
