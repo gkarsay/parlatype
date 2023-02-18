@@ -14,7 +14,6 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef PT_MPRIS_H
 #define PT_MPRIS_H
 
@@ -22,32 +21,31 @@
 #include "pt-controller.h"
 #include "pt-window.h"
 
-#define PT_MPRIS_TYPE		(pt_mpris_get_type())
-#define PT_MPRIS(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), PT_MPRIS_TYPE, PtMpris))
-#define PT_IS_MPRIS(obj)	(G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_MPRIS_TYPE))
+#define PT_MPRIS_TYPE (pt_mpris_get_type ())
+#define PT_MPRIS(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_MPRIS_TYPE, PtMpris))
+#define PT_IS_MPRIS(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_MPRIS_TYPE))
 
-typedef struct _PtMpris		PtMpris;
-typedef struct _PtMprisClass	PtMprisClass;
-typedef struct _PtMprisPrivate	PtMprisPrivate;
+typedef struct _PtMpris PtMpris;
+typedef struct _PtMprisClass PtMprisClass;
+typedef struct _PtMprisPrivate PtMprisPrivate;
 
 struct _PtMpris
 {
-	PtController parent;
+  PtController parent;
 
-	/*< private > */
-	PtMprisPrivate *priv;
+  /*< private > */
+  PtMprisPrivate *priv;
 };
 
 struct _PtMprisClass
 {
-	PtControllerClass parent_class;
+  PtControllerClass parent_class;
 };
 
+GType pt_mpris_get_type (void) G_GNUC_CONST;
 
-GType		pt_mpris_get_type	(void) G_GNUC_CONST;
+void pt_mpris_start (PtMpris *self);
 
-void		pt_mpris_start	(PtMpris *self);
-
-PtMpris 	*pt_mpris_new	(PtWindow *win);
+PtMpris *pt_mpris_new (PtWindow *win);
 
 #endif
