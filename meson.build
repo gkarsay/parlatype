@@ -39,7 +39,7 @@ conf.set_quoted('APP_ID', app_id)
 conf.set_quoted('ASR_DIR', join_paths(datadir, meson.project_name(), 'asr'))
 conf.set('HAVE_ASR', with_asr)
 conf_input = configure_file(output: 'config.h.in', configuration: conf)
-conf_inc = include_directories('.', 'libparlatype/src')
+conf_inc = include_directories('.', 'libparlatype/src', 'src')
 
 config_h = declare_dependency(
   sources: vcs_tag(
@@ -72,6 +72,7 @@ subdir('docs')
 subdir('help')
 subdir('po')
 subdir('src')
+subdir('tools')
 
 if host_machine.system() == 'windows'
   meson.add_install_script(
