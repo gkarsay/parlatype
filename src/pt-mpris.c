@@ -437,7 +437,6 @@ get_player_property (GDBusConnection *connection,
 {
   PtPlayer *player = pt_controller_get_player (PT_CONTROLLER (self));
   PtStateType state;
-  // gboolean ret;
 
   if (g_strcmp0 (object_path, MPRIS_OBJECT_NAME) != 0 ||
       g_strcmp0 (interface_name, MPRIS_PLAYER_INTERFACE) != 0)
@@ -484,6 +483,12 @@ get_player_property (GDBusConnection *connection,
         }
       else
         {
+          g_set_error (error,
+                       G_DBUS_ERROR,
+                       G_DBUS_ERROR_NOT_SUPPORTED,
+                       "Property %s.%s not supported",
+                       interface_name,
+                       property_name);
           return NULL;
         }
     }
