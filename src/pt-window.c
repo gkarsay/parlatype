@@ -304,7 +304,7 @@ update_time (PtWindow *win)
 		if (text == NULL)
 			return;
 
-		gtk_menu_button_set_label (GTK_MENU_BUTTON (win->priv->pos_menu_button), text);
+		gtk_menu_button_set_label (GTK_MENU_BUTTON (win->pos_menu_button), text);
 		g_free (text);
 		win->priv->last_time = time/100;
 	}
@@ -554,7 +554,7 @@ pt_window_ready_to_play (PtWindow *win,
 		add_timer (win);
 
 	} else {
-		gtk_menu_button_set_label (GTK_MENU_BUTTON (win->priv->pos_menu_button), "00:00.0");
+		gtk_menu_button_set_label (GTK_MENU_BUTTON (win->pos_menu_button), "00:00.0");
 		gtk_window_set_title (GTK_WINDOW (win), "Parlatype");
 		gtk_widget_set_tooltip_text (win->priv->button_jump_back, NULL);
 		gtk_widget_set_tooltip_text (win->priv->button_jump_forward, NULL);
@@ -648,6 +648,7 @@ player_play_toggled_cb (PtPlayer *player,
 	g_signal_handlers_unblock_by_func (play, play_button_toggled_cb, win);
 
 	update_play_after_toggle (win, play);
+
 }
 
 static void
@@ -1088,8 +1089,8 @@ setup_accels_actions_menus (PtWindow *win)
 	builder = gtk_builder_new_from_resource ("/org/parlatype/parlatype/menus.ui");
 	priv->primary_menu   = G_MENU_MODEL (gtk_builder_get_object (builder, "primary-menu"));
 	priv->secondary_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "secondary-menu"));
-	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (priv->primary_menu_button), priv->primary_menu);
-	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (priv->pos_menu_button), priv->secondary_menu);
+	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (win->primary_menu_button), priv->primary_menu);
+	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (win->pos_menu_button), priv->secondary_menu);
 	g_object_unref (builder);
 
 	/* Setup ASR menu manually; no success with GtkBuilder */
@@ -1156,6 +1157,7 @@ pt_window_init (PtWindow *win)
 	                  "load-progress",
 	                  G_CALLBACK (progressbar_cb),
 	                  GTK_PROGRESS_BAR (win->priv->progress));
+
 }
 
 static void
@@ -1204,7 +1206,9 @@ pt_window_class_init (PtWindowClass *klass)
 
 	gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/parlatype/window.ui");
 	gtk_widget_class_bind_template_callback(widget_class, play_button_toggled_cb);
-	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, primary_menu_button);
+	gtk_widget_class_bind_template_child (widget_class, PtWindow, waveviewer);
+	gtk_widget_class_bind_template_child (widget_class, PtWindow, primary_menu_button);
+	gtk_widget_class_bind_template_child (widget_class, PtWindow, pos_menu_button);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_open);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, progress);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, controls_row_box);
@@ -1213,9 +1217,7 @@ pt_window_class_init (PtWindowClass *klass)
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_jump_back);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_jump_forward);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, volumebutton);
-	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, pos_menu_button);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, speed_scale);
-	gtk_widget_class_bind_template_child (widget_class, PtWindow, waveviewer);
 }
 
 PtWindow *

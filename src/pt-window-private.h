@@ -32,7 +32,6 @@ struct _PtWindowPrivate
 
 	/* Headerbar widgets */
 	GtkWidget  *button_open;
-	GtkWidget  *primary_menu_button;
 
 	/* Main window widgets */
 	GtkWidget  *controls_row_box;
@@ -44,7 +43,6 @@ struct _PtWindowPrivate
 	GtkWidget  *volumebutton;
 	GStrv       vol_icons;
 	GtkGesture *vol_event;
-	GtkWidget  *pos_menu_button;
 	GMenuItem  *go_to_timestamp;
 	GtkWidget  *speed_scale;
 
