@@ -346,3 +346,19 @@ pt_show_preferences_dialog (GtkWindow *parent)
 
 	gtk_window_present (GTK_WINDOW (preferences_dialog));
 }
+
+GtkNotebook *
+pt_preferences_dialog_get_notebook (PtPreferencesDialog *dlg)
+{
+	return GTK_NOTEBOOK (dlg->priv->notebook);
+}
+
+PtPreferencesDialog *
+pt_preferences_dialog_new (GtkWindow *parent)
+{
+	return g_object_new (
+			PT_TYPE_PREFERENCES_DIALOG,
+			"use-header-bar", TRUE,
+			"transient-for", parent,
+			NULL);
+}
