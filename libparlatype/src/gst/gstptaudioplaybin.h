@@ -33,12 +33,6 @@ typedef struct _GstPtAudioPlayBinClass GstPtAudioPlayBinClass;
 struct _GstPtAudioPlayBin
 {
   GstBin parent;
-
-  GstElement *volume_changer;
-
-  /* properties */
-  gdouble volume;
-  gboolean mute;
 };
 
 struct _GstPtAudioPlayBinClass
@@ -47,8 +41,6 @@ struct _GstPtAudioPlayBinClass
 };
 
 GType gst_pt_audio_play_bin_get_type (void) G_GNUC_CONST;
-
-GstElement *gst_pt_audio_play_bin_get_volume (GstPtAudioPlayBin *bin);
 
 gboolean gst_pt_audio_play_bin_register (void);
 

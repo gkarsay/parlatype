@@ -47,8 +47,6 @@ struct _GstPtAudioBin
   /* properties */
   gboolean player;
   gboolean asr;
-  gdouble volume;
-  gboolean mute;
 };
 
 struct _GstPtAudioBinClass

@@ -310,7 +310,7 @@ bus_call (GstBus *bus,
           }
 
         gdouble volume;
-        volume = gst_stream_volume_get_volume (GST_STREAM_VOLUME (player->priv->audio_bin),
+        volume = gst_stream_volume_get_volume (GST_STREAM_VOLUME (player->priv->play),
                                                GST_STREAM_VOLUME_FORMAT_CUBIC);
         if (player->priv->volume != volume)
           {
@@ -909,7 +909,7 @@ pt_player_get_volume (PtPlayer *player)
   if (player->priv->play)
     {
       volume = gst_stream_volume_get_volume (
-          GST_STREAM_VOLUME (player->priv->audio_bin),
+          GST_STREAM_VOLUME (player->priv->play),
           GST_STREAM_VOLUME_FORMAT_CUBIC);
       if (player->priv->volume != volume)
         player->priv->volume = volume;
@@ -937,7 +937,7 @@ pt_player_set_volume (PtPlayer *player,
   player->priv->volume = volume;
 
   if (player->priv->play)
-    gst_stream_volume_set_volume (GST_STREAM_VOLUME (player->priv->audio_bin),
+    gst_stream_volume_set_volume (GST_STREAM_VOLUME (player->priv->play),
                                   GST_STREAM_VOLUME_FORMAT_CUBIC,
                                   volume);
 
@@ -963,7 +963,7 @@ pt_player_get_mute (PtPlayer *player)
   gboolean retval = FALSE;
 
   if (player->priv->play)
-    retval = gst_stream_volume_get_mute (GST_STREAM_VOLUME (player->priv->audio_bin));
+    retval = gst_stream_volume_get_mute (GST_STREAM_VOLUME (player->priv->play));
 
   return retval;
 }
@@ -985,7 +985,7 @@ pt_player_set_mute (PtPlayer *player,
   g_return_if_fail (PT_IS_PLAYER (player));
 
   if (player->priv->play)
-    gst_stream_volume_set_mute (GST_STREAM_VOLUME (player->priv->audio_bin), mute);
+    gst_stream_volume_set_mute (GST_STREAM_VOLUME (player->priv->play), mute);
 }
 
 /**
@@ -1725,7 +1725,7 @@ notify_volume_idle_cb (PtPlayer *player)
 {
   gdouble vol;
 
-  vol = gst_stream_volume_get_volume (GST_STREAM_VOLUME (player->priv->audio_bin),
+  vol = gst_stream_volume_get_volume (GST_STREAM_VOLUME (player->priv->play),
                                       GST_STREAM_VOLUME_FORMAT_CUBIC);
   player->priv->volume = vol;
   g_object_notify_by_pspec (G_OBJECT (player),
@@ -1751,7 +1751,7 @@ notify_mute_idle_cb (PtPlayer *player)
 {
   gboolean mute;
 
-  mute = gst_stream_volume_get_mute (GST_STREAM_VOLUME (player->priv->audio_bin));
+  mute = gst_stream_volume_get_mute (GST_STREAM_VOLUME (player->priv->play));
   player->priv->mute = mute;
   g_object_notify_by_pspec (G_OBJECT (player),
                             obj_properties[PROP_MUTE]);

@@ -49,7 +49,6 @@ Note 1: It doesn’t work if play_audio_play_bin or pt_audio_asr_bin are added t
 #include "pt-config.h"
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
-#include <gst/audio/streamvolume.h>
 #include <gst/gst.h>
 
 GST_DEBUG_CATEGORY_STATIC (gst_pt_audio_bin_debug);
@@ -57,19 +56,8 @@ GST_DEBUG_CATEGORY_STATIC (gst_pt_audio_bin_debug);
 
 #define parent_class gst_pt_audio_bin_parent_class
 
-G_DEFINE_TYPE_WITH_CODE (GstPtAudioBin, gst_pt_audio_bin, GST_TYPE_BIN, G_IMPLEMENT_INTERFACE (GST_TYPE_STREAM_VOLUME, NULL));
+G_DEFINE_TYPE (GstPtAudioBin, gst_pt_audio_bin, GST_TYPE_BIN);
 
-enum
-{
-  PROP_0,
-  PROP_MUTE,
-  PROP_VOLUME,
-  N_PROPERTIES
-};
-
-static GParamSpec *obj_properties[N_PROPERTIES] = {
-  NULL,
-};
 
 static GstPadProbeReturn
 change_mode_cb (GstPad *pad,
@@ -300,56 +288,6 @@ gst_pt_audio_bin_dispose (GObject *object)
 }
 
 static void
-gst_pt_audio_bin_set_property (GObject *object,
-                               guint property_id,
-                               const GValue *value,
-                               GParamSpec *pspec)
-{
-  GstPtAudioBin *self = GST_PT_AUDIO_BIN (object);
-
-  switch (property_id)
-    {
-    case PROP_MUTE:
-      g_object_set (self->play_bin,
-                    "mute", g_value_get_boolean (value), NULL);
-      break;
-    case PROP_VOLUME:
-      g_object_set (self->play_bin,
-                    "volume", g_value_get_double (value), NULL);
-      break;
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-      break;
-    }
-}
-
-static void
-gst_pt_audio_bin_get_property (GObject *object,
-                               guint property_id,
-                               GValue *value,
-                               GParamSpec *pspec)
-{
-  GstPtAudioBin *self = GST_PT_AUDIO_BIN (object);
-  gboolean mute;
-  gdouble volume;
-
-  switch (property_id)
-    {
-    case PROP_MUTE:
-      g_object_get (self->play_bin, "mute", &mute, NULL);
-      g_value_set_boolean (value, mute);
-      break;
-    case PROP_VOLUME:
-      g_object_get (self->play_bin, "volume", &volume, NULL);
-      g_value_set_double (value, volume);
-      break;
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-      break;
-    }
-}
-
-static void
 gst_pt_audio_bin_init (GstPtAudioBin *self)
 {
   GstElement *identity;
@@ -384,32 +322,7 @@ gst_pt_audio_bin_init (GstPtAudioBin *self)
 static void
 gst_pt_audio_bin_class_init (GstPtAudioBinClass *klass)
 {
-  G_OBJECT_CLASS (klass)->set_property = gst_pt_audio_bin_set_property;
-  G_OBJECT_CLASS (klass)->get_property = gst_pt_audio_bin_get_property;
   G_OBJECT_CLASS (klass)->dispose = gst_pt_audio_bin_dispose;
-
-  obj_properties[PROP_MUTE] =
-      g_param_spec_boolean (
-          "mute",
-          "Mute",
-          "mute channel",
-          FALSE,
-          G_PARAM_READWRITE | GST_PARAM_CONTROLLABLE |
-              G_PARAM_STATIC_STRINGS);
-
-  obj_properties[PROP_VOLUME] =
-      g_param_spec_double (
-          "volume",
-          "Volume",
-          "volume factor, 1.0=100%",
-          0.0, 1.0, 1.0,
-          G_PARAM_READWRITE | GST_PARAM_CONTROLLABLE |
-              G_PARAM_STATIC_STRINGS);
-
-  g_object_class_install_properties (
-      G_OBJECT_CLASS (klass),
-      N_PROPERTIES,
-      obj_properties);
 }
 
 static gboolean

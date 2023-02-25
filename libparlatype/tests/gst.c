@@ -124,60 +124,6 @@ gst_audioasrbin (void)
   gst_object_unref (asr);
 }
 
-static void
-gst_audioplaybin_new (void)
-{
-
-  GstElement *audioplaybin;
-  gdouble volume;
-  gboolean mute;
-
-  audioplaybin = gst_element_factory_make ("ptaudioplaybin", "testbin");
-  g_assert_nonnull (audioplaybin);
-  g_assert_true (GST_IS_STREAM_VOLUME (audioplaybin));
-
-  g_object_get (audioplaybin, "volume", &volume, "mute", &mute, NULL);
-  g_assert_cmpfloat (volume, ==, 1.0);
-  g_assert_false (mute);
-
-  gst_element_set_state (audioplaybin, GST_STATE_READY);
-  g_object_set (audioplaybin, "volume", 0.5, "mute", TRUE, NULL);
-
-  g_object_get (audioplaybin, "volume", &volume, "mute", &mute, NULL);
-  g_assert_cmpfloat (volume, ==, 0.5);
-  g_assert_true (mute);
-
-  gst_element_set_state (audioplaybin, GST_STATE_NULL);
-  gst_object_unref (audioplaybin);
-}
-
-static void
-gst_audiobin_new (void)
-{
-
-  GstElement *audiobin;
-  gdouble volume;
-  gboolean mute;
-
-  audiobin = gst_element_factory_make ("ptaudiobin", "testbin");
-  g_assert_nonnull (audiobin);
-  g_assert_true (GST_IS_STREAM_VOLUME (audiobin));
-
-  g_object_get (audiobin, "volume", &volume, "mute", &mute, NULL);
-  g_assert_cmpfloat (volume, ==, 1.0);
-  g_assert_false (mute);
-
-  gst_element_set_state (audiobin, GST_STATE_READY);
-  g_object_set (audiobin, "volume", 0.5, "mute", TRUE, NULL);
-
-  g_object_get (audiobin, "volume", &volume, "mute", &mute, NULL);
-  g_assert_cmpfloat (volume, ==, 0.5);
-  g_assert_true (mute);
-
-  gst_element_set_state (audiobin, GST_STATE_NULL);
-  gst_object_unref (audiobin);
-}
-
 int
 main (int argc, char *argv[])
 {
@@ -189,8 +135,6 @@ main (int argc, char *argv[])
   mock_plugin_register ();
 
   g_test_add_func ("/gst/audioasrbin_new", gst_audioasrbin);
-  g_test_add_func ("/gst/audioplaybin_new", gst_audioplaybin_new);
-  g_test_add_func ("/gst/audiobin_new", gst_audiobin_new);
 
   return g_test_run ();
 }

@@ -20,20 +20,15 @@
  *
  * This bin is an audio sink for normal playback.
  *
- *  .----------------------------------------------------.
- *  | pt_audio_play_bin                                  |
- *  | .-------------.   .-------------.   .------------. |
- *  | | capsfilter  |   | volume      |   | audiosink  | |
- *  -->             ----> (optional)  ---->            | |
- *  | '-------------'   '-------------'   '------------' |
- *  '----------------------------------------------------'
+ *  .----------------------------------.
+ *  | pt_audio_play_bin                |
+ *  | .-------------.   .------------. |
+ *  | | capsfilter  |   | audiosink  | |
+ *  -->             ---->            | |
+ *  | '-------------'   '------------' |
+ *  '----------------------------------'
  *
- * PtAudioPlaybin implements GstStreamVolume, that means it has "volume" and
- * "mute" properties.
- *
- * audiosink is chosen at runtime. If the chosen audiosink does not implement
- * GstStreamVolume a volume element is added. PtAudioPlayBin relays audiosink's
- * "volume" and "mute" properties or those of the volume element.
+ * audiosink is chosen at runtime.
  */
 
 #include "config.h"
@@ -42,7 +37,6 @@
 #include "gstptaudioplaybin.h"
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
-#include <gst/audio/streamvolume.h>
 #include <gst/gst.h>
 
 GST_DEBUG_CATEGORY_STATIC (gst_pt_audio_play_bin_debug);
@@ -50,19 +44,8 @@ GST_DEBUG_CATEGORY_STATIC (gst_pt_audio_play_bin_debug);
 
 #define parent_class gst_pt_audio_play_bin_parent_class
 
-G_DEFINE_TYPE_WITH_CODE (GstPtAudioPlayBin, gst_pt_audio_play_bin, GST_TYPE_BIN, G_IMPLEMENT_INTERFACE (GST_TYPE_STREAM_VOLUME, NULL));
+G_DEFINE_TYPE (GstPtAudioPlayBin, gst_pt_audio_play_bin, GST_TYPE_BIN);
 
-enum
-{
-  PROP_0,
-  PROP_VOLUME,
-  PROP_MUTE,
-  N_PROPERTIES
-};
-
-static GParamSpec *obj_properties[N_PROPERTIES] = {
-  NULL,
-};
 
 #ifndef G_OS_WIN32
 static gboolean
@@ -118,33 +101,9 @@ gst_pt_audio_play_bin_init (GstPtAudioPlayBin *bin)
   g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
                     "MESSAGE", "Audio sink is %s", sink);
 
-  /* Audiosinks without a "volume" property can be controlled by the
-   * playbin element, but there is a noticeable delay in setting the volume.
-   * Create a "volume" element for those audiosinks.
-   * The exception for directsoundsink is because "mute" doesn't work. */
-
-  if (!GST_IS_STREAM_VOLUME (audiosink) ||
-      g_strcmp0 ("sink", "directsoundsink") == 0)
-    {
-      g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO, "MESSAGE",
-                        "Creating a \"volume\" element for %s", sink);
-      bin->volume_changer = gst_element_factory_make ("volume", "volume");
-    }
-
-  if (bin->volume_changer)
-    {
-      gst_bin_add_many (GST_BIN (bin), capsfilter,
-                        bin->volume_changer, audiosink, NULL);
-      gst_element_link_many (capsfilter,
-                             bin->volume_changer, audiosink, NULL);
-    }
-  else
-    {
-      gst_bin_add_many (GST_BIN (bin),
-                        capsfilter, audiosink, NULL);
-      gst_element_link_many (capsfilter, audiosink, NULL);
-      bin->volume_changer = audiosink;
-    }
+  gst_bin_add_many (GST_BIN (bin),
+                   capsfilter, audiosink, NULL);
+  gst_element_link_many (capsfilter, audiosink, NULL);
 
   /* create ghost pad for audiosink */
   GstPad *audiopad = gst_element_get_static_pad (capsfilter, "sink");
@@ -154,83 +113,8 @@ gst_pt_audio_play_bin_init (GstPtAudioPlayBin *bin)
 }
 
 static void
-gst_pt_audio_play_bin_set_property (GObject *object,
-                                    guint property_id,
-                                    const GValue *value,
-                                    GParamSpec *pspec)
-{
-  GstPtAudioPlayBin *bin = GST_PT_AUDIO_PLAY_BIN (object);
-
-  switch (property_id)
-    {
-    case PROP_MUTE:
-      bin->mute = g_value_get_boolean (value);
-      g_object_set (bin->volume_changer, "mute", bin->mute, NULL);
-      break;
-    case PROP_VOLUME:
-      bin->volume = g_value_get_double (value);
-      g_object_set (bin->volume_changer, "volume", bin->volume, NULL);
-      break;
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-      break;
-    }
-}
-
-static void
-gst_pt_audio_play_bin_get_property (GObject *object,
-                                    guint property_id,
-                                    GValue *value,
-                                    GParamSpec *pspec)
-{
-  GstPtAudioPlayBin *bin = GST_PT_AUDIO_PLAY_BIN (object);
-
-  switch (property_id)
-    {
-    case PROP_MUTE:
-      g_object_get (bin->volume_changer, "mute", &bin->mute, NULL);
-      g_value_set_boolean (value, bin->mute);
-      break;
-    case PROP_VOLUME:
-      g_object_get (bin->volume_changer, "volume", &bin->volume, NULL);
-      g_value_set_double (value, bin->volume);
-      break;
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-      break;
-    }
-}
-
-static void
 gst_pt_audio_play_bin_class_init (GstPtAudioPlayBinClass *klass)
 {
-  GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-
-  gobject_class->get_property = gst_pt_audio_play_bin_get_property;
-  gobject_class->set_property = gst_pt_audio_play_bin_set_property;
-
-  obj_properties[PROP_MUTE] =
-      g_param_spec_boolean (
-          "mute",
-          "Mute",
-          "mute channel",
-          FALSE,
-          G_PARAM_READWRITE | GST_PARAM_CONTROLLABLE |
-              G_PARAM_STATIC_STRINGS);
-
-  obj_properties[PROP_VOLUME] =
-      g_param_spec_double (
-          "volume",
-          "Volume",
-          "volume factor, 1.0=100%",
-          0.0, 1.0, 1.0,
-          G_PARAM_READWRITE | GST_PARAM_CONTROLLABLE |
-              G_PARAM_STATIC_STRINGS);
-
-  g_object_class_install_properties (
-      G_OBJECT_CLASS (klass),
-      N_PROPERTIES,
-      obj_properties);
 }
 
 static gboolean
