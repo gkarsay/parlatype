@@ -14,26 +14,25 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef PT_PLAYER_H
 #define PT_PLAYER_H
 
-#if !defined (__PARLATYPE_H_INSIDE__) && !defined (PARLATYPE_COMPILATION)
+#if !defined(__PARLATYPE_H_INSIDE__) && !defined(PARLATYPE_COMPILATION)
 #error "Only <parlatype.h> can be included directly."
 #endif
 
-#include <gio/gio.h>
 #include "pt-config.h"
 #include "pt-waveviewer.h"
+#include <gio/gio.h>
 
 G_BEGIN_DECLS
 
-#define PT_TYPE_PLAYER		(pt_player_get_type())
-#define PT_PLAYER(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), PT_TYPE_PLAYER, PtPlayer))
-#define PT_IS_PLAYER(obj)	(G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_TYPE_PLAYER))
+#define PT_TYPE_PLAYER (pt_player_get_type ())
+#define PT_PLAYER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_TYPE_PLAYER, PtPlayer))
+#define PT_IS_PLAYER(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_TYPE_PLAYER))
 
-typedef struct _PtPlayer	PtPlayer;
-typedef struct _PtPlayerClass	PtPlayerClass;
+typedef struct _PtPlayer PtPlayer;
+typedef struct _PtPlayerClass PtPlayerClass;
 typedef struct _PtPlayerPrivate PtPlayerPrivate;
 
 /**
@@ -43,15 +42,15 @@ typedef struct _PtPlayerPrivate PtPlayerPrivate;
  */
 struct _PtPlayer
 {
-	GObject parent;
+  GObject parent;
 
-	/*< private > */
-	PtPlayerPrivate *priv;
+  /*< private > */
+  PtPlayerPrivate *priv;
 };
 
 struct _PtPlayerClass
 {
-	GObjectClass parent_class;
+  GObjectClass parent_class;
 };
 
 /**
@@ -62,14 +61,14 @@ struct _PtPlayerClass
  *
  * Enum values indicating PtPlayer’s current state.
  */
-typedef enum {
-	PT_STATE_STOPPED,
-	PT_STATE_PAUSED,
-	PT_STATE_PLAYING,
-	/*< private >*/
-	PT_STATE_INVALID
+typedef enum
+{
+  PT_STATE_STOPPED,
+  PT_STATE_PAUSED,
+  PT_STATE_PLAYING,
+  /*< private >*/
+  PT_STATE_INVALID
 } PtStateType;
-
 
 /**
  * PtModeType:
@@ -78,11 +77,12 @@ typedef enum {
  *
  * Enum values indicating PtPlayer output mode.
  */
-typedef enum {
-	PT_MODE_PLAYBACK,
-	PT_MODE_ASR,
-	/*< private >*/
-	PT_MODE_INVALID
+typedef enum
+{
+  PT_MODE_PLAYBACK,
+  PT_MODE_ASR,
+  /*< private >*/
+  PT_MODE_INVALID
 } PtModeType;
 
 /**
@@ -93,80 +93,80 @@ typedef enum {
  *
  * Enum values indicating desired precision of time strings.
  */
-typedef enum {
-	PT_PRECISION_SECOND,
-	PT_PRECISION_SECOND_10TH,
-	PT_PRECISION_SECOND_100TH,
-	/*< private >*/
-	PT_PRECISION_INVALID
+typedef enum
+{
+  PT_PRECISION_SECOND,
+  PT_PRECISION_SECOND_10TH,
+  PT_PRECISION_SECOND_100TH,
+  /*< private >*/
+  PT_PRECISION_INVALID
 } PtPrecisionType;
 
+GType pt_player_get_type (void) G_GNUC_CONST;
 
-GType		pt_player_get_type		(void) G_GNUC_CONST;
-
-void		pt_player_pause			(PtPlayer *player);
-void		pt_player_pause_and_rewind	(PtPlayer *player);
-gint		pt_player_get_pause		(PtPlayer *player);
-void		pt_player_play			(PtPlayer *player);
-void		pt_player_play_pause		(PtPlayer *player);
-void		pt_player_set_selection		(PtPlayer *player,
-					         gint64    start,
-					         gint64    end);
-void		pt_player_clear_selection	(PtPlayer *player);
-gboolean	pt_player_selection_active	(PtPlayer *player);
-gboolean	pt_player_open_uri		(PtPlayer *player,
-						 gchar    *uri);
-void		pt_player_jump_relative		(PtPlayer *player,
-						 gint      milliseconds);
-void		pt_player_jump_back		(PtPlayer *player);
-void		pt_player_jump_forward		(PtPlayer *player);
-gint		pt_player_get_back		(PtPlayer *player);
-gint		pt_player_get_forward		(PtPlayer *player);
-void		pt_player_jump_to_position	(PtPlayer *player,
-						 gint      milliseconds);
-gdouble		pt_player_get_speed		(PtPlayer *player);
-void		pt_player_set_speed		(PtPlayer *player,
-						 gdouble   speed);
-gdouble		pt_player_get_volume		(PtPlayer *player);
-void		pt_player_set_volume		(PtPlayer *player,
-						 gdouble   volume);
-gboolean	pt_player_get_mute		(PtPlayer *player);
-void		pt_player_set_mute		(PtPlayer *player,
-						 gboolean  mute);
-gint64		pt_player_get_position		(PtPlayer *player);
-gint64		pt_player_get_duration		(PtPlayer *player);
-gchar*		pt_player_get_uri		(PtPlayer *player);
-gchar*		pt_player_get_filename		(PtPlayer *player);
-gchar*		pt_player_get_time_string	(gint  time,
-						 gint  duration,
-						 PtPrecisionType precision);
-gchar*		pt_player_get_current_time_string	(PtPlayer *player,
-							 PtPrecisionType precision);
-gchar*		pt_player_get_duration_time_string	(PtPlayer *player,
-							 PtPrecisionType precision);
-gchar*		pt_player_get_timestamp_for_time	(PtPlayer *player,
-			                                 gint      time,
-			                                 gint      duration);
-gchar*		pt_player_get_timestamp		(PtPlayer *player);
-gint		pt_player_get_timestamp_position	(PtPlayer *player,
-							 gchar    *timestamp,
-							 gboolean  check_duration);
-gboolean	pt_player_string_is_timestamp	(PtPlayer *player,
-						 gchar    *timestamp,
-						 gboolean  check_duration);
-gboolean	pt_player_goto_timestamp	(PtPlayer *player,
-						 gchar    *timestamp);
-void		pt_player_connect_waveviewer	(PtPlayer *player,
-						 PtWaveviewer *wv);
-void		pt_player_set_mode		(PtPlayer  *player,
-						 PtModeType type);
-PtModeType	pt_player_get_mode		(PtPlayer  *player);
-gboolean	pt_player_configure_asr		(PtPlayer  *player,
-						 PtConfig  *config,
-						 GError   **error);
-gboolean	pt_player_config_is_loadable	(PtPlayer *player,
-						 PtConfig *config);
-PtPlayer*	pt_player_new			(void);
+void pt_player_pause (PtPlayer *player);
+void pt_player_pause_and_rewind (PtPlayer *player);
+gint pt_player_get_pause (PtPlayer *player);
+void pt_player_play (PtPlayer *player);
+void pt_player_play_pause (PtPlayer *player);
+void pt_player_set_selection (PtPlayer *player,
+                              gint64 start,
+                              gint64 end);
+void pt_player_clear_selection (PtPlayer *player);
+gboolean pt_player_selection_active (PtPlayer *player);
+gboolean pt_player_open_uri (PtPlayer *player,
+                             gchar *uri);
+void pt_player_jump_relative (PtPlayer *player,
+                              gint milliseconds);
+void pt_player_jump_back (PtPlayer *player);
+void pt_player_jump_forward (PtPlayer *player);
+gint pt_player_get_back (PtPlayer *player);
+gint pt_player_get_forward (PtPlayer *player);
+void pt_player_jump_to_position (PtPlayer *player,
+                                 gint milliseconds);
+gdouble pt_player_get_speed (PtPlayer *player);
+void pt_player_set_speed (PtPlayer *player,
+                          gdouble speed);
+gdouble pt_player_get_volume (PtPlayer *player);
+void pt_player_set_volume (PtPlayer *player,
+                           gdouble volume);
+gboolean pt_player_get_mute (PtPlayer *player);
+void pt_player_set_mute (PtPlayer *player,
+                         gboolean mute);
+gint64 pt_player_get_position (PtPlayer *player);
+gint64 pt_player_get_duration (PtPlayer *player);
+gchar *pt_player_get_uri (PtPlayer *player);
+gchar *pt_player_get_filename (PtPlayer *player);
+gchar *pt_player_get_time_string (gint time,
+                                  gint duration,
+                                  PtPrecisionType precision);
+gchar *pt_player_get_current_time_string (PtPlayer *player,
+                                          PtPrecisionType precision);
+gchar *pt_player_get_duration_time_string (PtPlayer *player,
+                                           PtPrecisionType precision);
+gchar *pt_player_get_timestamp_for_time (PtPlayer *player,
+                                         gint time,
+                                         gint duration);
+gchar *pt_player_get_timestamp (PtPlayer *player);
+gint pt_player_get_timestamp_position (PtPlayer *player,
+                                       gchar *timestamp,
+                                       gboolean check_duration);
+gboolean pt_player_string_is_timestamp (PtPlayer *player,
+                                        gchar *timestamp,
+                                        gboolean check_duration);
+gboolean pt_player_goto_timestamp (PtPlayer *player,
+                                   gchar *timestamp);
+void pt_player_connect_waveviewer (PtPlayer *player,
+                                   PtWaveviewer *wv);
+void pt_player_set_mode (PtPlayer *player,
+                         PtModeType type);
+PtModeType pt_player_get_mode (PtPlayer *player);
+gboolean pt_player_configure_asr (PtPlayer *player,
+                                  PtConfig *config,
+                                  GError **error);
+gboolean pt_player_config_is_loadable (PtPlayer *player,
+                                       PtConfig *config);
+PtPlayer *pt_player_new (void);
 
 G_END_DECLS
 
