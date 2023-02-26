@@ -115,15 +115,6 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtPlayer, pt_player, G_TYPE_OBJECT)
 
 /* -------------------------- static helpers -------------------------------- */
 
-static gboolean
-pt_player_query_position (PtPlayer *player,
-                          gpointer position)
-{
-  gboolean result;
-  result = gst_element_query_position (player->priv->play, GST_FORMAT_TIME, position);
-  return result;
-}
-
 static void
 pt_player_clear (PtPlayer *player)
 {
@@ -181,7 +172,7 @@ metadata_save_position (PtPlayer *player)
   GFile *file = NULL;
   gint64 pos;
 
-  if (!pt_player_query_position (player, &pos))
+  if (!gst_element_query_position (player->priv->play, GST_FORMAT_TIME, &pos))
     return;
 
   file = pt_player_get_file (player);
@@ -251,7 +242,7 @@ bus_call (GstBus *bus,
       /* We rely on that SEGMENT_DONE/EOS is exactly at the end of segment.
          This works in Debian 8, but not Ubuntu 16.04 (because of newer GStreamer?)
          with mp3s. Jump to the real end. */
-      pt_player_query_position (player, &pos);
+      gst_element_query_position (player->priv->play, GST_FORMAT_TIME, &pos);
       if (pos != player->priv->segend)
         {
           g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
@@ -275,7 +266,7 @@ bus_call (GstBus *bus,
         else
           {
             player->priv->dur = player->priv->segend = dur;
-            pt_player_query_position (player, &pos);
+            gst_element_query_position (player->priv->play, GST_FORMAT_TIME, &pos);
             pt_player_seek (player, pos);
           }
         break;
@@ -540,7 +531,7 @@ pt_player_play (PtPlayer *player)
       selection = pt_player_selection_active (player);
     }
 
-  if (!pt_player_query_position (player, &pos))
+  if (!gst_element_query_position (player->priv->play, GST_FORMAT_TIME, &pos))
     return;
 
   gst_element_get_state (
@@ -624,7 +615,7 @@ pt_player_set_selection (PtPlayer *player,
 
   gint64 pos;
 
-  if (!pt_player_query_position (player, &pos))
+  if (!gst_element_query_position (player->priv->play, GST_FORMAT_TIME, &pos))
     return;
 
   if (pos < player->priv->segstart || pos > player->priv->segend)
@@ -648,7 +639,7 @@ pt_player_clear_selection (PtPlayer *player)
 
   gint64 pos;
 
-  if (!pt_player_query_position (player, &pos))
+  if (!gst_element_query_position (player->priv->play, GST_FORMAT_TIME, &pos))
     return;
 
   player->priv->segstart = 0;
@@ -700,7 +691,7 @@ pt_player_jump_relative (PtPlayer *player,
 
   gint64 pos, new;
 
-  if (!pt_player_query_position (player, &pos))
+  if (!gst_element_query_position (player->priv->play, GST_FORMAT_TIME, &pos))
     return;
 
   new = pos + GST_MSECOND *(gint64) milliseconds;
@@ -879,7 +870,7 @@ pt_player_set_speed (PtPlayer *player,
   if (player->priv->play == NULL)
     return;
 
-  if (pt_player_query_position (player, &pos))
+  if (gst_element_query_position (player->priv->play, GST_FORMAT_TIME, &pos))
     pt_player_seek (player, pos);
 
   g_object_notify_by_pspec (G_OBJECT (player),
@@ -1005,7 +996,7 @@ pt_player_get_position (PtPlayer *player)
 
   gint64 time;
 
-  if (!pt_player_query_position (player, &time))
+  if (!gst_element_query_position (player->priv->play, GST_FORMAT_TIME, &time))
     return -1;
 
   return GST_TIME_AS_MSECONDS (time);
@@ -1054,7 +1045,7 @@ wv_selection_changed_cb (GtkWidget *widget,
   gint64 start, end, pos;
   if (pt_player_selection_active (player))
     {
-      if (!pt_player_query_position (player, &pos))
+      if (!gst_element_query_position (player->priv->play, GST_FORMAT_TIME, &pos))
         return;
       g_object_get (player->priv->wv,
                     "selection-start", &start,
@@ -1357,7 +1348,7 @@ pt_player_get_current_time_string (PtPlayer *player,
 
   gint64 time;
 
-  if (!pt_player_query_position (player, &time))
+  if (!gst_element_query_position (player->priv->play, GST_FORMAT_TIME, &time))
     return NULL;
 
   return pt_player_get_time_string (
@@ -1527,7 +1518,7 @@ pt_player_get_timestamp (PtPlayer *player)
   gint64 time;
   gint duration;
 
-  if (!pt_player_query_position (player, &time))
+  if (!gst_element_query_position (player->priv->play, GST_FORMAT_TIME, &time))
     return NULL;
 
   duration = GST_TIME_AS_MSECONDS (player->priv->dur);
