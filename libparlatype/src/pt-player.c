@@ -1727,9 +1727,13 @@ notify_volume_idle_cb (PtPlayer *player)
 
   vol = gst_stream_volume_get_volume (GST_STREAM_VOLUME (player->priv->play),
                                       GST_STREAM_VOLUME_FORMAT_CUBIC);
-  player->priv->volume = vol;
-  g_object_notify_by_pspec (G_OBJECT (player),
-                            obj_properties[PROP_VOLUME]);
+  if (vol != player->priv->volume)
+    {
+      player->priv->volume = vol;
+      g_object_notify_by_pspec (G_OBJECT (player),
+                                obj_properties[PROP_VOLUME]);
+    }
+
   return FALSE;
 }
 
@@ -1752,9 +1756,13 @@ notify_mute_idle_cb (PtPlayer *player)
   gboolean mute;
 
   mute = gst_stream_volume_get_mute (GST_STREAM_VOLUME (player->priv->play));
-  player->priv->mute = mute;
-  g_object_notify_by_pspec (G_OBJECT (player),
-                            obj_properties[PROP_MUTE]);
+  if (mute != player->priv->mute)
+    {
+      player->priv->mute = mute;
+      g_object_notify_by_pspec (G_OBJECT (player),
+                                obj_properties[PROP_MUTE]);
+    }
+
   return FALSE;
 }
 
