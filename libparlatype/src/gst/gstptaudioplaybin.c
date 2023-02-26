@@ -33,11 +33,13 @@
 
 #include "config.h"
 #define GETTEXT_PACKAGE GETTEXT_LIB
-#include "gst-helpers.h"
-#include "gstptaudioplaybin.h"
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
 #include <gst/gst.h>
+#include <gst/audio/streamvolume.h>
+#include "gst-helpers.h"
+#include "gstptaudioplaybin.h"
+
 
 GST_DEBUG_CATEGORY_STATIC (gst_pt_audio_play_bin_debug);
 #define GST_CAT_DEFAULT gst_pt_audio_play_bin_debug
@@ -100,6 +102,10 @@ gst_pt_audio_play_bin_init (GstPtAudioPlayBin *bin)
 
   g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
                     "MESSAGE", "Audio sink is %s", sink);
+
+  g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                    "MESSAGE", "Audio sink implements stream volume: %s",
+                    GST_IS_STREAM_VOLUME (audiosink) ? "yes" : "no");
 
   gst_bin_add_many (GST_BIN (bin),
                    capsfilter, audiosink, NULL);
