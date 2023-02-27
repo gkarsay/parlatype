@@ -301,8 +301,8 @@ bus_call (GstBus *bus,
           }
 
         gdouble volume;
-        volume = gst_stream_volume_get_volume (GST_STREAM_VOLUME (player->priv->play),
-                                               GST_STREAM_VOLUME_FORMAT_CUBIC);
+        g_object_get (player->priv->play, "volume", &volume, NULL);
+
         if (player->priv->volume != volume)
           {
             player->priv->volume = volume;
@@ -899,13 +899,12 @@ pt_player_get_volume (PtPlayer *player)
 
   if (player->priv->play)
     {
-      volume = gst_stream_volume_get_volume (
-          GST_STREAM_VOLUME (player->priv->play),
-          GST_STREAM_VOLUME_FORMAT_CUBIC);
-      if (player->priv->volume != volume)
-        player->priv->volume = volume;
+      g_object_get (player->priv->play, "volume", &volume, NULL);
+      player->priv->volume = volume;
     }
-  return player->priv->volume;
+  return gst_stream_volume_convert_volume (GST_STREAM_VOLUME_FORMAT_LINEAR,
+                                           GST_STREAM_VOLUME_FORMAT_CUBIC,
+                                           player->priv->volume);
 }
 
 /**
@@ -925,15 +924,16 @@ pt_player_set_volume (PtPlayer *player,
   g_return_if_fail (PT_IS_PLAYER (player));
   g_return_if_fail (volume >= 0 && volume <= 1);
 
+  volume = gst_stream_volume_convert_volume (GST_STREAM_VOLUME_FORMAT_CUBIC,
+                                             GST_STREAM_VOLUME_FORMAT_LINEAR,
+                                             volume);
+  if (volume == player->priv->volume)
+    return;
+
   player->priv->volume = volume;
 
   if (player->priv->play)
-    gst_stream_volume_set_volume (GST_STREAM_VOLUME (player->priv->play),
-                                  GST_STREAM_VOLUME_FORMAT_CUBIC,
-                                  volume);
-
-  g_object_notify_by_pspec (G_OBJECT (player),
-                            obj_properties[PROP_VOLUME]);
+    g_object_set (player->priv->play, "volume", volume, NULL);
 }
 
 /**
@@ -954,7 +954,7 @@ pt_player_get_mute (PtPlayer *player)
   gboolean retval = FALSE;
 
   if (player->priv->play)
-    retval = gst_stream_volume_get_mute (GST_STREAM_VOLUME (player->priv->play));
+    g_object_get (player->priv->play, "mute", &retval, NULL);
 
   return retval;
 }
@@ -975,8 +975,12 @@ pt_player_set_mute (PtPlayer *player,
 {
   g_return_if_fail (PT_IS_PLAYER (player));
 
+  if (mute == player->priv->mute)
+    return;
+
+  player->priv->mute = mute;
   if (player->priv->play)
-    gst_stream_volume_set_mute (GST_STREAM_VOLUME (player->priv->play), mute);
+    g_object_set (player->priv->play, "mute", mute, NULL);
 }
 
 /**
@@ -1714,10 +1718,13 @@ pt_player_goto_timestamp (PtPlayer *player,
 static gboolean
 notify_volume_idle_cb (PtPlayer *player)
 {
+  if (!player->priv->play)
+    return FALSE;
+
   gdouble vol;
 
-  vol = gst_stream_volume_get_volume (GST_STREAM_VOLUME (player->priv->play),
-                                      GST_STREAM_VOLUME_FORMAT_CUBIC);
+  g_object_get (player->priv->play, "volume", &vol, NULL);
+
   if (vol != player->priv->volume)
     {
       player->priv->volume = vol;
@@ -1746,7 +1753,8 @@ notify_mute_idle_cb (PtPlayer *player)
 {
   gboolean mute;
 
-  mute = gst_stream_volume_get_mute (GST_STREAM_VOLUME (player->priv->play));
+  g_object_get (player->priv->play, "mute", &mute, NULL);
+
   if (mute != player->priv->mute)
     {
       player->priv->mute = mute;
