@@ -639,11 +639,11 @@ pt_player_clear_selection (PtPlayer *player)
 
   gint64 pos;
 
-  if (!gst_element_query_position (player->priv->play, GST_FORMAT_TIME, &pos))
-    return;
-
   player->priv->segstart = 0;
   player->priv->segend = player->priv->dur;
+
+  if (!gst_element_query_position (player->priv->play, GST_FORMAT_TIME, &pos))
+    return;
 
   pt_player_seek (player, pos);
 }
