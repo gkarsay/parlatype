@@ -56,7 +56,9 @@ struct _PtPlayerPrivate
   PtPositionManager *pos_mgr;
   GHashTable *plugins;
 
-  PtStateType state;
+  PtStateType app_state;
+  GstState current_state;
+  GstState target_state;
   gint64 dur;
   gdouble speed;
   gdouble volume;
@@ -119,6 +121,8 @@ static void
 pt_player_clear (PtPlayer *player)
 {
   remove_message_bus (player);
+  player->priv->target_state = GST_STATE_NULL;
+  player->priv->current_state = GST_STATE_NULL;
   gst_element_set_state (player->priv->play, GST_STATE_NULL);
 }
 
@@ -201,6 +205,42 @@ metadata_goto_position (PtPlayer *player)
   g_object_unref (file);
 }
 
+const static gchar*
+pt_player_get_state_name (PtStateType state)
+{
+  switch (state)
+    {
+    case PT_STATE_STOPPED:
+      return "stopped";
+    case PT_STATE_PAUSED:
+      return "paused";
+    case PT_STATE_PLAYING:
+      return "playing";
+    case PT_STATE_INVALID:
+      return NULL;
+    }
+
+  return NULL;
+}
+
+static void
+change_app_state (PtPlayer *player,
+                  PtStateType state)
+{
+  if (state == player->priv->app_state)
+    return;
+
+  g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                    "MESSAGE", "Changing app state from %s to %s",
+                    pt_player_get_state_name (player->priv->app_state),
+                    pt_player_get_state_name (state));
+
+  player->priv->app_state = state;
+
+  g_object_notify_by_pspec (G_OBJECT (player),
+                            obj_properties[PROP_STATE]);
+}
+
 static void
 remove_message_bus (PtPlayer *player)
 {
@@ -277,27 +317,21 @@ bus_call (GstBus *bus,
           break;
         GstState old_state, new_state;
         gst_message_parse_state_changed (msg, &old_state, &new_state, NULL);
-        if (old_state != new_state)
+
+        player->priv->current_state = new_state;
+
+        if (new_state == GST_STATE_PLAYING)
           {
-            if (new_state == GST_STATE_PLAYING)
-              {
-                player->priv->state = PT_STATE_PLAYING;
-                g_object_notify_by_pspec (G_OBJECT (player),
-                                          obj_properties[PROP_STATE]);
-              }
-            if (new_state == GST_STATE_PAUSED)
-              {
-                player->priv->state = PT_STATE_PAUSED;
-                g_object_notify_by_pspec (G_OBJECT (player),
-                                          obj_properties[PROP_STATE]);
-              }
-            if (new_state <= GST_STATE_READY &&
-                old_state >= GST_STATE_PAUSED)
-              {
-                player->priv->state = PT_STATE_STOPPED;
-                g_object_notify_by_pspec (G_OBJECT (player),
-                                          obj_properties[PROP_STATE]);
-              }
+            change_app_state (player, PT_STATE_PLAYING);
+          }
+        if (new_state == GST_STATE_PAUSED)
+          {
+            change_app_state (player, PT_STATE_PAUSED);
+          }
+        if (new_state <= GST_STATE_READY &&
+            old_state >= GST_STATE_PAUSED)
+          {
+            change_app_state (player, PT_STATE_STOPPED);
           }
 
         gdouble volume;
@@ -439,15 +473,13 @@ pt_player_pause (PtPlayer *player)
 {
   g_return_if_fail (PT_IS_PLAYER (player));
 
-  GstState previous;
-
-  gst_element_get_state (
-      player->priv->play,
-      &previous, NULL,
-      GST_CLOCK_TIME_NONE);
+  GstState previous = player->priv->current_state;
 
   if (previous != GST_STATE_PAUSED)
-    gst_element_set_state (player->priv->play, GST_STATE_PAUSED);
+    {
+      player->priv->target_state = GST_STATE_PAUSED;
+      gst_element_set_state (player->priv->play, GST_STATE_PAUSED);
+    }
 
   if (previous == GST_STATE_PLAYING)
     g_signal_emit_by_name (player, "play-toggled");
@@ -534,10 +566,7 @@ pt_player_play (PtPlayer *player)
   if (!gst_element_query_position (player->priv->play, GST_FORMAT_TIME, &pos))
     return;
 
-  gst_element_get_state (
-      player->priv->play,
-      &previous, NULL,
-      GST_CLOCK_TIME_NONE);
+  previous = player->priv->current_state;
 
   if (pos == player->priv->segend)
     {
@@ -547,6 +576,7 @@ pt_player_play (PtPlayer *player)
         pt_player_jump_relative (player, player->priv->pause * -1);
     }
 
+  player->priv->target_state = GST_STATE_PLAYING;
   gst_element_set_state (player->priv->play, GST_STATE_PLAYING);
   if (previous == GST_STATE_PAUSED)
     g_signal_emit_by_name (player, "play-toggled");
@@ -565,14 +595,7 @@ pt_player_play_pause (PtPlayer *player)
 {
   g_return_if_fail (PT_IS_PLAYER (player));
 
-  GstState state;
-
-  gst_element_get_state (
-      player->priv->play,
-      &state, NULL,
-      GST_CLOCK_TIME_NONE);
-
-  switch (state)
+  switch (player->priv->current_state)
     {
     case GST_STATE_NULL:
       return;
@@ -2033,7 +2056,7 @@ pt_player_get_property (GObject *object,
   switch (property_id)
     {
     case PROP_STATE:
-      g_value_set_int (value, player->priv->state);
+      g_value_set_int (value, player->priv->app_state);
       break;
     case PROP_CURRENT_URI:
       g_object_get (G_OBJECT (player->priv->play), "current-uri", &uri, NULL);
@@ -2140,6 +2163,9 @@ pt_player_init (PtPlayer *player)
   /* Forward current-uri changes */
   g_signal_connect (G_OBJECT (priv->play),
                     "notify::current-uri", G_CALLBACK (uri_changed), player);
+
+  player->priv->current_state = GST_STATE_NULL;
+  player->priv->target_state = GST_STATE_NULL;
 }
 
 static void
@@ -2469,8 +2495,8 @@ pt_player_class_init (PtPlayerClass *klass)
           "state",
           "State",
           "PtPlayer’s current state",
-          0, /* minimum = PT_MODE_EMPTY */
-          4, /* maximum = PT_MODE_INVALID */
+          0, /* minimum = PT_STATE_STOPPED */
+          2, /* maximum = PT_STATE_PLAYING */
           0,
           G_PARAM_READABLE);
 
