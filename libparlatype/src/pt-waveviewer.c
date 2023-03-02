@@ -527,12 +527,6 @@ pt_waveviewer_motion_event (GtkEventControllerMotion *ctrl,
 	clicked = (gint) x;
 	pos = pixel_to_time (self, clicked + gtk_adjustment_get_value (self->priv->adj));
 
-	/* Right mouse button sets cursor */
-	if (state & GDK_BUTTON3_MASK) {
-		g_signal_emit_by_name (self, "cursor-changed", pos);
-		return TRUE;
-	}
-
 	/* Left mouse button (with or without Shift key) sets selection */
 	if (state & GDK_BUTTON1_MASK || state & GDK_BUTTON1_MASK & GDK_SHIFT_MASK) {
 		self->priv->dragend = pos;
