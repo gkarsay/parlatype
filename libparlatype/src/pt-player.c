@@ -12,6 +12,8 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Parts of this program are taken from or inspired by GStreamer’s gstplay.c.
  */
 
 /**
@@ -59,6 +61,13 @@ struct _PtPlayerPrivate
   PtStateType app_state;
   GstState current_state;
   GstState target_state;
+
+  GMutex lock;
+  gboolean seek_pending;
+  GstClockTime last_seek_time;
+  GSource *seek_source;
+  GstClockTime seek_position;
+
   gint64 dur;
   gdouble speed;
   gdouble volume;
@@ -127,30 +136,120 @@ pt_player_clear (PtPlayer *player)
 }
 
 static void
-pt_player_seek (PtPlayer *player,
-                gint64 position)
+remove_seek_source (PtPlayer *player)
 {
-  /* Set the pipeline to @position.
-     The stop position (player->priv->segend) usually doesn’t has to be
-     set, but it’s important after a segment/selection change and after
-     a rewind (trickmode) has been completed. To simplify things, we
-     always set the stop position. */
+  if (!player->priv->seek_source)
+    return;
 
-  gst_element_seek (
+  g_source_destroy (player->priv->seek_source);
+  g_source_unref (player->priv->seek_source);
+  player->priv->seek_source = NULL;
+}
+
+static void
+pt_player_seek_internal_locked (PtPlayer *player)
+{
+  gboolean ret;
+  GstClockTime position;
+  gdouble speed;
+  GstStateChangeReturn state_ret;
+
+  remove_seek_source (player);
+
+  if (player->priv->current_state < GST_STATE_PAUSED)
+    return;
+
+  if (player->priv->current_state != GST_STATE_PAUSED)
+    {
+      g_mutex_unlock (&player->priv->lock);
+      state_ret = gst_element_set_state (player->priv->play, GST_STATE_PAUSED);
+      if (state_ret == GST_STATE_CHANGE_FAILURE)
+        {
+          g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_ERROR,
+                            "MESSAGE", "Failed to seek");
+          /* on error */
+        }
+      g_mutex_lock (&player->priv->lock);
+      return;
+    }
+
+  player->priv->last_seek_time = gst_util_get_timestamp ();
+  position = player->priv->seek_position;
+  player->priv->seek_position = GST_CLOCK_TIME_NONE;
+  player->priv->seek_pending = TRUE;
+  speed = player->priv->speed;
+  g_mutex_unlock (&player->priv->lock);
+
+  g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                    "MESSAGE", "Seek to %" GST_TIME_FORMAT,
+                    GST_TIME_ARGS(position));
+
+  ret = gst_element_seek (
       player->priv->play,
-      player->priv->speed,
+      speed,
       GST_FORMAT_TIME,
-      GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE,
+      GST_SEEK_FLAG_FLUSH,
       GST_SEEK_TYPE_SET,
       position,
       GST_SEEK_TYPE_SET,
       player->priv->segend);
 
-  /* Block until state changed */
-  gst_element_get_state (
-      player->priv->play,
-      NULL, NULL,
-      GST_CLOCK_TIME_NONE);
+  if (!ret)
+    {
+      g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                        "MESSAGE", "Failed to seek to %" GST_TIME_FORMAT,
+                        GST_TIME_ARGS(position));
+    }
+
+  g_mutex_lock (&player->priv->lock);
+}
+
+static gboolean
+pt_player_seek_internal (gpointer user_data)
+{
+  PtPlayer *player = PT_PLAYER (user_data);
+
+  g_mutex_lock (&player->priv->lock);
+  pt_player_seek_internal_locked (player);
+  g_mutex_unlock (&player->priv->lock);
+
+  return G_SOURCE_REMOVE;
+}
+
+static void
+pt_player_seek (PtPlayer *player,
+                gint64 position)
+{
+  g_mutex_lock (&player->priv->lock);
+
+  player->priv->seek_position = position;
+
+  if (!player->priv->seek_source)
+    {
+      GstClockTime now = gst_util_get_timestamp ();
+      if (!player->priv->seek_pending || (now - player->priv->last_seek_time > 250 * GST_MSECOND))
+        {
+          player->priv->seek_source = g_idle_source_new ();
+          g_source_set_callback (player->priv->seek_source, (GSourceFunc) pt_player_seek_internal, player, NULL);
+          g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                            "MESSAGE", "Dispatching seek to position %" GST_TIME_FORMAT,
+                            GST_TIME_ARGS (position));
+          g_source_attach (player->priv->seek_source, NULL);
+        }
+      else
+        {
+          guint delay = 250000 - (now - player->priv->last_seek_time) / 1000;
+          player->priv->seek_source = g_timeout_source_new (delay);
+          g_source_set_callback (player->priv->seek_source, (GSourceFunc) pt_player_seek_internal, player, NULL);
+          g_source_set_callback (player->priv->seek_source, (GSourceFunc) pt_player_seek_internal, player, NULL);
+          g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                            "MESSAGE", "Delaying seek to position %" GST_TIME_FORMAT "by %u microseconds",
+                            GST_TIME_ARGS (position), delay);
+          g_source_attach (player->priv->seek_source, NULL);
+        }
+    }
+
+  g_mutex_unlock (&player->priv->lock);
 }
 
 static GFile *
@@ -298,7 +397,7 @@ bus_call (GstBus *bus,
         gint64 dur;
         gst_element_query_duration (player->priv->play, GST_FORMAT_TIME, &dur);
         g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG, "MESSAGE",
-                          "New duration: %" G_GINT64_FORMAT, dur);
+                          "New duration: %" GST_TIME_FORMAT, GST_TIME_ARGS (dur));
         if (player->priv->dur != player->priv->segend)
           {
             player->priv->dur = dur;
@@ -315,33 +414,77 @@ bus_call (GstBus *bus,
       {
         if (GST_MESSAGE_SRC (msg) != GST_OBJECT (player->priv->play))
           break;
-        GstState old_state, new_state;
-        gst_message_parse_state_changed (msg, &old_state, &new_state, NULL);
+        GstState old_state, new_state, pending_state;
+        gst_message_parse_state_changed (msg, &old_state, &new_state, &pending_state);
 
         player->priv->current_state = new_state;
 
-        if (new_state == GST_STATE_PLAYING)
+        if (old_state == GST_STATE_READY && new_state == GST_STATE_PAUSED
+            && pending_state == GST_STATE_VOID_PENDING)
           {
-            change_app_state (player, PT_STATE_PLAYING);
+            g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                              "MESSAGE", "Initial PAUSED - pre-rolled");
           }
-        if (new_state == GST_STATE_PAUSED)
+
+        if (new_state == GST_STATE_PAUSED && pending_state == GST_STATE_VOID_PENDING)
           {
-            change_app_state (player, PT_STATE_PAUSED);
+            g_mutex_lock (&player->priv->lock);
+            if (player->priv->seek_pending)
+              {
+                player->priv->seek_pending = FALSE;
+                if (player->priv->seek_source)
+                  {
+                    g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG, "MESSAGE",
+                                      "Seek finished but new seek is pending");
+                    pt_player_seek_internal_locked (player);
+                  }
+                else
+                  {
+                    g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG, "MESSAGE",
+                                      "Seek finished");
+                    g_signal_emit_by_name (player, "seek-done");
+                  }
+              }
+            if (player->priv->seek_position != GST_CLOCK_TIME_NONE)
+              {
+                g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG, "MESSAGE",
+                                  "Seeking now that we reached PAUSED state");
+                pt_player_seek_internal_locked (player);
+                g_mutex_unlock (&player->priv->lock);
+              }
+            else if (!player->priv->seek_pending)
+              {
+                g_mutex_unlock (&player->priv->lock);
+                if (player->priv->target_state >= GST_STATE_PLAYING)
+                  {
+                    GstStateChangeReturn state_ret;
+                    state_ret = gst_element_set_state (player->priv->play, GST_STATE_PLAYING);
+                    if (state_ret == GST_STATE_CHANGE_FAILURE)
+                      {
+                        g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_ERROR,
+                                          "MESSAGE", "Failed to play");
+                      }
+                  }
+                else
+                  {
+                    change_app_state (player, PT_STATE_PAUSED);
+                  }
+              }
+            else
+              {
+                g_mutex_unlock (&player->priv->lock);
+              }
           }
-        if (new_state <= GST_STATE_READY &&
-            old_state >= GST_STATE_PAUSED)
+
+        if (new_state == GST_STATE_PLAYING && pending_state == GST_STATE_VOID_PENDING)
+          {
+            if (!player->priv->seek_pending)
+              change_app_state (player, PT_STATE_PLAYING);
+          }
+        if (new_state == GST_STATE_READY &&
+            old_state > GST_STATE_READY)
           {
             change_app_state (player, PT_STATE_STOPPED);
-          }
-
-        gdouble volume;
-        g_object_get (player->priv->play, "volume", &volume, NULL);
-
-        if (player->priv->volume != volume)
-          {
-            player->priv->volume = volume;
-            g_object_notify_by_pspec (G_OBJECT (player),
-                                      obj_properties[PROP_VOLUME]);
           }
         break;
       }
@@ -451,7 +594,7 @@ pt_player_open_uri (PtPlayer *player,
   player->priv->dur = player->priv->segend = dur;
   player->priv->segstart = 0;
   g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG, "MESSAGE",
-                    "Initial duration: %" G_GINT64_FORMAT, dur);
+                    "Initial duration: %" GST_TIME_FORMAT, GST_TIME_ARGS (dur));
 
   metadata_goto_position (player);
   return TRUE;
@@ -719,9 +862,9 @@ pt_player_jump_relative (PtPlayer *player,
 
   new = pos + GST_MSECOND *(gint64) milliseconds;
   g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
-                    "MESSAGE", "Jump relative: dur = %" G_GINT64_FORMAT, player->priv->dur);
+                    "MESSAGE", "Jump relative: dur = %" GST_TIME_FORMAT, GST_TIME_ARGS (player->priv->dur));
   g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
-                    "MESSAGE", "Jump relative: new = %" G_GINT64_FORMAT, new);
+                    "MESSAGE", "Jump relative: new = %" GST_TIME_FORMAT, GST_TIME_ARGS (new));
 
   if (new > player->priv->segend)
     new = player->priv->segend;
@@ -834,13 +977,15 @@ pt_player_jump_to_position (PtPlayer *player,
   if (pos < player->priv->segstart)
     {
       g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
-                        "MESSAGE", "Setting position failed: target %" G_GINT64_FORMAT " before segstart %" G_GINT64_FORMAT, pos, player->priv->segstart);
+                        "MESSAGE", "Setting position failed: target %" GST_TIME_FORMAT " before segstart %" GST_TIME_FORMAT,
+                        GST_TIME_ARGS (pos), GST_TIME_ARGS (player->priv->segstart));
       return;
     }
   if (player->priv->segend != -1 && pos > player->priv->segend)
     {
       g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
-                        "MESSAGE", "Setting position failed: target %" G_GINT64_FORMAT " after segend %" G_GINT64_FORMAT, pos, player->priv->segend);
+                        "MESSAGE", "Setting position failed: target %" GST_TIME_FORMAT " after segend %" GST_TIME_FORMAT,
+                        GST_TIME_ARGS (pos), GST_TIME_ARGS (player->priv->segend));
       return;
     }
 
@@ -957,6 +1102,9 @@ pt_player_set_volume (PtPlayer *player,
 
   if (player->priv->play)
     g_object_set (player->priv->play, "volume", volume, NULL);
+
+  g_object_notify_by_pspec (G_OBJECT (player),
+                            obj_properties[PROP_VOLUME]);
 }
 
 /**
@@ -1741,8 +1889,8 @@ pt_player_goto_timestamp (PtPlayer *player,
 static gboolean
 notify_volume_idle_cb (PtPlayer *player)
 {
-  if (!player->priv->play)
-    return FALSE;
+  if (!PT_IS_PLAYER (player))
+      return G_SOURCE_REMOVE;
 
   gdouble vol;
 
@@ -1774,6 +1922,9 @@ vol_changed (GObject *object,
 static gboolean
 notify_mute_idle_cb (PtPlayer *player)
 {
+  if (!PT_IS_PLAYER (player))
+      return G_SOURCE_REMOVE;
+
   gboolean mute;
 
   g_object_get (player->priv->play, "mute", &mute, NULL);
@@ -1950,6 +2101,7 @@ pt_player_dispose (GObject *object)
 {
   PtPlayer *player = PT_PLAYER (object);
 
+  remove_seek_source (player);
   if (player->priv->play)
     {
       /* remember position */
@@ -1965,6 +2117,16 @@ pt_player_dispose (GObject *object)
     }
 
   G_OBJECT_CLASS (pt_player_parent_class)->dispose (object);
+}
+
+static void
+pt_player_finalize (GObject *object)
+{
+  PtPlayer *player = PT_PLAYER (object);
+
+  g_mutex_clear (&player->priv->lock);
+
+  G_OBJECT_CLASS (pt_player_parent_class)->finalize (object);
 }
 
 static void
@@ -2119,6 +2281,11 @@ pt_player_init (PtPlayer *player)
   priv->pos_mgr = pt_position_manager_new ();
   priv->plugins = g_hash_table_new_full (g_str_hash, g_str_equal,
                                          g_free, NULL);
+  g_mutex_init (&priv->lock);
+
+  priv->seek_pending = FALSE;
+  priv->seek_position = GST_CLOCK_TIME_NONE;
+  priv->last_seek_time = GST_CLOCK_TIME_NONE;
 
   gst_init (NULL, NULL);
 
@@ -2174,6 +2341,7 @@ pt_player_class_init (PtPlayerClass *klass)
   G_OBJECT_CLASS (klass)->set_property = pt_player_set_property;
   G_OBJECT_CLASS (klass)->get_property = pt_player_get_property;
   G_OBJECT_CLASS (klass)->dispose = pt_player_dispose;
+  G_OBJECT_CLASS (klass)->finalize = pt_player_finalize;
 
   /**
    * PtPlayer::end-of-stream:
@@ -2218,6 +2386,23 @@ pt_player_class_init (PtPlayerClass *klass)
    * to pause or play.
    */
   g_signal_new ("play-toggled",
+                PT_TYPE_PLAYER,
+                G_SIGNAL_RUN_FIRST,
+                0,
+                NULL,
+                NULL,
+                g_cclosure_marshal_VOID__VOID,
+                G_TYPE_NONE,
+                0);
+
+  /**
+   * PtPlayer::seek-done:
+   * @player: the player emitting the signal
+   *
+   * The #PtPlayer::seek-done signal is emitted when a seek has finished successfully.
+   * If several seeks are queued up, only the last one emits a sigal.
+   */
+  g_signal_new ("seek-done",
                 PT_TYPE_PLAYER,
                 G_SIGNAL_RUN_FIRST,
                 0,

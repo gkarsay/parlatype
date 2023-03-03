@@ -32,7 +32,6 @@ static void
 pt_player_fixture_set_up (PtPlayerFixture *fixture,
                           gconstpointer user_data)
 {
-  fixture->testplayer = NULL;
   gchar *path;
   GFile *file;
   gboolean success;
@@ -230,6 +229,19 @@ player_selections (PtPlayerFixture *fixture,
   g_assert_false (selection);
 }
 
+typedef struct
+{
+  GMainLoop *loop;
+} LoopData;
+
+static void
+seek_done_cb (PtPlayer *player,
+              gpointer user_data)
+{
+  LoopData *data = user_data;
+  g_main_loop_quit (data->loop);
+}
+
 static void
 player_timestamps (PtPlayerFixture *fixture,
                    gconstpointer user_data)
@@ -237,6 +249,10 @@ player_timestamps (PtPlayerFixture *fixture,
   gchar *timestamp = NULL;
   gchar *timestamp2;
   gboolean valid;
+  LoopData data;
+
+  data.loop = g_main_loop_new (g_main_context_default (), FALSE);
+  g_signal_connect (fixture->testplayer, "seek-done", G_CALLBACK (seek_done_cb), &data);
 
   /* test for delimiters */
   g_object_set (fixture->testplayer, "timestamp-delimiter", "#", NULL);
@@ -362,6 +378,7 @@ player_timestamps (PtPlayerFixture *fixture,
   g_assert_cmpint (60200, ==, pt_player_get_timestamp_position (fixture->testplayer, "00:01:00-2", FALSE));
 
   pt_player_jump_to_position (fixture->testplayer, 1000);
+  g_main_loop_run (data.loop);
 
   timestamp = pt_player_get_timestamp (fixture->testplayer);
   g_assert_nonnull (timestamp);
@@ -370,36 +387,101 @@ player_timestamps (PtPlayerFixture *fixture,
   g_assert_true (valid);
 
   pt_player_jump_to_position (fixture->testplayer, 0);
+  g_main_loop_run (data.loop);
+
   timestamp2 = pt_player_get_timestamp (fixture->testplayer);
   g_assert_cmpstr (timestamp, !=, timestamp2);
   g_free (timestamp2);
 
   pt_player_goto_timestamp (fixture->testplayer, timestamp);
+  g_main_loop_run (data.loop);
+
   timestamp2 = pt_player_get_timestamp (fixture->testplayer);
   g_assert_cmpstr (timestamp, ==, timestamp2);
 
   g_free (timestamp);
   g_free (timestamp2);
+  g_main_loop_unref (data.loop);
 }
 
 static void
-player_volume_speed (PtPlayerFixture *fixture,
-                     gconstpointer user_data)
+notify_speed_cb (PtPlayer *player,
+                 GParamSpec *pspec,
+                 gpointer user_data)
 {
-  /* set speed and volume properties */
+  LoopData *data = user_data;
+  gdouble speed;
 
-  PtPlayer *bind_player;
-  gdouble speed, volume;
+  g_object_get (player, "speed", &speed, NULL);
+  g_assert_cmpfloat (speed, ==, 0.5);
+
+  g_main_loop_quit (data->loop);
+}
+
+static gboolean
+change_speed (gpointer user_data)
+{
+  PtPlayer *player = PT_PLAYER (user_data);
+  pt_player_set_speed (player, 0.5);
+  return G_SOURCE_REMOVE;
+}
+static void
+player_speed (PtPlayerFixture *fixture,
+              gconstpointer user_data)
+{
+  /* set speed properties */
+
+  LoopData data;
+  gdouble speed;
+
+  pt_player_set_speed (fixture->testplayer, 0.7);
+  g_object_get (fixture->testplayer, "speed", &speed, NULL);
+  g_assert_cmpfloat (speed, ==, 0.7);
+
+  /* check notify */
+  data.loop = g_main_loop_new (g_main_context_default (), FALSE);
+  g_signal_connect (fixture->testplayer, "notify::speed", G_CALLBACK (notify_speed_cb), &data);
+  g_timeout_add (10, (GSourceFunc) change_speed, fixture->testplayer);
+  g_main_loop_run (data.loop);
+
+  g_main_loop_unref (data.loop);
+}
+
+/*static void
+notify_volume_cb (PtPlayer *player,
+                  GParamSpec *pspec,
+                  gpointer user_data)
+{
+  LoopData *data = user_data;
+  gdouble volume;
+
+  g_object_get (player, "volume", &volume, NULL);
+  g_assert_cmpfloat_with_epsilon (volume, 0.5, 0.01);
+
+  g_main_loop_quit (data->loop);
+}
+
+static gboolean
+change_volume (gpointer user_data)
+{
+  PtPlayer *player = PT_PLAYER (user_data);
+  pt_player_set_volume (player, 0.5);
+  return G_SOURCE_REMOVE;
+}*/
+
+static void
+player_volume (PtPlayerFixture *fixture,
+               gconstpointer user_data)
+{
+  /* set volume properties */
+
+  //LoopData data;
+  gdouble volume;
 
   pt_player_set_volume (fixture->testplayer, 0.7);
-  pt_player_set_speed (fixture->testplayer, 0.7);
 
-  g_object_get (fixture->testplayer,
-                "speed", &speed,
-                "volume", &volume,
-                NULL);
+  g_object_get (fixture->testplayer, "volume", &volume, NULL);
 
-  g_assert_cmpfloat (speed, ==, 0.7);
   /* some audiosinks (pulsesink, directsoundsink) need a tolerance */
   g_assert_cmpfloat_with_epsilon (volume, 0.7, 0.01);
 
@@ -414,36 +496,28 @@ player_volume_speed (PtPlayerFixture *fixture,
   g_assert_cmpfloat_with_epsilon (volume, 0.7, 0.01);
   g_assert_false (pt_player_get_mute (fixture->testplayer));
 
-  /* check bind property */
-  bind_player = pt_player_new ();
+  /* check notify - this does not work reliably */
+  /*data.loop = g_main_loop_new (g_main_context_default (), FALSE);
+  g_signal_connect (fixture->testplayer, "notify::volume", G_CALLBACK (notify_volume_cb), &data);
+  g_timeout_add (10, (GSourceFunc) change_volume, fixture->testplayer);
+  g_main_loop_run (data.loop);
 
-  g_object_bind_property (fixture->testplayer, "volume",
-                          bind_player, "volume",
-                          G_BINDING_DEFAULT);
-  g_object_bind_property (fixture->testplayer, "speed",
-                          bind_player, "speed",
-                          G_BINDING_DEFAULT);
-
-  pt_player_set_volume (fixture->testplayer, 0.5);
-  pt_player_set_speed (fixture->testplayer, 0.5);
-
-  volume = pt_player_get_volume (bind_player);
-  speed = pt_player_get_speed (bind_player);
-  /* TODO fails because of timing, maybe check for notify instead */
-  // g_assert_cmpfloat_with_epsilon (volume, 0.5, 0.01);
-  g_assert_cmpfloat (speed, ==, 0.5);
-
-  g_object_unref (bind_player);
+  g_main_loop_unref (data.loop);*/
 }
 
 static void
 player_timestrings (PtPlayerFixture *fixture,
                     gconstpointer user_data)
 {
+  LoopData data;
   gchar *timestring;
+
+  data.loop = g_main_loop_new (g_main_context_default (), FALSE);
+  g_signal_connect (fixture->testplayer, "seek-done", G_CALLBACK (seek_done_cb), &data);
 
   /* check time strings at current position */
   pt_player_jump_to_position (fixture->testplayer, 1000);
+  g_main_loop_run (data.loop);
 
   timestring = pt_player_get_current_time_string (fixture->testplayer, PT_PRECISION_SECOND);
   g_assert_cmpstr (timestring, ==, "0:01");
@@ -508,6 +582,8 @@ player_timestrings (PtPlayerFixture *fixture,
   timestring = pt_player_get_time_string (1560, 3600000, PT_PRECISION_SECOND_100TH);
   g_assert_cmpstr (timestring, ==, "0:00:01.56");
   g_free (timestring);
+
+  g_main_loop_unref (data.loop);
 }
 
 static void
@@ -567,8 +643,11 @@ main (int argc, char *argv[])
   g_test_add ("/player/timestamps", PtPlayerFixture, NULL,
               pt_player_fixture_set_up, player_timestamps,
               pt_player_fixture_tear_down);
-  g_test_add ("/player/volume_speed", PtPlayerFixture, NULL,
-              pt_player_fixture_set_up, player_volume_speed,
+  g_test_add ("/player/speed", PtPlayerFixture, NULL,
+              pt_player_fixture_set_up, player_speed,
+              pt_player_fixture_tear_down);
+  g_test_add ("/player/volume", PtPlayerFixture, NULL,
+              pt_player_fixture_set_up, player_volume,
               pt_player_fixture_tear_down);
   g_test_add ("/player/timestrings", PtPlayerFixture, NULL,
               pt_player_fixture_set_up, player_timestrings,
