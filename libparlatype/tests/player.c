@@ -24,7 +24,6 @@
 typedef struct
 {
   PtPlayer *testplayer;
-  gchar *testfile;
   gchar *testuri;
 } PtPlayerFixture;
 
@@ -33,23 +32,18 @@ pt_player_fixture_set_up (PtPlayerFixture *fixture,
                           gconstpointer user_data)
 {
   gchar *path;
-  GFile *file;
+  GError *error = NULL;
   gboolean success;
 
   fixture->testplayer = pt_player_new ();
 
   path = g_test_build_filename (G_TEST_DIST, "data", "tick-10sec.ogg", NULL);
-  /* In make distcheck the path is something like /_build/../data/test1.ogg".
-     Although this works we need a "pretty" path to compare and assert it's the same.
-     To get rid of the "/_build/.." take a detour using GFile. */
-  file = g_file_new_for_path (path);
-  fixture->testfile = g_file_get_path (file);
-  fixture->testuri = g_file_get_uri (file);
+  fixture->testuri = g_filename_to_uri (path, NULL, &error);
+  g_assert_no_error (error);
 
   success = pt_player_open_uri (fixture->testplayer, fixture->testuri);
   g_assert_true (success);
 
-  g_object_unref (file);
   g_free (path);
 }
 
@@ -58,7 +52,6 @@ pt_player_fixture_tear_down (PtPlayerFixture *fixture,
                              gconstpointer user_data)
 {
   g_clear_object (&fixture->testplayer);
-  g_free (fixture->testfile);
   g_free (fixture->testuri);
 }
 
