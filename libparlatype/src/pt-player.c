@@ -1010,6 +1010,32 @@ pt_player_get_speed (PtPlayer *player)
   return player->priv->speed;
 }
 
+static void
+pt_player_set_speed_internal (PtPlayer * player)
+{
+  gint64 position;
+
+  if (!gst_element_query_position (player->priv->play, GST_FORMAT_TIME, &position))
+    return;
+  player->priv->seek_position = position;
+
+  /* If there is no seek being dispatch to the main context currently do that,
+   * otherwise we just updated the speed (rate) so that it will be taken by
+   * the seek handler from the main context instead of the old one.
+   */
+  if (!player->priv->seek_source)
+    {
+      /* If no seek is pending then create new seek source */
+      if (!player->priv->seek_pending)
+        {
+          player->priv->seek_source = g_idle_source_new ();
+          g_source_set_callback (player->priv->seek_source,
+              (GSourceFunc) pt_player_seek_internal, player, NULL);
+          g_source_attach (player->priv->seek_source, NULL);
+        }
+    }
+}
+
 /**
  * pt_player_set_speed:
  * @player: a #PtPlayer
@@ -1030,16 +1056,17 @@ pt_player_set_speed (PtPlayer *player,
   g_return_if_fail (PT_IS_PLAYER (player));
   g_return_if_fail (speed > 0);
 
-  gint64 pos;
-
+  g_mutex_lock (&player->priv->lock);
+  if (speed == player->priv->speed)
+    {
+      g_mutex_unlock (&player->priv->lock);
+      return;
+    }
   player->priv->speed = speed;
-
-  /* on object construction there is no pipeline yet */
-  if (player->priv->play == NULL)
-    return;
-
-  if (gst_element_query_position (player->priv->play, GST_FORMAT_TIME, &pos))
-    pt_player_seek (player, pos);
+  g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                    "MESSAGE", "Set speed=%f", speed);
+  pt_player_set_speed_internal (player);
+  g_mutex_unlock (&player->priv->lock);
 
   g_object_notify_by_pspec (G_OBJECT (player),
                             obj_properties[PROP_SPEED]);
