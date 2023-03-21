@@ -1,3 +1,39 @@
+Overview of Changes in Parlatype 4.0 – 2023-11-26
+=================================================
+
+* New: Switch to GTK 4 (new dependency: gtk4.0 >= 4.0)
+* New: Removed dependency gladeui-2.0 and meson option glade
+* New: Removed support for GNOME MediaKeys (use MPRIS instead)
+* New: Some screenshots for help pages are generated automatically for
+       available locales
+* Fix: #98, MPRIS related crash at startup
+* Fix: #105, Audio stops playing after some time
+       Related to this: disabled dragging the playback cursor
+
+* New or updated translations via Weblate:
+  - Basque: Alexander Gabilondo
+  - Basque: Alex Gabilondo
+  - Chinese (Simplified): Eric
+  - Chinese (Simplified): poi
+  - English (United Kingdom): Andrew Marsden
+  - Finnish: Cnomesta
+  - Finnish: Jiri Grönroos
+  - French: Mathieu B
+  - Indonesian: Reza Almanda
+  - Italian: albanobattistella
+  - Norwegian Bokmål: Allan Nordhøy
+  - Polish: Piotr Drąg
+  - Portuguese: ssantos
+  - Russian: Olga Akhtirskaia
+  - Slovak: Milan Šalka
+  - Spanish: Eduardo Bray
+  - Spanish: Eduardo Malaspina
+  - Spanish: gallegonovato
+  - Turkish: E-Akcaer
+  - Turkish: Sabri Ünal
+  - Ukrainian: Olga Akhtirskaia
+
+
 Overview of Changes in Parlatype 3.1 – 2021-12-19
 =================================================
 
