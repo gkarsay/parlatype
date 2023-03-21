@@ -41,12 +41,21 @@
 	</kudos>
 
 	<releases>
+		<release version="4.0" date="2023-11-26">
+			<description>
+			<p>This release is switching to GTK 4 and brings translation updates for several languages.</p>
+			</description>
+		</release>
 		<release version="3.1" date="2021-12-19">
 			<description>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<p>This is a minor release with a new feature.</p>
 			<ul>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<li>Added MPRIS interface.</li>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<li>Smaller bug fixes.</li>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<li>Switched to Weblate for translations.</li>
 			<li>Translation updates for several languages.</li>
 			</ul>
@@ -56,7 +65,9 @@
 			<description>
 			<p>This is a major release with new features.</p>
 			<ul>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<li>Support for Mozilla DeepSpeech.</li>
+			<!-- Translators: This has very low priority, it's the description for an old release. -->
 			<li>New configuration system for Automatic Speech Recognition.</li>
 			<li>Translation updates for several languages.</li>
 			</ul>
