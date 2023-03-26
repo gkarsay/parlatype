@@ -23,7 +23,6 @@
 
 struct _PtWindowPrivate
 {
-	GSettings	 *editor;
 	GtkRecentManager *recent;
 	PtConfig         *asr_config;
 

@@ -205,7 +205,7 @@ zoom_in (GSimpleAction *action,
          gpointer       user_data)
 {
 	PtWindow *win = PT_WINDOW (user_data);
-	set_zoom (win->priv->editor, 25);
+	set_zoom (win->editor, 25);
 }
 
 void
@@ -214,7 +214,7 @@ zoom_out (GSimpleAction *action,
           gpointer       user_data)
 {
 	PtWindow *win = PT_WINDOW (user_data);
-	set_zoom (win->priv->editor, -25);
+	set_zoom (win->editor, -25);
 }
 
 static gboolean
@@ -710,7 +710,7 @@ set_asr_config (PtWindow *win)
 		g_clear_object (&priv->asr_config);
 
 	/* get new config object */
-	asr_path = g_settings_get_string (priv->editor, "asr-config");
+	asr_path = g_settings_get_string (win->editor, "asr-config");
 	asr_file = g_file_new_for_path (asr_path);
 	priv->asr_config = pt_config_new (asr_file);
 	g_object_unref (asr_file);
@@ -804,15 +804,15 @@ map_milliseconds_to_seconds (const GValue       *value,
 static void
 setup_settings (PtWindow *win)
 {
-	win->priv->editor = g_settings_new (APP_ID);
+	win->editor = g_settings_new (APP_ID);
 
 	g_settings_bind (
-			win->priv->editor, "pps",
+			win->editor, "pps",
 			win->waveviewer, "pps",
 			G_SETTINGS_BIND_DEFAULT);
 
 	g_settings_bind_with_mapping (
-			win->priv->editor, "rewind-on-pause",
+			win->editor, "rewind-on-pause",
 			win->player, "pause",
 			G_SETTINGS_BIND_GET,
 			map_seconds_to_milliseconds,
@@ -820,7 +820,7 @@ setup_settings (PtWindow *win)
 			NULL, NULL);
 
 	g_settings_bind_with_mapping (
-			win->priv->editor, "jump-back",
+			win->editor, "jump-back",
 			win->player, "back",
 			G_SETTINGS_BIND_GET,
 			map_seconds_to_milliseconds,
@@ -828,7 +828,7 @@ setup_settings (PtWindow *win)
 			NULL, NULL);
 
 	g_settings_bind_with_mapping (
-			win->priv->editor, "jump-forward",
+			win->editor, "jump-forward",
 			win->player, "forward",
 			G_SETTINGS_BIND_GET,
 			map_seconds_to_milliseconds,
@@ -836,42 +836,42 @@ setup_settings (PtWindow *win)
 			NULL, NULL);
 
 	g_settings_bind (
-			win->priv->editor, "repeat-all",
+			win->editor, "repeat-all",
 			win->player, "repeat-all",
 			G_SETTINGS_BIND_GET);
 
 	g_settings_bind (
-			win->priv->editor, "repeat-selection",
+			win->editor, "repeat-selection",
 			win->player, "repeat-selection",
 			G_SETTINGS_BIND_GET);
 
 	g_settings_bind (
-			win->priv->editor, "show-ruler",
+			win->editor, "show-ruler",
 			win->waveviewer, "show-ruler",
 			G_SETTINGS_BIND_GET);
 
 	g_settings_bind (
-			win->priv->editor, "fixed-cursor",
+			win->editor, "fixed-cursor",
 			win->waveviewer, "fixed-cursor",
 			G_SETTINGS_BIND_GET);
 
 	g_settings_bind (
-			win->priv->editor, "timestamp-precision",
+			win->editor, "timestamp-precision",
 			win->player, "timestamp-precision",
 			G_SETTINGS_BIND_GET);
 
 	g_settings_bind (
-			win->priv->editor, "timestamp-fixed",
+			win->editor, "timestamp-fixed",
 			win->player, "timestamp-fixed",
 			G_SETTINGS_BIND_GET);
 
 	g_settings_bind (
-			win->priv->editor, "timestamp-delimiter",
+			win->editor, "timestamp-delimiter",
 			win->player, "timestamp-delimiter",
 			G_SETTINGS_BIND_GET);
 
 	g_settings_bind (
-			win->priv->editor, "timestamp-fraction-sep",
+			win->editor, "timestamp-fraction-sep",
 			win->player, "timestamp-fraction-sep",
 			G_SETTINGS_BIND_GET);
 
@@ -881,7 +881,7 @@ setup_settings (PtWindow *win)
 	/* connect to tooltip changer */
 
 	g_signal_connect (
-			win->priv->editor, "changed",
+			win->editor, "changed",
 			G_CALLBACK (settings_changed_cb),
 			win);
 
@@ -893,8 +893,8 @@ setup_settings (PtWindow *win)
 	win->priv->speed = 1.0;
 
 	gtk_window_set_default_size (GTK_WINDOW (win),
-			   g_settings_get_int (win->priv->editor, "width"),
-			   g_settings_get_int (win->priv->editor, "height"));
+			   g_settings_get_int (win->editor, "width"),
+			   g_settings_get_int (win->editor, "height"));
 }
 
 static void
@@ -1168,10 +1168,10 @@ pt_window_dispose (GObject *object)
 	gint y;
 
 	/* Save window size */
-	if (win->priv->editor) {
+	if (win->editor) {
 		gtk_window_get_default_size (GTK_WINDOW (win), &x, &y);
-		g_settings_set_int (win->priv->editor, "width", x);
-		g_settings_set_int (win->priv->editor, "height", y);
+		g_settings_set_int (win->editor, "width", x);
+		g_settings_set_int (win->editor, "height", y);
 	}
 
 	if (win->priv->clip_handler_id > 0) {
@@ -1179,7 +1179,7 @@ pt_window_dispose (GObject *object)
 		win->priv->clip_handler_id = 0;
 	}
 	remove_timer (win);
-	g_clear_object (&win->priv->editor);
+	g_clear_object (&win->editor);
 	g_clear_object (&win->player);
 	g_clear_object (&win->priv->asr_config);
 	g_clear_object (&win->priv->go_to_timestamp);
