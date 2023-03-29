@@ -90,6 +90,7 @@ struct _PtPlayerPrivate
   gchar *timestamp_sep;
 
   PtWaveviewer *wv;
+  gboolean set_follow_cursor;
 };
 
 enum
@@ -1225,15 +1226,6 @@ pt_player_get_duration (PtPlayer *player)
 /* --------------------- Other widgets -------------------------------------- */
 
 static void
-wv_update_cursor (PtPlayer *player)
-{
-  g_object_set (player->priv->wv,
-                "playback-cursor",
-                pt_player_get_position (player),
-                NULL);
-}
-
-static void
 wv_selection_changed_cb (GtkWidget *widget,
                          PtPlayer *player)
 {
@@ -1265,15 +1257,27 @@ wv_selection_changed_cb (GtkWidget *widget,
 }
 
 static void
+wv_update_cursor (PtPlayer *player)
+{
+  g_object_set (player->priv->wv,
+                "playback-cursor",
+                pt_player_get_position (player),
+                NULL);
+  if (player->priv->set_follow_cursor)
+    {
+      pt_waveviewer_set_follow_cursor (player->priv->wv, TRUE);
+      player->priv->set_follow_cursor = FALSE;
+    }
+}
+
+static void
 wv_cursor_changed_cb (PtWaveviewer *wv,
                       gint64 pos,
                       PtPlayer *player)
 {
   /* user changed cursor position */
-
+  player->priv->set_follow_cursor = TRUE;
   pt_player_jump_to_position (player, pos);
-  wv_update_cursor (player);
-  pt_waveviewer_set_follow_cursor (wv, TRUE);
 }
 
 static void
@@ -1298,6 +1302,7 @@ pt_player_connect_waveviewer (PtPlayer *player,
                               PtWaveviewer *wv)
 {
   player->priv->wv = wv;
+  player->priv->set_follow_cursor = FALSE;
   g_signal_connect (player->priv->wv,
                     "selection-changed",
                     G_CALLBACK (wv_selection_changed_cb),
@@ -1307,6 +1312,11 @@ pt_player_connect_waveviewer (PtPlayer *player,
                     "cursor-changed",
                     G_CALLBACK (wv_cursor_changed_cb),
                     player);
+
+  g_signal_connect (player,
+                    "seek-done",
+                    G_CALLBACK (wv_update_cursor),
+                    NULL);
 
   g_signal_connect (player->priv->wv,
                     "play-toggled",
