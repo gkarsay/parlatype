@@ -72,7 +72,12 @@ subdir('docs')
 subdir('help')
 subdir('po')
 subdir('src')
-subdir('tools')
+
+# tools are not shipped in tarball
+fs = import('fs')
+if fs.is_dir('tools')
+  subdir('tools')
+endif
 
 if host_machine.system() == 'windows'
   meson.add_install_script(
