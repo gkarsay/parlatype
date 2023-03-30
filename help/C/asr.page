@@ -35,7 +35,7 @@ Parlatype Extension for <app>LibreOffice</app> to output recognized text.
 <p>Open the primary menu and click on <gui>Automatic transcription</gui>.
 This is only available, if you have setup and chosen a language model.</p>
 
-<media type="image" src="figures/asr-switch-to-asr.png"/>
+<media its:translate="no" type="image" src="figures/asr-switch-to-asr.png"/>
 
 <p>Now press <gui>Play</gui> in <app>Parlatype</app> and the recognized speech
 will be printed in <app>LibreOffice</app>, if the Parlatype Extension is
