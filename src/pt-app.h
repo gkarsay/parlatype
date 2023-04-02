@@ -19,6 +19,7 @@
 
 #include "config.h"
 #include <gtk/gtk.h>
+#include <adwaita.h>
 
 #define PT_APP_TYPE (pt_app_get_type ())
 #define PT_APP(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_APP_TYPE, PtApp))
@@ -30,7 +31,7 @@ typedef struct _PtAppPrivate PtAppPrivate;
 
 struct _PtApp
 {
-  GtkApplication parent;
+  AdwApplication parent;
 
   /*< private > */
   PtAppPrivate *priv;
@@ -38,7 +39,7 @@ struct _PtApp
 
 struct _PtAppClass
 {
-  GtkApplicationClass parent_class;
+  AdwApplicationClass parent_class;
 };
 
 GType pt_app_get_type (void) G_GNUC_CONST;

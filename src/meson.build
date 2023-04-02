@@ -37,6 +37,7 @@ src = [
 parlatype_deps = [
   config_h,
   gtk,
+  libadwaita,
 ]
 
 executable('parlatype',

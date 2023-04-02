@@ -17,6 +17,7 @@
 #include "config.h"
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
+#include <adwaita.h>
 #include "pt-dbus-service.h"
 #include "pt-mpris.h"
 #include "pt-preferences.h"
@@ -29,7 +30,7 @@ struct _PtAppPrivate
   PtDbusService *dbus_service;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE (PtApp, pt_app, GTK_TYPE_APPLICATION);
+G_DEFINE_TYPE_WITH_PRIVATE (PtApp, pt_app, ADW_TYPE_APPLICATION);
 
 static GOptionEntry options[] = {
   { "version",
