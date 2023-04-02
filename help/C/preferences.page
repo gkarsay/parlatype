@@ -1,6 +1,7 @@
 <page xmlns="http://projectmallard.org/1.0/"
       type="topic"
-      id="preferences">
+      id="preferences"
+      xmlns:its="http://www.w3.org/2005/11/its">
 <info>
   <link type="guide" xref="index#topics"/>
   <desc>How to customize Parlatype</desc>
@@ -20,7 +21,7 @@
 <section id="waveform">
 <title>Preferences for the waveform</title>
 
-<media type="image" src="figures/parlatype-prefs-waveform.png" style="floatend" />
+<media its:translate="no" type="image" src="figures/parlatype-prefs-waveform.png" style="floatend" />
 
 <list>
 <item><p>Resolution: The resolution of the waveform image is given in pixels per second, e.g. the default resolution of 100 means, that one second is shown with a width of 100 pixels.</p></item>
@@ -32,7 +33,7 @@
 <section id="controls">
 <title>Preferences for controls</title>
 
-<media type="image" src="figures/parlatype-prefs-controls.png" style="floatend" />
+<media its:translate="no" type="image" src="figures/parlatype-prefs-controls.png" style="floatend" />
 
 <list>
 <item><p>Jump back on pause: <app>Parlatype</app> will rewind a few seconds on each pause, this way you can easier resume typing. Set this value to 0 if you don’t want this behaviour.</p></item>
@@ -46,7 +47,7 @@
 <section id="timestamps">
 <title>Preferences for timestamps</title>
 
-<media type="image" src="figures/parlatype-prefs-timestamps.png" style="floatend" />
+<media its:translate="no" type="image" src="figures/parlatype-prefs-timestamps.png" style="floatend" />
 
 <p>These settings affect how <app>Parlatype</app> formats timestamps. If you need a certain format in your transcription, you can adjust it here.</p>
 <note><p>There are no settings for <em>reading</em> timestamps. <app>Parlatype</app> reads and accepts all of these formats.</p></note>

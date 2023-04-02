@@ -46,4 +46,9 @@ GType		pt_preferences_dialog_get_type	(void) G_GNUC_CONST;
 
 void		pt_show_preferences_dialog	(GtkWindow *parent);
 
+GtkNotebook *
+pt_preferences_dialog_get_notebook (PtPreferencesDialog *dlg);
+
+PtPreferencesDialog *pt_preferences_dialog_new (GtkWindow *parent);
+
 #endif

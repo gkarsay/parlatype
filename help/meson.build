@@ -41,14 +41,10 @@ if host_machine.system() != 'windows'
   ]
 endif
 
-symlinks = true
-if host_machine.system() == 'windows'
-  symlinks = false
-endif
-
 gnome.yelp(
   app_id,
   media: media,
   sources: sources,
-  symlink_media: symlinks
+  # generated screenshots not shown with symlinks
+  symlink_media: false,
 )

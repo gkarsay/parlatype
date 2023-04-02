@@ -981,6 +981,9 @@ pt_waveviewer_get_property (GObject    *object,
 	PtWaveviewer *self = PT_WAVEVIEWER (object);
 
 	switch (property_id) {
+	case PROP_PLAYBACK_CURSOR:
+		g_value_set_int64 (value, self->priv->playback_cursor);
+		break;
 	case PROP_FOLLOW_CURSOR:
 		g_value_set_boolean (value, self->priv->follow_cursor);
 		break;
@@ -1328,7 +1331,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 			-1,
 			G_MAXINT64,
 			0,
-			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
 	/**
 	* PtWaveviewer:follow-cursor:

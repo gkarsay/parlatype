@@ -70,6 +70,9 @@ meson test --gdb testname
 Release
 =======
 
+Update help screenshots:
+ninja generate-screenshots
+
 Update data/screenshot.png, if necessary,
   width >= 620px, 16:9 ratio if possible
   see https://www.freedesktop.org/software/appstream/docs/chap-Quickstart.html

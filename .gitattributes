@@ -7,3 +7,4 @@ flatpak/			export-ignore
 ISSUE_TEMPLATE.md		export-ignore
 maint/				export-ignore
 src/resources/icons/		export-ignore
+tools/                          export-ignore

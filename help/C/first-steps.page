@@ -1,6 +1,7 @@
 <page xmlns="http://projectmallard.org/1.0/"
       type="topic"
-      id="first-steps">
+      id="first-steps"
+      xmlns:its="http://www.w3.org/2005/11/its">
 <info>
   <!--<link type="guide" xref="index#topics"/>-->
   <desc>First steps with Parlatype</desc>
@@ -21,7 +22,7 @@
 
 <p>In the lower left corner there are the controls with a <gui>Play</gui> button which toggles between play and pause. Whenever you pause, <app>Parlatype</app> rewinds a few seconds to make it easier to resume. This can be changed in the <link xref="preferences" />.</p>
 
-<media type="image" src="figures/parlatype-main-window.png"/>
+<media its:translate="no" type="image" src="figures/parlatype-main-window.png"/>
 
 <p>The buttons <gui>Jump back</gui> and <gui>Jump forward</gui> in the lower left corner skip a few seconds back or ahead. The amount of time can be changed in the <link xref="preferences" />.</p>
 

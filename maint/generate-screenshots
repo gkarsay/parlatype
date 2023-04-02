@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# Creates screenshots for all present languages
+
+if [ "${MESON_SOURCE_ROOT}" == "" ]; then
+	echo "ERROR: This script has to be run as a Meson run_target"
+	echo "Try \`ninja generate-screenshots\` in the build directory"
+	exit 1
+fi
+
+CONFIG=~/.config/parlatype
+
+# prepare config
+mkdir -p "$CONFIG"/backup
+mv "$CONFIG"/*.asr "$CONFIG"/backup
+gsettings reset-recursively org.parlatype.Parlatype
+
+# Fake an installed model
+mkdir -p "${MESON_BUILD_ROOT}"/tools/parlatype/cmusphinx-cont-voxforge-de-r20171217/etc
+mkdir -p "${MESON_BUILD_ROOT}"/tools/parlatype/cmusphinx-cont-voxforge-de-r20171217/model_parameters
+touch "${MESON_BUILD_ROOT}"/tools/parlatype/cmusphinx-cont-voxforge-de-r20171217/etc/voxforge.lm.bin
+touch "${MESON_BUILD_ROOT}"/tools/parlatype/cmusphinx-cont-voxforge-de-r20171217/etc/voxforge.dic
+touch "${MESON_BUILD_ROOT}"/tools/parlatype/cmusphinx-cont-voxforge-de-r20171217/model_parameters/voxforge.cd_cont_6000
+
+cd "${MESON_SOURCE_ROOT}"/help || exit 1
+
+# C (english) is not in LINGUAS
+LANGUAGE=C "${MESON_BUILD_ROOT}"/tools/pt-screenshots --output C/figures
+
+# Iterate over all languages
+while read -r lang
+do
+	# Skip lines starting with "#" or " "
+	if [[ ${lang:0:1} != "#" && ${lang:0:1} != " " ]]
+	then
+		rm "$CONFIG"/*.asr
+		LANGUAGE="$lang" "${MESON_BUILD_ROOT}"/tools/pt-screenshots --output "$lang"/figures
+	fi
+done < LINGUAS
+
+rm "$CONFIG"/*.asr
+mv "$CONFIG"/backup/*.asr "$CONFIG"/

@@ -88,7 +88,7 @@ clip_text_cb (GdkClipboard *clip,
 	}
 
 	pt_player_goto_timestamp (win->player, timestamp);
-	pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
+	pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->waveviewer), TRUE);
 	g_free (timestamp);
 }
 
@@ -118,7 +118,7 @@ goto_dialog_response_cb (GtkDialog *dlg,
 	if (response_id == GTK_RESPONSE_OK) {
 		pos = pt_goto_dialog_get_pos (PT_GOTO_DIALOG (dlg));
 		pt_player_jump_to_position (win->player, pos * 1000);
-		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
+		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->waveviewer), TRUE);
 	}
 
 	gtk_window_destroy (GTK_WINDOW (dlg));
@@ -153,7 +153,7 @@ goto_cursor (GSimpleAction *action,
 	PtWindow *win;
 	win = PT_WINDOW (user_data);
 
-	pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
+	pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->waveviewer), TRUE);
 }
 
 void
@@ -205,7 +205,7 @@ zoom_in (GSimpleAction *action,
          gpointer       user_data)
 {
 	PtWindow *win = PT_WINDOW (user_data);
-	set_zoom (win->priv->editor, 25);
+	set_zoom (win->editor, 25);
 }
 
 void
@@ -214,7 +214,7 @@ zoom_out (GSimpleAction *action,
           gpointer       user_data)
 {
 	PtWindow *win = PT_WINDOW (user_data);
-	set_zoom (win->priv->editor, -25);
+	set_zoom (win->editor, -25);
 }
 
 static gboolean
@@ -304,12 +304,12 @@ update_time (PtWindow *win)
 		if (text == NULL)
 			return;
 
-		gtk_menu_button_set_label (GTK_MENU_BUTTON (win->priv->pos_menu_button), text);
+		gtk_menu_button_set_label (GTK_MENU_BUTTON (win->pos_menu_button), text);
 		g_free (text);
 		win->priv->last_time = time/100;
 	}
 
-	g_object_set (win->priv->waveviewer, "playback-cursor", time, NULL);
+	g_object_set (win->waveviewer, "playback-cursor", time, NULL);
 }
 
 static gboolean
@@ -327,7 +327,7 @@ add_timer (PtWindow *win)
 {
 	if (win->priv->timer == 0) {
 		win->priv->timer = gtk_widget_add_tick_callback (
-						win->priv->waveviewer,
+						win->waveviewer,
 						update_time_tick,
 						win,
 						NULL);
@@ -338,7 +338,7 @@ static void
 remove_timer (PtWindow *win)
 {
 	if (win->priv->timer > 0) {
-		gtk_widget_remove_tick_callback (win->priv->waveviewer,
+		gtk_widget_remove_tick_callback (win->waveviewer,
 						 win->priv->timer);
 		win->priv->timer = 0;
 	}
@@ -550,11 +550,11 @@ pt_window_ready_to_play (PtWindow *win,
 		change_play_button_tooltip (win);
 		change_jump_back_tooltip (win);
 		change_jump_forward_tooltip (win);
-		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
+		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->waveviewer), TRUE);
 		add_timer (win);
 
 	} else {
-		gtk_menu_button_set_label (GTK_MENU_BUTTON (win->priv->pos_menu_button), "00:00.0");
+		gtk_menu_button_set_label (GTK_MENU_BUTTON (win->pos_menu_button), "00:00.0");
 		gtk_window_set_title (GTK_WINDOW (win), "Parlatype");
 		gtk_widget_set_tooltip_text (win->priv->button_jump_back, NULL);
 		gtk_widget_set_tooltip_text (win->priv->button_jump_forward, NULL);
@@ -615,7 +615,7 @@ pt_window_open_file (PtWindow *win,
 	if (!pt_player_open_uri (win->player, uri))
 		return;
 	pt_window_ready_to_play (win, TRUE);
-	pt_waveviewer_load_wave_async (PT_WAVEVIEWER (win->priv->waveviewer),
+	pt_waveviewer_load_wave_async (PT_WAVEVIEWER (win->waveviewer),
 				  uri,
 				  NULL,
 				  (GAsyncReadyCallback) open_cb,
@@ -628,7 +628,7 @@ update_play_after_toggle (PtWindow        *win,
 {
 	if (gtk_toggle_button_get_active (button)) {
 		update_time (win);
-		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->priv->waveviewer), TRUE);
+		pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (win->waveviewer), TRUE);
 	}
 
 	change_play_button_tooltip (win);
@@ -648,6 +648,7 @@ player_play_toggled_cb (PtPlayer *player,
 	g_signal_handlers_unblock_by_func (play, play_button_toggled_cb, win);
 
 	update_play_after_toggle (win, play);
+
 }
 
 static void
@@ -709,7 +710,7 @@ set_asr_config (PtWindow *win)
 		g_clear_object (&priv->asr_config);
 
 	/* get new config object */
-	asr_path = g_settings_get_string (priv->editor, "asr-config");
+	asr_path = g_settings_get_string (win->editor, "asr-config");
 	asr_file = g_file_new_for_path (asr_path);
 	priv->asr_config = pt_config_new (asr_file);
 	g_object_unref (asr_file);
@@ -803,15 +804,15 @@ map_milliseconds_to_seconds (const GValue       *value,
 static void
 setup_settings (PtWindow *win)
 {
-	win->priv->editor = g_settings_new (APP_ID);
+	win->editor = g_settings_new (APP_ID);
 
 	g_settings_bind (
-			win->priv->editor, "pps",
-			win->priv->waveviewer, "pps",
+			win->editor, "pps",
+			win->waveviewer, "pps",
 			G_SETTINGS_BIND_DEFAULT);
 
 	g_settings_bind_with_mapping (
-			win->priv->editor, "rewind-on-pause",
+			win->editor, "rewind-on-pause",
 			win->player, "pause",
 			G_SETTINGS_BIND_GET,
 			map_seconds_to_milliseconds,
@@ -819,7 +820,7 @@ setup_settings (PtWindow *win)
 			NULL, NULL);
 
 	g_settings_bind_with_mapping (
-			win->priv->editor, "jump-back",
+			win->editor, "jump-back",
 			win->player, "back",
 			G_SETTINGS_BIND_GET,
 			map_seconds_to_milliseconds,
@@ -827,7 +828,7 @@ setup_settings (PtWindow *win)
 			NULL, NULL);
 
 	g_settings_bind_with_mapping (
-			win->priv->editor, "jump-forward",
+			win->editor, "jump-forward",
 			win->player, "forward",
 			G_SETTINGS_BIND_GET,
 			map_seconds_to_milliseconds,
@@ -835,42 +836,42 @@ setup_settings (PtWindow *win)
 			NULL, NULL);
 
 	g_settings_bind (
-			win->priv->editor, "repeat-all",
+			win->editor, "repeat-all",
 			win->player, "repeat-all",
 			G_SETTINGS_BIND_GET);
 
 	g_settings_bind (
-			win->priv->editor, "repeat-selection",
+			win->editor, "repeat-selection",
 			win->player, "repeat-selection",
 			G_SETTINGS_BIND_GET);
 
 	g_settings_bind (
-			win->priv->editor, "show-ruler",
-			win->priv->waveviewer, "show-ruler",
+			win->editor, "show-ruler",
+			win->waveviewer, "show-ruler",
 			G_SETTINGS_BIND_GET);
 
 	g_settings_bind (
-			win->priv->editor, "fixed-cursor",
-			win->priv->waveviewer, "fixed-cursor",
+			win->editor, "fixed-cursor",
+			win->waveviewer, "fixed-cursor",
 			G_SETTINGS_BIND_GET);
 
 	g_settings_bind (
-			win->priv->editor, "timestamp-precision",
+			win->editor, "timestamp-precision",
 			win->player, "timestamp-precision",
 			G_SETTINGS_BIND_GET);
 
 	g_settings_bind (
-			win->priv->editor, "timestamp-fixed",
+			win->editor, "timestamp-fixed",
 			win->player, "timestamp-fixed",
 			G_SETTINGS_BIND_GET);
 
 	g_settings_bind (
-			win->priv->editor, "timestamp-delimiter",
+			win->editor, "timestamp-delimiter",
 			win->player, "timestamp-delimiter",
 			G_SETTINGS_BIND_GET);
 
 	g_settings_bind (
-			win->priv->editor, "timestamp-fraction-sep",
+			win->editor, "timestamp-fraction-sep",
 			win->player, "timestamp-fraction-sep",
 			G_SETTINGS_BIND_GET);
 
@@ -880,7 +881,7 @@ setup_settings (PtWindow *win)
 	/* connect to tooltip changer */
 
 	g_signal_connect (
-			win->priv->editor, "changed",
+			win->editor, "changed",
 			G_CALLBACK (settings_changed_cb),
 			win);
 
@@ -892,8 +893,8 @@ setup_settings (PtWindow *win)
 	win->priv->speed = 1.0;
 
 	gtk_window_set_default_size (GTK_WINDOW (win),
-			   g_settings_get_int (win->priv->editor, "width"),
-			   g_settings_get_int (win->priv->editor, "height"));
+			   g_settings_get_int (win->editor, "width"),
+			   g_settings_get_int (win->editor, "height"));
 }
 
 static void
@@ -988,7 +989,7 @@ setup_player (PtWindow *win)
 
 	pt_player_connect_waveviewer (
 			win->player,
-			PT_WAVEVIEWER (win->priv->waveviewer));
+			PT_WAVEVIEWER (win->waveviewer));
 
 	g_signal_connect (win->player,
 			"end-of-stream",
@@ -1088,8 +1089,8 @@ setup_accels_actions_menus (PtWindow *win)
 	builder = gtk_builder_new_from_resource ("/org/parlatype/parlatype/menus.ui");
 	priv->primary_menu   = G_MENU_MODEL (gtk_builder_get_object (builder, "primary-menu"));
 	priv->secondary_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "secondary-menu"));
-	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (priv->primary_menu_button), priv->primary_menu);
-	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (priv->pos_menu_button), priv->secondary_menu);
+	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (win->primary_menu_button), priv->primary_menu);
+	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (win->pos_menu_button), priv->secondary_menu);
 	g_object_unref (builder);
 
 	/* Setup ASR menu manually; no success with GtkBuilder */
@@ -1147,15 +1148,16 @@ pt_window_init (PtWindow *win)
 			"changed",
 			G_CALLBACK (update_insert_action_sensitivity),
 			win);
-	g_signal_connect (win->priv->waveviewer,
+	g_signal_connect (win->waveviewer,
 			"notify::follow-cursor",
 			G_CALLBACK (update_goto_cursor_action_sensitivity),
 			win);
 
-	g_signal_connect (win->priv->waveviewer,
+	g_signal_connect (win->waveviewer,
 	                  "load-progress",
 	                  G_CALLBACK (progressbar_cb),
 	                  GTK_PROGRESS_BAR (win->priv->progress));
+
 }
 
 static void
@@ -1166,10 +1168,10 @@ pt_window_dispose (GObject *object)
 	gint y;
 
 	/* Save window size */
-	if (win->priv->editor) {
+	if (win->editor) {
 		gtk_window_get_default_size (GTK_WINDOW (win), &x, &y);
-		g_settings_set_int (win->priv->editor, "width", x);
-		g_settings_set_int (win->priv->editor, "height", y);
+		g_settings_set_int (win->editor, "width", x);
+		g_settings_set_int (win->editor, "height", y);
 	}
 
 	if (win->priv->clip_handler_id > 0) {
@@ -1177,7 +1179,7 @@ pt_window_dispose (GObject *object)
 		win->priv->clip_handler_id = 0;
 	}
 	remove_timer (win);
-	g_clear_object (&win->priv->editor);
+	g_clear_object (&win->editor);
 	g_clear_object (&win->player);
 	g_clear_object (&win->priv->asr_config);
 	g_clear_object (&win->priv->go_to_timestamp);
@@ -1204,7 +1206,9 @@ pt_window_class_init (PtWindowClass *klass)
 
 	gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/parlatype/window.ui");
 	gtk_widget_class_bind_template_callback(widget_class, play_button_toggled_cb);
-	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, primary_menu_button);
+	gtk_widget_class_bind_template_child (widget_class, PtWindow, waveviewer);
+	gtk_widget_class_bind_template_child (widget_class, PtWindow, primary_menu_button);
+	gtk_widget_class_bind_template_child (widget_class, PtWindow, pos_menu_button);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_open);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, progress);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, controls_row_box);
@@ -1213,9 +1217,7 @@ pt_window_class_init (PtWindowClass *klass)
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_jump_back);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_jump_forward);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, volumebutton);
-	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, pos_menu_button);
 	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, speed_scale);
-	gtk_widget_class_bind_template_child_private (widget_class, PtWindow, waveviewer);
 }
 
 PtWindow *
