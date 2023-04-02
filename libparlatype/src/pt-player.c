@@ -2427,7 +2427,7 @@ pt_player_class_init (PtPlayerClass *klass)
    * @player: the player emitting the signal
    *
    * The #PtPlayer::seek-done signal is emitted when a seek has finished successfully.
-   * If several seeks are queued up, only the last one emits a sigal.
+   * If several seeks are queued up, only the last one emits a signal.
    */
   g_signal_new ("seek-done",
                 PT_TYPE_PLAYER,
