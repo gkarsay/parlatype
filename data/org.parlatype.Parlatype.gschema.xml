@@ -34,23 +34,13 @@
 			<summary>Pixels per second</summary>
 			<description>Pixels per second</description>
 		</key>
-		<key name="x-pos" type="i">
-			<default>100</default>
-			<summary>Window's horizontal position</summary>
-			<description>Window's horizontal position</description>
-		</key>
-		<key name="y-pos" type="i">
-			<default>100</default>
-			<summary>Window's vertical position</summary>
-			<description>Window's vertical position</description>
-		</key>
 		<key name="width" type="i">
 			<default>100</default>
 			<summary>Window's width</summary>
 			<description>Window's width</description>
 		</key>
 		<key name="height" type="i">
-			<default>100</default>
+			<default>300</default>
 			<summary>Window's height</summary>
 			<description>Window's height</description>
 		</key>
