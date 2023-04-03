@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
 "POT-Creation-Date: 2021-10-18 21:35+0200\n"
-"PO-Revision-Date: 2022-06-20 11:14+0000\n"
+"PO-Revision-Date: 2023-04-04 19:40+0000\n"
 "Last-Translator: albanobattistella <albano_battistella@hotmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/parlatype/"
 "parlatype-help/it/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.13.1-dev\n"
+"X-Generator: Weblate 4.17-dev\n"
 "X-Launchpad-Export-Date: 2020-05-31 16:44+0000\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
@@ -609,13 +609,15 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/preferences.page:62
 msgid "Preferences for speech recognition"
-msgstr ""
+msgstr "Preferenze per il riconoscimento vocale"
 
 #. (itstool) path: note/p
 #: C/preferences.page:65
 msgid ""
 "This tab is only visible, if speech recognition is enabled in Parlatype."
 msgstr ""
+"Questa scheda è visibile solo se il riconoscimento vocale è abilitato in "
+"Parlatype."
 
 #. (itstool) path: section/media
 #. This is a reference to an external file such as an image or video. When
@@ -637,6 +639,10 @@ msgid ""
 "downloading it. You can have as many language models as you need, they can "
 "be added with the <gui>+</gui> button."
 msgstr ""
+"Qui puoi scegliere quale modello linguistico utilizzare. Se non disponi "
+"ancora di un modello linguistico, un assistente ti guiderà attraverso il "
+"processo di download. Puoi avere tutti i modelli linguistici di cui hai "
+"bisogno, si possono aggiungere con il pulsante <gui>+</gui>."
 
 #. (itstool) path: section/p
 #: C/preferences.page:72
@@ -645,6 +651,9 @@ msgid ""
 "on the name, you can see the model’s basic parameters. You could even change "
 "them, but that’s not recommended."
 msgstr ""
+"Per selezionare un modello, fare clic sul relativo pulsante di opzione "
+"nell'elenco. Se fai clic solo sul nome, puoi vedere i parametri di base del "
+"modello. Potresti anche cambiarli, ma non è raccomandato."
 
 #. (itstool) path: section/p
 #: C/preferences.page:74
@@ -861,12 +870,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/asr.page:7
 msgid "Let Parlatype do part of the transcription work"
-msgstr ""
+msgstr "Lascia che Parlatype faccia parte del lavoro di trascrizione"
 
 #. (itstool) path: page/title
 #: C/asr.page:15
 msgid "Automatic speech recognition"
-msgstr ""
+msgstr "Riconoscimento vocale automatico"
 
 #. (itstool) path: page/p
 #: C/asr.page:17
@@ -874,6 +883,8 @@ msgid ""
 "<app>Parlatype</app> offers automatic speech recognition that is done on "
 "your computer. No data is sent over the network."
 msgstr ""
+"<app>Parlatype</app> offre il riconoscimento vocale automatico che viene "
+"eseguito sul tuo computer. Nessun dato viene inviato sulla rete."
 
 #. (itstool) path: note/p
 #: C/asr.page:20
@@ -893,7 +904,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/asr.page:30
 msgid "Start speech recognition"
-msgstr ""
+msgstr "Avvia il riconoscimento vocale"
 
 #. (itstool) path: section/p
 #: C/asr.page:32
@@ -936,6 +947,8 @@ msgid ""
 "Output is without punctuation or capitalization, you have to add or correct "
 "that yourself."
 msgstr ""
+"L'output è senza punteggiatura o maiuscole, devi aggiunge o corregge tu "
+"stesso."
 
 #. (itstool) path: note/p
 #: C/asr.page:47
@@ -951,12 +964,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/asr-setup.page:7
 msgid "Setup automatic speech transcription"
-msgstr ""
+msgstr "Imposta la trascrizione vocale automatica"
 
 #. (itstool) path: page/title
 #: C/asr-setup.page:15
 msgid "Setup automatic speech recognition"
-msgstr ""
+msgstr "Imposta il riconoscimento vocale automatico"
 
 #. (itstool) path: page/p
 #: C/asr-setup.page:17
@@ -1001,12 +1014,12 @@ msgstr ""
 #. (itstool) path: media/span
 #: C/asr-setup.page:36
 msgid "download"
-msgstr ""
+msgstr "download"
 
 #. (itstool) path: media/span
 #: C/asr-setup.page:37
 msgid "unavailable"
-msgstr ""
+msgstr "non disponibile"
 
 #. (itstool) path: page/p
 #: C/asr-setup.page:35
@@ -1015,6 +1028,9 @@ msgid ""
 "see configurations with a <_:media-1/> symbol. Otherwise you will see only "
 "configurations with a <_:media-2/> symbol."
 msgstr ""
+"Se la tua installazione ha abilitato CMU Sphinx o Mozilla DeepSpeech, vedrai "
+"le configurazioni con un simbolo <_:media-1/>. Altrimenti vedrai solo le "
+"configurazioni con un simbolo <_:media-2/>."
 
 #. (itstool) path: page/media
 #. This is a reference to an external file such as an image or video. When
@@ -1031,7 +1047,7 @@ msgstr ""
 #. (itstool) path: media/span
 #: C/asr-setup.page:42
 msgid "settings"
-msgstr ""
+msgstr "impostazioni"
 
 #. (itstool) path: page/p
 #: C/asr-setup.page:41
@@ -1057,7 +1073,7 @@ msgstr ""
 #. (itstool) path: media/span
 #: C/asr-setup.page:50
 msgid "selected"
-msgstr ""
+msgstr "selezionato"
 
 #. (itstool) path: page/p
 #: C/asr-setup.page:49
@@ -1065,6 +1081,9 @@ msgid ""
 "An installed model has no symbol next to it. Double click on the model and "
 "it will be selected for speech recognition, a <_:media-1/> symbol appears."
 msgstr ""
+"Un modello installato non ha alcun simbolo accanto. Fare doppio clic sul "
+"modello e verrà selezionato per il riconoscimento vocale, viene visualizzato "
+"un simbolo <_:media-1/>."
 
 #. (itstool) path: page/p
 #: C/asr-setup.page:53
@@ -1080,6 +1099,8 @@ msgid ""
 "With the <gui>-</gui> button you can remove a configuration. This will never "
 "remove downloaded models, only the configuration file."
 msgstr ""
+"Con il pulsante <gui>-</gui> puoi rimuovere una configurazione. Questo non "
+"rimuoverà mai i modelli scaricati, solo il file di configurazione."
 
 #. (itstool) path: info/desc
 #: C/media-keys.page:6
