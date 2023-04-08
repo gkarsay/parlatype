@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2021-10-18 21:35+0200\n"
-"PO-Revision-Date: 2021-12-18 12:18+0000\n"
+"PO-Revision-Date: 2023-04-08 13:50+0000\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/parlatype/"
 "parlatype-help/pl/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.10\n"
+"X-Generator: Weblate 4.17-dev\n"
 "X-Launchpad-Export-Date: 2021-11-02 18:32+0000\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
@@ -961,6 +961,11 @@ msgid ""
 "installed. Output is silent because decoding speed is dependent on your "
 "machine and may be slower or faster than real-time speech."
 msgstr ""
+"Następnie kliknij <gui>Odtwórz</gui> w programie <app>Parlatype</app>, a "
+"rozpoznana mowa zostanie dodana w programie <app>LibreOffice</app>, jeśli "
+"rozszerzenie Parlatype jest zainstalowane. Wyjście jest ciche, ponieważ "
+"prędkość dekodowania zależy od komputera i może być wolniejsza lub szybsza "
+"od mowy w czasie rzeczywistym."
 
 #. (itstool) path: section/p
 #: C/asr.page:45
@@ -981,6 +986,12 @@ msgid ""
 "start will be faster than automatic transcription and the following "
 "correction process."
 msgstr ""
+"<em>Dokładność</em> zależy od wielu czynników, takich jak jakość nagrania, "
+"hałas w tle, dialekt lub wymowa mówiącego oraz używany model mowy. W "
+"przypadku transkrypcji ogólnego przeznaczenia można oczekiwać współczynnika "
+"błędów między 10 a 50%. Niestety, oznacza to, że w niektórych przypadkach "
+"ręczna transkrypcja od zera będzie szybsza niż transkrypcja automatyczna i "
+"następujący po niej proces korekty błędów."
 
 #. (itstool) path: info/desc
 #: C/asr-setup.page:7
@@ -1000,6 +1011,10 @@ msgid ""
 "for CMU Sphinx and Mozilla DeepSpeech and ships a couple of <em>language "
 "model configurations</em>."
 msgstr ""
+"Do rozpoznawania mowy niezbędny jest model języka: co najmniej jeden plik "
+"wytrenowany za pomocą próbek prawdziwej mowy. <app>Parlatype</app> obsługuje "
+"modele języków wykonane dla mechanizmów CMU Sphinx i Mozilla DeepSpeech oraz "
+"zawiera kilka <em>konfiguracji modeli języków</em>."
 
 #. (itstool) path: note/p
 #: C/asr-setup.page:22
@@ -1011,6 +1026,12 @@ msgid ""
 "base folder, where you have saved the model. Additionally it contains "
 "various parameters for the plugin which are not shown."
 msgstr ""
+"<em>Konfiguracja modelu języka</em> zawiera metadane opisujące model języka: "
+"nazwę, którą można zmienić, język, dla którego go wykonano, mechanizm "
+"rozpoznawania mowy, wydawcę, licencję itp. Ma (zewnętrzny) odnośnik, gdzie "
+"można pobrać pliki. Częścią konfiguracji jest podstawowy katalog, gdzie "
+"zapisano model. Dodatkowo zawiera różne parametry dla wtyczki, które nie są "
+"widoczne."
 
 #. (itstool) path: page/p
 #: C/asr-setup.page:29
@@ -1019,6 +1040,9 @@ msgid ""
 "tab. Initially there are no configurations available, click on the <gui>Add "
 "a configuration</gui> button."
 msgstr ""
+"Otwórz okno preferencji i kliknij kartę <gui>Rozpoznawanie mowy</gui>. Na "
+"początku nie ma dostępnych żadnych konfiguracji, więc kliknij przycisk "
+"<gui>Dodaj konfigurację</gui>."
 
 #. (itstool) path: page/media
 #. This is a reference to an external file such as an image or video. When
@@ -1037,12 +1061,12 @@ msgstr ""
 #. (itstool) path: media/span
 #: C/asr-setup.page:36
 msgid "download"
-msgstr ""
+msgstr "pobierz"
 
 #. (itstool) path: media/span
 #: C/asr-setup.page:37
 msgid "unavailable"
-msgstr ""
+msgstr "niedostępne"
 
 #. (itstool) path: page/p
 #: C/asr-setup.page:35
@@ -1051,6 +1075,9 @@ msgid ""
 "see configurations with a <_:media-1/> symbol. Otherwise you will see only "
 "configurations with a <_:media-2/> symbol."
 msgstr ""
+"Jeśli instalacja ma włączony mechanizm CMU Sphinx lub Mozilla DeepSpeech, to "
+"będą widoczne konfiguracje z symbolem <_:media-1/>. W przeciwnym wypadku "
+"będą widoczne tylko konfiguracje z symbolem <_:media-2/>."
 
 #. (itstool) path: page/media
 #. This is a reference to an external file such as an image or video. When
@@ -1069,7 +1096,7 @@ msgstr ""
 #. (itstool) path: media/span
 #: C/asr-setup.page:42
 msgid "settings"
-msgstr ""
+msgstr "ustawienia"
 
 #. (itstool) path: page/p
 #: C/asr-setup.page:41
@@ -1079,6 +1106,10 @@ msgid ""
 "downloading, you have to set the folder where your download resides. You can "
 "also change the <gui>Display name</gui>."
 msgstr ""
+"Zaznacz konfigurację i kliknij przycisk <_:media-1/>. Wyświetlony zostanie "
+"krótki opis modelu i informacja, skąd można go pobrać. Po pobraniu należy "
+"ustawić katalog, do którego go pobrano. Można zmienić także <gui>Wyświetlaną "
+"nazwę</gui>."
 
 #. (itstool) path: page/media
 #. This is a reference to an external file such as an image or video. When
@@ -1097,7 +1128,7 @@ msgstr ""
 #. (itstool) path: media/span
 #: C/asr-setup.page:50
 msgid "selected"
-msgstr ""
+msgstr "wybrane"
 
 #. (itstool) path: page/p
 #: C/asr-setup.page:49
@@ -1105,6 +1136,9 @@ msgid ""
 "An installed model has no symbol next to it. Double click on the model and "
 "it will be selected for speech recognition, a <_:media-1/> symbol appears."
 msgstr ""
+"Obok zainstalowanego modelu nie ma żadnego symbolu. Podwójnie kliknij model, "
+"a zostanie on wybrany do rozpoznawania mowy i obok niego pojawi się symbol "
+"<_:media-1/>."
 
 #. (itstool) path: page/p
 #: C/asr-setup.page:53
@@ -1113,6 +1147,9 @@ msgid ""
 "import a configuration with the <gui>+</gui> button. Configurations are text "
 "files with an .asr ending."
 msgstr ""
+"Zawarte konfiguracje mogą z czasem stać się przestarzałe. W związku z tym "
+"można zaimportować konfigurację za pomocą przycisku <gui>+</gui>. "
+"Konfiguracje są plikami tekstowymi z rozszerzeniem „.asr”."
 
 #. (itstool) path: page/p
 #: C/asr-setup.page:57
@@ -1120,6 +1157,8 @@ msgid ""
 "With the <gui>-</gui> button you can remove a configuration. This will never "
 "remove downloaded models, only the configuration file."
 msgstr ""
+"Za pomocą przycisku <gui>-</gui> można usunąć konfigurację. Nie spowoduje to "
+"nigdy usunięcia pobranych modeli, tylko pliku konfiguracji."
 
 #. (itstool) path: info/desc
 #: C/media-keys.page:6
