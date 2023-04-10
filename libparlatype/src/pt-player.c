@@ -153,6 +153,7 @@ pt_player_seek_internal_locked (PtPlayer *player)
   gboolean ret;
   GstClockTime position;
   gdouble speed;
+  gint64 stop;
   GstStateChangeReturn state_ret;
 
   remove_seek_source (player);
@@ -179,11 +180,12 @@ pt_player_seek_internal_locked (PtPlayer *player)
   player->priv->seek_position = GST_CLOCK_TIME_NONE;
   player->priv->seek_pending = TRUE;
   speed = player->priv->speed;
+  stop = player->priv->segend;
   g_mutex_unlock (&player->priv->lock);
 
   g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
-                    "MESSAGE", "Seek to %" GST_TIME_FORMAT,
-                    GST_TIME_ARGS(position));
+                    "MESSAGE", "Seek to position %" GST_TIME_FORMAT ", stop at %" GST_TIME_FORMAT,
+                    GST_TIME_ARGS(position), GST_TIME_ARGS (stop));
 
   ret = gst_element_seek (
       player->priv->play,
@@ -193,7 +195,7 @@ pt_player_seek_internal_locked (PtPlayer *player)
       GST_SEEK_TYPE_SET,
       position,
       GST_SEEK_TYPE_SET,
-      player->priv->segend);
+      stop);
 
   if (!ret)
     {
@@ -368,27 +370,22 @@ bus_call (GstBus *bus,
           gpointer data)
 {
   PtPlayer *player = (PtPlayer *) data;
-  gint64 pos;
+  gint64 pos, stop;
 
   switch (GST_MESSAGE_TYPE (msg))
     {
-    case GST_MESSAGE_SEGMENT_DONE:
-      /* From GStreamer documentation:
-         When performing a segment seek: after the playback of the segment completes,
-         no EOS will be emitted by the element that performed the seek, but a
-         GST_MESSAGE_SEGMENT_DONE message will be posted on the bus by the element. */
-
     case GST_MESSAGE_EOS:
-      /* We rely on that SEGMENT_DONE/EOS is exactly at the end of segment.
-         This works in Debian 8, but not Ubuntu 16.04 (because of newer GStreamer?)
-         with mp3s. Jump to the real end. */
+      g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG, "MESSAGE", "EOS");
+      /* Sometimes the current position is not exactly at the end which looks like
+       * a premature EOS or makes the cursor disappear.*/
       gst_element_query_position (player->priv->play, GST_FORMAT_TIME, &pos);
-      if (pos != player->priv->segend)
+      stop = GST_CLOCK_TIME_IS_VALID (player->priv->segend) ? player->priv->segend : player->priv->dur;
+      if (pos != stop)
         {
           g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                             "MESSAGE", "Correcting EOS position: %" G_GINT64_FORMAT " ms",
-                            GST_TIME_AS_MSECONDS (player->priv->segend - pos));
-          pt_player_seek (player, player->priv->segend);
+                            GST_TIME_AS_MSECONDS (stop - pos));
+          pt_player_seek (player, stop);
         }
       g_signal_emit_by_name (player, "end-of-stream");
       break;
@@ -592,8 +589,9 @@ pt_player_open_uri (PtPlayer *player,
 
   gint64 dur = 0;
   gst_element_query_duration (player->priv->play, GST_FORMAT_TIME, &dur);
-  player->priv->dur = player->priv->segend = dur;
+  player->priv->dur = dur;
   player->priv->segstart = 0;
+  player->priv->segend = GST_CLOCK_TIME_NONE;
   g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG, "MESSAGE",
                     "Initial duration: %" GST_TIME_FORMAT, GST_TIME_ARGS (dur));
 
@@ -687,40 +685,48 @@ pt_player_play (PtPlayer *player)
   gboolean selection;
   GstState previous;
 
-  if (player->priv->wv)
-    {
-      /* If there is a selection, play it */
-      g_object_get (player->priv->wv,
-                    "selection-start", &start,
-                    "selection-end", &end,
-                    "has-selection", &selection,
-                    NULL);
-
-      if (selection)
-        {
-          /* Note: changes position if outside selection */
-          pt_player_set_selection (player, start, end);
-        }
-    }
-  else
-    {
-      selection = pt_player_selection_active (player);
-    }
-
   if (!gst_element_query_position (player->priv->play, GST_FORMAT_TIME, &pos))
     return;
 
-  previous = player->priv->current_state;
+  player->priv->target_state = GST_STATE_PLAYING;
 
-  if (pos == player->priv->segend)
+  if (GST_CLOCK_TIME_IS_VALID (player->priv->segend))
     {
-      if ((selection && player->priv->repeat_selection) || (!selection && player->priv->repeat_all))
-        pt_player_seek (player, player->priv->segstart);
-      else
-        pt_player_jump_relative (player, player->priv->pause * -1);
+      selection = TRUE;
+      start = player->priv->segstart;
+      end = player->priv->segend;
+    }
+  else
+    {
+      selection = FALSE;
+      start = 0;
+      end = player->priv->dur;
     }
 
-  player->priv->target_state = GST_STATE_PLAYING;
+  if (pos < start || pos > end)
+    {
+      pt_player_seek (player, start);
+      /* Change to playing state will be performed on state change in bus_call() */
+      return;
+    }
+
+  if (pos == end)
+    {
+      if ((selection && player->priv->repeat_selection) || (!selection && player->priv->repeat_all))
+        {
+          g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                          "MESSAGE", "Seek to start position");
+          pt_player_seek (player, start);
+        }
+      else
+        {
+          pt_player_jump_relative (player, player->priv->pause * -1);
+        }
+      /* Change to playing state will be performed on state change in bus_call() */
+      return;
+    }
+
+  previous = player->priv->current_state;
   gst_element_set_state (player->priv->play, GST_STATE_PLAYING);
   if (previous == GST_STATE_PAUSED)
     g_signal_emit_by_name (player, "play-toggled");
@@ -807,7 +813,7 @@ pt_player_clear_selection (PtPlayer *player)
   gint64 pos;
 
   player->priv->segstart = 0;
-  player->priv->segend = player->priv->dur;
+  player->priv->segend = GST_CLOCK_TIME_NONE;
 
   if (!gst_element_query_position (player->priv->play, GST_FORMAT_TIME, &pos))
     return;
@@ -830,7 +836,7 @@ pt_player_selection_active (PtPlayer *player)
 {
   g_return_val_if_fail (PT_IS_PLAYER (player), FALSE);
 
-  return !(player->priv->segstart == 0 && player->priv->segend == player->priv->dur);
+  return (GST_CLOCK_TIME_IS_VALID (player->priv->segend));
 }
 
 /* -------------------- Positioning, speed, volume -------------------------- */
@@ -867,7 +873,11 @@ pt_player_jump_relative (PtPlayer *player,
   g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                     "MESSAGE", "Jump relative: new = %" GST_TIME_FORMAT, GST_TIME_ARGS (new));
 
-  if (new > player->priv->segend)
+  if (new > player->priv->dur)
+    new = player->priv->dur;
+
+  if (GST_CLOCK_TIME_IS_VALID (player->priv->segend)
+      && new > player->priv->segend)
     new = player->priv->segend;
 
   if (new < player->priv->segstart)
@@ -982,7 +992,7 @@ pt_player_jump_to_position (PtPlayer *player,
                         GST_TIME_ARGS (pos), GST_TIME_ARGS (player->priv->segstart));
       return;
     }
-  if (player->priv->segend != -1 && pos > player->priv->segend)
+  if (GST_CLOCK_TIME_IS_VALID (player->priv->segend) && pos > player->priv->segend)
     {
       g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                         "MESSAGE", "Setting position failed: target %" GST_TIME_FORMAT " after segend %" GST_TIME_FORMAT,
@@ -1230,29 +1240,35 @@ wv_selection_changed_cb (GtkWidget *widget,
                          PtPlayer *player)
 {
   /* Selection changed in Waveviewer widget:
-     - if we are not playing a selection: ignore it
+     - if we are not playing a selection: just set start/stop without seeking
      - if we are playing a selection and we are still in the selection:
        update selection
      - if we are playing a selection and the new one is somewhere else:
        stop playing the selection */
 
   gint64 start, end, pos;
-  if (pt_player_selection_active (player))
+  g_object_get (player->priv->wv,
+                "selection-start", &start,
+                "selection-end", &end,
+                NULL);
+
+  if (player->priv->current_state == GST_STATE_PAUSED
+      || !GST_CLOCK_TIME_IS_VALID (player->priv->segend))
     {
-      if (!gst_element_query_position (player->priv->play, GST_FORMAT_TIME, &pos))
-        return;
-      g_object_get (player->priv->wv,
-                    "selection-start", &start,
-                    "selection-end", &end,
-                    NULL);
-      if (start <= pos && pos <= end)
-        {
-          pt_player_set_selection (player, start, end);
-        }
-      else
-        {
-          pt_player_clear_selection (player);
-        }
+      player->priv->segstart = GST_MSECOND * start;
+      player->priv->segend = (end == 0) ? GST_CLOCK_TIME_NONE : GST_MSECOND * end;
+      return;
+    }
+
+  if (!gst_element_query_position (player->priv->play, GST_FORMAT_TIME, &pos))
+    return;
+  if (GST_MSECOND * start <= pos && pos <= GST_MSECOND * end)
+    {
+      pt_player_set_selection (player, start, end);
+    }
+  else
+    {
+      pt_player_clear_selection (player);
     }
 }
 
