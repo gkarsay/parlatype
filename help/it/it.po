@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
 "POT-Creation-Date: 2021-10-18 21:35+0200\n"
-"PO-Revision-Date: 2023-04-04 19:40+0000\n"
+"PO-Revision-Date: 2023-04-11 08:53+0000\n"
 "Last-Translator: albanobattistella <albano_battistella@hotmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/parlatype/"
 "parlatype-help/it/>\n"
@@ -114,12 +114,12 @@ msgid ""
 "select the name only, <app>Parlatype</app> will look up its full path in the "
 "list of recent files and open it if it can find it in that list."
 msgstr ""
-"Nomi file: selezionare un nome file da un elaboratore di testi, ad es. "
+"Nomi di file: Seleziona un nome da un elaboratore di testo, e.g. "
 "<app>LibreOffice</app>, rilascia il testo selezionato su <app>Parlatype</"
-"app> e si aprirà quel file. Funzionerà sempre se la selezione contiene un "
-"percorso completo. Se selezioni solo il nome, <app>Parlatype</app> cercherà "
-"il suo percorso completo nell'elenco dei file recenti e lo aprirà se riesce "
-"a trovarlo in quell'elenco."
+"app> ed esso lo aprirà. Ciò funzionerà sempre se la selezione contiene un "
+"percorso completo. se selezioni solo il nome del file, <app>Parlatype</app> "
+"cercherà il suo percorso completo nella lista dei file recenti e lo aprirà "
+"se lo troverà in tale lista."
 
 #. (itstool) path: item/p
 #: C/drag-and-drop.page:21
@@ -630,6 +630,8 @@ msgid ""
 "external ref='figures/parlatype-prefs-asr.png' "
 "md5='6dee1ebd03b65edbb0bff9811d602c10'"
 msgstr ""
+"external ref='figures/parlatype-prefs-asr.png' "
+"md5='6dee1ebd03b65edbb0bff9811d602c10'"
 
 #. (itstool) path: section/p
 #: C/preferences.page:70
@@ -661,6 +663,9 @@ msgid ""
 "The <gui>-</gui> button removes a model from the list. The model’s files "
 "however are <em>not</em> deleted, just the model entry is removed."
 msgstr ""
+"Il pulsante <gui>-</gui> rimuove un modello dall'elenco. Tuttavia, i file "
+"del modello <em>non</em> vengono eliminati, viene rimossa solo la voce del "
+"modello."
 
 #. (itstool) path: section/title
 #: C/preferences.page:80
@@ -893,6 +898,9 @@ msgid ""
 "<app>Mozilla DeepSpeech</app>. Please note that those libraries might be not "
 "available on your platform."
 msgstr ""
+"<app>Parlatype</app> deve essere stato creato con <app>PocketSphinx</app> o "
+"<app>Mozilla DeepSpeech</app>. Tieni presente che tali librerie potrebbero "
+"non essere disponibili sulla tua piattaforma."
 
 #. (itstool) path: note/p
 #: C/asr.page:25
@@ -900,6 +908,9 @@ msgid ""
 "<app>Parlatype</app> has no built-in text editor. You need the Parlatype "
 "Extension for <app>LibreOffice</app> to output recognized text."
 msgstr ""
+"<app>Parlatype</app> non ha un editor di testo integrato. È necessaria "
+"l'estensione Parlatype per <app>LibreOffice</app> per l'output del testo "
+"riconosciuto."
 
 #. (itstool) path: section/title
 #: C/asr.page:30
@@ -912,6 +923,9 @@ msgid ""
 "Select a language model in the Preferences Dialog, <gui>Speech recognition</"
 "gui> tab, see <link xref=\"asr-setup\"/> for more details."
 msgstr ""
+"Seleziona un modello di lingua nella finestra di dialogo Preferenze, scheda "
+"<gui>Riconoscimento vocale</gui>, vedi <link xref=\"asr-setup\"/> per "
+"maggiori dettagli."
 
 #. (itstool) path: section/p
 #: C/asr.page:35
@@ -919,6 +933,8 @@ msgid ""
 "Open the primary menu and click on <gui>Automatic transcription</gui>. This "
 "is only available, if you have setup and chosen a language model."
 msgstr ""
+"Apri il menu principale e fai clic su <gui>Trascrizione automatica</gui>. "
+"Questo è disponibile solo se hai configurato e scelto un modello di lingua."
 
 #. (itstool) path: section/media
 #. This is a reference to an external file such as an image or video. When
@@ -931,6 +947,8 @@ msgid ""
 "external ref='figures/asr-switch-to-asr.png' "
 "md5='91dc6bffa3b8a3342889d9bfccabc3c8'"
 msgstr ""
+"external ref='figures/asr-switch-to-asr.png' "
+"md5='91dc6bffa3b8a3342889d9bfccabc3c8'"
 
 #. (itstool) path: section/p
 #: C/asr.page:40
@@ -940,6 +958,11 @@ msgid ""
 "installed. Output is silent because decoding speed is dependent on your "
 "machine and may be slower or faster than real-time speech."
 msgstr ""
+"Ora premi <gui>Riproduci</gui> in <app>Parlatype</app> e il discorso "
+"riconosciuto verrà stampato in <app>LibreOffice</app>, se è installata "
+"l'estensione Parlatype. L'output è silenzioso perché la velocità di "
+"decodifica dipende dalla tua macchina e potrebbe essere più lenta o più "
+"veloce del parlato in tempo reale."
 
 #. (itstool) path: section/p
 #: C/asr.page:45
@@ -960,6 +983,12 @@ msgid ""
 "start will be faster than automatic transcription and the following "
 "correction process."
 msgstr ""
+"La <em>precisione</em> dipende da molti fattori come la qualità della "
+"registrazione, il rumore di fondo, il dialetto o la pronuncia di chi parla e "
+"il modello vocale utilizzato. Per la trascrizione generale puoi aspettarti "
+"un tasso di errore di parola compreso tra il 10 e il 50%. Purtroppo questo "
+"significa che in alcuni casi la trascrizione manuale dall'inizio sarà più "
+"veloce della trascrizione automatica e del successivo processo di correzione."
 
 #. (itstool) path: info/desc
 #: C/asr-setup.page:7
@@ -979,6 +1008,10 @@ msgid ""
 "for CMU Sphinx and Mozilla DeepSpeech and ships a couple of <em>language "
 "model configurations</em>."
 msgstr ""
+"Per il riconoscimento vocale è necessario un modello linguistico: uno o più "
+"file addestrati con campioni vocali reali. <app>Parlatype</app> supporta i "
+"modelli linguistici realizzati per CMU Sphinx e Mozilla DeepSpeech e "
+"fornisce un paio di <em>configurazioni del modello linguistico</em>."
 
 #. (itstool) path: note/p
 #: C/asr-setup.page:22
@@ -990,6 +1023,13 @@ msgid ""
 "base folder, where you have saved the model. Additionally it contains "
 "various parameters for the plugin which are not shown."
 msgstr ""
+"Una <em>configurazione del modello linguistico</em> contiene metadati che "
+"descrivono il modello linguistico: un nome che puoi modificare, la lingua "
+"per cui è stato creato, il motore di riconoscimento vocale, l'editore, la "
+"licenza e così via. Ha un collegamento (di terze parti) , dove è possibile "
+"scaricare i file. Parte della configurazione è la cartella di base, dove hai "
+"salvato il modello. Inoltre contiene vari parametri per il plugin che non "
+"vengono mostrati."
 
 #. (itstool) path: page/p
 #: C/asr-setup.page:29
@@ -998,6 +1038,9 @@ msgid ""
 "tab. Initially there are no configurations available, click on the <gui>Add "
 "a configuration</gui> button."
 msgstr ""
+"Apri la finestra di dialogo delle preferenze e fai clic sulla scheda "
+"<gui>Riconoscimento vocale</gui>. Inizialmente non ci sono configurazioni "
+"disponibili, fai clic sul pulsante <gui>Aggiungi una configurazione</gui>."
 
 #. (itstool) path: page/media
 #. This is a reference to an external file such as an image or video. When
@@ -1010,6 +1053,8 @@ msgid ""
 "external ref='figures/asr-setup-initial.png' "
 "md5='31773b99dcbb1ee84e59e119a0bd35c6'"
 msgstr ""
+"external ref='figures/asr-setup-initial.png' "
+"md5='31773b99dcbb1ee84e59e119a0bd35c6'"
 
 #. (itstool) path: media/span
 #: C/asr-setup.page:36
@@ -1043,6 +1088,8 @@ msgid ""
 "external ref='figures/asr-setup-downloadable.png' "
 "md5='6e00b08a60952e8f408bec4a024be2e5'"
 msgstr ""
+"external ref='figures/asr-setup-downloadable.png' "
+"md5='6e00b08a60952e8f408bec4a024be2e5'"
 
 #. (itstool) path: media/span
 #: C/asr-setup.page:42
@@ -1057,6 +1104,10 @@ msgid ""
 "downloading, you have to set the folder where your download resides. You can "
 "also change the <gui>Display name</gui>."
 msgstr ""
+"Seleziona una configurazione e fai clic sul pulsante <_:media-1/>. C'è una "
+"breve descrizione del modello e dove è possibile scaricarlo. Dopo il "
+"download, devi impostare la cartella in cui risiede il download. Puoi anche "
+"cambiare il <gui>Nome visualizzato</gui>."
 
 #. (itstool) path: page/media
 #. This is a reference to an external file such as an image or video. When
@@ -1069,6 +1120,8 @@ msgid ""
 "external ref='figures/asr-setup-details.png' "
 "md5='3273410dfb31da8518a64d28af0da7b1'"
 msgstr ""
+"external ref='figures/asr-setup-details.png' "
+"md5='3273410dfb31da8518a64d28af0da7b1'"
 
 #. (itstool) path: media/span
 #: C/asr-setup.page:50
@@ -1092,6 +1145,9 @@ msgid ""
 "import a configuration with the <gui>+</gui> button. Configurations are text "
 "files with an .asr ending."
 msgstr ""
+"Le configurazioni fornite potrebbero diventare obsolete nel tempo. Quindi "
+"puoi importare una configurazione con il pulsante <gui>+</gui>. Le "
+"configurazioni sono file di testo con estensione .asr."
 
 #. (itstool) path: page/p
 #: C/asr-setup.page:57
