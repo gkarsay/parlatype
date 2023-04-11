@@ -37,6 +37,7 @@ pt_player_get_type
 pt_player_get_uri
 pt_player_get_volume
 pt_player_goto_timestamp
+pt_player_has_selection
 pt_player_jump_back
 pt_player_jump_forward
 pt_player_jump_relative
@@ -47,7 +48,6 @@ pt_player_pause
 pt_player_pause_and_rewind
 pt_player_play
 pt_player_play_pause
-pt_player_selection_active
 pt_player_set_mode
 pt_player_set_mute
 pt_player_set_selection

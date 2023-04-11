@@ -16,7 +16,7 @@ pt_player_get_pause
 pt_player_connect_waveviewer
 pt_player_set_selection
 pt_player_clear_selection
-pt_player_selection_active
+pt_player_has_selection
 pt_player_jump_relative
 pt_player_jump_back
 pt_player_jump_forward

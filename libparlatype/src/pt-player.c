@@ -822,17 +822,17 @@ pt_player_clear_selection (PtPlayer *player)
 }
 
 /**
- * pt_player_selection_active:
+ * pt_player_has_selection:
  * @player: a #PtPlayer
  *
  * Returns whether there is currently a selection set or not.
  *
  * Return value: TRUE if there is a selection
  *
- * Since: 1.6
+ * Since: 4.0
  */
 gboolean
-pt_player_selection_active (PtPlayer *player)
+pt_player_has_selection (PtPlayer *player)
 {
   g_return_val_if_fail (PT_IS_PLAYER (player), FALSE);
 

@@ -113,7 +113,7 @@ void pt_player_set_selection (PtPlayer *player,
                               gint64 start,
                               gint64 end);
 void pt_player_clear_selection (PtPlayer *player);
-gboolean pt_player_selection_active (PtPlayer *player);
+gboolean pt_player_has_selection (PtPlayer *player);
 gboolean pt_player_open_uri (PtPlayer *player,
                              gchar *uri);
 void pt_player_jump_relative (PtPlayer *player,

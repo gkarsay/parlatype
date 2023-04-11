@@ -210,15 +210,15 @@ player_selections (PtPlayerFixture *fixture,
 
   gboolean selection;
 
-  selection = pt_player_selection_active (fixture->testplayer);
+  selection = pt_player_has_selection (fixture->testplayer);
   g_assert_false (selection);
 
   pt_player_set_selection (fixture->testplayer, 1000, 2000);
-  selection = pt_player_selection_active (fixture->testplayer);
+  selection = pt_player_has_selection (fixture->testplayer);
   g_assert_true (selection);
 
   pt_player_clear_selection (fixture->testplayer);
-  selection = pt_player_selection_active (fixture->testplayer);
+  selection = pt_player_has_selection (fixture->testplayer);
   g_assert_false (selection);
 }
 
