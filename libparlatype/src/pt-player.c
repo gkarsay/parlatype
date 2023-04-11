@@ -191,7 +191,7 @@ pt_player_seek_internal_locked (PtPlayer *player)
       player->priv->play,
       speed,
       GST_FORMAT_TIME,
-      GST_SEEK_FLAG_FLUSH,
+      GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE,
       GST_SEEK_TYPE_SET,
       position,
       GST_SEEK_TYPE_SET,
