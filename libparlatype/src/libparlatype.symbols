@@ -15,8 +15,9 @@ pt_config_set_file
 pt_config_set_name
 pt_error_quark
 pt_player_clear_selection
+pt_player_configure_asr
+pt_player_config_is_loadable
 pt_player_connect_waveviewer
-pt_player_fast_forward
 pt_player_get_back
 pt_player_get_current_time_string
 pt_player_get_duration
@@ -40,14 +41,12 @@ pt_player_jump_back
 pt_player_jump_forward
 pt_player_jump_relative
 pt_player_jump_to_position
-pt_player_mute_volume
 pt_player_new
 pt_player_open_uri
 pt_player_pause
 pt_player_pause_and_rewind
 pt_player_play
 pt_player_play_pause
-pt_player_rewind
 pt_player_selection_active
 pt_player_set_mode
 pt_player_set_mute
