@@ -8,76 +8,84 @@ msgstr ""
 "Project-Id-Version: Parlatype 3.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-12 19:52+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2023-04-24 02:52+0000\n"
+"Last-Translator: Alex Gabilondo <alexgabi@disroot.org>\n"
+"Language-Team: Basque <https://hosted.weblate.org/projects/parlatype/"
+"parlatype/eu/>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.18-dev\n"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:7
 #: data/org.parlatype.Parlatype.desktop.in:4 src/pt-app.c:214
 #: src/resources/window.ui:32
+#, fuzzy
 msgid "Parlatype"
-msgstr ""
+msgstr "Parlatype"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:8
 msgid "Media player for speech transcription"
-msgstr ""
+msgstr "Hizketa-transkribatzeko multimedia erreproduzitzailea"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:11
 msgid ""
 "Parlatype is an easy to use media player. Its main purpose is to help you "
 "transcribing speech."
 msgstr ""
+"Parlatype multimedia erreproduzitzaile erraza da. Bere helburu nagusia "
+"hizketa transkribatzen laguntzea da."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:25
+#, fuzzy
 msgid "Gabor Karsay"
-msgstr ""
+msgstr "Gabor Karsay"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:46
 msgid "This is a minor release with a new feature."
-msgstr ""
+msgstr "Hau bertsio-berritze txiki bat da, funtzio berri batekin."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:48
 msgid "Added MPRIS interface."
-msgstr ""
+msgstr "MPRIS interfazea gehitu da."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:49
 msgid "Smaller bug fixes."
-msgstr ""
+msgstr "Akatsen konponketa txikia."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:50
 msgid "Switched to Weblate for translations."
-msgstr ""
+msgstr "Itzulpenetarako Weblate-ra aldatu da."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:51
 #: data/org.parlatype.Parlatype.appdata.xml.in:61
 #: data/org.parlatype.Parlatype.appdata.xml.in:77
 msgid "Translation updates for several languages."
-msgstr ""
+msgstr "Hainbat hizkuntzatarako itzulpen eguneraketak."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:57
 #: data/org.parlatype.Parlatype.appdata.xml.in:84
 msgid "This is a major release with new features."
-msgstr ""
+msgstr "Ezaugarri berriak dituen bertsio nagusia da."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:59
 msgid "Support for Mozilla DeepSpeech."
-msgstr ""
+msgstr "Mozilla DeepSpeech-erako laguntza."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:60
 msgid "New configuration system for Automatic Speech Recognition."
-msgstr ""
+msgstr "Ahots-ezagutze automatikoaren konfigurazio-sistema berria."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:68
 msgid "This is a minor release with bug fixes and minor new features."
 msgstr ""
+"Hau akatsen konponketa eta eginbide berri txikiak dituen bertsio txiki bat "
+"da."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:71
@@ -85,6 +93,8 @@ msgid ""
 "Mute/unmute volume by clicking on the volume icon with the pointer’s "
 "secondary button (usually right mouse button)."
 msgstr ""
+"Isilarazi/berpiztu bolumena bolumenaren ikonoan klik eginez botoi "
+"sekundarioarekin (oro har saguaren eskuin botoia)."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:73
@@ -92,26 +102,31 @@ msgid ""
 "With Pulseaudio Parlatype doesn’t change the system volume anymore, just its "
 "own application specific volume."
 msgstr ""
+"Pulseaudiok Parlatyperekin ez du sistemaren bolumena aldatzen, aplikazioaren "
+"bolumen espezifikoa baizik."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:75
+#, fuzzy
 msgid "The initial volume level is picked up from Pulseaudio."
-msgstr ""
+msgstr "Hasierako bolumen-maila Pulseaudiotik jasotzen da."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:87
 msgid "Waveform is loaded on-the-fly, there is no blocking progress dialog."
 msgstr ""
+"Uhin forma unean-unean kargatzen da, ez dago blokeorik gabeko aurrerapen-"
+"elkarrizketarik."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:89
 msgid "Waveform can be changed continuously instead of in discrete steps."
-msgstr ""
+msgstr "Uhin-forma etengabe alda daiteke, urrats diskretuetan izan beharrean."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:96
 msgid "This is a minor release."
-msgstr ""
+msgstr "Bertsio txikiagoa da hau."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:99
@@ -119,16 +134,18 @@ msgid ""
 "Update time label only if time has changed. This is a performance increase, "
 "cursor movement should be smoother on slower systems."
 msgstr ""
+"Eguneratu ordu-etiketa ordua aldatu bada soilik. Hau errendimendua handitzea "
+"da, kurtsorearen mugimendua leunagoa izan beharko luke sistema motelagoetan."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:101
 msgid "Translation updates for Hungarian, Lithuanian and Spanish"
-msgstr ""
+msgstr "Itzulpen eguneraketak hungariera, lituaniera eta gaztelaniarako"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:108
 msgid "This is a minor release with some changes."
-msgstr ""
+msgstr "Aldaketa batzuk dituen bertsio txiki bat da hau."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:111
@@ -136,11 +153,14 @@ msgid ""
 "Automatic speech recognition (ASR) is now disabled by default and it’s only "
 "shown, if Parlatype is launched with the new parameter \\\"--with-asr\\\""
 msgstr ""
+"Ahotsaren ezagutze automatikoa (ASR) lehenespenez desgaituta dago orain eta "
+"soilik erakusten da Parlatype \\\"--with-asr\\\" parametro berriarekin "
+"abiarazten bada"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:113
 msgid "Fix internationalization: Some translations were not shown"
-msgstr ""
+msgstr "Konpondu nazioartekotzea: itzulpen batzuk ez dira erakutsi"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:115
@@ -148,26 +168,28 @@ msgid ""
 "Translation updates for Arabic, British English, Czech, Dutch, German, "
 "Polish and Spanish"
 msgstr ""
+"Itzulpen eguneraketak: arabiera, ingeles britainiarra, txekiera, "
+"nederlandera, alemana, poloniera eta gaztelania"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:122
 msgid "This is a major release with some new features."
-msgstr ""
+msgstr "Ezaugarri berriak dituen bertsio nagusia da."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:125
 msgid "Automatic speech recognition with CMU Sphinx"
-msgstr ""
+msgstr "Ahots-ezagutze automatikoa CMU Sphinx-ekin"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:127
 msgid "Design changes, including removal of application menu"
-msgstr ""
+msgstr "Diseinu aldaketak, aplikazioen menua kentzea barne"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:129
 msgid "Custom timestamps"
-msgstr ""
+msgstr "Denbora-marka pertsonalizatuak"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:131
@@ -175,26 +197,29 @@ msgid ""
 "Translation updates for Brazilian Portuguese, British English, Czech, "
 "German, Japanese, Lithuanian and Polish"
 msgstr ""
+"Brasilgo portugesa, ingeles britainiarra, txekiera, alemana, japoniera, "
+"lituaniera eta polonierarako itzulpen eguneraketak"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:138
 msgid "This is a minor maintenance release."
-msgstr ""
+msgstr "Mantentze-lanen bertsio txikia da hau."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:141
 msgid "Animate scrolling when using keybindings"
-msgstr ""
+msgstr "Animatu korritzea laster-teklak erabiltzean"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:143
 msgid "Change desktop entry category to Audio/Video instead of Utilities"
 msgstr ""
+"Aldatu mahaigaineko sarrera-kategoria Audio/Bideo-ra Erabilgarritasunen ordez"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:145
 msgid "Translation updates for French"
-msgstr ""
+msgstr "Itzulpen eguneraketak frantseserako"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:152
