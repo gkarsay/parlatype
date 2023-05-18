@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Parlatype 3.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-12 19:52+0100\n"
-"PO-Revision-Date: 2023-04-24 02:52+0000\n"
-"Last-Translator: Alex Gabilondo <alexgabi@disroot.org>\n"
+"PO-Revision-Date: 2023-05-19 20:47+0000\n"
+"Last-Translator: Alexander Gabilondo <alexgabi@openmailbox.org>\n"
 "Language-Team: Basque <https://hosted.weblate.org/projects/parlatype/"
 "parlatype/eu/>\n"
 "Language: eu\n"
@@ -224,17 +224,19 @@ msgstr "Itzulpen eguneraketak frantseserako"
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:152
 msgid "This release contains a number of bug fixes and minor improvements."
-msgstr ""
+msgstr "Bertsio honek akatsen konponketa eta hobekuntza txiki batzuk ditu."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:155
 msgid "Progress Dialog has now a countdown timer (estimated time left)"
 msgstr ""
+"Aurrerapen Elkarrizketa-koadroak tenporizadore bat du (geratzen den denbora "
+"estimatua)"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:157
 msgid "Increase max. possible speed to 2.0"
-msgstr ""
+msgstr "Gehienezko abiadura 2.0ra handitu da"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:159
@@ -242,16 +244,18 @@ msgid ""
 "New keyboard shortcuts for Play/Pause (Ctrl + Space), Jump back (Ctrl + "
 "Left), Jump forward (Ctrl + Right)"
 msgstr ""
+"Teklatuko lasterbide berriak Erreproduzitu/Pausatu (Ktrl + Zuriunea), Atzera "
+"egin (Ktrl + Ezkerrera), Aurrera egin (Ktrl + Eskuinera)"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:161
 msgid "Scrolling now also possible with vertical scrollbar"
-msgstr ""
+msgstr "Korritzea orain korritze-barra bertikalarekin ere posible da"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:163
 msgid "Various fixes for waveform and cursor display"
-msgstr ""
+msgstr "Uhin forma eta kurtsorea bistaratzeko hainbat konponketa"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:165
@@ -259,39 +263,42 @@ msgid ""
 "Translation updates for Arabic, British English, Catalan, German, Finnish, "
 "French, Japanese, Lithuanian, Polish, Spanish and Swedish"
 msgstr ""
+"Itzulpen eguneraketak arabiera, ingeles britainiarra, katalana, alemana, "
+"finlandiera, frantsesa, japoniera, lituaniera, poloniera, gaztelania eta "
+"suedierarako"
 
 #: data/org.parlatype.Parlatype.desktop.in:5
 msgid "Transcription utility"
-msgstr ""
+msgstr "Transkripzioak egiteko tresna"
 
 #: data/org.parlatype.Parlatype.desktop.in:6
 msgid "Transcription;"
-msgstr ""
+msgstr "Transkripzioa;"
 
 #: src/pt-app.c:61
 msgid "Show the application’s version"
-msgstr ""
+msgstr "Erakutsi aplikazioaren bertsioa"
 
 #: src/pt-app.c:102
 msgid "Open Audio File"
-msgstr ""
+msgstr "Ireki audio fitxategia"
 
 #: src/pt-app.c:105 src/pt-prefs-asr.c:782 src/resources/window.ui:43
 msgid "_Open"
-msgstr ""
+msgstr "_Ireki"
 
 #: src/pt-app.c:106 src/pt-prefs-asr.c:595 src/pt-prefs-asr.c:783
 #: src/resources/goto-dialog.ui:26
 msgid "_Cancel"
-msgstr ""
+msgstr "_Utzi"
 
 #: src/pt-app.c:125
 msgid "Audio files"
-msgstr ""
+msgstr "Audio fitxategiak"
 
 #: src/pt-app.c:126 src/pt-prefs-asr.c:794
 msgid "All files"
-msgstr ""
+msgstr "Fitxategi guztiak"
 
 #. Translators: %s is a detailed error message
 #: src/pt-app.c:179
@@ -305,15 +312,15 @@ msgstr ""
 #. other projects:"
 #: src/pt-app.c:199
 msgid "Including code from other projects:"
-msgstr ""
+msgstr "Beste proiektu batzuen kodea du:"
 
 #: src/pt-app.c:217
 msgid "A basic transcription utility"
-msgstr ""
+msgstr "Transkripzioak egiteko oinarrizko tresna"
 
 #: src/pt-app.c:221
 msgid "translator-credits"
-msgstr ""
+msgstr "Alexander Gabilondo"
 
 #: src/pt-app.c:357
 #, c-format
@@ -321,24 +328,28 @@ msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
 "ignored.\n"
 msgstr ""
+"Abisua: Parlatypek fitxategi bakarra kudeatzen du aldi berean. Beste "
+"fitxategiak ez dira aintzat hartzen.\n"
 
 #: src/pt-asr-dialog.c:93
+#, fuzzy
 msgid "CMU Pocketsphinx"
-msgstr ""
+msgstr "CMU Pocketsphinx"
 
 #: src/pt-asr-dialog.c:96
+#, fuzzy
 msgid "Mozilla DeepSpeech"
-msgstr ""
+msgstr "Mozilla DeepSpeech"
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
 #. the separator that your locale uses or use "%Id" instead
 #. of "%d" if your locale uses localized digits.
 #: src/pt-goto-dialog.c:49
-#, c-format
+#, c-format, fuzzy
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
-msgstr ""
+msgstr "%d:%02d:%02d"
 
 #. Translators: This is part of the Preferences dialog
 #. or the "Go to ..." dialog. There is a label like
@@ -348,144 +359,144 @@ msgstr ""
 #: src/pt-preferences.c:105
 msgid "second"
 msgid_plural "seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "segundo"
+msgstr[1] "segundo"
 
 #: src/pt-preferences.c:305
 msgid "Speech recognition"
-msgstr ""
+msgstr "Hizketa-ezagutzea"
 
 #: src/pt-prefs-asr.c:373
 msgid "Failed to read personal configuration files"
-msgstr ""
+msgstr "Ezin izan dira konfigurazio fitxategi pertsonalak irakurri"
 
 #: src/pt-prefs-asr.c:415
 msgid "Failed to copy shipped configuration files"
-msgstr ""
+msgstr "Ezin izan dira bidalitako konfigurazio-fitxategiak kopiatu"
 
 #: src/pt-prefs-asr.c:585
 msgid "Delete language model configuration?"
-msgstr ""
+msgstr "Hizkuntza-ereduaren konfigurazioa ezabatu nahi duzu?"
 
 #: src/pt-prefs-asr.c:586
 #, c-format
 msgid "Do you really want to delete “%s”?"
-msgstr ""
+msgstr "Benetan nahi duzu \"%s\" ezabatu?"
 
 #: src/pt-prefs-asr.c:596
 msgid "_Yes"
-msgstr ""
+msgstr "_Bai"
 
 #: src/pt-prefs-asr.c:673 src/pt-prefs-asr.c:727
 msgid "Error"
-msgstr ""
+msgstr "Errorea"
 
 #: src/pt-prefs-asr.c:731
 msgid "The file is not a valid language model configuration."
-msgstr ""
+msgstr "Fitxategia ez da baliozko hizkuntza-ereduaren konfigurazioa."
 
 #: src/pt-prefs-asr.c:779
 msgid "Import language model configuration"
-msgstr ""
+msgstr "Inportatu hizkuntza-ereduaren konfigurazioa"
 
 #: src/pt-prefs-asr.c:793
 msgid "Parlatype language model configurations"
-msgstr ""
+msgstr "Parlatyperen hizkuntza-ereduaren konfigurazioak"
 
 #: src/pt-prefs-asr.c:844
 msgid "Failed to create personal configuration folder"
-msgstr ""
+msgstr "Ezin izan da sortu konfigurazio karpeta pertsonala"
 
 #: src/pt-window.c:376
 #, c-format
 msgid "Jump back 1 second"
 msgid_plural "Jump back %d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Atzera egin segundo 1"
+msgstr[1] "Atzera egin %d segundo"
 
 #: src/pt-window.c:393
 #, c-format
 msgid "Jump forward 1 second"
 msgid_plural "Jump forward %d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Aurrera egin segundo 1"
+msgstr[1] "Aurrera egin %d segundo"
 
 #: src/pt-window.c:412
 msgid "Pause"
-msgstr ""
+msgstr "Pausa"
 
 #: src/pt-window.c:415
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Pausatu eta atzera egin segundo 1"
+msgstr[1] "Pausatu eta atzera egin %d segundo"
 
 #: src/pt-window.c:422
 msgid "Start playing"
-msgstr ""
+msgstr "Hasi erreproduzitzen"
 
 #: src/pt-window.c:458
 #, c-format
 msgid "Go to time in clipboard: %s"
-msgstr ""
+msgstr "Joan ordura arbelean: %s"
 
 #: src/pt-window.c:460 src/pt-window.c:1157
 msgid "Go to time in clipboard"
-msgstr ""
+msgstr "Joan ordura arbelean"
 
 #: src/pt-window.c:1152
 msgid "Manual transcription"
-msgstr ""
+msgstr "Eskuzko transkripzioa"
 
 #: src/pt-window.c:1153
 msgid "Automatic transcription"
-msgstr ""
+msgstr "Transkripzio automatikoa"
 
 #: src/resources/asr-dialog.ui:20 src/resources/help-overlay.ui:15
 msgid "General"
-msgstr ""
+msgstr "Orokorra"
 
 #: src/resources/asr-dialog.ui:44
 msgid "Display Name:"
-msgstr ""
+msgstr "Bistaratzeko izena:"
 
 #: src/resources/asr-dialog.ui:56
 msgid "Language:"
-msgstr ""
+msgstr "Hizkuntza:"
 
 #: src/resources/asr-dialog.ui:68
 msgid "Speech Recognition Engine:"
-msgstr ""
+msgstr "Hizketa ezagutzeko motorra:"
 
 #: src/resources/asr-dialog.ui:80
 msgid "GStreamer Plugin:"
-msgstr ""
+msgstr "GStreamer plugina:"
 
 #: src/resources/asr-dialog.ui:92
 msgid "Publisher:"
-msgstr ""
+msgstr "Argitaratzailea:"
 
 #: src/resources/asr-dialog.ui:104
 msgid "License:"
-msgstr ""
+msgstr "Lizentzia:"
 
 #: src/resources/asr-dialog.ui:213
 msgid "Installation"
-msgstr ""
+msgstr "Instalazioa"
 
 #. Points to a download location
 #: src/resources/asr-dialog.ui:236 src/resources/asr-dialog.ui:286
 msgid "Download:"
-msgstr ""
+msgstr "Deskargatu:"
 
 #: src/resources/asr-dialog.ui:260
 msgid "Installed:"
-msgstr ""
+msgstr "Instalatu da:"
 
 #: src/resources/asr-dialog.ui:310
 msgid "Instructions:"
-msgstr ""
+msgstr "Argibideak:"
 
 #: src/resources/asr-dialog.ui:322
 msgid "Download, unzip to a folder and select that folder."
