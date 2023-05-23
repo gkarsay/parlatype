@@ -8,16 +8,17 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-18 21:22+0200\n"
-"PO-Revision-Date: 2020-05-09 12:33+0000\n"
-"Last-Translator: Stephan Woidowski <swoidowski@t-online.de>\n"
-"Language-Team: English (United Kingdom) <en_GB@li.org>\n"
+"PO-Revision-Date: 2023-05-24 11:42+0000\n"
+"Last-Translator: Andrew Marsden <atmarsden95@gmail.com>\n"
+"Language-Team: English (United Kingdom) <https://hosted.weblate.org/projects/"
+"parlatype/parlatype/en_GB/>\n"
 "Language: en_GB\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.18-dev\n"
 "X-Launchpad-Export-Date: 2020-05-31 16:44+0000\n"
-"X-Generator: Launchpad (build 275d46a24253e557e4403d52832837e4bfa425b6)\n"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:7
 #: data/org.parlatype.Parlatype.desktop.in:4 src/pt-app.c:212
@@ -294,11 +295,11 @@ msgstr ""
 
 #: src/pt-asr-dialog.c:93
 msgid "CMU Pocketsphinx"
-msgstr ""
+msgstr "CMU Pocketsphinx"
 
 #: src/pt-asr-dialog.c:96
 msgid "Mozilla DeepSpeech"
-msgstr ""
+msgstr "Mozilla DeepSpeech"
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
@@ -326,17 +327,19 @@ msgid "Speech recognition"
 msgstr "Speech recognition"
 
 #: src/pt-prefs-asr.c:373
+#, fuzzy
 msgid "Failed to read personal configuration files"
-msgstr ""
+msgstr "Failed to read personal configuration files"
 
 #: src/pt-prefs-asr.c:415
+#, fuzzy
 msgid "Failed to copy shipped configuration files"
-msgstr ""
+msgstr "Failed to copy shipped configuration files"
 
 #: src/pt-prefs-asr.c:585
 #, fuzzy
 msgid "Delete language model configuration?"
-msgstr "Deleting configuration"
+msgstr "Delete language model configuration?"
 
 #: src/pt-prefs-asr.c:586
 #, c-format
@@ -344,26 +347,27 @@ msgid "Do you really want to delete “%s”?"
 msgstr "Do you really want to delete “%s”?"
 
 #: src/pt-prefs-asr.c:596
+#, fuzzy
 msgid "_Yes"
-msgstr ""
+msgstr "_Yes"
 
 #: src/pt-prefs-asr.c:673 src/pt-prefs-asr.c:727
+#, fuzzy
 msgid "Error"
-msgstr ""
+msgstr "Error"
 
 #: src/pt-prefs-asr.c:731
-#, fuzzy
 msgid "The file is not a valid language model configuration."
-msgstr "The folder contains several language models."
+msgstr "The file is not a valid language model configuration."
 
 #: src/pt-prefs-asr.c:779
-#, fuzzy
 msgid "Import language model configuration"
-msgstr "There is no configuration"
+msgstr "Import language model configuration"
 
 #: src/pt-prefs-asr.c:793
+#, fuzzy
 msgid "Parlatype language model configurations"
-msgstr ""
+msgstr "Parlatype language model configurations"
 
 #: src/pt-prefs-asr.c:844
 msgid "Failed to create personal configuration folder"
