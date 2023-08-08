@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Parlatype 3.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-12 19:52+0100\n"
-"PO-Revision-Date: 2023-05-19 20:47+0000\n"
+"PO-Revision-Date: 2023-08-09 21:46+0000\n"
 "Last-Translator: Alexander Gabilondo <alexgabi@openmailbox.org>\n"
 "Language-Team: Basque <https://hosted.weblate.org/projects/parlatype/"
 "parlatype/eu/>\n"
@@ -17,12 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18-dev\n"
+"X-Generator: Weblate 5.0-dev\n"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:7
 #: data/org.parlatype.Parlatype.desktop.in:4 src/pt-app.c:214
 #: src/resources/window.ui:32
-#, fuzzy
 msgid "Parlatype"
 msgstr "Parlatype"
 
@@ -39,7 +38,6 @@ msgstr ""
 "hizketa transkribatzen laguntzea da."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:25
-#, fuzzy
 msgid "Gabor Karsay"
 msgstr "Gabor Karsay"
 
@@ -107,9 +105,8 @@ msgstr ""
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:75
-#, fuzzy
 msgid "The initial volume level is picked up from Pulseaudio."
-msgstr "Hasierako bolumen-maila Pulseaudiotik jasotzen da."
+msgstr "Hasierako bolumen-maila Pulseaudio-tik jasotzen da."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:87
@@ -332,12 +329,10 @@ msgstr ""
 "fitxategiak ez dira aintzat hartzen.\n"
 
 #: src/pt-asr-dialog.c:93
-#, fuzzy
 msgid "CMU Pocketsphinx"
 msgstr "CMU Pocketsphinx"
 
 #: src/pt-asr-dialog.c:96
-#, fuzzy
 msgid "Mozilla DeepSpeech"
 msgstr "Mozilla DeepSpeech"
 
@@ -346,7 +341,7 @@ msgstr "Mozilla DeepSpeech"
 #. the separator that your locale uses or use "%Id" instead
 #. of "%d" if your locale uses localized digits.
 #: src/pt-goto-dialog.c:49
-#, c-format, fuzzy
+#, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
 msgstr "%d:%02d:%02d"
@@ -500,234 +495,234 @@ msgstr "Argibideak:"
 
 #: src/resources/asr-dialog.ui:322
 msgid "Download, unzip to a folder and select that folder."
-msgstr ""
+msgstr "Deskargatu, deskonprimatu karpeta batean eta hautatu karpeta hori."
 
 #: src/resources/goto-dialog.ui:13 src/resources/menus.ui:34
 msgid "Go to…"
-msgstr ""
+msgstr "Joan hona…"
 
 #: src/resources/goto-dialog.ui:40
 msgid "_OK"
-msgstr ""
+msgstr "_Ados"
 
 #: src/resources/goto-dialog.ui:70
 msgid "Go to position:"
-msgstr ""
+msgstr "Joan posizio honetara:"
 
 #: src/resources/help-overlay.ui:20
 msgid "Open a media file"
-msgstr ""
+msgstr "Ireki multimedia fitxategia"
 
 #: src/resources/help-overlay.ui:27
 msgid "Show/hide action menu"
-msgstr ""
+msgstr "Erakutsi/ezkutatu ekintza menua"
 
 #: src/resources/help-overlay.ui:34
 msgid "Quit"
-msgstr ""
+msgstr "Irten"
 
 #: src/resources/help-overlay.ui:42 src/resources/preferences.ui:274
 msgid "Waveform"
-msgstr ""
+msgstr "Uhin forma"
 
 #: src/resources/help-overlay.ui:47
 msgid "Play/Pause"
-msgstr ""
+msgstr "Erreproduzitu/Pausatu"
 
 #: src/resources/help-overlay.ui:55 src/resources/help-overlay.ui:63
 msgid "Jump back"
-msgstr ""
+msgstr "Jauzi atzera"
 
 #: src/resources/help-overlay.ui:71 src/resources/help-overlay.ui:79
 msgid "Jump forward"
-msgstr ""
+msgstr "Jauzi aurrera"
 
 #: src/resources/help-overlay.ui:86
 msgid "Zoom in"
-msgstr ""
+msgstr "Handiagotu"
 
 #: src/resources/help-overlay.ui:93
 msgid "Zoom out"
-msgstr ""
+msgstr "Txikiagotu"
 
 #: src/resources/help-overlay.ui:100
 msgid "Open “Go to” dialog"
-msgstr ""
+msgstr "Ireki \"Joan hona\" elkarrizketa-koadroa"
 
 #: src/resources/help-overlay.ui:107
 msgid "Copy timestamp to clipboard"
-msgstr ""
+msgstr "Kopiatu denbora-marka arbelean"
 
 #: src/resources/help-overlay.ui:114
 msgid "Go to timestamp in clipboard"
-msgstr ""
+msgstr "Joan arbeleko denbora-markara"
 
 #: src/resources/help-overlay.ui:122 src/resources/menus.ui:15
 msgid "Help"
-msgstr ""
+msgstr "Laguntza"
 
 #: src/resources/help-overlay.ui:127
 msgid "Show help"
-msgstr ""
+msgstr "Erakutsi laguntza"
 
 #: src/resources/help-overlay.ui:134
 msgid "Show keyboard shortcuts"
-msgstr ""
+msgstr "Erakutsi laster-teklak"
 
 #: src/resources/menus.ui:7
 msgid "Preferences"
-msgstr ""
+msgstr "Hobespenak"
 
 #: src/resources/menus.ui:11
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "_Laster-teklak"
 
 #: src/resources/menus.ui:19
 msgid "About Parlatype"
-msgstr ""
+msgstr "Parlatype-ri buruz"
 
 #: src/resources/menus.ui:26
 msgid "Copy time to clipboard"
-msgstr ""
+msgstr "Kopiatu denbora arbelean"
 
 #: src/resources/menus.ui:30
 msgid "Go to cursor"
-msgstr ""
+msgstr "Joan kurtsorera"
 
 #. This refers to: "Characters around timestamps"
 #: src/resources/preferences.ui:42
 msgid "None"
-msgstr ""
+msgstr "Bat ere ez"
 
 #: src/resources/preferences.ui:46
 msgid "#Number signs#"
-msgstr ""
+msgstr "#Zenbaki seinaleak#"
 
 #: src/resources/preferences.ui:50
 msgid "(Round brackets)"
-msgstr ""
+msgstr "(Parentesiak)"
 
 #: src/resources/preferences.ui:54
 msgid "[Square brackets]"
-msgstr ""
+msgstr "[Kortxeteak]"
 
 #: src/resources/preferences.ui:68
 msgid ". (point)"
-msgstr ""
+msgstr ".(puntu)"
 
 #: src/resources/preferences.ui:72
 msgid "- (hyphen)"
-msgstr ""
+msgstr "- (marratxoa)"
 
 #: src/resources/preferences.ui:86
 msgid "Full seconds"
-msgstr ""
+msgstr "Segundo osoak"
 
 #: src/resources/preferences.ui:90
 msgid "10th seconds"
-msgstr ""
+msgstr "segundo hamarren"
 
 #: src/resources/preferences.ui:94
 msgid "100th seconds"
-msgstr ""
+msgstr "segundo ehunen"
 
 #: src/resources/preferences.ui:102
 msgid "Parlatype Preferences"
-msgstr ""
+msgstr "Parlatyperen hobespenak"
 
 #: src/resources/preferences.ui:144
 msgid "_Pixels per second:"
-msgstr ""
+msgstr "_Pixel segundoko:"
 
 #: src/resources/preferences.ui:174
 msgid "Show _time scale"
-msgstr ""
+msgstr "Erakutsi _denbora eskala"
 
 #. Resolution of the waveform image
 #: src/resources/preferences.ui:192
 msgid "Resolution"
-msgstr ""
+msgstr "Bereizmena"
 
 #. A section in preferences, how to display the waveform.
 #: src/resources/preferences.ui:207
 msgid "Display"
-msgstr ""
+msgstr "Bistaratu"
 
 #: src/resources/preferences.ui:220
 msgid "_Moving cursor"
-msgstr ""
+msgstr "_Kursorea mugitzen"
 
 #: src/resources/preferences.ui:237
 msgid "_Fixed cursor"
-msgstr ""
+msgstr "_Kursorea finko"
 
 #: src/resources/preferences.ui:291
 msgid "Jumps"
-msgstr ""
+msgstr "Jauziak"
 
 #: src/resources/preferences.ui:393
 msgid "Jump _forward:"
-msgstr ""
+msgstr "Jauzia a_urrera:"
 
 #: src/resources/preferences.ui:407
 msgid "Jump _back:"
-msgstr ""
+msgstr "Jauzia a_tzera:"
 
 #: src/resources/preferences.ui:421
 msgid "Jump back on _pause:"
-msgstr ""
+msgstr "Jauzia atzera _pausatzean:"
 
 #: src/resources/preferences.ui:444
 msgid "Pressing “Play” at the end of file"
-msgstr ""
+msgstr "Fitxategiaren amaieran \"Erreproduzitu\" sakatzean"
 
 #: src/resources/preferences.ui:458
 msgid "Replay file"
-msgstr ""
+msgstr "Erreproduzitu fitxategia berriro"
 
 #: src/resources/preferences.ui:477
 msgid "Pressing “Play” at the end of selection"
-msgstr ""
+msgstr "Hautaketaren amaieran \"Erreproduzitu\" sakatzean"
 
 #: src/resources/preferences.ui:491
 msgid "Replay selection"
-msgstr ""
+msgstr "Erreproduzitu hautaketa berriro"
 
 #: src/resources/preferences.ui:513
 msgid "Controls"
-msgstr ""
+msgstr "Kontrolak"
 
 #: src/resources/preferences.ui:556
 msgid "Hours and zeroes"
-msgstr ""
+msgstr "Orduak eta zeroak"
 
 #: src/resources/preferences.ui:569
 msgid "Always show hours and leading zeroes"
-msgstr ""
+msgstr "Erakutsi beti orduak eta ezkerreko zeroak"
 
 #: src/resources/preferences.ui:587
 msgid "Precision"
-msgstr ""
+msgstr "Zehaztasuna"
 
 #: src/resources/preferences.ui:603
 msgid "Characters around timestamps"
-msgstr ""
+msgstr "Denbora-marken inguruko karaktereak"
 
 #: src/resources/preferences.ui:619
 msgid "Examples"
-msgstr ""
+msgstr "Adibideak"
 
 #: src/resources/preferences.ui:661
 msgid "Precision:"
-msgstr ""
+msgstr "Zehaztasuna:"
 
 #: src/resources/preferences.ui:693
 msgid "Fraction separator:"
-msgstr ""
+msgstr "Zatikien bereizlea:"
 
 #: src/resources/preferences.ui:736
 msgid "Timestamps"
-msgstr ""
+msgstr "Denbora-markak"
 
 #: src/resources/preferences.ui:760
 msgid "Remember _size"
@@ -747,44 +742,44 @@ msgstr ""
 
 #: src/resources/prefs-asr.ui:40
 msgid "Language model configurations"
-msgstr ""
+msgstr "Hizkuntza-ereduaren konfigurazioak"
 
 #: src/resources/prefs-asr.ui:57
 msgid "Installed"
-msgstr ""
+msgstr "Instalatuta"
 
 #: src/resources/prefs-asr.ui:58
 msgid "Supported"
-msgstr ""
+msgstr "Onartuta"
 
 #: src/resources/prefs-asr.ui:59
 msgid "All models"
-msgstr ""
+msgstr "Eredu guztiak"
 
 #: src/resources/prefs-asr.ui:121
 msgid "Import a language model configuration"
-msgstr ""
+msgstr "Inportatu hizkuntza-ereduaren konfigurazioa"
 
 #: src/resources/prefs-asr.ui:228
 msgid "There is no configuration"
-msgstr ""
+msgstr "Ez dago konfiguraziorik"
 
 #: src/resources/prefs-asr.ui:238
 msgid "Add a configuration"
-msgstr ""
+msgstr "Gehitu konfigurazio bat"
 
 #: src/resources/prefs-asr.ui:306
 msgid "No results in this view"
-msgstr ""
+msgstr "Ikuspegi honetan ez dago emaitzarik"
 
 #: src/resources/window.ui:48
 msgid "Open a file"
-msgstr ""
+msgstr "Ireki fitxategi bat"
 
 #: src/resources/window.ui:170
 msgid "_Play"
-msgstr ""
+msgstr "_Erreproduzitu"
 
 #: src/resources/window.ui:294
 msgid "Speed:"
-msgstr ""
+msgstr "Abiadura:"
