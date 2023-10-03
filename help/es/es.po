@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2021-10-18 21:35+0200\n"
-"PO-Revision-Date: 2023-10-02 21:03+0000\n"
-"Last-Translator: Eduardo Malaspina <vaio0@swismail.com>\n"
+"PO-Revision-Date: 2023-10-04 13:12+0000\n"
+"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/parlatype/"
 "parlatype-help/es/>\n"
 "Language: es\n"
@@ -890,6 +890,8 @@ msgid ""
 "<app>Parlatype</app> offers automatic speech recognition that is done on "
 "your computer. No data is sent over the network."
 msgstr ""
+"<app>Parlatype</app> ofrece reconocimiento automático del habla que se "
+"realiza en tu ordenador. No se envían datos a través de la red."
 
 #. (itstool) path: note/p
 #: C/asr.page:20
@@ -898,6 +900,9 @@ msgid ""
 "<app>Mozilla DeepSpeech</app>. Please note that those libraries might be not "
 "available on your platform."
 msgstr ""
+"<app>Parlatype</app> debe haber sido construida con <app>PocketSphinx</app> "
+"o <app>Mozilla DeepSpeech</app>. Ten en cuenta que esas bibliotecas podrían "
+"no estar disponibles en tu plataforma."
 
 #. (itstool) path: note/p
 #: C/asr.page:25
@@ -905,6 +910,9 @@ msgid ""
 "<app>Parlatype</app> has no built-in text editor. You need the Parlatype "
 "Extension for <app>LibreOffice</app> to output recognized text."
 msgstr ""
+"<app>Parlatype</app> no tiene un editor de texto integrado. Necesitas la "
+"extensión Parlatype para <app>LibreOffice</app> para generar un texto con tu "
+"voz."
 
 #. (itstool) path: section/title
 #: C/asr.page:30
@@ -917,6 +925,9 @@ msgid ""
 "Select a language model in the Preferences Dialog, <gui>Speech recognition</"
 "gui> tab, see <link xref=\"asr-setup\"/> for more details."
 msgstr ""
+"Selecciona un modelo lingüístico en las Preferencias, <gui>pestaña "
+"Reconocimiento de voz</gui>, consulta <link xref=\"asr-setup\"/> para "
+"obtener más detalles."
 
 #. (itstool) path: section/p
 #: C/asr.page:35
@@ -924,6 +935,9 @@ msgid ""
 "Open the primary menu and click on <gui>Automatic transcription</gui>. This "
 "is only available, if you have setup and chosen a language model."
 msgstr ""
+"Abre el menú principal y haz clic en <gui>Transcripción automática</gui>. "
+"Esta opción sólo está disponible si has configurado y elegido un modelo "
+"lingüístico."
 
 #. (itstool) path: section/media
 #. This is a reference to an external file such as an image or video. When
@@ -931,14 +945,13 @@ msgstr ""
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/asr.page:38
-#, fuzzy
 msgctxt "_"
 msgid ""
 "external ref='figures/asr-switch-to-asr.png' "
 "md5='91dc6bffa3b8a3342889d9bfccabc3c8'"
 msgstr ""
-"external ref='figures/parlatype-prefs-controls.png' "
-"md5='e4a386123491d156f4a1415d70fae2fc'"
+"external ref='figures/asr-switch-to-asr.png' "
+"md5='91dc6bffa3b8a3342889d9bfccabc3c8'"
 
 #. (itstool) path: section/p
 #: C/asr.page:40
@@ -948,6 +961,10 @@ msgid ""
 "installed. Output is silent because decoding speed is dependent on your "
 "machine and may be slower or faster than real-time speech."
 msgstr ""
+"Ahora pulsa <gui>Reproducir</gui> en <app>Parlatype</app> y lo dictado se "
+"transcribirá en <app>LibreOffice</app>, si la extensión Parlatype está "
+"instalada. La transcripción depende de la velocidad de decodificación de tu "
+"ordenador y puede ser más lenta o más rápida que el habla en tiempo real."
 
 #. (itstool) path: section/p
 #: C/asr.page:45
@@ -968,6 +985,13 @@ msgid ""
 "start will be faster than automatic transcription and the following "
 "correction process."
 msgstr ""
+"<em>la exactitud</em>Depende de muchos factores como la calidad de la "
+"grabación, el ruido de fondo, el dialecto o la pronunciación del hablante y "
+"el idioma utilizado. Para la transcripción en general, puedes esperar una "
+"tasa de error de palabras entre el 10 y el 50 %. Desgraciadamente, esto "
+"significa que en algunos casos la transcripción manual desde el principio "
+"será más rápida que la transcripción automática y el siguiente proceso de "
+"corrección."
 
 #. (itstool) path: info/desc
 #: C/asr-setup.page:7
@@ -987,6 +1011,10 @@ msgid ""
 "for CMU Sphinx and Mozilla DeepSpeech and ships a couple of <em>language "
 "model configurations</em>."
 msgstr ""
+"Para el reconocimiento de voz necesitas un modelo de lenguaje: uno o más "
+"archivos entrenados con muestras de voz reales. <app>Parlatype</app> admite "
+"modelos de lenguaje creados para CMU Sphinx y Mozilla DeepSpeech e incluye "
+"un par en las <em>configuraciones de los modelos del idioma</em>."
 
 #. (itstool) path: note/p
 #: C/asr-setup.page:22
@@ -998,6 +1026,12 @@ msgid ""
 "base folder, where you have saved the model. Additionally it contains "
 "various parameters for the plugin which are not shown."
 msgstr ""
+"Una <em>configuración del modelo del lenguaje</em> contiene metadatos que "
+"describen el modelo de lenguaje: Un nombre que puedes cambiar, el idioma "
+"para el que se hizo, motor de reconocimiento de voz, editor, licencia, etc. "
+"Tienes un enlace (de terceros), donde se pueden descargar los archivos. "
+"Parte de la configuración es la carpeta base, donde ha guardado el modelo. "
+"Además contiene varios parámetros para el plugin que no se muestran."
 
 #. (itstool) path: page/p
 #: C/asr-setup.page:29
@@ -1006,6 +1040,10 @@ msgid ""
 "tab. Initially there are no configurations available, click on the <gui>Add "
 "a configuration</gui> button."
 msgstr ""
+"Abre los ajustes del cuadro de diálogo y haz clic en la pestaña "
+"<gui>Reconocimiento de voz</gui>. Si inicialmente no hay ninguna "
+"configuración disponible, haz clic en el botón <gui>Añadir una "
+"configuración</gui>."
 
 #. (itstool) path: page/media
 #. This is a reference to an external file such as an image or video. When
@@ -1013,14 +1051,13 @@ msgstr ""
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/asr-setup.page:33
-#, fuzzy
 msgctxt "_"
 msgid ""
 "external ref='figures/asr-setup-initial.png' "
 "md5='31773b99dcbb1ee84e59e119a0bd35c6'"
 msgstr ""
-"external ref='figures/parlatype-prefs-controls.png' "
-"md5='e4a386123491d156f4a1415d70fae2fc'"
+"external ref='figures/asr-setup-initial.png' "
+"md5='31773b99dcbb1ee84e59e119a0bd35c6'"
 
 #. (itstool) path: media/span
 #: C/asr-setup.page:36
@@ -1039,6 +1076,9 @@ msgid ""
 "see configurations with a <_:media-1/> symbol. Otherwise you will see only "
 "configurations with a <_:media-2/> symbol."
 msgstr ""
+"Si tu instalación tiene CMU Sphinx o Mozilla DeepSpeech activado, verás las "
+"configuraciones con un símbolo <_:media-1/>. De lo contrario, solo verás las "
+"configuraciones con un símbolo <_:media-2/>."
 
 #. (itstool) path: page/media
 #. This is a reference to an external file such as an image or video. When
@@ -1046,14 +1086,13 @@ msgstr ""
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/asr-setup.page:39
-#, fuzzy
 msgctxt "_"
 msgid ""
 "external ref='figures/asr-setup-downloadable.png' "
 "md5='6e00b08a60952e8f408bec4a024be2e5'"
 msgstr ""
-"external ref='figures/parlatype-prefs-window.png' "
-"md5='be540a7e2a351b80f5710048450c0735'"
+"external ref='figures/asr-setup-downloadable.png' "
+"md5='6e00b08a60952e8f408bec4a024be2e5'"
 
 #. (itstool) path: media/span
 #: C/asr-setup.page:42
@@ -1068,6 +1107,10 @@ msgid ""
 "downloading, you have to set the folder where your download resides. You can "
 "also change the <gui>Display name</gui>."
 msgstr ""
+"Selecciona una configuración y haz clic en el botón <_:media-1/>. Hay una "
+"breve descripción del modelo y dónde descargarlo. Después de la descarga, "
+"debes configurar la carpeta donde reside la descarga. También puedes cambiar "
+"el <gui>Nombre para mostrar</gui>."
 
 #. (itstool) path: page/media
 #. This is a reference to an external file such as an image or video. When
@@ -1075,14 +1118,13 @@ msgstr ""
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/asr-setup.page:47
-#, fuzzy
 msgctxt "_"
 msgid ""
 "external ref='figures/asr-setup-details.png' "
 "md5='3273410dfb31da8518a64d28af0da7b1'"
 msgstr ""
-"external ref='figures/parlatype-prefs-controls.png' "
-"md5='e4a386123491d156f4a1415d70fae2fc'"
+"external ref='figures/asr-setup-details.png' "
+"md5='3273410dfb31da8518a64d28af0da7b1'"
 
 #. (itstool) path: media/span
 #: C/asr-setup.page:50
@@ -1095,6 +1137,9 @@ msgid ""
 "An installed model has no symbol next to it. Double click on the model and "
 "it will be selected for speech recognition, a <_:media-1/> symbol appears."
 msgstr ""
+"Un modelo ya instalado no tiene ningún símbolo al lado. Haz doble clic en el "
+"modelo y se seleccionará para el reconocimiento de voz, aparecerá un símbolo "
+"<_:media-1/>."
 
 #. (itstool) path: page/p
 #: C/asr-setup.page:53
@@ -1103,6 +1148,9 @@ msgid ""
 "import a configuration with the <gui>+</gui> button. Configurations are text "
 "files with an .asr ending."
 msgstr ""
+"Las configuraciones enviadas pueden quedar obsoletas con el tiempo. Por "
+"ello, puedes importar una configuración con el botón <gui>+</gui>. Las "
+"configuraciones son archivos de texto con una extensión .asr."
 
 #. (itstool) path: page/p
 #: C/asr-setup.page:57
@@ -1110,6 +1158,8 @@ msgid ""
 "With the <gui>-</gui> button you can remove a configuration. This will never "
 "remove downloaded models, only the configuration file."
 msgstr ""
+"Con el botón <gui>-</gui> puedes eliminar una configuración. Esto nunca "
+"eliminará los modelos descargados, sólo el archivo de la configuración."
 
 #. (itstool) path: info/desc
 #: C/media-keys.page:6
