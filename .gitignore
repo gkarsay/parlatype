@@ -4,9 +4,6 @@
 *~
 *.pot
 
-Makefile
-Makefile.in
-
 .deps/
 .libs/
 
