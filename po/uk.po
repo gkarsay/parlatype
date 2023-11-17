@@ -8,58 +8,62 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-03-30 21:25+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2023-11-18 10:00+0000\n"
+"Last-Translator: Olga Akhtirskaia <akhtirskaia@gmail.com>\n"
+"Language-Team: Ukrainian <https://hosted.weblate.org/projects/parlatype/"
+"parlatype/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 5.2\n"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:7
 #: data/org.parlatype.Parlatype.desktop.in:4 src/pt-app.c:200
 #: src/resources/window.ui:30
 msgid "Parlatype"
-msgstr ""
+msgstr "Parlatype"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:8
 msgid "Media player for speech transcription"
-msgstr ""
+msgstr "Медіаплеєр для транскрибування мови"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:11
 msgid ""
 "Parlatype is an easy to use media player. Its main purpose is to help you "
 "transcribing speech."
 msgstr ""
+"Parlatype - це простий у використанні медіаплеєр. Його основна мета - "
+"допомогти вам транскрибувати мову."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:25
 msgid "Gabor Karsay"
-msgstr ""
+msgstr "Gabor Karsay"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:46
 msgid "This is a minor release with a new feature."
-msgstr ""
+msgstr "Це невеликий реліз з новою функцією."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:48
 msgid "Added MPRIS interface."
-msgstr ""
+msgstr "Додано інтерфейс MPRIS."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:49
 msgid "Smaller bug fixes."
-msgstr ""
+msgstr "Виправлення дрібних помилок."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:50
 msgid "Switched to Weblate for translations."
-msgstr ""
+msgstr "Перейти на Weblate для перекладів."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:51
 #: data/org.parlatype.Parlatype.appdata.xml.in:61
 #: data/org.parlatype.Parlatype.appdata.xml.in:77
 msgid "Translation updates for several languages."
-msgstr ""
+msgstr "Оновлення перекладів для декількох мов."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:57
