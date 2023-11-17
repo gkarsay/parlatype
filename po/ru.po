@@ -8,17 +8,18 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-18 21:22+0200\n"
-"PO-Revision-Date: 2020-05-31 17:39+0000\n"
-"Last-Translator: Gabor Karsay <gabor.karsay@gmx.at>\n"
-"Language-Team: Russian <ru@li.org>\n"
+"PO-Revision-Date: 2023-11-17 09:22+0000\n"
+"Last-Translator: Olga Akhtirskaia <akhtirskaia@gmail.com>\n"
+"Language-Team: Russian <https://hosted.weblate.org/projects/parlatype/"
+"parlatype/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 5.2\n"
 "X-Launchpad-Export-Date: 2020-06-18 10:32+0000\n"
-"X-Generator: Launchpad (build 1cbd0aa39df153c901321817f9b57cf3f232b507)\n"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:7
 #: data/org.parlatype.Parlatype.desktop.in:4 src/pt-app.c:212
@@ -69,7 +70,7 @@ msgstr "Изначальный уровень громкости выбирае�
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:51
 msgid "Translation updates for several languages."
-msgstr "Обновление перевода на несколько языков."
+msgstr "Обновление перевода для нескольких языков."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:58
