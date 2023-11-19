@@ -2150,6 +2150,26 @@ pt_player_get_mode (PtPlayer *player)
 }
 
 static void
+pt_player_constructed (GObject *object)
+{
+  PtPlayer *player = PT_PLAYER (object);
+  PtPlayerPrivate *priv = player->priv;
+
+  /* This is responsible for syncing system volume with Parlatype volume.
+     Syncing is done only in Play state */
+  g_signal_connect (G_OBJECT (priv->play),
+                    "notify::volume", G_CALLBACK (vol_changed), player);
+  g_signal_connect (G_OBJECT (priv->play),
+                    "notify::mute", G_CALLBACK (mute_changed), player);
+
+  /* Forward current-uri changes */
+  g_signal_connect (G_OBJECT (priv->play),
+                    "notify::current-uri", G_CALLBACK (uri_changed), player);
+
+  G_OBJECT_CLASS (pt_player_parent_class)->constructed (object);
+}
+
+static void
 pt_player_dispose (GObject *object)
 {
   PtPlayer *player = PT_PLAYER (object);
@@ -2373,17 +2393,6 @@ pt_player_init (PtPlayer *player)
                 "audio-filter", priv->scaletempo,
                 "audio-sink", priv->audio_bin, NULL);
 
-  /* This is responsible for syncing system volume with Parlatype volume.
-     Syncing is done only in Play state */
-  g_signal_connect (G_OBJECT (priv->play),
-                    "notify::volume", G_CALLBACK (vol_changed), player);
-  g_signal_connect (G_OBJECT (priv->play),
-                    "notify::mute", G_CALLBACK (mute_changed), player);
-
-  /* Forward current-uri changes */
-  g_signal_connect (G_OBJECT (priv->play),
-                    "notify::current-uri", G_CALLBACK (uri_changed), player);
-
   player->priv->current_state = GST_STATE_NULL;
   player->priv->target_state = GST_STATE_NULL;
 }
@@ -2393,6 +2402,7 @@ pt_player_class_init (PtPlayerClass *klass)
 {
   G_OBJECT_CLASS (klass)->set_property = pt_player_set_property;
   G_OBJECT_CLASS (klass)->get_property = pt_player_get_property;
+  G_OBJECT_CLASS (klass)->dispose = pt_player_constructed;
   G_OBJECT_CLASS (klass)->dispose = pt_player_dispose;
   G_OBJECT_CLASS (klass)->finalize = pt_player_finalize;
 
