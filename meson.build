@@ -26,7 +26,9 @@ libdir     = join_paths(prefix, get_option('libdir'))
 datadir    = join_paths(prefix, get_option('datadir'))
 pkgdatadir = join_paths(datadir, meson.project_name())
 localedir  = join_paths(prefix, get_option('localedir'))
-add_global_arguments('-DLOCALEDIR="@0@"'.format(localedir), language : 'c')
+add_global_arguments('-Wno-deprecated-declarations',
+                     '-DLOCALEDIR="@0@"'.format(localedir),
+                     language : 'c')
 compiler = meson.get_compiler('c')
 
 gettext_package = 'parlatype'
