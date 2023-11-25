@@ -98,7 +98,7 @@ if (prefix != '/usr')
 endif
 
 summary({
-  'gtk_doc'     : gtk_doc,
+  'gtk-doc'     : gtk_doc,
   'gir'         : gir,
   'pocketsphinx': with_pocketsphinx,
   'deepspeech': with_deepspeech,
