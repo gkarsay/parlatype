@@ -6,6 +6,7 @@ source command_exists_or_exit "codespell"
 
 cd ..
 
-codespell --skip="./_build,./build,./debian,./.git,*.po,*.pot,*.ogg,*.png,*.ico,*.xcf,*.gz" \
-	  --ignore-words-list="dur" \
-	  --quiet-level=4
+codespell --skip="*.gz,*.ico,*.mp3,*.ogg,*.png,*.po,*.pot,*.xcf" \
+          --ignore-words-list="gir,trough" \
+          --quiet-level=4 \
+          files .clangformat, .editorconfig, .gitattributes, .gitignore COPYING* ISSUE_TEMPLATE.md meson* NEWS README.md data/ docs/ flatpak/ help/ libparlatype/ maint/ src/ tools/
