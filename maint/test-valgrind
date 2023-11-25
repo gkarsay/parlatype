@@ -19,6 +19,7 @@ VALGRIND="valgrind --tool=memcheck \
 cd "$(dirname "$0")" || exit 1
 source cd_builddir_or_exit
 
+# shellcheck disable=SC2086
 meson test --wrap="$VALGRIND" \
            --timeout-multiplier=10 \
              $TESTS  # command fails, if $TESTS is quoted
