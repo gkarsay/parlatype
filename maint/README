@@ -16,7 +16,8 @@ ninja help-org.parlatype.Parlatype-update-po
 
 Workflow for translations:
 1) Update pot files locally
-2) Who worked on translations? TODO: possible to make a list from Weblate commits?
+2) Who worked on translations?
+   maint/print-translation-status
 
 
 Typography

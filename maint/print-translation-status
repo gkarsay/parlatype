@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Print updated translation summary since closest git tag to console
+
+CLOSEST_TAG=$(git describe --tags --abbrev=0)
+echo Translation changelog since "$CLOSEST_TAG"
+echo
+echo "* New or updated translations via Weblate:"
+
+# expected title: "Translated using Weblate (language)"
+# git log format "Title: author"
+git log "$CLOSEST_TAG"..HEAD --grep 'Translated using Weblate' --format="%s: %an" | \
+  # Reduce title to language's name
+  sed 's/Translated using Weblate (//' | sed 's/):/:/' | \
+  # Sort alphabetically by unique language/translator pair
+  sort --unique | \
+  # 2nd level indentation
+  sed 's/^/  - /'
