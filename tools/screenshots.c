@@ -88,6 +88,7 @@ parse_command_line (int *argc, char ***argv)
   return TRUE;
 }
 
+#ifdef HAVE_ASR
 static void
 copy_asr_configs (void)
 {
@@ -159,6 +160,7 @@ copy_asr_configs (void)
   g_free (dest_folder_path);
   g_free (sys_folder_path);
 }
+#endif
 
 static gboolean
 quit_when_idle (gpointer loop)
