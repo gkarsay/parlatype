@@ -2,9 +2,9 @@
 # refer to the libtool manual, section "Updating library version information":
 # http://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html
 
-libparlatype_current = 6
+libparlatype_current = 7
 libparlatype_revision = 0
-libparlatype_age = 1
+libparlatype_age = 0
 libparlatype_current_minus_age = libparlatype_current - libparlatype_age
 
 libparlatype_version = '@0@.@1@.@2@'.format(libparlatype_current_minus_age, libparlatype_age, libparlatype_revision)
@@ -12,7 +12,7 @@ libparlatype_version = '@0@.@1@.@2@'.format(libparlatype_current_minus_age, libp
 # API or namespace version
 # Increment with every API break (changed or removed symbols)
 # For x this will be used as 'x.0', the zero never changes
-libparlatype_api = 4
+libparlatype_api = 5
 
 libparlatype_api_version = '@0@.0'.format(libparlatype_api)
 
