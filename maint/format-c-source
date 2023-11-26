@@ -1,0 +1,10 @@
+#!/bin/bash
+
+cd "$(dirname "$0")" || exit 1
+
+source command_exists_or_exit "clang-format"
+
+cd ..
+
+find libparlatype/ src/ tools/ -iname "*.[c|h]" \
+  -exec clang-format --fallback-style=none -i {} \;
