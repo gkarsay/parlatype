@@ -27,13 +27,13 @@ gnome.gtkdoc(
   'parlatype',
   main_xml: join_paths(meson.current_build_dir(), 'parlatype-docs.xml'),
   src_dir: [
-    join_paths(meson.source_root(), 'libparlatype', 'src'),
-    join_paths(meson.build_root(), 'libparlatype', 'src'),
+    join_paths(meson.project_source_root(), 'libparlatype', 'src'),
+    join_paths(meson.project_build_root(), 'libparlatype', 'src'),
   ],
   gobject_typesfile: join_paths(meson.current_source_dir(), 'libparlatype.types'),
   dependencies: libparlatype_dep,
   scan_args: [
-    '--source-dir=' + join_paths(meson.source_root(), 'libparlatype', 'src'),
+    '--source-dir=' + join_paths(meson.project_source_root(), 'libparlatype', 'src'),
     '--rebuild-types',
     '--deprecated-guards="PT_DISABLE_DEPRECATED"',
   ],
