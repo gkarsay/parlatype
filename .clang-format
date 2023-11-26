@@ -12,3 +12,4 @@ BreakBeforeBinaryOperators: None
 BinPackParameters: false
 SpaceAfterCStyleCast: true
 ColumnLimit: 0
+SortIncludes: Never
