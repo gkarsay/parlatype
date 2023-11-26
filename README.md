@@ -56,7 +56,7 @@ These are the configurable options:
 Clone the repository or download a tarball from https://github.com/gkarsay/parlatype/releases/.
 
 ```
-$ meson build --prefix=/usr
+$ meson setup build --prefix=/usr
 $ cd build
 $ ninja
 $ sudo ninja install
