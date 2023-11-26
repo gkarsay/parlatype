@@ -20,30 +20,29 @@
 #include "config.h"
 #include <gtk/gtk.h>
 
-#define PT_APP_TYPE		(pt_app_get_type())
-#define PT_APP(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), PT_APP_TYPE, PtApp))
-#define PT_IS_APP(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_APP_TYPE))
+#define PT_APP_TYPE (pt_app_get_type ())
+#define PT_APP(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_APP_TYPE, PtApp))
+#define PT_IS_APP(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_APP_TYPE))
 
-typedef struct _PtApp		PtApp;
-typedef struct _PtAppClass	PtAppClass;
-typedef struct _PtAppPrivate	PtAppPrivate;
+typedef struct _PtApp PtApp;
+typedef struct _PtAppClass PtAppClass;
+typedef struct _PtAppPrivate PtAppPrivate;
 
 struct _PtApp
 {
-	GtkApplication parent;
+  GtkApplication parent;
 
-	/*< private > */
-	PtAppPrivate *priv;
+  /*< private > */
+  PtAppPrivate *priv;
 };
 
 struct _PtAppClass
 {
-	GtkApplicationClass parent_class;
+  GtkApplicationClass parent_class;
 };
 
+GType pt_app_get_type (void) G_GNUC_CONST;
 
-GType		pt_app_get_type			(void) G_GNUC_CONST;
-
-PtApp		*pt_app_new			(void);
+PtApp *pt_app_new (void);
 
 #endif

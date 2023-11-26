@@ -40,14 +40,12 @@
 #include "gst-helpers.h"
 #include "gstptaudioplaybin.h"
 
-
 GST_DEBUG_CATEGORY_STATIC (gst_pt_audio_play_bin_debug);
 #define GST_CAT_DEFAULT gst_pt_audio_play_bin_debug
 
 #define parent_class gst_pt_audio_play_bin_parent_class
 
 G_DEFINE_TYPE (GstPtAudioPlayBin, gst_pt_audio_play_bin, GST_TYPE_BIN);
-
 
 #ifndef G_OS_WIN32
 static gboolean
@@ -108,7 +106,7 @@ gst_pt_audio_play_bin_init (GstPtAudioPlayBin *bin)
                     GST_IS_STREAM_VOLUME (audiosink) ? "yes" : "no");
 
   gst_bin_add_many (GST_BIN (bin),
-                   capsfilter, audiosink, NULL);
+                    capsfilter, audiosink, NULL);
   gst_element_link_many (capsfilter, audiosink, NULL);
 
   /* create ghost pad for audiosink */

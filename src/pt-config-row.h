@@ -14,20 +14,19 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef PT_CONFIG_ROW_H
 #define PT_CONFIG_ROW_H
 
 #include <gio/gio.h>
 #include <parlatype.h>
 
-#define PT_TYPE_CONFIG_ROW	(pt_config_row_get_type())
-#define PT_CONFIG_ROW(obj)	(G_TYPE_CHECK_INSTANCE_CAST((obj), PT_TYPE_CONFIG_ROW, PtConfigRow))
-#define PT_IS_CONFIG_ROW(obj)	(G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_TYPE_CONFIG_ROW))
+#define PT_TYPE_CONFIG_ROW (pt_config_row_get_type ())
+#define PT_CONFIG_ROW(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_TYPE_CONFIG_ROW, PtConfigRow))
+#define PT_IS_CONFIG_ROW(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_TYPE_CONFIG_ROW))
 
-typedef struct _PtConfigRow		PtConfigRow;
-typedef struct _PtConfigRowClass	PtConfigRowClass;
-typedef struct _PtConfigRowPrivate	PtConfigRowPrivate;
+typedef struct _PtConfigRow PtConfigRow;
+typedef struct _PtConfigRowClass PtConfigRowClass;
+typedef struct _PtConfigRowPrivate PtConfigRowPrivate;
 
 /**
  * PtConfigRow:
@@ -36,27 +35,26 @@ typedef struct _PtConfigRowPrivate	PtConfigRowPrivate;
  */
 struct _PtConfigRow
 {
-	GtkListBoxRow parent;
+  GtkListBoxRow parent;
 
-	/*< private > */
-	PtConfigRowPrivate *priv;
+  /*< private > */
+  PtConfigRowPrivate *priv;
 };
 
 struct _PtConfigRowClass
 {
-	GtkListBoxRowClass parent_class;
+  GtkListBoxRowClass parent_class;
 };
 
+GType pt_config_row_get_type (void) G_GNUC_CONST;
 
-GType		pt_config_row_get_type		(void) G_GNUC_CONST;
-
-void		pt_config_row_set_active	(PtConfigRow *row,
-						 gboolean     active);
-gboolean	pt_config_row_get_active	(PtConfigRow *row);
-gboolean	pt_config_row_is_installed	(PtConfigRow *row);
-void		pt_config_row_set_supported	(PtConfigRow *row,
-						 gboolean     supported);
-gboolean	pt_config_row_get_supported	(PtConfigRow *row);
-PtConfigRow*	pt_config_row_new		(PtConfig *config);
+void pt_config_row_set_active (PtConfigRow *row,
+                               gboolean active);
+gboolean pt_config_row_get_active (PtConfigRow *row);
+gboolean pt_config_row_is_installed (PtConfigRow *row);
+void pt_config_row_set_supported (PtConfigRow *row,
+                                  gboolean supported);
+gboolean pt_config_row_get_supported (PtConfigRow *row);
+PtConfigRow *pt_config_row_new (PtConfig *config);
 
 #endif

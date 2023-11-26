@@ -27,17 +27,13 @@
  * backends would be supported (e.g. SQlite based).
  */
 
-
 #include "config.h"
 #include <gio/gio.h>
 #include "pt-position-manager.h"
 
-
 #define METADATA_POSITION "metadata::parlatype::position"
 
-
 G_DEFINE_TYPE (PtPositionManager, pt_position_manager, G_TYPE_OBJECT)
-
 
 /**
  * pt_position_manager_save:
@@ -53,39 +49,42 @@ pt_position_manager_save (PtPositionManager *self,
                           GFile *file,
                           gint64 pos)
 {
-	GError	  *error = NULL;
-	GFileInfo *info;
-	gchar	   value[64];
+  GError *error = NULL;
+  GFileInfo *info;
+  gchar value[64];
 
-	if (!file)
-		return;
+  if (!file)
+    return;
 
-	info = g_file_info_new ();
-	g_snprintf (value, sizeof (value), "%" G_GINT64_FORMAT, pos);
+  info = g_file_info_new ();
+  g_snprintf (value, sizeof (value), "%" G_GINT64_FORMAT, pos);
 
-	g_file_info_set_attribute_string (info, METADATA_POSITION, value);
+  g_file_info_set_attribute_string (info, METADATA_POSITION, value);
 
-	g_file_set_attributes_from_info (
-			file,
-			info,
-			G_FILE_QUERY_INFO_NONE,
-			NULL,
-			&error);
+  g_file_set_attributes_from_info (
+      file,
+      info,
+      G_FILE_QUERY_INFO_NONE,
+      NULL,
+      &error);
 
-	if (error) {
-		/* There are valid cases were setting attributes is not
-		 * possible, e.g. in sandboxed environments, containers etc.
-		 * Use G_LOG_LEVEL_INFO because other log levels go to stderr
-		 * and might result in failed tests. */
-		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO, "MESSAGE",
-		                  "Position not saved: %s", error->message);
-		g_error_free (error);
-	} else {
-		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
-		                  "MESSAGE", "Position saved");
-	}
+  if (error)
+    {
+      /* There are valid cases were setting attributes is not
+       * possible, e.g. in sandboxed environments, containers etc.
+       * Use G_LOG_LEVEL_INFO because other log levels go to stderr
+       * and might result in failed tests. */
+      g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO, "MESSAGE",
+                        "Position not saved: %s", error->message);
+      g_error_free (error);
+    }
+  else
+    {
+      g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
+                        "MESSAGE", "Position saved");
+    }
 
-	g_object_unref (info);
+  g_object_unref (info);
 }
 
 /**
@@ -103,39 +102,42 @@ gint64
 pt_position_manager_load (PtPositionManager *self,
                           GFile *file)
 {
-	GError	  *error = NULL;
-	GFileInfo *info;
-	gchar	  *value = NULL;
-	gint64     pos = 0;
+  GError *error = NULL;
+  GFileInfo *info;
+  gchar *value = NULL;
+  gint64 pos = 0;
 
-	if (!file)
-		return 0;
+  if (!file)
+    return 0;
 
-	info = g_file_query_info (file, METADATA_POSITION,
-				  G_FILE_QUERY_INFO_NONE, NULL, &error);
-	if (error) {
-		g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING, "MESSAGE",
-		                  "Metadata not retrieved: %s", error->message);
-		g_error_free (error);
-		return 0;
-	}
+  info = g_file_query_info (file, METADATA_POSITION,
+                            G_FILE_QUERY_INFO_NONE, NULL, &error);
+  if (error)
+    {
+      g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING, "MESSAGE",
+                        "Metadata not retrieved: %s", error->message);
+      g_error_free (error);
+      return 0;
+    }
 
-	value = g_file_info_get_attribute_as_string (info, METADATA_POSITION);
-	if (value) {
-		pos = g_ascii_strtoull (value, NULL, 0);
-		g_free (value);
+  value = g_file_info_get_attribute_as_string (info, METADATA_POSITION);
+  if (value)
+    {
+      pos = g_ascii_strtoull (value, NULL, 0);
+      g_free (value);
 
-		if (pos > 0) {
-			g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
-			                  "MESSAGE", "Metadata: last known "
-			                  "position %" G_GINT64_FORMAT " ms", pos);
-		}
-	}
+      if (pos > 0)
+        {
+          g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
+                            "MESSAGE", "Metadata: last known "
+                                       "position %" G_GINT64_FORMAT " ms",
+                            pos);
+        }
+    }
 
-	g_object_unref (info);
-	return pos;
+  g_object_unref (info);
+  return pos;
 }
-
 
 /* --------------------- Init and GObject management ------------------------ */
 
@@ -152,5 +154,5 @@ pt_position_manager_class_init (PtPositionManagerClass *klass)
 PtPositionManager *
 pt_position_manager_new (void)
 {
-	return g_object_new (PT_TYPE_POSITION_MANAGER, NULL);
+  return g_object_new (PT_TYPE_POSITION_MANAGER, NULL);
 }

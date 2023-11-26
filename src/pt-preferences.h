@@ -21,30 +21,29 @@
 
 #include "config.h"
 
-#define PT_TYPE_PREFERENCES_DIALOG              (pt_preferences_dialog_get_type())
-#define PT_PREFERENCES_DIALOG(obj)              (G_TYPE_CHECK_INSTANCE_CAST((obj), PT_TYPE_PREFERENCES_DIALOG, PtPreferencesDialog))
+#define PT_TYPE_PREFERENCES_DIALOG (pt_preferences_dialog_get_type ())
+#define PT_PREFERENCES_DIALOG(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_TYPE_PREFERENCES_DIALOG, PtPreferencesDialog))
 
-typedef struct _PtPreferencesDialog		PtPreferencesDialog;
-typedef struct _PtPreferencesDialogClass	PtPreferencesDialogClass;
-typedef struct _PtPreferencesDialogPrivate	PtPreferencesDialogPrivate;
+typedef struct _PtPreferencesDialog PtPreferencesDialog;
+typedef struct _PtPreferencesDialogClass PtPreferencesDialogClass;
+typedef struct _PtPreferencesDialogPrivate PtPreferencesDialogPrivate;
 
 struct _PtPreferencesDialog
 {
-	GtkDialog dialog;
+  GtkDialog dialog;
 
-	/*< private > */
-	PtPreferencesDialogPrivate *priv;
+  /*< private > */
+  PtPreferencesDialogPrivate *priv;
 };
 
 struct _PtPreferencesDialogClass
 {
-	GtkDialogClass parent_class;
+  GtkDialogClass parent_class;
 };
 
+GType pt_preferences_dialog_get_type (void) G_GNUC_CONST;
 
-GType		pt_preferences_dialog_get_type	(void) G_GNUC_CONST;
-
-void		pt_show_preferences_dialog	(GtkWindow *parent);
+void pt_show_preferences_dialog (GtkWindow *parent);
 
 GtkNotebook *
 pt_preferences_dialog_get_notebook (PtPreferencesDialog *dlg);

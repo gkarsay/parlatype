@@ -14,7 +14,6 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef PT_WIN32_HOTKEYS_H
 #define PT_WIN32_HOTKEYS_H
 
@@ -22,32 +21,31 @@
 #include "pt-controller.h"
 #include "pt-window.h"
 
-#define PT_WIN32_HOTKEYS_TYPE		(pt_win32_hotkeys_get_type())
-#define PT_WIN32_HOTKEYS(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), PT_WIN32_HOTKEYS_TYPE, PtWin32Hotkeys))
-#define PT_IS_WIN32_HOTKEYS(obj)	(G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_WIN32_HOTKEYS_TYPE))
+#define PT_WIN32_HOTKEYS_TYPE (pt_win32_hotkeys_get_type ())
+#define PT_WIN32_HOTKEYS(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_WIN32_HOTKEYS_TYPE, PtWin32Hotkeys))
+#define PT_IS_WIN32_HOTKEYS(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_WIN32_HOTKEYS_TYPE))
 
-typedef struct _PtWin32Hotkeys		PtWin32Hotkeys;
-typedef struct _PtWin32HotkeysClass	PtWin32HotkeysClass;
-typedef struct _PtWin32HotkeysPrivate	PtWin32HotkeysPrivate;
+typedef struct _PtWin32Hotkeys PtWin32Hotkeys;
+typedef struct _PtWin32HotkeysClass PtWin32HotkeysClass;
+typedef struct _PtWin32HotkeysPrivate PtWin32HotkeysPrivate;
 
 struct _PtWin32Hotkeys
 {
-	PtController parent;
+  PtController parent;
 
-	/*< private > */
-	PtWin32HotkeysPrivate *priv;
+  /*< private > */
+  PtWin32HotkeysPrivate *priv;
 };
 
 struct _PtWin32HotkeysClass
 {
-	PtControllerClass parent_class;
+  PtControllerClass parent_class;
 };
 
+GType pt_win32_hotkeys_get_type (void) G_GNUC_CONST;
 
-GType		 pt_win32_hotkeys_get_type	(void) G_GNUC_CONST;
+void pt_win32_hotkeys_start (PtWin32Hotkeys *self);
 
-void		 pt_win32_hotkeys_start	(PtWin32Hotkeys *self);
-
-PtWin32Hotkeys 	*pt_win32_hotkeys_new	(PtWindow *win);
+PtWin32Hotkeys *pt_win32_hotkeys_new (PtWindow *win);
 
 #endif

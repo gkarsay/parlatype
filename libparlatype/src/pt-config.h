@@ -14,23 +14,22 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef PT_CONFIG_H
 #define PT_CONFIG_H
 
-#if !defined (__PARLATYPE_H_INSIDE__) && !defined (PARLATYPE_COMPILATION)
+#if !defined(__PARLATYPE_H_INSIDE__) && !defined(PARLATYPE_COMPILATION)
 #error "Only <parlatype.h> can be included directly."
 #endif
 
 #include <gio/gio.h>
 
-#define PT_TYPE_CONFIG		(pt_config_get_type())
-#define PT_CONFIG(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), PT_TYPE_CONFIG, PtConfig))
-#define PT_IS_CONFIG(obj)	(G_TYPE_CHECK_INSTANCE_TYPE((obj), PT_TYPE_CONFIG))
+#define PT_TYPE_CONFIG (pt_config_get_type ())
+#define PT_CONFIG(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_TYPE_CONFIG, PtConfig))
+#define PT_IS_CONFIG(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_TYPE_CONFIG))
 
-typedef struct _PtConfig	PtConfig;
-typedef struct _PtConfigClass	PtConfigClass;
-typedef struct _PtConfigPrivate	PtConfigPrivate;
+typedef struct _PtConfig PtConfig;
+typedef struct _PtConfigClass PtConfigClass;
+typedef struct _PtConfigPrivate PtConfigPrivate;
 
 /**
  * PtConfig:
@@ -39,15 +38,15 @@ typedef struct _PtConfigPrivate	PtConfigPrivate;
  */
 struct _PtConfig
 {
-	GObject parent;
+  GObject parent;
 
-	/*< private > */
-	PtConfigPrivate *priv;
+  /*< private > */
+  PtConfigPrivate *priv;
 };
 
 struct _PtConfigClass
 {
-	GObjectClass parent_class;
+  GObjectClass parent_class;
 };
 
 /**
@@ -66,36 +65,37 @@ struct _PtConfigClass
  *
  * Error codes for Parlatype in the PT_ERROR domain.
  */
-typedef enum {
-	PT_ERROR_PLUGIN_MISSING_PROPERTY,
-	PT_ERROR_PLUGIN_NOT_WRITABLE,
-	PT_ERROR_PLUGIN_WRONG_VALUE,
+typedef enum
+{
+  PT_ERROR_PLUGIN_MISSING_PROPERTY,
+  PT_ERROR_PLUGIN_NOT_WRITABLE,
+  PT_ERROR_PLUGIN_WRONG_VALUE,
 } PtError;
 
-GType		pt_config_get_type		(void) G_GNUC_CONST;
-GQuark		pt_error_quark			(void);
+GType pt_config_get_type (void) G_GNUC_CONST;
+GQuark pt_error_quark (void);
 
-gchar*		pt_config_get_name		(PtConfig *config);
-gboolean	pt_config_set_name		(PtConfig *config,
-						 gchar    *name);
-gchar*		pt_config_get_base_folder	(PtConfig *config);
-gboolean	pt_config_set_base_folder	(PtConfig *config,
-						 gchar    *name);
-gchar*		pt_config_get_plugin		(PtConfig *config);
-gchar*		pt_config_get_lang_code		(PtConfig *config);
-gchar*		pt_config_get_lang_name		(PtConfig *config);
-gchar*          pt_config_get_key               (PtConfig *config,
-						 gchar    *key);
+gchar *pt_config_get_name (PtConfig *config);
+gboolean pt_config_set_name (PtConfig *config,
+                             gchar *name);
+gchar *pt_config_get_base_folder (PtConfig *config);
+gboolean pt_config_set_base_folder (PtConfig *config,
+                                    gchar *name);
+gchar *pt_config_get_plugin (PtConfig *config);
+gchar *pt_config_get_lang_code (PtConfig *config);
+gchar *pt_config_get_lang_name (PtConfig *config);
+gchar *pt_config_get_key (PtConfig *config,
+                          gchar *key);
 
-GFile*		pt_config_get_file		(PtConfig *config);
-void            pt_config_set_file              (PtConfig *config,
-						 GFile    *file);
+GFile *pt_config_get_file (PtConfig *config);
+void pt_config_set_file (PtConfig *config,
+                         GFile *file);
 
-gboolean	pt_config_apply			(PtConfig *config,
-						 GObject  *plugin,
-						 GError  **error);
-gboolean	pt_config_is_valid		(PtConfig *config);
-gboolean	pt_config_is_installed		(PtConfig *config);
-PtConfig*	pt_config_new			(GFile *file);
+gboolean pt_config_apply (PtConfig *config,
+                          GObject *plugin,
+                          GError **error);
+gboolean pt_config_is_valid (PtConfig *config);
+gboolean pt_config_is_installed (PtConfig *config);
+PtConfig *pt_config_new (GFile *file);
 
 #endif

@@ -642,9 +642,9 @@ main (int argc, char *argv[])
               pt_player_fixture_set_up, player_speed,
               pt_player_fixture_tear_down);
   /* TODO doesn't work reliably, race condition? */
-  //g_test_add ("/player/volume", PtPlayerFixture, NULL,
-  //            pt_player_fixture_set_up, player_volume,
-  //            pt_player_fixture_tear_down);
+  // g_test_add ("/player/volume", PtPlayerFixture, NULL,
+  //             pt_player_fixture_set_up, player_volume,
+  //             pt_player_fixture_tear_down);
   g_test_add ("/player/timestrings", PtPlayerFixture, NULL,
               pt_player_fixture_set_up, player_timestrings,
               pt_player_fixture_tear_down);

@@ -14,7 +14,6 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef GST_HELPERS_H
 #define GST_HELPERS_H
 
@@ -22,10 +21,9 @@
 
 G_BEGIN_DECLS
 
-
-GstElement*	_pt_make_element	(gchar   *factoryname,
-                                         gchar   *name,
-                                         GError **error);
+GstElement *_pt_make_element (gchar *factoryname,
+                              gchar *name,
+                              GError **error);
 
 G_END_DECLS
 

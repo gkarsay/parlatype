@@ -14,7 +14,6 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef PT_POSITION_MANAGER_H
 #define PT_POSITION_MANAGER_H
 
@@ -22,12 +21,12 @@
 
 G_BEGIN_DECLS
 
-#define PT_TYPE_POSITION_MANAGER	(pt_position_manager_get_type())
-#define PT_POSITION_MANAGER(obj)	(G_TYPE_CHECK_INSTANCE_CAST((obj), PT_TYPE_POSITION_MANAGER, PtPositionManager))
-#define PT_IS_POSITION_MANAGER(obj)	(G_TYPE_CHECK_INSTANCE_TYPE((obj), PT_TYPE_POSITION_MANAGER))
+#define PT_TYPE_POSITION_MANAGER (pt_position_manager_get_type ())
+#define PT_POSITION_MANAGER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_TYPE_POSITION_MANAGER, PtPositionManager))
+#define PT_IS_POSITION_MANAGER(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_TYPE_POSITION_MANAGER))
 
-typedef struct _PtPositionManager	 PtPositionManager;
-typedef struct _PtPositionManagerClass   PtPositionManagerClass;
+typedef struct _PtPositionManager PtPositionManager;
+typedef struct _PtPositionManagerClass PtPositionManagerClass;
 typedef struct _PtPositionManagerPrivate PtPositionManagerPrivate;
 
 /**
@@ -37,25 +36,24 @@ typedef struct _PtPositionManagerPrivate PtPositionManagerPrivate;
  */
 struct _PtPositionManager
 {
-	GObject parent;
+  GObject parent;
 };
 
 struct _PtPositionManagerClass
 {
-	GObjectClass parent_class;
+  GObjectClass parent_class;
 };
 
+GType pt_position_manager_get_type (void) G_GNUC_CONST;
 
-GType			pt_position_manager_get_type		(void) G_GNUC_CONST;
+void pt_position_manager_save (PtPositionManager *self,
+                               GFile *file,
+                               gint64 pos);
 
-void			pt_position_manager_save		(PtPositionManager *self,
-								 GFile *file,
-								 gint64 pos);
+gint64 pt_position_manager_load (PtPositionManager *self,
+                                 GFile *file);
 
-gint64			pt_position_manager_load		(PtPositionManager *self,
-								 GFile *file);
-
-PtPositionManager*	pt_position_manager_new			(void);
+PtPositionManager *pt_position_manager_new (void);
 
 G_END_DECLS
 

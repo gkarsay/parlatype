@@ -44,57 +44,57 @@
 
 G_BEGIN_DECLS
 
-#define GST_TYPE_PARLASPHINX                   \
-    (gst_parlasphinx_get_type())
-#define GST_PARLASPHINX(obj)                                           \
-    (G_TYPE_CHECK_INSTANCE_CAST((obj),GST_TYPE_PARLASPHINX,GstParlaSphinx))
-#define GST_PARLASPHINX_CLASS(klass)                                   \
-    (G_TYPE_CHECK_CLASS_CAST((klass),GST_TYPE_PARLASPHINX,GstParlaSphinxClass))
-#define GST_IS_PARLASPHINX(obj)                                \
-    (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_PARLASPHINX))
-#define GST_IS_PARLASPHINX_CLASS(klass)                        \
-    (G_TYPE_CHECK_CLASS_TYPE((klass),GST_TYPE_PARLASPHINX))
+#define GST_TYPE_PARLASPHINX \
+  (gst_parlasphinx_get_type ())
+#define GST_PARLASPHINX(obj) \
+  (G_TYPE_CHECK_INSTANCE_CAST ((obj), GST_TYPE_PARLASPHINX, GstParlaSphinx))
+#define GST_PARLASPHINX_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_CAST ((klass), GST_TYPE_PARLASPHINX, GstParlaSphinxClass))
+#define GST_IS_PARLASPHINX(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GST_TYPE_PARLASPHINX))
+#define GST_IS_PARLASPHINX_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_TYPE ((klass), GST_TYPE_PARLASPHINX))
 
-typedef struct _GstParlaSphinx      GstParlaSphinx;
+typedef struct _GstParlaSphinx GstParlaSphinx;
 typedef struct _GstParlaSphinxClass GstParlaSphinxClass;
 
 struct _GstParlaSphinx
 {
-    GstElement element;
+  GstElement element;
 
-    GstPad *sinkpad, *srcpad;
+  GstPad *sinkpad, *srcpad;
 
-    ps_decoder_t *ps;
-    cmd_ln_t *config;
+  ps_decoder_t *ps;
+  cmd_ln_t *config;
 
-    gchar *latdir;                 /**< Output directory for word lattices. */
+  gchar *latdir; /**< Output directory for word lattices. */
 
-    gboolean speech_started;
-    gboolean listening_started;
-    gint uttno;
+  gboolean speech_started;
+  gboolean listening_started;
+  gint uttno;
 
-    GstClockTime last_result_time; /**< Timestamp of last partial result. */
-    char *last_result;             /**< String of last partial result. */
+  GstClockTime last_result_time; /**< Timestamp of last partial result. */
+  char *last_result;             /**< String of last partial result. */
 
-    GstSegment segment;
-    gboolean   eos;
+  GstSegment segment;
+  gboolean eos;
 };
 
 struct _GstParlaSphinxClass
 {
-    GstElementClass parent_class;
+  GstElementClass parent_class;
 
-    void (*partial_result)  (GstElement *element, const gchar *hyp_str);
-    void (*result)          (GstElement *element, const gchar *hyp_str);
+  void (*partial_result) (GstElement *element, const gchar *hyp_str);
+  void (*result) (GstElement *element, const gchar *hyp_str);
 };
 
-GType gst_parlasphinx_get_type(void);
+GType gst_parlasphinx_get_type (void);
 
 /*
  * Boxing of decoder.
  */
-#define PS_DECODER_TYPE (ps_decoder_get_type())
-GType ps_decoder_get_type(void);
+#define PS_DECODER_TYPE (ps_decoder_get_type ())
+GType ps_decoder_get_type (void);
 
 gboolean gst_parlasphinx_register (void);
 

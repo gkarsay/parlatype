@@ -21,30 +21,32 @@
 #include <gst/gst.h>
 #include "gst-helpers.h"
 
-
-GstElement*
-_pt_make_element (gchar   *factoryname,
-                  gchar   *name,
+GstElement *
+_pt_make_element (gchar *factoryname,
+                  gchar *name,
                   GError **error)
 {
-	g_return_val_if_fail (error == NULL || *error == NULL, NULL);
+  g_return_val_if_fail (error == NULL || *error == NULL, NULL);
 
-	GstElement *result;
+  GstElement *result;
 
-	result = gst_element_factory_make (factoryname, name);
-	if (!result) {
-		if (error == NULL) {
-			g_log_structured (
-				G_LOG_DOMAIN, G_LOG_LEVEL_CRITICAL, "MESSAGE",
-				_("Failed to load plugin “%s”."), factoryname);
-		} else {
-			g_set_error (error,
-			             GST_CORE_ERROR,
-			             GST_CORE_ERROR_MISSING_PLUGIN,
-			             _("Failed to load plugin “%s”."), factoryname);
+  result = gst_element_factory_make (factoryname, name);
+  if (!result)
+    {
+      if (error == NULL)
+        {
+          g_log_structured (
+              G_LOG_DOMAIN, G_LOG_LEVEL_CRITICAL, "MESSAGE",
+              _ ("Failed to load plugin “%s”."), factoryname);
+        }
+      else
+        {
+          g_set_error (error,
+                       GST_CORE_ERROR,
+                       GST_CORE_ERROR_MISSING_PLUGIN,
+                       _ ("Failed to load plugin “%s”."), factoryname);
+        }
+    }
 
-		}
-	}
-
-	return result;
+  return result;
 }

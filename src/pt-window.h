@@ -22,43 +22,43 @@
 #include <parlatype.h>
 #include "pt-app.h"
 
-#define PT_WINDOW_TYPE		(pt_window_get_type())
-#define PT_WINDOW(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), PT_WINDOW_TYPE, PtWindow))
-#define PT_IS_WINDOW(obj)	(G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_WINDOW_TYPE))
+#define PT_WINDOW_TYPE (pt_window_get_type ())
+#define PT_WINDOW(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_WINDOW_TYPE, PtWindow))
+#define PT_IS_WINDOW(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_WINDOW_TYPE))
 
-typedef struct _PtWindow	PtWindow;
-typedef struct _PtWindowClass	PtWindowClass;
+typedef struct _PtWindow PtWindow;
+typedef struct _PtWindowClass PtWindowClass;
 typedef struct _PtWindowPrivate PtWindowPrivate;
 
 struct _PtWindow
 {
-	GtkApplicationWindow  parent;
-	PtPlayer             *player;
-	GtkWidget            *waveviewer;
-	GSettings	     *editor;
-	GtkWidget  *primary_menu_button;
-	GtkWidget  *pos_menu_button;
+  GtkApplicationWindow parent;
+  PtPlayer *player;
+  GtkWidget *waveviewer;
+  GSettings *editor;
+  GtkWidget *primary_menu_button;
+  GtkWidget *pos_menu_button;
 
-	/*< private > */
-	PtWindowPrivate *priv;
+  /*< private > */
+  PtWindowPrivate *priv;
 };
 
 struct _PtWindowClass
 {
-	GtkApplicationWindowClass parent_class;
+  GtkApplicationWindowClass parent_class;
 };
 
-GType		pt_window_get_type	(void) G_GNUC_CONST;
+GType pt_window_get_type (void) G_GNUC_CONST;
 
-void		pt_error_message	(PtWindow    *parent,
-					 const gchar *message,
-					 const gchar *secondary_message);
+void pt_error_message (PtWindow *parent,
+                       const gchar *message,
+                       const gchar *secondary_message);
 
-void		pt_window_open_file	(PtWindow *win,
-					 gchar    *uri);
+void pt_window_open_file (PtWindow *win,
+                          gchar *uri);
 
-gchar		*pt_window_get_uri	(PtWindow *win);
+gchar *pt_window_get_uri (PtWindow *win);
 
-PtWindow	*pt_window_new		(PtApp *app);
+PtWindow *pt_window_new (PtApp *app);
 
 #endif

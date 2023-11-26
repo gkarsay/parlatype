@@ -14,7 +14,6 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef PT_WAVEVIEWER_CURSOR_H
 #define PT_WAVEVIEWER_CURSOR_H
 
@@ -22,31 +21,33 @@
 
 G_BEGIN_DECLS
 
-#define PT_TYPE_WAVEVIEWER_CURSOR          (pt_waveviewer_cursor_get_type ())
-#define PT_WAVEVIEWER_CURSOR(obj)          (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_TYPE_WAVEVIEWER_CURSOR, PtWaveviewerCursor))
-#define PT_IS_WAVEVIEWER_CURSOR(obj)       (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_TYPE_WAVEVIEWER_CURSOR))
-#define PT_WAVEVIEWER_CURSOR_CLASS(klass)  (G_TYPE_CHECK_CLASS_CAST ((klass),  PT_TYPE_WAVEVIEWER_CURSOR, PtWaveviewerCursorClass))
-#define PT_IS_WAVEVIEWER_CURSOR_CLASS(obj) (G_TYPE_CHECK_CLASS_TYPE ((klass),  PT_TYPE_WAVEVIEWER_CURSOR))
+#define PT_TYPE_WAVEVIEWER_CURSOR (pt_waveviewer_cursor_get_type ())
+#define PT_WAVEVIEWER_CURSOR(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_TYPE_WAVEVIEWER_CURSOR, PtWaveviewerCursor))
+#define PT_IS_WAVEVIEWER_CURSOR(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_TYPE_WAVEVIEWER_CURSOR))
+#define PT_WAVEVIEWER_CURSOR_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), PT_TYPE_WAVEVIEWER_CURSOR, PtWaveviewerCursorClass))
+#define PT_IS_WAVEVIEWER_CURSOR_CLASS(obj) (G_TYPE_CHECK_CLASS_TYPE ((klass), PT_TYPE_WAVEVIEWER_CURSOR))
 
-typedef struct _PtWaveviewerCursor		PtWaveviewerCursor;
-typedef struct _PtWaveviewerCursorClass		PtWaveviewerCursorClass;
-typedef struct _PtWaveviewerCursorPrivate	PtWaveviewerCursorPrivate;
+typedef struct _PtWaveviewerCursor PtWaveviewerCursor;
+typedef struct _PtWaveviewerCursorClass PtWaveviewerCursorClass;
+typedef struct _PtWaveviewerCursorPrivate PtWaveviewerCursorPrivate;
 
-struct _PtWaveviewerCursor {
-	GtkDrawingArea parent;
+struct _PtWaveviewerCursor
+{
+  GtkDrawingArea parent;
 
-	/*< private > */
-	PtWaveviewerCursorPrivate *priv;
+  /*< private > */
+  PtWaveviewerCursorPrivate *priv;
 };
 
-struct _PtWaveviewerCursorClass {
-	GtkDrawingAreaClass klass;
+struct _PtWaveviewerCursorClass
+{
+  GtkDrawingAreaClass klass;
 };
 
-GType		pt_waveviewer_cursor_get_type	(void) G_GNUC_CONST;
-void		pt_waveviewer_cursor_render	(PtWaveviewerCursor *self,
-						 gint                position);
-GtkWidget	*pt_waveviewer_cursor_new	(void);
+GType pt_waveviewer_cursor_get_type (void) G_GNUC_CONST;
+void pt_waveviewer_cursor_render (PtWaveviewerCursor *self,
+                                  gint position);
+GtkWidget *pt_waveviewer_cursor_new (void);
 
 G_END_DECLS
 

@@ -19,30 +19,28 @@
  * Boston, MA 02110-1301, USA.
  */
 
-
 #ifndef __VAD_FILTER_H__
 #define __VAD_FILTER_H__
 
-#define VAD_SILENCE  0
-#define VAD_VOICE    1
-
+#define VAD_SILENCE 0
+#define VAD_VOICE 1
 
 typedef struct _vad_s VADFilter;
 
-gint vad_update(VADFilter *p, gint16 *data, gint len);
+gint vad_update (VADFilter *p, gint16 *data, gint len);
 
-void vad_set_hysteresis(VADFilter *p, guint64 hysteresis);
+void vad_set_hysteresis (VADFilter *p, guint64 hysteresis);
 
-guint64 vad_get_hysteresis(VADFilter *p);
+guint64 vad_get_hysteresis (VADFilter *p);
 
-void vad_set_threshold(VADFilter *p, gint threshold_db);
+void vad_set_threshold (VADFilter *p, gint threshold_db);
 
-gint vad_get_threshold_as_db(VADFilter *p);
+gint vad_get_threshold_as_db (VADFilter *p);
 
-VADFilter* vad_new(guint64 hysteresis, gint threshold);
+VADFilter *vad_new (guint64 hysteresis, gint threshold);
 
-void vad_reset(VADFilter *p);
+void vad_reset (VADFilter *p);
 
-void vad_destroy(VADFilter *p);
+void vad_destroy (VADFilter *p);
 
 #endif /* __VAD_FILTER__ */

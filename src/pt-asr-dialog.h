@@ -14,7 +14,6 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef PT_ASR_DIALOG_H
 #define PT_ASR_DIALOG_H
 
@@ -22,32 +21,31 @@
 #include <gtk/gtk.h>
 #include <pt-config.h>
 
-#define PT_TYPE_ASR_DIALOG              (pt_asr_dialog_get_type())
-#define PT_ASR_DIALOG(obj)              (G_TYPE_CHECK_INSTANCE_CAST((obj), PT_TYPE_ASR_DIALOG, PtAsrDialog))
+#define PT_TYPE_ASR_DIALOG (pt_asr_dialog_get_type ())
+#define PT_ASR_DIALOG(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_TYPE_ASR_DIALOG, PtAsrDialog))
 
-typedef struct _PtAsrDialog		PtAsrDialog;
-typedef struct _PtAsrDialogClass	PtAsrDialogClass;
-typedef struct _PtAsrDialogPrivate	PtAsrDialogPrivate;
+typedef struct _PtAsrDialog PtAsrDialog;
+typedef struct _PtAsrDialogClass PtAsrDialogClass;
+typedef struct _PtAsrDialogPrivate PtAsrDialogPrivate;
 
 struct _PtAsrDialog
 {
-	GtkWindow dialog;
+  GtkWindow dialog;
 
-	/*< private > */
-	PtAsrDialogPrivate *priv;
+  /*< private > */
+  PtAsrDialogPrivate *priv;
 };
 
 struct _PtAsrDialogClass
 {
-	GtkWindowClass parent_class;
+  GtkWindowClass parent_class;
 };
 
+GType pt_asr_dialog_get_type (void) G_GNUC_CONST;
 
-GType		pt_asr_dialog_get_type		(void) G_GNUC_CONST;
+void pt_asr_dialog_set_config (PtAsrDialog *dlg,
+                               PtConfig *config);
 
-void		pt_asr_dialog_set_config	(PtAsrDialog *dlg,
-						 PtConfig    *config);
-
-PtAsrDialog 	*pt_asr_dialog_new		(GtkWindow *win);
+PtAsrDialog *pt_asr_dialog_new (GtkWindow *win);
 
 #endif

@@ -14,103 +14,106 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "config.h"
 #include "pt-window.h"
 #include "pt-controller.h"
 
 struct _PtControllerPrivate
 {
-	PtWindow   *win;
+  PtWindow *win;
 };
 
 enum
 {
-	PROP_0,
-	PROP_WIN,
-	N_PROPERTIES
+  PROP_0,
+  PROP_WIN,
+  N_PROPERTIES
 };
 
-static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
+static GParamSpec *obj_properties[N_PROPERTIES] = {
+  NULL,
+};
 
 G_DEFINE_TYPE_WITH_PRIVATE (PtController, pt_controller, G_TYPE_OBJECT)
 
-PtWindow*
+PtWindow *
 pt_controller_get_window (PtController *self)
 {
-	return self->priv->win;
+  return self->priv->win;
 }
 
-PtPlayer*
+PtPlayer *
 pt_controller_get_player (PtController *self)
 {
-	return self->priv->win->player;
+  return self->priv->win->player;
 }
 
 static void
 pt_controller_init (PtController *self)
 {
-	self->priv = pt_controller_get_instance_private (self);
+  self->priv = pt_controller_get_instance_private (self);
 }
 
 static void
-pt_controller_set_property (GObject      *object,
-                            guint         property_id,
+pt_controller_set_property (GObject *object,
+                            guint property_id,
                             const GValue *value,
-                            GParamSpec   *pspec)
-{
-	PtController *self = PT_CONTROLLER (object);
-
-	switch (property_id) {
-	case PROP_WIN:
-		self->priv->win = g_value_get_object (value);
-		break;
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-		break;
-	}
-}
-
-static void
-pt_controller_get_property (GObject    *object,
-                            guint       property_id,
-                            GValue     *value,
                             GParamSpec *pspec)
 {
-	PtController *self = PT_CONTROLLER (object);
+  PtController *self = PT_CONTROLLER (object);
 
-	switch (property_id) {
-	case PROP_WIN:
-		g_value_set_object (value, self->priv->win);
-		break;
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-		break;
-	}
+  switch (property_id)
+    {
+    case PROP_WIN:
+      self->priv->win = g_value_get_object (value);
+      break;
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+      break;
+    }
+}
+
+static void
+pt_controller_get_property (GObject *object,
+                            guint property_id,
+                            GValue *value,
+                            GParamSpec *pspec)
+{
+  PtController *self = PT_CONTROLLER (object);
+
+  switch (property_id)
+    {
+    case PROP_WIN:
+      g_value_set_object (value, self->priv->win);
+      break;
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+      break;
+    }
 }
 static void
 pt_controller_class_init (PtControllerClass *klass)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+  GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-	object_class->set_property = pt_controller_set_property;
-	object_class->get_property = pt_controller_get_property;
+  object_class->set_property = pt_controller_set_property;
+  object_class->get_property = pt_controller_get_property;
 
-	obj_properties[PROP_WIN] =
-	g_param_spec_object ("win",
-                             "Parent PtWindow",
-                             "Parent PtWindow",
-                             PT_WINDOW_TYPE,
-                             G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_EXPLICIT_NOTIFY);
+  obj_properties[PROP_WIN] =
+      g_param_spec_object ("win",
+                           "Parent PtWindow",
+                           "Parent PtWindow",
+                           PT_WINDOW_TYPE,
+                           G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_EXPLICIT_NOTIFY);
 
-	g_object_class_install_properties (
-			object_class,
-			N_PROPERTIES,
-			obj_properties);
+  g_object_class_install_properties (
+      object_class,
+      N_PROPERTIES,
+      obj_properties);
 }
 
 PtController *
 pt_controller_new (PtWindow *win)
 {
-	return g_object_new (PT_CONTROLLER_TYPE, "win", win, NULL);
+  return g_object_new (PT_CONTROLLER_TYPE, "win", win, NULL);
 }

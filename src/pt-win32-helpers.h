@@ -14,17 +14,16 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef PT_WIN32_HELPERS_H
 #define PT_WIN32_HELPERS_H
 
 #include "config.h"
 
-gchar		*pt_win32_get_help_uri			(void);
-void		 pt_win32_add_audio_patterns		(GtkFileFilter *filter);
-gboolean	 pt_win32_present_other_instance	(GApplication *app);
-gboolean	 pt_win32_open_in_other_instance	(GApplication *app,
-							 gchar        *uri);
-gchar		*pt_win32_get_last_error_msg		(void);
+gchar *pt_win32_get_help_uri (void);
+void pt_win32_add_audio_patterns (GtkFileFilter *filter);
+gboolean pt_win32_present_other_instance (GApplication *app);
+gboolean pt_win32_open_in_other_instance (GApplication *app,
+                                          gchar *uri);
+gchar *pt_win32_get_last_error_msg (void);
 
 #endif

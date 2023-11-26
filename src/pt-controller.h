@@ -20,34 +20,33 @@
 #include "config.h"
 #include "pt-window.h"
 
-#define PT_CONTROLLER_TYPE		(pt_controller_get_type())
-#define PT_CONTROLLER(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), PT_CONTROLLER_TYPE, PtController))
-#define PT_IS_CONTROLLER(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_CONTROLLER_TYPE))
+#define PT_CONTROLLER_TYPE (pt_controller_get_type ())
+#define PT_CONTROLLER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_CONTROLLER_TYPE, PtController))
+#define PT_IS_CONTROLLER(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_CONTROLLER_TYPE))
 
-typedef struct _PtController		PtController;
-typedef struct _PtControllerClass	PtControllerClass;
-typedef struct _PtControllerPrivate	PtControllerPrivate;
+typedef struct _PtController PtController;
+typedef struct _PtControllerClass PtControllerClass;
+typedef struct _PtControllerPrivate PtControllerPrivate;
 
 struct _PtController
 {
-	GObject parent;
+  GObject parent;
 
-	/*< private > */
-	PtControllerPrivate *priv;
+  /*< private > */
+  PtControllerPrivate *priv;
 };
 
 struct _PtControllerClass
 {
-	GObjectClass parent_class;
+  GObjectClass parent_class;
 };
 
+GType pt_controller_get_type (void) G_GNUC_CONST;
 
-GType		pt_controller_get_type		(void) G_GNUC_CONST;
+PtWindow *pt_controller_get_window (PtController *self);
 
-PtWindow	*pt_controller_get_window	(PtController *self);
+PtPlayer *pt_controller_get_player (PtController *self);
 
-PtPlayer	*pt_controller_get_player	(PtController *self);
-
-PtController 	*pt_controller_new		(PtWindow *win);
+PtController *pt_controller_new (PtWindow *win);
 
 #endif

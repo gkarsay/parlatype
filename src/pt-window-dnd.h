@@ -20,6 +20,6 @@
 #include "config.h"
 #include "pt-window.h"
 
-void	pt_window_setup_dnd	(PtWindow *win);
+void pt_window_setup_dnd (PtWindow *win);
 
 #endif

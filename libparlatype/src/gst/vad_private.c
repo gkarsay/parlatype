@@ -26,10 +26,9 @@
 #include <glib.h>
 #include "vad_private.h"
 
-#define VAD_POWER_ALPHA     0x0800      /* Q16 */
-#define VAD_ZCR_THRESHOLD   0
-#define VAD_BUFFER_SIZE     256
-
+#define VAD_POWER_ALPHA 0x0800 /* Q16 */
+#define VAD_ZCR_THRESHOLD 0
+#define VAD_BUFFER_SIZE 256
 
 union pgen
 {
@@ -74,7 +73,7 @@ vad_new (guint64 hysteresis, gint threshold)
 }
 
 void
-vad_reset (VADFilter * vad)
+vad_reset (VADFilter *vad)
 {
   memset (vad, 0, sizeof (*vad));
   vad->cqueue.base.s = vad->vad_buffer;
@@ -84,7 +83,7 @@ vad_reset (VADFilter * vad)
 }
 
 void
-vad_destroy (VADFilter * p)
+vad_destroy (VADFilter *p)
 {
   free (p);
 }
@@ -115,53 +114,61 @@ vad_get_threshold_as_db (struct _vad_s *p)
 }
 
 gint
-vad_update (struct _vad_s * p, gint16 * data, gint len)
+vad_update (struct _vad_s *p, gint16 *data, gint len)
 {
   guint64 tail;
   gint frame_type;
   gint16 sample;
   gint i;
 
-  for (i = 0; i < len; i++) {
-    p->vad_power = VAD_POWER_ALPHA * ((data[i] * data[i] >> 14) & 0xFFFF) +
-        (0xFFFF - VAD_POWER_ALPHA) * (p->vad_power >> 16) +
-        ((0xFFFF - VAD_POWER_ALPHA) * (p->vad_power & 0xFFFF) >> 16);
-    /* Update VAD buffer */
-    p->cqueue.base.s[p->cqueue.head.a] = data[i];
-    p->cqueue.head.a = (p->cqueue.head.a + 1) & (p->cqueue.size - 1);
-    if (p->cqueue.head.a == p->cqueue.tail.a)
-      p->cqueue.tail.a = (p->cqueue.tail.a + 1) & (p->cqueue.size - 1);
-  }
+  for (i = 0; i < len; i++)
+    {
+      p->vad_power = VAD_POWER_ALPHA * ((data[i] * data[i] >> 14) & 0xFFFF) +
+                     (0xFFFF - VAD_POWER_ALPHA) * (p->vad_power >> 16) +
+                     ((0xFFFF - VAD_POWER_ALPHA) * (p->vad_power & 0xFFFF) >> 16);
+      /* Update VAD buffer */
+      p->cqueue.base.s[p->cqueue.head.a] = data[i];
+      p->cqueue.head.a = (p->cqueue.head.a + 1) & (p->cqueue.size - 1);
+      if (p->cqueue.head.a == p->cqueue.tail.a)
+        p->cqueue.tail.a = (p->cqueue.tail.a + 1) & (p->cqueue.size - 1);
+    }
 
   tail = p->cqueue.tail.a;
   p->vad_zcr = 0;
-  for (;;) {
-    sample = p->cqueue.base.s[tail];
-    tail = (tail + 1) & (p->cqueue.size - 1);
-    if (tail == p->cqueue.head.a)
-      break;
-    p->vad_zcr +=
-        ((sample & 0x8000) != (p->cqueue.base.s[tail] & 0x8000)) ? 1 : -1;
-  }
+  for (;;)
+    {
+      sample = p->cqueue.base.s[tail];
+      tail = (tail + 1) & (p->cqueue.size - 1);
+      if (tail == p->cqueue.head.a)
+        break;
+      p->vad_zcr +=
+          ((sample & 0x8000) != (p->cqueue.base.s[tail] & 0x8000)) ? 1 : -1;
+    }
 
-  frame_type = (p->vad_power > p->threshold
-      && p->vad_zcr < VAD_ZCR_THRESHOLD) ? VAD_VOICE : VAD_SILENCE;
+  frame_type = (p->vad_power > p->threshold && p->vad_zcr < VAD_ZCR_THRESHOLD) ? VAD_VOICE : VAD_SILENCE;
 
-  if (p->vad_state != frame_type) {
-    /* Voice to silence transition */
-    if (p->vad_state == VAD_VOICE) {
-      p->vad_samples += len;
-      if (p->vad_samples >= p->hysteresis) {
-        p->vad_state = frame_type;
-        p->vad_samples = 0;
-      }
-    } else {
-      p->vad_state = frame_type;
+  if (p->vad_state != frame_type)
+    {
+      /* Voice to silence transition */
+      if (p->vad_state == VAD_VOICE)
+        {
+          p->vad_samples += len;
+          if (p->vad_samples >= p->hysteresis)
+            {
+              p->vad_state = frame_type;
+              p->vad_samples = 0;
+            }
+        }
+      else
+        {
+          p->vad_state = frame_type;
+          p->vad_samples = 0;
+        }
+    }
+  else
+    {
       p->vad_samples = 0;
     }
-  } else {
-    p->vad_samples = 0;
-  }
 
   return p->vad_state;
 }

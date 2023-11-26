@@ -14,27 +14,26 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "config.h"
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <locale.h>		/* setlocale */
+#include <locale.h> /* setlocale */
 #include "pt-app.h"
 
-
-int main (int argc, char *argv[])
+int
+main (int argc, char *argv[])
 {
-	setlocale (LC_ALL, "");
-	bindtextdomain (PACKAGE_NAME, LOCALEDIR);
-	bind_textdomain_codeset (PACKAGE_NAME, "UTF-8");
-	textdomain (PACKAGE_NAME);
+  setlocale (LC_ALL, "");
+  bindtextdomain (PACKAGE_NAME, LOCALEDIR);
+  bind_textdomain_codeset (PACKAGE_NAME, "UTF-8");
+  textdomain (PACKAGE_NAME);
 
-	PtApp *app;
-	gint   app_status;
+  PtApp *app;
+  gint app_status;
 
-	app = pt_app_new ();
-	app_status = g_application_run (G_APPLICATION (app), argc, argv);
-	g_object_unref (app);
+  app = pt_app_new ();
+  app_status = g_application_run (G_APPLICATION (app), argc, argv);
+  g_object_unref (app);
 
-	return app_status;
+  return app_status;
 }

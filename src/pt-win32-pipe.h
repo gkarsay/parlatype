@@ -14,7 +14,6 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef PT_WIN32_PIPE_H
 #define PT_WIN32_PIPE_H
 
@@ -22,34 +21,33 @@
 #include "pt-controller.h"
 #include "pt-window.h"
 
-#define PT_WIN32_PIPE_TYPE		(pt_win32_pipe_get_type())
-#define PT_WIN32_PIPE(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), PT_WIN32_PIPE_TYPE, PtWin32Pipe))
-#define PT_IS_WIN32_PIPE(obj)	(G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_WIN32_PIPE_TYPE))
+#define PT_WIN32_PIPE_TYPE (pt_win32_pipe_get_type ())
+#define PT_WIN32_PIPE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_WIN32_PIPE_TYPE, PtWin32Pipe))
+#define PT_IS_WIN32_PIPE(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_WIN32_PIPE_TYPE))
 
-typedef struct _PtWin32Pipe		PtWin32Pipe;
-typedef struct _PtWin32PipeClass	PtWin32PipeClass;
-typedef struct _PtWin32PipePrivate	PtWin32PipePrivate;
+typedef struct _PtWin32Pipe PtWin32Pipe;
+typedef struct _PtWin32PipeClass PtWin32PipeClass;
+typedef struct _PtWin32PipePrivate PtWin32PipePrivate;
 
 struct _PtWin32Pipe
 {
-	PtController parent;
+  PtController parent;
 
-	/*< private > */
-	PtWin32PipePrivate *priv;
+  /*< private > */
+  PtWin32PipePrivate *priv;
 };
 
 struct _PtWin32PipeClass
 {
-	PtControllerClass parent_class;
+  PtControllerClass parent_class;
 };
 
+GType pt_win32_pipe_get_type (void) G_GNUC_CONST;
 
-GType		 pt_win32_pipe_get_type	(void) G_GNUC_CONST;
+void pt_win32_pipe_start (PtWin32Pipe *self);
 
-void		 pt_win32_pipe_start	(PtWin32Pipe *self);
+void pt_win32_pipe_stop (PtWin32Pipe *self);
 
-void             pt_win32_pipe_stop     (PtWin32Pipe *self);
-
-PtWin32Pipe 	*pt_win32_pipe_new	(PtWindow *win);
+PtWin32Pipe *pt_win32_pipe_new (PtWindow *win);
 
 #endif

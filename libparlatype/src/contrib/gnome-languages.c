@@ -32,10 +32,8 @@
 #define ISO_CODES_DATADIR ISO_CODES_PREFIX "/share/xml/iso-codes"
 #define ISO_CODES_LOCALESDIR ISO_CODES_PREFIX "/share/locale"
 
-
 static GHashTable *gnome_languages_map;
 static GHashTable *gnome_territories_map;
-
 
 /**
  * gnome_parse_locale:
@@ -59,510 +57,592 @@ static GHashTable *gnome_territories_map;
  */
 gboolean
 gnome_parse_locale (const char *locale,
-                    char      **language_codep,
-                    char      **country_codep,
-                    char      **codesetp,
-                    char      **modifierp)
+                    char **language_codep,
+                    char **country_codep,
+                    char **codesetp,
+                    char **modifierp)
 {
-        static GRegex *re = NULL;
-        GMatchInfo *match_info;
-        gboolean    res;
-        gboolean    retval;
+  static GRegex *re = NULL;
+  GMatchInfo *match_info;
+  gboolean res;
+  gboolean retval;
 
-        match_info = NULL;
-        retval = FALSE;
+  match_info = NULL;
+  retval = FALSE;
 
-        if (re == NULL) {
-                GError *error = NULL;
-                re = g_regex_new ("^(?P<language>[^_.@[:space:]]+)"
-                                  "(_(?P<territory>[[:upper:]]+))?"
-                                  "(\\.(?P<codeset>[-_0-9a-zA-Z]+))?"
-                                  "(@(?P<modifier>[[:ascii:]]+))?$",
-                                  0, 0, &error);
-                if (re == NULL) {
-                        g_warning ("%s", error->message);
-                        g_error_free (error);
-                        goto out;
-                }
+  if (re == NULL)
+    {
+      GError *error = NULL;
+      re = g_regex_new ("^(?P<language>[^_.@[:space:]]+)"
+                        "(_(?P<territory>[[:upper:]]+))?"
+                        "(\\.(?P<codeset>[-_0-9a-zA-Z]+))?"
+                        "(@(?P<modifier>[[:ascii:]]+))?$",
+                        0, 0, &error);
+      if (re == NULL)
+        {
+          g_warning ("%s", error->message);
+          g_error_free (error);
+          goto out;
         }
+    }
 
-        if (!g_regex_match (re, locale, 0, &match_info) ||
-            g_match_info_is_partial_match (match_info)) {
-                g_warning ("locale '%s' isn't valid\n", locale);
-                goto out;
+  if (!g_regex_match (re, locale, 0, &match_info) ||
+      g_match_info_is_partial_match (match_info))
+    {
+      g_warning ("locale '%s' isn't valid\n", locale);
+      goto out;
+    }
+
+  res = g_match_info_matches (match_info);
+  if (!res)
+    {
+      g_warning ("Unable to parse locale: %s", locale);
+      goto out;
+    }
+
+  retval = TRUE;
+
+  if (language_codep != NULL)
+    {
+      *language_codep = g_match_info_fetch_named (match_info, "language");
+    }
+
+  if (country_codep != NULL)
+    {
+      *country_codep = g_match_info_fetch_named (match_info, "territory");
+
+      if (*country_codep != NULL &&
+          *country_codep[0] == '\0')
+        {
+          g_free (*country_codep);
+          *country_codep = NULL;
         }
+    }
 
-        res = g_match_info_matches (match_info);
-        if (! res) {
-                g_warning ("Unable to parse locale: %s", locale);
-                goto out;
+  if (codesetp != NULL)
+    {
+      *codesetp = g_match_info_fetch_named (match_info, "codeset");
+
+      if (*codesetp != NULL &&
+          *codesetp[0] == '\0')
+        {
+          g_free (*codesetp);
+          *codesetp = NULL;
         }
+    }
 
-        retval = TRUE;
+  if (modifierp != NULL)
+    {
+      *modifierp = g_match_info_fetch_named (match_info, "modifier");
 
-        if (language_codep != NULL) {
-                *language_codep = g_match_info_fetch_named (match_info, "language");
+      if (*modifierp != NULL &&
+          *modifierp[0] == '\0')
+        {
+          g_free (*modifierp);
+          *modifierp = NULL;
         }
+    }
 
-        if (country_codep != NULL) {
-                *country_codep = g_match_info_fetch_named (match_info, "territory");
+out:
+  g_match_info_free (match_info);
 
-                if (*country_codep != NULL &&
-                    *country_codep[0] == '\0') {
-                        g_free (*country_codep);
-                        *country_codep = NULL;
-                }
-        }
-
-        if (codesetp != NULL) {
-                *codesetp = g_match_info_fetch_named (match_info, "codeset");
-
-                if (*codesetp != NULL &&
-                    *codesetp[0] == '\0') {
-                        g_free (*codesetp);
-                        *codesetp = NULL;
-                }
-        }
-
-        if (modifierp != NULL) {
-                *modifierp = g_match_info_fetch_named (match_info, "modifier");
-
-                if (*modifierp != NULL &&
-                    *modifierp[0] == '\0') {
-                        g_free (*modifierp);
-                        *modifierp = NULL;
-                }
-        }
-
- out:
-        g_match_info_free (match_info);
-
-        return retval;
+  return retval;
 }
 
 static gboolean
 is_fallback_language (const char *code)
 {
-        const char *fallback_language_names[] = { "C", "POSIX", NULL };
-        int i;
+  const char *fallback_language_names[] = { "C", "POSIX", NULL };
+  int i;
 
-        for (i = 0; fallback_language_names[i] != NULL; i++) {
-                if (strcmp (code, fallback_language_names[i]) == 0) {
-                        return TRUE;
-                }
+  for (i = 0; fallback_language_names[i] != NULL; i++)
+    {
+      if (strcmp (code, fallback_language_names[i]) == 0)
+        {
+          return TRUE;
         }
+    }
 
-        return FALSE;
+  return FALSE;
 }
 
 static const char *
 get_language (const char *code)
 {
-        const char *name;
-        int         len;
+  const char *name;
+  int len;
 
-        g_assert (code != NULL);
+  g_assert (code != NULL);
 
-        if (is_fallback_language (code)) {
-                return "Unspecified";
-        }
+  if (is_fallback_language (code))
+    {
+      return "Unspecified";
+    }
 
-        len = strlen (code);
-        if (len != 2 && len != 3) {
-                return NULL;
-        }
+  len = strlen (code);
+  if (len != 2 && len != 3)
+    {
+      return NULL;
+    }
 
-        name = (const char *) g_hash_table_lookup (gnome_languages_map, code);
+  name = (const char *) g_hash_table_lookup (gnome_languages_map, code);
 
-        return name;
+  return name;
 }
 
 static char *
 get_first_item_in_semicolon_list (const char *list)
 {
-        char **items;
-        char  *item;
+  char **items;
+  char *item;
 
-        /* Some entries in iso codes have multiple values, separated
-         * by semicolons.  Not really sure which one to pick, so
-         * we just arbitrarily pick the first one.
-         */
-        items = g_strsplit (list, "; ", 2);
+  /* Some entries in iso codes have multiple values, separated
+   * by semicolons.  Not really sure which one to pick, so
+   * we just arbitrarily pick the first one.
+   */
+  items = g_strsplit (list, "; ", 2);
 
-        item = g_strdup (items[0]);
-        g_strfreev (items);
+  item = g_strdup (items[0]);
+  g_strfreev (items);
 
-        return item;
+  return item;
 }
 
 static char *
 capitalize_utf8_string (const char *str)
 {
-        char first[8] = { 0 };
+  char first[8] = { 0 };
 
-        if (!str)
-                return NULL;
+  if (!str)
+    return NULL;
 
-        g_unichar_to_utf8 (g_unichar_totitle (g_utf8_get_char (str)), first);
+  g_unichar_to_utf8 (g_unichar_totitle (g_utf8_get_char (str)), first);
 
-        return g_strconcat (first, g_utf8_offset_to_pointer (str, 1), NULL);
+  return g_strconcat (first, g_utf8_offset_to_pointer (str, 1), NULL);
 }
 
 static char *
 get_translated_language (const char *code,
                          const char *locale)
 {
-        const char *language;
-        char *name;
+  const char *language;
+  char *name;
 
-        language = get_language (code);
+  language = get_language (code);
 
-        name = NULL;
-        if (language != NULL) {
-                const char *translated_name;
+  name = NULL;
+  if (language != NULL)
+    {
+      const char *translated_name;
 
-                if (is_fallback_language (code)) {
-                        name = g_strdup (_("Unspecified"));
-                } else {
-                        g_autofree char *tmp = NULL;
-                        if (strlen (code) == 2) {
-                                translated_name = dgettext ("iso_639", language);
-                        } else {
-                                translated_name = dgettext ("iso_639_3", language);
-                        }
-                        tmp = get_first_item_in_semicolon_list (translated_name);
-                        name = capitalize_utf8_string (tmp);
-                }
+      if (is_fallback_language (code))
+        {
+          name = g_strdup (_ ("Unspecified"));
         }
+      else
+        {
+          g_autofree char *tmp = NULL;
+          if (strlen (code) == 2)
+            {
+              translated_name = dgettext ("iso_639", language);
+            }
+          else
+            {
+              translated_name = dgettext ("iso_639_3", language);
+            }
+          tmp = get_first_item_in_semicolon_list (translated_name);
+          name = capitalize_utf8_string (tmp);
+        }
+    }
 
-        return name;
+  return name;
 }
 
 static const char *
 get_territory (const char *code)
 {
-        const char *name;
-        int         len;
+  const char *name;
+  int len;
 
-        g_assert (code != NULL);
+  g_assert (code != NULL);
 
-        len = strlen (code);
-        if (len != 2 && len != 3) {
-                return NULL;
-        }
+  len = strlen (code);
+  if (len != 2 && len != 3)
+    {
+      return NULL;
+    }
 
-        name = (const char *) g_hash_table_lookup (gnome_territories_map, code);
+  name = (const char *) g_hash_table_lookup (gnome_territories_map, code);
 
-        return name;
+  return name;
 }
 
 static char *
 get_translated_territory (const char *code,
                           const char *locale)
 {
-        const char *territory;
-        char       *name;
+  const char *territory;
+  char *name;
 
-        territory = get_territory (code);
+  territory = get_territory (code);
 
-        name = NULL;
-        if (territory != NULL) {
-                const char *translated_territory;
-                g_autofree char *tmp = NULL;
+  name = NULL;
+  if (territory != NULL)
+    {
+      const char *translated_territory;
+      g_autofree char *tmp = NULL;
 
-                translated_territory = dgettext ("iso_3166", territory);
-                tmp = get_first_item_in_semicolon_list (translated_territory);
-                name = capitalize_utf8_string (tmp);
-        }
+      translated_territory = dgettext ("iso_3166", territory);
+      tmp = get_first_item_in_semicolon_list (translated_territory);
+      name = capitalize_utf8_string (tmp);
+    }
 
-        return name;
+  return name;
 }
 
 static void
-languages_parse_start_tag (GMarkupParseContext      *ctx,
-                           const char               *element_name,
-                           const char              **attr_names,
-                           const char              **attr_values,
-                           gpointer                  user_data,
-                           GError                  **error)
+languages_parse_start_tag (GMarkupParseContext *ctx,
+                           const char *element_name,
+                           const char **attr_names,
+                           const char **attr_values,
+                           gpointer user_data,
+                           GError **error)
 {
-        const char *ccode_longB;
-        const char *ccode_longT;
-        const char *ccode;
-        const char *ccode_id;
-        const char *lang_common_name;
-        const char *lang_name;
+  const char *ccode_longB;
+  const char *ccode_longT;
+  const char *ccode;
+  const char *ccode_id;
+  const char *lang_common_name;
+  const char *lang_name;
 
-        if (! (g_str_equal (element_name, "iso_639_entry") || g_str_equal (element_name, "iso_639_3_entry"))
-            || attr_names == NULL || attr_values == NULL) {
-                return;
-        }
+  if (!(g_str_equal (element_name, "iso_639_entry") || g_str_equal (element_name, "iso_639_3_entry")) || attr_names == NULL || attr_values == NULL)
+    {
+      return;
+    }
 
-        ccode = NULL;
-        ccode_longB = NULL;
-        ccode_longT = NULL;
-        ccode_id = NULL;
-        lang_common_name = NULL;
-        lang_name = NULL;
+  ccode = NULL;
+  ccode_longB = NULL;
+  ccode_longT = NULL;
+  ccode_id = NULL;
+  lang_common_name = NULL;
+  lang_name = NULL;
 
-        while (*attr_names && *attr_values) {
-                if (g_str_equal (*attr_names, "iso_639_1_code")) {
-                        /* skip if empty */
-                        if (**attr_values) {
-                                if (strlen (*attr_values) != 2) {
-                                        return;
-                                }
-                                ccode = *attr_values;
-                        }
-                } else if (g_str_equal (*attr_names, "iso_639_2B_code")) {
-                        /* skip if empty */
-                        if (**attr_values) {
-                                if (strlen (*attr_values) != 3) {
-                                        return;
-                                }
-                                ccode_longB = *attr_values;
-                        }
-                } else if (g_str_equal (*attr_names, "iso_639_2T_code")) {
-                        /* skip if empty */
-                        if (**attr_values) {
-                                if (strlen (*attr_values) != 3) {
-                                        return;
-                                }
-                                ccode_longT = *attr_values;
-                        }
-                } else if (g_str_equal (*attr_names, "id")) {
-                        /* skip if empty */
-                        if (**attr_values) {
-                                if (strlen (*attr_values) != 2 &&
-                                    strlen (*attr_values) != 3) {
-                                        return;
-                                }
-                                ccode_id = *attr_values;
-                        }
-                } else if (g_str_equal (*attr_names, "common_name")) {
-                        /* skip if empty */
-                        if (**attr_values) {
-                                lang_common_name = *attr_values;
-                        }
-                } else if (g_str_equal (*attr_names, "name")) {
-                        lang_name = *attr_values;
+  while (*attr_names && *attr_values)
+    {
+      if (g_str_equal (*attr_names, "iso_639_1_code"))
+        {
+          /* skip if empty */
+          if (**attr_values)
+            {
+              if (strlen (*attr_values) != 2)
+                {
+                  return;
                 }
-
-                ++attr_names;
-                ++attr_values;
+              ccode = *attr_values;
+            }
+        }
+      else if (g_str_equal (*attr_names, "iso_639_2B_code"))
+        {
+          /* skip if empty */
+          if (**attr_values)
+            {
+              if (strlen (*attr_values) != 3)
+                {
+                  return;
+                }
+              ccode_longB = *attr_values;
+            }
+        }
+      else if (g_str_equal (*attr_names, "iso_639_2T_code"))
+        {
+          /* skip if empty */
+          if (**attr_values)
+            {
+              if (strlen (*attr_values) != 3)
+                {
+                  return;
+                }
+              ccode_longT = *attr_values;
+            }
+        }
+      else if (g_str_equal (*attr_names, "id"))
+        {
+          /* skip if empty */
+          if (**attr_values)
+            {
+              if (strlen (*attr_values) != 2 &&
+                  strlen (*attr_values) != 3)
+                {
+                  return;
+                }
+              ccode_id = *attr_values;
+            }
+        }
+      else if (g_str_equal (*attr_names, "common_name"))
+        {
+          /* skip if empty */
+          if (**attr_values)
+            {
+              lang_common_name = *attr_values;
+            }
+        }
+      else if (g_str_equal (*attr_names, "name"))
+        {
+          lang_name = *attr_values;
         }
 
-        if (lang_common_name != NULL) {
-                lang_name = lang_common_name;
-        }
+      ++attr_names;
+      ++attr_values;
+    }
 
-        if (lang_name == NULL) {
-                return;
-        }
+  if (lang_common_name != NULL)
+    {
+      lang_name = lang_common_name;
+    }
 
-        if (ccode != NULL) {
-                g_hash_table_insert (gnome_languages_map,
-                                     g_strdup (ccode),
-                                     g_strdup (lang_name));
-        }
-        if (ccode_longB != NULL) {
-                g_hash_table_insert (gnome_languages_map,
-                                     g_strdup (ccode_longB),
-                                     g_strdup (lang_name));
-        }
-        if (ccode_longT != NULL) {
-                g_hash_table_insert (gnome_languages_map,
-                                     g_strdup (ccode_longT),
-                                     g_strdup (lang_name));
-        }
-        if (ccode_id != NULL) {
-                g_hash_table_insert (gnome_languages_map,
-                                     g_strdup (ccode_id),
-                                     g_strdup (lang_name));
-        }
+  if (lang_name == NULL)
+    {
+      return;
+    }
+
+  if (ccode != NULL)
+    {
+      g_hash_table_insert (gnome_languages_map,
+                           g_strdup (ccode),
+                           g_strdup (lang_name));
+    }
+  if (ccode_longB != NULL)
+    {
+      g_hash_table_insert (gnome_languages_map,
+                           g_strdup (ccode_longB),
+                           g_strdup (lang_name));
+    }
+  if (ccode_longT != NULL)
+    {
+      g_hash_table_insert (gnome_languages_map,
+                           g_strdup (ccode_longT),
+                           g_strdup (lang_name));
+    }
+  if (ccode_id != NULL)
+    {
+      g_hash_table_insert (gnome_languages_map,
+                           g_strdup (ccode_id),
+                           g_strdup (lang_name));
+    }
 }
 
 static void
-territories_parse_start_tag (GMarkupParseContext      *ctx,
-                             const char               *element_name,
-                             const char              **attr_names,
-                             const char              **attr_values,
-                             gpointer                  user_data,
-                             GError                  **error)
+territories_parse_start_tag (GMarkupParseContext *ctx,
+                             const char *element_name,
+                             const char **attr_names,
+                             const char **attr_values,
+                             gpointer user_data,
+                             GError **error)
 {
-        const char *acode_2;
-        const char *acode_3;
-        const char *ncode;
-        const char *territory_common_name;
-        const char *territory_name;
+  const char *acode_2;
+  const char *acode_3;
+  const char *ncode;
+  const char *territory_common_name;
+  const char *territory_name;
 
-        if (! g_str_equal (element_name, "iso_3166_entry") || attr_names == NULL || attr_values == NULL) {
-                return;
-        }
+  if (!g_str_equal (element_name, "iso_3166_entry") || attr_names == NULL || attr_values == NULL)
+    {
+      return;
+    }
 
-        acode_2 = NULL;
-        acode_3 = NULL;
-        ncode = NULL;
-        territory_common_name = NULL;
-        territory_name = NULL;
+  acode_2 = NULL;
+  acode_3 = NULL;
+  ncode = NULL;
+  territory_common_name = NULL;
+  territory_name = NULL;
 
-        while (*attr_names && *attr_values) {
-                if (g_str_equal (*attr_names, "alpha_2_code")) {
-                        /* skip if empty */
-                        if (**attr_values) {
-                                if (strlen (*attr_values) != 2) {
-                                        return;
-                                }
-                                acode_2 = *attr_values;
-                        }
-                } else if (g_str_equal (*attr_names, "alpha_3_code")) {
-                        /* skip if empty */
-                        if (**attr_values) {
-                                if (strlen (*attr_values) != 3) {
-                                        return;
-                                }
-                                acode_3 = *attr_values;
-                        }
-                } else if (g_str_equal (*attr_names, "numeric_code")) {
-                        /* skip if empty */
-                        if (**attr_values) {
-                                if (strlen (*attr_values) != 3) {
-                                        return;
-                                }
-                                ncode = *attr_values;
-                        }
-                } else if (g_str_equal (*attr_names, "common_name")) {
-                        /* skip if empty */
-                        if (**attr_values) {
-                                territory_common_name = *attr_values;
-                        }
-                } else if (g_str_equal (*attr_names, "name")) {
-                        territory_name = *attr_values;
+  while (*attr_names && *attr_values)
+    {
+      if (g_str_equal (*attr_names, "alpha_2_code"))
+        {
+          /* skip if empty */
+          if (**attr_values)
+            {
+              if (strlen (*attr_values) != 2)
+                {
+                  return;
                 }
-
-                ++attr_names;
-                ++attr_values;
+              acode_2 = *attr_values;
+            }
+        }
+      else if (g_str_equal (*attr_names, "alpha_3_code"))
+        {
+          /* skip if empty */
+          if (**attr_values)
+            {
+              if (strlen (*attr_values) != 3)
+                {
+                  return;
+                }
+              acode_3 = *attr_values;
+            }
+        }
+      else if (g_str_equal (*attr_names, "numeric_code"))
+        {
+          /* skip if empty */
+          if (**attr_values)
+            {
+              if (strlen (*attr_values) != 3)
+                {
+                  return;
+                }
+              ncode = *attr_values;
+            }
+        }
+      else if (g_str_equal (*attr_names, "common_name"))
+        {
+          /* skip if empty */
+          if (**attr_values)
+            {
+              territory_common_name = *attr_values;
+            }
+        }
+      else if (g_str_equal (*attr_names, "name"))
+        {
+          territory_name = *attr_values;
         }
 
-        if (territory_common_name != NULL) {
-                territory_name = territory_common_name;
-        }
+      ++attr_names;
+      ++attr_values;
+    }
 
-        if (territory_name == NULL) {
-                return;
-        }
+  if (territory_common_name != NULL)
+    {
+      territory_name = territory_common_name;
+    }
 
-        if (acode_2 != NULL) {
-                g_hash_table_insert (gnome_territories_map,
-                                     g_strdup (acode_2),
-                                     g_strdup (territory_name));
-        }
-        if (acode_3 != NULL) {
-                g_hash_table_insert (gnome_territories_map,
-                                     g_strdup (acode_3),
-                                     g_strdup (territory_name));
-        }
-        if (ncode != NULL) {
-                g_hash_table_insert (gnome_territories_map,
-                                     g_strdup (ncode),
-                                     g_strdup (territory_name));
-        }
+  if (territory_name == NULL)
+    {
+      return;
+    }
+
+  if (acode_2 != NULL)
+    {
+      g_hash_table_insert (gnome_territories_map,
+                           g_strdup (acode_2),
+                           g_strdup (territory_name));
+    }
+  if (acode_3 != NULL)
+    {
+      g_hash_table_insert (gnome_territories_map,
+                           g_strdup (acode_3),
+                           g_strdup (territory_name));
+    }
+  if (ncode != NULL)
+    {
+      g_hash_table_insert (gnome_territories_map,
+                           g_strdup (ncode),
+                           g_strdup (territory_name));
+    }
 }
 
 static void
 languages_variant_init (const char *variant)
 {
-        gboolean res;
-        gsize    buf_len;
-        g_autofree char *buf = NULL;
-        g_autofree char *filename = NULL;
-        g_autoptr (GError) error = NULL;
+  gboolean res;
+  gsize buf_len;
+  g_autofree char *buf = NULL;
+  g_autofree char *filename = NULL;
+  g_autoptr (GError) error = NULL;
 
-        bindtextdomain (variant, ISO_CODES_LOCALESDIR);
-        bind_textdomain_codeset (variant, "UTF-8");
+  bindtextdomain (variant, ISO_CODES_LOCALESDIR);
+  bind_textdomain_codeset (variant, "UTF-8");
 
-        error = NULL;
-        filename = g_strdup_printf (ISO_CODES_DATADIR "/%s.xml", variant);
-        res = g_file_get_contents (filename,
-                                   &buf,
-                                   &buf_len,
-                                   &error);
-        if (res) {
-                g_autoptr (GMarkupParseContext) ctx = NULL;
-                GMarkupParser        parser = { languages_parse_start_tag, NULL, NULL, NULL, NULL };
+  error = NULL;
+  filename = g_strdup_printf (ISO_CODES_DATADIR "/%s.xml", variant);
+  res = g_file_get_contents (filename,
+                             &buf,
+                             &buf_len,
+                             &error);
+  if (res)
+    {
+      g_autoptr (GMarkupParseContext) ctx = NULL;
+      GMarkupParser parser = { languages_parse_start_tag, NULL, NULL, NULL, NULL };
 
-                ctx = g_markup_parse_context_new (&parser, 0, NULL, NULL);
+      ctx = g_markup_parse_context_new (&parser, 0, NULL, NULL);
 
-                error = NULL;
-                res = g_markup_parse_context_parse (ctx, buf, buf_len, &error);
+      error = NULL;
+      res = g_markup_parse_context_parse (ctx, buf, buf_len, &error);
 
-                if (! res) {
-                        g_warning ("Failed to parse '%s': %s\n",
-                                   filename,
-                                   error->message);
-                }
-        } else {
-                g_warning ("Failed to load '%s': %s\n",
-                           filename,
-                           error->message);
+      if (!res)
+        {
+          g_warning ("Failed to parse '%s': %s\n",
+                     filename,
+                     error->message);
         }
+    }
+  else
+    {
+      g_warning ("Failed to load '%s': %s\n",
+                 filename,
+                 error->message);
+    }
 }
 
 static void
 languages_init (void)
 {
-        if (gnome_languages_map)
-                return;
+  if (gnome_languages_map)
+    return;
 
-        bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
-        bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+  bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
+  bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 
-        gnome_languages_map = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+  gnome_languages_map = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 
-        languages_variant_init ("iso_639");
-        languages_variant_init ("iso_639_3");
+  languages_variant_init ("iso_639");
+  languages_variant_init ("iso_639_3");
 }
 
 static void
 territories_init (void)
 {
-        gboolean res;
-        gsize    buf_len;
-        g_autofree char *buf = NULL;
-        g_autoptr (GError) error = NULL;
+  gboolean res;
+  gsize buf_len;
+  g_autofree char *buf = NULL;
+  g_autoptr (GError) error = NULL;
 
-        if (gnome_territories_map)
-                return;
+  if (gnome_territories_map)
+    return;
 
-        bindtextdomain ("iso_3166", ISO_CODES_LOCALESDIR);
-        bind_textdomain_codeset ("iso_3166", "UTF-8");
+  bindtextdomain ("iso_3166", ISO_CODES_LOCALESDIR);
+  bind_textdomain_codeset ("iso_3166", "UTF-8");
 
-        gnome_territories_map = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+  gnome_territories_map = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 
-        error = NULL;
-        res = g_file_get_contents (ISO_CODES_DATADIR "/iso_3166.xml",
-                                   &buf,
-                                   &buf_len,
-                                   &error);
-        if (res) {
-                g_autoptr (GMarkupParseContext) ctx = NULL;
-                GMarkupParser        parser = { territories_parse_start_tag, NULL, NULL, NULL, NULL };
+  error = NULL;
+  res = g_file_get_contents (ISO_CODES_DATADIR "/iso_3166.xml",
+                             &buf,
+                             &buf_len,
+                             &error);
+  if (res)
+    {
+      g_autoptr (GMarkupParseContext) ctx = NULL;
+      GMarkupParser parser = { territories_parse_start_tag, NULL, NULL, NULL, NULL };
 
-                ctx = g_markup_parse_context_new (&parser, 0, NULL, NULL);
+      ctx = g_markup_parse_context_new (&parser, 0, NULL, NULL);
 
-                error = NULL;
-                res = g_markup_parse_context_parse (ctx, buf, buf_len, &error);
+      error = NULL;
+      res = g_markup_parse_context_parse (ctx, buf, buf_len, &error);
 
-                if (! res) {
-                        g_warning ("Failed to parse '%s': %s\n",
-                                   ISO_CODES_DATADIR "/iso_3166.xml",
-                                   error->message);
-                }
-        } else {
-                g_warning ("Failed to load '%s': %s\n",
-                           ISO_CODES_DATADIR "/iso_3166.xml",
-                           error->message);
+      if (!res)
+        {
+          g_warning ("Failed to parse '%s': %s\n",
+                     ISO_CODES_DATADIR "/iso_3166.xml",
+                     error->message);
         }
+    }
+  else
+    {
+      g_warning ("Failed to load '%s': %s\n",
+                 ISO_CODES_DATADIR "/iso_3166.xml",
+                 error->message);
+    }
 }
 
 /**
@@ -582,52 +662,57 @@ char *
 gnome_get_language_from_locale (const char *locale,
                                 const char *translation)
 {
-        GString *full_language;
-        g_autofree char *language_code = NULL;
-        g_autofree char *territory_code = NULL;
-        g_autofree char *codeset_code = NULL;
-        g_autofree char *translated_language = NULL;
-        g_autofree char *translated_territory = NULL;
+  GString *full_language;
+  g_autofree char *language_code = NULL;
+  g_autofree char *territory_code = NULL;
+  g_autofree char *codeset_code = NULL;
+  g_autofree char *translated_language = NULL;
+  g_autofree char *translated_territory = NULL;
 
-        g_return_val_if_fail (locale != NULL, NULL);
-        g_return_val_if_fail (*locale != '\0', NULL);
+  g_return_val_if_fail (locale != NULL, NULL);
+  g_return_val_if_fail (*locale != '\0', NULL);
 
-        full_language = g_string_new (NULL);
+  full_language = g_string_new (NULL);
 
-        languages_init ();
-        territories_init ();
+  languages_init ();
+  territories_init ();
 
-        gnome_parse_locale (locale,
-                            &language_code,
-                            &territory_code,
-                            &codeset_code,
-                            NULL);
+  gnome_parse_locale (locale,
+                      &language_code,
+                      &territory_code,
+                      &codeset_code,
+                      NULL);
 
-        if (language_code == NULL) {
-                goto out;
-        }
+  if (language_code == NULL)
+    {
+      goto out;
+    }
 
-        translated_language = get_translated_language (language_code, translation);
-        if (translated_language == NULL) {
-                goto out;
-        }
+  translated_language = get_translated_language (language_code, translation);
+  if (translated_language == NULL)
+    {
+      goto out;
+    }
 
-        full_language = g_string_append (full_language, translated_language);
+  full_language = g_string_append (full_language, translated_language);
 
-        if (territory_code != NULL) {
-                translated_territory = get_translated_territory (territory_code, translation);
-        }
-        if (translated_territory != NULL) {
-                g_string_append_printf (full_language,
-                                        " (%s)",
-                                        translated_territory);
-        }
+  if (territory_code != NULL)
+    {
+      translated_territory = get_translated_territory (territory_code, translation);
+    }
+  if (translated_territory != NULL)
+    {
+      g_string_append_printf (full_language,
+                              " (%s)",
+                              translated_territory);
+    }
 
- out:
-        if (full_language->len == 0) {
-                g_string_free (full_language, TRUE);
-                return NULL;
-        }
+out:
+  if (full_language->len == 0)
+    {
+      g_string_free (full_language, TRUE);
+      return NULL;
+    }
 
-        return g_string_free (full_language, FALSE);
+  return g_string_free (full_language, FALSE);
 }

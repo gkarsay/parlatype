@@ -14,7 +14,6 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef __GST_PTDEEPSPEECH_H__
 #define __GST_PTDEEPSPEECH_H__
 
@@ -25,50 +24,50 @@
 
 G_BEGIN_DECLS
 
-#define GST_TYPE_PTDEEPSPEECH             (gst_ptdeepspeech_get_type())
-#define GST_PTDEEPSPEECH(obj)             (G_TYPE_CHECK_INSTANCE_CAST((obj),GST_TYPE_PTDEEPSPEECH,GstPtDeepspeech))
-#define GST_IS_PTDEEPSPEECH(obj)          (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_PTDEEPSPEECH))
-#define GST_PTDEEPSPEECH_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST((klass), GST_TYPE_PTDEEPSPEECH,GstPtDeepspeechClass))
-#define GST_IS_PTDEEPSPEECH_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE((klass), GST_TYPE_PTDEEPSPEECH))
+#define GST_TYPE_PTDEEPSPEECH (gst_ptdeepspeech_get_type ())
+#define GST_PTDEEPSPEECH(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GST_TYPE_PTDEEPSPEECH, GstPtDeepspeech))
+#define GST_IS_PTDEEPSPEECH(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GST_TYPE_PTDEEPSPEECH))
+#define GST_PTDEEPSPEECH_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GST_TYPE_PTDEEPSPEECH, GstPtDeepspeechClass))
+#define GST_IS_PTDEEPSPEECH_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GST_TYPE_PTDEEPSPEECH))
 
-typedef struct _GstPtDeepspeech      GstPtDeepspeech;
+typedef struct _GstPtDeepspeech GstPtDeepspeech;
 typedef struct _GstPtDeepspeechClass GstPtDeepspeechClass;
 
 struct _GstPtDeepspeech
 {
-	/* GStreamer internals */
-	GstBaseTransform  element;
-	GstPad           *sinkpad;
-	GstPad           *srcpad;
-	GstSegment        segment;
-	gboolean          eos;
+  /* GStreamer internals */
+  GstBaseTransform element;
+  GstPad *sinkpad;
+  GstPad *srcpad;
+  GstSegment segment;
+  gboolean eos;
 
-	/* Deepspeech */
-	gchar            *speech_model_path;
-	gchar            *scorer_path;
-	ModelState       *model_state;
-	StreamingState   *streaming_state;
-	gint              beam_width;
+  /* Deepspeech */
+  gchar *speech_model_path;
+  gchar *scorer_path;
+  ModelState *model_state;
+  StreamingState *streaming_state;
+  gint beam_width;
 
-	/* Voice Activity Detection (VAD) */
-	VADFilter        *vad;
-	gint              quiet_bufs;
-	gdouble           silence_threshold;
+  /* Voice Activity Detection (VAD) */
+  VADFilter *vad;
+  gint quiet_bufs;
+  gdouble silence_threshold;
 
-	guint64           silence_time;
-	gint              vad_min_silence;
-	gboolean          in_speech;
-	GstClockTime      last_result_time; /* timestamp of last partial result */
+  guint64 silence_time;
+  gint vad_min_silence;
+  gboolean in_speech;
+  GstClockTime last_result_time; /* timestamp of last partial result */
 };
 
 struct _GstPtDeepspeechClass
 {
-	GstElementClass parent_class;
+  GstElementClass parent_class;
 };
 
-GType		gst_ptdeepspeech_get_type	(void);
+GType gst_ptdeepspeech_get_type (void);
 
-gboolean	gst_ptdeepspeech_register	(void);
+gboolean gst_ptdeepspeech_register (void);
 
 G_END_DECLS
 

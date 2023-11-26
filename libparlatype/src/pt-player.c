@@ -185,7 +185,7 @@ pt_player_seek_internal_locked (PtPlayer *player)
 
   g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                     "MESSAGE", "Seek to position %" GST_TIME_FORMAT ", stop at %" GST_TIME_FORMAT,
-                    GST_TIME_ARGS(position), GST_TIME_ARGS (stop));
+                    GST_TIME_ARGS (position), GST_TIME_ARGS (stop));
 
   ret = gst_element_seek (
       player->priv->play,
@@ -201,7 +201,7 @@ pt_player_seek_internal_locked (PtPlayer *player)
     {
       g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                         "MESSAGE", "Failed to seek to %" GST_TIME_FORMAT,
-                        GST_TIME_ARGS(position));
+                        GST_TIME_ARGS (position));
     }
 
   g_mutex_lock (&player->priv->lock);
@@ -307,7 +307,7 @@ metadata_goto_position (PtPlayer *player)
   g_object_unref (file);
 }
 
-const static gchar*
+const static gchar *
 pt_player_get_state_name (PtStateType state)
 {
   switch (state)
@@ -417,8 +417,7 @@ bus_call (GstBus *bus,
 
         player->priv->current_state = new_state;
 
-        if (old_state == GST_STATE_READY && new_state == GST_STATE_PAUSED
-            && pending_state == GST_STATE_VOID_PENDING)
+        if (old_state == GST_STATE_READY && new_state == GST_STATE_PAUSED && pending_state == GST_STATE_VOID_PENDING)
           {
             g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                               "MESSAGE", "Initial PAUSED - pre-rolled");
@@ -715,7 +714,7 @@ pt_player_play (PtPlayer *player)
       if ((selection && player->priv->repeat_selection) || (!selection && player->priv->repeat_all))
         {
           g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
-                          "MESSAGE", "Seek to start position");
+                            "MESSAGE", "Seek to start position");
           pt_player_seek (player, start);
         }
       else
@@ -876,8 +875,7 @@ pt_player_jump_relative (PtPlayer *player,
   if (new > player->priv->dur)
     new = player->priv->dur;
 
-  if (GST_CLOCK_TIME_IS_VALID (player->priv->segend)
-      && new > player->priv->segend)
+  if (GST_CLOCK_TIME_IS_VALID (player->priv->segend) && new > player->priv->segend)
     new = player->priv->segend;
 
   if (new < player->priv->segstart)
@@ -1022,7 +1020,7 @@ pt_player_get_speed (PtPlayer *player)
 }
 
 static void
-pt_player_set_speed_internal (PtPlayer * player)
+pt_player_set_speed_internal (PtPlayer *player)
 {
   gint64 position;
 
@@ -1041,7 +1039,7 @@ pt_player_set_speed_internal (PtPlayer * player)
         {
           player->priv->seek_source = g_idle_source_new ();
           g_source_set_callback (player->priv->seek_source,
-              (GSourceFunc) pt_player_seek_internal, player, NULL);
+                                 (GSourceFunc) pt_player_seek_internal, player, NULL);
           g_source_attach (player->priv->seek_source, NULL);
         }
     }
@@ -1252,8 +1250,7 @@ wv_selection_changed_cb (GtkWidget *widget,
                 "selection-end", &end,
                 NULL);
 
-  if (player->priv->current_state == GST_STATE_PAUSED
-      || !GST_CLOCK_TIME_IS_VALID (player->priv->segend))
+  if (player->priv->current_state == GST_STATE_PAUSED || !GST_CLOCK_TIME_IS_VALID (player->priv->segend))
     {
       player->priv->segstart = GST_MSECOND * start;
       player->priv->segend = (end == 0) ? GST_CLOCK_TIME_NONE : GST_MSECOND * end;
@@ -1943,7 +1940,7 @@ static gboolean
 notify_volume_idle_cb (PtPlayer *player)
 {
   if (!PT_IS_PLAYER (player))
-      return G_SOURCE_REMOVE;
+    return G_SOURCE_REMOVE;
 
   gdouble vol;
 
@@ -1976,7 +1973,7 @@ static gboolean
 notify_mute_idle_cb (PtPlayer *player)
 {
   if (!PT_IS_PLAYER (player))
-      return G_SOURCE_REMOVE;
+    return G_SOURCE_REMOVE;
 
   gboolean mute;
 

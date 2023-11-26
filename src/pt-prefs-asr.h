@@ -14,40 +14,37 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef PT_PREFS_ASR_H
 #define PT_PREFS_ASR_H
 
 #include "config.h"
 
-#define PT_TYPE_PREFS_ASR                     (pt_prefs_asr_get_type())
-#define PT_PREFS_ASR(obj)                     (G_TYPE_CHECK_INSTANCE_CAST((obj), PT_TYPE_PREFS_ASR, PtPrefsAsr))
+#define PT_TYPE_PREFS_ASR (pt_prefs_asr_get_type ())
+#define PT_PREFS_ASR(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_TYPE_PREFS_ASR, PtPrefsAsr))
 
-typedef struct _PtPrefsAsr		PtPrefsAsr;
-typedef struct _PtPrefsAsrClass		PtPrefsAsrClass;
-typedef struct _PtPrefsAsrPrivate	PtPrefsAsrPrivate;
+typedef struct _PtPrefsAsr PtPrefsAsr;
+typedef struct _PtPrefsAsrClass PtPrefsAsrClass;
+typedef struct _PtPrefsAsrPrivate PtPrefsAsrPrivate;
 
 struct _PtPrefsAsr
 {
-	GtkBox parent;
+  GtkBox parent;
 
-	/*< private > */
-	PtPrefsAsrPrivate *priv;
+  /*< private > */
+  PtPrefsAsrPrivate *priv;
 };
 
 struct _PtPrefsAsrClass
 {
-	GtkBoxClass parent_class;
+  GtkBoxClass parent_class;
 };
 
-typedef void    (*GtkCallback)     (GtkWidget        *widget,
-				    gpointer          data);
+typedef void (*GtkCallback) (GtkWidget *widget,
+                             gpointer data);
 
+GType pt_prefs_asr_get_type (void) G_GNUC_CONST;
 
-
-GType		pt_prefs_asr_get_type	(void) G_GNUC_CONST;
-
-GtkWidget*	pt_prefs_asr_new	(GSettings *editor,
-					 PtPlayer  *player);
+GtkWidget *pt_prefs_asr_new (GSettings *editor,
+                             PtPlayer *player);
 
 #endif

@@ -14,7 +14,6 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef PT_WAVEVIEWER_SCROLLBOX_H
 #define PT_WAVEVIEWER_SCROLLBOX_H
 
@@ -22,33 +21,35 @@
 
 G_BEGIN_DECLS
 
-#define PT_TYPE_WAVEVIEWER_SCROLLBOX          (pt_waveviewer_scrollbox_get_type ())
-#define PT_WAVEVIEWER_SCROLLBOX(obj)          (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_TYPE_WAVEVIEWER_SCROLLBOX, PtWaveviewerScrollbox))
-#define PT_IS_WAVEVIEWER_SCROLLBOX(obj)       (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_TYPE_WAVEVIEWER_SCROLLBOX))
-#define PT_WAVEVIEWER_SCROLLBOX_CLASS(klass)  (G_TYPE_CHECK_CLASS_CAST ((klass),  PT_TYPE_WAVEVIEWER_SCROLLBOX, PtWaveviewerScrollboxClass))
-#define PT_IS_WAVEVIEWER_SCROLLBOX_CLASS(obj) (G_TYPE_CHECK_CLASS_TYPE ((klass),  PT_TYPE_WAVEVIEWER_SCROLLBOX))
+#define PT_TYPE_WAVEVIEWER_SCROLLBOX (pt_waveviewer_scrollbox_get_type ())
+#define PT_WAVEVIEWER_SCROLLBOX(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_TYPE_WAVEVIEWER_SCROLLBOX, PtWaveviewerScrollbox))
+#define PT_IS_WAVEVIEWER_SCROLLBOX(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_TYPE_WAVEVIEWER_SCROLLBOX))
+#define PT_WAVEVIEWER_SCROLLBOX_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), PT_TYPE_WAVEVIEWER_SCROLLBOX, PtWaveviewerScrollboxClass))
+#define PT_IS_WAVEVIEWER_SCROLLBOX_CLASS(obj) (G_TYPE_CHECK_CLASS_TYPE ((klass), PT_TYPE_WAVEVIEWER_SCROLLBOX))
 
-typedef struct _PtWaveviewerScrollbox		PtWaveviewerScrollbox;
-typedef struct _PtWaveviewerScrollboxClass	PtWaveviewerScrollboxClass;
-typedef struct _PtWaveviewerScrollboxPrivate	PtWaveviewerScrollboxPrivate;
+typedef struct _PtWaveviewerScrollbox PtWaveviewerScrollbox;
+typedef struct _PtWaveviewerScrollboxClass PtWaveviewerScrollboxClass;
+typedef struct _PtWaveviewerScrollboxPrivate PtWaveviewerScrollboxPrivate;
 
-struct _PtWaveviewerScrollbox {
-	GtkBox parent;
+struct _PtWaveviewerScrollbox
+{
+  GtkBox parent;
 
-	/*< private > */
-	PtWaveviewerScrollboxPrivate *priv;
+  /*< private > */
+  PtWaveviewerScrollboxPrivate *priv;
 };
 
-struct _PtWaveviewerScrollboxClass {
-	GtkBoxClass klass;
+struct _PtWaveviewerScrollboxClass
+{
+  GtkBoxClass klass;
 };
 
-GType		pt_waveviewer_scrollbox_get_type	(void) G_GNUC_CONST;
+GType pt_waveviewer_scrollbox_get_type (void) G_GNUC_CONST;
 
-void		pt_waveviewer_scrollbox_set	(PtWaveviewerScrollbox *self,
-						 gint                   width);
+void pt_waveviewer_scrollbox_set (PtWaveviewerScrollbox *self,
+                                  gint width);
 
-GtkWidget	*pt_waveviewer_scrollbox_new	(void);
+GtkWidget *pt_waveviewer_scrollbox_new (void);
 
 G_END_DECLS
 

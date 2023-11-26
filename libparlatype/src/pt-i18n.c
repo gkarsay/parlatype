@@ -29,23 +29,21 @@
  * “Inspired” by totem-pl-parser.c: totem_pl_parser_init_i18n().
  */
 
-
 #include "config.h"
 #define GETTEXT_PACKAGE GETTEXT_LIB
 #include <glib/gi18n-lib.h>
 
-
 static gpointer
 pt_i18n_real_init (gpointer data)
 {
-	bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
-	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-	return NULL;
+  bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
+  bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+  return NULL;
 }
 
 void
 _pt_i18n_init (void)
 {
-	static GOnce my_once = G_ONCE_INIT;
-	g_once (&my_once, pt_i18n_real_init, NULL);
+  static GOnce my_once = G_ONCE_INIT;
+  g_once (&my_once, pt_i18n_real_init, NULL);
 }

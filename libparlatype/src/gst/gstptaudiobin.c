@@ -58,7 +58,6 @@ GST_DEBUG_CATEGORY_STATIC (gst_pt_audio_bin_debug);
 
 G_DEFINE_TYPE (GstPtAudioBin, gst_pt_audio_bin, GST_TYPE_BIN);
 
-
 static GstPadProbeReturn
 change_mode_cb (GstPad *pad,
                 GstPadProbeInfo *info,

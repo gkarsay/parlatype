@@ -23,39 +23,39 @@
 
 struct _PtWindowPrivate
 {
-	GtkRecentManager *recent;
-	PtConfig         *asr_config;
+  GtkRecentManager *recent;
+  PtConfig *asr_config;
 
-	GdkClipboard *clip;
-	gulong        clip_handler_id;
+  GdkClipboard *clip;
+  gulong clip_handler_id;
 
-	/* Headerbar widgets */
-	GtkWidget  *button_open;
+  /* Headerbar widgets */
+  GtkWidget *button_open;
 
-	/* Main window widgets */
-	GtkWidget  *controls_row_box;
-	GtkWidget  *controls_box;
-	GtkWidget  *progress;
-	GtkWidget  *button_play;
-	GtkWidget  *button_jump_back;
-	GtkWidget  *button_jump_forward;
-	GtkWidget  *volumebutton;
-	GStrv       vol_icons;
-	GtkGesture *vol_event;
-	GMenuItem  *go_to_timestamp;
-	GtkWidget  *speed_scale;
+  /* Main window widgets */
+  GtkWidget *controls_row_box;
+  GtkWidget *controls_box;
+  GtkWidget *progress;
+  GtkWidget *button_play;
+  GtkWidget *button_jump_back;
+  GtkWidget *button_jump_forward;
+  GtkWidget *volumebutton;
+  GStrv vol_icons;
+  GtkGesture *vol_event;
+  GMenuItem *go_to_timestamp;
+  GtkWidget *speed_scale;
 
-	GMenuModel *primary_menu;
-	GMenuModel *secondary_menu;
-	GMenu      *asr_menu;
-	GMenuItem  *asr_menu_item1;
-	GMenuItem  *asr_menu_item2;
-	gboolean    asr;
+  GMenuModel *primary_menu;
+  GMenuModel *secondary_menu;
+  GMenu *asr_menu;
+  GMenuItem *asr_menu_item1;
+  GMenuItem *asr_menu_item2;
+  gboolean asr;
 
-	gint64      last_time;	// last time to compare if it changed
+  gint64 last_time; // last time to compare if it changed
 
-	gint	    timer;
-	gdouble	    speed;
+  gint timer;
+  gdouble speed;
 };
 
 #endif

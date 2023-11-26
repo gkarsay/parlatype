@@ -14,11 +14,10 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef PT_WAVELOADER_H
 #define PT_WAVELOADER_H
 
-#if !defined (__PARLATYPE_H_INSIDE__) && !defined (PARLATYPE_COMPILATION)
+#if !defined(__PARLATYPE_H_INSIDE__) && !defined(PARLATYPE_COMPILATION)
 #error "Only <parlatype.h> can be included directly."
 #endif
 
@@ -26,14 +25,13 @@
 
 G_BEGIN_DECLS
 
-#define PT_TYPE_WAVELOADER		(pt_waveloader_get_type())
-#define PT_WAVELOADER(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), PT_TYPE_WAVELOADER, PtWaveloader))
-#define PT_IS_WAVELOADER(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_TYPE_WAVELOADER))
+#define PT_TYPE_WAVELOADER (pt_waveloader_get_type ())
+#define PT_WAVELOADER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_TYPE_WAVELOADER, PtWaveloader))
+#define PT_IS_WAVELOADER(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_TYPE_WAVELOADER))
 
-typedef struct _PtWaveloader		PtWaveloader;
-typedef struct _PtWaveloaderClass	PtWaveloaderClass;
-typedef struct _PtWaveloaderPrivate	PtWaveloaderPrivate;
-
+typedef struct _PtWaveloader PtWaveloader;
+typedef struct _PtWaveloaderClass PtWaveloaderClass;
+typedef struct _PtWaveloaderPrivate PtWaveloaderPrivate;
 
 /**
  * PtWaveloader:
@@ -42,48 +40,48 @@ typedef struct _PtWaveloaderPrivate	PtWaveloaderPrivate;
  */
 struct _PtWaveloader
 {
-	GObject parent;
+  GObject parent;
 
-	/*< private > */
-	PtWaveloaderPrivate *priv;
+  /*< private > */
+  PtWaveloaderPrivate *priv;
 };
 
 struct _PtWaveloaderClass
 {
-	GObjectClass parent_class;
+  GObjectClass parent_class;
 };
 
-GType		pt_waveloader_get_type		(void) G_GNUC_CONST;
+GType pt_waveloader_get_type (void) G_GNUC_CONST;
 
-gboolean	pt_waveloader_load_finish	(PtWaveloader  *wl,
-						 GAsyncResult  *result,
-						 GError       **error);
+gboolean pt_waveloader_load_finish (PtWaveloader *wl,
+                                    GAsyncResult *result,
+                                    GError **error);
 
-void		pt_waveloader_load_async	(PtWaveloader	     *wl,
-						 gint                 pps,
-						 GCancellable	     *cancellable,
-						 GAsyncReadyCallback  callback,
-						 gpointer	      user_data);
+void pt_waveloader_load_async (PtWaveloader *wl,
+                               gint pps,
+                               GCancellable *cancellable,
+                               GAsyncReadyCallback callback,
+                               gpointer user_data);
 
-gint64		pt_waveloader_get_duration	(PtWaveloader *wl);
+gint64 pt_waveloader_get_duration (PtWaveloader *wl);
 
-gboolean	pt_waveloader_resize_finish	(PtWaveloader  *wl,
-						 GAsyncResult  *result,
-						 GError       **error);
+gboolean pt_waveloader_resize_finish (PtWaveloader *wl,
+                                      GAsyncResult *result,
+                                      GError **error);
 
-void		pt_waveloader_resize_async	(PtWaveloader        *wl,
-						 gint                 pps,
-						 GCancellable        *cancellable,
-						 GAsyncReadyCallback  callback,
-						 gpointer             user_data);
+void pt_waveloader_resize_async (PtWaveloader *wl,
+                                 gint pps,
+                                 GCancellable *cancellable,
+                                 GAsyncReadyCallback callback,
+                                 gpointer user_data);
 
-gboolean	pt_waveloader_resize		(PtWaveloader *wl,
-						 gint          pps,
-						 GError      **error);
+gboolean pt_waveloader_resize (PtWaveloader *wl,
+                               gint pps,
+                               GError **error);
 
-GArray		*pt_waveloader_get_data		(PtWaveloader *wl);
+GArray *pt_waveloader_get_data (PtWaveloader *wl);
 
-PtWaveloader*	pt_waveloader_new		(gchar *uri);
+PtWaveloader *pt_waveloader_new (gchar *uri);
 
 G_END_DECLS
 
