@@ -166,13 +166,13 @@ asr_list_changed (PtPrefsAsr *page)
 {
   if (gtk_list_box_get_row_at_index (GTK_LIST_BOX (page->priv->asr_list), 0))
     {
-      gtk_widget_show (page->priv->asr_ready_box);
+      gtk_widget_set_visible (page->priv->asr_ready_box, TRUE);
       gtk_widget_set_visible (page->priv->asr_initial_box, FALSE);
     }
   else
     {
       gtk_widget_set_visible (page->priv->asr_ready_box, FALSE);
-      gtk_widget_show (page->priv->asr_initial_box);
+      gtk_widget_set_visible (page->priv->asr_initial_box, TRUE);
     }
 }
 
@@ -308,7 +308,7 @@ add_config_row (PtPrefsAsr *page,
 
         row = pt_config_row_new (config);
         pt_config_row_set_supported (row, pt_player_config_is_loadable (page->priv->player, config));
-        gtk_widget_show (GTK_WIDGET (row));
+        gtk_widget_set_visible (GTK_WIDGET (row), TRUE);
         gtk_container_add (page->priv->asr_list, GTK_WIDGET (row));
         if (active)
                 pt_config_row_set_active (row, TRUE);
@@ -359,7 +359,7 @@ asr_setup_config_box (PtPrefsAsr *page)
               num_valid++;
               row = pt_config_row_new (config);
               pt_config_row_set_supported (row, pt_player_config_is_loadable (page->priv->player, config));
-              gtk_widget_show (GTK_WIDGET (row));
+              gtk_widget_set_visible (GTK_WIDGET (row), TRUE);
               gtk_list_box_append (asr_list, GTK_WIDGET (row));
               if (active_asr && g_strcmp0 (active_asr, path) == 0)
                 {
@@ -399,7 +399,7 @@ asr_setup_config_box (PtPrefsAsr *page)
       gtk_widget_set_visible (page->priv->asr_ready_box, FALSE);
       if (error)
         {
-          gtk_widget_show (page->priv->asr_error_box);
+          gtk_widget_set_visible (page->priv->asr_error_box, TRUE);
           gtk_label_set_text (GTK_LABEL (page->priv->asr_error_label),
                               _ ("Failed to read personal configuration files"));
           g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
@@ -408,7 +408,7 @@ asr_setup_config_box (PtPrefsAsr *page)
         }
       else
         {
-          gtk_widget_show (page->priv->asr_initial_box);
+          gtk_widget_set_visible (page->priv->asr_initial_box, TRUE);
         }
     }
   else
@@ -443,7 +443,7 @@ copy_asr_configs_result (GObject *source_object,
     {
       gtk_widget_set_visible (page->priv->asr_initial_box, FALSE);
       gtk_widget_set_visible (page->priv->asr_ready_box, FALSE);
-      gtk_widget_show (page->priv->asr_error_box);
+      gtk_widget_set_visible (page->priv->asr_error_box, TRUE);
       gtk_label_set_text (GTK_LABEL (page->priv->asr_error_label),
                           _ ("Failed to copy shipped configuration files"));
       g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
@@ -580,7 +580,7 @@ file_delete_finished (GObject *source_object,
       g_signal_connect_swapped (dialog, "response",
                                 G_CALLBACK (gtk_window_destroy), dialog);
 
-      gtk_widget_show (dialog);
+      gtk_window_present (GTK_WINDOW (dialog));
       g_error_free (error);
     }
 }
@@ -641,7 +641,7 @@ confirm_delete (PtConfigRow *row)
   g_signal_connect (dialog, "response",
                     G_CALLBACK (confirm_delete_response_cb), row);
 
-  gtk_widget_show (dialog);
+  gtk_window_present (GTK_WINDOW (dialog));
 
   g_free (secondary_message);
 }
@@ -675,7 +675,7 @@ details_button_clicked_cb (GtkButton *button,
   g_object_get (row, "config", &config, NULL);
   GtkWidget *parent = gtk_widget_get_ancestor (GTK_WIDGET (button), PT_TYPE_PREFERENCES_DIALOG);
   PtAsrDialog *dlg = pt_asr_dialog_new (GTK_WINDOW (parent));
-  gtk_widget_show (GTK_WIDGET (dlg));
+  gtk_window_present (GTK_WINDOW (dlg));
   pt_asr_dialog_set_config (dlg, config);
 }
 
@@ -700,7 +700,7 @@ import_copy_ready_cb (GObject *source_object,
       config = pt_config_new (file);
       row = pt_config_row_new (config);
       pt_config_row_set_supported (row, pt_player_config_is_loadable (page->priv->player, config));
-      gtk_widget_show (GTK_WIDGET (row));
+      gtk_widget_set_visible (GTK_WIDGET (row), TRUE);
       gtk_list_box_append (GTK_LIST_BOX (page->priv->asr_list), GTK_WIDGET (row));
       g_signal_connect (row, "notify::active", G_CALLBACK (config_activated), page);
     }
@@ -723,7 +723,7 @@ import_copy_ready_cb (GObject *source_object,
       g_signal_connect_swapped (err_dialog, "response",
                                 G_CALLBACK (gtk_window_destroy), err_dialog);
 
-      gtk_widget_show (err_dialog);
+      gtk_window_present (GTK_WINDOW (err_dialog));
       g_error_free (error);
     }
 }
@@ -775,7 +775,7 @@ import_dialog_response_cb (GtkDialog *dialog,
       g_signal_connect_swapped (err_dialog, "response",
                                 G_CALLBACK (gtk_window_destroy), err_dialog);
 
-      gtk_widget_show (err_dialog);
+      gtk_window_present (GTK_WINDOW (err_dialog));
       g_object_unref (config);
       return;
     }
@@ -880,7 +880,7 @@ make_config_dir_cb (GObject *source_object,
     {
       gtk_widget_set_visible (page->priv->asr_initial_box, FALSE);
       gtk_widget_set_visible (page->priv->asr_ready_box, FALSE);
-      gtk_widget_show (page->priv->asr_error_box);
+      gtk_widget_set_visible (page->priv->asr_error_box, TRUE);
       gtk_label_set_text (GTK_LABEL (page->priv->asr_error_label),
                           _ ("Failed to create personal configuration folder"));
       g_settings_set_string (page->priv->editor, "asr-config", "");

@@ -51,7 +51,7 @@ pt_error_message (PtWindow *parent,
   g_signal_connect_swapped (dialog, "response",
                             G_CALLBACK (gtk_window_destroy), dialog);
 
-  gtk_widget_show (dialog);
+  gtk_window_present (GTK_WINDOW (dialog));
 }
 
 void
@@ -141,7 +141,7 @@ goto_position (GSimpleAction *action,
   g_signal_connect (dlg, "response",
                     G_CALLBACK (goto_dialog_response_cb), win);
 
-  gtk_widget_show (GTK_WIDGET (dlg));
+  gtk_window_present (GTK_WINDOW (dlg));
 }
 
 void

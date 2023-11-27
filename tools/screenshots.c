@@ -361,7 +361,7 @@ take_screenshots (GtkApplication *app,
   paintable = gtk_widget_paintable_new (GTK_WIDGET (dlg));
   g_signal_connect (paintable, "invalidate-contents",
                     G_CALLBACK (save_paintable), "parlatype-prefs-waveform.png");
-  gtk_widget_show (GTK_WIDGET (dlg));
+  gtk_window_present (GTK_WINDOW (dlg));
   g_main_loop_run (loop);
 
   /* Preferences Dialog, second page ---------------------------------------- */
@@ -400,7 +400,7 @@ take_screenshots (GtkApplication *app,
   g_signal_connect (paintable, "invalidate-contents",
                     G_CALLBACK (save_paintable), "asr-setup-downloadable.png");
   gtk_notebook_set_current_page (notebook, 3);
-  gtk_widget_show (GTK_WIDGET (dlg));
+  gtk_window_present (GTK_WINDOW (dlg));
   g_main_loop_run (loop);
 
   gtk_window_destroy (GTK_WINDOW (dlg));
@@ -416,7 +416,7 @@ take_screenshots (GtkApplication *app,
   /* show dialog with config */
   PtAsrDialog *asr_dlg;
   asr_dlg = pt_asr_dialog_new (GTK_WINDOW (win));
-  gtk_widget_show (GTK_WIDGET (asr_dlg));
+  gtk_window_present (GTK_WINDOW (asr_dlg));
   paintable = gtk_widget_paintable_new (GTK_WIDGET (asr_dlg));
   g_signal_connect (paintable, "invalidate-contents",
                     G_CALLBACK (save_paintable), "asr-setup-details.png");
