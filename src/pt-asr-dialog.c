@@ -179,13 +179,13 @@ pt_asr_dialog_set_config (PtAsrDialog *dlg,
   if (engine)
     {
       gtk_widget_set_visible (dlg->priv->plugin_label, FALSE);
-      gtk_widget_hide (dlg->priv->plugin_value);
+      gtk_widget_set_visible (dlg->priv->plugin_value, FALSE);
       gtk_label_set_text (GTK_LABEL (dlg->priv->engine_value), engine);
     }
   else
     {
-      gtk_widget_hide (dlg->priv->engine_label);
-      gtk_widget_hide (dlg->priv->engine_value);
+      gtk_widget_set_visible (dlg->priv->engine_label, FALSE);
+      gtk_widget_set_visible (dlg->priv->engine_value, FALSE);
       gtk_label_set_text (GTK_LABEL (dlg->priv->plugin_value), str);
     }
 
@@ -196,8 +196,8 @@ pt_asr_dialog_set_config (PtAsrDialog *dlg,
     }
   else
     {
-      gtk_widget_hide (dlg->priv->publisher_label);
-      gtk_widget_hide (dlg->priv->publisher_value);
+      gtk_widget_set_visible (dlg->priv->publisher_label, FALSE);
+      gtk_widget_set_visible (dlg->priv->publisher_value, FALSE);
     }
   g_free (str);
 
@@ -208,8 +208,8 @@ pt_asr_dialog_set_config (PtAsrDialog *dlg,
     }
   else
     {
-      gtk_widget_hide (dlg->priv->license_label);
-      gtk_widget_hide (dlg->priv->license_value);
+      gtk_widget_set_visible (dlg->priv->license_label, FALSE);
+      gtk_widget_set_visible (dlg->priv->license_value, FALSE);
     }
   g_free (str);
 
@@ -221,8 +221,8 @@ pt_asr_dialog_set_config (PtAsrDialog *dlg,
     }
   else
     {
-      gtk_widget_hide (dlg->priv->howto_label);
-      gtk_widget_hide (dlg->priv->howto_value);
+      gtk_widget_set_visible (dlg->priv->howto_label, FALSE);
+      gtk_widget_set_visible (dlg->priv->howto_value, FALSE);
     }
   g_free (str);
 
@@ -239,8 +239,8 @@ pt_asr_dialog_set_config (PtAsrDialog *dlg,
     }
   else
     {
-      gtk_widget_hide (dlg->priv->url1_label);
-      gtk_widget_hide (dlg->priv->url1_button);
+      gtk_widget_set_visible (dlg->priv->url1_label, FALSE);
+      gtk_widget_set_visible (dlg->priv->url1_button, FALSE);
     }
   g_free (str);
 
@@ -257,8 +257,8 @@ pt_asr_dialog_set_config (PtAsrDialog *dlg,
     }
   else
     {
-      gtk_widget_hide (dlg->priv->url2_label);
-      gtk_widget_hide (dlg->priv->url2_button);
+      gtk_widget_set_visible (dlg->priv->url2_label, FALSE);
+      gtk_widget_set_visible (dlg->priv->url2_button, FALSE);
     }
   g_free (str);
 

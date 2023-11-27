@@ -167,11 +167,11 @@ asr_list_changed (PtPrefsAsr *page)
   if (gtk_list_box_get_row_at_index (GTK_LIST_BOX (page->priv->asr_list), 0))
     {
       gtk_widget_show (page->priv->asr_ready_box);
-      gtk_widget_hide (page->priv->asr_initial_box);
+      gtk_widget_set_visible (page->priv->asr_initial_box, FALSE);
     }
   else
     {
-      gtk_widget_hide (page->priv->asr_ready_box);
+      gtk_widget_set_visible (page->priv->asr_ready_box, FALSE);
       gtk_widget_show (page->priv->asr_initial_box);
     }
 }
@@ -396,7 +396,7 @@ asr_setup_config_box (PtPrefsAsr *page)
 
   if (error || num_valid == 0)
     {
-      gtk_widget_hide (page->priv->asr_ready_box);
+      gtk_widget_set_visible (page->priv->asr_ready_box, FALSE);
       if (error)
         {
           gtk_widget_show (page->priv->asr_error_box);
@@ -441,8 +441,8 @@ copy_asr_configs_result (GObject *source_object,
     }
   else
     {
-      gtk_widget_hide (page->priv->asr_initial_box);
-      gtk_widget_hide (page->priv->asr_ready_box);
+      gtk_widget_set_visible (page->priv->asr_initial_box, FALSE);
+      gtk_widget_set_visible (page->priv->asr_ready_box, FALSE);
       gtk_widget_show (page->priv->asr_error_box);
       gtk_label_set_text (GTK_LABEL (page->priv->asr_error_label),
                           _ ("Failed to copy shipped configuration files"));
@@ -873,13 +873,13 @@ make_config_dir_cb (GObject *source_object,
   if (success || (!success && g_error_matches (error, G_IO_ERROR,
                                                G_IO_ERROR_EXISTS)))
     {
-      gtk_widget_hide (page->priv->asr_error_box);
+      gtk_widget_set_visible (page->priv->asr_error_box, FALSE);
       asr_setup_config_box (page);
     }
   else
     {
-      gtk_widget_hide (page->priv->asr_initial_box);
-      gtk_widget_hide (page->priv->asr_ready_box);
+      gtk_widget_set_visible (page->priv->asr_initial_box, FALSE);
+      gtk_widget_set_visible (page->priv->asr_ready_box, FALSE);
       gtk_widget_show (page->priv->asr_error_box);
       gtk_label_set_text (GTK_LABEL (page->priv->asr_error_label),
                           _ ("Failed to create personal configuration folder"));
