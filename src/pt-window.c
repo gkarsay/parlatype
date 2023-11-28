@@ -541,7 +541,6 @@ pt_window_ready_to_play (PtWindow *win,
      Reset tooltips for insensitive widgets. */
 
   gchar *display_name = NULL;
-  GtkStyleContext *open_context;
 
   enable_win_actions (win, state);
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (win->priv->button_play), FALSE);
@@ -554,8 +553,7 @@ pt_window_ready_to_play (PtWindow *win,
 
   if (state)
     {
-      open_context = gtk_widget_get_style_context (win->priv->button_open);
-      gtk_style_context_remove_class (open_context, "suggested-action");
+      gtk_widget_remove_css_class (win->priv->button_open, "suggested-action");
       display_name = pt_player_get_filename (win->player);
       if (display_name)
         {

@@ -614,7 +614,6 @@ confirm_delete (PtConfigRow *row)
   GtkWidget *dialog;
   GtkWidget *parent;
   GtkWidget *yes_button;
-  GtkStyleContext *context;
   gchar *message;
   gchar *secondary_message;
   gchar *name;
@@ -635,8 +634,7 @@ confirm_delete (PtConfigRow *row)
   gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog), "%s", secondary_message);
   gtk_dialog_add_button (GTK_DIALOG (dialog), _ ("_Cancel"), GTK_RESPONSE_CANCEL);
   yes_button = gtk_dialog_add_button (GTK_DIALOG (dialog), _ ("_Yes"), GTK_RESPONSE_YES);
-  context = gtk_widget_get_style_context (yes_button);
-  gtk_style_context_add_class (context, "destructive-action");
+  gtk_widget_add_css_class (yes_button, "destructive-action");
 
   g_signal_connect (dialog, "response",
                     G_CALLBACK (confirm_delete_response_cb), row);

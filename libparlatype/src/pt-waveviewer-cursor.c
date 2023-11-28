@@ -171,13 +171,9 @@ pt_waveviewer_cursor_init (PtWaveviewerCursor *self)
 {
   self->priv = pt_waveviewer_cursor_get_instance_private (self);
 
-  GtkStyleContext *context;
-
   self->priv->cursor = NULL;
   self->priv->position = -1;
-
-  context = gtk_widget_get_style_context (GTK_WIDGET (self));
-  gtk_style_context_add_class (context, "cursor");
+  gtk_widget_add_css_class (GTK_WIDGET (self), "cursor");
 
   gtk_drawing_area_set_draw_func (GTK_DRAWING_AREA (self), pt_waveviewer_cursor_draw, NULL, NULL);
 }

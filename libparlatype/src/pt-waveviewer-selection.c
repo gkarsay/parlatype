@@ -153,14 +153,11 @@ pt_waveviewer_selection_init (PtWaveviewerSelection *self)
 {
   self->priv = pt_waveviewer_selection_get_instance_private (self);
 
-  GtkStyleContext *context;
-
   self->priv->start = 0;
   self->priv->end = 0;
   self->priv->adj = NULL;
 
-  context = gtk_widget_get_style_context (GTK_WIDGET (self));
-  gtk_style_context_add_class (context, "selection");
+  gtk_widget_add_css_class (GTK_WIDGET (self), "selection");
   gtk_drawing_area_set_draw_func (GTK_DRAWING_AREA (self), pt_waveviewer_selection_draw, NULL, NULL);
 }
 

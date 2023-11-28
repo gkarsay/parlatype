@@ -178,12 +178,8 @@ pt_waveviewer_waveform_init (PtWaveviewerWaveform *self)
 {
   self->priv = pt_waveviewer_waveform_get_instance_private (self);
 
-  GtkStyleContext *context;
-
   self->priv->peaks = NULL;
-
-  context = gtk_widget_get_style_context (GTK_WIDGET (self));
-  gtk_style_context_add_class (context, "view");
+  gtk_widget_add_css_class (GTK_WIDGET (self), "view");
 }
 
 static void

@@ -337,16 +337,13 @@ pt_waveviewer_ruler_init (PtWaveviewerRuler *self)
 {
   self->priv = pt_waveviewer_ruler_get_instance_private (self);
 
-  GtkStyleContext *context;
-
   self->priv->n_samples = 0;
   self->priv->px_per_sec = 0;
   self->priv->duration = 0;
   self->priv->adj = NULL;
 
   gtk_widget_set_name (GTK_WIDGET (self), "ruler");
-  context = gtk_widget_get_style_context (GTK_WIDGET (self));
-  gtk_style_context_add_class (context, "mark");
+  gtk_widget_add_css_class (GTK_WIDGET (self), "mark");
 }
 
 static void
