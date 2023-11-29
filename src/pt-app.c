@@ -152,38 +152,42 @@ about_cb (GSimpleAction *action,
           GVariant *parameter,
           gpointer app)
 {
-  const gchar *authors[] = {
+  AdwAboutWindow *about = ADW_ABOUT_WINDOW (adw_about_window_new ());
+
+  const gchar *developers[] = {
     "Gabor Karsay <gabor.karsay@gmx.at>",
-    /* Translators: This is part of the about box, followed by the
-       copyright holders of code from other projects. Instead of
-       "including" it could also say "with" or just "Code from
-       other projects:" */
-    _ ("Including code from other projects:"),
+    NULL
+  };
+
+  const gchar *designers[] = {
+    "GNOME Project http://www.gnome.org",
+    "Gabor Karsay <gabor.karsay@gmx.at>",
+    NULL
+  };
+
+  const gchar *credits_for_copy_paste_code[] = {
     "Buzztrax team <buzztrax-devel@buzztrax.org>",
     "Philip Withnall <philip@tecnocode.co.uk>",
     "Magnus Hjorth, mhWaveEdit",
     NULL
   };
 
-  const gchar *artists[] = {
-    "GNOME Project http://www.gnome.org",
-    "Gabor Karsay <gabor.karsay@gmx.at>",
-    NULL
-  };
+  adw_about_window_add_credit_section (about, _ ("Code from other projects"), credits_for_copy_paste_code);
 
-  gtk_show_about_dialog (
-      gtk_application_get_active_window (app),
-      "program_name", _ ("Parlatype"),
-      "version", PACKAGE_VERSION,
-      "copyright", "© Gabor Karsay 2016–2023",
-      "comments", _ ("A basic transcription utility"),
-      "logo-icon-name", APP_ID,
-      "authors", authors,
-      "artists", artists,
-      "translator-credits", _ ("translator-credits"),
-      "license-type", GTK_LICENSE_GPL_3_0,
-      "website", PACKAGE_URL,
-      NULL);
+  adw_about_window_set_application_icon (about, APP_ID);
+  adw_about_window_set_application_name (about, _ ("Parlatype"));
+  adw_about_window_set_comments (about, _ ("A basic transcription utility"));
+  adw_about_window_set_copyright (about, "© Gabor Karsay 2016–2023");
+  adw_about_window_set_developers (about, developers);
+  adw_about_window_set_developer_name (about, "Gabor Karsay");
+  adw_about_window_set_designers (about, designers);
+  adw_about_window_set_license_type (about, GTK_LICENSE_GPL_3_0);
+  adw_about_window_set_translator_credits (about, _ ("translator-credits"));
+  adw_about_window_set_version (about, PACKAGE_VERSION);
+  adw_about_window_set_website (about, PACKAGE_URL);
+
+  gtk_window_set_transient_for (GTK_WINDOW (about), gtk_application_get_active_window (app));
+  gtk_window_present (GTK_WINDOW (about));
 }
 
 static void
