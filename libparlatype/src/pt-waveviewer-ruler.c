@@ -98,7 +98,7 @@ pt_waveviewer_ruler_snapshot (GtkWidget *widget,
                               GtkSnapshot *snapshot)
 {
   PtWaveviewerRuler *self = (PtWaveviewerRuler *) widget;
-  gdouble height = gtk_widget_get_allocated_height (GTK_WIDGET (widget));
+  gdouble height = gtk_widget_get_height (GTK_WIDGET (widget));
 
   gint i;      /* counter, pixel on x-axis in the view */
   gint sample; /* sample in the array */
@@ -112,7 +112,7 @@ pt_waveviewer_ruler_snapshot (GtkWidget *widget,
   gint width;
   gint offset;
 
-  width = gtk_widget_get_allocated_width (widget);
+  width = gtk_widget_get_width (widget);
   offset = (gint) gtk_adjustment_get_value (self->priv->adj);
 
   context = gtk_widget_get_style_context (GTK_WIDGET (self));

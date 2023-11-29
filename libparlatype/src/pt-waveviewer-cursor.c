@@ -84,7 +84,7 @@ cache_cursor (PtWaveviewerCursor *self)
     cairo_surface_destroy (self->priv->cursor);
 
   cairo_t *cr;
-  gint height = gtk_widget_get_allocated_height (GTK_WIDGET (self));
+  gint height = gtk_widget_get_height (GTK_WIDGET (self));
   GtkNative *native;
   GdkSurface *surface;
 
@@ -156,7 +156,7 @@ pt_waveviewer_cursor_render (PtWaveviewerCursor *self,
 {
   gint width;
 
-  width = gtk_widget_get_allocated_width (GTK_WIDGET (self));
+  width = gtk_widget_get_width (GTK_WIDGET (self));
   position = CLAMP (position, -1, width + MARKER_BOX_W);
 
   if (self->priv->position == position)

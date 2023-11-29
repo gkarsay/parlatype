@@ -66,8 +66,8 @@ pt_waveviewer_selection_draw (GtkDrawingArea *widget,
   gint offset;
   gint left, right;
 
-  height = gtk_widget_get_allocated_height (GTK_WIDGET (widget));
-  width = gtk_widget_get_allocated_width (GTK_WIDGET (widget));
+  height = gtk_widget_get_height (GTK_WIDGET (widget));
+  width = gtk_widget_get_width (GTK_WIDGET (widget));
 
   offset = (gint) gtk_adjustment_get_value (self->priv->adj);
   left = CLAMP (self->priv->start - offset, 0, width);

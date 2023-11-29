@@ -87,8 +87,8 @@ pt_waveviewer_waveform_snapshot (GtkWidget *widget,
   gint half, middle;
 
   context = gtk_widget_get_style_context (GTK_WIDGET (widget));
-  height = gtk_widget_get_allocated_height (GTK_WIDGET (widget));
-  width = gtk_widget_get_allocated_width (GTK_WIDGET (widget));
+  height = gtk_widget_get_height (GTK_WIDGET (widget));
+  width = gtk_widget_get_width (GTK_WIDGET (widget));
 
   gtk_style_context_get_color (context, &self->priv->wave_color);
   gtk_snapshot_render_background (snapshot, context,
