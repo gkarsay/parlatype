@@ -87,6 +87,7 @@ Release commit:
 - Update NEWS (release notes)
 - Update data/org.parlatype.Parlatype.appdata.xml.in (short release notes)
 - Commit message "v1.x.x", next line "New major/minor/bugfix release"
+- Tag commit "v1.x.x"
 
 Test distribution:
 # this will fail with PermissionError: https://github.com/mesonbuild/meson/issues/7034

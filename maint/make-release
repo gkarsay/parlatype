@@ -11,12 +11,24 @@ cd ..
 
 VERSION=$(grep --max-count 1 'version' meson.build | cut --delimiter=\' -f 2)
 TARBALL=parlatype-"$VERSION".tar.gz
+TAG=$(git tag --contains)
 
+if [ "$(git status --porcelain)" != "" ]
+then
+  echo "git status is not clean – quitting now."
+  exit 1
+fi
+
+if [ "v$VERSION" != "$TAG" ]
+then
+  echo "Commit is not tagged v$VERSION – quitting now."
+  exit 1
+fi
 
 if [ -e "$TARBALL" ]
 then
-	echo "$TARBALL exists – quitting now."
-	exit 1
+  echo "$TARBALL exists – quitting now."
+  exit 1
 fi
 
 git archive --format=tar --prefix=parlatype-"$VERSION"/ main | gzip > "$TARBALL"
