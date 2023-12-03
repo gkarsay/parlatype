@@ -7,7 +7,7 @@ import os
 import sys
 import gi
 gi.require_version('Parlatype', '@API_VERSION@')
-gi.require_version('Gtk', '3.0')
+gi.require_version('Gtk', '4.0')
 from gi.repository import Parlatype as Pt
 from gi.repository import Gtk
 from gi.repository import GObject
@@ -19,23 +19,23 @@ def error_message(message, parent):
                             message_type=Gtk.MessageType.ERROR,
                             buttons=Gtk.ButtonsType.OK,
                             text=message)
-    msg.run()
-    msg.destroy()
+    msg.present()
 
 
-class ParlatypeExample:
+class ParlatypeExample(Gtk.Application):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.connect('activate', self.on_activate)
 
-    def __init__(self):
+    def on_activate(self, app):
         self.player = Pt.Player.new()
         self.player.connect("error", self.player_error)
         self.player.connect("end-of-stream", self.player_end_of_stream)
 
         builder = Gtk.Builder()
         builder.add_from_file('parlatype-example.ui')
-        builder.connect_signals(self)
 
         self.win = builder.get_object('window')
-        self.win.connect("delete-event", Gtk.main_quit)
 
         self.viewer = builder.get_object('waveviewer')
         self.player.connect_waveviewer(self.viewer)
@@ -44,6 +44,7 @@ class ParlatypeExample:
         self.viewer.connect('load-progress', self.update_progress)
 
         self.button = builder.get_object('button_play')
+        self.button.connect('toggled', self.button_toggled)
         self.label = builder.get_object('pos_label')
         follow_cursor = builder.get_object('follow_cursor')
         GObject.GObject.bind_property(follow_cursor, "active",
@@ -56,16 +57,39 @@ class ParlatypeExample:
                                       GObject.BindingFlags.BIDIRECTIONAL |
                                       GObject.BindingFlags.SYNC_CREATE)
         pause = builder.get_object('pause_spin')
+        pause.connect('value-changed', self.pause_value_changed)
         back = builder.get_object('back_spin')
+        back.connect('value-changed', self.back_value_changed)
         forward = builder.get_object('forward_spin')
+        forward.connect('value-changed', self.forward_value_changed)
         self.player.set_property("pause", pause.get_value() * 1000)
         self.player.set_property("back", back.get_value() * 1000)
         self.player.set_property("forward", forward.get_value() * 1000)
         self.timer = 0
 
-        self.win.show_all()
+        button_back = builder.get_object('button_jump_back')
+        button_back.connect('clicked', self.back_clicked)
+
+        button_forward = builder.get_object('button_jump_forward')
+        button_forward.connect('clicked', self.forward_clicked)
+
+        speed_scale = builder.get_object('speed_scale')
+        speed_scale.connect('value-changed', self.speed_value_changed)
+
+        show_ruler = builder.get_object('show_ruler')
+        show_ruler.connect('toggled', self.show_ruler_toggled)
+        fixed_cursor = builder.get_object('fixed_cursor')
+        fixed_cursor.connect('toggled', self.fixed_cursor_toggled)
+
+        open_button = builder.get_object('open_button')
+        open_button.connect('clicked', self.filechooser)
+
+        self.win.set_application(self)
+        self.win.present()
 
     def update_progress(self, viewer, value):
+        if value == 1:
+            value = 0
         self.progress.set_fraction(value)
 
     def open_file(self, filename):
@@ -81,6 +105,12 @@ class ParlatypeExample:
         self.viewer.load_wave_async(filename, None, None)
         self.timer = self.viewer.add_tick_callback(self.update_cursor)
 
+    def filechooser_response(self, dialog, response):
+        if response == Gtk.ResponseType.OK:
+            file = dialog.get_file()
+            self.open_file(file.get_uri())
+        dialog.destroy()
+
     def filechooser(self, button):
         dialog = Gtk.FileChooserDialog(
             title="Please choose a file",
@@ -88,14 +118,11 @@ class ParlatypeExample:
             action=Gtk.FileChooserAction.OPEN)
         dialog.add_button("_Cancel", Gtk.ResponseType.CANCEL)
         dialog.add_button("_Open", Gtk.ResponseType.OK)
-        response = dialog.run()
-        if response == Gtk.ResponseType.OK:
-            self.open_file(dialog.get_uri())
-        dialog.destroy()
+        dialog.connect("response",self.filechooser_response)
+        dialog.present()
 
     def player_error(self, player, error):
         error_message(error.args[0], self.win)
-        Gtk.main_quit
 
     def player_end_of_stream(self, player):
         GObject.GObject.handler_block_by_func(self.button, self.button_toggled)
@@ -144,11 +171,5 @@ class ParlatypeExample:
     def forward_clicked(self, button):
         self.player.jump_forward()
 
-
-def main():
-    app = ParlatypeExample()
-    Gtk.main()
-
-
-if __name__ == "__main__":
-    sys.exit(main())
+app = ParlatypeExample()
+app.run(sys.argv)
