@@ -150,7 +150,7 @@ if gir
     namespace: 'Parlatype',
     symbol_prefix: 'pt_',
     identifier_prefix: 'Pt',
-    includes: ['GObject-2.0', 'Gtk-3.0'],
+    includes: ['GObject-2.0', 'Gtk-4.0'],
     install: true,
     extra_args: gir_args,
   )
