@@ -13,6 +13,12 @@ VERSION=$(grep --max-count 1 'version' meson.build | cut --delimiter=\' -f 2)
 TARBALL=parlatype-"$VERSION".tar.gz
 TAG=$(git tag --contains)
 
+if [ "$(git branch --show-current)" != "main" ]
+then
+  echo "Current branch is not main – quitting now."
+  exit 1
+fi
+
 if [ "$(git status --porcelain)" != "" ]
 then
   echo "git status is not clean – quitting now."
