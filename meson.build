@@ -46,9 +46,9 @@ gnome   = import('gnome')
 i18n    = import('i18n')
 
 # Checks for libraries.
-gtk  = dependency('gtk4',     version: '>= 4.0')
-glib = dependency('glib-2.0', version: '>= 2.58')
-libadwaita = dependency('libadwaita-1')
+gtk        = dependency('gtk4',         version: '>= 4.0')
+glib       = dependency('glib-2.0',     version: '>= 2.58')
+libadwaita = dependency('libadwaita-1', version: '>= 1.2')
 
 subdir('libparlatype')
 subdir('data')
