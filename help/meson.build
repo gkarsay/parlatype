@@ -12,6 +12,7 @@ sources = [
   'first-steps.page',
   'keyboard-shortcuts.page',
   'legal.xml',
+  'media-keys.page',
   'preferences.page',
   'selections.page',
   'timestamps.page',
@@ -32,12 +33,6 @@ if with_asr
   sources += [
     'asr.page',
     'asr-setup.page',
-  ]
-endif
-
-if host_machine.system() != 'windows'
-  sources += [
-    'media-keys.page',
   ]
 endif
 

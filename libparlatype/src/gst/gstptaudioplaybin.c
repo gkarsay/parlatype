@@ -79,18 +79,14 @@ gst_pt_audio_play_bin_init (GstPtAudioPlayBin *bin)
   capsfilter = _pt_make_element ("capsfilter", "audiofilter", NULL);
 
   /* Choose an audiosink ourselves instead of relying on autoaudiosink.
-   * It chose waveformsink on win32 (not a good choice) and it will be
-   * a fakesink until the first stream is loaded, so we can't query the
-   * sinks properties until then. */
+   * It will be a fakesink until the first stream is loaded, so we can't
+   * query the sinks properties until then. */
 
-#ifdef G_OS_WIN32
-  sink = "directsoundsink";
-#else
   if (have_pulseaudio_server ())
     sink = "pulsesink";
   else
     sink = "alsasink";
-#endif
+
   audiosink = gst_element_factory_make (sink, "audiosink");
   if (!audiosink)
     {

@@ -5,16 +5,7 @@ project('parlatype', 'c',
 )
 
 app_id = 'org.parlatype.Parlatype'
-
-version       = meson.project_version()
-version_array = version.split('.')
-major_version = version_array[0].to_int()
-minor_version = version_array[1].to_int()
-if version_array.length() == 2
-  micro_version = 0
-else
-  micro_version = version_array[2].to_int()
-endif
+version = meson.project_version()
 
 with_pocketsphinx = get_option('pocketsphinx')
 with_deepspeech   = get_option('deepspeech')
@@ -53,20 +44,10 @@ config_h = declare_dependency(
 
 gnome   = import('gnome')
 i18n    = import('i18n')
-windows = import('windows')
 
 # Checks for libraries.
 gtk  = dependency('gtk4',     version: '>= 4.0')
 glib = dependency('glib-2.0', version: '>= 2.58')
-
-if host_machine.system() == 'windows'
-  rc_conf = configuration_data()
-  rc_conf.set('MAJOR_VERSION', major_version)
-  rc_conf.set('MINOR_VERSION', minor_version)
-  rc_conf.set('MICRO_VERSION', micro_version)
-  rc_conf.set('VERSION', version)
-  rc_conf.set('SOURCE_DIR', meson.current_source_dir())
-endif
 
 subdir('libparlatype')
 subdir('data')
@@ -79,13 +60,6 @@ subdir('src')
 fs = import('fs')
 if fs.is_dir('tools')
   subdir('tools')
-endif
-
-if host_machine.system() == 'windows'
-  meson.add_install_script(
-    'meson_post_install_win32.sh',
-    app_id
-  )
 endif
 
 

@@ -17,31 +17,16 @@
 #include "config.h"
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#ifdef G_OS_UNIX
 #include "pt-dbus-service.h"
 #include "pt-mpris.h"
-#endif
-#ifdef G_OS_WIN32
-#include "pt-win32-datacopy.h"
-#include "pt-win32-helpers.h"
-#include "pt-win32-hotkeys.h"
-#include "pt-win32-pipe.h"
-#endif
 #include "pt-preferences.h"
 #include "pt-window.h"
 #include "pt-app.h"
 
 struct _PtAppPrivate
 {
-#ifdef G_OS_UNIX
   PtMpris *mpris;
   PtDbusService *dbus_service;
-#endif
-#ifdef G_OS_WIN32
-  PtWin32Datacopy *win32datacopy;
-  PtWin32Hotkeys *win32hotkeys;
-  PtWin32Pipe *win32pipe;
-#endif
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PtApp, pt_app, GTK_TYPE_APPLICATION);
@@ -125,11 +110,7 @@ open_cb (GSimpleAction *action,
   filter_all = gtk_file_filter_new ();
   gtk_file_filter_set_name (filter_audio, _ ("Audio files"));
   gtk_file_filter_set_name (filter_all, _ ("All files"));
-#ifdef G_OS_WIN32
-  pt_win32_add_audio_patterns (filter_audio);
-#else
   gtk_file_filter_add_mime_type (filter_audio, "audio/*");
-#endif
   gtk_file_filter_add_pattern (filter_all, "*");
   gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter_audio);
   gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter_all);
@@ -160,13 +141,7 @@ help_cb (GSimpleAction *action,
   gchar *uri;
 
   win = gtk_application_get_active_window (app);
-
-#ifdef G_OS_WIN32
-  uri = pt_win32_get_help_uri ();
-#else
   uri = g_strdup_printf ("help:%s", APP_ID);
-#endif
-
   gtk_show_uri (win, uri, GDK_CURRENT_TIME);
   g_free (uri);
 }
@@ -299,11 +274,6 @@ pt_app_activate (GApplication *application)
   GList *windows;
   PtWindow *win;
 
-#ifdef G_OS_WIN32
-  if (pt_win32_present_other_instance (application))
-    g_application_quit (application);
-#endif
-
   windows = gtk_application_get_windows (GTK_APPLICATION (application));
   if (windows)
     {
@@ -312,20 +282,10 @@ pt_app_activate (GApplication *application)
   else
     {
       win = pt_window_new (app);
-#ifdef G_OS_UNIX
       app->priv->mpris = pt_mpris_new (win);
       pt_mpris_start (app->priv->mpris);
       app->priv->dbus_service = pt_dbus_service_new (win);
       pt_dbus_service_start (app->priv->dbus_service);
-#endif
-#ifdef G_OS_WIN32
-      app->priv->win32datacopy = pt_win32_datacopy_new (win);
-      pt_win32_datacopy_start (app->priv->win32datacopy);
-      app->priv->win32hotkeys = pt_win32_hotkeys_new (win);
-      pt_win32_hotkeys_start (app->priv->win32hotkeys);
-      app->priv->win32pipe = pt_win32_pipe_new (win);
-      pt_win32_pipe_start (app->priv->win32pipe);
-#endif
     }
 
   gtk_window_present (GTK_WINDOW (win));
@@ -346,14 +306,6 @@ pt_app_open (GApplication *app,
     }
 
   uri = g_file_get_uri (files[0]);
-
-#ifdef G_OS_WIN32
-  if (pt_win32_open_in_other_instance (app, uri))
-    {
-      g_free (uri);
-      g_application_quit (app);
-    }
-#endif
 
   pt_app_activate (app);
   win = gtk_application_get_active_window (GTK_APPLICATION (app));
@@ -379,15 +331,8 @@ pt_app_init (PtApp *app)
 {
   app->priv = pt_app_get_instance_private (app);
 
-#ifdef G_OS_UNIX
   app->priv->mpris = NULL;
   app->priv->dbus_service = NULL;
-#endif
-#ifdef G_OS_WIN32
-  app->priv->win32datacopy = NULL;
-  app->priv->win32hotkeys = NULL;
-  app->priv->win32pipe = NULL;
-#endif
   g_application_add_main_option_entries (G_APPLICATION (app), options);
 }
 
@@ -396,15 +341,8 @@ pt_app_dispose (GObject *object)
 {
   PtApp *app = PT_APP (object);
 
-#ifdef G_OS_UNIX
   g_clear_object (&app->priv->mpris);
   g_clear_object (&app->priv->dbus_service);
-#endif
-#ifdef G_OS_WIN32
-  g_clear_object (&app->priv->win32datacopy);
-  g_clear_object (&app->priv->win32hotkeys);
-  g_clear_object (&app->priv->win32pipe);
-#endif
 
   G_OBJECT_CLASS (pt_app_parent_class)->dispose (object);
 }

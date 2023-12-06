@@ -16,8 +16,13 @@ src = [
   'pt-config-row.h',
   'pt-controller.c',
   'pt-controller.h',
+  'pt-dbus-service.c',
+  'pt-dbus-service.h',
   'pt-goto-dialog.c',
   'pt-goto-dialog.h',
+  'pt-mpris.c',
+  'pt-mpris.h',
+  'mpris-spec.h',
   'pt-preferences.c',
   'pt-preferences.h',
   'pt-prefs-asr.c',
@@ -28,36 +33,6 @@ src = [
   'pt-window-dnd.h',
   'pt-window-private.h',
 ]
-
-if host_machine.system() != 'windows'
-  src += [
-    'pt-dbus-service.c',
-    'pt-dbus-service.h',
-    'pt-mpris.c',
-    'pt-mpris.h',
-    'mpris-spec.h',
-  ]
-endif
-
-if host_machine.system() == 'windows'
-  rc = configure_file(
-    input: 'resources/parlatype.rc.in',
-    output: '@BASELINE@',
-    configuration: rc_conf,
-  )
-
-  src += [
-    windows.compile_resources(rc),
-    'pt-win32-datacopy.c',
-    'pt-win32-datacopy.h',
-    'pt-win32-helpers.c',
-    'pt-win32-helpers.h',
-    'pt-win32-hotkeys.c',
-    'pt-win32-hotkeys.h',
-    'pt-win32-pipe.c',
-    'pt-win32-pipe.h',
-  ]
-endif
 
 parlatype_deps = [
   config_h,
@@ -70,6 +45,5 @@ executable('parlatype',
            include_directories : conf_inc,
            install: true,
            dependencies: parlatype_deps,
-           win_subsystem: 'windows',
            c_args: ['-DG_LOG_DOMAIN="parlatype"' ],
 )

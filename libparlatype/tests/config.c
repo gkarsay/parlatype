@@ -270,11 +270,7 @@ apply (void)
                 "bool", &prop_bool,
                 NULL);
 
-#ifdef G_OS_WIN32
-  g_assert_cmpstr (prop_file, ==, "/home/me/model/subdir\\file.dat");
-#else
   g_assert_cmpstr (prop_file, ==, "/home/me/model/subdir/file.dat");
-#endif
   g_assert_cmpstr (prop_string, ==, "Example");
   g_assert_cmpint (prop_int, ==, 42);
   g_assert_cmpfloat_with_epsilon (prop_float, 0.42, 0.00001);
