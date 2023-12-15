@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PtPrefsInfoRow" parent="AdwActionRow">
+
+    <child type="suffix">
+      <object class="GtkLabel" id="info_label">
+        <property name="valign">center</property>
+        <property name="ellipsize">end</property>
+        <style>
+          <class name="dim-label"/>
+        </style>
+      </object>
+    </child>
+
+  </template>
+</interface>

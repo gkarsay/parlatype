@@ -29,6 +29,8 @@ src = [
   'pt-preferences.h',
   'pt-prefs-asr.c',
   'pt-prefs-asr.h',
+  'pt-prefs-info-row.c',
+  'pt-prefs-info-row.h',
   'pt-window.c',
   'pt-window.h',
   'pt-window-dnd.c',
