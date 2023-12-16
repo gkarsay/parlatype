@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PtPrefsInstallRow" parent="AdwActionRow">
+    <child type="suffix">
+      <object class="GtkButton">
+        <signal name="clicked" handler="folder_button_clicked_cb" swapped="no" />
+        <property name="icon-name">folder-symbolic</property>
+        <property name="halign">center</property>
+        <property name="valign">center</property>
+        <style>
+          <class name="flat"/>
+        </style>
+      </object>
+    </child>
+  </template>
+</interface>

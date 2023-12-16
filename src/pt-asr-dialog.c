@@ -18,47 +18,54 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <parlatype.h>
+#include "pt-prefs-info-row.h"
+#include "pt-prefs-install-row.h"
 #include "pt-asr-dialog.h"
 
-#define MAX_URI_LENGTH 30
 
-struct _PtAsrDialogPrivate
+struct _PtAsrDialog
 {
+  AdwPreferencesWindow parent;
+
   PtConfig *config;
+  GSettings *editor;
 
-  GtkWidget *name_entry;
-  GtkWidget *lang_value;
-  GtkWidget *engine_label;
-  GtkWidget *engine_value;
-  GtkWidget *plugin_label;
-  GtkWidget *plugin_value;
-  GtkWidget *publisher_label;
-  GtkWidget *publisher_value;
-  GtkWidget *license_label;
-  GtkWidget *license_value;
+  GtkWidget *name_row;
+  GtkWidget *info_group;
+  GtkWidget *install_group;
+  GtkWidget *activate_button;
 
-  GtkWidget *howto_label;
-  GtkWidget *howto_value;
-  GtkWidget *url1_label;
-  GtkWidget *url1_button;
-  GtkWidget *url2_label;
-  GtkWidget *url2_button;
-  GtkWidget *folder_label;
-  GtkWidget *folder_button;
+  gboolean active;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE (PtAsrDialog, pt_asr_dialog, GTK_TYPE_WINDOW)
+G_DEFINE_FINAL_TYPE (PtAsrDialog, pt_asr_dialog, ADW_TYPE_PREFERENCES_WINDOW)
 
 static void
-name_entry_activate_cb (GtkEntry *entry,
-                        gpointer user_data)
+name_row_apply_cb (GtkEditable *editable,
+                   gpointer user_data)
 {
-  PtAsrDialog *dlg = PT_ASR_DIALOG (user_data);
-  gchar const *name;
+  PtAsrDialog *self = PT_ASR_DIALOG (user_data);
+  gchar *old_name, *new_name;
 
-  name = gtk_editable_get_text (GTK_EDITABLE (entry));
-  gtk_window_set_title (GTK_WINDOW (dlg), name);
-  pt_config_set_name (dlg->priv->config, (void *) name);
+  old_name = pt_config_get_name (self->config);
+  new_name = g_strdup (gtk_editable_get_text (editable));
+  new_name = g_strchug (new_name);
+  new_name = g_strchomp (new_name);
+
+  if (g_strcmp0 (new_name, "") == 0)
+    {
+      gtk_editable_set_text (editable, old_name);
+      g_free (new_name);
+      return;
+    }
+
+  if (g_strcmp0 (new_name, old_name) != 0)
+    {
+      gtk_window_set_title (GTK_WINDOW (self), new_name);
+      pt_config_set_name (self->config, new_name);
+    }
+
+  g_free (new_name);
 }
 
 static gboolean
@@ -67,107 +74,96 @@ have_string (gchar *str)
   return (str && g_strcmp0 (str, "") != 0);
 }
 
-static void
-set_folder (PtAsrDialog *dlg,
-            gchar *folder)
+/* GtkLinkButton with label set to host */
+static GtkWidget*
+pt_download_button_new (gchar *link)
 {
-  GtkLabel *folder_label = GTK_LABEL (dlg->priv->folder_label);
-  GtkButton *folder_button = GTK_BUTTON (dlg->priv->folder_button);
+  GtkWidget *link_button;
+  GUri *uri;
+  const gchar *host = NULL;
 
-  if (have_string (folder))
+  uri = g_uri_parse (link, G_URI_FLAGS_NONE, NULL);
+  if (uri)
     {
-      gtk_label_set_text (folder_label, folder);
-      gtk_button_set_label (folder_button, _ ("Change folder"));
+      host = g_uri_get_host (uri);
     }
-  else
-    {
-      gtk_label_set_text (folder_label, _ ("No"));
-      gtk_button_set_label (folder_button, _ ("Select model folder"));
-    }
+
+  link_button = gtk_link_button_new_with_label (link, host ? host : _("Link"));
+  g_uri_unref (uri);
+  return link_button;
 }
 
 static void
-folder_dialog_response_cb (GtkDialog *dialog,
-                           gint response_id,
-                           gpointer user_data)
+update_activation_button (PtAsrDialog *self)
 {
-  PtAsrDialog *dlg = PT_ASR_DIALOG (user_data);
-  GFile *result;
-  gchar *path = NULL;
-
-  if (response_id == GTK_RESPONSE_ACCEPT)
-    {
-      result = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
-      path = g_file_get_path (result);
-      g_object_unref (result);
-    }
-
-  if (path)
-    {
-      pt_config_set_base_folder (dlg->priv->config, path);
-      set_folder (dlg, path);
-      g_free (path);
-    }
-
-  g_object_unref (dialog);
+  gtk_button_set_label (GTK_BUTTON (self->activate_button),
+                        self->active ? _ ("Deactivate") : _ ("Activate"));
+  gtk_widget_set_sensitive (self->activate_button,
+                            pt_config_is_installed (self->config));
 }
 
 static void
-folder_button_clicked_cb (GtkButton *widget,
-                          gpointer user_data)
+installed_cb (PtPrefsInstallRow *row,
+              GParamSpec *pspec,
+              gpointer user_data)
 {
-  PtAsrDialog *dlg = PT_ASR_DIALOG (user_data);
-  GtkFileChooserNative *dialog;
-  const char *home_path;
-  gchar *path = NULL;
-  GFile *dir;
+  PtAsrDialog *self = PT_ASR_DIALOG (user_data);
+  gboolean installed, success;
 
-  dialog = gtk_file_chooser_native_new (
-      _ ("Select Model Folder"),
-      GTK_WINDOW (dlg),
-      GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
-      _ ("_Open"),
-      _ ("_Cancel"));
+  installed = pt_prefs_install_row_get_installed (row);
 
-  /* Set current folder or user’s home directory */
-  path = pt_config_get_base_folder (dlg->priv->config);
-  if (have_string (path))
+  if (!installed && self->active)
     {
-      dir = g_file_new_for_path (path);
+      success = g_settings_set_string (self->editor, "asr-config", "");
+      if (success)
+        {
+          self->active = FALSE;
+        }
     }
-  else
-    {
-      home_path = g_get_home_dir ();
-      dir = g_file_new_for_path (home_path);
-    }
-  gtk_file_chooser_set_current_folder (
-      GTK_FILE_CHOOSER (dialog), dir, NULL);
 
-  g_signal_connect (dialog, "response", G_CALLBACK (folder_dialog_response_cb), dlg);
-  gtk_native_dialog_show (GTK_NATIVE_DIALOG (dialog));
-
-  g_object_unref (dir);
+  update_activation_button (self);
 }
 
 void
-pt_asr_dialog_set_config (PtAsrDialog *dlg,
+pt_asr_dialog_set_config (PtAsrDialog *self,
                           PtConfig *config)
 {
+  g_return_if_fail (config != NULL && PT_IS_CONFIG (config));
+
+  self->config = config;
+  GFile *config_file;
+  gchar *active_path;
+  gchar *current_path;
   gchar *name;
   gchar *str;
-  GtkWidget *label;
   gchar *engine = NULL;
+  AdwPreferencesGroup *group;
 
-  dlg->priv->config = config;
+  self->active = FALSE;
+  active_path = g_settings_get_string (self->editor, "asr-config");
+  if (active_path[0])
+    {
+      config_file = pt_config_get_file (config);
+      current_path = g_file_get_path (config_file);
+      self->active = g_strcmp0 (active_path, current_path) == 0;
+      g_free (current_path);
+    }
+  g_free (active_path);
+
+  update_activation_button (self);
+
+  group = ADW_PREFERENCES_GROUP (self->info_group);
 
   name = pt_config_get_name (config);
-  gtk_window_set_title (GTK_WINDOW (dlg), name);
-  gtk_editable_set_text (GTK_EDITABLE (dlg->priv->name_entry), name);
-
-  g_signal_connect (dlg->priv->name_entry, "activate", G_CALLBACK (name_entry_activate_cb), dlg);
+  gtk_window_set_title (GTK_WINDOW (self), name);
+  gtk_editable_set_text (GTK_EDITABLE (self->name_row), name);
+  g_signal_connect (self->name_row, "apply",
+                    G_CALLBACK (name_row_apply_cb), self);
+  gtk_widget_set_focus_child (GTK_WIDGET (self), NULL);
 
   str = pt_config_get_lang_name (config);
-  gtk_label_set_text (GTK_LABEL (dlg->priv->lang_value), str);
+  PtPrefsInfoRow *lang_row = pt_prefs_info_row_new (_ ("Language"), str);
+  adw_preferences_group_add (group, GTK_WIDGET (lang_row));
 
   str = pt_config_get_plugin (config);
   if (g_strcmp0 (str, "parlasphinx") == 0)
@@ -175,135 +171,206 @@ pt_asr_dialog_set_config (PtAsrDialog *dlg,
 
   if (g_strcmp0 (str, "ptdeepspeech") == 0)
     engine = _ ("Mozilla DeepSpeech");
-
+  PtPrefsInfoRow *engine_row;
   if (engine)
-    {
-      gtk_widget_set_visible (dlg->priv->plugin_label, FALSE);
-      gtk_widget_set_visible (dlg->priv->plugin_value, FALSE);
-      gtk_label_set_text (GTK_LABEL (dlg->priv->engine_value), engine);
-    }
+    engine_row = pt_prefs_info_row_new (_ ("Engine"), engine);
   else
-    {
-      gtk_widget_set_visible (dlg->priv->engine_label, FALSE);
-      gtk_widget_set_visible (dlg->priv->engine_value, FALSE);
-      gtk_label_set_text (GTK_LABEL (dlg->priv->plugin_value), str);
-    }
+    engine_row = pt_prefs_info_row_new (_ ("GStreamer Plugin"), str);
+
+  adw_preferences_group_add (group, GTK_WIDGET (engine_row));
 
   str = pt_config_get_key (config, "Publisher");
   if (have_string (str))
     {
-      gtk_label_set_text (GTK_LABEL (dlg->priv->publisher_value), str);
-    }
-  else
-    {
-      gtk_widget_set_visible (dlg->priv->publisher_label, FALSE);
-      gtk_widget_set_visible (dlg->priv->publisher_value, FALSE);
+      PtPrefsInfoRow *publ_row = pt_prefs_info_row_new (_ ("Publisher"), str);
+      adw_preferences_group_add (group, GTK_WIDGET (publ_row));
     }
   g_free (str);
 
   str = pt_config_get_key (config, "License");
   if (have_string (str))
     {
-      gtk_label_set_text (GTK_LABEL (dlg->priv->license_value), str);
-    }
-  else
-    {
-      gtk_widget_set_visible (dlg->priv->license_label, FALSE);
-      gtk_widget_set_visible (dlg->priv->license_value, FALSE);
+      PtPrefsInfoRow *license_row = pt_prefs_info_row_new (_ ("License"), str);
+      adw_preferences_group_add (group, GTK_WIDGET (license_row));
     }
   g_free (str);
 
   /* Installation */
+  group = ADW_PREFERENCES_GROUP (self->install_group);
   str = pt_config_get_key (config, "Howto");
   if (have_string (str))
     {
-      gtk_label_set_text (GTK_LABEL (dlg->priv->howto_value), str);
-    }
-  else
-    {
-      gtk_widget_set_visible (dlg->priv->howto_label, FALSE);
-      gtk_widget_set_visible (dlg->priv->howto_value, FALSE);
+      PtPrefsInfoRow *howto_row = pt_prefs_info_row_new (_ ("Instructions"), str);
+      adw_preferences_group_add (group, GTK_WIDGET (howto_row));
     }
   g_free (str);
 
   str = pt_config_get_key (config, "URL1");
   if (have_string (str))
     {
-      gtk_link_button_set_uri (GTK_LINK_BUTTON (dlg->priv->url1_button),
-                               str);
-      gtk_button_set_label (GTK_BUTTON (dlg->priv->url1_button), str);
-
-      /* Ellipsize label: This works only after gtk_button_set_label() */
-      label = gtk_widget_get_first_child (dlg->priv->url1_button);
-      gtk_label_set_ellipsize (GTK_LABEL (label), PANGO_ELLIPSIZE_END);
-    }
-  else
-    {
-      gtk_widget_set_visible (dlg->priv->url1_label, FALSE);
-      gtk_widget_set_visible (dlg->priv->url1_button, FALSE);
+      GtkWidget *url1_row = adw_action_row_new ();
+      adw_preferences_row_set_title (ADW_PREFERENCES_ROW (url1_row), _ ("Download"));
+      GtkWidget *link = pt_download_button_new (str);
+      adw_action_row_add_suffix (ADW_ACTION_ROW (url1_row), link);
+      adw_preferences_group_add (group, GTK_WIDGET (url1_row));
     }
   g_free (str);
 
   str = pt_config_get_key (config, "URL2");
   if (have_string (str))
     {
-      gtk_link_button_set_uri (GTK_LINK_BUTTON (dlg->priv->url2_button),
-                               str);
-      gtk_button_set_label (GTK_BUTTON (dlg->priv->url2_button), str);
-
-      /* Ellipsize label: This works only after gtk_button_set_label() */
-      label = gtk_widget_get_first_child (dlg->priv->url2_button);
-      gtk_label_set_ellipsize (GTK_LABEL (label), PANGO_ELLIPSIZE_END);
-    }
-  else
-    {
-      gtk_widget_set_visible (dlg->priv->url2_label, FALSE);
-      gtk_widget_set_visible (dlg->priv->url2_button, FALSE);
+      GtkWidget *url2_row = adw_action_row_new ();
+      adw_preferences_row_set_title (ADW_PREFERENCES_ROW (url2_row), _ ("Download"));
+      GtkWidget *link = pt_download_button_new (str);
+      adw_action_row_add_suffix (ADW_ACTION_ROW (url2_row), link);
+      adw_preferences_group_add (group, GTK_WIDGET (url2_row));
     }
   g_free (str);
 
-  str = pt_config_get_base_folder (config);
-  set_folder (dlg, str);
-  gtk_label_set_ellipsize (GTK_LABEL (dlg->priv->folder_label), PANGO_ELLIPSIZE_START);
+  GtkWidget *install_row = pt_prefs_install_row_new (config);
+  adw_preferences_group_add (group, install_row);
+  g_signal_connect (install_row, "notify::installed", G_CALLBACK (installed_cb), self);
 }
 
 static void
-pt_asr_dialog_init (PtAsrDialog *dlg)
+file_delete_finished (GObject *source_object,
+                      GAsyncResult *res,
+                      gpointer user_data)
 {
-  dlg->priv = pt_asr_dialog_get_instance_private (dlg);
-  gtk_widget_init_template (GTK_WIDGET (dlg));
-  gtk_widget_add_css_class (GTK_WIDGET (dlg), "ptdialog");
+  PtAsrDialog *self = PT_ASR_DIALOG (user_data);
+  GFile *file = G_FILE (source_object);
+  GError *error = NULL;
+  GtkAlertDialog *err_dialog;
+  GtkWindow *parent = GTK_WINDOW (self);
+
+  if (g_file_delete_finish (file, res, &error))
+    {
+      gtk_window_close (GTK_WINDOW (self));
+    }
+  else
+    {
+      err_dialog = gtk_alert_dialog_new (_ ("Error"));
+      gtk_alert_dialog_set_detail (err_dialog, error->message);
+      gtk_alert_dialog_show (err_dialog, parent);
+      g_error_free (error);
+    }
+}
+
+static void
+delete_dialog_cb (GObject *source,
+                  GAsyncResult *result,
+                  gpointer user_data)
+{
+  PtAsrDialog *self = PT_ASR_DIALOG (user_data);
+  const gchar* response;
+  GFile *file;
+
+  response = adw_message_dialog_choose_finish (ADW_MESSAGE_DIALOG (source), result);
+  if (!g_str_equal (response, "ok"))
+    return;
+
+  file = pt_config_get_file (self->config);
+  g_file_delete_async (file,
+                       G_PRIORITY_DEFAULT,
+                       NULL, /* cancellable */
+                       file_delete_finished,
+                       self);
+}
+
+static void
+delete_button_clicked_cb (GtkButton *button,
+                          gpointer   user_data)
+{
+  PtAsrDialog *self = PT_ASR_DIALOG (user_data);
+  GtkWidget *dialog;
+
+  dialog = adw_message_dialog_new (GTK_WINDOW (self),
+                                   _ ("Delete configuration"),
+                                   _ ("This will delete the configuration"));
+  adw_message_dialog_add_responses (ADW_MESSAGE_DIALOG (dialog),
+                                    "cancel", _ ("_Cancel"),
+                                    "ok", _ ("_OK"),
+                                    NULL);
+  adw_message_dialog_set_response_appearance (ADW_MESSAGE_DIALOG (dialog), "ok", ADW_RESPONSE_DESTRUCTIVE);
+  adw_message_dialog_set_default_response (ADW_MESSAGE_DIALOG (dialog), "cancel");
+  adw_message_dialog_set_close_response (ADW_MESSAGE_DIALOG (dialog), "cancel");
+
+  adw_message_dialog_choose (ADW_MESSAGE_DIALOG (dialog),
+                             NULL, /* cancellable */
+                             delete_dialog_cb,
+                             self);
+}
+
+static void
+activate_button_clicked_cb (GtkButton *button,
+                            gpointer   user_data)
+{
+  PtAsrDialog *self = PT_ASR_DIALOG (user_data);
+  GFile *config_file;
+  gchar *path;
+  gboolean success;
+
+  if (self->active)
+    {
+      path = g_strdup("");
+    }
+  else
+    {
+      if (!pt_config_is_installed (self->config))
+        return;
+      config_file = pt_config_get_file (self->config);
+      path = g_file_get_path (config_file);
+    }
+
+  success = g_settings_set_string (self->editor, "asr-config", path);
+
+  if (success)
+    {
+      self->active = !self->active;
+      update_activation_button (self);
+    }
+
+  g_free (path);
+}
+
+static void
+pt_asr_dialog_dispose (GObject *object)
+{
+  PtAsrDialog *self = PT_ASR_DIALOG (object);
+
+  g_clear_object (&self->editor);
+
+  G_OBJECT_CLASS (pt_asr_dialog_parent_class)->dispose (object);
+}
+
+static void
+pt_asr_dialog_init (PtAsrDialog *self)
+{
+  gtk_widget_init_template (GTK_WIDGET (self));
+
+  self->editor = g_settings_new (APP_ID);
+  g_signal_connect (self->activate_button, "clicked",
+                    G_CALLBACK (activate_button_clicked_cb), self);
 }
 
 static void
 pt_asr_dialog_class_init (PtAsrDialogClass *klass)
 {
+  GObjectClass *object_class = G_OBJECT_CLASS (klass);
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
+  object_class->dispose = pt_asr_dialog_dispose;
+
   gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/parlatype/asr-dialog.ui");
-  gtk_widget_class_bind_template_callback (widget_class, folder_button_clicked_cb);
-  gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, name_entry);
-  gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, lang_value);
-  gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, engine_label);
-  gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, engine_value);
-  gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, plugin_label);
-  gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, plugin_value);
-  gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, publisher_label);
-  gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, publisher_value);
-  gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, license_label);
-  gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, license_value);
-  gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, howto_label);
-  gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, howto_value);
-  gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, url1_label);
-  gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, url1_button);
-  gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, url2_label);
-  gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, url2_button);
-  gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, folder_label);
-  gtk_widget_class_bind_template_child_private (widget_class, PtAsrDialog, folder_button);
+  gtk_widget_class_bind_template_callback (widget_class, delete_button_clicked_cb);
+  gtk_widget_class_bind_template_child (widget_class, PtAsrDialog, name_row);
+  gtk_widget_class_bind_template_child (widget_class, PtAsrDialog, info_group);
+  gtk_widget_class_bind_template_child (widget_class, PtAsrDialog, install_group);
+  gtk_widget_class_bind_template_child (widget_class, PtAsrDialog, activate_button);
 }
 
 PtAsrDialog *
-pt_asr_dialog_new (GtkWindow *win)
+pt_asr_dialog_new (GtkWindow *parent)
 {
-  return g_object_new (PT_TYPE_ASR_DIALOG, "transient-for", win, NULL);
+  return g_object_new (PT_TYPE_ASR_DIALOG, "transient-for", parent, NULL);
 }

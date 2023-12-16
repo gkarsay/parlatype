@@ -1,4 +1,4 @@
-/* Copyright (C) Gabor Karsay 2021 <gabor.karsay@gmx.at>
+/* Copyright (C) Gabor Karsay 2023 <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -14,19 +14,19 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PT_ASR_DIALOG_H
-#define PT_ASR_DIALOG_H
+#ifndef PT_PREFS_INSTALL_ROW_H
+#define PT_PREFS_INSTALL_ROW_H
 
-#include <gtk/gtk.h>
 #include <adwaita.h>
 #include <parlatype.h>
 
-#define PT_TYPE_ASR_DIALOG (pt_asr_dialog_get_type ())
-G_DECLARE_FINAL_TYPE (PtAsrDialog, pt_asr_dialog, PT, ASR_DIALOG, AdwPreferencesWindow)
+#define PT_TYPE_PREFS_INSTALL_ROW (pt_prefs_install_row_get_type ())
+G_DECLARE_FINAL_TYPE (PtPrefsInstallRow, pt_prefs_install_row, PT, PREFS_INSTALL_ROW, AdwActionRow)
 
-void pt_asr_dialog_set_config (PtAsrDialog *dlg,
-                               PtConfig *config);
+gboolean
+pt_prefs_install_row_get_installed (PtPrefsInstallRow *self);
 
-PtAsrDialog *pt_asr_dialog_new (GtkWindow *parent);
+GtkWidget*
+pt_prefs_install_row_new (PtConfig *config);
 
 #endif

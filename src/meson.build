@@ -31,6 +31,8 @@ src = [
   'pt-prefs-asr.h',
   'pt-prefs-info-row.c',
   'pt-prefs-info-row.h',
+  'pt-prefs-install-row.c',
+  'pt-prefs-install-row.h',
   'pt-window.c',
   'pt-window.h',
   'pt-window-dnd.c',

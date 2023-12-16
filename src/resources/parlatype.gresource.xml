@@ -7,6 +7,7 @@
     <file preprocess="xml-stripblanks">preferences.ui</file>
     <file preprocess="xml-stripblanks">prefs-asr.ui</file>
     <file preprocess="xml-stripblanks">prefs-info-row.ui</file>
+    <file preprocess="xml-stripblanks">prefs-install-row.ui</file>
     <file preprocess="xml-stripblanks">asr-dialog.ui</file>
     <file preprocess="xml-stripblanks">config-row.ui</file>
     <file>parlatype.css</file>
