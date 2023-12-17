@@ -23,26 +23,7 @@
 #include <adwaita.h>
 
 #define PT_TYPE_PREFERENCES_DIALOG (pt_preferences_dialog_get_type ())
-#define PT_PREFERENCES_DIALOG(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_TYPE_PREFERENCES_DIALOG, PtPreferencesDialog))
-
-typedef struct _PtPreferencesDialog PtPreferencesDialog;
-typedef struct _PtPreferencesDialogClass PtPreferencesDialogClass;
-typedef struct _PtPreferencesDialogPrivate PtPreferencesDialogPrivate;
-
-struct _PtPreferencesDialog
-{
-  AdwPreferencesWindow dialog;
-
-  /*< private > */
-  PtPreferencesDialogPrivate *priv;
-};
-
-struct _PtPreferencesDialogClass
-{
-  AdwPreferencesWindowClass parent_class;
-};
-
-GType pt_preferences_dialog_get_type (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PtPreferencesDialog, pt_preferences_dialog, PT, PREFERENCES_DIALOG, AdwPreferencesWindow)
 
 void pt_show_preferences_dialog (GtkWindow *parent);
 
