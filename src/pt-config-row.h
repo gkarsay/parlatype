@@ -17,44 +17,24 @@
 #ifndef PT_CONFIG_ROW_H
 #define PT_CONFIG_ROW_H
 
-#include <gio/gio.h>
+#include <adwaita.h>
 #include <parlatype.h>
 
 #define PT_TYPE_CONFIG_ROW (pt_config_row_get_type ())
-#define PT_CONFIG_ROW(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_TYPE_CONFIG_ROW, PtConfigRow))
-#define PT_IS_CONFIG_ROW(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_TYPE_CONFIG_ROW))
-
-typedef struct _PtConfigRow PtConfigRow;
-typedef struct _PtConfigRowClass PtConfigRowClass;
-typedef struct _PtConfigRowPrivate PtConfigRowPrivate;
-
-/**
- * PtConfigRow:
- *
- * #PtConfigRow contains only private fields and should not be directly accessed.
- */
-struct _PtConfigRow
-{
-  GtkListBoxRow parent;
-
-  /*< private > */
-  PtConfigRowPrivate *priv;
-};
-
-struct _PtConfigRowClass
-{
-  GtkListBoxRowClass parent_class;
-};
-
-GType pt_config_row_get_type (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PtConfigRow, pt_config_row, PT, CONFIG_ROW, AdwActionRow)
 
 void pt_config_row_set_active (PtConfigRow *row,
                                gboolean active);
+
 gboolean pt_config_row_get_active (PtConfigRow *row);
+
 gboolean pt_config_row_is_installed (PtConfigRow *row);
-void pt_config_row_set_supported (PtConfigRow *row,
-                                  gboolean supported);
-gboolean pt_config_row_get_supported (PtConfigRow *row);
+
+PtConfig* pt_config_row_get_config (PtConfigRow *self);
+
+void pt_config_row_set_config (PtConfigRow *self,
+                               PtConfig *config);
+
 PtConfigRow *pt_config_row_new (PtConfig *config);
 
 #endif

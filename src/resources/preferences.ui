@@ -1,582 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk" version="4.0"/>
-  <object class="GtkAdjustment" id="adj_back">
-    <property name="lower">1</property>
-    <property name="upper">60</property>
-    <property name="value">10</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adj_forward">
-    <property name="lower">1</property>
-    <property name="upper">60</property>
-    <property name="value">10</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adj_pause">
-    <property name="upper">10</property>
-    <property name="value">2</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">1</property>
-  </object>
-  <object class="GtkAdjustment" id="adj_pps">
-    <property name="lower">25</property>
-    <property name="upper">200</property>
-    <property name="value">100</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">1</property>
-  </object>
-  <object class="GtkListStore" id="delimiter_liststore">
-    <columns>
-      <column type="gchararray"/>
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0">None</col>
-        <col id="1" translatable="yes" comments="This refers to: &quot;Characters around timestamps&quot;">None</col>
-      </row>
-      <row>
-        <col id="0">#</col>
-        <col id="1" translatable="yes">#Number signs#</col>
-      </row>
-      <row>
-        <col id="0">(</col>
-        <col id="1" translatable="yes">(Round brackets)</col>
-      </row>
-      <row>
-        <col id="0">[</col>
-        <col id="1" translatable="yes">[Square brackets]</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="fraction_liststore">
-    <columns>
-      <column type="gchararray"/>
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0">.</col>
-        <col id="1" translatable="yes">. (point)</col>
-      </row>
-      <row>
-        <col id="0">-</col>
-        <col id="1" translatable="yes">- (hyphen)</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="precision_liststore">
-    <columns>
-      <column type="gint"/>
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0">0</col>
-        <col id="1" translatable="yes">Full seconds</col>
-      </row>
-      <row>
-        <col id="0">1</col>
-        <col id="1" translatable="yes">10th seconds</col>
-      </row>
-      <row>
-        <col id="0">2</col>
-        <col id="1" translatable="yes">100th seconds</col>
-      </row>
-    </data>
-  </object>
-  <template class="PtPreferencesDialog" parent="GtkDialog">
-    <property name="height_request">200</property>
-    <property name="title" translatable="yes">Parlatype Preferences</property>
+  <template class="PtPreferencesDialog" parent="AdwPreferencesWindow">
+    <property name="default-width">800</property>
+    <property name="default-height">600</property>
+    <property name="title" translatable="true">Preferences</property>
     <child>
-      <placeholder/>
-    </child>
-    <child internal-child="content_area">
-      <object class="GtkBox" id="dialog-vbox1">
-        <property name="orientation">vertical</property>
+      <object class="AdwPreferencesPage">
+        <property name="name">waveform_page</property>
+        <property name="title" translatable="true">Waveform</property>
+        <property name="icon-name">view-reveal-symbolic</property>
         <child>
-          <object class="GtkNotebook" id="notebook">
-            <property name="vexpand">1</property>
-            <property name="focusable">1</property>
-            <property name="show_border">0</property>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="true">Display</property>
+            <property name="description" translatable="true">Change the appearance of the waveform and cursor movement.</property>
             <child>
-              <object class="GtkNotebookPage">
-                <property name="child">
-                  <object class="GtkGrid" id="grid3">
-                    <property name="row_spacing">6</property>
-                    <property name="column_spacing">6</property>
-                    <child>
-                      <object class="GtkLabel" id="label9">
-                        <property name="margin-start">6</property>
-                        <property name="label" translatable="yes">_Pixels per second:</property>
-                        <property name="use_underline">1</property>
-                        <property name="mnemonic_widget">pps_scale</property>
-                        <property name="xalign">0</property>
-                        <layout>
-                          <property name="column">0</property>
-                          <property name="row">1</property>
-                        </layout>
+              <object class="AdwActionRow" id="dm_switch">
+                <property name="title" translatable="true">Waveform detail</property>
+                <property name="subtitle" translatable="true">Vertical lines per second</property>
+                <child type="suffix">
+                  <object class="GtkScale" id="pps_scale">
+                    <property name="orientation">0</property>
+                    <property name="width-request">200</property>
+                    <property name="draw-value">true</property>
+                    <property name="digits">0</property>
+                    <marks>
+                      <mark value="50" position="bottom"></mark>
+                      <mark value="75" position="bottom"></mark>
+                      <mark value="100" position="bottom"></mark>
+                      <mark value="125" position="bottom"></mark>
+                      <mark value="150" position="bottom"></mark>
+                      <mark value="175" position="bottom"></mark>
+                    </marks>
+                    <property name="adjustment">
+                      <object class="GtkAdjustment">
+                        <property name="lower">25</property>
+                        <property name="upper">200</property>
+                        <property name="value">100</property>
+                        <property name="step_increment">1</property>
+                        <property name="page_increment">1</property>
                       </object>
-                    </child>
-                    <child>
-                      <object class="GtkScale" id="pps_scale">
-                        <property name="focusable">1</property>
-                        <property name="hexpand">1</property>
-                        <property name="adjustment">adj_pps</property>
-                        <property name="restrict_to_fill_level">0</property>
-                        <property name="fill_level">0</property>
-                        <property name="round_digits">0</property>
-                        <property name="digits">0</property>
-                        <property name="value_pos">right</property>
-                        <layout>
-                          <property name="column">1</property>
-                          <property name="row">1</property>
-                        </layout>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkCheckButton" id="ruler_check">
-                        <property name="label" translatable="yes">Show _time scale</property>
-                        <property name="margin-start">6</property>
-                        <property name="focusable">1</property>
-                        <property name="halign">start</property>
-                        <property name="margin-start">6</property>
-                        <property name="use_underline">1</property>
-                        <layout>
-                          <property name="column">0</property>
-                          <property name="row">5</property>
-                        </layout>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="label3">
-                        <property name="label" translatable="yes" comments="Resolution of the waveform image">Resolution</property>
-                        <property name="xalign">0</property>
-                        <attributes>
-                          <attribute name="weight" value="bold"></attribute>
-                        </attributes>
-                        <layout>
-                          <property name="column">0</property>
-                          <property name="row">0</property>
-                        </layout>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="label4">
-                        <property name="label" translatable="yes" comments="A section in preferences, how to display the waveform.">Display</property>
-                        <property name="xalign">0</property>
-                        <attributes>
-                          <attribute name="weight" value="bold"></attribute>
-                        </attributes>
-                        <layout>
-                          <property name="column">0</property>
-                          <property name="row">2</property>
-                        </layout>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkCheckButton" id="moving_cursor_radio">
-                        <property name="label" translatable="yes">_Moving cursor</property>
-                        <property name="margin-start">6</property>
-                        <property name="halign">start</property>
-                        <property name="use_underline">1</property>
-                        <property name="active">1</property>
-                        <layout>
-                          <property name="column">0</property>
-                          <property name="row">4</property>
-                        </layout>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkCheckButton" id="fixed_cursor_radio">
-                        <property name="label" translatable="yes">_Fixed cursor</property>
-                        <property name="margin-start">6</property>
-                        <property name="halign">start</property>
-                        <property name="use_underline">1</property>
-                        <property name="active">1</property>
-                        <property name="group">moving_cursor_radio</property>
-                        <layout>
-                          <property name="column">0</property>
-                          <property name="row">3</property>
-                        </layout>
-                      </object>
-                    </child>
+                    </property>
                   </object>
-                </property>
-                <property name="tab">
-                  <object class="GtkLabel" id="label2">
-                    <property name="label" translatable="yes">Waveform</property>
-                  </object>
-                </property>
+                </child>
               </object>
             </child>
             <child>
-              <object class="GtkNotebookPage">
-                <property name="position">1</property>
-                <property name="child">
-                  <object class="GtkBox">
-                    <property name="orientation">vertical</property>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="margin_bottom">12</property>
-                        <property name="label" translatable="yes">Jumps</property>
-                        <property name="xalign">0</property>
-                        <attributes>
-                          <attribute name="weight" value="bold"></attribute>
-                        </attributes>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkGrid" id="grid1">
-                        <property name="margin-start">6</property>
-                        <property name="orientation">vertical</property>
-                        <property name="row_spacing">6</property>
-                        <property name="column_spacing">6</property>
-                        <child>
-                          <object class="GtkLabel" id="label_forward">
-                            <property name="label">seconds</property>
-                            <property name="xalign">0</property>
-                            <layout>
-                              <property name="column">2</property>
-                              <property name="row">2</property>
-                            </layout>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkLabel" id="label_back">
-                            <property name="label">seconds</property>
-                            <property name="xalign">0</property>
-                            <layout>
-                              <property name="column">2</property>
-                              <property name="row">1</property>
-                            </layout>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkLabel" id="label_pause">
-                            <property name="label">seconds</property>
-                            <property name="xalign">0</property>
-                            <layout>
-                              <property name="column">2</property>
-                              <property name="row">0</property>
-                            </layout>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkSpinButton" id="spin_forward">
-                            <property name="focusable">1</property>
-                            <property name="adjustment">adj_forward</property>
-                            <property name="numeric">1</property>
-                            <property name="value">2</property>
-                            <signal name="value-changed" handler="spin_forward_changed_cb" swapped="no"/>
-                            <layout>
-                              <property name="column">1</property>
-                              <property name="row">2</property>
-                            </layout>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkSpinButton" id="spin_back">
-                            <property name="focusable">1</property>
-                            <property name="adjustment">adj_back</property>
-                            <property name="numeric">1</property>
-                            <property name="value">2</property>
-                            <signal name="value-changed" handler="spin_back_changed_cb" swapped="no"/>
-                            <layout>
-                              <property name="column">1</property>
-                              <property name="row">1</property>
-                            </layout>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkSpinButton" id="spin_pause">
-                            <property name="focusable">1</property>
-                            <property name="adjustment">adj_pause</property>
-                            <property name="numeric">1</property>
-                            <property name="value">2</property>
-                            <signal name="value-changed" handler="spin_pause_changed_cb" swapped="no"/>
-                            <layout>
-                              <property name="column">1</property>
-                              <property name="row">0</property>
-                            </layout>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkLabel" id="label6">
-                            <property name="label" translatable="yes">Jump _forward:</property>
-                            <property name="use_underline">1</property>
-                            <property name="mnemonic_widget">spin_forward</property>
-                            <property name="xalign">1</property>
-                            <layout>
-                              <property name="column">0</property>
-                              <property name="row">2</property>
-                            </layout>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkLabel" id="label5">
-                            <property name="label" translatable="yes">Jump _back:</property>
-                            <property name="use_underline">1</property>
-                            <property name="mnemonic_widget">spin_back</property>
-                            <property name="xalign">1</property>
-                            <layout>
-                              <property name="column">0</property>
-                              <property name="row">1</property>
-                            </layout>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkLabel" id="label1">
-                            <property name="label" translatable="yes">Jump back on _pause:</property>
-                            <property name="use_underline">1</property>
-                            <property name="mnemonic_widget">spin_pause</property>
-                            <property name="xalign">1</property>
-                            <layout>
-                              <property name="column">0</property>
-                              <property name="row">0</property>
-                            </layout>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="margin_top">12</property>
-                        <property name="margin_bottom">12</property>
-                        <property name="label" translatable="yes">Pressing “Play” at the end of file</property>
-                        <property name="xalign">0</property>
-                        <attributes>
-                          <attribute name="weight" value="bold"></attribute>
-                        </attributes>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkCheckButton" id="repeat_all_checkbox">
-                        <property name="label" translatable="yes">Replay file</property>
-                        <property name="focusable">1</property>
-                        <property name="margin-start">6</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="margin_top">12</property>
-                        <property name="margin_bottom">12</property>
-                        <property name="label" translatable="yes">Pressing “Play” at the end of selection</property>
-                        <property name="xalign">0</property>
-                        <attributes>
-                          <attribute name="weight" value="bold"></attribute>
-                        </attributes>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkCheckButton" id="repeat_selection_checkbox">
-                        <property name="label" translatable="yes">Replay selection</property>
-                        <property name="focusable">1</property>
-                        <property name="margin-start">6</property>
-                      </object>
-                    </child>
-                  </object>
-                </property>
-                <property name="tab">
-                  <object class="GtkLabel" id="label7">
-                    <property name="label" translatable="yes">Controls</property>
-                  </object>
-                </property>
+              <object class="AdwSwitchRow" id="ruler_row">
+                <property name="title" translatable="true">Show time scale</property>
               </object>
             </child>
             <child>
-              <object class="GtkNotebookPage">
-                <property name="position">2</property>
-                <property name="child">
-                  <object class="GtkGrid">
-                    <property name="orientation">vertical</property>
-                    <property name="row_spacing">6</property>
-                    <property name="column_spacing">6</property>
-                    <child>
-                      <object class="GtkLabel" id="label_example1">
-                        <property name="margin-start">6</property>
-                        <property name="label">example1</property>
-                        <property name="xalign">0</property>
-                        <layout>
-                          <property name="column">0</property>
-                          <property name="row">7</property>
-                        </layout>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="label_example2">
-                        <property name="margin-start">6</property>
-                        <property name="label">example2</property>
-                        <property name="xalign">0</property>
-                        <layout>
-                          <property name="column">0</property>
-                          <property name="row">8</property>
-                        </layout>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="label" translatable="yes">Hours and zeroes</property>
-                        <property name="xalign">0</property>
-                        <attributes>
-                          <attribute name="weight" value="bold"></attribute>
-                        </attributes>
-                        <layout>
-                          <property name="column">0</property>
-                          <property name="row">0</property>
-                        </layout>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkCheckButton" id="hours_check">
-                        <property name="label" translatable="yes">Always show hours and leading zeroes</property>
-                        <property name="margin-start">6</property>
-                        <property name="focusable">1</property>
-                        <property name="halign">start</property>
-                        <signal name="toggled" handler="hours_check_toggled" swapped="no"/>
-                        <layout>
-                          <property name="column">0</property>
-                          <property name="row">1</property>
-                        </layout>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="margin_top">12</property>
-                        <property name="label" translatable="yes">Precision</property>
-                        <property name="xalign">0</property>
-                        <attributes>
-                          <attribute name="weight" value="bold"></attribute>
-                        </attributes>
-                        <layout>
-                          <property name="column">0</property>
-                          <property name="row">2</property>
-                        </layout>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="margin_top">12</property>
-                        <property name="label" translatable="yes">Characters around timestamps</property>
-                        <property name="xalign">0</property>
-                        <attributes>
-                          <attribute name="weight" value="bold"></attribute>
-                        </attributes>
-                        <layout>
-                          <property name="column">0</property>
-                          <property name="row">4</property>
-                        </layout>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="margin_top">12</property>
-                        <property name="label" translatable="yes">Examples</property>
-                        <property name="xalign">0</property>
-                        <attributes>
-                          <attribute name="weight" value="bold"></attribute>
-                        </attributes>
-                        <layout>
-                          <property name="column">0</property>
-                          <property name="row">6</property>
-                        </layout>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkComboBox" id="delimiter_combo">
-                        <property name="margin-start">6</property>
-                        <property name="halign">start</property>
-                        <property name="model">delimiter_liststore</property>
-                        <property name="id_column">0</property>
-                        <signal name="changed" handler="delimiter_combo_changed" swapped="no"/>
-                        <child>
-                          <object class="GtkCellRendererText"/>
-                          <attributes>
-                            <attribute name="text">1</attribute>
-                          </attributes>
-                        </child>
-                        <layout>
-                          <property name="column">0</property>
-                          <property name="row">5</property>
-                        </layout>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkGrid" id="precision-grid">
-                        <property name="margin-start">6</property>
-                        <property name="halign">start</property>
-                        <property name="row_spacing">6</property>
-                        <property name="column_spacing">6</property>
-                        <child>
-                          <object class="GtkLabel">
-                            <property name="label" translatable="yes">Precision:</property>
-                            <property name="xalign">0</property>
-                            <layout>
-                              <property name="column">0</property>
-                              <property name="row">0</property>
-                            </layout>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkComboBox" id="precision_combo">
-                            <property name="hexpand">1</property>
-                            <property name="model">precision_liststore</property>
-                            <property name="id_column">0</property>
-                            <signal name="changed" handler="precision_combo_changed" swapped="no"/>
-                            <child>
-                              <object class="GtkCellRendererText"/>
-                              <attributes>
-                                <attribute name="text">1</attribute>
-                              </attributes>
-                            </child>
-                            <layout>
-                              <property name="column">1</property>
-                              <property name="row">0</property>
-                            </layout>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkLabel">
-                            <property name="label" translatable="yes">Fraction separator:</property>
-                            <property name="xalign">0</property>
-                            <layout>
-                              <property name="column">0</property>
-                              <property name="row">1</property>
-                            </layout>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkComboBox" id="separator_combo">
-                            <property name="hexpand">1</property>
-                            <property name="model">fraction_liststore</property>
-                            <property name="id_column">0</property>
-                            <signal name="changed" handler="separator_combo_changed" swapped="no"/>
-                            <child>
-                              <object class="GtkCellRendererText"/>
-                              <attributes>
-                                <attribute name="text">1</attribute>
-                              </attributes>
-                            </child>
-                            <layout>
-                              <property name="column">1</property>
-                              <property name="row">1</property>
-                            </layout>
-                          </object>
-                        </child>
-                        <layout>
-                          <property name="column">0</property>
-                          <property name="row">3</property>
-                        </layout>
-                      </object>
-                    </child>
-                  </object>
-                </property>
-                <property name="tab">
-                  <object class="GtkLabel">
-                    <property name="label" translatable="yes">Timestamps</property>
+              <object class="AdwComboRow" id="cursor_row">
+                <property name="title" translatable="true">Cursor</property>
+                <property name="model">
+                  <object class="GtkStringList">
+                    <items>
+                      <item translatable="true">Fixed cursor</item>
+                      <item translatable="true">Moving cursor</item>
+                    </items>
                   </object>
                 </property>
               </object>
@@ -585,21 +67,166 @@
         </child>
       </object>
     </child>
-    <child internal-child="action_area">
-      <object class="GtkBox" id="dialog-action_area1">
-        <property name="valign">center</property>
-        <property name="can_focus">False</property>
+    <child>
+      <object class="AdwPreferencesPage">
+        <property name="name">controls_page</property>
+        <property name="title" translatable="true">Control</property>
+        <property name="icon-name">media-playback-start-symbolic</property>
         <child>
-          <placeholder/>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="true">Jumps</property>
+            <property name="description" translatable="true">Change how the app behaves during user interaction.</property>
+            <child>
+              <object class="AdwSpinRow" id="pause_row">
+                <property name="title" translatable="true">Jump back on pause</property>
+                <property name="subtitle" translatable="true">Time to jump back in seconds</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment">
+                    <property name="lower">0</property>
+                    <property name="upper">10</property>
+                    <property name="step-increment">1</property>
+                    <property name="value">2</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow" id="back_row">
+                <property name="title" translatable="true">Jump back</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment">
+                    <property name="lower">1</property>
+                    <property name="upper">60</property>
+                    <property name="step-increment">1</property>
+                    <property name="value">10</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow" id="forward_row">
+                <property name="title" translatable="true">Jump forward</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment">
+                    <property name="lower">1</property>
+                    <property name="upper">60</property>
+                    <property name="step-increment">1</property>
+                    <property name="value">10</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="true">Play Button</property>
+            <property name="description" translatable="true">Change behavior of play button.</property>
+            <child>
+              <object class="AdwSwitchRow" id="repeat_all_row">
+                <property name="title" translatable="true">At end of file replay file</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSwitchRow" id="repeat_selection_row">
+                <property name="title" translatable="true">At end of selection replay selection</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesPage">
+        <property name="name">timestamps_page</property>
+        <property name="title" translatable="true">Timestamps</property>
+        <property name="icon-name">text-editor-symbolic</property>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="true">Customize Timestamp Format</property>
+            <property name="description" translatable="true">Which timestamp format to use on output.
+All formats can be read.</property>
+            <child>
+              <object class="AdwSwitchRow" id="hours_row">
+                <property name="title" translatable="true">Always show hours and leading zeroes</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwComboRow" id="precision_row">
+                <property name="title" translatable="true">Precision</property>
+                <property name="model">
+                  <object class="GtkStringList">
+                    <items>
+                      <item translatable="true">Full seconds</item>
+                      <item translatable="true">10th seconds</item>
+                      <item translatable="true">100th seconds</item>
+                    </items>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwComboRow" id="separator_row">
+                <property name="title" translatable="true">Fraction separator</property>
+                <property name="model">
+                  <object class="GtkStringList">
+                    <items>
+                      <item translatable="true">. (point)</item>
+                      <item translatable="true">- (hyphen)</item>
+                    </items>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwComboRow" id="delimiter_row">
+                <property name="title" translatable="true">Characters around timestamps</property>
+                <property name="model">
+                  <object class="GtkStringList">
+                    <items>
+                      <item translatable="true">None</item>
+                      <item translatable="true">#Number signs#</item>
+                      <item translatable="true">(Round brackets)</item>
+                      <item translatable="true">[Square brackets]</item>
+                    </items>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwPreferencesGroup" id="preview_group">
+            <property name="title" translatable="true">Preview</property>
+            <property name="description">Example</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesPage" id="asr_page">
+        <property name="name">asr_page</property>
+        <property name="title" translatable="true">Speech recognition</property>
+        <property name="icon-name">chat-bubbles-text-symbolic</property>
+        <child>
+          <object class="AdwPreferencesGroup" id="models_group">
+            <property name="title" translatable="true">Choose Language Models</property>
+            <property name="description" translatable="true">Change how the app behaves during user interaction.</property>
+            <child type="header-suffix">
+              <object class="GtkButton">
+                <signal name="clicked" handler="import_button_clicked_cb" swapped="no" />
+                <property name="halign">center</property>
+                <property name="valign">center</property>
+                <property name="icon-name">list-add-symbolic</property>
+                <property name="tooltip-text" translatable="true">Import configuration from file</property>
+                <style>
+                  <class name="flat"/>
+                </style>
+              </object>
+            </child>
+          </object>
         </child>
       </object>
     </child>
   </template>
-  <object class="GtkSizeGroup">
-    <widgets>
-      <widget name="hours_check"/>
-      <widget name="delimiter_combo"/>
-      <widget name="precision-grid"/>
-    </widgets>
-  </object>
 </interface>

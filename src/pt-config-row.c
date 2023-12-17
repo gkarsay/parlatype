@@ -15,19 +15,17 @@
  */
 
 #include "config.h"
-#include <gio/gio.h>
-#include <parlatype.h>
+#include <glib/gi18n.h>
 #include "pt-config-row.h"
 
-struct _PtConfigRowPrivate
+struct _PtConfigRow
 {
+  AdwActionRow parent;
+
   PtConfig *config;
-  GtkWidget *name_label;
-  GtkWidget *lang_label;
-  GtkWidget *details_button;
-  GtkWidget *status_image;
+  GtkWidget *status_label;
+  GtkWidget *active_image;
   gboolean active;
-  gboolean supported;
   gboolean installed;
 };
 
@@ -43,7 +41,7 @@ static GParamSpec *obj_properties[N_PROPERTIES] = {
   NULL,
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE (PtConfigRow, pt_config_row, GTK_TYPE_LIST_BOX_ROW)
+G_DEFINE_FINAL_TYPE (PtConfigRow, pt_config_row, ADW_TYPE_ACTION_ROW)
 
 /**
  * SECTION: pt-config-row
@@ -55,65 +53,49 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtConfigRow, pt_config_row, GTK_TYPE_LIST_BOX_ROW)
  */
 
 gboolean
-pt_config_row_is_installed (PtConfigRow *row)
+pt_config_row_is_installed (PtConfigRow *self)
 {
-  return row->priv->installed;
+  return self->installed;
 }
 
 gboolean
-pt_config_row_get_active (PtConfigRow *row)
+pt_config_row_get_active (PtConfigRow *self)
 {
-  return row->priv->active;
+  return self->active;
+}
+
+PtConfig*
+pt_config_row_get_config (PtConfigRow *self)
+{
+  return self->config;
 }
 
 static void
-set_status_image (PtConfigRow *row)
+set_status_label (PtConfigRow *self)
 {
-  GtkImage *status = GTK_IMAGE (row->priv->status_image);
-  gchar *icon = NULL;
+  GtkLabel *label = GTK_LABEL (self->status_label);
+  gchar *status = NULL;
 
-  if (!row->priv->supported)
-    icon = "action-unavailable-symbolic";
-  else if (!row->priv->installed)
-    icon = "folder-download-symbolic";
-  else if (row->priv->active)
-    icon = "object-select-symbolic";
+  if (!self->installed)
+    status = _ ("Not installed");
 
-  if (icon)
-    gtk_image_set_from_icon_name (status, icon);
-  else
-    gtk_image_clear (status);
+  gtk_label_set_label (label, status);
 }
 
 void
-pt_config_row_set_active (PtConfigRow *row,
+pt_config_row_set_active (PtConfigRow *self,
                           gboolean active)
 {
-  PtConfigRowPrivate *priv = row->priv;
-
-  if (priv->active == active ||
-      !priv->supported ||
-      !priv->installed)
+  if (self->active == active ||
+      !self->installed)
     return;
 
-  priv->active = active;
-  g_object_notify_by_pspec (G_OBJECT (row),
+  self->active = active;
+  g_object_notify_by_pspec (G_OBJECT (self),
                             obj_properties[PROP_ACTIVE]);
-  set_status_image (row);
-}
 
-gboolean
-pt_config_row_get_supported (PtConfigRow *row)
-{
-  return row->priv->supported;
-}
-
-void
-pt_config_row_set_supported (PtConfigRow *row,
-                             gboolean supported)
-{
-  row->priv->supported = supported;
-  set_status_image (row);
+  gtk_image_set_from_icon_name (GTK_IMAGE (self->active_image),
+                                active ? "emblem-ok-symbolic" : NULL);
 }
 
 static void
@@ -121,40 +103,55 @@ config_is_installed_cb (PtConfig *config,
                         GParamSpec *pspec,
                         gpointer user_data)
 {
-  PtConfigRow *row = PT_CONFIG_ROW (user_data);
-  row->priv->installed = pt_config_is_installed (config);
-  set_status_image (row);
+  PtConfigRow *self = PT_CONFIG_ROW (user_data);
+  self->installed = pt_config_is_installed (config);
+  set_status_label (self);
 }
 
 static void
 pt_config_row_constructed (GObject *object)
 {
-  PtConfigRow *row = PT_CONFIG_ROW (object);
-  PtConfigRowPrivate *priv = row->priv;
+  PtConfigRow *self = PT_CONFIG_ROW (object);
 
   g_object_bind_property (
-      priv->config, "name",
-      priv->name_label, "label",
+      self->config, "name",
+      self, "title",
       G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
-  gtk_label_set_text (GTK_LABEL (priv->lang_label),
-                      pt_config_get_lang_name (priv->config));
 
-  priv->installed = pt_config_is_installed (priv->config);
+  adw_action_row_set_subtitle (ADW_ACTION_ROW (self),
+                               pt_config_get_lang_name (self->config));
+
+  self->installed = pt_config_is_installed (self->config);
   g_signal_connect (
-      priv->config, "notify::is-installed",
-      G_CALLBACK (config_is_installed_cb), row);
+      self->config, "notify::is-installed",
+      G_CALLBACK (config_is_installed_cb), self);
+
+  set_status_label (self);
+}
+
+void
+pt_config_row_set_config (PtConfigRow *self,
+                          PtConfig *config)
+{
+  g_return_if_fail (PT_IS_CONFIG_ROW (self));
+  g_return_if_fail (PT_IS_CONFIG (config));
+
+  if (config == self->config)
+    {
+      return;
+    }
+  g_clear_object (&self->config);
+  self->config = g_object_ref (config);
+  pt_config_row_constructed (G_OBJECT (self));
 }
 
 static void
-pt_config_row_init (PtConfigRow *row)
+pt_config_row_init (PtConfigRow *self)
 {
-  row->priv = pt_config_row_get_instance_private (row);
+  self->active = FALSE;
+  self->installed = FALSE;
 
-  row->priv->active = FALSE;
-  row->priv->supported = FALSE;
-  row->priv->installed = FALSE;
-
-  gtk_widget_init_template (GTK_WIDGET (row));
+  gtk_widget_init_template (GTK_WIDGET (self));
 }
 
 static void
@@ -166,9 +163,9 @@ pt_config_row_dispose (GObject *object)
 static void
 pt_config_row_finalize (GObject *object)
 {
-  PtConfigRow *row = PT_CONFIG_ROW (object);
+  PtConfigRow *self = PT_CONFIG_ROW (object);
 
-  g_object_unref (row->priv->config);
+  g_clear_object (&self->config);
 
   G_OBJECT_CLASS (pt_config_row_parent_class)->finalize (object);
 }
@@ -179,15 +176,16 @@ pt_config_row_set_property (GObject *object,
                             const GValue *value,
                             GParamSpec *pspec)
 {
-  PtConfigRow *row = PT_CONFIG_ROW (object);
+  PtConfigRow *self = PT_CONFIG_ROW (object);
 
   switch (property_id)
     {
     case PROP_CONFIG:
-      row->priv->config = g_value_dup_object (value);
+      g_clear_object (&self->config);
+      self->config = g_value_dup_object (value);
       break;
     case PROP_ACTIVE:
-      row->priv->active = g_value_get_boolean (value);
+      self->active = g_value_get_boolean (value);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -201,15 +199,15 @@ pt_config_row_get_property (GObject *object,
                             GValue *value,
                             GParamSpec *pspec)
 {
-  PtConfigRow *row = PT_CONFIG_ROW (object);
+  PtConfigRow *self = PT_CONFIG_ROW (object);
 
   switch (property_id)
     {
     case PROP_CONFIG:
-      g_value_set_object (value, row->priv->config);
+      g_value_set_object (value, self->config);
       break;
     case PROP_ACTIVE:
-      g_value_set_boolean (value, row->priv->active);
+      g_value_set_boolean (value, self->active);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -230,9 +228,8 @@ pt_config_row_class_init (PtConfigRowClass *klass)
   object_class->finalize = pt_config_row_finalize;
 
   gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/parlatype/config-row.ui");
-  gtk_widget_class_bind_template_child_private (widget_class, PtConfigRow, name_label);
-  gtk_widget_class_bind_template_child_private (widget_class, PtConfigRow, lang_label);
-  gtk_widget_class_bind_template_child_private (widget_class, PtConfigRow, status_image);
+  gtk_widget_class_bind_template_child (widget_class, PtConfigRow, status_label);
+  gtk_widget_class_bind_template_child (widget_class, PtConfigRow, active_image);
 
   /**
    * PtConfigRow:config:
@@ -245,7 +242,7 @@ pt_config_row_class_init (PtConfigRowClass *klass)
           "Config",
           "The configuration",
           PT_TYPE_CONFIG,
-          G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
+          G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
 
   /**
    * PtConfigRow:active:

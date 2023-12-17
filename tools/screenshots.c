@@ -17,6 +17,7 @@
 #include "config.h"
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
+#include <adwaita.h>
 #include <locale.h> /* setlocale */
 #include <pt-app.h>
 #include <pt-asr-dialog.h>
@@ -306,7 +307,6 @@ take_screenshots (GtkApplication *app,
   PtPlayer *player;
   GtkWidget *waveviewer;
   PtPreferencesDialog *dlg;
-  GtkNotebook *notebook;
   GdkPaintable *paintable;
 
   /* Initialize static variables */
@@ -366,17 +366,18 @@ take_screenshots (GtkApplication *app,
 
   /* Preferences Dialog, second page ---------------------------------------- */
 
-  notebook = pt_preferences_dialog_get_notebook (dlg);
   g_signal_connect (paintable, "invalidate-contents",
                     G_CALLBACK (save_paintable), "parlatype-prefs-controls.png");
-  gtk_notebook_next_page (notebook);
+  adw_preferences_window_set_visible_page_name (ADW_PREFERENCES_WINDOW (dlg),
+                                                "controls_page");
   g_main_loop_run (loop);
 
   /* Preferences Dialog, third page ----------------------------------------- */
 
   g_signal_connect (paintable, "invalidate-contents",
                     G_CALLBACK (save_paintable), "parlatype-prefs-timestamps.png");
-  gtk_notebook_next_page (notebook);
+  adw_preferences_window_set_visible_page_name (ADW_PREFERENCES_WINDOW (dlg),
+                                                "timestamps_page");
   g_main_loop_run (loop);
 
 #ifdef HAVE_ASR
@@ -384,7 +385,8 @@ take_screenshots (GtkApplication *app,
 
   g_signal_connect (paintable, "invalidate-contents",
                     G_CALLBACK (save_paintable), "asr-setup-initial.png");
-  gtk_notebook_next_page (notebook);
+  adw_preferences_window_set_visible_page_name (ADW_PREFERENCES_WINDOW (dlg),
+                                                "asr_page");
   g_main_loop_run (loop);
 
   gtk_window_destroy (GTK_WINDOW (dlg));
@@ -396,10 +398,10 @@ take_screenshots (GtkApplication *app,
 
   dlg = pt_preferences_dialog_new (GTK_WINDOW (win));
   paintable = gtk_widget_paintable_new (GTK_WIDGET (dlg));
-  notebook = pt_preferences_dialog_get_notebook (dlg);
   g_signal_connect (paintable, "invalidate-contents",
                     G_CALLBACK (save_paintable), "asr-setup-downloadable.png");
-  gtk_notebook_set_current_page (notebook, 3);
+  adw_preferences_window_set_visible_page_name (ADW_PREFERENCES_WINDOW (dlg),
+                                                "asr_page");
   gtk_window_present (GTK_WINDOW (dlg));
   g_main_loop_run (loop);
 

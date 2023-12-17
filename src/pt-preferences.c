@@ -19,7 +19,10 @@
 #include <glib/gi18n.h>
 #include <parlatype.h>
 #include "pt-app.h"
-#include "pt-prefs-asr.h"
+#include "pt-asr-dialog.h"
+#include "pt-config-list.h"
+#include "pt-config-row.h"
+#include "pt-prefs-info-row.h"
 #include "pt-preferences.h"
 
 #define EXAMPLE_TIME_SHORT 471123
@@ -31,123 +34,384 @@ struct _PtPreferencesDialogPrivate
 {
   GSettings *editor;
   PtPlayer *player;
-  GtkWidget *notebook;
+  PtConfigList *list;
 
-  /* Waveform tab */
+  /* Waveform page */
   GtkWidget *pps_scale;
-  GtkWidget *ruler_check;
-  GtkWidget *fixed_cursor_radio;
-  GtkWidget *moving_cursor_radio;
+  GtkWidget *ruler_row;
+  GtkWidget *cursor_row;
 
-  /* Controls tab */
-  GtkWidget *spin_pause;
-  GtkWidget *spin_back;
-  GtkWidget *spin_forward;
-  GtkWidget *label_pause;
-  GtkWidget *label_back;
-  GtkWidget *label_forward;
-  GtkWidget *repeat_all_checkbox;
-  GtkWidget *repeat_selection_checkbox;
+  /* Controls page */
+  GtkWidget *pause_row;
+  GtkWidget *back_row;
+  GtkWidget *forward_row;
+  GtkWidget *repeat_all_row;
+  GtkWidget *repeat_selection_row;
 
-  /* Timestamps tab */
-  GtkWidget *precision_combo;
-  GtkWidget *separator_combo;
-  GtkWidget *delimiter_combo;
-  GtkWidget *hours_check;
-  GtkWidget *label_example1;
-  GtkWidget *label_example2;
+  /* Timestamps page */
+  GtkWidget *hours_row;
+  GtkWidget *precision_row;
+  GtkWidget *separator_row;
+  GtkWidget *delimiter_row;
+  GtkWidget *preview_group;
+
+  /* ASR page */
+  GtkWidget *asr_page;
+  GtkWidget *models_group;
+  GPtrArray *config_rows;
+  gchar *active_config_path;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE (PtPreferencesDialog, pt_preferences_dialog, GTK_TYPE_DIALOG)
+G_DEFINE_TYPE_WITH_PRIVATE (PtPreferencesDialog, pt_preferences_dialog, ADW_TYPE_PREFERENCES_WINDOW)
+
 
 static void
-spin_back_changed_cb (GtkSpinButton *spin,
-                      PtPreferencesDialog *dlg)
+update_timestamp_page (PtPreferencesDialog *dlg)
 {
-  gtk_label_set_label (
-      GTK_LABEL (dlg->priv->label_back),
-      /* Translators: This is part of the Preferences dialog
-         or the "Go to ..." dialog. There is a label like
-         "Jump back:", "Jump forward:", "Jump back on pause:"
-         or "Go to position:" before. */
-      ngettext ("second", "seconds",
-                (int) gtk_spin_button_get_value_as_int (spin)));
+  gchar *preview1;
+  gchar *preview2;
+  gchar *preview;
+  guint precision;
+
+  preview1 = pt_player_get_timestamp_for_time (dlg->priv->player, EXAMPLE_TIME_SHORT, EXAMPLE_TIME_SHORT);
+  preview2 = pt_player_get_timestamp_for_time (dlg->priv->player, EXAMPLE_TIME_LONG, EXAMPLE_TIME_LONG);
+  preview = g_strdup_printf ("%s\n%s", preview1, preview2);
+  adw_preferences_group_set_description (ADW_PREFERENCES_GROUP (dlg->priv->preview_group), preview);
+
+  precision = adw_combo_row_get_selected (ADW_COMBO_ROW (dlg->priv->precision_row));
+  gtk_widget_set_sensitive (dlg->priv->separator_row,
+                            (precision == 0) ? FALSE : TRUE);
+
+  g_free (preview1);
+  g_free (preview2);
+  g_free (preview);
 }
 
 static void
-spin_forward_changed_cb (GtkSpinButton *spin,
-                         PtPreferencesDialog *dlg)
+settings_changed_cb (GSettings *settings,
+                     gchar *key,
+                     gpointer user_data)
 {
-  gtk_label_set_label (
-      GTK_LABEL (dlg->priv->label_forward),
-      ngettext ("second", "seconds",
-                (int) gtk_spin_button_get_value_as_int (spin)));
+  PtPreferencesDialog *dlg = PT_PREFERENCES_DIALOG (user_data);
+  if (g_str_has_prefix (key, "timestamp"))
+    {
+      update_timestamp_page (dlg);
+    }
+  if (g_str_equal (key, "asr-config"))
+    {
+      gchar *new_value = g_settings_get_string (settings, key);
+      g_free (dlg->priv->active_config_path);
+      dlg->priv->active_config_path = new_value;
+    }
+}
+
+/* Setting "fixed-cursor" TRUE  -> Dropdown pos. 0 ("Fixed cursor")
+ * Setting "fixed-cursor" FALSE -> Dropdown pos. 1 ("Moving cursor") */
+static gboolean
+get_cursor_mapping (GValue *value,
+                    GVariant *variant,
+                    gpointer data)
+{
+  guint drop_down_position = g_variant_get_boolean (variant) ? 0 : 1;
+  g_value_set_uint (value, drop_down_position);
+  return TRUE;
+}
+
+static GVariant *
+set_cursor_mapping (const GValue *value,
+                    const GVariantType *type,
+                    gpointer data)
+{
+  gboolean fixed = (g_value_get_uint (value) == 0);
+  return g_variant_new_boolean (fixed);
+}
+
+static gboolean
+get_separator_mapping (GValue *value,
+                       GVariant *variant,
+                       gpointer data)
+{
+  const gchar *sep = g_variant_get_string (variant, NULL);
+  guint drop_down_position = (g_strcmp0 (sep, ".") == 0) ? 0 : 1;
+  g_value_set_uint (value, drop_down_position);
+  return TRUE;
+}
+
+static GVariant *
+set_separator_mapping (const GValue *value,
+                       const GVariantType *type,
+                       gpointer data)
+{
+  guint drop_down_position = g_value_get_uint (value);
+  gchar *sep = (drop_down_position == 0) ? "." : "-";
+  return g_variant_new_string (sep);
+}
+
+static gboolean
+get_delimiter_mapping (GValue *value,
+                       GVariant *variant,
+                       gpointer data)
+{
+  const gchar *sep = g_variant_get_string (variant, NULL);
+  gint drop_down_position;
+  if (g_strcmp0 (sep, "None") == 0)
+    drop_down_position = 0;
+  else if (g_strcmp0 (sep, "#") == 0)
+    drop_down_position = 1;
+  else if (g_strcmp0 (sep, "(") == 0)
+    drop_down_position = 2;
+  else if (g_strcmp0 (sep, "[") == 0)
+    drop_down_position = 3;
+  else return FALSE;
+
+  g_value_set_uint (value, drop_down_position);
+  return TRUE;
+}
+
+static GVariant *
+set_delimiter_mapping (const GValue *value,
+                       const GVariantType *type,
+                       gpointer data)
+{
+  guint drop_down_position = g_value_get_uint (value);
+  gchar *sep = NULL;
+
+  if (drop_down_position == 0)
+    sep = "None";
+  else if (drop_down_position == 1)
+    sep = "#";
+  else if (drop_down_position == 2)
+    sep = "(";
+  else if (drop_down_position == 3)
+    sep = "[";
+
+  return g_variant_new_string (sep);
 }
 
 static void
-spin_pause_changed_cb (GtkSpinButton *spin,
-                       PtPreferencesDialog *dlg)
+asr_dialog_destroy_cb (PtAsrDialog *dialog,
+                       gpointer     user_data)
 {
-  gtk_label_set_label (
-      GTK_LABEL (dlg->priv->label_pause),
-      ngettext ("second", "seconds",
-                (int) gtk_spin_button_get_value_as_int (spin)));
+  /* Keep it simple, refresh widgets unconditionally.
+   * Possible changes are name change, installed/uninstalled,
+   * active/not active, deleted. These changes affect also sorting. */
+
+  PtPreferencesDialog *self = PT_PREFERENCES_DIALOG (user_data);
+  pt_config_list_refresh (self->priv->list);
 }
 
 static void
-update_example_timestamps (PtPreferencesDialog *dlg)
+asr_row_activated (AdwActionRow *row,
+                   gpointer user_data)
 {
-  gchar *example1;
-  gchar *example2;
+  PtPreferencesDialog *dlg = PT_PREFERENCES_DIALOG (user_data);
+  PtConfig *config;
 
-  example1 = pt_player_get_timestamp_for_time (dlg->priv->player, EXAMPLE_TIME_SHORT, EXAMPLE_TIME_SHORT);
-  example2 = pt_player_get_timestamp_for_time (dlg->priv->player, EXAMPLE_TIME_LONG, EXAMPLE_TIME_LONG);
-  gtk_label_set_text (GTK_LABEL (dlg->priv->label_example1), example1);
-  gtk_label_set_text (GTK_LABEL (dlg->priv->label_example2), example2);
-  g_free (example1);
-  g_free (example2);
+  config = pt_config_row_get_config (PT_CONFIG_ROW (row));
+  PtAsrDialog *asr_dlg = pt_asr_dialog_new (GTK_WINDOW (dlg));
+  pt_asr_dialog_set_config (asr_dlg, config);
+  g_signal_connect (asr_dlg, "destroy", G_CALLBACK (asr_dialog_destroy_cb), dlg);
+  gtk_window_present (GTK_WINDOW (asr_dlg));
 }
 
 static void
-hours_check_toggled (GtkToggleButton *check,
-                     PtPreferencesDialog *dlg)
+items_changed_cb (GListModel *list,
+                  guint position, /* bogus */
+                  guint added,    /* bogus */
+                  guint removed,  /* bogus */
+                  gpointer user_data)
 {
-  g_settings_set_boolean (
-      dlg->priv->editor, "timestamp-fixed",
-      gtk_check_button_get_active (GTK_CHECK_BUTTON (check)));
-  update_example_timestamps (dlg);
+  /* PtConfigList implements GListModel in a very simplified way.
+   * This signal means that everything might have changed. */
+
+  PtPreferencesDialog *dlg = PT_PREFERENCES_DIALOG (user_data);
+  PtConfig *config;
+  guint n_configs = g_list_model_get_n_items (G_LIST_MODEL (dlg->priv->list));
+  guint n_rows = dlg->priv->config_rows->len;
+  GFile *config_file;
+  gchar *config_path;
+  gboolean active;
+
+  /* If there are more widgets than needed, unparent them and remove them from pointer array */
+  if (n_rows > n_configs)
+    {
+      for (uint i = n_configs; i < n_rows; i++)
+        {
+          PtConfigRow *row = g_ptr_array_index (dlg->priv->config_rows, i);
+          adw_preferences_group_remove (ADW_PREFERENCES_GROUP (dlg->priv->models_group),
+                                        GTK_WIDGET (row));
+        }
+      g_ptr_array_remove_range (dlg->priv->config_rows, n_configs, n_rows - n_configs);
+      g_assert (dlg->priv->config_rows->len == n_configs);
+    }
+
+
+  for (uint i = 0; i < n_configs; i++)
+    {
+      config = g_list_model_get_item (G_LIST_MODEL (dlg->priv->list), i);
+      config_file = pt_config_get_file (config);
+      config_path = g_file_get_path (config_file);
+      active = (g_strcmp0 (dlg->priv->active_config_path, config_path) == 0) ? TRUE : FALSE;
+      g_free (config_path);
+
+      /* If there is already a widget at this index, just update it with new config */
+      if (n_rows > 0 && n_rows - 1 >= i)
+        {
+          PtConfigRow *row = g_ptr_array_index (dlg->priv->config_rows, i);
+          pt_config_row_set_config (row, config);
+          pt_config_row_set_active (row, active);
+        }
+
+      /* If there is no widget yet, create it, add it to parent and pointer array */
+      if (n_rows < i + 1)
+        {
+          PtConfigRow *asr_row;
+          asr_row = pt_config_row_new (config);
+          pt_config_row_set_active (asr_row, active);
+          g_ptr_array_add (dlg->priv->config_rows, (gpointer) asr_row);
+          g_signal_connect (asr_row, "activated", G_CALLBACK (asr_row_activated), dlg);
+          adw_preferences_group_add (ADW_PREFERENCES_GROUP (dlg->priv->models_group),
+                                     GTK_WIDGET (asr_row));
+        }
+      g_object_unref (config);
+    }
 }
 
 static void
-delimiter_combo_changed (GtkComboBox *widget,
-                         PtPreferencesDialog *dlg)
+import_copy_ready_cb (GObject *source_object,
+                      GAsyncResult *res,
+                      gpointer user_data)
 {
-  g_settings_set_string (
-      dlg->priv->editor, "timestamp-delimiter",
-      gtk_combo_box_get_active_id (widget));
-  update_example_timestamps (dlg);
+  PtPreferencesDialog *self = PT_PREFERENCES_DIALOG (user_data);
+  GFile *file = G_FILE (source_object);
+  GError *error = NULL;
+  gboolean success;
+  GtkWindow *parent = GTK_WINDOW (self);
+  GtkAlertDialog *err_dialog;
+
+  success = g_file_copy_finish (file, res, &error);
+
+  if (success)
+    {
+      pt_config_list_refresh (self->priv->list);
+    }
+  else
+    {
+      err_dialog = gtk_alert_dialog_new (_ ("Error"));
+      gtk_alert_dialog_set_detail (err_dialog, error->message);
+      gtk_alert_dialog_show (err_dialog, parent);
+      g_error_free (error);
+    }
 }
 
 static void
-separator_combo_changed (GtkComboBox *widget,
-                         PtPreferencesDialog *dlg)
+dialog_open_cb (GObject *source,
+                GAsyncResult *result,
+                gpointer user_data)
 {
-  g_settings_set_string (
-      dlg->priv->editor, "timestamp-fraction-sep",
-      gtk_combo_box_get_active_id (widget));
-  update_example_timestamps (dlg);
+  PtPreferencesDialog *self = PT_PREFERENCES_DIALOG (user_data);
+  GFile *file;
+  PtConfig *config;
+  GtkWindow *parent = GTK_WINDOW (self);
+  GtkAlertDialog *err_dialog;
+  GFile *dest_folder;
+  gchar *dest_folder_path;
+  gchar *basename;
+  gchar *dest_path;
+  GFile *dest;
+
+  file = gtk_file_dialog_open_finish (GTK_FILE_DIALOG (source),
+                                      result,
+                                      NULL);
+
+  if (!file)
+    return;
+
+  config = pt_config_new (file);
+
+  if (!pt_config_is_valid (config) || !pt_player_config_is_loadable (self->priv->player, config))
+    {
+      err_dialog = gtk_alert_dialog_new (_ ("Error"));
+      gchar *message;
+      if (!pt_config_is_valid (config))
+        {
+          message = _ ("The file is not a valid language model configuration.");
+        }
+      else
+        {
+          message = _ ("There is no plugin installed for this language model.");
+        }
+
+      gtk_alert_dialog_set_detail (err_dialog, message);
+
+      gtk_alert_dialog_show (err_dialog, parent);
+      g_object_unref (config);
+      return;
+    }
+
+  dest_folder = pt_config_list_get_folder (self->priv->list);
+  dest_folder_path = g_file_get_path (dest_folder);
+  basename = g_file_get_basename (file);
+  dest_path = g_build_path (G_DIR_SEPARATOR_S,
+                            dest_folder_path,
+                            basename, NULL);
+  dest = g_file_new_for_path (dest_path);
+
+  g_file_copy_async (
+      file, dest,
+      G_FILE_COPY_TARGET_DEFAULT_PERMS,
+      G_PRIORITY_DEFAULT,
+      NULL,       /* cancellable */
+      NULL, NULL, /* progress callback and data*/
+      import_copy_ready_cb,
+      self);
+
+  g_object_unref (file);
+  g_object_unref (dest);
+  g_free (basename);
+  g_free (dest_folder_path);
+  g_free (dest_path);
 }
 
 static void
-precision_combo_changed (GtkComboBox *widget,
-                         PtPreferencesDialog *dlg)
+import_button_clicked_cb (GtkButton *button,
+                          gpointer user_data)
 {
-  gint precision = gtk_combo_box_get_active (widget);
-  g_settings_set_int (
-      dlg->priv->editor, "timestamp-precision",
-      precision);
-  gtk_widget_set_sensitive (dlg->priv->separator_combo, (precision == 0) ? FALSE : TRUE);
-  update_example_timestamps (dlg);
+  PtPreferencesDialog *self = PT_PREFERENCES_DIALOG (user_data);
+  GtkFileDialog *dialog;
+  GtkWindow *parent = GTK_WINDOW (self);
+  const char *home_path;
+  GFile *initial_folder;
+  GListStore *filters;
+  GtkFileFilter *filter_asr;
+  GtkFileFilter *filter_all;
+
+  dialog = gtk_file_dialog_new ();
+  gtk_file_dialog_set_modal (dialog, TRUE);
+  gtk_file_dialog_set_title (dialog, _ ("Select Model Folder"));
+
+  home_path = g_get_home_dir ();
+  initial_folder = g_file_new_for_path (home_path);
+  gtk_file_dialog_set_initial_folder (dialog, initial_folder);
+
+  filter_asr = gtk_file_filter_new ();
+  filter_all = gtk_file_filter_new ();
+  gtk_file_filter_set_name (filter_asr, _ ("Parlatype language model configurations"));
+  gtk_file_filter_set_name (filter_all, _ ("All files"));
+  gtk_file_filter_add_pattern (filter_asr, "*.asr");
+  gtk_file_filter_add_pattern (filter_all, "*");
+  filters = g_list_store_new (GTK_TYPE_FILE_FILTER);
+  g_list_store_append (filters, filter_asr);
+  g_list_store_append (filters, filter_all);
+  gtk_file_dialog_set_filters (dialog, G_LIST_MODEL (filters));
+
+  gtk_file_dialog_open (dialog, parent,
+                        NULL, /* cancellable */
+                        dialog_open_cb,
+                        self);
+
+  g_object_unref (initial_folder);
+  /* cleanup? */
 }
 
 static void
@@ -156,48 +420,22 @@ pt_preferences_dialog_init (PtPreferencesDialog *dlg)
   dlg->priv = pt_preferences_dialog_get_instance_private (dlg);
   dlg->priv->editor = g_settings_new (APP_ID);
   dlg->priv->player = pt_player_new ();
-  gboolean active;
 
   gtk_widget_init_template (GTK_WIDGET (dlg));
-  g_settings_bind (
-      dlg->priv->editor, "rewind-on-pause",
-      dlg->priv->spin_pause, "value",
-      G_SETTINGS_BIND_DEFAULT);
 
-  g_settings_bind (
-      dlg->priv->editor, "jump-back",
-      dlg->priv->spin_back, "value",
-      G_SETTINGS_BIND_DEFAULT);
-
-  g_settings_bind (
-      dlg->priv->editor, "jump-forward",
-      dlg->priv->spin_forward, "value",
-      G_SETTINGS_BIND_DEFAULT);
-
-  g_settings_bind (
-      dlg->priv->editor, "repeat-all",
-      dlg->priv->repeat_all_checkbox, "active",
-      G_SETTINGS_BIND_DEFAULT);
-
-  g_settings_bind (
-      dlg->priv->editor, "repeat-selection",
-      dlg->priv->repeat_selection_checkbox, "active",
-      G_SETTINGS_BIND_DEFAULT);
-
+  /* Waveform page */
   g_settings_bind (
       dlg->priv->editor, "show-ruler",
-      dlg->priv->ruler_check, "active",
+      dlg->priv->ruler_row, "active",
       G_SETTINGS_BIND_DEFAULT);
 
-  g_settings_bind (
+  g_settings_bind_with_mapping (
       dlg->priv->editor, "fixed-cursor",
-      dlg->priv->fixed_cursor_radio, "active",
-      G_SETTINGS_BIND_DEFAULT);
-
-  /* If "fixed-cursor" is TRUE on startup, both radio buttons are active
-   * although they are in a group. */
-  active = gtk_check_button_get_active (GTK_CHECK_BUTTON (dlg->priv->fixed_cursor_radio));
-  gtk_check_button_set_active (GTK_CHECK_BUTTON (dlg->priv->moving_cursor_radio), !active);
+      dlg->priv->cursor_row, "selected",
+      G_SETTINGS_BIND_DEFAULT,
+      get_cursor_mapping,
+      set_cursor_mapping,
+      NULL, NULL);
 
   GtkAdjustment *pps_adj;
   pps_adj = gtk_range_get_adjustment (GTK_RANGE (dlg->priv->pps_scale));
@@ -205,18 +443,34 @@ pt_preferences_dialog_init (PtPreferencesDialog *dlg)
       dlg->priv->editor, "pps",
       pps_adj, "value",
       G_SETTINGS_BIND_DEFAULT);
-  GtkScale *scale = GTK_SCALE (dlg->priv->pps_scale);
-  gtk_scale_add_mark (scale, 25, GTK_POS_TOP, NULL);
-  gtk_scale_add_mark (scale, 62.5, GTK_POS_TOP, NULL);
-  gtk_scale_add_mark (scale, 100, GTK_POS_TOP, NULL);
-  gtk_scale_add_mark (scale, 150, GTK_POS_TOP, NULL);
-  gtk_scale_add_mark (scale, 200, GTK_POS_TOP, NULL);
 
-  /* make sure labels are set and translated */
-  spin_back_changed_cb (GTK_SPIN_BUTTON (dlg->priv->spin_back), dlg);
-  spin_forward_changed_cb (GTK_SPIN_BUTTON (dlg->priv->spin_forward), dlg);
-  spin_pause_changed_cb (GTK_SPIN_BUTTON (dlg->priv->spin_pause), dlg);
+  /* Controls page */
+  g_settings_bind (
+      dlg->priv->editor, "rewind-on-pause",
+      dlg->priv->pause_row, "value",
+      G_SETTINGS_BIND_DEFAULT);
 
+  g_settings_bind (
+      dlg->priv->editor, "jump-back",
+      dlg->priv->back_row, "value",
+      G_SETTINGS_BIND_DEFAULT);
+
+  g_settings_bind (
+      dlg->priv->editor, "jump-forward",
+      dlg->priv->forward_row, "value",
+      G_SETTINGS_BIND_DEFAULT);
+
+  g_settings_bind (
+      dlg->priv->editor, "repeat-all",
+      dlg->priv->repeat_all_row, "active",
+      G_SETTINGS_BIND_DEFAULT);
+
+  g_settings_bind (
+      dlg->priv->editor, "repeat-selection",
+      dlg->priv->repeat_selection_row, "active",
+      G_SETTINGS_BIND_DEFAULT);
+
+  /* Timestamps page */
   /* Bind settings to our player instance for example timestamps */
   g_settings_bind (
       dlg->priv->editor, "timestamp-precision",
@@ -239,32 +493,48 @@ pt_preferences_dialog_init (PtPreferencesDialog *dlg)
       G_SETTINGS_BIND_GET);
 
   /* setup timestamp fields according to settings */
-  gchar *delimiter = g_settings_get_string (dlg->priv->editor, "timestamp-delimiter");
-  if (!gtk_combo_box_set_active_id (GTK_COMBO_BOX (dlg->priv->delimiter_combo), delimiter))
-    {
-      gtk_combo_box_set_active_id (GTK_COMBO_BOX (dlg->priv->delimiter_combo), "#");
-    }
-  gchar *sep = g_settings_get_string (dlg->priv->editor, "timestamp-fraction-sep");
-  if (!gtk_combo_box_set_active_id (GTK_COMBO_BOX (dlg->priv->separator_combo), sep))
-    {
-      gtk_combo_box_set_active_id (GTK_COMBO_BOX (dlg->priv->separator_combo), ".");
-    }
-  gint precision = g_settings_get_int (dlg->priv->editor, "timestamp-precision");
-  if (precision < 0 || precision > 2)
-    precision = 1;
-  gtk_combo_box_set_active (GTK_COMBO_BOX (dlg->priv->precision_combo), precision);
-  gboolean fixed = g_settings_get_boolean (dlg->priv->editor, "timestamp-fixed");
-  gtk_check_button_set_active (GTK_CHECK_BUTTON (dlg->priv->hours_check), fixed);
-  g_free (delimiter);
-  g_free (sep);
+  g_settings_bind (
+      dlg->priv->editor, "timestamp-fixed",
+      dlg->priv->hours_row, "active",
+      G_SETTINGS_BIND_DEFAULT);
 
-#ifdef HAVE_ASR
-  GtkWidget *asr_page;
-  GtkWidget *asr_label;
-  asr_page = pt_prefs_asr_new (dlg->priv->editor, dlg->priv->player);
-  asr_label = gtk_label_new (_ ("Speech recognition"));
-  gtk_notebook_insert_page (GTK_NOTEBOOK (dlg->priv->notebook),
-                            asr_page, asr_label, 3);
+  g_settings_bind (
+      dlg->priv->editor, "timestamp-precision",
+      dlg->priv->precision_row, "selected",
+      G_SETTINGS_BIND_DEFAULT);
+
+  g_settings_bind_with_mapping (
+      dlg->priv->editor, "timestamp-fraction-sep",
+      dlg->priv->separator_row, "selected",
+      G_SETTINGS_BIND_DEFAULT,
+      get_separator_mapping,
+      set_separator_mapping,
+      NULL, NULL);
+
+  g_settings_bind_with_mapping (
+      dlg->priv->editor, "timestamp-delimiter",
+      dlg->priv->delimiter_row, "selected",
+      G_SETTINGS_BIND_DEFAULT,
+      get_delimiter_mapping,
+      set_delimiter_mapping,
+      NULL, NULL);
+
+  g_signal_connect (
+      dlg->priv->editor, "changed",
+      G_CALLBACK (settings_changed_cb),
+      dlg);
+
+  update_timestamp_page (dlg);
+
+  adw_preferences_page_set_icon_name (ADW_PREFERENCES_PAGE (dlg->priv->asr_page), NULL);
+  dlg->priv->config_rows = g_ptr_array_new ();
+  dlg->priv->list = pt_config_list_new (dlg->priv->player);
+  g_signal_connect (dlg->priv->list, "items-changed", G_CALLBACK (items_changed_cb), dlg);
+  dlg->priv->active_config_path = g_settings_get_string (dlg->priv->editor, "asr-config");
+
+#ifndef HAVE_ASR
+  adw_preferences_window_remove (ADW_PREFERENCES_WINDOW (dlg),
+                                 ADW_PREFERENCES_PAGE (dlg->priv->asr_page));
 #endif
 }
 
@@ -275,6 +545,10 @@ pt_preferences_dialog_dispose (GObject *object)
 
   g_clear_object (&dlg->priv->editor);
   g_clear_object (&dlg->priv->player);
+  g_ptr_array_free (dlg->priv->config_rows, TRUE);
+
+  g_free (dlg->priv->active_config_path);
+
 
   G_OBJECT_CLASS (pt_preferences_dialog_parent_class)->dispose (object);
 }
@@ -289,32 +563,23 @@ pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
 
   /* Bind class to template */
   gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/parlatype/preferences.ui");
-  gtk_widget_class_bind_template_callback (widget_class, delimiter_combo_changed);
-  gtk_widget_class_bind_template_callback (widget_class, hours_check_toggled);
-  gtk_widget_class_bind_template_callback (widget_class, precision_combo_changed);
-  gtk_widget_class_bind_template_callback (widget_class, separator_combo_changed);
-  gtk_widget_class_bind_template_callback (widget_class, spin_back_changed_cb);
-  gtk_widget_class_bind_template_callback (widget_class, spin_forward_changed_cb);
-  gtk_widget_class_bind_template_callback (widget_class, spin_pause_changed_cb);
-  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, notebook);
-  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, spin_pause);
-  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, spin_back);
-  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, spin_forward);
-  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, repeat_all_checkbox);
-  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, repeat_selection_checkbox);
+  gtk_widget_class_bind_template_callback (widget_class, import_button_clicked_cb);
+  //gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, notebook);
   gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, pps_scale);
-  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, label_pause);
-  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, label_back);
-  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, label_forward);
-  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, ruler_check);
-  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, fixed_cursor_radio);
-  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, moving_cursor_radio);
-  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, precision_combo);
-  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, separator_combo);
-  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, delimiter_combo);
-  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, hours_check);
-  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, label_example1);
-  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, label_example2);
+  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, ruler_row);
+  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, cursor_row);
+  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, pause_row);
+  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, back_row);
+  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, forward_row);
+  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, repeat_all_row);
+  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, repeat_selection_row);
+  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, hours_row);
+  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, precision_row);
+  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, separator_row);
+  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, delimiter_row);
+  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, asr_page);
+  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, preview_group);
+  gtk_widget_class_bind_template_child_private (widget_class, PtPreferencesDialog, models_group);
 }
 
 static void
@@ -331,7 +596,6 @@ pt_show_preferences_dialog (GtkWindow *parent)
     {
 
       preferences_dialog = GTK_WIDGET (g_object_new (PT_TYPE_PREFERENCES_DIALOG,
-                                                     "use-header-bar", TRUE,
                                                      NULL));
       g_signal_connect (preferences_dialog,
                         "destroy",
@@ -349,18 +613,11 @@ pt_show_preferences_dialog (GtkWindow *parent)
   gtk_window_present (GTK_WINDOW (preferences_dialog));
 }
 
-GtkNotebook *
-pt_preferences_dialog_get_notebook (PtPreferencesDialog *dlg)
-{
-  return GTK_NOTEBOOK (dlg->priv->notebook);
-}
-
 PtPreferencesDialog *
 pt_preferences_dialog_new (GtkWindow *parent)
 {
   return g_object_new (
       PT_TYPE_PREFERENCES_DIALOG,
-      "use-header-bar", TRUE,
       "transient-for", parent,
       NULL);
 }

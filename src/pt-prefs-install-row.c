@@ -25,6 +25,8 @@ struct _PtPrefsInstallRow
 
   PtConfig *config;
   gboolean installed;
+  gchar *current_path;
+  GtkWindow *parent_window;
 };
 
 enum
@@ -80,24 +82,40 @@ dialog_open_cb (GObject *source,
       g_object_unref (folder);
     }
 
-  if (path)
+  if (!path)
+    return;
+
+  pt_config_set_base_folder (self->config, path);
+  installed = pt_config_is_installed (self->config);
+  if (installed)
     {
-      pt_config_set_base_folder (self->config, path);
-      installed = pt_config_is_installed (self->config);
-      if (installed != self->installed)
+      if (g_strcmp0 (path, self->current_path) != 0)
         {
-          self->installed = installed;
-          g_object_notify_by_pspec (G_OBJECT (self), props[PROP_INSTALLED]);
-          update_row (self, path);
+          g_free (self->current_path);
+          self->current_path = g_strdup (path);
         }
       if (!self->installed)
         {
-          GtkAlertDialog *alert = gtk_alert_dialog_new (_("There is no language model data in this folder."));
-          GtkWindow *parent = GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (self), PT_TYPE_ASR_DIALOG));
-          gtk_alert_dialog_show (alert, parent);
+          self->installed = TRUE;
+          g_object_notify_by_pspec (G_OBJECT (self), props[PROP_INSTALLED]);
         }
-      g_free (path);
+      update_row (self, path);
     }
+
+  if (!installed)
+    {
+      /* If model data was installed before, reset to known good path again. */
+      if (self->installed)
+          pt_config_set_base_folder (self->config, self->current_path);
+
+      GtkAlertDialog *alert;
+      alert = gtk_alert_dialog_new (_("Model data not found"));
+      gtk_alert_dialog_set_detail (alert,
+        _("The chosen folder does not contain data for this configuration."));
+      gtk_alert_dialog_show (alert, self->parent_window);
+      g_object_unref (alert);
+    }
+  g_free (path);
 }
 
 static void
@@ -106,30 +124,22 @@ folder_button_clicked_cb (GtkButton *widget,
 {
   PtPrefsInstallRow *self = PT_PREFS_INSTALL_ROW (user_data);
   GtkFileDialog *dialog;
-  GtkWindow *parent = GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (self),
-                                                           PT_TYPE_ASR_DIALOG));
-  const char *home_path;
-  gchar *path = NULL;
   GFile *initial_folder;
 
+  if (!self->parent_window)
+    self->parent_window = GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (self),
+                                                               PT_TYPE_ASR_DIALOG));
   dialog = gtk_file_dialog_new ();
   gtk_file_dialog_set_modal (dialog, TRUE);
   gtk_file_dialog_set_title (dialog, _ ("Select Model Folder"));
 
-  /* Set current folder or user’s home directory */
-  path = pt_config_get_base_folder (self->config);
-  if (path && path[0])
-    {
-      initial_folder = g_file_new_for_path (path);
-    }
-  else
-    {
-      home_path = g_get_home_dir ();
-      initial_folder = g_file_new_for_path (home_path);
-    }
+  initial_folder =
+    g_file_new_for_path (self->installed ? self->current_path
+                                         : g_get_home_dir ());
+
   gtk_file_dialog_set_initial_folder (dialog, initial_folder);
 
-  gtk_file_dialog_select_folder (dialog, parent,
+  gtk_file_dialog_select_folder (dialog, self->parent_window,
                                  NULL, /* cancellable */
                                  dialog_open_cb,
                                  self);
@@ -144,15 +154,26 @@ pt_prefs_install_row_get_installed (PtPrefsInstallRow *self)
 }
 
 static void
+pt_prefs_install_row_finalize (GObject *object)
+{
+  PtPrefsInstallRow *self = PT_PREFS_INSTALL_ROW (object);
+
+  g_free (self->current_path);
+
+  G_OBJECT_CLASS (pt_prefs_install_row_parent_class)->finalize (object);
+}
+
+static void
 pt_prefs_install_row_constructed (GObject *object)
 {
   PtPrefsInstallRow *self = PT_PREFS_INSTALL_ROW (object);
-  gchar *folder;
 
-  folder = pt_config_get_base_folder (self->config);
-  self->installed = folder && folder[0] && pt_config_is_installed (self->config);
+  self->current_path = g_strdup (pt_config_get_base_folder (self->config));
+  self->installed = self->current_path
+                    && self->current_path[0]
+                    && pt_config_is_installed (self->config);
 
-  update_row (self, folder);
+  update_row (self, self->current_path);
 }
 
 static void
@@ -206,6 +227,7 @@ pt_prefs_install_row_class_init (PtPrefsInstallRowClass *klass)
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
   object_class->constructed = pt_prefs_install_row_constructed;
+  object_class->finalize = pt_prefs_install_row_finalize;
   object_class->get_property = pt_prefs_install_row_get_property;
   object_class->set_property = pt_prefs_install_row_set_property;
 

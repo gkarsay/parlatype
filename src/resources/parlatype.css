@@ -15,14 +15,6 @@ window > grid {
   padding: 6px;
 }
 
-notebook > stack {
-	padding: 6px;
-}
-
-row {
-  padding: 6px;
-}
-
 .ptdialog > box {
   padding: 12px;
 }

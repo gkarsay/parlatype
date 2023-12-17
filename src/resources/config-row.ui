@@ -1,43 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<interface domain="gtk30">
-  <requires lib="gtk" version="4.0"/>
-  <template class="PtConfigRow" parent="GtkListBoxRow">
-    <property name="child">
-      <object class="GtkBox" id="rowbox">
-        <property name="spacing">12</property>
-        <child>
-          <object class="GtkLabel" id="name_label">
-            <property name="valign">baseline</property>
-            <property name="label">Model name</property>
-            <attributes>
-              <attribute name="weight" value="bold"></attribute>
-            </attributes>
-          </object>
-        </child>
-        <child>
-          <object class="GtkLabel" id="lang_label">
-            <property name="halign">end</property>
-            <property name="hexpand">1</property>
-            <property name="hexpand-set">1</property>
-            <property name="valign">baseline</property>
-            <property name="label">Language</property>
-            <style>
-              <class name="dim-label"/>
-            </style>
-          </object>
-        </child>
-        <child>
-          <object class="GtkBox">
-            <property name="width_request">25</property>
-            <property name="margin-start">15</property>
-            <child>
-              <object class="GtkImage" id="status_image">
-                <property name="icon_name">dialog-error-symbolic</property>
-              </object>
-            </child>
-          </object>
-        </child>
+<interface>
+  <template class="PtConfigRow" parent="AdwActionRow">
+  <property name="activatable">true</property>
+    <child type="prefix">
+      <object class="GtkImage" id="active_image">
+        <style>
+          <class name="dim-label"/>
+        </style>
       </object>
-    </property>
+    </child>
+    <child type="suffix">
+      <object class="GtkLabel" id="status_label">
+        <property name="margin-end">12</property>
+        <style>
+          <class name="dim-label"/>
+        </style>
+      </object>
+    </child>
+    <child type="suffix">
+      <object class="GtkImage">
+        <property name="icon_name">go-next-symbolic</property>
+        <style>
+          <class name="dim-label"/>
+        </style>
+      </object>
+    </child>
   </template>
 </interface>

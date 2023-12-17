@@ -27,8 +27,6 @@ src = [
   'mpris-spec.h',
   'pt-preferences.c',
   'pt-preferences.h',
-  'pt-prefs-asr.c',
-  'pt-prefs-asr.h',
   'pt-prefs-info-row.c',
   'pt-prefs-info-row.h',
   'pt-prefs-install-row.c',
