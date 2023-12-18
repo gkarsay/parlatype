@@ -527,7 +527,6 @@ pt_preferences_dialog_init (PtPreferencesDialog *self)
 
   update_timestamp_page (self);
 
-  adw_preferences_page_set_icon_name (ADW_PREFERENCES_PAGE (self->asr_page), NULL);
   self->config_rows = g_ptr_array_new ();
   self->list = pt_config_list_new (self->player);
   g_signal_connect (self->list, "items-changed", G_CALLBACK (items_changed_cb), self);
@@ -563,7 +562,7 @@ pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
   object_class->dispose = pt_preferences_dialog_dispose;
 
   /* Bind class to template */
-  gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/parlatype/preferences.ui");
+  gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/Parlatype/preferences.ui");
   gtk_widget_class_bind_template_callback (widget_class, import_button_clicked_cb);
   gtk_widget_class_bind_template_child (widget_class, PtPreferencesDialog, pps_scale);
   gtk_widget_class_bind_template_child (widget_class, PtPreferencesDialog, ruler_row);

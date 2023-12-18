@@ -209,7 +209,6 @@ const GActionEntry app_actions[] = {
 static void
 pt_app_startup (GApplication *app)
 {
-  g_application_set_resource_base_path (app, "/org/parlatype/parlatype");
   G_APPLICATION_CLASS (pt_app_parent_class)->startup (app);
 
   g_action_map_add_action_entries (G_ACTION_MAP (app),
@@ -264,7 +263,7 @@ pt_app_startup (GApplication *app)
   /* Load custom css */
   GtkCssProvider *provider;
   provider = gtk_css_provider_new ();
-  gtk_css_provider_load_from_resource (provider, "/org/parlatype/parlatype/parlatype.css");
+  gtk_css_provider_load_from_resource (provider, "/org/parlatype/Parlatype/parlatype.css");
   gtk_style_context_add_provider_for_display (
       gdk_display_get_default (),
       GTK_STYLE_PROVIDER (provider),

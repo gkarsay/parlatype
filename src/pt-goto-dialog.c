@@ -136,7 +136,7 @@ pt_goto_dialog_class_init (PtGotoDialogClass *klass)
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   /* Bind class to template */
-  gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/parlatype/goto-dialog.ui");
+  gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/Parlatype/goto-dialog.ui");
   gtk_widget_class_bind_template_callback (widget_class, input_cb);
   gtk_widget_class_bind_template_callback (widget_class, output_cb);
   gtk_widget_class_bind_template_callback (widget_class, value_changed_cb);

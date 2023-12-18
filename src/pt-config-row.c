@@ -227,7 +227,7 @@ pt_config_row_class_init (PtConfigRowClass *klass)
   object_class->dispose = pt_config_row_dispose;
   object_class->finalize = pt_config_row_finalize;
 
-  gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/parlatype/config-row.ui");
+  gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/Parlatype/config-row.ui");
   gtk_widget_class_bind_template_child (widget_class, PtConfigRow, status_label);
   gtk_widget_class_bind_template_child (widget_class, PtConfigRow, active_image);
 

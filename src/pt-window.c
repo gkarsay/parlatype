@@ -1122,7 +1122,7 @@ setup_accels_actions_menus (PtWindow *win)
   PtWindowPrivate *priv = win->priv;
   GtkBuilder *builder;
 
-  builder = gtk_builder_new_from_resource ("/org/parlatype/parlatype/menus.ui");
+  builder = gtk_builder_new_from_resource ("/org/parlatype/Parlatype/menus.ui");
   priv->primary_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "primary-menu"));
   priv->secondary_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "secondary-menu"));
   gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (win->primary_menu_button), priv->primary_menu);
@@ -1242,7 +1242,7 @@ pt_window_class_init (PtWindowClass *klass)
   gobject_class->dispose = pt_window_dispose;
   widget_class->direction_changed = pt_window_direction_changed;
 
-  gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/parlatype/window.ui");
+  gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/Parlatype/window.ui");
   gtk_widget_class_bind_template_callback (widget_class, play_button_toggled_cb);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, waveviewer);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, primary_menu_button);

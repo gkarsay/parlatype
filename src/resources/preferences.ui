@@ -9,7 +9,7 @@
       <object class="AdwPreferencesPage">
         <property name="name">waveform_page</property>
         <property name="title" translatable="true">Waveform</property>
-        <property name="icon-name">view-reveal-symbolic</property>
+        <property name="icon-name">sound-wave-symbolic</property>
         <child>
           <object class="AdwPreferencesGroup">
             <property name="title" translatable="true">Display</property>
@@ -71,7 +71,7 @@
       <object class="AdwPreferencesPage">
         <property name="name">controls_page</property>
         <property name="title" translatable="true">Control</property>
-        <property name="icon-name">media-playback-start-symbolic</property>
+        <property name="icon-name">play-symbolic</property>
         <child>
           <object class="AdwPreferencesGroup">
             <property name="title" translatable="true">Jumps</property>
@@ -207,7 +207,7 @@ All formats can be read.</property>
       <object class="AdwPreferencesPage" id="asr_page">
         <property name="name">asr_page</property>
         <property name="title" translatable="true">Speech recognition</property>
-        <property name="icon-name">chat-bubbles-text-symbolic</property>
+        <property name="icon-name">chat-bubble-text-symbolic</property>
         <child>
           <object class="AdwPreferencesGroup" id="models_group">
             <property name="title" translatable="true">Choose Language Models</property>
