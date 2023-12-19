@@ -21,12 +21,13 @@ struct _PtConfigList
 {
   GObject parent;
 
-  PtPlayer *player;
-  GSettings *editor;
-  GFile *config_folder;
-  GListStore *store;
-  gchar *env_lang;
-  gchar *active_path;
+  GListStore *store;           /* actual config store              */
+  GFile *config_folder;        /* user’s config folder             */
+  GtkDirectoryList *file_list; /* lists config files               */
+  PtPlayer *player;            /* determines if config is loadable */
+  GSettings *editor;           /* gets active config               */
+  gchar *active_path;          /* active config’s file path        */
+  gchar *env_lang;             /* user’s locale for sorting        */
 };
 
 static void pt_config_list_iface_init (GListModelInterface *iface);
@@ -150,29 +151,24 @@ sort_configs (gconstpointer p1,
 
 
 static void
-pt_config_list_load_files (PtConfigList *self)
+file_list_items_changed_cb (GListModel *list,
+                            guint position,
+                            guint removed,
+                            guint added,
+                            gpointer user_data)
 {
-  GError *error = NULL;
-  PtConfig *config;
-  gchar *path;
+  PtConfigList *self = PT_CONFIG_LIST (user_data);
+  GFileInfo *info;
   GFile *file;
-  GFileEnumerator *files;
+  gchar *path;
+  PtConfig *config;
   guint n_files = 0;
 
-  files = g_file_enumerate_children (self->config_folder,
-                                     G_FILE_ATTRIBUTE_STANDARD_NAME,
-                                     G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS,
-                                     NULL, /* cancellable */
-                                     &error);
-
-  while (!error)
+  n_files = g_list_model_get_n_items (list);
+  for (int i = 0; i < n_files; i++)
     {
-      GFileInfo *info;
-      if (!g_file_enumerator_iterate (files, &info, &file, NULL, &error))
-        break;
-      if (!info)
-        break;
-
+      info = g_list_model_get_item (list, i);
+      file = G_FILE (g_file_info_get_attribute_object (info, "standard::file"));
       path = g_file_get_path (file);
       if (g_str_has_suffix (path, ".asr"))
         {
@@ -180,7 +176,6 @@ pt_config_list_load_files (PtConfigList *self)
           if (pt_config_is_valid (config) && pt_player_config_is_loadable (self->player, config))
             {
               g_list_store_append (self->store, config);
-              n_files++;
               g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
                                 "MESSAGE", "Added file %s", path);
             }
@@ -194,19 +189,26 @@ pt_config_list_load_files (PtConfigList *self)
       g_free (path);
     }
 
-  g_clear_object (&files);
-
-  if (error)
-    {
-      g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
-                        "MESSAGE", "%s", error->message);
-      g_error_free (error);
-    }
-
+  /* Refresh active config for sorting. */
   g_free (self->active_path);
   self->active_path = g_settings_get_string (self->editor, "asr-config");
   g_list_store_sort (self->store, sort_configs, self);
-  g_list_model_items_changed (G_LIST_MODEL (self), 0, 0, n_files);
+
+  /* We are not implementing GListModel correctly, simply use hardcoded numbers. */
+  g_list_model_items_changed (G_LIST_MODEL (self), 0, 0, 1);
+}
+
+static void
+file_list_error_cb (GObject *object,
+                    GParamSpec *pspec,
+                    gpointer user_data)
+{
+  PtConfigList *self = PT_CONFIG_LIST (user_data);
+  const GError *error;
+
+  error = gtk_directory_list_get_error (self->file_list);
+  g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+                    "MESSAGE", "%s", error->message);
 }
 
 static void
@@ -224,7 +226,13 @@ make_config_dir_cb (GObject *source_object,
   if (success || (!success && g_error_matches (error, G_IO_ERROR,
                                                G_IO_ERROR_EXISTS)))
     {
-      pt_config_list_load_files (self);
+      self->file_list = gtk_directory_list_new (G_FILE_ATTRIBUTE_STANDARD_NAME, NULL);
+      gtk_directory_list_set_monitored (self->file_list, FALSE);
+      g_signal_connect (self->file_list, "items_changed",
+                        G_CALLBACK (file_list_items_changed_cb), self);
+      g_signal_connect (self->file_list, "notify::error",
+                        G_CALLBACK (file_list_error_cb), self);
+      gtk_directory_list_set_file (self->file_list, config_folder);
     }
   else
     {
@@ -238,7 +246,7 @@ make_config_dir_cb (GObject *source_object,
 static void
 pt_config_list_load (PtConfigList *self)
 {
-  /* make sure config dir exists */
+  /* Make sure config dir exists. */
   g_file_make_directory_async (self->config_folder,
                                G_PRIORITY_DEFAULT,
                                NULL, /* cancellable */
@@ -257,14 +265,27 @@ pt_config_list_get_folder (PtConfigList *self)
 void
 pt_config_list_refresh (PtConfigList *self)
 {
+  g_return_if_fail (PT_IS_CONFIG_LIST (self));
+
+  if (!self->file_list)
+    return;
+
   g_list_store_remove_all (G_LIST_STORE (self->store));
-  pt_config_list_load_files (self);
+  gtk_directory_list_set_file (self->file_list, NULL);
+  gtk_directory_list_set_file (self->file_list, self->config_folder);
 }
 
 void
 pt_config_list_sort (PtConfigList *self)
 {
-  g_list_store_sort (self->store, (GCompareDataFunc) sort_configs, self);
+  g_return_if_fail (PT_IS_CONFIG_LIST (self));
+
+  if (!self->file_list)
+    return;
+
+  g_list_store_sort (self->store, sort_configs, self);
+
+  /* We are not implementing GListModel correctly, simply use hardcoded numbers. */
   g_list_model_items_changed (G_LIST_MODEL (self), 0, 0, 1);
 }
 
@@ -276,7 +297,9 @@ pt_config_list_dispose (GObject *object)
   g_clear_object (&self->editor);
   g_clear_object (&self->config_folder);
   g_clear_object (&self->store);
+  g_clear_object (&self->file_list);
   g_free (self->active_path);
+  g_free (self->env_lang);
 
   G_OBJECT_CLASS (pt_config_list_parent_class)->dispose (object);
 }
@@ -287,7 +310,6 @@ pt_config_list_init (PtConfigList *self)
   gchar *path;
   const gchar *const *env_langs;
 
-  self->store = g_list_store_new (PT_TYPE_CONFIG);
   path = g_build_path (G_DIR_SEPARATOR_S,
                        g_get_user_config_dir (),
                        PACKAGE_NAME, NULL);
@@ -298,14 +320,12 @@ pt_config_list_init (PtConfigList *self)
   self->config_folder = g_file_new_for_path (path);
   g_free (path);
 
-  /* get language for sorting */
+  self->store = g_list_store_new (PT_TYPE_CONFIG);
+  self->editor = g_settings_new (APP_ID);
+
   env_langs = g_get_language_names ();
   if (env_langs[0])
     self->env_lang = g_strdup (env_langs[0]);
-
-  /* editor for sorting active config first */
-  self->editor = g_settings_new (APP_ID);
-
 }
 
 static void
