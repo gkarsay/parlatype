@@ -96,6 +96,15 @@ pt_config_row_set_active (PtConfigRow *self,
 
   gtk_image_set_from_icon_name (GTK_IMAGE (self->active_image),
                                 active ? "emblem-ok-symbolic" : NULL);
+
+  /* The NULL image seems to be recognised by screen readers and needs a label.
+   * Therefore the image has the role "presentation" and its meaning is
+   * transferred to the suffix label. */
+
+  gtk_accessible_update_property (GTK_ACCESSIBLE (self->status_label),
+                                  GTK_ACCESSIBLE_PROPERTY_LABEL,
+                                  active ? "active" : NULL,
+                                  -1);
 }
 
 static void

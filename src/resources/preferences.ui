@@ -15,7 +15,7 @@
             <property name="title" translatable="true">Display</property>
             <property name="description" translatable="true">Change the appearance of the waveform and cursor movement.</property>
             <child>
-              <object class="AdwActionRow" id="dm_switch">
+              <object class="AdwActionRow" id="detail_row">
                 <property name="title" translatable="true">Waveform detail</property>
                 <property name="subtitle" translatable="true">Vertical lines per second</property>
                 <child type="suffix">
@@ -41,6 +41,9 @@
                         <property name="page_increment">1</property>
                       </object>
                     </property>
+                    <accessibility>
+                      <relation name="labelled-by">detail_row</relation>
+                    </accessibility>
                   </object>
                 </child>
               </object>

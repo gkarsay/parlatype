@@ -4,6 +4,7 @@
   <property name="activatable">true</property>
     <child type="prefix">
       <object class="GtkImage" id="active_image">
+        <property name="accessible-role">presentation</property>
         <style>
           <class name="dim-label"/>
         </style>
@@ -20,6 +21,7 @@
     <child type="suffix">
       <object class="GtkImage">
         <property name="icon_name">go-next-symbolic</property>
+        <property name="accessible-role">presentation</property>
         <style>
           <class name="dim-label"/>
         </style>

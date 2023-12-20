@@ -16,7 +16,7 @@
           <object class="GtkBox" id="box1">
             <property name="spacing">6</property>
             <child>
-              <object class="GtkLabel" id="label2">
+              <object class="GtkLabel" id="spin_label">
                 <property name="label" translatable="yes">Go to position:</property>
               </object>
             </child>
@@ -24,6 +24,9 @@
               <object class="GtkSpinButton" id="spin">
                 <property name="can_focus">1</property>
                 <property name="adjustment">adj_spin</property>
+                <accessibility>
+                  <relation name="labelled-by">spin_label</relation>
+                </accessibility>
                 <!--<signal name="input" handler="input_cb" swapped="no"/>
                 <signal name="output" handler="output_cb" swapped="no"/>
                 <signal name="value-changed" handler="value_changed_cb" swapped="no"/>-->
