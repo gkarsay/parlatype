@@ -30,12 +30,17 @@ struct _PtAsrDialog
   PtConfig *config;
   GSettings *editor;
 
+  GtkWidget *page;
+  GtkWidget *status_row;
   GtkWidget *name_row;
   GtkWidget *info_group;
   GtkWidget *install_group;
+  GtkWidget *delete_group;
+  GtkWidget *delete_row;
   GtkWidget *activate_button;
 
   gboolean active;
+  gboolean installed;
 };
 
 G_DEFINE_FINAL_TYPE (PtAsrDialog, pt_asr_dialog, ADW_TYPE_PREFERENCES_WINDOW)
@@ -94,12 +99,44 @@ pt_download_button_new (gchar *link)
 }
 
 static void
-update_activation_button (PtAsrDialog *self)
+update_status_row (PtAsrDialog *self)
 {
-  gtk_button_set_label (GTK_BUTTON (self->activate_button),
-                        self->active ? _ ("Deactivate") : _ ("Activate"));
-  gtk_widget_set_sensitive (self->activate_button,
-                            pt_config_is_installed (self->config));
+  gchar *title;
+  gchar *subtitle;
+  gchar *button_label;
+  GtkWidget *active_image;
+
+  if (self->active)
+    {
+      title = _ ("This configuration is active.");
+      subtitle = NULL;
+      button_label = _("Deactivate");
+      active_image = gtk_image_new_from_icon_name ("emblem-ok-symbolic");
+      adw_action_row_add_prefix (ADW_ACTION_ROW (self->status_row), active_image);
+    }
+  else if (self->installed)
+    {
+      title = _ ("Model data is installed");
+      subtitle = NULL;
+      button_label = _("Activate");
+    }
+  else
+    {
+      title = _ ("Model data is not installed");
+      subtitle = _ ("See next section for details");
+      button_label = _("Activate");
+    }
+
+  adw_preferences_row_set_title (ADW_PREFERENCES_ROW (self->status_row), title);
+  adw_action_row_set_subtitle (ADW_ACTION_ROW (self->status_row), subtitle);
+  gtk_button_set_label (GTK_BUTTON (self->activate_button), button_label);
+  gtk_widget_set_sensitive (self->activate_button, self->installed);
+
+  if (self->installed)
+    adw_action_row_set_subtitle (ADW_ACTION_ROW (self->delete_row),
+                                 _ ("Model data will be preserved"));
+  else
+    adw_action_row_set_subtitle (ADW_ACTION_ROW (self->delete_row), NULL);
 }
 
 static void
@@ -108,11 +145,11 @@ installed_cb (PtPrefsInstallRow *row,
               gpointer user_data)
 {
   PtAsrDialog *self = PT_ASR_DIALOG (user_data);
-  gboolean installed, success;
+  gboolean success;
 
-  installed = pt_prefs_install_row_get_installed (row);
+  self->installed = pt_prefs_install_row_get_installed (row);
 
-  if (!installed && self->active)
+  if (!self->installed && self->active)
     {
       success = g_settings_set_string (self->editor, "asr-config", "");
       if (success)
@@ -121,7 +158,19 @@ installed_cb (PtPrefsInstallRow *row,
         }
     }
 
-  update_activation_button (self);
+  update_status_row (self);
+}
+
+static void
+add_info_row (PtAsrDialog *self,
+              gchar *title,
+              gchar *subtitle)
+{
+  GtkWidget *row = adw_action_row_new ();
+  adw_preferences_row_set_title (ADW_PREFERENCES_ROW (row), title);
+  adw_action_row_set_subtitle (ADW_ACTION_ROW (row), subtitle);
+  gtk_widget_add_css_class (row, "property");
+  adw_preferences_group_add (ADW_PREFERENCES_GROUP (self->info_group), row);
 }
 
 void
@@ -150,7 +199,8 @@ pt_asr_dialog_set_config (PtAsrDialog *self,
     }
   g_free (active_path);
 
-  update_activation_button (self);
+  self->installed = pt_config_is_installed (config);
+  update_status_row (self);
 
   group = ADW_PREFERENCES_GROUP (self->info_group);
 
@@ -162,8 +212,7 @@ pt_asr_dialog_set_config (PtAsrDialog *self,
   gtk_widget_set_focus_child (GTK_WIDGET (self), NULL);
 
   str = pt_config_get_lang_name (config);
-  PtPrefsInfoRow *lang_row = pt_prefs_info_row_new (_ ("Language"), str);
-  adw_preferences_group_add (group, GTK_WIDGET (lang_row));
+  add_info_row (self, _ ("Language"), str);
 
   str = pt_config_get_plugin (config);
   if (g_strcmp0 (str, "parlasphinx") == 0)
@@ -171,28 +220,20 @@ pt_asr_dialog_set_config (PtAsrDialog *self,
 
   if (g_strcmp0 (str, "ptdeepspeech") == 0)
     engine = _ ("Mozilla DeepSpeech");
-  PtPrefsInfoRow *engine_row;
-  if (engine)
-    engine_row = pt_prefs_info_row_new (_ ("Engine"), engine);
-  else
-    engine_row = pt_prefs_info_row_new (_ ("GStreamer Plugin"), str);
 
-  adw_preferences_group_add (group, GTK_WIDGET (engine_row));
+  if (engine)
+    add_info_row (self, _ ("Engine"), engine);
+  else
+    add_info_row (self, _ ("GStreamer Plugin"), str);
 
   str = pt_config_get_key (config, "Publisher");
   if (have_string (str))
-    {
-      PtPrefsInfoRow *publ_row = pt_prefs_info_row_new (_ ("Publisher"), str);
-      adw_preferences_group_add (group, GTK_WIDGET (publ_row));
-    }
+    add_info_row (self, _ ("Publisher"), str);
   g_free (str);
 
   str = pt_config_get_key (config, "License");
   if (have_string (str))
-    {
-      PtPrefsInfoRow *license_row = pt_prefs_info_row_new (_ ("License"), str);
-      adw_preferences_group_add (group, GTK_WIDGET (license_row));
-    }
+    add_info_row (self, _ ("License"), str);
   g_free (str);
 
   /* Installation */
@@ -230,6 +271,24 @@ pt_asr_dialog_set_config (PtAsrDialog *self,
   GtkWidget *install_row = pt_prefs_install_row_new (config);
   adw_preferences_group_add (group, install_row);
   g_signal_connect (install_row, "notify::installed", G_CALLBACK (installed_cb), self);
+
+  if (!self->installed)
+    {
+      adw_preferences_page_add (ADW_PREFERENCES_PAGE (self->page),
+                                ADW_PREFERENCES_GROUP (self->install_group));
+      adw_preferences_page_add (ADW_PREFERENCES_PAGE (self->page),
+                                ADW_PREFERENCES_GROUP (self->info_group));
+    }
+  else
+    {
+      adw_preferences_page_add (ADW_PREFERENCES_PAGE (self->page),
+                                ADW_PREFERENCES_GROUP (self->info_group));
+      adw_preferences_page_add (ADW_PREFERENCES_PAGE (self->page),
+                                ADW_PREFERENCES_GROUP (self->install_group));
+    }
+
+  adw_preferences_page_add (ADW_PREFERENCES_PAGE (self->page),
+                            ADW_PREFERENCES_GROUP (self->delete_group));
 }
 
 static void
@@ -245,6 +304,11 @@ file_delete_finished (GObject *source_object,
 
   if (g_file_delete_finish (file, res, &error))
     {
+      g_settings_set_string (self->editor, "asr-config", "");
+      AdwToast *toast = adw_toast_new_format (_ ("“%s” has been deleted"),
+                                              pt_config_get_name (self->config));
+      GtkWindow *parent = gtk_window_get_transient_for (GTK_WINDOW (self));
+      adw_preferences_window_add_toast (ADW_PREFERENCES_WINDOW (parent), toast);
       gtk_window_close (GTK_WINDOW (self));
     }
   else
@@ -291,7 +355,8 @@ delete_button_clicked_cb (GtkButton *button,
                                     "cancel", _ ("_Cancel"),
                                     "ok", _ ("_OK"),
                                     NULL);
-  adw_message_dialog_set_response_appearance (ADW_MESSAGE_DIALOG (dialog), "ok", ADW_RESPONSE_DESTRUCTIVE);
+  adw_message_dialog_set_response_appearance (ADW_MESSAGE_DIALOG (dialog),
+                                              "ok", ADW_RESPONSE_DESTRUCTIVE);
   adw_message_dialog_set_default_response (ADW_MESSAGE_DIALOG (dialog), "cancel");
   adw_message_dialog_set_close_response (ADW_MESSAGE_DIALOG (dialog), "cancel");
 
@@ -310,6 +375,8 @@ activate_button_clicked_cb (GtkButton *button,
   gchar *path;
   gboolean success;
 
+  /* Depending on self->active this is either an "Activate" or a "Deactivate" button. */
+
   if (self->active)
     {
       path = g_strdup("");
@@ -326,8 +393,13 @@ activate_button_clicked_cb (GtkButton *button,
 
   if (success)
     {
-      self->active = !self->active;
-      update_activation_button (self);
+      AdwToast *toast = adw_toast_new_format (_ ("“%s” has been activated"),
+                                              pt_config_get_name (self->config));
+      if (self->active)
+        adw_toast_set_title (toast, _ ("Configuration has been deactivated"));
+      GtkWindow *parent = gtk_window_get_transient_for (GTK_WINDOW (self));
+      adw_preferences_window_add_toast (ADW_PREFERENCES_WINDOW (parent), toast);
+      gtk_window_close (GTK_WINDOW (self));
     }
 
   g_free (path);
@@ -363,9 +435,13 @@ pt_asr_dialog_class_init (PtAsrDialogClass *klass)
 
   gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/Parlatype/asr-dialog.ui");
   gtk_widget_class_bind_template_callback (widget_class, delete_button_clicked_cb);
+  gtk_widget_class_bind_template_child (widget_class, PtAsrDialog, page);
+  gtk_widget_class_bind_template_child (widget_class, PtAsrDialog, status_row);
   gtk_widget_class_bind_template_child (widget_class, PtAsrDialog, name_row);
   gtk_widget_class_bind_template_child (widget_class, PtAsrDialog, info_group);
   gtk_widget_class_bind_template_child (widget_class, PtAsrDialog, install_group);
+  gtk_widget_class_bind_template_child (widget_class, PtAsrDialog, delete_group);
+  gtk_widget_class_bind_template_child (widget_class, PtAsrDialog, delete_row);
   gtk_widget_class_bind_template_child (widget_class, PtAsrDialog, activate_button);
 }
 

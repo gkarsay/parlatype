@@ -5,55 +5,56 @@
     <property name="default-width">600</property>
     <property name="search-enabled">false</property>
     <child>
-      <object class="AdwPreferencesPage">
+      <object class="AdwPreferencesPage" id="page">
         <child>
           <object class="AdwPreferencesGroup">
             <child>
-              <object class="AdwEntryRow" id="name_row">
-                <property name="title" translatable="true">Display Name</property>
-                <property name="show-apply-button">true</property>
-              </object>
-            </child>
-          </object>
-        </child>
-        <child>
-          <object class="AdwPreferencesGroup">
-            <child>
-              <object class="GtkBox">
-                <property name="orientation">0</property>
-                <property name="homogeneous">true</property>
-                <property name="spacing">12</property>
-                <property name="halign">2</property>
-                <child>
+              <object class="AdwActionRow" id="status_row">
+                <child type="suffix">
                   <object class="GtkButton" id="activate_button">
-                    <property name="label" translatable="true">Activate</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkButton">
-                    <signal name="clicked" handler="delete_button_clicked_cb" swapped="no" />
-                    <property name="label" translatable="true">Delete</property>
-                    <style>
-                      <class name="destructive-action"/>
-                    </style>
+                    <property name="label">Activate</property>
+                    <property name="sensitive">false</property>
+                    <property name="valign">3</property>
+                    <property name="halign">3</property>
                   </object>
                 </child>
               </object>
             </child>
-          </object>
-        </child>
-        <child>
-          <object class="AdwPreferencesGroup" id="install_group">
-            <property name="title" translatable="true">Installation</property>
-            <property name="description">How to install this Language Model.</property>
-          </object>
-        </child>
-        <child>
-          <object class="AdwPreferencesGroup" id="info_group">
-            <property name="title" translatable="true">General Information</property>
           </object>
         </child>
       </object>
     </child>
   </template>
+  <object class="AdwPreferencesGroup" id="install_group">
+    <property name="title" translatable="true">Installation</property>
+    <property name="description">How to install this Language Model.</property>
+  </object>
+  <object class="AdwPreferencesGroup" id="info_group">
+    <property name="title" translatable="true">General Information</property>
+    <child>
+      <object class="AdwEntryRow" id="name_row">
+        <property name="title" translatable="true">Display Name</property>
+        <property name="show-apply-button">true</property>
+      </object>
+    </child>
+  </object>
+  <object class="AdwPreferencesGroup" id="delete_group">
+    <child>
+      <object class="AdwActionRow" id="delete_row">
+        <property name="title">Delete the configuration</property>
+        <property name="subtitle">Model data will be preserved.</property>
+        <child type="suffix">
+          <object class="GtkButton">
+            <signal name="clicked" handler="delete_button_clicked_cb" swapped="no" />
+            <property name="label">Delete</property>
+            <property name="halign">3</property>
+            <property name="valign">3</property>
+            <style>
+              <class name="destructive-action"/>
+            </style>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
 </interface>
