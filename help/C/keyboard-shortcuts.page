@@ -11,9 +11,7 @@
   <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
 </info>
 
-<title>Keyboard shortcuts</title>
-
-<p>Keyboard shortcuts for <app>Parlatype</app> control, like <key>Play</key>, are described in <link xref="control" />. Shortcut keys for the window are listed below.</p>
+<title>Keyboard Shortcuts</title>
 
     <table rules="rows" frame="top bottom">
     <title>Standard Shortcut keys</title>
@@ -41,11 +39,11 @@
           <td><p><keyseq><key>Ctrl</key><key>g</key></keyseq></p></td>
         </tr>
         <tr>
-          <td><p>Jump back</p></td>
+          <td><p>Skip backward</p></td>
           <td><p><keyseq><key>Ctrl</key><key>a</key></keyseq></p></td>
         </tr>
         <tr>
-          <td><p>Jump forward</p></td>
+          <td><p>Skip forward</p></td>
           <td><p><keyseq><key>Ctrl</key><key>s</key></keyseq></p></td>
         </tr>
         <tr>

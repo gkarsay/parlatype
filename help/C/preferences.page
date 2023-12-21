@@ -19,43 +19,43 @@
 <links type="section" />
 
 <section id="waveform">
-<title>Preferences for the waveform</title>
+<title>Preferences for the Waveform</title>
 
 <media its:translate="no" type="image" src="figures/parlatype-prefs-waveform.png" style="floatend" />
 
 <list>
-<item><p>Resolution: The resolution of the waveform image is given in pixels per second, e.g. the default resolution of 100 means, that one second is shown with a width of 100 pixels.</p></item>
-<item><p>Fixed vs. moving cursor: There are two modes, how to follow the cursor. On slower systems a moving cursor might be smoother.</p></item>
-<item><p>Show time scale: Turn the time scale on or off.</p></item>
+<item><p>Waveform Detail: The level of detail in vertical lines per second. The more lines are shown, the more details you can see.</p></item>
+<item><p>Show Time Scale: Turn the time scale on or off.</p></item>
+<item><p>Cursor Mode: Choose between Fixed and Moving Cursor. On slower systems a moving cursor might be smoother.</p></item>
 </list>
 </section>
 
 <section id="controls">
-<title>Preferences for controls</title>
+<title>Preferences for Audio Controls</title>
 
 <media its:translate="no" type="image" src="figures/parlatype-prefs-controls.png" style="floatend" />
 
 <list>
-<item><p>Jump back on pause: <app>Parlatype</app> will rewind a few seconds on each pause, this way you can easier resume typing. Set this value to 0 if you don’t want this behaviour.</p></item>
-<item><p>Jump back: Configures how many seconds to skip when the <gui>Jump back</gui> button is pressed.</p></item>
-<item><p>Jump forward: Configures how many seconds to skip when the <gui>Jump forward</gui> button is pressed.</p></item>
-<item><p>Pressing <gui>Play</gui> at the end of file – Replay file: Whether you want to repeat the file at the end. If not, it will replay a few seconds like on pause.</p></item>
-<item><p>Pressing <gui>Play</gui> at the end of selection – Replay selection: Whether you want to repeat the selection. If not, it will replay a few seconds like on pause.</p></item>
+<item><p>Rewind on Pause: <app>Parlatype</app> will rewind a few seconds on each pause, this way you can easier resume typing. Set this value to 0 if you don’t want this behaviour.</p></item>
+<item><p>Skip Backward: Configures how many seconds to skip when the <gui>Skip Backward</gui> button is pressed.</p></item>
+<item><p>Skip Forward: Configures how many seconds to skip when the <gui>Skip Forward</gui> button is pressed.</p></item>
+<item><p>At End of File Replay File: Whether you want to repeat the file at the end. If not, it will replay a few seconds like on pause.</p></item>
+<item><p>At End of Selection Replay Selection: Whether you want to repeat the selection. If not, it will replay a few seconds like on pause.</p></item>
 </list>
 </section>
 
 <section id="timestamps">
-<title>Preferences for timestamps</title>
+<title>Preferences for Timestamps</title>
 
 <media its:translate="no" type="image" src="figures/parlatype-prefs-timestamps.png" style="floatend" />
 
 <p>These settings affect how <app>Parlatype</app> formats timestamps. If you need a certain format in your transcription, you can adjust it here.</p>
 <note><p>There are no settings for <em>reading</em> timestamps. <app>Parlatype</app> reads and accepts all of these formats.</p></note>
 <list>
-<item><p>Always show hours and leading zeroes: Whether to show a fixed number of digits. Changing any of these values will show an updated example in the <gui>Example</gui> section below.</p></item>
+<item><p>Always Show Hours and Leading Zeroes: Whether to show a fixed number of digits. Changing any of these values will show an updated example in the <gui>Preview</gui> section below.</p></item>
 <item><p>Precision: Choose between full seconds, 10th seconds or 100th seconds.</p></item>
-<item><p>Fraction separator: Choose between a point or a hyphen to separate fractions of a second.</p></item>
-<item><p>Characters around timestamps: Choose between number signs, round brackets, square brackets or none.</p></item>
+<item><p>Fraction Separator: Choose between a point or a hyphen to separate fractions of a second.</p></item>
+<item><p>Characters Around Timestamps: Choose between number signs, round brackets, square brackets or none.</p></item>
 </list>
 </section>
 

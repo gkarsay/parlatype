@@ -12,7 +12,7 @@
   <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
 </info>
 
-<title>Automatic speech recognition</title>
+<title>Automatic Speech Recognition</title>
 
 <p><app>Parlatype</app> offers automatic speech recognition that is done on
 your computer. No data is sent over the network.</p>
@@ -27,12 +27,12 @@ Parlatype Extension for <app>LibreOffice</app> to output recognized text.
 </p></note>
 
 <section>
-<title>Start speech recognition</title>
+<title>Start Speech Recognition</title>
 
 <p>Select a language model in the Preferences Dialog,
-<gui>Speech recognition</gui> tab, see <link xref="asr-setup" /> for more details.</p>
+<gui>Speech Recognition</gui> tab, see <link xref="asr-setup" /> for more details.</p>
 
-<p>Open the primary menu and click on <gui>Automatic transcription</gui>.
+<p>Open the primary menu and click on <gui>Automatic Transcription</gui>.
 This is only available, if you have setup and chosen a language model.</p>
 
 <media its:translate="no" type="image" src="figures/asr-switch-to-asr.png"/>

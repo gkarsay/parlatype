@@ -397,8 +397,8 @@ import_button_clicked_cb (GtkButton *button,
 
   filter_asr = gtk_file_filter_new ();
   filter_all = gtk_file_filter_new ();
-  gtk_file_filter_set_name (filter_asr, _ ("Parlatype language model configurations"));
-  gtk_file_filter_set_name (filter_all, _ ("All files"));
+  gtk_file_filter_set_name (filter_asr, _ ("Parlatype Language Model Configurations"));
+  gtk_file_filter_set_name (filter_all, _ ("All Files"));
   gtk_file_filter_add_pattern (filter_asr, "*.asr");
   gtk_file_filter_add_pattern (filter_all, "*");
   filters = g_list_store_new (GTK_TYPE_FILE_FILTER);

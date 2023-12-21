@@ -109,8 +109,8 @@ open_cb (GSimpleAction *action,
 
   filter_audio = gtk_file_filter_new ();
   filter_all = gtk_file_filter_new ();
-  gtk_file_filter_set_name (filter_audio, _ ("Audio files"));
-  gtk_file_filter_set_name (filter_all, _ ("All files"));
+  gtk_file_filter_set_name (filter_audio, _ ("Audio Files"));
+  gtk_file_filter_set_name (filter_all, _ ("All Files"));
   gtk_file_filter_add_mime_type (filter_audio, "audio/*");
   gtk_file_filter_add_pattern (filter_all, "*");
   gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter_audio);

@@ -107,6 +107,7 @@ update_status_row (PtAsrDialog *self)
 
   if (self->active)
     {
+      /* Not using title case here, this is more a status than a title. */
       title = _ ("This configuration is active.");
       subtitle = NULL;
       button_label = _ ("Deactivate");
@@ -115,14 +116,14 @@ update_status_row (PtAsrDialog *self)
     }
   else if (self->installed)
     {
-      title = _ ("Model data is installed");
+      title = _ ("Model data is installed.");
       subtitle = NULL;
       button_label = _ ("Activate");
     }
   else
     {
-      title = _ ("Model data is not installed");
-      subtitle = _ ("See next section for details");
+      title = _ ("Model data is not installed.");
+      subtitle = _ ("See next section for details.");
       button_label = _ ("Activate");
     }
 
@@ -348,7 +349,7 @@ delete_button_clicked_cb (GtkButton *button,
   GtkWidget *dialog;
 
   dialog = adw_message_dialog_new (GTK_WINDOW (self),
-                                   _ ("Delete configuration"),
+                                   _ ("Delete Configuration"),
                                    _ ("This will delete the configuration"));
   adw_message_dialog_add_responses (ADW_MESSAGE_DIALOG (dialog),
                                     "cancel", _ ("_Cancel"),

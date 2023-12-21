@@ -12,7 +12,7 @@
   <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
 </info>
 
-<title>Setup automatic speech recognition</title>
+<title>Setup Automatic Speech Recognition</title>
 
 <p>For speech recognition you need a language model: one or more files trained
 with real speech samples. <app>Parlatype</app> supports language models made for
@@ -28,27 +28,23 @@ for the plugin which are not shown.</p></note>
 
 <p>Open the Preferences Dialog and click on the <gui>Speech Recognition</gui> tab.
 Initially there are no configurations available, click on the
-<gui>Add a configuration</gui> button.</p>
+<gui>Copy Initial Set of Configurations</gui> button.</p>
 
 <media its:translate="no" type="image" src="figures/asr-setup-initial.png"/>
 
-<p>If your installation has CMU Sphinx or Mozilla DeepSpeech enabled, you will
-see configurations with a <media its:translate="no" type="image" src="figures/folder-download-symbolic.svg"><span its:translate="yes">download</span></media> symbol.
-Otherwise you will see only configurations with a <media its:translate="no" type="image" src="figures/action-unavailable-symbolic.svg"><span its:translate="yes">unavailable</span></media> symbol.</p>
+<p>Depending on your installation you will see then a list of downloadable configurations.</p>
 
 <media its:translate="no" type="image" src="figures/asr-setup-downloadable.png"/>
 
-<p>Select a configuration and click on the
-<media its:translate="no" type="image" src="figures/emblem-system-symbolic.svg"><span its:translate="yes">settings</span></media> button.
+<p>Select a configuration by clicking on it.
 There is a short description of the model and where you can download it.
 After downloading, you have to set the folder where your download resides.
 You can also change the <gui>Display name</gui>.</p>
 
 <media its:translate="no" type="image" src="figures/asr-setup-details.png"/>
 
-<p>An installed model has no symbol next to it. Double click on the model and
-it will be selected for speech recognition, a <media its:translate="no" type="image" src="figures/object-select-symbolic.svg"><span its:translate="yes">selected</span></media> symbol
-appears.</p>
+<p>An installed model has no label next to it. Select a model and press the <gui>Activate</gui> button
+to use this model for speech recognition. The active configuration is indicated by a <media its:translate="no" type="image" src="figures/object-select-symbolic.svg"><span its:translate="yes">selected</span></media> symbol.</p>
 
 <p>Shipped configurations might get obsolete over time. Therefore you can
 import a configuration with the <gui>+</gui> button. Configurations are text

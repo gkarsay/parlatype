@@ -362,8 +362,8 @@ change_jump_back_tooltip (PtWindow *win)
 
   seconds = pt_player_get_back (win->player) / 1000;
   back = g_strdup_printf (
-      ngettext ("Jump back 1 second",
-                "Jump back %d seconds",
+      ngettext ("Skip back 1 second",
+                "Skip back %d seconds",
                 seconds),
       seconds);
 
@@ -379,8 +379,8 @@ change_jump_forward_tooltip (PtWindow *win)
 
   seconds = pt_player_get_forward (win->player) / 1000;
   forward = g_strdup_printf (
-      ngettext ("Jump forward 1 second",
-                "Jump forward %d seconds",
+      ngettext ("Skip forward 1 second",
+                "Skip forward %d seconds",
                 seconds),
       seconds);
 
@@ -453,9 +453,9 @@ update_insert_action_sensitivity_cb (GdkClipboard *clip,
     }
 
   if (timestamp)
-    label = g_strdup_printf (_ ("Go to time in clipboard: %s"), timestamp);
+    label = g_strdup_printf (_ ("Go to Time in Clipboard: %s"), timestamp);
   else
-    label = g_strdup (_ ("Go to time in clipboard"));
+    label = g_strdup (_ ("Go to Time in Clipboard"));
 
   g_menu_item_set_label (win->priv->go_to_timestamp, label);
   g_menu_remove (G_MENU (win->priv->secondary_menu), 1);
@@ -1131,12 +1131,12 @@ setup_accels_actions_menus (PtWindow *win)
 
   /* Setup ASR menu manually; no success with GtkBuilder */
   priv->asr_menu = g_menu_new ();
-  priv->asr_menu_item1 = g_menu_item_new (_ ("Manual transcription"), "win.mode::playback");
-  priv->asr_menu_item2 = g_menu_item_new (_ ("Automatic transcription"), "win.mode::asr");
+  priv->asr_menu_item1 = g_menu_item_new (_ ("Manual Transcription"), "win.mode::playback");
+  priv->asr_menu_item2 = g_menu_item_new (_ ("Automatic Transcription"), "win.mode::asr");
   g_menu_append_item (priv->asr_menu, priv->asr_menu_item1);
   g_menu_append_item (priv->asr_menu, priv->asr_menu_item2);
 
-  priv->go_to_timestamp = g_menu_item_new (_ ("Go to time in clipboard"), "win.insert");
+  priv->go_to_timestamp = g_menu_item_new (_ ("Go to Time in Clipboard"), "win.insert");
   g_menu_insert_item (G_MENU (win->priv->secondary_menu), 1, priv->go_to_timestamp);
 }
 

@@ -12,7 +12,7 @@
   <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
 </info>
 
-<title>First steps with Parlatype</title>
+<title>First Steps With Parlatype</title>
 
 <p><app>Parlatype</app> is an easy to use audio player to help you transcribing or annotating recorded speech. You need to run a word processor, e.g. <app>LibreOffice</app>, too. Launch <app>Parlatype</app> and open an audio file by clicking on the <gui>Open</gui> button in the upper left corner.</p>
 
@@ -24,13 +24,13 @@
 
 <media its:translate="no" type="image" src="figures/parlatype-main-window.png"/>
 
-<p>The buttons <gui>Jump back</gui> and <gui>Jump forward</gui> in the lower left corner skip a few seconds back or ahead. The amount of time can be changed in the <link xref="preferences" />.</p>
+<p>The buttons <gui>Skip backward</gui> and <gui>Skip forward</gui> in the lower left corner skip a few seconds back or ahead. The amount of time can be changed in the <link xref="preferences" />.</p>
 
 <p>The view scrolls automatically so that the cursor is always visible. You can scroll manually by clicking on or dragging the scroll bar or using the standard keybindings. Automatic scrolling is stopped then.</p>
 
-<p>To get back to the cursor’s position and let the view scroll automatically again, click on the menu button showing the time and then on <gui>Go to cursor</gui>. Clicking on the <gui>Play</gui> button also turns automatic scrolling on.</p>
+<p>To get back to the cursor’s position and let the view scroll automatically again, click on the menu button showing the time and then on <gui>Go to Cursor</gui>. Clicking on the <gui>Play</gui> button also turns automatic scrolling on.</p>
 
-<p>Clicking in the view with the right mouse button will put the cursor there, also holding the right mouse button pressed and moving it. The left mouse button is for <link xref="selections" />.</p>
+<p>Clicking in the view with the right mouse button will put the cursor there. The left mouse button is for <link xref="selections" />.</p>
 
-<p>The <gui>speed scale</gui> next to the <gui>volume</gui> button in the lower right corner lets you adjust the speed of playback. A value of 1 means normal speed, everything lower (down to 0.5) is slower, everything above is faster.</p>
+<p>The <gui>speed scale</gui> next to the <gui>Volume</gui> button in the lower right corner lets you adjust the speed of playback. A value of 1 means normal speed, everything lower (down to 0.5) is slower, everything above is faster.</p>
 </page>

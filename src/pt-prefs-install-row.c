@@ -54,8 +54,8 @@ update_row (PtPrefsInstallRow *self,
     }
   else
     {
-      title = _ ("Not installed");
-      subtitle = _ ("Download files and select model folder");
+      title = _ ("Not Installed");
+      subtitle = _ ("Download files and select model folder.");
     }
 
   adw_preferences_row_set_title (ADW_PREFERENCES_ROW (self), title);
@@ -109,7 +109,7 @@ dialog_open_cb (GObject *source,
         pt_config_set_base_folder (self->config, self->current_path);
 
       GtkAlertDialog *alert;
-      alert = gtk_alert_dialog_new (_ ("Model data not found"));
+      alert = gtk_alert_dialog_new (_ ("Model Data Not Found"));
       gtk_alert_dialog_set_detail (alert,
                                    _ ("The chosen folder does not contain data for this configuration."));
       gtk_alert_dialog_show (alert, self->parent_window);
