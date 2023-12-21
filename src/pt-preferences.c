@@ -66,7 +66,6 @@ struct _PtPreferencesDialog
 
 G_DEFINE_FINAL_TYPE (PtPreferencesDialog, pt_preferences_dialog, ADW_TYPE_PREFERENCES_WINDOW)
 
-
 static void
 update_timestamp_page (PtPreferencesDialog *self)
 {
@@ -164,7 +163,8 @@ get_delimiter_mapping (GValue *value,
     drop_down_position = 2;
   else if (g_strcmp0 (sep, "[") == 0)
     drop_down_position = 3;
-  else return FALSE;
+  else
+    return FALSE;
 
   g_value_set_uint (value, drop_down_position);
   return TRUE;
@@ -192,7 +192,7 @@ set_delimiter_mapping (const GValue *value,
 
 static void
 asr_dialog_destroy_cb (PtAsrDialog *dialog,
-                       gpointer     user_data)
+                       gpointer user_data)
 {
   /* Keep it simple, refresh widgets unconditionally.
    * Possible changes are name change, installed/uninstalled,
@@ -246,7 +246,6 @@ items_changed_cb (GListModel *list,
       g_ptr_array_remove_range (self->config_rows, n_configs, n_rows - n_configs);
       g_assert (self->config_rows->len == n_configs);
     }
-
 
   for (uint i = 0; i < n_configs; i++)
     {
@@ -548,7 +547,6 @@ pt_preferences_dialog_dispose (GObject *object)
   g_ptr_array_free (self->config_rows, TRUE);
 
   g_free (self->active_config_path);
-
 
   G_OBJECT_CLASS (pt_preferences_dialog_parent_class)->dispose (object);
 }

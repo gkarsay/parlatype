@@ -64,7 +64,7 @@ pt_config_row_get_active (PtConfigRow *self)
   return self->active;
 }
 
-PtConfig*
+PtConfig *
 pt_config_row_get_config (PtConfigRow *self)
 {
   return self->config;

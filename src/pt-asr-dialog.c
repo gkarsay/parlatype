@@ -22,7 +22,6 @@
 #include "pt-prefs-install-row.h"
 #include "pt-asr-dialog.h"
 
-
 struct _PtAsrDialog
 {
   AdwPreferencesWindow parent;
@@ -80,7 +79,7 @@ have_string (gchar *str)
 }
 
 /* GtkLinkButton with label set to host */
-static GtkWidget*
+static GtkWidget *
 pt_download_button_new (gchar *link)
 {
   GtkWidget *link_button;
@@ -93,7 +92,7 @@ pt_download_button_new (gchar *link)
       host = g_uri_get_host (uri);
     }
 
-  link_button = gtk_link_button_new_with_label (link, host ? host : _("Link"));
+  link_button = gtk_link_button_new_with_label (link, host ? host : _ ("Link"));
   g_uri_unref (uri);
   return link_button;
 }
@@ -110,7 +109,7 @@ update_status_row (PtAsrDialog *self)
     {
       title = _ ("This configuration is active.");
       subtitle = NULL;
-      button_label = _("Deactivate");
+      button_label = _ ("Deactivate");
       active_image = gtk_image_new_from_icon_name ("emblem-ok-symbolic");
       adw_action_row_add_prefix (ADW_ACTION_ROW (self->status_row), active_image);
     }
@@ -118,13 +117,13 @@ update_status_row (PtAsrDialog *self)
     {
       title = _ ("Model data is installed");
       subtitle = NULL;
-      button_label = _("Activate");
+      button_label = _ ("Activate");
     }
   else
     {
       title = _ ("Model data is not installed");
       subtitle = _ ("See next section for details");
-      button_label = _("Activate");
+      button_label = _ ("Activate");
     }
 
   adw_preferences_row_set_title (ADW_PREFERENCES_ROW (self->status_row), title);
@@ -326,7 +325,7 @@ delete_dialog_cb (GObject *source,
                   gpointer user_data)
 {
   PtAsrDialog *self = PT_ASR_DIALOG (user_data);
-  const gchar* response;
+  const gchar *response;
   GFile *file;
 
   response = adw_message_dialog_choose_finish (ADW_MESSAGE_DIALOG (source), result);
@@ -343,7 +342,7 @@ delete_dialog_cb (GObject *source,
 
 static void
 delete_button_clicked_cb (GtkButton *button,
-                          gpointer   user_data)
+                          gpointer user_data)
 {
   PtAsrDialog *self = PT_ASR_DIALOG (user_data);
   GtkWidget *dialog;
@@ -368,7 +367,7 @@ delete_button_clicked_cb (GtkButton *button,
 
 static void
 activate_button_clicked_cb (GtkButton *button,
-                            gpointer   user_data)
+                            gpointer user_data)
 {
   PtAsrDialog *self = PT_ASR_DIALOG (user_data);
   GFile *config_file;
@@ -379,7 +378,7 @@ activate_button_clicked_cb (GtkButton *button,
 
   if (self->active)
     {
-      path = g_strdup("");
+      path = g_strdup ("");
     }
   else
     {

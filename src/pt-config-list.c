@@ -32,8 +32,7 @@ struct _PtConfigList
 
 static void pt_config_list_iface_init (GListModelInterface *iface);
 
-G_DEFINE_FINAL_TYPE_WITH_CODE (PtConfigList, pt_config_list, G_TYPE_OBJECT,
-                               G_IMPLEMENT_INTERFACE (G_TYPE_LIST_MODEL, pt_config_list_iface_init))
+G_DEFINE_FINAL_TYPE_WITH_CODE (PtConfigList, pt_config_list, G_TYPE_OBJECT, G_IMPLEMENT_INTERFACE (G_TYPE_LIST_MODEL, pt_config_list_iface_init))
 
 static GType
 pt_config_list_get_item_type (GListModel *list)
@@ -129,7 +128,7 @@ sort_configs (gconstpointer p1,
         comp = 1;
 
       if (comp != 0)
-          return comp;
+        return comp;
     }
 
   /* 3rd sort order: Alphabetically by language name */
@@ -139,7 +138,7 @@ sort_configs (gconstpointer p1,
 
   comp = g_strcmp0 (str1, str2);
   if (comp != 0)
-      return comp;
+    return comp;
 
   /* 4th sort order: Alphabetically by name */
 
@@ -148,7 +147,6 @@ sort_configs (gconstpointer p1,
 
   return g_strcmp0 (str1, str2);
 }
-
 
 static void
 file_list_items_changed_cb (GListModel *list,
@@ -254,7 +252,7 @@ pt_config_list_load (PtConfigList *self)
                                self);
 }
 
-GFile*
+GFile *
 pt_config_list_get_folder (PtConfigList *self)
 {
   g_return_val_if_fail (PT_IS_CONFIG_LIST (self), NULL);

@@ -106,12 +106,12 @@ dialog_open_cb (GObject *source,
     {
       /* If model data was installed before, reset to known good path again. */
       if (self->installed)
-          pt_config_set_base_folder (self->config, self->current_path);
+        pt_config_set_base_folder (self->config, self->current_path);
 
       GtkAlertDialog *alert;
-      alert = gtk_alert_dialog_new (_("Model data not found"));
+      alert = gtk_alert_dialog_new (_ ("Model data not found"));
       gtk_alert_dialog_set_detail (alert,
-        _("The chosen folder does not contain data for this configuration."));
+                                   _ ("The chosen folder does not contain data for this configuration."));
       gtk_alert_dialog_show (alert, self->parent_window);
       g_object_unref (alert);
     }
@@ -134,8 +134,8 @@ folder_button_clicked_cb (GtkButton *widget,
   gtk_file_dialog_set_title (dialog, _ ("Select Model Folder"));
 
   initial_folder =
-    g_file_new_for_path (self->installed ? self->current_path
-                                         : g_get_home_dir ());
+      g_file_new_for_path (self->installed ? self->current_path
+                                           : g_get_home_dir ());
 
   gtk_file_dialog_set_initial_folder (dialog, initial_folder);
 
@@ -169,9 +169,7 @@ pt_prefs_install_row_constructed (GObject *object)
   PtPrefsInstallRow *self = PT_PREFS_INSTALL_ROW (object);
 
   self->current_path = g_strdup (pt_config_get_base_folder (self->config));
-  self->installed = self->current_path
-                    && self->current_path[0]
-                    && pt_config_is_installed (self->config);
+  self->installed = self->current_path && self->current_path[0] && pt_config_is_installed (self->config);
 
   update_row (self, self->current_path);
 }
@@ -232,14 +230,14 @@ pt_prefs_install_row_class_init (PtPrefsInstallRowClass *klass)
   object_class->set_property = pt_prefs_install_row_set_property;
 
   props[PROP_CONFIG] =
-    g_param_spec_object ("config", NULL, NULL,
-                         PT_TYPE_CONFIG,
-                         G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
+      g_param_spec_object ("config", NULL, NULL,
+                           PT_TYPE_CONFIG,
+                           G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   props[PROP_INSTALLED] =
-    g_param_spec_boolean ("installed", NULL, NULL,
-                          FALSE,
-                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
+      g_param_spec_boolean ("installed", NULL, NULL,
+                            FALSE,
+                            G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, N_PROPERTIES, props);
 
