@@ -12,7 +12,6 @@ sources = [
   'first-steps.page',
   'keyboard-shortcuts.page',
   'legal.xml',
-  'media-keys.page',
   'preferences.page',
   'selections.page',
   'timestamps.page',
