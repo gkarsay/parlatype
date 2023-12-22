@@ -316,6 +316,7 @@ file_delete_finished (GObject *source_object,
       err_dialog = gtk_alert_dialog_new (_ ("Error"));
       gtk_alert_dialog_set_detail (err_dialog, error->message);
       gtk_alert_dialog_show (err_dialog, parent);
+      g_object_unref (err_dialog);
       g_error_free (error);
     }
 }

@@ -301,6 +301,7 @@ import_copy_ready_cb (GObject *source_object,
       err_dialog = gtk_alert_dialog_new (_ ("Error"));
       gtk_alert_dialog_set_detail (err_dialog, error->message);
       gtk_alert_dialog_show (err_dialog, parent);
+      g_object_unref (err_dialog);
       g_error_free (error);
     }
 }
@@ -346,6 +347,7 @@ dialog_open_cb (GObject *source,
       gtk_alert_dialog_set_detail (err_dialog, message);
 
       gtk_alert_dialog_show (err_dialog, parent);
+      g_object_unref (err_dialog);
       g_object_unref (config);
       return;
     }
@@ -412,7 +414,7 @@ import_button_clicked_cb (GtkButton *button,
                         self);
 
   g_object_unref (initial_folder);
-  /* cleanup? */
+  g_object_unref (dialog);
 }
 
 static void
