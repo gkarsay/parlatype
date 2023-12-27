@@ -116,7 +116,7 @@ static gboolean
 gst_parlasphinx_event (GstPad *pad, GstObject *parent, GstEvent *event);
 
 static void
-gst_parlasphinx_finalize_utt (GstParlaSphinx *ps);
+gst_parlasphinx_finalize_utt (GstParlasphinx *ps);
 
 static void
 gst_parlasphinx_finalize (GObject *gobject);
@@ -194,10 +194,32 @@ ps_decoder_get_type (void)
   return ps_decoder_type;
 }
 
-G_DEFINE_TYPE (GstParlaSphinx, gst_parlasphinx, GST_TYPE_ELEMENT);
+struct _GstParlasphinx
+{
+  GstElement element;
+
+  GstPad *sinkpad, *srcpad;
+
+  ps_decoder_t *ps;
+  cmd_ln_t *config;
+
+  gchar *latdir; /**< Output directory for word lattices. */
+
+  gboolean speech_started;
+  gboolean listening_started;
+  gint uttno;
+
+  GstClockTime last_result_time; /**< Timestamp of last partial result. */
+  char *last_result;             /**< String of last partial result. */
+
+  GstSegment segment;
+  gboolean eos;
+};
+
+G_DEFINE_TYPE (GstParlasphinx, gst_parlasphinx, GST_TYPE_ELEMENT);
 
 static void
-gst_parlasphinx_class_init (GstParlaSphinxClass *klass)
+gst_parlasphinx_class_init (GstParlasphinxClass *klass)
 {
   GObjectClass *gobject_class;
   GstElementClass *element_class;
@@ -322,7 +344,7 @@ gst_parlasphinx_class_init (GstParlaSphinxClass *klass)
 }
 
 static void
-gst_parlasphinx_set_string (GstParlaSphinx *ps,
+gst_parlasphinx_set_string (GstParlasphinx *ps,
                             const gchar *key,
                             const GValue *value)
 {
@@ -337,7 +359,7 @@ gst_parlasphinx_set_string (GstParlaSphinx *ps,
 }
 
 static void
-gst_parlasphinx_set_int (GstParlaSphinx *ps,
+gst_parlasphinx_set_int (GstParlasphinx *ps,
                          const gchar *key,
                          const GValue *value)
 {
@@ -345,7 +367,7 @@ gst_parlasphinx_set_int (GstParlaSphinx *ps,
 }
 
 static void
-gst_parlasphinx_set_boolean (GstParlaSphinx *ps,
+gst_parlasphinx_set_boolean (GstParlasphinx *ps,
                              const gchar *key,
                              const GValue *value)
 {
@@ -353,7 +375,7 @@ gst_parlasphinx_set_boolean (GstParlaSphinx *ps,
 }
 
 static void
-gst_parlasphinx_set_double (GstParlaSphinx *ps,
+gst_parlasphinx_set_double (GstParlasphinx *ps,
                             const gchar *key,
                             const GValue *value)
 {
@@ -363,7 +385,7 @@ gst_parlasphinx_set_double (GstParlaSphinx *ps,
 static void
 gst_parlasphinx_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
-  GstParlaSphinx *ps = GST_PARLASPHINX (object);
+  GstParlasphinx *ps = GST_PARLASPHINX (object);
 
   switch (prop_id)
     {
@@ -493,7 +515,7 @@ gst_parlasphinx_set_property (GObject *object, guint prop_id, const GValue *valu
 static void
 gst_parlasphinx_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
-  GstParlaSphinx *ps = GST_PARLASPHINX (object);
+  GstParlasphinx *ps = GST_PARLASPHINX (object);
 
   switch (prop_id)
     {
@@ -566,7 +588,7 @@ gst_parlasphinx_get_property (GObject *object, guint prop_id, GValue *value, GPa
 static void
 gst_parlasphinx_finalize (GObject *gobject)
 {
-  GstParlaSphinx *ps = GST_PARLASPHINX (gobject);
+  GstParlasphinx *ps = GST_PARLASPHINX (gobject);
 
   ps_free (ps->ps);
   cmd_ln_free_r (ps->config);
@@ -577,7 +599,7 @@ gst_parlasphinx_finalize (GObject *gobject)
 }
 
 static void
-gst_parlasphinx_init (GstParlaSphinx *ps)
+gst_parlasphinx_init (GstParlasphinx *ps)
 {
   ps->sinkpad =
       gst_pad_new_from_static_template (&sink_factory, "sink");
@@ -605,7 +627,7 @@ gst_parlasphinx_init (GstParlaSphinx *ps)
 static GstStateChangeReturn
 gst_parlasphinx_change_state (GstElement *element, GstStateChange transition)
 {
-  GstParlaSphinx *ps = GST_PARLASPHINX (element);
+  GstParlasphinx *ps = GST_PARLASPHINX (element);
   GstStateChangeReturn ret;
   GstEvent *seek = NULL;
   GstSegment *seg = NULL;
@@ -661,7 +683,7 @@ gst_parlasphinx_change_state (GstElement *element, GstStateChange transition)
 }
 
 static void
-gst_parlasphinx_post_message (GstParlaSphinx *ps, gboolean final, GstClockTime timestamp, gint32 prob, const gchar *hyp)
+gst_parlasphinx_post_message (GstParlasphinx *ps, gboolean final, GstClockTime timestamp, gint32 prob, const gchar *hyp)
 {
   GstStructure *s = gst_structure_new ("pocketsphinx",
                                        "timestamp", G_TYPE_UINT64, timestamp,
@@ -675,7 +697,7 @@ gst_parlasphinx_post_message (GstParlaSphinx *ps, gboolean final, GstClockTime t
 static GstFlowReturn
 gst_parlasphinx_chain (GstPad *pad, GstObject *parent, GstBuffer *buffer)
 {
-  GstParlaSphinx *ps;
+  GstParlasphinx *ps;
   GstMapInfo info;
   gboolean in_speech;
   GstClockTime position, duration;
@@ -747,7 +769,7 @@ gst_parlasphinx_chain (GstPad *pad, GstObject *parent, GstBuffer *buffer)
 }
 
 static void
-gst_parlasphinx_finalize_utt (GstParlaSphinx *ps)
+gst_parlasphinx_finalize_utt (GstParlasphinx *ps)
 {
   char const *hyp;
   int32 score;
@@ -782,7 +804,7 @@ gst_parlasphinx_finalize_utt (GstParlaSphinx *ps)
 static gboolean
 gst_parlasphinx_event (GstPad *pad, GstObject *parent, GstEvent *event)
 {
-  GstParlaSphinx *ps;
+  GstParlasphinx *ps;
 
   ps = GST_PARLASPHINX (parent);
   ps->eos = FALSE;
@@ -843,7 +865,7 @@ gst_parlasphinx_register (void)
       GST_VERSION_MAJOR,
       GST_VERSION_MINOR,
       "parlasphinx",
-      "ParlaSphinx plugin",
+      "Parlasphinx plugin",
       plugin_init,
       PACKAGE_VERSION,
       "BSD",

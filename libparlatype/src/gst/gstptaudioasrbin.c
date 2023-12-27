@@ -44,6 +44,17 @@ GST_DEBUG_CATEGORY_STATIC (gst_pt_audio_asr_bin_debug);
 
 #define parent_class gst_pt_audio_asr_bin_parent_class
 
+struct _GstPtAudioAsrBin
+{
+  GstBin parent;
+
+  PtConfig *config;
+  GstElement *asr_plugin;
+  GstElement *audioresample;
+  GstElement *fakesink;
+  gboolean is_configured;
+};
+
 G_DEFINE_TYPE (GstPtAudioAsrBin, gst_pt_audio_asr_bin, GST_TYPE_BIN);
 
 gboolean

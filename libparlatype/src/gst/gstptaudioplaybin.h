@@ -21,25 +21,7 @@
 G_BEGIN_DECLS
 
 #define GST_TYPE_PT_AUDIO_PLAY_BIN (gst_pt_audio_play_bin_get_type ())
-#define GST_PT_AUDIO_PLAY_BIN(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GST_TYPE_PT_AUDIO_PLAY_BIN, GstPtAudioPlayBin))
-#define GST_IS_PT_AUDIO_PLAY_BIN(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GST_TYPE_PT_AUDIO_PLAY_BIN))
-#define GST_PT_AUDIO_PLAY_BIN_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GST_TYPE_PT_AUDIO_PLAY_BIN, GstPtAudioPlayBinClass))
-#define GST_IS_PT_AUDIO_PLAY_BIN_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GST_TYPE_PT_AUDIO_PLAY_BIN))
-
-typedef struct _GstPtAudioPlayBin GstPtAudioPlayBin;
-typedef struct _GstPtAudioPlayBinClass GstPtAudioPlayBinClass;
-
-struct _GstPtAudioPlayBin
-{
-  GstBin parent;
-};
-
-struct _GstPtAudioPlayBinClass
-{
-  GstBinClass parent_class;
-};
-
-GType gst_pt_audio_play_bin_get_type (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (GstPtAudioPlayBin, gst_pt_audio_play_bin, GST, PT_AUDIO_PLAY_BIN, GstBin)
 
 gboolean gst_pt_audio_play_bin_register (void);
 

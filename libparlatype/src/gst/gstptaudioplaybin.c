@@ -45,6 +45,11 @@ GST_DEBUG_CATEGORY_STATIC (gst_pt_audio_play_bin_debug);
 
 #define parent_class gst_pt_audio_play_bin_parent_class
 
+struct _GstPtAudioPlayBin
+{
+  GstBin parent;
+};
+
 G_DEFINE_TYPE (GstPtAudioPlayBin, gst_pt_audio_play_bin, GST_TYPE_BIN);
 
 static gboolean

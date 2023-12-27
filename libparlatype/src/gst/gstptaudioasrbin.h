@@ -22,31 +22,7 @@
 G_BEGIN_DECLS
 
 #define GST_TYPE_PT_AUDIO_ASR_BIN (gst_pt_audio_asr_bin_get_type ())
-#define GST_PT_AUDIO_ASR_BIN(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GST_TYPE_PT_AUDIO_ASR_BIN, GstPtAudioAsrBin))
-#define GST_IS_PT_AUDIO_ASR_BIN(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GST_TYPE_PT_AUDIO_ASR_BIN))
-#define GST_PT_AUDIO_ASR_BIN_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GST_TYPE_PT_AUDIO_ASR_BIN, GstPtAudioAsrBinClass))
-#define GST_IS_PT_AUDIO_ASR_BIN_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GST_TYPE_PT_AUDIO_ASR_BIN))
-
-typedef struct _GstPtAudioAsrBin GstPtAudioAsrBin;
-typedef struct _GstPtAudioAsrBinClass GstPtAudioAsrBinClass;
-
-struct _GstPtAudioAsrBin
-{
-  GstBin parent;
-
-  PtConfig *config;
-  GstElement *asr_plugin;
-  GstElement *audioresample;
-  GstElement *fakesink;
-  gboolean is_configured;
-};
-
-struct _GstPtAudioAsrBinClass
-{
-  GstBinClass parent_class;
-};
-
-GType gst_pt_audio_asr_bin_get_type (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (GstPtAudioAsrBin, gst_pt_audio_asr_bin, GST, PT_AUDIO_ASR_BIN, GstBin)
 
 gboolean gst_pt_audio_asr_bin_is_configured (GstPtAudioAsrBin *self);
 gboolean gst_pt_audio_asr_bin_configure_asr_finish (GstPtAudioAsrBin *self,

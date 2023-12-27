@@ -21,29 +21,7 @@
 G_BEGIN_DECLS
 
 #define PT_TYPE_POSITION_MANAGER (pt_position_manager_get_type ())
-#define PT_POSITION_MANAGER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_TYPE_POSITION_MANAGER, PtPositionManager))
-#define PT_IS_POSITION_MANAGER(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_TYPE_POSITION_MANAGER))
-
-typedef struct _PtPositionManager PtPositionManager;
-typedef struct _PtPositionManagerClass PtPositionManagerClass;
-typedef struct _PtPositionManagerPrivate PtPositionManagerPrivate;
-
-/**
- * PtPositionManager:
- *
- * The #PtPositionManager contains only private fields and should not be directly accessed.
- */
-struct _PtPositionManager
-{
-  GObject parent;
-};
-
-struct _PtPositionManagerClass
-{
-  GObjectClass parent_class;
-};
-
-GType pt_position_manager_get_type (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PtPositionManager, pt_position_manager, PT, POSITION_MANAGER, GObject)
 
 void pt_position_manager_save (PtPositionManager *self,
                                GFile *file,

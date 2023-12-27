@@ -16,29 +16,10 @@
 
 #pragma once
 
-#include "config.h"
+#include <gtk/gtk.h>
 
 #define PT_TYPE_GOTO_DIALOG (pt_goto_dialog_get_type ())
-#define PT_GOTO_DIALOG(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_TYPE_GOTO_DIALOG, PtGotoDialog))
-
-typedef struct _PtGotoDialog PtGotoDialog;
-typedef struct _PtGotoDialogClass PtGotoDialogClass;
-typedef struct _PtGotoDialogPrivate PtGotoDialogPrivate;
-
-struct _PtGotoDialog
-{
-  GtkDialog dialog;
-
-  /*< private > */
-  PtGotoDialogPrivate *priv;
-};
-
-struct _PtGotoDialogClass
-{
-  GtkDialogClass parent_class;
-};
-
-GType pt_goto_dialog_get_type (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PtGotoDialog, pt_goto_dialog, PT, GOTO_DIALOG, GtkDialog)
 
 gint pt_goto_dialog_get_pos (PtGotoDialog *dlg);
 void pt_goto_dialog_set_pos (PtGotoDialog *dlg,

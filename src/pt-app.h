@@ -21,26 +21,6 @@
 #include <adwaita.h>
 
 #define PT_APP_TYPE (pt_app_get_type ())
-#define PT_APP(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_APP_TYPE, PtApp))
-#define PT_IS_APP(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_APP_TYPE))
-
-typedef struct _PtApp PtApp;
-typedef struct _PtAppClass PtAppClass;
-typedef struct _PtAppPrivate PtAppPrivate;
-
-struct _PtApp
-{
-  AdwApplication parent;
-
-  /*< private > */
-  PtAppPrivate *priv;
-};
-
-struct _PtAppClass
-{
-  AdwApplicationClass parent_class;
-};
-
-GType pt_app_get_type (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PtApp, pt_app, PT, APP, AdwApplication)
 
 PtApp *pt_app_new (void);

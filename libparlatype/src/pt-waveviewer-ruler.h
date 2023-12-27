@@ -21,29 +21,8 @@
 G_BEGIN_DECLS
 
 #define PT_TYPE_WAVEVIEWER_RULER (pt_waveviewer_ruler_get_type ())
-#define PT_WAVEVIEWER_RULER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_TYPE_WAVEVIEWER_RULER, PtWaveviewerRuler))
-#define PT_IS_WAVEVIEWER_RULER(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_TYPE_WAVEVIEWER_RULER))
-#define PT_WAVEVIEWER_RULER_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), PT_TYPE_WAVEVIEWER_RULER, PtWaveviewerRulerClass))
-#define PT_IS_WAVEVIEWER_RULER_CLASS(obj) (G_TYPE_CHECK_CLASS_TYPE ((klass), PT_TYPE_WAVEVIEWER_RULER))
+G_DECLARE_FINAL_TYPE (PtWaveviewerRuler, pt_waveviewer_ruler, PT, WAVEVIEWER_RULER, GtkDrawingArea)
 
-typedef struct _PtWaveviewerRuler PtWaveviewerRuler;
-typedef struct _PtWaveviewerRulerClass PtWaveviewerRulerClass;
-typedef struct _PtWaveviewerRulerPrivate PtWaveviewerRulerPrivate;
-
-struct _PtWaveviewerRuler
-{
-  GtkDrawingArea parent;
-
-  /*< private > */
-  PtWaveviewerRulerPrivate *priv;
-};
-
-struct _PtWaveviewerRulerClass
-{
-  GtkDrawingAreaClass klass;
-};
-
-GType pt_waveviewer_ruler_get_type (void) G_GNUC_CONST;
 void pt_waveviewer_ruler_set_ruler (PtWaveviewerRuler *self,
                                     gint64 n_samples,
                                     gint px_per_sec,

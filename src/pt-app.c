@@ -24,13 +24,15 @@
 #include "pt-window.h"
 #include "pt-app.h"
 
-struct _PtAppPrivate
+struct _PtApp
 {
+  AdwApplication parent;
+
   PtMpris *mpris;
   PtDbusService *dbus_service;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE (PtApp, pt_app, ADW_TYPE_APPLICATION);
+G_DEFINE_TYPE (PtApp, pt_app, ADW_TYPE_APPLICATION);
 
 static GOptionEntry options[] = {
   { "version",
@@ -286,10 +288,10 @@ pt_app_activate (GApplication *application)
   else
     {
       win = pt_window_new (app);
-      app->priv->mpris = pt_mpris_new (win);
-      pt_mpris_start (app->priv->mpris);
-      app->priv->dbus_service = pt_dbus_service_new (win);
-      pt_dbus_service_start (app->priv->dbus_service);
+      app->mpris = pt_mpris_new (win);
+      pt_mpris_start (app->mpris);
+      app->dbus_service = pt_dbus_service_new (win);
+      pt_dbus_service_start (app->dbus_service);
     }
 
   gtk_window_present (GTK_WINDOW (win));
@@ -333,10 +335,8 @@ pt_app_handle_local_options (GApplication *application,
 static void
 pt_app_init (PtApp *app)
 {
-  app->priv = pt_app_get_instance_private (app);
-
-  app->priv->mpris = NULL;
-  app->priv->dbus_service = NULL;
+  app->mpris = NULL;
+  app->dbus_service = NULL;
   g_application_add_main_option_entries (G_APPLICATION (app), options);
 }
 
@@ -345,8 +345,8 @@ pt_app_dispose (GObject *object)
 {
   PtApp *app = PT_APP (object);
 
-  g_clear_object (&app->priv->mpris);
-  g_clear_object (&app->priv->dbus_service);
+  g_clear_object (&app->mpris);
+  g_clear_object (&app->dbus_service);
 
   G_OBJECT_CLASS (pt_app_parent_class)->dispose (object);
 }

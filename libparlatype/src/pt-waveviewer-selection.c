@@ -41,8 +41,10 @@
 #include "pt-waveviewer.h"
 #include "pt-waveviewer-selection.h"
 
-struct _PtWaveviewerSelectionPrivate
+struct _PtWaveviewerSelection
 {
+  GtkDrawingArea parent;
+
   GtkAdjustment *adj; /* the parent PtWaveviewer’s adjustment */
 
   GdkRGBA selection_color;
@@ -50,7 +52,7 @@ struct _PtWaveviewerSelectionPrivate
   gint end;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE (PtWaveviewerSelection, pt_waveviewer_selection, GTK_TYPE_DRAWING_AREA);
+G_DEFINE_TYPE (PtWaveviewerSelection, pt_waveviewer_selection, GTK_TYPE_DRAWING_AREA);
 
 static void
 pt_waveviewer_selection_draw (GtkDrawingArea *widget,
@@ -69,14 +71,14 @@ pt_waveviewer_selection_draw (GtkDrawingArea *widget,
   height = gtk_widget_get_height (GTK_WIDGET (widget));
   width = gtk_widget_get_width (GTK_WIDGET (widget));
 
-  offset = (gint) gtk_adjustment_get_value (self->priv->adj);
-  left = CLAMP (self->priv->start - offset, 0, width);
-  right = CLAMP (self->priv->end - offset, 0, width);
+  offset = (gint) gtk_adjustment_get_value (self->adj);
+  left = CLAMP (self->start - offset, 0, width);
+  right = CLAMP (self->end - offset, 0, width);
 
   if (left == right)
     return;
 
-  gdk_cairo_set_source_rgba (cr, &self->priv->selection_color);
+  gdk_cairo_set_source_rgba (cr, &self->selection_color);
   cairo_rectangle (cr, left, 0, right - left, height);
   cairo_fill (cr);
 }
@@ -89,7 +91,7 @@ update_cached_style_values (PtWaveviewerSelection *self)
   GtkStyleContext *context;
 
   context = gtk_widget_get_style_context (GTK_WIDGET (self));
-  gtk_style_context_get_color (context, &self->priv->selection_color);
+  gtk_style_context_get_color (context, &self->selection_color);
 }
 
 static void
@@ -124,7 +126,7 @@ pt_waveviewer_selection_root (GtkWidget *widget)
   PtWaveviewerSelection *self = PT_WAVEVIEWER_SELECTION (widget);
   GtkWidget *parent = NULL;
 
-  if (self->priv->adj)
+  if (self->adj)
     return;
 
   parent = gtk_widget_get_ancestor (widget, GTK_TYPE_SCROLLED_WINDOW);
@@ -132,9 +134,9 @@ pt_waveviewer_selection_root (GtkWidget *widget)
   if (!parent)
     return;
 
-  self->priv->adj = gtk_scrolled_window_get_hadjustment (
+  self->adj = gtk_scrolled_window_get_hadjustment (
       GTK_SCROLLED_WINDOW (parent));
-  g_signal_connect (self->priv->adj, "value-changed",
+  g_signal_connect (self->adj, "value-changed",
                     G_CALLBACK (adj_value_changed), self);
 }
 
@@ -143,19 +145,17 @@ pt_waveviewer_selection_set (PtWaveviewerSelection *self,
                              gint start,
                              gint end)
 {
-  self->priv->start = start;
-  self->priv->end = end;
+  self->start = start;
+  self->end = end;
   gtk_widget_queue_draw (GTK_WIDGET (self));
 }
 
 static void
 pt_waveviewer_selection_init (PtWaveviewerSelection *self)
 {
-  self->priv = pt_waveviewer_selection_get_instance_private (self);
-
-  self->priv->start = 0;
-  self->priv->end = 0;
-  self->priv->adj = NULL;
+  self->start = 0;
+  self->end = 0;
+  self->adj = NULL;
 
   gtk_widget_add_css_class (GTK_WIDGET (self), "selection");
   gtk_drawing_area_set_draw_func (GTK_DRAWING_AREA (self), pt_waveviewer_selection_draw, NULL, NULL);

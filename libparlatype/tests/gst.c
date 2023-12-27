@@ -94,7 +94,7 @@ gst_audioasrbin (void)
   /* Create Test-Element */
   asr = GST_PT_AUDIO_ASR_BIN (gst_element_factory_make ("ptaudioasrbin", "testbin"));
   g_assert_nonnull (asr);
-  g_assert_false (asr->is_configured);
+  g_assert_false (gst_pt_audio_asr_bin_is_configured (asr));
 
   /* Apply existing plugin */
   data = create_sync_data ();
@@ -103,7 +103,6 @@ gst_audioasrbin (void)
   success = gst_pt_audio_asr_bin_configure_asr_finish (asr, data.res, &error);
   g_assert_true (success);
   g_assert_no_error (error);
-  g_assert_true (asr->is_configured);
   g_assert_true (gst_pt_audio_asr_bin_is_configured (asr));
   free_sync_data (data);
 
@@ -114,7 +113,6 @@ gst_audioasrbin (void)
   success = gst_pt_audio_asr_bin_configure_asr_finish (asr, data.res, &error);
   g_assert_false (success);
   g_assert_error (error, GST_CORE_ERROR, GST_CORE_ERROR_MISSING_PLUGIN);
-  g_assert_false (asr->is_configured);
   g_assert_false (gst_pt_audio_asr_bin_is_configured (asr));
   g_clear_error (&error);
   free_sync_data (data);

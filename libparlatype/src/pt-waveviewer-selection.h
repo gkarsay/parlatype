@@ -21,29 +21,8 @@
 G_BEGIN_DECLS
 
 #define PT_TYPE_WAVEVIEWER_SELECTION (pt_waveviewer_selection_get_type ())
-#define PT_WAVEVIEWER_SELECTION(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_TYPE_WAVEVIEWER_SELECTION, PtWaveviewerSelection))
-#define PT_IS_WAVEVIEWER_SELECTION(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_TYPE_WAVEVIEWER_SELECTION))
-#define PT_WAVEVIEWER_SELECTION_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), PT_TYPE_WAVEVIEWER_SELECTION, PtWaveviewerSelectionClass))
-#define PT_IS_WAVEVIEWER_SELECTION_CLASS(obj) (G_TYPE_CHECK_CLASS_TYPE ((klass), PT_TYPE_WAVEVIEWER_SELECTION))
+G_DECLARE_FINAL_TYPE (PtWaveviewerSelection, pt_waveviewer_selection, PT, WAVEVIEWER_SELECTION, GtkDrawingArea)
 
-typedef struct _PtWaveviewerSelection PtWaveviewerSelection;
-typedef struct _PtWaveviewerSelectionClass PtWaveviewerSelectionClass;
-typedef struct _PtWaveviewerSelectionPrivate PtWaveviewerSelectionPrivate;
-
-struct _PtWaveviewerSelection
-{
-  GtkDrawingArea parent;
-
-  /*< private > */
-  PtWaveviewerSelectionPrivate *priv;
-};
-
-struct _PtWaveviewerSelectionClass
-{
-  GtkDrawingAreaClass klass;
-};
-
-GType pt_waveviewer_selection_get_type (void) G_GNUC_CONST;
 void pt_waveviewer_selection_set (PtWaveviewerSelection *self,
                                   gint start,
                                   gint end);

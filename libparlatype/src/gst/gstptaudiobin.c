@@ -56,6 +56,23 @@ GST_DEBUG_CATEGORY_STATIC (gst_pt_audio_bin_debug);
 
 #define parent_class gst_pt_audio_bin_parent_class
 
+struct _GstPtAudioBin
+{
+  GstBin parent;
+  PtModeType mode;
+  PtModeType pending;
+  gulong probe_id;
+
+  GstElement *play_bin;
+  GstElement *asr_bin;
+  GstPad *id_sink;
+  GstPad *id_src;
+
+  /* properties */
+  gboolean player;
+  gboolean asr;
+};
+
 G_DEFINE_TYPE (GstPtAudioBin, gst_pt_audio_bin, GST_TYPE_BIN);
 
 static GstPadProbeReturn
@@ -226,7 +243,7 @@ gst_pt_audio_bin_set_mode (GstPtAudioBin *self,
   self->pending = new;
 
   if (self->pending == PT_MODE_ASR &&
-      !GST_PT_AUDIO_ASR_BIN (self->asr_bin)->is_configured)
+      !gst_pt_audio_asr_bin_is_configured (GST_PT_AUDIO_ASR_BIN (self->asr_bin)))
     return;
 
   GST_DEBUG_OBJECT (self, "blocking pad for mode switch from %d to %d",

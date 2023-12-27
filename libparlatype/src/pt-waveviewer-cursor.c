@@ -48,14 +48,16 @@
 #define MARKER_BOX_W 10
 #define MARKER_BOX_H 8
 
-struct _PtWaveviewerCursorPrivate
+struct _PtWaveviewerCursor
 {
+  GtkDrawingArea parent;
+
   cairo_surface_t *cursor;
   GdkRGBA cursor_color;
   gint position;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE (PtWaveviewerCursor, pt_waveviewer_cursor, GTK_TYPE_DRAWING_AREA);
+G_DEFINE_TYPE (PtWaveviewerCursor, pt_waveviewer_cursor, GTK_TYPE_DRAWING_AREA);
 
 static void
 pt_waveviewer_cursor_draw (GtkDrawingArea *widget,
@@ -66,11 +68,11 @@ pt_waveviewer_cursor_draw (GtkDrawingArea *widget,
 {
   PtWaveviewerCursor *self = (PtWaveviewerCursor *) widget;
 
-  if (self->priv->position == -1)
+  if (self->position == -1)
     return;
 
-  cairo_set_source_surface (cr, self->priv->cursor,
-                            self->priv->position - MARKER_BOX_W / 2, 0);
+  cairo_set_source_surface (cr, self->cursor,
+                            self->position - MARKER_BOX_W / 2, 0);
   cairo_paint (cr);
 }
 
@@ -80,8 +82,8 @@ cache_cursor (PtWaveviewerCursor *self)
   if (!gtk_widget_get_realized (GTK_WIDGET (self)))
     return;
 
-  if (self->priv->cursor)
-    cairo_surface_destroy (self->priv->cursor);
+  if (self->cursor)
+    cairo_surface_destroy (self->cursor);
 
   cairo_t *cr;
   gint height = gtk_widget_get_height (GTK_WIDGET (self));
@@ -90,13 +92,13 @@ cache_cursor (PtWaveviewerCursor *self)
 
   native = gtk_widget_get_native (GTK_WIDGET (self));
   surface = gtk_native_get_surface (native);
-  self->priv->cursor = gdk_surface_create_similar_surface (surface,
-                                                           CAIRO_CONTENT_COLOR_ALPHA,
-                                                           MARKER_BOX_W,
-                                                           height);
-  cr = cairo_create (self->priv->cursor);
+  self->cursor = gdk_surface_create_similar_surface (surface,
+                                                     CAIRO_CONTENT_COLOR_ALPHA,
+                                                     MARKER_BOX_W,
+                                                     height);
+  cr = cairo_create (self->cursor);
 
-  gdk_cairo_set_source_rgba (cr, &self->priv->cursor_color);
+  gdk_cairo_set_source_rgba (cr, &self->cursor_color);
 
   cairo_move_to (cr, 0 + MARKER_BOX_W / 2, height);
   cairo_line_to (cr, 0 + MARKER_BOX_W / 2, 0);
@@ -130,7 +132,7 @@ update_cached_style_values (PtWaveviewerCursor *self)
   GtkStyleContext *context;
 
   context = gtk_widget_get_style_context (GTK_WIDGET (self));
-  gtk_style_context_get_color (context, &self->priv->cursor_color);
+  gtk_style_context_get_color (context, &self->cursor_color);
 
   cache_cursor (self);
 }
@@ -159,20 +161,18 @@ pt_waveviewer_cursor_render (PtWaveviewerCursor *self,
   width = gtk_widget_get_width (GTK_WIDGET (self));
   position = CLAMP (position, -1, width + MARKER_BOX_W);
 
-  if (self->priv->position == position)
+  if (self->position == position)
     return;
 
-  self->priv->position = position;
+  self->position = position;
   gtk_widget_queue_draw (GTK_WIDGET (self));
 }
 
 static void
 pt_waveviewer_cursor_init (PtWaveviewerCursor *self)
 {
-  self->priv = pt_waveviewer_cursor_get_instance_private (self);
-
-  self->priv->cursor = NULL;
-  self->priv->position = -1;
+  self->cursor = NULL;
+  self->position = -1;
   gtk_widget_add_css_class (GTK_WIDGET (self), "cursor");
 
   gtk_drawing_area_set_draw_func (GTK_DRAWING_AREA (self), pt_waveviewer_cursor_draw, NULL, NULL);
@@ -183,8 +183,8 @@ pt_waveviewer_cursor_finalize (GObject *object)
 {
   PtWaveviewerCursor *self = PT_WAVEVIEWER_CURSOR (object);
 
-  if (self->priv->cursor)
-    cairo_surface_destroy (self->priv->cursor);
+  if (self->cursor)
+    cairo_surface_destroy (self->cursor);
 
   G_OBJECT_CLASS (pt_waveviewer_cursor_parent_class)->finalize (object);
 }

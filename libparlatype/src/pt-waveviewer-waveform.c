@@ -42,8 +42,10 @@
 #include "pt-waveviewer.h"
 #include "pt-waveviewer-waveform.h"
 
-struct _PtWaveviewerWaveformPrivate
+struct _PtWaveviewerWaveform
 {
+  GtkDrawingArea parent;
+
   /* Wavedata */
   GArray *peaks;
 
@@ -53,7 +55,7 @@ struct _PtWaveviewerWaveformPrivate
   GdkRGBA wave_color;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE (PtWaveviewerWaveform, pt_waveviewer_waveform, GTK_TYPE_DRAWING_AREA);
+G_DEFINE_TYPE (PtWaveviewerWaveform, pt_waveviewer_waveform, GTK_TYPE_DRAWING_AREA);
 
 static gint64
 pixel_to_array (PtWaveviewerWaveform *self,
@@ -66,7 +68,7 @@ pixel_to_array (PtWaveviewerWaveform *self,
   gint64 result;
 
   result = pixel * 2;
-  if (result + 1 >= self->priv->peaks->len)
+  if (result + 1 >= self->peaks->len)
     result = -1;
 
   return result;
@@ -78,7 +80,7 @@ pt_waveviewer_waveform_snapshot (GtkWidget *widget,
 {
   PtWaveviewerWaveform *self = (PtWaveviewerWaveform *) widget;
 
-  GArray *peaks = self->priv->peaks;
+  GArray *peaks = self->peaks;
   GtkStyleContext *context;
   gint pixel;
   gint array;
@@ -90,7 +92,7 @@ pt_waveviewer_waveform_snapshot (GtkWidget *widget,
   height = gtk_widget_get_height (GTK_WIDGET (widget));
   width = gtk_widget_get_width (GTK_WIDGET (widget));
 
-  gtk_style_context_get_color (context, &self->priv->wave_color);
+  gtk_style_context_get_color (context, &self->wave_color);
   gtk_snapshot_render_background (snapshot, context,
                                   0, 0,
                                   width, height);
@@ -98,7 +100,7 @@ pt_waveviewer_waveform_snapshot (GtkWidget *widget,
     return;
 
   /* paint waveform */
-  offset = (gint) gtk_adjustment_get_value (self->priv->adj);
+  offset = (gint) gtk_adjustment_get_value (self->adj);
   half = height / 2 - 1;
   middle = height / 2;
   for (pixel = 0; pixel <= width; pixel += 1)
@@ -108,7 +110,7 @@ pt_waveviewer_waveform_snapshot (GtkWidget *widget,
         break;
       min = (middle + half * g_array_index (peaks, float, array) * -1);
       max = (middle - half * g_array_index (peaks, float, array + 1));
-      gtk_snapshot_append_color (snapshot, &self->priv->wave_color,
+      gtk_snapshot_append_color (snapshot, &self->wave_color,
                                  &GRAPHENE_RECT_INIT (pixel, max, 1, min - max));
     }
 }
@@ -121,7 +123,7 @@ update_cached_style_values (PtWaveviewerWaveform *self)
   GtkStyleContext *context;
 
   context = gtk_widget_get_style_context (GTK_WIDGET (self));
-  gtk_style_context_get_color (context, &self->priv->wave_color);
+  gtk_style_context_get_color (context, &self->wave_color);
 }
 
 static void
@@ -143,7 +145,7 @@ void
 pt_waveviewer_waveform_set (PtWaveviewerWaveform *self,
                             GArray *peaks)
 {
-  self->priv->peaks = peaks;
+  self->peaks = peaks;
   gtk_widget_queue_draw (GTK_WIDGET (self));
 }
 
@@ -160,7 +162,7 @@ pt_waveviewer_waveform_root (GtkWidget *widget)
 {
   PtWaveviewerWaveform *self = PT_WAVEVIEWER_WAVEFORM (widget);
 
-  if (self->priv->adj)
+  if (self->adj)
     return;
 
   /* Get parent’s GtkAdjustment */
@@ -168,17 +170,15 @@ pt_waveviewer_waveform_root (GtkWidget *widget)
   parent = gtk_widget_get_ancestor (widget, GTK_TYPE_SCROLLED_WINDOW);
   if (parent)
     {
-      self->priv->adj = gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (parent));
-      g_signal_connect (self->priv->adj, "value-changed", G_CALLBACK (adj_value_changed), self);
+      self->adj = gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (parent));
+      g_signal_connect (self->adj, "value-changed", G_CALLBACK (adj_value_changed), self);
     }
 }
 
 static void
 pt_waveviewer_waveform_init (PtWaveviewerWaveform *self)
 {
-  self->priv = pt_waveviewer_waveform_get_instance_private (self);
-
-  self->priv->peaks = NULL;
+  self->peaks = NULL;
   gtk_widget_add_css_class (GTK_WIDGET (self), "view");
 }
 

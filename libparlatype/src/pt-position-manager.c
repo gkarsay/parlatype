@@ -33,6 +33,11 @@
 
 #define METADATA_POSITION "metadata::parlatype::position"
 
+struct _PtPositionManager
+{
+  GObject parent;
+};
+
 G_DEFINE_TYPE (PtPositionManager, pt_position_manager, G_TYPE_OBJECT)
 
 /**

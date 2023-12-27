@@ -21,29 +21,8 @@
 G_BEGIN_DECLS
 
 #define PT_TYPE_WAVEVIEWER_WAVEFORM (pt_waveviewer_waveform_get_type ())
-#define PT_WAVEVIEWER_WAVEFORM(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_TYPE_WAVEVIEWER_WAVEFORM, PtWaveviewerWaveform))
-#define PT_IS_WAVEVIEWER_WAVEFORM(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_TYPE_WAVEVIEWER_WAVEFORM))
-#define PT_WAVEVIEWER_WAVEFORM_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), PT_TYPE_WAVEVIEWER_WAVEFORM, PtWaveviewerWaveformClass))
-#define PT_IS_WAVEVIEWER_WAVEFORM_CLASS(obj) (G_TYPE_CHECK_CLASS_TYPE ((klass), PT_TYPE_WAVEVIEWER_WAVEFORM))
+G_DECLARE_FINAL_TYPE (PtWaveviewerWaveform, pt_waveviewer_waveform, PT, WAVEVIEWER_WAVEFORM, GtkDrawingArea)
 
-typedef struct _PtWaveviewerWaveform PtWaveviewerWaveform;
-typedef struct _PtWaveviewerWaveformClass PtWaveviewerWaveformClass;
-typedef struct _PtWaveviewerWaveformPrivate PtWaveviewerWaveformPrivate;
-
-struct _PtWaveviewerWaveform
-{
-  GtkDrawingArea parent;
-
-  /*< private > */
-  PtWaveviewerWaveformPrivate *priv;
-};
-
-struct _PtWaveviewerWaveformClass
-{
-  GtkDrawingAreaClass klass;
-};
-
-GType pt_waveviewer_waveform_get_type (void) G_GNUC_CONST;
 void pt_waveviewer_waveform_set (PtWaveviewerWaveform *self,
                                  GArray *peaks);
 GtkWidget *pt_waveviewer_waveform_new (void);

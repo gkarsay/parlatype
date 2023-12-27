@@ -42,16 +42,18 @@
  */
 
 #include "config.h"
+#include "pt-waveviewer-ruler.h"
 #define GETTEXT_PACKAGE GETTEXT_LIB
 #include <glib/gi18n-lib.h>
 #include "pt-waveviewer.h"
-#include "pt-waveviewer-ruler.h"
 
 #define PRIMARY_MARK_HEIGHT 8
 #define SECONDARY_MARK_HEIGHT 4
 
-struct _PtWaveviewerRulerPrivate
+struct _PtWaveviewerRuler
 {
+  GtkDrawingArea parent;
+
   gint64 n_samples;
   gint px_per_sec;
   gint64 duration; /* in milliseconds */
@@ -65,7 +67,7 @@ struct _PtWaveviewerRulerPrivate
   gint secondary_modulo;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE (PtWaveviewerRuler, pt_waveviewer_ruler, GTK_TYPE_DRAWING_AREA);
+G_DEFINE_TYPE (PtWaveviewerRuler, pt_waveviewer_ruler, GTK_TYPE_DRAWING_AREA);
 
 static gint64
 time_to_pixel (PtWaveviewerRuler *self,
@@ -74,7 +76,7 @@ time_to_pixel (PtWaveviewerRuler *self,
   /* Convert a time in 1/1000 seconds to the closest pixel in the drawing area */
   gint64 result;
 
-  result = ms * self->priv->px_per_sec;
+  result = ms * self->px_per_sec;
   result = result / 1000;
 
   return result;
@@ -88,7 +90,7 @@ pixel_to_time (PtWaveviewerRuler *self,
   gint64 result;
 
   result = pixel * 1000;
-  result = result / self->priv->px_per_sec;
+  result = result / self->px_per_sec;
 
   return result;
 }
@@ -113,7 +115,7 @@ pt_waveviewer_ruler_snapshot (GtkWidget *widget,
   gint offset;
 
   width = gtk_widget_get_width (widget);
-  offset = (gint) gtk_adjustment_get_value (self->priv->adj);
+  offset = (gint) gtk_adjustment_get_value (self->adj);
 
   context = gtk_widget_get_style_context (GTK_WIDGET (self));
   gtk_style_context_get_color (context, &text_color);
@@ -121,7 +123,7 @@ pt_waveviewer_ruler_snapshot (GtkWidget *widget,
                                   0, 0,
                                   width, height);
 
-  if (self->priv->n_samples == 0)
+  if (self->n_samples == 0)
     return;
 
   /* ruler marks */
@@ -129,13 +131,13 @@ pt_waveviewer_ruler_snapshot (GtkWidget *widget,
   /* Case: secondary ruler marks for tenth seconds.
      Get time of leftmost pixel, convert it to rounded 10th second,
      add 10th seconds until we are at the end of the view */
-  if (self->priv->primary_modulo == 1)
+  if (self->primary_modulo == 1)
     {
       tmp_time = pixel_to_time (self, offset) / 100 * 100;
       i = time_to_pixel (self, tmp_time) - offset;
       while (i <= width)
         {
-          if (tmp_time < self->priv->duration)
+          if (tmp_time < self->duration)
             gtk_snapshot_append_color (snapshot, &text_color,
                                        &GRAPHENE_RECT_INIT (i, 0, 1, SECONDARY_MARK_HEIGHT));
           tmp_time += 100;
@@ -145,14 +147,14 @@ pt_waveviewer_ruler_snapshot (GtkWidget *widget,
 
   /* Case: secondary ruler marks for full seconds.
      Use secondary_modulo. */
-  if (self->priv->primary_modulo > 1)
+  if (self->primary_modulo > 1)
     {
       for (i = 0; i <= width; i += 1)
         {
           sample = i + offset;
-          if (sample > self->priv->n_samples)
+          if (sample > self->n_samples)
             break;
-          if (sample % (self->priv->px_per_sec * self->priv->secondary_modulo) == 0)
+          if (sample % (self->px_per_sec * self->secondary_modulo) == 0)
             gtk_snapshot_append_color (snapshot, &text_color,
                                        &GRAPHENE_RECT_INIT (i, 0, 1, SECONDARY_MARK_HEIGHT));
         }
@@ -161,27 +163,27 @@ pt_waveviewer_ruler_snapshot (GtkWidget *widget,
   /* Primary marks and time strings
      Add some padding to show time strings (time_string_width) */
   gtk_style_context_get_color (context, &text_color);
-  for (i = 0 - self->priv->time_string_width; i <= width + self->priv->time_string_width; i += 1)
+  for (i = 0 - self->time_string_width; i <= width + self->time_string_width; i += 1)
     {
       sample = i + offset;
-      if (sample < 0 || sample > self->priv->n_samples)
+      if (sample < 0 || sample > self->n_samples)
         continue;
-      if (sample % (self->priv->px_per_sec * self->priv->primary_modulo) == 0)
+      if (sample % (self->px_per_sec * self->primary_modulo) == 0)
         {
           gtk_snapshot_append_color (snapshot, &text_color,
                                      &GRAPHENE_RECT_INIT (i, 0, 1, PRIMARY_MARK_HEIGHT));
-          if (self->priv->time_format_long)
+          if (self->time_format_long)
             {
               text = g_strdup_printf (C_ ("long time format", "%d:%02d:%02d"),
-                                      sample / self->priv->px_per_sec / 3600,
-                                      (sample / self->priv->px_per_sec % 3600) / 60,
-                                      sample / self->priv->px_per_sec % 60);
+                                      sample / self->px_per_sec / 3600,
+                                      (sample / self->px_per_sec % 3600) / 60,
+                                      sample / self->px_per_sec % 60);
             }
           else
             {
               text = g_strdup_printf (C_ ("shortest time format", "%d:%02d"),
-                                      sample / self->priv->px_per_sec / 60,
-                                      sample / self->priv->px_per_sec % 60);
+                                      sample / self->px_per_sec / 60,
+                                      sample / self->px_per_sec % 60);
             }
           layout = gtk_widget_create_pango_layout (GTK_WIDGET (self), text);
 
@@ -215,7 +217,7 @@ calculate_height (PtWaveviewerRuler *self)
   GdkSurface *gdk_surface;
 
   native = gtk_widget_get_native (GTK_WIDGET (self));
-  if (!native || self->priv->n_samples == 0)
+  if (!native || self->n_samples == 0)
     {
       gtk_widget_set_size_request (GTK_WIDGET (self), 0, 0);
       return;
@@ -230,9 +232,9 @@ calculate_height (PtWaveviewerRuler *self)
                                                 100, 100);
   cr = cairo_create (surface);
 
-  self->priv->time_format_long = (self->priv->n_samples / self->priv->px_per_sec >= 3600);
+  self->time_format_long = (self->n_samples / self->px_per_sec >= 3600);
 
-  if (self->priv->time_format_long)
+  if (self->time_format_long)
     time_format = g_strdup_printf (C_ ("long time format", "%d:%02d:%02d"), 88, 0, 0);
   else
     time_format = g_strdup_printf (C_ ("shortest time format", "%d:%02d"), 88, 0);
@@ -246,42 +248,42 @@ calculate_height (PtWaveviewerRuler *self)
 
   /* Does the time string fit into 1 second?
      Define primary and secondary modulo (for primary and secondary marks */
-  self->priv->time_string_width = rect.x + rect.width;
-  if (self->priv->time_string_width < self->priv->px_per_sec)
+  self->time_string_width = rect.x + rect.width;
+  if (self->time_string_width < self->px_per_sec)
     {
-      self->priv->primary_modulo = 1;
+      self->primary_modulo = 1;
       /* In fact this would be 0.1, it’s handled later as a special case */
-      self->priv->secondary_modulo = 1;
+      self->secondary_modulo = 1;
     }
-  else if (self->priv->time_string_width < self->priv->px_per_sec * 5)
+  else if (self->time_string_width < self->px_per_sec * 5)
     {
-      self->priv->primary_modulo = 5;
-      self->priv->secondary_modulo = 1;
+      self->primary_modulo = 5;
+      self->secondary_modulo = 1;
     }
-  else if (self->priv->time_string_width < self->priv->px_per_sec * 10)
+  else if (self->time_string_width < self->px_per_sec * 10)
     {
-      self->priv->primary_modulo = 10;
-      self->priv->secondary_modulo = 1;
+      self->primary_modulo = 10;
+      self->secondary_modulo = 1;
     }
-  else if (self->priv->time_string_width < self->priv->px_per_sec * 60)
+  else if (self->time_string_width < self->px_per_sec * 60)
     {
-      self->priv->primary_modulo = 60;
-      self->priv->secondary_modulo = 10;
+      self->primary_modulo = 60;
+      self->secondary_modulo = 10;
     }
-  else if (self->priv->time_string_width < self->priv->px_per_sec * 300)
+  else if (self->time_string_width < self->px_per_sec * 300)
     {
-      self->priv->primary_modulo = 300;
-      self->priv->secondary_modulo = 60;
+      self->primary_modulo = 300;
+      self->secondary_modulo = 60;
     }
-  else if (self->priv->time_string_width < self->priv->px_per_sec * 600)
+  else if (self->time_string_width < self->px_per_sec * 600)
     {
-      self->priv->primary_modulo = 600;
-      self->priv->secondary_modulo = 60;
+      self->primary_modulo = 600;
+      self->secondary_modulo = 60;
     }
   else
     {
-      self->priv->primary_modulo = 3600;
-      self->priv->secondary_modulo = 600;
+      self->primary_modulo = 3600;
+      self->secondary_modulo = 600;
     }
 
   g_free (time_format);
@@ -305,7 +307,7 @@ pt_waveviewer_ruler_root (GtkWidget *widget)
 {
   PtWaveviewerRuler *self = PT_WAVEVIEWER_RULER (widget);
 
-  if (self->priv->adj)
+  if (self->adj)
     return;
 
   /* Get parent’s GtkAdjustment */
@@ -313,8 +315,8 @@ pt_waveviewer_ruler_root (GtkWidget *widget)
   parent = gtk_widget_get_ancestor (widget, GTK_TYPE_SCROLLED_WINDOW);
   if (parent)
     {
-      self->priv->adj = gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (parent));
-      g_signal_connect (self->priv->adj, "value-changed", G_CALLBACK (adj_value_changed), self);
+      self->adj = gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (parent));
+      g_signal_connect (self->adj, "value-changed", G_CALLBACK (adj_value_changed), self);
     }
 }
 
@@ -324,9 +326,9 @@ pt_waveviewer_ruler_set_ruler (PtWaveviewerRuler *self,
                                gint px_per_sec,
                                gint64 duration)
 {
-  self->priv->n_samples = n_samples;
-  self->priv->px_per_sec = px_per_sec;
-  self->priv->duration = duration;
+  self->n_samples = n_samples;
+  self->px_per_sec = px_per_sec;
+  self->duration = duration;
 
   calculate_height (self);
   gtk_widget_queue_draw (GTK_WIDGET (self));
@@ -335,12 +337,10 @@ pt_waveviewer_ruler_set_ruler (PtWaveviewerRuler *self,
 static void
 pt_waveviewer_ruler_init (PtWaveviewerRuler *self)
 {
-  self->priv = pt_waveviewer_ruler_get_instance_private (self);
-
-  self->priv->n_samples = 0;
-  self->priv->px_per_sec = 0;
-  self->priv->duration = 0;
-  self->priv->adj = NULL;
+  self->n_samples = 0;
+  self->px_per_sec = 0;
+  self->duration = 0;
+  self->adj = NULL;
 
   gtk_widget_set_name (GTK_WIDGET (self), "ruler");
   gtk_widget_add_css_class (GTK_WIDGET (self), "mark");
