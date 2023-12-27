@@ -62,6 +62,7 @@ struct _PtPreferencesDialog
   GtkWidget *models_group;
   GPtrArray *config_rows;
   gchar *active_config_path;
+  GtkWidget *initial_copy_button;
 };
 
 G_DEFINE_FINAL_TYPE (PtPreferencesDialog, pt_preferences_dialog, ADW_TYPE_PREFERENCES_WINDOW)
@@ -216,6 +217,115 @@ asr_row_activated (AdwActionRow *row,
   gtk_window_present (GTK_WINDOW (asr_dlg));
 }
 
+static gboolean
+copy_asr_configs_finish (GObject *source_object,
+                         GAsyncResult *res,
+                         GError **error)
+{
+  g_return_val_if_fail (g_task_is_valid (res, source_object), FALSE);
+
+  return g_task_propagate_boolean (G_TASK (res), error);
+}
+
+static void
+copy_asr_configs_result (GObject *source_object,
+                         GAsyncResult *res,
+                         gpointer user_data)
+{
+  PtPreferencesDialog *self = PT_PREFERENCES_DIALOG (source_object);
+  GError *error = NULL;
+
+  if (copy_asr_configs_finish (source_object, res, &error))
+    {
+      pt_config_list_refresh (self->list);
+    }
+  else
+    {
+      GtkAlertDialog *err_dialog;
+      err_dialog = gtk_alert_dialog_new (_ ("Error"));
+      gtk_alert_dialog_set_detail (err_dialog, error->message);
+      gtk_alert_dialog_show (err_dialog, GTK_WINDOW (self));
+      g_object_unref (err_dialog);
+      g_error_free (error);
+    }
+}
+
+static void
+copy_asr_configs (GTask *task,
+                  gpointer source_object,
+                  gpointer task_data,
+                  GCancellable *cancellable)
+{
+  PtPreferencesDialog *self = PT_PREFERENCES_DIALOG (source_object);
+  gchar *basename;
+  gchar *dest_folder_path;
+  gchar *dest_path;
+  GFile *source;
+  GFile *dest;
+  GFile *sys_folder;
+  GFileEnumerator *files;
+  GError *error = NULL;
+
+  sys_folder = g_file_new_for_path (ASR_DIR); /* in config.h */
+  dest_folder_path = g_file_get_path (pt_config_list_get_folder (self->list));
+
+  files = g_file_enumerate_children (sys_folder,
+                                     G_FILE_ATTRIBUTE_STANDARD_NAME,
+                                     G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS,
+                                     NULL, /* cancellable */
+                                     &error);
+
+  while (!error)
+    {
+      GFileInfo *info;
+      if (!g_file_enumerator_iterate (files,
+                                      &info,   /* no free necessary */
+                                      &source, /* no free necessary */
+                                      NULL,    /* cancellable       */
+                                      &error))
+        /* this is an error */
+        break;
+
+      if (!info)
+        /* this is the end of enumeration */
+        break;
+
+      basename = g_file_get_basename (source);
+      if (g_str_has_suffix (basename, ".asr"))
+        {
+          dest_path = g_build_path (G_DIR_SEPARATOR_S,
+                                    dest_folder_path,
+                                    basename, NULL);
+          dest = g_file_new_for_path (dest_path);
+          g_file_copy (source,
+                       dest,
+                       G_FILE_COPY_TARGET_DEFAULT_PERMS,
+                       NULL, /* cancellable            */
+                       NULL, /* progress callback      */
+                       NULL, /* progress callback data */
+                       &error);
+          g_free (dest_path);
+          g_object_unref (dest);
+
+          if (error && g_error_matches (error, G_IO_ERROR,
+                                        G_IO_ERROR_EXISTS))
+            {
+              g_clear_error (&error);
+            }
+        }
+      g_free (basename);
+    }
+
+  g_clear_object (&files);
+  g_object_unref (sys_folder);
+  g_free (dest_folder_path);
+
+  if (error)
+    g_task_return_error (task, error);
+  else
+    g_task_return_boolean (task, TRUE);
+}
+
 static void
 items_changed_cb (GListModel *list,
                   guint position, /* bogus */
@@ -233,6 +343,8 @@ items_changed_cb (GListModel *list,
   GFile *config_file;
   gchar *config_path;
   gboolean active;
+
+  gtk_widget_set_visible (self->initial_copy_button, n_configs == 0);
 
   /* If there are more widgets than needed, unparent them and remove them from pointer array */
   if (n_rows > n_configs)
@@ -374,6 +486,22 @@ dialog_open_cb (GObject *source,
   g_free (basename);
   g_free (dest_folder_path);
   g_free (dest_path);
+}
+
+static void
+initial_copy_button_clicked_cb (GtkButton *button,
+                                gpointer user_data)
+{
+  PtPreferencesDialog *self = PT_PREFERENCES_DIALOG (user_data);
+  GTask *task;
+
+  task = g_task_new (self, /* source object */
+                     NULL, /* cancellable   */
+                     copy_asr_configs_result,
+                     NULL); /* user_data     */
+
+  g_task_run_in_thread (task, copy_asr_configs);
+  g_object_unref (task);
 }
 
 static void
@@ -564,6 +692,7 @@ pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
   /* Bind class to template */
   gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/Parlatype/preferences.ui");
   gtk_widget_class_bind_template_callback (widget_class, import_button_clicked_cb);
+  gtk_widget_class_bind_template_callback (widget_class, initial_copy_button_clicked_cb);
   gtk_widget_class_bind_template_child (widget_class, PtPreferencesDialog, pps_scale);
   gtk_widget_class_bind_template_child (widget_class, PtPreferencesDialog, ruler_row);
   gtk_widget_class_bind_template_child (widget_class, PtPreferencesDialog, cursor_row);
@@ -579,6 +708,7 @@ pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtPreferencesDialog, asr_page);
   gtk_widget_class_bind_template_child (widget_class, PtPreferencesDialog, preview_group);
   gtk_widget_class_bind_template_child (widget_class, PtPreferencesDialog, models_group);
+  gtk_widget_class_bind_template_child (widget_class, PtPreferencesDialog, initial_copy_button);
 }
 
 static void
