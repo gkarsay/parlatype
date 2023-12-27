@@ -22,6 +22,8 @@
 
 #include <gio/gio.h>
 
+G_BEGIN_DECLS
+
 #define PT_TYPE_CONFIG (pt_config_get_type ())
 #define PT_CONFIG(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_TYPE_CONFIG, PtConfig))
 #define PT_IS_CONFIG(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_TYPE_CONFIG))
@@ -96,3 +98,5 @@ gboolean pt_config_apply (PtConfig *config,
 gboolean pt_config_is_valid (PtConfig *config);
 gboolean pt_config_is_installed (PtConfig *config);
 PtConfig *pt_config_new (GFile *file);
+
+G_END_DECLS
