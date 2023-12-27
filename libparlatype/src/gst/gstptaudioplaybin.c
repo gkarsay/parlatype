@@ -47,7 +47,6 @@ GST_DEBUG_CATEGORY_STATIC (gst_pt_audio_play_bin_debug);
 
 G_DEFINE_TYPE (GstPtAudioPlayBin, gst_pt_audio_play_bin, GST_TYPE_BIN);
 
-#ifndef G_OS_WIN32
 static gboolean
 have_pulseaudio_server (void)
 {
@@ -66,7 +65,6 @@ have_pulseaudio_server (void)
   gst_object_unref (pulse);
   return (state != GST_STATE_CHANGE_FAILURE);
 }
-#endif
 
 static void
 gst_pt_audio_play_bin_init (GstPtAudioPlayBin *bin)
