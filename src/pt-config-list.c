@@ -210,6 +210,18 @@ file_list_error_cb (GObject *object,
 }
 
 static void
+create_file_list (PtConfigList *self)
+{
+  self->file_list = gtk_directory_list_new (G_FILE_ATTRIBUTE_STANDARD_NAME, NULL);
+  gtk_directory_list_set_monitored (self->file_list, FALSE);
+  g_signal_connect (self->file_list, "items_changed",
+                    G_CALLBACK (file_list_items_changed_cb), self);
+  g_signal_connect (self->file_list, "notify::error",
+                    G_CALLBACK (file_list_error_cb), self);
+  gtk_directory_list_set_file (self->file_list, self->config_folder);
+}
+
+static void
 make_config_dir_cb (GObject *source_object,
                     GAsyncResult *res,
                     gpointer user_data)
@@ -224,13 +236,7 @@ make_config_dir_cb (GObject *source_object,
   if (success || (!success && g_error_matches (error, G_IO_ERROR,
                                                G_IO_ERROR_EXISTS)))
     {
-      self->file_list = gtk_directory_list_new (G_FILE_ATTRIBUTE_STANDARD_NAME, NULL);
-      gtk_directory_list_set_monitored (self->file_list, FALSE);
-      g_signal_connect (self->file_list, "items_changed",
-                        G_CALLBACK (file_list_items_changed_cb), self);
-      g_signal_connect (self->file_list, "notify::error",
-                        G_CALLBACK (file_list_error_cb), self);
-      gtk_directory_list_set_file (self->file_list, config_folder);
+      create_file_list (self);
     }
   else
     {
@@ -269,8 +275,8 @@ pt_config_list_refresh (PtConfigList *self)
     return;
 
   g_list_store_remove_all (G_LIST_STORE (self->store));
-  gtk_directory_list_set_file (self->file_list, NULL);
-  gtk_directory_list_set_file (self->file_list, self->config_folder);
+  g_clear_object (&self->file_list);
+  create_file_list (self);
 }
 
 void
