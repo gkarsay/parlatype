@@ -14,8 +14,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GST_PT_AUDIO_PLAY_BIN_H
-#define GST_PT_AUDIO_PLAY_BIN_H
+#pragma once
 
 #include <gst/gst.h>
 
@@ -45,5 +44,3 @@ GType gst_pt_audio_play_bin_get_type (void) G_GNUC_CONST;
 gboolean gst_pt_audio_play_bin_register (void);
 
 G_END_DECLS
-
-#endif

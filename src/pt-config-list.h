@@ -14,8 +14,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PT_CONFIG_LIST_H
-#define PT_CONFIG_LIST_H
+#pragma once
 
 #include <parlatype.h>
 
@@ -29,5 +28,3 @@ void pt_config_list_refresh (PtConfigList *self);
 void pt_config_list_sort (PtConfigList *self);
 
 PtConfigList *pt_config_list_new (PtPlayer *player);
-
-#endif

@@ -14,8 +14,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GST_HELPERS_H
-#define GST_HELPERS_H
+#pragma once
 
 #include <gst/gst.h>
 
@@ -26,5 +25,3 @@ GstElement *_pt_make_element (gchar *factoryname,
                               GError **error);
 
 G_END_DECLS
-
-#endif

@@ -14,10 +14,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* This is the preferences dialog */
-
-#ifndef PT_PREFERENCES_H
-#define PT_PREFERENCES_H
+#pragma once
 
 #include "config.h"
 #include <adwaita.h>
@@ -28,5 +25,3 @@ G_DECLARE_FINAL_TYPE (PtPreferencesDialog, pt_preferences_dialog, PT, PREFERENCE
 void pt_show_preferences_dialog (GtkWindow *parent);
 
 PtPreferencesDialog *pt_preferences_dialog_new (GtkWindow *parent);
-
-#endif

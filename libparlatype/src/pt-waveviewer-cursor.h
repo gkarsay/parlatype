@@ -14,8 +14,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PT_WAVEVIEWER_CURSOR_H
-#define PT_WAVEVIEWER_CURSOR_H
+#pragma once
 
 #include <gtk/gtk.h>
 
@@ -50,5 +49,3 @@ void pt_waveviewer_cursor_render (PtWaveviewerCursor *self,
 GtkWidget *pt_waveviewer_cursor_new (void);
 
 G_END_DECLS
-
-#endif // PT_WAVEVIEWER_CURSOR_H

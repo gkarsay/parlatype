@@ -14,8 +14,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PARLATYPE_H
-#define PARLATYPE_H
+#pragma once
 
 #define __PARLATYPE_H_INSIDE__
 
@@ -25,5 +24,3 @@
 #include "pt-waveviewer.h"
 
 #undef __PARLATYPE_H_INSIDE__
-
-#endif

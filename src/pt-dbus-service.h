@@ -14,8 +14,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PT_DBUS_SERVICE_H
-#define PT_DBUS_SERVICE_H
+#pragma once
 
 #include "config.h"
 #include "pt-controller.h"
@@ -47,5 +46,3 @@ GType pt_dbus_service_get_type (void) G_GNUC_CONST;
 void pt_dbus_service_start (PtDbusService *self);
 
 PtDbusService *pt_dbus_service_new (PtWindow *win);
-
-#endif

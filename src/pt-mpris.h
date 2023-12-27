@@ -14,8 +14,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PT_MPRIS_H
-#define PT_MPRIS_H
+#pragma once
 
 #include "config.h"
 #include "pt-controller.h"
@@ -47,5 +46,3 @@ GType pt_mpris_get_type (void) G_GNUC_CONST;
 void pt_mpris_start (PtMpris *self);
 
 PtMpris *pt_mpris_new (PtWindow *win);
-
-#endif

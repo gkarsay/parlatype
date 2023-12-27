@@ -14,8 +14,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PT_ASR_DIALOG_H
-#define PT_ASR_DIALOG_H
+#pragma once
 
 #include <gtk/gtk.h>
 #include <adwaita.h>
@@ -28,5 +27,3 @@ void pt_asr_dialog_set_config (PtAsrDialog *dlg,
                                PtConfig *config);
 
 PtAsrDialog *pt_asr_dialog_new (GtkWindow *parent);
-
-#endif

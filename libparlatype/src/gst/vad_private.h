@@ -19,8 +19,7 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef __VAD_FILTER_H__
-#define __VAD_FILTER_H__
+#pragma once
 
 #define VAD_SILENCE 0
 #define VAD_VOICE 1
@@ -42,5 +41,3 @@ VADFilter *vad_new (guint64 hysteresis, gint threshold);
 void vad_reset (VADFilter *p);
 
 void vad_destroy (VADFilter *p);
-
-#endif /* __VAD_FILTER__ */

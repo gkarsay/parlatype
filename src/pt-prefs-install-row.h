@@ -14,8 +14,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PT_PREFS_INSTALL_ROW_H
-#define PT_PREFS_INSTALL_ROW_H
+#pragma once
 
 #include <adwaita.h>
 #include <parlatype.h>
@@ -28,5 +27,3 @@ pt_prefs_install_row_get_installed (PtPrefsInstallRow *self);
 
 GtkWidget*
 pt_prefs_install_row_new (PtConfig *config);
-
-#endif

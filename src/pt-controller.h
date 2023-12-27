@@ -14,8 +14,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PT_CONTROLLER_H
-#define PT_CONTROLLER_H
+#pragma once
 
 #include "config.h"
 #include "pt-window.h"
@@ -48,5 +47,3 @@ PtWindow *pt_controller_get_window (PtController *self);
 PtPlayer *pt_controller_get_player (PtController *self);
 
 PtController *pt_controller_new (PtWindow *win);
-
-#endif

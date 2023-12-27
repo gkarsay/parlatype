@@ -14,8 +14,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MOCK_PLUGIN_H
-#define MOCK_PLUGIN_H
+#pragma once
 
 #include <gst/gst.h>
 
@@ -43,5 +42,3 @@ struct _MockPluginClass
 GType mock_plugin_get_type (void) G_GNUC_CONST;
 gboolean mock_plugin_register (void);
 MockPlugin *mock_plugin_new (void);
-
-#endif

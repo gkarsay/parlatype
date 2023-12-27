@@ -14,8 +14,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PT_WINDOW_H
-#define PT_WINDOW_H
+#pragma once
 
 #include "config.h"
 #include <gtk/gtk.h>
@@ -60,5 +59,3 @@ void pt_window_open_file (PtWindow *win,
 gchar *pt_window_get_uri (PtWindow *win);
 
 PtWindow *pt_window_new (PtApp *app);
-
-#endif

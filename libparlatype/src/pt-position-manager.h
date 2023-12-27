@@ -14,8 +14,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PT_POSITION_MANAGER_H
-#define PT_POSITION_MANAGER_H
+#pragma once
 
 #include <gio/gio.h>
 
@@ -56,5 +55,3 @@ gint64 pt_position_manager_load (PtPositionManager *self,
 PtPositionManager *pt_position_manager_new (void);
 
 G_END_DECLS
-
-#endif

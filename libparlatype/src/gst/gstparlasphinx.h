@@ -36,8 +36,7 @@
  * Author: David Huggins-Daines <dhuggins@cs.cmu.edu>
  */
 
-#ifndef __GST_PARLASPHINX_H__
-#define __GST_PARLASPHINX_H__
+#pragma once
 
 #include <gst/gst.h>
 #include <pocketsphinx.h>
@@ -99,5 +98,3 @@ GType ps_decoder_get_type (void);
 gboolean gst_parlasphinx_register (void);
 
 G_END_DECLS
-
-#endif /* __GST_PARLASPHINX_H__ */

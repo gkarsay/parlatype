@@ -14,12 +14,9 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PT_WINDOW_DND_H
-#define PT_WINDOW_DND_H
+#pragma once
 
 #include "config.h"
 #include "pt-window.h"
 
 void pt_window_setup_dnd (PtWindow *win);
-
-#endif

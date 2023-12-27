@@ -14,8 +14,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GST_PT_AUDIO_BIN_H
-#define GST_PT_AUDIO_BIN_H
+#pragma once
 
 #include "pt-config.h"
 #include "pt-player.h"
@@ -64,5 +63,3 @@ void gst_pt_audio_bin_set_mode (GstPtAudioBin *bin,
 gboolean gst_pt_audio_bin_register (void);
 
 G_END_DECLS
-
-#endif

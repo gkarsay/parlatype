@@ -20,8 +20,7 @@
  *             William Jon McCann
  */
 
-#ifndef __GNOME_LANGUAGES_H
-#define __GNOME_LANGUAGES_H
+#pragma once
 
 #include <glib.h>
 
@@ -36,5 +35,3 @@ gboolean gnome_parse_locale (const char *locale,
                              char **modifierp);
 
 G_END_DECLS
-
-#endif /* __GNOME_LANGUAGES_H */

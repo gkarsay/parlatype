@@ -14,8 +14,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PT_WAVEVIEWER_SELECTION_H
-#define PT_WAVEVIEWER_SELECTION_H
+#pragma once
 
 #include <gtk/gtk.h>
 
@@ -51,5 +50,3 @@ void pt_waveviewer_selection_set (PtWaveviewerSelection *self,
 GtkWidget *pt_waveviewer_selection_new (void);
 
 G_END_DECLS
-
-#endif // PT_WAVEVIEWER_SELECTION_H

@@ -14,8 +14,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PT_I18N_H
-#define PT_I18N_H
+#pragma once
 
 #include <gio/gio.h>
 
@@ -24,5 +23,3 @@ G_BEGIN_DECLS
 void _pt_i18n_init (void);
 
 G_END_DECLS
-
-#endif

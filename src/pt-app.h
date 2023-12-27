@@ -14,8 +14,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PT_APP_H
-#define PT_APP_H
+#pragma once
 
 #include "config.h"
 #include <gtk/gtk.h>
@@ -45,5 +44,3 @@ struct _PtAppClass
 GType pt_app_get_type (void) G_GNUC_CONST;
 
 PtApp *pt_app_new (void);
-
-#endif

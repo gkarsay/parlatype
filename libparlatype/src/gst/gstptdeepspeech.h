@@ -14,8 +14,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __GST_PTDEEPSPEECH_H__
-#define __GST_PTDEEPSPEECH_H__
+#pragma once
 
 #include <gst/gst.h>
 #include <gst/base/gstbasetransform.h>
@@ -70,5 +69,3 @@ GType gst_ptdeepspeech_get_type (void);
 gboolean gst_ptdeepspeech_register (void);
 
 G_END_DECLS
-
-#endif /* __GST_PTDEEPSPEECH_H__ */

@@ -14,8 +14,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PT_CONFIG_ROW_H
-#define PT_CONFIG_ROW_H
+#pragma once
 
 #include <adwaita.h>
 #include <parlatype.h>
@@ -36,5 +35,3 @@ void pt_config_row_set_config (PtConfigRow *self,
                                PtConfig *config);
 
 PtConfigRow *pt_config_row_new (PtConfig *config);
-
-#endif

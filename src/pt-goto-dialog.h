@@ -14,8 +14,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PT_GOTO_DIALOG_H
-#define PT_GOTO_DIALOG_H
+#pragma once
 
 #include "config.h"
 
@@ -48,5 +47,3 @@ void pt_goto_dialog_set_max (PtGotoDialog *dlg,
                              gint seconds);
 
 PtGotoDialog *pt_goto_dialog_new (GtkWindow *win);
-
-#endif

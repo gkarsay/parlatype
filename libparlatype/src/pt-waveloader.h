@@ -14,8 +14,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PT_WAVELOADER_H
-#define PT_WAVELOADER_H
+#pragma once
 
 #if !defined(__PARLATYPE_H_INSIDE__) && !defined(PARLATYPE_COMPILATION)
 #error "Only <parlatype.h> can be included directly."
@@ -84,5 +83,3 @@ GArray *pt_waveloader_get_data (PtWaveloader *wl);
 PtWaveloader *pt_waveloader_new (gchar *uri);
 
 G_END_DECLS
-
-#endif

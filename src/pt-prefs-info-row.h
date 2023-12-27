@@ -14,8 +14,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PT_PREFS_INFO_ROW_H
-#define PT_PREFS_INFO_ROW_H
+#pragma once
 
 #include <adwaita.h>
 
@@ -30,5 +29,3 @@ void pt_prefs_info_row_set_info (PtPrefsInfoRow *self,
 
 PtPrefsInfoRow *pt_prefs_info_row_new (gchar *title,
                                        gchar *info);
-
-#endif

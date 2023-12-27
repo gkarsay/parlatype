@@ -14,8 +14,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PT_CONFIG_H
-#define PT_CONFIG_H
+#pragma once
 
 #if !defined(__PARLATYPE_H_INSIDE__) && !defined(PARLATYPE_COMPILATION)
 #error "Only <parlatype.h> can be included directly."
@@ -97,5 +96,3 @@ gboolean pt_config_apply (PtConfig *config,
 gboolean pt_config_is_valid (PtConfig *config);
 gboolean pt_config_is_installed (PtConfig *config);
 PtConfig *pt_config_new (GFile *file);
-
-#endif

@@ -14,8 +14,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PT_WAVEVIEWER_SCROLLBOX_H
-#define PT_WAVEVIEWER_SCROLLBOX_H
+#pragma once
 
 #include <gtk/gtk.h>
 
@@ -52,5 +51,3 @@ void pt_waveviewer_scrollbox_set (PtWaveviewerScrollbox *self,
 GtkWidget *pt_waveviewer_scrollbox_new (void);
 
 G_END_DECLS
-
-#endif // PT_WAVEVIEWER_SCROLLBOX_H
