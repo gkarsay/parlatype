@@ -72,8 +72,8 @@ sort_configs (gconstpointer p1,
    *                 2) Installed
    *                 3) Not installed */
 
-  PtConfig *c1 = PT_CONFIG (p1);
-  PtConfig *c2 = PT_CONFIG (p2);
+  PtConfig *c1 = PT_CONFIG ((void *) p1);
+  PtConfig *c2 = PT_CONFIG ((void *) p2);
   PtConfigList *self = PT_CONFIG_LIST (user_data);
   GFile *file;
   gchar *path;

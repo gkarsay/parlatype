@@ -25,25 +25,7 @@
 G_BEGIN_DECLS
 
 #define PT_TYPE_CONFIG (pt_config_get_type ())
-#define PT_CONFIG(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_TYPE_CONFIG, PtConfig))
-#define PT_IS_CONFIG(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_TYPE_CONFIG))
-
-typedef struct _PtConfig PtConfig;
-typedef struct _PtConfigClass PtConfigClass;
-typedef struct _PtConfigPrivate PtConfigPrivate;
-
-/**
- * PtConfig:
- *
- * #PtConfig contains only private fields and should not be directly accessed.
- */
-struct _PtConfig
-{
-  GObject parent;
-
-  /*< private > */
-  PtConfigPrivate *priv;
-};
+G_DECLARE_DERIVABLE_TYPE (PtConfig, pt_config, PT, CONFIG, GObject)
 
 struct _PtConfigClass
 {
@@ -73,7 +55,6 @@ typedef enum
   PT_ERROR_PLUGIN_WRONG_VALUE,
 } PtError;
 
-GType pt_config_get_type (void) G_GNUC_CONST;
 GQuark pt_error_quark (void);
 
 gchar *pt_config_get_name (PtConfig *config);

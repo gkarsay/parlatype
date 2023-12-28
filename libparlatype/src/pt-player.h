@@ -27,25 +27,7 @@
 G_BEGIN_DECLS
 
 #define PT_TYPE_PLAYER (pt_player_get_type ())
-#define PT_PLAYER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_TYPE_PLAYER, PtPlayer))
-#define PT_IS_PLAYER(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_TYPE_PLAYER))
-
-typedef struct _PtPlayer PtPlayer;
-typedef struct _PtPlayerClass PtPlayerClass;
-typedef struct _PtPlayerPrivate PtPlayerPrivate;
-
-/**
- * PtPlayer:
- *
- * The #PtPlayer contains only private fields and should not be directly accessed.
- */
-struct _PtPlayer
-{
-  GObject parent;
-
-  /*< private > */
-  PtPlayerPrivate *priv;
-};
+G_DECLARE_DERIVABLE_TYPE (PtPlayer, pt_player, PT, PLAYER, GObject)
 
 struct _PtPlayerClass
 {
@@ -100,8 +82,6 @@ typedef enum
   /*< private >*/
   PT_PRECISION_INVALID
 } PtPrecisionType;
-
-GType pt_player_get_type (void) G_GNUC_CONST;
 
 void pt_player_pause (PtPlayer *player);
 void pt_player_pause_and_rewind (PtPlayer *player);

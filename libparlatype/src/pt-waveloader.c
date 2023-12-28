@@ -37,6 +37,7 @@
 #include "pt-i18n.h"
 #include "pt-waveloader.h"
 
+typedef struct _PtWaveloaderPrivate PtWaveloaderPrivate;
 struct _PtWaveloaderPrivate
 {
   GstElement *pipeline;
@@ -83,10 +84,12 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtWaveloader, pt_waveloader, G_TYPE_OBJECT)
 static void
 remove_timeout (PtWaveloader *wl)
 {
-  if (wl->priv->progress_timeout > 0)
+  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (wl);
+
+  if (priv->progress_timeout > 0)
     {
-      g_source_remove (wl->priv->progress_timeout);
-      wl->priv->progress_timeout = 0;
+      g_source_remove (priv->progress_timeout);
+      priv->progress_timeout = 0;
     }
 }
 
@@ -206,6 +209,7 @@ new_sample_cb (GstAppSink *sink,
                gpointer user_data)
 {
   PtWaveloader *wl = PT_WAVELOADER (user_data);
+  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (wl);
   GstSample *sample = gst_app_sink_pull_sample (sink);
   GstBuffer *buffer = gst_sample_get_buffer (sample);
   GstMapInfo map;
@@ -217,27 +221,27 @@ new_sample_cb (GstAppSink *sink,
   /* One sample is 2 bytes (16 bit signed integer), see caps in
    * setup_pipeline(). The buffer contains several samples, the number
    * of elements/samples is map.size / sample size. */
-  g_array_append_vals (wl->priv->hires, map.data, map.size / 2);
+  g_array_append_vals (priv->hires, map.data, map.size / 2);
   gst_buffer_unmap (buffer, &map);
   gst_sample_unref (sample);
 
   /* If hires has more than one second of new data available, add it to
    * lowres. The very last data will be added at the EOS signal. */
-  gint pps = wl->priv->pps;
-  if (wl->priv->hires->len - wl->priv->hires_index >= 8000)
+  gint pps = priv->pps;
+  if (priv->hires->len - priv->hires_index >= 8000)
     {
       /* Make sure lowres is big enough */
-      if (wl->priv->lowres_index + pps * 2 + 1 > wl->priv->lowres->len)
+      if (priv->lowres_index + pps * 2 + 1 > priv->lowres->len)
         {
-          g_array_set_size (wl->priv->lowres, wl->priv->lowres_index + pps * 2 + 2);
+          g_array_set_size (priv->lowres, priv->lowres_index + pps * 2 + 2);
           g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                             "MESSAGE", "lowres->len resized in new_sample_cb: %d",
-                            wl->priv->lowres_index + pps * 2 + 2);
+                            priv->lowres_index + pps * 2 + 2);
         }
-      convert_one_second (wl->priv->hires,
-                          wl->priv->lowres,
-                          &wl->priv->hires_index,
-                          &wl->priv->lowres_index,
+      convert_one_second (priv->hires,
+                          priv->lowres,
+                          &priv->hires_index,
+                          &priv->lowres_index,
                           pps);
     }
 
@@ -247,19 +251,20 @@ new_sample_cb (GstAppSink *sink,
 static gboolean
 setup_pipeline (PtWaveloader *wl)
 {
+  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (wl);
   gboolean result = TRUE;
   GstElement *src, *dec, *conv, *resample, *sink;
   GstCaps *caps;
 
   /* create loader pipeline TODO: this is probably leaking on 2nd run */
-  wl->priv->pipeline = gst_pipeline_new ("wave-loader");
+  priv->pipeline = gst_pipeline_new ("wave-loader");
 
   /* TODO gst_element_make_from_uri(): The URI must be gst_uri_is_valid(). */
-  src = gst_element_make_from_uri (GST_URI_SRC, wl->priv->uri, NULL, NULL);
+  src = gst_element_make_from_uri (GST_URI_SRC, priv->uri, NULL, NULL);
   dec = gst_element_factory_make ("decodebin", NULL);
   conv = gst_element_factory_make ("audioconvert", NULL);
   resample = gst_element_factory_make ("audioresample", NULL);
-  wl->priv->fmt = gst_element_factory_make ("capsfilter", NULL);
+  priv->fmt = gst_element_factory_make ("capsfilter", NULL);
   sink = gst_element_factory_make ("appsink", NULL);
 
   /* configure elements */
@@ -269,25 +274,25 @@ setup_pipeline (PtWaveloader *wl)
                               "channels", G_TYPE_INT, 1,
                               "rate", G_TYPE_INT, 8000, NULL);
 
-  g_object_set (wl->priv->fmt, "caps", caps, NULL);
+  g_object_set (priv->fmt, "caps", caps, NULL);
   gst_caps_unref (caps);
 
   g_object_set (sink, "emit-signals", TRUE, "sync", FALSE, NULL);
 
   /* add and link */
-  gst_bin_add_many (GST_BIN (wl->priv->pipeline), src, dec, conv, resample, wl->priv->fmt, sink, NULL);
+  gst_bin_add_many (GST_BIN (priv->pipeline), src, dec, conv, resample, priv->fmt, sink, NULL);
   result = gst_element_link (src, dec);
   if (!result)
     {
-      GST_WARNING_OBJECT (wl->priv->pipeline,
+      GST_WARNING_OBJECT (priv->pipeline,
                           "Can’t link wave loader pipeline (src ! dec ! conv ! resample ! fmt ! sink).");
       return result;
     }
 
-  result = gst_element_link_many (conv, resample, wl->priv->fmt, sink, NULL);
+  result = gst_element_link_many (conv, resample, priv->fmt, sink, NULL);
   if (!result)
     {
-      GST_WARNING_OBJECT (wl->priv->pipeline,
+      GST_WARNING_OBJECT (priv->pipeline,
                           "Can’t link wave loader pipeline (conv ! resample ! fmt ! sink).");
       return result;
     }
@@ -307,6 +312,7 @@ check_progress (GTask *task)
      the other way round. */
 
   PtWaveloader *wl = g_task_get_source_object (task);
+  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (wl);
 
   gint64 dur;
   gint64 pos;
@@ -317,11 +323,11 @@ check_progress (GTask *task)
 
   if (g_cancellable_is_cancelled (g_task_get_cancellable (task)))
     {
-      gst_element_set_state (wl->priv->pipeline, GST_STATE_NULL);
-      g_source_remove (wl->priv->bus_watch_id);
-      wl->priv->bus_watch_id = 0;
-      wl->priv->progress_timeout = 0;
-      g_array_set_size (wl->priv->lowres, 0);
+      gst_element_set_state (priv->pipeline, GST_STATE_NULL);
+      g_source_remove (priv->bus_watch_id);
+      priv->bus_watch_id = 0;
+      priv->progress_timeout = 0;
+      g_array_set_size (priv->lowres, 0);
       g_task_return_boolean (task, FALSE);
       g_object_unref (task);
       return G_SOURCE_REMOVE;
@@ -329,32 +335,32 @@ check_progress (GTask *task)
 
   /* Query position and duration and emit progress signal */
 
-  if (!gst_element_query_position (wl->priv->pipeline, GST_FORMAT_TIME, &pos))
+  if (!gst_element_query_position (priv->pipeline, GST_FORMAT_TIME, &pos))
     return G_SOURCE_CONTINUE;
 
-  if (!gst_element_query_duration (wl->priv->pipeline, GST_FORMAT_TIME, &dur))
+  if (!gst_element_query_duration (priv->pipeline, GST_FORMAT_TIME, &dur))
     return G_SOURCE_CONTINUE;
 
-  if (dur > wl->priv->duration)
+  if (dur > priv->duration)
     {
-      wl->priv->duration = dur;
-      new_size = wl->priv->duration / 1000000000 * wl->priv->pps * 2;
-      if (wl->priv->lowres->len != new_size)
+      priv->duration = dur;
+      new_size = priv->duration / 1000000000 * priv->pps * 2;
+      if (priv->lowres->len != new_size)
         {
-          g_array_set_size (wl->priv->lowres, new_size);
+          g_array_set_size (priv->lowres, new_size);
           g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                             "MESSAGE", "Duration changed signal: %" GST_TIME_FORMAT " lowres resized to len %d",
-                            GST_TIME_ARGS (wl->priv->duration), new_size);
+                            GST_TIME_ARGS (priv->duration), new_size);
           g_signal_emit_by_name (wl, "array-size-changed");
         }
     }
 
   temp = (gdouble) pos / dur;
 
-  if (temp > wl->priv->progress && temp < 1)
+  if (temp > priv->progress && temp < 1)
     {
-      wl->priv->progress = temp;
-      g_signal_emit_by_name (wl, "progress", wl->priv->progress);
+      priv->progress = temp;
+      g_signal_emit_by_name (wl, "progress", priv->progress);
     }
 
   return G_SOURCE_CONTINUE;
@@ -367,6 +373,7 @@ bus_handler (GstBus *bus,
 {
   GTask *task = (GTask *) data;
   PtWaveloader *wl = g_task_get_source_object (task);
+  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (wl);
 
   switch (GST_MESSAGE_TYPE (msg))
     {
@@ -386,7 +393,7 @@ bus_handler (GstBus *bus,
         g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                           "MESSAGE", "Debugging info: %s", (debug) ? debug : "none");
         g_free (debug);
-        wl->priv->bus_watch_id = 0;
+        priv->bus_watch_id = 0;
         g_task_return_error (task, error);
         g_object_unref (task);
         return FALSE;
@@ -396,43 +403,43 @@ bus_handler (GstBus *bus,
       {
 
         /* convert remaining data from hires to lowres */
-        g_array_set_size (wl->priv->lowres, calc_lowres_len (wl->priv->hires->len, wl->priv->pps));
+        g_array_set_size (priv->lowres, calc_lowres_len (priv->hires->len, priv->pps));
 
         /* while hires has more full seconds than lowres ... */
-        while (wl->priv->hires->len > wl->priv->hires_index)
+        while (priv->hires->len > priv->hires_index)
           {
-            convert_one_second (wl->priv->hires,
-                                wl->priv->lowres,
-                                &wl->priv->hires_index,
-                                &wl->priv->lowres_index,
-                                wl->priv->pps);
+            convert_one_second (priv->hires,
+                                priv->lowres,
+                                &priv->hires_index,
+                                &priv->lowres_index,
+                                priv->pps);
           }
 
         /* query length and convert to samples */
-        if (!gst_element_query_duration (wl->priv->pipeline, GST_FORMAT_TIME, &wl->priv->duration))
+        if (!gst_element_query_duration (priv->pipeline, GST_FORMAT_TIME, &priv->duration))
           {
             GST_WARNING ("getting sample duration failed");
           }
 
         g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                           "MESSAGE", "Sample decoded: hires->len=%d, lowres->len=%d, pps=%d, duration=%" GST_TIME_FORMAT,
-                          wl->priv->hires->len, wl->priv->lowres->len, wl->priv->pps, GST_TIME_ARGS (wl->priv->duration));
+                          priv->hires->len, priv->lowres->len, priv->pps, GST_TIME_ARGS (priv->duration));
 
         remove_timeout (wl);
-        wl->priv->bus_watch_id = 0;
+        priv->bus_watch_id = 0;
         g_task_return_boolean (task, TRUE);
         g_object_unref (task);
         return FALSE;
       }
     case GST_MESSAGE_DURATION_CHANGED:
       {
-        gst_element_query_duration (wl->priv->pipeline, GST_FORMAT_TIME, &wl->priv->duration);
+        gst_element_query_duration (priv->pipeline, GST_FORMAT_TIME, &priv->duration);
         gint new_size;
-        new_size = wl->priv->duration / 1000000000 * wl->priv->pps * 2;
-        g_array_set_size (wl->priv->lowres, new_size);
+        new_size = priv->duration / 1000000000 * priv->pps * 2;
+        g_array_set_size (priv->lowres, new_size);
         g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                           "MESSAGE", "Duration changed signal: %" GST_TIME_FORMAT " lowres resized to len %d",
-                          GST_TIME_ARGS (wl->priv->duration), new_size);
+                          GST_TIME_ARGS (priv->duration), new_size);
         g_signal_emit_by_name (wl, "array-size-changed");
         break;
       }
@@ -462,8 +469,9 @@ pt_waveloader_load_finish (PtWaveloader *wl,
                            GError **error)
 {
   g_return_val_if_fail (g_task_is_valid (result, wl), FALSE);
+  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (wl);
 
-  wl->priv->load_pending = FALSE;
+  priv->load_pending = FALSE;
   g_signal_emit_by_name (wl, "progress", result ? 1.0 : 0.0);
   return g_task_propagate_boolean (G_TASK (result), error);
 }
@@ -501,19 +509,20 @@ pt_waveloader_load_async (PtWaveloader *wl,
                           gpointer user_data)
 {
   g_return_if_fail (PT_IS_WAVELOADER (wl));
-  g_return_if_fail (wl->priv->uri != NULL);
+  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (wl);
+  g_return_if_fail (priv->uri != NULL);
 
   GTask *task;
   GstBus *bus;
 
   task = g_task_new (wl, cancellable, callback, user_data);
   /* Lets have an initial size of 60 sec */
-  g_array_set_size (wl->priv->lowres, pps * 60);
-  wl->priv->pps = pps;
-  wl->priv->lowres_index = 0;
-  wl->priv->hires_index = 0;
+  g_array_set_size (priv->lowres, pps * 60);
+  priv->pps = pps;
+  priv->lowres_index = 0;
+  priv->hires_index = 0;
 
-  if (wl->priv->load_pending)
+  if (priv->load_pending)
     {
       g_task_return_new_error (
           task,
@@ -524,9 +533,9 @@ pt_waveloader_load_async (PtWaveloader *wl,
       return;
     }
 
-  wl->priv->load_pending = TRUE;
-  wl->priv->progress = 0;
-  g_array_set_size (wl->priv->hires, 0);
+  priv->load_pending = TRUE;
+  priv->progress = 0;
+  g_array_set_size (priv->hires, 0);
 
   /* setup pipeline TODO: do it just on init */
   if (!setup_pipeline (wl))
@@ -542,14 +551,14 @@ pt_waveloader_load_async (PtWaveloader *wl,
     }
 
   /* setup message handler */
-  bus = gst_pipeline_get_bus (GST_PIPELINE (wl->priv->pipeline));
-  wl->priv->bus_watch_id = gst_bus_add_watch (bus, bus_handler, task);
+  bus = gst_pipeline_get_bus (GST_PIPELINE (priv->pipeline));
+  priv->bus_watch_id = gst_bus_add_watch (bus, bus_handler, task);
   gst_object_unref (bus);
 
   /* Run pipeline and start timeout for progress and cancellation.
    * Errors are reported on bus. */
-  gst_element_set_state (wl->priv->pipeline, GST_STATE_PLAYING);
-  wl->priv->progress_timeout = g_timeout_add (30, (GSourceFunc) check_progress, task);
+  gst_element_set_state (priv->pipeline, GST_STATE_PLAYING);
+  priv->progress_timeout = g_timeout_add (30, (GSourceFunc) check_progress, task);
 }
 
 /**
@@ -566,7 +575,8 @@ pt_waveloader_load_async (PtWaveloader *wl,
 gint64
 pt_waveloader_get_duration (PtWaveloader *wl)
 {
-  return wl->priv->duration;
+  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (wl);
+  return priv->duration;
 }
 
 /**
@@ -589,7 +599,8 @@ pt_waveloader_resize_finish (PtWaveloader *wl,
 {
   g_return_val_if_fail (g_task_is_valid (result, wl), FALSE);
 
-  wl->priv->data_pending = FALSE;
+  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (wl);
+  priv->data_pending = FALSE;
   return g_task_propagate_boolean (G_TASK (result), error);
 }
 
@@ -600,20 +611,21 @@ pt_waveloader_resize_real (GTask *task,
                            GCancellable *cancellable)
 {
   PtWaveloader *wl = source_object;
+  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (wl);
   gint pps = GPOINTER_TO_INT (task_data);
   gint lowres_len;
   gint index_in = 0;
   gint index_out = 0;
   gboolean result = TRUE;
 
-  lowres_len = calc_lowres_len (wl->priv->hires->len, pps);
-  if (wl->priv->lowres == NULL || wl->priv->lowres->len != lowres_len)
+  lowres_len = calc_lowres_len (priv->hires->len, pps);
+  if (priv->lowres == NULL || priv->lowres->len != lowres_len)
     {
-      g_array_set_size (wl->priv->lowres, lowres_len);
+      g_array_set_size (priv->lowres, lowres_len);
       g_signal_emit_by_name (wl, "array-size-changed");
     }
 
-  while (wl->priv->hires->len > index_in)
+  while (priv->hires->len > index_in)
     {
 
       if (g_cancellable_is_cancelled (cancellable))
@@ -622,15 +634,15 @@ pt_waveloader_resize_real (GTask *task,
           break;
         }
 
-      convert_one_second (wl->priv->hires,
-                          wl->priv->lowres,
+      convert_one_second (priv->hires,
+                          priv->lowres,
                           &index_in,
                           &index_out,
                           pps);
     }
 
   g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
-                    "MESSAGE", "hires->len: %d", wl->priv->hires->len);
+                    "MESSAGE", "hires->len: %d", priv->hires->len);
   g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                     "MESSAGE", "Array size: %" G_GINT64_FORMAT " ",
                     lowres_len);
@@ -686,10 +698,11 @@ pt_waveloader_resize_async (PtWaveloader *wl,
   g_return_if_fail (PT_IS_WAVELOADER (wl));
   g_return_if_fail ((pps >= 25) && (pps <= 200));
 
+  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (wl);
   GTask *task;
 
   task = g_task_new (wl, cancellable, callback, user_data);
-  if (wl->priv->hires->len == 0)
+  if (priv->hires->len == 0)
     {
       g_task_return_new_error (
           task,
@@ -701,7 +714,7 @@ pt_waveloader_resize_async (PtWaveloader *wl,
       g_object_unref (task);
       return;
     }
-  if (wl->priv->load_pending || wl->priv->data_pending)
+  if (priv->load_pending || priv->data_pending)
     {
       g_task_return_new_error (
           task,
@@ -714,7 +727,7 @@ pt_waveloader_resize_async (PtWaveloader *wl,
       return;
     }
 
-  wl->priv->data_pending = TRUE;
+  priv->data_pending = TRUE;
   g_task_set_task_data (task, GINT_TO_POINTER (pps), NULL);
   g_task_run_in_thread (task, pt_waveloader_resize_real);
   g_object_unref (task);
@@ -801,14 +814,15 @@ pt_waveloader_resize (PtWaveloader *wl,
 GArray *
 pt_waveloader_get_data (PtWaveloader *wl)
 {
-  return wl->priv->lowres;
+  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (wl);
+  return priv->lowres;
 }
 /* --------------------- Init and GObject management ------------------------ */
 
 static void
 pt_waveloader_init (PtWaveloader *wl)
 {
-  wl->priv = pt_waveloader_get_instance_private (wl);
+  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (wl);
 
   GError *gst_error = NULL;
   gst_init_check (NULL, NULL, &gst_error);
@@ -819,42 +833,42 @@ pt_waveloader_init (PtWaveloader *wl)
       g_clear_error (&gst_error);
     }
 
-  wl->priv->pipeline = NULL;
-  wl->priv->uri = NULL;
-  wl->priv->hires = g_array_new (FALSE, /* zero terminated */
-                                 TRUE,  /* clear to zero   */
-                                 sizeof (gint16));
-  wl->priv->lowres = g_array_new (FALSE, TRUE, sizeof (float));
-  wl->priv->bus_watch_id = 0;
-  wl->priv->progress_timeout = 0;
-  wl->priv->load_pending = FALSE;
-  wl->priv->data_pending = FALSE;
+  priv->pipeline = NULL;
+  priv->uri = NULL;
+  priv->hires = g_array_new (FALSE, /* zero terminated */
+                             TRUE,  /* clear to zero   */
+                             sizeof (gint16));
+  priv->lowres = g_array_new (FALSE, TRUE, sizeof (float));
+  priv->bus_watch_id = 0;
+  priv->progress_timeout = 0;
+  priv->load_pending = FALSE;
+  priv->data_pending = FALSE;
 }
 
 static void
 pt_waveloader_dispose (GObject *object)
 {
-  PtWaveloader *wl;
-  wl = PT_WAVELOADER (object);
+  PtWaveloader *self = PT_WAVELOADER (object);
+  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (self);
 
-  g_free (wl->priv->uri);
+  g_free (priv->uri);
 
-  g_array_unref (wl->priv->hires);
-  g_array_unref (wl->priv->lowres);
+  g_array_unref (priv->hires);
+  g_array_unref (priv->lowres);
 
-  if (wl->priv->bus_watch_id > 0)
+  if (priv->bus_watch_id > 0)
     {
-      g_source_remove (wl->priv->bus_watch_id);
-      wl->priv->bus_watch_id = 0;
+      g_source_remove (priv->bus_watch_id);
+      priv->bus_watch_id = 0;
     }
 
-  remove_timeout (wl);
+  remove_timeout (self);
 
-  if (wl->priv->pipeline)
+  if (priv->pipeline)
     {
-      gst_element_set_state (wl->priv->pipeline, GST_STATE_NULL);
-      gst_object_unref (GST_OBJECT (wl->priv->pipeline));
-      wl->priv->pipeline = NULL;
+      gst_element_set_state (priv->pipeline, GST_STATE_NULL);
+      gst_object_unref (GST_OBJECT (priv->pipeline));
+      priv->pipeline = NULL;
     }
 
   G_OBJECT_CLASS (pt_waveloader_parent_class)->dispose (object);
@@ -866,14 +880,14 @@ pt_waveloader_set_property (GObject *object,
                             const GValue *value,
                             GParamSpec *pspec)
 {
-  PtWaveloader *wl;
-  wl = PT_WAVELOADER (object);
+  PtWaveloader *self = PT_WAVELOADER (object);
+  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (self);
 
   switch (property_id)
     {
     case PROP_URI:
-      g_free (wl->priv->uri);
-      wl->priv->uri = g_value_dup_string (value);
+      g_free (priv->uri);
+      priv->uri = g_value_dup_string (value);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -887,13 +901,13 @@ pt_waveloader_get_property (GObject *object,
                             GValue *value,
                             GParamSpec *pspec)
 {
-  PtWaveloader *wl;
-  wl = PT_WAVELOADER (object);
+  PtWaveloader *self = PT_WAVELOADER (object);
+  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (self);
 
   switch (property_id)
     {
     case PROP_URI:
-      g_value_set_string (value, wl->priv->uri);
+      g_value_set_string (value, priv->uri);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);

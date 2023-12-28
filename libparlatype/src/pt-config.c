@@ -21,6 +21,7 @@
 #include "contrib/gnome-languages.h"
 #include "pt-config.h"
 
+typedef struct _PtConfigPrivate PtConfigPrivate;
 struct _PtConfigPrivate
 {
   gchar *path;
@@ -81,12 +82,13 @@ pt_error_quark (void)
 static gboolean
 pt_config_save (PtConfig *config)
 {
+  PtConfigPrivate *priv = pt_config_get_instance_private (config);
   GError *error = NULL;
   gboolean result;
 
   result = g_key_file_save_to_file (
-      config->priv->keyfile,
-      config->priv->path,
+      priv->keyfile,
+      priv->path,
       &error);
 
   if (error)
@@ -105,6 +107,7 @@ pt_config_get_value (PtConfig *config,
                      gchar *key,
                      GType type)
 {
+  PtConfigPrivate *priv = pt_config_get_instance_private (config);
   GError *error = NULL;
   GValue result = G_VALUE_INIT;
 
@@ -112,7 +115,7 @@ pt_config_get_value (PtConfig *config,
     {
       g_value_init (&result, G_TYPE_STRING);
       gchar *base = pt_config_get_base_folder (config);
-      gchar **pieces = g_key_file_get_string_list (config->priv->keyfile,
+      gchar **pieces = g_key_file_get_string_list (priv->keyfile,
                                                    "Files", key, NULL, &error);
       gchar *relative = g_build_filenamev (pieces);
       gchar *absolute = g_build_filename (base, relative, NULL);
@@ -127,7 +130,7 @@ pt_config_get_value (PtConfig *config,
         {
         case (G_TYPE_STRING):
           g_value_init (&result, G_TYPE_STRING);
-          gchar *string = g_key_file_get_string (config->priv->keyfile,
+          gchar *string = g_key_file_get_string (priv->keyfile,
                                                  "Parameters", key, &error);
           g_value_set_string (&result, string);
           g_free (string);
@@ -135,25 +138,25 @@ pt_config_get_value (PtConfig *config,
         case (G_TYPE_UINT):
         case (G_TYPE_INT):
           g_value_init (&result, G_TYPE_INT);
-          gint integer = g_key_file_get_integer (config->priv->keyfile,
+          gint integer = g_key_file_get_integer (priv->keyfile,
                                                  "Parameters", key, &error);
           g_value_set_int (&result, integer);
           break;
         case (G_TYPE_FLOAT):
           g_value_init (&result, G_TYPE_FLOAT);
-          gfloat floaty = g_key_file_get_double (config->priv->keyfile,
+          gfloat floaty = g_key_file_get_double (priv->keyfile,
                                                  "Parameters", key, &error);
           g_value_set_float (&result, floaty);
           break;
         case (G_TYPE_DOUBLE):
           g_value_init (&result, G_TYPE_DOUBLE);
-          gdouble doubly = g_key_file_get_double (config->priv->keyfile,
+          gdouble doubly = g_key_file_get_double (priv->keyfile,
                                                   "Parameters", key, &error);
           g_value_set_double (&result, doubly);
           break;
         case (G_TYPE_BOOLEAN):
           g_value_init (&result, G_TYPE_BOOLEAN);
-          gboolean boolean = g_key_file_get_boolean (config->priv->keyfile,
+          gboolean boolean = g_key_file_get_boolean (priv->keyfile,
                                                      "Parameters", key, &error);
           g_value_set_boolean (&result, boolean);
           break;
@@ -180,10 +183,11 @@ pt_config_get_string (PtConfig *config,
                       gchar *group,
                       gchar *parameter)
 {
+  PtConfigPrivate *priv = pt_config_get_instance_private (config);
   GError *error = NULL;
   gchar *result;
 
-  result = g_key_file_get_string (config->priv->keyfile,
+  result = g_key_file_get_string (priv->keyfile,
                                   group, parameter, &error);
 
   if (error)
@@ -203,8 +207,9 @@ pt_config_set_string (PtConfig *config,
                       gchar *parameter,
                       gchar *value)
 {
+  PtConfigPrivate *priv = pt_config_get_instance_private (config);
   g_key_file_set_string (
-      config->priv->keyfile, group, parameter, value);
+      priv->keyfile, group, parameter, value);
 
   return pt_config_save (config);
 }
@@ -223,9 +228,11 @@ gchar *
 pt_config_get_name (PtConfig *config)
 {
   g_return_val_if_fail (PT_IS_CONFIG (config), NULL);
-  g_return_val_if_fail (config->priv->is_valid, NULL);
 
-  return config->priv->name;
+  PtConfigPrivate *priv = pt_config_get_instance_private (config);
+  g_return_val_if_fail (priv->is_valid, NULL);
+
+  return priv->name;
 }
 
 /**
@@ -245,16 +252,18 @@ pt_config_set_name (PtConfig *config,
                     gchar *name)
 {
   g_return_val_if_fail (PT_IS_CONFIG (config), FALSE);
-  g_return_val_if_fail (config->priv->is_valid, FALSE);
 
-  if (g_strcmp0 (config->priv->name, name) == 0)
+  PtConfigPrivate *priv = pt_config_get_instance_private (config);
+  g_return_val_if_fail (priv->is_valid, FALSE);
+
+  if (g_strcmp0 (priv->name, name) == 0)
     return TRUE;
 
   if (!pt_config_set_string (config, "Model", "Name", name))
     return FALSE;
 
-  g_free (config->priv->name);
-  config->priv->name = g_strdup (name);
+  g_free (priv->name);
+  priv->name = g_strdup (name);
   g_object_notify_by_pspec (G_OBJECT (config),
                             obj_properties[PROP_NAME]);
   return TRUE;
@@ -276,7 +285,9 @@ pt_config_set_base_folder (PtConfig *config,
                            gchar *name)
 {
   g_return_val_if_fail (PT_IS_CONFIG (config), FALSE);
-  g_return_val_if_fail (config->priv->is_valid, FALSE);
+
+  PtConfigPrivate *priv = pt_config_get_instance_private (config);
+  g_return_val_if_fail (priv->is_valid, FALSE);
 
   gboolean result;
   gboolean installed;
@@ -284,12 +295,12 @@ pt_config_set_base_folder (PtConfig *config,
   result = pt_config_set_string (config, "Model", "BaseFolder", name);
   if (result)
     {
-      g_free (config->priv->base_folder);
-      config->priv->base_folder = g_strdup (name);
+      g_free (priv->base_folder);
+      priv->base_folder = g_strdup (name);
       installed = pt_config_verify_install (config);
-      if (installed != config->priv->is_installed)
+      if (installed != priv->is_installed)
         {
-          config->priv->is_installed = installed;
+          priv->is_installed = installed;
           g_object_notify_by_pspec (G_OBJECT (config),
                                     obj_properties[PROP_IS_INSTALLED]);
         }
@@ -315,9 +326,11 @@ gchar *
 pt_config_get_base_folder (PtConfig *config)
 {
   g_return_val_if_fail (PT_IS_CONFIG (config), NULL);
-  g_return_val_if_fail (config->priv->is_valid, NULL);
 
-  return config->priv->base_folder;
+  PtConfigPrivate *priv = pt_config_get_instance_private (config);
+  g_return_val_if_fail (priv->is_valid, NULL);
+
+  return priv->base_folder;
 }
 
 /**
@@ -335,9 +348,11 @@ gchar *
 pt_config_get_plugin (PtConfig *config)
 {
   g_return_val_if_fail (PT_IS_CONFIG (config), NULL);
-  g_return_val_if_fail (config->priv->is_valid, NULL);
 
-  return config->priv->plugin;
+  PtConfigPrivate *priv = pt_config_get_instance_private (config);
+  g_return_val_if_fail (priv->is_valid, NULL);
+
+  return priv->plugin;
 }
 
 /**
@@ -355,9 +370,11 @@ gchar *
 pt_config_get_lang_code (PtConfig *config)
 {
   g_return_val_if_fail (PT_IS_CONFIG (config), NULL);
-  g_return_val_if_fail (config->priv->is_valid, NULL);
 
-  return config->priv->lang_code;
+  PtConfigPrivate *priv = pt_config_get_instance_private (config);
+  g_return_val_if_fail (priv->is_valid, NULL);
+
+  return priv->lang_code;
 }
 
 /**
@@ -374,9 +391,11 @@ gchar *
 pt_config_get_lang_name (PtConfig *config)
 {
   g_return_val_if_fail (PT_IS_CONFIG (config), NULL);
-  g_return_val_if_fail (config->priv->is_valid, NULL);
 
-  return config->priv->lang_name;
+  PtConfigPrivate *priv = pt_config_get_instance_private (config);
+  g_return_val_if_fail (priv->is_valid, NULL);
+
+  return priv->lang_name;
 }
 
 /**
@@ -396,7 +415,9 @@ pt_config_get_key (PtConfig *config,
                    gchar *key)
 {
   g_return_val_if_fail (PT_IS_CONFIG (config), NULL);
-  g_return_val_if_fail (config->priv->is_valid, NULL);
+
+  PtConfigPrivate *priv = pt_config_get_instance_private (config);
+  g_return_val_if_fail (priv->is_valid, NULL);
 
   return pt_config_get_string (config, "Model", key);
 }
@@ -419,9 +440,11 @@ pt_config_apply (PtConfig *config,
                  GError **error)
 {
   g_return_val_if_fail (PT_IS_CONFIG (config), FALSE);
-  g_return_val_if_fail (config->priv->is_valid, FALSE);
   g_return_val_if_fail (G_IS_OBJECT (plugin), FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+  PtConfigPrivate *priv = pt_config_get_instance_private (config);
+  g_return_val_if_fail (priv->is_valid, FALSE);
 
   gchar **keys = NULL;
   GParamSpec *spec;
@@ -437,7 +460,7 @@ pt_config_apply (PtConfig *config,
   for (int g = 0; groups[g] != NULL; g++)
     {
 
-      keys = g_key_file_get_keys (config->priv->keyfile, groups[g],
+      keys = g_key_file_get_keys (priv->keyfile, groups[g],
                                   NULL, NULL);
 
       /* "Parameters" is optional */
@@ -500,10 +523,11 @@ static gboolean
 key_is_empty (PtConfig *config,
               gchar *key)
 {
+  PtConfigPrivate *priv = pt_config_get_instance_private (config);
   gboolean result = FALSE;
   gchar *value;
 
-  value = g_key_file_get_string (config->priv->keyfile, "Model", key, NULL);
+  value = g_key_file_get_string (priv->keyfile, "Model", key, NULL);
 
   if (!value)
     return TRUE;
@@ -567,9 +591,11 @@ gboolean
 pt_config_is_installed (PtConfig *config)
 {
   g_return_val_if_fail (PT_IS_CONFIG (config), FALSE);
-  g_return_val_if_fail (config->priv->is_valid, FALSE);
 
-  return config->priv->is_installed;
+  PtConfigPrivate *priv = pt_config_get_instance_private (config);
+  g_return_val_if_fail (priv->is_valid, FALSE);
+
+  return priv->is_installed;
 }
 
 /**
@@ -635,12 +661,14 @@ pt_config_is_valid (PtConfig *config)
 {
   g_return_val_if_fail (PT_IS_CONFIG (config), FALSE);
 
-  return config->priv->is_valid;
+  PtConfigPrivate *priv = pt_config_get_instance_private (config);
+  return priv->is_valid;
 }
 
 static gboolean
 is_valid (PtConfig *config)
 {
+  PtConfigPrivate *priv = pt_config_get_instance_private (config);
   gchar *groups[] = { "Model", "Files", NULL };
   gchar *model_keys[] = { "Name", "Plugin", "BaseFolder", "Language", NULL };
   gchar *mandatory[] = { "Name", "Plugin", "Language", NULL };
@@ -650,7 +678,7 @@ is_valid (PtConfig *config)
 
   for (i = 0; groups[i] != NULL; i++)
     {
-      if (!g_key_file_has_group (config->priv->keyfile, groups[i]))
+      if (!g_key_file_has_group (priv->keyfile, groups[i]))
         return FALSE;
     }
 
@@ -659,7 +687,7 @@ is_valid (PtConfig *config)
 
   for (i = 0; model_keys[i] != NULL; i++)
     {
-      if (!g_key_file_has_key (config->priv->keyfile, "Model", model_keys[i], NULL))
+      if (!g_key_file_has_key (priv->keyfile, "Model", model_keys[i], NULL))
         return FALSE;
     }
 
@@ -669,7 +697,7 @@ is_valid (PtConfig *config)
         return FALSE;
     }
 
-  parameters = g_key_file_get_keys (config->priv->keyfile, "Files",
+  parameters = g_key_file_get_keys (priv->keyfile, "Files",
                                     NULL, NULL);
 
   if (!parameters || parameters[0] == NULL)
@@ -682,21 +710,22 @@ is_valid (PtConfig *config)
 static gboolean
 pt_config_verify_install (PtConfig *config)
 {
+  PtConfigPrivate *priv = pt_config_get_instance_private (config);
   gchar **keys = NULL;
   GValue value;
   gboolean result = TRUE;
 
-  if (!config->priv->base_folder)
+  if (!priv->base_folder)
     return FALSE;
 
-  if (!g_file_test (config->priv->base_folder, G_FILE_TEST_IS_DIR | G_FILE_TEST_EXISTS))
+  if (!g_file_test (priv->base_folder, G_FILE_TEST_IS_DIR | G_FILE_TEST_EXISTS))
     {
       g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
-                        "MESSAGE", "Base folder \"%s\" not found", config->priv->base_folder);
+                        "MESSAGE", "Base folder \"%s\" not found", priv->base_folder);
       return FALSE;
     }
 
-  keys = g_key_file_get_keys (config->priv->keyfile, "Files",
+  keys = g_key_file_get_keys (priv->keyfile, "Files",
                               NULL, NULL);
 
   for (int i = 0; keys[i] != NULL; i++)
@@ -748,7 +777,7 @@ tabula_rasa (PtConfigPrivate *priv)
 static void
 setup_config (PtConfig *config)
 {
-  PtConfigPrivate *priv = config->priv;
+  PtConfigPrivate *priv = pt_config_get_instance_private (config);
   GError *error = NULL;
   gboolean loaded;
 
@@ -783,7 +812,7 @@ setup_config (PtConfig *config)
   priv->plugin = pt_config_get_string (config, "Model", "Plugin");
   priv->base_folder = pt_config_get_string (config, "Model", "BaseFolder");
   priv->lang_code = pt_config_get_string (config, "Model", "Language");
-  priv->lang_name = gnome_get_language_from_locale (config->priv->lang_code, NULL);
+  priv->lang_name = gnome_get_language_from_locale (priv->lang_code, NULL);
   if (!priv->lang_name)
     priv->lang_name = g_strdup (priv->lang_code);
   priv->is_installed = pt_config_verify_install (config);
@@ -803,9 +832,11 @@ GFile *
 pt_config_get_file (PtConfig *config)
 {
   g_return_val_if_fail (PT_IS_CONFIG (config), NULL);
-  g_return_val_if_fail (config->priv->is_valid, NULL);
 
-  return config->priv->file;
+  PtConfigPrivate *priv = pt_config_get_instance_private (config);
+  g_return_val_if_fail (priv->is_valid, NULL);
+
+  return priv->file;
 }
 
 /**
@@ -824,20 +855,20 @@ pt_config_set_file (PtConfig *config,
   g_return_if_fail (PT_IS_CONFIG (config));
   g_return_if_fail (file != NULL);
 
-  PtConfigPrivate *priv = config->priv;
+  PtConfigPrivate *priv = pt_config_get_instance_private (config);
 
   free_private (priv);
   tabula_rasa (priv);
-  config->priv->file = g_object_ref (file);
+  priv->file = g_object_ref (file);
   setup_config (config);
 }
 
 static void
 pt_config_init (PtConfig *config)
 {
-  config->priv = pt_config_get_instance_private (config);
+  PtConfigPrivate *priv = pt_config_get_instance_private (config);
 
-  tabula_rasa (config->priv);
+  tabula_rasa (priv);
 }
 
 static void
@@ -850,8 +881,9 @@ static void
 pt_config_finalize (GObject *object)
 {
   PtConfig *config = PT_CONFIG (object);
+  PtConfigPrivate *priv = pt_config_get_instance_private (config);
 
-  free_private (config->priv);
+  free_private (priv);
 
   G_OBJECT_CLASS (pt_config_parent_class)->finalize (object);
 }
@@ -882,20 +914,21 @@ pt_config_get_property (GObject *object,
                         GParamSpec *pspec)
 {
   PtConfig *config = PT_CONFIG (object);
+  PtConfigPrivate *priv = pt_config_get_instance_private (config);
 
   switch (property_id)
     {
     case PROP_FILE:
-      g_value_set_object (value, config->priv->file);
+      g_value_set_object (value, priv->file);
       break;
     case PROP_IS_VALID:
-      g_value_set_boolean (value, config->priv->is_valid);
+      g_value_set_boolean (value, priv->is_valid);
       break;
     case PROP_IS_INSTALLED:
-      g_value_set_boolean (value, config->priv->is_installed);
+      g_value_set_boolean (value, priv->is_installed);
       break;
     case PROP_NAME:
-      g_value_set_string (value, config->priv->name);
+      g_value_set_string (value, priv->name);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
