@@ -27,8 +27,9 @@
 
 #define ENTRY_OBJECT_PATH_PREFIX "/org/mpris/MediaPlayer2/Track/"
 
-struct _PtMprisPrivate
+struct _PtMpris
 {
+  PtController parent;
 
   GDBusConnection *connection;
   GDBusNodeInfo *node_info;
@@ -40,7 +41,7 @@ struct _PtMprisPrivate
   guint property_emit_id;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE (PtMpris, pt_mpris, PT_CONTROLLER_TYPE)
+G_DEFINE_TYPE (PtMpris, pt_mpris, PT_CONTROLLER_TYPE)
 
 static void
 emit_property_changes (PtMpris *self, GHashTable *changes, const char *interface)
@@ -77,7 +78,7 @@ emit_property_changes (PtMpris *self, GHashTable *changes, const char *interface
                               invalidated);
   g_variant_builder_unref (properties);
   g_variant_builder_unref (invalidated);
-  g_dbus_connection_emit_signal (self->priv->connection,
+  g_dbus_connection_emit_signal (self->connection,
                                  NULL,
                                  MPRIS_OBJECT_NAME,
                                  "org.freedesktop.DBus.Properties",
@@ -96,14 +97,14 @@ emit_property_changes (PtMpris *self, GHashTable *changes, const char *interface
 static gboolean
 emit_properties_idle (PtMpris *self)
 {
-  if (self->priv->player_property_changes != NULL)
+  if (self->player_property_changes != NULL)
     {
-      emit_property_changes (self, self->priv->player_property_changes, MPRIS_PLAYER_INTERFACE);
-      g_hash_table_destroy (self->priv->player_property_changes);
-      self->priv->player_property_changes = NULL;
+      emit_property_changes (self, self->player_property_changes, MPRIS_PLAYER_INTERFACE);
+      g_hash_table_destroy (self->player_property_changes);
+      self->player_property_changes = NULL;
     }
 
-  self->priv->property_emit_id = 0;
+  self->property_emit_id = 0;
   return FALSE;
 }
 
@@ -112,15 +113,15 @@ add_player_property_change (PtMpris *self,
                             const char *property,
                             GVariant *value)
 {
-  if (self->priv->player_property_changes == NULL)
+  if (self->player_property_changes == NULL)
     {
-      self->priv->player_property_changes = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_variant_unref);
+      self->player_property_changes = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_variant_unref);
     }
-  g_hash_table_insert (self->priv->player_property_changes, g_strdup (property), g_variant_ref_sink (value));
+  g_hash_table_insert (self->player_property_changes, g_strdup (property), g_variant_ref_sink (value));
 
-  if (self->priv->property_emit_id == 0)
+  if (self->property_emit_id == 0)
     {
-      self->priv->property_emit_id = g_idle_add ((GSourceFunc) emit_properties_idle, self);
+      self->property_emit_id = g_idle_add ((GSourceFunc) emit_properties_idle, self);
     }
 }
 
@@ -661,7 +662,7 @@ pt_mpris_start (PtMpris *self)
   GDBusInterfaceInfo *ifaceinfo;
   GError *error = NULL;
 
-  self->priv->connection = g_bus_get_sync (G_BUS_TYPE_SESSION, NULL, &error);
+  self->connection = g_bus_get_sync (G_BUS_TYPE_SESSION, NULL, &error);
   if (error != NULL)
     {
       g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
@@ -670,7 +671,7 @@ pt_mpris_start (PtMpris *self)
     }
 
   /* parse introspection data */
-  self->priv->node_info = g_dbus_node_info_new_for_xml (mpris_introspection_xml, &error);
+  self->node_info = g_dbus_node_info_new_for_xml (mpris_introspection_xml, &error);
   if (error != NULL)
     {
       g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
@@ -679,14 +680,14 @@ pt_mpris_start (PtMpris *self)
     }
 
   /* register root interface */
-  ifaceinfo = g_dbus_node_info_lookup_interface (self->priv->node_info, MPRIS_ROOT_INTERFACE);
-  self->priv->root_id = g_dbus_connection_register_object (self->priv->connection,
-                                                           MPRIS_OBJECT_NAME,
-                                                           ifaceinfo,
-                                                           &root_vtable,
-                                                           self,
-                                                           NULL,
-                                                           &error);
+  ifaceinfo = g_dbus_node_info_lookup_interface (self->node_info, MPRIS_ROOT_INTERFACE);
+  self->root_id = g_dbus_connection_register_object (self->connection,
+                                                     MPRIS_OBJECT_NAME,
+                                                     ifaceinfo,
+                                                     &root_vtable,
+                                                     self,
+                                                     NULL,
+                                                     &error);
   if (error != NULL)
     {
       g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
@@ -695,14 +696,14 @@ pt_mpris_start (PtMpris *self)
     }
 
   /* register player interface */
-  ifaceinfo = g_dbus_node_info_lookup_interface (self->priv->node_info, MPRIS_PLAYER_INTERFACE);
-  self->priv->player_id = g_dbus_connection_register_object (self->priv->connection,
-                                                             MPRIS_OBJECT_NAME,
-                                                             ifaceinfo,
-                                                             &player_vtable,
-                                                             self,
-                                                             NULL,
-                                                             &error);
+  ifaceinfo = g_dbus_node_info_lookup_interface (self->node_info, MPRIS_PLAYER_INTERFACE);
+  self->player_id = g_dbus_connection_register_object (self->connection,
+                                                       MPRIS_OBJECT_NAME,
+                                                       ifaceinfo,
+                                                       &player_vtable,
+                                                       self,
+                                                       NULL,
+                                                       &error);
   if (error != NULL)
     {
       g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
@@ -730,20 +731,19 @@ pt_mpris_start (PtMpris *self)
                            G_CALLBACK (uri_changed_cb),
                            self, 0);
 
-  self->priv->name_own_id = g_bus_own_name (G_BUS_TYPE_SESSION,
-                                            MPRIS_BUS_NAME_PREFIX ".parlatype",
-                                            G_BUS_NAME_OWNER_FLAGS_NONE,
-                                            NULL,
-                                            (GBusNameAcquiredCallback) name_acquired_cb,
-                                            (GBusNameLostCallback) name_lost_cb,
-                                            g_object_ref (self),
-                                            g_object_unref);
+  self->name_own_id = g_bus_own_name (G_BUS_TYPE_SESSION,
+                                      MPRIS_BUS_NAME_PREFIX ".parlatype",
+                                      G_BUS_NAME_OWNER_FLAGS_NONE,
+                                      NULL,
+                                      (GBusNameAcquiredCallback) name_acquired_cb,
+                                      (GBusNameLostCallback) name_lost_cb,
+                                      g_object_ref (self),
+                                      g_object_unref);
 }
 
 static void
 pt_mpris_init (PtMpris *self)
 {
-  self->priv = pt_mpris_get_instance_private (self);
 }
 
 static void
@@ -752,15 +752,15 @@ pt_mpris_dispose (GObject *object)
   PtMpris *self = PT_MPRIS (object);
   PtPlayer *player = pt_controller_get_player (PT_CONTROLLER (self));
 
-  if (self->priv->root_id != 0)
+  if (self->root_id != 0)
     {
-      g_dbus_connection_unregister_object (self->priv->connection, self->priv->root_id);
-      self->priv->root_id = 0;
+      g_dbus_connection_unregister_object (self->connection, self->root_id);
+      self->root_id = 0;
     }
-  if (self->priv->player_id != 0)
+  if (self->player_id != 0)
     {
-      g_dbus_connection_unregister_object (self->priv->connection, self->priv->player_id);
-      self->priv->player_id = 0;
+      g_dbus_connection_unregister_object (self->connection, self->player_id);
+      self->player_id = 0;
     }
 
   g_signal_handlers_disconnect_by_func (player,

@@ -21,12 +21,14 @@
 #include "pt-window.h"
 #include "pt-dbus-service.h"
 
-struct _PtDbusServicePrivate
+struct _PtDbusService
 {
+  PtController parent;
+
   gint owner_id;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE (PtDbusService, pt_dbus_service, PT_CONTROLLER_TYPE)
+G_DEFINE_TYPE (PtDbusService, pt_dbus_service, PT_CONTROLLER_TYPE)
 
 static GDBusNodeInfo *introspection_data = NULL;
 
@@ -231,21 +233,20 @@ pt_dbus_service_start (PtDbusService *self)
   introspection_data = g_dbus_node_info_new_for_xml (introspection_xml, NULL);
   g_assert (introspection_data != NULL);
 
-  self->priv->owner_id = g_bus_own_name (G_BUS_TYPE_SESSION,
-                                         APP_ID,
-                                         G_BUS_NAME_OWNER_FLAGS_NONE,
-                                         on_bus_acquired,
-                                         on_name_acquired,
-                                         on_name_lost,
-                                         self,
-                                         NULL);
+  self->owner_id = g_bus_own_name (G_BUS_TYPE_SESSION,
+                                   APP_ID,
+                                   G_BUS_NAME_OWNER_FLAGS_NONE,
+                                   on_bus_acquired,
+                                   on_name_acquired,
+                                   on_name_lost,
+                                   self,
+                                   NULL);
 }
 
 static void
 pt_dbus_service_init (PtDbusService *self)
 {
-  self->priv = pt_dbus_service_get_instance_private (self);
-  self->priv->owner_id = 0;
+  self->owner_id = 0;
 }
 
 static void
@@ -253,11 +254,11 @@ pt_dbus_service_dispose (GObject *object)
 {
   PtDbusService *self = PT_DBUS_SERVICE (object);
 
-  if (self->priv->owner_id > 0)
+  if (self->owner_id > 0)
     {
-      g_bus_unown_name (self->priv->owner_id);
+      g_bus_unown_name (self->owner_id);
       g_dbus_node_info_unref (introspection_data);
-      self->priv->owner_id = 0;
+      self->owner_id = 0;
     }
 
   G_OBJECT_CLASS (pt_dbus_service_parent_class)->dispose (object);

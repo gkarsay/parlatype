@@ -20,27 +20,12 @@
 #include "pt-window.h"
 
 #define PT_CONTROLLER_TYPE (pt_controller_get_type ())
-#define PT_CONTROLLER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_CONTROLLER_TYPE, PtController))
-#define PT_IS_CONTROLLER(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_CONTROLLER_TYPE))
-
-typedef struct _PtController PtController;
-typedef struct _PtControllerClass PtControllerClass;
-typedef struct _PtControllerPrivate PtControllerPrivate;
-
-struct _PtController
-{
-  GObject parent;
-
-  /*< private > */
-  PtControllerPrivate *priv;
-};
+G_DECLARE_DERIVABLE_TYPE (PtController, pt_controller, PT, CONTROLLER, GObject)
 
 struct _PtControllerClass
 {
   GObjectClass parent_class;
 };
-
-GType pt_controller_get_type (void) G_GNUC_CONST;
 
 PtWindow *pt_controller_get_window (PtController *self);
 

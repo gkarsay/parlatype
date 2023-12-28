@@ -21,28 +21,7 @@
 #include "pt-window.h"
 
 #define PT_DBUS_SERVICE_TYPE (pt_dbus_service_get_type ())
-#define PT_DBUS_SERVICE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_DBUS_SERVICE_TYPE, PtDbusService))
-#define PT_IS_DBUS_SERVICE(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_DBUS_SERVICE_TYPE))
-
-typedef struct _PtDbusService PtDbusService;
-typedef struct _PtDbusServiceClass PtDbusServiceClass;
-typedef struct _PtDbusServicePrivate PtDbusServicePrivate;
-
-struct _PtDbusService
-{
-  PtController parent;
-
-  /*< private > */
-  PtDbusServicePrivate *priv;
-};
-
-struct _PtDbusServiceClass
-{
-  PtControllerClass parent_class;
-};
-
-GType pt_dbus_service_get_type (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PtDbusService, pt_dbus_service, PT, DBUS_SERVICE, PtController)
 
 void pt_dbus_service_start (PtDbusService *self);
-
 PtDbusService *pt_dbus_service_new (PtWindow *win);

@@ -21,28 +21,7 @@
 #include "pt-window.h"
 
 #define PT_MPRIS_TYPE (pt_mpris_get_type ())
-#define PT_MPRIS(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_MPRIS_TYPE, PtMpris))
-#define PT_IS_MPRIS(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_MPRIS_TYPE))
-
-typedef struct _PtMpris PtMpris;
-typedef struct _PtMprisClass PtMprisClass;
-typedef struct _PtMprisPrivate PtMprisPrivate;
-
-struct _PtMpris
-{
-  PtController parent;
-
-  /*< private > */
-  PtMprisPrivate *priv;
-};
-
-struct _PtMprisClass
-{
-  PtControllerClass parent_class;
-};
-
-GType pt_mpris_get_type (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PtMpris, pt_mpris, PT, MPRIS, PtController)
 
 void pt_mpris_start (PtMpris *self);
-
 PtMpris *pt_mpris_new (PtWindow *win);

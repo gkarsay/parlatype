@@ -18,6 +18,7 @@
 #include "pt-window.h"
 #include "pt-controller.h"
 
+typedef struct _PtControllerPrivate PtControllerPrivate;
 struct _PtControllerPrivate
 {
   PtWindow *win;
@@ -34,24 +35,25 @@ static GParamSpec *obj_properties[N_PROPERTIES] = {
   NULL,
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE (PtController, pt_controller, G_TYPE_OBJECT)
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (PtController, pt_controller, G_TYPE_OBJECT)
 
 PtWindow *
 pt_controller_get_window (PtController *self)
 {
-  return self->priv->win;
+  PtControllerPrivate *priv = pt_controller_get_instance_private (self);
+  return priv->win;
 }
 
 PtPlayer *
 pt_controller_get_player (PtController *self)
 {
-  return self->priv->win->player;
+  PtControllerPrivate *priv = pt_controller_get_instance_private (self);
+  return priv->win->player;
 }
 
 static void
 pt_controller_init (PtController *self)
 {
-  self->priv = pt_controller_get_instance_private (self);
 }
 
 static void
@@ -61,11 +63,12 @@ pt_controller_set_property (GObject *object,
                             GParamSpec *pspec)
 {
   PtController *self = PT_CONTROLLER (object);
+  PtControllerPrivate *priv = pt_controller_get_instance_private (self);
 
   switch (property_id)
     {
     case PROP_WIN:
-      self->priv->win = g_value_get_object (value);
+      priv->win = g_value_get_object (value);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -80,11 +83,12 @@ pt_controller_get_property (GObject *object,
                             GParamSpec *pspec)
 {
   PtController *self = PT_CONTROLLER (object);
+  PtControllerPrivate *priv = pt_controller_get_instance_private (self);
 
   switch (property_id)
     {
     case PROP_WIN:
-      g_value_set_object (value, self->priv->win);
+      g_value_set_object (value, priv->win);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
