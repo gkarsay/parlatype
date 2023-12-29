@@ -16,6 +16,7 @@
 
 #include "config.h"
 #include "pt-window.h"
+#include "pt-window-private.h"
 #include "pt-controller.h"
 
 typedef struct _PtControllerPrivate PtControllerPrivate;
@@ -48,7 +49,7 @@ PtPlayer *
 pt_controller_get_player (PtController *self)
 {
   PtControllerPrivate *priv = pt_controller_get_instance_private (self);
-  return priv->win->player;
+  return _pt_window_get_player (priv->win);
 }
 
 static void

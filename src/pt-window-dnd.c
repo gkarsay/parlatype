@@ -75,12 +75,14 @@ handle_filename (PtWindow *win,
 {
   gboolean success;
   GList *list;
+  GtkRecentManager *recent;
   GtkRecentInfo *info;
   gchar *uri;
 
   success = FALSE;
 
-  list = gtk_recent_manager_get_items (win->priv->recent);
+  recent = _pt_window_get_recent_manager (win);
+  list = gtk_recent_manager_get_items (recent);
   for (list = g_list_first (list); list; list = g_list_next (list))
     {
       info = (GtkRecentInfo *) list->data;
@@ -115,7 +117,9 @@ handle_dnd_data (PtWindow *win,
   g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                     "MESSAGE", "Received drag and drop: '%s'", data);
 
-  if (pt_player_goto_timestamp (win->player, data))
+  PtPlayer *player = _pt_window_get_player (win);
+
+  if (pt_player_goto_timestamp (player, data))
     return TRUE;
 
   if (handle_uri (win, data))

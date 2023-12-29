@@ -25,7 +25,51 @@
 #include "pt-window-dnd.h"
 #include "pt-window-private.h"
 
-G_DEFINE_TYPE_WITH_PRIVATE (PtWindow, pt_window, GTK_TYPE_APPLICATION_WINDOW)
+struct _PtWindow
+{
+  GtkApplicationWindow parent;
+  PtPlayer *player;
+  GtkWidget *waveviewer;
+  GSettings *editor;
+  GtkWidget *primary_menu_button;
+  GtkWidget *pos_menu_button;
+
+  GtkRecentManager *recent;
+  PtConfig *asr_config;
+
+  GdkClipboard *clip;
+  gulong clip_handler_id;
+
+  /* Headerbar widgets */
+  GtkWidget *button_open;
+
+  /* Main window widgets */
+  GtkWidget *controls_row_box;
+  GtkWidget *controls_box;
+  GtkWidget *progress;
+  GtkWidget *button_play;
+  GtkWidget *button_jump_back;
+  GtkWidget *button_jump_forward;
+  GtkWidget *volumebutton;
+  GStrv vol_icons;
+  GtkGesture *vol_event;
+  GMenuItem *go_to_timestamp;
+  GtkWidget *speed_scale;
+
+  GMenuModel *primary_menu;
+  GMenuModel *secondary_menu;
+  GMenu *asr_menu;
+  GMenuItem *asr_menu_item1;
+  GMenuItem *asr_menu_item2;
+  gboolean asr;
+
+  gint64 last_time; // last time to compare if it changed
+
+  gint timer;
+  gdouble speed;
+};
+
+G_DEFINE_TYPE (PtWindow, pt_window, GTK_TYPE_APPLICATION_WINDOW)
 
 static void play_button_toggled_cb (GtkToggleButton *button, PtWindow *win);
 
@@ -65,7 +109,7 @@ copy_timestamp (GSimpleAction *action,
 
   timestamp = pt_player_get_timestamp (win->player);
   if (timestamp)
-    gdk_clipboard_set_text (win->priv->clip, timestamp);
+    gdk_clipboard_set_text (win->clip, timestamp);
 }
 
 static void
@@ -100,7 +144,7 @@ insert_timestamp (GSimpleAction *action,
   win = PT_WINDOW (user_data);
 
   gdk_clipboard_read_text_async (
-      win->priv->clip,
+      win->clip,
       NULL,
       (GAsyncReadyCallback) clip_text_cb,
       win);
@@ -224,7 +268,7 @@ setup_asr (PtWindow *win)
 
   success = pt_player_configure_asr (
       win->player,
-      win->priv->asr_config,
+      win->asr_config,
       &error);
 
   if (success)
@@ -260,7 +304,7 @@ change_mode (GSimpleAction *action,
     }
   else if (g_strcmp0 (mode, "asr") == 0)
     {
-      if (win->priv->asr_config != NULL)
+      if (win->asr_config != NULL)
         {
           success = setup_asr (win);
         }
@@ -303,7 +347,7 @@ update_time (PtWindow *win)
     return;
 
   /* Update label only if time has changed at 10th seconds level */
-  if (time / 100 != win->priv->last_time)
+  if (time / 100 != win->last_time)
     {
       text = pt_player_get_current_time_string (
           win->player,
@@ -314,7 +358,7 @@ update_time (PtWindow *win)
 
       gtk_menu_button_set_label (GTK_MENU_BUTTON (win->pos_menu_button), text);
       g_free (text);
-      win->priv->last_time = time / 100;
+      win->last_time = time / 100;
     }
 
   g_object_set (win->waveviewer, "playback-cursor", time, NULL);
@@ -333,9 +377,9 @@ update_time_tick (GtkWidget *widget,
 static void
 add_timer (PtWindow *win)
 {
-  if (win->priv->timer == 0)
+  if (win->timer == 0)
     {
-      win->priv->timer = gtk_widget_add_tick_callback (
+      win->timer = gtk_widget_add_tick_callback (
           win->waveviewer,
           update_time_tick,
           win,
@@ -346,11 +390,11 @@ add_timer (PtWindow *win)
 static void
 remove_timer (PtWindow *win)
 {
-  if (win->priv->timer > 0)
+  if (win->timer > 0)
     {
       gtk_widget_remove_tick_callback (win->waveviewer,
-                                       win->priv->timer);
-      win->priv->timer = 0;
+                                       win->timer);
+      win->timer = 0;
     }
 }
 
@@ -367,7 +411,7 @@ change_jump_back_tooltip (PtWindow *win)
                 seconds),
       seconds);
 
-  gtk_widget_set_tooltip_text (win->priv->button_jump_back, back);
+  gtk_widget_set_tooltip_text (win->button_jump_back, back);
   g_free (back);
 }
 
@@ -384,7 +428,7 @@ change_jump_forward_tooltip (PtWindow *win)
                 seconds),
       seconds);
 
-  gtk_widget_set_tooltip_text (win->priv->button_jump_forward, forward);
+  gtk_widget_set_tooltip_text (win->button_jump_forward, forward);
   g_free (forward);
 }
 
@@ -396,7 +440,7 @@ change_play_button_tooltip (PtWindow *win)
   gboolean free_me = FALSE;
 
   pause = pt_player_get_pause (win->player) / 1000;
-  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->priv->button_play)))
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (win->button_play)))
     {
       if (pause == 0)
         {
@@ -417,7 +461,7 @@ change_play_button_tooltip (PtWindow *win)
       play = _ ("Start playing");
     }
 
-  gtk_widget_set_tooltip_text (win->priv->button_play, play);
+  gtk_widget_set_tooltip_text (win->button_play, play);
   if (free_me)
     g_free (play);
 }
@@ -457,9 +501,9 @@ update_insert_action_sensitivity_cb (GdkClipboard *clip,
   else
     label = g_strdup (_ ("Go to Time in Clipboard"));
 
-  g_menu_item_set_label (win->priv->go_to_timestamp, label);
-  g_menu_remove (G_MENU (win->priv->secondary_menu), 1);
-  g_menu_insert_item (G_MENU (win->priv->secondary_menu), 1, win->priv->go_to_timestamp);
+  g_menu_item_set_label (win->go_to_timestamp, label);
+  g_menu_remove (G_MENU (win->secondary_menu), 1);
+  g_menu_insert_item (G_MENU (win->secondary_menu), 1, win->go_to_timestamp);
   g_free (label);
 
   action = g_action_map_lookup_action (G_ACTION_MAP (win), "insert");
@@ -515,7 +559,7 @@ enable_win_actions (PtWindow *win,
     }
   else
     {
-      update_insert_action_sensitivity (win->priv->clip, win);
+      update_insert_action_sensitivity (win->clip, win);
     }
 
   action = g_action_map_lookup_action (G_ACTION_MAP (win), "goto");
@@ -543,17 +587,17 @@ pt_window_ready_to_play (PtWindow *win,
   gchar *display_name = NULL;
 
   enable_win_actions (win, state);
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (win->priv->button_play), FALSE);
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (win->button_play), FALSE);
 
-  gtk_widget_set_sensitive (win->priv->button_play, state);
-  gtk_widget_set_sensitive (win->priv->button_jump_back, state);
-  gtk_widget_set_sensitive (win->priv->button_jump_forward, state);
-  gtk_widget_set_sensitive (win->priv->speed_scale, state);
-  gtk_widget_set_sensitive (win->priv->volumebutton, state);
+  gtk_widget_set_sensitive (win->button_play, state);
+  gtk_widget_set_sensitive (win->button_jump_back, state);
+  gtk_widget_set_sensitive (win->button_jump_forward, state);
+  gtk_widget_set_sensitive (win->speed_scale, state);
+  gtk_widget_set_sensitive (win->volumebutton, state);
 
   if (state)
     {
-      gtk_widget_remove_css_class (win->priv->button_open, "suggested-action");
+      gtk_widget_remove_css_class (win->button_open, "suggested-action");
       display_name = pt_player_get_filename (win->player);
       if (display_name)
         {
@@ -565,7 +609,7 @@ pt_window_ready_to_play (PtWindow *win,
       uri = pt_player_get_uri (win->player);
       if (uri)
         {
-          gtk_recent_manager_add_item (win->priv->recent, uri);
+          gtk_recent_manager_add_item (win->recent, uri);
           g_free (uri);
         }
 
@@ -579,8 +623,8 @@ pt_window_ready_to_play (PtWindow *win,
     {
       gtk_menu_button_set_label (GTK_MENU_BUTTON (win->pos_menu_button), "00:00.0");
       gtk_window_set_title (GTK_WINDOW (win), "Parlatype");
-      gtk_widget_set_tooltip_text (win->priv->button_jump_back, NULL);
-      gtk_widget_set_tooltip_text (win->priv->button_jump_forward, NULL);
+      gtk_widget_set_tooltip_text (win->button_jump_back, NULL);
+      gtk_widget_set_tooltip_text (win->button_jump_forward, NULL);
       remove_timer (win);
     }
 }
@@ -665,7 +709,7 @@ player_play_toggled_cb (PtPlayer *player,
                         PtWindow *win)
 {
   GtkToggleButton *play;
-  play = GTK_TOGGLE_BUTTON (win->priv->button_play);
+  play = GTK_TOGGLE_BUTTON (win->button_play);
 
   /* Player changed play/pause; toggle GUI button and block signals */
   g_signal_handlers_block_by_func (play, play_button_toggled_cb, win);
@@ -705,12 +749,11 @@ pt_window_direction_changed (GtkWidget *widget,
    * mirrored. Undo automatic mirroring for those elements. */
 
   PtWindow *self = PT_WINDOW (widget);
-  PtWindowPrivate *priv = self->priv;
-  GtkScale *speed_scale = GTK_SCALE (priv->speed_scale);
+  GtkScale *speed_scale = GTK_SCALE (self->speed_scale);
 
-  gtk_widget_set_direction (priv->button_jump_back, GTK_TEXT_DIR_LTR);
-  gtk_widget_set_direction (priv->button_jump_forward, GTK_TEXT_DIR_LTR);
-  gtk_widget_set_direction (priv->controls_box, GTK_TEXT_DIR_LTR);
+  gtk_widget_set_direction (self->button_jump_back, GTK_TEXT_DIR_LTR);
+  gtk_widget_set_direction (self->button_jump_forward, GTK_TEXT_DIR_LTR);
+  gtk_widget_set_direction (self->controls_box, GTK_TEXT_DIR_LTR);
 
   if (previous_direction == GTK_TEXT_DIR_LTR)
     gtk_scale_set_value_pos (speed_scale, GTK_POS_LEFT);
@@ -721,7 +764,6 @@ pt_window_direction_changed (GtkWidget *widget,
 static void
 set_asr_config (PtWindow *win)
 {
-  PtWindowPrivate *priv = win->priv;
   GFile *asr_file;
   gchar *asr_path;
   GAction *action;
@@ -730,13 +772,13 @@ set_asr_config (PtWindow *win)
 
   /* called when config file changed (and on startup);
    * get rid of old config object first */
-  if (priv->asr_config)
-    g_clear_object (&priv->asr_config);
+  if (win->asr_config)
+    g_clear_object (&win->asr_config);
 
   /* get new config object */
   asr_path = g_settings_get_string (win->editor, "asr-config");
   asr_file = g_file_new_for_path (asr_path);
-  priv->asr_config = pt_config_new (asr_file);
+  win->asr_config = pt_config_new (asr_file);
   g_object_unref (asr_file);
   g_free (asr_path);
 
@@ -746,15 +788,15 @@ set_asr_config (PtWindow *win)
   mode = g_variant_get_string (variant, NULL);
 
   /* not valid: clear object, remove menu, change to playback mode */
-  if (!pt_config_is_valid (priv->asr_config) ||
-      !pt_player_config_is_loadable (win->player, priv->asr_config) ||
-      !pt_config_is_installed (priv->asr_config))
+  if (!pt_config_is_valid (win->asr_config) ||
+      !pt_player_config_is_loadable (win->player, win->asr_config) ||
+      !pt_config_is_installed (win->asr_config))
     {
-      g_clear_object (&priv->asr_config);
-      if (priv->asr)
+      g_clear_object (&win->asr_config);
+      if (win->asr)
         {
-          g_menu_remove (G_MENU (priv->primary_menu), 0);
-          priv->asr = FALSE;
+          g_menu_remove (G_MENU (win->primary_menu), 0);
+          win->asr = FALSE;
         }
       if (g_strcmp0 (mode, "asr") == 0)
         {
@@ -765,12 +807,12 @@ set_asr_config (PtWindow *win)
     }
 
   /* valid: add menu, setup ASR plugin */
-  if (!priv->asr)
+  if (!win->asr)
     {
-      g_menu_prepend_section (G_MENU (priv->primary_menu),
+      g_menu_prepend_section (G_MENU (win->primary_menu),
                               NULL, /* label */
-                              G_MENU_MODEL (priv->asr_menu));
-      priv->asr = TRUE;
+                              G_MENU_MODEL (win->asr_menu));
+      win->asr = TRUE;
     }
 
   if (g_strcmp0 (mode, "asr") == 0)
@@ -907,7 +949,7 @@ setup_settings (PtWindow *win)
       win->player, "timestamp-fraction-sep",
       G_SETTINGS_BIND_GET);
 
-  win->priv->asr = FALSE;
+  win->asr = FALSE;
   set_asr_config (win);
 
   /* connect to tooltip changer */
@@ -922,7 +964,7 @@ setup_settings (PtWindow *win)
      - Automatically save last known speed in GSettings
      - Add a default speed option to preferences dialog
      - Save last known speed in metadata for each file */
-  win->priv->speed = 1.0;
+  win->speed = 1.0;
 
   gtk_window_set_default_size (GTK_WINDOW (win),
                                g_settings_get_int (win->editor, "width"),
@@ -939,8 +981,8 @@ volume_button_update_mute (GObject *gobject,
    * In normal state restore original icon set. */
 
   PtWindow *win = PT_WINDOW (user_data);
-  GtkScaleButton *volumebutton = GTK_SCALE_BUTTON (win->priv->volumebutton);
-  const gchar *mute_icon[] = { (gchar *) win->priv->vol_icons[0], NULL };
+  GtkScaleButton *volumebutton = GTK_SCALE_BUTTON (win->volumebutton);
+  const gchar *mute_icon[] = { (gchar *) win->vol_icons[0], NULL };
 
   if (pt_player_get_mute (win->player))
     {
@@ -948,7 +990,7 @@ volume_button_update_mute (GObject *gobject,
     }
   else
     {
-      gtk_scale_button_set_icons (volumebutton, (const gchar **) win->priv->vol_icons);
+      gtk_scale_button_set_icons (volumebutton, (const gchar **) win->vol_icons);
     }
 }
 
@@ -958,7 +1000,7 @@ volume_button_update_volume (GObject *gobject,
                              gpointer user_data)
 {
   PtWindow *win = PT_WINDOW (user_data);
-  GtkScaleButton *volumebutton = GTK_SCALE_BUTTON (win->priv->volumebutton);
+  GtkScaleButton *volumebutton = GTK_SCALE_BUTTON (win->volumebutton);
   gdouble volume = pt_player_get_volume (win->player);
 
   gtk_scale_button_set_value (volumebutton, volume);
@@ -1043,7 +1085,7 @@ setup_player (PtWindow *win)
                     win);
 
   GtkAdjustment *speed_adjustment;
-  speed_adjustment = gtk_range_get_adjustment (GTK_RANGE (win->priv->speed_scale));
+  speed_adjustment = gtk_range_get_adjustment (GTK_RANGE (win->speed_scale));
   g_object_bind_property (
       speed_adjustment, "value",
       win->player, "speed",
@@ -1061,7 +1103,7 @@ setup_volume (PtWindow *win)
    * and it even remembers the last value. The first external volume
    * signal is sent after a file was opened successfully, until then our
    * volume button is insensitive. */
-  g_signal_connect (win->priv->volumebutton,
+  g_signal_connect (win->volumebutton,
                     "value-changed",
                     G_CALLBACK (volume_button_value_changed_cb),
                     win);
@@ -1072,13 +1114,13 @@ setup_volume (PtWindow *win)
                     "event",
                     G_CALLBACK (volume_button_event_cb),
                     win);
-  gtk_widget_add_controller (win->priv->volumebutton,
+  gtk_widget_add_controller (win->volumebutton,
                              GTK_EVENT_CONTROLLER (v_event));
 
   /* Get complete icon set of volume button to change it depending on
    * mute state. */
-  g_object_get (win->priv->volumebutton,
-                "icons", &win->priv->vol_icons, NULL);
+  g_object_get (win->volumebutton,
+                "icons", &win->vol_icons, NULL);
 
   g_signal_connect (win->player,
                     "notify::mute",
@@ -1103,7 +1145,7 @@ setup_volume (PtWindow *win)
                     "pressed",
                     G_CALLBACK (volume_button_press_event),
                     win);
-  gtk_widget_add_controller (win->priv->volumebutton,
+  gtk_widget_add_controller (win->volumebutton,
                              GTK_EVENT_CONTROLLER (vol_event));
 }
 
@@ -1119,25 +1161,24 @@ setup_accels_actions_menus (PtWindow *win)
   enable_win_actions (win, FALSE);
 
   /* Setup menus */
-  PtWindowPrivate *priv = win->priv;
   GtkBuilder *builder;
 
   builder = gtk_builder_new_from_resource ("/org/parlatype/Parlatype/menus.ui");
-  priv->primary_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "primary-menu"));
-  priv->secondary_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "secondary-menu"));
-  gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (win->primary_menu_button), priv->primary_menu);
-  gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (win->pos_menu_button), priv->secondary_menu);
+  win->primary_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "primary-menu"));
+  win->secondary_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "secondary-menu"));
+  gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (win->primary_menu_button), win->primary_menu);
+  gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (win->pos_menu_button), win->secondary_menu);
   g_object_unref (builder);
 
   /* Setup ASR menu manually; no success with GtkBuilder */
-  priv->asr_menu = g_menu_new ();
-  priv->asr_menu_item1 = g_menu_item_new (_ ("Manual Transcription"), "win.mode::playback");
-  priv->asr_menu_item2 = g_menu_item_new (_ ("Automatic Transcription"), "win.mode::asr");
-  g_menu_append_item (priv->asr_menu, priv->asr_menu_item1);
-  g_menu_append_item (priv->asr_menu, priv->asr_menu_item2);
+  win->asr_menu = g_menu_new ();
+  win->asr_menu_item1 = g_menu_item_new (_ ("Manual Transcription"), "win.mode::playback");
+  win->asr_menu_item2 = g_menu_item_new (_ ("Automatic Transcription"), "win.mode::asr");
+  g_menu_append_item (win->asr_menu, win->asr_menu_item1);
+  g_menu_append_item (win->asr_menu, win->asr_menu_item2);
 
-  priv->go_to_timestamp = g_menu_item_new (_ ("Go to Time in Clipboard"), "win.insert");
-  g_menu_insert_item (G_MENU (win->priv->secondary_menu), 1, priv->go_to_timestamp);
+  win->go_to_timestamp = g_menu_item_new (_ ("Go to Time in Clipboard"), "win.insert");
+  g_menu_insert_item (G_MENU (win->secondary_menu), 1, win->go_to_timestamp);
 }
 
 static void
@@ -1152,11 +1193,39 @@ progressbar_cb (PtWaveviewer *viewer,
   gtk_progress_bar_set_fraction (progressbar, fraction);
 }
 
+PtPlayer *
+_pt_window_get_player (PtWindow *self)
+{
+  return self->player;
+}
+
+GtkRecentManager *
+_pt_window_get_recent_manager (PtWindow *self)
+{
+  return self->recent;
+}
+
+GtkWidget *
+_pt_window_get_waveviewer (PtWindow *self)
+{
+  return self->waveviewer;
+}
+
+GtkWidget *
+_pt_window_get_primary_menu_button (PtWindow *self)
+{
+  return self->primary_menu_button;
+}
+
+GSettings *
+_pt_window_get_settings (PtWindow *self)
+{
+  return self->editor;
+}
+
 static void
 pt_window_init (PtWindow *win)
 {
-  win->priv = pt_window_get_instance_private (win);
-
   gtk_widget_init_template (GTK_WIDGET (win));
 
   setup_player (win);
@@ -1165,11 +1234,11 @@ pt_window_init (PtWindow *win)
   setup_volume (win);
   pt_window_setup_dnd (win); /* this is in pt_window_dnd.c */
 
-  win->priv->recent = gtk_recent_manager_get_default ();
-  win->priv->timer = 0;
-  win->priv->last_time = 0;
-  win->priv->clip_handler_id = 0;
-  win->priv->clip = gtk_widget_get_clipboard (GTK_WIDGET (win));
+  win->recent = gtk_recent_manager_get_default ();
+  win->timer = 0;
+  win->last_time = 0;
+  win->clip_handler_id = 0;
+  win->clip = gtk_widget_get_clipboard (GTK_WIDGET (win));
 
   /* Used e.g. by Xfce */
   gtk_window_set_default_icon_name (APP_ID);
@@ -1180,10 +1249,10 @@ pt_window_init (PtWindow *win)
 
   pt_window_ready_to_play (win, FALSE);
 
-  win->priv->clip_handler_id = g_signal_connect (win->priv->clip,
-                                                 "changed",
-                                                 G_CALLBACK (update_insert_action_sensitivity),
-                                                 win);
+  win->clip_handler_id = g_signal_connect (win->clip,
+                                           "changed",
+                                           G_CALLBACK (update_insert_action_sensitivity),
+                                           win);
   g_signal_connect (win->waveviewer,
                     "notify::follow-cursor",
                     G_CALLBACK (update_goto_cursor_action_sensitivity),
@@ -1192,7 +1261,7 @@ pt_window_init (PtWindow *win)
   g_signal_connect (win->waveviewer,
                     "load-progress",
                     G_CALLBACK (progressbar_cb),
-                    GTK_PROGRESS_BAR (win->priv->progress));
+                    GTK_PROGRESS_BAR (win->progress));
 }
 
 static void
@@ -1210,24 +1279,24 @@ pt_window_dispose (GObject *object)
       g_settings_set_int (win->editor, "height", y);
     }
 
-  if (win->priv->clip_handler_id > 0)
+  if (win->clip_handler_id > 0)
     {
-      g_signal_handler_disconnect (win->priv->clip, win->priv->clip_handler_id);
-      win->priv->clip_handler_id = 0;
+      g_signal_handler_disconnect (win->clip, win->clip_handler_id);
+      win->clip_handler_id = 0;
     }
   remove_timer (win);
   g_clear_object (&win->editor);
   g_clear_object (&win->player);
-  g_clear_object (&win->priv->asr_config);
-  g_clear_object (&win->priv->go_to_timestamp);
-  g_clear_object (&win->priv->vol_event);
-  g_clear_object (&win->priv->asr_menu);
-  g_clear_object (&win->priv->asr_menu_item1);
-  g_clear_object (&win->priv->asr_menu_item2);
-  if (win->priv->vol_icons)
+  g_clear_object (&win->asr_config);
+  g_clear_object (&win->go_to_timestamp);
+  g_clear_object (&win->vol_event);
+  g_clear_object (&win->asr_menu);
+  g_clear_object (&win->asr_menu_item1);
+  g_clear_object (&win->asr_menu_item2);
+  if (win->vol_icons)
     {
-      g_strfreev (win->priv->vol_icons);
-      win->priv->vol_icons = NULL;
+      g_strfreev (win->vol_icons);
+      win->vol_icons = NULL;
     }
 
   G_OBJECT_CLASS (pt_window_parent_class)->dispose (object);
@@ -1247,15 +1316,15 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtWindow, waveviewer);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, primary_menu_button);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, pos_menu_button);
-  gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_open);
-  gtk_widget_class_bind_template_child_private (widget_class, PtWindow, progress);
-  gtk_widget_class_bind_template_child_private (widget_class, PtWindow, controls_row_box);
-  gtk_widget_class_bind_template_child_private (widget_class, PtWindow, controls_box);
-  gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_play);
-  gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_jump_back);
-  gtk_widget_class_bind_template_child_private (widget_class, PtWindow, button_jump_forward);
-  gtk_widget_class_bind_template_child_private (widget_class, PtWindow, volumebutton);
-  gtk_widget_class_bind_template_child_private (widget_class, PtWindow, speed_scale);
+  gtk_widget_class_bind_template_child (widget_class, PtWindow, button_open);
+  gtk_widget_class_bind_template_child (widget_class, PtWindow, progress);
+  gtk_widget_class_bind_template_child (widget_class, PtWindow, controls_row_box);
+  gtk_widget_class_bind_template_child (widget_class, PtWindow, controls_box);
+  gtk_widget_class_bind_template_child (widget_class, PtWindow, button_play);
+  gtk_widget_class_bind_template_child (widget_class, PtWindow, button_jump_back);
+  gtk_widget_class_bind_template_child (widget_class, PtWindow, button_jump_forward);
+  gtk_widget_class_bind_template_child (widget_class, PtWindow, volumebutton);
+  gtk_widget_class_bind_template_child (widget_class, PtWindow, speed_scale);
 }
 
 PtWindow *

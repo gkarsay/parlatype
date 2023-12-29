@@ -16,43 +16,11 @@
 
 #pragma once
 
-#include "config.h"
-#include <gtk/gtk.h>
+#include "pt-window.h"
 #include <pt-player.h>
 
-struct _PtWindowPrivate
-{
-  GtkRecentManager *recent;
-  PtConfig *asr_config;
-
-  GdkClipboard *clip;
-  gulong clip_handler_id;
-
-  /* Headerbar widgets */
-  GtkWidget *button_open;
-
-  /* Main window widgets */
-  GtkWidget *controls_row_box;
-  GtkWidget *controls_box;
-  GtkWidget *progress;
-  GtkWidget *button_play;
-  GtkWidget *button_jump_back;
-  GtkWidget *button_jump_forward;
-  GtkWidget *volumebutton;
-  GStrv vol_icons;
-  GtkGesture *vol_event;
-  GMenuItem *go_to_timestamp;
-  GtkWidget *speed_scale;
-
-  GMenuModel *primary_menu;
-  GMenuModel *secondary_menu;
-  GMenu *asr_menu;
-  GMenuItem *asr_menu_item1;
-  GMenuItem *asr_menu_item2;
-  gboolean asr;
-
-  gint64 last_time; // last time to compare if it changed
-
-  gint timer;
-  gdouble speed;
-};
+PtPlayer *_pt_window_get_player (PtWindow *self);
+GtkWidget *_pt_window_get_waveviewer (PtWindow *self);
+GtkRecentManager *_pt_window_get_recent_manager (PtWindow *self);
+GtkWidget *_pt_window_get_primary_menu_button (PtWindow *self);
+GSettings *_pt_window_get_settings (PtWindow *self);

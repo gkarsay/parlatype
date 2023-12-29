@@ -322,8 +322,8 @@ take_screenshots (GtkApplication *app,
 
   windows = gtk_application_get_windows (app);
   win = PT_WINDOW (windows->data);
-  waveviewer = PT_WINDOW (win)->waveviewer;
-  player = PT_WINDOW (win)->player;
+  waveviewer = _pt_window_get_waveviewer (win);
+  player = _pt_window_get_player (win);
 
   /* Main window ------------------------------------------------------------ */
 
@@ -431,13 +431,14 @@ take_screenshots (GtkApplication *app,
   /* fake install config and set as active */
   gchar *model_path = g_build_path (G_DIR_SEPARATOR_S, PT_BUILD_DIR, "tools", "parlatype", NULL);
   pt_config_set_base_folder (config, model_path);
-  g_settings_set_string (win->editor, "asr-config", config_name);
+  GSettings *editor = _pt_window_get_settings (win);
+  g_settings_set_string (editor, "asr-config", config_name);
   g_object_unref (config);
   g_object_unref (config_file);
   g_free (config_name);
   g_free (model_path);
 
-  GtkWidget *menu_button = PT_WINDOW (win)->primary_menu_button;
+  GtkWidget *menu_button = _pt_window_get_primary_menu_button (win);
   GtkPopover *popover = gtk_menu_button_get_popover (GTK_MENU_BUTTON (menu_button));
   gtk_popover_set_autohide (popover, false); /* essential */
 

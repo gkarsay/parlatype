@@ -22,25 +22,8 @@
 #include "pt-app.h"
 
 #define PT_WINDOW_TYPE (pt_window_get_type ())
-#define PT_WINDOW(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PT_WINDOW_TYPE, PtWindow))
-#define PT_IS_WINDOW(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PT_WINDOW_TYPE))
+G_DECLARE_FINAL_TYPE (PtWindow, pt_window, PT, WINDOW, GtkApplicationWindow)
 
-typedef struct _PtWindow PtWindow;
-typedef struct _PtWindowClass PtWindowClass;
-typedef struct _PtWindowPrivate PtWindowPrivate;
-
-struct _PtWindow
-{
-  GtkApplicationWindow parent;
-  PtPlayer *player;
-  GtkWidget *waveviewer;
-  GSettings *editor;
-  GtkWidget *primary_menu_button;
-  GtkWidget *pos_menu_button;
-
-  /*< private > */
-  PtWindowPrivate *priv;
-};
 
 struct _PtWindowClass
 {

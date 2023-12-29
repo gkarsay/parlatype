@@ -35,7 +35,6 @@ src = [
   'pt-window.h',
   'pt-window-dnd.c',
   'pt-window-dnd.h',
-  'pt-window-private.h',
 ]
 
 parlatype_deps = [
