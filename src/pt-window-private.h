@@ -17,7 +17,7 @@
 #pragma once
 
 #include "pt-window.h"
-#include <pt-player.h>
+#include <parlatype.h>
 
 PtPlayer *_pt_window_get_player (PtWindow *self);
 GtkWidget *_pt_window_get_waveviewer (PtWindow *self);

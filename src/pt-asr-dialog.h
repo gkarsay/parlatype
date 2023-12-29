@@ -16,7 +16,6 @@
 
 #pragma once
 
-#include <gtk/gtk.h>
 #include <adwaita.h>
 #include <parlatype.h>
 

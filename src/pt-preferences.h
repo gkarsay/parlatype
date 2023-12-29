@@ -16,7 +16,6 @@
 
 #pragma once
 
-#include "config.h"
 #include <adwaita.h>
 
 #define PT_TYPE_PREFERENCES_DIALOG (pt_preferences_dialog_get_type ())

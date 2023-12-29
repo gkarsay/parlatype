@@ -16,9 +16,7 @@
 
 #pragma once
 
-#include "config.h"
 #include "pt-controller.h"
-#include "pt-window.h"
 
 #define PT_MPRIS_TYPE (pt_mpris_get_type ())
 G_DECLARE_FINAL_TYPE (PtMpris, pt_mpris, PT, MPRIS, PtController)

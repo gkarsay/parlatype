@@ -22,7 +22,6 @@
 
 #include "pt-config.h"
 #include "pt-waveviewer.h"
-#include <gio/gio.h>
 
 G_BEGIN_DECLS
 

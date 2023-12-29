@@ -16,8 +16,6 @@
 
 #pragma once
 
-#include "config.h"
-#include <gtk/gtk.h>
 #include <adwaita.h>
 
 #define PT_APP_TYPE (pt_app_get_type ())

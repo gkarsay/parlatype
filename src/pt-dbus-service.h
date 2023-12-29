@@ -16,9 +16,7 @@
 
 #pragma once
 
-#include "config.h"
 #include "pt-controller.h"
-#include "pt-window.h"
 
 #define PT_DBUS_SERVICE_TYPE (pt_dbus_service_get_type ())
 G_DECLARE_FINAL_TYPE (PtDbusService, pt_dbus_service, PT, DBUS_SERVICE, PtController)
