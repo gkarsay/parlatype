@@ -73,7 +73,7 @@ static void
 value_changed_cb (GtkSpinButton *spin,
                   gpointer data)
 {
-  PtGotoDialog *dlg = (PtGotoDialog *) data;
+  PtGotoDialog *self = (PtGotoDialog *) data;
   GtkAdjustment *adj;
   gint value;
 
@@ -81,22 +81,22 @@ value_changed_cb (GtkSpinButton *spin,
   value = (gint) gtk_adjustment_get_value (adj);
 
   gtk_label_set_label (
-      GTK_LABEL (dlg->seconds_label),
+      GTK_LABEL (self->seconds_label),
       ngettext ("second", "seconds", value));
 }
 
 static gboolean
 output_cb (GtkSpinButton *spin,
-           PtGotoDialog *dlg)
+           PtGotoDialog *self)
 {
   gchar *text;
 
-  if (dlg->max == 0)
+  if (self->max == 0)
     return GTK_INPUT_ERROR;
 
   text = pt_player_get_time_string (
       gtk_spin_button_get_value_as_int (spin) * 1000,
-      dlg->max, 0);
+      self->max, 0);
 
   gtk_editable_set_text (GTK_EDITABLE (spin), text);
   g_free (text);
@@ -120,15 +120,15 @@ input_cb (GtkSpinButton *self,
 }
 
 static void
-pt_goto_dialog_init (PtGotoDialog *dlg)
+pt_goto_dialog_init (PtGotoDialog *self)
 {
-  gtk_widget_init_template (GTK_WIDGET (dlg));
-  gtk_widget_add_css_class (GTK_WIDGET (dlg), "ptdialog");
+  gtk_widget_init_template (GTK_WIDGET (self));
+  gtk_widget_add_css_class (GTK_WIDGET (self), "ptdialog");
 
-  dlg->max = 0;
+  self->max = 0;
 
   /* make sure seconds label is set and translated */
-  value_changed_cb (GTK_SPIN_BUTTON (dlg->spin), dlg);
+  value_changed_cb (GTK_SPIN_BUTTON (self->spin), self);
 }
 
 static void
@@ -146,35 +146,35 @@ pt_goto_dialog_class_init (PtGotoDialogClass *klass)
 }
 
 gint
-pt_goto_dialog_get_pos (PtGotoDialog *dlg)
+pt_goto_dialog_get_pos (PtGotoDialog *self)
 {
-  return gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (dlg->spin));
+  return gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (self->spin));
 }
 
 void
-pt_goto_dialog_set_pos (PtGotoDialog *dlg,
+pt_goto_dialog_set_pos (PtGotoDialog *self,
                         gint seconds)
 {
-  gtk_spin_button_set_value (GTK_SPIN_BUTTON (dlg->spin), (gdouble) seconds);
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON (self->spin), (gdouble) seconds);
 }
 
 void
-pt_goto_dialog_set_max (PtGotoDialog *dlg,
+pt_goto_dialog_set_max (PtGotoDialog *self,
                         gint seconds)
 {
   gchar *time_string;
   guint width;
 
-  gtk_spin_button_set_range (GTK_SPIN_BUTTON (dlg->spin), 0, (gdouble) seconds);
-  dlg->max = seconds * 1000;
+  gtk_spin_button_set_range (GTK_SPIN_BUTTON (self->spin), 0, (gdouble) seconds);
+  self->max = seconds * 1000;
 
   /* Set the width of the entry according to the length of the longest string it’ll now accept */
 
-  time_string = pt_player_get_time_string (dlg->max, dlg->max, 0);
+  time_string = pt_player_get_time_string (self->max, self->max, 0);
   width = strlen (time_string);
   g_free (time_string);
 
-  gtk_editable_set_width_chars (GTK_EDITABLE (dlg->spin), width);
+  gtk_editable_set_width_chars (GTK_EDITABLE (self->spin), width);
 }
 
 PtGotoDialog *

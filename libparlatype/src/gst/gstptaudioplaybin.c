@@ -72,7 +72,7 @@ have_pulseaudio_server (void)
 }
 
 static void
-gst_pt_audio_play_bin_init (GstPtAudioPlayBin *bin)
+gst_pt_audio_play_bin_init (GstPtAudioPlayBin *self)
 {
   /* Create gstreamer elements */
   GstElement *capsfilter;
@@ -104,13 +104,13 @@ gst_pt_audio_play_bin_init (GstPtAudioPlayBin *bin)
                     "MESSAGE", "Audio sink implements stream volume: %s",
                     GST_IS_STREAM_VOLUME (audiosink) ? "yes" : "no");
 
-  gst_bin_add_many (GST_BIN (bin),
+  gst_bin_add_many (GST_BIN (self),
                     capsfilter, audiosink, NULL);
   gst_element_link_many (capsfilter, audiosink, NULL);
 
   /* create ghost pad for audiosink */
   GstPad *audiopad = gst_element_get_static_pad (capsfilter, "sink");
-  gst_element_add_pad (GST_ELEMENT (bin),
+  gst_element_add_pad (GST_ELEMENT (self),
                        gst_ghost_pad_new ("sink", audiopad));
   gst_object_unref (GST_OBJECT (audiopad));
 }

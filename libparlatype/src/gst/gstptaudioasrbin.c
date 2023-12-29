@@ -242,31 +242,31 @@ gst_pt_audio_asr_bin_finalize (GObject *object)
 }
 
 static void
-gst_pt_audio_asr_bin_init (GstPtAudioAsrBin *bin)
+gst_pt_audio_asr_bin_init (GstPtAudioAsrBin *self)
 {
   GstElement *audioconvert;
   GstPad *audioconvert_sink;
 
   audioconvert = _pt_make_element ("audioconvert",
                                    "audioconvert", NULL);
-  bin->audioresample = _pt_make_element ("audioresample",
-                                         "audioresample", NULL);
-  bin->fakesink = _pt_make_element ("fakesink",
-                                    "fakesink", NULL);
+  self->audioresample = _pt_make_element ("audioresample",
+                                          "audioresample", NULL);
+  self->fakesink = _pt_make_element ("fakesink",
+                                     "fakesink", NULL);
 
   /* create audio output */
-  gst_bin_add_many (GST_BIN (bin), audioconvert, bin->audioresample,
-                    bin->fakesink, NULL);
-  gst_element_link_many (audioconvert, bin->audioresample, NULL);
+  gst_bin_add_many (GST_BIN (self), audioconvert, self->audioresample,
+                    self->fakesink, NULL);
+  gst_element_link_many (audioconvert, self->audioresample, NULL);
 
   /* create ghost pad for audiosink */
   audioconvert_sink = gst_element_get_static_pad (audioconvert, "sink");
-  gst_element_add_pad (GST_ELEMENT (bin),
+  gst_element_add_pad (GST_ELEMENT (self),
                        gst_ghost_pad_new ("sink", audioconvert_sink));
   gst_object_unref (GST_OBJECT (audioconvert_sink));
 
-  bin->asr_plugin = NULL;
-  bin->is_configured = FALSE;
+  self->asr_plugin = NULL;
+  self->is_configured = FALSE;
 }
 
 static void

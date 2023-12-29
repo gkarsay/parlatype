@@ -1314,7 +1314,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 
   /**
    * PtWaveviewer::load-progress:
-   * @viewer: the waveviewer emitting the signal
+   * @self: the waveviewer emitting the signal
    * @progress: the new progress state, ranging from 0.0 to 1.0
    *
    * Indicates progress on a scale from 0.0 to 1.0. The value 0.0 is not
@@ -1332,7 +1332,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 
   /**
    * PtWaveviewer::cursor-changed:
-   * @viewer: the waveviewer emitting the signal
+   * @self: the waveviewer emitting the signal
    * @position: the new position in stream in milliseconds
    *
    * Signals that the cursor’s position was changed by the user.
@@ -1350,7 +1350,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 
   /**
    * PtWaveviewer::selection-changed:
-   * @viewer: the waveviewer emitting the signal
+   * @self: the waveviewer emitting the signal
    *
    * Signals that the selection was changed (or unselected) by the user.
    * To query the new selection see #PtWaveviewer:has-selection,
@@ -1369,7 +1369,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 
   /**
    * PtWaveviewer::play-toggled:
-   * @viewer: the waveviewer emitting the signal
+   * @self: the waveviewer emitting the signal
    *
    * Signals that the user requested to toggle play/pause.
    */

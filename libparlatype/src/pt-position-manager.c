@@ -147,7 +147,7 @@ pt_position_manager_load (PtPositionManager *self,
 /* --------------------- Init and GObject management ------------------------ */
 
 static void
-pt_position_manager_init (PtPositionManager *player)
+pt_position_manager_init (PtPositionManager *self)
 {
 }
 

@@ -57,27 +57,27 @@ typedef enum
 
 GQuark pt_error_quark (void);
 
-gchar *pt_config_get_name (PtConfig *config);
-gboolean pt_config_set_name (PtConfig *config,
+gchar *pt_config_get_name (PtConfig *self);
+gboolean pt_config_set_name (PtConfig *self,
                              gchar *name);
-gchar *pt_config_get_base_folder (PtConfig *config);
-gboolean pt_config_set_base_folder (PtConfig *config,
+gchar *pt_config_get_base_folder (PtConfig *self);
+gboolean pt_config_set_base_folder (PtConfig *self,
                                     gchar *name);
-gchar *pt_config_get_plugin (PtConfig *config);
-gchar *pt_config_get_lang_code (PtConfig *config);
-gchar *pt_config_get_lang_name (PtConfig *config);
-gchar *pt_config_get_key (PtConfig *config,
+gchar *pt_config_get_plugin (PtConfig *self);
+gchar *pt_config_get_lang_code (PtConfig *self);
+gchar *pt_config_get_lang_name (PtConfig *self);
+gchar *pt_config_get_key (PtConfig *self,
                           gchar *key);
 
-GFile *pt_config_get_file (PtConfig *config);
-void pt_config_set_file (PtConfig *config,
+GFile *pt_config_get_file (PtConfig *self);
+void pt_config_set_file (PtConfig *self,
                          GFile *file);
 
-gboolean pt_config_apply (PtConfig *config,
+gboolean pt_config_apply (PtConfig *self,
                           GObject *plugin,
                           GError **error);
-gboolean pt_config_is_valid (PtConfig *config);
-gboolean pt_config_is_installed (PtConfig *config);
+gboolean pt_config_is_valid (PtConfig *self);
+gboolean pt_config_is_installed (PtConfig *self);
 PtConfig *pt_config_new (GFile *file);
 
 G_END_DECLS

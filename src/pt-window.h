@@ -34,9 +34,9 @@ void pt_error_message (PtWindow *parent,
                        const gchar *message,
                        const gchar *secondary_message);
 
-void pt_window_open_file (PtWindow *win,
+void pt_window_open_file (PtWindow *self,
                           gchar *uri);
 
-gchar *pt_window_get_uri (PtWindow *win);
+gchar *pt_window_get_uri (PtWindow *self);
 
 PtWindow *pt_window_new (PtApp *app);

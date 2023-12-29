@@ -82,9 +82,9 @@ static guint signals[LAST_SIGNAL] = { 0 };
 G_DEFINE_TYPE_WITH_PRIVATE (PtWaveloader, pt_waveloader, G_TYPE_OBJECT)
 
 static void
-remove_timeout (PtWaveloader *wl)
+remove_timeout (PtWaveloader *self)
 {
-  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (wl);
+  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (self);
 
   if (priv->progress_timeout > 0)
     {
@@ -208,8 +208,8 @@ static GstFlowReturn
 new_sample_cb (GstAppSink *sink,
                gpointer user_data)
 {
-  PtWaveloader *wl = PT_WAVELOADER (user_data);
-  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (wl);
+  PtWaveloader *self = PT_WAVELOADER (user_data);
+  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (self);
   GstSample *sample = gst_app_sink_pull_sample (sink);
   GstBuffer *buffer = gst_sample_get_buffer (sample);
   GstMapInfo map;
@@ -249,9 +249,9 @@ new_sample_cb (GstAppSink *sink,
 }
 
 static gboolean
-setup_pipeline (PtWaveloader *wl)
+setup_pipeline (PtWaveloader *self)
 {
-  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (wl);
+  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (self);
   gboolean result = TRUE;
   GstElement *src, *dec, *conv, *resample, *sink;
   GstCaps *caps;
@@ -299,7 +299,7 @@ setup_pipeline (PtWaveloader *wl)
 
   g_signal_connect (dec, "pad-added", G_CALLBACK (on_wave_loader_new_pad),
                     (gpointer) conv);
-  g_signal_connect (sink, "new-sample", G_CALLBACK (new_sample_cb), wl);
+  g_signal_connect (sink, "new-sample", G_CALLBACK (new_sample_cb), self);
 
   return result;
 }
@@ -311,8 +311,8 @@ check_progress (GTask *task)
      If it’s removed, the message bus has to be removed, too, and also
      the other way round. */
 
-  PtWaveloader *wl = g_task_get_source_object (task);
-  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (wl);
+  PtWaveloader *self = g_task_get_source_object (task);
+  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (self);
 
   gint64 dur;
   gint64 pos;
@@ -351,7 +351,7 @@ check_progress (GTask *task)
           g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                             "MESSAGE", "Duration changed signal: %" GST_TIME_FORMAT " lowres resized to len %d",
                             GST_TIME_ARGS (priv->duration), new_size);
-          g_signal_emit_by_name (wl, "array-size-changed");
+          g_signal_emit_by_name (self, "array-size-changed");
         }
     }
 
@@ -360,7 +360,7 @@ check_progress (GTask *task)
   if (temp > priv->progress && temp < 1)
     {
       priv->progress = temp;
-      g_signal_emit_by_name (wl, "progress", priv->progress);
+      g_signal_emit_by_name (self, "progress", priv->progress);
     }
 
   return G_SOURCE_CONTINUE;
@@ -372,8 +372,8 @@ bus_handler (GstBus *bus,
              gpointer data)
 {
   GTask *task = (GTask *) data;
-  PtWaveloader *wl = g_task_get_source_object (task);
-  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (wl);
+  PtWaveloader *self = g_task_get_source_object (task);
+  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (self);
 
   switch (GST_MESSAGE_TYPE (msg))
     {
@@ -382,7 +382,7 @@ bus_handler (GstBus *bus,
         gchar *debug;
         GError *error;
 
-        remove_timeout (wl);
+        remove_timeout (self);
         gst_message_parse_error (msg, &error, &debug);
 
         /* Error is returned. Log the message here at level DEBUG,
@@ -425,7 +425,7 @@ bus_handler (GstBus *bus,
                           "MESSAGE", "Sample decoded: hires->len=%d, lowres->len=%d, pps=%d, duration=%" GST_TIME_FORMAT,
                           priv->hires->len, priv->lowres->len, priv->pps, GST_TIME_ARGS (priv->duration));
 
-        remove_timeout (wl);
+        remove_timeout (self);
         priv->bus_watch_id = 0;
         g_task_return_boolean (task, TRUE);
         g_object_unref (task);
@@ -440,7 +440,7 @@ bus_handler (GstBus *bus,
         g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                           "MESSAGE", "Duration changed signal: %" GST_TIME_FORMAT " lowres resized to len %d",
                           GST_TIME_ARGS (priv->duration), new_size);
-        g_signal_emit_by_name (wl, "array-size-changed");
+        g_signal_emit_by_name (self, "array-size-changed");
         break;
       }
     default:
@@ -452,7 +452,7 @@ bus_handler (GstBus *bus,
 
 /**
  * pt_waveloader_load_finish:
- * @wl: a #PtWaveloader
+ * @self: a #PtWaveloader
  * @result: the #GAsyncResult passed to your #GAsyncReadyCallback
  * @error: (nullable): a pointer to a NULL #GError, or NULL
  *
@@ -464,21 +464,21 @@ bus_handler (GstBus *bus,
  * Since: 1.4
  */
 gboolean
-pt_waveloader_load_finish (PtWaveloader *wl,
+pt_waveloader_load_finish (PtWaveloader *self,
                            GAsyncResult *result,
                            GError **error)
 {
-  g_return_val_if_fail (g_task_is_valid (result, wl), FALSE);
-  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (wl);
+  g_return_val_if_fail (g_task_is_valid (result, self), FALSE);
+  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (self);
 
   priv->load_pending = FALSE;
-  g_signal_emit_by_name (wl, "progress", result ? 1.0 : 0.0);
+  g_signal_emit_by_name (self, "progress", result ? 1.0 : 0.0);
   return g_task_propagate_boolean (G_TASK (result), error);
 }
 
 /**
  * pt_waveloader_load_async:
- * @wl: a #PtWaveloader
+ * @self: a #PtWaveloader
  * @pps: pixels per second
  * @cancellable: (nullable): a #GCancellable or NULL
  * @callback: (scope async): a #GAsyncReadyCallback to call when the operation is complete
@@ -502,20 +502,20 @@ pt_waveloader_load_finish (PtWaveloader *wl,
  * Since: 2.0
  */
 void
-pt_waveloader_load_async (PtWaveloader *wl,
+pt_waveloader_load_async (PtWaveloader *self,
                           gint pps,
                           GCancellable *cancellable,
                           GAsyncReadyCallback callback,
                           gpointer user_data)
 {
-  g_return_if_fail (PT_IS_WAVELOADER (wl));
-  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (wl);
+  g_return_if_fail (PT_IS_WAVELOADER (self));
+  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (self);
   g_return_if_fail (priv->uri != NULL);
 
   GTask *task;
   GstBus *bus;
 
-  task = g_task_new (wl, cancellable, callback, user_data);
+  task = g_task_new (self, cancellable, callback, user_data);
   /* Lets have an initial size of 60 sec */
   g_array_set_size (priv->lowres, pps * 60);
   priv->pps = pps;
@@ -538,7 +538,7 @@ pt_waveloader_load_async (PtWaveloader *wl,
   g_array_set_size (priv->hires, 0);
 
   /* setup pipeline TODO: do it just on init */
-  if (!setup_pipeline (wl))
+  if (!setup_pipeline (self))
     {
       g_task_return_new_error (
           task,
@@ -563,7 +563,7 @@ pt_waveloader_load_async (PtWaveloader *wl,
 
 /**
  * pt_waveloader_get_duration:
- * @wl: a #PtWaveloader
+ * @self: a #PtWaveloader
  *
  * Returns the duration of stream. As the whole stream is scanned, this is
  * supposed to be an exact duration, not an estimate.
@@ -573,15 +573,15 @@ pt_waveloader_load_async (PtWaveloader *wl,
  * Since: 1.4
  */
 gint64
-pt_waveloader_get_duration (PtWaveloader *wl)
+pt_waveloader_get_duration (PtWaveloader *self)
 {
-  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (wl);
+  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (self);
   return priv->duration;
 }
 
 /**
  * pt_waveloader_resize_finish:
- * @wl: a #PtWaveloader
+ * @self: a #PtWaveloader
  * @result: the #GAsyncResult passed to your #GAsyncReadyCallback
  * @error: (nullable): a pointer to a NULL #GError, or NULL
  *
@@ -593,13 +593,13 @@ pt_waveloader_get_duration (PtWaveloader *wl)
  * Since: 2.0
  */
 gboolean
-pt_waveloader_resize_finish (PtWaveloader *wl,
+pt_waveloader_resize_finish (PtWaveloader *self,
                              GAsyncResult *result,
                              GError **error)
 {
-  g_return_val_if_fail (g_task_is_valid (result, wl), FALSE);
+  g_return_val_if_fail (g_task_is_valid (result, self), FALSE);
 
-  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (wl);
+  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (self);
   priv->data_pending = FALSE;
   return g_task_propagate_boolean (G_TASK (result), error);
 }
@@ -610,8 +610,8 @@ pt_waveloader_resize_real (GTask *task,
                            gpointer task_data,
                            GCancellable *cancellable)
 {
-  PtWaveloader *wl = source_object;
-  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (wl);
+  PtWaveloader *self = source_object;
+  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (self);
   gint pps = GPOINTER_TO_INT (task_data);
   gint lowres_len;
   gint index_in = 0;
@@ -622,7 +622,7 @@ pt_waveloader_resize_real (GTask *task,
   if (priv->lowres == NULL || priv->lowres->len != lowres_len)
     {
       g_array_set_size (priv->lowres, lowres_len);
-      g_signal_emit_by_name (wl, "array-size-changed");
+      g_signal_emit_by_name (self, "array-size-changed");
     }
 
   while (priv->hires->len > index_in)
@@ -661,7 +661,7 @@ pt_waveloader_resize_real (GTask *task,
 
 /**
  * pt_waveloader_resize_async:
- * @wl: a #PtWaveloader
+ * @self: a #PtWaveloader
  * @pps: the requested pixel per second ratio
  * @cancellable: (nullable): a #GCancellable or NULL
  * @callback: (scope async): a #GAsyncReadyCallback to call when the operation is complete
@@ -689,19 +689,19 @@ pt_waveloader_resize_real (GTask *task,
  * Since: 2.0
  */
 void
-pt_waveloader_resize_async (PtWaveloader *wl,
+pt_waveloader_resize_async (PtWaveloader *self,
                             gint pps,
                             GCancellable *cancellable,
                             GAsyncReadyCallback callback,
                             gpointer user_data)
 {
-  g_return_if_fail (PT_IS_WAVELOADER (wl));
+  g_return_if_fail (PT_IS_WAVELOADER (self));
   g_return_if_fail ((pps >= 25) && (pps <= 200));
 
-  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (wl);
+  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (self);
   GTask *task;
 
-  task = g_task_new (wl, cancellable, callback, user_data);
+  task = g_task_new (self, cancellable, callback, user_data);
   if (priv->hires->len == 0)
     {
       g_task_return_new_error (
@@ -740,7 +740,7 @@ typedef struct
 } SyncData;
 
 static void
-quit_loop_cb (PtWaveloader *wl,
+quit_loop_cb (PtWaveloader *self,
               GAsyncResult *res,
               gpointer user_data)
 {
@@ -751,7 +751,7 @@ quit_loop_cb (PtWaveloader *wl,
 
 /**
  * pt_waveloader_resize:
- * @wl: a #PtWaveloader
+ * @self: a #PtWaveloader
  * @pps: the requested pixel per second ratio
  * @error: (nullable): return location for an error, or NULL
  *
@@ -762,11 +762,11 @@ quit_loop_cb (PtWaveloader *wl,
  * Since: 2.0
  */
 gboolean
-pt_waveloader_resize (PtWaveloader *wl,
+pt_waveloader_resize (PtWaveloader *self,
                       gint pps,
                       GError **error)
 {
-  g_return_val_if_fail (PT_IS_WAVELOADER (wl), FALSE);
+  g_return_val_if_fail (PT_IS_WAVELOADER (self), FALSE);
   g_return_val_if_fail ((pps >= 25) && (pps <= 200), FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
@@ -783,10 +783,10 @@ pt_waveloader_resize (PtWaveloader *wl,
   data.loop = g_main_loop_new (context, FALSE);
   data.res = NULL;
 
-  pt_waveloader_resize_async (wl, pps, NULL, (GAsyncReadyCallback) quit_loop_cb, &data);
+  pt_waveloader_resize_async (self, pps, NULL, (GAsyncReadyCallback) quit_loop_cb, &data);
   g_main_loop_run (data.loop);
 
-  result = pt_waveloader_resize_finish (wl, data.res, error);
+  result = pt_waveloader_resize_finish (self, data.res, error);
 
   g_main_context_pop_thread_default (context);
   g_main_context_unref (context);
@@ -798,7 +798,7 @@ pt_waveloader_resize (PtWaveloader *wl,
 
 /**
  * pt_waveloader_get_data:
- * @wl: a #PtWaveloader
+ * @self: a #PtWaveloader
  *
  * This returns the pointer to a GArray that is holding all the wave form data.
  * It consists of a minimum value in the range of -1 to 0 and a maximum value
@@ -812,17 +812,17 @@ pt_waveloader_resize (PtWaveloader *wl,
  * Since: 2.0
  */
 GArray *
-pt_waveloader_get_data (PtWaveloader *wl)
+pt_waveloader_get_data (PtWaveloader *self)
 {
-  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (wl);
+  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (self);
   return priv->lowres;
 }
 /* --------------------- Init and GObject management ------------------------ */
 
 static void
-pt_waveloader_init (PtWaveloader *wl)
+pt_waveloader_init (PtWaveloader *self)
 {
-  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (wl);
+  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (self);
 
   GError *gst_error = NULL;
   gst_init_check (NULL, NULL, &gst_error);
@@ -924,7 +924,7 @@ pt_waveloader_class_init (PtWaveloaderClass *klass)
 
   /**
    * PtWaveloader::progress:
-   * @wl: the waveloader emitting the signal
+   * @self: the waveloader emitting the signal
    * @progress: the new progress state, ranging from 0.0 to 1.0
    *
    * While loading a waveform a progress signal is emitted,
@@ -945,7 +945,7 @@ pt_waveloader_class_init (PtWaveloaderClass *klass)
 
   /**
    * PtWaveloader::array-size-changed:
-   * @wl: the waveloader emitting the signal
+   * @self: the waveloader emitting the signal
    *
    * The size of the array with waveform data has changed.
    */

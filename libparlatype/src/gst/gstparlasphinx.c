@@ -116,7 +116,7 @@ static gboolean
 gst_parlasphinx_event (GstPad *pad, GstObject *parent, GstEvent *event);
 
 static void
-gst_parlasphinx_finalize_utt (GstParlasphinx *ps);
+gst_parlasphinx_finalize_utt (GstParlasphinx *self);
 
 static void
 gst_parlasphinx_finalize (GObject *gobject);
@@ -344,152 +344,152 @@ gst_parlasphinx_class_init (GstParlasphinxClass *klass)
 }
 
 static void
-gst_parlasphinx_set_string (GstParlasphinx *ps,
+gst_parlasphinx_set_string (GstParlasphinx *self,
                             const gchar *key,
                             const GValue *value)
 {
   if (value != NULL)
     {
-      cmd_ln_set_str_r (ps->config, key, g_value_get_string (value));
+      cmd_ln_set_str_r (self->config, key, g_value_get_string (value));
     }
   else
     {
-      cmd_ln_set_str_r (ps->config, key, NULL);
+      cmd_ln_set_str_r (self->config, key, NULL);
     }
 }
 
 static void
-gst_parlasphinx_set_int (GstParlasphinx *ps,
+gst_parlasphinx_set_int (GstParlasphinx *self,
                          const gchar *key,
                          const GValue *value)
 {
-  cmd_ln_set_int32_r (ps->config, key, g_value_get_int (value));
+  cmd_ln_set_int32_r (self->config, key, g_value_get_int (value));
 }
 
 static void
-gst_parlasphinx_set_boolean (GstParlasphinx *ps,
+gst_parlasphinx_set_boolean (GstParlasphinx *self,
                              const gchar *key,
                              const GValue *value)
 {
-  cmd_ln_set_boolean_r (ps->config, key, g_value_get_boolean (value));
+  cmd_ln_set_boolean_r (self->config, key, g_value_get_boolean (value));
 }
 
 static void
-gst_parlasphinx_set_double (GstParlasphinx *ps,
+gst_parlasphinx_set_double (GstParlasphinx *self,
                             const gchar *key,
                             const GValue *value)
 {
-  cmd_ln_set_float_r (ps->config, key, g_value_get_double (value));
+  cmd_ln_set_float_r (self->config, key, g_value_get_double (value));
 }
 
 static void
 gst_parlasphinx_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
-  GstParlasphinx *ps = GST_PARLASPHINX (object);
+  GstParlasphinx *self = GST_PARLASPHINX (object);
 
   switch (prop_id)
     {
 
     case PROP_HMM_DIR:
-      gst_parlasphinx_set_string (ps, "-hmm", value);
+      gst_parlasphinx_set_string (self, "-hmm", value);
       break;
     case PROP_LM_FILE:
       /* FSG and LM are mutually exclusive. */
-      gst_parlasphinx_set_string (ps, "-lm", value);
-      gst_parlasphinx_set_string (ps, "-lmctl", NULL);
-      gst_parlasphinx_set_string (ps, "-fsg", NULL);
-      gst_parlasphinx_set_string (ps, "-allphone", NULL);
-      gst_parlasphinx_set_string (ps, "-kws", NULL);
-      gst_parlasphinx_set_string (ps, "-jsgf", NULL);
+      gst_parlasphinx_set_string (self, "-lm", value);
+      gst_parlasphinx_set_string (self, "-lmctl", NULL);
+      gst_parlasphinx_set_string (self, "-fsg", NULL);
+      gst_parlasphinx_set_string (self, "-allphone", NULL);
+      gst_parlasphinx_set_string (self, "-kws", NULL);
+      gst_parlasphinx_set_string (self, "-jsgf", NULL);
       break;
     case PROP_LMCTL_FILE:
       /* FSG and LM are mutually exclusive. */
-      gst_parlasphinx_set_string (ps, "-lm", NULL);
-      gst_parlasphinx_set_string (ps, "-lmctl", value);
-      gst_parlasphinx_set_string (ps, "-fsg", NULL);
-      gst_parlasphinx_set_string (ps, "-allphone", NULL);
-      gst_parlasphinx_set_string (ps, "-kws", NULL);
-      gst_parlasphinx_set_string (ps, "-jsgf", NULL);
+      gst_parlasphinx_set_string (self, "-lm", NULL);
+      gst_parlasphinx_set_string (self, "-lmctl", value);
+      gst_parlasphinx_set_string (self, "-fsg", NULL);
+      gst_parlasphinx_set_string (self, "-allphone", NULL);
+      gst_parlasphinx_set_string (self, "-kws", NULL);
+      gst_parlasphinx_set_string (self, "-jsgf", NULL);
       break;
     case PROP_DICT_FILE:
-      gst_parlasphinx_set_string (ps, "-dict", value);
+      gst_parlasphinx_set_string (self, "-dict", value);
       break;
     case PROP_MLLR_FILE:
-      gst_parlasphinx_set_string (ps, "-mllr", value);
+      gst_parlasphinx_set_string (self, "-mllr", value);
       break;
     case PROP_FSG_FILE:
       /* FSG and LM are mutually exclusive */
-      gst_parlasphinx_set_string (ps, "-lm", NULL);
-      gst_parlasphinx_set_string (ps, "-lmctl", NULL);
-      gst_parlasphinx_set_string (ps, "-fsg", value);
-      gst_parlasphinx_set_string (ps, "-allphone", NULL);
-      gst_parlasphinx_set_string (ps, "-kws", NULL);
-      gst_parlasphinx_set_string (ps, "-jsgf", NULL);
+      gst_parlasphinx_set_string (self, "-lm", NULL);
+      gst_parlasphinx_set_string (self, "-lmctl", NULL);
+      gst_parlasphinx_set_string (self, "-fsg", value);
+      gst_parlasphinx_set_string (self, "-allphone", NULL);
+      gst_parlasphinx_set_string (self, "-kws", NULL);
+      gst_parlasphinx_set_string (self, "-jsgf", NULL);
       break;
     case PROP_ALLPHONE_FILE:
       /* FSG and LM are mutually exclusive. */
-      gst_parlasphinx_set_string (ps, "-lm", NULL);
-      gst_parlasphinx_set_string (ps, "-lmctl", NULL);
-      gst_parlasphinx_set_string (ps, "-fsg", NULL);
-      gst_parlasphinx_set_string (ps, "-allphone", value);
-      gst_parlasphinx_set_string (ps, "-kws", NULL);
-      gst_parlasphinx_set_string (ps, "-jsgf", NULL);
+      gst_parlasphinx_set_string (self, "-lm", NULL);
+      gst_parlasphinx_set_string (self, "-lmctl", NULL);
+      gst_parlasphinx_set_string (self, "-fsg", NULL);
+      gst_parlasphinx_set_string (self, "-allphone", value);
+      gst_parlasphinx_set_string (self, "-kws", NULL);
+      gst_parlasphinx_set_string (self, "-jsgf", NULL);
       break;
     case PROP_KWS_FILE:
       /* FSG and LM are mutually exclusive. */
-      gst_parlasphinx_set_string (ps, "-lm", NULL);
-      gst_parlasphinx_set_string (ps, "-lmctl", NULL);
-      gst_parlasphinx_set_string (ps, "-fsg", NULL);
-      gst_parlasphinx_set_string (ps, "-allphone", NULL);
-      gst_parlasphinx_set_string (ps, "-jsgf", NULL);
-      gst_parlasphinx_set_string (ps, "-kws", value);
+      gst_parlasphinx_set_string (self, "-lm", NULL);
+      gst_parlasphinx_set_string (self, "-lmctl", NULL);
+      gst_parlasphinx_set_string (self, "-fsg", NULL);
+      gst_parlasphinx_set_string (self, "-allphone", NULL);
+      gst_parlasphinx_set_string (self, "-jsgf", NULL);
+      gst_parlasphinx_set_string (self, "-kws", value);
       break;
     case PROP_JSGF_FILE:
       /* FSG and LM are mutually exclusive. */
-      gst_parlasphinx_set_string (ps, "-lm", NULL);
-      gst_parlasphinx_set_string (ps, "-lmctl", NULL);
-      gst_parlasphinx_set_string (ps, "-fsg", NULL);
-      gst_parlasphinx_set_string (ps, "-allphone", NULL);
-      gst_parlasphinx_set_string (ps, "-kws", NULL);
-      gst_parlasphinx_set_string (ps, "-jsgf", value);
+      gst_parlasphinx_set_string (self, "-lm", NULL);
+      gst_parlasphinx_set_string (self, "-lmctl", NULL);
+      gst_parlasphinx_set_string (self, "-fsg", NULL);
+      gst_parlasphinx_set_string (self, "-allphone", NULL);
+      gst_parlasphinx_set_string (self, "-kws", NULL);
+      gst_parlasphinx_set_string (self, "-jsgf", value);
       break;
     case PROP_FWDFLAT:
-      gst_parlasphinx_set_boolean (ps, "-fwdflat", value);
+      gst_parlasphinx_set_boolean (self, "-fwdflat", value);
       break;
     case PROP_BESTPATH:
-      gst_parlasphinx_set_boolean (ps, "-bestpath", value);
+      gst_parlasphinx_set_boolean (self, "-bestpath", value);
       break;
     case PROP_MAXHMMPF:
-      gst_parlasphinx_set_int (ps, "-maxhmmpf", value);
+      gst_parlasphinx_set_int (self, "-maxhmmpf", value);
       break;
     case PROP_MAXWPF:
-      gst_parlasphinx_set_int (ps, "-maxwpf", value);
+      gst_parlasphinx_set_int (self, "-maxwpf", value);
       break;
     case PROP_BEAM:
-      gst_parlasphinx_set_double (ps, "-beam", value);
+      gst_parlasphinx_set_double (self, "-beam", value);
       break;
     case PROP_PBEAM:
-      gst_parlasphinx_set_double (ps, "-pbeam", value);
+      gst_parlasphinx_set_double (self, "-pbeam", value);
       break;
     case PROP_WBEAM:
-      gst_parlasphinx_set_double (ps, "-wbeam", value);
+      gst_parlasphinx_set_double (self, "-wbeam", value);
       break;
     case PROP_DSRATIO:
-      gst_parlasphinx_set_int (ps, "-ds", value);
+      gst_parlasphinx_set_int (self, "-ds", value);
       break;
 
     case PROP_LATDIR:
-      if (ps->latdir)
-        g_free (ps->latdir);
-      ps->latdir = g_strdup (g_value_get_string (value));
+      if (self->latdir)
+        g_free (self->latdir);
+      self->latdir = g_strdup (g_value_get_string (value));
       break;
     case PROP_LM_NAME:
-      gst_parlasphinx_set_string (ps, "-fsg", NULL);
-      gst_parlasphinx_set_string (ps, "-lm", NULL);
-      gst_parlasphinx_set_string (ps, "-allphone", NULL);
-      gst_parlasphinx_set_string (ps, "-kws", NULL);
-      gst_parlasphinx_set_string (ps, "-jsgf", NULL);
-      gst_parlasphinx_set_string (ps, "-lmname", value);
+      gst_parlasphinx_set_string (self, "-fsg", NULL);
+      gst_parlasphinx_set_string (self, "-lm", NULL);
+      gst_parlasphinx_set_string (self, "-allphone", NULL);
+      gst_parlasphinx_set_string (self, "-kws", NULL);
+      gst_parlasphinx_set_string (self, "-jsgf", NULL);
+      gst_parlasphinx_set_string (self, "-lmname", value);
 
       /*
        * Chances are that lmctl is already loaded and all
@@ -497,9 +497,9 @@ gst_parlasphinx_set_property (GObject *object, guint prop_id, const GValue *valu
        * try to set the search
        */
 
-      if (value != NULL && ps->ps)
+      if (value != NULL && self->ps)
         {
-          ps_set_search (ps->ps, g_value_get_string (value));
+          ps_set_search (self->ps, g_value_get_string (value));
         }
       break;
     default:
@@ -508,76 +508,76 @@ gst_parlasphinx_set_property (GObject *object, guint prop_id, const GValue *valu
     }
 
   /* If decoder was already initialized, reinit */
-  if (ps->ps && prop_id != PROP_LATDIR && prop_id != PROP_LM_NAME)
-    ps_reinit (ps->ps, ps->config);
+  if (self->ps && prop_id != PROP_LATDIR && prop_id != PROP_LM_NAME)
+    ps_reinit (self->ps, self->config);
 }
 
 static void
 gst_parlasphinx_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
-  GstParlasphinx *ps = GST_PARLASPHINX (object);
+  GstParlasphinx *self = GST_PARLASPHINX (object);
 
   switch (prop_id)
     {
     case PROP_DECODER:
-      g_value_set_boxed (value, ps->ps);
+      g_value_set_boxed (value, self->ps);
       break;
     case PROP_HMM_DIR:
-      g_value_set_string (value, cmd_ln_str_r (ps->config, "-hmm"));
+      g_value_set_string (value, cmd_ln_str_r (self->config, "-hmm"));
       break;
     case PROP_LM_FILE:
-      g_value_set_string (value, cmd_ln_str_r (ps->config, "-lm"));
+      g_value_set_string (value, cmd_ln_str_r (self->config, "-lm"));
       break;
     case PROP_LMCTL_FILE:
-      g_value_set_string (value, cmd_ln_str_r (ps->config, "-lmctl"));
+      g_value_set_string (value, cmd_ln_str_r (self->config, "-lmctl"));
       break;
     case PROP_LM_NAME:
-      g_value_set_string (value, cmd_ln_str_r (ps->config, "-lmname"));
+      g_value_set_string (value, cmd_ln_str_r (self->config, "-lmname"));
       break;
     case PROP_DICT_FILE:
-      g_value_set_string (value, cmd_ln_str_r (ps->config, "-dict"));
+      g_value_set_string (value, cmd_ln_str_r (self->config, "-dict"));
       break;
     case PROP_MLLR_FILE:
-      g_value_set_string (value, cmd_ln_str_r (ps->config, "-mllr"));
+      g_value_set_string (value, cmd_ln_str_r (self->config, "-mllr"));
       break;
     case PROP_FSG_FILE:
-      g_value_set_string (value, cmd_ln_str_r (ps->config, "-fsg"));
+      g_value_set_string (value, cmd_ln_str_r (self->config, "-fsg"));
       break;
     case PROP_ALLPHONE_FILE:
-      g_value_set_string (value, cmd_ln_str_r (ps->config, "-allphone"));
+      g_value_set_string (value, cmd_ln_str_r (self->config, "-allphone"));
       break;
     case PROP_KWS_FILE:
-      g_value_set_string (value, cmd_ln_str_r (ps->config, "-kws"));
+      g_value_set_string (value, cmd_ln_str_r (self->config, "-kws"));
       break;
     case PROP_JSGF_FILE:
-      g_value_set_string (value, cmd_ln_str_r (ps->config, "-jsgf"));
+      g_value_set_string (value, cmd_ln_str_r (self->config, "-jsgf"));
       break;
     case PROP_FWDFLAT:
-      g_value_set_boolean (value, cmd_ln_boolean_r (ps->config, "-fwdflat"));
+      g_value_set_boolean (value, cmd_ln_boolean_r (self->config, "-fwdflat"));
       break;
     case PROP_BESTPATH:
-      g_value_set_boolean (value, cmd_ln_boolean_r (ps->config, "-bestpath"));
+      g_value_set_boolean (value, cmd_ln_boolean_r (self->config, "-bestpath"));
       break;
     case PROP_LATDIR:
-      g_value_set_string (value, ps->latdir);
+      g_value_set_string (value, self->latdir);
       break;
     case PROP_MAXHMMPF:
-      g_value_set_int (value, cmd_ln_int32_r (ps->config, "-maxhmmpf"));
+      g_value_set_int (value, cmd_ln_int32_r (self->config, "-maxhmmpf"));
       break;
     case PROP_MAXWPF:
-      g_value_set_int (value, cmd_ln_int32_r (ps->config, "-maxwpf"));
+      g_value_set_int (value, cmd_ln_int32_r (self->config, "-maxwpf"));
       break;
     case PROP_BEAM:
-      g_value_set_double (value, cmd_ln_float_r (ps->config, "-beam"));
+      g_value_set_double (value, cmd_ln_float_r (self->config, "-beam"));
       break;
     case PROP_PBEAM:
-      g_value_set_double (value, cmd_ln_float_r (ps->config, "-pbeam"));
+      g_value_set_double (value, cmd_ln_float_r (self->config, "-pbeam"));
       break;
     case PROP_WBEAM:
-      g_value_set_double (value, cmd_ln_float_r (ps->config, "-wbeam"));
+      g_value_set_double (value, cmd_ln_float_r (self->config, "-wbeam"));
       break;
     case PROP_DSRATIO:
-      g_value_set_int (value, cmd_ln_int32_r (ps->config, "-ds"));
+      g_value_set_int (value, cmd_ln_int32_r (self->config, "-ds"));
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -588,46 +588,46 @@ gst_parlasphinx_get_property (GObject *object, guint prop_id, GValue *value, GPa
 static void
 gst_parlasphinx_finalize (GObject *gobject)
 {
-  GstParlasphinx *ps = GST_PARLASPHINX (gobject);
+  GstParlasphinx *self = GST_PARLASPHINX (gobject);
 
-  ps_free (ps->ps);
-  cmd_ln_free_r (ps->config);
-  g_free (ps->last_result);
-  g_free (ps->latdir);
+  ps_free (self->ps);
+  cmd_ln_free_r (self->config);
+  g_free (self->last_result);
+  g_free (self->latdir);
 
   G_OBJECT_CLASS (gst_parlasphinx_parent_class)->finalize (gobject);
 }
 
 static void
-gst_parlasphinx_init (GstParlasphinx *ps)
+gst_parlasphinx_init (GstParlasphinx *self)
 {
-  ps->sinkpad =
+  self->sinkpad =
       gst_pad_new_from_static_template (&sink_factory, "sink");
-  ps->srcpad =
+  self->srcpad =
       gst_pad_new_from_static_template (&src_factory, "src");
 
   /* Parse default command-line options. */
-  ps->config = cmd_ln_parse_r (NULL, ps_args (), default_argc, default_argv, FALSE);
-  ps_default_search_args (ps->config);
+  self->config = cmd_ln_parse_r (NULL, ps_args (), default_argc, default_argv, FALSE);
+  ps_default_search_args (self->config);
 
   /* Set up pads. */
-  gst_element_add_pad (GST_ELEMENT (ps), ps->sinkpad);
-  gst_pad_set_chain_function (ps->sinkpad, gst_parlasphinx_chain);
-  gst_pad_set_event_function (ps->sinkpad, gst_parlasphinx_event);
-  gst_pad_use_fixed_caps (ps->sinkpad);
+  gst_element_add_pad (GST_ELEMENT (self), self->sinkpad);
+  gst_pad_set_chain_function (self->sinkpad, gst_parlasphinx_chain);
+  gst_pad_set_event_function (self->sinkpad, gst_parlasphinx_event);
+  gst_pad_use_fixed_caps (self->sinkpad);
 
-  gst_element_add_pad (GST_ELEMENT (ps), ps->srcpad);
-  gst_pad_use_fixed_caps (ps->srcpad);
+  gst_element_add_pad (GST_ELEMENT (self), self->srcpad);
+  gst_pad_use_fixed_caps (self->srcpad);
 
   /* Initialize time. */
-  ps->last_result_time = 0;
-  ps->last_result = NULL;
+  self->last_result_time = 0;
+  self->last_result = NULL;
 }
 
 static GstStateChangeReturn
 gst_parlasphinx_change_state (GstElement *element, GstStateChange transition)
 {
-  GstParlasphinx *ps = GST_PARLASPHINX (element);
+  GstParlasphinx *self = GST_PARLASPHINX (element);
   GstStateChangeReturn ret;
   GstEvent *seek = NULL;
   GstSegment *seg = NULL;
@@ -637,10 +637,10 @@ gst_parlasphinx_change_state (GstElement *element, GstStateChange transition)
   switch (transition)
     {
     case GST_STATE_CHANGE_NULL_TO_READY:
-      ps->ps = ps_init (ps->config);
-      if (ps->ps == NULL)
+      self->ps = ps_init (self->config);
+      if (self->ps == NULL)
         {
-          GST_ELEMENT_ERROR (GST_ELEMENT (ps), LIBRARY, INIT,
+          GST_ELEMENT_ERROR (GST_ELEMENT (self), LIBRARY, INIT,
                              ("Failed to initialize PocketSphinx"),
                              ("Failed to initialize PocketSphinx"));
           return GST_STATE_CHANGE_FAILURE;
@@ -656,25 +656,25 @@ gst_parlasphinx_change_state (GstElement *element, GstStateChange transition)
   switch (transition)
     {
     case GST_STATE_CHANGE_PLAYING_TO_PAUSED:
-      if (ps->eos)
+      if (self->eos)
         break;
-      // gst_parlasphinx_finalize_utt(ps); // crash in pocketsphinx
+      // gst_parlasphinx_finalize_utt(self); // crash in pocketsphinx
       /* Work around a problem with unknown cause:
        * When changing to paused position queries return the running
        * time instead of stream time */
-      seg = &ps->segment;
+      seg = &self->segment;
       if (seg->position > seg->stop)
         seg->position = seg->stop;
       seek = gst_event_new_seek (1.0, GST_FORMAT_TIME,
                                  GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE,
                                  GST_SEEK_TYPE_SET, seg->position,
                                  GST_SEEK_TYPE_NONE, -1);
-      success = gst_pad_push_event (ps->sinkpad, seek);
-      GST_DEBUG_OBJECT (ps, "pushed segment event: %s", success ? "yes" : "no");
+      success = gst_pad_push_event (self->sinkpad, seek);
+      GST_DEBUG_OBJECT (self, "pushed segment event: %s", success ? "yes" : "no");
       break;
     case GST_STATE_CHANGE_READY_TO_NULL:
-      ps_free (ps->ps);
-      ps->ps = NULL;
+      ps_free (self->ps);
+      self->ps = NULL;
     default:
       break;
     }
@@ -683,7 +683,7 @@ gst_parlasphinx_change_state (GstElement *element, GstStateChange transition)
 }
 
 static void
-gst_parlasphinx_post_message (GstParlasphinx *ps, gboolean final, GstClockTime timestamp, gint32 prob, const gchar *hyp)
+gst_parlasphinx_post_message (GstParlasphinx *self, gboolean final, GstClockTime timestamp, gint32 prob, const gchar *hyp)
 {
   GstStructure *s = gst_structure_new ("pocketsphinx",
                                        "timestamp", G_TYPE_UINT64, timestamp,
@@ -691,21 +691,21 @@ gst_parlasphinx_post_message (GstParlasphinx *ps, gboolean final, GstClockTime t
                                        "confidence", G_TYPE_LONG, prob,
                                        "hypothesis", G_TYPE_STRING, hyp, NULL);
 
-  gst_element_post_message (GST_ELEMENT (ps), gst_message_new_element (GST_OBJECT (ps), s));
+  gst_element_post_message (GST_ELEMENT (self), gst_message_new_element (GST_OBJECT (self), s));
 }
 
 static GstFlowReturn
 gst_parlasphinx_chain (GstPad *pad, GstObject *parent, GstBuffer *buffer)
 {
-  GstParlasphinx *ps;
+  GstParlasphinx *self;
   GstMapInfo info;
   gboolean in_speech;
   GstClockTime position, duration;
 
-  ps = GST_PARLASPHINX (parent);
+  self = GST_PARLASPHINX (parent);
 
-  if (GST_STATE (GST_ELEMENT (ps)) != GST_STATE_PLAYING)
-    return gst_pad_push (ps->srcpad, buffer);
+  if (GST_STATE (GST_ELEMENT (self)) != GST_STATE_PLAYING)
+    return gst_pad_push (self->srcpad, buffer);
 
   /* Track current position */
   position = GST_BUFFER_TIMESTAMP (buffer);
@@ -716,86 +716,86 @@ gst_parlasphinx_chain (GstPad *pad, GstObject *parent, GstBuffer *buffer)
         {
           position += duration;
         }
-      ps->segment.position = position;
+      self->segment.position = position;
     }
 
   /* Start an utterance for the first buffer we get */
-  if (!ps->listening_started)
+  if (!self->listening_started)
     {
-      ps->listening_started = TRUE;
-      ps->speech_started = FALSE;
-      ps_start_utt (ps->ps);
+      self->listening_started = TRUE;
+      self->speech_started = FALSE;
+      ps_start_utt (self->ps);
     }
 
   gst_buffer_map (buffer, &info, GST_MAP_READ);
-  ps_process_raw (ps->ps,
+  ps_process_raw (self->ps,
                   (short *) info.data,
                   info.size / sizeof (short),
                   FALSE, FALSE);
   gst_buffer_unmap (buffer, &info);
 
-  in_speech = ps_get_in_speech (ps->ps);
-  if (in_speech && !ps->speech_started)
+  in_speech = ps_get_in_speech (self->ps);
+  if (in_speech && !self->speech_started)
     {
-      ps->speech_started = TRUE;
+      self->speech_started = TRUE;
     }
-  if (!in_speech && ps->speech_started)
+  if (!in_speech && self->speech_started)
     {
-      gst_parlasphinx_finalize_utt (ps);
+      gst_parlasphinx_finalize_utt (self);
     }
-  else if (ps->last_result_time == 0
+  else if (self->last_result_time == 0
            /* Get a partial result every now and then, see if it is different. */
            /* Check every 100 milliseconds. */
-           || (GST_BUFFER_TIMESTAMP (buffer) - ps->last_result_time) > GST_MSECOND * 500)
+           || (GST_BUFFER_TIMESTAMP (buffer) - self->last_result_time) > GST_MSECOND * 500)
     {
       int32 score;
       char const *hyp;
 
-      hyp = ps_get_hyp (ps->ps, &score);
-      ps->last_result_time = GST_BUFFER_TIMESTAMP (buffer);
+      hyp = ps_get_hyp (self->ps, &score);
+      self->last_result_time = GST_BUFFER_TIMESTAMP (buffer);
       if (hyp && strlen (hyp) > 0)
         {
-          if (ps->last_result == NULL || 0 != strcmp (ps->last_result, hyp))
+          if (self->last_result == NULL || 0 != strcmp (self->last_result, hyp))
             {
-              g_free (ps->last_result);
-              ps->last_result = g_strdup (hyp);
-              gst_parlasphinx_post_message (ps, FALSE, ps->last_result_time,
-                                            ps_get_prob (ps->ps), hyp);
+              g_free (self->last_result);
+              self->last_result = g_strdup (hyp);
+              gst_parlasphinx_post_message (self, FALSE, self->last_result_time,
+                                            ps_get_prob (self->ps), hyp);
             }
         }
     }
 
-  return gst_pad_push (ps->srcpad, buffer);
+  return gst_pad_push (self->srcpad, buffer);
 }
 
 static void
-gst_parlasphinx_finalize_utt (GstParlasphinx *ps)
+gst_parlasphinx_finalize_utt (GstParlasphinx *self)
 {
   char const *hyp;
   int32 score;
 
   hyp = NULL;
-  if (!ps->listening_started)
+  if (!self->listening_started)
     return;
 
-  ps_end_utt (ps->ps);
-  ps->listening_started = FALSE;
-  hyp = ps_get_hyp (ps->ps, &score);
+  ps_end_utt (self->ps);
+  self->listening_started = FALSE;
+  hyp = ps_get_hyp (self->ps, &score);
 
   if (hyp)
-    gst_parlasphinx_post_message (ps, TRUE, GST_CLOCK_TIME_NONE,
-                                  ps_get_prob (ps->ps), hyp);
+    gst_parlasphinx_post_message (self, TRUE, GST_CLOCK_TIME_NONE,
+                                  ps_get_prob (self->ps), hyp);
 
-  if (ps->latdir)
+  if (self->latdir)
     {
       char *latfile;
       char uttid[16];
 
-      sprintf (uttid, "%09u", ps->uttno);
-      ps->uttno++;
-      latfile = string_join (ps->latdir, "/", uttid, ".lat", NULL);
+      sprintf (uttid, "%09u", self->uttno);
+      self->uttno++;
+      latfile = string_join (self->latdir, "/", uttid, ".lat", NULL);
       ps_lattice_t *dag;
-      if ((dag = ps_get_lattice (ps->ps)))
+      if ((dag = ps_get_lattice (self->ps)))
         ps_lattice_write (dag, latfile);
       ckd_free (latfile);
     }
@@ -804,22 +804,22 @@ gst_parlasphinx_finalize_utt (GstParlasphinx *ps)
 static gboolean
 gst_parlasphinx_event (GstPad *pad, GstObject *parent, GstEvent *event)
 {
-  GstParlasphinx *ps;
+  GstParlasphinx *self;
 
-  ps = GST_PARLASPHINX (parent);
-  ps->eos = FALSE;
+  self = GST_PARLASPHINX (parent);
+  self->eos = FALSE;
 
   switch (event->type)
     {
     case GST_EVENT_EOS:
       {
-        gst_parlasphinx_finalize_utt (ps);
-        ps->eos = TRUE;
+        gst_parlasphinx_finalize_utt (self);
+        self->eos = TRUE;
         return gst_pad_event_default (pad, parent, event);
       }
     case GST_EVENT_SEGMENT:
       /* keep current segment, used for tracking current position */
-      gst_event_copy_segment (event, &ps->segment);
+      gst_event_copy_segment (event, &self->segment);
       /* fall through */
     default:
       return gst_pad_event_default (pad, parent, event);
