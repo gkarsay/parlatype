@@ -19,8 +19,6 @@
 #include <gst/gst.h>
 #include "pt-config.h"
 
-G_BEGIN_DECLS
-
 #define GST_TYPE_PT_AUDIO_ASR_BIN (gst_pt_audio_asr_bin_get_type ())
 G_DECLARE_FINAL_TYPE (GstPtAudioAsrBin, gst_pt_audio_asr_bin, GST, PT_AUDIO_ASR_BIN, GstBin)
 
@@ -35,5 +33,3 @@ void gst_pt_audio_asr_bin_configure_asr_async (GstPtAudioAsrBin *self,
                                                gpointer user_data);
 
 gboolean gst_pt_audio_asr_bin_register (void);
-
-G_END_DECLS

@@ -24,8 +24,6 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
-
 char *gnome_get_language_from_locale (const char *locale,
                                       const char *translation);
 gboolean gnome_parse_locale (const char *locale,
@@ -33,5 +31,3 @@ gboolean gnome_parse_locale (const char *locale,
                              char **country_codep,
                              char **codesetp,
                              char **modifierp);
-
-G_END_DECLS

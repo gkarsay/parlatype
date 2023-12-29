@@ -18,10 +18,6 @@
 
 #include <gst/gst.h>
 
-G_BEGIN_DECLS
-
 GstElement *_pt_make_element (gchar *factoryname,
                               gchar *name,
                               GError **error);
-
-G_END_DECLS

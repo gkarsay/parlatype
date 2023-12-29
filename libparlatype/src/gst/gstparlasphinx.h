@@ -41,8 +41,6 @@
 #include <gst/gst.h>
 #include <pocketsphinx.h>
 
-G_BEGIN_DECLS
-
 #define GST_TYPE_PARLASPHINX (gst_parlasphinx_get_type ())
 G_DECLARE_FINAL_TYPE (GstParlasphinx, gst_parlasphinx, GST, PARLASPHINX, GstElement)
 
@@ -61,5 +59,3 @@ struct _GstParlaSphinxClass
 GType ps_decoder_get_type (void);
 
 gboolean gst_parlasphinx_register (void);
-
-G_END_DECLS

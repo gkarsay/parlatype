@@ -21,8 +21,6 @@
 #include "vad_private.h"
 #include "deepspeech.h"
 
-G_BEGIN_DECLS
-
 #define GST_TYPE_PTDEEPSPEECH (gst_ptdeepspeech_get_type ())
 #define GST_PTDEEPSPEECH(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GST_TYPE_PTDEEPSPEECH, GstPtDeepspeech))
 #define GST_IS_PTDEEPSPEECH(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GST_TYPE_PTDEEPSPEECH))
@@ -67,5 +65,3 @@ struct _GstPtDeepspeechClass
 GType gst_ptdeepspeech_get_type (void);
 
 gboolean gst_ptdeepspeech_register (void);
-
-G_END_DECLS

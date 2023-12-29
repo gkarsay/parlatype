@@ -18,8 +18,6 @@
 
 #include <gio/gio.h>
 
-G_BEGIN_DECLS
-
 #define PT_TYPE_POSITION_MANAGER (pt_position_manager_get_type ())
 G_DECLARE_FINAL_TYPE (PtPositionManager, pt_position_manager, PT, POSITION_MANAGER, GObject)
 
@@ -31,5 +29,3 @@ gint64 pt_position_manager_load (PtPositionManager *self,
                                  GFile *file);
 
 PtPositionManager *pt_position_manager_new (void);
-
-G_END_DECLS

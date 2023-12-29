@@ -20,8 +20,6 @@
 #include "pt-player.h"
 #include <gst/gst.h>
 
-G_BEGIN_DECLS
-
 #define GST_TYPE_PT_AUDIO_BIN (gst_pt_audio_bin_get_type ())
 G_DECLARE_FINAL_TYPE (GstPtAudioBin, gst_pt_audio_bin, GST, PT_AUDIO_BIN, GstBin)
 
@@ -32,5 +30,3 @@ PtModeType gst_pt_audio_bin_get_mode (GstPtAudioBin *bin);
 void gst_pt_audio_bin_set_mode (GstPtAudioBin *bin,
                                 PtModeType mode);
 gboolean gst_pt_audio_bin_register (void);
-
-G_END_DECLS

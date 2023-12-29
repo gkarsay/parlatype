@@ -18,11 +18,7 @@
 
 #include <gst/gst.h>
 
-G_BEGIN_DECLS
-
 #define GST_TYPE_PT_AUDIO_PLAY_BIN (gst_pt_audio_play_bin_get_type ())
 G_DECLARE_FINAL_TYPE (GstPtAudioPlayBin, gst_pt_audio_play_bin, GST, PT_AUDIO_PLAY_BIN, GstBin)
 
 gboolean gst_pt_audio_play_bin_register (void);
-
-G_END_DECLS
