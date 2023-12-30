@@ -18,21 +18,23 @@
 
 #include <gio/gio.h>
 
-struct _MockPluginPrivate
+struct _PtMockPlugin
 {
-  gchar   *prop_file;
-  gchar   *prop_string;
-  gint     prop_int;
-  gfloat   prop_float;
-  gdouble  prop_double;
-  gboolean prop_bool;
-  gboolean prop_not_writable;
+  GstElement parent;
+  GstPad    *sinkpad;
+  GstPad    *srcpad;
+  gchar     *prop_file;
+  gchar     *prop_string;
+  gint       prop_int;
+  gfloat     prop_float;
+  gdouble    prop_double;
+  gboolean   prop_bool;
+  gboolean   prop_not_writable;
 };
 
 enum
 {
-  PROP_0,
-  PROP_FILE,
+  PROP_FILE = 1,
   PROP_STRING,
   PROP_INT,
   PROP_FLOAT,
@@ -42,9 +44,7 @@ enum
   N_PROPERTIES
 };
 
-static GParamSpec *obj_properties[N_PROPERTIES] = {
-  NULL,
-};
+static GParamSpec *obj_properties[N_PROPERTIES];
 
 static GstStaticPadTemplate sink_factory =
     GST_STATIC_PAD_TEMPLATE (
@@ -60,34 +60,32 @@ static GstStaticPadTemplate src_factory =
         GST_PAD_ALWAYS,
         GST_STATIC_CAPS ("audio/x-raw,format=S16LE,rate=16000,channels=1"));
 
-G_DEFINE_TYPE_WITH_PRIVATE (MockPlugin, mock_plugin, GST_TYPE_ELEMENT)
+G_DEFINE_TYPE (PtMockPlugin, pt_mock_plugin, GST_TYPE_ELEMENT)
 
 static gboolean
-mock_plugin_event (GstPad    *pad,
-                   GstObject *parent,
-                   GstEvent  *event)
+pt_mock_plugin_event (GstPad    *pad,
+                      GstObject *parent,
+                      GstEvent  *event)
 {
   return gst_pad_event_default (pad, parent, event);
 }
 
 static GstFlowReturn
-mock_plugin_chain (GstPad    *pad,
-                   GstObject *parent,
-                   GstBuffer *buf)
+pt_mock_plugin_chain (GstPad    *pad,
+                      GstObject *parent,
+                      GstBuffer *buf)
 {
-  MockPlugin *self = MOCK_PLUGIN (parent);
+  PtMockPlugin *self = PT_MOCK_PLUGIN (parent);
 
   return gst_pad_push (self->srcpad, buf);
 }
 static void
-mock_plugin_init (MockPlugin *self)
+pt_mock_plugin_init (PtMockPlugin *self)
 {
-  self->priv = mock_plugin_get_instance_private (self);
-
   self->sinkpad = gst_pad_new_from_static_template (&sink_factory, "sink");
   GST_PAD_SET_PROXY_CAPS (self->sinkpad);
-  gst_pad_set_chain_function (self->sinkpad, mock_plugin_chain);
-  gst_pad_set_event_function (self->sinkpad, mock_plugin_event);
+  gst_pad_set_chain_function (self->sinkpad, pt_mock_plugin_chain);
+  gst_pad_set_event_function (self->sinkpad, pt_mock_plugin_event);
   gst_element_add_pad (GST_ELEMENT (self), self->sinkpad);
 
   self->srcpad = gst_pad_new_from_static_template (&src_factory, "src");
@@ -96,48 +94,48 @@ mock_plugin_init (MockPlugin *self)
 }
 
 static void
-mock_plugin_finalize (GObject *object)
+pt_mock_plugin_finalize (GObject *object)
 {
-  MockPlugin *self = MOCK_PLUGIN (object);
+  PtMockPlugin *self = PT_MOCK_PLUGIN (object);
 
-  g_free (self->priv->prop_file);
-  g_free (self->priv->prop_string);
+  g_free (self->prop_file);
+  g_free (self->prop_string);
 
-  G_OBJECT_CLASS (mock_plugin_parent_class)->finalize (object);
+  G_OBJECT_CLASS (pt_mock_plugin_parent_class)->finalize (object);
 }
 
 static void
-mock_plugin_set_property (GObject      *object,
-                          guint         property_id,
-                          const GValue *value,
-                          GParamSpec   *pspec)
+pt_mock_plugin_set_property (GObject      *object,
+                             guint         property_id,
+                             const GValue *value,
+                             GParamSpec   *pspec)
 {
-  MockPlugin *self = MOCK_PLUGIN (object);
+  PtMockPlugin *self = PT_MOCK_PLUGIN (object);
 
   switch (property_id)
     {
     case PROP_FILE:
-      g_free (self->priv->prop_file);
-      self->priv->prop_file = g_value_dup_string (value);
+      g_free (self->prop_file);
+      self->prop_file = g_value_dup_string (value);
       break;
     case PROP_STRING:
-      g_free (self->priv->prop_string);
-      self->priv->prop_string = g_value_dup_string (value);
+      g_free (self->prop_string);
+      self->prop_string = g_value_dup_string (value);
       break;
     case PROP_INT:
-      self->priv->prop_int = g_value_get_int (value);
+      self->prop_int = g_value_get_int (value);
       break;
     case PROP_FLOAT:
-      self->priv->prop_float = g_value_get_float (value);
+      self->prop_float = g_value_get_float (value);
       break;
     case PROP_DOUBLE:
-      self->priv->prop_double = g_value_get_double (value);
+      self->prop_double = g_value_get_double (value);
       break;
     case PROP_BOOL:
-      self->priv->prop_bool = g_value_get_boolean (value);
+      self->prop_bool = g_value_get_boolean (value);
       break;
     case PROP_NOT_WRITABLE:
-      self->priv->prop_not_writable = g_value_get_int (value);
+      self->prop_not_writable = g_value_get_int (value);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -146,35 +144,35 @@ mock_plugin_set_property (GObject      *object,
 }
 
 static void
-mock_plugin_get_property (GObject    *object,
-                          guint       property_id,
-                          GValue     *value,
-                          GParamSpec *pspec)
+pt_mock_plugin_get_property (GObject    *object,
+                             guint       property_id,
+                             GValue     *value,
+                             GParamSpec *pspec)
 {
-  MockPlugin *self = MOCK_PLUGIN (object);
+  PtMockPlugin *self = PT_MOCK_PLUGIN (object);
 
   switch (property_id)
     {
     case PROP_FILE:
-      g_value_set_string (value, self->priv->prop_file);
+      g_value_set_string (value, self->prop_file);
       break;
     case PROP_STRING:
-      g_value_set_string (value, self->priv->prop_string);
+      g_value_set_string (value, self->prop_string);
       break;
     case PROP_INT:
-      g_value_set_int (value, self->priv->prop_int);
+      g_value_set_int (value, self->prop_int);
       break;
     case PROP_FLOAT:
-      g_value_set_float (value, self->priv->prop_float);
+      g_value_set_float (value, self->prop_float);
       break;
     case PROP_DOUBLE:
-      g_value_set_double (value, self->priv->prop_double);
+      g_value_set_double (value, self->prop_double);
       break;
     case PROP_BOOL:
-      g_value_set_boolean (value, self->priv->prop_bool);
+      g_value_set_boolean (value, self->prop_bool);
       break;
     case PROP_NOT_WRITABLE:
-      g_value_set_int (value, self->priv->prop_not_writable);
+      g_value_set_int (value, self->prop_not_writable);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -183,57 +181,57 @@ mock_plugin_get_property (GObject    *object,
 }
 
 static void
-mock_plugin_class_init (MockPluginClass *klass)
+pt_mock_plugin_class_init (PtMockPluginClass *klass)
 {
   GObjectClass    *object_class = (GObjectClass *) klass;
   GstElementClass *element_class = (GstElementClass *) klass;
   ;
 
-  object_class->set_property = mock_plugin_set_property;
-  object_class->get_property = mock_plugin_get_property;
-  object_class->finalize = mock_plugin_finalize;
+  object_class->set_property = pt_mock_plugin_set_property;
+  object_class->get_property = pt_mock_plugin_get_property;
+  object_class->finalize = pt_mock_plugin_finalize;
 
   obj_properties[PROP_FILE] =
       g_param_spec_string (
-          "file", "file", "file",
+          "file", NULL, NULL,
           NULL,
-          G_PARAM_READWRITE);
+          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   obj_properties[PROP_STRING] =
       g_param_spec_string (
-          "string", "string", "string",
+          "string", NULL, NULL,
           NULL,
-          G_PARAM_READWRITE);
+          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   obj_properties[PROP_INT] =
       g_param_spec_int (
-          "int", "int", "int",
+          "int", NULL, NULL,
           -100, 100, 0,
-          G_PARAM_READWRITE);
+          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   obj_properties[PROP_FLOAT] =
       g_param_spec_float (
-          "float", "float", "float",
+          "float", NULL, NULL,
           -G_MAXFLOAT, G_MAXFLOAT, 0,
-          G_PARAM_READWRITE);
+          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   obj_properties[PROP_DOUBLE] =
       g_param_spec_double (
-          "double", "double", "double",
+          "double", NULL, NULL,
           -G_MAXDOUBLE, G_MAXDOUBLE, 0,
-          G_PARAM_READWRITE);
+          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   obj_properties[PROP_BOOL] =
       g_param_spec_boolean (
-          "bool", "bool", "bool",
+          "bool", NULL, NULL,
           FALSE,
-          G_PARAM_READWRITE);
+          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   obj_properties[PROP_NOT_WRITABLE] =
       g_param_spec_int (
-          "not-writable", "not-writable", "not-writable",
+          "not-writable", NULL, NULL,
           G_MININT, G_MAXINT, 0,
-          G_PARAM_READABLE);
+          G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (
       G_OBJECT_CLASS (klass),
@@ -261,13 +259,13 @@ plugin_init (GstPlugin *plugin)
   if (!gst_element_register (plugin,
                              "ptmockplugin",
                              GST_RANK_NONE,
-                             MOCK_TYPE_PLUGIN))
+                             PT_TYPE_MOCK_PLUGIN))
     return FALSE;
   return TRUE;
 }
 
 gboolean
-mock_plugin_register (void)
+pt_mock_plugin_register (void)
 {
   return gst_plugin_register_static (
       GST_VERSION_MAJOR,
@@ -282,8 +280,8 @@ mock_plugin_register (void)
       "https://www.parlatype.org/");
 }
 
-MockPlugin *
-mock_plugin_new (void)
+PtMockPlugin *
+pt_mock_plugin_new (void)
 {
-  return g_object_new (MOCK_TYPE_PLUGIN, NULL);
+  return g_object_new (PT_TYPE_MOCK_PLUGIN, NULL);
 }

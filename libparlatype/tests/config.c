@@ -240,17 +240,17 @@ dist_valid (void)
 static void
 apply (void)
 {
-  PtConfig   *config;
-  GFile      *testfile;
-  gchar      *testpath;
-  MockPlugin *plugin;
-  gchar      *prop_file, *prop_string;
-  gint        prop_int;
-  gfloat      prop_float;
-  gdouble     prop_double;
-  gboolean    prop_bool;
-  GError     *error = NULL;
-  gboolean    success;
+  PtConfig     *config;
+  GFile        *testfile;
+  gchar        *testpath;
+  PtMockPlugin *plugin;
+  gchar        *prop_file, *prop_string;
+  gint          prop_int;
+  gfloat        prop_float;
+  gdouble       prop_double;
+  gboolean      prop_bool;
+  GError       *error = NULL;
+  gboolean      success;
 
   testpath = g_test_build_filename (G_TEST_DIST, "data", "config-apply.asr", NULL);
   testfile = g_file_new_for_path (testpath);
@@ -258,7 +258,7 @@ apply (void)
   g_object_unref (testfile);
   g_free (testpath);
 
-  plugin = mock_plugin_new ();
+  plugin = pt_mock_plugin_new ();
   success = pt_config_apply (config, G_OBJECT (plugin), &error);
   g_assert_true (success);
   g_assert_no_error (error);
@@ -329,7 +329,7 @@ main (int argc, char *argv[])
 {
   g_test_init (&argc, &argv, NULL);
   gst_init (NULL, NULL);
-  mock_plugin_register ();
+  pt_mock_plugin_register ();
 
   g_test_add_func ("/config/construct", construct);
   g_test_add_func ("/config/main_methods", main_methods);

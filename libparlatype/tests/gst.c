@@ -132,7 +132,7 @@ main (int argc, char *argv[])
   gst_pt_audio_asr_bin_register ();
   gst_pt_audio_play_bin_register ();
   gst_pt_audio_bin_register ();
-  mock_plugin_register ();
+  pt_mock_plugin_register ();
 
   g_test_add_func ("/gst/audioasrbin_new", gst_audioasrbin);
 

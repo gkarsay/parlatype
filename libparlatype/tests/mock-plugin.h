@@ -18,29 +18,9 @@
 
 #include <gst/gst.h>
 
-#define MOCK_TYPE_PLUGIN (mock_plugin_get_type ())
-#define MOCK_PLUGIN(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), MOCK_TYPE_PLUGIN, MockPlugin))
-#define MOCK_IS_PLUGIN(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MOCK_TYPE_PLUGIN))
+#define PT_TYPE_MOCK_PLUGIN (pt_mock_plugin_get_type ())
+G_DECLARE_FINAL_TYPE (PtMockPlugin, pt_mock_plugin, PT, MOCK_PLUGIN, GstElement)
 
-typedef struct _MockPlugin        MockPlugin;
-typedef struct _MockPluginClass   MockPluginClass;
-typedef struct _MockPluginPrivate MockPluginPrivate;
+gboolean      pt_mock_plugin_register (void);
 
-struct _MockPlugin
-{
-  GstElement         parent;
-  GstPad            *sinkpad;
-  GstPad            *srcpad;
-  MockPluginPrivate *priv;
-};
-
-struct _MockPluginClass
-{
-  GstElementClass parent_class;
-};
-
-GType       mock_plugin_get_type (void) G_GNUC_CONST;
-
-gboolean    mock_plugin_register (void);
-
-MockPlugin *mock_plugin_new      (void);
+PtMockPlugin *pt_mock_plugin_new      (void);

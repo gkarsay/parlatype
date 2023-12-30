@@ -594,7 +594,7 @@ player_config_loadable (void)
   /* Create player */
   testplayer = pt_player_new ();
   g_assert_true (PT_IS_PLAYER (testplayer));
-  mock_plugin_register ();
+  pt_mock_plugin_register ();
 
   /* Create config with existing plugin */
   testpath = g_test_build_filename (G_TEST_DIST, "data", "config-mock-plugin.asr", NULL);
