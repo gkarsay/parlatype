@@ -22,15 +22,15 @@
 #define MOCK_PLUGIN(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), MOCK_TYPE_PLUGIN, MockPlugin))
 #define MOCK_IS_PLUGIN(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MOCK_TYPE_PLUGIN))
 
-typedef struct _MockPlugin MockPlugin;
-typedef struct _MockPluginClass MockPluginClass;
+typedef struct _MockPlugin        MockPlugin;
+typedef struct _MockPluginClass   MockPluginClass;
 typedef struct _MockPluginPrivate MockPluginPrivate;
 
 struct _MockPlugin
 {
-  GstElement parent;
-  GstPad *sinkpad;
-  GstPad *srcpad;
+  GstElement         parent;
+  GstPad            *sinkpad;
+  GstPad            *srcpad;
   MockPluginPrivate *priv;
 };
 
@@ -39,6 +39,8 @@ struct _MockPluginClass
   GstElementClass parent_class;
 };
 
-GType mock_plugin_get_type (void) G_GNUC_CONST;
-gboolean mock_plugin_register (void);
-MockPlugin *mock_plugin_new (void);
+GType       mock_plugin_get_type (void) G_GNUC_CONST;
+
+gboolean    mock_plugin_register (void);
+
+MockPlugin *mock_plugin_new      (void);

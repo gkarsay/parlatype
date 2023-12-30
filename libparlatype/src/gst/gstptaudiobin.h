@@ -23,10 +23,13 @@
 #define GST_TYPE_PT_AUDIO_BIN (gst_pt_audio_bin_get_type ())
 G_DECLARE_FINAL_TYPE (GstPtAudioBin, gst_pt_audio_bin, GST, PT_AUDIO_BIN, GstBin)
 
-gboolean gst_pt_audio_bin_configure_asr (GstPtAudioBin *self,
-                                         PtConfig *config,
-                                         GError **error);
-PtModeType gst_pt_audio_bin_get_mode (GstPtAudioBin *self);
-void gst_pt_audio_bin_set_mode (GstPtAudioBin *self,
-                                PtModeType mode);
-gboolean gst_pt_audio_bin_register (void);
+gboolean   gst_pt_audio_bin_configure_asr (GstPtAudioBin *self,
+                                           PtConfig      *config,
+                                           GError       **error);
+
+PtModeType gst_pt_audio_bin_get_mode      (GstPtAudioBin *self);
+
+void       gst_pt_audio_bin_set_mode      (GstPtAudioBin *self,
+                                           PtModeType     mode);
+
+gboolean   gst_pt_audio_bin_register      (void);

@@ -21,7 +21,7 @@
 #define PT_TYPE_WAVEVIEWER_SCROLLBOX (pt_waveviewer_scrollbox_get_type ())
 G_DECLARE_FINAL_TYPE (PtWaveviewerScrollbox, pt_waveviewer_scrollbox, PT, WAVEVIEWER_SCROLLBOX, GtkBox)
 
-void pt_waveviewer_scrollbox_set (PtWaveviewerScrollbox *self,
-                                  gint width);
+void       pt_waveviewer_scrollbox_set (PtWaveviewerScrollbox *self,
+                                        gint                   width);
 
 GtkWidget *pt_waveviewer_scrollbox_new (void);

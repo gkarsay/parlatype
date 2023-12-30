@@ -21,7 +21,8 @@
 #define PT_TYPE_WAVEVIEWER_SELECTION (pt_waveviewer_selection_get_type ())
 G_DECLARE_FINAL_TYPE (PtWaveviewerSelection, pt_waveviewer_selection, PT, WAVEVIEWER_SELECTION, GtkDrawingArea)
 
-void pt_waveviewer_selection_set (PtWaveviewerSelection *self,
-                                  gint start,
-                                  gint end);
+void       pt_waveviewer_selection_set (PtWaveviewerSelection *self,
+                                        gint                   start,
+                                        gint                   end);
+
 GtkWidget *pt_waveviewer_selection_new (void);

@@ -27,8 +27,8 @@ struct _PtControllerClass
   GObjectClass parent_class;
 };
 
-PtWindow *pt_controller_get_window (PtController *self);
+PtWindow     *pt_controller_get_window (PtController *self);
 
-PtPlayer *pt_controller_get_player (PtController *self);
+PtPlayer     *pt_controller_get_player (PtController *self);
 
-PtController *pt_controller_new (PtWindow *win);
+PtController *pt_controller_new        (PtWindow     *win);

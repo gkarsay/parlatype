@@ -21,11 +21,9 @@
 #define PT_TYPE_POSITION_MANAGER (pt_position_manager_get_type ())
 G_DECLARE_FINAL_TYPE (PtPositionManager, pt_position_manager, PT, POSITION_MANAGER, GObject)
 
-void pt_position_manager_save (PtPositionManager *self,
-                               GFile *file,
-                               gint64 pos);
-
-gint64 pt_position_manager_load (PtPositionManager *self,
-                                 GFile *file);
-
-PtPositionManager *pt_position_manager_new (void);
+void               pt_position_manager_save (PtPositionManager *self,
+                                             GFile             *file,
+                                             gint64             pos);
+gint64             pt_position_manager_load (PtPositionManager *self,
+                                             GFile             *file);
+PtPositionManager *pt_position_manager_new  (void);

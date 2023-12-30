@@ -21,10 +21,10 @@
 #define PT_TYPE_CONFIG_LIST (pt_config_list_get_type ())
 G_DECLARE_FINAL_TYPE (PtConfigList, pt_config_list, PT, CONFIG_LIST, GObject)
 
-GFile* pt_config_list_get_folder (PtConfigList *self);
+GFile        *pt_config_list_get_folder (PtConfigList *self);
 
-void pt_config_list_refresh (PtConfigList *self);
+void          pt_config_list_refresh    (PtConfigList *self);
 
-void pt_config_list_sort (PtConfigList *self);
+void          pt_config_list_sort       (PtConfigList *self);
 
-PtConfigList *pt_config_list_new (PtPlayer *player);
+PtConfigList *pt_config_list_new        (PtPlayer     *player);

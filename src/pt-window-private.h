@@ -17,10 +17,15 @@
 #pragma once
 
 #include "pt-window.h"
+
 #include <parlatype.h>
 
-PtPlayer *_pt_window_get_player (PtWindow *self);
-GtkWidget *_pt_window_get_waveviewer (PtWindow *self);
-GtkRecentManager *_pt_window_get_recent_manager (PtWindow *self);
-GtkWidget *_pt_window_get_primary_menu_button (PtWindow *self);
-GSettings *_pt_window_get_settings (PtWindow *self);
+PtPlayer         *_pt_window_get_player              (PtWindow *self);
+
+GtkWidget        *_pt_window_get_waveviewer          (PtWindow *self);
+
+GtkRecentManager *_pt_window_get_recent_manager      (PtWindow *self);
+
+GtkWidget        *_pt_window_get_primary_menu_button (PtWindow *self);
+
+GSettings        *_pt_window_get_settings            (PtWindow *self);

@@ -24,10 +24,10 @@
 
 #include <glib.h>
 
-char *gnome_get_language_from_locale (const char *locale,
-                                      const char *translation);
-gboolean gnome_parse_locale (const char *locale,
-                             char **language_codep,
-                             char **country_codep,
-                             char **codesetp,
-                             char **modifierp);
+char      *gnome_get_language_from_locale (const char *locale,
+                                           const char *translation);
+gboolean   gnome_parse_locale             (const char *locale,
+                                           char      **language_codep,
+                                           char      **country_codep,
+                                           char      **codesetp,
+                                           char      **modifierp);

@@ -21,8 +21,9 @@
 #define PT_TYPE_WAVEVIEWER_RULER (pt_waveviewer_ruler_get_type ())
 G_DECLARE_FINAL_TYPE (PtWaveviewerRuler, pt_waveviewer_ruler, PT, WAVEVIEWER_RULER, GtkDrawingArea)
 
-void pt_waveviewer_ruler_set_ruler (PtWaveviewerRuler *self,
-                                    gint64 n_samples,
-                                    gint px_per_sec,
-                                    gint64 duration);
-GtkWidget *pt_waveviewer_ruler_new (void);
+void       pt_waveviewer_ruler_set_ruler (PtWaveviewerRuler *self,
+                                          gint64             n_samples,
+                                          gint               px_per_sec,
+                                          gint64             duration);
+
+GtkWidget *pt_waveviewer_ruler_new       (void);

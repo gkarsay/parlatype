@@ -22,16 +22,16 @@
 #define PT_TYPE_CONFIG_ROW (pt_config_row_get_type ())
 G_DECLARE_FINAL_TYPE (PtConfigRow, pt_config_row, PT, CONFIG_ROW, AdwActionRow)
 
-void pt_config_row_set_active (PtConfigRow *self,
-                               gboolean active);
+void         pt_config_row_set_active   (PtConfigRow *self,
+                                         gboolean     active);
 
-gboolean pt_config_row_get_active (PtConfigRow *self);
+gboolean     pt_config_row_get_active   (PtConfigRow *self);
 
-gboolean pt_config_row_is_installed (PtConfigRow *self);
+gboolean     pt_config_row_is_installed (PtConfigRow *self);
 
-PtConfig* pt_config_row_get_config (PtConfigRow *self);
+PtConfig    *pt_config_row_get_config   (PtConfigRow *self);
 
-void pt_config_row_set_config (PtConfigRow *self,
-                               PtConfig *config);
+void         pt_config_row_set_config   (PtConfigRow *self,
+                                         PtConfig    *config);
 
-PtConfigRow *pt_config_row_new (PtConfig *config);
+PtConfigRow *pt_config_row_new          (PtConfig    *config);

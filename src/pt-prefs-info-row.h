@@ -21,11 +21,11 @@
 #define PT_TYPE_PREFS_INFO_ROW (pt_prefs_info_row_get_type ())
 G_DECLARE_FINAL_TYPE (PtPrefsInfoRow, pt_prefs_info_row, PT, PREFS_INFO_ROW, AdwActionRow)
 
-void pt_prefs_info_row_set_title (PtPrefsInfoRow *self,
-                                  gchar *title);
+void            pt_prefs_info_row_set_title (PtPrefsInfoRow *self,
+                                             gchar          *title);
 
-void pt_prefs_info_row_set_info (PtPrefsInfoRow *self,
-                                 gchar *info);
+void            pt_prefs_info_row_set_info  (PtPrefsInfoRow *self,
+                                             gchar          *info);
 
-PtPrefsInfoRow *pt_prefs_info_row_new (gchar *title,
-                                       gchar *info);
+PtPrefsInfoRow *pt_prefs_info_row_new       (gchar          *title,
+                                             gchar          *info);

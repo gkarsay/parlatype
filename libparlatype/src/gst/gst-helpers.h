@@ -18,6 +18,6 @@
 
 #include <gst/gst.h>
 
-GstElement *_pt_make_element (gchar *factoryname,
-                              gchar *name,
+GstElement *_pt_make_element (gchar   *factoryname,
+                              gchar   *name,
                               GError **error);

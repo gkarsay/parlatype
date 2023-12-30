@@ -32,34 +32,34 @@ struct _PtWaveloaderClass
   GObjectClass parent_class;
 };
 
-gboolean pt_waveloader_load_finish (PtWaveloader *self,
-                                    GAsyncResult *result,
-                                    GError **error);
+gboolean      pt_waveloader_load_finish   (PtWaveloader       *self,
+                                           GAsyncResult       *result,
+                                           GError            **error);
 
-void pt_waveloader_load_async (PtWaveloader *self,
-                               gint pps,
-                               GCancellable *cancellable,
-                               GAsyncReadyCallback callback,
-                               gpointer user_data);
+void          pt_waveloader_load_async    (PtWaveloader       *self,
+                                           gint                pps,
+                                           GCancellable       *cancellable,
+                                           GAsyncReadyCallback callback,
+                                           gpointer            user_data);
 
-gint64 pt_waveloader_get_duration (PtWaveloader *self);
+gint64        pt_waveloader_get_duration  (PtWaveloader       *self);
 
-gboolean pt_waveloader_resize_finish (PtWaveloader *self,
-                                      GAsyncResult *result,
-                                      GError **error);
+gboolean      pt_waveloader_resize_finish (PtWaveloader       *self,
+                                           GAsyncResult       *result,
+                                           GError            **error);
 
-void pt_waveloader_resize_async (PtWaveloader *self,
-                                 gint pps,
-                                 GCancellable *cancellable,
-                                 GAsyncReadyCallback callback,
-                                 gpointer user_data);
+void          pt_waveloader_resize_async  (PtWaveloader       *self,
+                                           gint                pps,
+                                           GCancellable       *cancellable,
+                                           GAsyncReadyCallback callback,
+                                           gpointer            user_data);
 
-gboolean pt_waveloader_resize (PtWaveloader *self,
-                               gint pps,
-                               GError **error);
+gboolean      pt_waveloader_resize        (PtWaveloader       *self,
+                                           gint                pps,
+                                           GError            **error);
 
-GArray *pt_waveloader_get_data (PtWaveloader *self);
+GArray       *pt_waveloader_get_data      (PtWaveloader       *self);
 
-PtWaveloader *pt_waveloader_new (gchar *uri);
+PtWaveloader *pt_waveloader_new           (gchar              *uri);
 
 G_END_DECLS

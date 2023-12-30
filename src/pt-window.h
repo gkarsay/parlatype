@@ -16,27 +16,24 @@
 
 #pragma once
 
-#include <gtk/gtk.h>
 #include "pt-app.h"
+#include <gtk/gtk.h>
 
 #define PT_WINDOW_TYPE (pt_window_get_type ())
 G_DECLARE_FINAL_TYPE (PtWindow, pt_window, PT, WINDOW, GtkApplicationWindow)
-
 
 struct _PtWindowClass
 {
   GtkApplicationWindowClass parent_class;
 };
 
-GType pt_window_get_type (void) G_GNUC_CONST;
+void      pt_error_message    (PtWindow    *parent,
+                               const gchar *message,
+                               const gchar *secondary_message);
 
-void pt_error_message (PtWindow *parent,
-                       const gchar *message,
-                       const gchar *secondary_message);
+void      pt_window_open_file (PtWindow    *self,
+                               gchar       *uri);
 
-void pt_window_open_file (PtWindow *self,
-                          gchar *uri);
+gchar    *pt_window_get_uri   (PtWindow    *self);
 
-gchar *pt_window_get_uri (PtWindow *self);
-
-PtWindow *pt_window_new (PtApp *app);
+PtWindow *pt_window_new       (PtApp       *app);

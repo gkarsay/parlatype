@@ -82,68 +82,106 @@ typedef enum
   PT_PRECISION_INVALID
 } PtPrecisionType;
 
-void pt_player_pause (PtPlayer *self);
-void pt_player_pause_and_rewind (PtPlayer *self);
-gint pt_player_get_pause (PtPlayer *self);
-void pt_player_play (PtPlayer *self);
-void pt_player_play_pause (PtPlayer *self);
-void pt_player_set_selection (PtPlayer *self,
-                              gint64 start,
-                              gint64 end);
-void pt_player_clear_selection (PtPlayer *self);
-gboolean pt_player_has_selection (PtPlayer *self);
-gboolean pt_player_open_uri (PtPlayer *self,
-                             gchar *uri);
-void pt_player_jump_relative (PtPlayer *self,
-                              gint milliseconds);
-void pt_player_jump_back (PtPlayer *self);
-void pt_player_jump_forward (PtPlayer *self);
-gint pt_player_get_back (PtPlayer *self);
-gint pt_player_get_forward (PtPlayer *self);
-void pt_player_jump_to_position (PtPlayer *self,
-                                 gint milliseconds);
-gdouble pt_player_get_speed (PtPlayer *self);
-void pt_player_set_speed (PtPlayer *self,
-                          gdouble speed);
-gdouble pt_player_get_volume (PtPlayer *self);
-void pt_player_set_volume (PtPlayer *self,
-                           gdouble volume);
-gboolean pt_player_get_mute (PtPlayer *self);
-void pt_player_set_mute (PtPlayer *self,
-                         gboolean mute);
-gint64 pt_player_get_position (PtPlayer *self);
-gint64 pt_player_get_duration (PtPlayer *self);
-gchar *pt_player_get_uri (PtPlayer *self);
-gchar *pt_player_get_filename (PtPlayer *self);
-gchar *pt_player_get_time_string (gint time,
-                                  gint duration,
-                                  PtPrecisionType precision);
-gchar *pt_player_get_current_time_string (PtPlayer *self,
-                                          PtPrecisionType precision);
-gchar *pt_player_get_duration_time_string (PtPlayer *self,
-                                           PtPrecisionType precision);
-gchar *pt_player_get_timestamp_for_time (PtPlayer *self,
-                                         gint time,
-                                         gint duration);
-gchar *pt_player_get_timestamp (PtPlayer *self);
-gint pt_player_get_timestamp_position (PtPlayer *self,
-                                       gchar *timestamp,
-                                       gboolean check_duration);
-gboolean pt_player_string_is_timestamp (PtPlayer *self,
-                                        gchar *timestamp,
-                                        gboolean check_duration);
-gboolean pt_player_goto_timestamp (PtPlayer *self,
-                                   gchar *timestamp);
-void pt_player_connect_waveviewer (PtPlayer *self,
-                                   PtWaveviewer *wv);
-void pt_player_set_mode (PtPlayer *self,
-                         PtModeType type);
-PtModeType pt_player_get_mode (PtPlayer *self);
-gboolean pt_player_configure_asr (PtPlayer *self,
-                                  PtConfig *config,
-                                  GError **error);
-gboolean pt_player_config_is_loadable (PtPlayer *self,
-                                       PtConfig *config);
-PtPlayer *pt_player_new (void);
+void       pt_player_pause                    (PtPlayer       *self);
+
+void       pt_player_pause_and_rewind         (PtPlayer       *self);
+
+gint       pt_player_get_pause                (PtPlayer       *self);
+
+void       pt_player_play                     (PtPlayer       *self);
+
+void       pt_player_play_pause               (PtPlayer       *self);
+
+void       pt_player_set_selection            (PtPlayer       *self,
+                                               gint64          start,
+                                               gint64          end);
+
+void       pt_player_clear_selection          (PtPlayer       *self);
+
+gboolean   pt_player_has_selection            (PtPlayer       *self);
+
+gboolean   pt_player_open_uri                 (PtPlayer       *self,
+                                               gchar          *uri);
+
+void       pt_player_jump_relative            (PtPlayer       *self,
+                                               gint            milliseconds);
+
+void       pt_player_jump_back                (PtPlayer       *self);
+
+void       pt_player_jump_forward             (PtPlayer       *self);
+
+gint       pt_player_get_back                 (PtPlayer       *self);
+
+gint       pt_player_get_forward              (PtPlayer       *self);
+
+void       pt_player_jump_to_position         (PtPlayer       *self,
+                                               gint            milliseconds);
+
+gdouble    pt_player_get_speed                (PtPlayer       *self);
+
+void       pt_player_set_speed                (PtPlayer       *self,
+                                               gdouble         speed);
+
+gdouble    pt_player_get_volume               (PtPlayer       *self);
+
+void       pt_player_set_volume               (PtPlayer       *self,
+                                               gdouble         volume);
+
+gboolean   pt_player_get_mute                 (PtPlayer       *self);
+
+void       pt_player_set_mute                 (PtPlayer       *self,
+                                               gboolean        mute);
+
+gint64     pt_player_get_position             (PtPlayer       *self);
+
+gint64     pt_player_get_duration             (PtPlayer       *self);
+
+gchar     *pt_player_get_uri                  (PtPlayer       *self);
+
+gchar     *pt_player_get_filename             (PtPlayer       *self);
+
+gchar     *pt_player_get_time_string          (gint            time,
+                                               gint            duration,
+                                               PtPrecisionType precision);
+
+gchar     *pt_player_get_current_time_string  (PtPlayer       *self,
+                                               PtPrecisionType precision);
+
+gchar     *pt_player_get_duration_time_string (PtPlayer       *self,
+                                               PtPrecisionType precision);
+
+gchar     *pt_player_get_timestamp_for_time   (PtPlayer       *self,
+                                               gint            time,
+                                               gint            duration);
+
+gchar     *pt_player_get_timestamp            (PtPlayer       *self);
+
+gint       pt_player_get_timestamp_position   (PtPlayer       *self,
+                                               gchar          *timestamp,
+                                               gboolean        check_duration);
+
+gboolean   pt_player_string_is_timestamp      (PtPlayer       *self,
+                                               gchar          *timestamp,
+                                               gboolean        check_duration);
+
+gboolean   pt_player_goto_timestamp           (PtPlayer       *self,
+                                               gchar          *timestamp);
+
+void       pt_player_connect_waveviewer       (PtPlayer       *self,
+                                               PtWaveviewer   *wv);
+
+void       pt_player_set_mode                 (PtPlayer       *self,
+                                               PtModeType      type);
+
+PtModeType pt_player_get_mode                 (PtPlayer       *self);
+
+gboolean   pt_player_configure_asr            (PtPlayer       *self,
+                                               PtConfig       *config,
+                                               GError        **error);
+
+gboolean   pt_player_config_is_loadable       (PtPlayer       *self,
+                                               PtConfig       *config);
+
+PtPlayer  *pt_player_new                      (void);
 
 G_END_DECLS

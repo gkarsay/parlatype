@@ -21,6 +21,7 @@
 #define PT_TYPE_WAVEVIEWER_WAVEFORM (pt_waveviewer_waveform_get_type ())
 G_DECLARE_FINAL_TYPE (PtWaveviewerWaveform, pt_waveviewer_waveform, PT, WAVEVIEWER_WAVEFORM, GtkDrawingArea)
 
-void pt_waveviewer_waveform_set (PtWaveviewerWaveform *self,
-                                 GArray *peaks);
+void       pt_waveviewer_waveform_set (PtWaveviewerWaveform *self,
+                                       GArray               *peaks);
+
 GtkWidget *pt_waveviewer_waveform_new (void);

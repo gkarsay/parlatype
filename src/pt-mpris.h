@@ -21,5 +21,6 @@
 #define PT_MPRIS_TYPE (pt_mpris_get_type ())
 G_DECLARE_FINAL_TYPE (PtMpris, pt_mpris, PT, MPRIS, PtController)
 
-void pt_mpris_start (PtMpris *self);
-PtMpris *pt_mpris_new (PtWindow *win);
+void     pt_mpris_start (PtMpris  *self);
+
+PtMpris *pt_mpris_new   (PtWindow *win);

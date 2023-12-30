@@ -22,8 +22,6 @@
 #define PT_TYPE_PREFS_INSTALL_ROW (pt_prefs_install_row_get_type ())
 G_DECLARE_FINAL_TYPE (PtPrefsInstallRow, pt_prefs_install_row, PT, PREFS_INSTALL_ROW, AdwActionRow)
 
-gboolean
-pt_prefs_install_row_get_installed (PtPrefsInstallRow *self);
+gboolean   pt_prefs_install_row_get_installed (PtPrefsInstallRow *self);
 
-GtkWidget*
-pt_prefs_install_row_new (PtConfig *config);
+GtkWidget *pt_prefs_install_row_new           (PtConfig          *config);

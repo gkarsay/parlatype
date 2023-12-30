@@ -21,10 +21,12 @@
 #define PT_TYPE_GOTO_DIALOG (pt_goto_dialog_get_type ())
 G_DECLARE_FINAL_TYPE (PtGotoDialog, pt_goto_dialog, PT, GOTO_DIALOG, GtkDialog)
 
-gint pt_goto_dialog_get_pos (PtGotoDialog *self);
-void pt_goto_dialog_set_pos (PtGotoDialog *self,
-                             gint seconds);
-void pt_goto_dialog_set_max (PtGotoDialog *self,
-                             gint seconds);
+gint          pt_goto_dialog_get_pos (PtGotoDialog *self);
 
-PtGotoDialog *pt_goto_dialog_new (GtkWindow *win);
+void          pt_goto_dialog_set_pos (PtGotoDialog *self,
+                                      gint          seconds);
+
+void          pt_goto_dialog_set_max (PtGotoDialog *self,
+                                      gint          seconds);
+
+PtGotoDialog *pt_goto_dialog_new     (GtkWindow    *win);

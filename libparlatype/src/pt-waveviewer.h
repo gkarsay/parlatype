@@ -27,27 +27,26 @@ G_BEGIN_DECLS
 #define PT_TYPE_WAVEVIEWER (pt_waveviewer_get_type ())
 G_DECLARE_DERIVABLE_TYPE (PtWaveviewer, pt_waveviewer, PT, WAVEVIEWER, GtkWidget)
 
-
 struct _PtWaveviewerClass
 {
   GtkWidgetClass klass;
 };
 
-gboolean pt_waveviewer_get_follow_cursor (PtWaveviewer *self);
+gboolean   pt_waveviewer_get_follow_cursor (PtWaveviewer       *self);
 
-void pt_waveviewer_set_follow_cursor (PtWaveviewer *self,
-                                      gboolean follow);
+void       pt_waveviewer_set_follow_cursor (PtWaveviewer       *self,
+                                            gboolean            follow);
 
-gboolean pt_waveviewer_load_wave_finish (PtWaveviewer *self,
-                                         GAsyncResult *result,
-                                         GError **error);
+gboolean   pt_waveviewer_load_wave_finish  (PtWaveviewer       *self,
+                                            GAsyncResult       *result,
+                                            GError            **error);
 
-void pt_waveviewer_load_wave_async (PtWaveviewer *self,
-                                    gchar *uri,
-                                    GCancellable *cancel,
-                                    GAsyncReadyCallback callback,
-                                    gpointer user_data);
+void       pt_waveviewer_load_wave_async   (PtWaveviewer       *self,
+                                            gchar              *uri,
+                                            GCancellable       *cancel,
+                                            GAsyncReadyCallback callback,
+                                            gpointer            user_data);
 
-GtkWidget *pt_waveviewer_new (void);
+GtkWidget *pt_waveviewer_new               (void);
 
 G_END_DECLS

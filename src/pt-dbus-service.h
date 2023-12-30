@@ -21,5 +21,6 @@
 #define PT_DBUS_SERVICE_TYPE (pt_dbus_service_get_type ())
 G_DECLARE_FINAL_TYPE (PtDbusService, pt_dbus_service, PT, DBUS_SERVICE, PtController)
 
-void pt_dbus_service_start (PtDbusService *self);
-PtDbusService *pt_dbus_service_new (PtWindow *win);
+void           pt_dbus_service_start (PtDbusService *self);
+
+PtDbusService *pt_dbus_service_new   (PtWindow      *win);

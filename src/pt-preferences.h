@@ -21,6 +21,6 @@
 #define PT_TYPE_PREFERENCES_DIALOG (pt_preferences_dialog_get_type ())
 G_DECLARE_FINAL_TYPE (PtPreferencesDialog, pt_preferences_dialog, PT, PREFERENCES_DIALOG, AdwPreferencesWindow)
 
-void pt_show_preferences_dialog (GtkWindow *parent);
+void                 pt_show_preferences_dialog (GtkWindow *parent);
 
-PtPreferencesDialog *pt_preferences_dialog_new (GtkWindow *parent);
+PtPreferencesDialog *pt_preferences_dialog_new  (GtkWindow *parent);
