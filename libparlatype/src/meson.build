@@ -120,7 +120,7 @@ pkg.generate(
   version: meson.project_version(),
   subdirs: meson.project_name(),
   requires: [
-    'gtk+-3.0',
+    'gtk4',
   ],
   requires_private: [
     'gstreamer-1.0',
