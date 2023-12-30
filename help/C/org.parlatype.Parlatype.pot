@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2023-03-30 21:33+0200\n"
+"POT-Creation-Date: 2023-12-30 17:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,7 +36,6 @@ msgstr ""
 #: ../help/C/timestamps.page:8
 #: ../help/C/asr.page:9
 #: ../help/C/asr-setup.page:9
-#: ../help/C/media-keys.page:8
 msgid "Gabor Karsay"
 msgstr ""
 
@@ -93,10 +92,13 @@ msgid "Timestamps: You can drag and drop timestamps to <app>Parlatype</app>. Sel
 msgstr ""
 
 #. (itstool) path: info/desc
-#. (itstool) path: page/title
 #: ../help/C/first-steps.page:7
-#: ../help/C/first-steps.page:15
 msgid "First steps with Parlatype"
+msgstr ""
+
+#. (itstool) path: page/title
+#: ../help/C/first-steps.page:15
+msgid "First Steps With Parlatype"
 msgstr ""
 
 #. (itstool) path: page/p
@@ -116,7 +118,7 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:27
-msgid "The buttons <gui>Jump back</gui> and <gui>Jump forward</gui> in the lower left corner skip a few seconds back or ahead. The amount of time can be changed in the <link xref=\"preferences\"/>."
+msgid "The buttons <gui>Skip backward</gui> and <gui>Skip forward</gui> in the lower left corner skip a few seconds back or ahead. The amount of time can be changed in the <link xref=\"preferences\"/>."
 msgstr ""
 
 #. (itstool) path: page/p
@@ -126,17 +128,17 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:31
-msgid "To get back to the cursor’s position and let the view scroll automatically again, click on the menu button showing the time and then on <gui>Go to cursor</gui>. Clicking on the <gui>Play</gui> button also turns automatic scrolling on."
+msgid "To get back to the cursor’s position and let the view scroll automatically again, click on the menu button showing the time and then on <gui>Go to Cursor</gui>. Clicking on the <gui>Play</gui> button also turns automatic scrolling on."
 msgstr ""
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:33
-msgid "Clicking in the view with the right mouse button will put the cursor there, also holding the right mouse button pressed and moving it. The left mouse button is for <link xref=\"selections\"/>."
+msgid "Clicking in the view with the right mouse button will put the cursor there. The left mouse button is for <link xref=\"selections\"/>."
 msgstr ""
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:35
-msgid "The <gui>speed scale</gui> next to the <gui>volume</gui> button in the lower right corner lets you adjust the speed of playback. A value of 1 means normal speed, everything lower (down to 0.5) is slower, everything above is faster."
+msgid "The <gui>speed scale</gui> next to the <gui>Volume</gui> button in the lower right corner lets you adjust the speed of playback. A value of 1 means normal speed, everything lower (down to 0.5) is slower, everything above is faster."
 msgstr ""
 
 #. (itstool) path: info/desc
@@ -146,136 +148,131 @@ msgstr ""
 
 #. (itstool) path: page/title
 #: ../help/C/keyboard-shortcuts.page:14
-msgid "Keyboard shortcuts"
-msgstr ""
-
-#. (itstool) path: page/p
-#: ../help/C/keyboard-shortcuts.page:16
-msgid "Keyboard shortcuts for <app>Parlatype</app> control, like <key>Play</key>, are described in <link xref=\"control\"/>. Shortcut keys for the window are listed below."
+msgid "Keyboard Shortcuts"
 msgstr ""
 
 #. (itstool) path: table/title
-#: ../help/C/keyboard-shortcuts.page:19
+#: ../help/C/keyboard-shortcuts.page:17
 msgid "Standard Shortcut keys"
 msgstr ""
 
 #. (itstool) path: td/p
-#: ../help/C/keyboard-shortcuts.page:22
+#: ../help/C/keyboard-shortcuts.page:20
 msgid "To Do This"
 msgstr ""
 
 #. (itstool) path: td/p
-#: ../help/C/keyboard-shortcuts.page:23
+#: ../help/C/keyboard-shortcuts.page:21
 msgid "Press This"
 msgstr ""
 
 #. (itstool) path: td/p
-#: ../help/C/keyboard-shortcuts.page:28
+#: ../help/C/keyboard-shortcuts.page:26
 msgid "Show help"
 msgstr ""
 
 #. (itstool) path: td/p
-#: ../help/C/keyboard-shortcuts.page:29
+#: ../help/C/keyboard-shortcuts.page:27
 msgid "<key>F1</key>"
 msgstr ""
 
 #. (itstool) path: td/p
-#: ../help/C/keyboard-shortcuts.page:32
+#: ../help/C/keyboard-shortcuts.page:30
 msgid "Open file"
 msgstr ""
 
 #. (itstool) path: td/p
-#: ../help/C/keyboard-shortcuts.page:33
+#: ../help/C/keyboard-shortcuts.page:31
 msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
 msgstr ""
 
 #. (itstool) path: td/p
-#: ../help/C/keyboard-shortcuts.page:36
+#: ../help/C/keyboard-shortcuts.page:34
 msgid "Play/Pause"
 msgstr ""
 
 #. (itstool) path: td/p
-#: ../help/C/keyboard-shortcuts.page:37
+#: ../help/C/keyboard-shortcuts.page:35
 msgid "<keyseq><key>Ctrl</key><key>Space</key></keyseq>"
 msgstr ""
 
 #. (itstool) path: td/p
-#: ../help/C/keyboard-shortcuts.page:40
+#: ../help/C/keyboard-shortcuts.page:38
 msgid "Go to …"
 msgstr ""
 
 #. (itstool) path: td/p
-#: ../help/C/keyboard-shortcuts.page:41
+#: ../help/C/keyboard-shortcuts.page:39
 msgid "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
 msgstr ""
 
 #. (itstool) path: td/p
-#: ../help/C/keyboard-shortcuts.page:44
-msgid "Jump back"
+#: ../help/C/keyboard-shortcuts.page:42
+msgid "Skip backward"
 msgstr ""
 
 #. (itstool) path: td/p
-#: ../help/C/keyboard-shortcuts.page:45
+#: ../help/C/keyboard-shortcuts.page:43
 msgid "<keyseq><key>Ctrl</key><key>a</key></keyseq>"
 msgstr ""
 
 #. (itstool) path: td/p
-#: ../help/C/keyboard-shortcuts.page:48
-msgid "Jump forward"
+#: ../help/C/keyboard-shortcuts.page:46
+msgid "Skip forward"
 msgstr ""
 
 #. (itstool) path: td/p
-#: ../help/C/keyboard-shortcuts.page:49
+#: ../help/C/keyboard-shortcuts.page:47
 msgid "<keyseq><key>Ctrl</key><key>s</key></keyseq>"
 msgstr ""
 
 #. (itstool) path: td/p
-#: ../help/C/keyboard-shortcuts.page:52
+#: ../help/C/keyboard-shortcuts.page:50
 msgid "Copy timestamp"
 msgstr ""
 
 #. (itstool) path: td/p
-#: ../help/C/keyboard-shortcuts.page:53
+#: ../help/C/keyboard-shortcuts.page:51
 msgid "<keyseq><key>Ctrl</key><key>c</key></keyseq>"
 msgstr ""
 
 #. (itstool) path: td/p
-#: ../help/C/keyboard-shortcuts.page:56
+#: ../help/C/keyboard-shortcuts.page:54
 msgid "Insert timestamp"
 msgstr ""
 
 #. (itstool) path: td/p
-#: ../help/C/keyboard-shortcuts.page:57
+#: ../help/C/keyboard-shortcuts.page:55
 msgid "<keyseq><key>Ctrl</key><key>v</key></keyseq>"
 msgstr ""
 
 #. (itstool) path: td/p
-#: ../help/C/keyboard-shortcuts.page:60
+#: ../help/C/keyboard-shortcuts.page:58
 msgid "Zoom in"
 msgstr ""
 
 #. (itstool) path: td/p
-#: ../help/C/keyboard-shortcuts.page:61
+#: ../help/C/keyboard-shortcuts.page:59
 msgid "<keyseq><key>Ctrl</key><key>+</key></keyseq>"
 msgstr ""
 
 #. (itstool) path: td/p
-#: ../help/C/keyboard-shortcuts.page:64
+#: ../help/C/keyboard-shortcuts.page:62
 msgid "Zoom out"
 msgstr ""
 
 #. (itstool) path: td/p
-#: ../help/C/keyboard-shortcuts.page:65
+#: ../help/C/keyboard-shortcuts.page:63
 msgid "<keyseq><key>Ctrl</key><key>-</key></keyseq>"
 msgstr ""
 
 #. (itstool) path: td/p
-#: ../help/C/keyboard-shortcuts.page:68
+#: ../help/C/keyboard-shortcuts.page:66
 msgid "Quit"
 msgstr ""
 
 #. (itstool) path: td/p
-#: ../help/C/keyboard-shortcuts.page:69
+#: ../help/C/keyboard-shortcuts.page:67
 msgid "<keyseq><key>Ctrl</key><key>q</key></keyseq>"
 msgstr ""
 
@@ -306,57 +303,57 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: ../help/C/preferences.page:22
-msgid "Preferences for the waveform"
+msgid "Preferences for the Waveform"
 msgstr ""
 
 #. (itstool) path: item/p
 #: ../help/C/preferences.page:27
-msgid "Resolution: The resolution of the waveform image is given in pixels per second, e.g. the default resolution of 100 means, that one second is shown with a width of 100 pixels."
+msgid "Waveform Detail: The level of detail in vertical lines per second. The more lines are shown, the more details you can see."
 msgstr ""
 
 #. (itstool) path: item/p
 #: ../help/C/preferences.page:28
-msgid "Fixed vs. moving cursor: There are two modes, how to follow the cursor. On slower systems a moving cursor might be smoother."
+msgid "Show Time Scale: Turn the time scale on or off."
 msgstr ""
 
 #. (itstool) path: item/p
 #: ../help/C/preferences.page:29
-msgid "Show time scale: Turn the time scale on or off."
+msgid "Cursor Mode: Choose between Fixed and Moving Cursor. On slower systems a moving cursor might be smoother."
 msgstr ""
 
 #. (itstool) path: section/title
 #: ../help/C/preferences.page:34
-msgid "Preferences for controls"
+msgid "Preferences for Audio Controls"
 msgstr ""
 
 #. (itstool) path: item/p
 #: ../help/C/preferences.page:39
-msgid "Jump back on pause: <app>Parlatype</app> will rewind a few seconds on each pause, this way you can easier resume typing. Set this value to 0 if you don’t want this behaviour."
+msgid "Rewind on Pause: <app>Parlatype</app> will rewind a few seconds on each pause, this way you can easier resume typing. Set this value to 0 if you don’t want this behaviour."
 msgstr ""
 
 #. (itstool) path: item/p
 #: ../help/C/preferences.page:40
-msgid "Jump back: Configures how many seconds to skip when the <gui>Jump back</gui> button is pressed."
+msgid "Skip Backward: Configures how many seconds to skip when the <gui>Skip Backward</gui> button is pressed."
 msgstr ""
 
 #. (itstool) path: item/p
 #: ../help/C/preferences.page:41
-msgid "Jump forward: Configures how many seconds to skip when the <gui>Jump forward</gui> button is pressed."
+msgid "Skip Forward: Configures how many seconds to skip when the <gui>Skip Forward</gui> button is pressed."
 msgstr ""
 
 #. (itstool) path: item/p
 #: ../help/C/preferences.page:42
-msgid "Pressing <gui>Play</gui> at the end of file – Replay file: Whether you want to repeat the file at the end. If not, it will replay a few seconds like on pause."
+msgid "At End of File Replay File: Whether you want to repeat the file at the end. If not, it will replay a few seconds like on pause."
 msgstr ""
 
 #. (itstool) path: item/p
 #: ../help/C/preferences.page:43
-msgid "Pressing <gui>Play</gui> at the end of selection – Replay selection: Whether you want to repeat the selection. If not, it will replay a few seconds like on pause."
+msgid "At End of Selection Replay Selection: Whether you want to repeat the selection. If not, it will replay a few seconds like on pause."
 msgstr ""
 
 #. (itstool) path: section/title
 #: ../help/C/preferences.page:48
-msgid "Preferences for timestamps"
+msgid "Preferences for Timestamps"
 msgstr ""
 
 #. (itstool) path: section/p
@@ -371,7 +368,7 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: ../help/C/preferences.page:55
-msgid "Always show hours and leading zeroes: Whether to show a fixed number of digits. Changing any of these values will show an updated example in the <gui>Example</gui> section below."
+msgid "Always Show Hours and Leading Zeroes: Whether to show a fixed number of digits. Changing any of these values will show an updated example in the <gui>Preview</gui> section below."
 msgstr ""
 
 #. (itstool) path: item/p
@@ -381,12 +378,12 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: ../help/C/preferences.page:57
-msgid "Fraction separator: Choose between a point or a hyphen to separate fractions of a second."
+msgid "Fraction Separator: Choose between a point or a hyphen to separate fractions of a second."
 msgstr ""
 
 #. (itstool) path: item/p
 #: ../help/C/preferences.page:58
-msgid "Characters around timestamps: Choose between number signs, round brackets, square brackets or none."
+msgid "Characters Around Timestamps: Choose between number signs, round brackets, square brackets or none."
 msgstr ""
 
 #. (itstool) path: info/desc
@@ -461,7 +458,7 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: ../help/C/timestamps.page:33
-msgid "Clicking on the menu button that is showing the current time you can <gui>Copy time to clipboard</gui> or <gui>Go to time in clipboard</gui>."
+msgid "Clicking on the menu button that is showing the current time you can <gui>Copy Time to Clipboard</gui> or <gui>Go to Time in Clipboard</gui>."
 msgstr ""
 
 #. (itstool) path: section/p
@@ -481,7 +478,7 @@ msgstr ""
 
 #. (itstool) path: page/title
 #: ../help/C/asr.page:15
-msgid "Automatic speech recognition"
+msgid "Automatic Speech Recognition"
 msgstr ""
 
 #. (itstool) path: page/p
@@ -491,41 +488,41 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: ../help/C/asr.page:20
-msgid "<app>Parlatype</app> must have been built with <app>PocketSphinx</app> or <app>Mozilla DeepSpeech</app>. Please note that those libraries might be not available on your platform."
+msgid "<app>Parlatype</app> must have been built with <app>PocketSphinx</app>. Please note that those libraries might be not available on your platform."
 msgstr ""
 
 #. (itstool) path: note/p
-#: ../help/C/asr.page:25
+#: ../help/C/asr.page:24
 msgid "<app>Parlatype</app> has no built-in text editor. You need the Parlatype Extension for <app>LibreOffice</app> to output recognized text."
 msgstr ""
 
 #. (itstool) path: section/title
-#: ../help/C/asr.page:30
-msgid "Start speech recognition"
+#: ../help/C/asr.page:29
+msgid "Start Speech Recognition"
 msgstr ""
 
 #. (itstool) path: section/p
-#: ../help/C/asr.page:32
-msgid "Select a language model in the Preferences Dialog, <gui>Speech recognition</gui> tab, see <link xref=\"asr-setup\"/> for more details."
+#: ../help/C/asr.page:31
+msgid "Select a language model in the Preferences Dialog, <gui>Speech Recognition</gui> tab, see <link xref=\"asr-setup\"/> for more details."
 msgstr ""
 
 #. (itstool) path: section/p
-#: ../help/C/asr.page:35
-msgid "Open the primary menu and click on <gui>Automatic transcription</gui>. This is only available, if you have setup and chosen a language model."
+#: ../help/C/asr.page:34
+msgid "Open the primary menu and click on <gui>Automatic Transcription</gui>. This is only available, if you have setup and chosen a language model."
 msgstr ""
 
 #. (itstool) path: section/p
-#: ../help/C/asr.page:40
+#: ../help/C/asr.page:39
 msgid "Now press <gui>Play</gui> in <app>Parlatype</app> and the recognized speech will be printed in <app>LibreOffice</app>, if the Parlatype Extension is installed. Output is silent because decoding speed is dependent on your machine and may be slower or faster than real-time speech."
 msgstr ""
 
 #. (itstool) path: section/p
-#: ../help/C/asr.page:45
+#: ../help/C/asr.page:44
 msgid "Output is without punctuation or capitalization, you have to add or correct that yourself."
 msgstr ""
 
 #. (itstool) path: note/p
-#: ../help/C/asr.page:47
+#: ../help/C/asr.page:46
 msgid "<em>Accuracy</em> depends on many factors like quality of the recording, background noise, speaker’s dialect or pronunciation and the speech model used. For general transcription you can expect an word error rate between 10 and 50 %. Alas this means that in some cases manual transcription from the start will be faster than automatic transcription and the following correction process."
 msgstr ""
 
@@ -536,120 +533,50 @@ msgstr ""
 
 #. (itstool) path: page/title
 #: ../help/C/asr-setup.page:15
-msgid "Setup automatic speech recognition"
+msgid "Setup Automatic Speech Recognition"
 msgstr ""
 
 #. (itstool) path: page/p
 #: ../help/C/asr-setup.page:17
-msgid "For speech recognition you need a language model: one or more files trained with real speech samples. <app>Parlatype</app> supports language models made for CMU Sphinx and Mozilla DeepSpeech and ships a couple of <em>language model configurations</em>."
+msgid "For speech recognition you need a language model: one or more files trained with real speech samples. <app>Parlatype</app> supports language models made for CMU Sphinx and ships a couple of <em>language model configurations</em>."
 msgstr ""
 
 #. (itstool) path: note/p
-#: ../help/C/asr-setup.page:22
+#: ../help/C/asr-setup.page:21
 msgid "A <em>language model configuration</em> contains meta data describing the language model: A name that you can change, the language it was made for, speech recognition engine, publisher, license etc. It has a (third party) link, where you can download the files. Part of the configuration is the base folder, where you have saved the model. Additionally it contains various parameters for the plugin which are not shown."
 msgstr ""
 
 #. (itstool) path: page/p
-#: ../help/C/asr-setup.page:29
-msgid "Open the Preferences Dialog and click on the <gui>Speech Recognition</gui> tab. Initially there are no configurations available, click on the <gui>Add a configuration</gui> button."
-msgstr ""
-
-#. (itstool) path: media/span
-#: ../help/C/asr-setup.page:36
-msgid "download"
-msgstr ""
-
-#. (itstool) path: media/span
-#: ../help/C/asr-setup.page:37
-msgid "unavailable"
+#: ../help/C/asr-setup.page:28
+msgid "Open the Preferences Dialog and click on the <gui>Speech Recognition</gui> tab. Initially there are no configurations available, click on the <gui>Copy Initial Set of Configurations</gui> button."
 msgstr ""
 
 #. (itstool) path: page/p
-#: ../help/C/asr-setup.page:35
-msgid "If your installation has CMU Sphinx or Mozilla DeepSpeech enabled, you will see configurations with a <_:media-1/> symbol. Otherwise you will see only configurations with a <_:media-2/> symbol."
-msgstr ""
-
-#. (itstool) path: media/span
-#: ../help/C/asr-setup.page:42
-msgid "settings"
+#: ../help/C/asr-setup.page:34
+msgid "Depending on your installation you will see then a list of downloadable configurations."
 msgstr ""
 
 #. (itstool) path: page/p
-#: ../help/C/asr-setup.page:41
-msgid "Select a configuration and click on the <_:media-1/> button. There is a short description of the model and where you can download it. After downloading, you have to set the folder where your download resides. You can also change the <gui>Display name</gui>."
+#: ../help/C/asr-setup.page:38
+msgid "Select a configuration by clicking on it. There is a short description of the model and where you can download it. After downloading, you have to set the folder where your download resides. You can also change the <gui>Display name</gui>."
 msgstr ""
 
 #. (itstool) path: media/span
-#: ../help/C/asr-setup.page:50
+#: ../help/C/asr-setup.page:46
 msgid "selected"
 msgstr ""
 
 #. (itstool) path: page/p
-#: ../help/C/asr-setup.page:49
-msgid "An installed model has no symbol next to it. Double click on the model and it will be selected for speech recognition, a <_:media-1/> symbol appears."
+#: ../help/C/asr-setup.page:45
+msgid "An installed model has no label next to it. Select a model and press the <gui>Activate</gui> button to use this model for speech recognition. The active configuration is indicated by a <_:media-1/> symbol."
 msgstr ""
 
 #. (itstool) path: page/p
-#: ../help/C/asr-setup.page:53
+#: ../help/C/asr-setup.page:48
 msgid "Shipped configurations might get obsolete over time. Therefore you can import a configuration with the <gui>+</gui> button. Configurations are text files with an .asr ending."
 msgstr ""
 
 #. (itstool) path: page/p
-#: ../help/C/asr-setup.page:57
+#: ../help/C/asr-setup.page:52
 msgid "With the <gui>-</gui> button you can remove a configuration. This will never remove downloaded models, only the configuration file."
-msgstr ""
-
-#. (itstool) path: info/desc
-#: ../help/C/media-keys.page:6
-msgid "How to control Parlatype with media keys"
-msgstr ""
-
-#. (itstool) path: page/title
-#: ../help/C/media-keys.page:14
-msgid "Media keys"
-msgstr ""
-
-#. (itstool) path: page/p
-#: ../help/C/media-keys.page:16
-msgid "<app>Parlatype</app>’s basic functions can be controlled with so called <em>media keys</em>. Media keys are used system wide to control media players and they are working even if the media player is not in focus or in the background."
-msgstr ""
-
-#. (itstool) path: page/p
-#: ../help/C/media-keys.page:18
-msgid "You can change the media keys in GNOME settings. You can use dedicated keys from a multimedia keyboard or use any other key or combination of keys."
-msgstr ""
-
-#. (itstool) path: note/p
-#: ../help/C/media-keys.page:21
-msgid "This will affect other media players, e.g. <app>Totem</app> or <app>Rhythmbox</app>, as well."
-msgstr ""
-
-#. (itstool) path: page/p
-#: ../help/C/media-keys.page:24
-msgid "<app>Parlatype</app> listens to these key strokes:"
-msgstr ""
-
-#. (itstool) path: item/p
-#: ../help/C/media-keys.page:26
-msgid "<key>Play</key>, <key>Pause</key>, <key>Stop</key>: Each of these keys toggles between playing and pause."
-msgstr ""
-
-#. (itstool) path: item/p
-#: ../help/C/media-keys.page:27
-msgid "<key>Rewind</key>, <key>Previous</key>: Each of these keys will jump back the time you selected in Preferences."
-msgstr ""
-
-#. (itstool) path: item/p
-#: ../help/C/media-keys.page:28
-msgid "<key>Fast Forward</key>, <key>Next</key>: Each of these keys will jump ahead the time you selected in Preferences."
-msgstr ""
-
-#. (itstool) path: note/p
-#: ../help/C/media-keys.page:32
-msgid "For detailed instructions how to change keyboard shortcuts in GNOME see the <link href=\"help:gnome-help/keyboard-shortcuts-set\">official documentation</link>."
-msgstr ""
-
-#. (itstool) path: page/p
-#: ../help/C/media-keys.page:35
-msgid "If you are using a dedicated foot pedal, it should be possible to map the foot pedal signals to any of the keys. This is not well tested, however. Any feedback regarding foot pedals is welcome."
 msgstr ""
