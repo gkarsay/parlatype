@@ -62,27 +62,27 @@ struct _PtWaveviewerPrivate
 {
   /* Wavedata */
   PtWaveloader *loader;
-  GArray *peaks;
-  gint64 peaks_size; /* size of array */
-  gint px_per_sec;
-  gint64 duration; /* in milliseconds */
+  GArray       *peaks;
+  gint64        peaks_size; /* size of array */
+  gint          px_per_sec;
+  gint64        duration; /* in milliseconds */
 
   /* Properties */
-  gint64 playback_cursor;
+  gint64   playback_cursor;
   gboolean follow_cursor;
   gboolean fixed_cursor;
   gboolean show_ruler;
   gboolean has_selection;
-  gint pps;
+  gint     pps;
 
   gint64 zoom_time;
-  gint zoom_pos;
+  gint   zoom_pos;
 
   /* Selections, in milliseconds */
-  gint64 sel_start;
-  gint64 sel_end;
-  gint64 dragstart;
-  gint64 dragend;
+  gint64     sel_start;
+  gint64     sel_end;
+  gint64     dragstart;
+  gint64     dragend;
   GdkCursor *arrows;
 
   GtkAdjustment *adj;
@@ -98,7 +98,7 @@ struct _PtWaveviewerPrivate
   GtkWidget *selection;
 
   /* Event handling */
-  GtkGesture *button;
+  GtkGesture         *button;
   GtkEventController *motion_ctrl;
   GtkEventController *scroll_ctrl;
   GtkEventController *key_ctrl;
@@ -132,18 +132,18 @@ enum
 };
 
 static GParamSpec *obj_properties[N_PROPERTIES];
-static guint signals[LAST_SIGNAL] = { 0 };
-static void pt_waveviewer_set_pps (PtWaveviewer *self, int pps);
+static guint       signals[LAST_SIGNAL] = { 0 };
+static void        pt_waveviewer_set_pps (PtWaveviewer *self, int pps);
 
 G_DEFINE_TYPE_WITH_PRIVATE (PtWaveviewer, pt_waveviewer, GTK_TYPE_WIDGET);
 
 static gint64
 time_to_pixel (PtWaveviewer *self,
-               gint64 ms)
+               gint64        ms)
 {
   /* Convert a time in 1/1000 seconds to the closest pixel in the drawing area */
   PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  gint64 result;
+  gint64               result;
 
   result = ms * priv->px_per_sec;
   result = result / 1000;
@@ -153,11 +153,11 @@ time_to_pixel (PtWaveviewer *self,
 
 static gint64
 pixel_to_time (PtWaveviewer *self,
-               gint64 pixel)
+               gint64        pixel)
 {
   /* Convert a position in the drawing area to time in milliseconds */
   PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  gint64 result;
+  gint64               result;
 
   result = pixel * 1000;
   result = result / priv->px_per_sec;
@@ -169,11 +169,11 @@ static void
 scroll_to_cursor (PtWaveviewer *self)
 {
   PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  gint cursor_pos;
-  gint first_visible;
-  gint last_visible;
-  gint page_width;
-  gint offset;
+  gint                 cursor_pos;
+  gint                 first_visible;
+  gint                 last_visible;
+  gint                 page_width;
+  gint                 offset;
 
   cursor_pos = time_to_pixel (self, priv->playback_cursor);
   first_visible = (gint) gtk_adjustment_get_value (priv->adj);
@@ -202,8 +202,8 @@ static void
 render_cursor (PtWaveviewer *self)
 {
   PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  PtWaveviewerCursor *cursor;
-  gint offset, pixel;
+  PtWaveviewerCursor  *cursor;
+  gint                 offset, pixel;
 
   cursor = PT_WAVEVIEWER_CURSOR (priv->cursor);
   offset = gtk_adjustment_get_value (priv->adj);
@@ -216,9 +216,9 @@ static gint64
 calculate_duration (PtWaveviewer *self)
 {
   PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  gint64 result;
-  gint64 samples;
-  gint one_pixel;
+  gint64               result;
+  gint64               samples;
+  gint                 one_pixel;
 
   one_pixel = 1000 / priv->px_per_sec;
   samples = priv->peaks_size / 2;
@@ -230,14 +230,14 @@ calculate_duration (PtWaveviewer *self)
 
 static gint64
 add_subtract_time (PtWaveviewer *self,
-                   gint pixel,
-                   gboolean stay_in_selection)
+                   gint          pixel,
+                   gboolean      stay_in_selection)
 {
   /* add time to the cursor’s time so that the cursor is moved x pixels */
 
   PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  gint64 result;
-  gint one_pixel;
+  gint64               result;
+  gint                 one_pixel;
 
   one_pixel = 1000 / priv->px_per_sec;
   result = priv->playback_cursor + pixel * one_pixel;
@@ -255,8 +255,8 @@ update_selection (PtWaveviewer *self)
   /* Check if drag positions are different from selection.
      If yes, set new selection, emit signals and redraw widget. */
 
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  gboolean changed = FALSE;
+  PtWaveviewerPrivate   *priv = pt_waveviewer_get_instance_private (self);
+  gboolean               changed = FALSE;
   PtWaveviewerSelection *sel_widget = PT_WAVEVIEWER_SELECTION (priv->selection);
 
   /* Is anything selected at all? */
@@ -319,12 +319,12 @@ update_selection (PtWaveviewer *self)
 
 static gboolean
 pt_waveviewer_key_press_event (GtkEventControllerKey *ctrl,
-                               guint keyval,
-                               guint keycode,
-                               GdkModifierType state,
-                               gpointer user_data)
+                               guint                  keyval,
+                               guint                  keycode,
+                               GdkModifierType        state,
+                               gpointer               user_data)
 {
-  PtWaveviewer *self = PT_WAVEVIEWER (user_data);
+  PtWaveviewer        *self = PT_WAVEVIEWER (user_data);
   PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
 
   if (priv->peaks->len == 0)
@@ -408,8 +408,8 @@ pt_waveviewer_key_press_event (GtkEventControllerKey *ctrl,
 
 static gboolean
 pointer_in_range (PtWaveviewer *self,
-                  gdouble pointer,
-                  gint64 pos)
+                  gdouble       pointer,
+                  gint64        pos)
 {
   /* Returns TRUE if @pointer (event->x) is not more than 3 pixels away from @pos */
 
@@ -418,17 +418,17 @@ pointer_in_range (PtWaveviewer *self,
 
 static gboolean
 pt_waveviewer_button_press_event (GtkGestureClick *gesture,
-                                  gint n_press,
-                                  gdouble x,
-                                  gdouble y,
-                                  gpointer user_data)
+                                  gint             n_press,
+                                  gdouble          x,
+                                  gdouble          y,
+                                  gpointer         user_data)
 {
-  PtWaveviewer *self = PT_WAVEVIEWER (user_data);
+  PtWaveviewer        *self = PT_WAVEVIEWER (user_data);
   PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  GdkModifierType state;
-  guint button;
-  gint64 clicked; /* the sample clicked on */
-  gint64 pos;     /* clicked sample’s position in milliseconds */
+  GdkModifierType      state;
+  guint                button;
+  gint64               clicked; /* the sample clicked on */
+  gint64               pos;     /* clicked sample’s position in milliseconds */
 
   if (priv->peaks == NULL || priv->peaks->len == 0)
     return FALSE;
@@ -490,13 +490,13 @@ pt_waveviewer_button_press_event (GtkGestureClick *gesture,
 
 static gboolean
 pt_waveviewer_scroll_event (GtkEventControllerScroll *ctrl,
-                            gdouble delta_x,
-                            gdouble delta_y,
-                            gpointer user_data)
+                            gdouble                   delta_x,
+                            gdouble                   delta_y,
+                            gpointer                  user_data)
 {
-  PtWaveviewer *self = PT_WAVEVIEWER (user_data);
+  PtWaveviewer        *self = PT_WAVEVIEWER (user_data);
   PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  GdkModifierType state;
+  GdkModifierType      state;
 
   state = gtk_event_controller_get_current_event_state (GTK_EVENT_CONTROLLER (ctrl));
 
@@ -504,7 +504,7 @@ pt_waveviewer_scroll_event (GtkEventControllerScroll *ctrl,
   if (!(state & ALL_ACCELS_MASK))
     {
       GtkScrollType scroll = GTK_SCROLL_NONE;
-      gboolean ret;
+      gboolean      ret;
       if (delta_y < 0 || delta_x < 0)
         scroll = GTK_SCROLL_STEP_BACKWARD;
       if (delta_y > 0 || delta_x > 0)
@@ -536,15 +536,15 @@ pt_waveviewer_scroll_event (GtkEventControllerScroll *ctrl,
 
 static gboolean
 pt_waveviewer_motion_event (GtkEventControllerMotion *ctrl,
-                            gdouble x,
-                            gdouble y,
-                            gpointer user_data)
+                            gdouble                   x,
+                            gdouble                   y,
+                            gpointer                  user_data)
 {
-  PtWaveviewer *self = PT_WAVEVIEWER (user_data);
+  PtWaveviewer        *self = PT_WAVEVIEWER (user_data);
   PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  GdkModifierType state;
-  gint64 clicked; /* the sample clicked on */
-  gint64 pos;     /* clicked sample’s position in milliseconds */
+  GdkModifierType      state;
+  gint64               clicked; /* the sample clicked on */
+  gint64               pos;     /* clicked sample’s position in milliseconds */
 
   /* TODO bug in GTK? investigate
    * We get constantly motion events when playing, everything is normal in paused state.
@@ -588,10 +588,10 @@ pt_waveviewer_motion_event (GtkEventControllerMotion *ctrl,
 
 static gboolean
 pt_waveviewer_button_release_event (GtkGestureClick *gesture,
-                                    gint n_press,
-                                    gdouble x,
-                                    gdouble y,
-                                    gpointer user_data)
+                                    gint             n_press,
+                                    gdouble          x,
+                                    gdouble          y,
+                                    gpointer         user_data)
 {
   guint button;
 
@@ -606,10 +606,10 @@ pt_waveviewer_button_release_event (GtkGestureClick *gesture,
 
 static gboolean
 scrollbar_button_press_event_cb (GtkGestureClick *gesture,
-                                 gint n_press,
-                                 gdouble x,
-                                 gdouble y,
-                                 gpointer user_data)
+                                 gint             n_press,
+                                 gdouble          x,
+                                 gdouble          y,
+                                 gpointer         user_data)
 {
   /* If user clicks on scrollbar don’t follow cursor anymore.
      Otherwise it would scroll immediately back again. */
@@ -622,9 +622,9 @@ scrollbar_button_press_event_cb (GtkGestureClick *gesture,
 
 static gboolean
 scrollbar_scroll_event_cb (GtkEventControllerScroll *ctrl,
-                           gdouble delta_x,
-                           gdouble delta_y,
-                           gpointer user_data)
+                           gdouble                   delta_x,
+                           gdouble                   delta_y,
+                           gpointer                  user_data)
 {
   /* If user scrolls on scrollbar don’t follow cursor anymore.
      Otherwise it would scroll immediately back again. */
@@ -636,10 +636,10 @@ scrollbar_scroll_event_cb (GtkEventControllerScroll *ctrl,
 }
 
 static gboolean
-pt_waveviewer_focus (GtkWidget *widget,
+pt_waveviewer_focus (GtkWidget       *widget,
                      GtkDirectionType direction)
 {
-  PtWaveviewer *self = PT_WAVEVIEWER (widget);
+  PtWaveviewer        *self = PT_WAVEVIEWER (widget);
   PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
 
   /* See API reference for gtk_widget_child_focus ():
@@ -691,7 +691,7 @@ pt_waveviewer_get_follow_cursor (PtWaveviewer *self)
  */
 void
 pt_waveviewer_set_follow_cursor (PtWaveviewer *self,
-                                 gboolean follow)
+                                 gboolean      follow)
 {
   g_return_if_fail (PT_IS_WAVEVIEWER (self));
 
@@ -712,7 +712,7 @@ static gboolean
 cursor_is_visible (PtWaveviewer *self)
 {
   PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  gint cursor_pos, left, right;
+  gint                 cursor_pos, left, right;
 
   cursor_pos = time_to_pixel (self, priv->playback_cursor);
   left = (gint) gtk_adjustment_get_value (priv->adj);
@@ -729,7 +729,7 @@ get_anchor_point (PtWaveviewer *self)
      Get time of that anchor point = zoom_time. */
 
   PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  gint left;
+  gint                 left;
 
   left = (gint) gtk_adjustment_get_value (priv->adj);
   if (cursor_is_visible (self))
@@ -774,11 +774,11 @@ reset_selection (PtWaveviewer *self)
 
 static void
 array_size_changed_cb (PtWaveloader *loader,
-                       gpointer user_data)
+                       gpointer      user_data)
 {
-  PtWaveviewer *self = PT_WAVEVIEWER (user_data);
+  PtWaveviewer        *self = PT_WAVEVIEWER (user_data);
   PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  gint width;
+  gint                 width;
 
   if (priv->peaks == NULL || priv->peaks->len == 0)
     {
@@ -811,10 +811,10 @@ array_size_changed_cb (PtWaveloader *loader,
 
 static void
 pt_waveviewer_set_pps (PtWaveviewer *self,
-                       int pps)
+                       int           pps)
 {
   PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  GError *error = NULL;
+  GError              *error = NULL;
 
   pps = CLAMP (pps, PPS_MIN, PPS_MAX);
 
@@ -852,7 +852,7 @@ pt_waveviewer_set_pps (PtWaveviewer *self,
 
 static void
 propagate_progress_cb (PtWaveloader *loader,
-                       gdouble progress,
+                       gdouble       progress,
                        PtWaveviewer *self)
 {
   g_signal_emit_by_name (self, "load-progress", progress);
@@ -861,12 +861,12 @@ propagate_progress_cb (PtWaveloader *loader,
 static void
 load_cb (PtWaveloader *loader,
          GAsyncResult *res,
-         gpointer *data)
+         gpointer     *data)
 {
-  GTask *task = (GTask *) data;
-  PtWaveviewer *self = g_task_get_source_object (task);
+  GTask               *task = (GTask *) data;
+  PtWaveviewer        *self = g_task_get_source_object (task);
   PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  GError *error = NULL;
+  GError              *error = NULL;
 
   if (priv->tick_handler != 0)
     {
@@ -907,7 +907,7 @@ load_cb (PtWaveloader *loader,
 gboolean
 pt_waveviewer_load_wave_finish (PtWaveviewer *self,
                                 GAsyncResult *result,
-                                GError **error)
+                                GError      **error)
 {
   g_return_val_if_fail (g_task_is_valid (result, self), FALSE);
 
@@ -915,9 +915,9 @@ pt_waveviewer_load_wave_finish (PtWaveviewer *self,
 }
 
 static gboolean
-update_waveform_cb (GtkWidget *widget,
+update_waveform_cb (GtkWidget     *widget,
                     GdkFrameClock *frame_clock,
-                    gpointer data)
+                    gpointer       data)
 {
   gtk_widget_queue_draw (widget);
   return G_SOURCE_CONTINUE;
@@ -938,17 +938,17 @@ update_waveform_cb (GtkWidget *widget,
  * Since: 2.0
  */
 void
-pt_waveviewer_load_wave_async (PtWaveviewer *self,
-                               gchar *uri,
-                               GCancellable *cancel,
+pt_waveviewer_load_wave_async (PtWaveviewer       *self,
+                               gchar              *uri,
+                               GCancellable       *cancel,
                                GAsyncReadyCallback callback,
-                               gpointer user_data)
+                               gpointer            user_data)
 {
   g_return_if_fail (PT_IS_WAVEVIEWER (self));
   g_return_if_fail (uri != NULL);
 
   PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  GTask *task;
+  GTask               *task;
   /* TODO think about doing this here or just returning error from waveloader.
    * this is meant for "nicer" error messages, requires translation
   GFile  *file;
@@ -1012,7 +1012,7 @@ pt_waveviewer_load_wave_async (PtWaveviewer *self,
 static void
 pt_waveviewer_finalize (GObject *object)
 {
-  PtWaveviewer *self = PT_WAVEVIEWER (object);
+  PtWaveviewer        *self = PT_WAVEVIEWER (object);
   PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
 
   g_clear_object (&priv->arrows);
@@ -1030,7 +1030,7 @@ pt_waveviewer_finalize (GObject *object)
 static void
 pt_waveviewer_dispose (GObject *object)
 {
-  PtWaveviewer *self = PT_WAVEVIEWER (object);
+  PtWaveviewer        *self = PT_WAVEVIEWER (object);
   PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
 
   g_clear_pointer (&priv->scrolled_window, gtk_widget_unparent);
@@ -1039,12 +1039,12 @@ pt_waveviewer_dispose (GObject *object)
 }
 
 static void
-pt_waveviewer_get_property (GObject *object,
-                            guint property_id,
-                            GValue *value,
+pt_waveviewer_get_property (GObject    *object,
+                            guint       property_id,
+                            GValue     *value,
                             GParamSpec *pspec)
 {
-  PtWaveviewer *self = PT_WAVEVIEWER (object);
+  PtWaveviewer        *self = PT_WAVEVIEWER (object);
   PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
 
   switch (property_id)
@@ -1080,12 +1080,12 @@ pt_waveviewer_get_property (GObject *object,
 }
 
 static void
-pt_waveviewer_set_property (GObject *object,
-                            guint property_id,
+pt_waveviewer_set_property (GObject      *object,
+                            guint         property_id,
                             const GValue *value,
-                            GParamSpec *pspec)
+                            GParamSpec   *pspec)
 {
-  PtWaveviewer *self = PT_WAVEVIEWER (object);
+  PtWaveviewer        *self = PT_WAVEVIEWER (object);
   PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
 
   switch (property_id)
@@ -1127,7 +1127,7 @@ pt_waveviewer_set_property (GObject *object,
 
 static void
 adjustment_value_changed_cb (GtkAdjustment *adjustment,
-                             gpointer user_data)
+                             gpointer       user_data)
 {
   PtWaveviewer *self = PT_WAVEVIEWER (user_data);
 
@@ -1137,12 +1137,12 @@ adjustment_value_changed_cb (GtkAdjustment *adjustment,
 static void
 pt_waveviewer_constructed (GObject *object)
 {
-  PtWaveviewer *self = PT_WAVEVIEWER (object);
+  PtWaveviewer        *self = PT_WAVEVIEWER (object);
   PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  GtkScrolledWindow *scrolled_window = GTK_SCROLLED_WINDOW (priv->scrolled_window);
-  GtkWidget *scrollbar;
-  GtkGesture *scrollbar_button_handler;
-  GtkEventController *scrollbar_scroll_handler;
+  GtkScrolledWindow   *scrolled_window = GTK_SCROLLED_WINDOW (priv->scrolled_window);
+  GtkWidget           *scrollbar;
+  GtkGesture          *scrollbar_button_handler;
+  GtkEventController  *scrollbar_scroll_handler;
 
   /* Get Adjustment and Scrollbar from ScrolledWindow and connect signals */
 
@@ -1202,7 +1202,7 @@ pt_waveviewer_init (PtWaveviewer *self)
   gtk_widget_init_template (GTK_WIDGET (self));
 
   GtkCssProvider *provider;
-  GFile *css_file;
+  GFile          *css_file;
 
   priv->peaks_size = 0;
   priv->duration = 0;
@@ -1290,7 +1290,7 @@ pt_waveviewer_init (PtWaveviewer *self)
 static void
 pt_waveviewer_class_init (PtWaveviewerClass *klass)
 {
-  GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+  GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   gobject_class->set_property = pt_waveviewer_set_property;

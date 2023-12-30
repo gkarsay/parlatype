@@ -28,9 +28,9 @@
 
 static GMainLoop *loop;
 static GMainLoop *other_loop;
-static char *arg_output_dir = NULL;
-static char *output_dir = NULL;
-static char *mp3_example_uri;
+static char      *arg_output_dir = NULL;
+static char      *output_dir = NULL;
+static char      *mp3_example_uri;
 
 static const GOptionEntry test_args[] = {
   { "output", 'o',
@@ -43,9 +43,9 @@ static const GOptionEntry test_args[] = {
 static gboolean
 parse_command_line (int *argc, char ***argv)
 {
-  GError *error = NULL;
+  GError         *error = NULL;
   GOptionContext *context;
-  GFile *file;
+  GFile          *file;
 
   context = g_option_context_new ("- take Parlatype screenshots");
   g_option_context_add_main_entries (context, test_args, NULL);
@@ -94,15 +94,15 @@ parse_command_line (int *argc, char ***argv)
 static void
 copy_asr_configs (void)
 {
-  gchar *basename;
-  gchar *sys_folder_path;
-  gchar *dest_folder_path;
-  gchar *dest_path;
-  GFile *source;
-  GFile *dest;
-  GFile *sys_folder;
+  gchar           *basename;
+  gchar           *sys_folder_path;
+  gchar           *dest_folder_path;
+  gchar           *dest_path;
+  GFile           *source;
+  GFile           *dest;
+  GFile           *sys_folder;
   GFileEnumerator *files;
-  GError *error = NULL;
+  GError          *error = NULL;
 
   sys_folder_path = g_build_path (G_DIR_SEPARATOR_S, PT_SOURCE_DIR, "data", "asr", NULL);
   sys_folder = g_file_new_for_path (ASR_DIR);
@@ -174,20 +174,20 @@ quit_when_idle (gpointer loop)
 
 static void
 save_paintable (GdkPaintable *paintable,
-                gpointer user_data)
+                gpointer      user_data)
 {
-  char *filename = user_data;
-  char *full_filename;
-  GdkTexture *texture = NULL;
-  GtkSnapshot *snapshot;
+  char          *filename = user_data;
+  char          *full_filename;
+  GdkTexture    *texture = NULL;
+  GtkSnapshot   *snapshot;
   GskRenderNode *node;
-  GskRenderer *renderer;
-  GtkWidget *widget;
-  GtkNative *native;
-  gint width, height;
-  gboolean popover;
+  GskRenderer   *renderer;
+  GtkWidget     *widget;
+  GtkNative     *native;
+  gint           width, height;
+  gboolean       popover;
 
-  GskShadow backdrop_shadow = { .color = { 0, 0, 0, .alpha = 0.30 }, .dx = 0, .dy = 1, .radius = 1 };
+  GskShadow      backdrop_shadow = { .color = { 0, 0, 0, .alpha = 0.30 }, .dx = 0, .dy = 1, .radius = 1 };
   GskRenderNode *original_node;
   g_signal_handlers_disconnect_by_func (paintable, save_paintable, user_data);
 
@@ -199,12 +199,12 @@ save_paintable (GdkPaintable *paintable,
   if (popover)
     {
       /* Snapshot parent window */
-      GtkWidget *parent;
+      GtkWidget    *parent;
       GdkPaintable *paintable_parent;
-      GtkNative *native_parent;
-      gint parent_width, parent_height;
-      GdkSurface *surface_from, *surface_to;
-      double xp, yp, xp_offset, yp_offset;
+      GtkNative    *native_parent;
+      gint          parent_width, parent_height;
+      GdkSurface   *surface_from, *surface_to;
+      double        xp, yp, xp_offset, yp_offset;
 
       /* wait for parent window */
       parent = GTK_WIDGET (gtk_widget_get_root (widget));
@@ -289,8 +289,8 @@ save_paintable (GdkPaintable *paintable,
 
 static void
 waveviewer_load_progress (GtkWidget *waveviewer,
-                          double fraction,
-                          gpointer user_data)
+                          double     fraction,
+                          gpointer   user_data)
 {
   if (fraction == 1)
     {
@@ -301,14 +301,14 @@ waveviewer_load_progress (GtkWidget *waveviewer,
 
 static void
 take_screenshots (GtkApplication *app,
-                  gpointer user_data)
+                  gpointer        user_data)
 {
-  GList *windows;
-  PtWindow *win;
-  PtPlayer *player;
-  GtkWidget *waveviewer;
+  GList               *windows;
+  PtWindow            *win;
+  PtPlayer            *player;
+  GtkWidget           *waveviewer;
   PtPreferencesDialog *dlg;
-  GdkPaintable *paintable;
+  GdkPaintable        *paintable;
 
   /* Initialize static variables */
   loop = g_main_loop_new (NULL, FALSE);
@@ -412,8 +412,8 @@ take_screenshots (GtkApplication *app,
   /* ASR Model dialog ------------------------------------------------------- */
 
   /* get config */
-  gchar *config_name = g_build_filename (g_get_user_config_dir (), PACKAGE_NAME, "de.sphinx.bartsch.voxforge.asr", NULL);
-  GFile *config_file = g_file_new_for_path (config_name);
+  gchar    *config_name = g_build_filename (g_get_user_config_dir (), PACKAGE_NAME, "de.sphinx.bartsch.voxforge.asr", NULL);
+  GFile    *config_file = g_file_new_for_path (config_name);
   PtConfig *config = pt_config_new (config_file);
 
   /* show dialog with config */
@@ -439,7 +439,7 @@ take_screenshots (GtkApplication *app,
   g_free (config_name);
   g_free (model_path);
 
-  GtkWidget *menu_button = _pt_window_get_primary_menu_button (win);
+  GtkWidget  *menu_button = _pt_window_get_primary_menu_button (win);
   GtkPopover *popover = gtk_menu_button_get_popover (GTK_MENU_BUTTON (menu_button));
   gtk_popover_set_autohide (popover, false); /* essential */
 
@@ -470,7 +470,7 @@ main (int argc, char *argv[])
     return 1;
 
   PtApp *app;
-  int app_status;
+  int    app_status;
 
   app = pt_app_new ();
   g_signal_connect_after (app, "activate", G_CALLBACK (take_screenshots), NULL);

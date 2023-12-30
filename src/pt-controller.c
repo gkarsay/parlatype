@@ -57,12 +57,12 @@ pt_controller_init (PtController *self)
 }
 
 static void
-pt_controller_set_property (GObject *object,
-                            guint property_id,
+pt_controller_set_property (GObject      *object,
+                            guint         property_id,
                             const GValue *value,
-                            GParamSpec *pspec)
+                            GParamSpec   *pspec)
 {
-  PtController *self = PT_CONTROLLER (object);
+  PtController        *self = PT_CONTROLLER (object);
   PtControllerPrivate *priv = pt_controller_get_instance_private (self);
 
   switch (property_id)
@@ -77,12 +77,12 @@ pt_controller_set_property (GObject *object,
 }
 
 static void
-pt_controller_get_property (GObject *object,
-                            guint property_id,
-                            GValue *value,
+pt_controller_get_property (GObject    *object,
+                            guint       property_id,
+                            GValue     *value,
                             GParamSpec *pspec)
 {
-  PtController *self = PT_CONTROLLER (object);
+  PtController        *self = PT_CONTROLLER (object);
   PtControllerPrivate *priv = pt_controller_get_instance_private (self);
 
   switch (property_id)

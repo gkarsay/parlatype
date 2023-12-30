@@ -20,11 +20,11 @@
 
 struct _MockPluginPrivate
 {
-  gchar *prop_file;
-  gchar *prop_string;
-  gint prop_int;
-  gfloat prop_float;
-  gdouble prop_double;
+  gchar   *prop_file;
+  gchar   *prop_string;
+  gint     prop_int;
+  gfloat   prop_float;
+  gdouble  prop_double;
   gboolean prop_bool;
   gboolean prop_not_writable;
 };
@@ -63,15 +63,15 @@ static GstStaticPadTemplate src_factory =
 G_DEFINE_TYPE_WITH_PRIVATE (MockPlugin, mock_plugin, GST_TYPE_ELEMENT)
 
 static gboolean
-mock_plugin_event (GstPad *pad,
+mock_plugin_event (GstPad    *pad,
                    GstObject *parent,
-                   GstEvent *event)
+                   GstEvent  *event)
 {
   return gst_pad_event_default (pad, parent, event);
 }
 
 static GstFlowReturn
-mock_plugin_chain (GstPad *pad,
+mock_plugin_chain (GstPad    *pad,
                    GstObject *parent,
                    GstBuffer *buf)
 {
@@ -107,10 +107,10 @@ mock_plugin_finalize (GObject *object)
 }
 
 static void
-mock_plugin_set_property (GObject *object,
-                          guint property_id,
+mock_plugin_set_property (GObject      *object,
+                          guint         property_id,
                           const GValue *value,
-                          GParamSpec *pspec)
+                          GParamSpec   *pspec)
 {
   MockPlugin *self = MOCK_PLUGIN (object);
 
@@ -146,9 +146,9 @@ mock_plugin_set_property (GObject *object,
 }
 
 static void
-mock_plugin_get_property (GObject *object,
-                          guint property_id,
-                          GValue *value,
+mock_plugin_get_property (GObject    *object,
+                          guint       property_id,
+                          GValue     *value,
                           GParamSpec *pspec)
 {
   MockPlugin *self = MOCK_PLUGIN (object);
@@ -185,7 +185,7 @@ mock_plugin_get_property (GObject *object,
 static void
 mock_plugin_class_init (MockPluginClass *klass)
 {
-  GObjectClass *object_class = (GObjectClass *) klass;
+  GObjectClass    *object_class = (GObjectClass *) klass;
   GstElementClass *element_class = (GstElementClass *) klass;
   ;
 

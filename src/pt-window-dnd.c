@@ -25,11 +25,11 @@
 
 static gboolean
 handle_uri (PtWindow *win,
-            gchar *data)
+            gchar    *data)
 {
-  GFile *file;
-  gchar **split = NULL;
-  gchar *uri;
+  GFile   *file;
+  gchar  **split = NULL;
+  gchar   *uri;
   gboolean success = FALSE;
 
   if (g_regex_match_simple ("^file:///.*", data, 0, 0))
@@ -74,13 +74,13 @@ handle_uri (PtWindow *win,
 
 static gboolean
 handle_filename (PtWindow *win,
-                 gchar *data)
+                 gchar    *data)
 {
-  gboolean success;
-  GList *list;
+  gboolean          success;
+  GList            *list;
   GtkRecentManager *recent;
-  GtkRecentInfo *info;
-  gchar *uri;
+  GtkRecentInfo    *info;
+  gchar            *uri;
 
   success = FALSE;
 
@@ -115,7 +115,7 @@ handle_filename (PtWindow *win,
 
 static gboolean
 handle_dnd_data (PtWindow *win,
-                 gchar *data)
+                 gchar    *data)
 {
   g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                     "MESSAGE", "Received drag and drop: '%s'", data);
@@ -136,10 +136,10 @@ handle_dnd_data (PtWindow *win,
 
 static gboolean
 drop_cb (GtkDropTarget *self,
-         GValue *value,
-         gdouble x,
-         gdouble y,
-         gpointer user_data)
+         GValue        *value,
+         gdouble        x,
+         gdouble        y,
+         gpointer       user_data)
 {
   PtWindow *win = PT_WINDOW (user_data);
 

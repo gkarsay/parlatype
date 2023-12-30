@@ -29,14 +29,14 @@ G_DEFINE_FINAL_TYPE (PtPrefsInfoRow, pt_prefs_info_row, ADW_TYPE_ACTION_ROW)
 
 void
 pt_prefs_info_row_set_title (PtPrefsInfoRow *self,
-                             gchar *title)
+                             gchar          *title)
 {
   adw_preferences_row_set_title (ADW_PREFERENCES_ROW (self), title);
 }
 
 void
 pt_prefs_info_row_set_info (PtPrefsInfoRow *self,
-                            gchar *info)
+                            gchar          *info)
 {
   gtk_label_set_text (GTK_LABEL (self->info_label), info);
 }

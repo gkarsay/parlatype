@@ -30,13 +30,13 @@
 typedef struct
 {
   GAsyncResult *res;
-  GMainLoop *loop;
+  GMainLoop    *loop;
 } SyncData;
 
 static SyncData
 create_sync_data (void)
 {
-  SyncData data;
+  SyncData      data;
   GMainContext *context;
 
   context = g_main_context_default ();
@@ -55,8 +55,8 @@ free_sync_data (SyncData data)
 
 static void
 quit_loop_cb (GstPtAudioAsrBin *bin,
-              GAsyncResult *res,
-              gpointer user_data)
+              GAsyncResult     *res,
+              gpointer          user_data)
 {
   SyncData *data = user_data;
   data->res = g_object_ref (res);
@@ -70,12 +70,12 @@ gst_audioasrbin (void)
 {
 
   GstPtAudioAsrBin *asr;
-  PtConfig *good, *bad;
-  GFile *testfile;
-  gchar *testpath;
-  GError *error = NULL;
-  gboolean success;
-  SyncData data;
+  PtConfig         *good, *bad;
+  GFile            *testfile;
+  gchar            *testpath;
+  GError           *error = NULL;
+  gboolean          success;
+  SyncData          data;
 
   /* Create config with existing plugin */
   testpath = g_test_build_filename (G_TEST_DIST, "data", "config-mock-plugin.asr", NULL);

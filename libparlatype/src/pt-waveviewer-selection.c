@@ -50,18 +50,18 @@ struct _PtWaveviewerSelection
   GtkAdjustment *adj; /* the parent PtWaveviewer’s adjustment */
 
   GdkRGBA selection_color;
-  gint start;
-  gint end;
+  gint    start;
+  gint    end;
 };
 
 G_DEFINE_TYPE (PtWaveviewerSelection, pt_waveviewer_selection, GTK_TYPE_DRAWING_AREA);
 
 static void
 pt_waveviewer_selection_draw (GtkDrawingArea *widget,
-                              cairo_t *cr,
-                              int content_width,
-                              int content_height,
-                              gpointer user_data)
+                              cairo_t        *cr,
+                              int             content_width,
+                              int             content_height,
+                              gpointer        user_data)
 {
   PtWaveviewerSelection *self = (PtWaveviewerSelection *) widget;
 
@@ -97,7 +97,7 @@ update_cached_style_values (PtWaveviewerSelection *self)
 }
 
 static void
-pt_waveviewer_selection_state_flags_changed (GtkWidget *widget,
+pt_waveviewer_selection_state_flags_changed (GtkWidget    *widget,
                                              GtkStateFlags flags)
 {
   update_cached_style_values (PT_WAVEVIEWER_SELECTION (widget));
@@ -113,7 +113,7 @@ pt_waveviewer_selection_realize (GtkWidget *widget)
 
 static void
 adj_value_changed (GtkAdjustment *adj,
-                   gpointer data)
+                   gpointer       data)
 {
   PtWaveviewerSelection *self = PT_WAVEVIEWER_SELECTION (data);
   gtk_widget_queue_draw (GTK_WIDGET (self));
@@ -126,7 +126,7 @@ pt_waveviewer_selection_root (GtkWidget *widget)
    * GtkAdjustment */
 
   PtWaveviewerSelection *self = PT_WAVEVIEWER_SELECTION (widget);
-  GtkWidget *parent = NULL;
+  GtkWidget             *parent = NULL;
 
   if (self->adj)
     return;
@@ -144,8 +144,8 @@ pt_waveviewer_selection_root (GtkWidget *widget)
 
 void
 pt_waveviewer_selection_set (PtWaveviewerSelection *self,
-                             gint start,
-                             gint end)
+                             gint                   start,
+                             gint                   end)
 {
   self->start = start;
   self->end = end;

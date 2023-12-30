@@ -26,12 +26,12 @@ static void
 construct (void)
 {
   PtConfig *config;
-  GFile *testfile;
-  GFile *file;
-  gchar *testpath;
-  gchar *name;
-  gboolean is_valid;
-  gboolean is_installed;
+  GFile    *testfile;
+  GFile    *file;
+  gchar    *testpath;
+  gchar    *name;
+  gboolean  is_valid;
+  gboolean  is_installed;
 
   testpath = g_test_build_filename (G_TEST_BUILT, "config-test.asr", NULL);
   testfile = g_file_new_for_path (testpath);
@@ -61,14 +61,14 @@ static void
 main_methods (void)
 {
   PtConfig *config;
-  GFile *testfile, *nullfile, *cmpfile;
-  gchar *testpath;
+  GFile    *testfile, *nullfile, *cmpfile;
+  gchar    *testpath;
 
   testpath = g_test_build_filename (G_TEST_BUILT, "config-test.asr", NULL);
   testfile = g_file_new_for_path (testpath);
   config = pt_config_new (testfile);
 
-  gchar *name, *plugin, *base, *lang_code, *lang_name, *other;
+  gchar   *name, *plugin, *base, *lang_code, *lang_name, *other;
   gboolean installed, success;
 
   name = pt_config_get_name (config);
@@ -141,8 +141,8 @@ static void
 unknown_language (void)
 {
   PtConfig *config;
-  GFile *testfile;
-  gchar *testpath;
+  GFile    *testfile;
+  gchar    *testpath;
 
   testpath = g_test_build_filename (G_TEST_BUILT, "unknown-language.asr", NULL);
   testfile = g_file_new_for_path (testpath);
@@ -165,10 +165,10 @@ static int
 check_folder_for_configs (GFile *folder)
 {
   GFileEnumerator *files;
-  GFile *file;
-  PtConfig *config;
-  GError *error = NULL;
-  int num_tested = 0;
+  GFile           *file;
+  PtConfig        *config;
+  GError          *error = NULL;
+  int              num_tested = 0;
 
   files = g_file_enumerate_children (folder,
                                      G_FILE_ATTRIBUTE_STANDARD_NAME,
@@ -210,7 +210,7 @@ crafted_valid (void)
 {
   gchar *path;
   GFile *folder;
-  int num_tested;
+  int    num_tested;
 
   path = g_test_build_filename (G_TEST_BUILT, G_DIR_SEPARATOR_S, NULL);
   folder = g_file_new_for_path (path);
@@ -226,7 +226,7 @@ dist_valid (void)
 {
   gchar *path;
   GFile *folder;
-  int num_tested;
+  int    num_tested;
 
   path = g_test_build_filename (G_TEST_DIST, "..", "..", "data", "asr", NULL);
   folder = g_file_new_for_path (path);
@@ -240,17 +240,17 @@ dist_valid (void)
 static void
 apply (void)
 {
-  PtConfig *config;
-  GFile *testfile;
-  gchar *testpath;
+  PtConfig   *config;
+  GFile      *testfile;
+  gchar      *testpath;
   MockPlugin *plugin;
-  gchar *prop_file, *prop_string;
-  gint prop_int;
-  gfloat prop_float;
-  gdouble prop_double;
-  gboolean prop_bool;
-  GError *error = NULL;
-  gboolean success;
+  gchar      *prop_file, *prop_string;
+  gint        prop_int;
+  gfloat      prop_float;
+  gdouble     prop_double;
+  gboolean    prop_bool;
+  GError     *error = NULL;
+  gboolean    success;
 
   testpath = g_test_build_filename (G_TEST_DIST, "data", "config-apply.asr", NULL);
   testfile = g_file_new_for_path (testpath);

@@ -48,19 +48,19 @@ struct _PtWaveloaderPrivate
   GstElement *fmt;
 
   GArray *hires;
-  gint hires_index;
+  gint    hires_index;
   GArray *lowres;
-  gint pps;
-  gint lowres_index;
+  gint    pps;
+  gint    lowres_index;
 
-  gchar *uri;
+  gchar   *uri;
   gboolean load_pending;
   gboolean data_pending;
 
   gint64 duration;
 
-  gint bus_watch_id;
-  gint progress_timeout;
+  gint    bus_watch_id;
+  gint    progress_timeout;
   gdouble progress;
 };
 
@@ -78,7 +78,7 @@ enum
 };
 
 static GParamSpec *obj_properties[N_PROPERTIES];
-static guint signals[LAST_SIGNAL] = { 0 };
+static guint       signals[LAST_SIGNAL] = { 0 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PtWaveloader, pt_waveloader, G_TYPE_OBJECT)
 
@@ -96,8 +96,8 @@ remove_timeout (PtWaveloader *self)
 
 static void
 on_wave_loader_new_pad (GstElement *bin,
-                        GstPad *pad,
-                        gpointer user_data)
+                        GstPad     *pad,
+                        gpointer    user_data)
 {
   if (!gst_element_link (bin, GST_ELEMENT (user_data)))
     {
@@ -148,15 +148,15 @@ calc_lowres_len (gint hires_len,
 static void
 convert_one_second (GArray *in,
                     GArray *out,
-                    gint *index_in,
-                    gint *index_out,
-                    gint pps)
+                    gint   *index_in,
+                    gint   *index_out,
+                    gint    pps)
 {
-  gint k, m;
+  gint   k, m;
   gint16 d;
   gfloat vmin, vmax;
-  gint chunk_size;
-  gint mod;
+  gint   chunk_size;
+  gint   mod;
 
   chunk_size = 8000 / pps;
   mod = 8000 % pps;
@@ -207,13 +207,13 @@ convert_one_second (GArray *in,
 
 static GstFlowReturn
 new_sample_cb (GstAppSink *sink,
-               gpointer user_data)
+               gpointer    user_data)
 {
-  PtWaveloader *self = PT_WAVELOADER (user_data);
+  PtWaveloader        *self = PT_WAVELOADER (user_data);
   PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (self);
-  GstSample *sample = gst_app_sink_pull_sample (sink);
-  GstBuffer *buffer = gst_sample_get_buffer (sample);
-  GstMapInfo map;
+  GstSample           *sample = gst_app_sink_pull_sample (sink);
+  GstBuffer           *buffer = gst_sample_get_buffer (sample);
+  GstMapInfo           map;
   if (!gst_buffer_map (buffer, &map, GST_MAP_READ))
     {
       gst_sample_unref (sample);
@@ -253,9 +253,9 @@ static gboolean
 setup_pipeline (PtWaveloader *self)
 {
   PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (self);
-  gboolean result = TRUE;
-  GstElement *src, *dec, *conv, *resample, *sink;
-  GstCaps *caps;
+  gboolean             result = TRUE;
+  GstElement          *src, *dec, *conv, *resample, *sink;
+  GstCaps             *caps;
 
   /* create loader pipeline TODO: this is probably leaking on 2nd run */
   priv->pipeline = gst_pipeline_new ("wave-loader");
@@ -312,13 +312,13 @@ check_progress (GTask *task)
      If it’s removed, the message bus has to be removed, too, and also
      the other way round. */
 
-  PtWaveloader *self = g_task_get_source_object (task);
+  PtWaveloader        *self = g_task_get_source_object (task);
   PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (self);
 
-  gint64 dur;
-  gint64 pos;
+  gint64  dur;
+  gint64  pos;
   gdouble temp;
-  gint new_size;
+  gint    new_size;
 
   /* Check if task was cancelled and reset pipeline */
 
@@ -368,19 +368,19 @@ check_progress (GTask *task)
 }
 
 static gboolean
-bus_handler (GstBus *bus,
+bus_handler (GstBus     *bus,
              GstMessage *msg,
-             gpointer data)
+             gpointer    data)
 {
-  GTask *task = (GTask *) data;
-  PtWaveloader *self = g_task_get_source_object (task);
+  GTask               *task = (GTask *) data;
+  PtWaveloader        *self = g_task_get_source_object (task);
   PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (self);
 
   switch (GST_MESSAGE_TYPE (msg))
     {
     case GST_MESSAGE_ERROR:
       {
-        gchar *debug;
+        gchar  *debug;
         GError *error;
 
         remove_timeout (self);
@@ -467,7 +467,7 @@ bus_handler (GstBus *bus,
 gboolean
 pt_waveloader_load_finish (PtWaveloader *self,
                            GAsyncResult *result,
-                           GError **error)
+                           GError      **error)
 {
   g_return_val_if_fail (g_task_is_valid (result, self), FALSE);
   PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (self);
@@ -503,17 +503,17 @@ pt_waveloader_load_finish (PtWaveloader *self,
  * Since: 2.0
  */
 void
-pt_waveloader_load_async (PtWaveloader *self,
-                          gint pps,
-                          GCancellable *cancellable,
+pt_waveloader_load_async (PtWaveloader       *self,
+                          gint                pps,
+                          GCancellable       *cancellable,
                           GAsyncReadyCallback callback,
-                          gpointer user_data)
+                          gpointer            user_data)
 {
   g_return_if_fail (PT_IS_WAVELOADER (self));
   PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (self);
   g_return_if_fail (priv->uri != NULL);
 
-  GTask *task;
+  GTask  *task;
   GstBus *bus;
 
   task = g_task_new (self, cancellable, callback, user_data);
@@ -596,7 +596,7 @@ pt_waveloader_get_duration (PtWaveloader *self)
 gboolean
 pt_waveloader_resize_finish (PtWaveloader *self,
                              GAsyncResult *result,
-                             GError **error)
+                             GError      **error)
 {
   g_return_val_if_fail (g_task_is_valid (result, self), FALSE);
 
@@ -606,18 +606,18 @@ pt_waveloader_resize_finish (PtWaveloader *self,
 }
 
 static void
-pt_waveloader_resize_real (GTask *task,
-                           gpointer source_object,
-                           gpointer task_data,
+pt_waveloader_resize_real (GTask        *task,
+                           gpointer      source_object,
+                           gpointer      task_data,
                            GCancellable *cancellable)
 {
-  PtWaveloader *self = source_object;
+  PtWaveloader        *self = source_object;
   PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (self);
-  gint pps = GPOINTER_TO_INT (task_data);
-  gint lowres_len;
-  gint index_in = 0;
-  gint index_out = 0;
-  gboolean result = TRUE;
+  gint                 pps = GPOINTER_TO_INT (task_data);
+  gint                 lowres_len;
+  gint                 index_in = 0;
+  gint                 index_out = 0;
+  gboolean             result = TRUE;
 
   lowres_len = calc_lowres_len (priv->hires->len, pps);
   if (priv->lowres == NULL || priv->lowres->len != lowres_len)
@@ -690,17 +690,17 @@ pt_waveloader_resize_real (GTask *task,
  * Since: 2.0
  */
 void
-pt_waveloader_resize_async (PtWaveloader *self,
-                            gint pps,
-                            GCancellable *cancellable,
+pt_waveloader_resize_async (PtWaveloader       *self,
+                            gint                pps,
+                            GCancellable       *cancellable,
                             GAsyncReadyCallback callback,
-                            gpointer user_data)
+                            gpointer            user_data)
 {
   g_return_if_fail (PT_IS_WAVELOADER (self));
   g_return_if_fail ((pps >= 25) && (pps <= 200));
 
   PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (self);
-  GTask *task;
+  GTask               *task;
 
   task = g_task_new (self, cancellable, callback, user_data);
   if (priv->hires->len == 0)
@@ -737,13 +737,13 @@ pt_waveloader_resize_async (PtWaveloader *self,
 typedef struct
 {
   GAsyncResult *res;
-  GMainLoop *loop;
+  GMainLoop    *loop;
 } SyncData;
 
 static void
 quit_loop_cb (PtWaveloader *self,
               GAsyncResult *res,
-              gpointer user_data)
+              gpointer      user_data)
 {
   SyncData *data = user_data;
   data->res = g_object_ref (res);
@@ -764,15 +764,15 @@ quit_loop_cb (PtWaveloader *self,
  */
 gboolean
 pt_waveloader_resize (PtWaveloader *self,
-                      gint pps,
-                      GError **error)
+                      gint          pps,
+                      GError      **error)
 {
   g_return_val_if_fail (PT_IS_WAVELOADER (self), FALSE);
   g_return_val_if_fail ((pps >= 25) && (pps <= 200), FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
-  gboolean result;
-  SyncData data;
+  gboolean      result;
+  SyncData      data;
   GMainContext *context;
 
   /* Note: If done in the default thread, all sorts of bad things happen,
@@ -849,7 +849,7 @@ pt_waveloader_init (PtWaveloader *self)
 static void
 pt_waveloader_dispose (GObject *object)
 {
-  PtWaveloader *self = PT_WAVELOADER (object);
+  PtWaveloader        *self = PT_WAVELOADER (object);
   PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (self);
 
   g_free (priv->uri);
@@ -876,12 +876,12 @@ pt_waveloader_dispose (GObject *object)
 }
 
 static void
-pt_waveloader_set_property (GObject *object,
-                            guint property_id,
+pt_waveloader_set_property (GObject      *object,
+                            guint         property_id,
                             const GValue *value,
-                            GParamSpec *pspec)
+                            GParamSpec   *pspec)
 {
-  PtWaveloader *self = PT_WAVELOADER (object);
+  PtWaveloader        *self = PT_WAVELOADER (object);
   PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (self);
 
   switch (property_id)
@@ -897,12 +897,12 @@ pt_waveloader_set_property (GObject *object,
 }
 
 static void
-pt_waveloader_get_property (GObject *object,
-                            guint property_id,
-                            GValue *value,
+pt_waveloader_get_property (GObject    *object,
+                            guint       property_id,
+                            GValue     *value,
                             GParamSpec *pspec)
 {
-  PtWaveloader *self = PT_WAVELOADER (object);
+  PtWaveloader        *self = PT_WAVELOADER (object);
   PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (self);
 
   switch (property_id)

@@ -25,15 +25,15 @@
 typedef struct
 {
   PtPlayer *testplayer;
-  gchar *testuri;
+  gchar    *testuri;
 } PtPlayerFixture;
 
 static void
 pt_player_fixture_set_up (PtPlayerFixture *fixture,
-                          gconstpointer user_data)
+                          gconstpointer    user_data)
 {
-  gchar *path;
-  GError *error = NULL;
+  gchar   *path;
+  GError  *error = NULL;
   gboolean success;
 
   fixture->testplayer = pt_player_new ();
@@ -50,7 +50,7 @@ pt_player_fixture_set_up (PtPlayerFixture *fixture,
 
 static void
 pt_player_fixture_tear_down (PtPlayerFixture *fixture,
-                             gconstpointer user_data)
+                             gconstpointer    user_data)
 {
   g_clear_object (&fixture->testplayer);
   g_free (fixture->testuri);
@@ -66,14 +66,14 @@ player_new (void)
   PtPlayer *testplayer;
 
   /* Construction properties */
-  gdouble speed, volume;
+  gdouble  speed, volume;
   gboolean t_fixed;
-  gint precision;
-  gchar *t_delimiter, *t_separator;
+  gint     precision;
+  gchar   *t_delimiter, *t_separator;
 
   /* Read/write properties TODO why not construction? */
   gboolean repeat_all, repeat_selection;
-  gint pause, back, forward;
+  gint     pause, back, forward;
 
   testplayer = pt_player_new ();
   g_assert_true (PT_IS_PLAYER (testplayer));
@@ -120,15 +120,15 @@ player_new (void)
 
 typedef struct
 {
-  GQuark domain;
-  gint code;
+  GQuark     domain;
+  gint       code;
   GMainLoop *loop;
 } ErrorCBData;
 
 static void
 error_cb (PtPlayer *player,
-          GError *error,
-          gpointer user_data)
+          GError   *error,
+          gpointer  user_data)
 {
   ErrorCBData *data = user_data;
   g_assert_error (error, data->domain, data->code);
@@ -138,12 +138,12 @@ error_cb (PtPlayer *player,
 static void
 player_open_fail (void)
 {
-  PtPlayer *player;
+  PtPlayer   *player;
   ErrorCBData data;
-  gboolean success;
-  gchar *path;
-  GFile *file;
-  gchar *uri;
+  gboolean    success;
+  gchar      *path;
+  GFile      *file;
+  gchar      *uri;
 
   player = pt_player_new ();
 
@@ -188,7 +188,7 @@ player_open_fail (void)
 
 static void
 player_open_ogg (PtPlayerFixture *fixture,
-                 gconstpointer user_data)
+                 gconstpointer    user_data)
 {
   /* open test file, get and check uri and filename */
 
@@ -205,7 +205,7 @@ player_open_ogg (PtPlayerFixture *fixture,
 
 static void
 player_selections (PtPlayerFixture *fixture,
-                   gconstpointer user_data)
+                   gconstpointer    user_data)
 {
   /* set, get and clear a selection */
 
@@ -230,7 +230,7 @@ typedef struct
 
 static void
 seek_done_cb (PtPlayer *player,
-              gpointer user_data)
+              gpointer  user_data)
 {
   LoopData *data = user_data;
   g_main_loop_quit (data->loop);
@@ -238,10 +238,10 @@ seek_done_cb (PtPlayer *player,
 
 static void
 player_timestamps (PtPlayerFixture *fixture,
-                   gconstpointer user_data)
+                   gconstpointer    user_data)
 {
-  gchar *timestamp = NULL;
-  gchar *timestamp2;
+  gchar   *timestamp = NULL;
+  gchar   *timestamp2;
   gboolean valid;
   LoopData data;
 
@@ -399,12 +399,12 @@ player_timestamps (PtPlayerFixture *fixture,
 }
 
 static void
-notify_speed_cb (PtPlayer *player,
+notify_speed_cb (PtPlayer   *player,
                  GParamSpec *pspec,
-                 gpointer user_data)
+                 gpointer    user_data)
 {
   LoopData *data = user_data;
-  gdouble speed;
+  gdouble   speed;
 
   g_object_get (player, "speed", &speed, NULL);
   g_assert_cmpfloat (speed, ==, 0.5);
@@ -421,12 +421,12 @@ change_speed (gpointer user_data)
 }
 static void
 player_speed (PtPlayerFixture *fixture,
-              gconstpointer user_data)
+              gconstpointer    user_data)
 {
   /* set speed properties */
 
   LoopData data;
-  gdouble speed;
+  gdouble  speed;
 
   pt_player_set_speed (fixture->testplayer, 0.7);
   g_object_get (fixture->testplayer, "speed", &speed, NULL);
@@ -503,10 +503,10 @@ player_volume (PtPlayerFixture *fixture,
 
 static void
 player_timestrings (PtPlayerFixture *fixture,
-                    gconstpointer user_data)
+                    gconstpointer    user_data)
 {
   LoopData data;
-  gchar *timestring;
+  gchar   *timestring;
 
   data.loop = g_main_loop_new (g_main_context_default (), FALSE);
   g_signal_connect (fixture->testplayer, "seek-done", G_CALLBACK (seek_done_cb), &data);
@@ -587,9 +587,9 @@ player_config_loadable (void)
 {
   PtPlayer *testplayer;
   PtConfig *good, *bad;
-  GFile *testfile;
-  gchar *testpath;
-  gboolean success;
+  GFile    *testfile;
+  gchar    *testpath;
+  gboolean  success;
 
   /* Create player */
   testplayer = pt_player_new ();

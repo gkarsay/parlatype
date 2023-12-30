@@ -52,11 +52,11 @@ struct _GstPtAudioAsrBin
 {
   GstBin parent;
 
-  PtConfig *config;
+  PtConfig   *config;
   GstElement *asr_plugin;
   GstElement *audioresample;
   GstElement *fakesink;
-  gboolean is_configured;
+  gboolean    is_configured;
 };
 
 G_DEFINE_TYPE (GstPtAudioAsrBin, gst_pt_audio_asr_bin, GST_TYPE_BIN);
@@ -69,8 +69,8 @@ gst_pt_audio_asr_bin_is_configured (GstPtAudioAsrBin *self)
 
 gboolean
 gst_pt_audio_asr_bin_configure_asr_finish (GstPtAudioAsrBin *self,
-                                           GAsyncResult *result,
-                                           GError **error)
+                                           GAsyncResult     *result,
+                                           GError          **error)
 {
   g_return_val_if_fail (g_task_is_valid (result, self), FALSE);
 
@@ -81,9 +81,9 @@ static void
 configure_plugin (GTask *task)
 {
   GstPtAudioAsrBin *self;
-  gchar *plugin;
-  gboolean success;
-  GError *error = NULL;
+  gchar            *plugin;
+  gboolean          success;
+  GError           *error = NULL;
 
   self = g_task_get_source_object (task);
   plugin = pt_config_get_plugin (self->config);
@@ -142,7 +142,7 @@ configure_plugin (GTask *task)
 static void
 flush_plugin (GstPtAudioAsrBin *self)
 {
-  GstPad *sinkpad;
+  GstPad  *sinkpad;
   gboolean success;
 
   GST_DEBUG_OBJECT (self, "flushing ASR plugin");
@@ -154,11 +154,11 @@ flush_plugin (GstPtAudioAsrBin *self)
 }
 
 static GstPadProbeReturn
-pad_probe_cb (GstPad *pad,
+pad_probe_cb (GstPad          *pad,
               GstPadProbeInfo *info,
-              gpointer user_data)
+              gpointer         user_data)
 {
-  GTask *task = G_TASK (user_data);
+  GTask            *task = G_TASK (user_data);
   GstPtAudioAsrBin *self;
 
   self = g_task_get_source_object (task);
@@ -182,17 +182,17 @@ pad_probe_cb (GstPad *pad,
 }
 
 void
-gst_pt_audio_asr_bin_configure_asr_async (GstPtAudioAsrBin *self,
-                                          PtConfig *config,
-                                          GCancellable *cancellable,
+gst_pt_audio_asr_bin_configure_asr_async (GstPtAudioAsrBin   *self,
+                                          PtConfig           *config,
+                                          GCancellable       *cancellable,
                                           GAsyncReadyCallback callback,
-                                          gpointer user_data)
+                                          gpointer            user_data)
 {
   GST_DEBUG_OBJECT (self, "configuring asr");
 
-  GTask *task;
-  GstPad *blockpad;
-  gulong probe_id;
+  GTask   *task;
+  GstPad  *blockpad;
+  gulong   probe_id;
   GstState debug_state;
 
   task = g_task_new (self, cancellable, callback, user_data);
@@ -249,7 +249,7 @@ static void
 gst_pt_audio_asr_bin_init (GstPtAudioAsrBin *self)
 {
   GstElement *audioconvert;
-  GstPad *audioconvert_sink;
+  GstPad     *audioconvert_sink;
 
   audioconvert = _pt_make_element ("audioconvert",
                                    "audioconvert", NULL);

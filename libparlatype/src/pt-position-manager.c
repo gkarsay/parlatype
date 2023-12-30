@@ -53,12 +53,12 @@ G_DEFINE_TYPE (PtPositionManager, pt_position_manager, G_TYPE_OBJECT)
  */
 void
 pt_position_manager_save (PtPositionManager *self,
-                          GFile *file,
-                          gint64 pos)
+                          GFile             *file,
+                          gint64             pos)
 {
-  GError *error = NULL;
+  GError    *error = NULL;
   GFileInfo *info;
-  gchar value[64];
+  gchar      value[64];
 
   if (!file)
     return;
@@ -107,12 +107,12 @@ pt_position_manager_save (PtPositionManager *self,
  * */
 gint64
 pt_position_manager_load (PtPositionManager *self,
-                          GFile *file)
+                          GFile             *file)
 {
-  GError *error = NULL;
+  GError    *error = NULL;
   GFileInfo *info;
-  gchar *value = NULL;
-  gint64 pos = 0;
+  gchar     *value = NULL;
+  gint64     pos = 0;
 
   if (!file)
     return 0;

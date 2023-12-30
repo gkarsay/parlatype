@@ -54,28 +54,28 @@ struct _PtPlayerPrivate
   GstElement *play;
   GstElement *scaletempo;
   GstElement *audio_bin;
-  guint bus_watch_id;
+  guint       bus_watch_id;
 
   PtPositionManager *pos_mgr;
-  GHashTable *plugins;
+  GHashTable        *plugins;
 
   PtStateType app_state;
-  GstState current_state;
-  GstState target_state;
+  GstState    current_state;
+  GstState    target_state;
 
-  GMutex lock;
-  gboolean seek_pending;
+  GMutex       lock;
+  gboolean     seek_pending;
   GstClockTime last_seek_time;
-  GSource *seek_source;
+  GSource     *seek_source;
   GstClockTime seek_position;
 
-  gint64 dur;
-  gdouble speed;
-  gdouble volume;
+  gint64   dur;
+  gdouble  speed;
+  gdouble  volume;
   gboolean mute;
-  gint pause;
-  gint back;
-  gint forward;
+  gint     pause;
+  gint     back;
+  gint     forward;
   gboolean repeat_all;
   gboolean repeat_selection;
 
@@ -85,13 +85,13 @@ struct _PtPlayerPrivate
   GCancellable *c;
 
   PtPrecisionType timestamp_precision;
-  gboolean timestamp_fixed;
-  gchar *timestamp_left;
-  gchar *timestamp_right;
-  gchar *timestamp_sep;
+  gboolean        timestamp_fixed;
+  gchar          *timestamp_left;
+  gchar          *timestamp_right;
+  gchar          *timestamp_sep;
 
   PtWaveviewer *wv;
-  gboolean set_follow_cursor;
+  gboolean      set_follow_cursor;
 };
 
 enum
@@ -119,7 +119,7 @@ static GParamSpec *obj_properties[N_PROPERTIES];
 #define TEN_MINUTES 600000
 
 static gboolean bus_call (GstBus *bus, GstMessage *msg, gpointer data);
-static void remove_message_bus (PtPlayer *self);
+static void     remove_message_bus (PtPlayer *self);
 
 G_DEFINE_TYPE_WITH_PRIVATE (PtPlayer, pt_player, G_TYPE_OBJECT)
 
@@ -152,11 +152,11 @@ remove_seek_source (PtPlayer *self)
 static void
 pt_player_seek_internal_locked (PtPlayer *self)
 {
-  PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  gboolean ret;
-  GstClockTime position;
-  gdouble speed;
-  gint64 stop;
+  PtPlayerPrivate     *priv = pt_player_get_instance_private (self);
+  gboolean             ret;
+  GstClockTime         position;
+  gdouble              speed;
+  gint64               stop;
   GstStateChangeReturn state_ret;
 
   remove_seek_source (self);
@@ -213,7 +213,7 @@ pt_player_seek_internal_locked (PtPlayer *self)
 static gboolean
 pt_player_seek_internal (gpointer user_data)
 {
-  PtPlayer *self = PT_PLAYER (user_data);
+  PtPlayer        *self = PT_PLAYER (user_data);
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
 
   g_mutex_lock (&priv->lock);
@@ -225,7 +225,7 @@ pt_player_seek_internal (gpointer user_data)
 
 static void
 pt_player_seek (PtPlayer *self,
-                gint64 position)
+                gint64    position)
 {
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
 
@@ -265,8 +265,8 @@ static GFile *
 pt_player_get_file (PtPlayer *self)
 {
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  gchar *uri = NULL;
-  GFile *result = NULL;
+  gchar           *uri = NULL;
+  GFile           *result = NULL;
 
   g_object_get (G_OBJECT (priv->play), "current-uri", &uri, NULL);
 
@@ -283,8 +283,8 @@ static void
 metadata_save_position (PtPlayer *self)
 {
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  GFile *file = NULL;
-  gint64 pos;
+  GFile           *file = NULL;
+  gint64           pos;
 
   if (!gst_element_query_position (priv->play, GST_FORMAT_TIME, &pos))
     return;
@@ -303,8 +303,8 @@ static void
 metadata_goto_position (PtPlayer *self)
 {
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  GFile *file = NULL;
-  gint64 pos;
+  GFile           *file = NULL;
+  gint64           pos;
 
   file = pt_player_get_file (self);
   if (!file)
@@ -335,7 +335,7 @@ pt_player_get_state_name (PtStateType state)
 }
 
 static void
-change_app_state (PtPlayer *self,
+change_app_state (PtPlayer   *self,
                   PtStateType state)
 {
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
@@ -370,7 +370,7 @@ static void
 add_message_bus (PtPlayer *self)
 {
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  GstBus *bus;
+  GstBus          *bus;
 
   remove_message_bus (self);
   bus = gst_pipeline_get_bus (GST_PIPELINE (priv->play));
@@ -379,13 +379,13 @@ add_message_bus (PtPlayer *self)
 }
 
 static gboolean
-bus_call (GstBus *bus,
+bus_call (GstBus     *bus,
           GstMessage *msg,
-          gpointer data)
+          gpointer    data)
 {
-  PtPlayer *self = (PtPlayer *) data;
+  PtPlayer        *self = (PtPlayer *) data;
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  gint64 pos, stop;
+  gint64           pos, stop;
 
   switch (GST_MESSAGE_TYPE (msg))
     {
@@ -502,7 +502,7 @@ bus_call (GstBus *bus,
       }
     case GST_MESSAGE_ERROR:
       {
-        gchar *debug;
+        gchar  *debug;
         GError *error;
 
         gst_message_parse_error (msg, &error, &debug);
@@ -575,7 +575,7 @@ bus_call (GstBus *bus,
  */
 gboolean
 pt_player_open_uri (PtPlayer *self,
-                    gchar *uri)
+                    gchar    *uri)
 {
   g_return_val_if_fail (PT_IS_PLAYER (self), FALSE);
   g_return_val_if_fail (uri != NULL, FALSE);
@@ -631,7 +631,7 @@ pt_player_pause (PtPlayer *self)
   g_return_if_fail (PT_IS_PLAYER (self));
 
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  GstState previous = priv->current_state;
+  GstState         previous = priv->current_state;
 
   if (previous != GST_STATE_PAUSED)
     {
@@ -700,10 +700,10 @@ pt_player_play (PtPlayer *self)
   g_return_if_fail (PT_IS_PLAYER (self));
 
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  gint64 pos;
-  gint64 start, end;
-  gboolean selection;
-  GstState previous;
+  gint64           pos;
+  gint64           start, end;
+  gboolean         selection;
+  GstState         previous;
 
   if (!gst_element_query_position (priv->play, GST_FORMAT_TIME, &pos))
     return;
@@ -799,8 +799,8 @@ pt_player_play_pause (PtPlayer *self)
  */
 void
 pt_player_set_selection (PtPlayer *self,
-                         gint64 start,
-                         gint64 end)
+                         gint64    start,
+                         gint64    end)
 {
   g_return_if_fail (PT_IS_PLAYER (self));
   g_return_if_fail (start < end);
@@ -834,7 +834,7 @@ pt_player_clear_selection (PtPlayer *self)
   g_return_if_fail (PT_IS_PLAYER (self));
 
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  gint64 pos;
+  gint64           pos;
 
   priv->segstart = 0;
   priv->segend = GST_CLOCK_TIME_NONE;
@@ -881,14 +881,14 @@ pt_player_has_selection (PtPlayer *self)
  */
 void
 pt_player_jump_relative (PtPlayer *self,
-                         gint milliseconds)
+                         gint      milliseconds)
 {
   g_return_if_fail (PT_IS_PLAYER (self));
   if (milliseconds == 0)
     return;
 
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  gint64 pos, new;
+  gint64           pos, new;
 
   if (!gst_element_query_position (priv->play, GST_FORMAT_TIME, &pos))
     return;
@@ -923,7 +923,7 @@ void
 pt_player_jump_back (PtPlayer *self)
 {
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  gint back;
+  gint             back;
 
   back = priv->back;
   if (back > 0)
@@ -999,12 +999,12 @@ pt_player_get_forward (PtPlayer *self)
  */
 void
 pt_player_jump_to_position (PtPlayer *self,
-                            gint milliseconds)
+                            gint      milliseconds)
 {
   g_return_if_fail (PT_IS_PLAYER (self));
 
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  gint64 pos;
+  gint64           pos;
 
   pos = GST_MSECOND * (gint64) milliseconds;
 
@@ -1056,7 +1056,7 @@ static void
 pt_player_set_speed_internal (PtPlayer *self)
 {
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  gint64 position;
+  gint64           position;
 
   if (!gst_element_query_position (priv->play, GST_FORMAT_TIME, &position))
     return;
@@ -1094,7 +1094,7 @@ pt_player_set_speed_internal (PtPlayer *self)
  */
 void
 pt_player_set_speed (PtPlayer *self,
-                     gdouble speed)
+                     gdouble   speed)
 {
   g_return_if_fail (PT_IS_PLAYER (self));
   g_return_if_fail (speed > 0);
@@ -1132,7 +1132,7 @@ pt_player_get_volume (PtPlayer *self)
   g_return_val_if_fail (PT_IS_PLAYER (self), -1);
 
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  gdouble volume;
+  gdouble          volume;
 
   /* Pulseaudio sink does not propagate volume changes in GST_STATE_PAUSED
    * or lower. Ask for real value and update cached volume. */
@@ -1159,7 +1159,7 @@ pt_player_get_volume (PtPlayer *self)
  */
 void
 pt_player_set_volume (PtPlayer *self,
-                      gdouble volume)
+                      gdouble   volume)
 {
   g_return_if_fail (PT_IS_PLAYER (self));
   g_return_if_fail (volume >= 0 && volume <= 1);
@@ -1196,7 +1196,7 @@ pt_player_get_mute (PtPlayer *self)
   g_return_val_if_fail (PT_IS_PLAYER (self), FALSE);
 
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  gboolean retval = FALSE;
+  gboolean         retval = FALSE;
 
   if (priv->play)
     g_object_get (priv->play, "mute", &retval, NULL);
@@ -1216,7 +1216,7 @@ pt_player_get_mute (PtPlayer *self)
  */
 void
 pt_player_set_mute (PtPlayer *self,
-                    gboolean mute)
+                    gboolean  mute)
 {
   g_return_if_fail (PT_IS_PLAYER (self));
 
@@ -1245,7 +1245,7 @@ pt_player_get_position (PtPlayer *self)
   g_return_val_if_fail (PT_IS_PLAYER (self), -1);
 
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  gint64 time;
+  gint64           time;
 
   if (!gst_element_query_position (priv->play, GST_FORMAT_TIME, &time))
     return -1;
@@ -1276,7 +1276,7 @@ pt_player_get_duration (PtPlayer *self)
 
 static void
 wv_selection_changed_cb (GtkWidget *widget,
-                         PtPlayer *self)
+                         PtPlayer  *self)
 {
   /* Selection changed in Waveviewer widget:
      - if we are not playing a selection: just set start/stop without seeking
@@ -1286,7 +1286,7 @@ wv_selection_changed_cb (GtkWidget *widget,
        stop playing the selection */
 
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  gint64 start, end, pos;
+  gint64           start, end, pos;
   g_object_get (priv->wv,
                 "selection-start", &start,
                 "selection-end", &end,
@@ -1328,8 +1328,8 @@ wv_update_cursor (PtPlayer *self)
 
 static void
 wv_cursor_changed_cb (PtWaveviewer *wv,
-                      gint64 pos,
-                      PtPlayer *self)
+                      gint64        pos,
+                      PtPlayer     *self)
 {
   /* user changed cursor position */
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
@@ -1339,7 +1339,7 @@ wv_cursor_changed_cb (PtWaveviewer *wv,
 
 static void
 wv_play_toggled_cb (GtkWidget *widget,
-                    PtPlayer *self)
+                    PtPlayer  *self)
 {
   pt_player_play_pause (self);
 }
@@ -1355,7 +1355,7 @@ wv_play_toggled_cb (GtkWidget *widget,
  * Since: 1.6
  */
 void
-pt_player_connect_waveviewer (PtPlayer *self,
+pt_player_connect_waveviewer (PtPlayer     *self,
                               PtWaveviewer *wv)
 {
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
@@ -1400,7 +1400,7 @@ pt_player_get_uri (PtPlayer *self)
   g_return_val_if_fail (PT_IS_PLAYER (self), NULL);
 
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  gchar *uri = NULL;
+  gchar           *uri = NULL;
   g_object_get (G_OBJECT (priv->play), "current-uri", &uri, NULL);
   return uri;
 }
@@ -1420,11 +1420,11 @@ pt_player_get_filename (PtPlayer *self)
 {
   g_return_val_if_fail (PT_IS_PLAYER (self), NULL);
 
-  GError *error = NULL;
+  GError      *error = NULL;
   const gchar *filename = NULL;
-  GFile *file = NULL;
-  GFileInfo *info = NULL;
-  gchar *result;
+  GFile       *file = NULL;
+  GFileInfo   *info = NULL;
+  gchar       *result;
 
   file = pt_player_get_file (self);
 
@@ -1481,8 +1481,8 @@ pt_player_get_filename (PtPlayer *self)
  * Since: 1.4
  */
 gchar *
-pt_player_get_time_string (gint time,
-                           gint duration,
+pt_player_get_time_string (gint            time,
+                           gint            duration,
                            PtPrecisionType precision)
 {
   /* Don’t assert time <= duration because duration is not exact */
@@ -1490,7 +1490,7 @@ pt_player_get_time_string (gint time,
   g_return_val_if_fail (precision < PT_PRECISION_INVALID, NULL);
 
   gchar *result;
-  gint h, m, s, ms, mod;
+  gint   h, m, s, ms, mod;
 
   h = time / 3600000;
   mod = time % 3600000;
@@ -1611,14 +1611,14 @@ pt_player_get_time_string (gint time,
  * Since: 1.4
  */
 gchar *
-pt_player_get_current_time_string (PtPlayer *self,
+pt_player_get_current_time_string (PtPlayer       *self,
                                    PtPrecisionType precision)
 {
   g_return_val_if_fail (PT_IS_PLAYER (self), NULL);
   g_return_val_if_fail (precision < PT_PRECISION_INVALID, NULL);
 
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  gint64 time;
+  gint64           time;
 
   if (!gst_element_query_position (priv->play, GST_FORMAT_TIME, &time))
     return NULL;
@@ -1643,7 +1643,7 @@ pt_player_get_current_time_string (PtPlayer *self,
  * Since: 1.4
  */
 gchar *
-pt_player_get_duration_time_string (PtPlayer *self,
+pt_player_get_duration_time_string (PtPlayer       *self,
                                     PtPrecisionType precision)
 {
   g_return_val_if_fail (PT_IS_PLAYER (self), NULL);
@@ -1677,14 +1677,14 @@ pt_player_get_duration_time_string (PtPlayer *self,
  */
 gchar *
 pt_player_get_timestamp_for_time (PtPlayer *self,
-                                  gint time,
-                                  gint duration)
+                                  gint      time,
+                                  gint      duration)
 {
   g_return_val_if_fail (PT_IS_PLAYER (self), NULL);
 
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  gint h, m, s, ms, mod, fraction;
-  gchar *timestamp = NULL;
+  gint             h, m, s, ms, mod, fraction;
+  gchar           *timestamp = NULL;
 
   /* This is the same code as in pt_player_get_timestring() */
   h = time / 3600000;
@@ -1790,8 +1790,8 @@ pt_player_get_timestamp (PtPlayer *self)
   g_return_val_if_fail (PT_IS_PLAYER (self), NULL);
 
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  gint64 time;
-  gint duration;
+  gint64           time;
+  gint             duration;
 
   if (!gst_element_query_position (priv->play, GST_FORMAT_TIME, &time))
     return NULL;
@@ -1817,16 +1817,16 @@ pt_player_get_timestamp (PtPlayer *self)
  */
 gint
 pt_player_get_timestamp_position (PtPlayer *self,
-                                  gchar *timestamp,
-                                  gboolean check_duration)
+                                  gchar    *timestamp,
+                                  gboolean  check_duration)
 {
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  gint h, m, s, ms, result;
-  gchar *cmp; /* timestamp without delimiters */
-  gboolean long_format;
-  gboolean fraction;
-  gchar **split = NULL;
-  guint n_split;
+  gint             h, m, s, ms, result;
+  gchar           *cmp; /* timestamp without delimiters */
+  gboolean         long_format;
+  gboolean         fraction;
+  gchar          **split = NULL;
+  guint            n_split;
 
   /* Check for formal validity */
   if (!g_regex_match_simple ("^[#|\\(|\\[]?[0-9][0-9]?:[0-9][0-9]:[0-9][0-9][\\.|\\-][0-9][0-9]?[#|\\)|\\]]?$", timestamp, 0, 0) && !g_regex_match_simple ("^[#|\\(|\\[]?[0-9][0-9]?:[0-9][0-9][\\.|\\-][0-9][0-9]?[#|\\)|\\]]?$", timestamp, 0, 0) && !g_regex_match_simple ("^[#|\\(|\\[]?[0-9][0-9]?:[0-9][0-9]:[0-9][0-9][#|\\)|\\]]?$", timestamp, 0, 0) && !g_regex_match_simple ("^[#|\\(|\\[]?[0-9][0-9]?:[0-9][0-9][#|\\)|\\]]?$", timestamp, 0, 0))
@@ -1946,8 +1946,8 @@ pt_player_get_timestamp_position (PtPlayer *self,
  */
 gboolean
 pt_player_string_is_timestamp (PtPlayer *self,
-                               gchar *timestamp,
-                               gboolean check_duration)
+                               gchar    *timestamp,
+                               gboolean  check_duration)
 {
   g_return_val_if_fail (PT_IS_PLAYER (self), FALSE);
   g_return_val_if_fail (timestamp != NULL, FALSE);
@@ -1969,7 +1969,7 @@ pt_player_string_is_timestamp (PtPlayer *self,
  */
 gboolean
 pt_player_goto_timestamp (PtPlayer *self,
-                          gchar *timestamp)
+                          gchar    *timestamp)
 {
   g_return_val_if_fail (PT_IS_PLAYER (self), FALSE);
   g_return_val_if_fail (timestamp != NULL, FALSE);
@@ -1994,7 +1994,7 @@ notify_volume_idle_cb (PtPlayer *self)
     return G_SOURCE_REMOVE;
 
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  gdouble vol;
+  gdouble          vol;
 
   g_object_get (priv->play, "volume", &vol, NULL);
 
@@ -2009,9 +2009,9 @@ notify_volume_idle_cb (PtPlayer *self)
 }
 
 static void
-vol_changed (GObject *object,
+vol_changed (GObject    *object,
              GParamSpec *pspec,
-             PtPlayer *self)
+             PtPlayer   *self)
 {
   /* This is taken from Totem’s bacon-video-widget.c
      Changing the property immediately will crash, it has to be an idle source */
@@ -2028,7 +2028,7 @@ notify_mute_idle_cb (PtPlayer *self)
     return G_SOURCE_REMOVE;
 
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  gboolean mute;
+  gboolean         mute;
 
   g_object_get (priv->play, "mute", &mute, NULL);
 
@@ -2043,9 +2043,9 @@ notify_mute_idle_cb (PtPlayer *self)
 }
 
 static void
-mute_changed (GObject *object,
+mute_changed (GObject    *object,
               GParamSpec *pspec,
-              PtPlayer *self)
+              PtPlayer   *self)
 {
   guint id;
   id = g_idle_add ((GSourceFunc) notify_mute_idle_cb, self);
@@ -2061,9 +2061,9 @@ notify_uri_idle_cb (PtPlayer *self)
 }
 
 static void
-uri_changed (GObject *object,
+uri_changed (GObject    *object,
              GParamSpec *pspec,
-             PtPlayer *self)
+             PtPlayer   *self)
 {
   guint id;
   id = g_idle_add ((GSourceFunc) notify_uri_idle_cb, self);
@@ -2088,13 +2088,13 @@ uri_changed (GObject *object,
 gboolean
 pt_player_configure_asr (PtPlayer *self,
                          PtConfig *config,
-                         GError **error)
+                         GError  **error)
 {
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  gboolean result;
-  GstPtAudioBin *bin;
+  gboolean         result;
+  GstPtAudioBin   *bin;
 
   bin = GST_PT_AUDIO_BIN (priv->audio_bin);
   result = gst_pt_audio_bin_configure_asr (bin, config, error);
@@ -2124,10 +2124,10 @@ pt_player_config_is_loadable (PtPlayer *self,
   g_return_val_if_fail (PT_IS_CONFIG (config), FALSE);
 
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  gchar *plugin_name;
-  GstElement *plugin;
-  gpointer pointer;
-  gboolean result;
+  gchar           *plugin_name;
+  GstElement      *plugin;
+  gpointer         pointer;
+  gboolean         result;
 
   plugin_name = pt_config_get_plugin (config);
   if (!plugin_name)
@@ -2177,11 +2177,11 @@ pt_player_config_is_loadable (PtPlayer *self,
  * Since: 3.0
  */
 void
-pt_player_set_mode (PtPlayer *self,
+pt_player_set_mode (PtPlayer  *self,
                     PtModeType type)
 {
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  GstPtAudioBin *bin = GST_PT_AUDIO_BIN (priv->audio_bin);
+  GstPtAudioBin   *bin = GST_PT_AUDIO_BIN (priv->audio_bin);
   gst_pt_audio_bin_set_mode (bin, type);
 }
 
@@ -2199,14 +2199,14 @@ PtModeType
 pt_player_get_mode (PtPlayer *self)
 {
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  GstPtAudioBin *bin = GST_PT_AUDIO_BIN (priv->audio_bin);
+  GstPtAudioBin   *bin = GST_PT_AUDIO_BIN (priv->audio_bin);
   return gst_pt_audio_bin_get_mode (bin);
 }
 
 static void
 pt_player_constructed (GObject *object)
 {
-  PtPlayer *self = PT_PLAYER (object);
+  PtPlayer        *self = PT_PLAYER (object);
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
 
   /* This is responsible for syncing system volume with Parlatype volume.
@@ -2226,7 +2226,7 @@ pt_player_constructed (GObject *object)
 static void
 pt_player_dispose (GObject *object)
 {
-  PtPlayer *self = PT_PLAYER (object);
+  PtPlayer        *self = PT_PLAYER (object);
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
 
   remove_seek_source (self);
@@ -2250,7 +2250,7 @@ pt_player_dispose (GObject *object)
 static void
 pt_player_finalize (GObject *object)
 {
-  PtPlayer *self = PT_PLAYER (object);
+  PtPlayer        *self = PT_PLAYER (object);
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
 
   g_mutex_clear (&priv->lock);
@@ -2259,14 +2259,14 @@ pt_player_finalize (GObject *object)
 }
 
 static void
-pt_player_set_property (GObject *object,
-                        guint property_id,
+pt_player_set_property (GObject      *object,
+                        guint         property_id,
                         const GValue *value,
-                        GParamSpec *pspec)
+                        GParamSpec   *pspec)
 {
-  PtPlayer *self = PT_PLAYER (object);
+  PtPlayer        *self = PT_PLAYER (object);
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  const gchar *tmpchar;
+  const gchar     *tmpchar;
 
   switch (property_id)
     {
@@ -2337,14 +2337,14 @@ pt_player_set_property (GObject *object,
 }
 
 static void
-pt_player_get_property (GObject *object,
-                        guint property_id,
-                        GValue *value,
+pt_player_get_property (GObject    *object,
+                        guint       property_id,
+                        GValue     *value,
                         GParamSpec *pspec)
 {
-  PtPlayer *self = PT_PLAYER (object);
+  PtPlayer        *self = PT_PLAYER (object);
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  char *uri;
+  char            *uri;
 
   switch (property_id)
     {
@@ -2401,7 +2401,7 @@ pt_player_get_property (GObject *object,
 static void
 pt_player_init (PtPlayer *self)
 {
-  PtPlayerPrivate *priv = pt_player_get_instance_private (self);
+  PtPlayerPrivate   *priv = pt_player_get_instance_private (self);
   GstElementFactory *factory;
 
   priv->timestamp_precision = PT_PRECISION_SECOND_10TH;

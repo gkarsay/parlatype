@@ -34,13 +34,13 @@ struct _PtMpris
   PtController parent;
 
   GDBusConnection *connection;
-  GDBusNodeInfo *node_info;
-  guint name_own_id;
-  guint root_id;
-  guint player_id;
+  GDBusNodeInfo   *node_info;
+  guint            name_own_id;
+  guint            root_id;
+  guint            player_id;
 
   GHashTable *player_property_changes;
-  guint property_emit_id;
+  guint       property_emit_id;
 };
 
 G_DEFINE_TYPE (PtMpris, pt_mpris, PT_CONTROLLER_TYPE)
@@ -48,12 +48,12 @@ G_DEFINE_TYPE (PtMpris, pt_mpris, PT_CONTROLLER_TYPE)
 static void
 emit_property_changes (PtMpris *self, GHashTable *changes, const char *interface)
 {
-  GError *error = NULL;
+  GError          *error = NULL;
   GVariantBuilder *properties;
   GVariantBuilder *invalidated;
-  GVariant *parameters;
-  gpointer propname, propvalue;
-  GHashTableIter iter;
+  GVariant        *parameters;
+  gpointer         propname, propvalue;
+  GHashTableIter   iter;
 
   /* build property changes */
   properties = g_variant_builder_new (G_VARIANT_TYPE ("a{sv}"));
@@ -111,9 +111,9 @@ emit_properties_idle (PtMpris *self)
 }
 
 static void
-add_player_property_change (PtMpris *self,
+add_player_property_change (PtMpris    *self,
                             const char *property,
-                            GVariant *value)
+                            GVariant   *value)
 {
   if (self->player_property_changes == NULL)
     {
@@ -128,14 +128,14 @@ add_player_property_change (PtMpris *self,
 }
 
 static void
-handle_root_method_call (GDBusConnection *connection,
-                         const char *sender,
-                         const char *object_path,
-                         const char *interface_name,
-                         const char *method_name,
-                         GVariant *parameters,
+handle_root_method_call (GDBusConnection       *connection,
+                         const char            *sender,
+                         const char            *object_path,
+                         const char            *interface_name,
+                         const char            *method_name,
+                         GVariant              *parameters,
                          GDBusMethodInvocation *invocation,
-                         PtMpris *self)
+                         PtMpris               *self)
 {
   PtWindow *window = pt_controller_get_window (PT_CONTROLLER (self));
 
@@ -174,12 +174,12 @@ handle_root_method_call (GDBusConnection *connection,
 
 static GVariant *
 get_root_property (GDBusConnection *connection,
-                   const char *sender,
-                   const char *object_path,
-                   const char *interface_name,
-                   const char *property_name,
-                   GError **error,
-                   PtMpris *self)
+                   const char      *sender,
+                   const char      *object_path,
+                   const char      *interface_name,
+                   const char      *property_name,
+                   GError         **error,
+                   PtMpris         *self)
 {
   if (g_strcmp0 (object_path, MPRIS_OBJECT_NAME) != 0 ||
       g_strcmp0 (interface_name, MPRIS_ROOT_INTERFACE) != 0)
@@ -274,9 +274,9 @@ handle_result (GDBusMethodInvocation *invocation, gboolean ret, GError *error)
 }
 
 static void
-build_track_metadata (PtMpris *self,
+build_track_metadata (PtMpris         *self,
                       GVariantBuilder *builder,
-                      PtPlayer *player)
+                      PtPlayer        *player)
 {
   gchar *uri;
 
@@ -299,19 +299,19 @@ build_track_metadata (PtMpris *self,
 }
 
 static void
-handle_player_method_call (GDBusConnection *connection,
-                           const char *sender,
-                           const char *object_path,
-                           const char *interface_name,
-                           const char *method_name,
-                           GVariant *parameters,
+handle_player_method_call (GDBusConnection       *connection,
+                           const char            *sender,
+                           const char            *object_path,
+                           const char            *interface_name,
+                           const char            *method_name,
+                           GVariant              *parameters,
                            GDBusMethodInvocation *invocation,
-                           PtMpris *self)
+                           PtMpris               *self)
 
 {
   PtPlayer *player = pt_controller_get_player (PT_CONTROLLER (self));
-  GError *error = NULL;
-  gboolean ret;
+  GError   *error = NULL;
+  gboolean  ret;
 
   if (g_strcmp0 (object_path, MPRIS_OBJECT_NAME) != 0 ||
       g_strcmp0 (interface_name, MPRIS_PLAYER_INTERFACE) != 0)
@@ -365,7 +365,7 @@ handle_player_method_call (GDBusConnection *connection,
     }
   else if (g_strcmp0 (method_name, "SetPosition") == 0)
     {
-      gint64 position;
+      gint64      position;
       const char *trackid;
 
       g_variant_get (parameters, "(&ox)", &trackid, &position);
@@ -411,7 +411,7 @@ handle_player_method_call (GDBusConnection *connection,
 static GVariant *
 get_playback_status (PtMpris *self)
 {
-  PtPlayer *player = pt_controller_get_player (PT_CONTROLLER (self));
+  PtPlayer   *player = pt_controller_get_player (PT_CONTROLLER (self));
   PtStateType state;
 
   g_object_get (player, "state", &state, NULL);
@@ -431,14 +431,14 @@ get_playback_status (PtMpris *self)
 
 static GVariant *
 get_player_property (GDBusConnection *connection,
-                     const char *sender,
-                     const char *object_path,
-                     const char *interface_name,
-                     const char *property_name,
-                     GError **error,
-                     PtMpris *self)
+                     const char      *sender,
+                     const char      *object_path,
+                     const char      *interface_name,
+                     const char      *property_name,
+                     GError         **error,
+                     PtMpris         *self)
 {
-  PtPlayer *player = pt_controller_get_player (PT_CONTROLLER (self));
+  PtPlayer   *player = pt_controller_get_player (PT_CONTROLLER (self));
   PtStateType state;
 
   if (g_strcmp0 (object_path, MPRIS_OBJECT_NAME) != 0 ||
@@ -464,7 +464,7 @@ get_player_property (GDBusConnection *connection,
   else if (g_strcmp0 (property_name, "Metadata") == 0)
     {
       GVariantBuilder *builder;
-      GVariant *v;
+      GVariant        *v;
 
       builder = g_variant_builder_new (G_VARIANT_TYPE ("a{sv}"));
       build_track_metadata (self, builder, player);
@@ -551,13 +551,13 @@ get_player_property (GDBusConnection *connection,
 
 static gboolean
 set_player_property (GDBusConnection *connection,
-                     const char *sender,
-                     const char *object_path,
-                     const char *interface_name,
-                     const char *property_name,
-                     GVariant *value,
-                     GError **error,
-                     PtMpris *self)
+                     const char      *sender,
+                     const char      *object_path,
+                     const char      *interface_name,
+                     const char      *property_name,
+                     GVariant        *value,
+                     GError         **error,
+                     PtMpris         *self)
 {
   PtPlayer *player = pt_controller_get_player (PT_CONTROLLER (self));
 
@@ -602,7 +602,7 @@ static const GDBusInterfaceVTable player_vtable = {
 static void
 state_changed_cb (GObject *object, GParamSpec *pspec, PtMpris *self)
 {
-  PtPlayer *player = pt_controller_get_player (PT_CONTROLLER (self));
+  PtPlayer   *player = pt_controller_get_player (PT_CONTROLLER (self));
   PtStateType state;
 
   g_object_get (player, "state", &state, NULL);
@@ -633,7 +633,7 @@ volume_changed_cb (GObject *object, GParamSpec *pspec, PtMpris *self)
 static void
 uri_changed_cb (GObject *object, GParamSpec *pspec, PtMpris *self)
 {
-  PtPlayer *player = pt_controller_get_player (PT_CONTROLLER (self));
+  PtPlayer        *player = pt_controller_get_player (PT_CONTROLLER (self));
   GVariantBuilder *builder;
 
   builder = g_variant_builder_new (G_VARIANT_TYPE ("a{sv}"));
@@ -660,9 +660,9 @@ name_lost_cb (GDBusConnection *connection, const char *name, PtMpris *self)
 void
 pt_mpris_start (PtMpris *self)
 {
-  PtPlayer *player = pt_controller_get_player (PT_CONTROLLER (self));
+  PtPlayer           *player = pt_controller_get_player (PT_CONTROLLER (self));
   GDBusInterfaceInfo *ifaceinfo;
-  GError *error = NULL;
+  GError             *error = NULL;
 
   self->connection = g_bus_get_sync (G_BUS_TYPE_SESSION, NULL, &error);
   if (error != NULL)
@@ -751,7 +751,7 @@ pt_mpris_init (PtMpris *self)
 static void
 pt_mpris_dispose (GObject *object)
 {
-  PtMpris *self = PT_MPRIS (object);
+  PtMpris  *self = PT_MPRIS (object);
   PtPlayer *player = pt_controller_get_player (PT_CONTROLLER (self));
 
   if (self->root_id != 0)

@@ -200,19 +200,19 @@ struct _GstParlasphinx
   GstPad *sinkpad, *srcpad;
 
   ps_decoder_t *ps;
-  cmd_ln_t *config;
+  cmd_ln_t     *config;
 
   gchar *latdir; /**< Output directory for word lattices. */
 
   gboolean speech_started;
   gboolean listening_started;
-  gint uttno;
+  gint     uttno;
 
   GstClockTime last_result_time; /**< Timestamp of last partial result. */
-  char *last_result;             /**< String of last partial result. */
+  char        *last_result;      /**< String of last partial result. */
 
   GstSegment segment;
-  gboolean eos;
+  gboolean   eos;
 };
 
 G_DEFINE_TYPE (GstParlasphinx, gst_parlasphinx, GST_TYPE_ELEMENT);
@@ -220,7 +220,7 @@ G_DEFINE_TYPE (GstParlasphinx, gst_parlasphinx, GST_TYPE_ELEMENT);
 static void
 gst_parlasphinx_class_init (GstParlasphinxClass *klass)
 {
-  GObjectClass *gobject_class;
+  GObjectClass    *gobject_class;
   GstElementClass *element_class;
   ;
 
@@ -344,8 +344,8 @@ gst_parlasphinx_class_init (GstParlasphinxClass *klass)
 
 static void
 gst_parlasphinx_set_string (GstParlasphinx *self,
-                            const gchar *key,
-                            const GValue *value)
+                            const gchar    *key,
+                            const GValue   *value)
 {
   if (value != NULL)
     {
@@ -359,24 +359,24 @@ gst_parlasphinx_set_string (GstParlasphinx *self,
 
 static void
 gst_parlasphinx_set_int (GstParlasphinx *self,
-                         const gchar *key,
-                         const GValue *value)
+                         const gchar    *key,
+                         const GValue   *value)
 {
   cmd_ln_set_int32_r (self->config, key, g_value_get_int (value));
 }
 
 static void
 gst_parlasphinx_set_boolean (GstParlasphinx *self,
-                             const gchar *key,
-                             const GValue *value)
+                             const gchar    *key,
+                             const GValue   *value)
 {
   cmd_ln_set_boolean_r (self->config, key, g_value_get_boolean (value));
 }
 
 static void
 gst_parlasphinx_set_double (GstParlasphinx *self,
-                            const gchar *key,
-                            const GValue *value)
+                            const gchar    *key,
+                            const GValue   *value)
 {
   cmd_ln_set_float_r (self->config, key, g_value_get_double (value));
 }
@@ -626,11 +626,11 @@ gst_parlasphinx_init (GstParlasphinx *self)
 static GstStateChangeReturn
 gst_parlasphinx_change_state (GstElement *element, GstStateChange transition)
 {
-  GstParlasphinx *self = GST_PARLASPHINX (element);
+  GstParlasphinx      *self = GST_PARLASPHINX (element);
   GstStateChangeReturn ret;
-  GstEvent *seek = NULL;
-  GstSegment *seg = NULL;
-  gboolean success;
+  GstEvent            *seek = NULL;
+  GstSegment          *seg = NULL;
+  gboolean             success;
 
   /* handle upward state changes */
   switch (transition)
@@ -697,9 +697,9 @@ static GstFlowReturn
 gst_parlasphinx_chain (GstPad *pad, GstObject *parent, GstBuffer *buffer)
 {
   GstParlasphinx *self;
-  GstMapInfo info;
-  gboolean in_speech;
-  GstClockTime position, duration;
+  GstMapInfo      info;
+  gboolean        in_speech;
+  GstClockTime    position, duration;
 
   self = GST_PARLASPHINX (parent);
 
@@ -747,7 +747,7 @@ gst_parlasphinx_chain (GstPad *pad, GstObject *parent, GstBuffer *buffer)
            /* Check every 100 milliseconds. */
            || (GST_BUFFER_TIMESTAMP (buffer) - self->last_result_time) > GST_MSECOND * 500)
     {
-      int32 score;
+      int32       score;
       char const *hyp;
 
       hyp = ps_get_hyp (self->ps, &score);
@@ -771,7 +771,7 @@ static void
 gst_parlasphinx_finalize_utt (GstParlasphinx *self)
 {
   char const *hyp;
-  int32 score;
+  int32       score;
 
   hyp = NULL;
   if (!self->listening_started)
@@ -788,7 +788,7 @@ gst_parlasphinx_finalize_utt (GstParlasphinx *self)
   if (self->latdir)
     {
       char *latfile;
-      char uttid[16];
+      char  uttid[16];
 
       sprintf (uttid, "%09u", self->uttno);
       self->uttno++;

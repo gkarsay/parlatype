@@ -22,13 +22,13 @@ struct _PtConfigList
 {
   GObject parent;
 
-  GListStore *store;           /* actual config store              */
-  GFile *config_folder;        /* user’s config folder             */
-  GtkDirectoryList *file_list; /* lists config files               */
-  PtPlayer *player;            /* determines if config is loadable */
-  GSettings *editor;           /* gets active config               */
-  gchar *active_path;          /* active config’s file path        */
-  gchar *env_lang;             /* user’s locale for sorting        */
+  GListStore       *store;         /* actual config store              */
+  GFile            *config_folder; /* user’s config folder             */
+  GtkDirectoryList *file_list;     /* lists config files               */
+  PtPlayer         *player;        /* determines if config is loadable */
+  GSettings        *editor;        /* gets active config               */
+  gchar            *active_path;   /* active config’s file path        */
+  gchar            *env_lang;      /* user’s locale for sorting        */
 };
 
 static void pt_config_list_iface_init (GListModelInterface *iface);
@@ -50,7 +50,7 @@ pt_config_list_get_n_items (GListModel *list)
 
 static gpointer
 pt_config_list_get_item (GListModel *list,
-                         guint position)
+                         guint       position)
 {
   PtConfigList *self = PT_CONFIG_LIST (list);
   return g_list_model_get_item (G_LIST_MODEL (self->store), position);
@@ -67,22 +67,22 @@ pt_config_list_iface_init (GListModelInterface *iface)
 static int
 sort_configs (gconstpointer p1,
               gconstpointer p2,
-              gpointer user_data)
+              gpointer      user_data)
 {
   /* 1st sort order: 1) Active
    *                 2) Installed
    *                 3) Not installed */
 
-  PtConfig *c1 = PT_CONFIG ((void *) p1);
-  PtConfig *c2 = PT_CONFIG ((void *) p2);
+  PtConfig     *c1 = PT_CONFIG ((void *) p1);
+  PtConfig     *c2 = PT_CONFIG ((void *) p2);
   PtConfigList *self = PT_CONFIG_LIST (user_data);
-  GFile *file;
-  gchar *path;
-  int left = 0;
-  int right = 0;
-  int comp;
-  gchar *str1, *str2;
-  gboolean active, prefix1, prefix2;
+  GFile        *file;
+  gchar        *path;
+  int           left = 0;
+  int           right = 0;
+  int           comp;
+  gchar        *str1, *str2;
+  gboolean      active, prefix1, prefix2;
 
   if (self->active_path[0])
     {
@@ -151,17 +151,17 @@ sort_configs (gconstpointer p1,
 
 static void
 file_list_items_changed_cb (GListModel *list,
-                            guint position,
-                            guint removed,
-                            guint added,
-                            gpointer user_data)
+                            guint       position,
+                            guint       removed,
+                            guint       added,
+                            gpointer    user_data)
 {
   PtConfigList *self = PT_CONFIG_LIST (user_data);
-  GFileInfo *info;
-  GFile *file;
-  gchar *path;
-  PtConfig *config;
-  guint n_files = 0;
+  GFileInfo    *info;
+  GFile        *file;
+  gchar        *path;
+  PtConfig     *config;
+  guint         n_files = 0;
 
   n_files = g_list_model_get_n_items (list);
   for (int i = 0; i < n_files; i++)
@@ -198,9 +198,9 @@ file_list_items_changed_cb (GListModel *list,
 }
 
 static void
-file_list_error_cb (GObject *object,
+file_list_error_cb (GObject    *object,
                     GParamSpec *pspec,
-                    gpointer user_data)
+                    gpointer    user_data)
 {
   PtConfigList *self = PT_CONFIG_LIST (user_data);
   const GError *error;
@@ -223,14 +223,14 @@ create_file_list (PtConfigList *self)
 }
 
 static void
-make_config_dir_cb (GObject *source_object,
+make_config_dir_cb (GObject      *source_object,
                     GAsyncResult *res,
-                    gpointer user_data)
+                    gpointer      user_data)
 {
   PtConfigList *self = PT_CONFIG_LIST (user_data);
-  GFile *config_folder = G_FILE (source_object);
-  GError *error = NULL;
-  gboolean success;
+  GFile        *config_folder = G_FILE (source_object);
+  GError       *error = NULL;
+  gboolean      success;
 
   success = g_file_make_directory_finish (config_folder, res, &error);
 
@@ -312,7 +312,7 @@ pt_config_list_dispose (GObject *object)
 static void
 pt_config_list_init (PtConfigList *self)
 {
-  gchar *path;
+  gchar              *path;
   const gchar *const *env_langs;
 
   path = g_build_path (G_DIR_SEPARATOR_S,
@@ -343,7 +343,7 @@ pt_config_list_class_init (PtConfigListClass *klass)
 
 static void
 pt_config_list_set_player (PtConfigList *self,
-                           PtPlayer *player)
+                           PtPlayer     *player)
 {
   self->player = player;
 }

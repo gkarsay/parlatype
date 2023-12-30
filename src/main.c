@@ -31,7 +31,7 @@ main (int argc, char *argv[])
   textdomain (PACKAGE_NAME);
 
   PtApp *app;
-  gint app_status;
+  gint   app_status;
 
   app = pt_app_new ();
   app_status = g_application_run (G_APPLICATION (app), argc, argv);

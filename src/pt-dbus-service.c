@@ -70,8 +70,8 @@ static const gchar introspection_xml[] =
 
 static void
 player_asr_final_cb (PtPlayer *player,
-                     gchar *word,
-                     gpointer user_data)
+                     gchar    *word,
+                     gpointer  user_data)
 {
   GDBusConnection *connection = G_DBUS_CONNECTION (user_data);
   g_dbus_connection_emit_signal (connection,
@@ -85,8 +85,8 @@ player_asr_final_cb (PtPlayer *player,
 
 static void
 player_asr_hypothesis_cb (PtPlayer *player,
-                          gchar *word,
-                          gpointer user_data)
+                          gchar    *word,
+                          gpointer  user_data)
 {
   GDBusConnection *connection = G_DBUS_CONNECTION (user_data);
   g_dbus_connection_emit_signal (connection,
@@ -99,17 +99,17 @@ player_asr_hypothesis_cb (PtPlayer *player,
 }
 
 static void
-handle_method_call (GDBusConnection *connection,
-                    const gchar *sender,
-                    const gchar *object_path,
-                    const gchar *interface_name,
-                    const gchar *method_name,
-                    GVariant *parameters,
+handle_method_call (GDBusConnection       *connection,
+                    const gchar           *sender,
+                    const gchar           *object_path,
+                    const gchar           *interface_name,
+                    const gchar           *method_name,
+                    GVariant              *parameters,
                     GDBusMethodInvocation *invocation,
-                    gpointer user_data)
+                    gpointer               user_data)
 {
   PtDbusService *self = PT_DBUS_SERVICE (user_data);
-  PtPlayer *player = pt_controller_get_player (PT_CONTROLLER (self));
+  PtPlayer      *player = pt_controller_get_player (PT_CONTROLLER (self));
 
   gchar *timestamp = NULL;
   gchar *uri;
@@ -189,12 +189,12 @@ static const GDBusInterfaceVTable interface_vtable = {
 
 static void
 on_bus_acquired (GDBusConnection *connection,
-                 const gchar *name,
-                 gpointer user_data)
+                 const gchar     *name,
+                 gpointer         user_data)
 {
   PtDbusService *self = PT_DBUS_SERVICE (user_data);
-  PtPlayer *player = pt_controller_get_player (PT_CONTROLLER (self));
-  guint registration_id;
+  PtPlayer      *player = pt_controller_get_player (PT_CONTROLLER (self));
+  guint          registration_id;
 
   registration_id = g_dbus_connection_register_object (connection,
                                                        "/org/parlatype/parlatype",
@@ -218,15 +218,15 @@ on_bus_acquired (GDBusConnection *connection,
 
 static void
 on_name_acquired (GDBusConnection *connection,
-                  const gchar *name,
-                  gpointer user_data)
+                  const gchar     *name,
+                  gpointer         user_data)
 {
 }
 
 static void
 on_name_lost (GDBusConnection *connection,
-              const gchar *name,
-              gpointer user_data)
+              const gchar     *name,
+              gpointer         user_data)
 {
 }
 

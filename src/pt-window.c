@@ -31,44 +31,44 @@
 struct _PtWindow
 {
   GtkApplicationWindow parent;
-  PtPlayer *player;
-  GtkWidget *waveviewer;
-  GSettings *editor;
-  GtkWidget *primary_menu_button;
-  GtkWidget *pos_menu_button;
+  PtPlayer            *player;
+  GtkWidget           *waveviewer;
+  GSettings           *editor;
+  GtkWidget           *primary_menu_button;
+  GtkWidget           *pos_menu_button;
 
   GtkRecentManager *recent;
-  PtConfig *asr_config;
+  PtConfig         *asr_config;
 
   GdkClipboard *clip;
-  gulong clip_handler_id;
+  gulong        clip_handler_id;
 
   /* Headerbar widgets */
   GtkWidget *button_open;
 
   /* Main window widgets */
-  GtkWidget *controls_row_box;
-  GtkWidget *controls_box;
-  GtkWidget *progress;
-  GtkWidget *button_play;
-  GtkWidget *button_jump_back;
-  GtkWidget *button_jump_forward;
-  GtkWidget *volumebutton;
-  GStrv vol_icons;
+  GtkWidget  *controls_row_box;
+  GtkWidget  *controls_box;
+  GtkWidget  *progress;
+  GtkWidget  *button_play;
+  GtkWidget  *button_jump_back;
+  GtkWidget  *button_jump_forward;
+  GtkWidget  *volumebutton;
+  GStrv       vol_icons;
   GtkGesture *vol_event;
-  GMenuItem *go_to_timestamp;
-  GtkWidget *speed_scale;
+  GMenuItem  *go_to_timestamp;
+  GtkWidget  *speed_scale;
 
   GMenuModel *primary_menu;
   GMenuModel *secondary_menu;
-  GMenu *asr_menu;
-  GMenuItem *asr_menu_item1;
-  GMenuItem *asr_menu_item2;
-  gboolean asr;
+  GMenu      *asr_menu;
+  GMenuItem  *asr_menu_item1;
+  GMenuItem  *asr_menu_item2;
+  gboolean    asr;
 
   gint64 last_time; // last time to compare if it changed
 
-  gint timer;
+  gint    timer;
   gdouble speed;
 };
 
@@ -77,7 +77,7 @@ G_DEFINE_TYPE (PtWindow, pt_window, GTK_TYPE_APPLICATION_WINDOW)
 static void play_button_toggled_cb (GtkToggleButton *button, PtWindow *self);
 
 void
-pt_error_message (PtWindow *parent,
+pt_error_message (PtWindow    *parent,
                   const gchar *message,
                   const gchar *secondary_message)
 {
@@ -103,10 +103,10 @@ pt_error_message (PtWindow *parent,
 
 void
 copy_timestamp (GSimpleAction *action,
-                GVariant *parameter,
-                gpointer user_data)
+                GVariant      *parameter,
+                gpointer       user_data)
 {
-  PtWindow *self = PT_WINDOW (user_data);
+  PtWindow    *self = PT_WINDOW (user_data);
   const gchar *timestamp = NULL;
 
   timestamp = pt_player_get_timestamp (self->player);
@@ -117,11 +117,11 @@ copy_timestamp (GSimpleAction *action,
 static void
 clip_text_cb (GdkClipboard *clip,
               GAsyncResult *res,
-              gpointer data)
+              gpointer      data)
 {
   PtWindow *self = (PtWindow *) data;
-  GError *error = NULL;
-  gchar *timestamp;
+  GError   *error = NULL;
+  gchar    *timestamp;
 
   timestamp = gdk_clipboard_read_text_finish (clip, res, &error);
 
@@ -139,8 +139,8 @@ clip_text_cb (GdkClipboard *clip,
 
 void
 insert_timestamp (GSimpleAction *action,
-                  GVariant *parameter,
-                  gpointer user_data)
+                  GVariant      *parameter,
+                  gpointer       user_data)
 {
   PtWindow *self = PT_WINDOW (user_data);
 
@@ -153,11 +153,11 @@ insert_timestamp (GSimpleAction *action,
 
 static void
 goto_dialog_response_cb (GtkDialog *dlg,
-                         gint response_id,
-                         gpointer user_data)
+                         gint       response_id,
+                         gpointer   user_data)
 {
   PtWindow *self = PT_WINDOW (user_data);
-  gint pos;
+  gint      pos;
 
   if (response_id == GTK_RESPONSE_OK)
     {
@@ -171,8 +171,8 @@ goto_dialog_response_cb (GtkDialog *dlg,
 
 void
 goto_position (GSimpleAction *action,
-               GVariant *parameter,
-               gpointer user_data)
+               GVariant      *parameter,
+               gpointer       user_data)
 {
   PtWindow *self = PT_WINDOW (user_data);
 
@@ -190,8 +190,8 @@ goto_position (GSimpleAction *action,
 
 void
 goto_cursor (GSimpleAction *action,
-             GVariant *parameter,
-             gpointer user_data)
+             GVariant      *parameter,
+             gpointer       user_data)
 {
   PtWindow *self = PT_WINDOW (user_data);
 
@@ -200,8 +200,8 @@ goto_cursor (GSimpleAction *action,
 
 void
 jump_back (GSimpleAction *action,
-           GVariant *parameter,
-           gpointer user_data)
+           GVariant      *parameter,
+           gpointer       user_data)
 {
   PtWindow *self = PT_WINDOW (user_data);
 
@@ -210,8 +210,8 @@ jump_back (GSimpleAction *action,
 
 void
 jump_forward (GSimpleAction *action,
-              GVariant *parameter,
-              gpointer user_data)
+              GVariant      *parameter,
+              gpointer       user_data)
 {
   PtWindow *self = PT_WINDOW (user_data);
 
@@ -220,8 +220,8 @@ jump_forward (GSimpleAction *action,
 
 void
 play (GSimpleAction *action,
-      GVariant *parameter,
-      gpointer user_data)
+      GVariant      *parameter,
+      gpointer       user_data)
 {
   PtWindow *self = PT_WINDOW (user_data);
 
@@ -230,7 +230,7 @@ play (GSimpleAction *action,
 
 static void
 set_zoom (GSettings *editor,
-          gint step)
+          gint       step)
 {
   gint pps;
 
@@ -243,8 +243,8 @@ set_zoom (GSettings *editor,
 
 void
 zoom_in (GSimpleAction *action,
-         GVariant *parameter,
-         gpointer user_data)
+         GVariant      *parameter,
+         gpointer       user_data)
 {
   PtWindow *self = PT_WINDOW (user_data);
   set_zoom (self->editor, 25);
@@ -252,8 +252,8 @@ zoom_in (GSimpleAction *action,
 
 void
 zoom_out (GSimpleAction *action,
-          GVariant *parameter,
-          gpointer user_data)
+          GVariant      *parameter,
+          gpointer       user_data)
 {
   PtWindow *self = PT_WINDOW (user_data);
   set_zoom (self->editor, -25);
@@ -262,7 +262,7 @@ zoom_out (GSimpleAction *action,
 static gboolean
 setup_asr (PtWindow *self)
 {
-  GError *error = NULL;
+  GError  *error = NULL;
   gboolean success;
 
   success = pt_player_configure_asr (
@@ -286,12 +286,12 @@ set_mode_playback (PtWindow *self)
 
 void
 change_mode (GSimpleAction *action,
-             GVariant *state,
-             gpointer user_data)
+             GVariant      *state,
+             gpointer       user_data)
 {
-  PtWindow *self = PT_WINDOW (user_data);
+  PtWindow    *self = PT_WINDOW (user_data);
   const gchar *mode;
-  gboolean success = TRUE;
+  gboolean     success = TRUE;
 
   /* Work around synchronisation issues in PtPlayer in playing state */
   pt_player_pause (self->player);
@@ -364,9 +364,9 @@ update_time (PtWindow *self)
 }
 
 static gboolean
-update_time_tick (GtkWidget *widget,
+update_time_tick (GtkWidget     *widget,
                   GdkFrameClock *frame_clock,
-                  gpointer data)
+                  gpointer       data)
 {
   PtWindow *self = (PtWindow *) data;
   update_time (self);
@@ -401,7 +401,7 @@ static void
 change_jump_back_tooltip (PtWindow *self)
 {
   gchar *back;
-  gint seconds;
+  gint   seconds;
 
   seconds = pt_player_get_back (self->player) / 1000;
   back = g_strdup_printf (
@@ -418,7 +418,7 @@ static void
 change_jump_forward_tooltip (PtWindow *self)
 {
   gchar *forward;
-  gint seconds;
+  gint   seconds;
 
   seconds = pt_player_get_forward (self->player) / 1000;
   forward = g_strdup_printf (
@@ -434,8 +434,8 @@ change_jump_forward_tooltip (PtWindow *self)
 static void
 change_play_button_tooltip (PtWindow *self)
 {
-  gchar *play;
-  gint pause;
+  gchar   *play;
+  gint     pause;
   gboolean free_me = FALSE;
 
   pause = pt_player_get_pause (self->player) / 1000;
@@ -468,16 +468,16 @@ change_play_button_tooltip (PtWindow *self)
 static void
 update_insert_action_sensitivity_cb (GdkClipboard *clip,
                                      GAsyncResult *res,
-                                     gpointer data)
+                                     gpointer      data)
 {
   PtWindow *self = PT_WINDOW (data);
   PtPlayer *player = self->player;
-  gchar *text;
-  gchar *timestamp = NULL;
-  gboolean result = FALSE;
-  GAction *action;
-  gint pos;
-  gchar *label;
+  gchar    *text;
+  gchar    *timestamp = NULL;
+  gboolean  result = FALSE;
+  GAction  *action;
+  gint      pos;
+  gchar    *label;
 
   text = gdk_clipboard_read_text_finish (clip, res, NULL);
 
@@ -511,7 +511,7 @@ update_insert_action_sensitivity_cb (GdkClipboard *clip,
 
 static void
 update_insert_action_sensitivity (GdkClipboard *clip,
-                                  gpointer data)
+                                  gpointer      data)
 {
   PtWindow *self = PT_WINDOW (data);
 
@@ -523,14 +523,14 @@ update_insert_action_sensitivity (GdkClipboard *clip,
 }
 
 static void
-update_goto_cursor_action_sensitivity (GObject *gobject,
+update_goto_cursor_action_sensitivity (GObject    *gobject,
                                        GParamSpec *pspec,
-                                       gpointer user_data)
+                                       gpointer    user_data)
 {
   PtWaveviewer *viewer = PT_WAVEVIEWER (gobject);
-  PtWindow *self = PT_WINDOW (user_data);
-  GAction *action;
-  gboolean follow;
+  PtWindow     *self = PT_WINDOW (user_data);
+  GAction      *action;
+  gboolean      follow;
 
   action = g_action_map_lookup_action (G_ACTION_MAP (self), "goto-cursor");
   follow = pt_waveviewer_get_follow_cursor (viewer);
@@ -539,7 +539,7 @@ update_goto_cursor_action_sensitivity (GObject *gobject,
 
 static void
 enable_win_actions (PtWindow *self,
-                    gboolean state)
+                    gboolean  state)
 {
   GAction *action;
 
@@ -577,7 +577,7 @@ enable_win_actions (PtWindow *self,
 
 static void
 pt_window_ready_to_play (PtWindow *self,
-                         gboolean state)
+                         gboolean  state)
 {
   /* Set up widget sensitivity/visibility, actions, labels, window title
      and timer according to the state of PtPlayer (ready to play or not).
@@ -630,7 +630,7 @@ pt_window_ready_to_play (PtWindow *self,
 
 static void
 player_error_cb (PtPlayer *player,
-                 GError *error,
+                 GError   *error,
                  PtWindow *self)
 {
   pt_window_ready_to_play (self, FALSE);
@@ -640,10 +640,10 @@ player_error_cb (PtPlayer *player,
 static void
 open_cb (PtWaveviewer *viewer,
          GAsyncResult *res,
-         gpointer *data)
+         gpointer     *data)
 {
   PtWindow *self = (PtWindow *) data;
-  GError *error = NULL;
+  GError   *error = NULL;
 
   if (!pt_waveviewer_load_wave_finish (viewer, res, &error))
     {
@@ -662,12 +662,12 @@ pt_window_get_uri (PtWindow *self)
 
 void
 pt_window_open_file (PtWindow *self,
-                     gchar *uri)
+                     gchar    *uri)
 {
   g_return_if_fail (uri != NULL);
 
   gchar *current_uri;
-  gint cmp = 1;
+  gint   cmp = 1;
 
   /* Don't reload already loaded waveform */
   current_uri = pt_player_get_uri (self->player);
@@ -691,7 +691,7 @@ pt_window_open_file (PtWindow *self,
 }
 
 static void
-update_play_after_toggle (PtWindow *self,
+update_play_after_toggle (PtWindow        *self,
                           GtkToggleButton *button)
 {
   if (gtk_toggle_button_get_active (button))
@@ -720,7 +720,7 @@ player_play_toggled_cb (PtPlayer *player,
 
 static void
 play_button_toggled_cb (GtkToggleButton *button,
-                        PtWindow *self)
+                        PtWindow        *self)
 {
   /* GUI button toggled, block signals from PtPlayer */
   g_signal_handlers_block_by_func (self->player, player_play_toggled_cb, self);
@@ -741,7 +741,7 @@ player_end_of_stream_cb (PtPlayer *player,
 }
 
 static void
-pt_window_direction_changed (GtkWidget *widget,
+pt_window_direction_changed (GtkWidget       *widget,
                              GtkTextDirection previous_direction)
 {
   /* In RTL layouts playback control elements are *not* supposed to be
@@ -763,10 +763,10 @@ pt_window_direction_changed (GtkWidget *widget,
 static void
 set_asr_config (PtWindow *self)
 {
-  GFile *asr_file;
-  gchar *asr_path;
-  GAction *action;
-  GVariant *variant;
+  GFile       *asr_file;
+  gchar       *asr_path;
+  GAction     *action;
+  GVariant    *variant;
   const gchar *mode;
 
   /* called when config file changed (and on startup);
@@ -822,8 +822,8 @@ set_asr_config (PtWindow *self)
 
 static void
 settings_changed_cb (GSettings *settings,
-                     gchar *key,
-                     PtWindow *self)
+                     gchar     *key,
+                     PtWindow  *self)
 {
   if (g_strcmp0 (key, "rewind-on-pause") == 0)
     {
@@ -851,9 +851,9 @@ settings_changed_cb (GSettings *settings,
 }
 
 static gboolean
-map_seconds_to_milliseconds (GValue *value,
+map_seconds_to_milliseconds (GValue   *value,
                              GVariant *variant,
-                             gpointer data)
+                             gpointer  data)
 {
   /* Settings store seconds, PtPlayer wants milliseconds */
   gint new;
@@ -864,9 +864,9 @@ map_seconds_to_milliseconds (GValue *value,
 }
 
 static GVariant *
-map_milliseconds_to_seconds (const GValue *value,
+map_milliseconds_to_seconds (const GValue       *value,
                              const GVariantType *type,
-                             gpointer data)
+                             gpointer            data)
 {
   gint new;
   new = g_value_get_int (value);
@@ -971,17 +971,17 @@ setup_settings (PtWindow *self)
 }
 
 static void
-volume_button_update_mute (GObject *gobject,
+volume_button_update_mute (GObject    *gobject,
                            GParamSpec *pspec,
-                           gpointer user_data)
+                           gpointer    user_data)
 {
   /* Switch icons of volume button depending on mute state.
    * If muted, only the mute icon is shown (volume can still be adjusted).
    * In normal state restore original icon set. */
 
-  PtWindow *self = PT_WINDOW (user_data);
+  PtWindow       *self = PT_WINDOW (user_data);
   GtkScaleButton *volumebutton = GTK_SCALE_BUTTON (self->volumebutton);
-  const gchar *mute_icon[] = { (gchar *) self->vol_icons[0], NULL };
+  const gchar    *mute_icon[] = { (gchar *) self->vol_icons[0], NULL };
 
   if (pt_player_get_mute (self->player))
     {
@@ -994,21 +994,21 @@ volume_button_update_mute (GObject *gobject,
 }
 
 static void
-volume_button_update_volume (GObject *gobject,
+volume_button_update_volume (GObject    *gobject,
                              GParamSpec *pspec,
-                             gpointer user_data)
+                             gpointer    user_data)
 {
-  PtWindow *self = PT_WINDOW (user_data);
+  PtWindow       *self = PT_WINDOW (user_data);
   GtkScaleButton *volumebutton = GTK_SCALE_BUTTON (self->volumebutton);
-  gdouble volume = pt_player_get_volume (self->player);
+  gdouble         volume = pt_player_get_volume (self->player);
 
   gtk_scale_button_set_value (volumebutton, volume);
 }
 
 static gboolean
 volume_button_value_changed_cb (GtkWidget *volumebutton,
-                                gdouble value,
-                                gpointer user_data)
+                                gdouble    value,
+                                gpointer   user_data)
 {
   PtWindow *self = PT_WINDOW (user_data);
   pt_player_set_volume (self->player, value);
@@ -1017,14 +1017,14 @@ volume_button_value_changed_cb (GtkWidget *volumebutton,
 
 static gboolean
 volume_button_event_cb (GtkEventControllerLegacy *ctrl,
-                        GdkEvent *event,
-                        gpointer user_data)
+                        GdkEvent                 *event,
+                        gpointer                  user_data)
 {
   /* This is for pulseaudiosink in paused state. It doesn't notify of
    * volume/mute changes. Update values when user is interacting with
    * the volume button. */
 
-  PtWindow *self = PT_WINDOW (user_data);
+  PtWindow  *self = PT_WINDOW (user_data);
   GtkWidget *volumebutton;
 
   volumebutton = gtk_event_controller_get_widget (GTK_EVENT_CONTROLLER (ctrl));
@@ -1036,16 +1036,16 @@ volume_button_event_cb (GtkEventControllerLegacy *ctrl,
 
 static gboolean
 volume_button_press_event (GtkGestureClick *gesture,
-                           gint n_press,
-                           gdouble x,
-                           gdouble y,
-                           gpointer user_data)
+                           gint             n_press,
+                           gdouble          x,
+                           gdouble          y,
+                           gpointer         user_data)
 {
   /* Switch mute state on click with secondary button */
 
   PtWindow *self = PT_WINDOW (user_data);
-  guint button;
-  gboolean current_mute;
+  guint     button;
+  gboolean  current_mute;
 
   button = gtk_gesture_single_get_current_button (GTK_GESTURE_SINGLE (gesture));
 
@@ -1182,8 +1182,8 @@ setup_accels_actions_menus (PtWindow *self)
 
 static void
 progressbar_cb (PtWaveviewer *viewer,
-                double fraction,
-                gpointer user_data)
+                double        fraction,
+                gpointer      user_data)
 {
   GtkProgressBar *progressbar = GTK_PROGRESS_BAR (user_data);
 
@@ -1267,8 +1267,8 @@ static void
 pt_window_dispose (GObject *object)
 {
   PtWindow *self = PT_WINDOW (object);
-  gint x;
-  gint y;
+  gint      x;
+  gint      y;
 
   /* Save window size */
   if (self->editor)
@@ -1304,7 +1304,7 @@ pt_window_dispose (GObject *object)
 static void
 pt_window_class_init (PtWindowClass *klass)
 {
-  GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+  GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   gobject_class->dispose = pt_window_dispose;

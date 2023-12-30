@@ -31,7 +31,7 @@ struct _PtApp
 {
   AdwApplication parent;
 
-  PtMpris *mpris;
+  PtMpris       *mpris;
   PtDbusService *dbus_service;
 };
 
@@ -50,12 +50,12 @@ static GOptionEntry options[] = {
 
 static void
 open_dialog_response_cb (GtkDialog *dialog,
-                         gint response_id,
-                         gpointer user_data)
+                         gint       response_id,
+                         gpointer   user_data)
 {
   PtWindow *win = PT_WINDOW (user_data);
-  GFile *result;
-  gchar *uri = NULL;
+  GFile    *result;
+  gchar    *uri = NULL;
 
   if (response_id == GTK_RESPONSE_ACCEPT)
     {
@@ -75,16 +75,16 @@ open_dialog_response_cb (GtkDialog *dialog,
 
 static void
 open_cb (GSimpleAction *action,
-         GVariant *parameter,
-         gpointer app)
+         GVariant      *parameter,
+         gpointer       app)
 {
   GtkFileChooserNative *dialog;
-  GtkWindow *win;
-  const char *home_path;
-  gchar *current_uri = NULL;
-  GFile *current, *dir;
-  GtkFileFilter *filter_audio;
-  GtkFileFilter *filter_all;
+  GtkWindow            *win;
+  const char           *home_path;
+  gchar                *current_uri = NULL;
+  GFile                *current, *dir;
+  GtkFileFilter        *filter_audio;
+  GtkFileFilter        *filter_all;
 
   win = gtk_application_get_active_window (app);
   dialog = gtk_file_chooser_native_new (
@@ -130,8 +130,8 @@ open_cb (GSimpleAction *action,
 
 static void
 prefs_cb (GSimpleAction *action,
-          GVariant *parameter,
-          gpointer app)
+          GVariant      *parameter,
+          gpointer       app)
 {
   GtkWindow *win;
   win = gtk_application_get_active_window (app);
@@ -140,11 +140,11 @@ prefs_cb (GSimpleAction *action,
 
 static void
 help_cb (GSimpleAction *action,
-         GVariant *parameter,
-         gpointer app)
+         GVariant      *parameter,
+         gpointer       app)
 {
   GtkWindow *win;
-  gchar *uri;
+  gchar     *uri;
 
   win = gtk_application_get_active_window (app);
   uri = g_strdup_printf ("help:%s", APP_ID);
@@ -154,8 +154,8 @@ help_cb (GSimpleAction *action,
 
 static void
 about_cb (GSimpleAction *action,
-          GVariant *parameter,
-          gpointer app)
+          GVariant      *parameter,
+          gpointer       app)
 {
   AdwAboutWindow *about = ADW_ABOUT_WINDOW (adw_about_window_new ());
 
@@ -197,8 +197,8 @@ about_cb (GSimpleAction *action,
 
 static void
 quit_cb (GSimpleAction *action,
-         GVariant *parameter,
-         gpointer app)
+         GVariant      *parameter,
+         gpointer       app)
 {
   g_application_quit (app);
 }
@@ -228,9 +228,9 @@ pt_app_startup (GApplication *app)
   const gchar *help_accels[2] = { "F1", NULL };
   const gchar *zoom_in_accels[3] = { "<Primary>plus", "<Primary>KP_Add", NULL };
   const gchar *zoom_out_accels[3] = { "<Primary>minus", "<Primary>KP_Subtract", NULL };
-  const char *jump_back_accels[2] = { "<Primary>A", NULL };
-  const char *jump_forward_accels[2] = { "<Primary>S", NULL };
-  const char *play_accels[2] = { "<Primary>space", NULL };
+  const char  *jump_back_accels[2] = { "<Primary>A", NULL };
+  const char  *jump_forward_accels[2] = { "<Primary>S", NULL };
+  const char  *play_accels[2] = { "<Primary>space", NULL };
 
   gtk_application_set_accels_for_action (GTK_APPLICATION (app),
                                          "app.quit", quit_accels);
@@ -279,8 +279,8 @@ pt_app_startup (GApplication *app)
 static void
 pt_app_activate (GApplication *application)
 {
-  PtApp *app = PT_APP (application);
-  GList *windows;
+  PtApp    *app = PT_APP (application);
+  GList    *windows;
   PtWindow *win;
 
   windows = gtk_application_get_windows (GTK_APPLICATION (application));
@@ -302,12 +302,12 @@ pt_app_activate (GApplication *application)
 
 static void
 pt_app_open (GApplication *app,
-             GFile **files,
-             gint n_files,
-             const gchar *hint)
+             GFile       **files,
+             gint          n_files,
+             const gchar  *hint)
 {
   GtkWindow *win;
-  gchar *uri;
+  gchar     *uri;
 
   if (n_files > 1)
     {
@@ -358,7 +358,7 @@ static void
 pt_app_class_init (PtAppClass *klass)
 {
   GApplicationClass *gapp_class = G_APPLICATION_CLASS (klass);
-  GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+  GObjectClass      *gobject_class = G_OBJECT_CLASS (klass);
 
   gobject_class->dispose = pt_app_dispose;
   gapp_class->open = pt_app_open;

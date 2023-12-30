@@ -23,13 +23,13 @@
 typedef struct
 {
   GAsyncResult *res;
-  GMainLoop *loop;
+  GMainLoop    *loop;
 } SyncData;
 
 static SyncData
 create_sync_data (void)
 {
-  SyncData data;
+  SyncData      data;
   GMainContext *context;
 
   context = g_main_context_default ();
@@ -49,7 +49,7 @@ free_sync_data (SyncData data)
 static void
 quit_loop_cb (PtWaveloader *wl,
               GAsyncResult *res,
-              gpointer user_data)
+              gpointer      user_data)
 {
   SyncData *data = user_data;
   data->res = g_object_ref (res);
@@ -62,9 +62,9 @@ static PtWaveloader *
 wl_with_test_uri (const gchar *name)
 {
   PtWaveloader *wl;
-  gchar *path;
-  gchar *uri;
-  GFile *file;
+  gchar        *path;
+  gchar        *uri;
+  GFile        *file;
 
   path = g_test_build_filename (G_TEST_DIST, "data", name, NULL);
   file = g_file_new_for_path (path);
@@ -86,7 +86,7 @@ waveloader_new (void)
   /* Test construction and setting/getting properties */
 
   PtWaveloader *wl;
-  gchar *uri;
+  gchar        *uri;
 
   wl = pt_waveloader_new (NULL);
   g_assert_true (PT_IS_WAVELOADER (wl));
@@ -114,9 +114,9 @@ waveloader_load_fail (void)
   /* Test loading not existent file: should fail and return error */
 
   PtWaveloader *wl;
-  SyncData data;
-  GError *error = NULL;
-  gboolean success;
+  SyncData      data;
+  GError       *error = NULL;
+  gboolean      success;
 
   data = create_sync_data ();
   wl = pt_waveloader_new ("file:///some-file-that-does-not-exist");
@@ -142,9 +142,9 @@ waveloader_load_cancel (void)
 
   PtWaveloader *wl;
   GCancellable *cancel;
-  SyncData data;
-  GError *error = NULL;
-  gboolean success;
+  SyncData      data;
+  GError       *error = NULL;
+  gboolean      success;
 
   data = create_sync_data ();
   wl = wl_with_test_uri ("tick-10sec.ogg");
@@ -173,9 +173,9 @@ waveloader_resize_cancel (void)
 
   PtWaveloader *wl;
   GCancellable *cancel;
-  SyncData data;
-  GError *error = NULL;
-  gboolean success;
+  SyncData      data;
+  GError       *error = NULL;
+  gboolean      success;
 
   data = create_sync_data ();
   wl = wl_with_test_uri ("tick-10sec.ogg");
@@ -213,9 +213,9 @@ waveloader_resize_without_load (void)
   /* Test resize operation without loading before: should fail and return error */
 
   PtWaveloader *wl;
-  SyncData data;
-  GError *error = NULL;
-  gboolean success;
+  SyncData      data;
+  GError       *error = NULL;
+  gboolean      success;
 
   data = create_sync_data ();
   wl = wl_with_test_uri ("tick-10sec.ogg");
@@ -240,9 +240,9 @@ waveloader_load_pending (void)
    * operation: should fail and return error */
 
   PtWaveloader *wl;
-  SyncData data;
-  GError *error = NULL;
-  gboolean success;
+  SyncData      data;
+  GError       *error = NULL;
+  gboolean      success;
 
   data = create_sync_data ();
   wl = wl_with_test_uri ("tick-10sec.ogg");
@@ -278,14 +278,14 @@ waveloader_load_unref (void)
   g_object_unref (wl);
 }
 
-static gint array_emit_count = 0;
-static gint progress_emit_count = 0;
+static gint    array_emit_count = 0;
+static gint    progress_emit_count = 0;
 static gdouble first_progress = 0;
 static gdouble last_progress = 0;
 
 static void
 progress_cb (PtWaveloader *wl,
-             gdouble progress)
+             gdouble       progress)
 {
   progress_emit_count++;
   if (progress_emit_count == 1)
@@ -309,10 +309,10 @@ waveloader_load_success (void)
    * array length and an arbitrary index value. */
 
   PtWaveloader *wl;
-  SyncData data;
-  GError *error = NULL;
-  gboolean success;
-  GArray *array;
+  SyncData      data;
+  GError       *error = NULL;
+  gboolean      success;
+  GArray       *array;
 
   data = create_sync_data ();
   wl = wl_with_test_uri ("tick-60sec.ogg");
@@ -369,9 +369,9 @@ waveloader_resize_sync (void)
   /* Test the sync version of resize: should succeed, no error */
 
   PtWaveloader *wl;
-  SyncData data;
-  GError *error = NULL;
-  gboolean success;
+  SyncData      data;
+  GError       *error = NULL;
+  gboolean      success;
 
   data = create_sync_data ();
   wl = wl_with_test_uri ("tick-10sec.ogg");
@@ -401,12 +401,12 @@ waveloader_compare_load_resize (void)
    * value should be the same. */
 
   PtWaveloader *wl;
-  SyncData data;
-  GError *error = NULL;
-  gboolean success;
-  GArray *array;
-  gint len;
-  float value;
+  SyncData      data;
+  GError       *error = NULL;
+  gboolean      success;
+  GArray       *array;
+  gint          len;
+  float         value;
 
   data = create_sync_data ();
   wl = wl_with_test_uri ("tick-10sec.ogg");

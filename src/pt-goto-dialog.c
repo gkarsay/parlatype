@@ -33,7 +33,7 @@ struct _PtGotoDialog
 
   GtkWidget *spin;
   GtkWidget *seconds_label;
-  gint max;
+  gint       max;
 };
 
 G_DEFINE_TYPE (PtGotoDialog, pt_goto_dialog, GTK_TYPE_DIALOG)
@@ -73,11 +73,11 @@ string_to_time (const char *time_string)
 
 static void
 value_changed_cb (GtkSpinButton *spin,
-                  gpointer data)
+                  gpointer       data)
 {
-  PtGotoDialog *self = (PtGotoDialog *) data;
+  PtGotoDialog  *self = (PtGotoDialog *) data;
   GtkAdjustment *adj;
-  gint value;
+  gint           value;
 
   adj = gtk_spin_button_get_adjustment (spin);
   value = (gint) gtk_adjustment_get_value (adj);
@@ -89,7 +89,7 @@ value_changed_cb (GtkSpinButton *spin,
 
 static gboolean
 output_cb (GtkSpinButton *spin,
-           PtGotoDialog *self)
+           PtGotoDialog  *self)
 {
   gchar *text;
 
@@ -108,8 +108,8 @@ output_cb (GtkSpinButton *spin,
 
 static gint
 input_cb (GtkSpinButton *self,
-          gdouble *new_value,
-          gpointer user_data)
+          gdouble       *new_value,
+          gpointer       user_data)
 {
   gint64 val;
 
@@ -155,17 +155,17 @@ pt_goto_dialog_get_pos (PtGotoDialog *self)
 
 void
 pt_goto_dialog_set_pos (PtGotoDialog *self,
-                        gint seconds)
+                        gint          seconds)
 {
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (self->spin), (gdouble) seconds);
 }
 
 void
 pt_goto_dialog_set_max (PtGotoDialog *self,
-                        gint seconds)
+                        gint          seconds)
 {
   gchar *time_string;
-  guint width;
+  guint  width;
 
   gtk_spin_button_set_range (GTK_SPIN_BUTTON (self->spin), 0, (gdouble) seconds);
   self->max = seconds * 1000;

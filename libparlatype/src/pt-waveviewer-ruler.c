@@ -59,23 +59,23 @@ struct _PtWaveviewerRuler
   GtkDrawingArea parent;
 
   gint64 n_samples;
-  gint px_per_sec;
+  gint   px_per_sec;
   gint64 duration; /* in milliseconds */
 
   GtkAdjustment *adj; /* the parent PtWaveviewer’s adjustment */
 
   /* Ruler marks */
   gboolean time_format_long;
-  gint time_string_width;
-  gint primary_modulo;
-  gint secondary_modulo;
+  gint     time_string_width;
+  gint     primary_modulo;
+  gint     secondary_modulo;
 };
 
 G_DEFINE_TYPE (PtWaveviewerRuler, pt_waveviewer_ruler, GTK_TYPE_DRAWING_AREA);
 
 static gint64
 time_to_pixel (PtWaveviewerRuler *self,
-               gint64 ms)
+               gint64             ms)
 {
   /* Convert a time in 1/1000 seconds to the closest pixel in the drawing area */
   gint64 result;
@@ -88,7 +88,7 @@ time_to_pixel (PtWaveviewerRuler *self,
 
 static gint64
 pixel_to_time (PtWaveviewerRuler *self,
-               gint64 pixel)
+               gint64             pixel)
 {
   /* Convert a position in the drawing area to time in milliseconds */
   gint64 result;
@@ -100,23 +100,23 @@ pixel_to_time (PtWaveviewerRuler *self,
 }
 
 static void
-pt_waveviewer_ruler_snapshot (GtkWidget *widget,
+pt_waveviewer_ruler_snapshot (GtkWidget   *widget,
                               GtkSnapshot *snapshot)
 {
   PtWaveviewerRuler *self = (PtWaveviewerRuler *) widget;
-  gdouble height = gtk_widget_get_height (GTK_WIDGET (widget));
+  gdouble            height = gtk_widget_get_height (GTK_WIDGET (widget));
 
-  gint i;      /* counter, pixel on x-axis in the view */
-  gint sample; /* sample in the array */
-  gchar *text;
-  PangoLayout *layout;
-  PangoRectangle rect;
-  gint halfwidth;
-  gint64 tmp_time;
+  gint             i;      /* counter, pixel on x-axis in the view */
+  gint             sample; /* sample in the array */
+  gchar           *text;
+  PangoLayout     *layout;
+  PangoRectangle   rect;
+  gint             halfwidth;
+  gint64           tmp_time;
   GtkStyleContext *context;
-  GdkRGBA text_color;
-  gint width;
-  gint offset;
+  GdkRGBA          text_color;
+  gint             width;
+  gint             offset;
 
   width = gtk_widget_get_width (widget);
   offset = (gint) gtk_adjustment_get_value (self->adj);
@@ -211,14 +211,14 @@ static void
 calculate_height (PtWaveviewerRuler *self)
 {
   /* Calculate ruler height and time string width*/
-  cairo_t *cr;
+  cairo_t         *cr;
   cairo_surface_t *surface;
-  PangoLayout *layout;
-  PangoRectangle rect;
-  gchar *time_format;
-  gint ruler_height;
-  GtkNative *native;
-  GdkSurface *gdk_surface;
+  PangoLayout     *layout;
+  PangoRectangle   rect;
+  gchar           *time_format;
+  gint             ruler_height;
+  GtkNative       *native;
+  GdkSurface      *gdk_surface;
 
   native = gtk_widget_get_native (GTK_WIDGET (self));
   if (!native || self->n_samples == 0)
@@ -300,7 +300,7 @@ calculate_height (PtWaveviewerRuler *self)
 
 static void
 adj_value_changed (GtkAdjustment *adj,
-                   gpointer data)
+                   gpointer       data)
 {
   PtWaveviewerRuler *self = PT_WAVEVIEWER_RULER (data);
   gtk_widget_queue_draw (GTK_WIDGET (self));
@@ -326,9 +326,9 @@ pt_waveviewer_ruler_root (GtkWidget *widget)
 
 void
 pt_waveviewer_ruler_set_ruler (PtWaveviewerRuler *self,
-                               gint64 n_samples,
-                               gint px_per_sec,
-                               gint64 duration)
+                               gint64             n_samples,
+                               gint               px_per_sec,
+                               gint64             duration)
 {
   self->n_samples = n_samples;
   self->px_per_sec = px_per_sec;

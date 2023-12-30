@@ -62,15 +62,15 @@ GST_DEBUG_CATEGORY_STATIC (gst_pt_audio_bin_debug);
 
 struct _GstPtAudioBin
 {
-  GstBin parent;
+  GstBin     parent;
   PtModeType mode;
   PtModeType pending;
-  gulong probe_id;
+  gulong     probe_id;
 
   GstElement *play_bin;
   GstElement *asr_bin;
-  GstPad *id_sink;
-  GstPad *id_src;
+  GstPad     *id_sink;
+  GstPad     *id_src;
 
   /* properties */
   gboolean player;
@@ -80,14 +80,14 @@ struct _GstPtAudioBin
 G_DEFINE_TYPE (GstPtAudioBin, gst_pt_audio_bin, GST_TYPE_BIN);
 
 static GstPadProbeReturn
-change_mode_cb (GstPad *pad,
+change_mode_cb (GstPad          *pad,
                 GstPadProbeInfo *info,
-                gpointer user_data)
+                gpointer         user_data)
 {
-  GstPtAudioBin *self = GST_PT_AUDIO_BIN (user_data);
-  GstElement *old_child, *new_child;
-  GstPad *sinkpad;
-  GstObject *parent;
+  GstPtAudioBin   *self = GST_PT_AUDIO_BIN (user_data);
+  GstElement      *old_child, *new_child;
+  GstPad          *sinkpad;
+  GstObject       *parent;
   GstPadLinkReturn r;
 
   gst_pad_remove_probe (pad, GST_PAD_PROBE_INFO_ID (info));
@@ -167,13 +167,13 @@ change_mode_cb (GstPad *pad,
 typedef struct
 {
   GAsyncResult *res;
-  GMainLoop *loop;
+  GMainLoop    *loop;
 } SyncData;
 
 static void
 quit_loop_cb (GstPtAudioBin *self,
-              GAsyncResult *res,
-              gpointer user_data)
+              GAsyncResult  *res,
+              gpointer       user_data)
 {
   SyncData *data = user_data;
   data->res = g_object_ref (res);
@@ -182,15 +182,15 @@ quit_loop_cb (GstPtAudioBin *self,
 
 gboolean
 gst_pt_audio_bin_configure_asr (GstPtAudioBin *self,
-                                PtConfig *config,
-                                GError **error)
+                                PtConfig      *config,
+                                GError       **error)
 {
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
   GstPtAudioAsrBin *bin;
-  SyncData data;
-  GMainContext *context;
-  gboolean result;
+  SyncData          data;
+  GMainContext     *context;
+  gboolean          result;
 
   bin = GST_PT_AUDIO_ASR_BIN (self->asr_bin);
   context = g_main_context_new ();
@@ -311,7 +311,7 @@ static void
 gst_pt_audio_bin_init (GstPtAudioBin *self)
 {
   GstElement *identity;
-  GstPad *play_sink;
+  GstPad     *play_sink;
 
   gst_pt_audio_play_bin_register ();
   gst_pt_audio_asr_bin_register ();

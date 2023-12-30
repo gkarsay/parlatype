@@ -58,15 +58,15 @@ static GHashTable *gnome_territories_map;
  */
 gboolean
 gnome_parse_locale (const char *locale,
-                    char **language_codep,
-                    char **country_codep,
-                    char **codesetp,
-                    char **modifierp)
+                    char      **language_codep,
+                    char      **country_codep,
+                    char      **codesetp,
+                    char      **modifierp)
 {
   static GRegex *re = NULL;
-  GMatchInfo *match_info;
-  gboolean res;
-  gboolean retval;
+  GMatchInfo    *match_info;
+  gboolean       res;
+  gboolean       retval;
 
   match_info = NULL;
   retval = FALSE;
@@ -154,7 +154,7 @@ static gboolean
 is_fallback_language (const char *code)
 {
   const char *fallback_language_names[] = { "C", "POSIX", NULL };
-  int i;
+  int         i;
 
   for (i = 0; fallback_language_names[i] != NULL; i++)
     {
@@ -171,7 +171,7 @@ static const char *
 get_language (const char *code)
 {
   const char *name;
-  int len;
+  int         len;
 
   g_assert (code != NULL);
 
@@ -195,7 +195,7 @@ static char *
 get_first_item_in_semicolon_list (const char *list)
 {
   char **items;
-  char *item;
+  char  *item;
 
   /* Some entries in iso codes have multiple values, separated
    * by semicolons.  Not really sure which one to pick, so
@@ -227,7 +227,7 @@ get_translated_language (const char *code,
                          const char *locale)
 {
   const char *language;
-  char *name;
+  char       *name;
 
   language = get_language (code);
 
@@ -263,7 +263,7 @@ static const char *
 get_territory (const char *code)
 {
   const char *name;
-  int len;
+  int         len;
 
   g_assert (code != NULL);
 
@@ -283,14 +283,14 @@ get_translated_territory (const char *code,
                           const char *locale)
 {
   const char *territory;
-  char *name;
+  char       *name;
 
   territory = get_territory (code);
 
   name = NULL;
   if (territory != NULL)
     {
-      const char *translated_territory;
+      const char      *translated_territory;
       g_autofree char *tmp = NULL;
 
       translated_territory = dgettext ("iso_3166", territory);
@@ -303,11 +303,11 @@ get_translated_territory (const char *code,
 
 static void
 languages_parse_start_tag (GMarkupParseContext *ctx,
-                           const char *element_name,
-                           const char **attr_names,
-                           const char **attr_values,
-                           gpointer user_data,
-                           GError **error)
+                           const char          *element_name,
+                           const char         **attr_names,
+                           const char         **attr_values,
+                           gpointer             user_data,
+                           GError             **error)
 {
   const char *ccode_longB;
   const char *ccode_longT;
@@ -434,11 +434,11 @@ languages_parse_start_tag (GMarkupParseContext *ctx,
 
 static void
 territories_parse_start_tag (GMarkupParseContext *ctx,
-                             const char *element_name,
-                             const char **attr_names,
-                             const char **attr_values,
-                             gpointer user_data,
-                             GError **error)
+                             const char          *element_name,
+                             const char         **attr_names,
+                             const char         **attr_values,
+                             gpointer             user_data,
+                             GError             **error)
 {
   const char *acode_2;
   const char *acode_3;
@@ -545,8 +545,8 @@ territories_parse_start_tag (GMarkupParseContext *ctx,
 static void
 languages_variant_init (const char *variant)
 {
-  gboolean res;
-  gsize buf_len;
+  gboolean         res;
+  gsize            buf_len;
   g_autofree char *buf = NULL;
   g_autofree char *filename = NULL;
   g_autoptr (GError) error = NULL;
@@ -603,8 +603,8 @@ languages_init (void)
 static void
 territories_init (void)
 {
-  gboolean res;
-  gsize buf_len;
+  gboolean         res;
+  gsize            buf_len;
   g_autofree char *buf = NULL;
   g_autoptr (GError) error = NULL;
 
@@ -663,7 +663,7 @@ char *
 gnome_get_language_from_locale (const char *locale,
                                 const char *translation)
 {
-  GString *full_language;
+  GString         *full_language;
   g_autofree char *language_code = NULL;
   g_autofree char *territory_code = NULL;
   g_autofree char *codeset_code = NULL;

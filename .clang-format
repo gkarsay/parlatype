@@ -7,11 +7,12 @@
 
 BasedOnStyle: GNU
 
+AlignConsecutiveDeclarations: true
 AlwaysBreakAfterReturnType: AllDefinitions
 BreakBeforeBinaryOperators: None
 BinPackParameters: false
-SpaceAfterCStyleCast: true
 ColumnLimit: 0
+SpaceAfterCStyleCast: true
 
 # Sorting includes
 SortIncludes: CaseInsensitive

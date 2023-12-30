@@ -29,7 +29,7 @@ struct _PtAsrDialog
 {
   AdwPreferencesWindow parent;
 
-  PtConfig *config;
+  PtConfig  *config;
   GSettings *editor;
 
   GtkWidget *page;
@@ -49,10 +49,10 @@ G_DEFINE_FINAL_TYPE (PtAsrDialog, pt_asr_dialog, ADW_TYPE_PREFERENCES_WINDOW)
 
 static void
 name_row_apply_cb (GtkEditable *editable,
-                   gpointer user_data)
+                   gpointer     user_data)
 {
   PtAsrDialog *self = PT_ASR_DIALOG (user_data);
-  gchar *old_name, *new_name;
+  gchar       *old_name, *new_name;
 
   old_name = pt_config_get_name (self->config);
   new_name = g_strdup (gtk_editable_get_text (editable));
@@ -85,8 +85,8 @@ have_string (gchar *str)
 static GtkWidget *
 pt_download_button_new (gchar *link)
 {
-  GtkWidget *link_button;
-  GUri *uri;
+  GtkWidget   *link_button;
+  GUri        *uri;
   const gchar *host = NULL;
 
   uri = g_uri_parse (link, G_URI_FLAGS_NONE, NULL);
@@ -103,9 +103,9 @@ pt_download_button_new (gchar *link)
 static void
 update_status_row (PtAsrDialog *self)
 {
-  gchar *title;
-  gchar *subtitle;
-  gchar *button_label;
+  gchar     *title;
+  gchar     *subtitle;
+  gchar     *button_label;
   GtkWidget *active_image;
 
   if (self->active)
@@ -144,11 +144,11 @@ update_status_row (PtAsrDialog *self)
 
 static void
 installed_cb (PtPrefsInstallRow *row,
-              GParamSpec *pspec,
-              gpointer user_data)
+              GParamSpec        *pspec,
+              gpointer           user_data)
 {
   PtAsrDialog *self = PT_ASR_DIALOG (user_data);
-  gboolean success;
+  gboolean     success;
 
   self->installed = pt_prefs_install_row_get_installed (row);
 
@@ -166,8 +166,8 @@ installed_cb (PtPrefsInstallRow *row,
 
 static void
 add_info_row (PtAsrDialog *self,
-              gchar *title,
-              gchar *subtitle)
+              gchar       *title,
+              gchar       *subtitle)
 {
   GtkWidget *row = adw_action_row_new ();
   adw_preferences_row_set_title (ADW_PREFERENCES_ROW (row), title);
@@ -178,17 +178,17 @@ add_info_row (PtAsrDialog *self,
 
 void
 pt_asr_dialog_set_config (PtAsrDialog *self,
-                          PtConfig *config)
+                          PtConfig    *config)
 {
   g_return_if_fail (config != NULL && PT_IS_CONFIG (config));
 
   self->config = config;
-  GFile *config_file;
-  gchar *active_path;
-  gchar *current_path;
-  gchar *name;
-  gchar *str;
-  gchar *engine = NULL;
+  GFile               *config_file;
+  gchar               *active_path;
+  gchar               *current_path;
+  gchar               *name;
+  gchar               *str;
+  gchar               *engine = NULL;
   AdwPreferencesGroup *group;
 
   self->active = FALSE;
@@ -292,21 +292,21 @@ pt_asr_dialog_set_config (PtAsrDialog *self,
 }
 
 static void
-file_delete_finished (GObject *source_object,
+file_delete_finished (GObject      *source_object,
                       GAsyncResult *res,
-                      gpointer user_data)
+                      gpointer      user_data)
 {
-  PtAsrDialog *self = PT_ASR_DIALOG (user_data);
-  GFile *file = G_FILE (source_object);
-  GError *error = NULL;
+  PtAsrDialog    *self = PT_ASR_DIALOG (user_data);
+  GFile          *file = G_FILE (source_object);
+  GError         *error = NULL;
   GtkAlertDialog *err_dialog;
-  GtkWindow *parent = GTK_WINDOW (self);
+  GtkWindow      *parent = GTK_WINDOW (self);
 
   if (g_file_delete_finish (file, res, &error))
     {
       g_settings_set_string (self->editor, "asr-config", "");
-      AdwToast *toast = adw_toast_new_format (_ ("“%s” has been deleted"),
-                                              pt_config_get_name (self->config));
+      AdwToast  *toast = adw_toast_new_format (_ ("“%s” has been deleted"),
+                                               pt_config_get_name (self->config));
       GtkWindow *parent = gtk_window_get_transient_for (GTK_WINDOW (self));
       adw_preferences_window_add_toast (ADW_PREFERENCES_WINDOW (parent), toast);
       gtk_window_close (GTK_WINDOW (self));
@@ -322,13 +322,13 @@ file_delete_finished (GObject *source_object,
 }
 
 static void
-delete_dialog_cb (GObject *source,
+delete_dialog_cb (GObject      *source,
                   GAsyncResult *result,
-                  gpointer user_data)
+                  gpointer      user_data)
 {
   PtAsrDialog *self = PT_ASR_DIALOG (user_data);
   const gchar *response;
-  GFile *file;
+  GFile       *file;
 
   response = adw_message_dialog_choose_finish (ADW_MESSAGE_DIALOG (source), result);
   if (!g_str_equal (response, "ok"))
@@ -344,10 +344,10 @@ delete_dialog_cb (GObject *source,
 
 static void
 delete_button_clicked_cb (GtkButton *button,
-                          gpointer user_data)
+                          gpointer   user_data)
 {
   PtAsrDialog *self = PT_ASR_DIALOG (user_data);
-  GtkWidget *dialog;
+  GtkWidget   *dialog;
 
   dialog = adw_message_dialog_new (GTK_WINDOW (self),
                                    _ ("Delete Configuration"),
@@ -369,12 +369,12 @@ delete_button_clicked_cb (GtkButton *button,
 
 static void
 activate_button_clicked_cb (GtkButton *button,
-                            gpointer user_data)
+                            gpointer   user_data)
 {
   PtAsrDialog *self = PT_ASR_DIALOG (user_data);
-  GFile *config_file;
-  gchar *path;
-  gboolean success;
+  GFile       *config_file;
+  gchar       *path;
+  gboolean     success;
 
   /* Depending on self->active this is either an "Activate" or a "Deactivate" button. */
 
@@ -429,7 +429,7 @@ pt_asr_dialog_init (PtAsrDialog *self)
 static void
 pt_asr_dialog_class_init (PtAsrDialogClass *klass)
 {
-  GObjectClass *object_class = G_OBJECT_CLASS (klass);
+  GObjectClass   *object_class = G_OBJECT_CLASS (klass);
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->dispose = pt_asr_dialog_dispose;

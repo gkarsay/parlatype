@@ -55,18 +55,18 @@ struct _PtWaveviewerCursor
   GtkDrawingArea parent;
 
   cairo_surface_t *cursor;
-  GdkRGBA cursor_color;
-  gint position;
+  GdkRGBA          cursor_color;
+  gint             position;
 };
 
 G_DEFINE_TYPE (PtWaveviewerCursor, pt_waveviewer_cursor, GTK_TYPE_DRAWING_AREA);
 
 static void
 pt_waveviewer_cursor_draw (GtkDrawingArea *widget,
-                           cairo_t *cr,
-                           int content_width,
-                           int content_height,
-                           gpointer user_data)
+                           cairo_t        *cr,
+                           int             content_width,
+                           int             content_height,
+                           gpointer        user_data)
 {
   PtWaveviewerCursor *self = (PtWaveviewerCursor *) widget;
 
@@ -87,9 +87,9 @@ cache_cursor (PtWaveviewerCursor *self)
   if (self->cursor)
     cairo_surface_destroy (self->cursor);
 
-  cairo_t *cr;
-  gint height = gtk_widget_get_height (GTK_WIDGET (self));
-  GtkNative *native;
+  cairo_t    *cr;
+  gint        height = gtk_widget_get_height (GTK_WIDGET (self));
+  GtkNative  *native;
   GdkSurface *surface;
 
   native = gtk_widget_get_native (GTK_WIDGET (self));
@@ -116,9 +116,9 @@ cache_cursor (PtWaveviewerCursor *self)
 
 static void
 pt_waveviewer_cursor_size_allocate (GtkWidget *widget,
-                                    gint width,
-                                    gint height,
-                                    gint baseline)
+                                    gint       width,
+                                    gint       height,
+                                    gint       baseline)
 {
   GTK_WIDGET_CLASS (pt_waveviewer_cursor_parent_class)->size_allocate (widget, width, height, baseline);
 
@@ -140,7 +140,7 @@ update_cached_style_values (PtWaveviewerCursor *self)
 }
 
 static void
-pt_waveviewer_cursor_state_flags_changed (GtkWidget *widget,
+pt_waveviewer_cursor_state_flags_changed (GtkWidget    *widget,
                                           GtkStateFlags flags)
 {
   update_cached_style_values (PT_WAVEVIEWER_CURSOR (widget));
@@ -156,7 +156,7 @@ pt_waveviewer_cursor_realize (GtkWidget *widget)
 
 void
 pt_waveviewer_cursor_render (PtWaveviewerCursor *self,
-                             gint position)
+                             gint                position)
 {
   gint width;
 
@@ -194,7 +194,7 @@ pt_waveviewer_cursor_finalize (GObject *object)
 static void
 pt_waveviewer_cursor_class_init (PtWaveviewerCursorClass *klass)
 {
-  GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+  GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   gobject_class->finalize = pt_waveviewer_cursor_finalize;

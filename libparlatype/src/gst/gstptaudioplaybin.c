@@ -62,7 +62,7 @@ have_pulseaudio_server (void)
   /* Adapted from Quod Libet ...quodlibet/player/gstbe/util.py:
    * If we have a pulsesink we can get the server presence through
    * setting the ready state */
-  GstElement *pulse;
+  GstElement          *pulse;
   GstStateChangeReturn state;
 
   pulse = gst_element_factory_make ("pulsesink", NULL);
@@ -81,7 +81,7 @@ gst_pt_audio_play_bin_init (GstPtAudioPlayBin *self)
   /* Create gstreamer elements */
   GstElement *capsfilter;
   GstElement *audiosink;
-  gchar *sink;
+  gchar      *sink;
 
   capsfilter = _pt_make_element ("capsfilter", "audiofilter", NULL);
 

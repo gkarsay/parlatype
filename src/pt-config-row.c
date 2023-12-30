@@ -24,11 +24,11 @@ struct _PtConfigRow
 {
   AdwActionRow parent;
 
-  PtConfig *config;
+  PtConfig  *config;
   GtkWidget *status_label;
   GtkWidget *active_image;
-  gboolean active;
-  gboolean installed;
+  gboolean   active;
+  gboolean   installed;
 };
 
 enum
@@ -73,7 +73,7 @@ static void
 set_status_label (PtConfigRow *self)
 {
   GtkLabel *label = GTK_LABEL (self->status_label);
-  gchar *status = NULL;
+  gchar    *status = NULL;
 
   if (!self->installed)
     status = _ ("Not installed");
@@ -83,7 +83,7 @@ set_status_label (PtConfigRow *self)
 
 void
 pt_config_row_set_active (PtConfigRow *self,
-                          gboolean active)
+                          gboolean     active)
 {
   if (self->active == active ||
       !self->installed)
@@ -107,9 +107,9 @@ pt_config_row_set_active (PtConfigRow *self,
 }
 
 static void
-config_is_installed_cb (PtConfig *config,
+config_is_installed_cb (PtConfig   *config,
                         GParamSpec *pspec,
-                        gpointer user_data)
+                        gpointer    user_data)
 {
   PtConfigRow *self = PT_CONFIG_ROW (user_data);
   self->installed = pt_config_is_installed (config);
@@ -139,7 +139,7 @@ pt_config_row_constructed (GObject *object)
 
 void
 pt_config_row_set_config (PtConfigRow *self,
-                          PtConfig *config)
+                          PtConfig    *config)
 {
   g_return_if_fail (PT_IS_CONFIG_ROW (self));
   g_return_if_fail (PT_IS_CONFIG (config));
@@ -179,10 +179,10 @@ pt_config_row_finalize (GObject *object)
 }
 
 static void
-pt_config_row_set_property (GObject *object,
-                            guint property_id,
+pt_config_row_set_property (GObject      *object,
+                            guint         property_id,
                             const GValue *value,
-                            GParamSpec *pspec)
+                            GParamSpec   *pspec)
 {
   PtConfigRow *self = PT_CONFIG_ROW (object);
 
@@ -202,9 +202,9 @@ pt_config_row_set_property (GObject *object,
 }
 
 static void
-pt_config_row_get_property (GObject *object,
-                            guint property_id,
-                            GValue *value,
+pt_config_row_get_property (GObject    *object,
+                            guint       property_id,
+                            GValue     *value,
                             GParamSpec *pspec)
 {
   PtConfigRow *self = PT_CONFIG_ROW (object);
@@ -227,7 +227,7 @@ static void
 pt_config_row_class_init (PtConfigRowClass *klass)
 {
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
-  GObjectClass *object_class = G_OBJECT_CLASS (klass);
+  GObjectClass   *object_class = G_OBJECT_CLASS (klass);
 
   object_class->set_property = pt_config_row_set_property;
   object_class->get_property = pt_config_row_get_property;

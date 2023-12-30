@@ -26,9 +26,9 @@ struct _PtPrefsInstallRow
 {
   AdwActionRow parent;
 
-  PtConfig *config;
-  gboolean installed;
-  gchar *current_path;
+  PtConfig  *config;
+  gboolean   installed;
+  gchar     *current_path;
   GtkWindow *parent_window;
 };
 
@@ -45,7 +45,7 @@ G_DEFINE_FINAL_TYPE (PtPrefsInstallRow, pt_prefs_install_row, ADW_TYPE_ACTION_RO
 
 static void
 update_row (PtPrefsInstallRow *self,
-            gchar *folder)
+            gchar             *folder)
 {
   gchar *title, *subtitle;
 
@@ -65,14 +65,14 @@ update_row (PtPrefsInstallRow *self,
 }
 
 static void
-dialog_open_cb (GObject *source,
+dialog_open_cb (GObject      *source,
                 GAsyncResult *result,
-                gpointer user_data)
+                gpointer      user_data)
 {
   PtPrefsInstallRow *self = PT_PREFS_INSTALL_ROW (user_data);
-  GFile *folder;
-  gchar *path = NULL;
-  gboolean installed;
+  GFile             *folder;
+  gchar             *path = NULL;
+  gboolean           installed;
 
   folder = gtk_file_dialog_select_folder_finish (GTK_FILE_DIALOG (source),
                                                  result,
@@ -122,11 +122,11 @@ dialog_open_cb (GObject *source,
 
 static void
 folder_button_clicked_cb (GtkButton *widget,
-                          gpointer user_data)
+                          gpointer   user_data)
 {
   PtPrefsInstallRow *self = PT_PREFS_INSTALL_ROW (user_data);
-  GtkFileDialog *dialog;
-  GFile *initial_folder;
+  GtkFileDialog     *dialog;
+  GFile             *initial_folder;
 
   if (!self->parent_window)
     self->parent_window = GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (self),
@@ -177,9 +177,9 @@ pt_prefs_install_row_constructed (GObject *object)
 }
 
 static void
-pt_prefs_install_row_get_property (GObject *object,
-                                   guint property_id,
-                                   GValue *value,
+pt_prefs_install_row_get_property (GObject    *object,
+                                   guint       property_id,
+                                   GValue     *value,
                                    GParamSpec *pspec)
 {
   PtPrefsInstallRow *self = PT_PREFS_INSTALL_ROW (object);
@@ -196,10 +196,10 @@ pt_prefs_install_row_get_property (GObject *object,
 }
 
 static void
-pt_prefs_install_row_set_property (GObject *object,
-                                   guint property_id,
+pt_prefs_install_row_set_property (GObject      *object,
+                                   guint         property_id,
                                    const GValue *value,
-                                   GParamSpec *pspec)
+                                   GParamSpec   *pspec)
 {
   PtPrefsInstallRow *self = PT_PREFS_INSTALL_ROW (object);
 
@@ -224,7 +224,7 @@ static void
 pt_prefs_install_row_class_init (PtPrefsInstallRowClass *klass)
 {
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
-  GObjectClass *object_class = G_OBJECT_CLASS (klass);
+  GObjectClass   *object_class = G_OBJECT_CLASS (klass);
 
   object_class->constructed = pt_prefs_install_row_constructed;
   object_class->finalize = pt_prefs_install_row_finalize;

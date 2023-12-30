@@ -61,7 +61,7 @@ G_DEFINE_TYPE (PtWaveviewerWaveform, pt_waveviewer_waveform, GTK_TYPE_DRAWING_AR
 
 static gint64
 pixel_to_array (PtWaveviewerWaveform *self,
-                gint64 pixel)
+                gint64                pixel)
 {
   /* Convert a position in the drawing area to an index in the peaks array.
      The returned index is the peak’s min value, +1 is the max value.
@@ -77,18 +77,18 @@ pixel_to_array (PtWaveviewerWaveform *self,
 }
 
 static void
-pt_waveviewer_waveform_snapshot (GtkWidget *widget,
+pt_waveviewer_waveform_snapshot (GtkWidget   *widget,
                                  GtkSnapshot *snapshot)
 {
   PtWaveviewerWaveform *self = (PtWaveviewerWaveform *) widget;
 
-  GArray *peaks = self->peaks;
+  GArray          *peaks = self->peaks;
   GtkStyleContext *context;
-  gint pixel;
-  gint array;
-  gdouble min, max;
-  gint width, height, offset;
-  gint half, middle;
+  gint             pixel;
+  gint             array;
+  gdouble          min, max;
+  gint             width, height, offset;
+  gint             half, middle;
 
   context = gtk_widget_get_style_context (GTK_WIDGET (widget));
   height = gtk_widget_get_height (GTK_WIDGET (widget));
@@ -129,7 +129,7 @@ update_cached_style_values (PtWaveviewerWaveform *self)
 }
 
 static void
-pt_waveviewer_waveform_state_flags_changed (GtkWidget *widget,
+pt_waveviewer_waveform_state_flags_changed (GtkWidget    *widget,
                                             GtkStateFlags flags)
 {
   update_cached_style_values (PT_WAVEVIEWER_WAVEFORM (widget));
@@ -145,7 +145,7 @@ pt_waveviewer_waveform_realize (GtkWidget *widget)
 
 void
 pt_waveviewer_waveform_set (PtWaveviewerWaveform *self,
-                            GArray *peaks)
+                            GArray               *peaks)
 {
   self->peaks = peaks;
   gtk_widget_queue_draw (GTK_WIDGET (self));
@@ -153,7 +153,7 @@ pt_waveviewer_waveform_set (PtWaveviewerWaveform *self,
 
 static void
 adj_value_changed (GtkAdjustment *adj,
-                   gpointer data)
+                   gpointer       data)
 {
   PtWaveviewerWaveform *self = PT_WAVEVIEWER_WAVEFORM (data);
   gtk_widget_queue_draw (GTK_WIDGET (self));

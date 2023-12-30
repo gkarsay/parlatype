@@ -23,13 +23,13 @@
 typedef struct
 {
   GAsyncResult *res;
-  GMainLoop *loop;
+  GMainLoop    *loop;
 } SyncData;
 
 static SyncData
 create_sync_data (void)
 {
-  SyncData data;
+  SyncData      data;
   GMainContext *context;
 
   /* Note: With other contexts than default the signal emitting test
@@ -52,7 +52,7 @@ free_sync_data (SyncData data)
 static void
 quit_loop_cb (PtWaveviewer *wl,
               GAsyncResult *res,
-              gpointer user_data)
+              gpointer      user_data)
 {
   SyncData *data = user_data;
   data->res = g_object_ref (res);
@@ -65,8 +65,8 @@ static void
 waveviewer_empty (void)
 {
   GtkWidget *testviewer;
-  gboolean fixed_cursor, follow_cursor, has_selection, show_ruler;
-  gint64 selection_end, selection_start;
+  gboolean   fixed_cursor, follow_cursor, has_selection, show_ruler;
+  gint64     selection_end, selection_start;
 
   testviewer = pt_waveviewer_new ();
   g_assert_true (PT_IS_WAVEVIEWER (testviewer));
@@ -95,15 +95,15 @@ waveviewer_empty (void)
 static void
 waveviewer_loaded (void)
 {
-  GError *error = NULL;
-  PtPlayer *player;
+  GError    *error = NULL;
+  PtPlayer  *player;
   GtkWidget *window;
   GtkWidget *viewer;
-  GFile *testfile;
-  gchar *testpath;
-  gchar *testuri;
-  gboolean success;
-  SyncData data;
+  GFile     *testfile;
+  gchar     *testpath;
+  gchar     *testuri;
+  gboolean   success;
+  SyncData   data;
 
   player = pt_player_new ();
 

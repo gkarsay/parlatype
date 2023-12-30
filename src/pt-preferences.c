@@ -37,8 +37,8 @@ struct _PtPreferencesDialog
 {
   AdwPreferencesWindow parent;
 
-  GSettings *editor;
-  PtPlayer *player;
+  GSettings    *editor;
+  PtPlayer     *player;
   PtConfigList *list;
 
   /* Waveform page */
@@ -64,7 +64,7 @@ struct _PtPreferencesDialog
   GtkWidget *asr_page;
   GtkWidget *models_group;
   GPtrArray *config_rows;
-  gchar *active_config_path;
+  gchar     *active_config_path;
   GtkWidget *initial_copy_button;
 };
 
@@ -76,7 +76,7 @@ update_timestamp_page (PtPreferencesDialog *self)
   gchar *preview1;
   gchar *preview2;
   gchar *preview;
-  guint precision;
+  guint  precision;
 
   preview1 = pt_player_get_timestamp_for_time (self->player, EXAMPLE_TIME_SHORT, EXAMPLE_TIME_SHORT);
   preview2 = pt_player_get_timestamp_for_time (self->player, EXAMPLE_TIME_LONG, EXAMPLE_TIME_LONG);
@@ -94,8 +94,8 @@ update_timestamp_page (PtPreferencesDialog *self)
 
 static void
 settings_changed_cb (GSettings *settings,
-                     gchar *key,
-                     gpointer user_data)
+                     gchar     *key,
+                     gpointer   user_data)
 {
   PtPreferencesDialog *self = PT_PREFERENCES_DIALOG (user_data);
   if (g_str_has_prefix (key, "timestamp"))
@@ -113,9 +113,9 @@ settings_changed_cb (GSettings *settings,
 /* Setting "fixed-cursor" TRUE  -> Dropdown pos. 0 ("Fixed cursor")
  * Setting "fixed-cursor" FALSE -> Dropdown pos. 1 ("Moving cursor") */
 static gboolean
-get_cursor_mapping (GValue *value,
+get_cursor_mapping (GValue   *value,
                     GVariant *variant,
-                    gpointer data)
+                    gpointer  data)
 {
   guint drop_down_position = g_variant_get_boolean (variant) ? 0 : 1;
   g_value_set_uint (value, drop_down_position);
@@ -123,42 +123,42 @@ get_cursor_mapping (GValue *value,
 }
 
 static GVariant *
-set_cursor_mapping (const GValue *value,
+set_cursor_mapping (const GValue       *value,
                     const GVariantType *type,
-                    gpointer data)
+                    gpointer            data)
 {
   gboolean fixed = (g_value_get_uint (value) == 0);
   return g_variant_new_boolean (fixed);
 }
 
 static gboolean
-get_separator_mapping (GValue *value,
+get_separator_mapping (GValue   *value,
                        GVariant *variant,
-                       gpointer data)
+                       gpointer  data)
 {
   const gchar *sep = g_variant_get_string (variant, NULL);
-  guint drop_down_position = (g_strcmp0 (sep, ".") == 0) ? 0 : 1;
+  guint        drop_down_position = (g_strcmp0 (sep, ".") == 0) ? 0 : 1;
   g_value_set_uint (value, drop_down_position);
   return TRUE;
 }
 
 static GVariant *
-set_separator_mapping (const GValue *value,
+set_separator_mapping (const GValue       *value,
                        const GVariantType *type,
-                       gpointer data)
+                       gpointer            data)
 {
-  guint drop_down_position = g_value_get_uint (value);
+  guint  drop_down_position = g_value_get_uint (value);
   gchar *sep = (drop_down_position == 0) ? "." : "-";
   return g_variant_new_string (sep);
 }
 
 static gboolean
-get_delimiter_mapping (GValue *value,
+get_delimiter_mapping (GValue   *value,
                        GVariant *variant,
-                       gpointer data)
+                       gpointer  data)
 {
   const gchar *sep = g_variant_get_string (variant, NULL);
-  gint drop_down_position;
+  gint         drop_down_position;
   if (g_strcmp0 (sep, "None") == 0)
     drop_down_position = 0;
   else if (g_strcmp0 (sep, "#") == 0)
@@ -175,11 +175,11 @@ get_delimiter_mapping (GValue *value,
 }
 
 static GVariant *
-set_delimiter_mapping (const GValue *value,
+set_delimiter_mapping (const GValue       *value,
                        const GVariantType *type,
-                       gpointer data)
+                       gpointer            data)
 {
-  guint drop_down_position = g_value_get_uint (value);
+  guint  drop_down_position = g_value_get_uint (value);
   gchar *sep = NULL;
 
   if (drop_down_position == 0)
@@ -196,7 +196,7 @@ set_delimiter_mapping (const GValue *value,
 
 static void
 asr_dialog_destroy_cb (PtAsrDialog *dialog,
-                       gpointer user_data)
+                       gpointer     user_data)
 {
   /* Keep it simple, refresh widgets unconditionally.
    * Possible changes are name change, installed/uninstalled,
@@ -208,10 +208,10 @@ asr_dialog_destroy_cb (PtAsrDialog *dialog,
 
 static void
 asr_row_activated (AdwActionRow *row,
-                   gpointer user_data)
+                   gpointer      user_data)
 {
   PtPreferencesDialog *self = PT_PREFERENCES_DIALOG (user_data);
-  PtConfig *config;
+  PtConfig            *config;
 
   config = pt_config_row_get_config (PT_CONFIG_ROW (row));
   PtAsrDialog *asr_dlg = pt_asr_dialog_new (GTK_WINDOW (self));
@@ -221,9 +221,9 @@ asr_row_activated (AdwActionRow *row,
 }
 
 static gboolean
-copy_asr_configs_finish (GObject *source_object,
+copy_asr_configs_finish (GObject      *source_object,
                          GAsyncResult *res,
-                         GError **error)
+                         GError      **error)
 {
   g_return_val_if_fail (g_task_is_valid (res, source_object), FALSE);
 
@@ -231,12 +231,12 @@ copy_asr_configs_finish (GObject *source_object,
 }
 
 static void
-copy_asr_configs_result (GObject *source_object,
+copy_asr_configs_result (GObject      *source_object,
                          GAsyncResult *res,
-                         gpointer user_data)
+                         gpointer      user_data)
 {
   PtPreferencesDialog *self = PT_PREFERENCES_DIALOG (source_object);
-  GError *error = NULL;
+  GError              *error = NULL;
 
   if (copy_asr_configs_finish (source_object, res, &error))
     {
@@ -254,20 +254,20 @@ copy_asr_configs_result (GObject *source_object,
 }
 
 static void
-copy_asr_configs (GTask *task,
-                  gpointer source_object,
-                  gpointer task_data,
+copy_asr_configs (GTask        *task,
+                  gpointer      source_object,
+                  gpointer      task_data,
                   GCancellable *cancellable)
 {
   PtPreferencesDialog *self = PT_PREFERENCES_DIALOG (source_object);
-  gchar *basename;
-  gchar *dest_folder_path;
-  gchar *dest_path;
-  GFile *source;
-  GFile *dest;
-  GFile *sys_folder;
-  GFileEnumerator *files;
-  GError *error = NULL;
+  gchar               *basename;
+  gchar               *dest_folder_path;
+  gchar               *dest_path;
+  GFile               *source;
+  GFile               *dest;
+  GFile               *sys_folder;
+  GFileEnumerator     *files;
+  GError              *error = NULL;
 
   sys_folder = g_file_new_for_path (ASR_DIR); /* in config.h */
   dest_folder_path = g_file_get_path (pt_config_list_get_folder (self->list));
@@ -331,21 +331,21 @@ copy_asr_configs (GTask *task,
 
 static void
 items_changed_cb (GListModel *list,
-                  guint position, /* bogus */
-                  guint added,    /* bogus */
-                  guint removed,  /* bogus */
-                  gpointer user_data)
+                  guint       position, /* bogus */
+                  guint       added,    /* bogus */
+                  guint       removed,  /* bogus */
+                  gpointer    user_data)
 {
   /* PtConfigList implements GListModel in a very simplified way.
    * This signal means that everything might have changed. */
 
   PtPreferencesDialog *self = PT_PREFERENCES_DIALOG (user_data);
-  PtConfig *config;
-  guint n_configs = g_list_model_get_n_items (G_LIST_MODEL (self->list));
-  guint n_rows = self->config_rows->len;
-  GFile *config_file;
-  gchar *config_path;
-  gboolean active;
+  PtConfig            *config;
+  guint                n_configs = g_list_model_get_n_items (G_LIST_MODEL (self->list));
+  guint                n_rows = self->config_rows->len;
+  GFile               *config_file;
+  gchar               *config_path;
+  gboolean             active;
 
   gtk_widget_set_visible (self->initial_copy_button, n_configs == 0);
 
@@ -394,16 +394,16 @@ items_changed_cb (GListModel *list,
 }
 
 static void
-import_copy_ready_cb (GObject *source_object,
+import_copy_ready_cb (GObject      *source_object,
                       GAsyncResult *res,
-                      gpointer user_data)
+                      gpointer      user_data)
 {
   PtPreferencesDialog *self = PT_PREFERENCES_DIALOG (user_data);
-  GFile *file = G_FILE (source_object);
-  GError *error = NULL;
-  gboolean success;
-  GtkWindow *parent = GTK_WINDOW (self);
-  GtkAlertDialog *err_dialog;
+  GFile               *file = G_FILE (source_object);
+  GError              *error = NULL;
+  gboolean             success;
+  GtkWindow           *parent = GTK_WINDOW (self);
+  GtkAlertDialog      *err_dialog;
 
   success = g_file_copy_finish (file, res, &error);
 
@@ -422,20 +422,20 @@ import_copy_ready_cb (GObject *source_object,
 }
 
 static void
-dialog_open_cb (GObject *source,
+dialog_open_cb (GObject      *source,
                 GAsyncResult *result,
-                gpointer user_data)
+                gpointer      user_data)
 {
   PtPreferencesDialog *self = PT_PREFERENCES_DIALOG (user_data);
-  GFile *file;
-  PtConfig *config;
-  GtkWindow *parent = GTK_WINDOW (self);
-  GtkAlertDialog *err_dialog;
-  GFile *dest_folder;
-  gchar *dest_folder_path;
-  gchar *basename;
-  gchar *dest_path;
-  GFile *dest;
+  GFile               *file;
+  PtConfig            *config;
+  GtkWindow           *parent = GTK_WINDOW (self);
+  GtkAlertDialog      *err_dialog;
+  GFile               *dest_folder;
+  gchar               *dest_folder_path;
+  gchar               *basename;
+  gchar               *dest_path;
+  GFile               *dest;
 
   file = gtk_file_dialog_open_finish (GTK_FILE_DIALOG (source),
                                       result,
@@ -493,10 +493,10 @@ dialog_open_cb (GObject *source,
 
 static void
 initial_copy_button_clicked_cb (GtkButton *button,
-                                gpointer user_data)
+                                gpointer   user_data)
 {
   PtPreferencesDialog *self = PT_PREFERENCES_DIALOG (user_data);
-  GTask *task;
+  GTask               *task;
 
   task = g_task_new (self, /* source object */
                      NULL, /* cancellable   */
@@ -509,16 +509,16 @@ initial_copy_button_clicked_cb (GtkButton *button,
 
 static void
 import_button_clicked_cb (GtkButton *button,
-                          gpointer user_data)
+                          gpointer   user_data)
 {
   PtPreferencesDialog *self = PT_PREFERENCES_DIALOG (user_data);
-  GtkFileDialog *dialog;
-  GtkWindow *parent = GTK_WINDOW (self);
-  const char *home_path;
-  GFile *initial_folder;
-  GListStore *filters;
-  GtkFileFilter *filter_asr;
-  GtkFileFilter *filter_all;
+  GtkFileDialog       *dialog;
+  GtkWindow           *parent = GTK_WINDOW (self);
+  const char          *home_path;
+  GFile               *initial_folder;
+  GListStore          *filters;
+  GtkFileFilter       *filter_asr;
+  GtkFileFilter       *filter_all;
 
   dialog = gtk_file_dialog_new ();
   gtk_file_dialog_set_modal (dialog, TRUE);
@@ -687,7 +687,7 @@ pt_preferences_dialog_dispose (GObject *object)
 static void
 pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
 {
-  GObjectClass *object_class = G_OBJECT_CLASS (klass);
+  GObjectClass   *object_class = G_OBJECT_CLASS (klass);
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->dispose = pt_preferences_dialog_dispose;
@@ -716,7 +716,7 @@ pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
 
 static void
 prefs_destroy_cb (GtkWidget *widget,
-                  gpointer user_data)
+                  gpointer   user_data)
 {
   preferences_dialog = NULL;
 }

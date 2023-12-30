@@ -25,8 +25,8 @@
 #include <gst/gst.h>
 
 GstElement *
-_pt_make_element (gchar *factoryname,
-                  gchar *name,
+_pt_make_element (gchar   *factoryname,
+                  gchar   *name,
                   GError **error)
 {
   g_return_val_if_fail (error == NULL || *error == NULL, NULL);
