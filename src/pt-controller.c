@@ -27,14 +27,11 @@ struct _PtControllerPrivate
 
 enum
 {
-  PROP_0,
-  PROP_WIN,
+  PROP_WIN = 1,
   N_PROPERTIES
 };
 
-static GParamSpec *obj_properties[N_PROPERTIES] = {
-  NULL,
-};
+static GParamSpec *obj_properties[N_PROPERTIES];
 
 G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (PtController, pt_controller, G_TYPE_OBJECT)
 
@@ -105,11 +102,9 @@ pt_controller_class_init (PtControllerClass *klass)
   object_class->get_property = pt_controller_get_property;
 
   obj_properties[PROP_WIN] =
-      g_param_spec_object ("win",
-                           "Parent PtWindow",
-                           "Parent PtWindow",
+      g_param_spec_object ("win", NULL, NULL,
                            PT_WINDOW_TYPE,
-                           G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_EXPLICIT_NOTIFY);
+                           G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (
       object_class,

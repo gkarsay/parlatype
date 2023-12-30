@@ -31,15 +31,12 @@ struct _PtConfigRow
 
 enum
 {
-  PROP_0,
-  PROP_CONFIG,
+  PROP_CONFIG = 1,
   PROP_ACTIVE,
   N_PROPERTIES
 };
 
-static GParamSpec *obj_properties[N_PROPERTIES] = {
-  NULL,
-};
+static GParamSpec *obj_properties[N_PROPERTIES];
 
 G_DEFINE_FINAL_TYPE (PtConfigRow, pt_config_row, ADW_TYPE_ACTION_ROW)
 
@@ -247,11 +244,9 @@ pt_config_row_class_init (PtConfigRowClass *klass)
    */
   obj_properties[PROP_CONFIG] =
       g_param_spec_object (
-          "config",
-          "Config",
-          "The configuration",
+          "config", NULL, NULL,
           PT_TYPE_CONFIG,
-          G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+          G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
   /**
    * PtConfigRow:active:
@@ -260,11 +255,9 @@ pt_config_row_class_init (PtConfigRowClass *klass)
    */
   obj_properties[PROP_ACTIVE] =
       g_param_spec_boolean (
-          "active",
-          "Active",
-          "The configuration is active",
+          "active", NULL, NULL,
           FALSE,
-          G_PARAM_READWRITE);
+          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (
       G_OBJECT_CLASS (klass),

@@ -31,8 +31,7 @@ struct _PtPrefsInstallRow
 
 enum
 {
-  PROP_0,
-  PROP_CONFIG,
+  PROP_CONFIG = 1,
   PROP_INSTALLED,
   N_PROPERTIES
 };

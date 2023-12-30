@@ -108,8 +108,7 @@ struct _PtWaveviewerPrivate
 
 enum
 {
-  PROP_0,
-  PROP_PLAYBACK_CURSOR,
+  PROP_PLAYBACK_CURSOR = 1,
   PROP_FOLLOW_CURSOR,
   PROP_FIXED_CURSOR,
   PROP_SHOW_RULER,
@@ -128,9 +127,7 @@ enum
   LAST_SIGNAL
 };
 
-static GParamSpec *obj_properties[N_PROPERTIES] = {
-  NULL,
-};
+static GParamSpec *obj_properties[N_PROPERTIES];
 static guint signals[LAST_SIGNAL] = { 0 };
 static void pt_waveviewer_set_pps (PtWaveviewer *self, int pps);
 
@@ -1393,9 +1390,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 
   obj_properties[PROP_PLAYBACK_CURSOR] =
       g_param_spec_int64 (
-          "playback-cursor",
-          "Cursor position",
-          "Cursor’s position in 1/1000 seconds",
+          "playback-cursor", NULL, NULL,
           -1,
           G_MAXINT64,
           0,
@@ -1411,9 +1406,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 
   obj_properties[PROP_FOLLOW_CURSOR] =
       g_param_spec_boolean (
-          "follow-cursor",
-          _ ("Follow cursor"),
-          _ ("Scroll automatically to the cursor’s position"),
+          "follow-cursor", NULL, NULL,
           TRUE,
           G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
@@ -1428,10 +1421,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 
   obj_properties[PROP_FIXED_CURSOR] =
       g_param_spec_boolean (
-          "fixed-cursor",
-          _ ("Fixed cursor"),
-          _ ("If TRUE, the cursor is in a fixed position and the waveform is moving.\n"
-             "If FALSE, the cursor is moving."),
+          "fixed-cursor", NULL, NULL,
           TRUE,
           G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
@@ -1443,9 +1433,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 
   obj_properties[PROP_SHOW_RULER] =
       g_param_spec_boolean (
-          "show-ruler",
-          _ ("Show ruler"),
-          _ ("Show the time scale with time marks"),
+          "show-ruler", NULL, NULL,
           TRUE,
           G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
@@ -1457,9 +1445,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 
   obj_properties[PROP_HAS_SELECTION] =
       g_param_spec_boolean (
-          "has-selection",
-          "Has selection",
-          "Indicates whether something is selected",
+          "has-selection", NULL, NULL,
           FALSE,
           G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
@@ -1472,9 +1458,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 
   obj_properties[PROP_SELECTION_START] =
       g_param_spec_int64 (
-          "selection-start",
-          "Start time of selection",
-          "Start time of selection",
+          "selection-start", NULL, NULL,
           0,
           G_MAXINT64,
           0,
@@ -1489,9 +1473,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 
   obj_properties[PROP_SELECTION_END] =
       g_param_spec_int64 (
-          "selection-end",
-          "End time of selection",
-          "End time of selection",
+          "selection-end", NULL, NULL,
           0,
           G_MAXINT64,
           0,
@@ -1505,9 +1487,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 
   obj_properties[PROP_PPS] =
       g_param_spec_int (
-          "pps",
-          "Pixels per second",
-          "Current/requested resolution of waveform in pixels per second",
+          "pps", NULL, NULL,
           PPS_MIN,
           PPS_MAX,
           100,

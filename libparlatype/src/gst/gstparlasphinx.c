@@ -236,99 +236,99 @@ gst_parlasphinx_class_init (GstParlasphinxClass *klass)
                                    g_param_spec_string ("hmm", "HMM Directory",
                                                         "Directory containing acoustic model parameters",
                                                         NULL,
-                                                        G_PARAM_READWRITE));
+                                                        G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   g_object_class_install_property (gobject_class, PROP_LM_FILE,
                                    g_param_spec_string ("lm", "LM File",
                                                         "Language model file",
                                                         NULL,
-                                                        G_PARAM_READWRITE));
+                                                        G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   g_object_class_install_property (gobject_class, PROP_LMCTL_FILE,
                                    g_param_spec_string ("lmctl", "LM Control File",
                                                         "Language model control file (for class LMs)",
                                                         NULL,
-                                                        G_PARAM_READWRITE));
+                                                        G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   g_object_class_install_property (gobject_class, PROP_FSG_FILE,
                                    g_param_spec_string ("fsg", "FSG File",
                                                         "Finite state grammar file",
                                                         NULL,
-                                                        G_PARAM_READWRITE));
+                                                        G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   g_object_class_install_property (gobject_class, PROP_ALLPHONE_FILE,
                                    g_param_spec_string ("allphone", "Allphone File",
                                                         "Phonetic language model file",
                                                         NULL,
-                                                        G_PARAM_READWRITE));
+                                                        G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   g_object_class_install_property (gobject_class, PROP_KWS_FILE,
                                    g_param_spec_string ("kws", "Keyphrases File",
                                                         "List of keyphrases for spotting",
                                                         NULL,
-                                                        G_PARAM_READWRITE));
+                                                        G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   g_object_class_install_property (gobject_class, PROP_JSGF_FILE,
                                    g_param_spec_string ("jsgf", "Grammar file",
                                                         "File with grammar in Java Speech Grammar Format (JSGF)",
                                                         NULL,
-                                                        G_PARAM_READWRITE));
+                                                        G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   g_object_class_install_property (gobject_class, PROP_DICT_FILE,
                                    g_param_spec_string ("dict", "Dictionary File",
                                                         "Dictionary File",
                                                         NULL,
-                                                        G_PARAM_READWRITE));
+                                                        G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   g_object_class_install_property (gobject_class, PROP_FWDFLAT,
                                    g_param_spec_boolean ("fwdflat", "Flat Lexicon Search",
                                                          "Enable Flat Lexicon Search",
                                                          FALSE,
-                                                         G_PARAM_READWRITE));
+                                                         G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   g_object_class_install_property (gobject_class, PROP_BESTPATH,
                                    g_param_spec_boolean ("bestpath", "Graph Search",
                                                          "Enable Graph Search",
                                                          FALSE,
-                                                         G_PARAM_READWRITE));
+                                                         G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   g_object_class_install_property (gobject_class, PROP_MAXHMMPF,
                                    g_param_spec_int ("maxhmmpf", "Maximum HMMs per frame",
                                                      "Maximum number of HMMs searched per frame",
                                                      1, 100000, 1000,
-                                                     G_PARAM_READWRITE));
+                                                     G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   g_object_class_install_property (gobject_class, PROP_MAXWPF,
                                    g_param_spec_int ("maxwpf", "Maximum words per frame",
                                                      "Maximum number of words searched per frame",
                                                      1, 100000, 10,
-                                                     G_PARAM_READWRITE));
+                                                     G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   g_object_class_install_property (gobject_class, PROP_BEAM,
                                    g_param_spec_double ("beam", "Beam width applied to every frame in Viterbi search",
                                                         "Beam width applied to every frame in Viterbi search",
                                                         -1, 1, 1e-48,
-                                                        G_PARAM_READWRITE));
+                                                        G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   g_object_class_install_property (gobject_class, PROP_PBEAM,
                                    g_param_spec_double ("pbeam", "Beam width applied to phone transitions",
                                                         "Beam width applied to phone transitions",
                                                         -1, 1, 1e-48,
-                                                        G_PARAM_READWRITE));
+                                                        G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   g_object_class_install_property (gobject_class, PROP_WBEAM,
                                    g_param_spec_double ("wbeam", "Beam width applied to word exits",
                                                         "Beam width applied to phone transitions",
                                                         -1, 1, 7e-29,
-                                                        G_PARAM_READWRITE));
+                                                        G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   g_object_class_install_property (gobject_class, PROP_DSRATIO,
                                    g_param_spec_int ("dsratio", "Frame downsampling ratio",
                                                      "Evaluate acoustic model every N frames",
                                                      1, 10, 1,
-                                                     G_PARAM_READWRITE));
+                                                     G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
   /* Could be changed on runtime when ps is already initialized */
   g_object_class_install_property (gobject_class, PROP_LM_NAME,
                                    g_param_spec_string ("lmname", "LM Name",
                                                         "Language model name (to select LMs from lmctl)",
                                                         NULL,
-                                                        G_PARAM_READWRITE));
+                                                        G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   g_object_class_install_property (gobject_class, PROP_LATDIR,
                                    g_param_spec_string ("latdir", "Lattice Directory",
                                                         "Output Directory for Lattices",
                                                         NULL,
-                                                        G_PARAM_READWRITE));
+                                                        G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   g_object_class_install_property (gobject_class, PROP_DECODER,
                                    g_param_spec_boxed ("decoder", "Decoder object",
                                                        "The underlying decoder",
                                                        PS_DECODER_TYPE,
-                                                       G_PARAM_READABLE));
+                                                       G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
 
   GST_DEBUG_CATEGORY_INIT (parlasphinx_debug, "pocketsphinx", 0,
                            "Automatic Speech Recognition");

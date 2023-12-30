@@ -38,17 +38,14 @@ struct _PtConfigPrivate
 
 enum
 {
-  PROP_0,
-  PROP_FILE,
+  PROP_FILE = 1,
   PROP_IS_VALID,
   PROP_IS_INSTALLED,
   PROP_NAME,
   N_PROPERTIES
 };
 
-static GParamSpec *obj_properties[N_PROPERTIES] = {
-  NULL,
-};
+static GParamSpec *obj_properties[N_PROPERTIES];
 static gboolean pt_config_verify_install (PtConfig *self);
 
 G_DEFINE_TYPE_WITH_PRIVATE (PtConfig, pt_config, G_TYPE_OBJECT)
@@ -953,11 +950,9 @@ pt_config_class_init (PtConfigClass *klass)
    */
   obj_properties[PROP_FILE] =
       g_param_spec_object (
-          "file",
-          "File",
-          "File used to construct object",
+          "file", NULL, NULL,
           G_TYPE_FILE,
-          G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
+          G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
   /**
    * PtConfig:is-valid:
@@ -969,11 +964,9 @@ pt_config_class_init (PtConfigClass *klass)
    */
   obj_properties[PROP_IS_VALID] =
       g_param_spec_boolean (
-          "is-valid",
-          "Valid",
-          "Whether the config is formally valid",
+          "is-valid", NULL, NULL,
           FALSE,
-          G_PARAM_READABLE);
+          G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
   /**
    * PtConfig:is-installed:
@@ -982,11 +975,9 @@ pt_config_class_init (PtConfigClass *klass)
    */
   obj_properties[PROP_IS_INSTALLED] =
       g_param_spec_boolean (
-          "is-installed",
-          "Installed",
-          "Whether the language model is installed",
+          "is-installed", NULL, NULL,
           FALSE,
-          G_PARAM_READABLE);
+          G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
   /**
    * PtConfig:name:
@@ -995,11 +986,9 @@ pt_config_class_init (PtConfigClass *klass)
    */
   obj_properties[PROP_NAME] =
       g_param_spec_string (
-          "name",
-          "Name",
-          "Display name for the model",
+          "name", NULL, NULL,
           NULL,
-          G_PARAM_READABLE);
+          G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (
       G_OBJECT_CLASS (klass),

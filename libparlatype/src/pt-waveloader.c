@@ -62,8 +62,7 @@ struct _PtWaveloaderPrivate
 
 enum
 {
-  PROP_0,
-  PROP_URI,
+  PROP_URI = 1,
   N_PROPERTIES
 };
 
@@ -74,9 +73,7 @@ enum
   LAST_SIGNAL
 };
 
-static GParamSpec *obj_properties[N_PROPERTIES] = {
-  NULL,
-};
+static GParamSpec *obj_properties[N_PROPERTIES];
 static guint signals[LAST_SIGNAL] = { 0 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PtWaveloader, pt_waveloader, G_TYPE_OBJECT)
@@ -967,11 +964,9 @@ pt_waveloader_class_init (PtWaveloaderClass *klass)
    */
   obj_properties[PROP_URI] =
       g_param_spec_string (
-          "uri",
-          "URI to load from",
-          "URI to load from",
+          "uri", NULL, NULL,
           "",
-          G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+          G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (
       G_OBJECT_CLASS (klass),

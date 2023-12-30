@@ -96,8 +96,7 @@ struct _PtPlayerPrivate
 
 enum
 {
-  PROP_0,
-  PROP_STATE,
+  PROP_STATE = 1,
   PROP_CURRENT_URI,
   PROP_SPEED,
   PROP_MUTE,
@@ -114,9 +113,7 @@ enum
   N_PROPERTIES
 };
 
-static GParamSpec *obj_properties[N_PROPERTIES] = {
-  NULL,
-};
+static GParamSpec *obj_properties[N_PROPERTIES];
 
 #define ONE_HOUR 3600000
 #define TEN_MINUTES 600000
@@ -2621,13 +2618,11 @@ pt_player_class_init (PtPlayerClass *klass)
    */
   obj_properties[PROP_SPEED] =
       g_param_spec_double (
-          "speed",
-          "Speed of playback",
-          "1 is normal speed",
+          "speed", NULL, NULL,
           0.1, /* minimum */
           2.0, /* maximum */
           1.0,
-          G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+          G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
   /**
    * PtPlayer:volume:
@@ -2642,13 +2637,11 @@ pt_player_class_init (PtPlayerClass *klass)
    */
   obj_properties[PROP_VOLUME] =
       g_param_spec_double (
-          "volume",
-          "Volume of playback",
-          "Volume from 0 to 1",
+          "volume", NULL, NULL,
           0.0, /* minimum */
           1.0, /* maximum */
           1.0,
-          G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+          G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
   /**
    * PtPlayer:mute:
@@ -2657,11 +2650,9 @@ pt_player_class_init (PtPlayerClass *klass)
    */
   obj_properties[PROP_MUTE] =
       g_param_spec_boolean (
-          "mute",
-          "Mute",
-          "Mute state of audio stream",
+          "mute", NULL, NULL,
           FALSE,
-          G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+          G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
   /**
    * PtPlayer:timestamp-precision:
@@ -2670,13 +2661,11 @@ pt_player_class_init (PtPlayerClass *klass)
    */
   obj_properties[PROP_TIMESTAMP_PRECISION] =
       g_param_spec_int (
-          "timestamp-precision",
-          "Precision of timestamps",
-          "Precision of timestamps",
+          "timestamp-precision", NULL, NULL,
           0, /* minimum = PT_PRECISION_SECOND */
           3, /* maximum = PT_PRECISION_INVALID */
           1,
-          G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+          G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
   /**
    * PtPlayer:timestamp-fixed:
@@ -2685,11 +2674,9 @@ pt_player_class_init (PtPlayerClass *klass)
    */
   obj_properties[PROP_TIMESTAMP_FIXED] =
       g_param_spec_boolean (
-          "timestamp-fixed",
-          "Timestamps with fixed digits",
-          "Timestamps with fixed digits",
+          "timestamp-fixed", NULL, NULL,
           FALSE,
-          G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+          G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
   /**
    * PtPlayer:timestamp-delimiter:
@@ -2701,11 +2688,9 @@ pt_player_class_init (PtPlayerClass *klass)
    */
   obj_properties[PROP_TIMESTAMP_DELIMITER] =
       g_param_spec_string (
-          "timestamp-delimiter",
-          "Timestamp delimiter",
-          "Timestamp delimiter",
+          "timestamp-delimiter", NULL, NULL,
           "#",
-          G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+          G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
   /**
    * PtPlayer:timestamp-fraction-sep:
@@ -2716,11 +2701,9 @@ pt_player_class_init (PtPlayerClass *klass)
    */
   obj_properties[PROP_TIMESTAMP_FRACTION_SEP] =
       g_param_spec_string (
-          "timestamp-fraction-sep",
-          "Timestamp fraction separator",
-          "Timestamp fraction separator",
+          "timestamp-fraction-sep", NULL, NULL,
           ".",
-          G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+          G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
   /**
    * PtPlayer:pause:
@@ -2729,13 +2712,11 @@ pt_player_class_init (PtPlayerClass *klass)
    */
   obj_properties[PROP_REWIND_ON_PAUSE] =
       g_param_spec_int (
-          "pause",
-          "Milliseconds to rewind on pause",
-          "Milliseconds to rewind on pause",
+          "pause", NULL, NULL,
           0,     /* minimum */
           10000, /* maximum */
           0,
-          G_PARAM_READWRITE);
+          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   /**
    * PtPlayer:back:
@@ -2744,13 +2725,11 @@ pt_player_class_init (PtPlayerClass *klass)
    */
   obj_properties[PROP_BACK] =
       g_param_spec_int (
-          "back",
-          "Milliseconds to jump back",
-          "Milliseconds to jump back",
+          "back", NULL, NULL,
           1000,  /* minimum */
           60000, /* maximum */
           10000,
-          G_PARAM_READWRITE);
+          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   /**
    * PtPlayer:forward:
@@ -2759,13 +2738,11 @@ pt_player_class_init (PtPlayerClass *klass)
    */
   obj_properties[PROP_FORWARD] =
       g_param_spec_int (
-          "forward",
-          "Milliseconds to jump forward",
-          "Milliseconds to jump forward",
+          "forward", NULL, NULL,
           1000,  /* minimum */
           60000, /* maximum */
           10000,
-          G_PARAM_READWRITE);
+          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   /**
    * PtPlayer:repeat-all:
@@ -2774,11 +2751,9 @@ pt_player_class_init (PtPlayerClass *klass)
    */
   obj_properties[PROP_REPEAT_ALL] =
       g_param_spec_boolean (
-          "repeat-all",
-          "Repeat all",
-          "Repeat all",
+          "repeat-all", NULL, NULL,
           FALSE,
-          G_PARAM_READWRITE);
+          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   /**
    * PtPlayer:repeat-selection:
@@ -2787,11 +2762,9 @@ pt_player_class_init (PtPlayerClass *klass)
    */
   obj_properties[PROP_REPEAT_SELECTION] =
       g_param_spec_boolean (
-          "repeat-selection",
-          "Repeat selection",
-          "Repeat selection",
+          "repeat-selection", NULL, NULL,
           FALSE,
-          G_PARAM_READWRITE);
+          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   /**
    * PtPlayer:state:
@@ -2800,13 +2773,11 @@ pt_player_class_init (PtPlayerClass *klass)
    */
   obj_properties[PROP_STATE] =
       g_param_spec_int (
-          "state",
-          "State",
-          "PtPlayer’s current state",
+          "state", NULL, NULL,
           0, /* minimum = PT_STATE_STOPPED */
           2, /* maximum = PT_STATE_PLAYING */
           0,
-          G_PARAM_READABLE);
+          G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
   /**
    * PtPlayer:current-uri:
@@ -2815,11 +2786,9 @@ pt_player_class_init (PtPlayerClass *klass)
    */
   obj_properties[PROP_CURRENT_URI] =
       g_param_spec_string (
-          "current-uri",
-          "Current URI",
-          "URI of the currently loaded stream",
+          "current-uri", NULL, NULL,
           NULL,
-          G_PARAM_READABLE);
+          G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (
       G_OBJECT_CLASS (klass),
