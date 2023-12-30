@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
-"POT-Creation-Date: 2021-10-18 21:35+0200\n"
+"POT-Creation-Date: 2023-12-30 17:03+0100\n"
 "PO-Revision-Date: 2022-01-04 00:55+0000\n"
 "Last-Translator: Reza Almanda <rezaalmanda27@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/parlatype/"
@@ -28,27 +28,28 @@ msgstr ""
 "  Ari Setyo Wibowo https://launchpad.net/~ari-el-uno"
 
 #. (itstool) path: info/title
-#: C/index.page:7
+#: ../help/C/index.page:7
 msgctxt "text"
 msgid "Parlatype"
 msgstr "Parlatype"
 
 #. (itstool) path: info/title
-#: C/index.page:8
+#: ../help/C/index.page:8
 msgctxt "link"
 msgid "Parlatype"
 msgstr "Parlatype"
 
 #. (itstool) path: credit/name
-#: C/index.page:10 C/drag-and-drop.page:8 C/first-steps.page:8
-#: C/keyboard-shortcuts.page:8 C/preferences.page:8 C/selections.page:8
-#: C/timestamps.page:8 C/asr.page:9 C/asr-setup.page:9 C/media-keys.page:8
+#: ../help/C/index.page:10 ../help/C/drag-and-drop.page:8
+#: ../help/C/first-steps.page:9 ../help/C/keyboard-shortcuts.page:8
+#: ../help/C/preferences.page:9 ../help/C/selections.page:8
+#: ../help/C/timestamps.page:8 ../help/C/asr.page:9 ../help/C/asr-setup.page:9
 msgid "Gabor Karsay"
 msgstr "Gabor Karsay"
 
 #. (itstool) path: info/desc
 #. (itstool) path: page/p
-#: C/index.page:14 C/index.page:23
+#: ../help/C/index.page:14 ../help/C/index.page:23
 msgid ""
 "<app>Parlatype</app> is an easy to use media player. Its main purpose is to "
 "help you transcribing speech."
@@ -57,12 +58,12 @@ msgstr ""
 "utamanya untuk membantu Anda mentranskrip pembicaraan."
 
 #. (itstool) path: page/title
-#: C/index.page:18
+#: ../help/C/index.page:18
 msgid "<_:media-1/> Parlatype"
 msgstr "<_:media-1/> Parlatype"
 
 #. (itstool) path: page/p
-#: C/index.page:24
+#: ../help/C/index.page:24
 msgid ""
 "For a quick overview have a look at <link xref=\"first-steps\"/>. Other "
 "topics are covered below."
@@ -71,29 +72,29 @@ msgstr ""
 "lainnya terdapat di bawah."
 
 #. (itstool) path: section/title
-#: C/index.page:27
+#: ../help/C/index.page:27
 msgid "Help topics"
 msgstr "Topik bantuan"
 
 #. (itstool) path: info/desc
-#: C/drag-and-drop.page:6
+#: ../help/C/drag-and-drop.page:6
 msgid "Drop files, file names or timestamps on Parlatype"
 msgstr "Jatuhkan berkas, nama berkas atau informasi waktu pada Parlatype"
 
 #. (itstool) path: page/title
-#: C/drag-and-drop.page:14
+#: ../help/C/drag-and-drop.page:14
 msgid "Drag and Drop"
 msgstr "Seret dan Jatuhkan"
 
 #. (itstool) path: page/p
-#: C/drag-and-drop.page:16
+#: ../help/C/drag-and-drop.page:16
 msgid ""
 "You can drop files, file names or timestamps on <app>Parlatype</app>’s "
 "window."
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/drag-and-drop.page:19
+#: ../help/C/drag-and-drop.page:19
 msgid ""
 "Files: Drag and drop a file from a file manager, e.g. <app>Files</app>, on "
 "<app>Parlatype</app> and it will open that file."
@@ -103,7 +104,7 @@ msgstr ""
 "tersebut."
 
 #. (itstool) path: item/p
-#: C/drag-and-drop.page:20
+#: ../help/C/drag-and-drop.page:20
 msgid ""
 "File names: Select a file name from a word processor, e.g. <app>LibreOffice</"
 "app>, drop the selected text on <app>Parlatype</app> and it will open that "
@@ -119,7 +120,7 @@ msgstr ""
 "membukanya jika tidak menemukan dari daftar."
 
 #. (itstool) path: item/p
-#: C/drag-and-drop.page:21
+#: ../help/C/drag-and-drop.page:21
 msgid ""
 "Timestamps: You can drag and drop timestamps to <app>Parlatype</app>. Select "
 "a timestamp from a word processor, e.g. <app>LibreOffice</app>, drop the "
@@ -127,13 +128,19 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: info/desc
-#. (itstool) path: page/title
-#: C/first-steps.page:6 C/first-steps.page:14
+#: ../help/C/first-steps.page:7
 msgid "First steps with Parlatype"
 msgstr "Langkah pertama dengan Parlatype"
 
+#. (itstool) path: page/title
+#: ../help/C/first-steps.page:15
+#, fuzzy
+#| msgid "First steps with Parlatype"
+msgid "First Steps With Parlatype"
+msgstr "Langkah pertama dengan Parlatype"
+
 #. (itstool) path: page/p
-#: C/first-steps.page:16
+#: ../help/C/first-steps.page:17
 msgid ""
 "<app>Parlatype</app> is an easy to use audio player to help you transcribing "
 "or annotating recorded speech. You need to run a word processor, e.g. "
@@ -147,12 +154,12 @@ msgstr ""
 "pada tombol <gui>Open</gui> di pojok kiri atas."
 
 #. (itstool) path: note/p
-#: C/first-steps.page:19
+#: ../help/C/first-steps.page:20
 msgid "You can also drag and drop a file on <app>Parlatype</app>."
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/first-steps.page:22
+#: ../help/C/first-steps.page:23
 msgid ""
 "In the lower left corner there are the controls with a <gui>Play</gui> "
 "button which toggles between play and pause. Whenever you pause, "
@@ -160,31 +167,24 @@ msgid ""
 "can be changed in the <link xref=\"preferences\"/>."
 msgstr ""
 
-#. (itstool) path: page/media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/first-steps.page:24
-msgctxt "_"
-msgid ""
-"external ref='figures/parlatype-main-window.png' "
-"md5='48f6b285bedaf2f9ab0a8760807f0fda'"
-msgstr ""
-
 #. (itstool) path: page/p
-#: C/first-steps.page:26
+#: ../help/C/first-steps.page:27
+#, fuzzy
+#| msgid ""
+#| "The buttons <gui>Jump back</gui> and <gui>Jump forward</gui> in the lower "
+#| "left corner skip a few seconds back or ahead. The amount of time can be "
+#| "changed in the <link xref=\"preferences\"/>."
 msgid ""
-"The buttons <gui>Jump back</gui> and <gui>Jump forward</gui> in the lower "
-"left corner skip a few seconds back or ahead. The amount of time can be "
-"changed in the <link xref=\"preferences\"/>."
+"The buttons <gui>Skip backward</gui> and <gui>Skip forward</gui> in the "
+"lower left corner skip a few seconds back or ahead. The amount of time can "
+"be changed in the <link xref=\"preferences\"/>."
 msgstr ""
 "Tombol <gui>Jump back</gui> dan <gui>Jump forward</gui> di pojok kiri bawah "
 "melewati beberapa detik ke belakang atau ke depan. Jumlah waktu dapat diubah "
 "di <link xref=\"preferences\"/>."
 
 #. (itstool) path: page/p
-#: C/first-steps.page:28
+#: ../help/C/first-steps.page:29
 msgid ""
 "The view scrolls automatically so that the cursor is always visible. You can "
 "scroll manually by clicking on or dragging the scroll bar or using the "
@@ -195,29 +195,39 @@ msgstr ""
 "menggunakan tombol standar. Scroll otomatis akan dihentikan."
 
 #. (itstool) path: page/p
-#: C/first-steps.page:30
+#: ../help/C/first-steps.page:31
 msgid ""
 "To get back to the cursor’s position and let the view scroll automatically "
 "again, click on the menu button showing the time and then on <gui>Go to "
-"cursor</gui>. Clicking on the <gui>Play</gui> button also turns automatic "
+"Cursor</gui>. Clicking on the <gui>Play</gui> button also turns automatic "
 "scrolling on."
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/first-steps.page:32
+#: ../help/C/first-steps.page:33
+#, fuzzy
+#| msgid ""
+#| "Clicking in the view with the right mouse button will put the cursor "
+#| "there, also holding the right mouse button pressed and moving it. The "
+#| "left mouse button is for <link xref=\"selections\"/>."
 msgid ""
-"Clicking in the view with the right mouse button will put the cursor there, "
-"also holding the right mouse button pressed and moving it. The left mouse "
-"button is for <link xref=\"selections\"/>."
+"Clicking in the view with the right mouse button will put the cursor there. "
+"The left mouse button is for <link xref=\"selections\"/>."
 msgstr ""
 "Klik pada tampilan dengan tombol kanan tetikus akan meletakkan kursor ke "
 "sana, juga menahan tombol kanan tetikus tertekan dan memindahnya. Tombol "
 "kiri tetikus untuk <link xref=\"selections\"/>."
 
 #. (itstool) path: page/p
-#: C/first-steps.page:34
+#: ../help/C/first-steps.page:35
+#, fuzzy
+#| msgid ""
+#| "The <gui>speed scale</gui> next to the <gui>volume</gui> button in the "
+#| "lower right corner lets you adjust the speed of playback. A value of 1 "
+#| "means normal speed, everything lower (down to 0.5) is slower, everything "
+#| "above is faster."
 msgid ""
-"The <gui>speed scale</gui> next to the <gui>volume</gui> button in the lower "
+"The <gui>speed scale</gui> next to the <gui>Volume</gui> button in the lower "
 "right corner lets you adjust the speed of playback. A value of 1 means "
 "normal speed, everything lower (down to 0.5) is slower, everything above is "
 "faster."
@@ -228,445 +238,315 @@ msgstr ""
 "semua yang lebih tinggi adalah lebih cepat."
 
 #. (itstool) path: info/desc
-#: C/keyboard-shortcuts.page:6
+#: ../help/C/keyboard-shortcuts.page:6
 msgid "Standard keyboard shortcuts in Parlatype"
 msgstr "Pintasan papan ketik standar pada Parlatype"
 
 #. (itstool) path: page/title
-#: C/keyboard-shortcuts.page:14
-msgid "Keyboard shortcuts"
+#: ../help/C/keyboard-shortcuts.page:14
+#, fuzzy
+#| msgid "Keyboard shortcuts"
+msgid "Keyboard Shortcuts"
 msgstr "Pintasan papan ketik"
 
-#. (itstool) path: page/p
-#: C/keyboard-shortcuts.page:16
-msgid ""
-"Keyboard shortcuts for <app>Parlatype</app> control, like <key>Play</key>, "
-"are described in <link xref=\"control\"/>. Shortcut keys for the window are "
-"listed below."
-msgstr ""
-"Pintasan papan ketik untuk kendali <app>Parlatype</app>, seperti <key>Main</"
-"key>, dideskripsikan di <link xref=\"control\"/>. Tombol pintasan untuk "
-"jendela terdaftar di bawah ini."
-
 #. (itstool) path: table/title
-#: C/keyboard-shortcuts.page:19
+#: ../help/C/keyboard-shortcuts.page:17
 msgid "Standard Shortcut keys"
 msgstr "Tombol pintasan standar"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:22
+#: ../help/C/keyboard-shortcuts.page:20
 msgid "To Do This"
 msgstr "Untuk Melakukan Ini"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:23
+#: ../help/C/keyboard-shortcuts.page:21
 msgid "Press This"
 msgstr "Tekan Ini"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:28
+#: ../help/C/keyboard-shortcuts.page:26
 msgid "Show help"
 msgstr "Tampilkan bantuan"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:29
+#: ../help/C/keyboard-shortcuts.page:27
 msgid "<key>F1</key>"
 msgstr "<key>F1</key>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:32
+#: ../help/C/keyboard-shortcuts.page:30
 msgid "Open file"
 msgstr "Buka berkas"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:33
+#: ../help/C/keyboard-shortcuts.page:31
 msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:36
+#: ../help/C/keyboard-shortcuts.page:34
 msgid "Play/Pause"
 msgstr "Mulai/Jeda"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:37
+#: ../help/C/keyboard-shortcuts.page:35
 msgid "<keyseq><key>Ctrl</key><key>Space</key></keyseq>"
 msgstr ""
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:40
+#: ../help/C/keyboard-shortcuts.page:38
 msgid "Go to …"
 msgstr "Pergi ke …"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:41
+#: ../help/C/keyboard-shortcuts.page:39
 msgid "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:44
-msgid "Jump back"
+#: ../help/C/keyboard-shortcuts.page:42
+msgid "Skip backward"
 msgstr ""
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:45
-msgid "<keyseq><key>Ctrl</key><key>Left</key></keyseq>"
+#: ../help/C/keyboard-shortcuts.page:43
+#, fuzzy
+#| msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
+msgid "<keyseq><key>Ctrl</key><key>a</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
+
+#. (itstool) path: td/p
+#: ../help/C/keyboard-shortcuts.page:46
+msgid "Skip forward"
 msgstr ""
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:48
-msgid "Jump forward"
-msgstr ""
+#: ../help/C/keyboard-shortcuts.page:47
+#, fuzzy
+#| msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
+msgid "<keyseq><key>Ctrl</key><key>s</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:49
-msgid "<keyseq><key>Ctrl</key><key>Right</key></keyseq>"
-msgstr ""
-
-#. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:52
+#: ../help/C/keyboard-shortcuts.page:50
 msgid "Copy timestamp"
 msgstr "Salin informasi waktu"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:53
+#: ../help/C/keyboard-shortcuts.page:51
 msgid "<keyseq><key>Ctrl</key><key>c</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>c</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:56
+#: ../help/C/keyboard-shortcuts.page:54
 msgid "Insert timestamp"
 msgstr "Masukkan informasi waktu"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:57
+#: ../help/C/keyboard-shortcuts.page:55
 msgid "<keyseq><key>Ctrl</key><key>v</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>v</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:60
+#: ../help/C/keyboard-shortcuts.page:58
 msgid "Zoom in"
 msgstr "Perbesar"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:61
+#: ../help/C/keyboard-shortcuts.page:59
 msgid "<keyseq><key>Ctrl</key><key>+</key></keyseq>"
 msgstr ""
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:64
+#: ../help/C/keyboard-shortcuts.page:62
 msgid "Zoom out"
 msgstr "Perkecil"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:65
+#: ../help/C/keyboard-shortcuts.page:63
 msgid "<keyseq><key>Ctrl</key><key>-</key></keyseq>"
 msgstr ""
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:68
+#: ../help/C/keyboard-shortcuts.page:66
 msgid "Quit"
 msgstr "Keluar"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:69
+#: ../help/C/keyboard-shortcuts.page:67
 msgid "<keyseq><key>Ctrl</key><key>q</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>q</key></keyseq>"
 
 #. (itstool) path: p/link
-#: C/legal.xml:5
+#: ../help/C/legal.xml:5
 msgid "Creative Commons Attribution-ShareAlike 4.0 International"
 msgstr "Creative Commons Attribution-ShareAlike 4.0 Internasional"
 
 #. (itstool) path: license/p
-#: C/legal.xml:4
+#: ../help/C/legal.xml:4
 msgid "This work is licensed under a <_:link-1/> license."
 msgstr "Pekerjaan ini dilisensikan di bawah lisensi <_:link-1/>."
 
 #. (itstool) path: info/desc
-#: C/preferences.page:6
+#: ../help/C/preferences.page:7
 msgid "How to customize Parlatype"
 msgstr "Bagaimana kustomasi Parlatype"
 
 #. (itstool) path: page/title
-#: C/preferences.page:14
+#: ../help/C/preferences.page:15
 msgid "Preferences"
 msgstr "Preferensi"
 
 #. (itstool) path: page/p
-#: C/preferences.page:16
+#: ../help/C/preferences.page:17
 msgid ""
 "To open the preferences dialog click on the primary menu in the headerbar."
 msgstr ""
 
 #. (itstool) path: section/title
-#: C/preferences.page:21
-msgid "Preferences for the waveform"
-msgstr ""
-
-#. (itstool) path: section/media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/preferences.page:23
-msgctxt "_"
-msgid ""
-"external ref='figures/parlatype-prefs-waveform.png' "
-"md5='9d91fd985b6758d99cdf9479ef54105c'"
+#: ../help/C/preferences.page:22
+msgid "Preferences for the Waveform"
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/preferences.page:26
+#: ../help/C/preferences.page:27
 msgid ""
-"Resolution: The resolution of the waveform image is given in pixels per "
-"second, e.g. the default resolution of 100 means, that one second is shown "
-"with a width of 100 pixels."
+"Waveform Detail: The level of detail in vertical lines per second. The more "
+"lines are shown, the more details you can see."
 msgstr ""
-"Resolusi: Resolusi gambar gelombang pada satuan pixel per detik, seperti. "
-"resoluysi default 100 berarti, bahwa satu detik ditampilkan dalam lebar 100 "
-"pixel."
 
 #. (itstool) path: item/p
-#: C/preferences.page:27
+#: ../help/C/preferences.page:28
+#, fuzzy
+#| msgid "Show time scale: Turn the time scale on or off."
+msgid "Show Time Scale: Turn the time scale on or off."
+msgstr "Tampilkan skala waktu: Nyalakan atau matikan skala waktu."
+
+#. (itstool) path: item/p
+#: ../help/C/preferences.page:29
+#, fuzzy
+#| msgid ""
+#| "Fixed vs. moving cursor: There are two modes, how to follow the cursor. "
+#| "On slower systems a moving cursor might be smoother."
 msgid ""
-"Fixed vs. moving cursor: There are two modes, how to follow the cursor. On "
-"slower systems a moving cursor might be smoother."
+"Cursor Mode: Choose between Fixed and Moving Cursor. On slower systems a "
+"moving cursor might be smoother."
 msgstr ""
 "Kursor tetap vs. bergerak: Ada dua mode, bagaimana mengikuti kursor. Pada "
 "sistem yang lebih lambat kursor yang bergerak mungkin lebih halus."
 
-#. (itstool) path: item/p
-#: C/preferences.page:28
-msgid "Show time scale: Turn the time scale on or off."
-msgstr "Tampilkan skala waktu: Nyalakan atau matikan skala waktu."
-
 #. (itstool) path: section/title
-#: C/preferences.page:33
-msgid "Preferences for controls"
-msgstr ""
-
-#. (itstool) path: section/media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/preferences.page:35
-msgctxt "_"
-msgid ""
-"external ref='figures/parlatype-prefs-controls.png' "
-"md5='e4a386123491d156f4a1415d70fae2fc'"
+#: ../help/C/preferences.page:34
+msgid "Preferences for Audio Controls"
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/preferences.page:38
+#: ../help/C/preferences.page:39
 msgid ""
-"Jump back on pause: <app>Parlatype</app> will rewind a few seconds on each "
+"Rewind on Pause: <app>Parlatype</app> will rewind a few seconds on each "
 "pause, this way you can easier resume typing. Set this value to 0 if you "
 "don’t want this behaviour."
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/preferences.page:39
+#: ../help/C/preferences.page:40
+#, fuzzy
+#| msgid ""
+#| "Jump back: Configures how many seconds to skip when the <gui>Jump back</"
+#| "gui> button is pressed."
 msgid ""
-"Jump back: Configures how many seconds to skip when the <gui>Jump back</gui> "
-"button is pressed."
+"Skip Backward: Configures how many seconds to skip when the <gui>Skip "
+"Backward</gui> button is pressed."
 msgstr ""
 "Lompat mundur: Atur berapa detik untuk melewati saat tombol <gui>Lompat "
 "mundur</gui> ditekan."
 
 #. (itstool) path: item/p
-#: C/preferences.page:40
+#: ../help/C/preferences.page:41
+#, fuzzy
+#| msgid ""
+#| "Jump forward: Configures how many seconds to skip when the <gui>Jump "
+#| "forward</gui> button is pressed."
 msgid ""
-"Jump forward: Configures how many seconds to skip when the <gui>Jump "
-"forward</gui> button is pressed."
+"Skip Forward: Configures how many seconds to skip when the <gui>Skip "
+"Forward</gui> button is pressed."
 msgstr ""
 "Lompat maju: Atur berapa detik untuk melewati saat tombol <gui>Lompat maju</"
 "gui> ditekan."
 
 #. (itstool) path: item/p
-#: C/preferences.page:41
+#: ../help/C/preferences.page:42
 msgid ""
-"Pressing <gui>Play</gui> at the end of file – Replay file: Whether you want "
-"to repeat the file at the end. If not, it will replay a few seconds like on "
-"pause."
+"At End of File Replay File: Whether you want to repeat the file at the end. "
+"If not, it will replay a few seconds like on pause."
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/preferences.page:42
+#: ../help/C/preferences.page:43
 msgid ""
-"Pressing <gui>Play</gui> at the end of selection – Replay selection: Whether "
-"you want to repeat the selection. If not, it will replay a few seconds like "
-"on pause."
+"At End of Selection Replay Selection: Whether you want to repeat the "
+"selection. If not, it will replay a few seconds like on pause."
 msgstr ""
 
 #. (itstool) path: section/title
-#: C/preferences.page:47
-msgid "Preferences for timestamps"
-msgstr ""
-
-#. (itstool) path: section/media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/preferences.page:49
-msgctxt "_"
-msgid ""
-"external ref='figures/parlatype-prefs-timestamps.png' "
-"md5='03e59b46213ae5cb77eb6a52d9729969'"
+#: ../help/C/preferences.page:48
+msgid "Preferences for Timestamps"
 msgstr ""
 
 #. (itstool) path: section/p
-#: C/preferences.page:51
+#: ../help/C/preferences.page:52
 msgid ""
 "These settings affect how <app>Parlatype</app> formats timestamps. If you "
 "need a certain format in your transcription, you can adjust it here."
 msgstr ""
 
 #. (itstool) path: note/p
-#: C/preferences.page:52
+#: ../help/C/preferences.page:53
 msgid ""
 "There are no settings for <em>reading</em> timestamps. <app>Parlatype</app> "
 "reads and accepts all of these formats."
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/preferences.page:54
+#: ../help/C/preferences.page:55
 msgid ""
-"Always show hours and leading zeroes: Whether to show a fixed number of "
+"Always Show Hours and Leading Zeroes: Whether to show a fixed number of "
 "digits. Changing any of these values will show an updated example in the "
-"<gui>Example</gui> section below."
+"<gui>Preview</gui> section below."
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/preferences.page:55
+#: ../help/C/preferences.page:56
 msgid "Precision: Choose between full seconds, 10th seconds or 100th seconds."
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/preferences.page:56
+#: ../help/C/preferences.page:57
 msgid ""
-"Fraction separator: Choose between a point or a hyphen to separate fractions "
+"Fraction Separator: Choose between a point or a hyphen to separate fractions "
 "of a second."
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/preferences.page:57
+#: ../help/C/preferences.page:58
 msgid ""
-"Characters around timestamps: Choose between number signs, round brackets, "
+"Characters Around Timestamps: Choose between number signs, round brackets, "
 "square brackets or none."
 msgstr ""
 
-#. (itstool) path: section/title
-#: C/preferences.page:62
-msgid "Preferences for speech recognition"
-msgstr ""
-
-#. (itstool) path: note/p
-#: C/preferences.page:65
-msgid ""
-"This tab is only visible, if speech recognition is enabled in Parlatype."
-msgstr ""
-
-#. (itstool) path: section/media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/preferences.page:68
-msgctxt "_"
-msgid ""
-"external ref='figures/parlatype-prefs-asr.png' "
-"md5='6dee1ebd03b65edbb0bff9811d602c10'"
-msgstr ""
-
-#. (itstool) path: section/p
-#: C/preferences.page:70
-msgid ""
-"Here you can choose which language model to use. If you don’t have a "
-"language model yet, an assistant will guide you through the process of "
-"downloading it. You can have as many language models as you need, they can "
-"be added with the <gui>+</gui> button."
-msgstr ""
-
-#. (itstool) path: section/p
-#: C/preferences.page:72
-msgid ""
-"To select a model click on its radio button in the list. If you click just "
-"on the name, you can see the model’s basic parameters. You could even change "
-"them, but that’s not recommended."
-msgstr ""
-
-#. (itstool) path: section/p
-#: C/preferences.page:74
-msgid ""
-"The <gui>-</gui> button removes a model from the list. The model’s files "
-"however are <em>not</em> deleted, just the model entry is removed."
-msgstr ""
-
-#. (itstool) path: section/title
-#: C/preferences.page:80
-msgid "Preferences for the window"
-msgstr ""
-
-#. (itstool) path: section/media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/preferences.page:82
-msgctxt "_"
-msgid ""
-"external ref='figures/parlatype-prefs-window.png' "
-"md5='be540a7e2a351b80f5710048450c0735'"
-msgstr ""
-
-#. (itstool) path: item/p
-#: C/preferences.page:85
-msgid ""
-"Remember size: On start-up <app>Parlatype</app> sets the window size to the "
-"size it had the last time."
-msgstr ""
-
-#. (itstool) path: item/p
-#: C/preferences.page:86
-msgid ""
-"Remember position: On start-up <app>Parlatype</app> can position its window "
-"where you had it when you closed <app>Parlatype</app> last time."
-msgstr ""
-
-#. (itstool) path: item/p
-#: C/preferences.page:87
-msgid ""
-"Start on top: This will put <app>Parlatype</app> on start-up on top of other "
-"windows. This might be useful if you are working with a maximized word "
-"processor and still want to see the <app>Parlatype</app> window."
-msgstr ""
-"Mulai di atas: Ini akan meletakkan <app>Parlatype</app> saat start-up di "
-"atas jendela lainnya. Ini mungkin berguna saat Anda bekerja dengan pengolah "
-"kata yang termaksimalkan dan tetap ingin melihat jendela <app>Parlatype</"
-"app>."
-
-#. (itstool) path: note/p
-#: C/preferences.page:91
-msgid ""
-"<gui>Remember position</gui> and <gui>Start on top</gui> are not available "
-"on Wayland."
-msgstr ""
-
 #. (itstool) path: info/desc
-#: C/selections.page:6
+#: ../help/C/selections.page:6
 msgid "How to play and repeat a selection"
 msgstr "Bagaimana memainkan dan mengulangi pilihan"
 
 #. (itstool) path: page/title
-#: C/selections.page:14
+#: ../help/C/selections.page:14
 msgid "Selections"
 msgstr "Pilihan"
 
 #. (itstool) path: page/p
-#: C/selections.page:16
+#: ../help/C/selections.page:16
 msgid ""
 "You can select a piece of the waveform with the mouse. Next time you press "
 "<gui>Play</gui>, it will play the selection only. When it is finished and "
@@ -677,7 +557,7 @@ msgstr ""
 "Anda tekan <gui>Main</gui> lagi, itu akan mengulangi pilihan sekali lagi."
 
 #. (itstool) path: note/p
-#: C/selections.page:18
+#: ../help/C/selections.page:18
 msgid ""
 "When in selection mode, you can not exit the selection anymore until you "
 "deselect it."
@@ -686,7 +566,7 @@ msgstr ""
 "menghilangkan pilihan."
 
 #. (itstool) path: page/p
-#: C/selections.page:20
+#: ../help/C/selections.page:20
 msgid ""
 "Selections can be made with the mouse (or pointer device) with a left click, "
 "holding the mouse button and dragging the pointer. If you click with "
@@ -699,7 +579,7 @@ msgstr ""
 "ke titik tersebut."
 
 #. (itstool) path: page/p
-#: C/selections.page:22
+#: ../help/C/selections.page:22
 msgid ""
 "To deselect click once with the left button into the waveform. If the "
 "waveform has keyboard focus, you can press <key>Escape</key>."
@@ -709,41 +589,41 @@ msgstr ""
 "<key>Escape</key>."
 
 #. (itstool) path: info/desc
-#: C/timestamps.page:6
+#: ../help/C/timestamps.page:6
 msgid "Set and go to timestamps"
 msgstr "Tentukan dan pergi ke informasi waktu"
 
 #. (itstool) path: page/title
-#: C/timestamps.page:14
+#: ../help/C/timestamps.page:14
 msgid "Timestamps"
 msgstr "Informasi waktu"
 
 #. (itstool) path: page/p
-#: C/timestamps.page:16
+#: ../help/C/timestamps.page:16
 msgid "Timestamps help you to navigate in your transcription."
 msgstr "Informasi waktu membantu Anda untuk menavigasi transkripsi Anda."
 
 #. (itstool) path: note/p
-#: C/timestamps.page:19
+#: ../help/C/timestamps.page:19
 msgid ""
 "Timestamps can look like this: #03:45.2#. You can select them with or "
 "without the number signs."
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/timestamps.page:22
+#: ../help/C/timestamps.page:22
 msgid ""
 "<app>Parlatype</app> can produce different timestamp formats, they can be "
 "set in <link xref=\"preferences#timestamps\"/>."
 msgstr ""
 
 #. (itstool) path: section/title
-#: C/timestamps.page:25
+#: ../help/C/timestamps.page:25
 msgid "Drag and drop"
 msgstr "Seret dan jatuhkan"
 
 #. (itstool) path: section/p
-#: C/timestamps.page:27
+#: ../help/C/timestamps.page:27
 msgid ""
 "If you select the timestamp in the word processor, you can drag and drop it "
 "on the <app>Parlatype</app> window and it will go to that position. This is "
@@ -757,19 +637,19 @@ msgstr ""
 "memasukkannya."
 
 #. (itstool) path: section/title
-#: C/timestamps.page:31
+#: ../help/C/timestamps.page:31
 msgid "Using the clipboard"
 msgstr "Menggunakan papan salinan"
 
 #. (itstool) path: section/p
-#: C/timestamps.page:33
+#: ../help/C/timestamps.page:33
 msgid ""
 "Clicking on the menu button that is showing the current time you can "
-"<gui>Copy time to clipboard</gui> or <gui>Go to time in clipboard</gui>."
+"<gui>Copy Time to Clipboard</gui> or <gui>Go to Time in Clipboard</gui>."
 msgstr ""
 
 #. (itstool) path: section/p
-#: C/timestamps.page:35
+#: ../help/C/timestamps.page:35
 msgid ""
 "This can also be done with keyboard shortcuts. First make sure, the "
 "<app>Parlatype</app> window has focus. With the key sequence "
@@ -779,7 +659,7 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: section/p
-#: C/timestamps.page:36
+#: ../help/C/timestamps.page:36
 msgid ""
 "To go to a timestamp position, copy the timestamp in the word processor to "
 "the clipboard. Once you have changed focus to <app>Parlatype</app> press "
@@ -790,70 +670,57 @@ msgstr ""
 "tekan <keyseq><key>Ctrl</key><key>v</key></keyseq>."
 
 #. (itstool) path: info/desc
-#: C/asr.page:7
+#: ../help/C/asr.page:7
 msgid "Let Parlatype do part of the transcription work"
 msgstr ""
 
 #. (itstool) path: page/title
-#: C/asr.page:15
-msgid "Automatic speech recognition"
+#: ../help/C/asr.page:15
+msgid "Automatic Speech Recognition"
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/asr.page:17
+#: ../help/C/asr.page:17
 msgid ""
 "<app>Parlatype</app> offers automatic speech recognition that is done on "
 "your computer. No data is sent over the network."
 msgstr ""
 
 #. (itstool) path: note/p
-#: C/asr.page:20
+#: ../help/C/asr.page:20
 msgid ""
-"<app>Parlatype</app> must have been built with <app>PocketSphinx</app> or "
-"<app>Mozilla DeepSpeech</app>. Please note that those libraries might be not "
-"available on your platform."
+"<app>Parlatype</app> must have been built with <app>PocketSphinx</app>. "
+"Please note that those libraries might be not available on your platform."
 msgstr ""
 
 #. (itstool) path: note/p
-#: C/asr.page:25
+#: ../help/C/asr.page:24
 msgid ""
 "<app>Parlatype</app> has no built-in text editor. You need the Parlatype "
 "Extension for <app>LibreOffice</app> to output recognized text."
 msgstr ""
 
 #. (itstool) path: section/title
-#: C/asr.page:30
-msgid "Start speech recognition"
+#: ../help/C/asr.page:29
+msgid "Start Speech Recognition"
 msgstr ""
 
 #. (itstool) path: section/p
-#: C/asr.page:32
+#: ../help/C/asr.page:31
 msgid ""
-"Select a language model in the Preferences Dialog, <gui>Speech recognition</"
+"Select a language model in the Preferences Dialog, <gui>Speech Recognition</"
 "gui> tab, see <link xref=\"asr-setup\"/> for more details."
 msgstr ""
 
 #. (itstool) path: section/p
-#: C/asr.page:35
+#: ../help/C/asr.page:34
 msgid ""
-"Open the primary menu and click on <gui>Automatic transcription</gui>. This "
+"Open the primary menu and click on <gui>Automatic Transcription</gui>. This "
 "is only available, if you have setup and chosen a language model."
 msgstr ""
 
-#. (itstool) path: section/media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/asr.page:38
-msgctxt "_"
-msgid ""
-"external ref='figures/asr-switch-to-asr.png' "
-"md5='91dc6bffa3b8a3342889d9bfccabc3c8'"
-msgstr ""
-
 #. (itstool) path: section/p
-#: C/asr.page:40
+#: ../help/C/asr.page:39
 msgid ""
 "Now press <gui>Play</gui> in <app>Parlatype</app> and the recognized speech "
 "will be printed in <app>LibreOffice</app>, if the Parlatype Extension is "
@@ -862,14 +729,14 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: section/p
-#: C/asr.page:45
+#: ../help/C/asr.page:44
 msgid ""
 "Output is without punctuation or capitalization, you have to add or correct "
 "that yourself."
 msgstr ""
 
 #. (itstool) path: note/p
-#: C/asr.page:47
+#: ../help/C/asr.page:46
 msgid ""
 "<em>Accuracy</em> depends on many factors like quality of the recording, "
 "background noise, speaker’s dialect or pronunciation and the speech model "
@@ -880,26 +747,25 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: info/desc
-#: C/asr-setup.page:7
+#: ../help/C/asr-setup.page:7
 msgid "Setup automatic speech transcription"
 msgstr ""
 
 #. (itstool) path: page/title
-#: C/asr-setup.page:15
-msgid "Setup automatic speech recognition"
+#: ../help/C/asr-setup.page:15
+msgid "Setup Automatic Speech Recognition"
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/asr-setup.page:17
+#: ../help/C/asr-setup.page:17
 msgid ""
 "For speech recognition you need a language model: one or more files trained "
 "with real speech samples. <app>Parlatype</app> supports language models made "
-"for CMU Sphinx and Mozilla DeepSpeech and ships a couple of <em>language "
-"model configurations</em>."
+"for CMU Sphinx and ships a couple of <em>language model configurations</em>."
 msgstr ""
 
 #. (itstool) path: note/p
-#: C/asr-setup.page:22
+#: ../help/C/asr-setup.page:21
 msgid ""
 "A <em>language model configuration</em> contains meta data describing the "
 "language model: A name that you can change, the language it was made for, "
@@ -910,95 +776,44 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/asr-setup.page:29
+#: ../help/C/asr-setup.page:28
 msgid ""
 "Open the Preferences Dialog and click on the <gui>Speech Recognition</gui> "
-"tab. Initially there are no configurations available, click on the <gui>Add "
-"a configuration</gui> button."
-msgstr ""
-
-#. (itstool) path: page/media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/asr-setup.page:33
-msgctxt "_"
-msgid ""
-"external ref='figures/asr-setup-initial.png' "
-"md5='31773b99dcbb1ee84e59e119a0bd35c6'"
-msgstr ""
-
-#. (itstool) path: media/span
-#: C/asr-setup.page:36
-msgid "download"
-msgstr ""
-
-#. (itstool) path: media/span
-#: C/asr-setup.page:37
-msgid "unavailable"
+"tab. Initially there are no configurations available, click on the <gui>Copy "
+"Initial Set of Configurations</gui> button."
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/asr-setup.page:35
+#: ../help/C/asr-setup.page:34
 msgid ""
-"If your installation has CMU Sphinx or Mozilla DeepSpeech enabled, you will "
-"see configurations with a <_:media-1/> symbol. Otherwise you will see only "
-"configurations with a <_:media-2/> symbol."
-msgstr ""
-
-#. (itstool) path: page/media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/asr-setup.page:39
-msgctxt "_"
-msgid ""
-"external ref='figures/asr-setup-downloadable.png' "
-"md5='6e00b08a60952e8f408bec4a024be2e5'"
-msgstr ""
-
-#. (itstool) path: media/span
-#: C/asr-setup.page:42
-msgid "settings"
+"Depending on your installation you will see then a list of downloadable "
+"configurations."
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/asr-setup.page:41
+#: ../help/C/asr-setup.page:38
 msgid ""
-"Select a configuration and click on the <_:media-1/> button. There is a "
-"short description of the model and where you can download it. After "
-"downloading, you have to set the folder where your download resides. You can "
-"also change the <gui>Display name</gui>."
-msgstr ""
-
-#. (itstool) path: page/media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/asr-setup.page:47
-msgctxt "_"
-msgid ""
-"external ref='figures/asr-setup-details.png' "
-"md5='3273410dfb31da8518a64d28af0da7b1'"
+"Select a configuration by clicking on it. There is a short description of "
+"the model and where you can download it. After downloading, you have to set "
+"the folder where your download resides. You can also change the <gui>Display "
+"name</gui>."
 msgstr ""
 
 #. (itstool) path: media/span
-#: C/asr-setup.page:50
+#: ../help/C/asr-setup.page:46
 msgid "selected"
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/asr-setup.page:49
+#: ../help/C/asr-setup.page:45
 msgid ""
-"An installed model has no symbol next to it. Double click on the model and "
-"it will be selected for speech recognition, a <_:media-1/> symbol appears."
+"An installed model has no label next to it. Select a model and press the "
+"<gui>Activate</gui> button to use this model for speech recognition. The "
+"active configuration is indicated by a <_:media-1/> symbol."
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/asr-setup.page:53
+#: ../help/C/asr-setup.page:48
 msgid ""
 "Shipped configurations might get obsolete over time. Therefore you can "
 "import a configuration with the <gui>+</gui> button. Configurations are text "
@@ -1006,100 +821,100 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/asr-setup.page:57
+#: ../help/C/asr-setup.page:52
 msgid ""
 "With the <gui>-</gui> button you can remove a configuration. This will never "
 "remove downloaded models, only the configuration file."
 msgstr ""
 
-#. (itstool) path: info/desc
-#: C/media-keys.page:6
-msgid "How to control Parlatype with media keys"
-msgstr "Bagaimana mengendalikan Parlatype dengan tombol media"
+#~ msgid ""
+#~ "Keyboard shortcuts for <app>Parlatype</app> control, like <key>Play</"
+#~ "key>, are described in <link xref=\"control\"/>. Shortcut keys for the "
+#~ "window are listed below."
+#~ msgstr ""
+#~ "Pintasan papan ketik untuk kendali <app>Parlatype</app>, seperti "
+#~ "<key>Main</key>, dideskripsikan di <link xref=\"control\"/>. Tombol "
+#~ "pintasan untuk jendela terdaftar di bawah ini."
 
-#. (itstool) path: page/title
-#: C/media-keys.page:14
-msgid "Media keys"
-msgstr "Tombol media"
+#~ msgid ""
+#~ "Resolution: The resolution of the waveform image is given in pixels per "
+#~ "second, e.g. the default resolution of 100 means, that one second is "
+#~ "shown with a width of 100 pixels."
+#~ msgstr ""
+#~ "Resolusi: Resolusi gambar gelombang pada satuan pixel per detik, seperti. "
+#~ "resoluysi default 100 berarti, bahwa satu detik ditampilkan dalam lebar "
+#~ "100 pixel."
 
-#. (itstool) path: page/p
-#: C/media-keys.page:16
-msgid ""
-"<app>Parlatype</app>’s basic functions can be controlled with so called "
-"<em>media keys</em>. Media keys are used system wide to control media "
-"players and they are working even if the media player is not in focus or in "
-"the background."
-msgstr ""
+#~ msgid ""
+#~ "Start on top: This will put <app>Parlatype</app> on start-up on top of "
+#~ "other windows. This might be useful if you are working with a maximized "
+#~ "word processor and still want to see the <app>Parlatype</app> window."
+#~ msgstr ""
+#~ "Mulai di atas: Ini akan meletakkan <app>Parlatype</app> saat start-up di "
+#~ "atas jendela lainnya. Ini mungkin berguna saat Anda bekerja dengan "
+#~ "pengolah kata yang termaksimalkan dan tetap ingin melihat jendela "
+#~ "<app>Parlatype</app>."
 
-#. (itstool) path: page/p
-#: C/media-keys.page:18
-msgid ""
-"You can change the media keys in GNOME settings. You can use dedicated keys "
-"from a multimedia keyboard or use any other key or combination of keys."
-msgstr ""
-"Anda dapat mengganti tombol media di pengaturan GNOME. Anda dapat "
-"menggunakan tombol terdedikasi dari papan ketik multimedia atau menggunakan "
-"tombol lain atau kombinasi tombol."
+#~ msgid "How to control Parlatype with media keys"
+#~ msgstr "Bagaimana mengendalikan Parlatype dengan tombol media"
 
-#. (itstool) path: note/p
-#: C/media-keys.page:21
-msgid ""
-"This will affect other media players, e.g. <app>Totem</app> or "
-"<app>Rhythmbox</app>, as well."
-msgstr ""
-"Ini akan memengaruhi pemutar media lainnya, seperti. <app>Totem</app> atau "
-"<app>Rhythmbox</app>, juga."
+#~ msgid "Media keys"
+#~ msgstr "Tombol media"
 
-#. (itstool) path: page/p
-#: C/media-keys.page:24
-msgid "<app>Parlatype</app> listens to these key strokes:"
-msgstr "<app>Parlatype</app> menyimak ketukan tombol ini:"
+#~ msgid ""
+#~ "You can change the media keys in GNOME settings. You can use dedicated "
+#~ "keys from a multimedia keyboard or use any other key or combination of "
+#~ "keys."
+#~ msgstr ""
+#~ "Anda dapat mengganti tombol media di pengaturan GNOME. Anda dapat "
+#~ "menggunakan tombol terdedikasi dari papan ketik multimedia atau "
+#~ "menggunakan tombol lain atau kombinasi tombol."
 
-#. (itstool) path: item/p
-#: C/media-keys.page:26
-msgid ""
-"<key>Play</key>, <key>Pause</key>, <key>Stop</key>: Each of these keys "
-"toggles between playing and pause."
-msgstr ""
-"<key>Main</key>, <key>Jeda</key>, <key>Henti</key>: Tiap tombol beralih "
-"antara main dan jeda."
+#~ msgid ""
+#~ "This will affect other media players, e.g. <app>Totem</app> or "
+#~ "<app>Rhythmbox</app>, as well."
+#~ msgstr ""
+#~ "Ini akan memengaruhi pemutar media lainnya, seperti. <app>Totem</app> "
+#~ "atau <app>Rhythmbox</app>, juga."
 
-#. (itstool) path: item/p
-#: C/media-keys.page:27
-msgid ""
-"<key>Rewind</key>, <key>Previous</key>: Each of these keys will jump back "
-"the time you selected in Preferences."
-msgstr ""
-"<key>Putar-kembali</key>, <key>Sebelumnya</key>: Tiap tombol akan lompat "
-"mundur pada waktu yang Anda pilih di Preferensi."
+#~ msgid "<app>Parlatype</app> listens to these key strokes:"
+#~ msgstr "<app>Parlatype</app> menyimak ketukan tombol ini:"
 
-#. (itstool) path: item/p
-#: C/media-keys.page:28
-msgid ""
-"<key>Fast Forward</key>, <key>Next</key>: Each of these keys will jump ahead "
-"the time you selected in Preferences."
-msgstr ""
-"<key>Maju Cepat</key>, <key>Berikutnya</key>: Tiap tombol akan lompat maju "
-"pada waktu yang Anda pilih di Preferensi."
+#~ msgid ""
+#~ "<key>Play</key>, <key>Pause</key>, <key>Stop</key>: Each of these keys "
+#~ "toggles between playing and pause."
+#~ msgstr ""
+#~ "<key>Main</key>, <key>Jeda</key>, <key>Henti</key>: Tiap tombol beralih "
+#~ "antara main dan jeda."
 
-#. (itstool) path: note/p
-#: C/media-keys.page:32
-msgid ""
-"For detailed instructions how to change keyboard shortcuts in GNOME see the "
-"<link href=\"help:gnome-help/keyboard-shortcuts-set\">official "
-"documentation</link>."
-msgstr ""
-"Untuk instruksi terperinci bagaimana mengganti pintasan papan ketik di GNOME "
-"lihat pada <link href=\"help:gnome-help/keyboard-shortcuts-set\">dokumentasi "
-"resmi</link>."
+#~ msgid ""
+#~ "<key>Rewind</key>, <key>Previous</key>: Each of these keys will jump back "
+#~ "the time you selected in Preferences."
+#~ msgstr ""
+#~ "<key>Putar-kembali</key>, <key>Sebelumnya</key>: Tiap tombol akan lompat "
+#~ "mundur pada waktu yang Anda pilih di Preferensi."
 
-#. (itstool) path: page/p
-#: C/media-keys.page:35
-msgid ""
-"If you are using a dedicated foot pedal, it should be possible to map the "
-"foot pedal signals to any of the keys. This is not well tested, however. Any "
-"feedback regarding foot pedals is welcome."
-msgstr ""
-"Jika Anda menggunakan pedal kaki terdedikasi, itu memungkinkan untuk "
-"memetakan sinyal pedal kaki ke tombol apa saja. Namun, ini belum teruji "
-"dengan baik. Semua umpan balik tentang pedal kaki sangat diterima."
+#~ msgid ""
+#~ "<key>Fast Forward</key>, <key>Next</key>: Each of these keys will jump "
+#~ "ahead the time you selected in Preferences."
+#~ msgstr ""
+#~ "<key>Maju Cepat</key>, <key>Berikutnya</key>: Tiap tombol akan lompat "
+#~ "maju pada waktu yang Anda pilih di Preferensi."
+
+#~ msgid ""
+#~ "For detailed instructions how to change keyboard shortcuts in GNOME see "
+#~ "the <link href=\"help:gnome-help/keyboard-shortcuts-set\">official "
+#~ "documentation</link>."
+#~ msgstr ""
+#~ "Untuk instruksi terperinci bagaimana mengganti pintasan papan ketik di "
+#~ "GNOME lihat pada <link href=\"help:gnome-help/keyboard-shortcuts-"
+#~ "set\">dokumentasi resmi</link>."
+
+#~ msgid ""
+#~ "If you are using a dedicated foot pedal, it should be possible to map the "
+#~ "foot pedal signals to any of the keys. This is not well tested, however. "
+#~ "Any feedback regarding foot pedals is welcome."
+#~ msgstr ""
+#~ "Jika Anda menggunakan pedal kaki terdedikasi, itu memungkinkan untuk "
+#~ "memetakan sinyal pedal kaki ke tombol apa saja. Namun, ini belum teruji "
+#~ "dengan baik. Semua umpan balik tentang pedal kaki sangat diterima."

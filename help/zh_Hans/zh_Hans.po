@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Parlatype 3.1\n"
-"POT-Creation-Date: 2021-12-12 19:52+0100\n"
+"POT-Creation-Date: 2023-12-30 17:03+0100\n"
 "PO-Revision-Date: 2022-06-02 07:18+0000\n"
 "Last-Translator: poi <erbaotao@outlook.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -19,658 +19,983 @@ msgid "translator-credits"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/index.page:7
+#: ../help/C/index.page:7
 msgctxt "text"
 msgid "Parlatype"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/index.page:8
+#: ../help/C/index.page:8
 msgctxt "link"
 msgid "Parlatype"
 msgstr ""
 
 #. (itstool) path: credit/name
-#: C/index.page:10
-#: C/drag-and-drop.page:8
-#: C/first-steps.page:8
-#: C/keyboard-shortcuts.page:8
-#: C/preferences.page:8
-#: C/selections.page:8
-#: C/timestamps.page:8
-#: C/media-keys.page:8
+#: ../help/C/index.page:10 ../help/C/drag-and-drop.page:8
+#: ../help/C/first-steps.page:9 ../help/C/keyboard-shortcuts.page:8
+#: ../help/C/preferences.page:9 ../help/C/selections.page:8
+#: ../help/C/timestamps.page:8 ../help/C/asr.page:9 ../help/C/asr-setup.page:9
 msgid "Gabor Karsay"
 msgstr "Gabor Karsay"
 
 #. (itstool) path: info/desc
 #. (itstool) path: page/p
-#: C/index.page:14
-#: C/index.page:23
-msgid "<app>Parlatype</app> is an easy to use media player. Its main purpose is to help you transcribing speech."
-msgstr "<app>Parlatype</app> "
-"是一个易于使用的媒体播放器。它的主要作用是帮助您用文字记写语音。"
+#: ../help/C/index.page:14 ../help/C/index.page:23
+msgid ""
+"<app>Parlatype</app> is an easy to use media player. Its main purpose is to "
+"help you transcribing speech."
+msgstr ""
+"<app>Parlatype</app> 是一个易于使用的媒体播放器。它的主要作用是帮助您用文字记"
+"写语音。"
 
 #. (itstool) path: page/title
-#: C/index.page:18
+#: ../help/C/index.page:18
 msgid "<_:media-1/> Parlatype"
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/index.page:24
-msgid "For a quick overview have a look at <link xref=\"first-steps\"/>. Other topics are covered below."
-msgstr "想快速地了解一下软件，请看 <link xref=\"first-steps\"/> "
-"。其他方面的介绍在下面。"
+#: ../help/C/index.page:24
+msgid ""
+"For a quick overview have a look at <link xref=\"first-steps\"/>. Other "
+"topics are covered below."
+msgstr ""
+"想快速地了解一下软件，请看 <link xref=\"first-steps\"/> 。其他方面的介绍在下"
+"面。"
 
 #. (itstool) path: section/title
-#: C/index.page:27
+#: ../help/C/index.page:27
 msgid "Help topics"
 msgstr "帮助目录"
 
 #. (itstool) path: info/desc
-#: C/drag-and-drop.page:6
+#: ../help/C/drag-and-drop.page:6
 msgid "Drop files, file names or timestamps on Parlatype"
 msgstr "把文件、文件名或时间戳拖放到 Parlatype 界面里"
 
 #. (itstool) path: page/title
-#: C/drag-and-drop.page:14
+#: ../help/C/drag-and-drop.page:14
 msgid "Drag and Drop"
 msgstr "拖放"
 
 #. (itstool) path: page/p
-#: C/drag-and-drop.page:16
-msgid "You can drop files, file names or timestamps on <app>Parlatype</app>’s window."
+#: ../help/C/drag-and-drop.page:16
+msgid ""
+"You can drop files, file names or timestamps on <app>Parlatype</app>’s "
+"window."
 msgstr "可以把文件、文件名或时间戳拖放到 <app>Parlatype</app> 的软件窗口里。"
 
 #. (itstool) path: item/p
-#: C/drag-and-drop.page:19
-msgid "Files: Drag and drop a file from a file manager, e.g. <app>Files</app>, on <app>Parlatype</app> and it will open that file."
-msgstr "文件：从文件管理器比如<app>Files</app>将文件拖放到 "
-"<app>Parlatype</app>上就能打开那个文件。"
-
-#. (itstool) path: item/p
-#: C/drag-and-drop.page:20
-msgid "File names: Select a file name from a word processor, e.g. <app>LibreOffice</app>, drop the selected text on <app>Parlatype</app> and it will open that file. This will always work if the selection contains a full path. If you select the name only, <app>Parlatype</app> will look up its full path in the list of recent files and open it if it can find it in that list."
+#: ../help/C/drag-and-drop.page:19
+msgid ""
+"Files: Drag and drop a file from a file manager, e.g. <app>Files</app>, on "
+"<app>Parlatype</app> and it will open that file."
 msgstr ""
-"文件名：在文字处理软件里选中某个文件的名字，比如 <app>LibreOffice</app>，"
-"把所选文本拖放到 <app>Parlatype</app> 里，就能打开名字对应的文件。如果所选文"
-"本里有文件的完整路径，这个功能就肯定好使。如果只把文件名称选中了，<app>Parlat"
-"ype</app> "
-"就会从最近打开的文件的列表里查找这个文件名的完整路径，找到了再把它打开。"
+"文件：从文件管理器比如<app>Files</app>将文件拖放到 <app>Parlatype</app>上就能"
+"打开那个文件。"
 
 #. (itstool) path: item/p
-#: C/drag-and-drop.page:21
-msgid "Timestamps: You can drag and drop timestamps to <app>Parlatype</app>. Select a timestamp from a word processor, e.g. <app>LibreOffice</app>, drop the selected text on <app>Parlatype</app> and it will jump to that position."
+#: ../help/C/drag-and-drop.page:20
+msgid ""
+"File names: Select a file name from a word processor, e.g. <app>LibreOffice</"
+"app>, drop the selected text on <app>Parlatype</app> and it will open that "
+"file. This will always work if the selection contains a full path. If you "
+"select the name only, <app>Parlatype</app> will look up its full path in the "
+"list of recent files and open it if it can find it in that list."
+msgstr ""
+"文件名：在文字处理软件里选中某个文件的名字，比如 <app>LibreOffice</app>，把所"
+"选文本拖放到 <app>Parlatype</app> 里，就能打开名字对应的文件。如果所选文本里"
+"有文件的完整路径，这个功能就肯定好使。如果只把文件名称选中了，"
+"<app>Parlatype</app> 就会从最近打开的文件的列表里查找这个文件名的完整路径，找"
+"到了再把它打开。"
+
+#. (itstool) path: item/p
+#: ../help/C/drag-and-drop.page:21
+msgid ""
+"Timestamps: You can drag and drop timestamps to <app>Parlatype</app>. Select "
+"a timestamp from a word processor, e.g. <app>LibreOffice</app>, drop the "
+"selected text on <app>Parlatype</app> and it will jump to that position."
 msgstr ""
 "时间戳：可以把时间戳拖放到 <app>Parlatype</app> 里。在文字处理软件里，比如 "
-"<app>LibreOffice</app> 里，选中时间戳形式的表示时间的文本，"
-"再把选中的文本拖放到 <app>Parlatype</app> 里，就可以跳转到文本对应的时刻。"
+"<app>LibreOffice</app> 里，选中时间戳形式的表示时间的文本，再把选中的文本拖放"
+"到 <app>Parlatype</app> 里，就可以跳转到文本对应的时刻。"
 
 #. (itstool) path: info/desc
-#. (itstool) path: page/title
-#: C/first-steps.page:6
-#: C/first-steps.page:14
+#: ../help/C/first-steps.page:7
 msgid "First steps with Parlatype"
 msgstr "使用 Parlatype 的第一步"
 
+#. (itstool) path: page/title
+#: ../help/C/first-steps.page:15
+#, fuzzy
+#| msgid "First steps with Parlatype"
+msgid "First Steps With Parlatype"
+msgstr "使用 Parlatype 的第一步"
+
 #. (itstool) path: page/p
-#: C/first-steps.page:16
-msgid "<app>Parlatype</app> is an easy to use audio player to help you transcribing or annotating recorded speech. You need to run a word processor, e.g. <app>LibreOffice</app>, too. Launch <app>Parlatype</app> and open an audio file by clicking on the <gui>Open</gui> button in the upper left corner."
+#: ../help/C/first-steps.page:17
+msgid ""
+"<app>Parlatype</app> is an easy to use audio player to help you transcribing "
+"or annotating recorded speech. You need to run a word processor, e.g. "
+"<app>LibreOffice</app>, too. Launch <app>Parlatype</app> and open an audio "
+"file by clicking on the <gui>Open</gui> button in the upper left corner."
 msgstr ""
-"<app>Parlatype</app> "
-"是一个易于使用的用于帮您用文字记写或者注释录音的音频播放器。您还得运行一个 "
-"<app>LibreOffice</app> 之类的文字处理软件。启动 "
+"<app>Parlatype</app> 是一个易于使用的用于帮您用文字记写或者注释录音的音频播放"
+"器。您还得运行一个 <app>LibreOffice</app> 之类的文字处理软件。启动 "
 "<app>Parlatype</app>，点击左上角的<gui>打开</gui>按钮就可以打开一个音频文件。"
 
 #. (itstool) path: note/p
-#: C/first-steps.page:19
+#: ../help/C/first-steps.page:20
 msgid "You can also drag and drop a file on <app>Parlatype</app>."
 msgstr "也可以把文件拖放到 <app>Parlatype</app> 里。"
 
 #. (itstool) path: page/p
-#: C/first-steps.page:22
-msgid "In the lower left corner there are the controls with a <gui>Play</gui> button which toggles between play and pause. Whenever you pause, <app>Parlatype</app> rewinds a few seconds to make it easier to resume. This can be changed in the <link xref=\"preferences\"/>."
+#: ../help/C/first-steps.page:23
+msgid ""
+"In the lower left corner there are the controls with a <gui>Play</gui> "
+"button which toggles between play and pause. Whenever you pause, "
+"<app>Parlatype</app> rewinds a few seconds to make it easier to resume. This "
+"can be changed in the <link xref=\"preferences\"/>."
 msgstr ""
 "左下角有个<gui>播放</gui>按钮，可以在播放和暂停之间切换。每当您暂停时， "
 "<app>Parlatype</app> 软件就会自动倒退几秒钟，以便于再次播放。可以在 <link "
 "xref=\"preferences\"/> 里调整这种自动倒退。"
 
-#. (itstool) path: page/media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/first-steps.page:24
-msgctxt "_"
-msgid "external ref='figures/parlatype-main-window.png' md5='48f6b285bedaf2f9ab0a8760807f0fda'"
+#. (itstool) path: page/p
+#: ../help/C/first-steps.page:27
+#, fuzzy
+#| msgid ""
+#| "The buttons <gui>Jump back</gui> and <gui>Jump forward</gui> in the lower "
+#| "left corner skip a few seconds back or ahead. The amount of time can be "
+#| "changed in the <link xref=\"preferences\"/>."
+msgid ""
+"The buttons <gui>Skip backward</gui> and <gui>Skip forward</gui> in the "
+"lower left corner skip a few seconds back or ahead. The amount of time can "
+"be changed in the <link xref=\"preferences\"/>."
 msgstr ""
+"左下角的按钮<gui>回退</gui>和<gui>前跳</gui>是用来往回或向前跳几秒钟的。跳多"
+"长时间可以在 <link xref=\"preferences\"/> 里更改。"
 
 #. (itstool) path: page/p
-#: C/first-steps.page:26
-msgid "The buttons <gui>Jump back</gui> and <gui>Jump forward</gui> in the lower left corner skip a few seconds back or ahead. The amount of time can be changed in the <link xref=\"preferences\"/>."
+#: ../help/C/first-steps.page:29
+msgid ""
+"The view scrolls automatically so that the cursor is always visible. You can "
+"scroll manually by clicking on or dragging the scroll bar or using the "
+"standard keybindings. Automatic scrolling is stopped then."
 msgstr ""
-"左下角的按钮<gui>回退</gui>和<gui>前跳</gui>是用来往回或向前跳几秒钟的。"
-"跳多长时间可以在 <link xref=\"preferences\"/> 里更改。"
-
-#. (itstool) path: page/p
-#: C/first-steps.page:28
-msgid "The view scrolls automatically so that the cursor is always visible. You can scroll manually by clicking on or dragging the scroll bar or using the standard keybindings. Automatic scrolling is stopped then."
-msgstr "为使光标不跑丢，视图会自动滚动。点击或拖动滚动条，或者按标准的绑定按键就可以"
+"为使光标不跑丢，视图会自动滚动。点击或拖动滚动条，或者按标准的绑定按键就可以"
 "手动滚动。这时自动滚动就自动停止了。"
 
 #. (itstool) path: page/p
-#: C/first-steps.page:30
-msgid "To get back to the cursor’s position and let the view scroll automatically again, click on the menu button showing the time and then on <gui>Go to cursor</gui>. Clicking on the <gui>Play</gui> button also turns automatic scrolling on."
+#: ../help/C/first-steps.page:31
+#, fuzzy
+#| msgid ""
+#| "To get back to the cursor’s position and let the view scroll "
+#| "automatically again, click on the menu button showing the time and then "
+#| "on <gui>Go to cursor</gui>. Clicking on the <gui>Play</gui> button also "
+#| "turns automatic scrolling on."
+msgid ""
+"To get back to the cursor’s position and let the view scroll automatically "
+"again, click on the menu button showing the time and then on <gui>Go to "
+"Cursor</gui>. Clicking on the <gui>Play</gui> button also turns automatic "
+"scrolling on."
 msgstr ""
 "点击显示有时间的菜单按钮，然后点<gui>转到光标处</gui>，就可以返回光标的位置并"
 "且让视图重新自动滚动。点击<gui>播放</gui>按钮也能继续自动滚动。"
 
 #. (itstool) path: page/p
-#: C/first-steps.page:32
-msgid "Clicking in the view with the right mouse button will put the cursor there, also holding the right mouse button pressed and moving it. The left mouse button is for <link xref=\"selections\"/>."
-msgstr "在视图中，右键点击瞬移光标，按住右键移动光标。鼠标左键是用于 <link xref="
-"\"selections\"/> 。"
+#: ../help/C/first-steps.page:33
+#, fuzzy
+#| msgid ""
+#| "Clicking in the view with the right mouse button will put the cursor "
+#| "there, also holding the right mouse button pressed and moving it. The "
+#| "left mouse button is for <link xref=\"selections\"/>."
+msgid ""
+"Clicking in the view with the right mouse button will put the cursor there. "
+"The left mouse button is for <link xref=\"selections\"/>."
+msgstr ""
+"在视图中，右键点击瞬移光标，按住右键移动光标。鼠标左键是用于 <link "
+"xref=\"selections\"/> 。"
 
 #. (itstool) path: page/p
-#: C/first-steps.page:34
-msgid "The <gui>speed scale</gui> next to the <gui>volume</gui> button in the lower right corner lets you adjust the speed of playback. A value of 1 means normal speed, everything lower (down to 0.5) is slower, everything above is faster."
+#: ../help/C/first-steps.page:35
+#, fuzzy
+#| msgid ""
+#| "The <gui>speed scale</gui> next to the <gui>volume</gui> button in the "
+#| "lower right corner lets you adjust the speed of playback. A value of 1 "
+#| "means normal speed, everything lower (down to 0.5) is slower, everything "
+#| "above is faster."
+msgid ""
+"The <gui>speed scale</gui> next to the <gui>Volume</gui> button in the lower "
+"right corner lets you adjust the speed of playback. A value of 1 means "
+"normal speed, everything lower (down to 0.5) is slower, everything above is "
+"faster."
 msgstr ""
-"右下角<gui>音量</gui>按钮旁边的<gui>速度标尺</gui>可以调节播放速度。1 "
-"表示正常速度，低于 1（最小 0.5）速度更慢，高于 1 速度更快。"
+"右下角<gui>音量</gui>按钮旁边的<gui>速度标尺</gui>可以调节播放速度。1 表示正"
+"常速度，低于 1（最小 0.5）速度更慢，高于 1 速度更快。"
 
 #. (itstool) path: info/desc
-#: C/keyboard-shortcuts.page:6
+#: ../help/C/keyboard-shortcuts.page:6
 msgid "Standard keyboard shortcuts in Parlatype"
 msgstr "Parlatype 中的标准键盘快捷键"
 
 #. (itstool) path: page/title
-#: C/keyboard-shortcuts.page:14
-msgid "Keyboard shortcuts"
+#: ../help/C/keyboard-shortcuts.page:14
+#, fuzzy
+#| msgid "Keyboard shortcuts"
+msgid "Keyboard Shortcuts"
 msgstr "键盘快捷键"
 
-#. (itstool) path: page/p
-#: C/keyboard-shortcuts.page:16
-msgid "Keyboard shortcuts for <app>Parlatype</app> control, like <key>Play</key>, are described in <link xref=\"control\"/>. Shortcut keys for the window are listed below."
-msgstr ""
-"<app>Parlatype</app>操作如<key>播放</key>等的键盘快捷键在 <link xref="
-"\"control\"/> 中有描述。下面列出了窗口的快捷键。"
-
 #. (itstool) path: table/title
-#: C/keyboard-shortcuts.page:19
+#: ../help/C/keyboard-shortcuts.page:17
 msgid "Standard Shortcut keys"
 msgstr "标准快捷键"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:22
+#: ../help/C/keyboard-shortcuts.page:20
 msgid "To Do This"
 msgstr "要执行"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:23
+#: ../help/C/keyboard-shortcuts.page:21
 msgid "Press This"
 msgstr "需按下"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:28
+#: ../help/C/keyboard-shortcuts.page:26
 msgid "Show help"
 msgstr "显示帮助"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:29
+#: ../help/C/keyboard-shortcuts.page:27
 msgid "<key>F1</key>"
 msgstr "<key>F1</key>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:32
+#: ../help/C/keyboard-shortcuts.page:30
 msgid "Open file"
 msgstr "打开文件"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:33
+#: ../help/C/keyboard-shortcuts.page:31
 msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:36
+#: ../help/C/keyboard-shortcuts.page:34
 msgid "Play/Pause"
 msgstr "播放 / 暂停"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:37
+#: ../help/C/keyboard-shortcuts.page:35
 msgid "<keyseq><key>Ctrl</key><key>Space</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>空格</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:40
+#: ../help/C/keyboard-shortcuts.page:38
 msgid "Go to …"
 msgstr "转到……"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:41
+#: ../help/C/keyboard-shortcuts.page:39
 msgid "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:44
-msgid "Jump back"
-msgstr "回退"
+#: ../help/C/keyboard-shortcuts.page:42
+msgid "Skip backward"
+msgstr ""
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:45
-msgid "<keyseq><key>Ctrl</key><key>Left</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>左方向键</key></keyseq>"
+#: ../help/C/keyboard-shortcuts.page:43
+#, fuzzy
+#| msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
+msgid "<keyseq><key>Ctrl</key><key>a</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:48
-msgid "Jump forward"
+#: ../help/C/keyboard-shortcuts.page:46
+#, fuzzy
+#| msgid "Jump forward"
+msgid "Skip forward"
 msgstr "前跳"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:49
-msgid "<keyseq><key>Ctrl</key><key>Right</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>右方向键</key></keyseq>"
+#: ../help/C/keyboard-shortcuts.page:47
+#, fuzzy
+#| msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
+msgid "<keyseq><key>Ctrl</key><key>s</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:52
+#: ../help/C/keyboard-shortcuts.page:50
 msgid "Copy timestamp"
 msgstr "复制时间戳"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:53
+#: ../help/C/keyboard-shortcuts.page:51
 msgid "<keyseq><key>Ctrl</key><key>c</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>c</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:56
+#: ../help/C/keyboard-shortcuts.page:54
 msgid "Insert timestamp"
 msgstr "插入时间戳"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:57
+#: ../help/C/keyboard-shortcuts.page:55
 msgid "<keyseq><key>Ctrl</key><key>v</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>v</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:60
+#: ../help/C/keyboard-shortcuts.page:58
 msgid "Zoom in"
 msgstr "拉近"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:61
+#: ../help/C/keyboard-shortcuts.page:59
 msgid "<keyseq><key>Ctrl</key><key>+</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>+</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:64
+#: ../help/C/keyboard-shortcuts.page:62
 msgid "Zoom out"
 msgstr "放远"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:65
+#: ../help/C/keyboard-shortcuts.page:63
 msgid "<keyseq><key>Ctrl</key><key>-</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>-</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:68
+#: ../help/C/keyboard-shortcuts.page:66
 msgid "Quit"
 msgstr "退出"
 
 #. (itstool) path: td/p
-#: C/keyboard-shortcuts.page:69
+#: ../help/C/keyboard-shortcuts.page:67
 msgid "<keyseq><key>Ctrl</key><key>q</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>q</key></keyseq>"
 
 #. (itstool) path: p/link
-#: C/legal.xml:5
+#: ../help/C/legal.xml:5
 msgid "Creative Commons Attribution-ShareAlike 4.0 International"
 msgstr ""
 "Creative Commons Attribution-ShareAlike 4.0 International（署名-相同方式共享 "
 "4.0 国际）"
 
 #. (itstool) path: license/p
-#: C/legal.xml:4
+#: ../help/C/legal.xml:4
 msgid "This work is licensed under a <_:link-1/> license."
 msgstr "本智力成果以 <_:link-1/> 协议为许可协议。"
 
 #. (itstool) path: info/desc
-#: C/preferences.page:6
+#: ../help/C/preferences.page:7
 msgid "How to customize Parlatype"
 msgstr "如何个性化设置 Parlatype"
 
 #. (itstool) path: page/title
-#: C/preferences.page:14
+#: ../help/C/preferences.page:15
 msgid "Preferences"
 msgstr "个人设置"
 
 #. (itstool) path: page/p
-#: C/preferences.page:16
-msgid "To open the preferences dialog click on the primary menu in the headerbar."
+#: ../help/C/preferences.page:17
+msgid ""
+"To open the preferences dialog click on the primary menu in the headerbar."
 msgstr "点击标题栏中的主菜单，便可打开个人设置对话框。"
 
 #. (itstool) path: section/title
-#: C/preferences.page:21
-msgid "Preferences for the waveform"
+#: ../help/C/preferences.page:22
+#, fuzzy
+#| msgid "Preferences for the waveform"
+msgid "Preferences for the Waveform"
 msgstr "波形设置"
 
-#. (itstool) path: section/media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/preferences.page:23
-msgctxt "_"
-msgid "external ref='figures/parlatype-prefs-waveform.png' md5='9d91fd985b6758d99cdf9479ef54105c'"
+#. (itstool) path: item/p
+#: ../help/C/preferences.page:27
+msgid ""
+"Waveform Detail: The level of detail in vertical lines per second. The more "
+"lines are shown, the more details you can see."
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/preferences.page:26
-msgid "Resolution: The resolution of the waveform image is given in pixels per second, e.g. the default resolution of 100 means, that one second is shown with a width of 100 pixels."
-msgstr "分辨率：波形图像的分辨率以每秒像素数给定，例如，默认分辨率 100 表示一秒钟以 "
-"100 像素宽代表。"
-
-#. (itstool) path: item/p
-#: C/preferences.page:27
-msgid "Fixed vs. moving cursor: There are two modes, how to follow the cursor. On slower systems a moving cursor might be smoother."
-msgstr "固定光标与移动光标：有两种跟随光标的模式。在配置较低的电脑系统上，移动光标或"
-"许会更流畅。"
-
-#. (itstool) path: item/p
-#: C/preferences.page:28
-msgid "Show time scale: Turn the time scale on or off."
+#: ../help/C/preferences.page:28
+#, fuzzy
+#| msgid "Show time scale: Turn the time scale on or off."
+msgid "Show Time Scale: Turn the time scale on or off."
 msgstr "显示时间刻度：打开或关闭时间刻度功能。"
 
+#. (itstool) path: item/p
+#: ../help/C/preferences.page:29
+#, fuzzy
+#| msgid ""
+#| "Fixed vs. moving cursor: There are two modes, how to follow the cursor. "
+#| "On slower systems a moving cursor might be smoother."
+msgid ""
+"Cursor Mode: Choose between Fixed and Moving Cursor. On slower systems a "
+"moving cursor might be smoother."
+msgstr ""
+"固定光标与移动光标：有两种跟随光标的模式。在配置较低的电脑系统上，移动光标或"
+"许会更流畅。"
+
 #. (itstool) path: section/title
-#: C/preferences.page:33
-msgid "Preferences for controls"
+#: ../help/C/preferences.page:34
+#, fuzzy
+#| msgid "Preferences for controls"
+msgid "Preferences for Audio Controls"
 msgstr "个人操控设置"
 
-#. (itstool) path: section/media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/preferences.page:35
-msgctxt "_"
-msgid "external ref='figures/parlatype-prefs-controls.png' md5='e4a386123491d156f4a1415d70fae2fc'"
+#. (itstool) path: item/p
+#: ../help/C/preferences.page:39
+#, fuzzy
+#| msgid ""
+#| "Jump back on pause: <app>Parlatype</app> will rewind a few seconds on "
+#| "each pause, this way you can easier resume typing. Set this value to 0 if "
+#| "you don’t want this behaviour."
+msgid ""
+"Rewind on Pause: <app>Parlatype</app> will rewind a few seconds on each "
+"pause, this way you can easier resume typing. Set this value to 0 if you "
+"don’t want this behaviour."
 msgstr ""
+"回退暂停：每当您暂停时， <app>Parlatype</app> 软件就会自动倒退几秒钟，以便于"
+"您继续打字。把值设成 0 就能关闭此功能。"
 
 #. (itstool) path: item/p
-#: C/preferences.page:38
-msgid "Jump back on pause: <app>Parlatype</app> will rewind a few seconds on each pause, this way you can easier resume typing. Set this value to 0 if you don’t want this behaviour."
-msgstr "回退暂停：每当您暂停时， <app>Parlatype</app> "
-"软件就会自动倒退几秒钟，以便于您继续打字。把值设成 0 就能关闭此功能。"
-
-#. (itstool) path: item/p
-#: C/preferences.page:39
-msgid "Jump back: Configures how many seconds to skip when the <gui>Jump back</gui> button is pressed."
+#: ../help/C/preferences.page:40
+#, fuzzy
+#| msgid ""
+#| "Jump back: Configures how many seconds to skip when the <gui>Jump back</"
+#| "gui> button is pressed."
+msgid ""
+"Skip Backward: Configures how many seconds to skip when the <gui>Skip "
+"Backward</gui> button is pressed."
 msgstr "回退：设置按一次<gui>回退</gui>按钮跳多少秒。"
 
 #. (itstool) path: item/p
-#: C/preferences.page:40
-msgid "Jump forward: Configures how many seconds to skip when the <gui>Jump forward</gui> button is pressed."
+#: ../help/C/preferences.page:41
+#, fuzzy
+#| msgid ""
+#| "Jump forward: Configures how many seconds to skip when the <gui>Jump "
+#| "forward</gui> button is pressed."
+msgid ""
+"Skip Forward: Configures how many seconds to skip when the <gui>Skip "
+"Forward</gui> button is pressed."
 msgstr "前跳：设置按一次<gui>前跳</gui>按钮跳多少秒。"
 
 #. (itstool) path: item/p
-#: C/preferences.page:41
-msgid "Pressing <gui>Play</gui> at the end of file – Replay file: Whether you want to repeat the file at the end. If not, it will replay a few seconds like on pause."
-msgstr "在文件末尾按下<gui>播放</gui>键，即重播文件：文件播完了要不要重复播放。如果关"
+#: ../help/C/preferences.page:42
+#, fuzzy
+#| msgid ""
+#| "Pressing <gui>Play</gui> at the end of file – Replay file: Whether you "
+#| "want to repeat the file at the end. If not, it will replay a few seconds "
+#| "like on pause."
+msgid ""
+"At End of File Replay File: Whether you want to repeat the file at the end. "
+"If not, it will replay a few seconds like on pause."
+msgstr ""
+"在文件末尾按下<gui>播放</gui>键，即重播文件：文件播完了要不要重复播放。如果关"
 "闭，播到末尾就会像暂停了一样，重播几秒的声音。"
 
 #. (itstool) path: item/p
-#: C/preferences.page:42
-msgid "Pressing <gui>Play</gui> at the end of selection – Replay selection: Whether you want to repeat the selection. If not, it will replay a few seconds like on pause."
+#: ../help/C/preferences.page:43
+#, fuzzy
+#| msgid ""
+#| "Pressing <gui>Play</gui> at the end of selection – Replay selection: "
+#| "Whether you want to repeat the selection. If not, it will replay a few "
+#| "seconds like on pause."
+msgid ""
+"At End of Selection Replay Selection: Whether you want to repeat the "
+"selection. If not, it will replay a few seconds like on pause."
 msgstr ""
 "在选中部分末尾按下<gui>播放</gui>键，即重播选中部分：选中部分播完了要不要重复"
 "播放。如果关闭，播到末尾就会像暂停了一样，重播几秒的声音。"
 
 #. (itstool) path: section/title
-#: C/preferences.page:47
-msgid "Preferences for timestamps"
+#: ../help/C/preferences.page:48
+#, fuzzy
+#| msgid "Preferences for timestamps"
+msgid "Preferences for Timestamps"
 msgstr "时间戳设置"
 
-#. (itstool) path: section/media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/preferences.page:49
-msgctxt "_"
-msgid "external ref='figures/parlatype-prefs-timestamps.png' md5='03e59b46213ae5cb77eb6a52d9729969'"
-msgstr ""
-
 #. (itstool) path: section/p
-#: C/preferences.page:51
-msgid "These settings affect how <app>Parlatype</app> formats timestamps. If you need a certain format in your transcription, you can adjust it here."
-msgstr "这里的设置用来调整 <app>Parlatype</app> "
-"所给时间戳的格式。可以根据您记写、转写所需要的形式调整格式。"
+#: ../help/C/preferences.page:52
+msgid ""
+"These settings affect how <app>Parlatype</app> formats timestamps. If you "
+"need a certain format in your transcription, you can adjust it here."
+msgstr ""
+"这里的设置用来调整 <app>Parlatype</app> 所给时间戳的格式。可以根据您记写、转"
+"写所需要的形式调整格式。"
 
 #. (itstool) path: note/p
-#: C/preferences.page:52
-msgid "There are no settings for <em>reading</em> timestamps. <app>Parlatype</app> reads and accepts all of these formats."
-msgstr "没有 <em>读取</em>时间戳的设置。<app>Parlatype</app>读取并接受所有这些格式。"
+#: ../help/C/preferences.page:53
+msgid ""
+"There are no settings for <em>reading</em> timestamps. <app>Parlatype</app> "
+"reads and accepts all of these formats."
+msgstr ""
+"没有 <em>读取</em>时间戳的设置。<app>Parlatype</app>读取并接受所有这些格式。"
 
 #. (itstool) path: item/p
-#: C/preferences.page:54
-msgid "Always show hours and leading zeroes: Whether to show a fixed number of digits. Changing any of these values will show an updated example in the <gui>Example</gui> section below."
-msgstr "始终显示小时数和前导零：是否要保持数字的位数不变。下面的<gui>例子</gui>会实时"
+#: ../help/C/preferences.page:55
+#, fuzzy
+#| msgid ""
+#| "Always show hours and leading zeroes: Whether to show a fixed number of "
+#| "digits. Changing any of these values will show an updated example in the "
+#| "<gui>Example</gui> section below."
+msgid ""
+"Always Show Hours and Leading Zeroes: Whether to show a fixed number of "
+"digits. Changing any of these values will show an updated example in the "
+"<gui>Preview</gui> section below."
+msgstr ""
+"始终显示小时数和前导零：是否要保持数字的位数不变。下面的<gui>例子</gui>会实时"
 "显示不同设置的效果。"
 
 #. (itstool) path: item/p
-#: C/preferences.page:55
+#: ../help/C/preferences.page:56
 msgid "Precision: Choose between full seconds, 10th seconds or 100th seconds."
 msgstr "精密度：可以选择 1 秒、0.1 秒或 0.01 秒。"
 
 #. (itstool) path: item/p
-#: C/preferences.page:56
-msgid "Fraction separator: Choose between a point or a hyphen to separate fractions of a second."
+#: ../help/C/preferences.page:57
+#, fuzzy
+#| msgid ""
+#| "Fraction separator: Choose between a point or a hyphen to separate "
+#| "fractions of a second."
+msgid ""
+"Fraction Separator: Choose between a point or a hyphen to separate fractions "
+"of a second."
 msgstr "小数分隔符：选择用小数点还是连接号分隔秒钟的小数部分。"
 
 #. (itstool) path: item/p
-#: C/preferences.page:57
-msgid "Characters around timestamps: Choose between number signs, round brackets, square brackets or none."
+#: ../help/C/preferences.page:58
+#, fuzzy
+#| msgid ""
+#| "Characters around timestamps: Choose between number signs, round "
+#| "brackets, square brackets or none."
+msgid ""
+"Characters Around Timestamps: Choose between number signs, round brackets, "
+"square brackets or none."
 msgstr "时间戳记号：可以选择井号、圆括号、方括号或者什么都不加。"
 
-#. (itstool) path: section/title
-#: C/preferences.page:62
-msgid "Preferences for the window"
-msgstr "窗口设置"
-
-#. (itstool) path: section/media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/preferences.page:64
-msgctxt "_"
-msgid "external ref='figures/parlatype-prefs-window.png' md5='be540a7e2a351b80f5710048450c0735'"
-msgstr ""
-
-#. (itstool) path: item/p
-#: C/preferences.page:67
-msgid "Remember size: On start-up <app>Parlatype</app> sets the window size to the size it had the last time."
-msgstr "记住大小：打开 <app>Parlatype</app> 时窗口自动恢复为软件上次使用时的大小。"
-
-#. (itstool) path: item/p
-#: C/preferences.page:68
-msgid "Remember position: On start-up <app>Parlatype</app> can position its window where you had it when you closed <app>Parlatype</app> last time."
-msgstr "记住位置：打开 <app>Parlatype</app> 时，自动把窗口定位在 <app>Parlatype</"
-"app> 上次关闭时的位置。"
-
-#. (itstool) path: item/p
-#: C/preferences.page:69
-msgid "Start on top: This will put <app>Parlatype</app> on start-up on top of other windows. This might be useful if you are working with a maximized word processor and still want to see the <app>Parlatype</app> window."
-msgstr ""
-"启动时在前端打开窗口：启动 <app>Parlatype</app> 时把窗口叠在别的窗口上面。假"
-"设您正在使用文字处理软件（并且窗口是最大化的），此时您想打开本软件，"
-"这项设置就能让 <app>Parlatype</app> 窗口不会被文字处理软件的窗口挡住看不见。"
-
-#. (itstool) path: note/p
-#: C/preferences.page:73
-msgid "<gui>Remember position</gui> and <gui>Start on top</gui> are not available on Wayland."
-msgstr "Wayland 上无法使用<gui>记住位置</gui>和<gui>启动时在前端打开窗口</gui>功能。"
-
 #. (itstool) path: info/desc
-#: C/selections.page:6
+#: ../help/C/selections.page:6
 msgid "How to play and repeat a selection"
 msgstr "如何播放、重播选中部分"
 
 #. (itstool) path: page/title
-#: C/selections.page:14
+#: ../help/C/selections.page:14
 msgid "Selections"
 msgstr "选中部分"
 
 #. (itstool) path: page/p
-#: C/selections.page:16
-msgid "You can select a piece of the waveform with the mouse. Next time you press <gui>Play</gui>, it will play the selection only. When it is finished and you press <gui>Play</gui> again, it will loop the selection once."
+#: ../help/C/selections.page:16
+msgid ""
+"You can select a piece of the waveform with the mouse. Next time you press "
+"<gui>Play</gui>, it will play the selection only. When it is finished and "
+"you press <gui>Play</gui> again, it will loop the selection once."
 msgstr ""
 "用鼠标就可以选中一段波形图。再点击<gui>播放</gui>，就可以只播放被选中的那段音"
 "频。播放结束，再点击<gui>播放</gui>，就可以再播一遍这段音频。"
 
 #. (itstool) path: note/p
-#: C/selections.page:18
-msgid "When in selection mode, you can not exit the selection anymore until you deselect it."
+#: ../help/C/selections.page:18
+msgid ""
+"When in selection mode, you can not exit the selection anymore until you "
+"deselect it."
 msgstr "当选择模式生效时，想退出选择状态，必须先“取消选择”。"
 
 #. (itstool) path: page/p
-#: C/selections.page:20
-msgid "Selections can be made with the mouse (or pointer device) with a left click, holding the mouse button and dragging the pointer. If you click with <key>Shift</key> key pressed, an already existing selection will be enlarged to that point."
+#: ../help/C/selections.page:20
+msgid ""
+"Selections can be made with the mouse (or pointer device) with a left click, "
+"holding the mouse button and dragging the pointer. If you click with "
+"<key>Shift</key> key pressed, an already existing selection will be enlarged "
+"to that point."
 msgstr ""
 "用鼠标（或其他指针设备）左键按下不松开，再拖动指针，就可以选中一段音频。按住 "
 "<key>Shift</key> 点击鼠标，就可以扩展已经选中的范围，会扩展到点击的位置。"
 
 #. (itstool) path: page/p
-#: C/selections.page:22
-msgid "To deselect click once with the left button into the waveform. If the waveform has keyboard focus, you can press <key>Escape</key>."
-msgstr "左键点击一次波形图中的地方就可以“取消选择”。如果键盘控制的当前位置是波形图，"
+#: ../help/C/selections.page:22
+msgid ""
+"To deselect click once with the left button into the waveform. If the "
+"waveform has keyboard focus, you can press <key>Escape</key>."
+msgstr ""
+"左键点击一次波形图中的地方就可以“取消选择”。如果键盘控制的当前位置是波形图，"
 "按<key>退出（Escape）</key>也可以。"
 
 #. (itstool) path: info/desc
-#: C/timestamps.page:6
+#: ../help/C/timestamps.page:6
 msgid "Set and go to timestamps"
 msgstr "设置时间戳、去往时间戳处"
 
 #. (itstool) path: page/title
-#: C/timestamps.page:14
+#: ../help/C/timestamps.page:14
 msgid "Timestamps"
 msgstr "时间戳"
 
 #. (itstool) path: page/p
-#: C/timestamps.page:16
+#: ../help/C/timestamps.page:16
 msgid "Timestamps help you to navigate in your transcription."
 msgstr "时间戳便于在记写转写的过程中跳转到某个时间。"
 
 #. (itstool) path: note/p
-#: C/timestamps.page:19
-msgid "Timestamps can look like this: #03:45.2#. You can select them with or without the number signs."
-msgstr "比如，“#03:45.2#”就是一个时间戳。您也可以把时间戳设置成不带井号的样子。"
+#: ../help/C/timestamps.page:19
+msgid ""
+"Timestamps can look like this: #03:45.2#. You can select them with or "
+"without the number signs."
+msgstr ""
+"比如，“#03:45.2#”就是一个时间戳。您也可以把时间戳设置成不带井号的样子。"
 
 #. (itstool) path: page/p
-#: C/timestamps.page:22
-msgid "<app>Parlatype</app> can produce different timestamp formats, they can be set in <link xref=\"preferences#timestamps\"/>."
+#: ../help/C/timestamps.page:22
+msgid ""
+"<app>Parlatype</app> can produce different timestamp formats, they can be "
+"set in <link xref=\"preferences#timestamps\"/>."
 msgstr ""
-"<app>Parlatype</app> 支持多种时间戳格式，可以在 <link xref=\"preferences#"
-"timestamps\"/> 处设置。"
+"<app>Parlatype</app> 支持多种时间戳格式，可以在 <link "
+"xref=\"preferences#timestamps\"/> 处设置。"
 
 #. (itstool) path: section/title
-#: C/timestamps.page:25
+#: ../help/C/timestamps.page:25
 msgid "Drag and drop"
 msgstr "拖放"
 
 #. (itstool) path: section/p
-#: C/timestamps.page:27
-msgid "If you select the timestamp in the word processor, you can drag and drop it on the <app>Parlatype</app> window and it will go to that position. This is also possible the other way round: Drag the time label from <app>Parlatype</app> to a word processor and drop it there to insert it."
+#: ../help/C/timestamps.page:27
+msgid ""
+"If you select the timestamp in the word processor, you can drag and drop it "
+"on the <app>Parlatype</app> window and it will go to that position. This is "
+"also possible the other way round: Drag the time label from <app>Parlatype</"
+"app> to a word processor and drop it there to insert it."
 msgstr ""
-"可以先在文字处理软件里选中时间戳，再把它拖拽到 <app>Parlatype</app> "
-"的窗口里，音频就会自动转到时间戳标记的位置。也可以反过来，把时间标签从 "
+"可以先在文字处理软件里选中时间戳，再把它拖拽到 <app>Parlatype</app> 的窗口"
+"里，音频就会自动转到时间戳标记的位置。也可以反过来，把时间标签从 "
 "<app>Parlatype</app> 里拖拽到文字处理软件里可以插入时间标签。"
 
 #. (itstool) path: section/title
-#: C/timestamps.page:31
+#: ../help/C/timestamps.page:31
 msgid "Using the clipboard"
 msgstr "复制粘贴"
 
 #. (itstool) path: section/p
-#: C/timestamps.page:33
-msgid "Clicking on the menu button that is showing the current time you can <gui>Copy time to clipboard</gui> or <gui>Go to time in clipboard</gui>."
-msgstr "<gui>把时间复制到剪贴板</gui>和<gui>转到剪贴板中的时刻</gui>按钮就在现在正显"
+#: ../help/C/timestamps.page:33
+#, fuzzy
+#| msgid ""
+#| "Clicking on the menu button that is showing the current time you can "
+#| "<gui>Copy time to clipboard</gui> or <gui>Go to time in clipboard</gui>."
+msgid ""
+"Clicking on the menu button that is showing the current time you can "
+"<gui>Copy Time to Clipboard</gui> or <gui>Go to Time in Clipboard</gui>."
+msgstr ""
+"<gui>把时间复制到剪贴板</gui>和<gui>转到剪贴板中的时刻</gui>按钮就在现在正显"
 "示着的菜单里。"
 
 #. (itstool) path: section/p
-#: C/timestamps.page:35
-msgid "This can also be done with keyboard shortcuts. First make sure, the <app>Parlatype</app> window has focus. With the key sequence <keyseq><key>Ctrl</key><key>c</key></keyseq> the current timestamp is copied to the clipboard. Changing to the word processor you can insert now the timestamp in your transcription."
+#: ../help/C/timestamps.page:35
+msgid ""
+"This can also be done with keyboard shortcuts. First make sure, the "
+"<app>Parlatype</app> window has focus. With the key sequence "
+"<keyseq><key>Ctrl</key><key>c</key></keyseq> the current timestamp is copied "
+"to the clipboard. Changing to the word processor you can insert now the "
+"timestamp in your transcription."
 msgstr ""
 "也可以使用键盘快捷键。首先检查 <app>Parlatype</app> 窗口是不是当前窗口。按下 "
 "<keyseq><key>Ctrl</key><key>c</key></keyseq>，当前的时间戳就复制下来了。切换"
 "到文字处理软件的窗口，就可以在记写转写的文字中插入时间戳了。"
 
 #. (itstool) path: section/p
-#: C/timestamps.page:36
-msgid "To go to a timestamp position, copy the timestamp in the word processor to the clipboard. Once you have changed focus to <app>Parlatype</app> press <keyseq><key>Ctrl</key><key>v</key></keyseq>."
+#: ../help/C/timestamps.page:36
+msgid ""
+"To go to a timestamp position, copy the timestamp in the word processor to "
+"the clipboard. Once you have changed focus to <app>Parlatype</app> press "
+"<keyseq><key>Ctrl</key><key>v</key></keyseq>."
 msgstr ""
 "可以通过复制粘贴转到时间戳对应的位置。先在文字处理软件中复制时间戳，再切换到 "
-"<app>Parlatype</app> 的窗口，按 "
-"<keyseq><key>Ctrl</key><key>v</key></keyseq>，就可以转到对应位置了。"
+"<app>Parlatype</app> 的窗口，按 <keyseq><key>Ctrl</key><key>v</key></"
+"keyseq>，就可以转到对应位置了。"
 
 #. (itstool) path: info/desc
-#: C/media-keys.page:6
-msgid "How to control Parlatype with media keys"
-msgstr "用多媒体键操作 Parlatype"
+#: ../help/C/asr.page:7
+msgid "Let Parlatype do part of the transcription work"
+msgstr ""
 
 #. (itstool) path: page/title
-#: C/media-keys.page:14
-msgid "Media keys"
-msgstr "多媒体键"
-
-#. (itstool) path: page/p
-#: C/media-keys.page:16
-msgid "<app>Parlatype</app>’s basic functions can be controlled with so called <em>media keys</em>. Media keys are used system wide to control media players and they are working even if the media player is not in focus or in the background."
+#: ../help/C/asr.page:15
+msgid "Automatic Speech Recognition"
 msgstr ""
-"<app>Parlatype</app> 的基本功能可以用所谓的<em>多媒体键</em>操作。多媒体键可"
-"以在操作系统的范围内操控媒体播放器，就算媒体播放器不是当前窗口，或者在后台，"
-"按这些按键也能控制媒体的播放。"
 
 #. (itstool) path: page/p
-#: C/media-keys.page:18
-msgid "You can change the media keys in GNOME settings. You can use dedicated keys from a multimedia keyboard or use any other key or combination of keys."
-msgstr "可以在 GNOME 的设置里设定多媒体键。可以用多媒体键盘上的专门按键作为多媒体键，"
-"也可以用别的个别按键或者组合按键。"
+#: ../help/C/asr.page:17
+msgid ""
+"<app>Parlatype</app> offers automatic speech recognition that is done on "
+"your computer. No data is sent over the network."
+msgstr ""
 
 #. (itstool) path: note/p
-#: C/media-keys.page:21
-msgid "This will affect other media players, e.g. <app>Totem</app> or <app>Rhythmbox</app>, as well."
-msgstr "别的媒体播放器，比如 <app>Totem</app> 或 <app>Rhythmbox</app> "
-"的多媒体键也会定为那里设置的按键。"
-
-#. (itstool) path: page/p
-#: C/media-keys.page:24
-msgid "<app>Parlatype</app> listens to these key strokes:"
-msgstr "<app>Parlatype</app> 会监测这些按键是否被按："
-
-#. (itstool) path: item/p
-#: C/media-keys.page:26
-msgid "<key>Play</key>, <key>Pause</key>, <key>Stop</key>: Each of these keys toggles between playing and pause."
-msgstr "<key>播放</key>、<key>暂停</key>、<key>停止</key>：这些按键用来播放、暂停。"
-
-#. (itstool) path: item/p
-#: C/media-keys.page:27
-msgid "<key>Rewind</key>, <key>Previous</key>: Each of these keys will jump back the time you selected in Preferences."
-msgstr "<key>快退</key>、<key>前一项</key>：这些按键用来回退您在“个人设置”中设置好的"
-"时间量。"
-
-#. (itstool) path: item/p
-#: C/media-keys.page:28
-msgid "<key>Fast Forward</key>, <key>Next</key>: Each of these keys will jump ahead the time you selected in Preferences."
-msgstr "<key>快进</key>、<key>后一项</key>：这些按键用来前跳您在“个人设置”中设置好的"
-"时间量。"
+#: ../help/C/asr.page:20
+msgid ""
+"<app>Parlatype</app> must have been built with <app>PocketSphinx</app>. "
+"Please note that those libraries might be not available on your platform."
+msgstr ""
 
 #. (itstool) path: note/p
-#: C/media-keys.page:32
-msgid "For detailed instructions how to change keyboard shortcuts in GNOME see the <link href=\"help:gnome-help/keyboard-shortcuts-set\">official documentation</link>."
+#: ../help/C/asr.page:24
+msgid ""
+"<app>Parlatype</app> has no built-in text editor. You need the Parlatype "
+"Extension for <app>LibreOffice</app> to output recognized text."
 msgstr ""
-"您如果想详细地了解一下如何在 GNOME 中修改键盘快捷键，可以参阅 <link href="
-"\"help:gnome-help/keyboard-shortcuts-set\"> 官方文档 </link>。"
+
+#. (itstool) path: section/title
+#: ../help/C/asr.page:29
+msgid "Start Speech Recognition"
+msgstr ""
+
+#. (itstool) path: section/p
+#: ../help/C/asr.page:31
+msgid ""
+"Select a language model in the Preferences Dialog, <gui>Speech Recognition</"
+"gui> tab, see <link xref=\"asr-setup\"/> for more details."
+msgstr ""
+
+#. (itstool) path: section/p
+#: ../help/C/asr.page:34
+msgid ""
+"Open the primary menu and click on <gui>Automatic Transcription</gui>. This "
+"is only available, if you have setup and chosen a language model."
+msgstr ""
+
+#. (itstool) path: section/p
+#: ../help/C/asr.page:39
+msgid ""
+"Now press <gui>Play</gui> in <app>Parlatype</app> and the recognized speech "
+"will be printed in <app>LibreOffice</app>, if the Parlatype Extension is "
+"installed. Output is silent because decoding speed is dependent on your "
+"machine and may be slower or faster than real-time speech."
+msgstr ""
+
+#. (itstool) path: section/p
+#: ../help/C/asr.page:44
+msgid ""
+"Output is without punctuation or capitalization, you have to add or correct "
+"that yourself."
+msgstr ""
+
+#. (itstool) path: note/p
+#: ../help/C/asr.page:46
+msgid ""
+"<em>Accuracy</em> depends on many factors like quality of the recording, "
+"background noise, speaker’s dialect or pronunciation and the speech model "
+"used. For general transcription you can expect an word error rate between 10 "
+"and 50 %. Alas this means that in some cases manual transcription from the "
+"start will be faster than automatic transcription and the following "
+"correction process."
+msgstr ""
+
+#. (itstool) path: info/desc
+#: ../help/C/asr-setup.page:7
+msgid "Setup automatic speech transcription"
+msgstr ""
+
+#. (itstool) path: page/title
+#: ../help/C/asr-setup.page:15
+msgid "Setup Automatic Speech Recognition"
+msgstr ""
 
 #. (itstool) path: page/p
-#: C/media-keys.page:35
-msgid "If you are using a dedicated foot pedal, it should be possible to map the foot pedal signals to any of the keys. This is not well tested, however. Any feedback regarding foot pedals is welcome."
-msgstr "如果使用专用脚踏板的话，脚踏板的信号应该是可以映射到任意按键上的。不过，我们"
-"没有仔细测试过这种用法。欢迎反馈有关脚踏板的消息。"
+#: ../help/C/asr-setup.page:17
+msgid ""
+"For speech recognition you need a language model: one or more files trained "
+"with real speech samples. <app>Parlatype</app> supports language models made "
+"for CMU Sphinx and ships a couple of <em>language model configurations</em>."
+msgstr ""
+
+#. (itstool) path: note/p
+#: ../help/C/asr-setup.page:21
+msgid ""
+"A <em>language model configuration</em> contains meta data describing the "
+"language model: A name that you can change, the language it was made for, "
+"speech recognition engine, publisher, license etc. It has a (third party) "
+"link, where you can download the files. Part of the configuration is the "
+"base folder, where you have saved the model. Additionally it contains "
+"various parameters for the plugin which are not shown."
+msgstr ""
+
+#. (itstool) path: page/p
+#: ../help/C/asr-setup.page:28
+msgid ""
+"Open the Preferences Dialog and click on the <gui>Speech Recognition</gui> "
+"tab. Initially there are no configurations available, click on the <gui>Copy "
+"Initial Set of Configurations</gui> button."
+msgstr ""
+
+#. (itstool) path: page/p
+#: ../help/C/asr-setup.page:34
+msgid ""
+"Depending on your installation you will see then a list of downloadable "
+"configurations."
+msgstr ""
+
+#. (itstool) path: page/p
+#: ../help/C/asr-setup.page:38
+msgid ""
+"Select a configuration by clicking on it. There is a short description of "
+"the model and where you can download it. After downloading, you have to set "
+"the folder where your download resides. You can also change the <gui>Display "
+"name</gui>."
+msgstr ""
+
+#. (itstool) path: media/span
+#: ../help/C/asr-setup.page:46
+msgid "selected"
+msgstr ""
+
+#. (itstool) path: page/p
+#: ../help/C/asr-setup.page:45
+msgid ""
+"An installed model has no label next to it. Select a model and press the "
+"<gui>Activate</gui> button to use this model for speech recognition. The "
+"active configuration is indicated by a <_:media-1/> symbol."
+msgstr ""
+
+#. (itstool) path: page/p
+#: ../help/C/asr-setup.page:48
+msgid ""
+"Shipped configurations might get obsolete over time. Therefore you can "
+"import a configuration with the <gui>+</gui> button. Configurations are text "
+"files with an .asr ending."
+msgstr ""
+
+#. (itstool) path: page/p
+#: ../help/C/asr-setup.page:52
+msgid ""
+"With the <gui>-</gui> button you can remove a configuration. This will never "
+"remove downloaded models, only the configuration file."
+msgstr ""
+
+#~ msgid ""
+#~ "Keyboard shortcuts for <app>Parlatype</app> control, like <key>Play</"
+#~ "key>, are described in <link xref=\"control\"/>. Shortcut keys for the "
+#~ "window are listed below."
+#~ msgstr ""
+#~ "<app>Parlatype</app>操作如<key>播放</key>等的键盘快捷键在 <link "
+#~ "xref=\"control\"/> 中有描述。下面列出了窗口的快捷键。"
+
+#~ msgid "Jump back"
+#~ msgstr "回退"
+
+#~ msgid "<keyseq><key>Ctrl</key><key>Left</key></keyseq>"
+#~ msgstr "<keyseq><key>Ctrl</key><key>左方向键</key></keyseq>"
+
+#~ msgid "<keyseq><key>Ctrl</key><key>Right</key></keyseq>"
+#~ msgstr "<keyseq><key>Ctrl</key><key>右方向键</key></keyseq>"
+
+#~ msgid ""
+#~ "Resolution: The resolution of the waveform image is given in pixels per "
+#~ "second, e.g. the default resolution of 100 means, that one second is "
+#~ "shown with a width of 100 pixels."
+#~ msgstr ""
+#~ "分辨率：波形图像的分辨率以每秒像素数给定，例如，默认分辨率 100 表示一秒钟"
+#~ "以 100 像素宽代表。"
+
+#~ msgid "Preferences for the window"
+#~ msgstr "窗口设置"
+
+#~ msgid ""
+#~ "Remember size: On start-up <app>Parlatype</app> sets the window size to "
+#~ "the size it had the last time."
+#~ msgstr ""
+#~ "记住大小：打开 <app>Parlatype</app> 时窗口自动恢复为软件上次使用时的大小。"
+
+#~ msgid ""
+#~ "Remember position: On start-up <app>Parlatype</app> can position its "
+#~ "window where you had it when you closed <app>Parlatype</app> last time."
+#~ msgstr ""
+#~ "记住位置：打开 <app>Parlatype</app> 时，自动把窗口定位在 <app>Parlatype</"
+#~ "app> 上次关闭时的位置。"
+
+#~ msgid ""
+#~ "Start on top: This will put <app>Parlatype</app> on start-up on top of "
+#~ "other windows. This might be useful if you are working with a maximized "
+#~ "word processor and still want to see the <app>Parlatype</app> window."
+#~ msgstr ""
+#~ "启动时在前端打开窗口：启动 <app>Parlatype</app> 时把窗口叠在别的窗口上面。"
+#~ "假设您正在使用文字处理软件（并且窗口是最大化的），此时您想打开本软件，这项"
+#~ "设置就能让 <app>Parlatype</app> 窗口不会被文字处理软件的窗口挡住看不见。"
+
+#~ msgid ""
+#~ "<gui>Remember position</gui> and <gui>Start on top</gui> are not "
+#~ "available on Wayland."
+#~ msgstr ""
+#~ "Wayland 上无法使用<gui>记住位置</gui>和<gui>启动时在前端打开窗口</gui>功"
+#~ "能。"
+
+#~ msgid "How to control Parlatype with media keys"
+#~ msgstr "用多媒体键操作 Parlatype"
+
+#~ msgid "Media keys"
+#~ msgstr "多媒体键"
+
+#~ msgid ""
+#~ "<app>Parlatype</app>’s basic functions can be controlled with so called "
+#~ "<em>media keys</em>. Media keys are used system wide to control media "
+#~ "players and they are working even if the media player is not in focus or "
+#~ "in the background."
+#~ msgstr ""
+#~ "<app>Parlatype</app> 的基本功能可以用所谓的<em>多媒体键</em>操作。多媒体键"
+#~ "可以在操作系统的范围内操控媒体播放器，就算媒体播放器不是当前窗口，或者在后"
+#~ "台，按这些按键也能控制媒体的播放。"
+
+#~ msgid ""
+#~ "You can change the media keys in GNOME settings. You can use dedicated "
+#~ "keys from a multimedia keyboard or use any other key or combination of "
+#~ "keys."
+#~ msgstr ""
+#~ "可以在 GNOME 的设置里设定多媒体键。可以用多媒体键盘上的专门按键作为多媒体"
+#~ "键，也可以用别的个别按键或者组合按键。"
+
+#~ msgid ""
+#~ "This will affect other media players, e.g. <app>Totem</app> or "
+#~ "<app>Rhythmbox</app>, as well."
+#~ msgstr ""
+#~ "别的媒体播放器，比如 <app>Totem</app> 或 <app>Rhythmbox</app> 的多媒体键也"
+#~ "会定为那里设置的按键。"
+
+#~ msgid "<app>Parlatype</app> listens to these key strokes:"
+#~ msgstr "<app>Parlatype</app> 会监测这些按键是否被按："
+
+#~ msgid ""
+#~ "<key>Play</key>, <key>Pause</key>, <key>Stop</key>: Each of these keys "
+#~ "toggles between playing and pause."
+#~ msgstr ""
+#~ "<key>播放</key>、<key>暂停</key>、<key>停止</key>：这些按键用来播放、暂"
+#~ "停。"
+
+#~ msgid ""
+#~ "<key>Rewind</key>, <key>Previous</key>: Each of these keys will jump back "
+#~ "the time you selected in Preferences."
+#~ msgstr ""
+#~ "<key>快退</key>、<key>前一项</key>：这些按键用来回退您在“个人设置”中设置好"
+#~ "的时间量。"
+
+#~ msgid ""
+#~ "<key>Fast Forward</key>, <key>Next</key>: Each of these keys will jump "
+#~ "ahead the time you selected in Preferences."
+#~ msgstr ""
+#~ "<key>快进</key>、<key>后一项</key>：这些按键用来前跳您在“个人设置”中设置好"
+#~ "的时间量。"
+
+#~ msgid ""
+#~ "For detailed instructions how to change keyboard shortcuts in GNOME see "
+#~ "the <link href=\"help:gnome-help/keyboard-shortcuts-set\">official "
+#~ "documentation</link>."
+#~ msgstr ""
+#~ "您如果想详细地了解一下如何在 GNOME 中修改键盘快捷键，可以参阅 <link "
+#~ "href=\"help:gnome-help/keyboard-shortcuts-set\"> 官方文档 </link>。"
+
+#~ msgid ""
+#~ "If you are using a dedicated foot pedal, it should be possible to map the "
+#~ "foot pedal signals to any of the keys. This is not well tested, however. "
+#~ "Any feedback regarding foot pedals is welcome."
+#~ msgstr ""
+#~ "如果使用专用脚踏板的话，脚踏板的信号应该是可以映射到任意按键上的。不过，我"
+#~ "们没有仔细测试过这种用法。欢迎反馈有关脚踏板的消息。"
