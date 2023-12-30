@@ -15,15 +15,18 @@
  */
 
 #include "config.h"
-#include <stdlib.h> /* exit() */
-#include <gtk/gtk.h>
-#include <glib/gi18n.h>
-#include <parlatype.h>
+
+#include "pt-window.h"
+
 #include "pt-app.h"
 #include "pt-goto-dialog.h"
-#include "pt-window.h"
 #include "pt-window-dnd.h"
 #include "pt-window-private.h"
+
+#include <glib/gi18n.h>
+#include <gtk/gtk.h>
+#include <parlatype.h>
+#include <stdlib.h> /* exit() */
 
 struct _PtWindow
 {

@@ -15,8 +15,8 @@
  */
 
 #include <glib.h>
-#include <pt-waveviewer.h>
 #include <pt-player.h>
+#include <pt-waveviewer.h>
 
 /* Helpers to turn async operations into sync ------------------------------- */
 

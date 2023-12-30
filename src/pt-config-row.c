@@ -15,8 +15,10 @@
  */
 
 #include "config.h"
-#include <glib/gi18n.h>
+
 #include "pt-config-row.h"
+
+#include <glib/gi18n.h>
 
 struct _PtConfigRow
 {

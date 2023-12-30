@@ -44,9 +44,12 @@
 #define GETTEXT_PACKAGE GETTEXT_LIB
 
 #include "config.h"
+
 #include "pt-waveviewer-ruler.h"
-#include <glib/gi18n-lib.h>
+
 #include "pt-waveviewer.h"
+
+#include <glib/gi18n-lib.h>
 
 #define PRIMARY_MARK_HEIGHT 8
 #define SECONDARY_MARK_HEIGHT 4

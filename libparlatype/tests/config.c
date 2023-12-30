@@ -14,10 +14,11 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "mock-plugin.h"
+
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <pt-config.h>
-#include "mock-plugin.h"
 
 /* Tests -------------------------------------------------------------------- */
 

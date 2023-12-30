@@ -15,9 +15,12 @@
  */
 
 #include "config.h"
-#include <glib/gi18n.h>
-#include "pt-asr-dialog.h"
+
 #include "pt-prefs-install-row.h"
+
+#include "pt-asr-dialog.h"
+
+#include <glib/gi18n.h>
 
 struct _PtPrefsInstallRow
 {

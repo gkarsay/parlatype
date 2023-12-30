@@ -33,12 +33,15 @@
 #define GETTEXT_PACKAGE GETTEXT_LIB
 
 #include "config.h"
-#include <glib/gi18n-lib.h>
-#include <gio/gio.h>
-#include <gst/gst.h>
-#include "pt-config.h"
-#include "gst-helpers.h"
+
 #include "gstptaudioasrbin.h"
+
+#include "gst-helpers.h"
+#include "pt-config.h"
+
+#include <gio/gio.h>
+#include <glib/gi18n-lib.h>
+#include <gst/gst.h>
 
 GST_DEBUG_CATEGORY_STATIC (gst_pt_audio_asr_bin_debug);
 #define GST_CAT_DEFAULT gst_pt_audio_asr_bin_debug

@@ -32,6 +32,7 @@
 #define GETTEXT_PACKAGE GETTEXT_LIB
 
 #include "config.h"
+
 #include <glib/gi18n-lib.h>
 
 static gpointer

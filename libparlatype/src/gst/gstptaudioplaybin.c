@@ -34,12 +34,15 @@
 #define GETTEXT_PACKAGE GETTEXT_LIB
 
 #include "config.h"
+
+#include "gstptaudioplaybin.h"
+
+#include "gst-helpers.h"
+
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
-#include <gst/gst.h>
 #include <gst/audio/streamvolume.h>
-#include "gst-helpers.h"
-#include "gstptaudioplaybin.h"
+#include <gst/gst.h>
 
 GST_DEBUG_CATEGORY_STATIC (gst_pt_audio_play_bin_debug);
 #define GST_CAT_DEFAULT gst_pt_audio_play_bin_debug

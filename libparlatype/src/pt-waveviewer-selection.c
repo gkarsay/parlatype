@@ -38,8 +38,10 @@
  */
 
 #include "config.h"
-#include "pt-waveviewer.h"
+
 #include "pt-waveviewer-selection.h"
+
+#include "pt-waveviewer.h"
 
 struct _PtWaveviewerSelection
 {

@@ -31,9 +31,11 @@
 #define GETTEXT_PACKAGE GETTEXT_LIB
 
 #include "config.h"
-#include <gio/gio.h>
+
 #include "gst/gst-helpers.h"
 #include "gst/gstptaudiobin.h"
+
+#include <gio/gio.h>
 #include <glib/gi18n-lib.h>
 #include <gst/audio/streamvolume.h>
 #include <gst/gst.h>

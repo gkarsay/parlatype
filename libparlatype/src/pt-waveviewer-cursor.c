@@ -42,8 +42,10 @@
  */
 
 #include "config.h"
-#include "pt-waveviewer.h"
+
 #include "pt-waveviewer-cursor.h"
+
+#include "pt-waveviewer.h"
 
 #define MARKER_BOX_W 10
 #define MARKER_BOX_H 8

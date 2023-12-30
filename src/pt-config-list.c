@@ -15,6 +15,7 @@
  */
 
 #include "config.h"
+
 #include "pt-config-list.h"
 
 struct _PtConfigList

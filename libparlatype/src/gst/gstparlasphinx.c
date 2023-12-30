@@ -89,13 +89,12 @@
 
 #include "config.h"
 
-#include <string.h>
-#include <gst/gst.h>
+#include "gstparlasphinx.h"
 
+#include <gst/gst.h>
 #include <sphinxbase/err.h>
 #include <sphinxbase/strfuncs.h>
-
-#include "gstparlasphinx.h"
+#include <string.h>
 
 GST_DEBUG_CATEGORY_STATIC (parlasphinx_debug);
 #define GST_CAT_DEFAULT parlasphinx_debug

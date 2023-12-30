@@ -20,10 +20,12 @@
  */
 
 #include "config.h"
-#include <gtk/gtk.h>
-#include <glib/gi18n.h>
-#include <parlatype.h>
+
 #include "pt-goto-dialog.h"
+
+#include <glib/gi18n.h>
+#include <gtk/gtk.h>
+#include <parlatype.h>
 
 struct _PtGotoDialog
 {

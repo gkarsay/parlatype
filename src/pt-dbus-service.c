@@ -15,11 +15,14 @@
  */
 
 #include "config.h"
+
+#include "pt-dbus-service.h"
+
+#include "pt-window.h"
+
 #include <gio/gio.h>
 #include <glib/gi18n.h>
 #include <parlatype.h>
-#include "pt-window.h"
-#include "pt-dbus-service.h"
 
 struct _PtDbusService
 {

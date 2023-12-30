@@ -15,10 +15,13 @@
  */
 
 #include "config.h"
-#include <gtk/gtk.h>
-#include "pt-window.h"
-#include "pt-window-private.h"
+
 #include "pt-window-dnd.h"
+
+#include "pt-window-private.h"
+#include "pt-window.h"
+
+#include <gtk/gtk.h>
 
 static gboolean
 handle_uri (PtWindow *win,

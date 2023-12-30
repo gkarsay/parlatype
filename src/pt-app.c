@@ -15,14 +15,17 @@
  */
 
 #include "config.h"
-#include <gtk/gtk.h>
-#include <glib/gi18n.h>
-#include <adwaita.h>
+
+#include "pt-app.h"
+
 #include "pt-dbus-service.h"
 #include "pt-mpris.h"
 #include "pt-preferences.h"
 #include "pt-window.h"
-#include "pt-app.h"
+
+#include <adwaita.h>
+#include <glib/gi18n.h>
+#include <gtk/gtk.h>
 
 struct _PtApp
 {

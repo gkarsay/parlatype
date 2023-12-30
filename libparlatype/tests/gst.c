@@ -15,10 +15,12 @@
  */
 
 #include "config.h"
+
 #include "gst/gstptaudioasrbin.h"
 #include "gst/gstptaudiobin.h"
 #include "gst/gstptaudioplaybin.h"
 #include "mock-plugin.h"
+
 #include <glib.h>
 #include <gst/audio/streamvolume.h>
 #include <gst/gst.h>

@@ -15,12 +15,15 @@
  */
 
 #include "config.h"
-#include <gtk/gtk.h>
-#include <glib/gi18n.h>
-#include <parlatype.h>
+
+#include "pt-asr-dialog.h"
+
 #include "pt-prefs-info-row.h"
 #include "pt-prefs-install-row.h"
-#include "pt-asr-dialog.h"
+
+#include <glib/gi18n.h>
+#include <gtk/gtk.h>
+#include <parlatype.h>
 
 struct _PtAsrDialog
 {

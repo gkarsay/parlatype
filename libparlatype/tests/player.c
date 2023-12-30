@@ -15,6 +15,7 @@
  */
 
 #include "mock-plugin.h"
+
 #include <glib.h>
 #include <gst/gst.h> /* error domain */
 #include <pt-player.h>

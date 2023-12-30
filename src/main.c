@@ -15,10 +15,12 @@
  */
 
 #include "config.h"
-#include <gtk/gtk.h>
-#include <glib/gi18n.h>
-#include <locale.h> /* setlocale */
+
 #include "pt-app.h"
+
+#include <glib/gi18n.h>
+#include <gtk/gtk.h>
+#include <locale.h> /* setlocale */
 
 int
 main (int argc, char *argv[])

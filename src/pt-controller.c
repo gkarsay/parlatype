@@ -15,9 +15,11 @@
  */
 
 #include "config.h"
-#include "pt-window.h"
-#include "pt-window-private.h"
+
 #include "pt-controller.h"
+
+#include "pt-window-private.h"
+#include "pt-window.h"
 
 typedef struct _PtControllerPrivate PtControllerPrivate;
 struct _PtControllerPrivate

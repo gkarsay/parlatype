@@ -30,13 +30,16 @@
 #define GETTEXT_PACKAGE GETTEXT_LIB
 
 #include "config.h"
+
+#include "pt-waveloader.h"
+
+#include "pt-i18n.h"
+
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
-#include <gst/gst.h>
-#include <gst/audio/audio.h>
 #include <gst/app/gstappsink.h>
-#include "pt-i18n.h"
-#include "pt-waveloader.h"
+#include <gst/audio/audio.h>
+#include <gst/gst.h>
 
 typedef struct _PtWaveloaderPrivate PtWaveloaderPrivate;
 struct _PtWaveloaderPrivate

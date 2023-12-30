@@ -36,17 +36,20 @@
 #define GETTEXT_PACKAGE GETTEXT_LIB
 
 #include "config.h"
-#include <math.h> /* fabs */
-#include <string.h>
-#include <glib/gi18n-lib.h>
+
+#include "pt-waveviewer.h"
+
 #include "pt-marshalers.h"
 #include "pt-waveloader.h"
+#include "pt-waveviewer-cursor.h"
 #include "pt-waveviewer-ruler.h"
-#include "pt-waveviewer-waveform.h"
 #include "pt-waveviewer-scrollbox.h"
 #include "pt-waveviewer-selection.h"
-#include "pt-waveviewer-cursor.h"
-#include "pt-waveviewer.h"
+#include "pt-waveviewer-waveform.h"
+
+#include <glib/gi18n-lib.h>
+#include <math.h> /* fabs */
+#include <string.h>
 
 #define ALL_ACCELS_MASK (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_ALT_MASK)
 #define CURSOR_POSITION 0.5

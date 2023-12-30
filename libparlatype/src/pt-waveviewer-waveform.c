@@ -39,8 +39,10 @@
  */
 
 #include "config.h"
-#include "pt-waveviewer.h"
+
 #include "pt-waveviewer-waveform.h"
+
+#include "pt-waveviewer.h"
 
 struct _PtWaveviewerWaveform
 {

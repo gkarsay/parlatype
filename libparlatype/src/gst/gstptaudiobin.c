@@ -43,11 +43,14 @@ Note 1: It doesn’t work if play_audio_play_bin or pt_audio_asr_bin are added t
 #define GETTEXT_PACKAGE GETTEXT_LIB
 
 #include "config.h"
+
+#include "gstptaudiobin.h"
+
 #include "gst-helpers.h"
 #include "gstptaudioasrbin.h"
-#include "gstptaudiobin.h"
 #include "gstptaudioplaybin.h"
 #include "pt-config.h"
+
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
 #include <gst/gst.h>

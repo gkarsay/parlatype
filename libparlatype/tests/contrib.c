@@ -14,9 +14,10 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "contrib/gnome-languages.h"
+
 #include <glib.h>
 #include <locale.h>
-#include "contrib/gnome-languages.h"
 
 static void
 gnome_languages_c (void)

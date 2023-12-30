@@ -15,15 +15,18 @@
  */
 
 #include "config.h"
-#include <gtk/gtk.h>
-#include <glib/gi18n.h>
-#include <parlatype.h>
+
+#include "pt-preferences.h"
+
 #include "pt-app.h"
 #include "pt-asr-dialog.h"
 #include "pt-config-list.h"
 #include "pt-config-row.h"
 #include "pt-prefs-info-row.h"
-#include "pt-preferences.h"
+
+#include <glib/gi18n.h>
+#include <gtk/gtk.h>
+#include <parlatype.h>
 
 #define EXAMPLE_TIME_SHORT 471123
 #define EXAMPLE_TIME_LONG 4071123

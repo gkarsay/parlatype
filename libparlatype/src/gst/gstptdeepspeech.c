@@ -18,14 +18,14 @@
  * gst-deepspeech but different implementation. vad_private.c and vad_private.h
  * are taken unmodified from gst-remove-silence (GStreamer bad plugins). */
 
-#include <config.h>
-
-#include <gst/gst.h>
-#include <deepspeech.h>
-#include <string.h>
+#include "gstptdeepspeech.h"
 
 #include "vad_private.h"
-#include "gstptdeepspeech.h"
+
+#include <config.h>
+#include <deepspeech.h>
+#include <gst/gst.h>
+#include <string.h>
 
 GST_DEBUG_CATEGORY_STATIC (gst_ptdeepspeech_debug);
 #define GST_CAT_DEFAULT gst_ptdeepspeech_debug

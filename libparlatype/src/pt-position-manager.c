@@ -28,8 +28,10 @@
  */
 
 #include "config.h"
-#include <gio/gio.h>
+
 #include "pt-position-manager.h"
+
+#include <gio/gio.h>
 
 #define METADATA_POSITION "metadata::parlatype::position"
 

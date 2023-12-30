@@ -18,12 +18,14 @@
  * and slightly adapted for Parlatype.
  */
 
-#include "pt-mpris.h"
 #include "config.h"
-#include "pt-window.h"
-#include <parlatype.h>
+
+#include "pt-mpris.h"
 
 #include "mpris-spec.h"
+#include "pt-window.h"
+
+#include <parlatype.h>
 
 #define ENTRY_OBJECT_PATH_PREFIX "/org/mpris/MediaPlayer2/Track/"
 

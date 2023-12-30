@@ -15,6 +15,7 @@
  */
 
 #include "config.h"
+
 #include "pt-prefs-info-row.h"
 
 struct _PtPrefsInfoRow

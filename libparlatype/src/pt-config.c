@@ -17,10 +17,13 @@
 #define GETTEXT_PACKAGE GETTEXT_LIB
 
 #include "config.h"
+
+#include "pt-config.h"
+
+#include "contrib/gnome-languages.h"
+
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
-#include "contrib/gnome-languages.h"
-#include "pt-config.h"
 
 typedef struct _PtConfigPrivate PtConfigPrivate;
 struct _PtConfigPrivate

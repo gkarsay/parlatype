@@ -15,9 +15,10 @@
  */
 
 #include "config.h"
+
+#include <adwaita.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
-#include <adwaita.h>
 #include <locale.h> /* setlocale */
 #include <pt-app.h>
 #include <pt-asr-dialog.h>

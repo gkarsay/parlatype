@@ -19,12 +19,13 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#include <string.h>
+#include "vad_private.h"
+
+#include <glib.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
-#include <glib.h>
-#include "vad_private.h"
+#include <string.h>
 
 #define VAD_POWER_ALPHA 0x0800 /* Q16 */
 #define VAD_ZCR_THRESHOLD 0
