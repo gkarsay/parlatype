@@ -221,9 +221,6 @@ pt_asr_dialog_set_config (PtAsrDialog *self,
   if (g_strcmp0 (str, "parlasphinx") == 0)
     engine = _ ("CMU Pocketsphinx");
 
-  if (g_strcmp0 (str, "ptdeepspeech") == 0)
-    engine = _ ("Mozilla DeepSpeech");
-
   if (engine)
     add_info_row (self, _ ("Engine"), engine);
   else

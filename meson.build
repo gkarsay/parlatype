@@ -8,8 +8,7 @@ app_id = 'org.parlatype.Parlatype'
 version = meson.project_version()
 
 with_pocketsphinx = get_option('pocketsphinx')
-with_deepspeech   = get_option('deepspeech')
-with_asr = with_pocketsphinx or with_deepspeech
+with_asr = with_pocketsphinx
 
 prefix     = get_option('prefix')
 bindir     = join_paths(prefix, get_option('bindir'))
@@ -76,6 +75,5 @@ summary({
   'gtk-doc'     : gtk_doc,
   'gir'         : gir,
   'pocketsphinx': with_pocketsphinx,
-  'deepspeech': with_deepspeech,
   }, section: 'Configuration',
 )

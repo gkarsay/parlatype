@@ -1,24 +1,18 @@
 option(
-	'gtk-doc',
-	type: 'boolean',
-	value: false,
-	description: 'Install library reference, requires gtk-doc'
+  'gtk-doc',
+  type: 'boolean',
+  value: false,
+  description: 'Install library reference, requires gtk-doc'
 )
 option(
-	'gir',
-	type: 'boolean',
-	value: false,
-	description: 'Install GObject Introspection data, requires gobject-introspection'
+  'gir',
+  type: 'boolean',
+  value: false,
+  description: 'Install GObject Introspection data, requires gobject-introspection'
 )
 option(
-	'pocketsphinx',
-	type: 'boolean',
-	value: false,
-	description: 'Compile with ASR, requires CMU Sphinx'
-)
-option(
-	'deepspeech',
-	type: 'boolean',
-	value: false,
-	description: 'Compile with ASR, requires Mozilla Deepspeech'
+  'pocketsphinx',
+  type: 'boolean',
+  value: false,
+  description: 'Compile with ASR, requires CMU Sphinx'
 )

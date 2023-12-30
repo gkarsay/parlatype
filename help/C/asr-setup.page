@@ -16,8 +16,7 @@
 
 <p>For speech recognition you need a language model: one or more files trained
 with real speech samples. <app>Parlatype</app> supports language models made for
-CMU Sphinx and Mozilla DeepSpeech and ships a couple of <em>language model
-configurations</em>.</p>
+CMU Sphinx and ships a couple of <em>language model configurations</em>.</p>
 
 <note><p>A <em>language model configuration</em> contains meta data describing
 the language model: A name that you can change, the language it was made for,

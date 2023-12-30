@@ -10,7 +10,7 @@ The following instructions are for developers, contributors and those who want t
 ### Dependencies
 
 To build Parlatype from source you need these packages:
-* meson >= 0.56.0
+* meson >= 0.60.0
 * gettext >= 0.19.7
 * gobject-introspection-1.0
 * yelp-tools
@@ -26,7 +26,6 @@ Optional, depending on your configured options:
 * desktop-file-utils (if installed, this checks the desktop file)
 * appstream-utils (if installed, this checks the appstream file)
 * sphinxbase and pocketsphinx (with `pocketsphinx=true`)
-* deepspeech (with `deepspeech=true`)
 
 Runtime dependencies:
 * GStreamer "Good" Plugins
@@ -50,7 +49,6 @@ These are the configurable options:
 
 * `gir`: install gobject introspection (default: false)
 * `gtk-doc`: install library documentation (default: false)
-* `deepspeech`: build GStreamer plugin for Mozilla DeepSpeech support, requires deepspeech (default: false)
 * `pocketsphinx`: build GStreamer plugin for CMU PocketSphinx support, requires sphinxbase and pocketsphinx (default: false)
 
 ### Build

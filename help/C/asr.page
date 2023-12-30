@@ -17,8 +17,7 @@
 <p><app>Parlatype</app> offers automatic speech recognition that is done on
 your computer. No data is sent over the network.</p>
 
-<note><p><app>Parlatype</app> must have been built with <app>PocketSphinx</app>
-or <app>Mozilla DeepSpeech</app>.
+<note><p><app>Parlatype</app> must have been built with <app>PocketSphinx</app>.
 Please note that those libraries might be not available on your platform.
 </p></note>
 

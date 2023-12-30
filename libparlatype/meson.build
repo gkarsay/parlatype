@@ -32,7 +32,6 @@ libconf.set_quoted('PACKAGE_VERSION', meson.project_version())
 libconf.set_quoted('GETTEXT_LIB', gettext_package_lib)
 libconf.set_quoted('ISO_CODES_PREFIX', iso_codes_prefix)
 libconf.set('HAVE_POCKETSPHINX', with_pocketsphinx)
-libconf.set('HAVE_DEEPSPEECH', with_deepspeech)
 libconf_input = configure_file(output: 'config.h', configuration: libconf)
 libconf_inc = include_directories('.', 'src')
 

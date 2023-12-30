@@ -42,9 +42,6 @@
 #ifdef HAVE_POCKETSPHINX
 #include "gst/gstparlasphinx.h"
 #endif
-#ifdef HAVE_DEEPSPEECH
-#include "gst/gstptdeepspeech.h"
-#endif
 #include "pt-config.h"
 #include "pt-i18n.h"
 #include "pt-player.h"
@@ -526,8 +523,7 @@ bus_call (GstBus *bus,
       }
 
     case GST_MESSAGE_ELEMENT:
-      if (g_strcmp0 (GST_MESSAGE_SRC_NAME (msg), "parlasphinx") == 0 ||
-          g_strcmp0 (GST_MESSAGE_SRC_NAME (msg), "ptdeepspeech") == 0)
+      if (g_strcmp0 (GST_MESSAGE_SRC_NAME (msg), "parlasphinx") == 0)
         {
           const GstStructure *st = gst_message_get_structure (msg);
           if (g_value_get_boolean (gst_structure_get_value (st, "final")))
@@ -2434,13 +2430,6 @@ pt_player_init (PtPlayer *self)
   factory = gst_element_factory_find ("parlasphinx");
   if (factory == NULL)
     gst_parlasphinx_register ();
-  else
-    gst_object_unref (factory);
-#endif
-#ifdef HAVE_DEEPSPEECH
-  factory = gst_element_factory_find ("ptdeepspeech");
-  if (factory == NULL)
-    gst_ptdeepspeech_register ();
   else
     gst_object_unref (factory);
 #endif

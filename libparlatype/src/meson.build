@@ -66,18 +66,6 @@ if with_pocketsphinx
   deps += [sphinxbase, pocketsphinx]
 endif
 
-if with_deepspeech
-  sources += [
-    'gst/gstptdeepspeech.c',
-    'gst/gstptdeepspeech.h',
-    'gst/vad_private.c',
-    'gst/vad_private.h',
-  ]
-
-  deepspeech = compiler.find_library('deepspeech')
-  deps += [deepspeech]
-endif
-
 headers = [
   'pt-config.h',
   'pt-player.h',
