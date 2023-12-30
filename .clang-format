@@ -7,11 +7,13 @@
 
 BasedOnStyle: GNU
 
-AlwaysBreakAfterDefinitionReturnType: All
+AlwaysBreakAfterReturnType: AllDefinitions
 BreakBeforeBinaryOperators: None
 BinPackParameters: false
 SpaceAfterCStyleCast: true
 ColumnLimit: 0
+
+# Sorting includes
 SortIncludes: CaseInsensitive
 IncludeBlocks: Regroup
 IncludeIsMainSourceRegex: 'h$'
