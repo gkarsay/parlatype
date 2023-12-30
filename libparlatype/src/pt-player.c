@@ -32,21 +32,22 @@
 
 #include "config.h"
 
+#include "pt-player.h"
+
 #include "gst/gst-helpers.h"
 #include "gst/gstptaudiobin.h"
+#include "pt-config.h"
+#include "pt-i18n.h"
+#include "pt-position-manager.h"
+#include "pt-waveviewer.h"
+#ifdef HAVE_POCKETSPHINX
+#include "gst/gstparlasphinx.h"
+#endif
 
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
 #include <gst/audio/streamvolume.h>
 #include <gst/gst.h>
-#ifdef HAVE_POCKETSPHINX
-#include "gst/gstparlasphinx.h"
-#endif
-#include "pt-config.h"
-#include "pt-i18n.h"
-#include "pt-player.h"
-#include "pt-position-manager.h"
-#include "pt-waveviewer.h"
 
 typedef struct _PtPlayerPrivate PtPlayerPrivate;
 struct _PtPlayerPrivate
