@@ -95,6 +95,7 @@ pt_download_button_new (gchar *link)
       host = g_uri_get_host (uri);
     }
 
+  /* Translators: Fallback label for a download location */
   link_button = gtk_link_button_new_with_label (link, host ? host : _ ("Link"));
   g_uri_unref (uri);
   return link_button;
@@ -119,12 +120,14 @@ update_status_row (PtAsrDialog *self)
     }
   else if (self->installed)
     {
+      /* Translators: Model is a language model */
       title = _ ("Model data is installed.");
       subtitle = NULL;
       button_label = _ ("Activate");
     }
   else
     {
+      /* Translators: Model is a language model */
       title = _ ("Model data is not installed.");
       subtitle = _ ("See next section for details.");
       button_label = _ ("Activate");
@@ -137,6 +140,7 @@ update_status_row (PtAsrDialog *self)
 
   if (self->installed)
     adw_action_row_set_subtitle (ADW_ACTION_ROW (self->delete_row),
+                                 /* Translators: Configuration will be deleted, but not its data */
                                  _ ("Model data will be preserved"));
   else
     adw_action_row_set_subtitle (ADW_ACTION_ROW (self->delete_row), NULL);
@@ -222,7 +226,8 @@ pt_asr_dialog_set_config (PtAsrDialog *self,
     engine = _ ("CMU Pocketsphinx");
 
   if (engine)
-    add_info_row (self, _ ("Engine"), engine);
+    /* Translators: Model is a language model */
+    add_info_row (self, _ ("Type of Model"), engine);
   else
     add_info_row (self, _ ("GStreamer Plugin"), str);
 
@@ -305,6 +310,7 @@ file_delete_finished (GObject      *source_object,
   if (g_file_delete_finish (file, res, &error))
     {
       g_settings_set_string (self->editor, "asr-config", "");
+      /* Translators: %s is replaced with the name of a configuration */
       AdwToast  *toast = adw_toast_new_format (_ ("“%s” has been deleted"),
                                                pt_config_get_name (self->config));
       GtkWindow *parent = gtk_window_get_transient_for (GTK_WINDOW (self));
@@ -351,6 +357,7 @@ delete_button_clicked_cb (GtkButton *button,
 
   dialog = adw_message_dialog_new (GTK_WINDOW (self),
                                    _ ("Delete Configuration"),
+                                   /* TODO better wording */
                                    _ ("This will delete the configuration"));
   adw_message_dialog_add_responses (ADW_MESSAGE_DIALOG (dialog),
                                     "cancel", _ ("_Cancel"),
@@ -394,6 +401,7 @@ activate_button_clicked_cb (GtkButton *button,
 
   if (success)
     {
+      /* Translators: %s is replaced with the name of a configuration */
       AdwToast *toast = adw_toast_new_format (_ ("“%s” has been activated"),
                                               pt_config_get_name (self->config));
       if (self->active)

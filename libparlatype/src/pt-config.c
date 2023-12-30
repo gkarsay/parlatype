@@ -476,7 +476,8 @@ pt_config_apply (PtConfig *self,
               g_set_error (error,
                            PT_ERROR,
                            PT_ERROR_PLUGIN_MISSING_PROPERTY,
-                           _ ("Plugin doesn’t have a property “%s”"), keys[k]);
+                           /* Translators: %s is replaced with the parameter’s name */
+                           _ ("Plugin doesn’t have a parameter “%s”."), keys[k]);
               g_strfreev (keys);
               g_object_thaw_notify (plugin);
               return FALSE;
@@ -486,7 +487,8 @@ pt_config_apply (PtConfig *self,
               g_set_error (error,
                            PT_ERROR,
                            PT_ERROR_PLUGIN_NOT_WRITABLE,
-                           _ ("Plugin property “%s” is not writable"), keys[k]);
+                           /* Translators: %s is replaced with the parameter’s name */
+                           _ ("Parameter “%s” is not writable."), keys[k]);
               g_strfreev (keys);
               g_object_thaw_notify (plugin);
               return FALSE;
@@ -501,7 +503,8 @@ pt_config_apply (PtConfig *self,
               g_set_error (error,
                            PT_ERROR,
                            PT_ERROR_PLUGIN_WRONG_VALUE,
-                           _ ("Value for property “%s” is not valid"), keys[k]);
+                           /* Translators: %s is replaced with the parameter’s name */
+                           _ ("Value for parameter “%s” is not valid."), keys[k]);
               g_strfreev (keys);
               g_value_unset (&value);
               g_object_thaw_notify (plugin);

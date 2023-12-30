@@ -40,6 +40,7 @@ _pt_make_element (gchar   *factoryname,
         {
           g_log_structured (
               G_LOG_DOMAIN, G_LOG_LEVEL_CRITICAL, "MESSAGE",
+              /* Translators: %s is replaced with the plugins name */
               _ ("Failed to load plugin “%s”."), factoryname);
         }
       else

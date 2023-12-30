@@ -496,6 +496,7 @@ update_insert_action_sensitivity_cb (GdkClipboard *clip,
     }
 
   if (timestamp)
+    /* Translators: %s is replaced with a timestamp */
     label = g_strdup_printf (_ ("Go to Time in Clipboard: %s"), timestamp);
   else
     label = g_strdup (_ ("Go to Time in Clipboard"));
