@@ -14,9 +14,10 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#define GETTEXT_PACKAGE GETTEXT_LIB
+
 #include "config.h"
 #include <gio/gio.h>
-#define GETTEXT_PACKAGE GETTEXT_LIB
 #include <glib/gi18n-lib.h>
 #include "contrib/gnome-languages.h"
 #include "pt-config.h"

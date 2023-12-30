@@ -33,10 +33,11 @@
  * make selections and so on.
  */
 
+#define GETTEXT_PACKAGE GETTEXT_LIB
+
 #include "config.h"
 #include <math.h> /* fabs */
 #include <string.h>
-#define GETTEXT_PACKAGE GETTEXT_LIB
 #include <glib/gi18n-lib.h>
 #include "pt-marshalers.h"
 #include "pt-waveloader.h"

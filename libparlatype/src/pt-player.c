@@ -28,9 +28,10 @@
  * The internal time unit in PtPlayer are milliseconds.
  */
 
+#define GETTEXT_PACKAGE GETTEXT_LIB
+
 #include "config.h"
 #include <gio/gio.h>
-#define GETTEXT_PACKAGE GETTEXT_LIB
 #include "gst/gst-helpers.h"
 #include "gst/gstptaudiobin.h"
 #include <glib/gi18n-lib.h>

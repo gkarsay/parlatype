@@ -20,10 +20,11 @@
  *              Ray Strode <rstrode@redhat.com>
  */
 
+#define GETTEXT_PACKAGE GETTEXT_LIB
+
 #include "config.h"
 
 #include <glib.h>
-#define GETTEXT_PACKAGE GETTEXT_LIB
 #include <glib/gi18n-lib.h>
 #include <glib/gstdio.h>
 

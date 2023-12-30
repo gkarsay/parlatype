@@ -29,8 +29,9 @@
  * “Inspired” by totem-pl-parser.c: totem_pl_parser_init_i18n().
  */
 
-#include "config.h"
 #define GETTEXT_PACKAGE GETTEXT_LIB
+
+#include "config.h"
 #include <glib/gi18n-lib.h>
 
 static gpointer

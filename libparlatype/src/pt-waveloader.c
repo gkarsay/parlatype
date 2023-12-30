@@ -27,9 +27,10 @@
  * used by a widget to visually represent a waveform.
  */
 
+#define GETTEXT_PACKAGE GETTEXT_LIB
+
 #include "config.h"
 #include <gio/gio.h>
-#define GETTEXT_PACKAGE GETTEXT_LIB
 #include <glib/gi18n-lib.h>
 #include <gst/gst.h>
 #include <gst/audio/audio.h>

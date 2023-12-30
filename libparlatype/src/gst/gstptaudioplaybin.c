@@ -31,8 +31,9 @@
  * audiosink is chosen at runtime.
  */
 
-#include "config.h"
 #define GETTEXT_PACKAGE GETTEXT_LIB
+
+#include "config.h"
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
 #include <gst/gst.h>

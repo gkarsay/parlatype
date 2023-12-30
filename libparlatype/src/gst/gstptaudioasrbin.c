@@ -30,8 +30,9 @@
  *
  */
 
-#include "config.h"
 #define GETTEXT_PACKAGE GETTEXT_LIB
+
+#include "config.h"
 #include <glib/gi18n-lib.h>
 #include <gio/gio.h>
 #include <gst/gst.h>
