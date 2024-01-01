@@ -328,17 +328,11 @@ file_delete_finished (GObject      *source_object,
 }
 
 static void
-delete_dialog_cb (GObject      *source,
-                  GAsyncResult *result,
-                  gpointer      user_data)
+delete_button_clicked_cb (GtkButton *button,
+                          gpointer   user_data)
 {
   PtAsrDialog *self = PT_ASR_DIALOG (user_data);
-  const gchar *response;
   GFile       *file;
-
-  response = adw_message_dialog_choose_finish (ADW_MESSAGE_DIALOG (source), result);
-  if (!g_str_equal (response, "ok"))
-    return;
 
   file = pt_config_get_file (self->config);
   g_file_delete_async (file,
@@ -346,32 +340,6 @@ delete_dialog_cb (GObject      *source,
                        NULL, /* cancellable */
                        file_delete_finished,
                        self);
-}
-
-static void
-delete_button_clicked_cb (GtkButton *button,
-                          gpointer   user_data)
-{
-  PtAsrDialog *self = PT_ASR_DIALOG (user_data);
-  GtkWidget   *dialog;
-
-  dialog = adw_message_dialog_new (GTK_WINDOW (self),
-                                   _ ("Delete Configuration"),
-                                   /* TODO better wording */
-                                   _ ("This will delete the configuration"));
-  adw_message_dialog_add_responses (ADW_MESSAGE_DIALOG (dialog),
-                                    "cancel", _ ("_Cancel"),
-                                    "ok", _ ("_OK"),
-                                    NULL);
-  adw_message_dialog_set_response_appearance (ADW_MESSAGE_DIALOG (dialog),
-                                              "ok", ADW_RESPONSE_DESTRUCTIVE);
-  adw_message_dialog_set_default_response (ADW_MESSAGE_DIALOG (dialog), "cancel");
-  adw_message_dialog_set_close_response (ADW_MESSAGE_DIALOG (dialog), "cancel");
-
-  adw_message_dialog_choose (ADW_MESSAGE_DIALOG (dialog),
-                             NULL, /* cancellable */
-                             delete_dialog_cb,
-                             self);
 }
 
 static void
