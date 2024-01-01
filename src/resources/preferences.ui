@@ -4,20 +4,20 @@
   <template class="PtPreferencesDialog" parent="AdwPreferencesWindow">
     <property name="default-width">800</property>
     <property name="default-height">600</property>
-    <property name="title" translatable="true">Preferences</property>
+    <property name="title" translatable="yes">Preferences</property>
     <child>
       <object class="AdwPreferencesPage">
         <property name="name">waveform_page</property>
-        <property name="title" translatable="true">Waveform</property>
+        <property name="title" translatable="yes">Waveform</property>
         <property name="icon-name">sound-wave-symbolic</property>
         <child>
           <object class="AdwPreferencesGroup">
-            <property name="title" translatable="true">Display</property>
-            <property name="description" translatable="true">Change appearance of the waveform and cursor movement.</property>
+            <property name="title" translatable="yes">Display</property>
+            <property name="description" translatable="yes">Change appearance of the waveform and cursor movement.</property>
             <child>
               <object class="AdwActionRow" id="detail_row">
-                <property name="title" translatable="true">Waveform Detail</property>
-                <property name="subtitle" translatable="true">Vertical lines per second</property>
+                <property name="title" translatable="yes">Waveform Detail</property>
+                <property name="subtitle" translatable="yes">Vertical lines per second</property>
                 <child type="suffix">
                   <object class="GtkScale" id="pps_scale">
                     <property name="orientation">0</property>
@@ -50,17 +50,17 @@
             </child>
             <child>
               <object class="AdwSwitchRow" id="ruler_row">
-                <property name="title" translatable="true">Show Time Scale</property>
+                <property name="title" translatable="yes">Show Time Scale</property>
               </object>
             </child>
             <child>
               <object class="AdwComboRow" id="cursor_row">
-                <property name="title" translatable="true">Cursor Mode</property>
+                <property name="title" translatable="yes">Cursor Mode</property>
                 <property name="model">
                   <object class="GtkStringList">
                     <items>
-                      <item translatable="true">Fixed Cursor</item>
-                      <item translatable="true">Moving Cursor</item>
+                      <item translatable="yes">Fixed Cursor</item>
+                      <item translatable="yes">Moving Cursor</item>
                     </items>
                   </object>
                 </property>
@@ -73,16 +73,16 @@
     <child>
       <object class="AdwPreferencesPage">
         <property name="name">controls_page</property>
-        <property name="title" translatable="true">Audio Controls</property>
+        <property name="title" translatable="yes">Audio Controls</property>
         <property name="icon-name">play-symbolic</property>
         <child>
           <object class="AdwPreferencesGroup">
-            <property name="title" translatable="true">Pause and Skip Buttons</property>
-            <property name="description" translatable="true">Set amount of time to skip in seconds.</property>
+            <property name="title" translatable="yes">Pause and Skip Buttons</property>
+            <property name="description" translatable="yes">Set amount of time to skip in seconds.</property>
             <child>
               <object class="AdwSpinRow" id="pause_row">
-                <property name="title" translatable="true">Rewind on Pause</property>
-                <property name="subtitle" translatable="true">Set to zero to disable this feature</property>
+                <property name="title" translatable="yes">Rewind on Pause</property>
+                <property name="subtitle" translatable="yes">Set to zero to disable this feature</property>
                 <property name="adjustment">
                   <object class="GtkAdjustment">
                     <property name="lower">0</property>
@@ -95,7 +95,7 @@
             </child>
             <child>
               <object class="AdwSpinRow" id="back_row">
-                <property name="title" translatable="true">Skip Backward</property>
+                <property name="title" translatable="yes">Skip Backward</property>
                 <property name="adjustment">
                   <object class="GtkAdjustment">
                     <property name="lower">1</property>
@@ -108,7 +108,7 @@
             </child>
             <child>
               <object class="AdwSpinRow" id="forward_row">
-                <property name="title" translatable="true">Skip Forward</property>
+                <property name="title" translatable="yes">Skip Forward</property>
                 <property name="adjustment">
                   <object class="GtkAdjustment">
                     <property name="lower">1</property>
@@ -123,16 +123,16 @@
         </child>
         <child>
           <object class="AdwPreferencesGroup">
-            <property name="title" translatable="true">Play Button</property>
-            <property name="description" translatable="true">Change behavior of play button.</property>
+            <property name="title" translatable="yes">Play Button</property>
+            <property name="description" translatable="yes">Change behavior of play button.</property>
             <child>
               <object class="AdwSwitchRow" id="repeat_all_row">
-                <property name="title" translatable="true">At End of File Replay File</property>
+                <property name="title" translatable="yes">At End of File Replay File</property>
               </object>
             </child>
             <child>
               <object class="AdwSwitchRow" id="repeat_selection_row">
-                <property name="title" translatable="true">At End of Selection Replay Selection</property>
+                <property name="title" translatable="yes">At End of Selection Replay Selection</property>
               </object>
             </child>
           </object>
@@ -142,26 +142,26 @@
     <child>
       <object class="AdwPreferencesPage">
         <property name="name">timestamps_page</property>
-        <property name="title" translatable="true">Timestamps</property>
+        <property name="title" translatable="yes">Timestamps</property>
         <property name="icon-name">text-editor-symbolic</property>
         <child>
           <object class="AdwPreferencesGroup">
-            <property name="title" translatable="true">Timestamp Format</property>
-            <property name="description" translatable="true">Customize produced timestamps. Note that all formats can be read, these settings are applied when timestamps are written.</property>
+            <property name="title" translatable="yes">Timestamp Format</property>
+            <property name="description" translatable="yes">Customize produced timestamps. Note that all formats can be read, these settings are applied when timestamps are written.</property>
             <child>
               <object class="AdwSwitchRow" id="hours_row">
-                <property name="title" translatable="true">Always Show Hours and Leading Zeroes</property>
+                <property name="title" translatable="yes">Always Show Hours and Leading Zeroes</property>
               </object>
             </child>
             <child>
               <object class="AdwComboRow" id="precision_row">
-                <property name="title" translatable="true">Precision</property>
+                <property name="title" translatable="yes">Precision</property>
                 <property name="model">
                   <object class="GtkStringList">
                     <items>
-                      <item translatable="true">Full Seconds</item>
-                      <item translatable="true">10th Seconds</item>
-                      <item translatable="true">100th Seconds</item>
+                      <item translatable="yes">Full Seconds</item>
+                      <item translatable="yes">10th Seconds</item>
+                      <item translatable="yes">100th Seconds</item>
                     </items>
                   </object>
                 </property>
@@ -169,12 +169,12 @@
             </child>
             <child>
               <object class="AdwComboRow" id="separator_row">
-                <property name="title" translatable="true">Fraction Separator</property>
+                <property name="title" translatable="yes">Fraction Separator</property>
                 <property name="model">
                   <object class="GtkStringList">
                     <items>
-                      <item translatable="true">. (Point)</item>
-                      <item translatable="true">- (Hyphen)</item>
+                      <item translatable="yes">. (Point)</item>
+                      <item translatable="yes">- (Hyphen)</item>
                     </items>
                   </object>
                 </property>
@@ -182,14 +182,14 @@
             </child>
             <child>
               <object class="AdwComboRow" id="delimiter_row">
-                <property name="title" translatable="true">Characters Around Timestamps</property>
+                <property name="title" translatable="yes">Characters Around Timestamps</property>
                 <property name="model">
                   <object class="GtkStringList">
                     <items>
-                      <item translatable="true">None</item>
-                      <item translatable="true">#Number Signs#</item>
-                      <item translatable="true">(Round Brackets)</item>
-                      <item translatable="true">[Square Brackets]</item>
+                      <item translatable="yes">None</item>
+                      <item translatable="yes">#Number Signs#</item>
+                      <item translatable="yes">(Round Brackets)</item>
+                      <item translatable="yes">[Square Brackets]</item>
                     </items>
                   </object>
                 </property>
@@ -199,7 +199,7 @@
         </child>
         <child>
           <object class="AdwPreferencesGroup" id="preview_group">
-            <property name="title" translatable="true">Preview</property>
+            <property name="title" translatable="yes">Preview</property>
             <property name="description">Example</property>
           </object>
         </child>
@@ -208,19 +208,19 @@
     <child>
       <object class="AdwPreferencesPage" id="asr_page">
         <property name="name">asr_page</property>
-        <property name="title" translatable="true">Speech Recognition</property>
+        <property name="title" translatable="yes">Speech Recognition</property>
         <property name="icon-name">chat-bubble-text-symbolic</property>
         <child>
           <object class="AdwPreferencesGroup" id="models_group">
-            <property name="title" translatable="true">Language Models</property>
-            <property name="description" translatable="true">Inspect configuration details, learn how to install model data, and choose a configuration for automatic speech recognition.</property>
+            <property name="title" translatable="yes">Language Models</property>
+            <property name="description" translatable="yes">Inspect configuration details, learn how to install model data, and choose a configuration for automatic speech recognition.</property>
             <child type="header-suffix">
               <object class="GtkButton">
                 <signal name="clicked" handler="import_button_clicked_cb" swapped="no" />
                 <property name="halign">center</property>
                 <property name="valign">center</property>
                 <property name="icon-name">list-add-symbolic</property>
-                <property name="tooltip-text" translatable="true">Import configuration from file</property>
+                <property name="tooltip-text" translatable="yes">Import configuration from file</property>
                 <style>
                   <class name="flat"/>
                 </style>
@@ -229,7 +229,7 @@
             <child>
               <object class="GtkButton" id="initial_copy_button">
                 <signal name="clicked" handler="initial_copy_button_clicked_cb" swapped="no" />
-                <property name="label" translatable="true">Copy Initial Set of Configurations</property>
+                <property name="label" translatable="yes">Copy Initial Set of Configurations</property>
                 <property name="margin-top">24</property>
                 <property name="halign">center</property>
                 <style>

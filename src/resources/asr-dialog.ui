@@ -26,14 +26,14 @@
     </child>
   </template>
   <object class="AdwPreferencesGroup" id="install_group">
-    <property name="title" translatable="true">Installation</property>
+    <property name="title" translatable="yes">Installation</property>
     <property name="description">How to install this language model.</property>
   </object>
   <object class="AdwPreferencesGroup" id="info_group">
-    <property name="title" translatable="true">General Information</property>
+    <property name="title" translatable="yes">General Information</property>
     <child>
       <object class="AdwEntryRow" id="name_row">
-        <property name="title" translatable="true">Display Name</property>
+        <property name="title" translatable="yes">Display Name</property>
         <property name="show-apply-button">true</property>
       </object>
     </child>

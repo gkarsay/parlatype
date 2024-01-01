@@ -48,7 +48,7 @@
         </child>
         <child type="end">
           <object class="GtkMenuButton" id="primary_menu_button">
-            <property name="tooltip-text" translatable="true">Main Menu</property>
+            <property name="tooltip-text" translatable="yes">Main Menu</property>
             <property name="direction">none</property>
           </object>
         </child>
@@ -94,7 +94,7 @@
                           <object class="GtkImage" id="icon_seek_back1">
                             <property name="icon_name">media-skip-backward-symbolic</property>
                             <accessibility>
-                              <property name="label" translatable="true">Skip backward</property>
+                              <property name="label" translatable="yes">Skip backward</property>
                             </accessibility>
                           </object>
                         </child>
@@ -139,7 +139,7 @@
                           <object class="GtkImage" id="icon_seek_forward1">
                             <property name="icon_name">media-skip-forward-symbolic</property>
                             <accessibility>
-                              <property name="label" translatable="true">Skip forward</property>
+                              <property name="label" translatable="yes">Skip forward</property>
                             </accessibility>
                           </object>
                         </child>
@@ -196,7 +196,7 @@ audio-volume-high-symbolic
 audio-volume-low-symbolic
 audio-volume-medium-symbolic</property>
                     <accessibility>
-                      <property name="label" translatable="true">Volume</property>
+                      <property name="label" translatable="yes">Volume</property>
                     </accessibility>
                     <child internal-child="plus_button">
                       <object class="GtkButton" id="volumebutton-plus_button">

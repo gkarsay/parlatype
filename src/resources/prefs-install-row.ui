@@ -8,7 +8,7 @@
         <property name="halign">center</property>
         <property name="valign">center</property>
         <accessibility>
-          <property name="label" translatable="true">Choose folder</property>
+          <property name="label" translatable="yes">Choose folder</property>
         </accessibility>
         <style>
           <class name="flat"/>
