@@ -31,7 +31,7 @@ Parlatype Extension for <app>LibreOffice</app> to output recognized text.
 <p>Select a language model in the Preferences Dialog,
 <gui>Speech Recognition</gui> tab, see <link xref="asr-setup" /> for more details.</p>
 
-<p>Open the primary menu and click on <gui>Automatic Transcription</gui>.
+<p>Open the main menu and click on <gui>Automatic Transcription</gui>.
 This is only available, if you have setup and chosen a language model.</p>
 
 <media its:translate="no" type="image" src="figures/asr-switch-to-asr.png"/>

@@ -49,7 +49,6 @@ to use this model for speech recognition. The active configuration is indicated 
 import a configuration with the <gui>+</gui> button. Configurations are text
 files with an .asr ending.</p>
 
-<p>With the <gui>-</gui> button you can remove a configuration.
-This will never remove downloaded models, only the configuration file.</p>
+<p>To remove a configuration, select it and click the <gui>Delete</gui> button.</p>
 
 </page>
