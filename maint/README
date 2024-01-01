@@ -4,20 +4,22 @@ Translations
 ============
 
 There are 3 translation templates (lib, app, help).
-Update templates and po files with:
+Update templates:
 
 cd build
-ninja libparlatype5-pot        # Update after soname change
-ninja libparlatype5-update-po  # Update after soname change
+ninja libparlatype7-pot        # Update after soname change
 ninja parlatype-pot
-ninja parlatype-update-po
 ninja help-org.parlatype.Parlatype-pot
-ninja help-org.parlatype.Parlatype-update-po
 
 Workflow for translations:
 1) Update pot files locally
-2) Who worked on translations?
-   maint/print-translation-status
+2) Commit and push changes
+3) Weblate will update and push po files
+   (after soname change update repository settings in Weblate for libparlatype)
+4) Translate in Weblate, commit and push
+
+Who worked on translations?
+maint/print-translation-status
 
 
 Typography
