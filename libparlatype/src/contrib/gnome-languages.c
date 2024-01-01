@@ -238,7 +238,9 @@ get_translated_language (const char *code,
 
       if (is_fallback_language (code))
         {
-          name = g_strdup (_ ("Unspecified"));
+          /* For "C" or "POSIX" no translation necessary,
+           * return untranslated string literally. */
+          // name = g_strdup (_ ("Unspecified"));
         }
       else
         {

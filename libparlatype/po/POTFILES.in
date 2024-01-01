@@ -1,6 +1,5 @@
 # List of source files which contain translatable strings.
 
-libparlatype/src/contrib/gnome-languages.c
 libparlatype/src/gst/gst-helpers.c
 libparlatype/src/pt-config.c
 libparlatype/src/pt-player.c
