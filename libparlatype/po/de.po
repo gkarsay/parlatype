@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-30 17:11+0100\n"
+"POT-Creation-Date: 2024-01-01 20:58+0100\n"
 "PO-Revision-Date: 2023-12-30 17:49+0000\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gmx.at>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/parlatype/"
@@ -20,28 +20,31 @@ msgstr ""
 "X-Generator: Weblate 5.4-dev\n"
 "X-Launchpad-Export-Date: 2020-05-31 16:44+0000\n"
 
-#: libparlatype/src/contrib/gnome-languages.c:241
-msgid "Unspecified"
-msgstr "Unbestimmt"
-
-#: libparlatype/src/gst/gst-helpers.c:43 libparlatype/src/gst/gst-helpers.c:50
+#. Translators: %s is replaced with the plugins name
+#: libparlatype/src/gst/gst-helpers.c:44 libparlatype/src/gst/gst-helpers.c:51
 #, c-format
 msgid "Failed to load plugin “%s”."
 msgstr "Das Plugin »%s« konnte nicht geladen werden."
 
-#: libparlatype/src/pt-config.c:479
-#, c-format
-msgid "Plugin doesn’t have a property “%s”"
+#. Translators: %s is replaced with the parameter’s name
+#: libparlatype/src/pt-config.c:480
+#, fuzzy, c-format
+#| msgid "Plugin doesn’t have a property “%s”"
+msgid "Plugin doesn’t have a parameter “%s”."
 msgstr "Das Plugin hat keine Eigenschaft »%s«"
 
-#: libparlatype/src/pt-config.c:489
-#, c-format
-msgid "Plugin property “%s” is not writable"
+#. Translators: %s is replaced with the parameter’s name
+#: libparlatype/src/pt-config.c:491
+#, fuzzy, c-format
+#| msgid "Plugin property “%s” is not writable"
+msgid "Parameter “%s” is not writable."
 msgstr "Die Plugin-Eigenschaft »%s« ist nicht schreibbar"
 
-#: libparlatype/src/pt-config.c:504
-#, c-format
-msgid "Value for property “%s” is not valid"
+#. Translators: %s is replaced with the parameter’s name
+#: libparlatype/src/pt-config.c:507
+#, fuzzy, c-format
+#| msgid "Value for property “%s” is not valid"
+msgid "Value for parameter “%s” is not valid."
 msgstr "Der Wert ist für die Eigenschaft »%s« nicht gültig"
 
 #. Translators: This is a time format, like "2:05:30" for 2
@@ -155,6 +158,9 @@ msgstr "URI nicht gültig: %s"
 #, c-format
 msgid "File not found: %s"
 msgstr "Datei nicht gefunden: %s"
+
+#~ msgid "Unspecified"
+#~ msgstr "Unbestimmt"
 
 #~ msgid "Follow cursor"
 #~ msgstr "Cursor folgen"

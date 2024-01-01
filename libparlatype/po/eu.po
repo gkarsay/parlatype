@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libparlatype5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-30 17:11+0100\n"
+"POT-Creation-Date: 2024-01-01 20:58+0100\n"
 "PO-Revision-Date: 2023-08-09 21:46+0000\n"
 "Last-Translator: Alexander Gabilondo <alexgabi@openmailbox.org>\n"
 "Language-Team: Basque <https://hosted.weblate.org/projects/parlatype/"
@@ -19,28 +19,28 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.0-dev\n"
 
-#: libparlatype/src/contrib/gnome-languages.c:241
-msgid "Unspecified"
-msgstr ""
-
-#: libparlatype/src/gst/gst-helpers.c:43 libparlatype/src/gst/gst-helpers.c:50
+#. Translators: %s is replaced with the plugins name
+#: libparlatype/src/gst/gst-helpers.c:44 libparlatype/src/gst/gst-helpers.c:51
 #, c-format
 msgid "Failed to load plugin “%s”."
 msgstr ""
 
-#: libparlatype/src/pt-config.c:479
+#. Translators: %s is replaced with the parameter’s name
+#: libparlatype/src/pt-config.c:480
 #, c-format
-msgid "Plugin doesn’t have a property “%s”"
+msgid "Plugin doesn’t have a parameter “%s”."
 msgstr ""
 
-#: libparlatype/src/pt-config.c:489
+#. Translators: %s is replaced with the parameter’s name
+#: libparlatype/src/pt-config.c:491
 #, c-format
-msgid "Plugin property “%s” is not writable"
+msgid "Parameter “%s” is not writable."
 msgstr ""
 
-#: libparlatype/src/pt-config.c:504
+#. Translators: %s is replaced with the parameter’s name
+#: libparlatype/src/pt-config.c:507
 #, c-format
-msgid "Value for property “%s” is not valid"
+msgid "Value for parameter “%s” is not valid."
 msgstr ""
 
 #. Translators: This is a time format, like "2:05:30" for 2
