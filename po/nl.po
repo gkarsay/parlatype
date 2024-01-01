@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-30 17:03+0100\n"
+"POT-Creation-Date: 2024-01-01 20:58+0100\n"
 "PO-Revision-Date: 2019-05-27 17:09+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -271,7 +271,7 @@ msgstr "Audiobestand openen"
 msgid "_Open"
 msgstr "_Openen"
 
-#: src/pt-app.c:95 src/pt-asr-dialog.c:356 src/resources/goto-dialog.ui:52
+#: src/pt-app.c:95 src/resources/goto-dialog.ui:52
 msgid "_Cancel"
 msgstr "_Annuleren"
 
@@ -312,99 +312,94 @@ msgstr ""
 "Waarschuwing: Parlatype kan slechts één bestand tegelijk aan. Andere "
 "bestanden worden genegeerd.\n"
 
-#: src/pt-asr-dialog.c:98
+#. Translators: Fallback label for a download location
+#: src/pt-asr-dialog.c:99
 msgid "Link"
 msgstr ""
 
 #. Not using title case here, this is more a status than a title.
-#: src/pt-asr-dialog.c:114
+#: src/pt-asr-dialog.c:115
 msgid "This configuration is active."
 msgstr ""
 
-#: src/pt-asr-dialog.c:116
+#: src/pt-asr-dialog.c:117
 msgid "Deactivate"
 msgstr ""
 
-#: src/pt-asr-dialog.c:122
+#. Translators: Model is a language model
+#: src/pt-asr-dialog.c:124
 msgid "Model data is installed."
 msgstr ""
 
-#: src/pt-asr-dialog.c:124 src/pt-asr-dialog.c:130
+#: src/pt-asr-dialog.c:126 src/pt-asr-dialog.c:133
 msgid "Activate"
 msgstr ""
 
-#: src/pt-asr-dialog.c:128
+#. Translators: Model is a language model
+#: src/pt-asr-dialog.c:131
 msgid "Model data is not installed."
 msgstr ""
 
-#: src/pt-asr-dialog.c:129
+#: src/pt-asr-dialog.c:132
 msgid "See next section for details."
 msgstr ""
 
-#: src/pt-asr-dialog.c:140
+#. Translators: Configuration will be deleted, but not its data
+#: src/pt-asr-dialog.c:144
 msgid "Model data will be preserved"
 msgstr ""
 
-#: src/pt-asr-dialog.c:218
+#: src/pt-asr-dialog.c:222
 msgid "Language"
 msgstr ""
 
-#: src/pt-asr-dialog.c:222
+#: src/pt-asr-dialog.c:226
 msgid "CMU Pocketsphinx"
 msgstr ""
 
-#: src/pt-asr-dialog.c:225
-msgid "Engine"
+#. Translators: Model is a language model
+#: src/pt-asr-dialog.c:230
+msgid "Type of Model"
 msgstr ""
 
-#: src/pt-asr-dialog.c:227
+#: src/pt-asr-dialog.c:232
 msgid "GStreamer Plugin"
 msgstr ""
 
-#: src/pt-asr-dialog.c:231
+#: src/pt-asr-dialog.c:236
 msgid "Publisher"
 msgstr ""
 
-#: src/pt-asr-dialog.c:236
+#: src/pt-asr-dialog.c:241
 msgid "License"
 msgstr ""
 
-#: src/pt-asr-dialog.c:244
+#: src/pt-asr-dialog.c:249
 msgid "Instructions"
 msgstr ""
 
-#: src/pt-asr-dialog.c:253 src/pt-asr-dialog.c:264
+#: src/pt-asr-dialog.c:258 src/pt-asr-dialog.c:269
 msgid "Download"
 msgstr ""
 
-#: src/pt-asr-dialog.c:308
+#. Translators: %s is replaced with the name of a configuration
+#: src/pt-asr-dialog.c:314
 #, c-format
 msgid "“%s” has been deleted"
 msgstr ""
 
-#: src/pt-asr-dialog.c:316 src/pt-preferences.c:248 src/pt-preferences.c:416
+#: src/pt-asr-dialog.c:322 src/pt-preferences.c:248 src/pt-preferences.c:416
 #: src/pt-preferences.c:451 src/pt-window.c:130
 msgid "Error"
 msgstr ""
 
-#: src/pt-asr-dialog.c:353
-msgid "Delete Configuration"
-msgstr ""
-
-#: src/pt-asr-dialog.c:354
-msgid "This will delete the configuration"
-msgstr ""
-
-#: src/pt-asr-dialog.c:357 src/resources/goto-dialog.ui:60
-msgid "_OK"
-msgstr "_Ok"
-
-#: src/pt-asr-dialog.c:397
+#. Translators: %s is replaced with the name of a configuration
+#: src/pt-asr-dialog.c:373
 #, c-format
 msgid "“%s” has been activated"
 msgstr ""
 
-#: src/pt-asr-dialog.c:400
+#: src/pt-asr-dialog.c:376
 msgid "Configuration has been deactivated"
 msgstr ""
 
@@ -497,26 +492,40 @@ msgstr[1] "Pauzeren en %d seconden terugspoelen"
 msgid "Start playing"
 msgstr "Afspelen starten"
 
-#: src/pt-window.c:499
+#. Translators: %s is replaced with a timestamp
+#: src/pt-window.c:500
 #, c-format
 msgid "Go to Time in Clipboard: %s"
 msgstr ""
 
-#: src/pt-window.c:501 src/pt-window.c:1179
+#: src/pt-window.c:502 src/pt-window.c:1180
 msgid "Go to Time in Clipboard"
 msgstr ""
 
-#: src/pt-window.c:1174
+#: src/pt-window.c:1175
 #, fuzzy
 #| msgid "Transcription utility"
 msgid "Manual Transcription"
 msgstr "Transcriptiehulpmiddel"
 
-#: src/pt-window.c:1175
+#: src/pt-window.c:1176
 #, fuzzy
 #| msgid "A basic transcription utility"
 msgid "Automatic Transcription"
 msgstr "Een basis-transcriptiehulpmiddel"
+
+#: src/resources/asr-dialog.ui:29
+msgid "Installation"
+msgstr ""
+
+#: src/resources/asr-dialog.ui:33
+msgid "General Information"
+msgstr ""
+
+#: src/resources/asr-dialog.ui:36
+#, fuzzy
+msgid "Display Name"
+msgstr "Weergave"
 
 #: src/resources/goto-dialog.ui:10 src/resources/menus.ui:34
 msgid "Go to…"
@@ -526,71 +535,78 @@ msgstr ""
 msgid "Go to position:"
 msgstr "Ga naar positie:"
 
-#: src/resources/help-overlay.ui:15
+#: src/resources/goto-dialog.ui:60
+msgid "_OK"
+msgstr "_Ok"
+
+#: src/resources/help-overlay.ui:13
 msgid "General"
 msgstr ""
 
-#: src/resources/help-overlay.ui:20
+#: src/resources/help-overlay.ui:18
 msgid "Open a media file"
 msgstr ""
 
-#: src/resources/help-overlay.ui:27
-msgid "Show/hide action menu"
+#: src/resources/help-overlay.ui:25
+msgid "Show/hide main menu"
 msgstr ""
 
-#: src/resources/help-overlay.ui:34
+#: src/resources/help-overlay.ui:32
 msgid "Quit"
 msgstr "Afsluiten"
 
-#: src/resources/help-overlay.ui:42
+#: src/resources/help-overlay.ui:40 src/resources/preferences.ui:11
 msgid "Waveform"
 msgstr "Golfvorm"
 
-#: src/resources/help-overlay.ui:47
+#: src/resources/help-overlay.ui:45
 msgid "Play/Pause"
 msgstr ""
 
-#: src/resources/help-overlay.ui:54
-msgid "Jump back"
+#: src/resources/help-overlay.ui:52
+msgid "SKip backward"
 msgstr ""
 
-#: src/resources/help-overlay.ui:61
-msgid "Jump forward"
-msgstr ""
+#: src/resources/help-overlay.ui:59 src/resources/window.ui:142
+#, fuzzy
+#| msgid "Jump forward 1 second"
+#| msgid_plural "Jump forward %d seconds"
+msgid "Skip forward"
+msgstr "1 seconde vooruitspoelen"
 
-#: src/resources/help-overlay.ui:68
+#: src/resources/help-overlay.ui:66
 msgid "Zoom in"
 msgstr ""
 
-#: src/resources/help-overlay.ui:75
+#: src/resources/help-overlay.ui:73
 msgid "Zoom out"
 msgstr ""
 
-#: src/resources/help-overlay.ui:82
+#: src/resources/help-overlay.ui:80
 msgid "Open “Go to” dialog"
 msgstr ""
 
-#: src/resources/help-overlay.ui:89
+#: src/resources/help-overlay.ui:87
 msgid "Copy timestamp to clipboard"
 msgstr ""
 
-#: src/resources/help-overlay.ui:96
+#: src/resources/help-overlay.ui:94
 msgid "Go to timestamp in clipboard"
 msgstr ""
 
-#: src/resources/help-overlay.ui:104 src/resources/menus.ui:15
+#: src/resources/help-overlay.ui:102 src/resources/menus.ui:15
 msgid "Help"
 msgstr "Hulp"
 
-#: src/resources/help-overlay.ui:109
+#: src/resources/help-overlay.ui:107
 msgid "Show help"
 msgstr ""
 
-#: src/resources/help-overlay.ui:116
+#: src/resources/help-overlay.ui:114
 msgid "Show keyboard shortcuts"
 msgstr ""
 
-#: src/resources/menus.ui:7
+#: src/resources/menus.ui:7 src/resources/preferences.ui:7
 msgid "Preferences"
 msgstr "Voorkeuren"
 
@@ -610,9 +626,207 @@ msgstr ""
 msgid "Go to Cursor"
 msgstr ""
 
+#: src/resources/preferences.ui:15
+msgid "Display"
+msgstr "Weergave"
+
+#: src/resources/preferences.ui:16
+msgid "Change appearance of the waveform and cursor movement."
+msgstr ""
+
+#: src/resources/preferences.ui:19
+#, fuzzy
+#| msgid "Waveform"
+msgid "Waveform Detail"
+msgstr "Golfvorm"
+
+#: src/resources/preferences.ui:20
+#, fuzzy
+#| msgid "_Pixels per second:"
+msgid "Vertical lines per second"
+msgstr "_Pixels per seconde:"
+
+#: src/resources/preferences.ui:53
+#, fuzzy
+#| msgid "Show _time scale"
+msgid "Show Time Scale"
+msgstr "_Tijdschaal weergeven"
+
+#: src/resources/preferences.ui:58
+msgid "Cursor Mode"
+msgstr ""
+
+#: src/resources/preferences.ui:62
+#, fuzzy
+#| msgid "_Fixed cursor"
+msgid "Fixed Cursor"
+msgstr "_Vastgezette cursor"
+
+#: src/resources/preferences.ui:63
+#, fuzzy
+#| msgid "_Moving cursor"
+msgid "Moving Cursor"
+msgstr "Be_wegende cursor"
+
+#: src/resources/preferences.ui:76
+#, fuzzy
+#| msgid "Controls"
+msgid "Audio Controls"
+msgstr "Bediening"
+
+#: src/resources/preferences.ui:80
+msgid "Pause and Skip Buttons"
+msgstr ""
+
+#: src/resources/preferences.ui:81
+msgid "Set amount of time to skip in seconds."
+msgstr ""
+
+#: src/resources/preferences.ui:84
+msgid "Rewind on Pause"
+msgstr ""
+
+#: src/resources/preferences.ui:85
+msgid "Set to zero to disable this feature"
+msgstr ""
+
+#: src/resources/preferences.ui:98
+msgid "Skip Backward"
+msgstr ""
+
+#: src/resources/preferences.ui:111
+#, fuzzy
+#| msgid "Jump forward 1 second"
+#| msgid_plural "Jump forward %d seconds"
+msgid "Skip Forward"
+msgstr "1 seconde vooruitspoelen"
+
+#: src/resources/preferences.ui:126
+msgid "Play Button"
+msgstr ""
+
+#: src/resources/preferences.ui:127
+msgid "Change behavior of play button."
+msgstr ""
+
+#: src/resources/preferences.ui:130
+msgid "At End of File Replay File"
+msgstr ""
+
+#: src/resources/preferences.ui:135
+msgid "At End of Selection Replay Selection"
+msgstr ""
+
+#: src/resources/preferences.ui:145
+msgid "Timestamps"
+msgstr ""
+
+#: src/resources/preferences.ui:149
+msgid "Timestamp Format"
+msgstr ""
+
+#: src/resources/preferences.ui:150
+msgid ""
+"Customize produced timestamps. Note that all formats can be read, these "
+"settings are applied when timestamps are written."
+msgstr ""
+
+#: src/resources/preferences.ui:153
+msgid "Always Show Hours and Leading Zeroes"
+msgstr ""
+
+#: src/resources/preferences.ui:158
+msgid "Precision"
+msgstr ""
+
+#: src/resources/preferences.ui:162
+msgid "Full Seconds"
+msgstr ""
+
+#: src/resources/preferences.ui:163
+msgid "10th Seconds"
+msgstr ""
+
+#: src/resources/preferences.ui:164
+msgid "100th Seconds"
+msgstr ""
+
+#: src/resources/preferences.ui:172
+msgid "Fraction Separator"
+msgstr ""
+
+#: src/resources/preferences.ui:176
+msgid ". (Point)"
+msgstr ""
+
+#: src/resources/preferences.ui:177
+msgid "- (Hyphen)"
+msgstr ""
+
+#: src/resources/preferences.ui:185
+msgid "Characters Around Timestamps"
+msgstr ""
+
+#: src/resources/preferences.ui:189
+msgid "None"
+msgstr ""
+
+#: src/resources/preferences.ui:190
+msgid "#Number Signs#"
+msgstr ""
+
+#: src/resources/preferences.ui:191
+msgid "(Round Brackets)"
+msgstr ""
+
+#: src/resources/preferences.ui:192
+msgid "[Square Brackets]"
+msgstr ""
+
+#: src/resources/preferences.ui:202
+msgid "Preview"
+msgstr ""
+
+#: src/resources/preferences.ui:211
+msgid "Speech Recognition"
+msgstr ""
+
+#: src/resources/preferences.ui:215
+msgid "Language Models"
+msgstr ""
+
+#: src/resources/preferences.ui:216
+msgid ""
+"Inspect configuration details, learn how to install model data, and choose a "
+"configuration for automatic speech recognition."
+msgstr ""
+
+#: src/resources/preferences.ui:223
+msgid "Import configuration from file"
+msgstr ""
+
+#: src/resources/preferences.ui:232
+msgid "Copy Initial Set of Configurations"
+msgstr ""
+
+#: src/resources/prefs-install-row.ui:11
+msgid "Choose folder"
+msgstr ""
+
 #: src/resources/window.ui:41
 msgid "Open a file"
 msgstr "Een bestand openen"
+
+#: src/resources/window.ui:51
+msgid "Main Menu"
+msgstr ""
+
+#: src/resources/window.ui:97
+#, fuzzy
+#| msgid "Jump back 1 second"
+#| msgid_plural "Jump back %d seconds"
+msgid "Skip backward"
+msgstr "1 seconde terugspoelen"
 
 #: src/resources/window.ui:123
 msgid "_Play"
@@ -622,34 +836,19 @@ msgstr "Afs_pelen"
 msgid "Speed:"
 msgstr "Snelheid:"
 
+#: src/resources/window.ui:199
+msgid "Volume"
+msgstr ""
+
 #, c-format
 #~ msgid "Error opening help: %s"
 #~ msgstr "Fout bij openen van hulp: %s"
 
-#, fuzzy
-#~ msgid "Display Name:"
-#~ msgstr "Weergave"
-
 #~ msgid "Parlatype Preferences"
 #~ msgstr "Parlatype-voorkeuren"
 
-#~ msgid "_Pixels per second:"
-#~ msgstr "_Pixels per seconde:"
-
-#~ msgid "Show _time scale"
-#~ msgstr "_Tijdschaal weergeven"
-
 #~ msgid "Resolution"
 #~ msgstr "Resolutie"
-
-#~ msgid "Display"
-#~ msgstr "Weergave"
-
-#~ msgid "_Moving cursor"
-#~ msgstr "Be_wegende cursor"
-
-#~ msgid "_Fixed cursor"
-#~ msgstr "_Vastgezette cursor"
 
 #~ msgid "Jump _forward:"
 #~ msgstr "_Vooruitspoelen:"
@@ -659,9 +858,6 @@ msgstr "Snelheid:"
 
 #~ msgid "Jump back on _pause:"
 #~ msgstr "Terugspoelen bij _pauzeren:"
-
-#~ msgid "Controls"
-#~ msgstr "Bediening"
 
 #~ msgid "Remember _position"
 #~ msgstr "_Positie onthouden"

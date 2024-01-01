@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Parlatype 3.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-30 17:03+0100\n"
+"POT-Creation-Date: 2024-01-01 20:58+0100\n"
 "PO-Revision-Date: 2022-06-02 07:18+0000\n"
 "Last-Translator: poi <erbaotao@outlook.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -285,7 +285,7 @@ msgstr "打开音频文件"
 msgid "_Open"
 msgstr "打开 (O)"
 
-#: src/pt-app.c:95 src/pt-asr-dialog.c:356 src/resources/goto-dialog.ui:52
+#: src/pt-app.c:95 src/resources/goto-dialog.ui:52
 msgid "_Cancel"
 msgstr "取消 (C)"
 
@@ -322,117 +322,108 @@ msgid ""
 "ignored.\n"
 msgstr "注意：Parlatype 一次只处理一个文件，会忽略多余的文件。\n"
 
-#: src/pt-asr-dialog.c:98
+#. Translators: Fallback label for a download location
+#: src/pt-asr-dialog.c:99
 msgid "Link"
 msgstr ""
 
 #. Not using title case here, this is more a status than a title.
-#: src/pt-asr-dialog.c:114
+#: src/pt-asr-dialog.c:115
 #, fuzzy
 #| msgid "There is no configuration"
 msgid "This configuration is active."
 msgstr "未经配置"
 
-#: src/pt-asr-dialog.c:116
+#: src/pt-asr-dialog.c:117
 msgid "Deactivate"
 msgstr ""
 
-#: src/pt-asr-dialog.c:122
+#. Translators: Model is a language model
+#: src/pt-asr-dialog.c:124
 msgid "Model data is installed."
 msgstr ""
 
-#: src/pt-asr-dialog.c:124 src/pt-asr-dialog.c:130
+#: src/pt-asr-dialog.c:126 src/pt-asr-dialog.c:133
 msgid "Activate"
 msgstr ""
 
-#: src/pt-asr-dialog.c:128
+#. Translators: Model is a language model
+#: src/pt-asr-dialog.c:131
 msgid "Model data is not installed."
 msgstr ""
 
-#: src/pt-asr-dialog.c:129
+#: src/pt-asr-dialog.c:132
 msgid "See next section for details."
 msgstr ""
 
-#: src/pt-asr-dialog.c:140
+#. Translators: Configuration will be deleted, but not its data
+#: src/pt-asr-dialog.c:144
 msgid "Model data will be preserved"
 msgstr ""
 
-#: src/pt-asr-dialog.c:218
+#: src/pt-asr-dialog.c:222
 #, fuzzy
 #| msgid "Language:"
 msgid "Language"
 msgstr "语言："
 
-#: src/pt-asr-dialog.c:222
+#: src/pt-asr-dialog.c:226
 msgid "CMU Pocketsphinx"
 msgstr "卡内基梅隆大学的 Pocketsphinx"
 
-#: src/pt-asr-dialog.c:225
-msgid "Engine"
+#. Translators: Model is a language model
+#: src/pt-asr-dialog.c:230
+msgid "Type of Model"
 msgstr ""
 
-#: src/pt-asr-dialog.c:227
+#: src/pt-asr-dialog.c:232
 #, fuzzy
 #| msgid "GStreamer Plugin:"
 msgid "GStreamer Plugin"
 msgstr "GStreamer 插件："
 
-#: src/pt-asr-dialog.c:231
+#: src/pt-asr-dialog.c:236
 #, fuzzy
 #| msgid "Publisher:"
 msgid "Publisher"
 msgstr "发行者："
 
-#: src/pt-asr-dialog.c:236
+#: src/pt-asr-dialog.c:241
 #, fuzzy
 #| msgid "License:"
 msgid "License"
 msgstr "证书："
 
-#: src/pt-asr-dialog.c:244
+#: src/pt-asr-dialog.c:249
 #, fuzzy
 #| msgid "Instructions:"
 msgid "Instructions"
 msgstr "说明："
 
-#: src/pt-asr-dialog.c:253 src/pt-asr-dialog.c:264
+#: src/pt-asr-dialog.c:258 src/pt-asr-dialog.c:269
 #, fuzzy
 #| msgid "Download:"
 msgid "Download"
 msgstr "下载位置："
 
-#: src/pt-asr-dialog.c:308
+#. Translators: %s is replaced with the name of a configuration
+#: src/pt-asr-dialog.c:314
 #, c-format
 msgid "“%s” has been deleted"
 msgstr ""
 
-#: src/pt-asr-dialog.c:316 src/pt-preferences.c:248 src/pt-preferences.c:416
+#: src/pt-asr-dialog.c:322 src/pt-preferences.c:248 src/pt-preferences.c:416
 #: src/pt-preferences.c:451 src/pt-window.c:130
 msgid "Error"
 msgstr "出错"
 
-#: src/pt-asr-dialog.c:353
-#, fuzzy
-#| msgid "Delete language model configuration?"
-msgid "Delete Configuration"
-msgstr "删除语言模型配置？"
-
-#: src/pt-asr-dialog.c:354
-#, fuzzy
-#| msgid "There is no configuration"
-msgid "This will delete the configuration"
-msgstr "未经配置"
-
-#: src/pt-asr-dialog.c:357 src/resources/goto-dialog.ui:60
-msgid "_OK"
-msgstr "好的 (O)"
-
-#: src/pt-asr-dialog.c:397
+#. Translators: %s is replaced with the name of a configuration
+#: src/pt-asr-dialog.c:373
 #, c-format
 msgid "“%s” has been activated"
 msgstr ""
 
-#: src/pt-asr-dialog.c:400
+#: src/pt-asr-dialog.c:376
 msgid "Configuration has been deactivated"
 msgstr ""
 
@@ -531,29 +522,44 @@ msgstr[0] "暂停，倒退 %d 秒"
 msgid "Start playing"
 msgstr "开始播放"
 
-#: src/pt-window.c:499
+#. Translators: %s is replaced with a timestamp
+#: src/pt-window.c:500
 #, fuzzy, c-format
 #| msgid "Go to time in clipboard: %s"
 msgid "Go to Time in Clipboard: %s"
 msgstr "转到剪贴板中的时刻：%s"
 
-#: src/pt-window.c:501 src/pt-window.c:1179
+#: src/pt-window.c:502 src/pt-window.c:1180
 #, fuzzy
 #| msgid "Go to time in clipboard"
 msgid "Go to Time in Clipboard"
 msgstr "转到剪贴板中的时刻"
 
-#: src/pt-window.c:1174
+#: src/pt-window.c:1175
 #, fuzzy
 #| msgid "Manual transcription"
 msgid "Manual Transcription"
 msgstr "手动记写"
 
-#: src/pt-window.c:1175
+#: src/pt-window.c:1176
 #, fuzzy
 #| msgid "Automatic transcription"
 msgid "Automatic Transcription"
 msgstr "自动转换"
+
+#: src/resources/asr-dialog.ui:29
+msgid "Installation"
+msgstr "安装"
+
+#: src/resources/asr-dialog.ui:33
+msgid "General Information"
+msgstr ""
+
+#: src/resources/asr-dialog.ui:36
+#, fuzzy
+#| msgid "Display Name:"
+msgid "Display Name"
+msgstr "显示名称："
 
 #: src/resources/goto-dialog.ui:10 src/resources/menus.ui:34
 msgid "Go to…"
@@ -563,71 +569,79 @@ msgstr "转到……"
 msgid "Go to position:"
 msgstr "转到这个位置："
 
-#: src/resources/help-overlay.ui:15
+#: src/resources/goto-dialog.ui:60
+msgid "_OK"
+msgstr "好的 (O)"
+
+#: src/resources/help-overlay.ui:13
 msgid "General"
 msgstr "总体"
 
-#: src/resources/help-overlay.ui:20
+#: src/resources/help-overlay.ui:18
 msgid "Open a media file"
 msgstr "打开媒体文件"
 
-#: src/resources/help-overlay.ui:27
-msgid "Show/hide action menu"
+#: src/resources/help-overlay.ui:25
+#, fuzzy
+#| msgid "Show/hide action menu"
+msgid "Show/hide main menu"
 msgstr "显示 / 隐藏操作菜单"
 
-#: src/resources/help-overlay.ui:34
+#: src/resources/help-overlay.ui:32
 msgid "Quit"
 msgstr "退出"
 
-#: src/resources/help-overlay.ui:42
+#: src/resources/help-overlay.ui:40 src/resources/preferences.ui:11
 msgid "Waveform"
 msgstr "波形"
 
-#: src/resources/help-overlay.ui:47
+#: src/resources/help-overlay.ui:45
 msgid "Play/Pause"
 msgstr "播放 / 暂停"
 
-#: src/resources/help-overlay.ui:54
-msgid "Jump back"
-msgstr "回退"
+#: src/resources/help-overlay.ui:52
+msgid "SKip backward"
+msgstr ""
 
-#: src/resources/help-overlay.ui:61
-msgid "Jump forward"
+#: src/resources/help-overlay.ui:59 src/resources/window.ui:142
+#, fuzzy
+#| msgid "Jump forward"
+msgid "Skip forward"
 msgstr "前跳"
 
-#: src/resources/help-overlay.ui:68
+#: src/resources/help-overlay.ui:66
 msgid "Zoom in"
 msgstr "拉近"
 
-#: src/resources/help-overlay.ui:75
+#: src/resources/help-overlay.ui:73
 msgid "Zoom out"
 msgstr "放远"
 
-#: src/resources/help-overlay.ui:82
+#: src/resources/help-overlay.ui:80
 msgid "Open “Go to” dialog"
 msgstr "打开“转到”对话框"
 
-#: src/resources/help-overlay.ui:89
+#: src/resources/help-overlay.ui:87
 msgid "Copy timestamp to clipboard"
 msgstr "把时间戳复制到剪贴板"
 
-#: src/resources/help-overlay.ui:96
+#: src/resources/help-overlay.ui:94
 msgid "Go to timestamp in clipboard"
 msgstr "转到剪贴板中时间戳的位置"
 
-#: src/resources/help-overlay.ui:104 src/resources/menus.ui:15
+#: src/resources/help-overlay.ui:102 src/resources/menus.ui:15
 msgid "Help"
 msgstr "帮助"
 
-#: src/resources/help-overlay.ui:109
+#: src/resources/help-overlay.ui:107
 msgid "Show help"
 msgstr "显示帮助"
 
-#: src/resources/help-overlay.ui:116
+#: src/resources/help-overlay.ui:114
 msgid "Show keyboard shortcuts"
 msgstr "显示键盘快捷键作用"
 
-#: src/resources/menus.ui:7
+#: src/resources/menus.ui:7 src/resources/preferences.ui:7
 msgid "Preferences"
 msgstr "个人设置"
 
@@ -651,9 +665,239 @@ msgstr "把时间复制到剪贴板"
 msgid "Go to Cursor"
 msgstr "转到光标处"
 
+#: src/resources/preferences.ui:15
+msgid "Display"
+msgstr "波形图显示"
+
+#: src/resources/preferences.ui:16
+msgid "Change appearance of the waveform and cursor movement."
+msgstr ""
+
+#: src/resources/preferences.ui:19
+#, fuzzy
+#| msgid "Waveform"
+msgid "Waveform Detail"
+msgstr "波形"
+
+#: src/resources/preferences.ui:20
+#, fuzzy
+#| msgid "_Pixels per second:"
+msgid "Vertical lines per second"
+msgstr "一秒用多少像素表示 (P)："
+
+#: src/resources/preferences.ui:53
+#, fuzzy
+#| msgid "Show _time scale"
+msgid "Show Time Scale"
+msgstr "显示时间刻度 (T)"
+
+#: src/resources/preferences.ui:58
+msgid "Cursor Mode"
+msgstr ""
+
+#: src/resources/preferences.ui:62
+#, fuzzy
+#| msgid "_Fixed cursor"
+msgid "Fixed Cursor"
+msgstr "固定光标 (F)"
+
+#: src/resources/preferences.ui:63
+#, fuzzy
+#| msgid "_Moving cursor"
+msgid "Moving Cursor"
+msgstr "移动光标 (M)"
+
+#: src/resources/preferences.ui:76
+#, fuzzy
+#| msgid "Controls"
+msgid "Audio Controls"
+msgstr "操控"
+
+#: src/resources/preferences.ui:80
+msgid "Pause and Skip Buttons"
+msgstr ""
+
+#: src/resources/preferences.ui:81
+msgid "Set amount of time to skip in seconds."
+msgstr ""
+
+#: src/resources/preferences.ui:84
+msgid "Rewind on Pause"
+msgstr ""
+
+#: src/resources/preferences.ui:85
+msgid "Set to zero to disable this feature"
+msgstr ""
+
+#: src/resources/preferences.ui:98
+msgid "Skip Backward"
+msgstr ""
+
+#: src/resources/preferences.ui:111
+#, fuzzy
+#| msgid "Jump forward 1 second"
+#| msgid_plural "Jump forward %d seconds"
+msgid "Skip Forward"
+msgstr "前跳 %d 秒"
+
+#: src/resources/preferences.ui:126
+msgid "Play Button"
+msgstr ""
+
+#: src/resources/preferences.ui:127
+msgid "Change behavior of play button."
+msgstr ""
+
+#: src/resources/preferences.ui:130
+msgid "At End of File Replay File"
+msgstr ""
+
+#: src/resources/preferences.ui:135
+msgid "At End of Selection Replay Selection"
+msgstr ""
+
+#: src/resources/preferences.ui:145
+msgid "Timestamps"
+msgstr "时间戳"
+
+#: src/resources/preferences.ui:149
+#, fuzzy
+#| msgid "Timestamps"
+msgid "Timestamp Format"
+msgstr "时间戳"
+
+#: src/resources/preferences.ui:150
+msgid ""
+"Customize produced timestamps. Note that all formats can be read, these "
+"settings are applied when timestamps are written."
+msgstr ""
+
+#: src/resources/preferences.ui:153
+#, fuzzy
+#| msgid "Always show hours and leading zeroes"
+msgid "Always Show Hours and Leading Zeroes"
+msgstr "始终显示小时数和前导零"
+
+#: src/resources/preferences.ui:158
+msgid "Precision"
+msgstr "精密度"
+
+#: src/resources/preferences.ui:162
+#, fuzzy
+#| msgid "Full seconds"
+msgid "Full Seconds"
+msgstr "一秒"
+
+#: src/resources/preferences.ui:163
+#, fuzzy
+#| msgid "10th seconds"
+msgid "10th Seconds"
+msgstr "十分之一秒"
+
+#: src/resources/preferences.ui:164
+#, fuzzy
+#| msgid "100th seconds"
+msgid "100th Seconds"
+msgstr "百分之一秒"
+
+#: src/resources/preferences.ui:172
+#, fuzzy
+#| msgid "Fraction separator:"
+msgid "Fraction Separator"
+msgstr "小数分隔符："
+
+#: src/resources/preferences.ui:176
+#, fuzzy
+#| msgid ". (point)"
+msgid ". (Point)"
+msgstr ".（点）"
+
+#: src/resources/preferences.ui:177
+#, fuzzy
+#| msgid "- (hyphen)"
+msgid "- (Hyphen)"
+msgstr "-（连字符）"
+
+#: src/resources/preferences.ui:185
+#, fuzzy
+#| msgid "Characters around timestamps"
+msgid "Characters Around Timestamps"
+msgstr "时间戳记号"
+
+#: src/resources/preferences.ui:189
+msgid "None"
+msgstr "无"
+
+#: src/resources/preferences.ui:190
+#, fuzzy
+#| msgid "#Number signs#"
+msgid "#Number Signs#"
+msgstr "#井号#"
+
+#: src/resources/preferences.ui:191
+#, fuzzy
+#| msgid "(Round brackets)"
+msgid "(Round Brackets)"
+msgstr "(圆括号)"
+
+#: src/resources/preferences.ui:192
+#, fuzzy
+#| msgid "[Square brackets]"
+msgid "[Square Brackets]"
+msgstr "[方括号]"
+
+#: src/resources/preferences.ui:202
+msgid "Preview"
+msgstr ""
+
+#: src/resources/preferences.ui:211
+#, fuzzy
+#| msgid "Speech recognition"
+msgid "Speech Recognition"
+msgstr "语音识别"
+
+#: src/resources/preferences.ui:215
+#, fuzzy
+#| msgid "Language:"
+msgid "Language Models"
+msgstr "语言："
+
+#: src/resources/preferences.ui:216
+msgid ""
+"Inspect configuration details, learn how to install model data, and choose a "
+"configuration for automatic speech recognition."
+msgstr ""
+
+#: src/resources/preferences.ui:223
+#, fuzzy
+#| msgid "Import language model configuration"
+msgid "Import configuration from file"
+msgstr "导入语言模型配置"
+
+#: src/resources/preferences.ui:232
+#, fuzzy
+#| msgid "Delete language model configuration?"
+msgid "Copy Initial Set of Configurations"
+msgstr "删除语言模型配置？"
+
+#: src/resources/prefs-install-row.ui:11
+msgid "Choose folder"
+msgstr ""
+
 #: src/resources/window.ui:41
 msgid "Open a file"
 msgstr "打开文件"
+
+#: src/resources/window.ui:51
+msgid "Main Menu"
+msgstr ""
+
+#: src/resources/window.ui:97
+#, fuzzy
+#| msgid "Jump back 1 second"
+#| msgid_plural "Jump back %d seconds"
+msgid "Skip backward"
+msgstr "回退 %d 秒"
 
 #: src/resources/window.ui:123
 msgid "_Play"
@@ -663,15 +907,24 @@ msgstr "播放 (P)"
 msgid "Speed:"
 msgstr "速度："
 
+#: src/resources/window.ui:199
+msgid "Volume"
+msgstr ""
+
+#, fuzzy
+#~| msgid "There is no configuration"
+#~ msgid "This will delete the configuration"
+#~ msgstr "未经配置"
+
+#~ msgid "Jump back"
+#~ msgstr "回退"
+
 #, c-format
 #~ msgid "Error opening help: %s"
 #~ msgstr "帮助打开出错：%s"
 
 #~ msgid "Mozilla DeepSpeech"
 #~ msgstr "Mozilla DeepSpeech"
-
-#~ msgid "Speech recognition"
-#~ msgstr "语音识别"
 
 #~ msgid "Failed to read personal configuration files"
 #~ msgstr "未能读取个人配置文件"
@@ -686,71 +939,20 @@ msgstr "速度："
 #~ msgid "_Yes"
 #~ msgstr "是 (Y)"
 
-#~ msgid "Import language model configuration"
-#~ msgstr "导入语言模型配置"
-
 #~ msgid "Failed to create personal configuration folder"
 #~ msgstr "未能创建个人配置文件夹"
-
-#~ msgid "Display Name:"
-#~ msgstr "显示名称："
 
 #~ msgid "Speech Recognition Engine:"
 #~ msgstr "语音识别引擎："
 
-#~ msgid "Installation"
-#~ msgstr "安装"
-
 #~ msgid "Installed:"
 #~ msgstr "已安装上："
-
-#~ msgid "None"
-#~ msgstr "无"
-
-#~ msgid "#Number signs#"
-#~ msgstr "#井号#"
-
-#~ msgid "(Round brackets)"
-#~ msgstr "(圆括号)"
-
-#~ msgid "[Square brackets]"
-#~ msgstr "[方括号]"
-
-#~ msgid ". (point)"
-#~ msgstr ".（点）"
-
-#~ msgid "- (hyphen)"
-#~ msgstr "-（连字符）"
-
-#~ msgid "Full seconds"
-#~ msgstr "一秒"
-
-#~ msgid "10th seconds"
-#~ msgstr "十分之一秒"
-
-#~ msgid "100th seconds"
-#~ msgstr "百分之一秒"
 
 #~ msgid "Parlatype Preferences"
 #~ msgstr "Parlatype 个人设置"
 
-#~ msgid "_Pixels per second:"
-#~ msgstr "一秒用多少像素表示 (P)："
-
-#~ msgid "Show _time scale"
-#~ msgstr "显示时间刻度 (T)"
-
 #~ msgid "Resolution"
 #~ msgstr "波形图分辨率"
-
-#~ msgid "Display"
-#~ msgstr "波形图显示"
-
-#~ msgid "_Moving cursor"
-#~ msgstr "移动光标 (M)"
-
-#~ msgid "_Fixed cursor"
-#~ msgstr "固定光标 (F)"
 
 #~ msgid "Jumps"
 #~ msgstr "回退和前跳"
@@ -776,32 +978,14 @@ msgstr "速度："
 #~ msgid "Replay selection"
 #~ msgstr "重新播放选中部分"
 
-#~ msgid "Controls"
-#~ msgstr "操控"
-
 #~ msgid "Hours and zeroes"
 #~ msgstr "小时位与零"
-
-#~ msgid "Always show hours and leading zeroes"
-#~ msgstr "始终显示小时数和前导零"
-
-#~ msgid "Precision"
-#~ msgstr "精密度"
-
-#~ msgid "Characters around timestamps"
-#~ msgstr "时间戳记号"
 
 #~ msgid "Examples"
 #~ msgstr "例子"
 
 #~ msgid "Precision:"
 #~ msgstr "精密度："
-
-#~ msgid "Fraction separator:"
-#~ msgstr "小数分隔符："
-
-#~ msgid "Timestamps"
-#~ msgstr "时间戳"
 
 #~ msgid "Remember _size"
 #~ msgstr "记住大小 (S)"

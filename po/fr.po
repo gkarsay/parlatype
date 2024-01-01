@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-30 17:03+0100\n"
+"POT-Creation-Date: 2024-01-01 20:58+0100\n"
 "PO-Revision-Date: 2022-05-11 23:17+0000\n"
 "Last-Translator: Mathieu B. <mathieu.bousquet2@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/parlatype/"
@@ -315,7 +315,7 @@ msgstr "Ouvrir un fichier audio"
 msgid "_Open"
 msgstr "_Ouvrir"
 
-#: src/pt-app.c:95 src/pt-asr-dialog.c:356 src/resources/goto-dialog.ui:52
+#: src/pt-app.c:95 src/resources/goto-dialog.ui:52
 msgid "_Cancel"
 msgstr "A_nnuler"
 
@@ -360,115 +360,108 @@ msgstr ""
 "Avertissement : Parlatype ne gère qu'un fichier à la fois. Les autres "
 "fichiers sont ignorés.\n"
 
-#: src/pt-asr-dialog.c:98
+#. Translators: Fallback label for a download location
+#: src/pt-asr-dialog.c:99
 msgid "Link"
 msgstr ""
 
 #. Not using title case here, this is more a status than a title.
-#: src/pt-asr-dialog.c:114
+#: src/pt-asr-dialog.c:115
 #, fuzzy
 #| msgid "There is no configuration"
 msgid "This configuration is active."
 msgstr "Il n'y a pas de configuration"
 
-#: src/pt-asr-dialog.c:116
+#: src/pt-asr-dialog.c:117
 msgid "Deactivate"
 msgstr ""
 
-#: src/pt-asr-dialog.c:122
+#. Translators: Model is a language model
+#: src/pt-asr-dialog.c:124
 msgid "Model data is installed."
 msgstr ""
 
-#: src/pt-asr-dialog.c:124 src/pt-asr-dialog.c:130
+#: src/pt-asr-dialog.c:126 src/pt-asr-dialog.c:133
 msgid "Activate"
 msgstr ""
 
-#: src/pt-asr-dialog.c:128
+#. Translators: Model is a language model
+#: src/pt-asr-dialog.c:131
 msgid "Model data is not installed."
 msgstr ""
 
-#: src/pt-asr-dialog.c:129
+#: src/pt-asr-dialog.c:132
 msgid "See next section for details."
 msgstr ""
 
-#: src/pt-asr-dialog.c:140
+#. Translators: Configuration will be deleted, but not its data
+#: src/pt-asr-dialog.c:144
 msgid "Model data will be preserved"
 msgstr ""
 
-#: src/pt-asr-dialog.c:218
+#: src/pt-asr-dialog.c:222
 #, fuzzy
 #| msgid "Language:"
 msgid "Language"
 msgstr "Langue :"
 
-#: src/pt-asr-dialog.c:222
+#: src/pt-asr-dialog.c:226
 msgid "CMU Pocketsphinx"
 msgstr "CMU Pocketsphinx"
 
-#: src/pt-asr-dialog.c:225
-msgid "Engine"
+#. Translators: Model is a language model
+#: src/pt-asr-dialog.c:230
+msgid "Type of Model"
 msgstr ""
 
-#: src/pt-asr-dialog.c:227
+#: src/pt-asr-dialog.c:232
 #, fuzzy
 #| msgid "GStreamer Plugin:"
 msgid "GStreamer Plugin"
 msgstr "Greffon GStreamer :"
 
-#: src/pt-asr-dialog.c:231
+#: src/pt-asr-dialog.c:236
 #, fuzzy
 #| msgid "Publisher:"
 msgid "Publisher"
 msgstr "Éditeur :"
 
-#: src/pt-asr-dialog.c:236
+#: src/pt-asr-dialog.c:241
 #, fuzzy
 #| msgid "License:"
 msgid "License"
 msgstr "Licence :"
 
-#: src/pt-asr-dialog.c:244
+#: src/pt-asr-dialog.c:249
 #, fuzzy
 #| msgid "Instructions:"
 msgid "Instructions"
 msgstr "Instructions :"
 
-#: src/pt-asr-dialog.c:253 src/pt-asr-dialog.c:264
+#: src/pt-asr-dialog.c:258 src/pt-asr-dialog.c:269
 #, fuzzy
 #| msgid "Download:"
 msgid "Download"
 msgstr "Téléchargement :"
 
-#: src/pt-asr-dialog.c:308
+#. Translators: %s is replaced with the name of a configuration
+#: src/pt-asr-dialog.c:314
 #, c-format
 msgid "“%s” has been deleted"
 msgstr ""
 
-#: src/pt-asr-dialog.c:316 src/pt-preferences.c:248 src/pt-preferences.c:416
+#: src/pt-asr-dialog.c:322 src/pt-preferences.c:248 src/pt-preferences.c:416
 #: src/pt-preferences.c:451 src/pt-window.c:130
 msgid "Error"
 msgstr "Erreur"
 
-#: src/pt-asr-dialog.c:353
-#, fuzzy
-msgid "Delete Configuration"
-msgstr "Suppression de la configuration"
-
-#: src/pt-asr-dialog.c:354
-#, fuzzy
-msgid "This will delete the configuration"
-msgstr "Suppression de la configuration"
-
-#: src/pt-asr-dialog.c:357 src/resources/goto-dialog.ui:60
-msgid "_OK"
-msgstr "_OK"
-
-#: src/pt-asr-dialog.c:397
+#. Translators: %s is replaced with the name of a configuration
+#: src/pt-asr-dialog.c:373
 #, c-format
 msgid "“%s” has been activated"
 msgstr ""
 
-#: src/pt-asr-dialog.c:400
+#: src/pt-asr-dialog.c:376
 msgid "Configuration has been deactivated"
 msgstr ""
 
@@ -573,29 +566,44 @@ msgstr[1] "Mettre en pause et reculer de %d secondes"
 msgid "Start playing"
 msgstr "Démarrer la lecture"
 
-#: src/pt-window.c:499
+#. Translators: %s is replaced with a timestamp
+#: src/pt-window.c:500
 #, fuzzy, c-format
 #| msgid "Go to time in clipboard: %s"
 msgid "Go to Time in Clipboard: %s"
 msgstr "Aller au temps du presse-papier : %s"
 
-#: src/pt-window.c:501 src/pt-window.c:1179
+#: src/pt-window.c:502 src/pt-window.c:1180
 #, fuzzy
 #| msgid "Go to time in clipboard"
 msgid "Go to Time in Clipboard"
 msgstr "Aller au temps du presse-papier"
 
-#: src/pt-window.c:1174
+#: src/pt-window.c:1175
 #, fuzzy
 #| msgid "Manual transcription"
 msgid "Manual Transcription"
 msgstr "Transcription manuelle"
 
-#: src/pt-window.c:1175
+#: src/pt-window.c:1176
 #, fuzzy
 #| msgid "Automatic transcription"
 msgid "Automatic Transcription"
 msgstr "Transcription automatique"
+
+#: src/resources/asr-dialog.ui:29
+msgid "Installation"
+msgstr "Installation"
+
+#: src/resources/asr-dialog.ui:33
+msgid "General Information"
+msgstr ""
+
+#: src/resources/asr-dialog.ui:36
+#, fuzzy
+#| msgid "Display Name:"
+msgid "Display Name"
+msgstr "Nom à afficher :"
 
 #: src/resources/goto-dialog.ui:10 src/resources/menus.ui:34
 msgid "Go to…"
@@ -605,71 +613,79 @@ msgstr "Aller à…"
 msgid "Go to position:"
 msgstr "Aller à la position :"
 
-#: src/resources/help-overlay.ui:15
+#: src/resources/goto-dialog.ui:60
+msgid "_OK"
+msgstr "_OK"
+
+#: src/resources/help-overlay.ui:13
 msgid "General"
 msgstr "Général"
 
-#: src/resources/help-overlay.ui:20
+#: src/resources/help-overlay.ui:18
 msgid "Open a media file"
 msgstr "Ouvrir un fichier"
 
-#: src/resources/help-overlay.ui:27
-msgid "Show/hide action menu"
+#: src/resources/help-overlay.ui:25
+#, fuzzy
+#| msgid "Show/hide action menu"
+msgid "Show/hide main menu"
 msgstr "Afficher/masquer le menu"
 
-#: src/resources/help-overlay.ui:34
+#: src/resources/help-overlay.ui:32
 msgid "Quit"
 msgstr "Quitter"
 
-#: src/resources/help-overlay.ui:42
+#: src/resources/help-overlay.ui:40 src/resources/preferences.ui:11
 msgid "Waveform"
 msgstr "Onde sonore"
 
-#: src/resources/help-overlay.ui:47
+#: src/resources/help-overlay.ui:45
 msgid "Play/Pause"
 msgstr "Lecture/pause"
 
-#: src/resources/help-overlay.ui:54
-msgid "Jump back"
-msgstr "Reculer"
+#: src/resources/help-overlay.ui:52
+msgid "SKip backward"
+msgstr ""
 
-#: src/resources/help-overlay.ui:61
-msgid "Jump forward"
+#: src/resources/help-overlay.ui:59 src/resources/window.ui:142
+#, fuzzy
+#| msgid "Jump forward"
+msgid "Skip forward"
 msgstr "Avancer"
 
-#: src/resources/help-overlay.ui:68
+#: src/resources/help-overlay.ui:66
 msgid "Zoom in"
 msgstr "Zoom avant"
 
-#: src/resources/help-overlay.ui:75
+#: src/resources/help-overlay.ui:73
 msgid "Zoom out"
 msgstr "Zoom arrière"
 
-#: src/resources/help-overlay.ui:82
+#: src/resources/help-overlay.ui:80
 msgid "Open “Go to” dialog"
 msgstr "Ouvrir la fenêtre de dialogue « Aller à »"
 
-#: src/resources/help-overlay.ui:89
+#: src/resources/help-overlay.ui:87
 msgid "Copy timestamp to clipboard"
 msgstr "Copier l’horodatage dans le presse-papiers"
 
-#: src/resources/help-overlay.ui:96
+#: src/resources/help-overlay.ui:94
 msgid "Go to timestamp in clipboard"
 msgstr "Aller à l’horodatage du presse-papiers"
 
-#: src/resources/help-overlay.ui:104 src/resources/menus.ui:15
+#: src/resources/help-overlay.ui:102 src/resources/menus.ui:15
 msgid "Help"
 msgstr "Aide"
 
-#: src/resources/help-overlay.ui:109
+#: src/resources/help-overlay.ui:107
 msgid "Show help"
 msgstr "Afficher l’aide"
 
-#: src/resources/help-overlay.ui:116
+#: src/resources/help-overlay.ui:114
 msgid "Show keyboard shortcuts"
 msgstr "Afficher les raccourcis clavier"
 
-#: src/resources/menus.ui:7
+#: src/resources/menus.ui:7 src/resources/preferences.ui:7
 msgid "Preferences"
 msgstr "Préférences"
 
@@ -693,9 +709,238 @@ msgstr "Copier le temps dans le presse-papier"
 msgid "Go to Cursor"
 msgstr "Aller au curseur"
 
+#: src/resources/preferences.ui:15
+msgid "Display"
+msgstr "Affichage"
+
+#: src/resources/preferences.ui:16
+msgid "Change appearance of the waveform and cursor movement."
+msgstr ""
+
+#: src/resources/preferences.ui:19
+#, fuzzy
+#| msgid "Waveform"
+msgid "Waveform Detail"
+msgstr "Onde sonore"
+
+#: src/resources/preferences.ui:20
+#, fuzzy
+#| msgid "_Pixels per second:"
+msgid "Vertical lines per second"
+msgstr "_Pixels par seconde :"
+
+#: src/resources/preferences.ui:53
+#, fuzzy
+#| msgid "Show _time scale"
+msgid "Show Time Scale"
+msgstr "Afficher l'échelle de _temps"
+
+#: src/resources/preferences.ui:58
+msgid "Cursor Mode"
+msgstr ""
+
+#: src/resources/preferences.ui:62
+#, fuzzy
+#| msgid "_Fixed cursor"
+msgid "Fixed Cursor"
+msgstr "Curseur _fixe"
+
+#: src/resources/preferences.ui:63
+#, fuzzy
+#| msgid "_Moving cursor"
+msgid "Moving Cursor"
+msgstr "Curseur _mobile"
+
+#: src/resources/preferences.ui:76
+#, fuzzy
+#| msgid "Controls"
+msgid "Audio Controls"
+msgstr "Touches de contrôle"
+
+#: src/resources/preferences.ui:80
+msgid "Pause and Skip Buttons"
+msgstr ""
+
+#: src/resources/preferences.ui:81
+msgid "Set amount of time to skip in seconds."
+msgstr ""
+
+#: src/resources/preferences.ui:84
+msgid "Rewind on Pause"
+msgstr ""
+
+#: src/resources/preferences.ui:85
+msgid "Set to zero to disable this feature"
+msgstr ""
+
+#: src/resources/preferences.ui:98
+msgid "Skip Backward"
+msgstr ""
+
+#: src/resources/preferences.ui:111
+#, fuzzy
+#| msgid "Jump forward 1 second"
+#| msgid_plural "Jump forward %d seconds"
+msgid "Skip Forward"
+msgstr "Avancer d'une seconde"
+
+#: src/resources/preferences.ui:126
+msgid "Play Button"
+msgstr ""
+
+#: src/resources/preferences.ui:127
+msgid "Change behavior of play button."
+msgstr ""
+
+#: src/resources/preferences.ui:130
+msgid "At End of File Replay File"
+msgstr ""
+
+#: src/resources/preferences.ui:135
+msgid "At End of Selection Replay Selection"
+msgstr ""
+
+#: src/resources/preferences.ui:145
+msgid "Timestamps"
+msgstr "Horodatages"
+
+#: src/resources/preferences.ui:149
+#, fuzzy
+#| msgid "Timestamps"
+msgid "Timestamp Format"
+msgstr "Horodatages"
+
+#: src/resources/preferences.ui:150
+msgid ""
+"Customize produced timestamps. Note that all formats can be read, these "
+"settings are applied when timestamps are written."
+msgstr ""
+
+#: src/resources/preferences.ui:153
+#, fuzzy
+#| msgid "Always show hours and leading zeroes"
+msgid "Always Show Hours and Leading Zeroes"
+msgstr "Toujours afficher les heures et les zéros non significatifs"
+
+#: src/resources/preferences.ui:158
+msgid "Precision"
+msgstr "Précision"
+
+#: src/resources/preferences.ui:162
+#, fuzzy
+#| msgid "Full seconds"
+msgid "Full Seconds"
+msgstr "secondes"
+
+#: src/resources/preferences.ui:163
+#, fuzzy
+#| msgid "10th seconds"
+msgid "10th Seconds"
+msgstr "dixièmes de seconde"
+
+#: src/resources/preferences.ui:164
+#, fuzzy
+#| msgid "100th seconds"
+msgid "100th Seconds"
+msgstr "centièmes de seconde"
+
+#: src/resources/preferences.ui:172
+#, fuzzy
+#| msgid "Fraction separator:"
+msgid "Fraction Separator"
+msgstr "Séparateur :"
+
+#: src/resources/preferences.ui:176
+#, fuzzy
+#| msgid ". (point)"
+msgid ". (Point)"
+msgstr ". (point)"
+
+#: src/resources/preferences.ui:177
+#, fuzzy
+#| msgid "- (hyphen)"
+msgid "- (Hyphen)"
+msgstr "- (trait d'union)"
+
+#: src/resources/preferences.ui:185
+#, fuzzy
+#| msgid "Characters around timestamps"
+msgid "Characters Around Timestamps"
+msgstr "Caractères autour des horodatages"
+
+#: src/resources/preferences.ui:189
+msgid "None"
+msgstr "Aucun"
+
+#: src/resources/preferences.ui:190
+#, fuzzy
+#| msgid "#Number signs#"
+msgid "#Number Signs#"
+msgstr "#Signes numériques#"
+
+#: src/resources/preferences.ui:191
+#, fuzzy
+#| msgid "(Round brackets)"
+msgid "(Round Brackets)"
+msgstr "(parenthèses)"
+
+#: src/resources/preferences.ui:192
+#, fuzzy
+#| msgid "[Square brackets]"
+msgid "[Square Brackets]"
+msgstr "[crochets]"
+
+#: src/resources/preferences.ui:202
+msgid "Preview"
+msgstr ""
+
+#: src/resources/preferences.ui:211
+#, fuzzy
+#| msgid "Speech recognition"
+msgid "Speech Recognition"
+msgstr "Reconnaissance vocale"
+
+#: src/resources/preferences.ui:215
+#, fuzzy
+#| msgid "Language:"
+msgid "Language Models"
+msgstr "Langue :"
+
+#: src/resources/preferences.ui:216
+msgid ""
+"Inspect configuration details, learn how to install model data, and choose a "
+"configuration for automatic speech recognition."
+msgstr ""
+
+#: src/resources/preferences.ui:223
+#, fuzzy
+#| msgid "Import language model configuration"
+msgid "Import configuration from file"
+msgstr "Importer la configuration du modèle de langue"
+
+#: src/resources/preferences.ui:232
+#, fuzzy
+msgid "Copy Initial Set of Configurations"
+msgstr "Suppression de la configuration"
+
+#: src/resources/prefs-install-row.ui:11
+msgid "Choose folder"
+msgstr ""
+
 #: src/resources/window.ui:41
 msgid "Open a file"
 msgstr "Ouvrir un fichier"
+
+#: src/resources/window.ui:51
+msgid "Main Menu"
+msgstr ""
+
+#: src/resources/window.ui:97
+#, fuzzy
+#| msgid "Jump back 1 second"
+#| msgid_plural "Jump back %d seconds"
+msgid "Skip backward"
+msgstr "Reculer d'une seconde"
 
 #: src/resources/window.ui:123
 msgid "_Play"
@@ -705,12 +950,20 @@ msgstr "_Lecture"
 msgid "Speed:"
 msgstr "Vitesse :"
 
+#: src/resources/window.ui:199
+msgid "Volume"
+msgstr ""
+
+#, fuzzy
+#~ msgid "This will delete the configuration"
+#~ msgstr "Suppression de la configuration"
+
+#~ msgid "Jump back"
+#~ msgstr "Reculer"
+
 #, c-format
 #~ msgid "Error opening help: %s"
 #~ msgstr "Erreur à l'ouverture de l'aide : %s"
-
-#~ msgid "Speech recognition"
-#~ msgstr "Reconnaissance vocale"
 
 #~ msgid "Failed to read personal configuration files"
 #~ msgstr "Échec de la lecture des fichiers de configuration personnels"
@@ -728,71 +981,20 @@ msgstr "Vitesse :"
 #~ msgid "_Yes"
 #~ msgstr "_Oui"
 
-#~ msgid "Import language model configuration"
-#~ msgstr "Importer la configuration du modèle de langue"
-
 #~ msgid "Failed to create personal configuration folder"
 #~ msgstr "Échec de la création du dossier de configuration personnel"
-
-#~ msgid "Display Name:"
-#~ msgstr "Nom à afficher :"
 
 #~ msgid "Speech Recognition Engine:"
 #~ msgstr "Moteur de reconnaissance vocale :"
 
-#~ msgid "Installation"
-#~ msgstr "Installation"
-
 #~ msgid "Installed:"
 #~ msgstr "Installé :"
-
-#~ msgid "None"
-#~ msgstr "Aucun"
-
-#~ msgid "#Number signs#"
-#~ msgstr "#Signes numériques#"
-
-#~ msgid "(Round brackets)"
-#~ msgstr "(parenthèses)"
-
-#~ msgid "[Square brackets]"
-#~ msgstr "[crochets]"
-
-#~ msgid ". (point)"
-#~ msgstr ". (point)"
-
-#~ msgid "- (hyphen)"
-#~ msgstr "- (trait d'union)"
-
-#~ msgid "Full seconds"
-#~ msgstr "secondes"
-
-#~ msgid "10th seconds"
-#~ msgstr "dixièmes de seconde"
-
-#~ msgid "100th seconds"
-#~ msgstr "centièmes de seconde"
 
 #~ msgid "Parlatype Preferences"
 #~ msgstr "Préférences de Parlatype"
 
-#~ msgid "_Pixels per second:"
-#~ msgstr "_Pixels par seconde :"
-
-#~ msgid "Show _time scale"
-#~ msgstr "Afficher l'échelle de _temps"
-
 #~ msgid "Resolution"
 #~ msgstr "Résolution"
-
-#~ msgid "Display"
-#~ msgstr "Affichage"
-
-#~ msgid "_Moving cursor"
-#~ msgstr "Curseur _mobile"
-
-#~ msgid "_Fixed cursor"
-#~ msgstr "Curseur _fixe"
 
 #~ msgid "Jumps"
 #~ msgstr "Sauts dans le temps"
@@ -818,32 +1020,14 @@ msgstr "Vitesse :"
 #~ msgid "Replay selection"
 #~ msgstr "Relire la sélection"
 
-#~ msgid "Controls"
-#~ msgstr "Touches de contrôle"
-
 #~ msgid "Hours and zeroes"
 #~ msgstr "Heures et zéros"
-
-#~ msgid "Always show hours and leading zeroes"
-#~ msgstr "Toujours afficher les heures et les zéros non significatifs"
-
-#~ msgid "Precision"
-#~ msgstr "Précision"
-
-#~ msgid "Characters around timestamps"
-#~ msgstr "Caractères autour des horodatages"
 
 #~ msgid "Examples"
 #~ msgstr "Exemples"
 
 #~ msgid "Precision:"
 #~ msgstr "Précision :"
-
-#~ msgid "Fraction separator:"
-#~ msgstr "Séparateur :"
-
-#~ msgid "Timestamps"
-#~ msgstr "Horodatages"
 
 #~ msgid "Remember _size"
 #~ msgstr "Mémoriser la _taille"

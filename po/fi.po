@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-30 17:03+0100\n"
+"POT-Creation-Date: 2024-01-01 20:58+0100\n"
 "PO-Revision-Date: 2021-12-21 07:53+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/parlatype/"
@@ -280,7 +280,7 @@ msgstr "Avaa äänitiedosto"
 msgid "_Open"
 msgstr "_Avaa"
 
-#: src/pt-app.c:95 src/pt-asr-dialog.c:356 src/resources/goto-dialog.ui:52
+#: src/pt-app.c:95 src/resources/goto-dialog.ui:52
 msgid "_Cancel"
 msgstr "_Peru"
 
@@ -319,115 +319,108 @@ msgstr ""
 "Varoitus: Parlatype käsittelee vain yhden tiedoston kerrallaan. Muut "
 "tiedostot ohitetaan.\n"
 
-#: src/pt-asr-dialog.c:98
+#. Translators: Fallback label for a download location
+#: src/pt-asr-dialog.c:99
 msgid "Link"
 msgstr ""
 
 #. Not using title case here, this is more a status than a title.
-#: src/pt-asr-dialog.c:114
+#: src/pt-asr-dialog.c:115
 #, fuzzy
 #| msgid "There is no configuration"
 msgid "This configuration is active."
 msgstr "Ei määrityksiä"
 
-#: src/pt-asr-dialog.c:116
+#: src/pt-asr-dialog.c:117
 msgid "Deactivate"
 msgstr ""
 
-#: src/pt-asr-dialog.c:122
+#. Translators: Model is a language model
+#: src/pt-asr-dialog.c:124
 msgid "Model data is installed."
 msgstr ""
 
-#: src/pt-asr-dialog.c:124 src/pt-asr-dialog.c:130
+#: src/pt-asr-dialog.c:126 src/pt-asr-dialog.c:133
 msgid "Activate"
 msgstr ""
 
-#: src/pt-asr-dialog.c:128
+#. Translators: Model is a language model
+#: src/pt-asr-dialog.c:131
 msgid "Model data is not installed."
 msgstr ""
 
-#: src/pt-asr-dialog.c:129
+#: src/pt-asr-dialog.c:132
 msgid "See next section for details."
 msgstr ""
 
-#: src/pt-asr-dialog.c:140
+#. Translators: Configuration will be deleted, but not its data
+#: src/pt-asr-dialog.c:144
 msgid "Model data will be preserved"
 msgstr ""
 
-#: src/pt-asr-dialog.c:218
+#: src/pt-asr-dialog.c:222
 #, fuzzy
 #| msgid "Language:"
 msgid "Language"
 msgstr "Kieli:"
 
-#: src/pt-asr-dialog.c:222
+#: src/pt-asr-dialog.c:226
 msgid "CMU Pocketsphinx"
 msgstr "CMU Pocketsphinx"
 
-#: src/pt-asr-dialog.c:225
-msgid "Engine"
+#. Translators: Model is a language model
+#: src/pt-asr-dialog.c:230
+msgid "Type of Model"
 msgstr ""
 
-#: src/pt-asr-dialog.c:227
+#: src/pt-asr-dialog.c:232
 #, fuzzy
 #| msgid "GStreamer Plugin:"
 msgid "GStreamer Plugin"
 msgstr "GStreamer-liitännäinen:"
 
-#: src/pt-asr-dialog.c:231
+#: src/pt-asr-dialog.c:236
 #, fuzzy
 #| msgid "Publisher:"
 msgid "Publisher"
 msgstr "Julkaisija:"
 
-#: src/pt-asr-dialog.c:236
+#: src/pt-asr-dialog.c:241
 #, fuzzy
 #| msgid "License:"
 msgid "License"
 msgstr "Lisenssi:"
 
-#: src/pt-asr-dialog.c:244
+#: src/pt-asr-dialog.c:249
 #, fuzzy
 #| msgid "Instructions:"
 msgid "Instructions"
 msgstr "Ohjeet:"
 
-#: src/pt-asr-dialog.c:253 src/pt-asr-dialog.c:264
+#: src/pt-asr-dialog.c:258 src/pt-asr-dialog.c:269
 #, fuzzy
 #| msgid "Download:"
 msgid "Download"
 msgstr "Lataus:"
 
-#: src/pt-asr-dialog.c:308
+#. Translators: %s is replaced with the name of a configuration
+#: src/pt-asr-dialog.c:314
 #, c-format
 msgid "“%s” has been deleted"
 msgstr ""
 
-#: src/pt-asr-dialog.c:316 src/pt-preferences.c:248 src/pt-preferences.c:416
+#: src/pt-asr-dialog.c:322 src/pt-preferences.c:248 src/pt-preferences.c:416
 #: src/pt-preferences.c:451 src/pt-window.c:130
 msgid "Error"
 msgstr "Virhe"
 
-#: src/pt-asr-dialog.c:353
-#, fuzzy
-msgid "Delete Configuration"
-msgstr "Poistetaan määritys"
-
-#: src/pt-asr-dialog.c:354
-#, fuzzy
-msgid "This will delete the configuration"
-msgstr "Poistetaan määritys"
-
-#: src/pt-asr-dialog.c:357 src/resources/goto-dialog.ui:60
-msgid "_OK"
-msgstr "_OK"
-
-#: src/pt-asr-dialog.c:397
+#. Translators: %s is replaced with the name of a configuration
+#: src/pt-asr-dialog.c:373
 #, c-format
 msgid "“%s” has been activated"
 msgstr ""
 
-#: src/pt-asr-dialog.c:400
+#: src/pt-asr-dialog.c:376
 msgid "Configuration has been deactivated"
 msgstr ""
 
@@ -532,29 +525,44 @@ msgstr[1] "Keskeytä ja siirry taaksepäin %d sekuntia"
 msgid "Start playing"
 msgstr "Aloita toistaminen"
 
-#: src/pt-window.c:499
+#. Translators: %s is replaced with a timestamp
+#: src/pt-window.c:500
 #, fuzzy, c-format
 #| msgid "Go to time in clipboard: %s"
 msgid "Go to Time in Clipboard: %s"
 msgstr "Siirry leikepöydällä olevaan aikaan: %s"
 
-#: src/pt-window.c:501 src/pt-window.c:1179
+#: src/pt-window.c:502 src/pt-window.c:1180
 #, fuzzy
 #| msgid "Go to time in clipboard"
 msgid "Go to Time in Clipboard"
 msgstr "Siirry leikepöydällä olevaan aikaan"
 
-#: src/pt-window.c:1174
+#: src/pt-window.c:1175
 #, fuzzy
 #| msgid "Manual transcription"
 msgid "Manual Transcription"
 msgstr "Manuaalinen transkriptio"
 
-#: src/pt-window.c:1175
+#: src/pt-window.c:1176
 #, fuzzy
 #| msgid "Automatic transcription"
 msgid "Automatic Transcription"
 msgstr "Automaattinen transkriptio"
+
+#: src/resources/asr-dialog.ui:29
+msgid "Installation"
+msgstr "Asennus"
+
+#: src/resources/asr-dialog.ui:33
+msgid "General Information"
+msgstr ""
+
+#: src/resources/asr-dialog.ui:36
+#, fuzzy
+#| msgid "Display Name:"
+msgid "Display Name"
+msgstr "Näyttönimi:"
 
 #: src/resources/goto-dialog.ui:10 src/resources/menus.ui:34
 msgid "Go to…"
@@ -564,71 +572,79 @@ msgstr "Siirry…"
 msgid "Go to position:"
 msgstr "Siirry sijaintiin:"
 
-#: src/resources/help-overlay.ui:15
+#: src/resources/goto-dialog.ui:60
+msgid "_OK"
+msgstr "_OK"
+
+#: src/resources/help-overlay.ui:13
 msgid "General"
 msgstr "Yleiset"
 
-#: src/resources/help-overlay.ui:20
+#: src/resources/help-overlay.ui:18
 msgid "Open a media file"
 msgstr "Avaa mediatiedosto"
 
-#: src/resources/help-overlay.ui:27
-msgid "Show/hide action menu"
+#: src/resources/help-overlay.ui:25
+#, fuzzy
+#| msgid "Show/hide action menu"
+msgid "Show/hide main menu"
 msgstr "Näytä/piilota toimintovalikko"
 
-#: src/resources/help-overlay.ui:34
+#: src/resources/help-overlay.ui:32
 msgid "Quit"
 msgstr "Lopeta"
 
-#: src/resources/help-overlay.ui:42
+#: src/resources/help-overlay.ui:40 src/resources/preferences.ui:11
 msgid "Waveform"
 msgstr "Aaltomuoto"
 
-#: src/resources/help-overlay.ui:47
+#: src/resources/help-overlay.ui:45
 msgid "Play/Pause"
 msgstr "Toista/pidä tauko"
 
-#: src/resources/help-overlay.ui:54
-msgid "Jump back"
-msgstr "Siirry taaksepäin"
+#: src/resources/help-overlay.ui:52
+msgid "SKip backward"
+msgstr ""
 
-#: src/resources/help-overlay.ui:61
-msgid "Jump forward"
+#: src/resources/help-overlay.ui:59 src/resources/window.ui:142
+#, fuzzy
+#| msgid "Jump forward"
+msgid "Skip forward"
 msgstr "Siirry eteenpäin"
 
-#: src/resources/help-overlay.ui:68
+#: src/resources/help-overlay.ui:66
 msgid "Zoom in"
 msgstr "Lähennä"
 
-#: src/resources/help-overlay.ui:75
+#: src/resources/help-overlay.ui:73
 msgid "Zoom out"
 msgstr "Loitonna"
 
-#: src/resources/help-overlay.ui:82
+#: src/resources/help-overlay.ui:80
 msgid "Open “Go to” dialog"
 msgstr "Avaa \"Siirry\"-ikkuna"
 
-#: src/resources/help-overlay.ui:89
+#: src/resources/help-overlay.ui:87
 msgid "Copy timestamp to clipboard"
 msgstr "Kopioi aikaleima leikepöydälle"
 
-#: src/resources/help-overlay.ui:96
+#: src/resources/help-overlay.ui:94
 msgid "Go to timestamp in clipboard"
 msgstr "Siirry leikepöydällä olevaan aikaleimaan"
 
-#: src/resources/help-overlay.ui:104 src/resources/menus.ui:15
+#: src/resources/help-overlay.ui:102 src/resources/menus.ui:15
 msgid "Help"
 msgstr "Ohje"
 
-#: src/resources/help-overlay.ui:109
+#: src/resources/help-overlay.ui:107
 msgid "Show help"
 msgstr "Näytä ohje"
 
-#: src/resources/help-overlay.ui:116
+#: src/resources/help-overlay.ui:114
 msgid "Show keyboard shortcuts"
 msgstr "Näytä pikanäppäimet"
 
-#: src/resources/menus.ui:7
+#: src/resources/menus.ui:7 src/resources/preferences.ui:7
 msgid "Preferences"
 msgstr "Asetukset"
 
@@ -652,9 +668,238 @@ msgstr "Kopioi aika leikepöydälle"
 msgid "Go to Cursor"
 msgstr "Siirry kohdistimeen"
 
+#: src/resources/preferences.ui:15
+msgid "Display"
+msgstr "Esitystapa"
+
+#: src/resources/preferences.ui:16
+msgid "Change appearance of the waveform and cursor movement."
+msgstr ""
+
+#: src/resources/preferences.ui:19
+#, fuzzy
+#| msgid "Waveform"
+msgid "Waveform Detail"
+msgstr "Aaltomuoto"
+
+#: src/resources/preferences.ui:20
+#, fuzzy
+#| msgid "_Pixels per second:"
+msgid "Vertical lines per second"
+msgstr "_Pikseliä sekunnissa:"
+
+#: src/resources/preferences.ui:53
+#, fuzzy
+#| msgid "Show _time scale"
+msgid "Show Time Scale"
+msgstr "Näytä a_ika-asteikko"
+
+#: src/resources/preferences.ui:58
+msgid "Cursor Mode"
+msgstr ""
+
+#: src/resources/preferences.ui:62
+#, fuzzy
+#| msgid "_Fixed cursor"
+msgid "Fixed Cursor"
+msgstr "_Kiinteä kursori"
+
+#: src/resources/preferences.ui:63
+#, fuzzy
+#| msgid "_Moving cursor"
+msgid "Moving Cursor"
+msgstr "_Liikkuva kursori"
+
+#: src/resources/preferences.ui:76
+#, fuzzy
+#| msgid "Controls"
+msgid "Audio Controls"
+msgstr "Säätimet"
+
+#: src/resources/preferences.ui:80
+msgid "Pause and Skip Buttons"
+msgstr ""
+
+#: src/resources/preferences.ui:81
+msgid "Set amount of time to skip in seconds."
+msgstr ""
+
+#: src/resources/preferences.ui:84
+msgid "Rewind on Pause"
+msgstr ""
+
+#: src/resources/preferences.ui:85
+msgid "Set to zero to disable this feature"
+msgstr ""
+
+#: src/resources/preferences.ui:98
+msgid "Skip Backward"
+msgstr ""
+
+#: src/resources/preferences.ui:111
+#, fuzzy
+#| msgid "Jump forward 1 second"
+#| msgid_plural "Jump forward %d seconds"
+msgid "Skip Forward"
+msgstr "Siirry eteenpäin 1 sekunti"
+
+#: src/resources/preferences.ui:126
+msgid "Play Button"
+msgstr ""
+
+#: src/resources/preferences.ui:127
+msgid "Change behavior of play button."
+msgstr ""
+
+#: src/resources/preferences.ui:130
+msgid "At End of File Replay File"
+msgstr ""
+
+#: src/resources/preferences.ui:135
+msgid "At End of Selection Replay Selection"
+msgstr ""
+
+#: src/resources/preferences.ui:145
+msgid "Timestamps"
+msgstr "Aikaleimat"
+
+#: src/resources/preferences.ui:149
+#, fuzzy
+#| msgid "Timestamps"
+msgid "Timestamp Format"
+msgstr "Aikaleimat"
+
+#: src/resources/preferences.ui:150
+msgid ""
+"Customize produced timestamps. Note that all formats can be read, these "
+"settings are applied when timestamps are written."
+msgstr ""
+
+#: src/resources/preferences.ui:153
+#, fuzzy
+#| msgid "Always show hours and leading zeroes"
+msgid "Always Show Hours and Leading Zeroes"
+msgstr "Näytä aina tunnit ja etunollat"
+
+#: src/resources/preferences.ui:158
+msgid "Precision"
+msgstr "Tarkkuus"
+
+#: src/resources/preferences.ui:162
+#, fuzzy
+#| msgid "Full seconds"
+msgid "Full Seconds"
+msgstr "Täydet sekunnit"
+
+#: src/resources/preferences.ui:163
+#, fuzzy
+#| msgid "10th seconds"
+msgid "10th Seconds"
+msgstr "Kymmenesosasekunnit"
+
+#: src/resources/preferences.ui:164
+#, fuzzy
+#| msgid "100th seconds"
+msgid "100th Seconds"
+msgstr "Sadasosasekunnit"
+
+#: src/resources/preferences.ui:172
+#, fuzzy
+#| msgid "Fraction separator:"
+msgid "Fraction Separator"
+msgstr "Murto-osan erotin:"
+
+#: src/resources/preferences.ui:176
+#, fuzzy
+#| msgid ". (point)"
+msgid ". (Point)"
+msgstr ". (piste)"
+
+#: src/resources/preferences.ui:177
+#, fuzzy
+#| msgid "- (hyphen)"
+msgid "- (Hyphen)"
+msgstr "- (tavuviiva)"
+
+#: src/resources/preferences.ui:185
+#, fuzzy
+#| msgid "Characters around timestamps"
+msgid "Characters Around Timestamps"
+msgstr "Merkit aikaleimojen ympärillä"
+
+#: src/resources/preferences.ui:189
+msgid "None"
+msgstr "Ei mitään"
+
+#: src/resources/preferences.ui:190
+#, fuzzy
+#| msgid "#Number signs#"
+msgid "#Number Signs#"
+msgstr "#Numeromerkit#"
+
+#: src/resources/preferences.ui:191
+#, fuzzy
+#| msgid "(Round brackets)"
+msgid "(Round Brackets)"
+msgstr "(Kaarisulut)"
+
+#: src/resources/preferences.ui:192
+#, fuzzy
+#| msgid "[Square brackets]"
+msgid "[Square Brackets]"
+msgstr "[Hakasulut]"
+
+#: src/resources/preferences.ui:202
+msgid "Preview"
+msgstr ""
+
+#: src/resources/preferences.ui:211
+#, fuzzy
+#| msgid "Speech recognition"
+msgid "Speech Recognition"
+msgstr "Puheentunnistus"
+
+#: src/resources/preferences.ui:215
+#, fuzzy
+#| msgid "Language:"
+msgid "Language Models"
+msgstr "Kieli:"
+
+#: src/resources/preferences.ui:216
+msgid ""
+"Inspect configuration details, learn how to install model data, and choose a "
+"configuration for automatic speech recognition."
+msgstr ""
+
+#: src/resources/preferences.ui:223
+#, fuzzy
+#| msgid "Import language model configuration"
+msgid "Import configuration from file"
+msgstr "Tuo kielimallin kokoonpano"
+
+#: src/resources/preferences.ui:232
+#, fuzzy
+msgid "Copy Initial Set of Configurations"
+msgstr "Poistetaan määritys"
+
+#: src/resources/prefs-install-row.ui:11
+msgid "Choose folder"
+msgstr ""
+
 #: src/resources/window.ui:41
 msgid "Open a file"
 msgstr "Avaa tiedosto"
+
+#: src/resources/window.ui:51
+msgid "Main Menu"
+msgstr ""
+
+#: src/resources/window.ui:97
+#, fuzzy
+#| msgid "Jump back 1 second"
+#| msgid_plural "Jump back %d seconds"
+msgid "Skip backward"
+msgstr "Siirry taaksepäin 1 sekunti"
 
 #: src/resources/window.ui:123
 msgid "_Play"
@@ -664,12 +909,20 @@ msgstr "T_oista"
 msgid "Speed:"
 msgstr "Nopeus:"
 
+#: src/resources/window.ui:199
+msgid "Volume"
+msgstr ""
+
+#, fuzzy
+#~ msgid "This will delete the configuration"
+#~ msgstr "Poistetaan määritys"
+
+#~ msgid "Jump back"
+#~ msgstr "Siirry taaksepäin"
+
 #, c-format
 #~ msgid "Error opening help: %s"
 #~ msgstr "Virhe ohjetta avatessa: %s"
-
-#~ msgid "Speech recognition"
-#~ msgstr "Puheentunnistus"
 
 #~ msgid "Delete language model configuration?"
 #~ msgstr "Poistetaanko kielimallin kokoonpano?"
@@ -681,68 +934,17 @@ msgstr "Nopeus:"
 #~ msgid "_Yes"
 #~ msgstr "_Kyllä"
 
-#~ msgid "Import language model configuration"
-#~ msgstr "Tuo kielimallin kokoonpano"
-
-#~ msgid "Display Name:"
-#~ msgstr "Näyttönimi:"
-
 #~ msgid "Speech Recognition Engine:"
 #~ msgstr "Puheentunnistusmoottori:"
-
-#~ msgid "Installation"
-#~ msgstr "Asennus"
 
 #~ msgid "Installed:"
 #~ msgstr "Asennettu:"
 
-#~ msgid "None"
-#~ msgstr "Ei mitään"
-
-#~ msgid "#Number signs#"
-#~ msgstr "#Numeromerkit#"
-
-#~ msgid "(Round brackets)"
-#~ msgstr "(Kaarisulut)"
-
-#~ msgid "[Square brackets]"
-#~ msgstr "[Hakasulut]"
-
-#~ msgid ". (point)"
-#~ msgstr ". (piste)"
-
-#~ msgid "- (hyphen)"
-#~ msgstr "- (tavuviiva)"
-
-#~ msgid "Full seconds"
-#~ msgstr "Täydet sekunnit"
-
-#~ msgid "10th seconds"
-#~ msgstr "Kymmenesosasekunnit"
-
-#~ msgid "100th seconds"
-#~ msgstr "Sadasosasekunnit"
-
 #~ msgid "Parlatype Preferences"
 #~ msgstr "Parlatypen asetukset"
 
-#~ msgid "_Pixels per second:"
-#~ msgstr "_Pikseliä sekunnissa:"
-
-#~ msgid "Show _time scale"
-#~ msgstr "Näytä a_ika-asteikko"
-
 #~ msgid "Resolution"
 #~ msgstr "Tarkkuus"
-
-#~ msgid "Display"
-#~ msgstr "Esitystapa"
-
-#~ msgid "_Moving cursor"
-#~ msgstr "_Liikkuva kursori"
-
-#~ msgid "_Fixed cursor"
-#~ msgstr "_Kiinteä kursori"
 
 #~ msgid "Jumps"
 #~ msgstr "Hypyt"
@@ -768,32 +970,14 @@ msgstr "Nopeus:"
 #~ msgid "Replay selection"
 #~ msgstr "Toista valinta uudelleen"
 
-#~ msgid "Controls"
-#~ msgstr "Säätimet"
-
 #~ msgid "Hours and zeroes"
 #~ msgstr "Tunnit ja nollat"
-
-#~ msgid "Always show hours and leading zeroes"
-#~ msgstr "Näytä aina tunnit ja etunollat"
-
-#~ msgid "Precision"
-#~ msgstr "Tarkkuus"
-
-#~ msgid "Characters around timestamps"
-#~ msgstr "Merkit aikaleimojen ympärillä"
 
 #~ msgid "Examples"
 #~ msgstr "Esimerkit"
 
 #~ msgid "Precision:"
 #~ msgstr "Tarkkuus:"
-
-#~ msgid "Fraction separator:"
-#~ msgstr "Murto-osan erotin:"
-
-#~ msgid "Timestamps"
-#~ msgstr "Aikaleimat"
 
 #~ msgid "Remember _size"
 #~ msgstr "Muista _koko"
