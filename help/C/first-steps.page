@@ -20,11 +20,11 @@
 <p>You can also drag and drop a file on <app>Parlatype</app>.</p>
 </note>
 
-<p>In the lower left corner there are the controls with a <gui>Play</gui> button which toggles between play and pause. Whenever you pause, <app>Parlatype</app> rewinds a few seconds to make it easier to resume. This can be changed in the <link xref="preferences" />.</p>
+<p>In the lower left corner there are the controls with a <gui>Play</gui> button which toggles between play and pause. Whenever you pause, <app>Parlatype</app> rewinds a few seconds to make it easier to resume. This can be changed in the Preferences dialog.</p>
 
 <media its:translate="no" type="image" src="figures/parlatype-main-window.png"/>
 
-<p>The buttons <gui>Skip backward</gui> and <gui>Skip forward</gui> in the lower left corner skip a few seconds back or ahead. The amount of time can be changed in the <link xref="preferences" />.</p>
+<p>The buttons <gui>Skip backward</gui> and <gui>Skip forward</gui> in the lower left corner skip a few seconds back or ahead. The amount of time can be changed in the Preferences dialog.</p>
 
 <p>The view scrolls automatically so that the cursor is always visible. You can scroll manually by clicking on or dragging the scroll bar or using the standard keybindings. Automatic scrolling is stopped then.</p>
 

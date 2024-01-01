@@ -1,8 +1,5 @@
 media = [
   'figures/parlatype-icon.png',
-  'figures/parlatype-prefs-controls.png',
-  'figures/parlatype-prefs-timestamps.png',
-  'figures/parlatype-prefs-waveform.png',
   'figures/parlatype-main-window.png',
 ]
 
@@ -12,7 +9,6 @@ sources = [
   'first-steps.page',
   'keyboard-shortcuts.page',
   'legal.xml',
-  'preferences.page',
   'selections.page',
   'timestamps.page',
 ]
