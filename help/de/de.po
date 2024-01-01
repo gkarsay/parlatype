@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
-"POT-Creation-Date: 2023-12-30 17:03+0100\n"
+"POT-Creation-Date: 2024-01-01 20:58+0100\n"
 "PO-Revision-Date: 2023-12-30 17:49+0000\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gmx.at>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/parlatype/"
@@ -45,8 +45,8 @@ msgstr "Parlatype"
 #. (itstool) path: credit/name
 #: ../help/C/index.page:10 ../help/C/drag-and-drop.page:8
 #: ../help/C/first-steps.page:9 ../help/C/keyboard-shortcuts.page:8
-#: ../help/C/preferences.page:9 ../help/C/selections.page:8
-#: ../help/C/timestamps.page:8 ../help/C/asr.page:9 ../help/C/asr-setup.page:9
+#: ../help/C/selections.page:8 ../help/C/timestamps.page:8 ../help/C/asr.page:9
+#: ../help/C/asr-setup.page:9
 msgid "Gabor Karsay"
 msgstr "Gabor Karsay"
 
@@ -169,11 +169,17 @@ msgstr "Sie können auch eine Datei ins <app>Parlatype</app>-Fenster ziehen."
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:23
+#, fuzzy
+#| msgid ""
+#| "In the lower left corner there are the controls with a <gui>Play</gui> "
+#| "button which toggles between play and pause. Whenever you pause, "
+#| "<app>Parlatype</app> rewinds a few seconds to make it easier to resume. "
+#| "This can be changed in the <link xref=\"preferences\"/>."
 msgid ""
 "In the lower left corner there are the controls with a <gui>Play</gui> "
 "button which toggles between play and pause. Whenever you pause, "
 "<app>Parlatype</app> rewinds a few seconds to make it easier to resume. This "
-"can be changed in the <link xref=\"preferences\"/>."
+"can be changed in the Preferences dialog."
 msgstr ""
 "In der linken unteren Ecke befindet sich die Steuerung mit einem "
 "<gui>Wiedergabe</gui>-Knopf, der zwischen Wiedergabe und Pause hin und her "
@@ -183,10 +189,15 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:27
+#, fuzzy
+#| msgid ""
+#| "The buttons <gui>Skip backward</gui> and <gui>Skip forward</gui> in the "
+#| "lower left corner skip a few seconds back or ahead. The amount of time "
+#| "can be changed in the <link xref=\"preferences\"/>."
 msgid ""
 "The buttons <gui>Skip backward</gui> and <gui>Skip forward</gui> in the "
 "lower left corner skip a few seconds back or ahead. The amount of time can "
-"be changed in the <link xref=\"preferences\"/>."
+"be changed in the Preferences dialog."
 msgstr ""
 "Die Knöpfe <gui>Zurückspringen</gui> und <gui>Vorwärts springen</gui> in der "
 "linken unteren Ecke springen einige Sekunden zurück oder vorwärts. Wie viel, "
@@ -226,8 +237,8 @@ msgid ""
 "The left mouse button is for <link xref=\"selections\"/>."
 msgstr ""
 "Wenn Sie auf die Anzeige mit der rechten Maustaste klicken, wird der Cursor "
-"an diese Stelle gesetzt. Die linke Maustaste ist für <link xref=\"selections"
-"\"/>."
+"an diese Stelle gesetzt. Die linke Maustaste ist für <link "
+"xref=\"selections\"/>."
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:35
@@ -237,10 +248,10 @@ msgid ""
 "normal speed, everything lower (down to 0.5) is slower, everything above is "
 "faster."
 msgstr ""
-"Der <gui>Geschwindigkeits-Schieberegler</gui> neben dem "
-"<gui>Lautstärke</gui>-Knopf in der rechten unteren Ecke stellt die "
-"Wiedergabegeschwindigkeit ein. Der Wert 1 bedeutet normale Geschwindigkeit, "
-"alles darunter (bis 0,5) ist langsamer, alles darüber ist schneller."
+"Der <gui>Geschwindigkeits-Schieberegler</gui> neben dem <gui>Lautstärke</"
+"gui>-Knopf in der rechten unteren Ecke stellt die Wiedergabegeschwindigkeit "
+"ein. Der Wert 1 bedeutet normale Geschwindigkeit, alles darunter (bis 0,5) "
+"ist langsamer, alles darüber ist schneller."
 
 #. (itstool) path: info/desc
 #: ../help/C/keyboard-shortcuts.page:6
@@ -390,186 +401,6 @@ msgid "This work is licensed under a <_:link-1/> license."
 msgstr "Dieses Werk ist unter <_:link-1/> lizenziert."
 
 #. (itstool) path: info/desc
-#: ../help/C/preferences.page:7
-msgid "How to customize Parlatype"
-msgstr "Wie Sie Parlatype anpassen können"
-
-#. (itstool) path: page/title
-#: ../help/C/preferences.page:15
-msgid "Preferences"
-msgstr "Einstellungen"
-
-#. (itstool) path: page/p
-#: ../help/C/preferences.page:17
-msgid ""
-"To open the preferences dialog click on the primary menu in the headerbar."
-msgstr ""
-"Um das Einstellungsfenster zu öffnen, klicken Sie auf das Hauptmenü in der "
-"Werkzeugleiste."
-
-#. (itstool) path: section/title
-#: ../help/C/preferences.page:22
-msgid "Preferences for the Waveform"
-msgstr "Einstellungen für die Wellenform"
-
-#. (itstool) path: item/p
-#: ../help/C/preferences.page:27
-msgid ""
-"Waveform Detail: The level of detail in vertical lines per second. The more "
-"lines are shown, the more details you can see."
-msgstr ""
-
-#. (itstool) path: item/p
-#: ../help/C/preferences.page:28
-#, fuzzy
-#| msgid "Show time scale: Turn the time scale on or off."
-msgid "Show Time Scale: Turn the time scale on or off."
-msgstr "Zeitskala anzeigen: Schaltet die Zeitskala an oder aus."
-
-#. (itstool) path: item/p
-#: ../help/C/preferences.page:29
-#, fuzzy
-#| msgid ""
-#| "Fixed vs. moving cursor: There are two modes, how to follow the cursor. "
-#| "On slower systems a moving cursor might be smoother."
-msgid ""
-"Cursor Mode: Choose between Fixed and Moving Cursor. On slower systems a "
-"moving cursor might be smoother."
-msgstr ""
-"Fixierter/bewegter Cursor: Es gibt zwei Arten, wie der Cursor im Blickfeld "
-"bleibt. Auf langsameren Systemen ist die Wiedergabe mit einem bewegten "
-"Cursor vermutlich flüssiger."
-
-#. (itstool) path: section/title
-#: ../help/C/preferences.page:34
-msgid "Preferences for Audio Controls"
-msgstr "Einstellungen für die Audio-Steuerung"
-
-#. (itstool) path: item/p
-#: ../help/C/preferences.page:39
-msgid ""
-"Rewind on Pause: <app>Parlatype</app> will rewind a few seconds on each "
-"pause, this way you can easier resume typing. Set this value to 0 if you "
-"don’t want this behaviour."
-msgstr ""
-"Bei Pause zurückspulen: <app>Parlatype</app> spult bei jeder "
-"Wiedergabeunterbrechung einige Sekunden zurück, auf diese Weise können Sie "
-"Ihre Arbeit leichter wiederaufnehmen. Setzen Sie diesen Wert auf 0, wenn Sie "
-"dieses Verhalten nicht wünschen."
-
-#. (itstool) path: item/p
-#: ../help/C/preferences.page:40
-msgid ""
-"Skip Backward: Configures how many seconds to skip when the <gui>Skip "
-"Backward</gui> button is pressed."
-msgstr ""
-"Zurückspringen: Legt fest, wie viele Sekunden übersprungen werden sollen, "
-"wenn der <gui>Zurückspringen</gui>-Knopf gedrückt wird."
-
-#. (itstool) path: item/p
-#: ../help/C/preferences.page:41
-msgid ""
-"Skip Forward: Configures how many seconds to skip when the <gui>Skip "
-"Forward</gui> button is pressed."
-msgstr ""
-"Vorwärts springen: Legt fest, wie viele Sekunden übersprungen werden, wenn "
-"der <gui>Vorwärts springen</gui>-Knopf gedrückt wird."
-
-#. (itstool) path: item/p
-#: ../help/C/preferences.page:42
-#, fuzzy
-#| msgid ""
-#| "Pressing <gui>Play</gui> at the end of file – Replay file: Whether you "
-#| "want to repeat the file at the end. If not, it will replay a few seconds "
-#| "like on pause."
-msgid ""
-"At End of File Replay File: Whether you want to repeat the file at the end. "
-"If not, it will replay a few seconds like on pause."
-msgstr ""
-"<gui>Wiedergabe</gui> drücken am Ende der Datei – Datei wieder abspielen: "
-"Legt fest, ob Sie die Datei am Ende wieder abspielen wollen. Wenn nicht, "
-"wird wie bei einer Pause einige Sekunden zurückspult."
-
-#. (itstool) path: item/p
-#: ../help/C/preferences.page:43
-#, fuzzy
-#| msgid ""
-#| "Pressing <gui>Play</gui> at the end of selection – Replay selection: "
-#| "Whether you want to repeat the selection. If not, it will replay a few "
-#| "seconds like on pause."
-msgid ""
-"At End of Selection Replay Selection: Whether you want to repeat the "
-"selection. If not, it will replay a few seconds like on pause."
-msgstr ""
-"<gui>Wiedergabe</gui> drücken am Ende einer Auswahl – Auswahl wieder "
-"abspielen: Legt fest, ob Sie die Auswahl am Ende wieder abspielen wollen. "
-"Wenn nicht, wird wie bei einer Pause einige Sekunden zurückspult."
-
-#. (itstool) path: section/title
-#: ../help/C/preferences.page:48
-msgid "Preferences for Timestamps"
-msgstr "Einstellungen für Zeitstempel"
-
-#. (itstool) path: section/p
-#: ../help/C/preferences.page:52
-msgid ""
-"These settings affect how <app>Parlatype</app> formats timestamps. If you "
-"need a certain format in your transcription, you can adjust it here."
-msgstr ""
-"Diese Einstellungen wirken sich darauf aus, wie <app>Parlatype</app> "
-"Zeitstempel formatiert. Wenn Sie ein bestimmtes Zeitstempelformat brauchen, "
-"können Sie es hier einstellen."
-
-#. (itstool) path: note/p
-#: ../help/C/preferences.page:53
-msgid ""
-"There are no settings for <em>reading</em> timestamps. <app>Parlatype</app> "
-"reads and accepts all of these formats."
-msgstr ""
-"Es gibt keine Einstellungen zum <em>Lesen</em> von Zeitstempeln. "
-"<app>Parlatype</app> liest und verarbeitet alle diese Formate."
-
-#. (itstool) path: item/p
-#: ../help/C/preferences.page:55
-#, fuzzy
-#| msgid ""
-#| "Always show hours and leading zeroes: Whether to show a fixed number of "
-#| "digits. Changing any of these values will show an updated example in the "
-#| "<gui>Example</gui> section below."
-msgid ""
-"Always Show Hours and Leading Zeroes: Whether to show a fixed number of "
-"digits. Changing any of these values will show an updated example in the "
-"<gui>Preview</gui> section below."
-msgstr ""
-"Immer Stunden und führende Null anzeigen: Ob eine fixe Ziffernzahl angezeigt "
-"werden soll. Wenn Sie eine dieser Einstellungen ändern, werden die Beispiele "
-"in der Sektion <gui>Beispiele</gui> aktualisiert."
-
-#. (itstool) path: item/p
-#: ../help/C/preferences.page:56
-msgid "Precision: Choose between full seconds, 10th seconds or 100th seconds."
-msgstr ""
-"Genauigkeit: Wählen Sie zwischen ganzen, Zehntel- und Hundertstelsekunden."
-
-#. (itstool) path: item/p
-#: ../help/C/preferences.page:57
-msgid ""
-"Fraction Separator: Choose between a point or a hyphen to separate fractions "
-"of a second."
-msgstr ""
-"Abgrenzung für Sekundenbruchteile: Wählen Sie zwischen einem Punkt oder "
-"einem Gedankenstrich."
-
-#. (itstool) path: item/p
-#: ../help/C/preferences.page:58
-msgid ""
-"Characters Around Timestamps: Choose between number signs, round brackets, "
-"square brackets or none."
-msgstr ""
-"Zeichen um Zeitstempel: Wählen Sie zwischen Rautezeichen, runden Klammern, "
-"eckigen Klammern oder keine Zeichen."
-
-#. (itstool) path: info/desc
 #: ../help/C/selections.page:6
 msgid "How to play and repeat a selection"
 msgstr "Einen Abschnitt auswählen und wiederholen"
@@ -650,9 +481,13 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: ../help/C/timestamps.page:22
+#, fuzzy
+#| msgid ""
+#| "<app>Parlatype</app> can produce different timestamp formats, they can be "
+#| "set in <link xref=\"preferences#timestamps\"/>."
 msgid ""
 "<app>Parlatype</app> can produce different timestamp formats, they can be "
-"set in <link xref=\"preferences#timestamps\"/>."
+"set in the Preferences dialog."
 msgstr ""
 "<app>Parlatype</app> kann verschiedene Zeitstempelformate ausgeben. Sie "
 "können in den <link xref=\"preferences#timestamps\"/> geändert werden."
@@ -780,8 +615,8 @@ msgstr ""
 #| "Open the primary menu and click on <gui>Automatic transcription</gui>. "
 #| "This is only available, if you have setup and chosen a language model."
 msgid ""
-"Open the primary menu and click on <gui>Automatic Transcription</gui>. This "
-"is only available, if you have setup and chosen a language model."
+"Open the main menu and click on <gui>Automatic Transcription</gui>. This is "
+"only available, if you have setup and chosen a language model."
 msgstr ""
 "Öffnen Sie das Hauptmenü und klicken Sie auf <gui>Automatische "
 "Transkription</gui>. Dieser Eintrag ist nur verfügbar, wenn Sie ein "
@@ -848,8 +683,8 @@ msgid ""
 msgstr ""
 "Für Spracherkennung brauchen Sie ein Sprachmodell: eine oder mehrere "
 "Dateien, die mit echten Sprachbeispielen trainiert wurden. <app>Parlatype</"
-"app> unterstützt Sprachmodelle für CMU Sphinx und liefert einige <em"
-">Sprachmodell-Konfigurationen</em> mit."
+"app> unterstützt Sprachmodelle für CMU Sphinx und liefert einige "
+"<em>Sprachmodell-Konfigurationen</em> mit."
 
 #. (itstool) path: note/p
 #: ../help/C/asr-setup.page:21
@@ -947,12 +782,152 @@ msgstr ""
 #. (itstool) path: page/p
 #: ../help/C/asr-setup.page:52
 msgid ""
-"With the <gui>-</gui> button you can remove a configuration. This will never "
-"remove downloaded models, only the configuration file."
+"To remove a configuration, select it and click the <gui>Delete</gui> button."
 msgstr ""
-"Mit dem <gui>-</gui>-Knopf können Sie Konfigurationen entfernen. Damit "
-"werden niemals heruntergeladene Sprachmodelle gelöscht, nur die "
-"Konfigurationsdatei."
+
+#~ msgid "How to customize Parlatype"
+#~ msgstr "Wie Sie Parlatype anpassen können"
+
+#~ msgid "Preferences"
+#~ msgstr "Einstellungen"
+
+#~ msgid ""
+#~ "To open the preferences dialog click on the primary menu in the headerbar."
+#~ msgstr ""
+#~ "Um das Einstellungsfenster zu öffnen, klicken Sie auf das Hauptmenü in "
+#~ "der Werkzeugleiste."
+
+#~ msgid "Preferences for the Waveform"
+#~ msgstr "Einstellungen für die Wellenform"
+
+#, fuzzy
+#~| msgid "Show time scale: Turn the time scale on or off."
+#~ msgid "Show Time Scale: Turn the time scale on or off."
+#~ msgstr "Zeitskala anzeigen: Schaltet die Zeitskala an oder aus."
+
+#, fuzzy
+#~| msgid ""
+#~| "Fixed vs. moving cursor: There are two modes, how to follow the cursor. "
+#~| "On slower systems a moving cursor might be smoother."
+#~ msgid ""
+#~ "Cursor Mode: Choose between Fixed and Moving Cursor. On slower systems a "
+#~ "moving cursor might be smoother."
+#~ msgstr ""
+#~ "Fixierter/bewegter Cursor: Es gibt zwei Arten, wie der Cursor im "
+#~ "Blickfeld bleibt. Auf langsameren Systemen ist die Wiedergabe mit einem "
+#~ "bewegten Cursor vermutlich flüssiger."
+
+#~ msgid "Preferences for Audio Controls"
+#~ msgstr "Einstellungen für die Audio-Steuerung"
+
+#~ msgid ""
+#~ "Rewind on Pause: <app>Parlatype</app> will rewind a few seconds on each "
+#~ "pause, this way you can easier resume typing. Set this value to 0 if you "
+#~ "don’t want this behaviour."
+#~ msgstr ""
+#~ "Bei Pause zurückspulen: <app>Parlatype</app> spult bei jeder "
+#~ "Wiedergabeunterbrechung einige Sekunden zurück, auf diese Weise können "
+#~ "Sie Ihre Arbeit leichter wiederaufnehmen. Setzen Sie diesen Wert auf 0, "
+#~ "wenn Sie dieses Verhalten nicht wünschen."
+
+#~ msgid ""
+#~ "Skip Backward: Configures how many seconds to skip when the <gui>Skip "
+#~ "Backward</gui> button is pressed."
+#~ msgstr ""
+#~ "Zurückspringen: Legt fest, wie viele Sekunden übersprungen werden sollen, "
+#~ "wenn der <gui>Zurückspringen</gui>-Knopf gedrückt wird."
+
+#~ msgid ""
+#~ "Skip Forward: Configures how many seconds to skip when the <gui>Skip "
+#~ "Forward</gui> button is pressed."
+#~ msgstr ""
+#~ "Vorwärts springen: Legt fest, wie viele Sekunden übersprungen werden, "
+#~ "wenn der <gui>Vorwärts springen</gui>-Knopf gedrückt wird."
+
+#, fuzzy
+#~| msgid ""
+#~| "Pressing <gui>Play</gui> at the end of file – Replay file: Whether you "
+#~| "want to repeat the file at the end. If not, it will replay a few seconds "
+#~| "like on pause."
+#~ msgid ""
+#~ "At End of File Replay File: Whether you want to repeat the file at the "
+#~ "end. If not, it will replay a few seconds like on pause."
+#~ msgstr ""
+#~ "<gui>Wiedergabe</gui> drücken am Ende der Datei – Datei wieder abspielen: "
+#~ "Legt fest, ob Sie die Datei am Ende wieder abspielen wollen. Wenn nicht, "
+#~ "wird wie bei einer Pause einige Sekunden zurückspult."
+
+#, fuzzy
+#~| msgid ""
+#~| "Pressing <gui>Play</gui> at the end of selection – Replay selection: "
+#~| "Whether you want to repeat the selection. If not, it will replay a few "
+#~| "seconds like on pause."
+#~ msgid ""
+#~ "At End of Selection Replay Selection: Whether you want to repeat the "
+#~ "selection. If not, it will replay a few seconds like on pause."
+#~ msgstr ""
+#~ "<gui>Wiedergabe</gui> drücken am Ende einer Auswahl – Auswahl wieder "
+#~ "abspielen: Legt fest, ob Sie die Auswahl am Ende wieder abspielen wollen. "
+#~ "Wenn nicht, wird wie bei einer Pause einige Sekunden zurückspult."
+
+#~ msgid "Preferences for Timestamps"
+#~ msgstr "Einstellungen für Zeitstempel"
+
+#~ msgid ""
+#~ "These settings affect how <app>Parlatype</app> formats timestamps. If you "
+#~ "need a certain format in your transcription, you can adjust it here."
+#~ msgstr ""
+#~ "Diese Einstellungen wirken sich darauf aus, wie <app>Parlatype</app> "
+#~ "Zeitstempel formatiert. Wenn Sie ein bestimmtes Zeitstempelformat "
+#~ "brauchen, können Sie es hier einstellen."
+
+#~ msgid ""
+#~ "There are no settings for <em>reading</em> timestamps. <app>Parlatype</"
+#~ "app> reads and accepts all of these formats."
+#~ msgstr ""
+#~ "Es gibt keine Einstellungen zum <em>Lesen</em> von Zeitstempeln. "
+#~ "<app>Parlatype</app> liest und verarbeitet alle diese Formate."
+
+#, fuzzy
+#~| msgid ""
+#~| "Always show hours and leading zeroes: Whether to show a fixed number of "
+#~| "digits. Changing any of these values will show an updated example in the "
+#~| "<gui>Example</gui> section below."
+#~ msgid ""
+#~ "Always Show Hours and Leading Zeroes: Whether to show a fixed number of "
+#~ "digits. Changing any of these values will show an updated example in the "
+#~ "<gui>Preview</gui> section below."
+#~ msgstr ""
+#~ "Immer Stunden und führende Null anzeigen: Ob eine fixe Ziffernzahl "
+#~ "angezeigt werden soll. Wenn Sie eine dieser Einstellungen ändern, werden "
+#~ "die Beispiele in der Sektion <gui>Beispiele</gui> aktualisiert."
+
+#~ msgid ""
+#~ "Precision: Choose between full seconds, 10th seconds or 100th seconds."
+#~ msgstr ""
+#~ "Genauigkeit: Wählen Sie zwischen ganzen, Zehntel- und Hundertstelsekunden."
+
+#~ msgid ""
+#~ "Fraction Separator: Choose between a point or a hyphen to separate "
+#~ "fractions of a second."
+#~ msgstr ""
+#~ "Abgrenzung für Sekundenbruchteile: Wählen Sie zwischen einem Punkt oder "
+#~ "einem Gedankenstrich."
+
+#~ msgid ""
+#~ "Characters Around Timestamps: Choose between number signs, round "
+#~ "brackets, square brackets or none."
+#~ msgstr ""
+#~ "Zeichen um Zeitstempel: Wählen Sie zwischen Rautezeichen, runden "
+#~ "Klammern, eckigen Klammern oder keine Zeichen."
+
+#~ msgid ""
+#~ "With the <gui>-</gui> button you can remove a configuration. This will "
+#~ "never remove downloaded models, only the configuration file."
+#~ msgstr ""
+#~ "Mit dem <gui>-</gui>-Knopf können Sie Konfigurationen entfernen. Damit "
+#~ "werden niemals heruntergeladene Sprachmodelle gelöscht, nur die "
+#~ "Konfigurationsdatei."
 
 #~ msgctxt "_"
 #~ msgid ""

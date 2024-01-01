@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Parlatype 3.1\n"
-"POT-Creation-Date: 2023-12-30 17:03+0100\n"
+"POT-Creation-Date: 2024-01-01 20:58+0100\n"
 "PO-Revision-Date: 2022-06-02 07:18+0000\n"
 "Last-Translator: poi <erbaotao@outlook.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -33,8 +33,8 @@ msgstr ""
 #. (itstool) path: credit/name
 #: ../help/C/index.page:10 ../help/C/drag-and-drop.page:8
 #: ../help/C/first-steps.page:9 ../help/C/keyboard-shortcuts.page:8
-#: ../help/C/preferences.page:9 ../help/C/selections.page:8
-#: ../help/C/timestamps.page:8 ../help/C/asr.page:9 ../help/C/asr-setup.page:9
+#: ../help/C/selections.page:8 ../help/C/timestamps.page:8 ../help/C/asr.page:9
+#: ../help/C/asr-setup.page:9
 msgid "Gabor Karsay"
 msgstr "Gabor Karsay"
 
@@ -150,11 +150,17 @@ msgstr "也可以把文件拖放到 <app>Parlatype</app> 里。"
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:23
+#, fuzzy
+#| msgid ""
+#| "In the lower left corner there are the controls with a <gui>Play</gui> "
+#| "button which toggles between play and pause. Whenever you pause, "
+#| "<app>Parlatype</app> rewinds a few seconds to make it easier to resume. "
+#| "This can be changed in the <link xref=\"preferences\"/>."
 msgid ""
 "In the lower left corner there are the controls with a <gui>Play</gui> "
 "button which toggles between play and pause. Whenever you pause, "
 "<app>Parlatype</app> rewinds a few seconds to make it easier to resume. This "
-"can be changed in the <link xref=\"preferences\"/>."
+"can be changed in the Preferences dialog."
 msgstr ""
 "左下角有个<gui>播放</gui>按钮，可以在播放和暂停之间切换。每当您暂停时， "
 "<app>Parlatype</app> 软件就会自动倒退几秒钟，以便于再次播放。可以在 <link "
@@ -170,7 +176,7 @@ msgstr ""
 msgid ""
 "The buttons <gui>Skip backward</gui> and <gui>Skip forward</gui> in the "
 "lower left corner skip a few seconds back or ahead. The amount of time can "
-"be changed in the <link xref=\"preferences\"/>."
+"be changed in the Preferences dialog."
 msgstr ""
 "左下角的按钮<gui>回退</gui>和<gui>前跳</gui>是用来往回或向前跳几秒钟的。跳多"
 "长时间可以在 <link xref=\"preferences\"/> 里更改。"
@@ -389,194 +395,6 @@ msgid "This work is licensed under a <_:link-1/> license."
 msgstr "本智力成果以 <_:link-1/> 协议为许可协议。"
 
 #. (itstool) path: info/desc
-#: ../help/C/preferences.page:7
-msgid "How to customize Parlatype"
-msgstr "如何个性化设置 Parlatype"
-
-#. (itstool) path: page/title
-#: ../help/C/preferences.page:15
-msgid "Preferences"
-msgstr "个人设置"
-
-#. (itstool) path: page/p
-#: ../help/C/preferences.page:17
-msgid ""
-"To open the preferences dialog click on the primary menu in the headerbar."
-msgstr "点击标题栏中的主菜单，便可打开个人设置对话框。"
-
-#. (itstool) path: section/title
-#: ../help/C/preferences.page:22
-#, fuzzy
-#| msgid "Preferences for the waveform"
-msgid "Preferences for the Waveform"
-msgstr "波形设置"
-
-#. (itstool) path: item/p
-#: ../help/C/preferences.page:27
-msgid ""
-"Waveform Detail: The level of detail in vertical lines per second. The more "
-"lines are shown, the more details you can see."
-msgstr ""
-
-#. (itstool) path: item/p
-#: ../help/C/preferences.page:28
-#, fuzzy
-#| msgid "Show time scale: Turn the time scale on or off."
-msgid "Show Time Scale: Turn the time scale on or off."
-msgstr "显示时间刻度：打开或关闭时间刻度功能。"
-
-#. (itstool) path: item/p
-#: ../help/C/preferences.page:29
-#, fuzzy
-#| msgid ""
-#| "Fixed vs. moving cursor: There are two modes, how to follow the cursor. "
-#| "On slower systems a moving cursor might be smoother."
-msgid ""
-"Cursor Mode: Choose between Fixed and Moving Cursor. On slower systems a "
-"moving cursor might be smoother."
-msgstr ""
-"固定光标与移动光标：有两种跟随光标的模式。在配置较低的电脑系统上，移动光标或"
-"许会更流畅。"
-
-#. (itstool) path: section/title
-#: ../help/C/preferences.page:34
-#, fuzzy
-#| msgid "Preferences for controls"
-msgid "Preferences for Audio Controls"
-msgstr "个人操控设置"
-
-#. (itstool) path: item/p
-#: ../help/C/preferences.page:39
-#, fuzzy
-#| msgid ""
-#| "Jump back on pause: <app>Parlatype</app> will rewind a few seconds on "
-#| "each pause, this way you can easier resume typing. Set this value to 0 if "
-#| "you don’t want this behaviour."
-msgid ""
-"Rewind on Pause: <app>Parlatype</app> will rewind a few seconds on each "
-"pause, this way you can easier resume typing. Set this value to 0 if you "
-"don’t want this behaviour."
-msgstr ""
-"回退暂停：每当您暂停时， <app>Parlatype</app> 软件就会自动倒退几秒钟，以便于"
-"您继续打字。把值设成 0 就能关闭此功能。"
-
-#. (itstool) path: item/p
-#: ../help/C/preferences.page:40
-#, fuzzy
-#| msgid ""
-#| "Jump back: Configures how many seconds to skip when the <gui>Jump back</"
-#| "gui> button is pressed."
-msgid ""
-"Skip Backward: Configures how many seconds to skip when the <gui>Skip "
-"Backward</gui> button is pressed."
-msgstr "回退：设置按一次<gui>回退</gui>按钮跳多少秒。"
-
-#. (itstool) path: item/p
-#: ../help/C/preferences.page:41
-#, fuzzy
-#| msgid ""
-#| "Jump forward: Configures how many seconds to skip when the <gui>Jump "
-#| "forward</gui> button is pressed."
-msgid ""
-"Skip Forward: Configures how many seconds to skip when the <gui>Skip "
-"Forward</gui> button is pressed."
-msgstr "前跳：设置按一次<gui>前跳</gui>按钮跳多少秒。"
-
-#. (itstool) path: item/p
-#: ../help/C/preferences.page:42
-#, fuzzy
-#| msgid ""
-#| "Pressing <gui>Play</gui> at the end of file – Replay file: Whether you "
-#| "want to repeat the file at the end. If not, it will replay a few seconds "
-#| "like on pause."
-msgid ""
-"At End of File Replay File: Whether you want to repeat the file at the end. "
-"If not, it will replay a few seconds like on pause."
-msgstr ""
-"在文件末尾按下<gui>播放</gui>键，即重播文件：文件播完了要不要重复播放。如果关"
-"闭，播到末尾就会像暂停了一样，重播几秒的声音。"
-
-#. (itstool) path: item/p
-#: ../help/C/preferences.page:43
-#, fuzzy
-#| msgid ""
-#| "Pressing <gui>Play</gui> at the end of selection – Replay selection: "
-#| "Whether you want to repeat the selection. If not, it will replay a few "
-#| "seconds like on pause."
-msgid ""
-"At End of Selection Replay Selection: Whether you want to repeat the "
-"selection. If not, it will replay a few seconds like on pause."
-msgstr ""
-"在选中部分末尾按下<gui>播放</gui>键，即重播选中部分：选中部分播完了要不要重复"
-"播放。如果关闭，播到末尾就会像暂停了一样，重播几秒的声音。"
-
-#. (itstool) path: section/title
-#: ../help/C/preferences.page:48
-#, fuzzy
-#| msgid "Preferences for timestamps"
-msgid "Preferences for Timestamps"
-msgstr "时间戳设置"
-
-#. (itstool) path: section/p
-#: ../help/C/preferences.page:52
-msgid ""
-"These settings affect how <app>Parlatype</app> formats timestamps. If you "
-"need a certain format in your transcription, you can adjust it here."
-msgstr ""
-"这里的设置用来调整 <app>Parlatype</app> 所给时间戳的格式。可以根据您记写、转"
-"写所需要的形式调整格式。"
-
-#. (itstool) path: note/p
-#: ../help/C/preferences.page:53
-msgid ""
-"There are no settings for <em>reading</em> timestamps. <app>Parlatype</app> "
-"reads and accepts all of these formats."
-msgstr ""
-"没有 <em>读取</em>时间戳的设置。<app>Parlatype</app>读取并接受所有这些格式。"
-
-#. (itstool) path: item/p
-#: ../help/C/preferences.page:55
-#, fuzzy
-#| msgid ""
-#| "Always show hours and leading zeroes: Whether to show a fixed number of "
-#| "digits. Changing any of these values will show an updated example in the "
-#| "<gui>Example</gui> section below."
-msgid ""
-"Always Show Hours and Leading Zeroes: Whether to show a fixed number of "
-"digits. Changing any of these values will show an updated example in the "
-"<gui>Preview</gui> section below."
-msgstr ""
-"始终显示小时数和前导零：是否要保持数字的位数不变。下面的<gui>例子</gui>会实时"
-"显示不同设置的效果。"
-
-#. (itstool) path: item/p
-#: ../help/C/preferences.page:56
-msgid "Precision: Choose between full seconds, 10th seconds or 100th seconds."
-msgstr "精密度：可以选择 1 秒、0.1 秒或 0.01 秒。"
-
-#. (itstool) path: item/p
-#: ../help/C/preferences.page:57
-#, fuzzy
-#| msgid ""
-#| "Fraction separator: Choose between a point or a hyphen to separate "
-#| "fractions of a second."
-msgid ""
-"Fraction Separator: Choose between a point or a hyphen to separate fractions "
-"of a second."
-msgstr "小数分隔符：选择用小数点还是连接号分隔秒钟的小数部分。"
-
-#. (itstool) path: item/p
-#: ../help/C/preferences.page:58
-#, fuzzy
-#| msgid ""
-#| "Characters around timestamps: Choose between number signs, round "
-#| "brackets, square brackets or none."
-msgid ""
-"Characters Around Timestamps: Choose between number signs, round brackets, "
-"square brackets or none."
-msgstr "时间戳记号：可以选择井号、圆括号、方括号或者什么都不加。"
-
-#. (itstool) path: info/desc
 #: ../help/C/selections.page:6
 msgid "How to play and repeat a selection"
 msgstr "如何播放、重播选中部分"
@@ -648,9 +466,13 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: ../help/C/timestamps.page:22
+#, fuzzy
+#| msgid ""
+#| "<app>Parlatype</app> can produce different timestamp formats, they can be "
+#| "set in <link xref=\"preferences#timestamps\"/>."
 msgid ""
 "<app>Parlatype</app> can produce different timestamp formats, they can be "
-"set in <link xref=\"preferences#timestamps\"/>."
+"set in the Preferences dialog."
 msgstr ""
 "<app>Parlatype</app> 支持多种时间戳格式，可以在 <link "
 "xref=\"preferences#timestamps\"/> 处设置。"
@@ -760,8 +582,8 @@ msgstr ""
 #. (itstool) path: section/p
 #: ../help/C/asr.page:34
 msgid ""
-"Open the primary menu and click on <gui>Automatic Transcription</gui>. This "
-"is only available, if you have setup and chosen a language model."
+"Open the main menu and click on <gui>Automatic Transcription</gui>. This is "
+"only available, if you have setup and chosen a language model."
 msgstr ""
 
 #. (itstool) path: section/p
@@ -868,9 +690,153 @@ msgstr ""
 #. (itstool) path: page/p
 #: ../help/C/asr-setup.page:52
 msgid ""
-"With the <gui>-</gui> button you can remove a configuration. This will never "
-"remove downloaded models, only the configuration file."
+"To remove a configuration, select it and click the <gui>Delete</gui> button."
 msgstr ""
+
+#~ msgid "How to customize Parlatype"
+#~ msgstr "如何个性化设置 Parlatype"
+
+#~ msgid "Preferences"
+#~ msgstr "个人设置"
+
+#~ msgid ""
+#~ "To open the preferences dialog click on the primary menu in the headerbar."
+#~ msgstr "点击标题栏中的主菜单，便可打开个人设置对话框。"
+
+#, fuzzy
+#~| msgid "Preferences for the waveform"
+#~ msgid "Preferences for the Waveform"
+#~ msgstr "波形设置"
+
+#, fuzzy
+#~| msgid "Show time scale: Turn the time scale on or off."
+#~ msgid "Show Time Scale: Turn the time scale on or off."
+#~ msgstr "显示时间刻度：打开或关闭时间刻度功能。"
+
+#, fuzzy
+#~| msgid ""
+#~| "Fixed vs. moving cursor: There are two modes, how to follow the cursor. "
+#~| "On slower systems a moving cursor might be smoother."
+#~ msgid ""
+#~ "Cursor Mode: Choose between Fixed and Moving Cursor. On slower systems a "
+#~ "moving cursor might be smoother."
+#~ msgstr ""
+#~ "固定光标与移动光标：有两种跟随光标的模式。在配置较低的电脑系统上，移动光标"
+#~ "或许会更流畅。"
+
+#, fuzzy
+#~| msgid "Preferences for controls"
+#~ msgid "Preferences for Audio Controls"
+#~ msgstr "个人操控设置"
+
+#, fuzzy
+#~| msgid ""
+#~| "Jump back on pause: <app>Parlatype</app> will rewind a few seconds on "
+#~| "each pause, this way you can easier resume typing. Set this value to 0 "
+#~| "if you don’t want this behaviour."
+#~ msgid ""
+#~ "Rewind on Pause: <app>Parlatype</app> will rewind a few seconds on each "
+#~ "pause, this way you can easier resume typing. Set this value to 0 if you "
+#~ "don’t want this behaviour."
+#~ msgstr ""
+#~ "回退暂停：每当您暂停时， <app>Parlatype</app> 软件就会自动倒退几秒钟，以便"
+#~ "于您继续打字。把值设成 0 就能关闭此功能。"
+
+#, fuzzy
+#~| msgid ""
+#~| "Jump back: Configures how many seconds to skip when the <gui>Jump back</"
+#~| "gui> button is pressed."
+#~ msgid ""
+#~ "Skip Backward: Configures how many seconds to skip when the <gui>Skip "
+#~ "Backward</gui> button is pressed."
+#~ msgstr "回退：设置按一次<gui>回退</gui>按钮跳多少秒。"
+
+#, fuzzy
+#~| msgid ""
+#~| "Jump forward: Configures how many seconds to skip when the <gui>Jump "
+#~| "forward</gui> button is pressed."
+#~ msgid ""
+#~ "Skip Forward: Configures how many seconds to skip when the <gui>Skip "
+#~ "Forward</gui> button is pressed."
+#~ msgstr "前跳：设置按一次<gui>前跳</gui>按钮跳多少秒。"
+
+#, fuzzy
+#~| msgid ""
+#~| "Pressing <gui>Play</gui> at the end of file – Replay file: Whether you "
+#~| "want to repeat the file at the end. If not, it will replay a few seconds "
+#~| "like on pause."
+#~ msgid ""
+#~ "At End of File Replay File: Whether you want to repeat the file at the "
+#~ "end. If not, it will replay a few seconds like on pause."
+#~ msgstr ""
+#~ "在文件末尾按下<gui>播放</gui>键，即重播文件：文件播完了要不要重复播放。如"
+#~ "果关闭，播到末尾就会像暂停了一样，重播几秒的声音。"
+
+#, fuzzy
+#~| msgid ""
+#~| "Pressing <gui>Play</gui> at the end of selection – Replay selection: "
+#~| "Whether you want to repeat the selection. If not, it will replay a few "
+#~| "seconds like on pause."
+#~ msgid ""
+#~ "At End of Selection Replay Selection: Whether you want to repeat the "
+#~ "selection. If not, it will replay a few seconds like on pause."
+#~ msgstr ""
+#~ "在选中部分末尾按下<gui>播放</gui>键，即重播选中部分：选中部分播完了要不要"
+#~ "重复播放。如果关闭，播到末尾就会像暂停了一样，重播几秒的声音。"
+
+#, fuzzy
+#~| msgid "Preferences for timestamps"
+#~ msgid "Preferences for Timestamps"
+#~ msgstr "时间戳设置"
+
+#~ msgid ""
+#~ "These settings affect how <app>Parlatype</app> formats timestamps. If you "
+#~ "need a certain format in your transcription, you can adjust it here."
+#~ msgstr ""
+#~ "这里的设置用来调整 <app>Parlatype</app> 所给时间戳的格式。可以根据您记写、"
+#~ "转写所需要的形式调整格式。"
+
+#~ msgid ""
+#~ "There are no settings for <em>reading</em> timestamps. <app>Parlatype</"
+#~ "app> reads and accepts all of these formats."
+#~ msgstr ""
+#~ "没有 <em>读取</em>时间戳的设置。<app>Parlatype</app>读取并接受所有这些格"
+#~ "式。"
+
+#, fuzzy
+#~| msgid ""
+#~| "Always show hours and leading zeroes: Whether to show a fixed number of "
+#~| "digits. Changing any of these values will show an updated example in the "
+#~| "<gui>Example</gui> section below."
+#~ msgid ""
+#~ "Always Show Hours and Leading Zeroes: Whether to show a fixed number of "
+#~ "digits. Changing any of these values will show an updated example in the "
+#~ "<gui>Preview</gui> section below."
+#~ msgstr ""
+#~ "始终显示小时数和前导零：是否要保持数字的位数不变。下面的<gui>例子</gui>会"
+#~ "实时显示不同设置的效果。"
+
+#~ msgid ""
+#~ "Precision: Choose between full seconds, 10th seconds or 100th seconds."
+#~ msgstr "精密度：可以选择 1 秒、0.1 秒或 0.01 秒。"
+
+#, fuzzy
+#~| msgid ""
+#~| "Fraction separator: Choose between a point or a hyphen to separate "
+#~| "fractions of a second."
+#~ msgid ""
+#~ "Fraction Separator: Choose between a point or a hyphen to separate "
+#~ "fractions of a second."
+#~ msgstr "小数分隔符：选择用小数点还是连接号分隔秒钟的小数部分。"
+
+#, fuzzy
+#~| msgid ""
+#~| "Characters around timestamps: Choose between number signs, round "
+#~| "brackets, square brackets or none."
+#~ msgid ""
+#~ "Characters Around Timestamps: Choose between number signs, round "
+#~ "brackets, square brackets or none."
+#~ msgstr "时间戳记号：可以选择井号、圆括号、方括号或者什么都不加。"
 
 #~ msgid ""
 #~ "Keyboard shortcuts for <app>Parlatype</app> control, like <key>Play</"
