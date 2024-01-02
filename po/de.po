@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-01 20:58+0100\n"
-"PO-Revision-Date: 2023-12-30 17:49+0000\n"
+"PO-Revision-Date: 2024-01-02 18:57+0000\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gmx.at>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/parlatype/"
 "parlatype/de/>\n"
@@ -394,7 +394,7 @@ msgstr "CMU Pocketsphinx"
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:230
 msgid "Type of Model"
-msgstr ""
+msgstr "Sprachmodell-Typ"
 
 #: src/pt-asr-dialog.c:232
 msgid "GStreamer Plugin"
@@ -546,13 +546,11 @@ msgstr "Installation"
 
 #: src/resources/asr-dialog.ui:33
 msgid "General Information"
-msgstr ""
+msgstr "Allgemeine Informationen"
 
 #: src/resources/asr-dialog.ui:36
-#, fuzzy
-#| msgid "Display Name:"
 msgid "Display Name"
-msgstr "Anzeigename:"
+msgstr "Anzeigename"
 
 #: src/resources/goto-dialog.ui:10 src/resources/menus.ui:34
 msgid "Go to…"
@@ -575,10 +573,8 @@ msgid "Open a media file"
 msgstr "Eine Mediendatei öffnen"
 
 #: src/resources/help-overlay.ui:25
-#, fuzzy
-#| msgid "Show/hide action menu"
 msgid "Show/hide main menu"
-msgstr "Aktionsmenü anzeigen/verbergen"
+msgstr "Hauptmenü anzeigen/verbergen"
 
 #: src/resources/help-overlay.ui:32
 msgid "Quit"
@@ -594,11 +590,9 @@ msgstr "Wiedergabe/Pause"
 
 #: src/resources/help-overlay.ui:52
 msgid "SKip backward"
-msgstr ""
+msgstr "Zurückspringen"
 
 #: src/resources/help-overlay.ui:59 src/resources/window.ui:142
-#, fuzzy
-#| msgid "Jump forward"
 msgid "Skip forward"
 msgstr "Vorwärts springen"
 
@@ -660,156 +654,126 @@ msgstr "Anzeige"
 
 #: src/resources/preferences.ui:16
 msgid "Change appearance of the waveform and cursor movement."
-msgstr ""
+msgstr "Ändern Sie das Aussehen der Wellenform und den Cursormodus."
 
 #: src/resources/preferences.ui:19
-#, fuzzy
-#| msgid "Waveform"
 msgid "Waveform Detail"
-msgstr "Wellenform"
+msgstr "Detailgrad der Wellenform"
 
 #: src/resources/preferences.ui:20
-#, fuzzy
-#| msgid "_Pixels per second:"
 msgid "Vertical lines per second"
-msgstr "_Pixel pro Sekunde:"
+msgstr "Vertikale Linien pro Sekunde"
 
 #: src/resources/preferences.ui:53
-#, fuzzy
-#| msgid "Show _time scale"
 msgid "Show Time Scale"
-msgstr "_Zeitskala anzeigen"
+msgstr "Zeitskala anzeigen"
 
 #: src/resources/preferences.ui:58
 msgid "Cursor Mode"
-msgstr ""
+msgstr "Cursormodus"
 
 #: src/resources/preferences.ui:62
-#, fuzzy
-#| msgid "_Fixed cursor"
 msgid "Fixed Cursor"
-msgstr "Cursor ist _fixiert"
+msgstr "Fixierter Cursor"
 
 #: src/resources/preferences.ui:63
-#, fuzzy
-#| msgid "_Moving cursor"
 msgid "Moving Cursor"
-msgstr "Cursor _bewegt sich"
+msgstr "Beweglicher Cursor"
 
 #: src/resources/preferences.ui:76
-#, fuzzy
-#| msgid "Controls"
 msgid "Audio Controls"
-msgstr "Steuerung"
+msgstr "Audio-Steuerung"
 
 #: src/resources/preferences.ui:80
 msgid "Pause and Skip Buttons"
-msgstr ""
+msgstr "Pause- und Sprung-Knöpfe"
 
 #: src/resources/preferences.ui:81
 msgid "Set amount of time to skip in seconds."
-msgstr ""
+msgstr "Legen Sie die Zeit, die gesprungen werden soll, in Sekunden fest."
 
 #: src/resources/preferences.ui:84
 msgid "Rewind on Pause"
-msgstr ""
+msgstr "Bei Pause zurückspulen"
 
 #: src/resources/preferences.ui:85
 msgid "Set to zero to disable this feature"
-msgstr ""
+msgstr "Setzen Sie den Wert auf null, um diese Funktion auszuschalten"
 
 #: src/resources/preferences.ui:98
 msgid "Skip Backward"
-msgstr ""
+msgstr "Zurückspringen"
 
 #: src/resources/preferences.ui:111
-#, fuzzy
-#| msgid "Skip forward 1 second"
-#| msgid_plural "Skip forward %d seconds"
 msgid "Skip Forward"
-msgstr "1 Sekunde vorwärtsspringen"
+msgstr "Vorwärtsspringen"
 
 #: src/resources/preferences.ui:126
 msgid "Play Button"
-msgstr ""
+msgstr "Wiedergabe-Knopf"
 
 #: src/resources/preferences.ui:127
 msgid "Change behavior of play button."
-msgstr ""
+msgstr "Ändern Sie das Verhalten des Wiedergabe-Knopfs."
 
 #: src/resources/preferences.ui:130
 msgid "At End of File Replay File"
-msgstr ""
+msgstr "Am Dateiende Datei nochmals abspielen"
 
 #: src/resources/preferences.ui:135
 msgid "At End of Selection Replay Selection"
-msgstr ""
+msgstr "Am Auswahlende Auswahl nochmals abspielen"
 
 #: src/resources/preferences.ui:145
 msgid "Timestamps"
 msgstr "Zeitstempel"
 
 #: src/resources/preferences.ui:149
-#, fuzzy
-#| msgid "Timestamps"
 msgid "Timestamp Format"
-msgstr "Zeitstempel"
+msgstr "Zeitstempel-Format"
 
 #: src/resources/preferences.ui:150
 msgid ""
 "Customize produced timestamps. Note that all formats can be read, these "
 "settings are applied when timestamps are written."
 msgstr ""
+"Passen Sie die produzierten Zeitstempel an. Beachten Sie, dass alle Formate "
+"gelesen werden können, diese Einstellungen greifen nur, wenn Zeitstempel "
+"ausgegeben werden."
 
 #: src/resources/preferences.ui:153
-#, fuzzy
-#| msgid "Always show hours and leading zeroes"
 msgid "Always Show Hours and Leading Zeroes"
-msgstr "Immer Stunden und führende Null zeigen"
+msgstr "Immer Stunden und führende Null ausgeben"
 
 #: src/resources/preferences.ui:158
 msgid "Precision"
 msgstr "Genauigkeit"
 
 #: src/resources/preferences.ui:162
-#, fuzzy
-#| msgid "Full seconds"
 msgid "Full Seconds"
 msgstr "Ganze Sekunden"
 
 #: src/resources/preferences.ui:163
-#, fuzzy
-#| msgid "10th seconds"
 msgid "10th Seconds"
 msgstr "Zehntelsekunden"
 
 #: src/resources/preferences.ui:164
-#, fuzzy
-#| msgid "100th seconds"
 msgid "100th Seconds"
 msgstr "Hundertstelsekunden"
 
 #: src/resources/preferences.ui:172
-#, fuzzy
-#| msgid "Fraction separator:"
 msgid "Fraction Separator"
-msgstr "Abgrenzung für Sekundenbruchteile:"
+msgstr "Abgrenzung für Sekundenbruchteile"
 
 #: src/resources/preferences.ui:176
-#, fuzzy
-#| msgid ". (point)"
 msgid ". (Point)"
 msgstr ". (Punkt)"
 
 #: src/resources/preferences.ui:177
-#, fuzzy
-#| msgid "- (hyphen)"
 msgid "- (Hyphen)"
 msgstr "- (Bindestrich)"
 
 #: src/resources/preferences.ui:185
-#, fuzzy
-#| msgid "Characters around timestamps"
 msgid "Characters Around Timestamps"
 msgstr "Zeichen um Zeitstempel"
 
@@ -818,60 +782,49 @@ msgid "None"
 msgstr "Keine"
 
 #: src/resources/preferences.ui:190
-#, fuzzy
-#| msgid "#Number signs#"
 msgid "#Number Signs#"
 msgstr "#Rautezeichen#"
 
 #: src/resources/preferences.ui:191
-#, fuzzy
-#| msgid "(Round brackets)"
 msgid "(Round Brackets)"
 msgstr "(Runde Klammern)"
 
 #: src/resources/preferences.ui:192
-#, fuzzy
-#| msgid "[Square brackets]"
 msgid "[Square Brackets]"
 msgstr "[Eckige Klammern]"
 
 #: src/resources/preferences.ui:202
 msgid "Preview"
-msgstr ""
+msgstr "Vorschau"
 
 #: src/resources/preferences.ui:211
-#, fuzzy
-#| msgid "Speech recognition"
 msgid "Speech Recognition"
 msgstr "Spracherkennung"
 
 #: src/resources/preferences.ui:215
-#, fuzzy
-#| msgid "Language"
 msgid "Language Models"
-msgstr "Sprache"
+msgstr "Sprachmodelle"
 
 #: src/resources/preferences.ui:216
 msgid ""
 "Inspect configuration details, learn how to install model data, and choose a "
 "configuration for automatic speech recognition."
 msgstr ""
+"Sehen Sie Konfigurationsdetails ein, erfahren Sie, wie Sie Sprachmodell-"
+"Daten installieren können und wählen Sie eine Konfiguration zur "
+"automatischen Spracherkennung."
 
 #: src/resources/preferences.ui:223
-#, fuzzy
-#| msgid "Import language model configuration"
 msgid "Import configuration from file"
-msgstr "Sprachmodell-Konfiguration importieren"
+msgstr "Sprachmodell-Konfiguration aus einer Datei importieren"
 
 #: src/resources/preferences.ui:232
-#, fuzzy
-#| msgid "Delete Configuration"
 msgid "Copy Initial Set of Configurations"
-msgstr "Konfiguration löschen"
+msgstr "Anfangsset von Konfigurationen kopieren"
 
 #: src/resources/prefs-install-row.ui:11
 msgid "Choose folder"
-msgstr ""
+msgstr "Wählen Sie einen Ordner"
 
 #: src/resources/window.ui:41
 msgid "Open a file"
@@ -879,14 +832,11 @@ msgstr "Eine Datei öffnen"
 
 #: src/resources/window.ui:51
 msgid "Main Menu"
-msgstr ""
+msgstr "Hauptmenü"
 
 #: src/resources/window.ui:97
-#, fuzzy
-#| msgid "Skip back 1 second"
-#| msgid_plural "Skip back %d seconds"
 msgid "Skip backward"
-msgstr "Eine Sekunde zurückspringen"
+msgstr "Zurückspringen"
 
 #: src/resources/window.ui:123
 msgid "_Play"
@@ -898,7 +848,7 @@ msgstr "Geschwindigkeit:"
 
 #: src/resources/window.ui:199
 msgid "Volume"
-msgstr ""
+msgstr "Lautstärke"
 
 #~ msgid "This will delete the configuration"
 #~ msgstr "Dadurch wird die Konfiguration gelöscht"
