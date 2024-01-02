@@ -49,7 +49,7 @@
               <object class="GtkShortcutsShortcut">
                 <property name="visible">1</property>
                 <property name="accelerator">&lt;ctrl&gt;A</property>
-                <property name="title" translatable="yes">SKip backward</property>
+                <property name="title" translatable="yes">Skip backward</property>
               </object>
             </child>
             <child>
