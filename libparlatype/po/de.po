@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-01 20:58+0100\n"
-"PO-Revision-Date: 2023-12-30 17:49+0000\n"
+"PO-Revision-Date: 2024-01-02 18:57+0000\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gmx.at>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/parlatype/"
 "libparlatype/de/>\n"
@@ -28,24 +28,21 @@ msgstr "Das Plugin »%s« konnte nicht geladen werden."
 
 #. Translators: %s is replaced with the parameter’s name
 #: libparlatype/src/pt-config.c:480
-#, fuzzy, c-format
-#| msgid "Plugin doesn’t have a property “%s”"
+#, c-format
 msgid "Plugin doesn’t have a parameter “%s”."
-msgstr "Das Plugin hat keine Eigenschaft »%s«"
+msgstr "Das Plugin hat keinen Parameter »%s«."
 
 #. Translators: %s is replaced with the parameter’s name
 #: libparlatype/src/pt-config.c:491
-#, fuzzy, c-format
-#| msgid "Plugin property “%s” is not writable"
+#, c-format
 msgid "Parameter “%s” is not writable."
-msgstr "Die Plugin-Eigenschaft »%s« ist nicht schreibbar"
+msgstr "Parameter »%s« ist nicht änderbar."
 
 #. Translators: %s is replaced with the parameter’s name
 #: libparlatype/src/pt-config.c:507
-#, fuzzy, c-format
-#| msgid "Value for property “%s” is not valid"
+#, c-format
 msgid "Value for parameter “%s” is not valid."
-msgstr "Der Wert ist für die Eigenschaft »%s« nicht gültig"
+msgstr "Der Wert ist für den Parameter »%s« nicht gültig."
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
