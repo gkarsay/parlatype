@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/org/parlatype/Parlatype">
-    <file preprocess="xml-stripblanks">window.ui</file>
+    <file preprocess="xml-stripblanks">asr-dialog.ui</file>
+    <file preprocess="xml-stripblanks">config-row.ui</file>
     <file preprocess="xml-stripblanks">goto-dialog.ui</file>
     <file preprocess="xml-stripblanks">preferences.ui</file>
     <file preprocess="xml-stripblanks">prefs-info-row.ui</file>
     <file preprocess="xml-stripblanks">prefs-install-row.ui</file>
-    <file preprocess="xml-stripblanks">asr-dialog.ui</file>
-    <file preprocess="xml-stripblanks">config-row.ui</file>
+    <file preprocess="xml-stripblanks">window.ui</file>
     <file>style.css</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/chat-bubble-text-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/play-symbolic.svg</file>
