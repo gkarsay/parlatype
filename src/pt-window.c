@@ -1161,16 +1161,6 @@ setup_accels_actions_menus (PtWindow *self)
   enable_win_actions (self, FALSE);
 
   /* Setup menus */
-  GtkBuilder *builder;
-
-  builder = gtk_builder_new_from_resource ("/org/parlatype/Parlatype/menus.ui");
-  self->primary_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "primary-menu"));
-  self->secondary_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "secondary-menu"));
-  gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (self->primary_menu_button), self->primary_menu);
-  gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (self->pos_menu_button), self->secondary_menu);
-  g_object_unref (builder);
-
-  /* Setup ASR menu manually; no success with GtkBuilder */
   self->asr_menu = g_menu_new ();
   self->asr_menu_item1 = g_menu_item_new (_ ("Manual Transcription"), "win.mode::playback");
   self->asr_menu_item2 = g_menu_item_new (_ ("Automatic Transcription"), "win.mode::asr");
@@ -1325,6 +1315,8 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtWindow, button_jump_forward);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, volumebutton);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, speed_scale);
+  gtk_widget_class_bind_template_child (widget_class, PtWindow, primary_menu);
+  gtk_widget_class_bind_template_child (widget_class, PtWindow, secondary_menu);
 }
 
 PtWindow *

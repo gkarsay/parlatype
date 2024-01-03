@@ -48,6 +48,7 @@
         </child>
         <child type="end">
           <object class="GtkMenuButton" id="primary_menu_button">
+            <property name="menu-model">primary_menu</property>
             <property name="tooltip-text" translatable="yes">Main Menu</property>
             <property name="primary">True</property>
             <property name="direction">none</property>
@@ -153,6 +154,7 @@
                 </child>
                 <child>
                   <object class="GtkMenuButton" id="pos_menu_button">
+                    <property name="menu-model">secondary_menu</property>
                     <property name="halign">end</property>
                     <property name="hexpand">1</property>
                     <property name="hexpand-set">1</property>
@@ -221,4 +223,38 @@ audio-volume-medium-symbolic</property>
       </object>
     </child>
   </template>
+  <menu id="primary_menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Preferences</attribute>
+        <attribute name="action">app.prefs</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">_Keyboard Shortcuts</attribute>
+        <attribute name="action">win.show-help-overlay</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Help</attribute>
+        <attribute name="action">app.help</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">About Parlatype</attribute>
+        <attribute name="action">app.about</attribute>
+      </item>
+    </section>
+  </menu>
+  <menu id="secondary_menu">
+      <item>
+        <attribute name="label" translatable="yes">Copy Time to Clipboard</attribute>
+        <attribute name="action">win.copy</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Go to Cursor</attribute>
+        <attribute name="action">win.goto-cursor</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Go to…</attribute>
+        <attribute name="action">win.goto</attribute>
+      </item>
+  </menu>
 </interface>

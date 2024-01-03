@@ -13,7 +13,6 @@ src/pt-window.c
 src/resources/asr-dialog.ui
 src/resources/goto-dialog.ui
 src/resources/help-overlay.ui
-src/resources/menus.ui
 src/resources/preferences.ui
 src/resources/prefs-install-row.ui
 src/resources/window.ui

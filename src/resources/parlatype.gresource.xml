@@ -2,7 +2,6 @@
 <gresources>
   <gresource prefix="/org/parlatype/Parlatype">
     <file preprocess="xml-stripblanks">window.ui</file>
-    <file preprocess="xml-stripblanks">menus.ui</file>
     <file preprocess="xml-stripblanks">goto-dialog.ui</file>
     <file preprocess="xml-stripblanks">preferences.ui</file>
     <file preprocess="xml-stripblanks">prefs-info-row.ui</file>
