@@ -77,29 +77,16 @@ G_DEFINE_TYPE (PtWindow, pt_window, GTK_TYPE_APPLICATION_WINDOW)
 
 static void play_button_toggled_cb (GtkToggleButton *button, PtWindow *self);
 
-void
-pt_error_message (PtWindow    *parent,
-                  const gchar *message,
-                  const gchar *secondary_message)
+static void
+pt_error_message (PtWindow *parent,
+                  gchar    *message)
 {
-  GtkWidget *dialog;
+  GtkAlertDialog *dialog;
 
-  dialog = gtk_message_dialog_new (
-      GTK_WINDOW (parent),
-      GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-      GTK_MESSAGE_ERROR,
-      GTK_BUTTONS_OK,
-      "%s", message);
-
-  if (secondary_message)
-    gtk_message_dialog_format_secondary_text (
-        GTK_MESSAGE_DIALOG (dialog),
-        "%s", secondary_message);
-
-  g_signal_connect_swapped (dialog, "response",
-                            G_CALLBACK (gtk_window_destroy), dialog);
-
-  gtk_window_present (GTK_WINDOW (dialog));
+  dialog = gtk_alert_dialog_new (_ ("Error"));
+  gtk_alert_dialog_set_detail (dialog, message);
+  gtk_alert_dialog_show (dialog, GTK_WINDOW (parent));
+  g_object_unref (dialog);
 }
 
 void
@@ -128,7 +115,7 @@ clip_text_cb (GdkClipboard *clip,
 
   if (!timestamp)
     {
-      pt_error_message (self, _ ("Error"), error->message);
+      pt_error_message (self, error->message);
       g_clear_error (&error);
       return;
     }
@@ -274,7 +261,7 @@ setup_asr (PtWindow *self)
   if (success)
     pt_player_set_mode (self->player, PT_MODE_ASR);
   else
-    pt_error_message (self, error->message, NULL);
+    pt_error_message (self, error->message);
 
   return success;
 }
@@ -636,7 +623,7 @@ player_error_cb (PtPlayer *player,
                  PtWindow *self)
 {
   pt_window_ready_to_play (self, FALSE);
-  pt_error_message (self, error->message, NULL);
+  pt_error_message (self, error->message);
 }
 
 static void
@@ -649,7 +636,7 @@ open_cb (PtWaveviewer *viewer,
 
   if (!pt_waveviewer_load_wave_finish (viewer, res, &error))
     {
-      pt_error_message (self, error->message, NULL);
+      pt_error_message (self, error->message);
       g_error_free (error);
       /* Very unlikely situation: Stream is open and playable,
        * but loading the waveform failed. */
