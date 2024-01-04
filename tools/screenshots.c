@@ -17,6 +17,7 @@
 #include "config.h"
 
 #include <adwaita.h>
+#include <editor-theme-selector-private.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <locale.h> /* setlocale */

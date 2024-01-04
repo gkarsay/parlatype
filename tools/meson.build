@@ -1,6 +1,8 @@
 src = [
   gresources,
   'screenshots.c',
+  '../src/editor-theme-selector.c',
+  '../src/editor-theme-selector-private.h',
   '../src/pt-app.c',
   '../src/pt-app.h',
   '../src/pt-asr-dialog.c',

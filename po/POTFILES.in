@@ -11,6 +11,7 @@ src/pt-preferences.c
 src/pt-prefs-install-row.c
 src/pt-window.c
 src/resources/asr-dialog.ui
+src/resources/editor-theme-selector.ui
 src/resources/goto-dialog.ui
 src/resources/help-overlay.ui
 src/resources/preferences.ui

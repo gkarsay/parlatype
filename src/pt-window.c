@@ -18,6 +18,7 @@
 
 #include "pt-window.h"
 
+#include "editor-theme-selector-private.h"
 #include "pt-app.h"
 #include "pt-goto-dialog.h"
 #include "pt-window-dnd.h"
@@ -795,7 +796,7 @@ set_asr_config (PtWindow *self)
       g_clear_object (&self->asr_config);
       if (self->asr)
         {
-          g_menu_remove (G_MENU (self->primary_menu), 0);
+          g_menu_remove (G_MENU (self->primary_menu), 1);
           self->asr = FALSE;
         }
       if (g_strcmp0 (mode, "asr") == 0)
@@ -809,9 +810,10 @@ set_asr_config (PtWindow *self)
   /* valid: add menu, setup ASR plugin */
   if (!self->asr)
     {
-      g_menu_prepend_section (G_MENU (self->primary_menu),
-                              NULL, /* label */
-                              G_MENU_MODEL (self->asr_menu));
+      g_menu_insert_section (G_MENU (self->primary_menu),
+                             1,    /* position = after theme selector */
+                             NULL, /* label */
+                             G_MENU_MODEL (self->asr_menu));
       self->asr = TRUE;
     }
 
@@ -878,8 +880,6 @@ map_milliseconds_to_seconds (const GValue       *value,
 static void
 setup_settings (PtWindow *self)
 {
-  self->editor = g_settings_new (APP_ID);
-
   g_settings_bind (
       self->editor, "pps",
       self->waveviewer, "pps",
@@ -1153,6 +1153,15 @@ static void
 setup_accels_actions_menus (PtWindow *self)
 {
   /* Actions */
+  GSimpleActionGroup *group = g_simple_action_group_new ();
+  GAction            *action = g_settings_create_action (self->editor, "style-variant");
+  g_action_map_add_action (G_ACTION_MAP (group), action);
+  gtk_widget_insert_action_group (GTK_WIDGET (self),
+                                  "settings",
+                                  G_ACTION_GROUP (group));
+  g_object_unref (action);
+  g_object_unref (group);
+
   g_action_map_add_action_entries (G_ACTION_MAP (self),
                                    win_actions,
                                    G_N_ELEMENTS (win_actions),
@@ -1214,9 +1223,27 @@ _pt_window_get_settings (PtWindow *self)
 }
 
 static void
+pt_window_constructed (GObject *object)
+{
+  PtWindow      *self = PT_WINDOW (object);
+  GtkPopover    *popover;
+  GtkMenuButton *button;
+
+  G_OBJECT_CLASS (pt_window_parent_class)->constructed (object);
+
+  button = GTK_MENU_BUTTON (self->primary_menu_button);
+  popover = gtk_menu_button_get_popover (button);
+  gtk_popover_menu_add_child (GTK_POPOVER_MENU (popover),
+                              _editor_theme_selector_new (),
+                              "theme");
+}
+
+static void
 pt_window_init (PtWindow *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
+
+  self->editor = g_settings_new (APP_ID);
 
   setup_player (self);
   setup_accels_actions_menus (self);
@@ -1298,6 +1325,7 @@ pt_window_class_init (PtWindowClass *klass)
   GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
+  gobject_class->constructed = pt_window_constructed;
   gobject_class->dispose = pt_window_dispose;
   widget_class->direction_changed = pt_window_direction_changed;
 

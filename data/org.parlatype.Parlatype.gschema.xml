@@ -1,90 +1,104 @@
 <schemalist>
-	<schema id="org.parlatype.Parlatype" path="/org/parlatype/parlatype/">
-		<key name="rewind-on-pause" type="i">
-			<range min="0" max="10"/>
-			<default>2</default>
-			<summary>Rewind on pause</summary>
-			<description>Value in seconds</description>
-		</key>
-		<key name="jump-back" type="i">
-			<range min="1" max="60"/>
-			<default>10</default>
-			<summary>Jump back</summary>
-			<description>Value in seconds</description>
-		</key>
-		<key name="jump-forward" type="i">
-			<range min="1" max="60"/>
-			<default>10</default>
-			<summary>Jump forward</summary>
-			<description>Value in seconds</description>
-		</key>
-		<key name="repeat-all" type="b">
-			<default>false</default>
-			<summary>Repeat file at the end</summary>
-			<description>When pressing "Play" at the end of file, it will be replayed</description>
-		</key>
-		<key name="repeat-selection" type="b">
-			<default>true</default>
-			<summary>Repeat selection at the end</summary>
-			<description>When pressing "Play" at the end of a selection, it will be replayed</description>
-		</key>
-		<key name="pps" type="i">
-			<range min="10" max="200"/>
-			<default>100</default>
-			<summary>Pixels per second</summary>
-			<description>Pixels per second</description>
-		</key>
-		<key name="width" type="i">
-			<default>100</default>
-			<summary>Window's width</summary>
-			<description>Window's width</description>
-		</key>
-		<key name="height" type="i">
-			<default>300</default>
-			<summary>Window's height</summary>
-			<description>Window's height</description>
-		</key>
-		<key name="show-ruler" type="b">
-			<default>true</default>
-			<summary>Show ruler</summary>
-			<description>Show ruler</description>
-		</key>
-		<key name="fixed-cursor" type="b">
-			<default>false</default>
-			<summary>Fixed cursor</summary>
-			<description>Fixed cursor</description>
-		</key>
-		<key name="timestamp-precision" type="i">
-			<range min="0" max="2"/>
-			<default>1</default>
-			<summary>Timestamp precision</summary>
-			<description>Timestamp precision</description>
-		</key>
-		<key name="timestamp-fixed" type="b">
-			<default>false</default>
-			<summary>Timestamp fixed digits</summary>
-			<description>Timestamp fixed digits</description>
-		</key>
-		<key name="timestamp-delimiter" type="s">
-			<default>"#"</default>
-			<summary>Timestamp delimiter</summary>
-			<description>Timestamp delimiter, only "None", "#", "(" and "[" are allowed.</description>
-		</key>
-		<key name="timestamp-fraction-sep" type="s">
-			<default>"."</default>
-			<summary>Timestamp fraction separator</summary>
-			<description>Timestamp fraction separator, only "." and "-" are allowed.</description>
-		</key>
-		<key name="asr-config" type="s">
-			<default>"none"</default>
-			<summary>ID of active ASR configuration</summary>
-			<description>ID of active ASR configuration</description>
-		</key>
-		<key name="asr-filter" type="i">
-			<range min="0" max="2"/>
-			<default>2</default>
-			<summary>ID of active ASR filter</summary>
-			<description>ID of active ASR filter</description>
-		</key>
-	</schema>
+  <schema id="org.parlatype.Parlatype" path="/org/parlatype/parlatype/">
+    <key name="rewind-on-pause" type="i">
+      <range min="0" max="10"/>
+      <default>2</default>
+      <summary>Rewind on pause</summary>
+      <description>Value in seconds.</description>
+    </key>
+    <key name="jump-back" type="i">
+      <range min="1" max="60"/>
+      <default>10</default>
+      <summary>Jump back</summary>
+      <description>Value in seconds.</description>
+    </key>
+    <key name="jump-forward" type="i">
+      <range min="1" max="60"/>
+      <default>10</default>
+      <summary>Jump forward</summary>
+      <description>Value in seconds.</description>
+    </key>
+    <key name="repeat-all" type="b">
+      <default>false</default>
+      <summary>Repeat file at the end</summary>
+      <description>When pressing "Play" at the end of file, it will be replayed.</description>
+    </key>
+    <key name="repeat-selection" type="b">
+      <default>true</default>
+      <summary>Repeat selection at the end</summary>
+      <description>When pressing "Play" at the end of a selection, it will be replayed.</description>
+    </key>
+    <key name="pps" type="i">
+      <range min="10" max="200"/>
+      <default>100</default>
+      <summary>Pixels per second</summary>
+      <description>Pixels per second.</description>
+    </key>
+    <key name="width" type="i">
+      <default>100</default>
+      <summary>Window’s width</summary>
+      <description>Window’s width.</description>
+    </key>
+    <key name="height" type="i">
+      <default>300</default>
+      <summary>Window’s height</summary>
+      <description>Window’s height.</description>
+    </key>
+    <key name="show-ruler" type="b">
+      <default>true</default>
+      <summary>Show ruler</summary>
+      <description>Show ruler.</description>
+    </key>
+    <key name="fixed-cursor" type="b">
+      <default>false</default>
+      <summary>Fixed cursor</summary>
+      <description>Fixed cursor.</description>
+    </key>
+    <key name="timestamp-precision" type="i">
+      <range min="0" max="2"/>
+      <default>1</default>
+      <summary>Timestamp precision</summary>
+      <description>Timestamp precision.</description>
+    </key>
+    <key name="timestamp-fixed" type="b">
+      <default>false</default>
+      <summary>Timestamp fixed digits</summary>
+      <description>Timestamp fixed digits.</description>
+    </key>
+    <key name="timestamp-delimiter" type="s">
+      <choices>
+        <choice value="None"/>
+        <choice value="#"/>
+        <choice value="("/>
+        <choice value="["/>
+      </choices>
+      <default>"#"</default>
+      <summary>Timestamp delimiter</summary>
+      <description>Timestamp delimiter.</description>
+    </key>
+    <key name="timestamp-fraction-sep" type="s">
+      <choices>
+        <choice value="."/>
+        <choice value="-"/>
+      </choices>
+      <default>"."</default>
+      <summary>Timestamp fraction separator</summary>
+      <description>Timestamp fraction separator.</description>
+    </key>
+    <key name="asr-config" type="s">
+      <default>"none"</default>
+      <summary>ID of active ASR configuration</summary>
+      <description>ID of active ASR configuration</description>
+    </key>
+    <key name="style-variant" type="s">
+      <choices>
+        <choice value="follow"/>
+        <choice value="light"/>
+        <choice value="dark"/>
+      </choices>
+      <default>"follow"</default>
+      <summary>Style Variant</summary>
+      <description>Use the light or dark variant of the GTK theme.</description>
+    </key>
+  </schema>
 </schemalist>

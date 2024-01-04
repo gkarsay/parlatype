@@ -8,6 +8,8 @@ gresources = gnome.compile_resources(
 src = [
   gresources,
   'main.c',
+  'editor-theme-selector.c',
+  'editor-theme-selector-private.h',
   'pt-app.c',
   'pt-app.h',
   'pt-asr-dialog.c',

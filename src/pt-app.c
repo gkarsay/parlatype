@@ -31,6 +31,7 @@ struct _PtApp
 {
   AdwApplication parent;
 
+  GSettings     *settings;
   PtMpris       *mpris;
   PtDbusService *dbus_service;
 };
@@ -174,6 +175,7 @@ about_cb (GSimpleAction *action,
     "Buzztrax team <buzztrax-devel@buzztrax.org>",
     "Philip Withnall <philip@tecnocode.co.uk>",
     "Magnus Hjorth, mhWaveEdit",
+    "Christian Hergert <chergert@redhat.com>",
     NULL
   };
 
@@ -211,10 +213,30 @@ const GActionEntry app_actions[] = {
   { "quit", quit_cb, NULL, NULL, NULL }
 };
 
+static gboolean
+style_variant_to_color_scheme (GValue   *value,
+                               GVariant *variant,
+                               gpointer  user_data)
+{
+  const char *str = g_variant_get_string (variant, NULL);
+
+  if (g_strcmp0 (str, "follow") == 0)
+    g_value_set_enum (value, ADW_COLOR_SCHEME_DEFAULT);
+  else if (g_strcmp0 (str, "dark") == 0)
+    g_value_set_enum (value, ADW_COLOR_SCHEME_FORCE_DARK);
+  else
+    g_value_set_enum (value, ADW_COLOR_SCHEME_FORCE_LIGHT);
+
+  return TRUE;
+}
+
 static void
 pt_app_startup (GApplication *app)
 {
   G_APPLICATION_CLASS (pt_app_parent_class)->startup (app);
+  PtApp *self = PT_APP (app);
+
+  AdwStyleManager *style_manager;
 
   g_action_map_add_action_entries (G_ACTION_MAP (app),
                                    app_actions, G_N_ELEMENTS (app_actions),
@@ -264,6 +286,13 @@ pt_app_startup (GApplication *app)
 
   gtk_application_set_accels_for_action (GTK_APPLICATION (app),
                                          "win.play", play_accels);
+
+  style_manager = adw_style_manager_get_default ();
+  g_settings_bind_with_mapping (self->settings, "style-variant",
+                                style_manager, "color-scheme",
+                                G_SETTINGS_BIND_GET,
+                                style_variant_to_color_scheme,
+                                NULL, NULL, NULL);
 }
 
 static void
@@ -328,6 +357,7 @@ pt_app_handle_local_options (GApplication *application,
 static void
 pt_app_init (PtApp *app)
 {
+  app->settings = g_settings_new ("org.parlatype.Parlatype");
   app->mpris = NULL;
   app->dbus_service = NULL;
   g_application_add_main_option_entries (G_APPLICATION (app), options);
@@ -338,6 +368,7 @@ pt_app_dispose (GObject *object)
 {
   PtApp *app = PT_APP (object);
 
+  g_clear_object (&app->settings);
   g_clear_object (&app->mpris);
   g_clear_object (&app->dbus_service);
 
