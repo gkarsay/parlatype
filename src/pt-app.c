@@ -50,68 +50,65 @@ static GOptionEntry options[] = {
 };
 
 static void
-open_dialog_response_cb (GtkDialog *dialog,
-                         gint       response_id,
-                         gpointer   user_data)
+dialog_open_cb (GObject      *source,
+                GAsyncResult *result,
+                gpointer      user_data)
 {
   PtWindow *win = PT_WINDOW (user_data);
-  GFile    *result;
+  GFile    *file;
   gchar    *uri = NULL;
 
-  if (response_id == GTK_RESPONSE_ACCEPT)
-    {
-      result = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
-      uri = g_file_get_uri (result);
-      g_object_unref (result);
-    }
+  file = gtk_file_dialog_open_finish (GTK_FILE_DIALOG (source), result, NULL);
+
+  if (!file)
+    return;
+
+  uri = g_file_get_uri (file);
+  g_object_unref (file);
 
   if (uri)
     {
-      pt_window_open_file (PT_WINDOW (win), uri);
+      pt_window_open_file (win, uri);
       g_free (uri);
     }
-
-  g_object_unref (dialog);
 }
 
 static void
 open_cb (GSimpleAction *action,
          GVariant      *parameter,
-         gpointer       app)
+         gpointer       user_data)
 {
-  GtkFileChooserNative *dialog;
-  GtkWindow            *win;
-  const char           *home_path;
-  gchar                *current_uri = NULL;
-  GFile                *current, *dir;
-  GtkFileFilter        *filter_audio;
-  GtkFileFilter        *filter_all;
+  PtApp         *self = PT_APP (user_data);
+  GtkFileDialog *dialog;
+  GtkWindow     *parent;
+  const char    *home_path;
+  gchar         *current_uri = NULL;
+  GFile         *current_file, *initial_folder;
+  GtkFileFilter *filter_audio;
+  GtkFileFilter *filter_all;
+  GListStore    *filters;
 
-  win = gtk_application_get_active_window (app);
-  dialog = gtk_file_chooser_native_new (
-      _ ("Open Audio File"),
-      win,
-      GTK_FILE_CHOOSER_ACTION_OPEN,
-      _ ("_Open"),
-      _ ("_Cancel"));
+  dialog = gtk_file_dialog_new ();
+  gtk_file_dialog_set_modal (dialog, TRUE);
+  gtk_file_dialog_set_title (dialog, _ ("Open Audio File"));
+  parent = gtk_application_get_active_window (GTK_APPLICATION (self));
 
   /* Set current folder to the folder with the currently open file
      or to user’s home directory */
-  current_uri = pt_window_get_uri (PT_WINDOW (win));
+  current_uri = pt_window_get_uri (PT_WINDOW (parent));
   if (current_uri)
     {
-      current = g_file_new_for_uri (current_uri);
-      dir = g_file_get_parent (current);
+      current_file = g_file_new_for_uri (current_uri);
+      initial_folder = g_file_get_parent (current_file);
       g_free (current_uri);
-      g_object_unref (current);
+      g_object_unref (current_file);
     }
   else
     {
       home_path = g_get_home_dir ();
-      dir = g_file_new_for_path (home_path);
+      initial_folder = g_file_new_for_path (home_path);
     }
-  gtk_file_chooser_set_current_folder (
-      GTK_FILE_CHOOSER (dialog), dir, NULL);
+  gtk_file_dialog_set_initial_folder (dialog, initial_folder);
 
   filter_audio = gtk_file_filter_new ();
   filter_all = gtk_file_filter_new ();
@@ -119,14 +116,18 @@ open_cb (GSimpleAction *action,
   gtk_file_filter_set_name (filter_all, _ ("All Files"));
   gtk_file_filter_add_mime_type (filter_audio, "audio/*");
   gtk_file_filter_add_pattern (filter_all, "*");
-  gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter_audio);
-  gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter_all);
-  gtk_file_chooser_set_filter (GTK_FILE_CHOOSER (dialog), filter_audio);
+  filters = g_list_store_new (GTK_TYPE_FILE_FILTER);
+  g_list_store_append (filters, filter_audio);
+  g_list_store_append (filters, filter_all);
+  gtk_file_dialog_set_filters (dialog, G_LIST_MODEL (filters));
 
-  g_signal_connect (dialog, "response", G_CALLBACK (open_dialog_response_cb), win);
-  gtk_native_dialog_show (GTK_NATIVE_DIALOG (dialog));
+  gtk_file_dialog_open (dialog, parent,
+                        NULL, /* cancellable */
+                        dialog_open_cb,
+                        parent);
 
-  g_object_unref (dir);
+  g_object_unref (initial_folder);
+  g_object_unref (dialog);
 }
 
 static void
