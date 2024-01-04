@@ -1,4 +1,4 @@
-.clang-format         export-ignore
+.clang-format*        export-ignore
 .editorconfig         export-ignore
 .gitattributes        export-ignore
 .githooks/            export-ignore
