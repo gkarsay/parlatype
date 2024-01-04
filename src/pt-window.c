@@ -1222,20 +1222,47 @@ _pt_window_get_settings (PtWindow *self)
   return self->editor;
 }
 
+static gboolean
+f10_ctrl_cb (GtkEventControllerKey *self,
+             guint                  keyval,
+             guint                  keycode,
+             GdkModifierType        state,
+             gpointer               user_data)
+{
+  GtkMenuButton *button = GTK_MENU_BUTTON (user_data);
+  gboolean       modifier_pressed;
+
+  modifier_pressed = state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_ALT_MASK);
+  if (modifier_pressed || keyval != GDK_KEY_F10)
+    return FALSE;
+
+  gtk_menu_button_popdown (button);
+  return TRUE;
+}
+
 static void
 pt_window_constructed (GObject *object)
 {
-  PtWindow      *self = PT_WINDOW (object);
-  GtkPopover    *popover;
-  GtkMenuButton *button;
+  PtWindow           *self = PT_WINDOW (object);
+  GtkPopover         *popover;
+  GtkMenuButton      *button;
+  GtkEventController *f10_ctrl;
 
   G_OBJECT_CLASS (pt_window_parent_class)->constructed (object);
 
+  /* Add theme selector to main menu. */
   button = GTK_MENU_BUTTON (self->primary_menu_button);
   popover = gtk_menu_button_get_popover (button);
   gtk_popover_menu_add_child (GTK_POPOVER_MENU (popover),
                               _editor_theme_selector_new (),
                               "theme");
+
+  /* Make F10 toggle main menu. Popup is realized with setting property "primary"
+   * in ui-file, popdown with the following code. */
+  f10_ctrl = gtk_event_controller_key_new ();
+  g_signal_connect (f10_ctrl, "key-pressed",
+                    G_CALLBACK (f10_ctrl_cb), button);
+  gtk_widget_add_controller (GTK_WIDGET (popover), f10_ctrl);
 }
 
 static void
