@@ -88,12 +88,7 @@ pt_waveviewer_selection_draw (GtkDrawingArea *widget,
 static void
 update_cached_style_values (PtWaveviewerSelection *self)
 {
-  /* Update color */
-
-  GtkStyleContext *context;
-
-  context = gtk_widget_get_style_context (GTK_WIDGET (self));
-  gtk_style_context_get_color (context, &self->selection_color);
+  gtk_widget_get_color (GTK_WIDGET (self), &self->selection_color);
 }
 
 static void

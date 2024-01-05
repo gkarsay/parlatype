@@ -122,7 +122,7 @@ pt_waveviewer_ruler_snapshot (GtkWidget   *widget,
   offset = (gint) gtk_adjustment_get_value (self->adj);
 
   context = gtk_widget_get_style_context (GTK_WIDGET (self));
-  gtk_style_context_get_color (context, &text_color);
+  gtk_widget_get_color (GTK_WIDGET (self), &text_color);
   gtk_snapshot_render_background (snapshot, context,
                                   0, 0,
                                   width, height);
@@ -166,7 +166,6 @@ pt_waveviewer_ruler_snapshot (GtkWidget   *widget,
 
   /* Primary marks and time strings
      Add some padding to show time strings (time_string_width) */
-  gtk_style_context_get_color (context, &text_color);
   for (i = 0 - self->time_string_width; i <= width + self->time_string_width; i += 1)
     {
       sample = i + offset;

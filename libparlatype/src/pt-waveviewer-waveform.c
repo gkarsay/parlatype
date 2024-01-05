@@ -94,7 +94,7 @@ pt_waveviewer_waveform_snapshot (GtkWidget   *widget,
   height = gtk_widget_get_height (GTK_WIDGET (widget));
   width = gtk_widget_get_width (GTK_WIDGET (widget));
 
-  gtk_style_context_get_color (context, &self->wave_color);
+  gtk_widget_get_color (widget, &self->wave_color);
   gtk_snapshot_render_background (snapshot, context,
                                   0, 0,
                                   width, height);
@@ -120,12 +120,7 @@ pt_waveviewer_waveform_snapshot (GtkWidget   *widget,
 static void
 update_cached_style_values (PtWaveviewerWaveform *self)
 {
-  /* Update color */
-
-  GtkStyleContext *context;
-
-  context = gtk_widget_get_style_context (GTK_WIDGET (self));
-  gtk_style_context_get_color (context, &self->wave_color);
+  gtk_widget_get_color (GTK_WIDGET (self), &self->wave_color);
 }
 
 static void

@@ -129,13 +129,7 @@ pt_waveviewer_cursor_size_allocate (GtkWidget *widget,
 static void
 update_cached_style_values (PtWaveviewerCursor *self)
 {
-  /* Update color */
-
-  GtkStyleContext *context;
-
-  context = gtk_widget_get_style_context (GTK_WIDGET (self));
-  gtk_style_context_get_color (context, &self->cursor_color);
-
+  gtk_widget_get_color (GTK_WIDGET (self), &self->cursor_color);
   cache_cursor (self);
 }
 
