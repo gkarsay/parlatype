@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-01 20:58+0100\n"
-"PO-Revision-Date: 2022-05-01 18:10+0000\n"
+"PO-Revision-Date: 2024-01-06 15:06+0000\n"
 "Last-Translator: albanobattistella <albano_battistella@hotmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/parlatype/"
 "libparlatype/it/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.12.1\n"
+"X-Generator: Weblate 5.4-dev\n"
 "X-Launchpad-Export-Date: 2020-05-31 16:44+0000\n"
 
 #. Translators: %s is replaced with the plugins name
@@ -30,19 +30,19 @@ msgstr "Fallito il caricamento del plugin “%s”."
 #: libparlatype/src/pt-config.c:480
 #, c-format
 msgid "Plugin doesn’t have a parameter “%s”."
-msgstr ""
+msgstr "Il plugin non ha un parametro “%s”."
 
 #. Translators: %s is replaced with the parameter’s name
 #: libparlatype/src/pt-config.c:491
 #, c-format
 msgid "Parameter “%s” is not writable."
-msgstr ""
+msgstr "Il parametro \"%s\" non è scrivibile."
 
 #. Translators: %s is replaced with the parameter’s name
 #: libparlatype/src/pt-config.c:507
 #, c-format
 msgid "Value for parameter “%s” is not valid."
-msgstr ""
+msgstr "Il valore per il parametro \"%s\" non è valido."
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
