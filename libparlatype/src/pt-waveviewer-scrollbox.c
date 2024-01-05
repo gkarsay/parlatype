@@ -70,18 +70,19 @@ pt_waveviewer_scrollbox_set_adjustment_values (PtWaveviewerScrollbox *self)
 {
   /* Set values depending on waveform array size */
 
-  GtkAllocation  allocation;
   GtkAdjustment *adj = self->adjustment;
+  gint           width, max;
 
-  gtk_widget_get_allocation (GTK_WIDGET (self), &allocation);
+  width = gtk_widget_get_width (GTK_WIDGET (self));
+  max = MAX (self->fake_width, width);
 
   gtk_adjustment_configure (adj,
                             gtk_adjustment_get_value (adj),
-                            0.0,
-                            MAX (self->fake_width, allocation.width),
-                            allocation.width * 0.2,
-                            allocation.width * 0.9,
-                            allocation.width);
+                            0.0,         /* lower */
+                            max,         /* upper */
+                            width * 0.2, /* step increment */
+                            width * 0.9, /* page increment */
+                            width);      /* page size */
 }
 
 static void
