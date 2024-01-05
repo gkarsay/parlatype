@@ -145,13 +145,16 @@ help_cb (GSimpleAction *action,
          GVariant      *parameter,
          gpointer       app)
 {
-  GtkWindow *win;
-  gchar     *uri;
+  GtkUriLauncher *launcher;
+  GtkWindow      *win;
+  gchar          *uri;
 
-  win = gtk_application_get_active_window (app);
   uri = g_strdup_printf ("help:%s", APP_ID);
-  gtk_show_uri (win, uri, GDK_CURRENT_TIME);
+  launcher = gtk_uri_launcher_new (uri);
+  win = gtk_application_get_active_window (app);
+  gtk_uri_launcher_launch (launcher, win, NULL, NULL, NULL);
   g_free (uri);
+  g_object_unref (launcher);
 }
 
 static void
