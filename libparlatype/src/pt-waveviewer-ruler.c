@@ -215,6 +215,7 @@ calculate_height (PtWaveviewerRuler *self)
   gint             ruler_height;
   GtkNative       *native;
   GdkSurface      *gdk_surface;
+  gint             scale;
 
   native = gtk_widget_get_native (GTK_WIDGET (self));
   if (!native || self->n_samples == 0)
@@ -223,13 +224,16 @@ calculate_height (PtWaveviewerRuler *self)
       return;
     }
 
+  /* Create temporary surface to measure layout. */
   gdk_surface = gtk_native_get_surface (native);
   if (!gdk_surface)
     return;
 
-  surface = gdk_surface_create_similar_surface (gdk_surface,
-                                                CAIRO_CONTENT_COLOR,
-                                                100, 100);
+  scale = gdk_surface_get_scale_factor (gdk_surface);
+  surface = cairo_image_surface_create (CAIRO_FORMAT_RGB24,
+                                        100 * scale,
+                                        100 * scale);
+  cairo_surface_set_device_scale (surface, scale, scale);
   cr = cairo_create (surface);
 
   self->time_format_long = (self->n_samples / self->px_per_sec >= 3600);
