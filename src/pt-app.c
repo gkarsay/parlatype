@@ -133,25 +133,27 @@ open_cb (GSimpleAction *action,
 static void
 prefs_cb (GSimpleAction *action,
           GVariant      *parameter,
-          gpointer       app)
+          gpointer       user_data)
 {
+  PtApp     *app = PT_APP (user_data);
   GtkWindow *win;
-  win = gtk_application_get_active_window (app);
+  win = gtk_application_get_active_window (GTK_APPLICATION (app));
   pt_show_preferences_dialog (win);
 }
 
 static void
 help_cb (GSimpleAction *action,
          GVariant      *parameter,
-         gpointer       app)
+         gpointer       user_data)
 {
+  PtApp          *self = PT_APP (user_data);
   GtkUriLauncher *launcher;
   GtkWindow      *win;
   gchar          *uri;
 
   uri = g_strdup_printf ("help:%s", APP_ID);
   launcher = gtk_uri_launcher_new (uri);
-  win = gtk_application_get_active_window (app);
+  win = gtk_application_get_active_window (GTK_APPLICATION (self));
   gtk_uri_launcher_launch (launcher, win, NULL, NULL, NULL);
   g_free (uri);
   g_object_unref (launcher);
@@ -204,9 +206,9 @@ about_cb (GSimpleAction *action,
 static void
 quit_cb (GSimpleAction *action,
          GVariant      *parameter,
-         gpointer       app)
+         gpointer       user_data)
 {
-  g_application_quit (app);
+  g_application_quit (G_APPLICATION (user_data));
 }
 
 const GActionEntry app_actions[] = {
@@ -242,9 +244,9 @@ pt_app_startup (GApplication *app)
 
   AdwStyleManager *style_manager;
 
-  g_action_map_add_action_entries (G_ACTION_MAP (app),
+  g_action_map_add_action_entries (G_ACTION_MAP (self),
                                    app_actions, G_N_ELEMENTS (app_actions),
-                                   app);
+                                   self);
 
   const gchar *quit_accels[2] = { "<Primary>Q", NULL };
   const gchar *open_accels[2] = { "<Primary>O", NULL };
@@ -258,37 +260,37 @@ pt_app_startup (GApplication *app)
   const char  *jump_forward_accels[2] = { "<Primary>S", NULL };
   const char  *play_accels[2] = { "<Primary>space", NULL };
 
-  gtk_application_set_accels_for_action (GTK_APPLICATION (app),
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self),
                                          "app.quit", quit_accels);
 
-  gtk_application_set_accels_for_action (GTK_APPLICATION (app),
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self),
                                          "app.open", open_accels);
 
-  gtk_application_set_accels_for_action (GTK_APPLICATION (app),
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self),
                                          "win.copy", copy_accels);
 
-  gtk_application_set_accels_for_action (GTK_APPLICATION (app),
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self),
                                          "win.insert", insert_accels);
 
-  gtk_application_set_accels_for_action (GTK_APPLICATION (app),
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self),
                                          "win.goto", goto_accels);
 
-  gtk_application_set_accels_for_action (GTK_APPLICATION (app),
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self),
                                          "app.help", help_accels);
 
-  gtk_application_set_accels_for_action (GTK_APPLICATION (app),
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self),
                                          "win.zoom-in", zoom_in_accels);
 
-  gtk_application_set_accels_for_action (GTK_APPLICATION (app),
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self),
                                          "win.zoom-out", zoom_out_accels);
 
-  gtk_application_set_accels_for_action (GTK_APPLICATION (app),
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self),
                                          "win.jump-back", jump_back_accels);
 
-  gtk_application_set_accels_for_action (GTK_APPLICATION (app),
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self),
                                          "win.jump-forward", jump_forward_accels);
 
-  gtk_application_set_accels_for_action (GTK_APPLICATION (app),
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self),
                                          "win.play", play_accels);
 
   style_manager = adw_style_manager_get_default ();
@@ -302,7 +304,7 @@ pt_app_startup (GApplication *app)
 static void
 pt_app_activate (GApplication *application)
 {
-  PtApp    *app = PT_APP (application);
+  PtApp    *self = PT_APP (application);
   GList    *windows;
   PtWindow *win;
 
@@ -313,11 +315,11 @@ pt_app_activate (GApplication *application)
     }
   else
     {
-      win = pt_window_new (app);
-      app->mpris = pt_mpris_new (win);
-      pt_mpris_start (app->mpris);
-      app->dbus_service = pt_dbus_service_new (win);
-      pt_dbus_service_start (app->dbus_service);
+      win = pt_window_new (self);
+      self->mpris = pt_mpris_new (win);
+      pt_mpris_start (self->mpris);
+      self->dbus_service = pt_dbus_service_new (win);
+      pt_dbus_service_start (self->dbus_service);
     }
 
   gtk_window_present (GTK_WINDOW (win));
@@ -359,22 +361,22 @@ pt_app_handle_local_options (GApplication *application,
 }
 
 static void
-pt_app_init (PtApp *app)
+pt_app_init (PtApp *self)
 {
-  app->settings = g_settings_new ("org.parlatype.Parlatype");
-  app->mpris = NULL;
-  app->dbus_service = NULL;
-  g_application_add_main_option_entries (G_APPLICATION (app), options);
+  self->settings = g_settings_new ("org.parlatype.Parlatype");
+  self->mpris = NULL;
+  self->dbus_service = NULL;
+  g_application_add_main_option_entries (G_APPLICATION (self), options);
 }
 
 static void
 pt_app_dispose (GObject *object)
 {
-  PtApp *app = PT_APP (object);
+  PtApp *self = PT_APP (object);
 
-  g_clear_object (&app->settings);
-  g_clear_object (&app->mpris);
-  g_clear_object (&app->dbus_service);
+  g_clear_object (&self->settings);
+  g_clear_object (&self->mpris);
+  g_clear_object (&self->dbus_service);
 
   G_OBJECT_CLASS (pt_app_parent_class)->dispose (object);
 }
