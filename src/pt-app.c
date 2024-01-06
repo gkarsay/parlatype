@@ -188,7 +188,7 @@ about_cb (GSimpleAction *action,
   adw_about_window_set_application_icon (about, APP_ID);
   adw_about_window_set_application_name (about, _ ("Parlatype"));
   adw_about_window_set_comments (about, _ ("A basic transcription utility"));
-  adw_about_window_set_copyright (about, "© Gabor Karsay 2016–2023");
+  adw_about_window_set_copyright (about, "© Gabor Karsay 2016–2024");
   adw_about_window_set_developers (about, developers);
   adw_about_window_set_developer_name (about, "Gabor Karsay");
   adw_about_window_set_designers (about, designers);
