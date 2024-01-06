@@ -106,30 +106,24 @@ pt_waveviewer_ruler_snapshot (GtkWidget   *widget,
   PtWaveviewerRuler *self = (PtWaveviewerRuler *) widget;
   gdouble            height = gtk_widget_get_height (GTK_WIDGET (widget));
 
-  gint             i;      /* counter, pixel on x-axis in the view */
-  gint             sample; /* sample in the array */
-  gchar           *text;
-  PangoLayout     *layout;
-  PangoRectangle   rect;
-  gint             halfwidth;
-  gint64           tmp_time;
-  GtkStyleContext *context;
-  GdkRGBA          text_color;
-  gint             width;
-  gint             offset;
-  gint             p_x, p_y;
-
-  width = gtk_widget_get_width (widget);
-  offset = (gint) gtk_adjustment_get_value (self->adj);
-
-  context = gtk_widget_get_style_context (GTK_WIDGET (self));
-  gtk_widget_get_color (GTK_WIDGET (self), &text_color);
-  gtk_snapshot_render_background (snapshot, context,
-                                  0, 0,
-                                  width, height);
+  gint           i;      /* counter, pixel on x-axis in the view */
+  gint           sample; /* sample in the array */
+  gchar         *text;
+  PangoLayout   *layout;
+  PangoRectangle rect;
+  gint           halfwidth;
+  gint64         tmp_time;
+  GdkRGBA        text_color;
+  gint           width;
+  gint           offset;
+  gint           p_x, p_y;
 
   if (self->n_samples == 0)
     return;
+
+  width = gtk_widget_get_width (widget);
+  offset = (gint) gtk_adjustment_get_value (self->adj);
+  gtk_widget_get_color (GTK_WIDGET (self), &text_color);
 
   /* ruler marks */
 

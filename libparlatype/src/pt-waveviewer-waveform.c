@@ -82,24 +82,19 @@ pt_waveviewer_waveform_snapshot (GtkWidget   *widget,
 {
   PtWaveviewerWaveform *self = (PtWaveviewerWaveform *) widget;
 
-  GArray          *peaks = self->peaks;
-  GtkStyleContext *context;
-  gint             pixel;
-  gint             array;
-  gdouble          min, max;
-  gint             width, height, offset;
-  gint             half, middle;
+  GArray *peaks = self->peaks;
+  gint    pixel;
+  gint    array;
+  gdouble min, max;
+  gint    width, height, offset;
+  gint    half, middle;
 
-  context = gtk_widget_get_style_context (GTK_WIDGET (widget));
-  height = gtk_widget_get_height (GTK_WIDGET (widget));
-  width = gtk_widget_get_width (GTK_WIDGET (widget));
-
-  gtk_widget_get_color (widget, &self->wave_color);
-  gtk_snapshot_render_background (snapshot, context,
-                                  0, 0,
-                                  width, height);
   if (peaks == NULL || peaks->len == 0)
     return;
+
+  height = gtk_widget_get_height (GTK_WIDGET (widget));
+  width = gtk_widget_get_width (GTK_WIDGET (widget));
+  gtk_widget_get_color (widget, &self->wave_color);
 
   /* paint waveform */
   offset = (gint) gtk_adjustment_get_value (self->adj);
