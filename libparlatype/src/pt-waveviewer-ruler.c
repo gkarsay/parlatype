@@ -117,6 +117,7 @@ pt_waveviewer_ruler_snapshot (GtkWidget   *widget,
   GdkRGBA          text_color;
   gint             width;
   gint             offset;
+  gint             p_x, p_y;
 
   width = gtk_widget_get_width (widget);
   offset = (gint) gtk_adjustment_get_value (self->adj);
@@ -195,10 +196,12 @@ pt_waveviewer_ruler_snapshot (GtkWidget   *widget,
           halfwidth = rect.width / 2;
           if (i - halfwidth > 0 && i + halfwidth < width)
             {
-              gtk_snapshot_render_layout (snapshot, context,
-                                          i - halfwidth,                     /* center at mark */
-                                          height - rect.y - rect.height - 3, /* +3 px above border */
-                                          layout);
+              p_x = i - halfwidth;                     /* center at mark   */
+              p_y = height - rect.y - rect.height - 3; /* 3px above border */
+              gtk_snapshot_save (snapshot);
+              gtk_snapshot_translate (snapshot, &GRAPHENE_POINT_INIT (p_x, p_y));
+              gtk_snapshot_append_layout (snapshot, layout, &text_color);
+              gtk_snapshot_restore (snapshot);
             }
           g_free (text);
           g_object_unref (layout);
