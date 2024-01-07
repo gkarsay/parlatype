@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Parlatype 3.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-01 20:58+0100\n"
-"PO-Revision-Date: 2023-08-16 20:46+0000\n"
+"PO-Revision-Date: 2024-01-08 22:06+0000\n"
 "Last-Translator: Alexander Gabilondo <alexgabi@openmailbox.org>\n"
 "Language-Team: Basque <https://hosted.weblate.org/projects/parlatype/"
 "parlatype/eu/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0-dev\n"
+"X-Generator: Weblate 5.4-dev\n"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:7
 #: data/org.parlatype.Parlatype.desktop.in:4 src/pt-app.c:183
@@ -340,7 +340,7 @@ msgstr ""
 #. Translators: Fallback label for a download location
 #: src/pt-asr-dialog.c:99
 msgid "Link"
-msgstr ""
+msgstr "Esteka"
 
 #. Not using title case here, this is more a status than a title.
 #: src/pt-asr-dialog.c:115
@@ -351,30 +351,30 @@ msgstr "Ez dago konfiguraziorik"
 
 #: src/pt-asr-dialog.c:117
 msgid "Deactivate"
-msgstr ""
+msgstr "Desaktibatu"
 
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:124
 msgid "Model data is installed."
-msgstr ""
+msgstr "Ereduaren datuak instalatuta daude."
 
 #: src/pt-asr-dialog.c:126 src/pt-asr-dialog.c:133
 msgid "Activate"
-msgstr ""
+msgstr "Aktibatu"
 
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:131
 msgid "Model data is not installed."
-msgstr ""
+msgstr "Ereduaren datuak ez daude instalatuta."
 
 #: src/pt-asr-dialog.c:132
 msgid "See next section for details."
-msgstr ""
+msgstr "Ikusi hurrengo atala xehetasunetarako."
 
 #. Translators: Configuration will be deleted, but not its data
 #: src/pt-asr-dialog.c:144
 msgid "Model data will be preserved"
-msgstr ""
+msgstr "Ereduaren datuak gordeko dira"
 
 #: src/pt-asr-dialog.c:222
 #, fuzzy
@@ -389,7 +389,7 @@ msgstr "CMU Pocketsphinx"
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:230
 msgid "Type of Model"
-msgstr ""
+msgstr "Eredu mota"
 
 #: src/pt-asr-dialog.c:232
 #, fuzzy
@@ -425,7 +425,7 @@ msgstr "Deskargatu:"
 #: src/pt-asr-dialog.c:314
 #, c-format
 msgid "“%s” has been deleted"
-msgstr ""
+msgstr "“%s” ezabatu da"
 
 #: src/pt-asr-dialog.c:322 src/pt-preferences.c:248 src/pt-preferences.c:416
 #: src/pt-preferences.c:451 src/pt-window.c:130
@@ -436,11 +436,11 @@ msgstr "Errorea"
 #: src/pt-asr-dialog.c:373
 #, c-format
 msgid "“%s” has been activated"
-msgstr ""
+msgstr "“%s” aktibatu da"
 
 #: src/pt-asr-dialog.c:376
 msgid "Configuration has been deactivated"
-msgstr ""
+msgstr "Konfigurazioa desaktibatu da"
 
 #: src/pt-config-row.c:79
 #, fuzzy
@@ -470,11 +470,11 @@ msgstr "Fitxategia ez da baliozko hizkuntza-ereduaren konfigurazioa."
 
 #: src/pt-preferences.c:459
 msgid "There is no plugin installed for this language model."
-msgstr ""
+msgstr "Ez dago hizkuntza-eredu honetarako pluginik instalatuta."
 
 #: src/pt-preferences.c:525 src/pt-prefs-install-row.c:136
 msgid "Select Model Folder"
-msgstr ""
+msgstr "Hautatu ereduaren karpeta"
 
 #: src/pt-preferences.c:533
 #, fuzzy
@@ -500,7 +500,7 @@ msgstr "Deskargatu, deskonprimatu karpeta batean eta hautatu karpeta hori."
 
 #: src/pt-prefs-install-row.c:114
 msgid "Model Data Not Found"
-msgstr ""
+msgstr "Ereduaren datuak ez dira aurkitu"
 
 #: src/pt-prefs-install-row.c:116
 #, fuzzy
@@ -572,7 +572,7 @@ msgstr "Instalazioa"
 
 #: src/resources/asr-dialog.ui:33
 msgid "General Information"
-msgstr ""
+msgstr "Informazio orokorra"
 
 #: src/resources/asr-dialog.ui:36
 #, fuzzy
@@ -620,7 +620,7 @@ msgstr "Erreproduzitu/Pausatu"
 
 #: src/resources/help-overlay.ui:52
 msgid "SKip backward"
-msgstr ""
+msgstr "Saltatu atzera"
 
 #: src/resources/help-overlay.ui:59 src/resources/window.ui:142
 #, fuzzy
@@ -690,7 +690,7 @@ msgstr "Bistaratu"
 
 #: src/resources/preferences.ui:16
 msgid "Change appearance of the waveform and cursor movement."
-msgstr ""
+msgstr "Aldatu uhin-formaren eta kurtsorearen mugimenduaren itxura."
 
 #: src/resources/preferences.ui:19
 #, fuzzy
@@ -712,7 +712,7 @@ msgstr "Erakutsi _denbora eskala"
 
 #: src/resources/preferences.ui:58
 msgid "Cursor Mode"
-msgstr ""
+msgstr "Kurtsore modua"
 
 #: src/resources/preferences.ui:62
 #, fuzzy
@@ -734,46 +734,43 @@ msgstr "Kontrolak"
 
 #: src/resources/preferences.ui:80
 msgid "Pause and Skip Buttons"
-msgstr ""
+msgstr "Pausatzeko eta Saltatzeko botoiak"
 
 #: src/resources/preferences.ui:81
 msgid "Set amount of time to skip in seconds."
-msgstr ""
+msgstr "Ezarri saltatzeko denbora segundotan."
 
 #: src/resources/preferences.ui:84
 msgid "Rewind on Pause"
-msgstr ""
+msgstr "Atzera egin pausatzean"
 
 #: src/resources/preferences.ui:85
 msgid "Set to zero to disable this feature"
-msgstr ""
+msgstr "Ezarri zero funtzio hau desgaitzeko"
 
 #: src/resources/preferences.ui:98
 msgid "Skip Backward"
-msgstr ""
+msgstr "Saltatu atzera"
 
 #: src/resources/preferences.ui:111
-#, fuzzy
-#| msgid "Jump forward 1 second"
-#| msgid_plural "Jump forward %d seconds"
 msgid "Skip Forward"
-msgstr "Aurrera egin segundo 1"
+msgstr "Saltatu aurrera"
 
 #: src/resources/preferences.ui:126
 msgid "Play Button"
-msgstr ""
+msgstr "Erreproduzitzeko botoia"
 
 #: src/resources/preferences.ui:127
 msgid "Change behavior of play button."
-msgstr ""
+msgstr "Aldatu erreproduzitzeko botoiaren portaera."
 
 #: src/resources/preferences.ui:130
 msgid "At End of File Replay File"
-msgstr ""
+msgstr "Bukaerara iristean berriro erreproduzitu"
 
 #: src/resources/preferences.ui:135
 msgid "At End of Selection Replay Selection"
-msgstr ""
+msgstr "Hautapena bukatzean berriro erreproduzitu hautapena"
 
 #: src/resources/preferences.ui:145
 msgid "Timestamps"
@@ -790,6 +787,9 @@ msgid ""
 "Customize produced timestamps. Note that all formats can be read, these "
 "settings are applied when timestamps are written."
 msgstr ""
+"Pertsonalizatu sortutako denbora-zigiluak. Kontuan izan formatu guztiak "
+"irakur daitezkeela, ezarpen hauek denbora-zigiluak idazten direnean "
+"aplikatzen dira."
 
 #: src/resources/preferences.ui:153
 #, fuzzy
@@ -867,7 +867,7 @@ msgstr "[Kortxeteak]"
 
 #: src/resources/preferences.ui:202
 msgid "Preview"
-msgstr ""
+msgstr "Aurre-ikusi"
 
 #: src/resources/preferences.ui:211
 #, fuzzy
@@ -886,6 +886,8 @@ msgid ""
 "Inspect configuration details, learn how to install model data, and choose a "
 "configuration for automatic speech recognition."
 msgstr ""
+"Ikuskatu konfigurazioaren xehetasunak, ikasi ereduaren datuak nola instalatu "
+"eta aukeratu ahotsa hautemateko konfigurazio bat."
 
 #: src/resources/preferences.ui:223
 #, fuzzy
@@ -901,7 +903,7 @@ msgstr "Hizkuntza-ereduaren konfigurazioa ezabatu nahi duzu?"
 
 #: src/resources/prefs-install-row.ui:11
 msgid "Choose folder"
-msgstr ""
+msgstr "Aukeratu karpeta"
 
 #: src/resources/window.ui:41
 msgid "Open a file"
@@ -909,7 +911,7 @@ msgstr "Ireki fitxategi bat"
 
 #: src/resources/window.ui:51
 msgid "Main Menu"
-msgstr ""
+msgstr "Menu nagusia"
 
 #: src/resources/window.ui:97
 #, fuzzy
@@ -928,7 +930,7 @@ msgstr "Abiadura:"
 
 #: src/resources/window.ui:199
 msgid "Volume"
-msgstr ""
+msgstr "Bolumena"
 
 #, fuzzy
 #~| msgid "There is no configuration"
