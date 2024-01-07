@@ -1,5 +1,5 @@
 /* Copyright (C) 2006 Buzztrax team <buzztrax-devel@buzztrax.org>
- * Copyright (C) Gabor Karsay 2016, 2020 <gabor.karsay@gmx.at>
+ * Copyright 2016 Gabor Karsay <gabor.karsay@gmx.at>
  *
  * Taken from wave.c (bt_wave_load_from_uri) from Buzztrax and heavily modified.
  *

@@ -1,4 +1,4 @@
-/* Copyright (C) Gabor Karsay 2016 <gabor.karsay@gmx.at>
+/* Copyright 2016 Gabor Karsay <gabor.karsay@gmx.at>
  *
  * Based on Totem, string_to_time() almost unchanged, rest modified:
  * https://git.gnome.org/browse/totem/tree/src/plugins/skipto/totem-time-entry.c?h=gnome-3-14

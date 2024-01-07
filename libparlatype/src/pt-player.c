@@ -1,4 +1,4 @@
-/* Copyright (C) Gabor Karsay 2016-2020 <gabor.karsay@gmx.at>
+/* Copyright 2016 Gabor Karsay <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
