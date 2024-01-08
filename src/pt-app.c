@@ -178,10 +178,15 @@ about_cb (GSimpleAction *action,
   };
 
   const gchar *credits_for_copy_paste_code[] = {
-    "Buzztrax team <buzztrax-devel@buzztrax.org>",
-    "Philip Withnall <philip@tecnocode.co.uk>",
-    "Magnus Hjorth, mhWaveEdit",
-    "Christian Hergert <chergert@redhat.com>",
+    /* roughly in chronological order */
+    "Frederik Elwert (Transcribe)",
+    "Buzztrax team (Buzztrax)",
+    "Magnus Hjorth (mhWaveEdit)",
+    "Philip Withnall (totem)",
+    "David Huggins-Daines (pocketsphinx)",
+    "Jonathan Matthew (Rhythmbox)",
+    "William Jon McCann, Ray Strode (gnome-desktop)",
+    "Christian Hergert (gnome-text-editor)",
     NULL
   };
 
