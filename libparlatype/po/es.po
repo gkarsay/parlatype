@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-01 20:58+0100\n"
+"POT-Creation-Date: 2024-01-10 19:55+0100\n"
 "PO-Revision-Date: 2020-05-08 21:04+0000\n"
 "Last-Translator: Rodrigo Lledó <rodhos92@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -46,7 +46,7 @@ msgstr ""
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
 #. the separator that your locale uses or use "%Id" instead
 #. of "%d" if your locale uses localized digits.
-#: libparlatype/src/pt-player.c:1513 libparlatype/src/pt-waveviewer-ruler.c:181
+#: libparlatype/src/pt-player.c:1513 libparlatype/src/pt-waveviewer-ruler.c:175
 #: libparlatype/src/pt-waveviewer-ruler.c:242
 #, c-format
 msgctxt "long time format"
@@ -107,7 +107,7 @@ msgstr "%02d:%02d,%02d"
 #. 5 minutes, and 30 seconds. You may change ":" to
 #. the separator that your locale uses or use "%Id" instead
 #. of "%d" if your locale uses localized digits.
-#: libparlatype/src/pt-player.c:1576 libparlatype/src/pt-waveviewer-ruler.c:188
+#: libparlatype/src/pt-player.c:1576 libparlatype/src/pt-waveviewer-ruler.c:182
 #: libparlatype/src/pt-waveviewer-ruler.c:244
 #, c-format
 msgctxt "shortest time format"
