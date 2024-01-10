@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Parlatype 3.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-01 20:58+0100\n"
+"POT-Creation-Date: 2024-01-10 19:55+0100\n"
 "PO-Revision-Date: 2024-01-08 22:06+0000\n"
 "Last-Translator: Alexander Gabilondo <alexgabi@openmailbox.org>\n"
 "Language-Team: Basque <https://hosted.weblate.org/projects/parlatype/"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Generator: Weblate 5.4-dev\n"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:7
-#: data/org.parlatype.Parlatype.desktop.in:4 src/pt-app.c:183
+#: data/org.parlatype.Parlatype.desktop.in:4 src/pt-app.c:196
 #: src/resources/window.ui:30
 msgid "Parlatype"
 msgstr "Parlatype"
@@ -41,7 +41,34 @@ msgstr ""
 msgid "Gabor Karsay"
 msgstr "Gabor Karsay"
 
-#: data/org.parlatype.Parlatype.appdata.xml.in:46
+#: data/org.parlatype.Parlatype.appdata.xml.in:47
+msgid ""
+"Follow GNOME human interface guidelines throughout the app using libadwaita."
+msgstr ""
+
+#: data/org.parlatype.Parlatype.appdata.xml.in:48
+msgid "Add a theme selector (borrowed from GNOME Text Editor)."
+msgstr ""
+
+#: data/org.parlatype.Parlatype.appdata.xml.in:49
+msgid "Fix F10 shortcut to toggle main menu."
+msgstr ""
+
+#: data/org.parlatype.Parlatype.appdata.xml.in:50
+msgid ""
+"Remove support for Mozilla DeepSpeech because the project is discontinued."
+msgstr ""
+
+#. Translators: This has very low priority, it's the description for an old release.
+#: data/org.parlatype.Parlatype.appdata.xml.in:51
+#: data/org.parlatype.Parlatype.appdata.xml.in:72
+#: data/org.parlatype.Parlatype.appdata.xml.in:84
+#: data/org.parlatype.Parlatype.appdata.xml.in:100
+msgid "Translation updates for several languages."
+msgstr "Hainbat hizkuntzatarako itzulpen eguneraketak."
+
+#. Translators: This has very low priority, it's the description for an old release.
+#: data/org.parlatype.Parlatype.appdata.xml.in:58
 #, fuzzy
 #| msgid "Translation updates for several languages."
 msgid ""
@@ -50,57 +77,50 @@ msgid ""
 msgstr "Hainbat hizkuntzatarako itzulpen eguneraketak."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:52
+#: data/org.parlatype.Parlatype.appdata.xml.in:64
 msgid "This is a minor release with a new feature."
 msgstr "Hau bertsio-berritze txiki bat da, funtzio berri batekin."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:55
+#: data/org.parlatype.Parlatype.appdata.xml.in:67
 msgid "Added MPRIS interface."
 msgstr "MPRIS interfazea gehitu da."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:57
+#: data/org.parlatype.Parlatype.appdata.xml.in:69
 msgid "Smaller bug fixes."
 msgstr "Akatsen konponketa txikia."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:59
+#: data/org.parlatype.Parlatype.appdata.xml.in:71
 msgid "Switched to Weblate for translations."
 msgstr "Itzulpenetarako Weblate-ra aldatu da."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:60
-#: data/org.parlatype.Parlatype.appdata.xml.in:72
-#: data/org.parlatype.Parlatype.appdata.xml.in:88
-msgid "Translation updates for several languages."
-msgstr "Hainbat hizkuntzatarako itzulpen eguneraketak."
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:66
-#: data/org.parlatype.Parlatype.appdata.xml.in:95
+#: data/org.parlatype.Parlatype.appdata.xml.in:78
+#: data/org.parlatype.Parlatype.appdata.xml.in:107
 msgid "This is a major release with new features."
 msgstr "Ezaugarri berriak dituen bertsio nagusia da."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:69
+#: data/org.parlatype.Parlatype.appdata.xml.in:81
 msgid "Support for Mozilla DeepSpeech."
 msgstr "Mozilla DeepSpeech-erako laguntza."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:71
+#: data/org.parlatype.Parlatype.appdata.xml.in:83
 msgid "New configuration system for Automatic Speech Recognition."
 msgstr "Ahots-ezagutze automatikoaren konfigurazio-sistema berria."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:79
+#: data/org.parlatype.Parlatype.appdata.xml.in:91
 msgid "This is a minor release with bug fixes and minor new features."
 msgstr ""
 "Hau akatsen konponketa eta eginbide berri txikiak dituen bertsio txiki bat "
 "da."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:82
+#: data/org.parlatype.Parlatype.appdata.xml.in:94
 msgid ""
 "Mute/unmute volume by clicking on the volume icon with the pointer’s "
 "secondary button (usually right mouse button)."
@@ -109,7 +129,7 @@ msgstr ""
 "sekundarioarekin (oro har saguaren eskuin botoia)."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:84
+#: data/org.parlatype.Parlatype.appdata.xml.in:96
 msgid ""
 "With Pulseaudio Parlatype doesn’t change the system volume anymore, just its "
 "own application specific volume."
@@ -118,29 +138,29 @@ msgstr ""
 "bolumen espezifikoa baizik."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:86
+#: data/org.parlatype.Parlatype.appdata.xml.in:98
 msgid "The initial volume level is picked up from Pulseaudio."
 msgstr "Hasierako bolumen-maila Pulseaudio-tik jasotzen da."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:98
+#: data/org.parlatype.Parlatype.appdata.xml.in:110
 msgid "Waveform is loaded on-the-fly, there is no blocking progress dialog."
 msgstr ""
 "Uhin forma unean-unean kargatzen da, ez dago blokeorik gabeko aurrerapen-"
 "elkarrizketarik."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:100
+#: data/org.parlatype.Parlatype.appdata.xml.in:112
 msgid "Waveform can be changed continuously instead of in discrete steps."
 msgstr "Uhin-forma etengabe alda daiteke, urrats diskretuetan izan beharrean."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:107
+#: data/org.parlatype.Parlatype.appdata.xml.in:119
 msgid "This is a minor release."
 msgstr "Bertsio txikiagoa da hau."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:110
+#: data/org.parlatype.Parlatype.appdata.xml.in:122
 msgid ""
 "Update time label only if time has changed. This is a performance increase, "
 "cursor movement should be smoother on slower systems."
@@ -149,17 +169,17 @@ msgstr ""
 "da, kurtsorearen mugimendua leunagoa izan beharko luke sistema motelagoetan."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:112
+#: data/org.parlatype.Parlatype.appdata.xml.in:124
 msgid "Translation updates for Hungarian, Lithuanian and Spanish"
 msgstr "Itzulpen eguneraketak hungariera, lituaniera eta gaztelaniarako"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:119
+#: data/org.parlatype.Parlatype.appdata.xml.in:131
 msgid "This is a minor release with some changes."
 msgstr "Aldaketa batzuk dituen bertsio txiki bat da hau."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:122
+#: data/org.parlatype.Parlatype.appdata.xml.in:134
 msgid ""
 "Automatic speech recognition (ASR) is now disabled by default and it’s only "
 "shown, if Parlatype is launched with the new parameter \\\"--with-asr\\\""
@@ -169,12 +189,12 @@ msgstr ""
 "abiarazten bada"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:124
+#: data/org.parlatype.Parlatype.appdata.xml.in:136
 msgid "Fix internationalization: Some translations were not shown"
 msgstr "Konpondu nazioartekotzea: itzulpen batzuk ez dira erakutsi"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:126
+#: data/org.parlatype.Parlatype.appdata.xml.in:138
 msgid ""
 "Translation updates for Arabic, British English, Czech, Dutch, German, "
 "Polish and Spanish"
@@ -183,27 +203,27 @@ msgstr ""
 "nederlandera, alemana, poloniera eta gaztelania"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:133
+#: data/org.parlatype.Parlatype.appdata.xml.in:145
 msgid "This is a major release with some new features."
 msgstr "Zenbait ezaugarri berri dituen bertsio nagusia da."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:136
+#: data/org.parlatype.Parlatype.appdata.xml.in:148
 msgid "Automatic speech recognition with CMU Sphinx"
 msgstr "Ahots-ezagutze automatikoa CMU Sphinx-ekin"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:138
+#: data/org.parlatype.Parlatype.appdata.xml.in:150
 msgid "Design changes, including removal of application menu"
 msgstr "Diseinu aldaketak, aplikazioen menua kentzea barne"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:140
+#: data/org.parlatype.Parlatype.appdata.xml.in:152
 msgid "Custom timestamps"
 msgstr "Denbora-marka pertsonalizatuak"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:142
+#: data/org.parlatype.Parlatype.appdata.xml.in:154
 msgid ""
 "Translation updates for Brazilian Portuguese, British English, Czech, "
 "German, Japanese, Lithuanian and Polish"
@@ -212,45 +232,45 @@ msgstr ""
 "lituaniera eta polonierarako itzulpen eguneraketak"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:149
+#: data/org.parlatype.Parlatype.appdata.xml.in:161
 msgid "This is a minor maintenance release."
 msgstr "Mantentze-lanen bertsio txikia da hau."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:152
+#: data/org.parlatype.Parlatype.appdata.xml.in:164
 msgid "Animate scrolling when using keybindings"
 msgstr "Animatu korritzea laster-teklak erabiltzean"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:154
+#: data/org.parlatype.Parlatype.appdata.xml.in:166
 msgid "Change desktop entry category to Audio/Video instead of Utilities"
 msgstr ""
 "Aldatu mahaigaineko sarrera-kategoria Audio/Bideo-ra Erabilgarritasunen ordez"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:156
+#: data/org.parlatype.Parlatype.appdata.xml.in:168
 msgid "Translation updates for French"
 msgstr "Itzulpen eguneraketak frantseserako"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:163
+#: data/org.parlatype.Parlatype.appdata.xml.in:175
 msgid "This release contains a number of bug fixes and minor improvements."
 msgstr "Bertsio honek akatsen konponketa eta hobekuntza txiki batzuk ditu."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:166
+#: data/org.parlatype.Parlatype.appdata.xml.in:178
 msgid "Progress Dialog has now a countdown timer (estimated time left)"
 msgstr ""
 "Aurrerapen Elkarrizketa-koadroak tenporizadore bat du (geratzen den denbora "
 "estimatua)"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:168
+#: data/org.parlatype.Parlatype.appdata.xml.in:180
 msgid "Increase max. possible speed to 2.0"
 msgstr "Gehienezko abiadura 2.0ra handitu da"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:170
+#: data/org.parlatype.Parlatype.appdata.xml.in:182
 msgid ""
 "New keyboard shortcuts for Play/Pause (Ctrl + Space), Jump back (Ctrl + "
 "Left), Jump forward (Ctrl + Right)"
@@ -259,17 +279,17 @@ msgstr ""
 "egin (Ktrl + Ezkerrera), Aurrera egin (Ktrl + Eskuinera)"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:172
+#: data/org.parlatype.Parlatype.appdata.xml.in:184
 msgid "Scrolling now also possible with vertical scrollbar"
 msgstr "Korritzea orain korritze-barra bertikalarekin ere posible da"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:174
+#: data/org.parlatype.Parlatype.appdata.xml.in:186
 msgid "Various fixes for waveform and cursor display"
 msgstr "Uhin forma eta kurtsorea bistaratzeko hainbat konponketa"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:176
+#: data/org.parlatype.Parlatype.appdata.xml.in:188
 msgid ""
 "Translation updates for Arabic, British English, Catalan, German, Finnish, "
 "French, Japanese, Lithuanian, Polish, Spanish and Swedish"
@@ -286,49 +306,41 @@ msgstr "Transkripzioak egiteko tresna"
 msgid "Transcription;"
 msgstr "Transkripzioa;"
 
-#: src/pt-app.c:46
+#: src/pt-app.c:47
 msgid "Show the application’s version"
 msgstr "Erakutsi aplikazioaren bertsioa"
 
-#: src/pt-app.c:91
+#: src/pt-app.c:93
 msgid "Open Audio File"
 msgstr "Ireki audio fitxategia"
 
-#: src/pt-app.c:94 src/resources/window.ui:38
-msgid "_Open"
-msgstr "_Ireki"
-
-#: src/pt-app.c:95 src/resources/goto-dialog.ui:52
-msgid "_Cancel"
-msgstr "_Utzi"
-
-#: src/pt-app.c:117
+#: src/pt-app.c:115
 #, fuzzy
 #| msgid "Audio files"
 msgid "Audio Files"
 msgstr "Audio fitxategiak"
 
-#: src/pt-app.c:118 src/pt-preferences.c:534
+#: src/pt-app.c:116 src/pt-preferences.c:534
 #, fuzzy
 #| msgid "All files"
 msgid "All Files"
 msgstr "Fitxategi guztiak"
 
-#: src/pt-app.c:180
+#: src/pt-app.c:193
 #, fuzzy
 #| msgid "Including code from other projects:"
 msgid "Code from other projects"
 msgstr "Beste proiektu batzuen kodea du:"
 
-#: src/pt-app.c:184
+#: src/pt-app.c:197
 msgid "A basic transcription utility"
 msgstr "Transkripzioak egiteko oinarrizko tresna"
 
-#: src/pt-app.c:190
+#: src/pt-app.c:203
 msgid "translator-credits"
 msgstr "Alexander Gabilondo"
 
-#: src/pt-app.c:314
+#: src/pt-app.c:344
 #, c-format
 msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
@@ -428,7 +440,7 @@ msgid "“%s” has been deleted"
 msgstr "“%s” ezabatu da"
 
 #: src/pt-asr-dialog.c:322 src/pt-preferences.c:248 src/pt-preferences.c:416
-#: src/pt-preferences.c:451 src/pt-window.c:130
+#: src/pt-preferences.c:451 src/pt-window.c:86
 msgid "Error"
 msgstr "Errorea"
 
@@ -508,7 +520,7 @@ msgstr "Ereduaren datuak ez dira aurkitu"
 msgid "The chosen folder does not contain data for this configuration."
 msgstr "Fitxategia ez da baliozko hizkuntza-ereduaren konfigurazioa."
 
-#: src/pt-window.c:408
+#: src/pt-window.c:396
 #, fuzzy, c-format
 #| msgid "Jump back 1 second"
 #| msgid_plural "Jump back %d seconds"
@@ -517,7 +529,7 @@ msgid_plural "Skip back %d seconds"
 msgstr[0] "Atzera egin segundo 1"
 msgstr[1] "Atzera egin %d segundo"
 
-#: src/pt-window.c:425
+#: src/pt-window.c:413
 #, fuzzy, c-format
 #| msgid "Jump forward 1 second"
 #| msgid_plural "Jump forward %d seconds"
@@ -526,41 +538,41 @@ msgid_plural "Skip forward %d seconds"
 msgstr[0] "Aurrera egin segundo 1"
 msgstr[1] "Aurrera egin %d segundo"
 
-#: src/pt-window.c:446
+#: src/pt-window.c:434
 msgid "Pause"
 msgstr "Pausa"
 
-#: src/pt-window.c:451
+#: src/pt-window.c:439
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
 msgstr[0] "Pausatu eta atzera egin segundo 1"
 msgstr[1] "Pausatu eta atzera egin %d segundo"
 
-#: src/pt-window.c:460
+#: src/pt-window.c:448
 msgid "Start playing"
 msgstr "Hasi erreproduzitzen"
 
 #. Translators: %s is replaced with a timestamp
-#: src/pt-window.c:500
+#: src/pt-window.c:488
 #, fuzzy, c-format
 #| msgid "Go to time in clipboard: %s"
 msgid "Go to Time in Clipboard: %s"
 msgstr "Joan ordura arbelean: %s"
 
-#: src/pt-window.c:502 src/pt-window.c:1180
+#: src/pt-window.c:490 src/pt-window.c:1166
 #, fuzzy
 #| msgid "Go to time in clipboard"
 msgid "Go to Time in Clipboard"
 msgstr "Joan ordura arbelean"
 
-#: src/pt-window.c:1175
+#: src/pt-window.c:1161
 #, fuzzy
 #| msgid "Manual transcription"
 msgid "Manual Transcription"
 msgstr "Eskuzko transkripzioa"
 
-#: src/pt-window.c:1176
+#: src/pt-window.c:1162
 #, fuzzy
 #| msgid "Automatic transcription"
 msgid "Automatic Transcription"
@@ -569,6 +581,12 @@ msgstr "Transkripzio automatikoa"
 #: src/resources/asr-dialog.ui:29
 msgid "Installation"
 msgstr "Instalazioa"
+
+#: src/resources/asr-dialog.ui:30
+#, fuzzy
+#| msgid "There is no plugin installed for this language model."
+msgid "How to install this language model."
+msgstr "Ez dago hizkuntza-eredu honetarako pluginik instalatuta."
 
 #: src/resources/asr-dialog.ui:33
 msgid "General Information"
@@ -580,13 +598,51 @@ msgstr "Informazio orokorra"
 msgid "Display Name"
 msgstr "Bistaratzeko izena:"
 
-#: src/resources/goto-dialog.ui:10 src/resources/menus.ui:34
+#: src/resources/asr-dialog.ui:44
+#, fuzzy
+#| msgid "There is no configuration"
+msgid "Delete this Configuration"
+msgstr "Ez dago konfiguraziorik"
+
+#: src/resources/asr-dialog.ui:48
+msgid "Delete"
+msgstr ""
+
+#: src/resources/editor-theme-selector.ui:22
+msgid "Follow System Style"
+msgstr ""
+
+#: src/resources/editor-theme-selector.ui:24
+msgid "Follow system style"
+msgstr ""
+
+#: src/resources/editor-theme-selector.ui:39
+msgid "Light Style"
+msgstr ""
+
+#: src/resources/editor-theme-selector.ui:41
+msgid "Light style"
+msgstr ""
+
+#: src/resources/editor-theme-selector.ui:57
+msgid "Dark Style"
+msgstr ""
+
+#: src/resources/editor-theme-selector.ui:59
+msgid "Dark style"
+msgstr ""
+
+#: src/resources/goto-dialog.ui:10 src/resources/window.ui:261
 msgid "Go to…"
 msgstr "Joan hona…"
 
 #: src/resources/goto-dialog.ui:20
 msgid "Go to position:"
 msgstr "Joan posizio honetara:"
+
+#: src/resources/goto-dialog.ui:52
+msgid "_Cancel"
+msgstr "_Utzi"
 
 #: src/resources/goto-dialog.ui:60
 msgid "_OK"
@@ -618,11 +674,14 @@ msgstr "Uhin forma"
 msgid "Play/Pause"
 msgstr "Erreproduzitu/Pausatu"
 
-#: src/resources/help-overlay.ui:52
-msgid "SKip backward"
-msgstr "Saltatu atzera"
+#: src/resources/help-overlay.ui:52 src/resources/window.ui:99
+#, fuzzy
+#| msgid "Jump back 1 second"
+#| msgid_plural "Jump back %d seconds"
+msgid "Skip backward"
+msgstr "Atzera egin segundo 1"
 
-#: src/resources/help-overlay.ui:59 src/resources/window.ui:142
+#: src/resources/help-overlay.ui:59 src/resources/window.ui:144
 #, fuzzy
 #| msgid "Jump forward"
 msgid "Skip forward"
@@ -648,7 +707,7 @@ msgstr "Kopiatu denbora-marka arbelean"
 msgid "Go to timestamp in clipboard"
 msgstr "Joan arbeleko denbora-markara"
 
-#: src/resources/help-overlay.ui:102 src/resources/menus.ui:15
+#: src/resources/help-overlay.ui:102 src/resources/window.ui:242
 msgid "Help"
 msgstr "Laguntza"
 
@@ -660,29 +719,9 @@ msgstr "Erakutsi laguntza"
 msgid "Show keyboard shortcuts"
 msgstr "Erakutsi laster-teklak"
 
-#: src/resources/menus.ui:7 src/resources/preferences.ui:7
+#: src/resources/preferences.ui:7 src/resources/window.ui:234
 msgid "Preferences"
 msgstr "Hobespenak"
-
-#: src/resources/menus.ui:11
-msgid "_Keyboard Shortcuts"
-msgstr "_Laster-teklak"
-
-#: src/resources/menus.ui:19
-msgid "About Parlatype"
-msgstr "Parlatype-ri buruz"
-
-#: src/resources/menus.ui:26
-#, fuzzy
-#| msgid "Copy time to clipboard"
-msgid "Copy Time to Clipboard"
-msgstr "Kopiatu denbora arbelean"
-
-#: src/resources/menus.ui:30
-#, fuzzy
-#| msgid "Go to cursor"
-msgid "Go to Cursor"
-msgstr "Joan kurtsorera"
 
 #: src/resources/preferences.ui:15
 msgid "Display"
@@ -905,37 +944,52 @@ msgstr "Hizkuntza-ereduaren konfigurazioa ezabatu nahi duzu?"
 msgid "Choose folder"
 msgstr "Aukeratu karpeta"
 
+#: src/resources/window.ui:38
+msgid "_Open"
+msgstr "_Ireki"
+
 #: src/resources/window.ui:41
 msgid "Open a file"
 msgstr "Ireki fitxategi bat"
 
-#: src/resources/window.ui:51
+#: src/resources/window.ui:52
 msgid "Main Menu"
 msgstr "Menu nagusia"
 
-#: src/resources/window.ui:97
-#, fuzzy
-#| msgid "Jump back 1 second"
-#| msgid_plural "Jump back %d seconds"
-msgid "Skip backward"
-msgstr "Atzera egin segundo 1"
-
-#: src/resources/window.ui:123
+#: src/resources/window.ui:125
 msgid "_Play"
 msgstr "_Erreproduzitu"
 
-#: src/resources/window.ui:168
+#: src/resources/window.ui:171
 msgid "Speed:"
 msgstr "Abiadura:"
 
-#: src/resources/window.ui:199
+#: src/resources/window.ui:202
 msgid "Volume"
 msgstr "Bolumena"
 
+#: src/resources/window.ui:238
+msgid "_Keyboard Shortcuts"
+msgstr "_Laster-teklak"
+
+#: src/resources/window.ui:246
+msgid "About Parlatype"
+msgstr "Parlatype-ri buruz"
+
+#: src/resources/window.ui:253
 #, fuzzy
-#~| msgid "There is no configuration"
-#~ msgid "This will delete the configuration"
-#~ msgstr "Ez dago konfiguraziorik"
+#| msgid "Copy time to clipboard"
+msgid "Copy Time to Clipboard"
+msgstr "Kopiatu denbora arbelean"
+
+#: src/resources/window.ui:257
+#, fuzzy
+#| msgid "Go to cursor"
+msgid "Go to Cursor"
+msgstr "Joan kurtsorera"
+
+#~ msgid "SKip backward"
+#~ msgstr "Saltatu atzera"
 
 #~ msgid "Jump back"
 #~ msgstr "Jauzi atzera"
