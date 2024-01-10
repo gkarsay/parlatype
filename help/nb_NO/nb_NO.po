@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Parlatype 3.0\n"
-"POT-Creation-Date: 2024-01-01 20:58+0100\n"
+"POT-Creation-Date: 2024-01-10 19:55+0100\n"
 "PO-Revision-Date: 2022-02-13 13:56+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/"

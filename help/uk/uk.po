@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2024-01-01 20:58+0100\n"
+"POT-Creation-Date: 2024-01-10 19:55+0100\n"
 "PO-Revision-Date: 2023-11-18 10:00+0000\n"
 "Last-Translator: Olga Akhtirskaia <akhtirskaia@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/parlatype/"
