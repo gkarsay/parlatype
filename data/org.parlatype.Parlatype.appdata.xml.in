@@ -1,195 +1,207 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright 2017–2019 Gabor Karsay <gabor.karsay@gmx.at> -->
 <component type="desktop">
-	<id>org.parlatype.Parlatype.desktop</id>
-	<metadata_license>CC-BY-SA-4.0</metadata_license>
-	<project_license>GPL-3.0+</project_license>
-	<name>Parlatype</name>
-	<summary>Media player for speech transcription</summary>
+  <id>org.parlatype.Parlatype.desktop</id>
+  <metadata_license>CC-BY-SA-4.0</metadata_license>
+  <project_license>GPL-3.0+</project_license>
+  <name>Parlatype</name>
+  <summary>Media player for speech transcription</summary>
 
-	<description>
-		<p>Parlatype is an easy to use media player. Its main purpose is to help
+  <description>
+    <p>Parlatype is an easy to use media player. Its main purpose is to help
       you transcribing speech.</p>
-	</description>
+  </description>
 
-	<screenshots>
-		<screenshot type="default">
-			<image>https://raw.githubusercontent.com/gkarsay/parlatype/master/data/screenshot.png</image>
-		</screenshot>
-	</screenshots>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/gkarsay/parlatype/master/data/screenshot.png</image>
+    </screenshot>
+  </screenshots>
 
-	<url type="homepage">https://www.parlatype.org</url>
-	<url type="bugtracker">https://github.com/gkarsay/parlatype/issues</url>
-	<url type="translate">https://hosted.weblate.org/engage/parlatype/</url>
-	<url type="donation">https://www.parlatype.org/donate.html</url>
-	<developer_name>Gabor Karsay</developer_name>
+  <url type="homepage">https://www.parlatype.org</url>
+  <url type="bugtracker">https://github.com/gkarsay/parlatype/issues</url>
+  <url type="translate">https://hosted.weblate.org/engage/parlatype/</url>
+  <url type="donation">https://www.parlatype.org/donate.html</url>
+  <developer_name>Gabor Karsay</developer_name>
 
-	<provides>
-		<binary>parlatype</binary>
-		<id>com.github.gkarsay.parlatype.desktop</id>
-	</provides>
+  <provides>
+    <binary>parlatype</binary>
+    <id>com.github.gkarsay.parlatype.desktop</id>
+  </provides>
 
-	<translation type="gettext">parlatype</translation>
-	<translation type="gettext">libparlatype</translation>
+  <translation type="gettext">parlatype</translation>
+  <translation type="gettext">libparlatype</translation>
 
-	<suggests>
-		<id>libreoffice-writer.desktop</id>
-	</suggests>
-	<kudos>
-		<kudo>ModernToolkit</kudo>
-		<kudo>UserDocs</kudo>
-	</kudos>
+  <suggests>
+    <id>libreoffice-writer.desktop</id>
+  </suggests>
+  <kudos>
+    <kudo>ModernToolkit</kudo>
+    <kudo>UserDocs</kudo>
+  </kudos>
 
-	<releases>
-		<release version="4.0" date="2023-11-26">
-			<description>
-			<p>This release is switching to GTK 4 and brings translation updates for several languages.</p>
-			</description>
-		</release>
-		<release version="3.1" date="2021-12-19">
-			<description>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<p>This is a minor release with a new feature.</p>
-			<ul>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<li>Added MPRIS interface.</li>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<li>Smaller bug fixes.</li>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<li>Switched to Weblate for translations.</li>
-			<li>Translation updates for several languages.</li>
-			</ul>
-			</description>
-		</release>
-		<release version="3.0" date="2021-11-02">
-			<description>
-			<p>This is a major release with new features.</p>
-			<ul>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<li>Support for Mozilla DeepSpeech.</li>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<li>New configuration system for Automatic Speech Recognition.</li>
-			<li>Translation updates for several languages.</li>
-			</ul>
-			</description>
-		</release>
-		<release version="2.1" date="2020-06-21">
-			<description>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<p>This is a minor release with bug fixes and minor new features.</p>
-			<ul>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<li>Mute/unmute volume by clicking on the volume icon with the pointer’s secondary button (usually right mouse button).</li>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<li>With Pulseaudio Parlatype doesn’t change the system volume anymore, just its own application specific volume.</li>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<li>The initial volume level is picked up from Pulseaudio.</li>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<li>Translation updates for several languages.</li>
-			</ul>
-			</description>
-		</release>
-		<release version="2.0" date="2020-03-19">
-			<description>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<p>This is a major release with new features.</p>
-			<ul>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<li>Waveform is loaded on-the-fly, there is no blocking progress dialog.</li>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<li>Waveform can be changed continuously instead of in discrete steps.</li>
-			</ul>
-			</description>
-		</release>
-		<release version="1.6.2" date="2019-08-31">
-			<description>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<p>This is a minor release.</p>
-			<ul>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<li>Update time label only if time has changed. This is a performance increase, cursor movement should be smoother on slower systems.</li>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<li>Translation updates for Hungarian, Lithuanian and Spanish</li>
-			</ul>
-			</description>
-		</release>
-		<release version="1.6.1" date="2019-07-05">
-			<description>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<p>This is a minor release with some changes.</p>
-			<ul>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<li>Automatic speech recognition (ASR) is now disabled by default and it’s only shown, if Parlatype is launched with the new parameter \"--with-asr\"</li>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<li>Fix internationalization: Some translations were not shown</li>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<li>Translation updates for Arabic, British English, Czech, Dutch, German, Polish and Spanish</li>
-			</ul>
-			</description>
-		</release>
-		<release version="1.6" date="2019-04-24">
-			<description>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<p>This is a major release with some new features.</p>
-			<ul>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<li>Automatic speech recognition with CMU Sphinx</li>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<li>Design changes, including removal of application menu</li>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<li>Custom timestamps</li>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<li>Translation updates for Brazilian Portuguese, British English, Czech, German, Japanese, Lithuanian and Polish</li>
-			</ul>
-			</description>
-		</release>
-		<release version="1.5.6" date="2018-08-17">
-			<description>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<p>This is a minor maintenance release.</p>
-			<ul>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<li>Animate scrolling when using keybindings</li>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<li>Change desktop entry category to Audio/Video instead of Utilities</li>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<li>Translation updates for French</li>
-			</ul>
-			</description>
-		</release>
-		<release version="1.5.5" date="2018-06-16">
-			<description>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<p>This release contains a number of bug fixes and minor improvements.</p>
-			<ul>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<li>Progress Dialog has now a countdown timer (estimated time left)</li>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<li>Increase max. possible speed to 2.0</li>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<li>New keyboard shortcuts for Play/Pause (Ctrl + Space), Jump back (Ctrl + Left), Jump forward (Ctrl + Right)</li>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<li>Scrolling now also possible with vertical scrollbar</li>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<li>Various fixes for waveform and cursor display</li>
-			<!-- Translators: This has very low priority, it's the description for an old release. -->
-			<li>Translation updates for Arabic, British English, Catalan, German, Finnish, French, Japanese, Lithuanian, Polish, Spanish and Swedish</li>
-			</ul>
-			</description>
-		</release>
-		<release version="1.5.4" date="2017-11-19"></release>
-		<release version="1.5.3" date="2017-11-14"></release>
-		<release version="1.5.2" date="2017-08-27"></release>
-		<release version="1.5.1" date="2017-07-08"></release>
-		<release version="1.5" date="2017-03-14"></release>
-		<release version="1.4.1" date="2016-10-31"></release>
-		<release version="1.4" date="2016-10-29"></release>
-		<release version="1.3" date="2016-09-04"></release>
-		<release version="1.2" date="2016-08-13"></release>
-		<release version="1.1" date="2016-07-29"></release>
-		<release version="1.0" date="2016-01-18"></release>
-	</releases>
+  <releases>
+    <release version="4.1" date="2024-01-XX">
+      <description>
+        <ul>
+          <li>Follow GNOME human interface guidelines throughout the app using libadwaita.</li>
+          <li>Add a theme selector (borrowed from GNOME Text Editor).</li>
+          <li>Fix F10 shortcut to toggle main menu.</li>
+          <li>Remove support for Mozilla DeepSpeech because the project is discontinued.</li>
+          <li>Translation updates for several languages.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.0" date="2023-11-26">
+      <description>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <p>This release is switching to GTK 4 and brings translation updates for several languages.</p>
+      </description>
+    </release>
+    <release version="3.1" date="2021-12-19">
+      <description>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <p>This is a minor release with a new feature.</p>
+      <ul>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <li>Added MPRIS interface.</li>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <li>Smaller bug fixes.</li>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <li>Switched to Weblate for translations.</li>
+      <li>Translation updates for several languages.</li>
+      </ul>
+      </description>
+    </release>
+    <release version="3.0" date="2021-11-02">
+      <description>
+      <p>This is a major release with new features.</p>
+      <ul>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <li>Support for Mozilla DeepSpeech.</li>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <li>New configuration system for Automatic Speech Recognition.</li>
+      <li>Translation updates for several languages.</li>
+      </ul>
+      </description>
+    </release>
+    <release version="2.1" date="2020-06-21">
+      <description>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <p>This is a minor release with bug fixes and minor new features.</p>
+      <ul>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <li>Mute/unmute volume by clicking on the volume icon with the pointer’s secondary button (usually right mouse button).</li>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <li>With Pulseaudio Parlatype doesn’t change the system volume anymore, just its own application specific volume.</li>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <li>The initial volume level is picked up from Pulseaudio.</li>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <li>Translation updates for several languages.</li>
+      </ul>
+      </description>
+    </release>
+    <release version="2.0" date="2020-03-19">
+      <description>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <p>This is a major release with new features.</p>
+      <ul>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <li>Waveform is loaded on-the-fly, there is no blocking progress dialog.</li>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <li>Waveform can be changed continuously instead of in discrete steps.</li>
+      </ul>
+      </description>
+    </release>
+    <release version="1.6.2" date="2019-08-31">
+      <description>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <p>This is a minor release.</p>
+      <ul>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <li>Update time label only if time has changed. This is a performance increase, cursor movement should be smoother on slower systems.</li>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <li>Translation updates for Hungarian, Lithuanian and Spanish</li>
+      </ul>
+      </description>
+    </release>
+    <release version="1.6.1" date="2019-07-05">
+      <description>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <p>This is a minor release with some changes.</p>
+      <ul>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <li>Automatic speech recognition (ASR) is now disabled by default and it’s only shown, if Parlatype is launched with the new parameter \"--with-asr\"</li>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <li>Fix internationalization: Some translations were not shown</li>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <li>Translation updates for Arabic, British English, Czech, Dutch, German, Polish and Spanish</li>
+      </ul>
+      </description>
+    </release>
+    <release version="1.6" date="2019-04-24">
+      <description>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <p>This is a major release with some new features.</p>
+      <ul>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <li>Automatic speech recognition with CMU Sphinx</li>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <li>Design changes, including removal of application menu</li>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <li>Custom timestamps</li>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <li>Translation updates for Brazilian Portuguese, British English, Czech, German, Japanese, Lithuanian and Polish</li>
+      </ul>
+      </description>
+    </release>
+    <release version="1.5.6" date="2018-08-17">
+      <description>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <p>This is a minor maintenance release.</p>
+      <ul>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <li>Animate scrolling when using keybindings</li>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <li>Change desktop entry category to Audio/Video instead of Utilities</li>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <li>Translation updates for French</li>
+      </ul>
+      </description>
+    </release>
+    <release version="1.5.5" date="2018-06-16">
+      <description>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <p>This release contains a number of bug fixes and minor improvements.</p>
+      <ul>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <li>Progress Dialog has now a countdown timer (estimated time left)</li>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <li>Increase max. possible speed to 2.0</li>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <li>New keyboard shortcuts for Play/Pause (Ctrl + Space), Jump back (Ctrl + Left), Jump forward (Ctrl + Right)</li>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <li>Scrolling now also possible with vertical scrollbar</li>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <li>Various fixes for waveform and cursor display</li>
+      <!-- Translators: This has very low priority, it's the description for an old release. -->
+      <li>Translation updates for Arabic, British English, Catalan, German, Finnish, French, Japanese, Lithuanian, Polish, Spanish and Swedish</li>
+      </ul>
+      </description>
+    </release>
+    <release version="1.5.4" date="2017-11-19"></release>
+    <release version="1.5.3" date="2017-11-14"></release>
+    <release version="1.5.2" date="2017-08-27"></release>
+    <release version="1.5.1" date="2017-07-08"></release>
+    <release version="1.5" date="2017-03-14"></release>
+    <release version="1.4.1" date="2016-10-31"></release>
+    <release version="1.4" date="2016-10-29"></release>
+    <release version="1.3" date="2016-09-04"></release>
+    <release version="1.2" date="2016-08-13"></release>
+    <release version="1.1" date="2016-07-29"></release>
+    <release version="1.0" date="2016-01-18"></release>
+  </releases>
 
-	<content_rating type="oars-1.1" />
-	<update_contact>gabor.karsay@gmx.at</update_contact>
+  <content_rating type="oars-1.1" />
+  <update_contact>gabor.karsay@gmx.at</update_contact>
 </component>
