@@ -47,167 +47,187 @@
           </object>
         </child>
         <property name="content">
-          <object class="GtkBox">
-            <property name="css-name">main_box</property>
+          <object class="GtkPaned">
             <property name="orientation">vertical</property>
-            <property name="spacing">6</property>
-            <child>
+              <child>
               <object class="GtkBox">
+                <property name="css-name">main_box</property>
                 <property name="orientation">vertical</property>
-                <child>
-                  <object class="PtWaveviewer" id="waveviewer">
-                    <property name="can_focus">True</property>
-                    <property name="hexpand">True</property>
-                    <property name="vexpand">True</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkProgressBar" id="progress">
-                    <property name="accessible-role">presentation</property>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child>
-              <object class="GtkBox" id="controls_row_box">
                 <property name="spacing">6</property>
                 <child>
-                  <object class="GtkBox" id="controls_box">
-                    <child>
-                      <object class="GtkButton" id="button_jump_back">
-                        <property name="sensitive">0</property>
-                        <property name="can_focus">1</property>
-                        <property name="receives_default">1</property>
-                        <property name="halign">start</property>
-                        <property name="action_name">win.jump-back</property>
-                        <child>
-                          <object class="GtkImage" id="icon_seek_back1">
-                            <property name="icon_name">media-skip-backward-symbolic</property>
-                            <accessibility>
-                              <property name="label" translatable="yes">Skip backward</property>
-                            </accessibility>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkToggleButton" id="button_play">
-                        <property name="can_focus">1</property>
-                        <property name="receives_default">1</property>
-                        <property name="use_underline">1</property>
-                        <signal name="toggled" handler="play_button_toggled_cb" swapped="no"/>
-                        <accessibility>
-                          <relation name="labelled-by">play_label</relation>
-                        </accessibility>
-                        <child>
-                          <object class="GtkBox" id="internal_button_box">
-                            <property name="spacing">2</property>
-                            <child>
-                              <object class="GtkImage" id="play_icon">
-                                <property name="icon_name">media-playback-start-symbolic</property>
-                                <property name="accessible-role">presentation</property>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkLabel" id="play_label">
-                                <property name="label" translatable="yes">_Play</property>
-                                <property name="use_underline">1</property>
-                              </object>
-                            </child>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkButton" id="button_jump_forward">
-                        <property name="sensitive">0</property>
-                        <property name="can_focus">1</property>
-                        <property name="receives_default">1</property>
-                        <property name="halign">start</property>
-                        <property name="action_name">win.jump-forward</property>
-                        <child>
-                          <object class="GtkImage" id="icon_seek_forward1">
-                            <property name="icon_name">media-skip-forward-symbolic</property>
-                            <accessibility>
-                              <property name="label" translatable="yes">Skip forward</property>
-                            </accessibility>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                    <style>
-                      <class name="linked"/>
-                    </style>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkMenuButton" id="pos_menu_button">
-                    <property name="menu-model">secondary_menu</property>
-                    <property name="halign">end</property>
-                    <property name="hexpand">1</property>
-                    <property name="hexpand-set">1</property>
-                    <property name="can_focus">1</property>
-                    <property name="receives_default">1</property>
-                    <property name="direction">up</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="label_speed">
-                    <property name="halign">end</property>
-                    <property name="hexpand">1</property>
-                    <property name="hexpand-set">1</property>
-                    <property name="label" translatable="yes">Speed:</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkScale" id="speed_scale">
-                    <property name="width_request">110</property>
-                    <property name="sensitive">0</property>
-                    <property name="can_focus">1</property>
-                    <property name="halign">end</property>
-                    <property name="adjustment">speed_adj</property>
-                    <property name="draw_value">1</property>
-                    <property name="value_pos">right</property>
-                    <accessibility>
-                      <relation name="labelled-by">label_speed</relation>
-                    </accessibility>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkVolumeButton" id="volumebutton">
-                    <property name="can_focus">1</property>
-                    <property name="focus_on_click">0</property>
-                    <property name="receives_default">1</property>
-                    <property name="has_tooltip">1</property>
-                    <property name="halign">end</property>
+                  <object class="GtkBox">
                     <property name="orientation">vertical</property>
-                    <property name="value">1</property>
-                    <property name="adjustment">vol_adj</property>
-                    <property name="icons">audio-volume-muted-symbolic
+                    <child>
+                      <object class="PtWaveviewer" id="waveviewer">
+                        <property name="can_focus">True</property>
+                        <property name="hexpand">True</property>
+                        <property name="vexpand">True</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkProgressBar" id="progress">
+                        <property name="accessible-role">presentation</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkBox" id="controls_row_box">
+                    <property name="spacing">6</property>
+                    <child>
+                      <object class="GtkBox" id="controls_box">
+                        <child>
+                          <object class="GtkButton" id="button_jump_back">
+                            <property name="sensitive">0</property>
+                            <property name="can_focus">1</property>
+                            <property name="receives_default">1</property>
+                            <property name="halign">start</property>
+                            <property name="action_name">win.jump-back</property>
+                            <child>
+                              <object class="GtkImage" id="icon_seek_back1">
+                                <property name="icon_name">media-skip-backward-symbolic</property>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Skip backward</property>
+                                </accessibility>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkToggleButton" id="button_play">
+                            <property name="can_focus">1</property>
+                            <property name="receives_default">1</property>
+                            <property name="use_underline">1</property>
+                            <signal name="toggled" handler="play_button_toggled_cb" swapped="no"/>
+                            <accessibility>
+                              <relation name="labelled-by">play_label</relation>
+                            </accessibility>
+                            <child>
+                              <object class="GtkBox" id="internal_button_box">
+                                <property name="spacing">2</property>
+                                <child>
+                                  <object class="GtkImage" id="play_icon">
+                                    <property name="icon_name">media-playback-start-symbolic</property>
+                                    <property name="accessible-role">presentation</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="play_label">
+                                    <property name="label" translatable="yes">_Play</property>
+                                    <property name="use_underline">1</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="button_jump_forward">
+                            <property name="sensitive">0</property>
+                            <property name="can_focus">1</property>
+                            <property name="receives_default">1</property>
+                            <property name="halign">start</property>
+                            <property name="action_name">win.jump-forward</property>
+                            <child>
+                              <object class="GtkImage" id="icon_seek_forward1">
+                                <property name="icon_name">media-skip-forward-symbolic</property>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Skip forward</property>
+                                </accessibility>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <style>
+                          <class name="linked"/>
+                        </style>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkMenuButton" id="pos_menu_button">
+                        <property name="menu-model">secondary_menu</property>
+                        <property name="halign">end</property>
+                        <property name="hexpand">1</property>
+                        <property name="hexpand-set">1</property>
+                        <property name="can_focus">1</property>
+                        <property name="receives_default">1</property>
+                        <property name="direction">up</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label_speed">
+                        <property name="halign">end</property>
+                        <property name="hexpand">1</property>
+                        <property name="hexpand-set">1</property>
+                        <property name="label" translatable="yes">Speed:</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkScale" id="speed_scale">
+                        <property name="width_request">110</property>
+                        <property name="sensitive">0</property>
+                        <property name="can_focus">1</property>
+                        <property name="halign">end</property>
+                        <property name="adjustment">speed_adj</property>
+                        <property name="draw_value">1</property>
+                        <property name="value_pos">right</property>
+                        <accessibility>
+                          <relation name="labelled-by">label_speed</relation>
+                        </accessibility>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkVolumeButton" id="volumebutton">
+                        <property name="can_focus">1</property>
+                        <property name="focus_on_click">0</property>
+                        <property name="receives_default">1</property>
+                        <property name="has_tooltip">1</property>
+                        <property name="halign">end</property>
+                        <property name="orientation">vertical</property>
+                        <property name="value">1</property>
+                        <property name="adjustment">vol_adj</property>
+                        <property name="icons">audio-volume-muted-symbolic
 audio-volume-high-symbolic
 audio-volume-low-symbolic
 audio-volume-medium-symbolic</property>
-                    <accessibility>
-                      <property name="label" translatable="yes">Volume</property>
-                    </accessibility>
-                    <child internal-child="plus_button">
-                      <object class="GtkButton" id="volumebutton-plus_button">
-                        <property name="can_focus">1</property>
+                        <accessibility>
+                          <property name="label" translatable="yes">Volume</property>
+                        </accessibility>
+                        <child internal-child="plus_button">
+                          <object class="GtkButton" id="volumebutton-plus_button">
+                            <property name="can_focus">1</property>
+                          </object>
+                        </child>
+                        <child internal-child="minus_button">
+                          <object class="GtkButton" id="volumebutton-minus_button">
+                            <property name="can_focus">1</property>
+                          </object>
+                        </child>
                       </object>
-                    </child>
-                    <child internal-child="minus_button">
-                      <object class="GtkButton" id="volumebutton-minus_button">
-                        <property name="can_focus">1</property>
-                      </object>
-                    </child>
+                   </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkScrolledWindow">
+                <child>
+                  <object class="GtkTextView" id="text_view">
+                    <property name="can_focus">True</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">True</property>
+                    <property name="top-margin">10</property>
+                    <property name="left-margin">10</property>
+                    <property name="right-margin">10</property>
+                    <property name="bottom-margin">10</property>
                   </object>
                </child>
               </object>
-            </child>
-          </object>
-        </property>
-      </object>
-    </property>
+            </child> <!-- child of paned -->
+          </object> <!-- paned -->
+        </property>  <!-- content -->
+      </object>  <!-- AdwToolbar -->
+    </property> <!-- content -->
   </template>
   <menu id="primary_menu">
     <section>
