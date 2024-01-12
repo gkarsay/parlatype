@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-10 19:55+0100\n"
-"PO-Revision-Date: 2024-01-06 15:06+0000\n"
+"PO-Revision-Date: 2024-01-14 12:31+0000\n"
 "Last-Translator: albanobattistella <albano_battistella@hotmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/parlatype/"
 "parlatype/it/>\n"
@@ -47,19 +47,24 @@ msgstr "Gabor Karsay"
 msgid ""
 "Follow GNOME human interface guidelines throughout the app using libadwaita."
 msgstr ""
+"Segui le linee guida dell'interfaccia umana GNOME in tutta l'app utilizzando "
+"libadwaita."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:48
 msgid "Add a theme selector (borrowed from GNOME Text Editor)."
 msgstr ""
+"Aggiungi un selettore di temi (preso in prestito dall'editor di testo GNOME)."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:49
 msgid "Fix F10 shortcut to toggle main menu."
 msgstr ""
+"Corretto la scorciatoia F10 per attivare/disattivare il menu principale."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:50
 msgid ""
 "Remove support for Mozilla DeepSpeech because the project is discontinued."
 msgstr ""
+"Rimuovi il supporto per Mozilla DeepSpeech perché il progetto è interrotto."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:51
@@ -557,10 +562,8 @@ msgid "Installation"
 msgstr "Installazione"
 
 #: src/resources/asr-dialog.ui:30
-#, fuzzy
-#| msgid "There is no plugin installed for this language model."
 msgid "How to install this language model."
-msgstr "Non è installato alcun plugin per questo modello linguistico."
+msgstr "Come installare questo modello linguistico."
 
 #: src/resources/asr-dialog.ui:33
 msgid "General Information"
@@ -571,38 +574,36 @@ msgid "Display Name"
 msgstr "Nome da visualizzare"
 
 #: src/resources/asr-dialog.ui:44
-#, fuzzy
-#| msgid "Setup this configuration"
 msgid "Delete this Configuration"
-msgstr "Imposta questa configurazione"
+msgstr "Elimina questa configurazione"
 
 #: src/resources/asr-dialog.ui:48
 msgid "Delete"
-msgstr ""
+msgstr "Elimina"
 
 #: src/resources/editor-theme-selector.ui:22
 msgid "Follow System Style"
-msgstr ""
+msgstr "Segui lo stile del sistema"
 
 #: src/resources/editor-theme-selector.ui:24
 msgid "Follow system style"
-msgstr ""
+msgstr "Segui lo stile del sistema"
 
 #: src/resources/editor-theme-selector.ui:39
 msgid "Light Style"
-msgstr ""
+msgstr "Stile chiaro"
 
 #: src/resources/editor-theme-selector.ui:41
 msgid "Light style"
-msgstr ""
+msgstr "Stile chiaro"
 
 #: src/resources/editor-theme-selector.ui:57
 msgid "Dark Style"
-msgstr ""
+msgstr "Stile scuro"
 
 #: src/resources/editor-theme-selector.ui:59
 msgid "Dark style"
-msgstr ""
+msgstr "Stile scuro"
 
 #: src/resources/goto-dialog.ui:10 src/resources/window.ui:261
 msgid "Go to…"
