@@ -385,6 +385,7 @@ pt_app_startup (GApplication *app)
   const char  *jump_back_accels[2] = { "<Primary>A", NULL };
   const char  *jump_forward_accels[2] = { "<Primary>S", NULL };
   const char  *play_accels[2] = { "<Primary>space", NULL };
+  const char  *timestamp_accels[2] = { "<Primary>T", NULL };
 
   gtk_application_set_accels_for_action (GTK_APPLICATION (self),
                                          "app.quit", quit_accels);
@@ -418,6 +419,9 @@ pt_app_startup (GApplication *app)
 
   gtk_application_set_accels_for_action (GTK_APPLICATION (self),
                                          "win.play", play_accels);
+
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self),
+                                         "win.insert-timestamp", timestamp_accels);
 
   style_manager = adw_style_manager_get_default ();
   g_settings_bind_with_mapping (self->settings, "style-variant",

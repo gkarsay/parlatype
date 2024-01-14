@@ -60,6 +60,9 @@ struct _PtWindow
   GMenuItem  *go_to_timestamp;
   GtkWidget  *speed_scale;
 
+  GtkWidget     *text_view;
+  GtkTextBuffer *text_buffer;
+
   GMenuModel *primary_menu;
   GMenuModel *secondary_menu;
   GMenu      *asr_menu;
@@ -126,9 +129,9 @@ clip_text_cb (GdkClipboard *clip,
 }
 
 void
-insert_timestamp (GSimpleAction *action,
-                  GVariant      *parameter,
-                  gpointer       user_data)
+apply_timestamp (GSimpleAction *action,
+                 GVariant      *parameter,
+                 gpointer       user_data)
 {
   PtWindow *self = PT_WINDOW (user_data);
 
@@ -137,6 +140,40 @@ insert_timestamp (GSimpleAction *action,
       NULL,
       (GAsyncReadyCallback) clip_text_cb,
       self);
+}
+
+void
+insert_timestamp (GSimpleAction *action,
+                  GVariant      *parameter,
+                  gpointer       user_data)
+{
+  PtWindow      *self = PT_WINDOW (user_data);
+  GtkTextBuffer *buffer = self->text_buffer;
+  GtkTextIter    iter, start, end;
+  gchar         *timestamp;
+
+  timestamp = pt_player_get_timestamp (self->player);
+  if (timestamp == NULL)
+    return;
+
+  gtk_text_buffer_get_iter_at_mark (buffer, &iter,
+                                    gtk_text_buffer_get_insert (buffer));
+  GtkTextTagTable *table;
+  table = gtk_text_buffer_get_tag_table (buffer);
+  GtkTextTag *tag;
+  tag = gtk_text_tag_table_lookup (table, "timestamp");
+  start = end = iter;
+  if (gtk_text_iter_backward_to_tag_toggle (&start, tag) &&
+      gtk_text_iter_forward_to_tag_toggle (&end, tag))
+    {
+      gchar *gototime;
+      gototime = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
+      g_print ("%s\n", gototime);
+      if (pt_player_goto_timestamp (self->player, gototime))
+        return;
+    }
+
+  gtk_text_buffer_insert_with_tags_by_name (buffer, &iter, timestamp, -1, "timestamp", NULL);
 }
 
 static void
@@ -312,7 +349,8 @@ change_mode (GSimpleAction *action,
 const GActionEntry win_actions[] = {
   { "mode", NULL, "s", "'playback'", change_mode },
   { "copy", copy_timestamp, NULL, NULL, NULL },
-  { "insert", insert_timestamp, NULL, NULL, NULL },
+  { "apply", apply_timestamp, NULL, NULL, NULL },
+  { "insert-timestamp", insert_timestamp, NULL, NULL, NULL },
   { "goto", goto_position, NULL, NULL, NULL },
   { "goto-cursor", goto_cursor, NULL, NULL, NULL },
   { "zoom-in", zoom_in, NULL, NULL, NULL },
@@ -494,7 +532,7 @@ update_insert_action_sensitivity_cb (GdkClipboard *clip,
   g_menu_insert_item (G_MENU (self->secondary_menu), 1, self->go_to_timestamp);
   g_free (label);
 
-  action = g_action_map_lookup_action (G_ACTION_MAP (self), "insert");
+  action = g_action_map_lookup_action (G_ACTION_MAP (self), "apply");
   g_simple_action_set_enabled (G_SIMPLE_ACTION (action), result);
 }
 
@@ -542,7 +580,7 @@ enable_win_actions (PtWindow *self,
   /* always disable on request, enable only conditionally */
   if (!state)
     {
-      action = g_action_map_lookup_action (G_ACTION_MAP (self), "insert");
+      action = g_action_map_lookup_action (G_ACTION_MAP (self), "apply");
       g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
     }
   else
@@ -1264,6 +1302,11 @@ pt_window_init (PtWindow *self)
   gtk_widget_init_template (GTK_WIDGET (self));
 
   self->editor = g_settings_new (APP_ID);
+  self->text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (self->text_view));
+  gtk_text_buffer_create_tag (self->text_buffer, "timestamp",
+                              "family", "monospace",
+                              "background", "yellow",
+                              NULL);
 
   setup_player (self);
   setup_accels_actions_menus (self);
@@ -1358,6 +1401,7 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtWindow, button_jump_forward);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, volumebutton);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, speed_scale);
+  gtk_widget_class_bind_template_child (widget_class, PtWindow, text_view);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, primary_menu);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, secondary_menu);
 }
