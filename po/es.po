@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-10 19:55+0100\n"
-"PO-Revision-Date: 2024-01-21 17:45+0000\n"
+"PO-Revision-Date: 2024-01-21 17:48+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/parlatype/"
 "parlatype/es/>\n"
@@ -538,7 +538,7 @@ msgstr "Descargar, descomprimir a una carpeta y seleccionarla."
 
 #: src/pt-prefs-install-row.c:114
 msgid "Model Data Not Found"
-msgstr ""
+msgstr "Datos del modelo no encontrados"
 
 #: src/pt-prefs-install-row.c:116
 #, fuzzy
@@ -631,15 +631,15 @@ msgstr "Eliminando la configuración"
 
 #: src/resources/asr-dialog.ui:48
 msgid "Delete"
-msgstr ""
+msgstr "Borrar"
 
 #: src/resources/editor-theme-selector.ui:22
 msgid "Follow System Style"
-msgstr ""
+msgstr "Seguir el estilo del sistema"
 
 #: src/resources/editor-theme-selector.ui:24
 msgid "Follow system style"
-msgstr ""
+msgstr "Seguir el estilo del sistema"
 
 #: src/resources/editor-theme-selector.ui:39
 msgid "Light Style"
