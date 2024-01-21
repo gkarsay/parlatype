@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-10 19:55+0100\n"
 "PO-Revision-Date: 2024-01-21 17:44+0000\n"
-"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
+"Last-Translator: Eduardo Malaspina <vaio0@swismail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/parlatype/"
 "parlatype/es/>\n"
 "Language: es\n"
@@ -91,12 +91,12 @@ msgstr "Este es un lanzamiento mayor con características nuevas."
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:67
 msgid "Added MPRIS interface."
-msgstr ""
+msgstr "Se ha añadido la interfaz MPRIS."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:69
 msgid "Smaller bug fixes."
-msgstr ""
+msgstr "Corrección de errores menores."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:71
