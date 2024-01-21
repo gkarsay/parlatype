@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-10 19:55+0100\n"
 "PO-Revision-Date: 2024-01-21 17:48+0000\n"
-"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
+"Last-Translator: Eduardo Malaspina <vaio0@swismail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/parlatype/"
 "parlatype/es/>\n"
 "Language: es\n"
@@ -425,7 +425,7 @@ msgstr "CMU Pocketsphinx"
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:230
 msgid "Type of Model"
-msgstr "Modelo"
+msgstr "Tipo de Modelo"
 
 #: src/pt-asr-dialog.c:232
 #, fuzzy
@@ -616,7 +616,7 @@ msgstr "Seleccione un modelo lingüístico"
 
 #: src/resources/asr-dialog.ui:33
 msgid "General Information"
-msgstr ""
+msgstr "Información general"
 
 #: src/resources/asr-dialog.ui:36
 #, fuzzy
@@ -643,15 +643,15 @@ msgstr "Seguir el estilo del sistema"
 
 #: src/resources/editor-theme-selector.ui:39
 msgid "Light Style"
-msgstr ""
+msgstr "Estilo ligero"
 
 #: src/resources/editor-theme-selector.ui:41
 msgid "Light style"
-msgstr ""
+msgstr "Estilo claro"
 
 #: src/resources/editor-theme-selector.ui:57
 msgid "Dark Style"
-msgstr ""
+msgstr "Estilo oscuro"
 
 #: src/resources/editor-theme-selector.ui:59
 msgid "Dark style"
