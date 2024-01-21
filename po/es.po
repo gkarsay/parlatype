@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-10 19:55+0100\n"
-"PO-Revision-Date: 2023-03-21 14:40+0000\n"
-"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
+"PO-Revision-Date: 2024-01-21 17:42+0000\n"
+"Last-Translator: Eduardo Malaspina <vaio0@swismail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/parlatype/"
 "parlatype/es/>\n"
 "Language: es\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.16.2-dev\n"
+"X-Generator: Weblate 5.4-dev\n"
 "X-Launchpad-Export-Date: 2020-05-31 16:44+0000\n"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:7
@@ -46,19 +46,22 @@ msgstr "Gabor Karsay"
 msgid ""
 "Follow GNOME human interface guidelines throughout the app using libadwaita."
 msgstr ""
+"Siga las directrices de interfaz humana de GNOME en toda la aplicación "
+"utilizando libadwaita."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:48
 msgid "Add a theme selector (borrowed from GNOME Text Editor)."
-msgstr ""
+msgstr "Añadir un selector de temas (tomado del Editor de texto de GNOME)."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:49
 msgid "Fix F10 shortcut to toggle main menu."
-msgstr ""
+msgstr "Fijar acceso directo de F10 para cambiar el menú principal."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:50
 msgid ""
 "Remove support for Mozilla DeepSpeech because the project is discontinued."
 msgstr ""
+"Quitar el apoyo a Mozilla DeepSpeech porque el proyecto está descontinuado."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:51
