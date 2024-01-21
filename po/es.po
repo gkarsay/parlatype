@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-10 19:55+0100\n"
-"PO-Revision-Date: 2024-01-21 17:48+0000\n"
+"PO-Revision-Date: 2024-01-22 18:02+0000\n"
 "Last-Translator: Eduardo Malaspina <vaio0@swismail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/parlatype/"
 "parlatype/es/>\n"
@@ -754,7 +754,7 @@ msgstr "Visualizar"
 
 #: src/resources/preferences.ui:16
 msgid "Change appearance of the waveform and cursor movement."
-msgstr ""
+msgstr "Cambia la apariencia de la forma de onda y el movimiento del cursor."
 
 #: src/resources/preferences.ui:19
 #, fuzzy
@@ -776,7 +776,7 @@ msgstr "Muestra escala de _tiempo"
 
 #: src/resources/preferences.ui:58
 msgid "Cursor Mode"
-msgstr ""
+msgstr "Modo de cursor"
 
 #: src/resources/preferences.ui:62
 #, fuzzy
@@ -798,23 +798,23 @@ msgstr "Controles"
 
 #: src/resources/preferences.ui:80
 msgid "Pause and Skip Buttons"
-msgstr ""
+msgstr "Botones de pausa y de salto"
 
 #: src/resources/preferences.ui:81
 msgid "Set amount of time to skip in seconds."
-msgstr ""
+msgstr "Ajustar la cantidad de tiempo a saltar en segundos."
 
 #: src/resources/preferences.ui:84
 msgid "Rewind on Pause"
-msgstr ""
+msgstr "Rebobinar en pausa"
 
 #: src/resources/preferences.ui:85
 msgid "Set to zero to disable this feature"
-msgstr ""
+msgstr "Póngalo a cero para desactivar esta función"
 
 #: src/resources/preferences.ui:98
 msgid "Skip Backward"
-msgstr ""
+msgstr "Saltar hacia atrás"
 
 #: src/resources/preferences.ui:111
 #, fuzzy
@@ -825,19 +825,19 @@ msgstr "Avanza 1 segundo"
 
 #: src/resources/preferences.ui:126
 msgid "Play Button"
-msgstr ""
+msgstr "Botón de reproducción"
 
 #: src/resources/preferences.ui:127
 msgid "Change behavior of play button."
-msgstr ""
+msgstr "Cambiar el comportamiento del botón de reproducción."
 
 #: src/resources/preferences.ui:130
 msgid "At End of File Replay File"
-msgstr ""
+msgstr "Al Final de Archivo Reproducir archivo"
 
 #: src/resources/preferences.ui:135
 msgid "At End of Selection Replay Selection"
-msgstr ""
+msgstr "Al Final de Selección Repetir selección"
 
 #: src/resources/preferences.ui:145
 msgid "Timestamps"
@@ -854,6 +854,9 @@ msgid ""
 "Customize produced timestamps. Note that all formats can be read, these "
 "settings are applied when timestamps are written."
 msgstr ""
+"Personalice las marcas de tiempo producidas. Tenga en cuenta que todos los "
+"formatos pueden ser leídos, estos ajustes son aplicados cuando las marcas de "
+"tiempo son escritas."
 
 #: src/resources/preferences.ui:153
 #, fuzzy
@@ -931,7 +934,7 @@ msgstr "[Corchetes]"
 
 #: src/resources/preferences.ui:202
 msgid "Preview"
-msgstr ""
+msgstr "Vista previa"
 
 #: src/resources/preferences.ui:211
 #, fuzzy
@@ -950,6 +953,9 @@ msgid ""
 "Inspect configuration details, learn how to install model data, and choose a "
 "configuration for automatic speech recognition."
 msgstr ""
+"Inspeccione los detalles de la configuración, aprenda a instalar los datos "
+"del modelo y elija una configuración para el reconocimiento automático del "
+"habla."
 
 #: src/resources/preferences.ui:223
 #, fuzzy
@@ -964,7 +970,7 @@ msgstr "Eliminando la configuración"
 
 #: src/resources/prefs-install-row.ui:11
 msgid "Choose folder"
-msgstr ""
+msgstr "Elegir carpeta"
 
 #: src/resources/window.ui:38
 msgid "_Open"
@@ -976,7 +982,7 @@ msgstr "Abrir un archivo"
 
 #: src/resources/window.ui:52
 msgid "Main Menu"
-msgstr ""
+msgstr "Menú principal"
 
 #: src/resources/window.ui:125
 msgid "_Play"
@@ -988,7 +994,7 @@ msgstr "Velocidad:"
 
 #: src/resources/window.ui:202
 msgid "Volume"
-msgstr ""
+msgstr "Volumen"
 
 #: src/resources/window.ui:238
 msgid "_Keyboard Shortcuts"
