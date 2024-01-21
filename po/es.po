@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-10 19:55+0100\n"
-"PO-Revision-Date: 2024-01-21 17:42+0000\n"
-"Last-Translator: Eduardo Malaspina <vaio0@swismail.com>\n"
+"PO-Revision-Date: 2024-01-21 17:44+0000\n"
+"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/parlatype/"
 "parlatype/es/>\n"
 "Language: es\n"
@@ -61,7 +61,8 @@ msgstr "Fijar acceso directo de F10 para cambiar el menú principal."
 msgid ""
 "Remove support for Mozilla DeepSpeech because the project is discontinued."
 msgstr ""
-"Quitar el apoyo a Mozilla DeepSpeech porque el proyecto está descontinuado."
+"Eliminar el soporte para Mozilla DeepSpeech porque el proyecto está "
+"discontinuado."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:51
@@ -100,7 +101,7 @@ msgstr ""
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:71
 msgid "Switched to Weblate for translations."
-msgstr ""
+msgstr "Me he pasado a Weblate para las traducciones."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:78
@@ -196,6 +197,9 @@ msgid ""
 "Automatic speech recognition (ASR) is now disabled by default and it’s only "
 "shown, if Parlatype is launched with the new parameter \\\"--with-asr\\\""
 msgstr ""
+"El reconocimiento automático de voz (ASR) ahora está desactivado por defecto "
+"y sólo se muestra si Parlatype se ejecuta con el nuevo parámetro \"--with-"
+"asr\\\""
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:136
@@ -372,7 +376,7 @@ msgstr ""
 #. Translators: Fallback label for a download location
 #: src/pt-asr-dialog.c:99
 msgid "Link"
-msgstr ""
+msgstr "Enlace"
 
 #. Not using title case here, this is more a status than a title.
 #: src/pt-asr-dialog.c:115
@@ -383,16 +387,16 @@ msgstr "No hay configuración"
 
 #: src/pt-asr-dialog.c:117
 msgid "Deactivate"
-msgstr ""
+msgstr "Desactivar"
 
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:124
 msgid "Model data is installed."
-msgstr ""
+msgstr "Los datos del modelo están instalados."
 
 #: src/pt-asr-dialog.c:126 src/pt-asr-dialog.c:133
 msgid "Activate"
-msgstr ""
+msgstr "Activar"
 
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:131
