@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-10 19:55+0100\n"
-"PO-Revision-Date: 2024-01-21 17:44+0000\n"
-"Last-Translator: Eduardo Malaspina <vaio0@swismail.com>\n"
+"PO-Revision-Date: 2024-01-21 17:45+0000\n"
+"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/parlatype/"
 "parlatype/es/>\n"
 "Language: es\n"
@@ -401,16 +401,16 @@ msgstr "Activar"
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:131
 msgid "Model data is not installed."
-msgstr ""
+msgstr "Los datos del modelo no están instalados."
 
 #: src/pt-asr-dialog.c:132
 msgid "See next section for details."
-msgstr ""
+msgstr "Consulte la sección siguiente para obtener más información."
 
 #. Translators: Configuration will be deleted, but not its data
 #: src/pt-asr-dialog.c:144
 msgid "Model data will be preserved"
-msgstr ""
+msgstr "Se conservarán los datos del modelo"
 
 #: src/pt-asr-dialog.c:222
 #, fuzzy
@@ -425,7 +425,7 @@ msgstr "CMU Pocketsphinx"
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:230
 msgid "Type of Model"
-msgstr ""
+msgstr "Modelo"
 
 #: src/pt-asr-dialog.c:232
 #, fuzzy
@@ -461,7 +461,7 @@ msgstr "Descargar:"
 #: src/pt-asr-dialog.c:314
 #, c-format
 msgid "“%s” has been deleted"
-msgstr ""
+msgstr "\"%s\" ha sido borrado"
 
 #: src/pt-asr-dialog.c:322 src/pt-preferences.c:248 src/pt-preferences.c:416
 #: src/pt-preferences.c:451 src/pt-window.c:86
@@ -472,11 +472,11 @@ msgstr "Error"
 #: src/pt-asr-dialog.c:373
 #, c-format
 msgid "“%s” has been activated"
-msgstr ""
+msgstr "\"%s\" ha sido activado"
 
 #: src/pt-asr-dialog.c:376
 msgid "Configuration has been deactivated"
-msgstr ""
+msgstr "Se ha desactivado la configuración"
 
 #: src/pt-config-row.c:79
 #, fuzzy
@@ -506,7 +506,7 @@ msgstr "El archivo no es una configuración de modelo lingüístico válida."
 
 #: src/pt-preferences.c:459
 msgid "There is no plugin installed for this language model."
-msgstr ""
+msgstr "No hay ningún plugin instalado para este idioma."
 
 #: src/pt-preferences.c:525 src/pt-prefs-install-row.c:136
 #, fuzzy
