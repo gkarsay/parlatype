@@ -178,6 +178,7 @@
                     <property name="can_focus">1</property>
                     <property name="halign">end</property>
                     <property name="adjustment">speed_adj</property>
+                    <property name="draw_value">1</property>
                     <property name="value_pos">right</property>
                     <accessibility>
                       <relation name="labelled-by">label_speed</relation>
