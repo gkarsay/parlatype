@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Parlatype 3.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-10 19:55+0100\n"
-"PO-Revision-Date: 2024-01-08 22:06+0000\n"
+"PO-Revision-Date: 2024-02-15 17:02+0000\n"
 "Last-Translator: Alexander Gabilondo <alexgabi@openmailbox.org>\n"
 "Language-Team: Basque <https://hosted.weblate.org/projects/parlatype/"
 "parlatype/eu/>\n"
@@ -45,19 +45,21 @@ msgstr "Gabor Karsay"
 msgid ""
 "Follow GNOME human interface guidelines throughout the app using libadwaita."
 msgstr ""
+"Jarraitu GNOMEren giza interfazearen jarraibideak aplikazioan zehar "
+"libadwaita erabiliz."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:48
 msgid "Add a theme selector (borrowed from GNOME Text Editor)."
-msgstr ""
+msgstr "Gehitu gai-hautatzailea (GNOME Test Editor-etik mailegatua)."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:49
 msgid "Fix F10 shortcut to toggle main menu."
-msgstr ""
+msgstr "Konpondu F10 lasterbidea menu nagusia aldatzeko."
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:50
 msgid ""
 "Remove support for Mozilla DeepSpeech because the project is discontinued."
-msgstr ""
+msgstr "Kendu Mozilla DeepSpeech-erako laguntza proiektua eten delako."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:51
@@ -606,31 +608,31 @@ msgstr "Ez dago konfiguraziorik"
 
 #: src/resources/asr-dialog.ui:48
 msgid "Delete"
-msgstr ""
+msgstr "Ezabatu"
 
 #: src/resources/editor-theme-selector.ui:22
 msgid "Follow System Style"
-msgstr ""
+msgstr "Erabili sistemaren estiloa"
 
 #: src/resources/editor-theme-selector.ui:24
 msgid "Follow system style"
-msgstr ""
+msgstr "Erabili sistemaren estiloa"
 
 #: src/resources/editor-theme-selector.ui:39
 msgid "Light Style"
-msgstr ""
+msgstr "Estilo argia"
 
 #: src/resources/editor-theme-selector.ui:41
 msgid "Light style"
-msgstr ""
+msgstr "Estilo argia"
 
 #: src/resources/editor-theme-selector.ui:57
 msgid "Dark Style"
-msgstr ""
+msgstr "Estilo iluna"
 
 #: src/resources/editor-theme-selector.ui:59
 msgid "Dark style"
-msgstr ""
+msgstr "Estilo iluna"
 
 #: src/resources/goto-dialog.ui:10 src/resources/window.ui:261
 msgid "Go to…"
