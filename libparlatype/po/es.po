@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-10 19:55+0100\n"
-"PO-Revision-Date: 2024-02-08 15:01+0000\n"
+"PO-Revision-Date: 2024-03-21 17:01+0000\n"
 "Last-Translator: Eduardo Malaspina <vaio0@swismail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/parlatype/"
 "libparlatype/es/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.4-dev\n"
+"X-Generator: Weblate 5.5-dev\n"
 "X-Launchpad-Export-Date: 2020-05-31 16:44+0000\n"
 
 #. Translators: %s is replaced with the plugins name
@@ -30,7 +30,7 @@ msgstr "No se pudo cargar el complemento «%s»."
 #: libparlatype/src/pt-config.c:480
 #, c-format
 msgid "Plugin doesn’t have a parameter “%s”."
-msgstr ""
+msgstr "El plugin no tiene un parámetro \"%s\"."
 
 #. Translators: %s is replaced with the parameter’s name
 #: libparlatype/src/pt-config.c:491
