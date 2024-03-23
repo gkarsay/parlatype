@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: libparlatype5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-10 19:55+0100\n"
-"PO-Revision-Date: 2022-01-20 18:52+0000\n"
-"Last-Translator: E-Akcaer <gurbetcii_@hotmail.com>\n"
+"PO-Revision-Date: 2024-03-24 23:01+0000\n"
+"Last-Translator: Sabri Ünal <yakushabb@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/parlatype/"
 "libparlatype/tr/>\n"
 "Language: tr\n"
@@ -17,31 +17,31 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.11-dev\n"
+"X-Generator: Weblate 5.5-dev\n"
 
 #. Translators: %s is replaced with the plugins name
 #: libparlatype/src/gst/gst-helpers.c:44 libparlatype/src/gst/gst-helpers.c:51
 #, c-format
 msgid "Failed to load plugin “%s”."
-msgstr ""
+msgstr "“%s” eklentisi yüklenemedi."
 
 #. Translators: %s is replaced with the parameter’s name
 #: libparlatype/src/pt-config.c:480
 #, c-format
 msgid "Plugin doesn’t have a parameter “%s”."
-msgstr ""
+msgstr "Eklenti “%s” parametresine sahip değil."
 
 #. Translators: %s is replaced with the parameter’s name
 #: libparlatype/src/pt-config.c:491
 #, c-format
 msgid "Parameter “%s” is not writable."
-msgstr ""
+msgstr "“%s” parametresi yazılabilir değil."
 
 #. Translators: %s is replaced with the parameter’s name
 #: libparlatype/src/pt-config.c:507
 #, c-format
 msgid "Value for parameter “%s” is not valid."
-msgstr ""
+msgstr "“%s” parametresinin değeri geçersiz."
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
