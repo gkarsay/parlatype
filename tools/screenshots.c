@@ -368,33 +368,8 @@ take_screenshots (GtkApplication *app,
   g_main_loop_run (loop);
   g_object_unref (paintable);
 
-  /* Preferences Dialog, first page ----------------------------------------- */
-
-  /*dlg = pt_preferences_dialog_new (GTK_WINDOW (win));
-  paintable = gtk_widget_paintable_new (GTK_WIDGET (dlg));
-  g_signal_connect (paintable, "invalidate-contents",
-                    G_CALLBACK (save_paintable), "parlatype-prefs-waveform.png");
-  gtk_window_present (GTK_WINDOW (dlg));
-  g_main_loop_run (loop);*/
-
-  /* Preferences Dialog, second page ---------------------------------------- */
-
-  /*g_signal_connect (paintable, "invalidate-contents",
-                    G_CALLBACK (save_paintable), "parlatype-prefs-controls.png");
-  adw_preferences_window_set_visible_page_name (ADW_PREFERENCES_WINDOW (dlg),
-                                                "controls_page");
-  g_main_loop_run (loop);*/
-
-  /* Preferences Dialog, third page ----------------------------------------- */
-
-  /*g_signal_connect (paintable, "invalidate-contents",
-                    G_CALLBACK (save_paintable), "parlatype-prefs-timestamps.png");
-  adw_preferences_window_set_visible_page_name (ADW_PREFERENCES_WINDOW (dlg),
-                                                "timestamps_page");
-  g_main_loop_run (loop);*/
-
 #ifdef HAVE_ASR
-  /* Preferences Dialog, fourth page without models ------------------------- */
+  /* Preferences Dialog, asr page without models ---------------------------- */
 
   dlg = pt_preferences_dialog_new (GTK_WINDOW (win));
   paintable = gtk_widget_paintable_new (GTK_WIDGET (dlg));
@@ -408,7 +383,7 @@ take_screenshots (GtkApplication *app,
   gtk_window_close (GTK_WINDOW (dlg));
   g_object_unref (paintable);
 
-  /* Preferences Dialog, fourth page with models ---------------------------- */
+  /* Preferences Dialog, asr page with models ------------------------------- */
 
   copy_asr_configs ();
 
