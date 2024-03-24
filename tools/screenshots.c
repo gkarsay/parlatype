@@ -301,6 +301,17 @@ waveviewer_load_progress (GtkWidget *waveviewer,
 }
 
 static void
+save_paintable_after_config_update (PtPreferencesDialog *dlg,
+                                    gpointer             user_data)
+{
+  GdkPaintable *paintable = GDK_PAINTABLE (user_data);
+
+  g_signal_handlers_disconnect_by_func (dlg, save_paintable_after_config_update, user_data);
+  g_signal_connect (paintable, "invalidate-contents",
+                    G_CALLBACK (save_paintable), "asr-setup-downloadable.png");
+}
+
+static void
 take_screenshots (GtkApplication *app,
                   gpointer        user_data)
 {
@@ -403,8 +414,8 @@ take_screenshots (GtkApplication *app,
 
   dlg = pt_preferences_dialog_new (GTK_WINDOW (win));
   paintable = gtk_widget_paintable_new (GTK_WIDGET (dlg));
-  g_signal_connect (paintable, "invalidate-contents",
-                    G_CALLBACK (save_paintable), "asr-setup-downloadable.png");
+  g_signal_connect (dlg, "configs-updated",
+                    G_CALLBACK (save_paintable_after_config_update), paintable);
   adw_preferences_window_set_visible_page_name (ADW_PREFERENCES_WINDOW (dlg),
                                                 "asr_page");
   gtk_window_present (GTK_WINDOW (dlg));

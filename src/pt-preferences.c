@@ -391,6 +391,8 @@ items_changed_cb (GListModel *list,
         }
       g_object_unref (config);
     }
+
+  g_signal_emit_by_name (self, "configs-updated");
 }
 
 static void
@@ -659,6 +661,9 @@ pt_preferences_dialog_init (PtPreferencesDialog *self)
 
   update_timestamp_page (self);
 
+  /* Load (and show) configurations async.
+   * Users won’t notice a delay, however, screenshot tool has to wait for it */
+
   self->config_rows = g_ptr_array_new ();
   self->list = pt_config_list_new (self->player);
   g_signal_connect (self->list, "items-changed", G_CALLBACK (items_changed_cb), self);
@@ -691,6 +696,23 @@ pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->dispose = pt_preferences_dialog_dispose;
+
+  /**
+   * PtPreferencesDialog::configs-updated:
+   * @self: the dialog emitting the signal
+   *
+   * Emitted after configs have been updated. This happens immediately after
+   * initializing PtPreferencesDialog and afterwards whenever configs change.
+   */
+  g_signal_new ("configs-updated",
+                PT_TYPE_PREFERENCES_DIALOG,
+                G_SIGNAL_RUN_FIRST,
+                0,
+                NULL,
+                NULL,
+                g_cclosure_marshal_VOID__VOID,
+                G_TYPE_NONE,
+                0);
 
   /* Bind class to template */
   gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/Parlatype/preferences.ui");
