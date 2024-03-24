@@ -8,9 +8,9 @@ cd "$(dirname "$0")" || exit 1
 source cd_builddir_or_exit
 
 if meson configure | grep -s -e 'gtk-doc.*false' ; then
-	meson configure -Dgtk-doc=true
+  meson configure -Dgtk-doc=true
 fi
 
 if ninja parlatype-doc; then
-	$BROWSER libparlatype/docs/reference/html/index.html &
+  $BROWSER libparlatype/docs/reference/html/index.html &
 fi

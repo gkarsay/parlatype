@@ -8,5 +8,5 @@ files=$(grep -rIzl '^#!/bin/bash' ../)
 
 for f in $files
 do
-	shellcheck -x "$f"
+  shellcheck -x "$f"
 done

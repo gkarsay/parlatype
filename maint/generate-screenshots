@@ -3,9 +3,9 @@
 # Creates screenshots for all present languages
 
 if [ "${MESON_SOURCE_ROOT}" == "" ]; then
-	echo "ERROR: This script has to be run as a Meson run_target"
-	echo "Try \`ninja generate-screenshots\` in the build directory"
-	exit 1
+  echo "ERROR: This script has to be run as a Meson run_target"
+  echo "Try \`ninja generate-screenshots\` in the build directory"
+  exit 1
 fi
 
 CONFIG=~/.config/parlatype
@@ -30,12 +30,12 @@ LANGUAGE=C "${MESON_BUILD_ROOT}"/tools/pt-screenshots --output C/figures
 # Iterate over all languages
 while read -r lang
 do
-	# Skip lines starting with "#" or " "
-	if [[ ${lang:0:1} != "#" && ${lang:0:1} != " " ]]
-	then
-		rm "$CONFIG"/*.asr
-		LANGUAGE="$lang" "${MESON_BUILD_ROOT}"/tools/pt-screenshots --output "$lang"/figures
-	fi
+  # Skip lines starting with "#" or " "
+  if [[ ${lang:0:1} != "#" && ${lang:0:1} != " " ]]
+  then
+    rm "$CONFIG"/*.asr
+    LANGUAGE="$lang" "${MESON_BUILD_ROOT}"/tools/pt-screenshots --output "$lang"/figures
+  fi
 done < LINGUAS
 
 rm "$CONFIG"/*.asr
