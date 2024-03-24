@@ -175,13 +175,13 @@ file_list_items_changed_cb (GListModel *list,
           if (pt_config_is_valid (config) && pt_player_config_is_loadable (self->player, config))
             {
               g_list_store_append (self->store, config);
-              g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
-                                "MESSAGE", "Added file %s", path);
+              g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                                "MESSAGE", "PtConfigList new file: %s", path);
             }
           else
             {
-              g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
-                                "MESSAGE", "File %s is not valid", path);
+              g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                                "MESSAGE", "PtConfigList file invalid: %s", path);
             }
           g_object_unref (config);
         }

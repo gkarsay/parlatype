@@ -768,7 +768,6 @@ set_asr_config (PtWindow *self)
   asr_file = g_file_new_for_path (asr_path);
   self->asr_config = pt_config_new (asr_file);
   g_object_unref (asr_file);
-  g_free (asr_path);
 
   /* get current mode */
   action = g_action_map_lookup_action (G_ACTION_MAP (self), "mode");
@@ -791,6 +790,9 @@ set_asr_config (PtWindow *self)
           set_mode_playback (self);
         }
       g_variant_unref (variant);
+      g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                        "MESSAGE", "asr deactivated, config path: »%s«", asr_path);
+      g_free (asr_path);
       return;
     }
 
@@ -806,6 +808,10 @@ set_asr_config (PtWindow *self)
 
   if (g_strcmp0 (mode, "asr") == 0)
     setup_asr (self);
+
+  g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                    "MESSAGE", "asr activated, config path: »%s«", asr_path);
+  g_free (asr_path);
 
   g_variant_unref (variant);
 }
