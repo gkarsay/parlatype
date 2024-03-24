@@ -106,7 +106,7 @@ copy_asr_configs (void)
   GError          *error = NULL;
 
   sys_folder_path = g_build_path (G_DIR_SEPARATOR_S, PT_SOURCE_DIR, "data", "asr", NULL);
-  sys_folder = g_file_new_for_path (ASR_DIR);
+  sys_folder = g_file_new_for_path (sys_folder_path);
   dest_folder_path = g_build_path (G_DIR_SEPARATOR_S,
                                    g_get_user_config_dir (),
                                    PACKAGE_NAME, NULL);
@@ -387,6 +387,19 @@ take_screenshots (GtkApplication *app,
 
   copy_asr_configs ();
 
+  /* get config */
+  gchar    *config_name = g_build_filename (g_get_user_config_dir (), PACKAGE_NAME, "de.sphinx.bartsch.voxforge.asr", NULL);
+  GFile    *config_file = g_file_new_for_path (config_name);
+  PtConfig *config = pt_config_new (config_file);
+  g_assert (pt_config_is_valid (config));
+
+  /* fake install config and set as active */
+  gchar *model_path = g_build_path (G_DIR_SEPARATOR_S, PT_BUILD_DIR, "tools", "parlatype", NULL);
+  pt_config_set_base_folder (config, model_path);
+  g_assert (pt_config_is_installed (config));
+  GSettings *editor = _pt_window_get_settings (win);
+  g_settings_set_string (editor, "asr-config", config_name);
+
   dlg = pt_preferences_dialog_new (GTK_WINDOW (win));
   paintable = gtk_widget_paintable_new (GTK_WIDGET (dlg));
   g_signal_connect (dlg, "configs-updated",
@@ -401,11 +414,6 @@ take_screenshots (GtkApplication *app,
 
   /* ASR Model dialog ------------------------------------------------------- */
 
-  /* get config */
-  gchar    *config_name = g_build_filename (g_get_user_config_dir (), PACKAGE_NAME, "de.sphinx.bartsch.voxforge.asr", NULL);
-  GFile    *config_file = g_file_new_for_path (config_name);
-  PtConfig *config = pt_config_new (config_file);
-
   /* show dialog with config */
   PtAsrDialog *asr_dlg;
   asr_dlg = pt_asr_dialog_new (GTK_WINDOW (win));
@@ -419,16 +427,6 @@ take_screenshots (GtkApplication *app,
 
   /* Main window with primary menu ------------------------------------------ */
 
-  /* fake install config and set as active */
-  gchar *model_path = g_build_path (G_DIR_SEPARATOR_S, PT_BUILD_DIR, "tools", "parlatype", NULL);
-  pt_config_set_base_folder (config, model_path);
-  GSettings *editor = _pt_window_get_settings (win);
-  g_settings_set_string (editor, "asr-config", config_name);
-  g_object_unref (config);
-  g_object_unref (config_file);
-  g_free (config_name);
-  g_free (model_path);
-
   GtkWidget  *menu_button = _pt_window_get_primary_menu_button (win);
   GtkPopover *popover = gtk_menu_button_get_popover (GTK_MENU_BUTTON (menu_button));
   gtk_popover_set_autohide (popover, false); /* essential */
@@ -439,6 +437,14 @@ take_screenshots (GtkApplication *app,
   gtk_menu_button_popup (GTK_MENU_BUTTON (menu_button));
   g_main_loop_run (loop);
   g_object_unref (paintable);
+
+  /* reset config */
+  g_settings_set_string (editor, "asr-config", "");
+
+  g_object_unref (config);
+  g_object_unref (config_file);
+  g_free (config_name);
+  g_free (model_path);
 #endif
 
   g_free (mp3_example_uri);
