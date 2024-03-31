@@ -1,0 +1,13 @@
+[Model]
+Version=1.0
+Name=CMUSphinx 5.2
+Plugin=parlasphinx
+BaseFolder=
+Language=en
+Howto=Download and unzip
+URL1=https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Language%20Models/US%20English/cmusphinx-en-us-5.2.tar.gz/download
+License=
+Publisher=Alpha Cephei Inc.
+
+[Files]
+hmm=.
