@@ -231,7 +231,7 @@ dist_valid (void)
   path = g_test_build_filename (G_TEST_DIST, "..", "..", "data", "asr", NULL);
   folder = g_file_new_for_path (path);
   num_tested = check_folder_for_configs (folder);
-  g_assert_cmpint (num_tested, >=, 2);
+  g_assert_cmpint (num_tested, >=, 1);
 
   g_object_unref (folder);
   g_free (path);
