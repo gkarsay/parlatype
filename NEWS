@@ -1,3 +1,29 @@
+Overview of Changes in Parlatype 4.1 – 2024-04-02
+=================================================
+
+* New: dependency on libadwaita-1 (>= 1.4),
+       rewritten preferences dialog
+* New: raised GTK dependency (>= 4.10)
+* New: raised GLib dependency (>= 2.70)
+* New: theme selector (copied from GNOME Text Editor)
+* Fix: no deprecations as of GTK 4.10
+* Fix: F10 toggles primary menu (regression from v4.0)
+* Fix: show value of playback speed (regression from v4.0)
+* Fix: some leftovers from migrating to GTK 4
+       (GObject Introspection, python example)
+* Removed: win32 (MS Windows) support
+* Removed: Mozilla DeepSpeech support
+
+* New or updated translations via Weblate:
+  - Basque: Alexander Gabilondo
+  - German: Gabor Karsay
+  - Italian: albanobattistella
+  - Polish: Piotr Drąg
+  - Spanish: Eduardo Malaspina
+  - Spanish: gallegonovato
+  - Turkish: Sabri Ünal
+
+
 Overview of Changes in Parlatype 4.0 – 2023-11-26
 =================================================
 
