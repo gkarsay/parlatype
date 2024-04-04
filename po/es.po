@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-10 19:55+0100\n"
-"PO-Revision-Date: 2024-01-22 18:02+0000\n"
-"Last-Translator: Eduardo Malaspina <vaio0@swismail.com>\n"
+"PO-Revision-Date: 2024-04-04 18:47+0000\n"
+"Last-Translator: Sergio Varela <sergitroll9@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/parlatype/"
 "parlatype/es/>\n"
 "Language: es\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.4-dev\n"
+"X-Generator: Weblate 5.5-dev\n"
 "X-Launchpad-Export-Date: 2020-05-31 16:44+0000\n"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:7
@@ -74,19 +74,17 @@ msgstr "Actualizaciones de traducción para varios idiomas."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:58
-#, fuzzy
-#| msgid "Translation updates for several languages."
 msgid ""
 "This release is switching to GTK 4 and brings translation updates for "
 "several languages."
-msgstr "Actualizaciones de traducción para varios idiomas."
+msgstr ""
+"Esta versión cambia a GTK 4 y trae actualizaciones de traducción para varios "
+"idiomas."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:64
-#, fuzzy
-#| msgid "This is a major release with new features."
 msgid "This is a minor release with a new feature."
-msgstr "Este es un lanzamiento mayor con características nuevas."
+msgstr "Se trata de una versión menor con una nueva función."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:67
@@ -111,17 +109,14 @@ msgstr "Este es un lanzamiento mayor con características nuevas."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:81
-#, fuzzy
-#| msgid "Mozilla DeepSpeech"
 msgid "Support for Mozilla DeepSpeech."
-msgstr "DeepSpeech de Mozilla"
+msgstr "Compatibilidad con Mozilla DeepSpeech."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:83
-#, fuzzy
-#| msgid "Select output for automatic speech recognition"
 msgid "New configuration system for Automatic Speech Recognition."
-msgstr "Selecciona una salida para el reconocimiento automático de voz"
+msgstr ""
+"Nuevo sistema de configuración para el reconocimiento automático de la voz"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:91
@@ -332,22 +327,16 @@ msgid "Open Audio File"
 msgstr "Abrir archivo de audio"
 
 #: src/pt-app.c:115
-#, fuzzy
-#| msgid "Audio files"
 msgid "Audio Files"
 msgstr "Archivos de audio"
 
 #: src/pt-app.c:116 src/pt-preferences.c:534
-#, fuzzy
-#| msgid "All files"
 msgid "All Files"
 msgstr "Todos los archivos"
 
 #: src/pt-app.c:193
-#, fuzzy
-#| msgid "Including code from other projects:"
 msgid "Code from other projects"
-msgstr "Incluye código de otros proyectos:"
+msgstr "Código de otros proyectos"
 
 #: src/pt-app.c:197
 msgid "A basic transcription utility"
@@ -380,10 +369,8 @@ msgstr "Enlace"
 
 #. Not using title case here, this is more a status than a title.
 #: src/pt-asr-dialog.c:115
-#, fuzzy
-#| msgid "There is no configuration"
 msgid "This configuration is active."
-msgstr "No hay configuración"
+msgstr "Esta configuración está activa."
 
 #: src/pt-asr-dialog.c:117
 msgid "Deactivate"
@@ -413,10 +400,8 @@ msgid "Model data will be preserved"
 msgstr "Se conservarán los datos del modelo"
 
 #: src/pt-asr-dialog.c:222
-#, fuzzy
-#| msgid "Language:"
 msgid "Language"
-msgstr "Idioma:"
+msgstr "Idioma"
 
 #: src/pt-asr-dialog.c:226
 msgid "CMU Pocketsphinx"
@@ -428,34 +413,24 @@ msgid "Type of Model"
 msgstr "Tipo de Modelo"
 
 #: src/pt-asr-dialog.c:232
-#, fuzzy
-#| msgid "GStreamer Plugin:"
 msgid "GStreamer Plugin"
-msgstr "Complemento GStreamer:"
+msgstr "Complemento GStreamer"
 
 #: src/pt-asr-dialog.c:236
-#, fuzzy
-#| msgid "Publisher:"
 msgid "Publisher"
-msgstr "Editor:"
+msgstr "Editor"
 
 #: src/pt-asr-dialog.c:241
-#, fuzzy
-#| msgid "License:"
 msgid "License"
-msgstr "Licencia:"
+msgstr "Licencia"
 
 #: src/pt-asr-dialog.c:249
-#, fuzzy
-#| msgid "Instructions:"
 msgid "Instructions"
-msgstr "Instrucciones:"
+msgstr "Instrucciones"
 
 #: src/pt-asr-dialog.c:258 src/pt-asr-dialog.c:269
-#, fuzzy
-#| msgid "Download:"
 msgid "Download"
-msgstr "Descargar:"
+msgstr "Descargar"
 
 #. Translators: %s is replaced with the name of a configuration
 #: src/pt-asr-dialog.c:314
@@ -479,10 +454,8 @@ msgid "Configuration has been deactivated"
 msgstr "Se ha desactivado la configuración"
 
 #: src/pt-config-row.c:79
-#, fuzzy
-#| msgid "Installed"
 msgid "Not installed"
-msgstr "Instalado"
+msgstr "No instalado"
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
@@ -509,10 +482,8 @@ msgid "There is no plugin installed for this language model."
 msgstr "No hay ningún plugin instalado para este idioma."
 
 #: src/pt-preferences.c:525 src/pt-prefs-install-row.c:136
-#, fuzzy
-#| msgid "Select acoustic model folder"
 msgid "Select Model Folder"
-msgstr "Selecciona la carpeta del modelo acústico"
+msgstr "Selecciona la carpeta del modelo"
 
 #: src/pt-preferences.c:533
 #, fuzzy
@@ -525,44 +496,34 @@ msgid "Installed"
 msgstr "Instalado"
 
 #: src/pt-prefs-install-row.c:59
-#, fuzzy
-#| msgid "Installed"
 msgid "Not Installed"
-msgstr "Instalado"
+msgstr "No instalado"
 
 #: src/pt-prefs-install-row.c:60
-#, fuzzy
-#| msgid "Download, unzip to a folder and select that folder."
 msgid "Download files and select model folder."
-msgstr "Descargar, descomprimir a una carpeta y seleccionarla."
+msgstr "Descargar los archivos y seleccionar la carpeta del modelo."
 
 #: src/pt-prefs-install-row.c:114
 msgid "Model Data Not Found"
 msgstr "Datos del modelo no encontrados"
 
 #: src/pt-prefs-install-row.c:116
-#, fuzzy
-#| msgid "The file is not a valid language model configuration."
 msgid "The chosen folder does not contain data for this configuration."
-msgstr "El archivo no es una configuración de modelo lingüístico válida."
+msgstr "La carpeta elegida no contiene datos para esta configuración."
 
 #: src/pt-window.c:396
-#, fuzzy, c-format
-#| msgid "Jump back 1 second"
-#| msgid_plural "Jump back %d seconds"
+#, c-format
 msgid "Skip back 1 second"
 msgid_plural "Skip back %d seconds"
-msgstr[0] "Vuelve 1 segundo atrás"
-msgstr[1] "Vuelve %d segundos atrás"
+msgstr[0] "Saltar 1 segundo atrás"
+msgstr[1] "Saltar %d segundos atrás"
 
 #: src/pt-window.c:413
-#, fuzzy, c-format
-#| msgid "Jump forward 1 second"
-#| msgid_plural "Jump forward %d seconds"
+#, c-format
 msgid "Skip forward 1 second"
 msgid_plural "Skip forward %d seconds"
-msgstr[0] "Avanza 1 segundo"
-msgstr[1] "Avanza %d segundos"
+msgstr[0] "Saltar 1 segundo adelante"
+msgstr[1] "Saltar %d segundos adelante"
 
 #: src/pt-window.c:434
 msgid "Pause"
@@ -700,17 +661,12 @@ msgid "Play/Pause"
 msgstr "Reproducir/pausar"
 
 #: src/resources/help-overlay.ui:52 src/resources/window.ui:99
-#, fuzzy
-#| msgid "Jump back 1 second"
-#| msgid_plural "Jump back %d seconds"
 msgid "Skip backward"
-msgstr "Vuelve 1 segundo atrás"
+msgstr "Saltar hacia atrás"
 
 #: src/resources/help-overlay.ui:59 src/resources/window.ui:144
-#, fuzzy
-#| msgid "Jump forward"
 msgid "Skip forward"
-msgstr "Saltar hacia delante"
+msgstr "Avanzar hacia delante"
 
 #: src/resources/help-overlay.ui:66
 msgid "Zoom in"
