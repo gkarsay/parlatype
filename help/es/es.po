@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2024-01-10 19:55+0100\n"
-"PO-Revision-Date: 2024-02-02 00:02+0000\n"
-"Last-Translator: Eduardo Malaspina <vaio0@swismail.com>\n"
+"PO-Revision-Date: 2024-04-04 18:47+0000\n"
+"Last-Translator: Sergio Varela <sergitroll9@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/parlatype/"
 "parlatype-help/es/>\n"
 "Language: es\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.4-dev\n"
+"X-Generator: Weblate 5.5-dev\n"
 "X-Launchpad-Export-Date: 2020-05-31 16:44+0000\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
@@ -143,8 +143,6 @@ msgstr "Primeros pasos con Parlatype"
 
 #. (itstool) path: page/title
 #: ../help/C/first-steps.page:15
-#, fuzzy
-#| msgid "First steps with Parlatype"
 msgid "First Steps With Parlatype"
 msgstr "Primeros pasos con Parlatype"
 
@@ -170,12 +168,6 @@ msgstr "También puedes arrastrar y soltar un archivo a <app>Parlatype</app>."
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:23
-#, fuzzy
-#| msgid ""
-#| "In the lower left corner there are the controls with a <gui>Play</gui> "
-#| "button which toggles between play and pause. Whenever you pause, "
-#| "<app>Parlatype</app> rewinds a few seconds to make it easier to resume. "
-#| "This can be changed in the <link xref=\"preferences\"/>."
 msgid ""
 "In the lower left corner there are the controls with a <gui>Play</gui> "
 "button which toggles between play and pause. Whenever you pause, "
@@ -185,16 +177,11 @@ msgstr ""
 "En la esquina inferior izquierda hay controles con un botón de "
 "<gui>Reproducir</gui> que alterna entre reproducción y pausa. Cuando pausas, "
 "<app>Parlatype</app> rebobina unos pocos segundos para hacer que sea más "
-"fácil retomar la transcripción. Esto se puede cambiar en las <link "
-"xref=\"preferencias\"/>."
+"fácil retomar la transcripción. Esto se puede cambiar en las <link xref="
+"\"Preferencias\"/>."
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:27
-#, fuzzy
-#| msgid ""
-#| "The buttons <gui>Jump back</gui> and <gui>Jump forward</gui> in the lower "
-#| "left corner skip a few seconds back or ahead. The amount of time can be "
-#| "changed in the <link xref=\"preferences\"/>."
 msgid ""
 "The buttons <gui>Skip backward</gui> and <gui>Skip forward</gui> in the "
 "lower left corner skip a few seconds back or ahead. The amount of time can "
@@ -202,8 +189,8 @@ msgid ""
 msgstr ""
 "Los botones <gui>Volver atrás</gui> y <gui>Avanzar</gui> en la esquina "
 "inferior izquierda saltan varios segundos hacia atrás o hacia adelante. La "
-"cantidad de segundos del salto se puede cambiar en las <link "
-"xref=\"preferencias\"/>."
+"cantidad de segundos del salto se puede cambiar en el diálogo <link xref="
+"\"Preferencias\"/>."
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:29
@@ -219,12 +206,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:31
-#, fuzzy
-#| msgid ""
-#| "To get back to the cursor’s position and let the view scroll "
-#| "automatically again, click on the menu button showing the time and then "
-#| "on <gui>Go to cursor</gui>. Clicking on the <gui>Play</gui> button also "
-#| "turns automatic scrolling on."
 msgid ""
 "To get back to the cursor’s position and let the view scroll automatically "
 "again, click on the menu button showing the time and then on <gui>Go to "
@@ -238,35 +219,23 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:33
-#, fuzzy
-#| msgid ""
-#| "Clicking in the view with the right mouse button will put the cursor "
-#| "there, also holding the right mouse button pressed and moving it. The "
-#| "left mouse button is for <link xref=\"selections\"/>."
 msgid ""
 "Clicking in the view with the right mouse button will put the cursor there. "
 "The left mouse button is for <link xref=\"selections\"/>."
 msgstr ""
 "Hacer clic en la vista del reproductor con el botón derecho del ratón "
-"situará el cursor en ese punto. También se puede mover el cursor pulsando y "
-"arrastrando el botón derecho del ratón. El botón izquierdo del ratón es para "
-"<link xref=\"selections\"/>."
+"situará el cursor en ese punto. El botón izquierdo del ratón es para <link "
+"xref=\"selections\"/>."
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:35
-#, fuzzy
-#| msgid ""
-#| "The <gui>speed scale</gui> next to the <gui>volume</gui> button in the "
-#| "lower right corner lets you adjust the speed of playback. A value of 1 "
-#| "means normal speed, everything lower (down to 0.5) is slower, everything "
-#| "above is faster."
 msgid ""
 "The <gui>speed scale</gui> next to the <gui>Volume</gui> button in the lower "
 "right corner lets you adjust the speed of playback. A value of 1 means "
 "normal speed, everything lower (down to 0.5) is slower, everything above is "
 "faster."
 msgstr ""
-"La <gui>escala de velocidad</gui> junto al botón de <gui>volumen</gui>, en "
+"La <gui>escala de velocidad</gui> junto al botón de <gui>Volumen</gui>, en "
 "la esquina inferior derecha, permite ajustar la velocidad de reproducción. "
 "Un valor de 1 significa velocidad normal. Un valor por debajo (hasta 0.5) es "
 "más lento, y todo lo que esté por encima es más rápido."
@@ -278,8 +247,6 @@ msgstr "Atajos de teclado estándares de Parlatype"
 
 #. (itstool) path: page/title
 #: ../help/C/keyboard-shortcuts.page:14
-#, fuzzy
-#| msgid "Keyboard shortcuts"
 msgid "Keyboard Shortcuts"
 msgstr "Atajos de teclado"
 
@@ -341,28 +308,22 @@ msgstr "<keyseq><key>Ctrl</key><key>G</key></keyseq>"
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:42
 msgid "Skip backward"
-msgstr ""
+msgstr "Saltar hacia atrás"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:43
-#, fuzzy
-#| msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>a</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>O</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>a</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:46
-#, fuzzy
-#| msgid "Jump forward"
 msgid "Skip forward"
-msgstr "Saltar hacia delante"
+msgstr "Avanzar hacia delante"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:47
-#, fuzzy
-#| msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>s</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>O</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>s</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:50
@@ -503,16 +464,12 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: ../help/C/timestamps.page:22
-#, fuzzy
-#| msgid ""
-#| "<app>Parlatype</app> can produce different timestamp formats, they can be "
-#| "set in <link xref=\"preferences#timestamps\"/>."
 msgid ""
 "<app>Parlatype</app> can produce different timestamp formats, they can be "
 "set in the Preferences dialog."
 msgstr ""
 "<app>Parlatype</app> puede producir diferentes formatos de marcas de tiempo, "
-"se pueden establecer en <link xref=\"preferences#timestamps\"/>."
+"se pueden establecer en el dialogo de Preferencias."
 
 #. (itstool) path: section/title
 #: ../help/C/timestamps.page:25
@@ -540,10 +497,6 @@ msgstr "Uso del portapapeles"
 
 #. (itstool) path: section/p
 #: ../help/C/timestamps.page:33
-#, fuzzy
-#| msgid ""
-#| "Clicking on the menu button that is showing the current time you can "
-#| "<gui>Copy time to clipboard</gui> or <gui>Go to time in clipboard</gui>."
 msgid ""
 "Clicking on the menu button that is showing the current time you can "
 "<gui>Copy Time to Clipboard</gui> or <gui>Go to Time in Clipboard</gui>."
@@ -584,8 +537,6 @@ msgstr "Dejar a Parlatype hacer parte del trabajo de transcripción"
 
 #. (itstool) path: page/title
 #: ../help/C/asr.page:15
-#, fuzzy
-#| msgid "Automatic speech recognition"
 msgid "Automatic Speech Recognition"
 msgstr "Reconocimiento automático de voz"
 
@@ -600,18 +551,13 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: ../help/C/asr.page:20
-#, fuzzy
-#| msgid ""
-#| "<app>Parlatype</app> must have been built with <app>PocketSphinx</app> or "
-#| "<app>Mozilla DeepSpeech</app>. Please note that those libraries might be "
-#| "not available on your platform."
 msgid ""
 "<app>Parlatype</app> must have been built with <app>PocketSphinx</app>. "
 "Please note that those libraries might be not available on your platform."
 msgstr ""
 "<app>Parlatype</app> debe haber sido construida con <app>PocketSphinx</app> "
-"o <app>Mozilla DeepSpeech</app>. Ten en cuenta que esas bibliotecas podrían "
-"no estar disponibles en tu plataforma."
+". Ten en cuenta que esas bibliotecas podrían no estar disponibles en tu "
+"plataforma."
 
 #. (itstool) path: note/p
 #: ../help/C/asr.page:24
@@ -625,31 +571,21 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: ../help/C/asr.page:29
-#, fuzzy
-#| msgid "Start speech recognition"
 msgid "Start Speech Recognition"
 msgstr "Iniciar reconocimiento de voz"
 
 #. (itstool) path: section/p
 #: ../help/C/asr.page:31
-#, fuzzy
-#| msgid ""
-#| "Select a language model in the Preferences Dialog, <gui>Speech "
-#| "recognition</gui> tab, see <link xref=\"asr-setup\"/> for more details."
 msgid ""
 "Select a language model in the Preferences Dialog, <gui>Speech Recognition</"
 "gui> tab, see <link xref=\"asr-setup\"/> for more details."
 msgstr ""
-"Selecciona un modelo lingüístico en las Preferencias, <gui>pestaña "
+"Selecciona un modelo lingüístico en las Preferencias, <gui>en la pestaña "
 "Reconocimiento de voz</gui>, consulta <link xref=\"asr-setup\"/> para "
 "obtener más detalles."
 
 #. (itstool) path: section/p
 #: ../help/C/asr.page:34
-#, fuzzy
-#| msgid ""
-#| "Open the primary menu and click on <gui>Automatic transcription</gui>. "
-#| "This is only available, if you have setup and chosen a language model."
 msgid ""
 "Open the main menu and click on <gui>Automatic Transcription</gui>. This is "
 "only available, if you have setup and chosen a language model."
@@ -705,19 +641,11 @@ msgstr "Configurar la transcripción automática de voz"
 
 #. (itstool) path: page/title
 #: ../help/C/asr-setup.page:15
-#, fuzzy
-#| msgid "Setup automatic speech recognition"
 msgid "Setup Automatic Speech Recognition"
 msgstr "Configurar el reconocimiento de voz automático"
 
 #. (itstool) path: page/p
 #: ../help/C/asr-setup.page:17
-#, fuzzy
-#| msgid ""
-#| "For speech recognition you need a language model: one or more files "
-#| "trained with real speech samples. <app>Parlatype</app> supports language "
-#| "models made for CMU Sphinx and Mozilla DeepSpeech and ships a couple of "
-#| "<em>language model configurations</em>."
 msgid ""
 "For speech recognition you need a language model: one or more files trained "
 "with real speech samples. <app>Parlatype</app> supports language models made "
@@ -725,8 +653,8 @@ msgid ""
 msgstr ""
 "Para el reconocimiento de voz necesitas un modelo de lenguaje: uno o más "
 "archivos entrenados con muestras de voz reales. <app>Parlatype</app> admite "
-"modelos de lenguaje creados para CMU Sphinx y Mozilla DeepSpeech e incluye "
-"un par en las <em>configuraciones de los modelos del idioma</em>."
+"modelos de lenguaje creados para CMU Sphinx e incluye un par en las "
+"<em>configuraciones de los modelos del idioma</em>."
 
 #. (itstool) path: note/p
 #: ../help/C/asr-setup.page:21
@@ -747,11 +675,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: ../help/C/asr-setup.page:28
-#, fuzzy
-#| msgid ""
-#| "Open the Preferences Dialog and click on the <gui>Speech Recognition</"
-#| "gui> tab. Initially there are no configurations available, click on the "
-#| "<gui>Add a configuration</gui> button."
 msgid ""
 "Open the Preferences Dialog and click on the <gui>Speech Recognition</gui> "
 "tab. Initially there are no configurations available, click on the <gui>Copy "
@@ -759,8 +682,8 @@ msgid ""
 msgstr ""
 "Abre los ajustes del cuadro de diálogo y haz clic en la pestaña "
 "<gui>Reconocimiento de voz</gui>. Si inicialmente no hay ninguna "
-"configuración disponible, haz clic en el botón <gui>Añadir una "
-"configuración</gui>."
+"configuración disponible, haz clic en el botón <gui>Copiar conjunto inicial "
+"de configuraciones</gui>."
 
 #. (itstool) path: page/p
 #: ../help/C/asr-setup.page:34
@@ -773,22 +696,16 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: ../help/C/asr-setup.page:38
-#, fuzzy
-#| msgid ""
-#| "Select a configuration and click on the <_:media-1/> button. There is a "
-#| "short description of the model and where you can download it. After "
-#| "downloading, you have to set the folder where your download resides. You "
-#| "can also change the <gui>Display name</gui>."
 msgid ""
 "Select a configuration by clicking on it. There is a short description of "
 "the model and where you can download it. After downloading, you have to set "
 "the folder where your download resides. You can also change the <gui>Display "
 "name</gui>."
 msgstr ""
-"Selecciona una configuración y haz clic en el botón <_:media-1/>. Hay una "
-"breve descripción del modelo y dónde descargarlo. Después de la descarga, "
-"debes configurar la carpeta donde reside la descarga. También puedes cambiar "
-"el <gui>Nombre para mostrar</gui>."
+"Selecciona una configuración haciendo clic en él. Hay una breve descripción "
+"del modelo y dónde descargarlo. Después de la descarga, debes configurar la "
+"carpeta donde reside la descarga. También puedes cambiar el <gui>Nombre para "
+"mostrar</gui>."
 
 #. (itstool) path: media/span
 #: ../help/C/asr-setup.page:46
