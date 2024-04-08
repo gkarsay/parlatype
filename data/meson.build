@@ -60,4 +60,7 @@ configure_file(
   install_dir: join_paths(datadir, 'dbus-1', 'services')
 )
 
-meson.add_install_script('meson_post_install.py')
+gnome.post_install(
+  glib_compile_schemas: true,
+  gtk_update_icon_cache: true,
+)
