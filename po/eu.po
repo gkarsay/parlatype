@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Parlatype 3.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-10 19:55+0100\n"
-"PO-Revision-Date: 2024-02-15 17:02+0000\n"
+"PO-Revision-Date: 2024-04-28 22:07+0000\n"
 "Last-Translator: Alexander Gabilondo <alexgabi@openmailbox.org>\n"
 "Language-Team: Basque <https://hosted.weblate.org/projects/parlatype/"
 "parlatype/eu/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.4-dev\n"
+"X-Generator: Weblate 5.5.1\n"
 
 #: data/org.parlatype.Parlatype.appdata.xml.in:7
 #: data/org.parlatype.Parlatype.desktop.in:4 src/pt-app.c:196
@@ -71,12 +71,12 @@ msgstr "Hainbat hizkuntzatarako itzulpen eguneraketak."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:58
-#, fuzzy
-#| msgid "Translation updates for several languages."
 msgid ""
 "This release is switching to GTK 4 and brings translation updates for "
 "several languages."
-msgstr "Hainbat hizkuntzatarako itzulpen eguneraketak."
+msgstr ""
+"Bertsio hau GTK 4ra aldatzen ari da eta hainbat hizkuntzatarako itzulpen "
+"eguneraketak dakartza."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/org.parlatype.Parlatype.appdata.xml.in:64
@@ -329,10 +329,8 @@ msgid "All Files"
 msgstr "Fitxategi guztiak"
 
 #: src/pt-app.c:193
-#, fuzzy
-#| msgid "Including code from other projects:"
 msgid "Code from other projects"
-msgstr "Beste proiektu batzuen kodea du:"
+msgstr "Beste proiektu batzuen kodea"
 
 #: src/pt-app.c:197
 msgid "A basic transcription utility"
@@ -358,10 +356,8 @@ msgstr "Esteka"
 
 #. Not using title case here, this is more a status than a title.
 #: src/pt-asr-dialog.c:115
-#, fuzzy
-#| msgid "There is no configuration"
 msgid "This configuration is active."
-msgstr "Ez dago konfiguraziorik"
+msgstr "Konfigurazio hau aktiboa dago"
 
 #: src/pt-asr-dialog.c:117
 msgid "Deactivate"
@@ -391,10 +387,8 @@ msgid "Model data will be preserved"
 msgstr "Ereduaren datuak gordeko dira"
 
 #: src/pt-asr-dialog.c:222
-#, fuzzy
-#| msgid "Language:"
 msgid "Language"
-msgstr "Hizkuntza:"
+msgstr "Hizkuntza"
 
 #: src/pt-asr-dialog.c:226
 msgid "CMU Pocketsphinx"
@@ -406,34 +400,24 @@ msgid "Type of Model"
 msgstr "Eredu mota"
 
 #: src/pt-asr-dialog.c:232
-#, fuzzy
-#| msgid "GStreamer Plugin:"
 msgid "GStreamer Plugin"
-msgstr "GStreamer plugina:"
+msgstr "GStreamer plugina"
 
 #: src/pt-asr-dialog.c:236
-#, fuzzy
-#| msgid "Publisher:"
 msgid "Publisher"
-msgstr "Argitaratzailea:"
+msgstr "Argitaratzailea"
 
 #: src/pt-asr-dialog.c:241
-#, fuzzy
-#| msgid "License:"
 msgid "License"
-msgstr "Lizentzia:"
+msgstr "Lizentzia"
 
 #: src/pt-asr-dialog.c:249
-#, fuzzy
-#| msgid "Instructions:"
 msgid "Instructions"
-msgstr "Argibideak:"
+msgstr "Argibideak"
 
 #: src/pt-asr-dialog.c:258 src/pt-asr-dialog.c:269
-#, fuzzy
-#| msgid "Download:"
 msgid "Download"
-msgstr "Deskargatu:"
+msgstr "Deskargatu"
 
 #. Translators: %s is replaced with the name of a configuration
 #: src/pt-asr-dialog.c:314
@@ -457,10 +441,8 @@ msgid "Configuration has been deactivated"
 msgstr "Konfigurazioa desaktibatu da"
 
 #: src/pt-config-row.c:79
-#, fuzzy
-#| msgid "Installed"
 msgid "Not installed"
-msgstr "Instalatuta"
+msgstr "Instalatu gabe"
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
@@ -501,26 +483,20 @@ msgid "Installed"
 msgstr "Instalatuta"
 
 #: src/pt-prefs-install-row.c:59
-#, fuzzy
-#| msgid "Installed"
 msgid "Not Installed"
-msgstr "Instalatuta"
+msgstr "Instalatu gabe"
 
 #: src/pt-prefs-install-row.c:60
-#, fuzzy
-#| msgid "Download, unzip to a folder and select that folder."
 msgid "Download files and select model folder."
-msgstr "Deskargatu, deskonprimatu karpeta batean eta hautatu karpeta hori."
+msgstr "Deskargatu fitxategiak eta hautatu ereduaren karpeta."
 
 #: src/pt-prefs-install-row.c:114
 msgid "Model Data Not Found"
 msgstr "Ereduaren datuak ez dira aurkitu"
 
 #: src/pt-prefs-install-row.c:116
-#, fuzzy
-#| msgid "The file is not a valid language model configuration."
 msgid "The chosen folder does not contain data for this configuration."
-msgstr "Fitxategia ez da baliozko hizkuntza-ereduaren konfigurazioa."
+msgstr "Aukeratutako karpetak ez du konfigurazio honetarako daturik."
 
 #: src/pt-window.c:396
 #, fuzzy, c-format
@@ -557,16 +533,13 @@ msgstr "Hasi erreproduzitzen"
 
 #. Translators: %s is replaced with a timestamp
 #: src/pt-window.c:488
-#, fuzzy, c-format
-#| msgid "Go to time in clipboard: %s"
+#, c-format
 msgid "Go to Time in Clipboard: %s"
-msgstr "Joan ordura arbelean: %s"
+msgstr "Joan arbeleko ordura: %s"
 
 #: src/pt-window.c:490 src/pt-window.c:1166
-#, fuzzy
-#| msgid "Go to time in clipboard"
 msgid "Go to Time in Clipboard"
-msgstr "Joan ordura arbelean"
+msgstr "Joan arbeleko ordura"
 
 #: src/pt-window.c:1161
 #, fuzzy
@@ -585,26 +558,20 @@ msgid "Installation"
 msgstr "Instalazioa"
 
 #: src/resources/asr-dialog.ui:30
-#, fuzzy
-#| msgid "There is no plugin installed for this language model."
 msgid "How to install this language model."
-msgstr "Ez dago hizkuntza-eredu honetarako pluginik instalatuta."
+msgstr "Nola instalatu hizkuntza eredu hau."
 
 #: src/resources/asr-dialog.ui:33
 msgid "General Information"
 msgstr "Informazio orokorra"
 
 #: src/resources/asr-dialog.ui:36
-#, fuzzy
-#| msgid "Display Name:"
 msgid "Display Name"
-msgstr "Bistaratzeko izena:"
+msgstr "Bistaratzeko izena"
 
 #: src/resources/asr-dialog.ui:44
-#, fuzzy
-#| msgid "There is no configuration"
 msgid "Delete this Configuration"
-msgstr "Ez dago konfiguraziorik"
+msgstr "Ezabatu konfigurazio hau"
 
 #: src/resources/asr-dialog.ui:48
 msgid "Delete"
@@ -659,10 +626,8 @@ msgid "Open a media file"
 msgstr "Ireki multimedia fitxategia"
 
 #: src/resources/help-overlay.ui:25
-#, fuzzy
-#| msgid "Show/hide action menu"
 msgid "Show/hide main menu"
-msgstr "Erakutsi/ezkutatu ekintza menua"
+msgstr "Erakutsi/ezkutatu menu nagusia"
 
 #: src/resources/help-overlay.ui:32
 msgid "Quit"
@@ -677,11 +642,8 @@ msgid "Play/Pause"
 msgstr "Erreproduzitu/Pausatu"
 
 #: src/resources/help-overlay.ui:52 src/resources/window.ui:99
-#, fuzzy
-#| msgid "Jump back 1 second"
-#| msgid_plural "Jump back %d seconds"
 msgid "Skip backward"
-msgstr "Atzera egin segundo 1"
+msgstr "Saltatu atzera"
 
 #: src/resources/help-overlay.ui:59 src/resources/window.ui:144
 #, fuzzy
@@ -734,44 +696,32 @@ msgid "Change appearance of the waveform and cursor movement."
 msgstr "Aldatu uhin-formaren eta kurtsorearen mugimenduaren itxura."
 
 #: src/resources/preferences.ui:19
-#, fuzzy
-#| msgid "Waveform"
 msgid "Waveform Detail"
-msgstr "Uhin forma"
+msgstr "Uhin formaren xehetasuna"
 
 #: src/resources/preferences.ui:20
-#, fuzzy
-#| msgid "_Pixels per second:"
 msgid "Vertical lines per second"
-msgstr "_Pixel segundoko:"
+msgstr "Lerro bertikalak segundoko"
 
 #: src/resources/preferences.ui:53
-#, fuzzy
-#| msgid "Show _time scale"
 msgid "Show Time Scale"
-msgstr "Erakutsi _denbora eskala"
+msgstr "Erakutsi denbora-eskala"
 
 #: src/resources/preferences.ui:58
 msgid "Cursor Mode"
 msgstr "Kurtsore modua"
 
 #: src/resources/preferences.ui:62
-#, fuzzy
-#| msgid "_Fixed cursor"
 msgid "Fixed Cursor"
-msgstr "_Kursorea finko"
+msgstr "Kurtsorea finko"
 
 #: src/resources/preferences.ui:63
-#, fuzzy
-#| msgid "_Moving cursor"
 msgid "Moving Cursor"
-msgstr "_Kursorea mugitzen"
+msgstr "Kurtsorea mugitzen"
 
 #: src/resources/preferences.ui:76
-#, fuzzy
-#| msgid "Controls"
 msgid "Audio Controls"
-msgstr "Kontrolak"
+msgstr "Audio-kontrolak"
 
 #: src/resources/preferences.ui:80
 msgid "Pause and Skip Buttons"
@@ -861,10 +811,8 @@ msgid "100th Seconds"
 msgstr "segundo ehunen"
 
 #: src/resources/preferences.ui:172
-#, fuzzy
-#| msgid "Fraction separator:"
 msgid "Fraction Separator"
-msgstr "Zatikien bereizlea:"
+msgstr "Zatikien bereizlea"
 
 #: src/resources/preferences.ui:176
 #, fuzzy
@@ -917,10 +865,8 @@ msgid "Speech Recognition"
 msgstr "Hizketa-ezagutzea"
 
 #: src/resources/preferences.ui:215
-#, fuzzy
-#| msgid "Language:"
 msgid "Language Models"
-msgstr "Hizkuntza:"
+msgstr "Hizkuntza ereduak"
 
 #: src/resources/preferences.ui:216
 msgid ""
@@ -937,10 +883,8 @@ msgid "Import configuration from file"
 msgstr "Inportatu hizkuntza-ereduaren konfigurazioa"
 
 #: src/resources/preferences.ui:232
-#, fuzzy
-#| msgid "Delete language model configuration?"
 msgid "Copy Initial Set of Configurations"
-msgstr "Hizkuntza-ereduaren konfigurazioa ezabatu nahi duzu?"
+msgstr "Kopiatu hasierako konfigurazio multzoa"
 
 #: src/resources/prefs-install-row.ui:11
 msgid "Choose folder"
