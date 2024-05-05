@@ -14,6 +14,8 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
+
 #include "mock-plugin.h"
 
 #include <gio/gio.h>
@@ -277,7 +279,7 @@ pt_mock_plugin_register (void)
       "LGPL",
       "libparlatype",
       "Parlatype",
-      "https://www.parlatype.org/");
+      PACKAGE_URL);
 }
 
 PtMockPlugin *

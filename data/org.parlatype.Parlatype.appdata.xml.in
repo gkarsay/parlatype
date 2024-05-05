@@ -19,10 +19,10 @@
     </screenshot>
   </screenshots>
 
-  <url type="homepage">https://www.parlatype.org</url>
+  <url type="homepage">https://www.parlatype.xyz</url>
   <url type="bugtracker">https://github.com/gkarsay/parlatype/issues</url>
   <url type="translate">https://hosted.weblate.org/engage/parlatype/</url>
-  <url type="donation">https://www.parlatype.org/donate.html</url>
+  <url type="donation">https://www.parlatype.xyz/donate.html</url>
   <developer_name>Gabor Karsay</developer_name>
 
   <provides>

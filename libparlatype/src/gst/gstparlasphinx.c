@@ -870,5 +870,5 @@ gst_parlasphinx_register (void)
       "BSD",
       "libparlatype",
       "Parlatype",
-      "https://www.parlatype.org/");
+      PACKAGE_URL);
 }

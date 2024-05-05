@@ -29,6 +29,7 @@ iso_codes_prefix = iso_codes.get_variable(pkgconfig: 'prefix')
 
 libconf = configuration_data()
 libconf.set_quoted('PACKAGE_VERSION', meson.project_version())
+libconf.set_quoted('PACKAGE_URL', 'https://www.parlatype.xyz')
 libconf.set_quoted('GETTEXT_LIB', gettext_package_lib)
 libconf.set_quoted('ISO_CODES_PREFIX', iso_codes_prefix)
 libconf.set('HAVE_POCKETSPHINX', with_pocketsphinx)

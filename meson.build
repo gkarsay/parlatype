@@ -25,7 +25,7 @@ gettext_package = 'parlatype'
 conf = configuration_data()
 conf.set_quoted('PACKAGE_VERSION', '@VCS_TAG@')
 conf.set_quoted('PACKAGE_NAME', meson.project_name())
-conf.set_quoted('PACKAGE_URL', 'https://www.parlatype.org')
+conf.set_quoted('PACKAGE_URL', 'https://www.parlatype.xyz')
 conf.set_quoted('APP_ID', app_id)
 conf.set_quoted('ASR_DIR', join_paths(datadir, meson.project_name(), 'asr'))
 conf.set('HAVE_ASR', with_asr)

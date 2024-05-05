@@ -376,5 +376,5 @@ gst_pt_audio_bin_register (void)
       "GPL",
       "libparlatype",
       "Parlatype",
-      "https://www.parlatype.org/");
+      PACKAGE_URL);
 }

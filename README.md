@@ -1,7 +1,7 @@
 # Parlatype
 
 Minimal audio player for manual speech transcription. \
-More info and packages available at https://www.parlatype.org.
+More info and packages available at https://www.parlatype.xyz.
 
 The following instructions are for developers, contributors and those who want to have the latest version from the main branch.
 
