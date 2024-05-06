@@ -300,6 +300,7 @@ waveviewer_load_progress (GtkWidget *waveviewer,
     }
 }
 
+#ifdef HAVE_ASR
 static void
 save_paintable_after_config_update (PtPreferencesDialog *dlg,
                                     gpointer             user_data)
@@ -310,17 +311,17 @@ save_paintable_after_config_update (PtPreferencesDialog *dlg,
   g_signal_connect (paintable, "invalidate-contents",
                     G_CALLBACK (save_paintable), "asr-setup-downloadable.png");
 }
+#endif
 
 static void
 take_screenshots (GtkApplication *app,
                   gpointer        user_data)
 {
-  GList               *windows;
-  PtWindow            *win;
-  PtPlayer            *player;
-  GtkWidget           *waveviewer;
-  PtPreferencesDialog *dlg;
-  GdkPaintable        *paintable;
+  GList        *windows;
+  PtWindow     *win;
+  PtPlayer     *player;
+  GtkWidget    *waveviewer;
+  GdkPaintable *paintable;
 
   /* Initialize static variables */
   loop = g_main_loop_new (NULL, FALSE);
@@ -370,6 +371,8 @@ take_screenshots (GtkApplication *app,
 
 #ifdef HAVE_ASR
   /* Preferences Dialog, asr page without models ---------------------------- */
+
+  PtPreferencesDialog *dlg;
 
   dlg = pt_preferences_dialog_new (GTK_WINDOW (win));
   paintable = gtk_widget_paintable_new (GTK_WIDGET (dlg));
