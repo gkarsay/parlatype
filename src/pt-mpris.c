@@ -153,7 +153,7 @@ handle_root_method_call (GDBusConnection       *connection,
 
   if (g_strcmp0 (method_name, "Raise") == 0)
     {
-      gtk_window_present_with_time (GTK_WINDOW (window), GDK_CURRENT_TIME);
+      gtk_window_present (GTK_WINDOW (window));
       g_dbus_method_invocation_return_value (invocation, NULL);
     }
   else if (g_strcmp0 (method_name, "Quit") == 0)
