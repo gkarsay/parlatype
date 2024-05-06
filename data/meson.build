@@ -26,10 +26,10 @@ if desktop_file_validate.found()
   )
 endif
 
-appdata = app_id + '.appdata.xml'
+metainfo = app_id + '.metainfo.xml'
 i18n.merge_file(
-  input: appdata + '.in',
-  output: appdata,
+  input: metainfo + '.in',
+  output: metainfo,
   type: 'xml',
   po_dir: '../po',
   install: true,
@@ -39,9 +39,9 @@ i18n.merge_file(
 
 appstream_util = find_program('appstream-util', required: false)
 if appstream_util.found()
-  test('Validating ' + appdata,
+  test('Validating ' + metainfo,
        appstream_util,
-       args: ['validate-relax', '--nonet', appdata],
+       args: ['validate-relax', '--nonet', metainfo],
        workdir: meson.current_build_dir()
   )
 endif
