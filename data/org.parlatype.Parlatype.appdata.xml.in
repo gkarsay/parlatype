@@ -6,7 +6,7 @@
   <metadata_license>CC-BY-SA-4.0</metadata_license>
   <project_license>GPL-3.0+</project_license>
   <name>Parlatype</name>
-  <summary>Media player for speech transcription</summary>
+  <summary>Media player for transcription</summary>
 
   <description>
     <p>Parlatype is an easy to use media player. Its main purpose is to help
