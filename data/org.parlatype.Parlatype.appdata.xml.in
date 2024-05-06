@@ -23,7 +23,9 @@
   <url type="bugtracker">https://github.com/gkarsay/parlatype/issues</url>
   <url type="translate">https://hosted.weblate.org/engage/parlatype/</url>
   <url type="donation">https://www.parlatype.xyz/donate.html</url>
-  <developer_name>Gabor Karsay</developer_name>
+  <developer id="xyz.parlatype">
+    <name>Gabor Karsay</name>
+  </developer>
 
   <provides>
     <binary>parlatype</binary>
