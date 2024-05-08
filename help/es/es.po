@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2024-01-10 19:55+0100\n"
-"PO-Revision-Date: 2024-04-04 18:47+0000\n"
-"Last-Translator: Sergio Varela <sergitroll9@gmail.com>\n"
+"PO-Revision-Date: 2024-05-09 23:07+0000\n"
+"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/parlatype/"
 "parlatype-help/es/>\n"
 "Language: es\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.5-dev\n"
+"X-Generator: Weblate 5.5.4-rc\n"
 "X-Launchpad-Export-Date: 2020-05-31 16:44+0000\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
@@ -714,18 +714,14 @@ msgstr "seleccionado"
 
 #. (itstool) path: page/p
 #: ../help/C/asr-setup.page:45
-#, fuzzy
-#| msgid ""
-#| "An installed model has no symbol next to it. Double click on the model "
-#| "and it will be selected for speech recognition, a <_:media-1/> symbol "
-#| "appears."
 msgid ""
 "An installed model has no label next to it. Select a model and press the "
 "<gui>Activate</gui> button to use this model for speech recognition. The "
 "active configuration is indicated by a <_:media-1/> symbol."
 msgstr ""
-"Un modelo ya instalado no tiene ningún símbolo al lado. Haz doble clic en el "
-"modelo y se seleccionará para el reconocimiento de voz, aparecerá un símbolo "
+"Un modelo instalado no tiene ninguna etiqueta al lado. Selecciona un modelo "
+"y pulse el botón <gui>Activar</gui> para utilizar este modelo para el "
+"reconocimiento de voz. La configuración activa se indica mediante un símbolo "
 "<_:media-1/>."
 
 #. (itstool) path: page/p
