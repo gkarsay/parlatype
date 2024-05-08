@@ -38,7 +38,7 @@ static GDBusNodeInfo *introspection_data = NULL;
 /* Introspection data for the service we are exporting */
 static const gchar introspection_xml[] =
     "<node>"
-    "  <interface name='org.parlatype.Parlatype'>"
+    "  <interface name='xyz.parlatype.Parlatype'>"
     "    <method name='GetTimestamp'>"
     "      <arg type='s' name='timestamp' direction='out'/>"
     "    </method>"
@@ -76,8 +76,8 @@ player_asr_final_cb (PtPlayer *player,
   GDBusConnection *connection = G_DBUS_CONNECTION (user_data);
   g_dbus_connection_emit_signal (connection,
                                  NULL,
-                                 "/org/parlatype/parlatype",
-                                 "org.parlatype.Parlatype",
+                                 "/xyz/parlatype/parlatype",
+                                 "xyz.parlatype.Parlatype",
                                  "ASRFinal",
                                  g_variant_new ("(s)", word),
                                  NULL);
@@ -91,8 +91,8 @@ player_asr_hypothesis_cb (PtPlayer *player,
   GDBusConnection *connection = G_DBUS_CONNECTION (user_data);
   g_dbus_connection_emit_signal (connection,
                                  NULL,
-                                 "/org/parlatype/parlatype",
-                                 "org.parlatype.Parlatype",
+                                 "/xyz/parlatype/parlatype",
+                                 "xyz.parlatype.Parlatype",
                                  "ASRHypothesis",
                                  g_variant_new ("(s)", word),
                                  NULL);
@@ -197,7 +197,7 @@ on_bus_acquired (GDBusConnection *connection,
   guint          registration_id;
 
   registration_id = g_dbus_connection_register_object (connection,
-                                                       "/org/parlatype/parlatype",
+                                                       "/xyz/parlatype/parlatype",
                                                        introspection_data->interfaces[0],
                                                        &interface_vtable,
                                                        user_data,

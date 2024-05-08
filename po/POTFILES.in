@@ -1,7 +1,7 @@
 # List of source files which contain translatable strings.
 
-data/org.parlatype.Parlatype.metainfo.xml.in
-data/org.parlatype.Parlatype.desktop.in
+data/xyz.parlatype.Parlatype.metainfo.xml.in
+data/xyz.parlatype.Parlatype.desktop.in
 src/main.c
 src/pt-app.c
 src/pt-asr-dialog.c

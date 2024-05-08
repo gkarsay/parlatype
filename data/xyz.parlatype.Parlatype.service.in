@@ -1,3 +1,3 @@
 [D-BUS Service]
-Name=org.parlatype.Parlatype
+Name=xyz.parlatype.Parlatype
 Exec=@bindir@/parlatype --gapplication-service

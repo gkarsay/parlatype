@@ -4,7 +4,7 @@ project('parlatype', 'c',
         license: 'GPL3+',
 )
 
-app_id = 'org.parlatype.Parlatype'
+app_id = 'xyz.parlatype.Parlatype'
 version = meson.project_version()
 
 with_pocketsphinx = get_option('pocketsphinx')

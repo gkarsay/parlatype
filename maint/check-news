@@ -33,7 +33,7 @@ else
 fi
 
 # Youngest release in Appdata
-APPDATA_LINE=$(grep -m 1 -e '<release ' data/org.parlatype.Parlatype.appdata.xml.in)
+APPDATA_LINE=$(grep -m 1 -e '<release ' data/xyz.parlatype.Parlatype.metainfo.xml.in)
 APPDATA_VERSION=$(grep -o -e '\"[0-9|\.]*\"' <<< "$APPDATA_LINE")
 
 if [ "$APPDATA_VERSION" != "\"$VERSION\"" ]; then

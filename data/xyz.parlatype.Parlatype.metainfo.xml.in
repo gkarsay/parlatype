@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright 2017–2019 Gabor Karsay <gabor.karsay@gmx.at> -->
 <component type="desktop-application">
-  <id>org.parlatype.Parlatype</id>
-  <launchable type="desktop-id">org.parlatype.Parlatype.desktop</launchable>
+  <id>xyz.parlatype.Parlatype</id>
+  <launchable type="desktop-id">xyz.parlatype.Parlatype.desktop</launchable>
   <metadata_license>CC-BY-SA-4.0</metadata_license>
   <project_license>GPL-3.0+</project_license>
   <name>Parlatype</name>

@@ -368,7 +368,7 @@ pt_app_handle_local_options (GApplication *application,
 static void
 pt_app_init (PtApp *self)
 {
-  self->settings = g_settings_new ("org.parlatype.Parlatype");
+  self->settings = g_settings_new ("xyz.parlatype.Parlatype");
   self->mpris = NULL;
   self->dbus_service = NULL;
   g_application_add_main_option_entries (G_APPLICATION (self), options);

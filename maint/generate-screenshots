@@ -13,7 +13,7 @@ CONFIG=~/.config/parlatype
 # prepare config
 mkdir -p "$CONFIG"/backup
 mv "$CONFIG"/*.asr "$CONFIG"/backup
-gsettings reset-recursively org.parlatype.Parlatype
+gsettings reset-recursively xyz.parlatype.Parlatype
 
 # Fake an installed model
 mkdir -p "${MESON_BUILD_ROOT}"/tools/parlatype/cmusphinx-cont-voxforge-de-r20171217/etc

@@ -1349,7 +1349,7 @@ pt_window_class_init (PtWindowClass *klass)
   gobject_class->dispose = pt_window_dispose;
   widget_class->direction_changed = pt_window_direction_changed;
 
-  gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/Parlatype/window.ui");
+  gtk_widget_class_set_template_from_resource (widget_class, "/xyz/parlatype/Parlatype/window.ui");
   gtk_widget_class_bind_template_callback (widget_class, play_button_toggled_cb);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, waveviewer);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, primary_menu_button);

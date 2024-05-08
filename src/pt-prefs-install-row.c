@@ -243,7 +243,7 @@ pt_prefs_install_row_class_init (PtPrefsInstallRowClass *klass)
 
   g_object_class_install_properties (object_class, N_PROPERTIES, props);
 
-  gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/Parlatype/prefs-install-row.ui");
+  gtk_widget_class_set_template_from_resource (widget_class, "/xyz/parlatype/Parlatype/prefs-install-row.ui");
   gtk_widget_class_bind_template_callback (widget_class, folder_button_clicked_cb);
 }
 

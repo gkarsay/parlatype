@@ -410,7 +410,7 @@ pt_asr_dialog_class_init (PtAsrDialogClass *klass)
 
   object_class->dispose = pt_asr_dialog_dispose;
 
-  gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/Parlatype/asr-dialog.ui");
+  gtk_widget_class_set_template_from_resource (widget_class, "/xyz/parlatype/Parlatype/asr-dialog.ui");
   gtk_widget_class_bind_template_callback (widget_class, delete_button_clicked_cb);
   gtk_widget_class_bind_template_child (widget_class, PtAsrDialog, page);
   gtk_widget_class_bind_template_child (widget_class, PtAsrDialog, status_row);

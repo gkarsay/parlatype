@@ -715,7 +715,7 @@ pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
                 0);
 
   /* Bind class to template */
-  gtk_widget_class_set_template_from_resource (widget_class, "/org/parlatype/Parlatype/preferences.ui");
+  gtk_widget_class_set_template_from_resource (widget_class, "/xyz/parlatype/Parlatype/preferences.ui");
   gtk_widget_class_bind_template_callback (widget_class, import_button_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, initial_copy_button_clicked_cb);
   gtk_widget_class_bind_template_child (widget_class, PtPreferencesDialog, pps_scale);

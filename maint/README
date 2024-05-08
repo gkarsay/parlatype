@@ -9,7 +9,7 @@ Update templates:
 cd build
 ninja libparlatype7-pot        # Update after soname change
 ninja parlatype-pot
-ninja help-org.parlatype.Parlatype-pot
+ninja help-xyz.parlatype.Parlatype-pot
 
 Workflow for translations:
 1) Update pot files locally
@@ -87,7 +87,7 @@ Release commit:
 - Update README.md dependencies (and package names) if necessary
 - Update library so version in libparlatype/meson.build
 - Update NEWS (release notes)
-- Update data/org.parlatype.Parlatype.appdata.xml.in (short release notes)
+- Update data/xyz.parlatype.Parlatype.metainfo.xml.in (short release notes)
 - Commit message "v1.x.x", next line "New major/minor/bugfix release"
 - Tag commit "v1.x.x"
 
