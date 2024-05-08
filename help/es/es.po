@@ -177,8 +177,8 @@ msgstr ""
 "En la esquina inferior izquierda hay controles con un botón de "
 "<gui>Reproducir</gui> que alterna entre reproducción y pausa. Cuando pausas, "
 "<app>Parlatype</app> rebobina unos pocos segundos para hacer que sea más "
-"fácil retomar la transcripción. Esto se puede cambiar en las <link xref="
-"\"Preferencias\"/>."
+"fácil retomar la transcripción. Esto se puede cambiar en las <link "
+"xref=\"Preferencias\"/>."
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:27
@@ -189,8 +189,8 @@ msgid ""
 msgstr ""
 "Los botones <gui>Volver atrás</gui> y <gui>Avanzar</gui> en la esquina "
 "inferior izquierda saltan varios segundos hacia atrás o hacia adelante. La "
-"cantidad de segundos del salto se puede cambiar en el diálogo <link xref="
-"\"Preferencias\"/>."
+"cantidad de segundos del salto se puede cambiar en el diálogo <link "
+"xref=\"Preferencias\"/>."
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:29
@@ -555,8 +555,8 @@ msgid ""
 "<app>Parlatype</app> must have been built with <app>PocketSphinx</app>. "
 "Please note that those libraries might be not available on your platform."
 msgstr ""
-"<app>Parlatype</app> debe haber sido construida con <app>PocketSphinx</app> "
-". Ten en cuenta que esas bibliotecas podrían no estar disponibles en tu "
+"<app>Parlatype</app> debe haber sido construida con <app>PocketSphinx</"
+"app> . Ten en cuenta que esas bibliotecas podrían no estar disponibles en tu "
 "plataforma."
 
 #. (itstool) path: note/p
