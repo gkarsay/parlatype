@@ -3,7 +3,7 @@
 .gitattributes        export-ignore
 .githooks/            export-ignore
 .gitignore			      export-ignore
-data/icons/scalable/xyz.parlatype.Parlatype.Devel.svg	export-ignore
+data/icons/scalable/parlatype-devel.svg	export-ignore
 data/icons/source		  export-ignore
 ISSUE_TEMPLATE.md		  export-ignore
 maint/                export-ignore

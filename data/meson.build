@@ -9,7 +9,7 @@ endif
 
 desktop_file = app_id + '.desktop'
 i18n.merge_file(
-  input: desktop_file + '.in',
+  input: 'parlatype.desktop.in',
   output: desktop_file,
   type: 'desktop',
   po_dir: '../po',
@@ -28,7 +28,7 @@ endif
 
 metainfo = app_id + '.metainfo.xml'
 i18n.merge_file(
-  input: metainfo + '.in',
+  input: 'parlatype.metainfo.xml.in',
   output: metainfo,
   type: 'xml',
   po_dir: '../po',
@@ -47,14 +47,16 @@ if appstream_util.found()
 endif
 
 install_data(
-  app_id + '.gschema.xml',
+  'parlatype.gschema.xml',
+  rename: app_id + '.gschema.xml',
   install_dir: join_paths(datadir, 'glib-2.0', 'schemas')
 )
 
 service_conf = configuration_data()
+service_conf.set ('app_id', app_id)
 service_conf.set ('bindir', bindir)
 configure_file(
-  input: app_id + '.service.in',
+  input: 'parlatype.service.in',
   output: app_id + '.service',
   configuration: service_conf,
   install_dir: join_paths(datadir, 'dbus-1', 'services')
