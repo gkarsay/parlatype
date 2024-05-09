@@ -6,8 +6,8 @@ INPUT="$1"
 # Second argument is a directory for output
 DEST="$2"
 
-# Remove old files
-rm "$DEST"/*.asr
+# Remove old files (at first build $DEST does not exist yet)
+rm -f "$DEST"/*.asr
 
 # Copy valid input
 cp "$INPUT" "$DEST"
