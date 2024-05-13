@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-10 19:55+0100\n"
+"POT-Creation-Date: 2024-05-13 21:21+0200\n"
 "PO-Revision-Date: 2023-11-17 09:22+0000\n"
 "Last-Translator: Olga Akhtirskaia <akhtirskaia@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/parlatype/"
@@ -21,17 +21,26 @@ msgstr ""
 "X-Generator: Weblate 5.2\n"
 "X-Launchpad-Export-Date: 2020-06-18 10:32+0000\n"
 
-#: data/org.parlatype.Parlatype.appdata.xml.in:7
-#: data/org.parlatype.Parlatype.desktop.in:4 src/pt-app.c:196
-#: src/resources/window.ui:30
+#: data/parlatype.desktop.in:4 data/parlatype.metainfo.xml.in:8
+#: src/pt-app.c:196 src/resources/window.ui:30
 msgid "Parlatype"
 msgstr "Parlatype"
 
-#: data/org.parlatype.Parlatype.appdata.xml.in:8
-msgid "Media player for speech transcription"
+#: data/parlatype.desktop.in:5
+msgid "Transcription utility"
+msgstr "Утилита транскрибирования"
+
+#: data/parlatype.desktop.in:6
+msgid "Transcription;"
+msgstr "Транскрибирование;"
+
+#: data/parlatype.metainfo.xml.in:9
+#, fuzzy
+#| msgid "Media player for speech transcription"
+msgid "Media player for transcription"
 msgstr "Медиапроигрыватель для транскрибирования речи"
 
-#: data/org.parlatype.Parlatype.appdata.xml.in:11
+#: data/parlatype.metainfo.xml.in:12
 msgid ""
 "Parlatype is an easy to use media player. Its main purpose is to help you "
 "transcribing speech."
@@ -39,38 +48,49 @@ msgstr ""
 "Parlatype — это простой в использовании медиапроигрыватель, основным "
 "назначением которого является помощь в транскрибировании речи."
 
-#: data/org.parlatype.Parlatype.appdata.xml.in:25
+#: data/parlatype.metainfo.xml.in:19
+msgid "Main window"
+msgstr ""
+
+#: data/parlatype.metainfo.xml.in:28
 msgid "Gabor Karsay"
 msgstr "Gabor Karsay"
 
-#: data/org.parlatype.Parlatype.appdata.xml.in:47
+#: data/parlatype.metainfo.xml.in:47
+msgid "Website moved to www.parlatype.xyz."
+msgstr ""
+
+#: data/parlatype.metainfo.xml.in:48
+msgid "App ID changed accordingly."
+msgstr ""
+
+#. Translators: This has very low priority, it's the description for an old release.
+#: data/parlatype.metainfo.xml.in:49 data/parlatype.metainfo.xml.in:60
+#: data/parlatype.metainfo.xml.in:81 data/parlatype.metainfo.xml.in:93
+#: data/parlatype.metainfo.xml.in:109
+msgid "Translation updates for several languages."
+msgstr "Обновление перевода для нескольких языков."
+
+#: data/parlatype.metainfo.xml.in:56
 msgid ""
 "Follow GNOME human interface guidelines throughout the app using libadwaita."
 msgstr ""
 
-#: data/org.parlatype.Parlatype.appdata.xml.in:48
+#: data/parlatype.metainfo.xml.in:57
 msgid "Add a theme selector (borrowed from GNOME Text Editor)."
 msgstr ""
 
-#: data/org.parlatype.Parlatype.appdata.xml.in:49
+#: data/parlatype.metainfo.xml.in:58
 msgid "Fix F10 shortcut to toggle main menu."
 msgstr ""
 
-#: data/org.parlatype.Parlatype.appdata.xml.in:50
+#: data/parlatype.metainfo.xml.in:59
 msgid ""
 "Remove support for Mozilla DeepSpeech because the project is discontinued."
 msgstr ""
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:51
-#: data/org.parlatype.Parlatype.appdata.xml.in:72
-#: data/org.parlatype.Parlatype.appdata.xml.in:84
-#: data/org.parlatype.Parlatype.appdata.xml.in:100
-msgid "Translation updates for several languages."
-msgstr "Обновление перевода для нескольких языков."
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:58
+#: data/parlatype.metainfo.xml.in:67
 #, fuzzy
 #| msgid "Translation updates for several languages."
 msgid ""
@@ -79,53 +99,52 @@ msgid ""
 msgstr "Обновление перевода для нескольких языков."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:64
+#: data/parlatype.metainfo.xml.in:73
 #, fuzzy
 #| msgid "This is a major release with new features."
 msgid "This is a minor release with a new feature."
 msgstr "Это основной выпуск с новыми функциями."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:67
+#: data/parlatype.metainfo.xml.in:76
 msgid "Added MPRIS interface."
 msgstr ""
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:69
+#: data/parlatype.metainfo.xml.in:78
 msgid "Smaller bug fixes."
 msgstr ""
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:71
+#: data/parlatype.metainfo.xml.in:80
 msgid "Switched to Weblate for translations."
 msgstr ""
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:78
-#: data/org.parlatype.Parlatype.appdata.xml.in:107
+#: data/parlatype.metainfo.xml.in:87 data/parlatype.metainfo.xml.in:116
 msgid "This is a major release with new features."
 msgstr "Это основной выпуск с новыми функциями."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:81
+#: data/parlatype.metainfo.xml.in:90
 msgid "Support for Mozilla DeepSpeech."
 msgstr ""
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:83
+#: data/parlatype.metainfo.xml.in:92
 #, fuzzy
 #| msgid "Select output for automatic speech recognition"
 msgid "New configuration system for Automatic Speech Recognition."
 msgstr "Выберите, куда выводить результаты автоматического распознавания"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:91
+#: data/parlatype.metainfo.xml.in:100
 msgid "This is a minor release with bug fixes and minor new features."
 msgstr ""
 "Это промежуточный выпуск с исправлениями ошибок и небольшими новшествами."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:94
+#: data/parlatype.metainfo.xml.in:103
 msgid ""
 "Mute/unmute volume by clicking on the volume icon with the pointer’s "
 "secondary button (usually right mouse button)."
@@ -134,7 +153,7 @@ msgstr ""
 "указательного устройства (обычно это правая кнопка мыши)."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:96
+#: data/parlatype.metainfo.xml.in:105
 msgid ""
 "With Pulseaudio Parlatype doesn’t change the system volume anymore, just its "
 "own application specific volume."
@@ -143,27 +162,27 @@ msgstr ""
 "уровень громкости в самом приложении."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:98
+#: data/parlatype.metainfo.xml.in:107
 msgid "The initial volume level is picked up from Pulseaudio."
 msgstr "Изначальный уровень громкости выбирается из Pulseaudio."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:110
+#: data/parlatype.metainfo.xml.in:119
 msgid "Waveform is loaded on-the-fly, there is no blocking progress dialog."
 msgstr "График звука загружается \"на лету\", без мешающего диалога прогресса."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:112
+#: data/parlatype.metainfo.xml.in:121
 msgid "Waveform can be changed continuously instead of in discrete steps."
 msgstr "График звука может изменяться непрерывно, а не дискретными шагами."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:119
+#: data/parlatype.metainfo.xml.in:128
 msgid "This is a minor release."
 msgstr "Это промежуточный выпуск."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:122
+#: data/parlatype.metainfo.xml.in:131
 msgid ""
 "Update time label only if time has changed. This is a performance increase, "
 "cursor movement should be smoother on slower systems."
@@ -173,17 +192,17 @@ msgstr ""
 "компьютерах."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:124
+#: data/parlatype.metainfo.xml.in:133
 msgid "Translation updates for Hungarian, Lithuanian and Spanish"
 msgstr "Обновлены переводы на венгерский, литовский и испанский языки"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:131
+#: data/parlatype.metainfo.xml.in:140
 msgid "This is a minor release with some changes."
 msgstr "Это промежуточный выпуск с несколькими изменениями."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:134
+#: data/parlatype.metainfo.xml.in:143
 #, fuzzy
 #| msgid ""
 #| "Automatic speech recognition (ASR) is now disabled by default and it’s "
@@ -196,12 +215,12 @@ msgstr ""
 "отображается только когда parlatype запущен с новым параметром  --with-asr"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:136
+#: data/parlatype.metainfo.xml.in:145
 msgid "Fix internationalization: Some translations were not shown"
 msgstr "Исправление интернационализации: некоторые переводы не отображались"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:138
+#: data/parlatype.metainfo.xml.in:147
 msgid ""
 "Translation updates for Arabic, British English, Czech, Dutch, German, "
 "Polish and Spanish"
@@ -210,27 +229,27 @@ msgstr ""
 "немецкий, польский и испанский языки"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:145
+#: data/parlatype.metainfo.xml.in:154
 msgid "This is a major release with some new features."
 msgstr "Это основной выпуск с несколькими новыми функциями."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:148
+#: data/parlatype.metainfo.xml.in:157
 msgid "Automatic speech recognition with CMU Sphinx"
 msgstr "Автоматическое распознавание речи с помощью CMU Sphinx"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:150
+#: data/parlatype.metainfo.xml.in:159
 msgid "Design changes, including removal of application menu"
 msgstr "Изменение дизайна, включая удаление меню приложения"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:152
+#: data/parlatype.metainfo.xml.in:161
 msgid "Custom timestamps"
 msgstr "Пользователькие метки времени"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:154
+#: data/parlatype.metainfo.xml.in:163
 msgid ""
 "Translation updates for Brazilian Portuguese, British English, Czech, "
 "German, Japanese, Lithuanian and Polish"
@@ -239,44 +258,44 @@ msgstr ""
 "чешский, немецкий, японский, литовский и польский языки"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:161
+#: data/parlatype.metainfo.xml.in:170
 msgid "This is a minor maintenance release."
 msgstr "Это промежуточный вспомогательный выпуск."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:164
+#: data/parlatype.metainfo.xml.in:173
 msgid "Animate scrolling when using keybindings"
 msgstr "Анимация прокрутки при использовании комбинаций клавиш"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:166
+#: data/parlatype.metainfo.xml.in:175
 msgid "Change desktop entry category to Audio/Video instead of Utilities"
 msgstr "Изменение категории меню на Аудио/Видео вместо Стандартные"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:168
+#: data/parlatype.metainfo.xml.in:177
 msgid "Translation updates for French"
 msgstr "Обновление перевода на французский язык"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:175
+#: data/parlatype.metainfo.xml.in:184
 msgid "This release contains a number of bug fixes and minor improvements."
 msgstr "Этот выпуск содержит ряд исправлений ошибок и небольших улучшений."
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:178
+#: data/parlatype.metainfo.xml.in:187
 msgid "Progress Dialog has now a countdown timer (estimated time left)"
 msgstr ""
 "Диалог прогресса теперь содержит таймер обратного отсчёта (ожидаемого "
 "оставшегося времени)"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:180
+#: data/parlatype.metainfo.xml.in:189
 msgid "Increase max. possible speed to 2.0"
 msgstr "Увеличена максимально возможная скорость до 2.0"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:182
+#: data/parlatype.metainfo.xml.in:191
 msgid ""
 "New keyboard shortcuts for Play/Pause (Ctrl + Space), Jump back (Ctrl + "
 "Left), Jump forward (Ctrl + Right)"
@@ -285,17 +304,17 @@ msgstr ""
 "+ Left), перемотка вперёд (Ctrl + Right)"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:184
+#: data/parlatype.metainfo.xml.in:193
 msgid "Scrolling now also possible with vertical scrollbar"
 msgstr "Теперь возможна прокрутка с помощью вертикальной полосы прокрутки"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:186
+#: data/parlatype.metainfo.xml.in:195
 msgid "Various fixes for waveform and cursor display"
 msgstr "Различные исправления отображения графика звука и курсора"
 
 #. Translators: This has very low priority, it's the description for an old release.
-#: data/org.parlatype.Parlatype.appdata.xml.in:188
+#: data/parlatype.metainfo.xml.in:197
 msgid ""
 "Translation updates for Arabic, British English, Catalan, German, Finnish, "
 "French, Japanese, Lithuanian, Polish, Spanish and Swedish"
@@ -303,14 +322,6 @@ msgstr ""
 "Обновлены переводы на арабский, британский английский, каталанский, "
 "немецкий, финский, французский, японский, литовский, польский, испанский и "
 "шведский языки"
-
-#: data/org.parlatype.Parlatype.desktop.in:5
-msgid "Transcription utility"
-msgstr "Утилита транскрибирования"
-
-#: data/org.parlatype.Parlatype.desktop.in:6
-msgid "Transcription;"
-msgstr "Транскрибирование;"
 
 #: src/pt-app.c:47
 msgid "Show the application’s version"
@@ -326,7 +337,7 @@ msgstr "Открыть аудиофайл"
 msgid "Audio Files"
 msgstr "Аудиофайлы"
 
-#: src/pt-app.c:116 src/pt-preferences.c:534
+#: src/pt-app.c:116 src/pt-preferences.c:536
 #, fuzzy
 #| msgid "All files"
 msgid "All Files"
@@ -438,8 +449,8 @@ msgstr "Загрузить модель"
 msgid "“%s” has been deleted"
 msgstr ""
 
-#: src/pt-asr-dialog.c:322 src/pt-preferences.c:248 src/pt-preferences.c:416
-#: src/pt-preferences.c:451 src/pt-window.c:86
+#: src/pt-asr-dialog.c:322 src/pt-preferences.c:248 src/pt-preferences.c:418
+#: src/pt-preferences.c:453 src/pt-window.c:86
 msgid "Error"
 msgstr ""
 
@@ -474,22 +485,22 @@ msgstr[0] "секунда"
 msgstr[1] "секунды"
 msgstr[2] "секунд"
 
-#: src/pt-preferences.c:455
+#: src/pt-preferences.c:457
 #, fuzzy
 msgid "The file is not a valid language model configuration."
 msgstr "Папка содержит несколько языковых моделей."
 
-#: src/pt-preferences.c:459
+#: src/pt-preferences.c:461
 msgid "There is no plugin installed for this language model."
 msgstr ""
 
-#: src/pt-preferences.c:525 src/pt-prefs-install-row.c:136
+#: src/pt-preferences.c:527 src/pt-prefs-install-row.c:136
 #, fuzzy
 #| msgid "Select acoustic model folder"
 msgid "Select Model Folder"
 msgstr "Выберите папку с акустической моделью"
 
-#: src/pt-preferences.c:533
+#: src/pt-preferences.c:535
 #, fuzzy
 msgid "Parlatype Language Model Configurations"
 msgstr "Языковая модель"
@@ -558,19 +569,19 @@ msgstr "Начать воспроизведение"
 msgid "Go to Time in Clipboard: %s"
 msgstr "Перейти к времени в буфере: %s"
 
-#: src/pt-window.c:490 src/pt-window.c:1166
+#: src/pt-window.c:490 src/pt-window.c:1172
 #, fuzzy
 #| msgid "Go to time in clipboard"
 msgid "Go to Time in Clipboard"
 msgstr "Перейти к времени в буфере обмена"
 
-#: src/pt-window.c:1161
+#: src/pt-window.c:1167
 #, fuzzy
 #| msgid "Manual transcription"
 msgid "Manual Transcription"
 msgstr "Ручное транскрибирование"
 
-#: src/pt-window.c:1162
+#: src/pt-window.c:1168
 #, fuzzy
 #| msgid "Automatic transcription"
 msgid "Automatic Transcription"
@@ -628,7 +639,7 @@ msgstr ""
 msgid "Dark style"
 msgstr ""
 
-#: src/resources/goto-dialog.ui:10 src/resources/window.ui:261
+#: src/resources/goto-dialog.ui:10 src/resources/window.ui:262
 msgid "Go to…"
 msgstr "Перейти…"
 
@@ -703,7 +714,7 @@ msgstr "Копировать метку времени в буфер обмен�
 msgid "Go to timestamp in clipboard"
 msgstr "Перейти к метке времени в буфере обмена"
 
-#: src/resources/help-overlay.ui:102 src/resources/window.ui:242
+#: src/resources/help-overlay.ui:102 src/resources/window.ui:243
 msgid "Help"
 msgstr "Справка"
 
@@ -715,7 +726,7 @@ msgstr "Показать справку"
 msgid "Show keyboard shortcuts"
 msgstr "Показать комбинации клавиш"
 
-#: src/resources/preferences.ui:7 src/resources/window.ui:234
+#: src/resources/preferences.ui:7 src/resources/window.ui:235
 msgid "Preferences"
 msgstr "Настройки"
 
@@ -955,25 +966,25 @@ msgstr "П_уск"
 msgid "Speed:"
 msgstr "Скорость:"
 
-#: src/resources/window.ui:202
+#: src/resources/window.ui:203
 msgid "Volume"
 msgstr ""
 
-#: src/resources/window.ui:238
+#: src/resources/window.ui:239
 msgid "_Keyboard Shortcuts"
 msgstr "_Комбинации клавиш"
 
-#: src/resources/window.ui:246
+#: src/resources/window.ui:247
 msgid "About Parlatype"
 msgstr "О программе Parlatype"
 
-#: src/resources/window.ui:253
+#: src/resources/window.ui:254
 #, fuzzy
 #| msgid "Copy time to clipboard"
 msgid "Copy Time to Clipboard"
 msgstr "Копировать время в буфер"
 
-#: src/resources/window.ui:257
+#: src/resources/window.ui:258
 #, fuzzy
 #| msgid "Go to cursor"
 msgid "Go to Cursor"
