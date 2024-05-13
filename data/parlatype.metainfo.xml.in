@@ -41,6 +41,15 @@
   </suggests>
 
   <releases>
+    <release version="4.2" date="2024-05-13">
+      <description>
+        <ul>
+          <li>Website moved to www.parlatype.xyz.</li>
+          <li>App ID changed accordingly.</li>
+          <li>Translation updates for several languages.</li>
+        </ul>
+      </description>
+    </release>
     <release version="4.1" date="2024-04-02">
       <description>
         <ul>
