@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-13 21:21+0200\n"
-"PO-Revision-Date: 2024-05-09 23:07+0000\n"
+"PO-Revision-Date: 2024-05-26 12:09+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/parlatype/"
 "parlatype/es/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.5.4-rc\n"
+"X-Generator: Weblate 5.6-dev\n"
 "X-Launchpad-Export-Date: 2020-05-31 16:44+0000\n"
 
 #: data/parlatype.desktop.in:4 data/parlatype.metainfo.xml.in:8
@@ -34,10 +34,8 @@ msgid "Transcription;"
 msgstr "Transcripción;"
 
 #: data/parlatype.metainfo.xml.in:9
-#, fuzzy
-#| msgid "Media player for speech transcription"
 msgid "Media player for transcription"
-msgstr "Reproductor multimedia para transcripción de grabaciones de voz"
+msgstr "Reproductor multimedia para transcripciones"
 
 #: data/parlatype.metainfo.xml.in:12
 msgid ""
@@ -48,10 +46,8 @@ msgstr ""
 "es ayudar a transcribir grabaciones de voz."
 
 #: data/parlatype.metainfo.xml.in:19
-#, fuzzy
-#| msgid "Main Menu"
 msgid "Main window"
-msgstr "Menú principal"
+msgstr "Ventana principal"
 
 #: data/parlatype.metainfo.xml.in:28
 msgid "Gabor Karsay"
@@ -59,11 +55,11 @@ msgstr "Gabor Karsay"
 
 #: data/parlatype.metainfo.xml.in:47
 msgid "Website moved to www.parlatype.xyz."
-msgstr ""
+msgstr "La página web se ha trasladado a www.parlatype.xyz"
 
 #: data/parlatype.metainfo.xml.in:48
 msgid "App ID changed accordingly."
-msgstr ""
+msgstr "El ID de la aplicación ha cambiado en consecuencia."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:49 data/parlatype.metainfo.xml.in:60
