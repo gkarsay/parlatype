@@ -87,7 +87,7 @@ Release commit:
 - Update README.md dependencies (and package names) if necessary
 - Update library so version in libparlatype/meson.build
 - Update NEWS (release notes)
-- Update data/xyz.parlatype.Parlatype.metainfo.xml.in (short release notes)
+- Update data/parlatype.metainfo.xml.in (short release notes)
 - Commit message "v1.x.x", next line "New major/minor/bugfix release"
 - Tag commit "v1.x.x"
 
