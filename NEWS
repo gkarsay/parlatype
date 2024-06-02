@@ -1,3 +1,21 @@
+Overview of Changes in Parlatype 4.2 – 2024-06-02
+=================================================
+
+* New: changed website to www.parlatype.xyz
+* New: changed App ID to xyz.parlatype.Parlatype
+* New: changed DBUS interface name to xyz.parlatype.Parlatype, this makes it
+       incompatible with previous versions of Parlatype LibreOffice extension
+
+* New or updated translations via Weblate:
+  - Basque: Alexander Gabilondo
+  - Chinese (Simplified): Benjamin Alan Jamie
+  - Chinese (Simplified): poi
+  - German: Gabor Karsay
+  - Italian: albanobattistella
+  - Spanish: gallegonovato
+  - Spanish: Sergio Varela
+
+
 Overview of Changes in Parlatype 4.1 – 2024-04-02
 =================================================
 
