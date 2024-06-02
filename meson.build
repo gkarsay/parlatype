@@ -1,5 +1,5 @@
 project('parlatype', 'c',
-        version: '4.1',
+        version: '4.2',
         meson_version: '>= 0.60.0',
         license: 'GPL3+',
 )
