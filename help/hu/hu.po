@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2024-01-10 19:55+0100\n"
+"POT-Creation-Date: 2024-05-13 21:21+0200\n"
 "PO-Revision-Date: 2020-03-09 16:30+0000\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gmx.at>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -41,8 +41,7 @@ msgstr "Parlatype"
 #. (itstool) path: credit/name
 #: ../help/C/index.page:10 ../help/C/drag-and-drop.page:8
 #: ../help/C/first-steps.page:9 ../help/C/keyboard-shortcuts.page:8
-#: ../help/C/selections.page:8 ../help/C/timestamps.page:8 ../help/C/asr.page:9
-#: ../help/C/asr-setup.page:9
+#: ../help/C/selections.page:8 ../help/C/timestamps.page:8
 msgid "Gabor Karsay"
 msgstr "Karsay Gábor"
 
@@ -462,163 +461,6 @@ msgid ""
 "To go to a timestamp position, copy the timestamp in the word processor to "
 "the clipboard. Once you have changed focus to <app>Parlatype</app> press "
 "<keyseq><key>Ctrl</key><key>v</key></keyseq>."
-msgstr ""
-
-#. (itstool) path: info/desc
-#: ../help/C/asr.page:7
-msgid "Let Parlatype do part of the transcription work"
-msgstr ""
-
-#. (itstool) path: page/title
-#: ../help/C/asr.page:15
-msgid "Automatic Speech Recognition"
-msgstr ""
-
-#. (itstool) path: page/p
-#: ../help/C/asr.page:17
-msgid ""
-"<app>Parlatype</app> offers automatic speech recognition that is done on "
-"your computer. No data is sent over the network."
-msgstr ""
-
-#. (itstool) path: note/p
-#: ../help/C/asr.page:20
-msgid ""
-"<app>Parlatype</app> must have been built with <app>PocketSphinx</app>. "
-"Please note that those libraries might be not available on your platform."
-msgstr ""
-
-#. (itstool) path: note/p
-#: ../help/C/asr.page:24
-msgid ""
-"<app>Parlatype</app> has no built-in text editor. You need the Parlatype "
-"Extension for <app>LibreOffice</app> to output recognized text."
-msgstr ""
-
-#. (itstool) path: section/title
-#: ../help/C/asr.page:29
-msgid "Start Speech Recognition"
-msgstr ""
-
-#. (itstool) path: section/p
-#: ../help/C/asr.page:31
-msgid ""
-"Select a language model in the Preferences Dialog, <gui>Speech Recognition</"
-"gui> tab, see <link xref=\"asr-setup\"/> for more details."
-msgstr ""
-
-#. (itstool) path: section/p
-#: ../help/C/asr.page:34
-msgid ""
-"Open the main menu and click on <gui>Automatic Transcription</gui>. This is "
-"only available, if you have setup and chosen a language model."
-msgstr ""
-
-#. (itstool) path: section/p
-#: ../help/C/asr.page:39
-msgid ""
-"Now press <gui>Play</gui> in <app>Parlatype</app> and the recognized speech "
-"will be printed in <app>LibreOffice</app>, if the Parlatype Extension is "
-"installed. Output is silent because decoding speed is dependent on your "
-"machine and may be slower or faster than real-time speech."
-msgstr ""
-
-#. (itstool) path: section/p
-#: ../help/C/asr.page:44
-msgid ""
-"Output is without punctuation or capitalization, you have to add or correct "
-"that yourself."
-msgstr ""
-
-#. (itstool) path: note/p
-#: ../help/C/asr.page:46
-msgid ""
-"<em>Accuracy</em> depends on many factors like quality of the recording, "
-"background noise, speaker’s dialect or pronunciation and the speech model "
-"used. For general transcription you can expect an word error rate between 10 "
-"and 50 %. Alas this means that in some cases manual transcription from the "
-"start will be faster than automatic transcription and the following "
-"correction process."
-msgstr ""
-
-#. (itstool) path: info/desc
-#: ../help/C/asr-setup.page:7
-msgid "Setup automatic speech transcription"
-msgstr ""
-
-#. (itstool) path: page/title
-#: ../help/C/asr-setup.page:15
-msgid "Setup Automatic Speech Recognition"
-msgstr ""
-
-#. (itstool) path: page/p
-#: ../help/C/asr-setup.page:17
-msgid ""
-"For speech recognition you need a language model: one or more files trained "
-"with real speech samples. <app>Parlatype</app> supports language models made "
-"for CMU Sphinx and ships a couple of <em>language model configurations</em>."
-msgstr ""
-
-#. (itstool) path: note/p
-#: ../help/C/asr-setup.page:21
-msgid ""
-"A <em>language model configuration</em> contains meta data describing the "
-"language model: A name that you can change, the language it was made for, "
-"speech recognition engine, publisher, license etc. It has a (third party) "
-"link, where you can download the files. Part of the configuration is the "
-"base folder, where you have saved the model. Additionally it contains "
-"various parameters for the plugin which are not shown."
-msgstr ""
-
-#. (itstool) path: page/p
-#: ../help/C/asr-setup.page:28
-msgid ""
-"Open the Preferences Dialog and click on the <gui>Speech Recognition</gui> "
-"tab. Initially there are no configurations available, click on the <gui>Copy "
-"Initial Set of Configurations</gui> button."
-msgstr ""
-
-#. (itstool) path: page/p
-#: ../help/C/asr-setup.page:34
-msgid ""
-"Depending on your installation you will see then a list of downloadable "
-"configurations."
-msgstr ""
-
-#. (itstool) path: page/p
-#: ../help/C/asr-setup.page:38
-msgid ""
-"Select a configuration by clicking on it. There is a short description of "
-"the model and where you can download it. After downloading, you have to set "
-"the folder where your download resides. You can also change the <gui>Display "
-"name</gui>."
-msgstr ""
-
-#. (itstool) path: media/span
-#: ../help/C/asr-setup.page:46
-msgid "selected"
-msgstr ""
-
-#. (itstool) path: page/p
-#: ../help/C/asr-setup.page:45
-msgid ""
-"An installed model has no label next to it. Select a model and press the "
-"<gui>Activate</gui> button to use this model for speech recognition. The "
-"active configuration is indicated by a <_:media-1/> symbol."
-msgstr ""
-
-#. (itstool) path: page/p
-#: ../help/C/asr-setup.page:48
-msgid ""
-"Shipped configurations might get obsolete over time. Therefore you can "
-"import a configuration with the <gui>+</gui> button. Configurations are text "
-"files with an .asr ending."
-msgstr ""
-
-#. (itstool) path: page/p
-#: ../help/C/asr-setup.page:52
-msgid ""
-"To remove a configuration, select it and click the <gui>Delete</gui> button."
 msgstr ""
 
 #~ msgid "Jump back"
