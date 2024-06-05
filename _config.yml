@@ -7,3 +7,5 @@ header_pages:
   - donate.md
 plugins:
   - jekyll-feed
+include:
+  - .well-known
