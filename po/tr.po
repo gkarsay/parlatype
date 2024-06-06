@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Parlatype 3.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-13 21:21+0200\n"
-"PO-Revision-Date: 2022-08-26 23:20+0000\n"
-"Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
+"PO-Revision-Date: 2024-06-07 01:09+0000\n"
+"Last-Translator: Sabri Ünal <yakushabb@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/parlatype/"
 "parlatype/tr/>\n"
 "Language: tr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14-dev\n"
+"X-Generator: Weblate 5.6-dev\n"
 
 #: data/parlatype.desktop.in:4 data/parlatype.metainfo.xml.in:8
 #: src/pt-app.c:196 src/resources/window.ui:30
@@ -33,10 +33,8 @@ msgid "Transcription;"
 msgstr "Çeviriyazım;"
 
 #: data/parlatype.metainfo.xml.in:9
-#, fuzzy
-#| msgid "Media player for speech transcription"
 msgid "Media player for transcription"
-msgstr "Konuşma çeviri yazımı için ortam oynatıcı"
+msgstr "Çeviri yazımı için ortam oynatıcı"
 
 #: data/parlatype.metainfo.xml.in:12
 msgid ""
@@ -48,7 +46,7 @@ msgstr ""
 
 #: data/parlatype.metainfo.xml.in:19
 msgid "Main window"
-msgstr ""
+msgstr "Ana pencere"
 
 #: data/parlatype.metainfo.xml.in:28
 msgid "Gabor Karsay"
