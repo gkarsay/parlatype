@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2024-05-13 21:21+0200\n"
-"PO-Revision-Date: 2022-05-16 08:49+0000\n"
-"Last-Translator: Cnomesta <jerryrpp94@gmail.com>\n"
+"PO-Revision-Date: 2024-06-10 11:09+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/parlatype/"
 "parlatype-help/fi/>\n"
 "Language: fi\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.13-dev\n"
+"X-Generator: Weblate 5.6-dev\n"
 "X-Launchpad-Export-Date: 2020-05-08 11:32+0000\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
@@ -123,12 +123,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: ../help/C/first-steps.page:7
 msgid "First steps with Parlatype"
-msgstr ""
+msgstr "Ensiaskeleet Parlatypen parissa"
 
 #. (itstool) path: page/title
 #: ../help/C/first-steps.page:15
 msgid "First Steps With Parlatype"
-msgstr ""
+msgstr "Ensiaskeleet Parlatypen parissa"
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:17
@@ -201,8 +201,6 @@ msgstr ""
 
 #. (itstool) path: page/title
 #: ../help/C/keyboard-shortcuts.page:14
-#, fuzzy
-#| msgid "Keyboard shortcuts"
 msgid "Keyboard Shortcuts"
 msgstr "Pikanäppäimet"
 
@@ -264,7 +262,7 @@ msgstr "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:42
 msgid "Skip backward"
-msgstr ""
+msgstr "Siirry taaksepäin"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:43
@@ -275,8 +273,6 @@ msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:46
-#, fuzzy
-#| msgid "Jump forward"
 msgid "Skip forward"
 msgstr "Siirry eteenpäin"
 
@@ -300,12 +296,12 @@ msgstr "<keyseq><key>Ctrl</key><key>c</key></keyseq>"
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:54
 msgid "Insert timestamp"
-msgstr ""
+msgstr "Syötä aikaleima"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:55
 msgid "<keyseq><key>Ctrl</key><key>v</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>v</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:58
