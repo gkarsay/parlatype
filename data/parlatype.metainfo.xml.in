@@ -20,6 +20,11 @@
     </screenshot>
   </screenshots>
 
+  <branding>
+    <color type="primary" scheme_preference="light">#c061cb</color>
+    <color type="primary" scheme_preference="dark">#813d9c</color>
+  </branding>
+
   <url type="homepage">https://www.parlatype.xyz</url>
   <url type="bugtracker">https://github.com/gkarsay/parlatype/issues</url>
   <url type="translate">https://hosted.weblate.org/engage/parlatype/</url>
