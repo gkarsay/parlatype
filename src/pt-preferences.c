@@ -683,6 +683,7 @@ pt_preferences_dialog_dispose (GObject *object)
   g_clear_object (&self->editor);
   g_clear_object (&self->player);
   g_ptr_array_free (self->config_rows, TRUE);
+  g_clear_object (&self->list);
 
   g_free (self->active_config_path);
 
