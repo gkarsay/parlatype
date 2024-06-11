@@ -198,6 +198,20 @@ file_list_items_changed_cb (GListModel *list,
 }
 
 static void
+file_list_loading_cb (GObject    *object,
+                      GParamSpec *pspec,
+                      gpointer    user_data)
+{
+  PtConfigList *self = PT_CONFIG_LIST (user_data);
+  gboolean      loading = gtk_directory_list_is_loading (self->file_list);
+
+  /* If finished loading and there are no items, emit changed signal.
+   * Needed to notify that all items have been removed. */
+  if (!loading && g_list_model_get_n_items (G_LIST_MODEL (self->file_list)) == 0)
+    g_list_model_items_changed (G_LIST_MODEL (self), 0, 1, 0);
+}
+
+static void
 file_list_error_cb (GObject    *object,
                     GParamSpec *pspec,
                     gpointer    user_data)
@@ -217,6 +231,8 @@ create_file_list (PtConfigList *self)
   gtk_directory_list_set_monitored (self->file_list, FALSE);
   g_signal_connect (self->file_list, "items_changed",
                     G_CALLBACK (file_list_items_changed_cb), self);
+  g_signal_connect (self->file_list, "notify::loading",
+                    G_CALLBACK (file_list_loading_cb), self);
   g_signal_connect (self->file_list, "notify::error",
                     G_CALLBACK (file_list_error_cb), self);
   gtk_directory_list_set_file (self->file_list, self->config_folder);
