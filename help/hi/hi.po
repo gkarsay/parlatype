@@ -2,30 +2,33 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2024-05-13 21:21+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2024-06-18 06:09+0000\n"
+"Last-Translator: Scrambled777 <weblate.scrambled777@simplelogin.com>\n"
+"Language-Team: Hindi <https://hosted.weblate.org/projects/parlatype/"
+"parlatype-help/hi/>\n"
 "Language: hi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.6-dev\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr ""
+msgstr "Scrambled777 <weblate.scrambled777@simplelogin.com>, 2024"
 
 #. (itstool) path: info/title
 #: ../help/C/index.page:7
 msgctxt "text"
 msgid "Parlatype"
-msgstr ""
+msgstr "Parlatype"
 
 #. (itstool) path: info/title
 #: ../help/C/index.page:8
 msgctxt "link"
 msgid "Parlatype"
-msgstr ""
+msgstr "Parlatype"
 
 #. (itstool) path: credit/name
 #: ../help/C/index.page:10
@@ -35,7 +38,7 @@ msgstr ""
 #: ../help/C/selections.page:8
 #: ../help/C/timestamps.page:8
 msgid "Gabor Karsay"
-msgstr ""
+msgstr "गैबोर कारसे"
 
 #. (itstool) path: info/desc
 #. (itstool) path: page/p
@@ -43,328 +46,396 @@ msgstr ""
 #: ../help/C/index.page:23
 msgid "<app>Parlatype</app> is an easy to use media player. Its main purpose is to help you transcribing speech."
 msgstr ""
+"<app>Parlatype</app> एक उपयोग में आसान मीडिया प्लेयर है। इसका मुख्य उद्देश्य "
+"आपको भाषण को लिखने में मदद करना है।"
 
 #. (itstool) path: page/title
 #: ../help/C/index.page:18
 msgid "<_:media-1/> Parlatype"
-msgstr ""
+msgstr "<_:media-1/> Parlatype"
 
 #. (itstool) path: page/p
 #: ../help/C/index.page:24
 msgid "For a quick overview have a look at <link xref=\"first-steps\"/>. Other topics are covered below."
 msgstr ""
+"त्वरित अवलोकन के लिए <link xref=\"first-steps\"/> पर नज़र डालें। अन्य विषय "
+"नीचे दिए गए हैं।"
 
 #. (itstool) path: section/title
 #: ../help/C/index.page:27
 msgid "Help topics"
-msgstr ""
+msgstr "सहायता के विषय"
 
 #. (itstool) path: info/desc
 #: ../help/C/drag-and-drop.page:6
 msgid "Drop files, file names or timestamps on Parlatype"
-msgstr ""
+msgstr "Parlatype पर फाइलें, फाइल नाम या टाइमस्टैम्प छोड़ें"
 
 #. (itstool) path: page/title
 #: ../help/C/drag-and-drop.page:14
 msgid "Drag and Drop"
-msgstr ""
+msgstr "खींचें और छोड़ें"
 
 #. (itstool) path: page/p
 #: ../help/C/drag-and-drop.page:16
 msgid "You can drop files, file names or timestamps on <app>Parlatype</app>’s window."
 msgstr ""
+"आप <app>Parlatype</app> की खिड़की पर फाइलें, फाइल नाम या टाइमस्टैम्प डाल सकते"
+" हैं।"
 
 #. (itstool) path: item/p
 #: ../help/C/drag-and-drop.page:19
 msgid "Files: Drag and drop a file from a file manager, e.g. <app>Files</app>, on <app>Parlatype</app> and it will open that file."
 msgstr ""
+"फाइलें: <app>Files</app> में फाइल प्रबंधक से एक फाइल को खींचें और "
+"<app>Parlatype</app> पर छोड़ दें और यह उस फाइल को खोल देगा।"
 
 #. (itstool) path: item/p
 #: ../help/C/drag-and-drop.page:20
 msgid "File names: Select a file name from a word processor, e.g. <app>LibreOffice</app>, drop the selected text on <app>Parlatype</app> and it will open that file. This will always work if the selection contains a full path. If you select the name only, <app>Parlatype</app> will look up its full path in the list of recent files and open it if it can find it in that list."
 msgstr ""
+"फाइल नाम: वर्ड प्रोसेसर से फाइल नाम चुनें, जैसे <app>LibreOffice</app>, चयनि"
+"त पाठ को <app>Parlatype</app> पर डालें और यह उस फाइल को खोल देगा। यह हमेशा का"
+"म करेगा यदि चयन में पूर्ण पथ शामिल है। यदि आप केवल नाम चुनते हैं, तो "
+"<app>Parlatype</app> हाल ही की फाइलों की सूची में उसका पूरा पथ खोजेगा और यदि "
+"वह उस सूची में मिल जाए तो उसे खोल देगा।"
 
 #. (itstool) path: item/p
 #: ../help/C/drag-and-drop.page:21
 msgid "Timestamps: You can drag and drop timestamps to <app>Parlatype</app>. Select a timestamp from a word processor, e.g. <app>LibreOffice</app>, drop the selected text on <app>Parlatype</app> and it will jump to that position."
 msgstr ""
+"टाइमस्टैम्प: आप टाइमस्टैम्प को <app>Parlatype</app> पर खींचकर छोड़ सकते हैं। "
+"किसी वर्ड प्रोसेसर से टाइमस्टैम्प चुनें, जैसे कि <app>LibreOffice</app>, चयनि"
+"त पाठ को <app>Parlatype</app> पर छोड़ दें और यह उस स्थान पर पहुंच जाएगा।"
 
 #. (itstool) path: info/desc
 #: ../help/C/first-steps.page:7
 msgid "First steps with Parlatype"
-msgstr ""
+msgstr "Parlatype के साथ पहला कदम"
 
 #. (itstool) path: page/title
 #: ../help/C/first-steps.page:15
 msgid "First Steps With Parlatype"
-msgstr ""
+msgstr "Parlatype के साथ पहला कदम"
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:17
 msgid "<app>Parlatype</app> is an easy to use audio player to help you transcribing or annotating recorded speech. You need to run a word processor, e.g. <app>LibreOffice</app>, too. Launch <app>Parlatype</app> and open an audio file by clicking on the <gui>Open</gui> button in the upper left corner."
 msgstr ""
+"<app>Parlatype</app> एक उपयोग में आसान ऑडियो प्लेयर है जो रिकॉर्ड किए गए भा"
+"षण को लिखने या एनोटेट करने में आपकी मदद करता है। आपको एक वर्ड प्रोसेसर भी "
+"चलाना होगा, जैसे <app>LibreOffice</app>। <app>Parlatype</app> शुरू करें और "
+"ऊपरी बाएं कोने में <gui>खोलें</gui> बटन पर क्लिक करके एक ऑडियो फाइल खोलें।"
 
 #. (itstool) path: note/p
 #: ../help/C/first-steps.page:20
 msgid "You can also drag and drop a file on <app>Parlatype</app>."
-msgstr ""
+msgstr "आप <app>Parlatype</app> पर फाइल को खींचकर छोड़ भी सकते हैं।"
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:23
 msgid "In the lower left corner there are the controls with a <gui>Play</gui> button which toggles between play and pause. Whenever you pause, <app>Parlatype</app> rewinds a few seconds to make it easier to resume. This can be changed in the Preferences dialog."
 msgstr ""
+"निचले बाएं कोने में <gui>चलाएं</gui> बटन के साथ नियंत्रण हैं जो *चलाएं* और "
+"*रोकें* के बीच टॉगल करता है। जब भी आप रोकते हैं, <app>Parlatype</app> इसे फि"
+"र से शुरू करना आसान बनाने के लिए कुछ सेकंड पीछे चला जाता है। इसे प्राथमिकता "
+"संवाद में बदला जा सकता है।"
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:27
 msgid "The buttons <gui>Skip backward</gui> and <gui>Skip forward</gui> in the lower left corner skip a few seconds back or ahead. The amount of time can be changed in the Preferences dialog."
 msgstr ""
+"निचले बाएं कोने में स्थित बटन <gui>पीछे जाएं</gui> और <gui>आगे जाएं</gui> कु"
+"छ सेकंड पीछे या आगे छोड़ देते हैं। समय की मात्रा को प्राथमिकता संवाद में बदला"
+" जा सकता है।"
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:29
 msgid "The view scrolls automatically so that the cursor is always visible. You can scroll manually by clicking on or dragging the scroll bar or using the standard keybindings. Automatic scrolling is stopped then."
 msgstr ""
+"दृश्य स्वचालित रूप से स्क्रॉल होता है ताकि कर्सर हमेशा दिखाई दे। आप स्क्रॉल "
+"बार पर क्लिक करके या उसे खींचकर या मानक कीबाइंडिंग का उपयोग करके मैन्युअल रू"
+"प से स्क्रॉल कर सकते हैं। फिर स्वचालित स्क्रॉलिंग बंद हो जाती है।"
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:31
 msgid "To get back to the cursor’s position and let the view scroll automatically again, click on the menu button showing the time and then on <gui>Go to Cursor</gui>. Clicking on the <gui>Play</gui> button also turns automatic scrolling on."
 msgstr ""
+"कर्सर की स्थिति पर वापस जाने और दृश्य को फिर से स्वचालित रूप से स्क्रॉल करने "
+"देने के लिए, समय दिखाने वाले मेनू बटन पर क्लिक करें और फिर <gui>कर्सर पर "
+"जाएं</gui> पर क्लिक करें। <gui>चलाएं</gui> बटन पर क्लिक करने से स्वचालित "
+"स्क्रॉलिंग भी चालू हो जाती है।"
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:33
 msgid "Clicking in the view with the right mouse button will put the cursor there. The left mouse button is for <link xref=\"selections\"/>."
 msgstr ""
+"दाएं माउस बटन से दृश्य पर क्लिक करने पर कर्सर वहां आ जाएगा। बायां माउस बटन "
+"<link xref=\"selections\"/> के लिए है।"
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:35
 msgid "The <gui>speed scale</gui> next to the <gui>Volume</gui> button in the lower right corner lets you adjust the speed of playback. A value of 1 means normal speed, everything lower (down to 0.5) is slower, everything above is faster."
 msgstr ""
+"निचले दाएं कोने में <gui>आवाज</gui> बटन के बगल में स्थित <gui>गति पैमाना</"
+"gui> आपको प्लेबैक की गति समायोजित करने देता है। 1 का मान सामान्य गति का अर्थ "
+"है, इससे कम (0.5 तक) सब कुछ धीमी गति का अर्थ है, इससे ऊपर सब कुछ तेज गति का "
+"अर्थ है।"
 
 #. (itstool) path: info/desc
 #: ../help/C/keyboard-shortcuts.page:6
 msgid "Standard keyboard shortcuts in Parlatype"
-msgstr ""
+msgstr "Parlatype में मानक कीबोर्ड शॉर्टकट"
 
 #. (itstool) path: page/title
 #: ../help/C/keyboard-shortcuts.page:14
 msgid "Keyboard Shortcuts"
-msgstr ""
+msgstr "कीबोर्ड शॉर्टकट"
 
 #. (itstool) path: table/title
 #: ../help/C/keyboard-shortcuts.page:17
 msgid "Standard Shortcut keys"
-msgstr ""
+msgstr "मानक शॉर्टकट कुंजियां"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:20
 msgid "To Do This"
-msgstr ""
+msgstr "यह करने के लिए"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:21
 msgid "Press This"
-msgstr ""
+msgstr "इसे दबायें"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:26
 msgid "Show help"
-msgstr ""
+msgstr "सहायता दिखाएं"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:27
 msgid "<key>F1</key>"
-msgstr ""
+msgstr "<key>F1</key>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:30
 msgid "Open file"
-msgstr ""
+msgstr "फाइल खोलें"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:31
 msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:34
 msgid "Play/Pause"
-msgstr ""
+msgstr "चलाएं/रोकें"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:35
 msgid "<keyseq><key>Ctrl</key><key>Space</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>Space</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:38
 msgid "Go to …"
-msgstr ""
+msgstr "यहां जाएं …"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:39
 msgid "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:42
 msgid "Skip backward"
-msgstr ""
+msgstr "पीछे जाएं"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:43
 msgid "<keyseq><key>Ctrl</key><key>a</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>a</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:46
 msgid "Skip forward"
-msgstr ""
+msgstr "आगे जाएं"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:47
 msgid "<keyseq><key>Ctrl</key><key>s</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>s</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:50
 msgid "Copy timestamp"
-msgstr ""
+msgstr "टाइमस्टैम्प कॉपी करें"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:51
 msgid "<keyseq><key>Ctrl</key><key>c</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>c</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:54
 msgid "Insert timestamp"
-msgstr ""
+msgstr "टाइमस्टैम्प डालें"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:55
 msgid "<keyseq><key>Ctrl</key><key>v</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>v</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:58
 msgid "Zoom in"
-msgstr ""
+msgstr "बडे रूप में दिखाएं"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:59
 msgid "<keyseq><key>Ctrl</key><key>+</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>+</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:62
 msgid "Zoom out"
-msgstr ""
+msgstr "छोटे रूप में दिखाएं"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:63
 msgid "<keyseq><key>Ctrl</key><key>-</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>-</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:66
 msgid "Quit"
-msgstr ""
+msgstr "बंद करें"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:67
 msgid "<keyseq><key>Ctrl</key><key>q</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>q</key></keyseq>"
 
 #. (itstool) path: p/link
 #: ../help/C/legal.xml:5
 msgid "Creative Commons Attribution-ShareAlike 4.0 International"
-msgstr ""
+msgstr "क्रिएटिव कॉमन्स एट्रिब्यूशन-शेयरअलाइक 4.0 इंटरनेशनल"
 
 #. (itstool) path: license/p
 #: ../help/C/legal.xml:4
 msgid "This work is licensed under a <_:link-1/> license."
-msgstr ""
+msgstr "यह कार्य <_:link-1/> लाइसेंस के अंतर्गत लाइसेंसीकृत है।"
 
 #. (itstool) path: info/desc
 #: ../help/C/selections.page:6
 msgid "How to play and repeat a selection"
-msgstr ""
+msgstr "किसी चयन को कैसे चलाएं और दोहराएं"
 
 #. (itstool) path: page/title
 #: ../help/C/selections.page:14
 msgid "Selections"
-msgstr ""
+msgstr "चयन"
 
 #. (itstool) path: page/p
 #: ../help/C/selections.page:16
 msgid "You can select a piece of the waveform with the mouse. Next time you press <gui>Play</gui>, it will play the selection only. When it is finished and you press <gui>Play</gui> again, it will loop the selection once."
 msgstr ""
+"आप माउस से तरंगरूप के एक हिस्से का चयन कर सकते हैं। अगली बार जब आप "
+"<gui>Play</gui> दबाएंगे, तो यह केवल चयन को चलाएगा। जब यह समाप्त हो जाएगा और "
+"आप फिर से <gui>Play</gui> दबाएंगे, तो यह चयन को एक बार लूप कर देगा।"
 
 #. (itstool) path: note/p
 #: ../help/C/selections.page:18
 msgid "When in selection mode, you can not exit the selection anymore until you deselect it."
 msgstr ""
+"चयन मोड में होने पर, आप चयन से तब तक बाहर नहीं निकल सकते जब तक आप उसका चयन "
+"रद्द नहीं कर देते।"
 
 #. (itstool) path: page/p
 #: ../help/C/selections.page:20
 msgid "Selections can be made with the mouse (or pointer device) with a left click, holding the mouse button and dragging the pointer. If you click with <key>Shift</key> key pressed, an already existing selection will be enlarged to that point."
 msgstr ""
+"माउस (या पॉइंटर उपकरण) से बाएं क्लिक, माउस बटन को दबाकर और पॉइंटर को खींचकर "
+"चयन किया जा सकता है। यदि आप <key>Shift</key> कुंजी दबाकर क्लिक करते हैं, तो "
+"पहले से मौजूद चयन उस बिंदु तक बड़ा हो जाएगा।"
 
 #. (itstool) path: page/p
 #: ../help/C/selections.page:22
 msgid "To deselect click once with the left button into the waveform. If the waveform has keyboard focus, you can press <key>Escape</key>."
 msgstr ""
+"चयन रद्द करने के लिए तरंगरूप में बाएं बटन से एक बार क्लिक करें। यदि तरंगरूप "
+"में कीबोर्ड केन्द्रित है, तो आप <key>Escape</key> दबा सकते हैं।"
 
 #. (itstool) path: info/desc
 #: ../help/C/timestamps.page:6
 msgid "Set and go to timestamps"
-msgstr ""
+msgstr "टाइमस्टैम्प निर्धारित करें और उस पर जाएं"
 
 #. (itstool) path: page/title
 #: ../help/C/timestamps.page:14
 msgid "Timestamps"
-msgstr ""
+msgstr "टाइमस्टैम्प"
 
 #. (itstool) path: page/p
 #: ../help/C/timestamps.page:16
 msgid "Timestamps help you to navigate in your transcription."
-msgstr ""
+msgstr "टाइमस्टैम्प आपको अपने प्रतिलेखन में नेविगेट करने में मदद करते हैं।"
 
 #. (itstool) path: note/p
 #: ../help/C/timestamps.page:19
 msgid "Timestamps can look like this: #03:45.2#. You can select them with or without the number signs."
 msgstr ""
+"टाइमस्टैम्प इस तरह दिख सकते हैं: #03:45.2#. आप उन्हें संख्या चिह्नों के साथ "
+"या बिना चुन सकते हैं।"
 
 #. (itstool) path: page/p
 #: ../help/C/timestamps.page:22
 msgid "<app>Parlatype</app> can produce different timestamp formats, they can be set in the Preferences dialog."
 msgstr ""
+"<app>Parlatype</app> विभिन्न टाइमस्टैम्प प्रारूपों का उत्पादन कर सकता है, "
+"उन्हें प्राथमिकताएं संवाद में सेट किया जा सकता है।"
 
 #. (itstool) path: section/title
 #: ../help/C/timestamps.page:25
 msgid "Drag and drop"
-msgstr ""
+msgstr "खींचें और छोड़ें"
 
 #. (itstool) path: section/p
 #: ../help/C/timestamps.page:27
 msgid "If you select the timestamp in the word processor, you can drag and drop it on the <app>Parlatype</app> window and it will go to that position. This is also possible the other way round: Drag the time label from <app>Parlatype</app> to a word processor and drop it there to insert it."
 msgstr ""
+"यदि आप वर्ड प्रोसेसर में टाइमस्टैम्प चुनते हैं, तो आप इसे <app>Parlatype</"
+"app> खिड़की पर खींचकर छोड़ सकते हैं और यह उस स्थान पर चला जाएगा। यह दूसरे "
+"तरीके से भी संभव है: <app>Parlatype</app> से टाइम लेबल को वर्ड प्रोसेसर पर "
+"खींचें और उसे डालने के लिए वहां छोड़ दें।"
 
 #. (itstool) path: section/title
 #: ../help/C/timestamps.page:31
 msgid "Using the clipboard"
-msgstr ""
+msgstr "क्लिपबोर्ड का उपयोग करना"
 
 #. (itstool) path: section/p
 #: ../help/C/timestamps.page:33
 msgid "Clicking on the menu button that is showing the current time you can <gui>Copy Time to Clipboard</gui> or <gui>Go to Time in Clipboard</gui>."
 msgstr ""
+"वर्तमान समय दिखाने वाले मेनू बटन पर क्लिक करके आप <gui>समय को क्लिपबोर्ड पर "
+"कॉपी करें</gui> या <gui>क्लिपबोर्ड में समय पर जाएं</gui> कर सकते हैं।"
 
 #. (itstool) path: section/p
 #: ../help/C/timestamps.page:35
 msgid "This can also be done with keyboard shortcuts. First make sure, the <app>Parlatype</app> window has focus. With the key sequence <keyseq><key>Ctrl</key><key>c</key></keyseq> the current timestamp is copied to the clipboard. Changing to the word processor you can insert now the timestamp in your transcription."
 msgstr ""
+"यह कीबोर्ड शॉर्टकट से भी किया जा सकता है। सबसे पहले सुनिश्चित करें कि "
+"<app>Parlatype</app> खिड़की पर केंद्रित है। कुंजी अनुक्रम "
+"<keyseq><key>Ctrl</key><key>c</key></keyseq> के साथ वर्तमान टाइमस्टैम्प "
+"क्लिपबोर्ड पर कॉपी हो जाता है। वर्ड प्रोसेसर में बदलाव करके आप अब अपने "
+"प्रतिलेखन में टाइमस्टैम्प डाल सकते हैं।"
 
 #. (itstool) path: section/p
 #: ../help/C/timestamps.page:36
 msgid "To go to a timestamp position, copy the timestamp in the word processor to the clipboard. Once you have changed focus to <app>Parlatype</app> press <keyseq><key>Ctrl</key><key>v</key></keyseq>."
 msgstr ""
+"टाइमस्टैम्प स्थिति पर जाने के लिए, वर्ड प्रोसेसर में टाइमस्टैम्प को क्लिपबोर्"
+"ड पर कॉपी करें। एक बार जब आप केंद्रित को <app>Parlatype</app> पर बदल लेते हैं"
+", तो <keyseq><key>Ctrl</key><key>v</key></keyseq> दबाएं।"
