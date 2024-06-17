@@ -8,78 +8,86 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-13 21:21+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2024-06-18 06:09+0000\n"
+"Last-Translator: Scrambled777 <weblate.scrambled777@simplelogin.com>\n"
+"Language-Team: Hindi <https://hosted.weblate.org/projects/parlatype/"
+"parlatype/hi/>\n"
 "Language: hi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.6-dev\n"
 
 #: data/parlatype.desktop.in:4 data/parlatype.metainfo.xml.in:8
 #: src/pt-app.c:196 src/resources/window.ui:30
 msgid "Parlatype"
-msgstr ""
+msgstr "Parlatype"
 
 #: data/parlatype.desktop.in:5
 msgid "Transcription utility"
-msgstr ""
+msgstr "प्रतिलेखन उपयोगिता"
 
 #: data/parlatype.desktop.in:6
 msgid "Transcription;"
-msgstr ""
+msgstr "प्रतिलेखन;"
 
 #: data/parlatype.metainfo.xml.in:9
 msgid "Media player for transcription"
-msgstr ""
+msgstr "प्रतिलेखन के लिए मीडिया प्लेयर"
 
 #: data/parlatype.metainfo.xml.in:12
 msgid ""
 "Parlatype is an easy to use media player. Its main purpose is to help you "
 "transcribing speech."
 msgstr ""
+"पार्लाटाइप एक उपयोग में आसान मीडिया प्लेयर है। इसका मुख्य उद्देश्य आपको भाषण "
+"लिखने में मदद करना है।"
 
 #: data/parlatype.metainfo.xml.in:19
 msgid "Main window"
-msgstr ""
+msgstr "मुख्य खिड़की"
 
 #: data/parlatype.metainfo.xml.in:28
 msgid "Gabor Karsay"
-msgstr ""
+msgstr "गैबोर कारसे"
 
 #: data/parlatype.metainfo.xml.in:47
 msgid "Website moved to www.parlatype.xyz."
-msgstr ""
+msgstr "वेबसाइट www.parlatype.xyz पर स्थानांतरित कर दी गई।"
 
 #: data/parlatype.metainfo.xml.in:48
 msgid "App ID changed accordingly."
-msgstr ""
+msgstr "ऐप आईडी तदनुसार बदल दी गई।"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:49 data/parlatype.metainfo.xml.in:60
 #: data/parlatype.metainfo.xml.in:81 data/parlatype.metainfo.xml.in:93
 #: data/parlatype.metainfo.xml.in:109
 msgid "Translation updates for several languages."
-msgstr ""
+msgstr "कई भाषाओं के लिए अनुवाद अद्यतन।"
 
 #: data/parlatype.metainfo.xml.in:56
 msgid ""
 "Follow GNOME human interface guidelines throughout the app using libadwaita."
 msgstr ""
+"libadwaita का उपयोग करते हुए पूरे ऐप में गनोम मानव इंटरफ़ेस दिशानिर्देशों का "
+"पालन किया जाता है।"
 
 #: data/parlatype.metainfo.xml.in:57
 msgid "Add a theme selector (borrowed from GNOME Text Editor)."
-msgstr ""
+msgstr "एक थीम चयनकर्ता जोड़ा गया (*गनोम टेक्स्ट एडिटर* से उधार लिया गया)।"
 
 #: data/parlatype.metainfo.xml.in:58
 msgid "Fix F10 shortcut to toggle main menu."
-msgstr ""
+msgstr "मुख्य मेनू को टॉगल करने के लिए F10 शॉर्टकट को ठीक किया गया।"
 
 #: data/parlatype.metainfo.xml.in:59
 msgid ""
 "Remove support for Mozilla DeepSpeech because the project is discontinued."
 msgstr ""
+"मोज़िला डीपस्पीच के लिए समर्थन हटा दिया गया है क्योंकि परियोजना बंद कर दी गई "
+"है।"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:67
@@ -87,46 +95,48 @@ msgid ""
 "This release is switching to GTK 4 and brings translation updates for "
 "several languages."
 msgstr ""
+"यह रिलीज GTK 4 पर स्विच हो रही है और कई भाषाओं के लिए अनुवाद अपडेट लेकर आई "
+"है।"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:73
 msgid "This is a minor release with a new feature."
-msgstr ""
+msgstr "यह एक नई सुविधा के साथ एक छोटी सी रिलीज है।"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:76
 msgid "Added MPRIS interface."
-msgstr ""
+msgstr "MPRIS इंटरफ़ेस जोड़ा गया।"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:78
 msgid "Smaller bug fixes."
-msgstr ""
+msgstr "छोटे बग फिक्स।"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:80
 msgid "Switched to Weblate for translations."
-msgstr ""
+msgstr "अनुवाद के लिए *वेबलेट* पर स्विच किया गया।"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:87 data/parlatype.metainfo.xml.in:116
 msgid "This is a major release with new features."
-msgstr ""
+msgstr "यह नई सुविधाओं के साथ एक प्रमुख रिलीज है।"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:90
 msgid "Support for Mozilla DeepSpeech."
-msgstr ""
+msgstr "मोज़िला डीपस्पीच के लिए समर्थन।"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:92
 msgid "New configuration system for Automatic Speech Recognition."
-msgstr ""
+msgstr "स्वचालित वाक् पहचान के लिए नई विन्यास प्रणाली।"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:100
 msgid "This is a minor release with bug fixes and minor new features."
-msgstr ""
+msgstr "यह बग फिक्स और छोटी नई सुविधाओं के साथ एक छोटी रिलीज है।"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:103
@@ -134,6 +144,8 @@ msgid ""
 "Mute/unmute volume by clicking on the volume icon with the pointer’s "
 "secondary button (usually right mouse button)."
 msgstr ""
+"सूचक के माध्यमिक बटन (आमतौर पर दायां माउस बटन) से आवाज आइकन पर क्लिक करके आवा"
+"ज मूक/अमूक करें।"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:105
@@ -141,26 +153,30 @@ msgid ""
 "With Pulseaudio Parlatype doesn’t change the system volume anymore, just its "
 "own application specific volume."
 msgstr ""
+"Pulseaudio के साथ Parlatype अब सिस्टम आवाज नहीं बदलता है, केवल इसका अपना "
+"अनुप्रयोग विशिष्ट आवाज बदलता है।"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:107
 msgid "The initial volume level is picked up from Pulseaudio."
-msgstr ""
+msgstr "प्रारंभिक आवाज स्तर Pulseaudio से लिया गया है।"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:119
 msgid "Waveform is loaded on-the-fly, there is no blocking progress dialog."
 msgstr ""
+"तरंगरूप को तत्काल लोड किया जाता है, इसमें प्रगति को रोकने वाला कोई संवाद नहीं"
+" होता।"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:121
 msgid "Waveform can be changed continuously instead of in discrete steps."
-msgstr ""
+msgstr "तरंगरूप को अलग-अलग चरणों के बजाय निरंतर बदला जा सकता है।"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:128
 msgid "This is a minor release."
-msgstr ""
+msgstr "यह एक छोटी सी रिलीज है।"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:131
@@ -168,16 +184,18 @@ msgid ""
 "Update time label only if time has changed. This is a performance increase, "
 "cursor movement should be smoother on slower systems."
 msgstr ""
+"समय लेबल को केवल तभी अद्यतित करें जब समय बदल गया हो। यह एक प्रदर्शन वृद्धि है"
+", धीमी प्रणालियों पर कर्सर की गति अधिक सुचारू होनी चाहिए।"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:133
 msgid "Translation updates for Hungarian, Lithuanian and Spanish"
-msgstr ""
+msgstr "हंगेरियन, लिथुआनियाई और स्पेनिश के लिए अनुवाद अद्यतन"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:140
 msgid "This is a minor release with some changes."
-msgstr ""
+msgstr "यह कुछ परिवर्तनों के साथ एक छोटी सी रिलीज है।"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:143
@@ -185,11 +203,13 @@ msgid ""
 "Automatic speech recognition (ASR) is now disabled by default and it’s only "
 "shown, if Parlatype is launched with the new parameter \\\"--with-asr\\\""
 msgstr ""
+"स्वचालित वाक् पहचान (ASR) अब तयशुदा रूप से अक्षम है और यह केवल तभी दिखाई देता"
+" है, जब Parlatype को नए पैरामीटर \\\"--with-asr\\\" के साथ लॉन्च किया जाता है"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:145
 msgid "Fix internationalization: Some translations were not shown"
-msgstr ""
+msgstr "अंतर्राष्ट्रीयकरण ठीक किया गया: कुछ अनुवाद नहीं दिखाए गए थे"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:147
@@ -197,26 +217,27 @@ msgid ""
 "Translation updates for Arabic, British English, Czech, Dutch, German, "
 "Polish and Spanish"
 msgstr ""
+"अरबी, ब्रिटिश अंग्रेजी, चेक, डच, जर्मन, पोलिश और स्पेनिश के लिए अनुवाद अद्यतन"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:154
 msgid "This is a major release with some new features."
-msgstr ""
+msgstr "यह कुछ नई सुविधाओं के साथ एक प्रमुख रिलीज है।"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:157
 msgid "Automatic speech recognition with CMU Sphinx"
-msgstr ""
+msgstr "CMU Sphinx के साथ स्वचालित वाक् पहचान"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:159
 msgid "Design changes, including removal of application menu"
-msgstr ""
+msgstr "डिज़ाइन में परिवर्तन, जिसमें अनुप्रयोग मेनू को हटाना भी शामिल है"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:161
 msgid "Custom timestamps"
-msgstr ""
+msgstr "तदनुकूल टाइमस्टैम्प"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:163
@@ -224,41 +245,43 @@ msgid ""
 "Translation updates for Brazilian Portuguese, British English, Czech, "
 "German, Japanese, Lithuanian and Polish"
 msgstr ""
+"ब्राज़ीलियाई पुर्तगाली, ब्रिटिश अंग्रेज़ी, चेक, जर्मन, जापानी, लिथुआनियाई और "
+"पोलिश के लिए अनुवाद अद्यतन"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:170
 msgid "This is a minor maintenance release."
-msgstr ""
+msgstr "यह एक मामूली रखरखाव रिलीज है।"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:173
 msgid "Animate scrolling when using keybindings"
-msgstr ""
+msgstr "कीबाइंडिंग का उपयोग करते समय स्क्रॉलिंग को एनिमेट करें"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:175
 msgid "Change desktop entry category to Audio/Video instead of Utilities"
-msgstr ""
+msgstr "डेस्कटॉप प्रविष्टि श्रेणी को उपयोगिता के बजाय ऑडियो/वीडियो में बदलें"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:177
 msgid "Translation updates for French"
-msgstr ""
+msgstr "फ्रेंच के लिए अनुवाद अद्यतन"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:184
 msgid "This release contains a number of bug fixes and minor improvements."
-msgstr ""
+msgstr "इस रिलीज में कई बग फिक्स और छोटे सुधार शामिल हैं।"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:187
 msgid "Progress Dialog has now a countdown timer (estimated time left)"
-msgstr ""
+msgstr "प्रगति संवाद में अब उलटी गिनती टाइमर (अनुमानित शेष समय) है"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:189
 msgid "Increase max. possible speed to 2.0"
-msgstr ""
+msgstr "अधिकतम संभव गति को 2.0 तक बढ़ाएं"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:191
@@ -266,16 +289,18 @@ msgid ""
 "New keyboard shortcuts for Play/Pause (Ctrl + Space), Jump back (Ctrl + "
 "Left), Jump forward (Ctrl + Right)"
 msgstr ""
+"चलाएं/रोकें (Ctrl + स्पेस), पीछे जाएं (Ctrl + Left), आगे जाएं (Ctrl + Right) "
+"के लिए नए कीबोर्ड शॉर्टकट"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:193
 msgid "Scrolling now also possible with vertical scrollbar"
-msgstr ""
+msgstr "स्क्रॉलिंग अब ऊर्ध्वाधर स्क्रॉलबार से भी संभव है"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:195
 msgid "Various fixes for waveform and cursor display"
-msgstr ""
+msgstr "तरंगरूप और कर्सर प्रदर्शन के लिए विभिन्न सुधार"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:197
@@ -283,34 +308,36 @@ msgid ""
 "Translation updates for Arabic, British English, Catalan, German, Finnish, "
 "French, Japanese, Lithuanian, Polish, Spanish and Swedish"
 msgstr ""
+"अरबी, ब्रिटिश अंग्रेजी, कैटलन, जर्मन, फिनिश, फ्रेंच, जापानी, लिथुआनियाई, पोलि"
+"श, स्पेनिश और स्वीडिश के लिए अनुवाद अपडेट"
 
 #: src/pt-app.c:47
 msgid "Show the application’s version"
-msgstr ""
+msgstr "अनुप्रयोग का संस्करण दिखाएं"
 
 #: src/pt-app.c:93
 msgid "Open Audio File"
-msgstr ""
+msgstr "ऑडियो फाइल खोलें"
 
 #: src/pt-app.c:115
 msgid "Audio Files"
-msgstr ""
+msgstr "ऑडियो फाइलें"
 
 #: src/pt-app.c:116 src/pt-preferences.c:536
 msgid "All Files"
-msgstr ""
+msgstr "सभी फाइलें"
 
 #: src/pt-app.c:193
 msgid "Code from other projects"
-msgstr ""
+msgstr "अन्य परियोजनाओं से कोड"
 
 #: src/pt-app.c:197
 msgid "A basic transcription utility"
-msgstr ""
+msgstr "एक बुनियादी प्रतिलेखन उपयोगिता"
 
 #: src/pt-app.c:203
 msgid "translator-credits"
-msgstr ""
+msgstr "Scrambled777 <weblate.scrambled777@simplelogin.com>, 2024"
 
 #: src/pt-app.c:344
 #, c-format
@@ -318,101 +345,103 @@ msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
 "ignored.\n"
 msgstr ""
+"चेतावनी: Parlatype एक समय में केवल एक फाइल को संभालता है। अन्य फाइलों को "
+"अनदेखा कर दिया जाता है।\n"
 
 #. Translators: Fallback label for a download location
 #: src/pt-asr-dialog.c:99
 msgid "Link"
-msgstr ""
+msgstr "लिंक"
 
 #. Not using title case here, this is more a status than a title.
 #: src/pt-asr-dialog.c:115
 msgid "This configuration is active."
-msgstr ""
+msgstr "यह विन्यास सक्रिय है।"
 
 #: src/pt-asr-dialog.c:117
 msgid "Deactivate"
-msgstr ""
+msgstr "निष्क्रिय करें"
 
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:124
 msgid "Model data is installed."
-msgstr ""
+msgstr "मॉडल डेटा स्थापित है।"
 
 #: src/pt-asr-dialog.c:126 src/pt-asr-dialog.c:133
 msgid "Activate"
-msgstr ""
+msgstr "सक्रिय करें"
 
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:131
 msgid "Model data is not installed."
-msgstr ""
+msgstr "मॉडल डेटा स्थापित नहीं है।"
 
 #: src/pt-asr-dialog.c:132
 msgid "See next section for details."
-msgstr ""
+msgstr "विवरण के लिए अगला अनुभाग देखें।"
 
 #. Translators: Configuration will be deleted, but not its data
 #: src/pt-asr-dialog.c:144
 msgid "Model data will be preserved"
-msgstr ""
+msgstr "मॉडल डेटा संरक्षित किया जाएगा"
 
 #: src/pt-asr-dialog.c:222
 msgid "Language"
-msgstr ""
+msgstr "भाषा"
 
 #: src/pt-asr-dialog.c:226
 msgid "CMU Pocketsphinx"
-msgstr ""
+msgstr "CMU Pocketsphinx"
 
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:230
 msgid "Type of Model"
-msgstr ""
+msgstr "मॉडल का प्रकार"
 
 #: src/pt-asr-dialog.c:232
 msgid "GStreamer Plugin"
-msgstr ""
+msgstr "GStreamer प्लगइन"
 
 #: src/pt-asr-dialog.c:236
 msgid "Publisher"
-msgstr ""
+msgstr "प्रकाशक"
 
 #: src/pt-asr-dialog.c:241
 msgid "License"
-msgstr ""
+msgstr "लाइसेंस"
 
 #: src/pt-asr-dialog.c:249
 msgid "Instructions"
-msgstr ""
+msgstr "निर्देश"
 
 #: src/pt-asr-dialog.c:258 src/pt-asr-dialog.c:269
 msgid "Download"
-msgstr ""
+msgstr "डाउनलोड"
 
 #. Translators: %s is replaced with the name of a configuration
 #: src/pt-asr-dialog.c:314
 #, c-format
 msgid "“%s” has been deleted"
-msgstr ""
+msgstr "“%s” मिटा दिया गया है"
 
 #: src/pt-asr-dialog.c:322 src/pt-preferences.c:248 src/pt-preferences.c:418
 #: src/pt-preferences.c:453 src/pt-window.c:86
 msgid "Error"
-msgstr ""
+msgstr "त्रुटि"
 
 #. Translators: %s is replaced with the name of a configuration
 #: src/pt-asr-dialog.c:373
 #, c-format
 msgid "“%s” has been activated"
-msgstr ""
+msgstr "“%s” सक्रिय कर दिया गया है"
 
 #: src/pt-asr-dialog.c:376
 msgid "Configuration has been deactivated"
-msgstr ""
+msgstr "विन्यास निष्क्रिय कर दिया गया है"
 
 #: src/pt-config-row.c:79
 msgid "Not installed"
-msgstr ""
+msgstr "स्थापित नहीं है"
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
@@ -422,437 +451,441 @@ msgstr ""
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
-msgstr ""
+msgstr "%d:%02d:%02d"
 
 #: src/pt-goto-dialog.c:87
 msgid "second"
 msgid_plural "seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "सेकंड"
+msgstr[1] "सेकंड"
 
 #: src/pt-preferences.c:457
 msgid "The file is not a valid language model configuration."
-msgstr ""
+msgstr "यह फाइल मान्य भाषा मॉडल विन्यास नहीं है।"
 
 #: src/pt-preferences.c:461
 msgid "There is no plugin installed for this language model."
-msgstr ""
+msgstr "इस भाषा मॉडल के लिए कोई प्लगइन स्थापित नहीं है।"
 
 #: src/pt-preferences.c:527 src/pt-prefs-install-row.c:136
 msgid "Select Model Folder"
-msgstr ""
+msgstr "मॉडल फोल्डर चुनें"
 
 #: src/pt-preferences.c:535
 msgid "Parlatype Language Model Configurations"
-msgstr ""
+msgstr "Parlatype भाषा मॉडल विन्यास"
 
 #: src/pt-prefs-install-row.c:54
 msgid "Installed"
-msgstr ""
+msgstr "स्थापित"
 
 #: src/pt-prefs-install-row.c:59
 msgid "Not Installed"
-msgstr ""
+msgstr "अस्थापित"
 
 #: src/pt-prefs-install-row.c:60
 msgid "Download files and select model folder."
-msgstr ""
+msgstr "फाइलें डाउनलोड करें और मॉडल फोल्डर का चयन करें।"
 
 #: src/pt-prefs-install-row.c:114
 msgid "Model Data Not Found"
-msgstr ""
+msgstr "मॉडल डेटा नहीं मिला"
 
 #: src/pt-prefs-install-row.c:116
 msgid "The chosen folder does not contain data for this configuration."
-msgstr ""
+msgstr "चुने गए फोल्डर में इस विन्यास के लिए डेटा नहीं है।"
 
 #: src/pt-window.c:396
 #, c-format
 msgid "Skip back 1 second"
 msgid_plural "Skip back %d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 सेकंड पीछे जाएं"
+msgstr[1] "%d सेकंड पीछे जाएं"
 
 #: src/pt-window.c:413
 #, c-format
 msgid "Skip forward 1 second"
 msgid_plural "Skip forward %d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 सेकंड आगे जाएं"
+msgstr[1] "%d सेकंड आगे जाएं"
 
 #: src/pt-window.c:434
 msgid "Pause"
-msgstr ""
+msgstr "रोकें"
 
 #: src/pt-window.c:439
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "रोकें और 1 सेकंड पीछे जाएं"
+msgstr[1] "रोकें और %d सेकंड पीछे जाएं"
 
 #: src/pt-window.c:448
 msgid "Start playing"
-msgstr ""
+msgstr "चलाना शुरू करें"
 
 #. Translators: %s is replaced with a timestamp
 #: src/pt-window.c:488
 #, c-format
 msgid "Go to Time in Clipboard: %s"
-msgstr ""
+msgstr "क्लिपबोर्ड में समय पर जाएं: %s"
 
 #: src/pt-window.c:490 src/pt-window.c:1172
 msgid "Go to Time in Clipboard"
-msgstr ""
+msgstr "क्लिपबोर्ड में समय पर जाएं"
 
 #: src/pt-window.c:1167
 msgid "Manual Transcription"
-msgstr ""
+msgstr "हस्तचालित प्रतिलेखन"
 
 #: src/pt-window.c:1168
 msgid "Automatic Transcription"
-msgstr ""
+msgstr "स्वचालित प्रतिलेखन"
 
 #: src/resources/asr-dialog.ui:29
 msgid "Installation"
-msgstr ""
+msgstr "स्थापना"
 
 #: src/resources/asr-dialog.ui:30
 msgid "How to install this language model."
-msgstr ""
+msgstr "इस भाषा मॉडल को कैसे स्थापित कर।"
 
 #: src/resources/asr-dialog.ui:33
 msgid "General Information"
-msgstr ""
+msgstr "सामान्य जानकारी"
 
 #: src/resources/asr-dialog.ui:36
 msgid "Display Name"
-msgstr ""
+msgstr "प्रदर्शन नाम"
 
 #: src/resources/asr-dialog.ui:44
 msgid "Delete this Configuration"
-msgstr ""
+msgstr "इस विन्यास को मिटाएं"
 
 #: src/resources/asr-dialog.ui:48
 msgid "Delete"
-msgstr ""
+msgstr "मिटाएं"
 
 #: src/resources/editor-theme-selector.ui:22
 msgid "Follow System Style"
-msgstr ""
+msgstr "सिस्टम शैली का पालन"
 
 #: src/resources/editor-theme-selector.ui:24
 msgid "Follow system style"
-msgstr ""
+msgstr "सिस्टम शैली का पालन"
 
 #: src/resources/editor-theme-selector.ui:39
 msgid "Light Style"
-msgstr ""
+msgstr "हल्की शैली"
 
 #: src/resources/editor-theme-selector.ui:41
 msgid "Light style"
-msgstr ""
+msgstr "हल्की शैली"
 
 #: src/resources/editor-theme-selector.ui:57
 msgid "Dark Style"
-msgstr ""
+msgstr "गहरी शैली"
 
 #: src/resources/editor-theme-selector.ui:59
 msgid "Dark style"
-msgstr ""
+msgstr "गहरी शैली"
 
 #: src/resources/goto-dialog.ui:10 src/resources/window.ui:262
 msgid "Go to…"
-msgstr ""
+msgstr "यहां जाएं…"
 
 #: src/resources/goto-dialog.ui:20
 msgid "Go to position:"
-msgstr ""
+msgstr "स्थान पर जाएं:"
 
 #: src/resources/goto-dialog.ui:52
 msgid "_Cancel"
-msgstr ""
+msgstr "रद्द करें (_C)"
 
 #: src/resources/goto-dialog.ui:60
 msgid "_OK"
-msgstr ""
+msgstr "ठीक है (_O)"
 
 #: src/resources/help-overlay.ui:13
 msgid "General"
-msgstr ""
+msgstr "सामान्य"
 
 #: src/resources/help-overlay.ui:18
 msgid "Open a media file"
-msgstr ""
+msgstr "मीडिया फाइल खोलें"
 
 #: src/resources/help-overlay.ui:25
 msgid "Show/hide main menu"
-msgstr ""
+msgstr "मुख्य मेनू दिखाएं/छिपाएं"
 
 #: src/resources/help-overlay.ui:32
 msgid "Quit"
-msgstr ""
+msgstr "बंद करें"
 
 #: src/resources/help-overlay.ui:40 src/resources/preferences.ui:11
 msgid "Waveform"
-msgstr ""
+msgstr "तरंगरूप"
 
 #: src/resources/help-overlay.ui:45
 msgid "Play/Pause"
-msgstr ""
+msgstr "चलाएं/रोकें"
 
 #: src/resources/help-overlay.ui:52 src/resources/window.ui:99
 msgid "Skip backward"
-msgstr ""
+msgstr "पीछे जाएं"
 
 #: src/resources/help-overlay.ui:59 src/resources/window.ui:144
 msgid "Skip forward"
-msgstr ""
+msgstr "आगे जाएं"
 
 #: src/resources/help-overlay.ui:66
 msgid "Zoom in"
-msgstr ""
+msgstr "बडे रूप में दिखाएं"
 
 #: src/resources/help-overlay.ui:73
 msgid "Zoom out"
-msgstr ""
+msgstr "छोटे रूप में दिखाएं"
 
 #: src/resources/help-overlay.ui:80
 msgid "Open “Go to” dialog"
-msgstr ""
+msgstr "“यहां जाएं” संवाद खोलें"
 
 #: src/resources/help-overlay.ui:87
 msgid "Copy timestamp to clipboard"
-msgstr ""
+msgstr "टाइमस्टैम्प को क्लिपबोर्ड पर कॉपी करें"
 
 #: src/resources/help-overlay.ui:94
 msgid "Go to timestamp in clipboard"
-msgstr ""
+msgstr "क्लिपबोर्ड में टाइमस्टैम्प पर जाएं"
 
 #: src/resources/help-overlay.ui:102 src/resources/window.ui:243
 msgid "Help"
-msgstr ""
+msgstr "सहायता"
 
 #: src/resources/help-overlay.ui:107
 msgid "Show help"
-msgstr ""
+msgstr "सहायता दिखाएं"
 
 #: src/resources/help-overlay.ui:114
 msgid "Show keyboard shortcuts"
-msgstr ""
+msgstr "कीबोर्ड शॉर्टकट दिखाएं"
 
 #: src/resources/preferences.ui:7 src/resources/window.ui:235
 msgid "Preferences"
-msgstr ""
+msgstr "प्राथमिकताएं"
 
 #: src/resources/preferences.ui:15
 msgid "Display"
-msgstr ""
+msgstr "प्रदर्शन"
 
 #: src/resources/preferences.ui:16
 msgid "Change appearance of the waveform and cursor movement."
-msgstr ""
+msgstr "तरंगरूप और कर्सर गति का स्वरूप बदलें।"
 
 #: src/resources/preferences.ui:19
 msgid "Waveform Detail"
-msgstr ""
+msgstr "तरंगरूप विवरण"
 
 #: src/resources/preferences.ui:20
 msgid "Vertical lines per second"
-msgstr ""
+msgstr "प्रति सेकंड ऊर्ध्वाधर रेखाएं"
 
 #: src/resources/preferences.ui:53
 msgid "Show Time Scale"
-msgstr ""
+msgstr "समय पैमाना दिखाएं"
 
 #: src/resources/preferences.ui:58
 msgid "Cursor Mode"
-msgstr ""
+msgstr "कर्सर मोड"
 
 #: src/resources/preferences.ui:62
 msgid "Fixed Cursor"
-msgstr ""
+msgstr "स्थिर कर्सर"
 
 #: src/resources/preferences.ui:63
 msgid "Moving Cursor"
-msgstr ""
+msgstr "गतिशील कर्सर"
 
 #: src/resources/preferences.ui:76
 msgid "Audio Controls"
-msgstr ""
+msgstr "ऑडियो नियंत्रण"
 
 #: src/resources/preferences.ui:80
 msgid "Pause and Skip Buttons"
-msgstr ""
+msgstr "*रोकें और छोड़ें* बटन"
 
 #: src/resources/preferences.ui:81
 msgid "Set amount of time to skip in seconds."
-msgstr ""
+msgstr "छोड़ने के लिए समय की मात्रा सेकंड में निर्धारित करें।"
 
 #: src/resources/preferences.ui:84
 msgid "Rewind on Pause"
-msgstr ""
+msgstr "विराम पर रिवाइंड करें"
 
 #: src/resources/preferences.ui:85
 msgid "Set to zero to disable this feature"
-msgstr ""
+msgstr "इस सुविधा को अक्षम करने के लिए इसे शून्य पर निर्धारित करें"
 
 #: src/resources/preferences.ui:98
 msgid "Skip Backward"
-msgstr ""
+msgstr "पीछे जाएं"
 
 #: src/resources/preferences.ui:111
 msgid "Skip Forward"
-msgstr ""
+msgstr "आगे जाएं"
 
 #: src/resources/preferences.ui:126
 msgid "Play Button"
-msgstr ""
+msgstr "*चलाएं* बटन"
 
 #: src/resources/preferences.ui:127
 msgid "Change behavior of play button."
-msgstr ""
+msgstr "*चलाएं* बटन का व्यवहार बदलें।"
 
 #: src/resources/preferences.ui:130
 msgid "At End of File Replay File"
-msgstr ""
+msgstr "फाइल के अंत में फाइल पुनः चलाएं"
 
 #: src/resources/preferences.ui:135
 msgid "At End of Selection Replay Selection"
-msgstr ""
+msgstr "चयन के अंत में चयन को फिर से चलाएं"
 
 #: src/resources/preferences.ui:145
 msgid "Timestamps"
-msgstr ""
+msgstr "टाइमस्टैम्प"
 
 #: src/resources/preferences.ui:149
 msgid "Timestamp Format"
-msgstr ""
+msgstr "टाइमस्टैम्प प्रारूप"
 
 #: src/resources/preferences.ui:150
 msgid ""
 "Customize produced timestamps. Note that all formats can be read, these "
 "settings are applied when timestamps are written."
 msgstr ""
+"उत्पादित टाइमस्टैम्प को अनुकूलित करें। ध्यान दें कि सभी प्रारूप पढ़े जा सकते "
+"हैं, ये सेटिंग तब लागू होती हैं जब टाइमस्टैम्प लिखे जाते हैं।"
 
 #: src/resources/preferences.ui:153
 msgid "Always Show Hours and Leading Zeroes"
-msgstr ""
+msgstr "हमेशा घंटे और अग्रणी शून्य दिखाएं"
 
 #: src/resources/preferences.ui:158
 msgid "Precision"
-msgstr ""
+msgstr "परिशुद्धता"
 
 #: src/resources/preferences.ui:162
 msgid "Full Seconds"
-msgstr ""
+msgstr "पूर्ण सेकंड"
 
 #: src/resources/preferences.ui:163
 msgid "10th Seconds"
-msgstr ""
+msgstr "10वां सेकंड"
 
 #: src/resources/preferences.ui:164
 msgid "100th Seconds"
-msgstr ""
+msgstr "100वां सेकंड"
 
 #: src/resources/preferences.ui:172
 msgid "Fraction Separator"
-msgstr ""
+msgstr "अंश विभाजक"
 
 #: src/resources/preferences.ui:176
 msgid ". (Point)"
-msgstr ""
+msgstr ". (बिंदु)"
 
 #: src/resources/preferences.ui:177
 msgid "- (Hyphen)"
-msgstr ""
+msgstr "- (हाइफ़न)"
 
 #: src/resources/preferences.ui:185
 msgid "Characters Around Timestamps"
-msgstr ""
+msgstr "टाइमस्टैम्प के आसपास के वर्ण"
 
 #: src/resources/preferences.ui:189
 msgid "None"
-msgstr ""
+msgstr "कोई नहीं"
 
 #: src/resources/preferences.ui:190
 msgid "#Number Signs#"
-msgstr ""
+msgstr "#संख्या चिह्न#"
 
 #: src/resources/preferences.ui:191
 msgid "(Round Brackets)"
-msgstr ""
+msgstr "(गोल कोष्ठक)"
 
 #: src/resources/preferences.ui:192
 msgid "[Square Brackets]"
-msgstr ""
+msgstr "[वर्ग कोष्ठक]"
 
 #: src/resources/preferences.ui:202
 msgid "Preview"
-msgstr ""
+msgstr "पूर्वावलोकन"
 
 #: src/resources/preferences.ui:211
 msgid "Speech Recognition"
-msgstr ""
+msgstr "वाक् पहचान"
 
 #: src/resources/preferences.ui:215
 msgid "Language Models"
-msgstr ""
+msgstr "भाषा मॉडल"
 
 #: src/resources/preferences.ui:216
 msgid ""
 "Inspect configuration details, learn how to install model data, and choose a "
 "configuration for automatic speech recognition."
 msgstr ""
+"विन्यास विवरण का निरीक्षण करें, मॉडल डेटा स्थापित करने का तरीका जानें, और "
+"स्वचालित वाक् पहचान के लिए विन्यास चुनें।"
 
 #: src/resources/preferences.ui:223
 msgid "Import configuration from file"
-msgstr ""
+msgstr "फाइल से विन्यास आयात करें"
 
 #: src/resources/preferences.ui:232
 msgid "Copy Initial Set of Configurations"
-msgstr ""
+msgstr "विन्यास का प्रारंभिक सेट कॉपी करें"
 
 #: src/resources/prefs-install-row.ui:11
 msgid "Choose folder"
-msgstr ""
+msgstr "फोल्डर चुनें"
 
 #: src/resources/window.ui:38
 msgid "_Open"
-msgstr ""
+msgstr "खोलें (_O)"
 
 #: src/resources/window.ui:41
 msgid "Open a file"
-msgstr ""
+msgstr "फाइल खोलें"
 
 #: src/resources/window.ui:52
 msgid "Main Menu"
-msgstr ""
+msgstr "मुख्य मेनू"
 
 #: src/resources/window.ui:125
 msgid "_Play"
-msgstr ""
+msgstr "चलाएं (_P)"
 
 #: src/resources/window.ui:171
 msgid "Speed:"
-msgstr ""
+msgstr "गति:"
 
 #: src/resources/window.ui:203
 msgid "Volume"
-msgstr ""
+msgstr "आवाज"
 
 #: src/resources/window.ui:239
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "कीबोर्ड शॉर्टकट (_K)"
 
 #: src/resources/window.ui:247
 msgid "About Parlatype"
-msgstr ""
+msgstr "Parlatype के बारे में"
 
 #: src/resources/window.ui:254
 msgid "Copy Time to Clipboard"
-msgstr ""
+msgstr "समय को क्लिपबोर्ड पर कॉपी करें"
 
 #: src/resources/window.ui:258
 msgid "Go to Cursor"
-msgstr ""
+msgstr "कर्सर पर जाएं"
