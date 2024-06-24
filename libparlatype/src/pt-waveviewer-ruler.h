@@ -19,7 +19,7 @@
 #include <gtk/gtk.h>
 
 #define PT_TYPE_WAVEVIEWER_RULER (pt_waveviewer_ruler_get_type ())
-G_DECLARE_FINAL_TYPE (PtWaveviewerRuler, pt_waveviewer_ruler, PT, WAVEVIEWER_RULER, GtkDrawingArea)
+G_DECLARE_FINAL_TYPE (PtWaveviewerRuler, pt_waveviewer_ruler, PT, WAVEVIEWER_RULER, GtkWidget)
 
 void       pt_waveviewer_ruler_set_ruler (PtWaveviewerRuler *self,
                                           gint64             n_samples,

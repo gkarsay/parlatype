@@ -56,7 +56,7 @@
 
 struct _PtWaveviewerRuler
 {
-  GtkDrawingArea parent;
+  GtkWidget parent;
 
   gint64 n_samples;
   gint   px_per_sec;
@@ -71,7 +71,7 @@ struct _PtWaveviewerRuler
   gint     secondary_modulo;
 };
 
-G_DEFINE_TYPE (PtWaveviewerRuler, pt_waveviewer_ruler, GTK_TYPE_DRAWING_AREA);
+G_DEFINE_TYPE (PtWaveviewerRuler, pt_waveviewer_ruler, GTK_TYPE_WIDGET);
 
 static gint64
 time_to_pixel (PtWaveviewerRuler *self,
@@ -104,7 +104,7 @@ pt_waveviewer_ruler_snapshot (GtkWidget   *widget,
                               GtkSnapshot *snapshot)
 {
   PtWaveviewerRuler *self = (PtWaveviewerRuler *) widget;
-  gdouble            height = gtk_widget_get_height (GTK_WIDGET (widget));
+  gdouble            height = gtk_widget_get_height (widget);
 
   gint           i;      /* counter, pixel on x-axis in the view */
   gint           sample; /* sample in the array */
@@ -123,7 +123,7 @@ pt_waveviewer_ruler_snapshot (GtkWidget   *widget,
 
   width = gtk_widget_get_width (widget);
   offset = (gint) gtk_adjustment_get_value (self->adj);
-  gtk_widget_get_color (GTK_WIDGET (self), &text_color);
+  gtk_widget_get_color (widget, &text_color);
 
   /* ruler marks */
 
@@ -183,7 +183,7 @@ pt_waveviewer_ruler_snapshot (GtkWidget   *widget,
                                       sample / self->px_per_sec / 60,
                                       sample / self->px_per_sec % 60);
             }
-          layout = gtk_widget_create_pango_layout (GTK_WIDGET (self), text);
+          layout = gtk_widget_create_pango_layout (widget, text);
 
           /* display timestring only if it is fully visible in drawing area */
           pango_layout_get_pixel_extents (layout, &rect, NULL);
