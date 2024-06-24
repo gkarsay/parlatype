@@ -46,7 +46,7 @@
 
 struct _PtWaveviewerWaveform
 {
-  GtkDrawingArea parent;
+  GtkWidget parent;
 
   /* Wavedata */
   GArray *peaks;
@@ -57,7 +57,7 @@ struct _PtWaveviewerWaveform
   GdkRGBA wave_color;
 };
 
-G_DEFINE_TYPE (PtWaveviewerWaveform, pt_waveviewer_waveform, GTK_TYPE_DRAWING_AREA);
+G_DEFINE_TYPE (PtWaveviewerWaveform, pt_waveviewer_waveform, GTK_TYPE_WIDGET);
 
 static gint64
 pixel_to_array (PtWaveviewerWaveform *self,
@@ -92,8 +92,8 @@ pt_waveviewer_waveform_snapshot (GtkWidget   *widget,
   if (peaks == NULL || peaks->len == 0)
     return;
 
-  height = gtk_widget_get_height (GTK_WIDGET (widget));
-  width = gtk_widget_get_width (GTK_WIDGET (widget));
+  height = gtk_widget_get_height (widget);
+  width = gtk_widget_get_width (widget);
   gtk_widget_get_color (widget, &self->wave_color);
 
   /* paint waveform */
@@ -113,24 +113,14 @@ pt_waveviewer_waveform_snapshot (GtkWidget   *widget,
 }
 
 static void
-update_cached_style_values (PtWaveviewerWaveform *self)
-{
-  gtk_widget_get_color (GTK_WIDGET (self), &self->wave_color);
-}
-
-static void
 pt_waveviewer_waveform_state_flags_changed (GtkWidget    *widget,
                                             GtkStateFlags flags)
 {
-  update_cached_style_values (PT_WAVEVIEWER_WAVEFORM (widget));
-  GTK_WIDGET_CLASS (pt_waveviewer_waveform_parent_class)->state_flags_changed (widget, flags);
-}
+  PtWaveviewerWaveform *self = (PtWaveviewerWaveform *) widget;
 
-static void
-pt_waveviewer_waveform_realize (GtkWidget *widget)
-{
-  GTK_WIDGET_CLASS (pt_waveviewer_waveform_parent_class)->realize (widget);
-  update_cached_style_values (PT_WAVEVIEWER_WAVEFORM (widget));
+  gtk_widget_get_color (widget, &self->wave_color);
+  gtk_widget_queue_draw (widget);
+  GTK_WIDGET_CLASS (pt_waveviewer_waveform_parent_class)->state_flags_changed (widget, flags);
 }
 
 void
@@ -172,6 +162,7 @@ pt_waveviewer_waveform_init (PtWaveviewerWaveform *self)
 {
   self->peaks = NULL;
   gtk_widget_add_css_class (GTK_WIDGET (self), "view");
+  gtk_widget_get_color (GTK_WIDGET (self), &self->wave_color);
 }
 
 static void
@@ -179,7 +170,6 @@ pt_waveviewer_waveform_class_init (PtWaveviewerWaveformClass *klass)
 {
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
-  widget_class->realize = pt_waveviewer_waveform_realize;
   widget_class->root = pt_waveviewer_waveform_root;
   widget_class->snapshot = pt_waveviewer_waveform_snapshot;
   widget_class->state_flags_changed = pt_waveviewer_waveform_state_flags_changed;
