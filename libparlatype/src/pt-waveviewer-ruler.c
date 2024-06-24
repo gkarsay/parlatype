@@ -206,35 +206,17 @@ pt_waveviewer_ruler_snapshot (GtkWidget   *widget,
 static void
 calculate_height (PtWaveviewerRuler *self)
 {
-  /* Calculate ruler height and time string width*/
-  cairo_t         *cr;
-  cairo_surface_t *surface;
-  PangoLayout     *layout;
-  PangoRectangle   rect;
-  gchar           *time_format;
-  gint             ruler_height;
-  GtkNative       *native;
-  GdkSurface      *gdk_surface;
-  gint             scale;
+  /* Calculate ruler height and time string width */
+  PangoLayout   *layout;
+  PangoRectangle rect;
+  gchar         *time_format;
+  gint           ruler_height;
 
-  native = gtk_widget_get_native (GTK_WIDGET (self));
-  if (!native || self->n_samples == 0)
+  if (self->n_samples == 0)
     {
       gtk_widget_set_size_request (GTK_WIDGET (self), 0, 0);
       return;
     }
-
-  /* Create temporary surface to measure layout. */
-  gdk_surface = gtk_native_get_surface (native);
-  if (!gdk_surface)
-    return;
-
-  scale = gdk_surface_get_scale_factor (gdk_surface);
-  surface = cairo_image_surface_create (CAIRO_FORMAT_RGB24,
-                                        100 * scale,
-                                        100 * scale);
-  cairo_surface_set_device_scale (surface, scale, scale);
-  cr = cairo_create (surface);
 
   self->time_format_long = (self->n_samples / self->px_per_sec >= 3600);
 
@@ -244,7 +226,6 @@ calculate_height (PtWaveviewerRuler *self)
     time_format = g_strdup_printf (C_ ("shortest time format", "%d:%02d"), 88, 0);
 
   layout = gtk_widget_create_pango_layout (GTK_WIDGET (self), time_format);
-  pango_cairo_update_layout (cr, layout);
   pango_layout_get_pixel_extents (layout, &rect, NULL);
 
   /* Ruler height = font height + 3px padding below + 3px padding above + 5px for marks */
@@ -292,8 +273,6 @@ calculate_height (PtWaveviewerRuler *self)
 
   g_free (time_format);
   g_object_unref (layout);
-  cairo_destroy (cr);
-  cairo_surface_destroy (surface);
 
   gtk_widget_set_size_request (GTK_WIDGET (self), -1, ruler_height);
 }
