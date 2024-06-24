@@ -19,7 +19,7 @@
 #include <gtk/gtk.h>
 
 #define PT_TYPE_WAVEVIEWER_CURSOR (pt_waveviewer_cursor_get_type ())
-G_DECLARE_FINAL_TYPE (PtWaveviewerCursor, pt_waveviewer_cursor, PT, WAVEVIEWER_CURSOR, GtkDrawingArea)
+G_DECLARE_FINAL_TYPE (PtWaveviewerCursor, pt_waveviewer_cursor, PT, WAVEVIEWER_CURSOR, GtkWidget)
 
 void       pt_waveviewer_cursor_render (PtWaveviewerCursor *self,
                                         gint                position);
