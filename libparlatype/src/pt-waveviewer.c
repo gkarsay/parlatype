@@ -534,7 +534,7 @@ pt_waveviewer_scroll_event (GtkEventControllerScroll *ctrl,
   return FALSE;
 }
 
-static gboolean
+static void
 pt_waveviewer_motion_event (GtkEventControllerMotion *ctrl,
                             gdouble                   x,
                             gdouble                   y,
@@ -550,14 +550,14 @@ pt_waveviewer_motion_event (GtkEventControllerMotion *ctrl,
    * We get constantly motion events when playing, everything is normal in paused state.
    * Filter out motion without changed x y */
   if (x == priv->x_motion && y == priv->y_motion)
-    return FALSE;
+    return;
   priv->x_motion = x;
   priv->y_motion = y;
 
   state = gtk_event_controller_get_current_event_state (GTK_EVENT_CONTROLLER (ctrl));
 
   if (priv->peaks == NULL || priv->peaks->len == 0)
-    return FALSE;
+    return;
 
   clicked = (gint) x;
   pos = pixel_to_time (self, clicked + gtk_adjustment_get_value (priv->adj));
@@ -567,7 +567,7 @@ pt_waveviewer_motion_event (GtkEventControllerMotion *ctrl,
     {
       priv->dragend = pos;
       update_selection (self);
-      return TRUE;
+      return;
     }
 
   /* No button or any other button: change pointer cursor over selection border */
@@ -582,8 +582,6 @@ pt_waveviewer_motion_event (GtkEventControllerMotion *ctrl,
           gtk_widget_set_cursor (GTK_WIDGET (self), NULL);
         }
     }
-
-  return FALSE;
 }
 
 static gboolean
