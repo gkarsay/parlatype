@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Parlatype 3.1\n"
 "POT-Creation-Date: 2024-05-13 21:21+0200\n"
-"PO-Revision-Date: 2022-11-15 08:48+0000\n"
-"Last-Translator: E-Akcaer <gurbetcii_@hotmail.com>\n"
+"PO-Revision-Date: 2024-06-27 21:09+0000\n"
+"Last-Translator: Sabri Ünal <yakushabb@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/parlatype/"
 "parlatype-help/tr/>\n"
 "Language: tr\n"
@@ -11,12 +11,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.15-dev\n"
+"X-Generator: Weblate 5.7-dev\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr "çevirmen-emeği geçenler: Eakcaer <eakcaer.54@gmail.com>, 2021."
+msgstr "Eakcaer <eakcaer.54@gmail.com>, 2021."
 
 #. (itstool) path: info/title
 #: ../help/C/index.page:7
