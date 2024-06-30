@@ -27,7 +27,7 @@
  * SECTION: pt-waveviewer
  * @short_description: A GtkWidget to display a waveform.
  * @stability: Stable
- * @include: parlatype/pt-waveviewer.h
+ * @include: parlatype/parlatype.h
  *
  * Displays a waveform and lets the user interact with it: jumping to a position,
  * make selections and so on.

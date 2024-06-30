@@ -57,7 +57,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (PtConfig, pt_config, G_TYPE_OBJECT)
 /**
  * SECTION: pt-config
  * @short_description: Configuration for ASR plugins
- * @include: parlatype/pt-config.h
+ * @include: parlatype/parlatype.h
  *
  * A PtConfig represents a configuration for a GStreamer ASR plugin.
  * Configuration files are written in .ini-like style. Each file holds one

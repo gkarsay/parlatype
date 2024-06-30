@@ -20,7 +20,7 @@
  * SECTION: pt-player
  * @short_description: The GStreamer backend for Parlatype.
  * @stability: Stable
- * @include: parlatype/pt-player.h
+ * @include: parlatype/parlatype.h
  *
  * PtPlayer is the GStreamer backend for Parlatype. Construct it with #pt_player_new().
  * Then you have to open a file with pt_player_open_uri().
