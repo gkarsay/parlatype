@@ -48,10 +48,10 @@ struct _PtWaveloaderPrivate
   GstElement *fmt;
 
   GArray *hires;
-  gint    hires_index;
+  uint    hires_index;
   GArray *lowres;
-  gint    pps;
-  gint    lowres_index;
+  int     pps;
+  uint    lowres_index;
 
   gchar   *uri;
   gboolean load_pending;
@@ -148,9 +148,9 @@ calc_lowres_len (gint hires_len,
 static void
 convert_one_second (GArray *in,
                     GArray *out,
-                    gint   *index_in,
-                    gint   *index_out,
-                    gint    pps)
+                    uint   *index_in,
+                    uint   *index_out,
+                    int     pps)
 {
   gint   k, m;
   gint16 d;
@@ -318,7 +318,7 @@ check_progress (GTask *task)
   gint64  dur;
   gint64  pos;
   gdouble temp;
-  gint    new_size;
+  uint    new_size;
 
   /* Check if task was cancelled and reset pipeline */
 
@@ -614,9 +614,9 @@ pt_waveloader_resize_real (GTask        *task,
   PtWaveloader        *self = source_object;
   PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (self);
   gint                 pps = GPOINTER_TO_INT (task_data);
-  gint                 lowres_len;
-  gint                 index_in = 0;
-  gint                 index_out = 0;
+  uint                 lowres_len;
+  uint                 index_in = 0;
+  uint                 index_out = 0;
   gboolean             result = TRUE;
 
   lowres_len = calc_lowres_len (priv->hires->len, pps);

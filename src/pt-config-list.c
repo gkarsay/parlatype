@@ -164,7 +164,7 @@ file_list_items_changed_cb (GListModel *list,
   guint         n_files = 0;
 
   n_files = g_list_model_get_n_items (list);
-  for (int i = 0; i < n_files; i++)
+  for (uint i = 0; i < n_files; i++)
     {
       info = g_list_model_get_item (list, i);
       file = G_FILE (g_file_info_get_attribute_object (info, "standard::file"));

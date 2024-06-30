@@ -1296,7 +1296,10 @@ wv_selection_changed_cb (GtkWidget *widget,
   if (priv->current_state == GST_STATE_PAUSED || !GST_CLOCK_TIME_IS_VALID (priv->segend))
     {
       priv->segstart = GST_MSECOND * start;
-      priv->segend = (end == 0) ? GST_CLOCK_TIME_NONE : GST_MSECOND * end;
+      if (end == 0)
+        priv->segend = GST_CLOCK_TIME_NONE;
+      else
+        priv->segend = GST_MSECOND * end;
       return;
     }
 

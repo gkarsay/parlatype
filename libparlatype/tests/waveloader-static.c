@@ -30,10 +30,10 @@ test_convert_one_second (void)
 
   GArray *out = g_array_new (FALSE, TRUE, sizeof (float));
 
-  int index_in;
-  int index_out;
-  int out_size;
-  int pps;
+  uint index_in;
+  uint index_out;
+  int  out_size;
+  int  pps;
 
   int testsize[4] = {
     7000, /* less than a second  */
