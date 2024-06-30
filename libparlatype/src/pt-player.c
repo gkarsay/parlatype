@@ -317,7 +317,7 @@ metadata_goto_position (PtPlayer *self)
   g_object_unref (file);
 }
 
-const static gchar *
+static const gchar *
 pt_player_get_state_name (PtStateType state)
 {
   switch (state)
