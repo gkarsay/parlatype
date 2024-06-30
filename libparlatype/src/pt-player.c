@@ -330,9 +330,10 @@ pt_player_get_state_name (PtStateType state)
       return "playing";
     case PT_STATE_INVALID:
       return NULL;
+    default:
+      g_assert_not_reached ();
+      return NULL;
     }
-
-  return NULL;
 }
 
 static void
@@ -770,18 +771,14 @@ pt_player_play_pause (PtPlayer *self)
 
   switch (priv->current_state)
     {
-    case GST_STATE_NULL:
-      return;
     case GST_STATE_PAUSED:
       pt_player_play (self);
       break;
     case GST_STATE_PLAYING:
       pt_player_pause_and_rewind (self);
       break;
-    case GST_STATE_VOID_PENDING:
-      return;
-    case GST_STATE_READY:
-      return;
+    default:
+      break;
     }
 }
 

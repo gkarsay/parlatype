@@ -24,7 +24,8 @@ add_project_arguments('-DLOCALEDIR="@0@"'.format(localedir),
                       '-Wno-cast-function-type',
                       '-Wno-missing-field-initializers',
                       '-Wno-unused-parameter',
-                      language: 'c')
+                      '-Wswitch-default',
+                       language: 'c')
 
 gettext_package = 'parlatype'
 

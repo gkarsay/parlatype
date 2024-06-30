@@ -363,6 +363,8 @@ pt_waveviewer_key_press_event (GtkEventControllerKey *ctrl,
           else
             g_signal_emit_by_name (self, "cursor-changed", priv->duration);
           return TRUE;
+        default:
+          return FALSE;
         }
     }
 
@@ -390,14 +392,14 @@ pt_waveviewer_key_press_event (GtkEventControllerKey *ctrl,
         case GDK_KEY_End:
           scroll = GTK_SCROLL_END;
           break;
+        default:
+          return FALSE;
         }
-      if (scroll != GTK_SCROLL_NONE)
-        {
-          gboolean ret;
-          g_signal_emit_by_name (priv->scrolled_window, "scroll-child", scroll, TRUE, &ret);
-          pt_waveviewer_set_follow_cursor (self, FALSE);
-          return TRUE;
-        }
+
+      gboolean ret;
+      g_signal_emit_by_name (priv->scrolled_window, "scroll-child", scroll, TRUE, &ret);
+      pt_waveviewer_set_follow_cursor (self, FALSE);
+      return TRUE;
     }
 
   return FALSE;
