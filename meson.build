@@ -2,6 +2,7 @@ project('parlatype', 'c',
         version: '4.2',
         meson_version: '>= 0.60.0',
         license: 'GPL3+',
+        default_options: [ 'warning_level=2', 'werror=false', 'c_std=gnu11', ],
 )
 
 app_id = 'xyz.parlatype.Parlatype'
@@ -16,9 +17,14 @@ libdir     = join_paths(prefix, get_option('libdir'))
 datadir    = join_paths(prefix, get_option('datadir'))
 pkgdatadir = join_paths(datadir, meson.project_name())
 localedir  = join_paths(prefix, get_option('localedir'))
-add_global_arguments('-DLOCALEDIR="@0@"'.format(localedir),
-                     language : 'c')
+
 compiler = meson.get_compiler('c')
+
+add_project_arguments('-DLOCALEDIR="@0@"'.format(localedir),
+                      '-Wno-cast-function-type',
+                      '-Wno-missing-field-initializers',
+                      '-Wno-unused-parameter',
+                      language: 'c')
 
 gettext_package = 'parlatype'
 
