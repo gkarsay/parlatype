@@ -67,6 +67,7 @@ if with_pocketsphinx
 endif
 
 headers = [
+  'parlatype.h',
   'pt-config.h',
   'pt-player.h',
   'pt-waveloader.h',
