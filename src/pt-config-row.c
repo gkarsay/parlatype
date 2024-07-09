@@ -85,8 +85,10 @@ void
 pt_config_row_set_active (PtConfigRow *self,
                           gboolean     active)
 {
-  if (self->active == active ||
-      !self->installed)
+  if (self->active == active)
+    return;
+
+  if (active && !self->installed)
     return;
 
   self->active = active;
