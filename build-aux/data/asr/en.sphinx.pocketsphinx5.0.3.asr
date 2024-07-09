@@ -1,0 +1,19 @@
+[Model]
+Version=1.0
+Name=Pocketsphinx 5.0.3
+Plugin=parlasphinx
+BaseFolder=/app/share/pocketsphinx/model/en-us
+Language=en
+Howto=Already preinstalled
+URL1=https://github.com/cmusphinx/pocketsphinx/tree/master/model/en-us
+License=
+Publisher=Alpha Cephei Inc.
+
+[Files]
+hmm=en-us
+lm=en-us.lm.bin
+dict=cmudict-en-us.dict
+
+[Parameters]
+fwdflat=true
+bestpath=true

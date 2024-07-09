@@ -51,6 +51,10 @@
                     "type" : "git",
                     "branch" : "pocketsphinx5",
                     "path" : "../"
+                },
+                {
+                    "type" : "file",
+                    "path" : "data/asr/en.sphinx.pocketsphinx5.0.3.asr"
                 }
             ]
         }
