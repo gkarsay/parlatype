@@ -1,0 +1,58 @@
+{
+    "app-id" : "xyz.parlatype.Parlatype",
+    "runtime" : "org.gnome.Platform",
+    "runtime-version" : "46",
+    "sdk" : "org.gnome.Sdk",
+    "command" : "parlatype",
+    "finish-args" : [
+        "--device=dri",
+        "--share=ipc",
+        "--socket=fallback-x11",
+        "--socket=wayland",
+        "--socket=pulseaudio",
+        "--filesystem=home:ro",
+        "--own-name=org.mpris.MediaPlayer2.parlatype.*"
+    ],
+    "cleanup" : [
+        "*.la",
+        "*.a",
+        "/include",
+        "/lib/pkgconfig",
+        "/libexec",
+        "/share/man"
+    ],
+    "modules" : [
+        {
+            "name" : "pocketsphinx",
+            "buildsystem" : "cmake",
+            "config-opts" : [
+                "-DBUILD_SHARED_LIBS=yes"
+            ],
+            "sources" : [
+                {
+                    "type" : "archive",
+                    "url" : "https://github.com/cmusphinx/pocketsphinx/archive/refs/tags/v5.0.3.zip",
+                    "sha256" : "30083fa98f4195e31d127e5b0af326f8deaf9252d6afc3abfd896f3bcc52c864"
+                }
+            ],
+            "cleanup" : [
+                "/bin/pocketsphinx_*",
+                "/lib/debug/bin/pocketsphinx_*"
+            ]
+        },
+        {
+            "name" : "parlatype",
+            "buildsystem" : "meson",
+            "config-opts" : [
+                "-Dpocketsphinx=true"
+            ],
+            "sources" : [
+                {
+                    "type" : "git",
+                    "branch" : "pocketsphinx5",
+                    "path" : "../"
+                }
+            ]
+        }
+    ]
+}
