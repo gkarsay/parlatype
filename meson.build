@@ -8,8 +8,12 @@ project('parlatype', 'c',
 app_id = 'xyz.parlatype.Parlatype'
 version = meson.project_version()
 
+with_pocketsphinx_legacy = get_option('pocketsphinx-legacy')
 with_pocketsphinx = get_option('pocketsphinx')
-with_asr = with_pocketsphinx
+with_asr = with_pocketsphinx_legacy or with_pocketsphinx
+if with_pocketsphinx_legacy and with_pocketsphinx
+  error('Options pocketsphinx-legacy and pocketsphinx can’t be used together')
+endif
 
 prefix     = get_option('prefix')
 bindir     = join_paths(prefix, get_option('bindir'))
@@ -78,8 +82,9 @@ if (prefix != '/usr')
 endif
 
 summary({
-  'gtk-doc'     : gtk_doc,
-  'gir'         : gir,
-  'pocketsphinx': with_pocketsphinx,
+  'gtk-doc'            : gtk_doc,
+  'gir'                : gir,
+  'pocketsphinx-legacy': with_pocketsphinx_legacy,
+  'pocketsphinx'       : with_pocketsphinx,
   }, section: 'Configuration',
 )

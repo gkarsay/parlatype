@@ -43,6 +43,9 @@
 #ifdef HAVE_POCKETSPHINX
 #include "gst/gstparlasphinx.h"
 #endif
+#ifdef HAVE_POCKETSPHINX_LEGACY
+#include "gst/gstparlasphinx-legacy.h"
+#endif
 
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
@@ -2427,7 +2430,7 @@ pt_player_init (PtPlayer *self)
     gst_pt_audio_bin_register ();
   else
     gst_object_unref (factory);
-#ifdef HAVE_POCKETSPHINX
+#if defined HAVE_POCKETSPHINX || defined HAVE_POCKETSPHINX_LEGACY
   factory = gst_element_factory_find ("parlasphinx");
   if (factory == NULL)
     gst_parlasphinx_register ();

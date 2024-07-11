@@ -35,13 +35,8 @@
  * ====================================================================
  *
  * Author: David Huggins-Daines <dhuggins@cs.cmu.edu>
- * Modified by Gabor Karsay <gabor.karsay@gmx.at> to make it work
+ * Slightly modified by Gabor Karsay <gabor.karsay@gmx.at> to make it work
  * with Parlatype.
- * Differences to original:
- * - Passes audio buffers through instead of pushing text to the sink pad
- * - More/different StateChange and Event handling, without proper understanding though
- * - Does not use ps_endpointer_*
- * - Lattice output removed
  */
 
 /**
@@ -93,10 +88,12 @@
 
 #include "config.h"
 
-#include "gstparlasphinx.h"
+#include "gstparlasphinx-legacy.h"
 
 #include <gst/gst.h>
-#include <pocketsphinx/err.h>
+#include <sphinxbase/err.h>
+#include <sphinxbase/strfuncs.h>
+#include <string.h>
 
 GST_DEBUG_CATEGORY_STATIC (parlasphinx_debug);
 #define GST_CAT_DEFAULT parlasphinx_debug
@@ -143,6 +140,7 @@ enum
   PROP_PBEAM,
   PROP_DSRATIO,
 
+  PROP_LATDIR,
   PROP_LM_NAME,
   PROP_DECODER
 };
@@ -150,6 +148,12 @@ enum
 /*
  * Static data.
  */
+
+/* Default command line. (will go away soon and be constructed using properties) */
+static char *default_argv[] = {
+  "gst-parlasphinx",
+};
+static const int default_argc = sizeof (default_argv) / sizeof (default_argv[0]);
 
 static GstStaticPadTemplate sink_factory =
     GST_STATIC_PAD_TEMPLATE ("sink",
@@ -168,11 +172,6 @@ static GstStaticPadTemplate src_factory =
                                               "format = (string) { S16LE }, "
                                               "channels = (int) 1, "
                                               "rate = (int) 16000"));
-static void
-wrap_ps_free (void *ps)
-{
-  (void) ps_free ((ps_decoder_t *) ps);
-}
 
 /*
  * Boxing of ps_decoder_t.
@@ -187,7 +186,7 @@ ps_decoder_get_type (void)
       ps_decoder_type = g_boxed_type_register_static ("PSDecoder",
                                                       /* Conveniently, these should just work. */
                                                       (GBoxedCopyFunc) ps_retain,
-                                                      (GBoxedFreeFunc) wrap_ps_free);
+                                                      (GBoxedFreeFunc) ps_free);
     }
 
   return ps_decoder_type;
@@ -199,11 +198,10 @@ struct _GstParlasphinx
 
   GstPad *sinkpad, *srcpad;
 
-  ps_decoder_t    *ps;
-  ps_endpointer_t *ep;
-  ps_config_t     *config;
+  ps_decoder_t *ps;
+  cmd_ln_t     *config;
 
-  size_t frame_size;
+  gchar *latdir; /**< Output directory for word lattices. */
 
   gboolean speech_started;
   gboolean listening_started;
@@ -223,6 +221,7 @@ gst_parlasphinx_class_init (GstParlasphinxClass *klass)
 {
   GObjectClass    *gobject_class;
   GstElementClass *element_class;
+  ;
 
   gobject_class = (GObjectClass *) klass;
   element_class = (GstElementClass *) klass;
@@ -318,13 +317,18 @@ gst_parlasphinx_class_init (GstParlasphinxClass *klass)
                                                         "Language model name (to select LMs from lmctl)",
                                                         NULL,
                                                         G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+  g_object_class_install_property (gobject_class, PROP_LATDIR,
+                                   g_param_spec_string ("latdir", "Lattice Directory",
+                                                        "Output Directory for Lattices",
+                                                        NULL,
+                                                        G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   g_object_class_install_property (gobject_class, PROP_DECODER,
                                    g_param_spec_boxed ("decoder", "Decoder object",
                                                        "The underlying decoder",
                                                        PS_DECODER_TYPE,
                                                        G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
 
-  GST_DEBUG_CATEGORY_INIT (parlasphinx_debug, "parlasphinx", 0,
+  GST_DEBUG_CATEGORY_INIT (parlasphinx_debug, "pocketsphinx", 0,
                            "Automatic Speech Recognition");
 
   element_class->change_state = gst_parlasphinx_change_state;
@@ -334,7 +338,7 @@ gst_parlasphinx_class_init (GstParlasphinxClass *klass)
   gst_element_class_add_pad_template (element_class,
                                       gst_static_pad_template_get (&src_factory));
 
-  gst_element_class_set_static_metadata (element_class, "ParlaSphinx", "Filter/Audio", "Convert speech to text", "Gabor Karsay <gabor.karsay@gmx.at>");
+  gst_element_class_set_static_metadata (element_class, "PocketSphinx", "Filter/Audio", "Convert speech to text", "CMUSphinx-devel <cmusphinx-devel@lists.sourceforge.net>");
 }
 
 static void
@@ -344,11 +348,11 @@ gst_parlasphinx_set_string (GstParlasphinx *self,
 {
   if (value != NULL)
     {
-      ps_config_set_str (self->config, key, g_value_get_string (value));
+      cmd_ln_set_str_r (self->config, key, g_value_get_string (value));
     }
   else
     {
-      ps_config_set_str (self->config, key, NULL);
+      cmd_ln_set_str_r (self->config, key, NULL);
     }
 }
 
@@ -357,7 +361,7 @@ gst_parlasphinx_set_int (GstParlasphinx *self,
                          const gchar    *key,
                          const GValue   *value)
 {
-  ps_config_set_int (self->config, key, g_value_get_int (value));
+  cmd_ln_set_int32_r (self->config, key, g_value_get_int (value));
 }
 
 static void
@@ -365,7 +369,7 @@ gst_parlasphinx_set_boolean (GstParlasphinx *self,
                              const gchar    *key,
                              const GValue   *value)
 {
-  ps_config_set_bool (self->config, key, g_value_get_boolean (value));
+  cmd_ln_set_boolean_r (self->config, key, g_value_get_boolean (value));
 }
 
 static void
@@ -373,7 +377,7 @@ gst_parlasphinx_set_double (GstParlasphinx *self,
                             const gchar    *key,
                             const GValue   *value)
 {
-  ps_config_set_float (self->config, key, g_value_get_double (value));
+  cmd_ln_set_float_r (self->config, key, g_value_get_double (value));
 }
 
 static void
@@ -385,100 +389,105 @@ gst_parlasphinx_set_property (GObject *object, guint prop_id, const GValue *valu
     {
 
     case PROP_HMM_DIR:
-      gst_parlasphinx_set_string (self, "hmm", value);
+      gst_parlasphinx_set_string (self, "-hmm", value);
       break;
     case PROP_LM_FILE:
       /* FSG and LM are mutually exclusive. */
-      gst_parlasphinx_set_string (self, "lm", value);
-      gst_parlasphinx_set_string (self, "lmctl", NULL);
-      gst_parlasphinx_set_string (self, "fsg", NULL);
-      gst_parlasphinx_set_string (self, "allphone", NULL);
-      gst_parlasphinx_set_string (self, "kws", NULL);
-      gst_parlasphinx_set_string (self, "jsgf", NULL);
+      gst_parlasphinx_set_string (self, "-lm", value);
+      gst_parlasphinx_set_string (self, "-lmctl", NULL);
+      gst_parlasphinx_set_string (self, "-fsg", NULL);
+      gst_parlasphinx_set_string (self, "-allphone", NULL);
+      gst_parlasphinx_set_string (self, "-kws", NULL);
+      gst_parlasphinx_set_string (self, "-jsgf", NULL);
       break;
     case PROP_LMCTL_FILE:
       /* FSG and LM are mutually exclusive. */
-      gst_parlasphinx_set_string (self, "lm", NULL);
-      gst_parlasphinx_set_string (self, "lmctl", value);
-      gst_parlasphinx_set_string (self, "fsg", NULL);
-      gst_parlasphinx_set_string (self, "allphone", NULL);
-      gst_parlasphinx_set_string (self, "kws", NULL);
-      gst_parlasphinx_set_string (self, "jsgf", NULL);
+      gst_parlasphinx_set_string (self, "-lm", NULL);
+      gst_parlasphinx_set_string (self, "-lmctl", value);
+      gst_parlasphinx_set_string (self, "-fsg", NULL);
+      gst_parlasphinx_set_string (self, "-allphone", NULL);
+      gst_parlasphinx_set_string (self, "-kws", NULL);
+      gst_parlasphinx_set_string (self, "-jsgf", NULL);
       break;
     case PROP_DICT_FILE:
-      gst_parlasphinx_set_string (self, "dict", value);
+      gst_parlasphinx_set_string (self, "-dict", value);
       break;
     case PROP_MLLR_FILE:
-      gst_parlasphinx_set_string (self, "mllr", value);
+      gst_parlasphinx_set_string (self, "-mllr", value);
       break;
     case PROP_FSG_FILE:
       /* FSG and LM are mutually exclusive */
-      gst_parlasphinx_set_string (self, "lm", NULL);
-      gst_parlasphinx_set_string (self, "lmctl", NULL);
-      gst_parlasphinx_set_string (self, "fsg", value);
-      gst_parlasphinx_set_string (self, "allphone", NULL);
-      gst_parlasphinx_set_string (self, "kws", NULL);
-      gst_parlasphinx_set_string (self, "jsgf", NULL);
+      gst_parlasphinx_set_string (self, "-lm", NULL);
+      gst_parlasphinx_set_string (self, "-lmctl", NULL);
+      gst_parlasphinx_set_string (self, "-fsg", value);
+      gst_parlasphinx_set_string (self, "-allphone", NULL);
+      gst_parlasphinx_set_string (self, "-kws", NULL);
+      gst_parlasphinx_set_string (self, "-jsgf", NULL);
       break;
     case PROP_ALLPHONE_FILE:
       /* FSG and LM are mutually exclusive. */
-      gst_parlasphinx_set_string (self, "lm", NULL);
-      gst_parlasphinx_set_string (self, "lmctl", NULL);
-      gst_parlasphinx_set_string (self, "fsg", NULL);
-      gst_parlasphinx_set_string (self, "allphone", value);
-      gst_parlasphinx_set_string (self, "kws", NULL);
-      gst_parlasphinx_set_string (self, "jsgf", NULL);
+      gst_parlasphinx_set_string (self, "-lm", NULL);
+      gst_parlasphinx_set_string (self, "-lmctl", NULL);
+      gst_parlasphinx_set_string (self, "-fsg", NULL);
+      gst_parlasphinx_set_string (self, "-allphone", value);
+      gst_parlasphinx_set_string (self, "-kws", NULL);
+      gst_parlasphinx_set_string (self, "-jsgf", NULL);
       break;
     case PROP_KWS_FILE:
       /* FSG and LM are mutually exclusive. */
-      gst_parlasphinx_set_string (self, "lm", NULL);
-      gst_parlasphinx_set_string (self, "lmctl", NULL);
-      gst_parlasphinx_set_string (self, "fsg", NULL);
-      gst_parlasphinx_set_string (self, "allphone", NULL);
-      gst_parlasphinx_set_string (self, "jsgf", NULL);
-      gst_parlasphinx_set_string (self, "kws", value);
+      gst_parlasphinx_set_string (self, "-lm", NULL);
+      gst_parlasphinx_set_string (self, "-lmctl", NULL);
+      gst_parlasphinx_set_string (self, "-fsg", NULL);
+      gst_parlasphinx_set_string (self, "-allphone", NULL);
+      gst_parlasphinx_set_string (self, "-jsgf", NULL);
+      gst_parlasphinx_set_string (self, "-kws", value);
       break;
     case PROP_JSGF_FILE:
       /* FSG and LM are mutually exclusive. */
-      gst_parlasphinx_set_string (self, "lm", NULL);
-      gst_parlasphinx_set_string (self, "lmctl", NULL);
-      gst_parlasphinx_set_string (self, "fsg", NULL);
-      gst_parlasphinx_set_string (self, "allphone", NULL);
-      gst_parlasphinx_set_string (self, "kws", NULL);
-      gst_parlasphinx_set_string (self, "jsgf", value);
+      gst_parlasphinx_set_string (self, "-lm", NULL);
+      gst_parlasphinx_set_string (self, "-lmctl", NULL);
+      gst_parlasphinx_set_string (self, "-fsg", NULL);
+      gst_parlasphinx_set_string (self, "-allphone", NULL);
+      gst_parlasphinx_set_string (self, "-kws", NULL);
+      gst_parlasphinx_set_string (self, "-jsgf", value);
       break;
     case PROP_FWDFLAT:
-      gst_parlasphinx_set_boolean (self, "fwdflat", value);
+      gst_parlasphinx_set_boolean (self, "-fwdflat", value);
       break;
     case PROP_BESTPATH:
-      gst_parlasphinx_set_boolean (self, "bestpath", value);
+      gst_parlasphinx_set_boolean (self, "-bestpath", value);
       break;
     case PROP_MAXHMMPF:
-      gst_parlasphinx_set_int (self, "maxhmmpf", value);
+      gst_parlasphinx_set_int (self, "-maxhmmpf", value);
       break;
     case PROP_MAXWPF:
-      gst_parlasphinx_set_int (self, "maxwpf", value);
+      gst_parlasphinx_set_int (self, "-maxwpf", value);
       break;
     case PROP_BEAM:
-      gst_parlasphinx_set_double (self, "beam", value);
+      gst_parlasphinx_set_double (self, "-beam", value);
       break;
     case PROP_PBEAM:
-      gst_parlasphinx_set_double (self, "pbeam", value);
+      gst_parlasphinx_set_double (self, "-pbeam", value);
       break;
     case PROP_WBEAM:
-      gst_parlasphinx_set_double (self, "wbeam", value);
+      gst_parlasphinx_set_double (self, "-wbeam", value);
       break;
     case PROP_DSRATIO:
-      gst_parlasphinx_set_int (self, "ds", value);
+      gst_parlasphinx_set_int (self, "-ds", value);
       break;
 
+    case PROP_LATDIR:
+      if (self->latdir)
+        g_free (self->latdir);
+      self->latdir = g_strdup (g_value_get_string (value));
+      break;
     case PROP_LM_NAME:
-      gst_parlasphinx_set_string (self, "fsg", NULL);
-      gst_parlasphinx_set_string (self, "lm", NULL);
-      gst_parlasphinx_set_string (self, "allphone", NULL);
-      gst_parlasphinx_set_string (self, "kws", NULL);
-      gst_parlasphinx_set_string (self, "jsgf", NULL);
-      gst_parlasphinx_set_string (self, "lmname", value);
+      gst_parlasphinx_set_string (self, "-fsg", NULL);
+      gst_parlasphinx_set_string (self, "-lm", NULL);
+      gst_parlasphinx_set_string (self, "-allphone", NULL);
+      gst_parlasphinx_set_string (self, "-kws", NULL);
+      gst_parlasphinx_set_string (self, "-jsgf", NULL);
+      gst_parlasphinx_set_string (self, "-lmname", value);
 
       /*
        * Chances are that lmctl is already loaded and all
@@ -488,7 +497,7 @@ gst_parlasphinx_set_property (GObject *object, guint prop_id, const GValue *valu
 
       if (value != NULL && self->ps)
         {
-          ps_activate_search (self->ps, g_value_get_string (value));
+          ps_set_search (self->ps, g_value_get_string (value));
         }
       break;
     default:
@@ -497,7 +506,7 @@ gst_parlasphinx_set_property (GObject *object, guint prop_id, const GValue *valu
     }
 
   /* If decoder was already initialized, reinit */
-  if (self->ps && prop_id && prop_id != PROP_LM_NAME)
+  if (self->ps && prop_id != PROP_LATDIR && prop_id != PROP_LM_NAME)
     ps_reinit (self->ps, self->config);
 }
 
@@ -512,58 +521,61 @@ gst_parlasphinx_get_property (GObject *object, guint prop_id, GValue *value, GPa
       g_value_set_boxed (value, self->ps);
       break;
     case PROP_HMM_DIR:
-      g_value_set_string (value, ps_config_str (self->config, "hmm"));
+      g_value_set_string (value, cmd_ln_str_r (self->config, "-hmm"));
       break;
     case PROP_LM_FILE:
-      g_value_set_string (value, ps_config_str (self->config, "lm"));
+      g_value_set_string (value, cmd_ln_str_r (self->config, "-lm"));
       break;
     case PROP_LMCTL_FILE:
-      g_value_set_string (value, ps_config_str (self->config, "lmctl"));
+      g_value_set_string (value, cmd_ln_str_r (self->config, "-lmctl"));
       break;
     case PROP_LM_NAME:
-      g_value_set_string (value, ps_config_str (self->config, "lmname"));
+      g_value_set_string (value, cmd_ln_str_r (self->config, "-lmname"));
       break;
     case PROP_DICT_FILE:
-      g_value_set_string (value, ps_config_str (self->config, "dict"));
+      g_value_set_string (value, cmd_ln_str_r (self->config, "-dict"));
       break;
     case PROP_MLLR_FILE:
-      g_value_set_string (value, ps_config_str (self->config, "mllr"));
+      g_value_set_string (value, cmd_ln_str_r (self->config, "-mllr"));
       break;
     case PROP_FSG_FILE:
-      g_value_set_string (value, ps_config_str (self->config, "fsg"));
+      g_value_set_string (value, cmd_ln_str_r (self->config, "-fsg"));
       break;
     case PROP_ALLPHONE_FILE:
-      g_value_set_string (value, ps_config_str (self->config, "allphone"));
+      g_value_set_string (value, cmd_ln_str_r (self->config, "-allphone"));
       break;
     case PROP_KWS_FILE:
-      g_value_set_string (value, ps_config_str (self->config, "kws"));
+      g_value_set_string (value, cmd_ln_str_r (self->config, "-kws"));
       break;
     case PROP_JSGF_FILE:
-      g_value_set_string (value, ps_config_str (self->config, "jsgf"));
+      g_value_set_string (value, cmd_ln_str_r (self->config, "-jsgf"));
       break;
     case PROP_FWDFLAT:
-      g_value_set_boolean (value, ps_config_bool (self->config, "fwdflat"));
+      g_value_set_boolean (value, cmd_ln_boolean_r (self->config, "-fwdflat"));
       break;
     case PROP_BESTPATH:
-      g_value_set_boolean (value, ps_config_bool (self->config, "bestpath"));
+      g_value_set_boolean (value, cmd_ln_boolean_r (self->config, "-bestpath"));
+      break;
+    case PROP_LATDIR:
+      g_value_set_string (value, self->latdir);
       break;
     case PROP_MAXHMMPF:
-      g_value_set_int (value, ps_config_int (self->config, "maxhmmpf"));
+      g_value_set_int (value, cmd_ln_int32_r (self->config, "-maxhmmpf"));
       break;
     case PROP_MAXWPF:
-      g_value_set_int (value, ps_config_int (self->config, "maxwpf"));
+      g_value_set_int (value, cmd_ln_int32_r (self->config, "-maxwpf"));
       break;
     case PROP_BEAM:
-      g_value_set_double (value, ps_config_float (self->config, "beam"));
+      g_value_set_double (value, cmd_ln_float_r (self->config, "-beam"));
       break;
     case PROP_PBEAM:
-      g_value_set_double (value, ps_config_float (self->config, "pbeam"));
+      g_value_set_double (value, cmd_ln_float_r (self->config, "-pbeam"));
       break;
     case PROP_WBEAM:
-      g_value_set_double (value, ps_config_float (self->config, "wbeam"));
+      g_value_set_double (value, cmd_ln_float_r (self->config, "-wbeam"));
       break;
     case PROP_DSRATIO:
-      g_value_set_int (value, ps_config_int (self->config, "ds"));
+      g_value_set_int (value, cmd_ln_int32_r (self->config, "-ds"));
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -577,8 +589,9 @@ gst_parlasphinx_finalize (GObject *gobject)
   GstParlasphinx *self = GST_PARLASPHINX (gobject);
 
   ps_free (self->ps);
-  ps_config_free (self->config);
+  cmd_ln_free_r (self->config);
   g_free (self->last_result);
+  g_free (self->latdir);
 
   G_OBJECT_CLASS (gst_parlasphinx_parent_class)->finalize (gobject);
 }
@@ -592,7 +605,7 @@ gst_parlasphinx_init (GstParlasphinx *self)
       gst_pad_new_from_static_template (&src_factory, "src");
 
   /* Parse default command-line options. */
-  self->config = ps_config_init (NULL);
+  self->config = cmd_ln_parse_r (NULL, ps_args (), default_argc, default_argv, FALSE);
   ps_default_search_args (self->config);
 
   /* Set up pads. */
@@ -626,21 +639,10 @@ gst_parlasphinx_change_state (GstElement *element, GstStateChange transition)
       if (self->ps == NULL)
         {
           GST_ELEMENT_ERROR (GST_ELEMENT (self), LIBRARY, INIT,
-                             ("Failed to initialize ParlaSphinx"),
-                             ("Failed to initialize ParlaSphinx"));
+                             ("Failed to initialize PocketSphinx"),
+                             ("Failed to initialize PocketSphinx"));
           return GST_STATE_CHANGE_FAILURE;
         }
-      self->ep = ps_endpointer_init (0, 0.0, 0,
-                                     ps_config_int (self->config, "samprate"), 0);
-      if (self->ep == NULL)
-        {
-          GST_ELEMENT_ERROR (GST_ELEMENT (self), LIBRARY, INIT,
-                             ("Failed to initialize ParlaSphinx endpointer"),
-                             ("Failed to initialize ParlaSphinx endpointer"));
-          return GST_STATE_CHANGE_FAILURE;
-        }
-      self->frame_size = ps_endpointer_frame_size (self->ep) * 2;
-
       break;
     default:
       break;
@@ -741,7 +743,7 @@ gst_parlasphinx_chain (GstPad *pad, GstObject *parent, GstBuffer *buffer)
     }
   else if (self->last_result_time == 0
            /* Get a partial result every now and then, see if it is different. */
-           /* Check every 500 milliseconds. */
+           /* Check every 100 milliseconds. */
            || (GST_BUFFER_TIMESTAMP (buffer) - self->last_result_time) > GST_MSECOND * 500)
     {
       int32       score;
@@ -781,6 +783,20 @@ gst_parlasphinx_finalize_utt (GstParlasphinx *self)
   if (hyp)
     gst_parlasphinx_post_message (self, TRUE, GST_CLOCK_TIME_NONE,
                                   ps_get_prob (self->ps), hyp);
+
+  if (self->latdir)
+    {
+      char *latfile;
+      char  uttid[16];
+
+      sprintf (uttid, "%09u", self->uttno);
+      self->uttno++;
+      latfile = string_join (self->latdir, "/", uttid, ".lat", NULL);
+      ps_lattice_t *dag;
+      if ((dag = ps_get_lattice (self->ps)))
+        ps_lattice_write (dag, latfile);
+      ckd_free (latfile);
+    }
 }
 
 static gboolean
@@ -812,7 +828,7 @@ static void
 gst_parlasphinx_log (void *user_data, err_lvl_t lvl, const char *fmt, ...)
 {
   static const int gst_level[ERR_MAX] = { GST_LEVEL_DEBUG, GST_LEVEL_INFO,
-                                          GST_LEVEL_WARNING, GST_LEVEL_ERROR, GST_LEVEL_ERROR };
+                                          GST_LEVEL_INFO, GST_LEVEL_WARNING, GST_LEVEL_ERROR, GST_LEVEL_ERROR };
 
   va_list ap;
   va_start (ap, fmt);
@@ -825,7 +841,7 @@ plugin_init (GstPlugin *plugin)
 {
 
   err_set_callback (gst_parlasphinx_log, NULL);
-  err_set_loglevel (ERR_INFO);
+
   if (!gst_element_register (plugin, "parlasphinx",
                              GST_RANK_NONE, GST_TYPE_PARLASPHINX))
     return FALSE;

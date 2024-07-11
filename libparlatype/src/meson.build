@@ -55,15 +55,25 @@ deps = [
   math,
 ]
 
+if with_pocketsphinx_legacy
+  sources += [
+    'gst/gstparlasphinx-legacy.c',
+    'gst/gstparlasphinx-legacy.h',
+  ]
+
+  sphinxbase   = dependency('sphinxbase')
+  pocketsphinx = dependency('pocketsphinx')
+  deps += [sphinxbase, pocketsphinx]
+endif
+
 if with_pocketsphinx
   sources += [
     'gst/gstparlasphinx.c',
     'gst/gstparlasphinx.h',
   ]
 
-  sphinxbase   = dependency('sphinxbase')
-  pocketsphinx = dependency('pocketsphinx')
-  deps += [sphinxbase, pocketsphinx]
+  pocketsphinx = dependency('pocketsphinx', version: '>= 5.0')
+  deps += [pocketsphinx]
 endif
 
 headers = [
