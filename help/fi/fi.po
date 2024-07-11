@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2024-05-13 21:21+0200\n"
-"PO-Revision-Date: 2024-06-10 11:09+0000\n"
+"PO-Revision-Date: 2024-07-12 18:09+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/parlatype/"
 "parlatype-help/fi/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6-dev\n"
+"X-Generator: Weblate 5.7-dev\n"
 "X-Launchpad-Export-Date: 2020-05-08 11:32+0000\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
@@ -247,7 +247,7 @@ msgstr "Toista/pidä tauko"
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:35
 msgid "<keyseq><key>Ctrl</key><key>Space</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>Space</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:38
@@ -266,10 +266,8 @@ msgstr "Siirry taaksepäin"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:43
-#, fuzzy
-#| msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>a</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>a</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:46
@@ -278,10 +276,8 @@ msgstr "Siirry eteenpäin"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:47
-#, fuzzy
-#| msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>s</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>s</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:50
@@ -341,7 +337,7 @@ msgstr ""
 #. (itstool) path: license/p
 #: ../help/C/legal.xml:4
 msgid "This work is licensed under a <_:link-1/> license."
-msgstr ""
+msgstr "Tämän työn kattaa lisenssi <_:link-1/>."
 
 #. (itstool) path: info/desc
 #: ../help/C/selections.page:6
