@@ -117,24 +117,31 @@ sort_configs (gconstpointer p1,
 
   /* 2nd sort order: Own locale language before other languages */
 
+  str1 = pt_config_get_lang_code (c1);
+  str2 = pt_config_get_lang_code (c2);
+
   if (self->env_lang)
     {
-      str1 = pt_config_get_lang_code (c1);
-      str2 = pt_config_get_lang_code (c2);
       prefix1 = g_str_has_prefix (self->env_lang, str1);
       prefix2 = g_str_has_prefix (self->env_lang, str2);
 
-      comp = 0;
       if (prefix1 && !prefix2)
-        comp = -1;
+        return -1;
       if (!prefix1 && prefix2)
-        comp = 1;
-
-      if (comp != 0)
-        return comp;
+        return 1;
     }
 
-  /* 3rd sort order: Alphabetically by language name */
+  /* 3rd sort order: Multilingual models before others */
+
+  prefix1 = g_strcmp0 (str1, "*") == 0;
+  prefix2 = g_strcmp0 (str2, "*") == 0;
+
+  if (prefix1 && !prefix2)
+    return -1;
+  if (!prefix1 && prefix2)
+    return 1;
+
+  /* 4th sort order: Alphabetically by language name */
 
   str1 = pt_config_get_lang_name (c1);
   str2 = pt_config_get_lang_name (c2);

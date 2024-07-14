@@ -359,6 +359,7 @@ pt_config_get_plugin (PtConfig *self)
  *
  * Gets the language the model was made for. It’s the ISO 639-1 code
  * (2 letters) if available, otherwise ISO 639-2 (3 letters).
+ * An asterisk indicates a multilingual model.
  *
  * Return value: (transfer none): the language code as a string
  *
@@ -821,6 +822,10 @@ setup_config (PtConfig *self)
   self->base_folder = pt_config_get_string (self, "Model", "BaseFolder");
   self->lang_code = pt_config_get_string (self, "Model", "Language");
   self->lang_name = gnome_get_language_from_locale (self->lang_code, NULL);
+  if (self->lang_code != NULL && g_strcmp0 (self->lang_code, "*") == 0)
+    self->lang_name = g_strdup (_ ("Multilingual"));
+  else
+    self->lang_name = gnome_get_language_from_locale (self->lang_code, NULL);
   if (!self->lang_name)
     self->lang_name = g_strdup (self->lang_code);
   self->is_installed = pt_config_verify_install (self);
