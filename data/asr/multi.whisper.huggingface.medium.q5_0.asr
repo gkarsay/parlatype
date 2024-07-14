@@ -1,0 +1,15 @@
+[Model]
+Version=1.0
+Name=Whisper Medium Model
+Plugin=whisper
+BaseFolder=
+Language=*
+Howto=Download file and select folder
+URL1=https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-medium-q5_0.bin
+Publisher=ggerganov
+License=
+
+[Files]
+speech-model=ggml-medium-q5_0.bin
+
+[Parameters]
