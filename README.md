@@ -25,7 +25,8 @@ Optional, depending on your configured options:
 * gtk-doc (with `gtk-doc=true`)
 * desktop-file-utils (if installed, this checks the desktop file)
 * appstream-utils (if installed, this checks the appstream file)
-* sphinxbase and pocketsphinx (with `pocketsphinx=true`)
+* pocketsphinx >= 5.0 (with `pocketsphinx=true`)
+* sphinxbase and pocketsphinx = 5prealpha (with `pocketsphinx-legacy=true`)
 
 Runtime dependencies:
 * GStreamer "Good" Plugins
@@ -49,7 +50,8 @@ These are the configurable options:
 
 * `gir`: install gobject introspection (default: false)
 * `gtk-doc`: install library documentation (default: false)
-* `pocketsphinx`: build GStreamer plugin for CMU PocketSphinx support, requires sphinxbase and pocketsphinx (default: false)
+* `pocketsphinx`: build GStreamer plugin for CMU PocketSphinx support, requires PocketSphinx 5 (default: false)
+* `pocketsphinx-legacy`: build GStreamer plugin for CMU PocketSphinx support, requires sphinxbase and PocketSphinx 5prealpha (default: false)
 
 ### Build
 Clone the repository or download a tarball from https://github.com/gkarsay/parlatype/releases/.
