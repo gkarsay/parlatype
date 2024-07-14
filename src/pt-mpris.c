@@ -734,7 +734,7 @@ pt_mpris_start (PtMpris *self)
                            self, 0);
 
   self->name_own_id = g_bus_own_name (G_BUS_TYPE_SESSION,
-                                      MPRIS_BUS_NAME_PREFIX ".parlatype",
+                                      MPRIS_BUS_NAME_PREFIX "." APP_ID,
                                       G_BUS_NAME_OWNER_FLAGS_NONE,
                                       NULL,
                                       (GBusNameAcquiredCallback) name_acquired_cb,
