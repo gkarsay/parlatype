@@ -1,0 +1,55 @@
+{
+    "app-id" : "xyz.parlatype.Parlatype",
+    "runtime" : "org.gnome.Platform",
+    "runtime-version" : "48",
+    "sdk" : "org.gnome.Sdk",
+    "command" : "parlatype",
+    "finish-args" : [
+        "--device=dri",
+        "--share=ipc",
+        "--socket=fallback-x11",
+        "--socket=wayland",
+        "--socket=pulseaudio",
+        "--filesystem=home:ro"
+    ],
+    "cleanup" : [
+        "*.la",
+        "*.a",
+        "/include",
+        "/lib/pkgconfig",
+        "/libexec",
+        "/share/man"
+    ],
+    "modules" : [
+        {
+            "name" : "whisper.cpp",
+            "buildsystem" : "cmake",
+            "config-opts" : [],
+            "sources" : [
+                {
+                    "type" : "archive",
+                    "url" : "https://github.com/ggerganov/whisper.cpp/archive/refs/tags/v1.6.2.zip",
+                    "sha256" : "3c77dfc30c556366ac485bfcb9d33ff101c64c44545ad63ff8ea32572c3793f2"
+                }
+            ],
+            "cleanup" : []
+        },
+        {
+            "name" : "parlatype",
+            "buildsystem" : "meson",
+            "config-opts" : [
+                "-Dwhisper=true"
+            ],
+            "sources" : [
+                {
+                    "type" : "git",
+                    "branch" : "whisper2",
+                    "path" : "../"
+                }
+            ]
+        }
+    ],
+    "build-options" : {
+        "env" : {        }
+    }
+}
