@@ -10,8 +10,7 @@
         "--socket=fallback-x11",
         "--socket=wayland",
         "--socket=pulseaudio",
-        "--filesystem=home:ro",
-        "--own-name=org.mpris.MediaPlayer2.parlatype.*"
+        "--filesystem=home:ro"
     ],
     "cleanup" : [
         "*.la",
