@@ -166,6 +166,16 @@ pt_prefs_install_row_finalize (GObject *object)
 }
 
 static void
+pt_prefs_install_row_dispose (GObject *object)
+{
+  PtPrefsInstallRow *self = PT_PREFS_INSTALL_ROW (object);
+
+  gtk_widget_dispose_template (GTK_WIDGET (self), PT_TYPE_PREFS_INSTALL_ROW);
+
+  G_OBJECT_CLASS (pt_prefs_install_row_parent_class)->dispose (object);
+}
+
+static void
 pt_prefs_install_row_constructed (GObject *object)
 {
   PtPrefsInstallRow *self = PT_PREFS_INSTALL_ROW (object);
@@ -227,6 +237,7 @@ pt_prefs_install_row_class_init (PtPrefsInstallRowClass *klass)
   GObjectClass   *object_class = G_OBJECT_CLASS (klass);
 
   object_class->constructed = pt_prefs_install_row_constructed;
+  object_class->dispose = pt_prefs_install_row_dispose;
   object_class->finalize = pt_prefs_install_row_finalize;
   object_class->get_property = pt_prefs_install_row_get_property;
   object_class->set_property = pt_prefs_install_row_set_property;

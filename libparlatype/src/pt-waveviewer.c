@@ -1019,10 +1019,9 @@ pt_waveviewer_finalize (GObject *object)
 static void
 pt_waveviewer_dispose (GObject *object)
 {
-  PtWaveviewer        *self = PT_WAVEVIEWER (object);
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
+  PtWaveviewer *self = PT_WAVEVIEWER (object);
 
-  g_clear_pointer (&priv->scrolled_window, gtk_widget_unparent);
+  gtk_widget_dispose_template (GTK_WIDGET (self), PT_TYPE_WAVEVIEWER);
 
   G_OBJECT_CLASS (pt_waveviewer_parent_class)->dispose (object);
 }

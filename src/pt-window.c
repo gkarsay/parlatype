@@ -1335,6 +1335,7 @@ pt_window_dispose (GObject *object)
       g_strfreev (self->vol_icons);
       self->vol_icons = NULL;
     }
+  gtk_widget_dispose_template (GTK_WIDGET (self), PT_WINDOW_TYPE);
 
   G_OBJECT_CLASS (pt_window_parent_class)->dispose (object);
 }

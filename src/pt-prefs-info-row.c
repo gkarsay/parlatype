@@ -42,6 +42,16 @@ pt_prefs_info_row_set_info (PtPrefsInfoRow *self,
 }
 
 static void
+pt_prefs_info_row_dispose (GObject *object)
+{
+  PtPrefsInfoRow *self = PT_PREFS_INFO_ROW (object);
+
+  gtk_widget_dispose_template (GTK_WIDGET (self), PT_TYPE_PREFS_INFO_ROW);
+
+  G_OBJECT_CLASS (pt_prefs_info_row_parent_class)->dispose (object);
+}
+
+static void
 pt_prefs_info_row_init (PtPrefsInfoRow *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
@@ -50,7 +60,10 @@ pt_prefs_info_row_init (PtPrefsInfoRow *self)
 static void
 pt_prefs_info_row_class_init (PtPrefsInfoRowClass *klass)
 {
+  GObjectClass   *object_class = G_OBJECT_CLASS (klass);
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
+
+  object_class->dispose = pt_prefs_info_row_dispose;
 
   gtk_widget_class_set_template_from_resource (widget_class, "/xyz/parlatype/Parlatype/prefs-info-row.ui");
   gtk_widget_class_bind_template_child (widget_class, PtPrefsInfoRow, info_label);

@@ -87,8 +87,8 @@ editor_theme_selector_dispose (GObject *object)
 {
   EditorThemeSelector *self = (EditorThemeSelector *)object;
 
-  g_clear_pointer (&self->box, gtk_widget_unparent);
   g_clear_pointer (&self->theme, g_free);
+  gtk_widget_dispose_template (GTK_WIDGET (self), EDITOR_TYPE_THEME_SELECTOR);
 
   G_OBJECT_CLASS (editor_theme_selector_parent_class)->dispose (object);
 }

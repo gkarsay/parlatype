@@ -388,6 +388,7 @@ pt_asr_dialog_dispose (GObject *object)
   PtAsrDialog *self = PT_ASR_DIALOG (object);
 
   g_clear_object (&self->editor);
+  gtk_widget_dispose_template (GTK_WIDGET (self), PT_TYPE_ASR_DIALOG);
 
   G_OBJECT_CLASS (pt_asr_dialog_parent_class)->dispose (object);
 }

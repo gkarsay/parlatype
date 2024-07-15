@@ -167,6 +167,10 @@ pt_config_row_init (PtConfigRow *self)
 static void
 pt_config_row_dispose (GObject *object)
 {
+  PtConfigRow *self = PT_CONFIG_ROW (object);
+
+  gtk_widget_dispose_template (GTK_WIDGET (self), PT_TYPE_CONFIG_ROW);
+
   G_OBJECT_CLASS (pt_config_row_parent_class)->dispose (object);
 }
 

@@ -122,6 +122,16 @@ input_cb (GtkSpinButton *self,
 }
 
 static void
+pt_goto_dialog_dispose (GObject *object)
+{
+  PtGotoDialog *self = PT_GOTO_DIALOG (object);
+
+  gtk_widget_dispose_template (GTK_WIDGET (self), PT_TYPE_GOTO_DIALOG);
+
+  G_OBJECT_CLASS (pt_goto_dialog_parent_class)->dispose (object);
+}
+
+static void
 pt_goto_dialog_init (PtGotoDialog *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
@@ -136,7 +146,10 @@ pt_goto_dialog_init (PtGotoDialog *self)
 static void
 pt_goto_dialog_class_init (PtGotoDialogClass *klass)
 {
+  GObjectClass   *object_class = G_OBJECT_CLASS (klass);
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
+
+  object_class->dispose = pt_goto_dialog_dispose;
 
   /* Bind class to template */
   gtk_widget_class_set_template_from_resource (widget_class, "/xyz/parlatype/Parlatype/goto-dialog.ui");

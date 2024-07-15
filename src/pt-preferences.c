@@ -686,6 +686,7 @@ pt_preferences_dialog_dispose (GObject *object)
   g_clear_object (&self->list);
 
   g_free (self->active_config_path);
+  gtk_widget_dispose_template (GTK_WIDGET (self), PT_TYPE_PREFERENCES_DIALOG);
 
   G_OBJECT_CLASS (pt_preferences_dialog_parent_class)->dispose (object);
 }
