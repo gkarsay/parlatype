@@ -1335,7 +1335,7 @@ pt_window_dispose (GObject *object)
       g_strfreev (self->vol_icons);
       self->vol_icons = NULL;
     }
-  gtk_widget_dispose_template (GTK_WIDGET (self), PT_WINDOW_TYPE);
+  gtk_widget_dispose_template (GTK_WIDGET (self), PT_TYPE_WINDOW);
 
   G_OBJECT_CLASS (pt_window_parent_class)->dispose (object);
 }
@@ -1371,5 +1371,5 @@ pt_window_class_init (PtWindowClass *klass)
 PtWindow *
 pt_window_new (PtApp *app)
 {
-  return g_object_new (PT_WINDOW_TYPE, "application", app, NULL);
+  return g_object_new (PT_TYPE_WINDOW, "application", app, NULL);
 }

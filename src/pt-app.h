@@ -18,7 +18,7 @@
 
 #include <adwaita.h>
 
-#define PT_APP_TYPE (pt_app_get_type ())
+#define PT_TYPE_APP (pt_app_get_type ())
 G_DECLARE_FINAL_TYPE (PtApp, pt_app, PT, APP, AdwApplication)
 
 PtApp *pt_app_new (void);

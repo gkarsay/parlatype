@@ -402,7 +402,7 @@ pt_app_class_init (PtAppClass *klass)
 PtApp *
 pt_app_new (void)
 {
-  return g_object_new (PT_APP_TYPE,
+  return g_object_new (PT_TYPE_APP,
                        "application-id", APP_ID,
                        "flags", G_APPLICATION_HANDLES_OPEN,
                        NULL);

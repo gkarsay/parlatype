@@ -43,7 +43,7 @@ struct _PtMpris
   guint       property_emit_id;
 };
 
-G_DEFINE_TYPE (PtMpris, pt_mpris, PT_CONTROLLER_TYPE)
+G_DEFINE_TYPE (PtMpris, pt_mpris, PT_TYPE_CONTROLLER)
 
 static void
 emit_property_changes (PtMpris *self, GHashTable *changes, const char *interface)
@@ -793,5 +793,5 @@ pt_mpris_class_init (PtMprisClass *klass)
 PtMpris *
 pt_mpris_new (PtWindow *win)
 {
-  return g_object_new (PT_MPRIS_TYPE, "win", win, NULL);
+  return g_object_new (PT_TYPE_MPRIS, "win", win, NULL);
 }

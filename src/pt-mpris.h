@@ -18,7 +18,7 @@
 
 #include "pt-controller.h"
 
-#define PT_MPRIS_TYPE (pt_mpris_get_type ())
+#define PT_TYPE_MPRIS (pt_mpris_get_type ())
 G_DECLARE_FINAL_TYPE (PtMpris, pt_mpris, PT, MPRIS, PtController)
 
 void     pt_mpris_start (PtMpris  *self);

@@ -105,7 +105,7 @@ pt_controller_class_init (PtControllerClass *klass)
 
   obj_properties[PROP_WIN] =
       g_param_spec_object ("win", NULL, NULL,
-                           PT_WINDOW_TYPE,
+                           PT_TYPE_WINDOW,
                            G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (
@@ -117,5 +117,5 @@ pt_controller_class_init (PtControllerClass *klass)
 PtController *
 pt_controller_new (PtWindow *win)
 {
-  return g_object_new (PT_CONTROLLER_TYPE, "win", win, NULL);
+  return g_object_new (PT_TYPE_CONTROLLER, "win", win, NULL);
 }

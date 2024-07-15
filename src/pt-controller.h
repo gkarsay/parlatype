@@ -19,7 +19,7 @@
 #include "pt-window.h"
 #include <parlatype.h>
 
-#define PT_CONTROLLER_TYPE (pt_controller_get_type ())
+#define PT_TYPE_CONTROLLER (pt_controller_get_type ())
 G_DECLARE_DERIVABLE_TYPE (PtController, pt_controller, PT, CONTROLLER, GObject)
 
 struct _PtControllerClass

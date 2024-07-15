@@ -19,7 +19,7 @@
 #include "pt-app.h"
 #include <gtk/gtk.h>
 
-#define PT_WINDOW_TYPE (pt_window_get_type ())
+#define PT_TYPE_WINDOW (pt_window_get_type ())
 G_DECLARE_FINAL_TYPE (PtWindow, pt_window, PT, WINDOW, GtkApplicationWindow)
 
 struct _PtWindowClass

@@ -31,7 +31,7 @@ struct _PtDbusService
   gint owner_id;
 };
 
-G_DEFINE_TYPE (PtDbusService, pt_dbus_service, PT_CONTROLLER_TYPE)
+G_DEFINE_TYPE (PtDbusService, pt_dbus_service, PT_TYPE_CONTROLLER)
 
 static GDBusNodeInfo *introspection_data = NULL;
 
@@ -276,5 +276,5 @@ pt_dbus_service_class_init (PtDbusServiceClass *klass)
 PtDbusService *
 pt_dbus_service_new (PtWindow *win)
 {
-  return g_object_new (PT_DBUS_SERVICE_TYPE, "win", win, NULL);
+  return g_object_new (PT_TYPE_DBUS_SERVICE, "win", win, NULL);
 }
