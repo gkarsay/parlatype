@@ -21,6 +21,7 @@
 #include "pt-dbus-service.h"
 #include "pt-mpris.h"
 #include "pt-preferences.h"
+#include "pt-window-private.h"
 #include "pt-window.h"
 
 #include <adwaita.h>
@@ -159,12 +160,128 @@ help_cb (GSimpleAction *action,
   g_object_unref (launcher);
 }
 
+static gchar *
+get_os_info (void)
+{
+  gchar *pretty_name;
+  gchar *name;
+  gchar *version_id;
+  gchar *result;
+
+  pretty_name = g_get_os_info (G_OS_INFO_KEY_PRETTY_NAME);
+  if (pretty_name)
+    return pretty_name;
+
+  name = g_get_os_info (G_OS_INFO_KEY_NAME);
+  version_id = g_get_os_info (G_OS_INFO_KEY_VERSION_ID);
+
+  if (name && version_id)
+    result = g_strdup_printf ("%s %s", name, version_id);
+  else
+    result = g_strdup ("unknown");
+
+  g_free (name);
+  g_free (version_id);
+  return result;
+}
+
+static char *
+get_debug_info (GtkApplication *app)
+{
+  GString     *str = g_string_new (NULL);
+  GtkSettings *gtk_settings = gtk_settings_get_default ();
+  gchar       *theme_name;
+  gchar       *os_info;
+  PtWindow    *win;
+  PtPlayer    *player;
+  PtMediaInfo *info;
+  gchar       *uri;
+  gchar       *gst_caps;
+  gchar       *gst_tags;
+
+  win = PT_WINDOW (gtk_application_get_active_window (app));
+  player = _pt_window_get_player (win);
+
+  g_string_append (str, "[version]\n");
+
+  g_string_append_printf (str, "Parlatype: %s\n", PACKAGE_VERSION);
+  g_string_append_printf (str,
+                          "GLib: %d.%d.%d (compiled with %d.%d.%d)\n",
+                          glib_major_version,
+                          glib_minor_version,
+                          glib_micro_version,
+                          GLIB_MAJOR_VERSION,
+                          GLIB_MINOR_VERSION,
+                          GLIB_MICRO_VERSION);
+  g_string_append_printf (str,
+                          "GTK: %d.%d.%d (compiled with %d.%d.%d)\n",
+                          gtk_get_major_version (),
+                          gtk_get_minor_version (),
+                          gtk_get_micro_version (),
+                          GTK_MAJOR_VERSION,
+                          GTK_MINOR_VERSION,
+                          GTK_MICRO_VERSION);
+  g_string_append_printf (str,
+                          "Libadwaita: %d.%d.%d (compiled with %d.%d.%d)\n",
+                          adw_get_major_version (),
+                          adw_get_minor_version (),
+                          adw_get_micro_version (),
+                          ADW_MAJOR_VERSION,
+                          ADW_MINOR_VERSION,
+                          ADW_MICRO_VERSION);
+
+  g_string_append (str, "\n[environment]\n");
+
+  if (g_file_test ("/.flatpak-info", G_FILE_TEST_EXISTS))
+    g_string_append (str, "Flatpak: yes\n");
+
+  os_info = get_os_info ();
+  g_string_append_printf (str, "OS: %s\n", os_info);
+  g_free (os_info);
+
+  g_string_append_printf (str, "XDG_CURRENT_DESKTOP: %s\n", g_getenv ("XDG_CURRENT_DESKTOP") ?: "unset");
+  g_string_append_printf (str, "GdkDisplay: %s\n", G_OBJECT_TYPE_NAME (gdk_display_get_default ()));
+
+  g_object_get (gtk_settings, "gtk-theme-name", &theme_name, NULL);
+  g_string_append_printf (str, "gtk-theme-name: %s\n", theme_name);
+  g_free (theme_name);
+
+  g_string_append_printf (str, "GTK_THEME: %s\n", g_getenv ("GTK_THEME") ?: "unset");
+
+  uri = pt_player_get_uri (player);
+  if (uri != NULL)
+    {
+      g_string_append (str, "\n[current media]\n");
+      g_string_append_printf (str, "uri: %s\n", uri);
+      g_free (uri);
+
+      info = pt_player_get_media_info (player);
+      gst_caps = pt_media_info_dump_caps (info);
+      g_string_append (str, gst_caps);
+      g_free (gst_caps);
+
+      gst_tags = pt_media_info_dump_tags (info);
+      g_string_append (str, gst_tags);
+      g_free (gst_tags);
+    }
+
+#ifdef HAVE_ASR
+  g_string_append (str, "\n[automatic speech recognition]\n");
+  gchar *asr_path = g_settings_get_string (PT_APP (app)->settings, "asr-config");
+  g_string_append_printf (str, "asr-config: %s\n", asr_path);
+  g_free (asr_path);
+#endif
+
+  return g_string_free_and_steal (str);
+}
+
 static void
 about_cb (GSimpleAction *action,
           GVariant      *parameter,
           gpointer       app)
 {
   AdwAboutWindow *about = ADW_ABOUT_WINDOW (adw_about_window_new ());
+  gchar          *debug_info = get_debug_info (app);
 
   const gchar *developers[] = {
     "Gabor Karsay <gabor.karsay@gmx.at>",
@@ -196,6 +313,7 @@ about_cb (GSimpleAction *action,
   adw_about_window_set_application_name (about, _ ("Parlatype"));
   adw_about_window_set_comments (about, _ ("A basic transcription utility"));
   adw_about_window_set_copyright (about, "© Gabor Karsay 2016–2024");
+  adw_about_window_set_debug_info (about, debug_info);
   adw_about_window_set_developers (about, developers);
   adw_about_window_set_developer_name (about, "Gabor Karsay");
   adw_about_window_set_designers (about, designers);
@@ -206,6 +324,8 @@ about_cb (GSimpleAction *action,
 
   gtk_window_set_transient_for (GTK_WINDOW (about), gtk_application_get_active_window (app));
   gtk_window_present (GTK_WINDOW (about));
+
+  g_free (debug_info);
 }
 
 static void
