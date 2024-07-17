@@ -142,8 +142,17 @@ pt_waveviewer_selection_set (PtWaveviewerSelection *self,
                              gint                   start,
                              gint                   end)
 {
-  self->start = start;
-  self->end = end;
+  if (end < start)
+    {
+      self->start = end;
+      self->end = start;
+    }
+  else
+    {
+      self->start = start;
+      self->end = end;
+    }
+
   gtk_widget_queue_draw (GTK_WIDGET (self));
 }
 
