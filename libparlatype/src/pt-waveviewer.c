@@ -454,6 +454,7 @@ pt_waveviewer_button_press_event (GtkGestureClick *gesture,
 
       gtk_widget_set_cursor (GTK_WIDGET (priv->cursor), priv->arrows);
       update_selection (self);
+      gtk_widget_grab_focus (GTK_WIDGET (self));
       return TRUE;
     }
 
@@ -461,6 +462,7 @@ pt_waveviewer_button_press_event (GtkGestureClick *gesture,
   if (n_press == 1 && button == GDK_BUTTON_SECONDARY)
     {
       g_signal_emit_by_name (self, "cursor-changed", pos);
+      gtk_widget_grab_focus (GTK_WIDGET (self));
       return TRUE;
     }
 
@@ -580,6 +582,7 @@ pt_waveviewer_drag_begin (GtkGestureDrag *ctrl,
     }
 
   gtk_widget_set_cursor (GTK_WIDGET (priv->cursor), priv->arrows);
+  gtk_widget_grab_focus (GTK_WIDGET (self));
   update_selection (self);
 }
 
