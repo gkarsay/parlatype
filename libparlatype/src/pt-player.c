@@ -83,8 +83,8 @@ struct _PtPlayerPrivate
   gboolean repeat_all;
   gboolean repeat_selection;
 
-  gint64 segstart;
-  gint64 segend;
+  gint64       segstart;
+  GstClockTime segend;
 
   GCancellable *c;
 
@@ -399,7 +399,7 @@ bus_call (GstBus     *bus,
       /* Sometimes the current position is not exactly at the end which looks like
        * a premature EOS or makes the cursor disappear.*/
       gst_element_query_position (priv->play, GST_FORMAT_TIME, &pos);
-      stop = GST_CLOCK_TIME_IS_VALID (priv->segend) ? priv->segend : priv->dur;
+      stop = GST_CLOCK_TIME_IS_VALID (priv->segend) ? (gint64) priv->segend : priv->dur;
       if (pos != stop)
         {
           g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
@@ -416,13 +416,11 @@ bus_call (GstBus     *bus,
         gst_element_query_duration (priv->play, GST_FORMAT_TIME, &dur);
         g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG, "MESSAGE",
                           "New duration: %" GST_TIME_FORMAT, GST_TIME_ARGS (dur));
-        if (priv->dur != priv->segend)
+        priv->dur = dur;
+        if (GST_CLOCK_TIME_IS_VALID (priv->segend) &&
+            priv->segend > (guint64) dur)
           {
-            priv->dur = dur;
-          }
-        else
-          {
-            priv->dur = priv->segend = dur;
+            priv->segend = dur;
             gst_element_query_position (priv->play, GST_FORMAT_TIME, &pos);
             pt_player_seek (self, pos);
           }
@@ -805,11 +803,13 @@ pt_player_set_selection (PtPlayer *self,
 {
   g_return_if_fail (PT_IS_PLAYER (self));
   g_return_if_fail (start < end);
+  g_return_if_fail (start >= 0);
+  g_return_if_fail (end >= 0);
 
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
 
   if (priv->segstart == GST_MSECOND * start &&
-      priv->segend == GST_MSECOND * end)
+      priv->segend == GST_MSECOND * (guint64) end)
     return;
 
   priv->segstart = GST_MSECOND * start;
@@ -820,7 +820,7 @@ pt_player_set_selection (PtPlayer *self,
   if (!gst_element_query_position (priv->play, GST_FORMAT_TIME, &pos))
     return;
 
-  if (pos < priv->segstart || pos > priv->segend)
+  if (pos < priv->segstart || (guint64) pos > priv->segend)
     pos = priv->segstart;
 
   pt_player_seek (self, pos);
@@ -903,7 +903,7 @@ pt_player_jump_relative (PtPlayer *self,
   if (!gst_element_query_position (priv->play, GST_FORMAT_TIME, &pos))
     return;
 
-  new = pos + GST_MSECOND *(gint64) milliseconds;
+  new = pos + GST_MSECOND *milliseconds;
   g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                     "MESSAGE", "Jump relative: dur = %" GST_TIME_FORMAT, GST_TIME_ARGS (priv->dur));
   g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
@@ -912,7 +912,7 @@ pt_player_jump_relative (PtPlayer *self,
   if (new > priv->dur)
     new = priv->dur;
 
-  if (GST_CLOCK_TIME_IS_VALID (priv->segend) && new > priv->segend)
+  if (GST_CLOCK_TIME_IS_VALID (priv->segend) && (guint64) new > priv->segend)
     new = priv->segend;
 
   if (new < priv->segstart)
@@ -1016,7 +1016,7 @@ pt_player_jump_to_position (PtPlayer *self,
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
   gint64           pos;
 
-  pos = GST_MSECOND * (gint64) milliseconds;
+  pos = GST_MSECOND * milliseconds;
 
   if (pos < 0)
     {
@@ -1032,7 +1032,7 @@ pt_player_jump_to_position (PtPlayer *self,
                         GST_TIME_ARGS (pos), GST_TIME_ARGS (priv->segstart));
       return;
     }
-  if (GST_CLOCK_TIME_IS_VALID (priv->segend) && pos > priv->segend)
+  if (GST_CLOCK_TIME_IS_VALID (priv->segend) && (guint64) pos > priv->segend)
     {
       g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                         "MESSAGE", "Setting position failed: target %" GST_TIME_FORMAT " after segend %" GST_TIME_FORMAT,
