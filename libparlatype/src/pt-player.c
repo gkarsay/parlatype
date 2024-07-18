@@ -1288,40 +1288,18 @@ static void
 wv_selection_changed_cb (GtkWidget *widget,
                          PtPlayer  *self)
 {
-  /* Selection changed in Waveviewer widget:
-     - if we are not playing a selection: just set start/stop without seeking
-     - if we are playing a selection and we are still in the selection:
-       update selection
-     - if we are playing a selection and the new one is somewhere else:
-       stop playing the selection */
-
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  gint64           start, end, pos;
+  gint64           start, end;
+
   g_object_get (priv->wv,
                 "selection-start", &start,
                 "selection-end", &end,
                 NULL);
 
-  if (priv->current_state == GST_STATE_PAUSED || !GST_CLOCK_TIME_IS_VALID (priv->segend))
-    {
-      priv->segstart = GST_MSECOND * start;
-      if (end == 0)
-        priv->segend = GST_CLOCK_TIME_NONE;
-      else
-        priv->segend = GST_MSECOND * end;
-      return;
-    }
-
-  if (!gst_element_query_position (priv->play, GST_FORMAT_TIME, &pos))
-    return;
-  if (GST_MSECOND * start <= pos && pos <= GST_MSECOND * end)
-    {
-      pt_player_set_selection (self, start, end);
-    }
+  if (start == end)
+    pt_player_clear_selection (self);
   else
-    {
-      pt_player_clear_selection (self);
-    }
+    pt_player_set_selection (self, start, end);
 }
 
 static void
