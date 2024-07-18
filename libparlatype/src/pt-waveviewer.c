@@ -1255,43 +1255,48 @@ pt_waveviewer_init (PtWaveviewer *self)
   gtk_gesture_single_set_exclusive (GTK_GESTURE_SINGLE (priv->button), TRUE);
   gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (priv->button), 0);
   gtk_event_controller_set_propagation_phase (GTK_EVENT_CONTROLLER (priv->button), GTK_PHASE_CAPTURE);
-  g_signal_connect (
-      priv->button,
-      "pressed",
-      G_CALLBACK (pt_waveviewer_button_press_event),
-      self);
+  g_signal_connect (priv->button,
+                    "pressed",
+                    G_CALLBACK (pt_waveviewer_button_press_event),
+                    self);
   gtk_widget_add_controller (priv->scrollbox, GTK_EVENT_CONTROLLER (priv->button));
 
   priv->motion_ctrl = gtk_event_controller_motion_new ();
-  g_signal_connect (
-      priv->motion_ctrl,
-      "motion",
-      G_CALLBACK (pt_waveviewer_motion_event),
-      self);
+  g_signal_connect (priv->motion_ctrl,
+                    "motion",
+                    G_CALLBACK (pt_waveviewer_motion_event),
+                    self);
   gtk_widget_add_controller (GTK_WIDGET (priv->cursor), priv->motion_ctrl);
 
   priv->scroll_ctrl = gtk_event_controller_scroll_new (GTK_EVENT_CONTROLLER_SCROLL_HORIZONTAL | GTK_EVENT_CONTROLLER_SCROLL_VERTICAL);
   gtk_event_controller_set_propagation_phase (GTK_EVENT_CONTROLLER (priv->scroll_ctrl), GTK_PHASE_CAPTURE);
-  g_signal_connect (
-      priv->scroll_ctrl,
-      "scroll",
-      G_CALLBACK (pt_waveviewer_scroll_event),
-      self);
+  g_signal_connect (priv->scroll_ctrl,
+                    "scroll",
+                    G_CALLBACK (pt_waveviewer_scroll_event),
+                    self);
   gtk_widget_add_controller (GTK_WIDGET (self), priv->scroll_ctrl);
 
   priv->key_ctrl = gtk_event_controller_key_new ();
-  g_signal_connect (
-      priv->key_ctrl,
-      "key-pressed",
-      G_CALLBACK (pt_waveviewer_key_press_event),
-      self);
+  g_signal_connect (priv->key_ctrl,
+                    "key-pressed",
+                    G_CALLBACK (pt_waveviewer_key_press_event),
+                    self);
   gtk_widget_add_controller (GTK_WIDGET (self), priv->key_ctrl);
 
   GtkGesture *drag = gtk_gesture_drag_new ();
   gtk_event_controller_set_propagation_phase (GTK_EVENT_CONTROLLER (drag), GTK_PHASE_CAPTURE);
-  g_signal_connect (drag, "drag-begin", G_CALLBACK (pt_waveviewer_drag_begin), self);
-  g_signal_connect (drag, "drag-update", G_CALLBACK (pt_waveviewer_drag_update), self);
-  g_signal_connect (drag, "drag-end", G_CALLBACK (pt_waveviewer_drag_end), self);
+  g_signal_connect (drag,
+                    "drag-begin",
+                    G_CALLBACK (pt_waveviewer_drag_begin),
+                    self);
+  g_signal_connect (drag,
+                    "drag-update",
+                    G_CALLBACK (pt_waveviewer_drag_update),
+                    self);
+  g_signal_connect (drag,
+                    "drag-end",
+                    G_CALLBACK (pt_waveviewer_drag_end),
+                    self);
   gtk_widget_add_controller (GTK_WIDGET (priv->overlay), GTK_EVENT_CONTROLLER (drag));
 
   g_signal_connect (priv->loader,
