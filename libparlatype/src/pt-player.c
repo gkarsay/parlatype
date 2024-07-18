@@ -807,6 +807,11 @@ pt_player_set_selection (PtPlayer *self,
   g_return_if_fail (start < end);
 
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
+
+  if (priv->segstart == GST_MSECOND * start &&
+      priv->segend == GST_MSECOND * end)
+    return;
+
   priv->segstart = GST_MSECOND * start;
   priv->segend = GST_MSECOND * end;
 
@@ -836,6 +841,10 @@ pt_player_clear_selection (PtPlayer *self)
 
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
   gint64           pos;
+
+  if (priv->segstart == 0 &&
+      priv->segend == GST_CLOCK_TIME_NONE)
+    return;
 
   priv->segstart = 0;
   priv->segend = GST_CLOCK_TIME_NONE;
