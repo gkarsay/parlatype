@@ -754,6 +754,7 @@ pt_mpris_dispose (GObject *object)
   PtMpris  *self = PT_MPRIS (object);
   PtPlayer *player = pt_controller_get_player (PT_CONTROLLER (self));
 
+  g_clear_handle_id (&self->property_emit_id, g_source_remove);
   if (self->root_id != 0)
     {
       g_dbus_connection_unregister_object (self->connection, self->root_id);
