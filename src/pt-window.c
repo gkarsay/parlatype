@@ -69,7 +69,7 @@ struct _PtWindow
 
   gint64 last_time; // last time to compare if it changed
 
-  gint    timer;
+  guint   timer;
   gdouble speed;
 };
 

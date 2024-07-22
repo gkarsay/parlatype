@@ -123,7 +123,6 @@ static GParamSpec *obj_properties[N_PROPERTIES];
 #define TEN_MINUTES 600000
 
 static gboolean bus_call (GstBus *bus, GstMessage *msg, gpointer data);
-static void     remove_message_bus (PtPlayer *self);
 
 G_DEFINE_TYPE_WITH_PRIVATE (PtPlayer, pt_player, G_TYPE_OBJECT)
 
@@ -134,7 +133,7 @@ pt_player_clear (PtPlayer *self)
 {
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
 
-  remove_message_bus (self);
+  g_clear_handle_id (&priv->bus_watch_id, g_source_remove);
   priv->target_state = GST_STATE_NULL;
   priv->current_state = GST_STATE_NULL;
   gst_element_set_state (priv->play, GST_STATE_NULL);
@@ -359,30 +358,6 @@ change_app_state (PtPlayer   *self,
                             obj_properties[PROP_STATE]);
 }
 
-static void
-remove_message_bus (PtPlayer *self)
-{
-  PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-
-  if (priv->bus_watch_id > 0)
-    {
-      g_source_remove (priv->bus_watch_id);
-      priv->bus_watch_id = 0;
-    }
-}
-
-static void
-add_message_bus (PtPlayer *self)
-{
-  PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  GstBus          *bus;
-
-  remove_message_bus (self);
-  bus = gst_pipeline_get_bus (GST_PIPELINE (priv->play));
-  priv->bus_watch_id = gst_bus_add_watch (bus, bus_call, self);
-  gst_object_unref (bus);
-}
-
 static gboolean
 bus_call (GstBus     *bus,
           GstMessage *msg,
@@ -584,6 +559,7 @@ pt_player_open_uri (PtPlayer *self,
   g_return_val_if_fail (uri != NULL, FALSE);
 
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
+  GstBus          *bus;
 
   /* If we had an open file before, remember its position */
   metadata_save_position (self);
@@ -595,7 +571,9 @@ pt_player_open_uri (PtPlayer *self,
   g_object_set (G_OBJECT (priv->play), "uri", uri, NULL);
 
   /* setup message handler */
-  add_message_bus (self);
+  bus = gst_pipeline_get_bus (GST_PIPELINE (priv->play));
+  priv->bus_watch_id = gst_bus_add_watch (bus, bus_call, self);
+  gst_object_unref (bus);
 
   pt_player_pause (self);
 

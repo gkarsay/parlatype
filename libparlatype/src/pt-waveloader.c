@@ -59,8 +59,8 @@ struct _PtWaveloaderPrivate
 
   gint64 duration;
 
-  gint    bus_watch_id;
-  gint    progress_timeout;
+  guint   bus_watch_id;
+  guint   progress_timeout;
   gdouble progress;
 };
 
@@ -81,18 +81,6 @@ static GParamSpec *obj_properties[N_PROPERTIES];
 static guint       signals[LAST_SIGNAL] = { 0 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PtWaveloader, pt_waveloader, G_TYPE_OBJECT)
-
-static void
-remove_timeout (PtWaveloader *self)
-{
-  PtWaveloaderPrivate *priv = pt_waveloader_get_instance_private (self);
-
-  if (priv->progress_timeout > 0)
-    {
-      g_source_remove (priv->progress_timeout);
-      priv->progress_timeout = 0;
-    }
-}
 
 static void
 on_wave_loader_new_pad (GstElement *bin,
@@ -325,8 +313,7 @@ check_progress (GTask *task)
   if (g_cancellable_is_cancelled (g_task_get_cancellable (task)))
     {
       gst_element_set_state (priv->pipeline, GST_STATE_NULL);
-      g_source_remove (priv->bus_watch_id);
-      priv->bus_watch_id = 0;
+      g_clear_handle_id (&priv->bus_watch_id, g_source_remove);
       priv->progress_timeout = 0;
       g_array_set_size (priv->lowres, 0);
       g_task_return_boolean (task, FALSE);
@@ -383,7 +370,7 @@ bus_handler (GstBus     *bus,
         gchar  *debug;
         GError *error;
 
-        remove_timeout (self);
+        g_clear_handle_id (&priv->progress_timeout, g_source_remove);
         gst_message_parse_error (msg, &error, &debug);
 
         /* Error is returned. Log the message here at level DEBUG,
@@ -426,7 +413,7 @@ bus_handler (GstBus     *bus,
                           "MESSAGE", "Sample decoded: hires->len=%d, lowres->len=%d, pps=%d, duration=%" GST_TIME_FORMAT,
                           priv->hires->len, priv->lowres->len, priv->pps, GST_TIME_ARGS (priv->duration));
 
-        remove_timeout (self);
+        g_clear_handle_id (&priv->progress_timeout, g_source_remove);
         priv->bus_watch_id = 0;
         g_task_return_boolean (task, TRUE);
         g_object_unref (task);
@@ -840,8 +827,6 @@ pt_waveloader_init (PtWaveloader *self)
                              TRUE,  /* clear to zero   */
                              sizeof (gint16));
   priv->lowres = g_array_new (FALSE, TRUE, sizeof (float));
-  priv->bus_watch_id = 0;
-  priv->progress_timeout = 0;
   priv->load_pending = FALSE;
   priv->data_pending = FALSE;
 }
@@ -857,13 +842,8 @@ pt_waveloader_dispose (GObject *object)
   g_array_unref (priv->hires);
   g_array_unref (priv->lowres);
 
-  if (priv->bus_watch_id > 0)
-    {
-      g_source_remove (priv->bus_watch_id);
-      priv->bus_watch_id = 0;
-    }
-
-  remove_timeout (self);
+  g_clear_handle_id (&priv->bus_watch_id, g_source_remove);
+  g_clear_handle_id (&priv->progress_timeout, g_source_remove);
 
   if (priv->pipeline)
     {

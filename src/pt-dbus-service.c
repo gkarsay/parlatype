@@ -28,7 +28,7 @@ struct _PtDbusService
 {
   PtController parent;
 
-  gint owner_id;
+  guint owner_id;
 };
 
 G_DEFINE_TYPE (PtDbusService, pt_dbus_service, PT_TYPE_CONTROLLER)
@@ -249,7 +249,6 @@ pt_dbus_service_start (PtDbusService *self)
 static void
 pt_dbus_service_init (PtDbusService *self)
 {
-  self->owner_id = 0;
 }
 
 static void
@@ -257,12 +256,8 @@ pt_dbus_service_dispose (GObject *object)
 {
   PtDbusService *self = PT_DBUS_SERVICE (object);
 
-  if (self->owner_id > 0)
-    {
-      g_bus_unown_name (self->owner_id);
-      g_dbus_node_info_unref (introspection_data);
-      self->owner_id = 0;
-    }
+  g_clear_handle_id (&self->owner_id, g_bus_unown_name);
+  g_clear_pointer (&introspection_data, g_dbus_node_info_unref);
 
   G_OBJECT_CLASS (pt_dbus_service_parent_class)->dispose (object);
 }
