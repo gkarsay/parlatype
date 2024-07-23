@@ -1274,7 +1274,6 @@ pt_window_init (PtWindow *self)
   self->recent = gtk_recent_manager_get_default ();
   self->timer = 0;
   self->last_time = 0;
-  self->clip_handler_id = 0;
   self->clip = gtk_widget_get_clipboard (GTK_WIDGET (self));
 
   /* Used e.g. by Xfce */
@@ -1316,11 +1315,7 @@ pt_window_dispose (GObject *object)
       g_settings_set_int (self->editor, "height", y);
     }
 
-  if (self->clip_handler_id > 0)
-    {
-      g_signal_handler_disconnect (self->clip, self->clip_handler_id);
-      self->clip_handler_id = 0;
-    }
+  g_clear_signal_handler (&self->clip_handler_id, self->clip);
   remove_timer (self);
   g_clear_object (&self->editor);
   g_clear_object (&self->player);
