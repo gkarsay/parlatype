@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Parlatype 3.1\n"
 "POT-Creation-Date: 2024-05-13 21:21+0200\n"
-"PO-Revision-Date: 2024-06-27 21:09+0000\n"
-"Last-Translator: Sabri Ünal <yakushabb@gmail.com>\n"
+"PO-Revision-Date: 2024-07-30 12:09+0000\n"
+"Last-Translator: Kaan Çetin <cetinkaan895@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/parlatype/"
 "parlatype-help/tr/>\n"
 "Language: tr\n"
@@ -58,6 +58,8 @@ msgid ""
 "For a quick overview have a look at <link xref=\"first-steps\"/>. Other "
 "topics are covered below."
 msgstr ""
+"Hızlı bir gözatma için <link xref=\"first-steps\"/> ilnkine bakın. Diğer "
+"konular aşağıda ele alınmıştır."
 
 #. (itstool) path: section/title
 #: ../help/C/index.page:27
@@ -66,9 +68,8 @@ msgstr "Yardım konuları"
 
 #. (itstool) path: info/desc
 #: ../help/C/drag-and-drop.page:6
-#, fuzzy
 msgid "Drop files, file names or timestamps on Parlatype"
-msgstr "Dosyaları, dosya adlarını veya zaman damgalarını Parlatype'e bırakın"
+msgstr "Dosyaları, dosya adlarını yada zaman damgalarını Parlatype'e bırakın"
 
 #. (itstool) path: page/title
 #: ../help/C/drag-and-drop.page:14
@@ -110,12 +111,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: ../help/C/first-steps.page:7
 msgid "First steps with Parlatype"
-msgstr ""
+msgstr "Parlatype ile ilk adımlar"
 
 #. (itstool) path: page/title
 #: ../help/C/first-steps.page:15
 msgid "First Steps With Parlatype"
-msgstr ""
+msgstr "Parlatype İle İlk Adımlar"
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:17
@@ -129,7 +130,7 @@ msgstr ""
 #. (itstool) path: note/p
 #: ../help/C/first-steps.page:20
 msgid "You can also drag and drop a file on <app>Parlatype</app>."
-msgstr ""
+msgstr "Ayrıca dosyanızı <app>Parlatype'a</app> sürükleyip bırakabilirsiniz."
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:23
@@ -184,27 +185,27 @@ msgstr ""
 #. (itstool) path: info/desc
 #: ../help/C/keyboard-shortcuts.page:6
 msgid "Standard keyboard shortcuts in Parlatype"
-msgstr ""
+msgstr "Parlatype'daki standart klavye kısayolları"
 
 #. (itstool) path: page/title
 #: ../help/C/keyboard-shortcuts.page:14
 msgid "Keyboard Shortcuts"
-msgstr ""
+msgstr "Klavye Kısayolları"
 
 #. (itstool) path: table/title
 #: ../help/C/keyboard-shortcuts.page:17
 msgid "Standard Shortcut keys"
-msgstr ""
+msgstr "Standart Kısayol Tuşları"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:20
 msgid "To Do This"
-msgstr ""
+msgstr "Bunu Yapmak İçin"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:21
 msgid "Press This"
-msgstr ""
+msgstr "Buna Tıkla"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:26
@@ -214,17 +215,17 @@ msgstr "Yardımı göster"
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:27
 msgid "<key>F1</key>"
-msgstr ""
+msgstr "<key>F1</key>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:30
 msgid "Open file"
-msgstr ""
+msgstr "Dosyayı Aç"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:31
 msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:34
@@ -234,59 +235,58 @@ msgstr "Oynat/Duraklat"
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:35
 msgid "<keyseq><key>Ctrl</key><key>Space</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>Space</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:38
+#, fuzzy
 msgid "Go to …"
-msgstr ""
+msgstr "Şuna git …"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:39
 msgid "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:42
 msgid "Skip backward"
-msgstr ""
+msgstr "Geriye atla"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:43
 msgid "<keyseq><key>Ctrl</key><key>a</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>a</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:46
-#, fuzzy
-#| msgid "Jump forward"
 msgid "Skip forward"
 msgstr "İleri atla"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:47
 msgid "<keyseq><key>Ctrl</key><key>s</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>s</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:50
 msgid "Copy timestamp"
-msgstr ""
+msgstr "Zaman Damgasını Kopyala"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:51
 msgid "<keyseq><key>Ctrl</key><key>c</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>c</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:54
 msgid "Insert timestamp"
-msgstr ""
+msgstr "Zaman Damgası Ekle"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:55
 msgid "<keyseq><key>Ctrl</key><key>v</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>v</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:58
@@ -296,7 +296,7 @@ msgstr "Yaklaştır"
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:59
 msgid "<keyseq><key>Ctrl</key><key>+</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>+</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:62
@@ -306,7 +306,7 @@ msgstr "Uzaklaştır"
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:63
 msgid "<keyseq><key>Ctrl</key><key>-</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>-</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:66
@@ -316,7 +316,7 @@ msgstr "Çık"
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:67
 msgid "<keyseq><key>Ctrl</key><key>q</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>q</key></keyseq>"
 
 #. (itstool) path: p/link
 #: ../help/C/legal.xml:5
@@ -326,17 +326,17 @@ msgstr ""
 #. (itstool) path: license/p
 #: ../help/C/legal.xml:4
 msgid "This work is licensed under a <_:link-1/> license."
-msgstr ""
+msgstr "Bu çalışma <_:link-1/> lisansı ile lisanslanmıştr."
 
 #. (itstool) path: info/desc
 #: ../help/C/selections.page:6
 msgid "How to play and repeat a selection"
-msgstr ""
+msgstr "Bir seçim nasıl oynatılır ve tekrarlanır"
 
 #. (itstool) path: page/title
 #: ../help/C/selections.page:14
 msgid "Selections"
-msgstr ""
+msgstr "Seçimler"
 
 #. (itstool) path: page/p
 #: ../help/C/selections.page:16
@@ -351,7 +351,7 @@ msgstr ""
 msgid ""
 "When in selection mode, you can not exit the selection anymore until you "
 "deselect it."
-msgstr ""
+msgstr "Seçim modundayken, seçimi kaldırana kadar artık seçimden çıkamazsınız."
 
 #. (itstool) path: page/p
 #: ../help/C/selections.page:20
@@ -368,6 +368,8 @@ msgid ""
 "To deselect click once with the left button into the waveform. If the "
 "waveform has keyboard focus, you can press <key>Escape</key>."
 msgstr ""
+"Seçimi kaldırmak için sol düğmeyle dalgaformuna bir kez tıklayın. Eğer "
+"dalgaformu klavye odağına sahipse <key>Escape</key> tuşuna basın."
 
 #. (itstool) path: info/desc
 #: ../help/C/timestamps.page:6
