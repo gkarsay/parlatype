@@ -1,10 +1,10 @@
 tests = [
-  'config',
-  'gst',
-  'player',
-  'waveloader-static',
-  'waveloader',
-  'waveviewer',
+  { 'name': 'config'                             },
+  { 'name': 'player'                             },
+  { 'name': 'waveloader'                         },
+  { 'name': 'waveviewer'                         },
+  { 'name': 'gst',              'internal': true },
+  { 'name': 'waveloader-static','internal': true },
 ]
 
 test_data = [
@@ -12,18 +12,6 @@ test_data = [
 ]
 
 extra_sources = [
-  '../src/contrib/gnome-languages.c',
-  '../src/contrib/gnome-languages.h',
-  '../src/gst/gst-helpers.c',
-  '../src/gst/gst-helpers.h',
-  '../src/gst/gstptaudiobin.c',
-  '../src/gst/gstptaudiobin.h',
-  '../src/gst/gstptaudioasrbin.c',
-  '../src/gst/gstptaudioasrbin.h',
-  '../src/gst/gstptaudioplaybin.c',
-  '../src/gst/gstptaudioplaybin.h',
-  '../src/pt-i18n.c',
-  '../src/pt-i18n.h',
   'mock-plugin.c',
   'mock-plugin.h',
 ]
@@ -43,17 +31,10 @@ asr_config_data = custom_target(
   output: 'config-test.asr', # actually many more
 )
 
-contrib_sources = [
-  '../src/contrib/gnome-languages.c',
-  '../src/contrib/gnome-languages.h',
-]
-
 contrib_exe = executable(
-  'contrib', 'contrib.c', contrib_sources,
+  'contrib', 'contrib.c',
   install: false,
-  dependencies: [
-    libparlatype_dep,
-  ],
+  dependencies: libparlatype_static_dep,
 )
 
 locales = [ 'C', 'de' ]
@@ -69,21 +50,22 @@ endforeach
 
 
 foreach t: tests
+  test_name = t.get('name')
+  if t.get('internal', false)
+    dep = libparlatype_static_dep
+  else
+    dep = libparlatype_dep
+  endif
+
   exe = executable(
-    t, '@0@.c'.format(t), extra_sources,
+    test_name, '@0@.c'.format(test_name), extra_sources,
     install: false,
-    dependencies: [
-      config_h,
-      libparlatype_dep,
-      gstreamer,
-      gstreamer_app,
-      gstreamer_audio,
-    ],
+    dependencies: dep,
     c_args: '-DPARLATYPE_COMPILATION',
   )
 
   test(
-    t, exe,
+    test_name, exe,
     args: [ '--tap', '-k' ],
     env: [
       'G_TEST_SRCDIR=@0@'.format(meson.current_source_dir()),
