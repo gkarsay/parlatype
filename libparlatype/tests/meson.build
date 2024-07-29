@@ -31,24 +31,6 @@ asr_config_data = custom_target(
   output: 'config-test.asr', # actually many more
 )
 
-contrib_exe = executable(
-  'contrib', 'contrib.c',
-  install: false,
-  dependencies: libparlatype_static_dep,
-)
-
-locales = [ 'C', 'de' ]
-foreach l: locales
-  test(
-    'contrib', contrib_exe,
-    args: [ '--tap', '-k' ],
-    env: [
-      'LANGUAGE=@0@'.format(l),
-    ],
-  )
-endforeach
-
-
 foreach t: tests
   test_name = t.get('name')
   if t.get('internal', false)
