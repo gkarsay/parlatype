@@ -70,7 +70,7 @@ private_headers = [
   'pt-waveviewer-waveform.h',
 ]
 
-deps = [
+libparlatype_deps = [
   gtk,
   gstreamer,
   gstreamer_app,
@@ -82,26 +82,39 @@ if with_pocketsphinx_legacy
   private_sources += 'gst/gstparlasphinx-legacy.c'
   sphinxbase   = dependency('sphinxbase')
   pocketsphinx = dependency('pocketsphinx')
-  deps += [sphinxbase, pocketsphinx]
+  libparlatype_deps += [sphinxbase, pocketsphinx]
 endif
 
 if with_pocketsphinx
   private_sources += 'gst/gstparlasphinx.c'
   pocketsphinx = dependency('pocketsphinx', version: '>= 5.0')
-  deps += [pocketsphinx]
+  libparlatype_deps += [pocketsphinx]
 endif
 
 
 install_headers(public_headers, subdir: 'parlatype')
 
+# Static library only for internal tests
+libparlatype_static = static_library(
+  'parlatype-static',
+  sources: [ public_sources, private_sources ],
+  include_directories: libconf_inc,
+  dependencies: libparlatype_deps,
+  c_args: [
+    '-DPARLATYPE_COMPILATION',
+    '-DG_LOG_DOMAIN="libparlatype"',
+  ],
+)
+
+# Shared library with mapfile for visible/hidden symbols
 mapfile = 'libparlatype.map'
 vflag = '-Wl,--version-script,@0@/@1@'.format(meson.current_source_dir(), mapfile)
 libparlatype = shared_library(
   'parlatype',
-  sources: [ public_sources, private_sources ],
   version: libparlatype_version,
-  dependencies: deps,
+  dependencies: libparlatype_deps,
   include_directories: libconf_inc,
+  link_whole: libparlatype_static,
   link_args: vflag,
   link_depends: mapfile,
   install: true,
@@ -111,10 +124,16 @@ libparlatype = shared_library(
   ],
 )
 
+libparlatype_static_dep = declare_dependency(
+  link_with: libparlatype_static,
+  include_directories: libconf_inc,
+  dependencies: libparlatype_deps,
+)
+
 libparlatype_dep = declare_dependency(
   link_with: libparlatype,
   include_directories: libconf_inc,
-  dependencies: [ gtk, ],
+  dependencies: libparlatype_deps,
 )
 
 pkg = import('pkgconfig')
