@@ -14,36 +14,59 @@ marshalers = gnome.genmarshal(
 
 marshal_h = marshalers[1]
 
-sources = [
+# These sources will be introspected
+public_sources = [
+  'pt-config.c',
+  'pt-player.c',
+  'pt-waveloader.c',
+  'pt-waveviewer.c',
+]
+
+# These are private and not for introspection
+private_sources = [
   gresources,
   marshalers,
   'contrib/gnome-languages.c',
-  'contrib/gnome-languages.h',
   'gst/gst-helpers.c',
-  'gst/gst-helpers.h',
   'gst/gstptaudiobin.c',
-  'gst/gstptaudiobin.h',
   'gst/gstptaudioasrbin.c',
-  'gst/gstptaudioasrbin.h',
   'gst/gstptaudioplaybin.c',
-  'gst/gstptaudioplaybin.h',
-  'pt-config.c',
   'pt-i18n.c',
-  'pt-i18n.h',
-  'pt-player.c',
   'pt-position-manager.c',
-  'pt-position-manager.h',
-  'pt-waveloader.c',
-  'pt-waveviewer.c',
   'pt-waveviewer-cursor.c',
-  'pt-waveviewer-cursor.h',
   'pt-waveviewer-ruler.c',
-  'pt-waveviewer-ruler.h',
   'pt-waveviewer-scrollbox.c',
-  'pt-waveviewer-scrollbox.h',
   'pt-waveviewer-selection.c',
-  'pt-waveviewer-selection.h',
   'pt-waveviewer-waveform.c',
+]
+
+# These headers will be installed
+public_headers = [
+  'parlatype.h',
+  'pt-config.h',
+  'pt-player.h',
+  'pt-waveloader.h',
+  'pt-waveviewer.h',
+]
+
+# These headers are to be ignored by gtk-doc
+private_headers = [
+  # in contrib/
+  'gnome-languages.h',
+  # in gst/
+  'gst-helpers.h',
+  'gstparlasphinx-legacy.h',
+  'gstparlasphinx.h',
+  'gstptaudiobin.h',
+  'gstptaudioasrbin.h',
+  'gstptaudioplaybin.h',
+  # in ./
+  'pt-i18n.h',
+  'pt-position-manager.h',
+  'pt-waveviewer-cursor.h',
+  'pt-waveviewer-ruler.h',
+  'pt-waveviewer-scrollbox.h',
+  'pt-waveviewer-selection.h',
   'pt-waveviewer-waveform.h',
 ]
 
@@ -56,41 +79,26 @@ deps = [
 ]
 
 if with_pocketsphinx_legacy
-  sources += [
-    'gst/gstparlasphinx-legacy.c',
-    'gst/gstparlasphinx-legacy.h',
-  ]
-
+  private_sources += 'gst/gstparlasphinx-legacy.c'
   sphinxbase   = dependency('sphinxbase')
   pocketsphinx = dependency('pocketsphinx')
   deps += [sphinxbase, pocketsphinx]
 endif
 
 if with_pocketsphinx
-  sources += [
-    'gst/gstparlasphinx.c',
-    'gst/gstparlasphinx.h',
-  ]
-
+  private_sources += 'gst/gstparlasphinx.c'
   pocketsphinx = dependency('pocketsphinx', version: '>= 5.0')
   deps += [pocketsphinx]
 endif
 
-headers = [
-  'parlatype.h',
-  'pt-config.h',
-  'pt-player.h',
-  'pt-waveloader.h',
-  'pt-waveviewer.h',
-]
 
-install_headers(headers, subdir: 'parlatype')
+install_headers(public_headers, subdir: 'parlatype')
 
 mapfile = 'libparlatype.map'
 vflag = '-Wl,--version-script,@0@/@1@'.format(meson.current_source_dir(), mapfile)
 libparlatype = shared_library(
   'parlatype',
-  sources: sources,
+  sources: [ public_sources, private_sources ],
   version: libparlatype_version,
   dependencies: deps,
   include_directories: libconf_inc,
@@ -131,11 +139,8 @@ gir = get_option('gir')
 if gir
   gir_dep = dependency('gobject-introspection-1.0')
   introspection_sources = [
-    headers,
-    'pt-config.c',
-    'pt-player.c',
-    'pt-waveloader.c',
-    'pt-waveviewer.c',
+    public_headers,
+    public_sources,
   ]
 
   gir_args = [
