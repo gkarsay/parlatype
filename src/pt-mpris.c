@@ -278,7 +278,10 @@ build_track_metadata (PtMpris         *self,
                       GVariantBuilder *builder,
                       PtPlayer        *player)
 {
-  gchar *uri;
+  gchar       *uri;
+  PtMediaInfo *info;
+  gchar       *str;
+  GStrv        strv;
 
   uri = pt_player_get_uri (player);
 
@@ -288,6 +291,23 @@ build_track_metadata (PtMpris         *self,
                              g_variant_new ("o", "/org/mpris/MediaPlayer2/TrackList/NoTrack"));
       return;
     }
+
+  info = pt_player_get_media_info (player);
+
+  str = pt_media_info_get_album (info);
+  if (str)
+    g_variant_builder_add (builder, "{sv}", "xesam:album",
+                           g_variant_new_string (str));
+
+  strv = pt_media_info_get_artist (info);
+  if (strv)
+    g_variant_builder_add (builder, "{sv}", "xesam:artist",
+                           g_variant_new_strv ((void *) strv, -1));
+
+  str = pt_media_info_get_title (info);
+  if (str)
+    g_variant_builder_add (builder, "{sv}", "xesam:title",
+                           g_variant_new_string (str));
 
   g_variant_builder_add (builder, "{sv}", "mpris:trackid",
                          g_variant_new ("o", "/org/mpris/MediaPlayer2/Track/1"));
@@ -631,7 +651,7 @@ volume_changed_cb (GObject *object, GParamSpec *pspec, PtMpris *self)
 }
 
 static void
-uri_changed_cb (GObject *object, GParamSpec *pspec, PtMpris *self)
+metadata_property_change (PtMpris *self)
 {
   PtPlayer        *player = pt_controller_get_player (PT_CONTROLLER (self));
   GVariantBuilder *builder;
@@ -641,6 +661,18 @@ uri_changed_cb (GObject *object, GParamSpec *pspec, PtMpris *self)
   add_player_property_change (self, "Metadata",
                               g_variant_builder_end (builder));
   g_variant_builder_unref (builder);
+}
+
+static void
+uri_changed_cb (GObject *object, GParamSpec *pspec, PtMpris *self)
+{
+  metadata_property_change (self);
+}
+
+static void
+media_info_changed_cb (GObject *object, PtMpris *self)
+{
+  metadata_property_change (self);
 }
 
 static void
@@ -661,6 +693,7 @@ void
 pt_mpris_start (PtMpris *self)
 {
   PtPlayer           *player = pt_controller_get_player (PT_CONTROLLER (self));
+  PtMediaInfo        *info = pt_player_get_media_info (player);
   GDBusInterfaceInfo *ifaceinfo;
   GError             *error = NULL;
 
@@ -733,6 +766,11 @@ pt_mpris_start (PtMpris *self)
                            G_CALLBACK (uri_changed_cb),
                            self, 0);
 
+  g_signal_connect_object (info,
+                           "media-info-changed",
+                           G_CALLBACK (media_info_changed_cb),
+                           self, 0);
+
   self->name_own_id = g_bus_own_name (G_BUS_TYPE_SESSION,
                                       MPRIS_BUS_NAME_PREFIX "." APP_ID,
                                       G_BUS_NAME_OWNER_FLAGS_NONE,
@@ -751,8 +789,9 @@ pt_mpris_init (PtMpris *self)
 static void
 pt_mpris_dispose (GObject *object)
 {
-  PtMpris  *self = PT_MPRIS (object);
-  PtPlayer *player = pt_controller_get_player (PT_CONTROLLER (self));
+  PtMpris     *self = PT_MPRIS (object);
+  PtPlayer    *player = pt_controller_get_player (PT_CONTROLLER (self));
+  PtMediaInfo *info = pt_player_get_media_info (player);
 
   g_clear_handle_id (&self->property_emit_id, g_source_remove);
   if (self->root_id != 0)
@@ -780,6 +819,14 @@ pt_mpris_dispose (GObject *object)
 
   g_signal_handlers_disconnect_by_func (player,
                                         G_CALLBACK (uri_changed_cb),
+                                        self);
+
+  g_signal_handlers_disconnect_by_func (player,
+                                        G_CALLBACK (uri_changed_cb),
+                                        self);
+
+  g_signal_handlers_disconnect_by_func (info,
+                                        G_CALLBACK (media_info_changed_cb),
                                         self);
 
   G_OBJECT_CLASS (pt_mpris_parent_class)->dispose (object);
