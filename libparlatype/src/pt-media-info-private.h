@@ -1,4 +1,4 @@
-/* Copyright 2021 Gabor Karsay <gabor.karsay@gmx.at>
+/* Copyright 2024 Gabor Karsay <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -16,12 +16,14 @@
 
 #pragma once
 
-#define __PARLATYPE_H_INSIDE__
-
-#include "pt-config.h"
+#include <gio/gio.h>
+#include <gst/gst.h>
 #include "pt-media-info.h"
-#include "pt-player.h"
-#include "pt-waveloader.h"
-#include "pt-waveviewer.h"
 
-#undef __PARLATYPE_H_INSIDE__
+void               _pt_media_info_update_tags (PtMediaInfo *self,
+                                               GstTagList  *tags);
+
+void               _pt_media_info_update_caps (PtMediaInfo *self,
+                                               GstCaps     *caps);
+
+PtMediaInfo*       _pt_media_info_new         (void);

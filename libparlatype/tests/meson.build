@@ -4,6 +4,7 @@ tests = [
   { 'name': 'waveloader'                         },
   { 'name': 'waveviewer'                         },
   { 'name': 'gst',              'internal': true },
+  { 'name': 'mediainfo',        'internal': true },
   { 'name': 'waveloader-static','internal': true },
 ]
 

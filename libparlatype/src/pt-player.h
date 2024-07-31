@@ -21,6 +21,7 @@
 #endif
 
 #include "pt-config.h"
+#include "pt-media-info.h"
 #include "pt-waveviewer.h"
 
 G_BEGIN_DECLS
@@ -81,6 +82,7 @@ typedef enum
   /*< private >*/
   PT_PRECISION_INVALID
 } PtPrecisionType;
+
 
 void       pt_player_pause                    (PtPlayer       *self);
 
@@ -181,6 +183,8 @@ gboolean   pt_player_configure_asr            (PtPlayer       *self,
 
 gboolean   pt_player_config_is_loadable       (PtPlayer       *self,
                                                PtConfig       *config);
+
+PtMediaInfo *pt_player_get_media_info         (PtPlayer       *self);
 
 PtPlayer  *pt_player_new                      (void);
 

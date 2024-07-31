@@ -17,6 +17,7 @@ marshal_h = marshalers[1]
 # These sources will be introspected
 public_sources = [
   'pt-config.c',
+  'pt-media-info.c',
   'pt-player.c',
   'pt-waveloader.c',
   'pt-waveviewer.c',
@@ -44,6 +45,7 @@ private_sources = [
 public_headers = [
   'parlatype.h',
   'pt-config.h',
+  'pt-media-info.h',
   'pt-player.h',
   'pt-waveloader.h',
   'pt-waveviewer.h',
@@ -62,6 +64,7 @@ private_headers = [
   'gstptaudioplaybin.h',
   # in ./
   'pt-i18n.h',
+  'pt-media-info-private.h',
   'pt-position-manager.h',
   'pt-waveviewer-cursor.h',
   'pt-waveviewer-ruler.h',
@@ -90,7 +93,6 @@ if with_pocketsphinx
   pocketsphinx = dependency('pocketsphinx', version: '>= 5.0')
   libparlatype_deps += [pocketsphinx]
 endif
-
 
 install_headers(public_headers, subdir: 'parlatype')
 

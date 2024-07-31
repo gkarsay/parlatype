@@ -1,7 +1,6 @@
 <SECTION>
 <FILE>pt-player</FILE>
 <TITLE>PtPlayer</TITLE>
-PtPlayer
 pt_player_new
 pt_player_set_mode
 pt_player_get_mode
@@ -13,6 +12,7 @@ pt_player_play_pause
 pt_player_pause
 pt_player_pause_and_rewind
 pt_player_get_pause
+pt_player_get_media_info
 pt_player_connect_waveviewer
 pt_player_set_selection
 pt_player_clear_selection
@@ -48,15 +48,32 @@ PtPrecisionType
 PT_IS_PLAYER
 PT_PLAYER
 PT_TYPE_PLAYER
+PtPlayer
 PtPlayerClass
 PtPlayerPrivate
 pt_player_get_type
 </SECTION>
 
 <SECTION>
+<FILE>pt-media-info</FILE>
+<TITLE>PtMediaInfo</TITLE>
+pt_media_info_get_album
+pt_media_info_get_artist
+pt_media_info_get_title
+pt_media_info_dump_caps
+pt_media_info_dump_tags
+<SUBSECTION Standard>
+PT_IS_MEDIA_INFO
+PT_MEDIA_INFO
+PT_TYPE_MEDIA_INFO
+PtMediaInfo
+PtMediaInfoClass
+pt_media_info_get_type
+</SECTION>
+
+<SECTION>
 <FILE>pt-waveloader</FILE>
 <TITLE>PtWaveloader</TITLE>
-PtWaveloader
 pt_waveloader_new
 pt_waveloader_load_async
 pt_waveloader_load_finish
@@ -69,6 +86,7 @@ pt_waveloader_get_data
 PT_IS_WAVELOADER
 PT_TYPE_WAVELOADER
 PT_WAVELOADER
+PtWaveloader
 PtWaveloaderClass
 PtWaveloaderPrivate
 pt_waveloader_get_type
@@ -77,7 +95,6 @@ pt_waveloader_get_type
 <SECTION>
 <FILE>pt-waveviewer</FILE>
 <TITLE>PtWaveviewer</TITLE>
-PtWaveviewer
 pt_waveviewer_new
 pt_waveviewer_load_wave_async
 pt_waveviewer_load_wave_finish
@@ -89,6 +106,7 @@ PT_IS_WAVEVIEWER_CLASS
 PT_TYPE_WAVEVIEWER
 PT_WAVEVIEWER
 PT_WAVEVIEWER_CLASS
+PtWaveviewer
 PtWaveviewerClass
 PtWaveviewerPrivate
 pt_waveviewer_get_type
@@ -98,7 +116,6 @@ parlatype_get_resource
 <SECTION>
 <FILE>pt-config</FILE>
 <TITLE>PtConfig</TITLE>
-PtConfig
 pt_config_new
 pt_config_is_valid
 pt_config_is_installed
@@ -118,6 +135,7 @@ PtError
 PT_CONFIG
 PT_IS_CONFIG
 PT_TYPE_CONFIG
+PtConfig
 PtConfigClass
 PtConfigPrivate
 pt_config_get_type

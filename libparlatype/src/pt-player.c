@@ -38,6 +38,8 @@
 #include "gst/gstptaudiobin.h"
 #include "pt-config.h"
 #include "pt-i18n.h"
+#include "pt-media-info-private.h"
+#include "pt-media-info.h"
 #include "pt-position-manager.h"
 #include "pt-waveviewer.h"
 #ifdef HAVE_POCKETSPHINX
@@ -59,6 +61,11 @@ struct _PtPlayerPrivate
   GstElement *scaletempo;
   GstElement *audio_bin;
   guint       bus_watch_id;
+
+  PtMediaInfo         *info;
+  GstStreamCollection *collection;
+  gchar               *stream_id;
+  gulong               stream_notify_id;
 
   PtPositionManager *pos_mgr;
   GHashTable        *plugins;
@@ -358,6 +365,49 @@ change_app_state (PtPlayer   *self,
                             obj_properties[PROP_STATE]);
 }
 
+static void
+stream_notify_cb (GstStreamCollection *collection,
+                  GstStream           *stream,
+                  GParamSpec          *pspec,
+                  gpointer             user_data)
+{
+  PtPlayer        *self = (PtPlayer *) user_data;
+  PtPlayerPrivate *priv = pt_player_get_instance_private (self);
+  const gchar     *stream_id;
+  gboolean         our_stream;
+  gboolean         tags_changed;
+
+  tags_changed = (G_PARAM_SPEC_VALUE_TYPE (pspec) == GST_TYPE_TAG_LIST);
+  stream_id = gst_stream_get_stream_id (stream);
+
+  g_mutex_lock (&priv->lock);
+  our_stream = (g_strcmp0 (priv->stream_id, stream_id) == 0);
+
+  if (our_stream && tags_changed)
+    _pt_media_info_update_tags (priv->info, gst_stream_get_tags (stream));
+  g_mutex_unlock (&priv->lock);
+}
+
+static void
+update_stream_collection (PtPlayer            *self,
+                          GstStreamCollection *collection)
+{
+  PtPlayerPrivate *priv = pt_player_get_instance_private (self);
+
+  if (priv->collection && priv->collection == collection)
+    return;
+
+  g_clear_signal_handler (&priv->stream_notify_id, priv->collection);
+
+  gst_object_replace ((GstObject **) &priv->collection,
+                      (GstObject *) collection);
+
+  priv->stream_notify_id = g_signal_connect (priv->collection,
+                                             "stream-notify",
+                                             G_CALLBACK (stream_notify_cb),
+                                             self);
+}
+
 static gboolean
 bus_call (GstBus     *bus,
           GstMessage *msg,
@@ -516,6 +566,47 @@ bus_call (GstBus     *bus,
                                      g_value_get_string (
                                          gst_structure_get_value (st, "hypothesis")));
             }
+        }
+      break;
+
+    case GST_MESSAGE_STREAMS_SELECTED:;
+      GstStreamCollection *collection = NULL;
+      gboolean             found_stream = FALSE;
+      guint                i, len;
+
+      gst_message_parse_streams_selected (msg, &collection);
+      if (collection == NULL)
+        break;
+
+      g_mutex_lock (&priv->lock);
+      update_stream_collection (self, collection);
+      g_mutex_unlock (&priv->lock);
+
+      gst_object_unref (collection);
+
+      len = gst_message_streams_selected_get_size (msg);
+      for (i = 0; i < len; i++)
+        {
+          GstStream    *stream;
+          GstStreamType stream_type;
+          stream = gst_message_streams_selected_get_stream (msg, i);
+          stream_type = gst_stream_get_stream_type (stream);
+          if ((stream_type & GST_STREAM_TYPE_AUDIO) == 0)
+            continue;
+
+          if (G_UNLIKELY (found_stream))
+            {
+              GST_FIXME_OBJECT (self, "Multiple audio streams selected, first one chosen");
+              continue;
+            }
+
+          found_stream = TRUE;
+          g_mutex_lock (&priv->lock);
+          g_free (priv->stream_id);
+          priv->stream_id = g_strdup (gst_stream_get_stream_id (stream));
+          _pt_media_info_update_caps (priv->info, gst_stream_get_caps (stream));
+          _pt_media_info_update_tags (priv->info, gst_stream_get_tags (stream));
+          g_mutex_unlock (&priv->lock);
         }
       break;
 
@@ -2172,6 +2263,26 @@ pt_player_get_mode (PtPlayer *self)
   return gst_pt_audio_bin_get_mode (bin);
 }
 
+/**
+ * pt_player_get_media_info:
+ * @self: a #PtPlayer
+ *
+ * Get the player’s #PtMediaInfo object to query the current
+ * track’s metadata.
+ *
+ * Return value: (transfer none): the player’s #PtMediaInfo object
+ *
+ * Since: 4.3
+ */
+PtMediaInfo *
+pt_player_get_media_info (PtPlayer *self)
+{
+  g_return_val_if_fail (PT_IS_PLAYER (self), NULL);
+  PtPlayerPrivate *priv = pt_player_get_instance_private (self);
+
+  return priv->info;
+}
+
 static void
 pt_player_constructed (GObject *object)
 {
@@ -2199,6 +2310,9 @@ pt_player_dispose (GObject *object)
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
 
   remove_seek_source (self);
+  g_clear_signal_handler (&priv->stream_notify_id, priv->collection);
+  g_clear_pointer (&priv->collection, gst_object_unref);
+
   if (priv->play)
     {
       /* remember position */
@@ -2403,7 +2517,7 @@ pt_player_init (PtPlayer *self)
     gst_object_unref (factory);
 #endif
 
-  priv->play = _pt_make_element ("playbin", "play", NULL);
+  priv->play = _pt_make_element ("playbin3", "play", NULL);
   priv->scaletempo = _pt_make_element ("scaletempo", "tempo", NULL);
   priv->audio_bin = _pt_make_element ("ptaudiobin", "audiobin", NULL);
 
@@ -2413,6 +2527,7 @@ pt_player_init (PtPlayer *self)
 
   priv->current_state = GST_STATE_NULL;
   priv->target_state = GST_STATE_NULL;
+  priv->info = _pt_media_info_new ();
 }
 
 static void

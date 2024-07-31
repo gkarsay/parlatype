@@ -1,4 +1,4 @@
-/* Copyright 2021 Gabor Karsay <gabor.karsay@gmx.at>
+/* Copyright 2024 Gabor Karsay <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -16,12 +16,22 @@
 
 #pragma once
 
-#define __PARLATYPE_H_INSIDE__
+#if !defined(__PARLATYPE_H_INSIDE__) && !defined(PARLATYPE_COMPILATION)
+#error "Only <parlatype.h> can be included directly."
+#endif
 
-#include "pt-config.h"
-#include "pt-media-info.h"
-#include "pt-player.h"
-#include "pt-waveloader.h"
-#include "pt-waveviewer.h"
+#include <gio/gio.h>
 
-#undef __PARLATYPE_H_INSIDE__
+G_BEGIN_DECLS
+
+#define PT_TYPE_MEDIA_INFO (pt_media_info_get_type ())
+G_DECLARE_FINAL_TYPE (PtMediaInfo, pt_media_info, PT, MEDIA_INFO, GObject)
+
+gchar*   pt_media_info_get_album   (PtMediaInfo *self);
+GStrv    pt_media_info_get_artist  (PtMediaInfo *self);
+gchar*   pt_media_info_get_title   (PtMediaInfo *self);
+
+gchar*   pt_media_info_dump_caps   (PtMediaInfo *self);
+gchar*   pt_media_info_dump_tags   (PtMediaInfo *self);
+
+G_END_DECLS

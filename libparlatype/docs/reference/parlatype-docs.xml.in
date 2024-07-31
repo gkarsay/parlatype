@@ -31,6 +31,7 @@
 	<part>
 		<title>Main backend: PtPlayer</title>
 		<xi:include href="xml/pt-player.xml"/>
+		<xi:include href="xml/pt-media-info.xml"/>
 	</part>
 
 	<part>
