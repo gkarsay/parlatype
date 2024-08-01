@@ -2312,6 +2312,7 @@ pt_player_dispose (GObject *object)
   remove_seek_source (self);
   g_clear_signal_handler (&priv->stream_notify_id, priv->collection);
   g_clear_pointer (&priv->collection, gst_object_unref);
+  g_clear_object (&priv->info);
 
   if (priv->play)
     {
@@ -2337,6 +2338,7 @@ pt_player_finalize (GObject *object)
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
 
   g_mutex_clear (&priv->lock);
+  g_free (priv->stream_id);
 
   G_OBJECT_CLASS (pt_player_parent_class)->finalize (object);
 }

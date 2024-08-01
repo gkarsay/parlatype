@@ -120,6 +120,7 @@ build_array (const GstTagList *list,
     {
       gst_tag_list_get_string_index (list, tag, i, &string);
       g_strv_builder_add (builder, string);
+      g_free (string);
     }
   result = g_strv_builder_end (builder);
   g_strv_builder_unref (builder);
