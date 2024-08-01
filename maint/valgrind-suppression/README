@@ -1,4 +1,4 @@
 Valgrind suppression files downloaded from:
-https://gitlab.gnome.org/GNOME/gtk/-/blob/gtk-3-24/gtk.supp
-https://gitlab.gnome.org/GNOME/glib/-/blob/master/glib.supp
+https://gitlab.gnome.org/GNOME/gtk/-/blob/4c65bdf70738c17c504eb772f8c6a0235654681f/gtk.supp
+https://gitlab.gnome.org/GNOME/glib/-/blob/7bec6327a2b7d9ea1b0a30b8d6f91d80ef6d323a/tools/glib.supp
 https://gitlab.freedesktop.org/gstreamer/gstreamer/-/blob/master/tests/check/gstreamer.supp

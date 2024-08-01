@@ -11,44 +11,23 @@
 }
 
 {
+   GIO modules
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   ...
+   fun:_g_io_module_get_default
+}
+
+{
    GTK media extension gio modules
    Memcheck:Leak
    match-leak-kinds: definite
-   fun:malloc
-   fun:g_malloc
-   fun:g_slice_alloc
-   fun:g_slice_alloc0
-   fun:g_type_create_instance
-   fun:g_object_new_internal
-   fun:g_object_new_with_properties
-   fun:g_object_new
+   fun:calloc
+   ...
    fun:g_io_module_new
-   fun:g_io_modules_scan_all_in_directory_with_scope
+   ...
    fun:gtk_media_file_extension_init
-}
-
-{
-   gtk-style-context
-   Memcheck:Leak
-   match-leak-kinds: possible
-   fun:malloc
-   fun:g_malloc
-   ...
-   fun:gtk_css_node_declaration_make_writable
-   ...
-   fun:gtk_style_constructed
-}
-
-{
-   gtk-style-context2
-   Memcheck:Leak
-   match-leak-kinds: possible
-   fun:malloc
-   fun:g_malloc
-   ...
-   fun:gtk_css_node_declaration_make_writable_resize
-   ...
-   fun:gtk_style_constructed
 }
 
 # AMD driver
@@ -56,6 +35,13 @@
   radeonsi_dri general
   Memcheck:Leak
   fun:calloc
+  ...
+  obj:/usr/lib*/dri/radeonsi_dri.so
+}
+{
+  radeonsi_dri general
+  Memcheck:Leak
+  fun:malloc
   ...
   obj:/usr/lib*/dri/radeonsi_dri.so
 }
@@ -143,6 +129,14 @@
 }
 
 {
+   epoxy strncmp
+   Memcheck:Addr8
+   fun:strncmp
+   ...
+   fun:epoxy_eglInitialize_global_rewrite_ptr
+}
+
+{
    mesa malloc
    Memcheck:Leak
    match-leak-kinds: definite
@@ -217,6 +211,14 @@
 }
 
 {
+   FcPatternObjectInsertElt
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:FcPatternObjectInsertElt
+}
+
+{
    FcFontRenderPrepare
    Memcheck:Leak
    match-leak-kinds: definite
@@ -268,10 +270,58 @@
 
 # GLib
 {
-  glib 1
+  glib GQuark
   Memcheck:Leak
   match-leak-kinds: definite
   fun:malloc
-  fun:g_malloc
-  fun:g_quark_init
+  ...
+  fun:g_quark_*
+}
+{
+  glib GQuark
+  Memcheck:Leak
+  match-leak-kinds: definite
+  fun:malloc
+  ...
+  fun:g_intern_static_string
+}
+{
+  glib GQuark
+  Memcheck:Leak
+  match-leak-kinds: definite
+  fun:malloc
+  ...
+  fun:g_intern_string
+}
+{
+  xdg-mime init
+  Memcheck:Leak
+  match-leak-kinds: definite
+  fun:malloc
+  ...
+  fun:xdg_mime_init*
+}
+{
+  xdg-mime init
+  Memcheck:Leak
+  match-leak-kinds: definite
+  fun:calloc
+  ...
+  fun:xdg_mime_init*
+}
+{
+  glib init
+  Memcheck:Leak
+  match-leak-kinds: definite
+  fun:malloc
+  ...
+  fun:glib_init_ctor
+}
+
+# Threads
+{
+   pthread
+   Memcheck:Leak
+   fun:calloc
+   fun:_dl_allocate_tls
 }
