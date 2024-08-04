@@ -41,6 +41,7 @@ struct _PtMpris
 
   GHashTable *player_property_changes;
   guint       property_emit_id;
+  GMutex      lock;
 };
 
 G_DEFINE_TYPE (PtMpris, pt_mpris, PT_TYPE_CONTROLLER)
@@ -99,12 +100,15 @@ emit_property_changes (PtMpris *self, GHashTable *changes, const char *interface
 static gboolean
 emit_properties_idle (PtMpris *self)
 {
+  /* Protect hash table from concurrent access. */
+  g_mutex_lock (&self->lock);
   if (self->player_property_changes != NULL)
     {
       emit_property_changes (self, self->player_property_changes, MPRIS_PLAYER_INTERFACE);
       g_hash_table_destroy (self->player_property_changes);
       self->player_property_changes = NULL;
     }
+  g_mutex_unlock (&self->lock);
 
   self->property_emit_id = 0;
   return FALSE;
@@ -115,11 +119,14 @@ add_player_property_change (PtMpris    *self,
                             const char *property,
                             GVariant   *value)
 {
+  /* Protect hash table from concurrent access. */
+  g_mutex_lock (&self->lock);
   if (self->player_property_changes == NULL)
     {
       self->player_property_changes = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_variant_unref);
     }
   g_hash_table_insert (self->player_property_changes, g_strdup (property), g_variant_ref_sink (value));
+  g_mutex_unlock (&self->lock);
 
   if (self->property_emit_id == 0)
     {
@@ -782,17 +789,13 @@ pt_mpris_start (PtMpris *self)
 }
 
 static void
-pt_mpris_init (PtMpris *self)
-{
-}
-
-static void
 pt_mpris_dispose (GObject *object)
 {
   PtMpris     *self = PT_MPRIS (object);
   PtPlayer    *player = pt_controller_get_player (PT_CONTROLLER (self));
   PtMediaInfo *info = pt_player_get_media_info (player);
 
+  g_mutex_clear (&self->lock);
   g_clear_handle_id (&self->property_emit_id, g_source_remove);
   if (self->root_id != 0)
     {
@@ -830,6 +833,12 @@ pt_mpris_dispose (GObject *object)
                                         self);
 
   G_OBJECT_CLASS (pt_mpris_parent_class)->dispose (object);
+}
+
+static void
+pt_mpris_init (PtMpris *self)
+{
+  g_mutex_init (&self->lock);
 }
 
 static void
