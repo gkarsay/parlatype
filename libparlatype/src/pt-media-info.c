@@ -47,6 +47,8 @@ struct _PtMediaInfo
   gchar *album;
   GStrv  artist;
   gchar *title;
+
+  guint dispatch_id;
 };
 
 G_DEFINE_TYPE (PtMediaInfo, pt_media_info, G_TYPE_OBJECT)
@@ -247,6 +249,14 @@ pt_media_info_dump_caps (PtMediaInfo *self)
 }
 
 void
+dispatch_signal (gpointer user_data)
+{
+  PtMediaInfo *self = PT_MEDIA_INFO (user_data);
+  g_signal_emit_by_name (self, "media-info-changed");
+  self->dispatch_id = 0;
+}
+
+void
 _pt_media_info_update_tags (PtMediaInfo *self,
                             GstTagList  *tags)
 {
@@ -273,7 +283,9 @@ _pt_media_info_update_tags (PtMediaInfo *self,
       gst_tag_list_foreach (self->tags, parse_tags, self);
     }
 
-  g_signal_emit_by_name (self, "media-info-changed");
+  /* If there are many subsequent changes, merge them into a single signal. */
+  if (self->dispatch_id == 0)
+    self->dispatch_id = g_idle_add_once (dispatch_signal, self);
 }
 
 void
