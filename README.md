@@ -14,7 +14,7 @@ To build Parlatype from source you need these packages:
 * gettext >= 0.19.7
 * gobject-introspection-1.0
 * yelp-tools
-* gtk4 >= 4.10
+* gtk4 >= 4.14
 * glib-2.0 >= 2.70
 * libadwaita-1 >= 1.4
 * iso-codes
