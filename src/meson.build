@@ -5,38 +5,21 @@ gresources = gnome.compile_resources(
   c_name: '_pt',
 )
 
-src = [
-  gresources,
-  'main.c',
+parlatype_sources = [
   'editor-theme-selector.c',
-  'editor-theme-selector-private.h',
   'pt-app.c',
-  'pt-app.h',
   'pt-asr-dialog.c',
-  'pt-asr-dialog.h',
   'pt-config-list.c',
-  'pt-config-list.h',
   'pt-config-row.c',
-  'pt-config-row.h',
   'pt-controller.c',
-  'pt-controller.h',
   'pt-dbus-service.c',
-  'pt-dbus-service.h',
   'pt-goto-dialog.c',
-  'pt-goto-dialog.h',
   'pt-mpris.c',
-  'pt-mpris.h',
-  'mpris-spec.h',
   'pt-preferences.c',
-  'pt-preferences.h',
   'pt-prefs-info-row.c',
-  'pt-prefs-info-row.h',
   'pt-prefs-install-row.c',
-  'pt-prefs-install-row.h',
   'pt-window.c',
-  'pt-window.h',
   'pt-window-dnd.c',
-  'pt-window-dnd.h',
 ]
 
 parlatype_deps = [
@@ -45,8 +28,22 @@ parlatype_deps = [
   libadwaita,
 ]
 
+# Static library for tools
+if build_tools
+  parlatype_applib_static = static_library(
+    'parlatype-applib-static',
+    sources: parlatype_sources,
+    include_directories: conf_inc,
+    link_with: libparlatype,
+    dependencies: parlatype_deps,
+    c_args: [
+      '-DG_LOG_DOMAIN="libparlatype"',
+    ],
+  )
+endif
+
 executable('parlatype',
-           src,
+           [ gresources, parlatype_sources, 'main.c' ],
            link_with: libparlatype,
            include_directories : conf_inc,
            install: true,

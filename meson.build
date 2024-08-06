@@ -59,6 +59,10 @@ gtk        = dependency('gtk4',         version: '>= 4.14')
 glib       = dependency('glib-2.0',     version: '>= 2.70')
 libadwaita = dependency('libadwaita-1', version: '>= 1.4')
 
+# tools are not shipped in tarball, check if directory exists
+fs = import('fs')
+build_tools = fs.is_dir('tools')
+
 subdir('libparlatype')
 subdir('data')
 subdir('docs')
@@ -66,9 +70,7 @@ subdir('help')
 subdir('po')
 subdir('src')
 
-# tools are not shipped in tarball
-fs = import('fs')
-if fs.is_dir('tools')
+if build_tools
   subdir('tools')
 endif
 
