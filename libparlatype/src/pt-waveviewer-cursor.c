@@ -87,6 +87,15 @@ pt_waveviewer_cursor_snapshot (GtkWidget   *widget,
 }
 
 static void
+pt_waveviewer_cursor_css_changed (GtkWidget         *widget,
+                                  GtkCssStyleChange *change)
+{
+  PtWaveviewerCursor *self = PT_WAVEVIEWER_CURSOR (widget);
+  gtk_widget_get_color (widget, &self->cursor_color);
+  GTK_WIDGET_CLASS (pt_waveviewer_cursor_parent_class)->css_changed (widget, change);
+}
+
+static void
 pt_waveviewer_cursor_state_flags_changed (GtkWidget    *widget,
                                           GtkStateFlags flags)
 {
@@ -125,6 +134,7 @@ pt_waveviewer_cursor_class_init (PtWaveviewerCursorClass *klass)
 {
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
+  widget_class->css_changed = pt_waveviewer_cursor_css_changed;
   widget_class->snapshot = pt_waveviewer_cursor_snapshot;
   widget_class->state_flags_changed = pt_waveviewer_cursor_state_flags_changed;
 }
