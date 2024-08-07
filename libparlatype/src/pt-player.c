@@ -94,6 +94,9 @@ struct _PtPlayerPrivate
   GstClockTime segend;
 
   GCancellable *c;
+  guint         vol_changed_id;
+  guint         mute_changed_id;
+  guint         uri_changed_id;
 
   PtPrecisionType timestamp_precision;
   gboolean        timestamp_fixed;
@@ -2047,12 +2050,10 @@ pt_player_goto_timestamp (PtPlayer *self,
 
 /* --------------------- Init and GObject management ------------------------ */
 
-static gboolean
-notify_volume_idle_cb (PtPlayer *self)
+static void
+notify_volume_idle_cb (gpointer user_data)
 {
-  if (!PT_IS_PLAYER (self))
-    return G_SOURCE_REMOVE;
-
+  PtPlayer        *self = PT_PLAYER (user_data);
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
   gdouble          vol;
 
@@ -2065,7 +2066,7 @@ notify_volume_idle_cb (PtPlayer *self)
                                 obj_properties[PROP_VOLUME]);
     }
 
-  return FALSE;
+  priv->vol_changed_id = 0;
 }
 
 static void
@@ -2076,17 +2077,15 @@ vol_changed (GObject    *object,
   /* This is taken from Totem’s bacon-video-widget.c
      Changing the property immediately will crash, it has to be an idle source */
 
-  guint id;
-  id = g_idle_add ((GSourceFunc) notify_volume_idle_cb, self);
-  g_source_set_name_by_id (id, "[parlatype] notify_volume_idle_cb");
+  PtPlayerPrivate *priv = pt_player_get_instance_private (self);
+  priv->vol_changed_id = g_idle_add_once (notify_volume_idle_cb, self);
+  g_source_set_name_by_id (priv->vol_changed_id, "[parlatype] notify_volume_idle_cb");
 }
 
-static gboolean
-notify_mute_idle_cb (PtPlayer *self)
+static void
+notify_mute_idle_cb (gpointer user_data)
 {
-  if (!PT_IS_PLAYER (self))
-    return G_SOURCE_REMOVE;
-
+  PtPlayer        *self = PT_PLAYER (user_data);
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
   gboolean         mute;
 
@@ -2099,7 +2098,7 @@ notify_mute_idle_cb (PtPlayer *self)
                                 obj_properties[PROP_MUTE]);
     }
 
-  return FALSE;
+  priv->mute_changed_id = 0;
 }
 
 static void
@@ -2107,17 +2106,20 @@ mute_changed (GObject    *object,
               GParamSpec *pspec,
               PtPlayer   *self)
 {
-  guint id;
-  id = g_idle_add ((GSourceFunc) notify_mute_idle_cb, self);
-  g_source_set_name_by_id (id, "[parlatype] notify_mute_idle_cb");
+  PtPlayerPrivate *priv = pt_player_get_instance_private (self);
+
+  priv->mute_changed_id = g_idle_add_once (notify_mute_idle_cb, self);
+  g_source_set_name_by_id (priv->mute_changed_id, "[parlatype] notify_mute_idle_cb");
 }
 
-static gboolean
-notify_uri_idle_cb (PtPlayer *self)
+static void
+notify_uri_idle_cb (gpointer user_data)
 {
+  PtPlayer        *self = PT_PLAYER (user_data);
+  PtPlayerPrivate *priv = pt_player_get_instance_private (self);
   g_object_notify_by_pspec (G_OBJECT (self),
                             obj_properties[PROP_CURRENT_URI]);
-  return FALSE;
+  priv->uri_changed_id = 0;
 }
 
 static void
@@ -2125,9 +2127,10 @@ uri_changed (GObject    *object,
              GParamSpec *pspec,
              PtPlayer   *self)
 {
-  guint id;
-  id = g_idle_add ((GSourceFunc) notify_uri_idle_cb, self);
-  g_source_set_name_by_id (id, "[parlatype] notify_uri_idle_cb");
+  PtPlayerPrivate *priv = pt_player_get_instance_private (self);
+
+  priv->uri_changed_id = g_idle_add_once (notify_uri_idle_cb, self);
+  g_source_set_name_by_id (priv->uri_changed_id, "[parlatype] notify_uri_idle_cb");
 }
 
 /**
@@ -2311,6 +2314,9 @@ pt_player_dispose (GObject *object)
 
   remove_seek_source (self);
   g_clear_signal_handler (&priv->stream_notify_id, priv->collection);
+  g_clear_handle_id (&priv->vol_changed_id, g_source_remove);
+  g_clear_handle_id (&priv->mute_changed_id, g_source_remove);
+  g_clear_handle_id (&priv->uri_changed_id, g_source_remove);
   g_clear_pointer (&priv->collection, gst_object_unref);
   g_clear_object (&priv->info);
 
@@ -2537,7 +2543,7 @@ pt_player_class_init (PtPlayerClass *klass)
 {
   G_OBJECT_CLASS (klass)->set_property = pt_player_set_property;
   G_OBJECT_CLASS (klass)->get_property = pt_player_get_property;
-  G_OBJECT_CLASS (klass)->dispose = pt_player_constructed;
+  G_OBJECT_CLASS (klass)->constructed = pt_player_constructed;
   G_OBJECT_CLASS (klass)->dispose = pt_player_dispose;
   G_OBJECT_CLASS (klass)->finalize = pt_player_finalize;
 
