@@ -56,7 +56,7 @@ i18n    = import('i18n')
 
 # Checks for libraries.
 gtk        = dependency('gtk4',         version: '>= 4.14')
-glib       = dependency('glib-2.0',     version: '>= 2.70')
+glib       = dependency('glib-2.0',     version: '>= 2.76')
 libadwaita = dependency('libadwaita-1', version: '>= 1.4')
 
 # tools are not shipped in tarball, check if directory exists
