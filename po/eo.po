@@ -8,45 +8,49 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-13 21:21+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2024-09-28 10:16+0000\n"
+"Last-Translator: phlostically <phlostically@mailinator.com>\n"
+"Language-Team: Esperanto <https://hosted.weblate.org/projects/parlatype/"
+"parlatype/eo/>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.8-dev\n"
 
 #: data/parlatype.desktop.in:4 data/parlatype.metainfo.xml.in:8
 #: src/pt-app.c:196 src/resources/window.ui:30
 msgid "Parlatype"
-msgstr ""
+msgstr "Parlatype"
 
 #: data/parlatype.desktop.in:5
 msgid "Transcription utility"
-msgstr ""
+msgstr "Transskribilo"
 
 #: data/parlatype.desktop.in:6
 msgid "Transcription;"
-msgstr ""
+msgstr "Transskribado;"
 
 #: data/parlatype.metainfo.xml.in:9
 msgid "Media player for transcription"
-msgstr ""
+msgstr "Spektilo por transskribado"
 
 #: data/parlatype.metainfo.xml.in:12
 msgid ""
 "Parlatype is an easy to use media player. Its main purpose is to help you "
 "transcribing speech."
 msgstr ""
+"Parlatype estas facile uzebla aŭdvida spektilo. Ĝia ĉefcelo estas helpi vin "
+"transskribi parolojn."
 
 #: data/parlatype.metainfo.xml.in:19
 msgid "Main window"
-msgstr ""
+msgstr "Ĉeffenestro"
 
 #: data/parlatype.metainfo.xml.in:28
 msgid "Gabor Karsay"
-msgstr ""
+msgstr "Gabor Karsay"
 
 #: data/parlatype.metainfo.xml.in:47
 msgid "Website moved to www.parlatype.xyz."
@@ -294,11 +298,11 @@ msgstr ""
 
 #: src/pt-app.c:115
 msgid "Audio Files"
-msgstr ""
+msgstr "Sondosieroj"
 
 #: src/pt-app.c:116 src/pt-preferences.c:536
 msgid "All Files"
-msgstr ""
+msgstr "Ĉiuj dosieroj"
 
 #: src/pt-app.c:193
 msgid "Code from other projects"
@@ -331,7 +335,7 @@ msgstr ""
 
 #: src/pt-asr-dialog.c:117
 msgid "Deactivate"
-msgstr ""
+msgstr "Malaktivigi"
 
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:124
@@ -340,7 +344,7 @@ msgstr ""
 
 #: src/pt-asr-dialog.c:126 src/pt-asr-dialog.c:133
 msgid "Activate"
-msgstr ""
+msgstr "Aktivigi"
 
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:131
@@ -358,16 +362,16 @@ msgstr ""
 
 #: src/pt-asr-dialog.c:222
 msgid "Language"
-msgstr ""
+msgstr "Lingvo"
 
 #: src/pt-asr-dialog.c:226
 msgid "CMU Pocketsphinx"
-msgstr ""
+msgstr "CMU Pocketsphinx"
 
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:230
 msgid "Type of Model"
-msgstr ""
+msgstr "Speco de modelo"
 
 #: src/pt-asr-dialog.c:232
 msgid "GStreamer Plugin"
@@ -375,19 +379,19 @@ msgstr ""
 
 #: src/pt-asr-dialog.c:236
 msgid "Publisher"
-msgstr ""
+msgstr "Eldoninto"
 
 #: src/pt-asr-dialog.c:241
 msgid "License"
-msgstr ""
+msgstr "Licenco"
 
 #: src/pt-asr-dialog.c:249
 msgid "Instructions"
-msgstr ""
+msgstr "Instrukcioj"
 
 #: src/pt-asr-dialog.c:258 src/pt-asr-dialog.c:269
 msgid "Download"
-msgstr ""
+msgstr "Elŝuti"
 
 #. Translators: %s is replaced with the name of a configuration
 #: src/pt-asr-dialog.c:314
@@ -398,7 +402,7 @@ msgstr ""
 #: src/pt-asr-dialog.c:322 src/pt-preferences.c:248 src/pt-preferences.c:418
 #: src/pt-preferences.c:453 src/pt-window.c:86
 msgid "Error"
-msgstr ""
+msgstr "Eraro"
 
 #. Translators: %s is replaced with the name of a configuration
 #: src/pt-asr-dialog.c:373
@@ -412,7 +416,7 @@ msgstr ""
 
 #: src/pt-config-row.c:79
 msgid "Not installed"
-msgstr ""
+msgstr "Ne instalita"
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
@@ -422,13 +426,13 @@ msgstr ""
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
-msgstr ""
+msgstr "%d:%02d:%02d"
 
 #: src/pt-goto-dialog.c:87
 msgid "second"
 msgid_plural "seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "sekundo"
+msgstr[1] "sekundoj"
 
 #: src/pt-preferences.c:457
 msgid "The file is not a valid language model configuration."
@@ -448,11 +452,11 @@ msgstr ""
 
 #: src/pt-prefs-install-row.c:54
 msgid "Installed"
-msgstr ""
+msgstr "Instalita"
 
 #: src/pt-prefs-install-row.c:59
 msgid "Not Installed"
-msgstr ""
+msgstr "Ne instalita"
 
 #: src/pt-prefs-install-row.c:60
 msgid "Download files and select model folder."
@@ -482,7 +486,7 @@ msgstr[1] ""
 
 #: src/pt-window.c:434
 msgid "Pause"
-msgstr ""
+msgstr "Paŭzigi"
 
 #: src/pt-window.c:439
 #, c-format
@@ -493,7 +497,7 @@ msgstr[1] ""
 
 #: src/pt-window.c:448
 msgid "Start playing"
-msgstr ""
+msgstr "Ekspekti"
 
 #. Translators: %s is replaced with a timestamp
 #: src/pt-window.c:488
@@ -515,7 +519,7 @@ msgstr ""
 
 #: src/resources/asr-dialog.ui:29
 msgid "Installation"
-msgstr ""
+msgstr "Instalado"
 
 #: src/resources/asr-dialog.ui:30
 msgid "How to install this language model."
@@ -523,7 +527,7 @@ msgstr ""
 
 #: src/resources/asr-dialog.ui:33
 msgid "General Information"
-msgstr ""
+msgstr "Ĝeneralaj informoj"
 
 #: src/resources/asr-dialog.ui:36
 msgid "Display Name"
@@ -535,7 +539,7 @@ msgstr ""
 
 #: src/resources/asr-dialog.ui:48
 msgid "Delete"
-msgstr ""
+msgstr "Forviŝi"
 
 #: src/resources/editor-theme-selector.ui:22
 msgid "Follow System Style"
@@ -547,23 +551,23 @@ msgstr ""
 
 #: src/resources/editor-theme-selector.ui:39
 msgid "Light Style"
-msgstr ""
+msgstr "Hela etoso"
 
 #: src/resources/editor-theme-selector.ui:41
 msgid "Light style"
-msgstr ""
+msgstr "Hela etoso"
 
 #: src/resources/editor-theme-selector.ui:57
 msgid "Dark Style"
-msgstr ""
+msgstr "Malhela etoso"
 
 #: src/resources/editor-theme-selector.ui:59
 msgid "Dark style"
-msgstr ""
+msgstr "Malhela etoso"
 
 #: src/resources/goto-dialog.ui:10 src/resources/window.ui:262
 msgid "Go to…"
-msgstr ""
+msgstr "Iri al…"
 
 #: src/resources/goto-dialog.ui:20
 msgid "Go to position:"
@@ -571,15 +575,15 @@ msgstr ""
 
 #: src/resources/goto-dialog.ui:52
 msgid "_Cancel"
-msgstr ""
+msgstr "_Nuligi"
 
 #: src/resources/goto-dialog.ui:60
 msgid "_OK"
-msgstr ""
+msgstr "_Bone"
 
 #: src/resources/help-overlay.ui:13
 msgid "General"
-msgstr ""
+msgstr "Ĝenerala"
 
 #: src/resources/help-overlay.ui:18
 msgid "Open a media file"
@@ -591,15 +595,15 @@ msgstr ""
 
 #: src/resources/help-overlay.ui:32
 msgid "Quit"
-msgstr ""
+msgstr "Forlasi"
 
 #: src/resources/help-overlay.ui:40 src/resources/preferences.ui:11
 msgid "Waveform"
-msgstr ""
+msgstr "Ondformo"
 
 #: src/resources/help-overlay.ui:45
 msgid "Play/Pause"
-msgstr ""
+msgstr "Spekti/Paŭzigi"
 
 #: src/resources/help-overlay.ui:52 src/resources/window.ui:99
 msgid "Skip backward"
@@ -611,11 +615,11 @@ msgstr ""
 
 #: src/resources/help-overlay.ui:66
 msgid "Zoom in"
-msgstr ""
+msgstr "Enzomi"
 
 #: src/resources/help-overlay.ui:73
 msgid "Zoom out"
-msgstr ""
+msgstr "Elzomi"
 
 #: src/resources/help-overlay.ui:80
 msgid "Open “Go to” dialog"
@@ -631,11 +635,11 @@ msgstr ""
 
 #: src/resources/help-overlay.ui:102 src/resources/window.ui:243
 msgid "Help"
-msgstr ""
+msgstr "Helpo"
 
 #: src/resources/help-overlay.ui:107
 msgid "Show help"
-msgstr ""
+msgstr "Montri helpon"
 
 #: src/resources/help-overlay.ui:114
 msgid "Show keyboard shortcuts"
@@ -643,7 +647,7 @@ msgstr ""
 
 #: src/resources/preferences.ui:7 src/resources/window.ui:235
 msgid "Preferences"
-msgstr ""
+msgstr "Agordoj"
 
 #: src/resources/preferences.ui:15
 msgid "Display"
@@ -655,7 +659,7 @@ msgstr ""
 
 #: src/resources/preferences.ui:19
 msgid "Waveform Detail"
-msgstr ""
+msgstr "Detaloj pri ondformo"
 
 #: src/resources/preferences.ui:20
 msgid "Vertical lines per second"
@@ -667,15 +671,15 @@ msgstr ""
 
 #: src/resources/preferences.ui:58
 msgid "Cursor Mode"
-msgstr ""
+msgstr "Kursora reĝimo"
 
 #: src/resources/preferences.ui:62
 msgid "Fixed Cursor"
-msgstr ""
+msgstr "Fiksita kursoro"
 
 #: src/resources/preferences.ui:63
 msgid "Moving Cursor"
-msgstr ""
+msgstr "Moviĝanta kursoro"
 
 #: src/resources/preferences.ui:76
 msgid "Audio Controls"
@@ -707,11 +711,11 @@ msgstr ""
 
 #: src/resources/preferences.ui:126
 msgid "Play Button"
-msgstr ""
+msgstr "Spekta butono"
 
 #: src/resources/preferences.ui:127
 msgid "Change behavior of play button."
-msgstr ""
+msgstr "Ŝanĝi la konduton de la spekta butono."
 
 #: src/resources/preferences.ui:130
 msgid "At End of File Replay File"
@@ -745,15 +749,15 @@ msgstr ""
 
 #: src/resources/preferences.ui:162
 msgid "Full Seconds"
-msgstr ""
+msgstr "Sekundoj"
 
 #: src/resources/preferences.ui:163
 msgid "10th Seconds"
-msgstr ""
+msgstr "Dekonoj de sekundo"
 
 #: src/resources/preferences.ui:164
 msgid "100th Seconds"
-msgstr ""
+msgstr "Centonoj de sekundo"
 
 #: src/resources/preferences.ui:172
 msgid "Fraction Separator"
@@ -761,11 +765,11 @@ msgstr ""
 
 #: src/resources/preferences.ui:176
 msgid ". (Point)"
-msgstr ""
+msgstr ". (punkto)"
 
 #: src/resources/preferences.ui:177
 msgid "- (Hyphen)"
-msgstr ""
+msgstr "- (streketo)"
 
 #: src/resources/preferences.ui:185
 msgid "Characters Around Timestamps"
@@ -773,7 +777,7 @@ msgstr ""
 
 #: src/resources/preferences.ui:189
 msgid "None"
-msgstr ""
+msgstr "Nenio"
 
 #: src/resources/preferences.ui:190
 msgid "#Number Signs#"
@@ -781,15 +785,15 @@ msgstr ""
 
 #: src/resources/preferences.ui:191
 msgid "(Round Brackets)"
-msgstr ""
+msgstr "(rondaj krampoj)"
 
 #: src/resources/preferences.ui:192
 msgid "[Square Brackets]"
-msgstr ""
+msgstr "[rektaj krampoj]"
 
 #: src/resources/preferences.ui:202
 msgid "Preview"
-msgstr ""
+msgstr "Antaŭrigardi"
 
 #: src/resources/preferences.ui:211
 msgid "Speech Recognition"
@@ -797,7 +801,7 @@ msgstr ""
 
 #: src/resources/preferences.ui:215
 msgid "Language Models"
-msgstr ""
+msgstr "Lingvomodeloj"
 
 #: src/resources/preferences.ui:216
 msgid ""
@@ -815,39 +819,39 @@ msgstr ""
 
 #: src/resources/prefs-install-row.ui:11
 msgid "Choose folder"
-msgstr ""
+msgstr "Elekti dosierujon"
 
 #: src/resources/window.ui:38
 msgid "_Open"
-msgstr ""
+msgstr "_Malfermi"
 
 #: src/resources/window.ui:41
 msgid "Open a file"
-msgstr ""
+msgstr "Malfermi dosieron"
 
 #: src/resources/window.ui:52
 msgid "Main Menu"
-msgstr ""
+msgstr "Ĉefmenuo"
 
 #: src/resources/window.ui:125
 msgid "_Play"
-msgstr ""
+msgstr "_Spekti"
 
 #: src/resources/window.ui:171
 msgid "Speed:"
-msgstr ""
+msgstr "Rapido:"
 
 #: src/resources/window.ui:203
 msgid "Volume"
-msgstr ""
+msgstr "Laŭto"
 
 #: src/resources/window.ui:239
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "_Fulmoklavoj"
 
 #: src/resources/window.ui:247
 msgid "About Parlatype"
-msgstr ""
+msgstr "Pri Parlatype"
 
 #: src/resources/window.ui:254
 msgid "Copy Time to Clipboard"
