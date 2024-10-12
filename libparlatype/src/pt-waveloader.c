@@ -469,8 +469,8 @@ pt_waveloader_load_finish (PtWaveloader *self,
  * @self: a #PtWaveloader
  * @pps: pixels per second
  * @cancellable: (nullable): a #GCancellable or NULL
- * @callback: (scope async): a #GAsyncReadyCallback to call when the operation is complete
- * @user_data: (closure): user_data for callback
+ * @callback: (scope async) (closure user_data): a #GAsyncReadyCallback to call when the operation is complete
+ * @user_data: user_data for @callback
  *
  * Saves sample data to private memory. To keep the memory footprint low, the
  * raw data is downsampled to 8000 samples per second (16 bit per sample). This
@@ -652,8 +652,8 @@ pt_waveloader_resize_real (GTask        *task,
  * @self: a #PtWaveloader
  * @pps: the requested pixel per second ratio
  * @cancellable: (nullable): a #GCancellable or NULL
- * @callback: (scope async): a #GAsyncReadyCallback to call when the operation is complete
- * @user_data: (closure): user_data for callback
+ * @callback: (scope async) (closure user_data): a #GAsyncReadyCallback to call when the operation is complete
+ * @user_data: user_data for @callback
  *
  * Resizes wave form data at the requested resolution @pps. If the array's
  * size has to be changed, #PtWaveloader::array-size-changed is emitted.

@@ -944,8 +944,8 @@ update_waveform_cb (GtkWidget     *widget,
  * @self: the widget
  * @uri: the URI of the file
  * @cancel: (nullable): a #GCancellable or NULL
- * @callback: (scope async): a #GAsyncReadyCallback to call when the operation is complete
- * @user_data: (closure): user data for callback
+ * @callback: (scope async) (closure user_data): a #GAsyncReadyCallback to call when the operation is complete
+ * @user_data: user data for @callback
  *
  * Load wave form for the given URI. The initial resolution is set to
  * #PtWaveviewer:pps. While loading, a #PtWaveviewer::load-progress signal is
