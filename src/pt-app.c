@@ -280,7 +280,7 @@ about_cb (GSimpleAction *action,
           GVariant      *parameter,
           gpointer       app)
 {
-  AdwAboutWindow *about = ADW_ABOUT_WINDOW (adw_about_window_new ());
+  AdwAboutDialog *about = ADW_ABOUT_DIALOG (adw_about_dialog_new ());
   gchar          *debug_info = get_debug_info (app);
 
   const gchar *developers[] = {
@@ -307,20 +307,20 @@ about_cb (GSimpleAction *action,
     NULL
   };
 
-  adw_about_window_add_credit_section (about, _ ("Code from other projects"), credits_for_copy_paste_code);
+  adw_about_dialog_add_credit_section (about, _ ("Code from other projects"), credits_for_copy_paste_code);
 
-  adw_about_window_set_application_icon (about, APP_ID);
-  adw_about_window_set_application_name (about, _ ("Parlatype"));
-  adw_about_window_set_comments (about, _ ("A basic transcription utility"));
-  adw_about_window_set_copyright (about, "© Gabor Karsay 2016–2024");
-  adw_about_window_set_debug_info (about, debug_info);
-  adw_about_window_set_developers (about, developers);
-  adw_about_window_set_developer_name (about, "Gabor Karsay");
-  adw_about_window_set_designers (about, designers);
-  adw_about_window_set_license_type (about, GTK_LICENSE_GPL_3_0);
-  adw_about_window_set_translator_credits (about, _ ("translator-credits"));
-  adw_about_window_set_version (about, PACKAGE_VERSION);
-  adw_about_window_set_website (about, PACKAGE_URL);
+  adw_about_dialog_set_application_icon (about, APP_ID);
+  adw_about_dialog_set_application_name (about, _ ("Parlatype"));
+  adw_about_dialog_set_comments (about, _ ("A basic transcription utility"));
+  adw_about_dialog_set_copyright (about, "© Gabor Karsay 2016–2024");
+  adw_about_dialog_set_debug_info (about, debug_info);
+  adw_about_dialog_set_developers (about, developers);
+  adw_about_dialog_set_developer_name (about, "Gabor Karsay");
+  adw_about_dialog_set_designers (about, designers);
+  adw_about_dialog_set_license_type (about, GTK_LICENSE_GPL_3_0);
+  adw_about_dialog_set_translator_credits (about, _ ("translator-credits"));
+  adw_about_dialog_set_version (about, PACKAGE_VERSION);
+  adw_about_dialog_set_website (about, PACKAGE_URL);
 
   gtk_window_set_transient_for (GTK_WINDOW (about), gtk_application_get_active_window (app));
   gtk_window_present (GTK_WINDOW (about));
