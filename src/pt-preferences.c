@@ -68,7 +68,7 @@ struct _PtPreferencesDialog
   GtkWidget *initial_copy_button;
 };
 
-G_DEFINE_FINAL_TYPE (PtPreferencesDialog, pt_preferences_dialog, ADW_TYPE_PREFERENCES_WINDOW)
+G_DEFINE_FINAL_TYPE (PtPreferencesDialog, pt_preferences_dialog, ADW_TYPE_PREFERENCES_DIALOG)
 
 static void
 update_timestamp_page (PtPreferencesDialog *self)
@@ -670,7 +670,7 @@ pt_preferences_dialog_init (PtPreferencesDialog *self)
   self->active_config_path = g_settings_get_string (self->editor, "asr-config");
 
 #ifndef HAVE_ASR
-  adw_preferences_window_remove (ADW_PREFERENCES_WINDOW (self),
+  adw_preferences_dialog_remove (ADW_PREFERENCES_DIALOG (self),
                                  ADW_PREFERENCES_PAGE (self->asr_page));
 #endif
 }

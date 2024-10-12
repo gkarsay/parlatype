@@ -379,7 +379,7 @@ take_screenshots (GtkApplication *app,
   gtk_window_present (GTK_WINDOW (dlg));
   g_signal_connect (paintable, "invalidate-contents",
                     G_CALLBACK (save_paintable), "asr-setup-initial.png");
-  adw_preferences_window_set_visible_page_name (ADW_PREFERENCES_WINDOW (dlg),
+  adw_preferences_dialog_set_visible_page_name (ADW_PREFERENCES_DIALOG (dlg),
                                                 "asr_page");
   g_main_loop_run (loop);
 
@@ -407,7 +407,7 @@ take_screenshots (GtkApplication *app,
   paintable = gtk_widget_paintable_new (GTK_WIDGET (dlg));
   g_signal_connect (dlg, "configs-updated",
                     G_CALLBACK (save_paintable_after_config_update), paintable);
-  adw_preferences_window_set_visible_page_name (ADW_PREFERENCES_WINDOW (dlg),
+  adw_preferences_dialog_set_visible_page_name (ADW_PREFERENCES_DIALOG (dlg),
                                                 "asr_page");
   gtk_window_present (GTK_WINDOW (dlg));
   g_main_loop_run (loop);

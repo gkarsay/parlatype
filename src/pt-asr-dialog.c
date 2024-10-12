@@ -27,7 +27,7 @@
 
 struct _PtAsrDialog
 {
-  AdwPreferencesWindow parent;
+  AdwPreferencesDialog parent;
 
   PtConfig  *config;
   GSettings *editor;
@@ -45,7 +45,7 @@ struct _PtAsrDialog
   gboolean installed;
 };
 
-G_DEFINE_FINAL_TYPE (PtAsrDialog, pt_asr_dialog, ADW_TYPE_PREFERENCES_WINDOW)
+G_DEFINE_FINAL_TYPE (PtAsrDialog, pt_asr_dialog, ADW_TYPE_PREFERENCES_DIALOG)
 
 static void
 name_row_apply_cb (GtkEditable *editable,
@@ -314,7 +314,7 @@ file_delete_finished (GObject      *source_object,
       AdwToast  *toast = adw_toast_new_format (_ ("“%s” has been deleted"),
                                                pt_config_get_name (self->config));
       GtkWindow *parent = gtk_window_get_transient_for (GTK_WINDOW (self));
-      adw_preferences_window_add_toast (ADW_PREFERENCES_WINDOW (parent), toast);
+      adw_preferences_dialog_add_toast (ADW_PREFERENCES_DIALOG (parent), toast);
       gtk_window_close (GTK_WINDOW (self));
     }
   else
@@ -375,7 +375,7 @@ activate_button_clicked_cb (GtkButton *button,
       if (self->active)
         adw_toast_set_title (toast, _ ("Configuration has been deactivated"));
       GtkWindow *parent = gtk_window_get_transient_for (GTK_WINDOW (self));
-      adw_preferences_window_add_toast (ADW_PREFERENCES_WINDOW (parent), toast);
+      adw_preferences_dialog_add_toast (ADW_PREFERENCES_DIALOG (parent), toast);
       gtk_window_close (GTK_WINDOW (self));
     }
 
