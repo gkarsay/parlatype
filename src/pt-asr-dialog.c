@@ -209,8 +209,6 @@ pt_asr_dialog_set_config (PtAsrDialog *self,
   self->installed = pt_config_is_installed (config);
   update_status_row (self);
 
-  group = ADW_PREFERENCES_GROUP (self->info_group);
-
   name = pt_config_get_name (config);
   gtk_window_set_title (GTK_WINDOW (self), name);
   gtk_editable_set_text (GTK_EDITABLE (self->name_row), name);
