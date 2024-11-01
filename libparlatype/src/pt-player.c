@@ -1883,6 +1883,9 @@ pt_player_get_timestamp_position (PtPlayer *self,
                                   gchar    *timestamp,
                                   gboolean  check_duration)
 {
+  g_return_val_if_fail (PT_IS_PLAYER (self), -1);
+  g_return_val_if_fail (timestamp != NULL, -1);
+
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
   gint             h, m, s, ms, result;
   gchar           *cmp; /* timestamp without delimiters */
