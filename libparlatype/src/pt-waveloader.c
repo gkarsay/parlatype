@@ -140,6 +140,9 @@ convert_one_second (GArray *in,
                     uint   *index_out,
                     int     pps)
 {
+  g_return_if_fail (in != NULL);
+  g_return_if_fail (out != NULL);
+
   gint   k, m;
   gint16 d;
   gfloat vmin, vmax;
