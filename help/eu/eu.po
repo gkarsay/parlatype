@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Parlatype 3.1\n"
 "POT-Creation-Date: 2024-05-13 21:21+0200\n"
-"PO-Revision-Date: 2024-07-09 21:09+0000\n"
-"Last-Translator: Alexander Gabilondo <alexgabi@openmailbox.org>\n"
+"PO-Revision-Date: 2024-11-02 23:00+0000\n"
+"Last-Translator: Alex Gabilondo <alexgabi@disroot.org>\n"
 "Language-Team: Basque <https://hosted.weblate.org/projects/parlatype/"
 "parlatype-help/eu/>\n"
 "Language: eu\n"
@@ -11,24 +11,26 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.7-dev\n"
+"X-Generator: Weblate 5.8.2\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr ""
+msgstr "Launchpad Contributions:  Alexander Gabilondo"
 
 #. (itstool) path: info/title
 #: ../help/C/index.page:7
+#, fuzzy
 msgctxt "text"
 msgid "Parlatype"
-msgstr ""
+msgstr "Parlatype"
 
 #. (itstool) path: info/title
 #: ../help/C/index.page:8
+#, fuzzy
 msgctxt "link"
 msgid "Parlatype"
-msgstr ""
+msgstr "Parlatype"
 
 #. (itstool) path: credit/name
 #: ../help/C/index.page:10 ../help/C/drag-and-drop.page:8
@@ -44,11 +46,14 @@ msgid ""
 "<app>Parlatype</app> is an easy to use media player. Its main purpose is to "
 "help you transcribing speech."
 msgstr ""
+"<app>Parlatype</app> erabiltzeko erraza den multimedia-erreproduzitzailea "
+"da. Bere helburu nagusia hizketa transkribatzen laguntzea da."
 
 #. (itstool) path: page/title
 #: ../help/C/index.page:18
+#, fuzzy
 msgid "<_:media-1/> Parlatype"
-msgstr ""
+msgstr "<_:media-1/> Parlatype"
 
 #. (itstool) path: page/p
 #: ../help/C/index.page:24
@@ -56,21 +61,23 @@ msgid ""
 "For a quick overview have a look at <link xref=\"first-steps\"/>. Other "
 "topics are covered below."
 msgstr ""
+"Ikuspegi azkar bat lortzeko, begiratu <link xref=\"first-steps\"/>. Beste "
+"gai batzuk behean lantzen dira."
 
 #. (itstool) path: section/title
 #: ../help/C/index.page:27
 msgid "Help topics"
-msgstr ""
+msgstr "Laguntza-gaiak"
 
 #. (itstool) path: info/desc
 #: ../help/C/drag-and-drop.page:6
 msgid "Drop files, file names or timestamps on Parlatype"
-msgstr ""
+msgstr "Jaregin fitxategiak, fitxategi-izenak edo denbora-zigiluak Parlatype-n"
 
 #. (itstool) path: page/title
 #: ../help/C/drag-and-drop.page:14
 msgid "Drag and Drop"
-msgstr ""
+msgstr "Arrastatu eta Jaregin"
 
 #. (itstool) path: page/p
 #: ../help/C/drag-and-drop.page:16
@@ -78,6 +85,8 @@ msgid ""
 "You can drop files, file names or timestamps on <app>Parlatype</app>’s "
 "window."
 msgstr ""
+"Fitxategiak, fitxategi-izenak edo denbora-zigiluak jar ditzakezu "
+"<app>Parlatype</app>ren leihoan."
 
 #. (itstool) path: item/p
 #: ../help/C/drag-and-drop.page:19
@@ -85,6 +94,9 @@ msgid ""
 "Files: Drag and drop a file from a file manager, e.g. <app>Files</app>, on "
 "<app>Parlatype</app> and it will open that file."
 msgstr ""
+"Fitxategiak: arrastatu eta jaregin fitxategi bat fitxategi-arakatzaile "
+"batetik, adibidez. <app>Fitxategiak</app>, <app>Parlatype</app>-n eta "
+"fitxategi hori irekiko du."
 
 #. (itstool) path: item/p
 #: ../help/C/drag-and-drop.page:20
@@ -95,6 +107,12 @@ msgid ""
 "select the name only, <app>Parlatype</app> will look up its full path in the "
 "list of recent files and open it if it can find it in that list."
 msgstr ""
+"Fitxategi-izenak: hautatu testu-prozesadore batetik, adibidez. "
+"<app>LibreOffice</app>, fitxategi-izen bat, jaregin hautatutako testua "
+"<app>Parlatype</app>-n eta fitxategi hori irekiko du. Hau beti funtzionatuko "
+"du hautaketak bide osoa badu. Izena soilik hautatzen baduzu, "
+"<app>Parlatype</app>-k bere bide osoa bilatuko du azken fitxategien "
+"zerrendan eta irekiko du zerrenda horretan aurkitzen badu."
 
 #. (itstool) path: item/p
 #: ../help/C/drag-and-drop.page:21
@@ -103,16 +121,20 @@ msgid ""
 "a timestamp from a word processor, e.g. <app>LibreOffice</app>, drop the "
 "selected text on <app>Parlatype</app> and it will jump to that position."
 msgstr ""
+"Denbora-zigiluak: denbora-zigiluak arrastatu eta jaregin ditzakezu "
+"<app>Parlatype</app>-ra. Hautatu denbora-zigilu bat testu-prozesadore "
+"batetik, adibidez. <app>LibreOffice</app>, jaregin hautatutako testua "
+"<app>Parlatype</app>-n eta posizio horretara salto egingo du."
 
 #. (itstool) path: info/desc
 #: ../help/C/first-steps.page:7
 msgid "First steps with Parlatype"
-msgstr ""
+msgstr "Lehen urratsak Parlatyperekin"
 
 #. (itstool) path: page/title
 #: ../help/C/first-steps.page:15
 msgid "First Steps With Parlatype"
-msgstr ""
+msgstr "Lehen urratsak Parlatyperekin"
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:17
@@ -122,11 +144,16 @@ msgid ""
 "<app>LibreOffice</app>, too. Launch <app>Parlatype</app> and open an audio "
 "file by clicking on the <gui>Open</gui> button in the upper left corner."
 msgstr ""
+"<app>Parlatype</app> audio erreproduzitzaile erraza da, grabatutako hizkera "
+"transkribatzen edo ohartarazten laguntzeko. Testu prozesadorea exekutatu "
+"behar duzu, adibidez. <app>LibreOffice</app> ere. Abiarazi <app>Parlatype</"
+"app> eta ireki audio-fitxategi bat goiko ezkerreko izkinan dagoen "
+"<gui>Ireki</gui> botoian klik eginez."
 
 #. (itstool) path: note/p
 #: ../help/C/first-steps.page:20
 msgid "You can also drag and drop a file on <app>Parlatype</app>."
-msgstr ""
+msgstr "Fitxategi bat arrastatu eta jaregin dezakezu <app>Parlatype</app>-n."
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:23
@@ -136,6 +163,11 @@ msgid ""
 "<app>Parlatype</app> rewinds a few seconds to make it easier to resume. This "
 "can be changed in the Preferences dialog."
 msgstr ""
+"Beheko ezkerreko ertzean <gui>Erreproduzitu</gui> botoia duten kontrolak "
+"daude, erreproduzitu eta pausatu artean aldatzeko. Pausatzen duzun "
+"bakoitzean, <app>Parlatype</app>-k segundo batzuk atzera egiten du berriro "
+"hastea errazagoa izan dadin. Hau Hobespenak elkarrizketa-koadroan alda "
+"daiteke."
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:27
@@ -144,6 +176,9 @@ msgid ""
 "lower left corner skip a few seconds back or ahead. The amount of time can "
 "be changed in the Preferences dialog."
 msgstr ""
+"Beheko ezkerreko izkinan dauden <gui>Saltatu atzera</gui> eta <gui>Saltatu "
+"aurrera</gui> botoiek segundo batzuk atzera edo aurrera egiten dute. Denbora-"
+"kopurua Hobespenak elkarrizketa-koadroan alda daiteke."
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:29
@@ -152,6 +187,9 @@ msgid ""
 "scroll manually by clicking on or dragging the scroll bar or using the "
 "standard keybindings. Automatic scrolling is stopped then."
 msgstr ""
+"Ikuspegia automatikoki mugitzen da, kurtsorea beti ikusgai egon dadin. Eskuz "
+"korritu dezakezu korritze-barra gainean klik eginez edo arrastatuz edo "
+"teklatu estandarrak erabiliz. Desplazamendu automatikoa gelditzen da orduan."
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:31
@@ -161,6 +199,10 @@ msgid ""
 "Cursor</gui>. Clicking on the <gui>Play</gui> button also turns automatic "
 "scrolling on."
 msgstr ""
+"Kurtsorearen posiziora itzultzeko eta ikuspegia berriro automatikoki "
+"korritzeko, egin klik ordua erakusten duen menu-botoian eta, ondoren, "
+"<gui>Joan kurtsorera</gui> aukeran. <gui>Reproduzitu</gui> botoian klik "
+"eginez gero, korritze automatikoa ere aktibatzen da."
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:33
@@ -168,6 +210,8 @@ msgid ""
 "Clicking in the view with the right mouse button will put the cursor there. "
 "The left mouse button is for <link xref=\"selections\"/>."
 msgstr ""
+"Saguaren eskuineko botoiarekin ikuspegian klik egitean kurtsorea bertan "
+"jarriko da. Saguaren ezkerreko botoia <link xref=\"selections\"/>rentzat da."
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:35
@@ -177,31 +221,35 @@ msgid ""
 "normal speed, everything lower (down to 0.5) is slower, everything above is "
 "faster."
 msgstr ""
+"Beheko eskuineko izkinan dagoen <gui>Bolumena</gui> botoiaren ondoan dagoen "
+"<gui>abiadura eskalak</gui> erreprodukzio-abiadura doitzeko aukera ematen "
+"dizu. 1 balio batek abiadura normala esan nahi du, baxuago dena (0,5era arte)"
+" motelagoa da, goiko guztia azkarragoa da."
 
 #. (itstool) path: info/desc
 #: ../help/C/keyboard-shortcuts.page:6
 msgid "Standard keyboard shortcuts in Parlatype"
-msgstr ""
+msgstr "Teklatu laster-tekla estandarrak Parlatypen"
 
 #. (itstool) path: page/title
 #: ../help/C/keyboard-shortcuts.page:14
 msgid "Keyboard Shortcuts"
-msgstr ""
+msgstr "Laster-teklak"
 
 #. (itstool) path: table/title
 #: ../help/C/keyboard-shortcuts.page:17
 msgid "Standard Shortcut keys"
-msgstr ""
+msgstr "Laster-tekla estandarrak"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:20
 msgid "To Do This"
-msgstr ""
+msgstr "Hau egiteko"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:21
 msgid "Press This"
-msgstr ""
+msgstr "Sakatu hau"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:26
@@ -211,17 +259,18 @@ msgstr "Erakutsi laguntza"
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:27
 msgid "<key>F1</key>"
-msgstr ""
+msgstr "<key>F1</key>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:30
 msgid "Open file"
-msgstr ""
+msgstr "Ireki fitxategia"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:31
+#, fuzzy
 msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:34
@@ -231,17 +280,18 @@ msgstr "Erreproduzitu/Pausatu"
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:35
 msgid "<keyseq><key>Ctrl</key><key>Space</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>Zuriunea</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:38
 msgid "Go to …"
-msgstr ""
+msgstr "Joan…"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:39
+#, fuzzy
 msgid "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:42
@@ -250,8 +300,9 @@ msgstr "Saltatu atzera"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:43
+#, fuzzy
 msgid "<keyseq><key>Ctrl</key><key>a</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>a</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:46
@@ -261,27 +312,28 @@ msgstr "Jauzi aurrera"
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:47
 msgid "<keyseq><key>Ctrl</key><key>s</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>s</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:50
 msgid "Copy timestamp"
-msgstr ""
+msgstr "Kopiatu denbora-zigilua"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:51
+#, fuzzy
 msgid "<keyseq><key>Ctrl</key><key>c</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>c</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:54
 msgid "Insert timestamp"
-msgstr ""
+msgstr "Txertatu denbora-zigilua"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:55
 msgid "<keyseq><key>Ctrl</key><key>v</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>v</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:58
@@ -291,7 +343,7 @@ msgstr "Handiagotu"
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:59
 msgid "<keyseq><key>Ctrl</key><key>+</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>+</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:62
@@ -301,7 +353,7 @@ msgstr "Txikiagotu"
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:63
 msgid "<keyseq><key>Ctrl</key><key>-</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>-</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:66
@@ -311,27 +363,27 @@ msgstr "Irten"
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:67
 msgid "<keyseq><key>Ctrl</key><key>q</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>q</key></keyseq>"
 
 #. (itstool) path: p/link
 #: ../help/C/legal.xml:5
 msgid "Creative Commons Attribution-ShareAlike 4.0 International"
-msgstr ""
+msgstr "Creative Commons Aitortu-PartekatuBerdin 4.0 Nazioartekoa"
 
 #. (itstool) path: license/p
 #: ../help/C/legal.xml:4
 msgid "This work is licensed under a <_:link-1/> license."
-msgstr ""
+msgstr "Lan hau <_:link-1/> lizentziapean dago."
 
 #. (itstool) path: info/desc
 #: ../help/C/selections.page:6
 msgid "How to play and repeat a selection"
-msgstr ""
+msgstr "Hautapen bat nola erreproduzitu eta errepikatu"
 
 #. (itstool) path: page/title
 #: ../help/C/selections.page:14
 msgid "Selections"
-msgstr ""
+msgstr "Hautapenak"
 
 #. (itstool) path: page/p
 #: ../help/C/selections.page:16
@@ -340,6 +392,10 @@ msgid ""
 "<gui>Play</gui>, it will play the selection only. When it is finished and "
 "you press <gui>Play</gui> again, it will loop the selection once."
 msgstr ""
+"Saguarekin uhin-formaren zati bat hauta dezakezu. <gui>Erreproduzitu</gui> "
+"sakatzen duzun hurrengoan, hautaketa soilik erreproduzituko du. Amaitzen "
+"denean eta <gui>Erreproduzitu</gui> berriro sakatzen duzunean, hautapena "
+"behin errepikatuko du."
 
 #. (itstool) path: note/p
 #: ../help/C/selections.page:18
@@ -347,6 +403,8 @@ msgid ""
 "When in selection mode, you can not exit the selection anymore until you "
 "deselect it."
 msgstr ""
+"Hautaketa moduan zaudenean, ezin duzu hautatzetik irten, hautatzen duzun "
+"arte."
 
 #. (itstool) path: page/p
 #: ../help/C/selections.page:20
@@ -356,6 +414,10 @@ msgid ""
 "<key>Shift</key> key pressed, an already existing selection will be enlarged "
 "to that point."
 msgstr ""
+"Hautaketak saguarekin (edo punteroarekin) egin daitezke ezkerreko klik "
+"batekin, saguaren botoia eutsita eta erakuslea arrastatuz. <key>Shift</key> "
+"tekla sakatuta klikatzen baduzu, lehendik dagoen hautapena handituko da "
+"puntu horretara."
 
 #. (itstool) path: page/p
 #: ../help/C/selections.page:22
@@ -363,11 +425,13 @@ msgid ""
 "To deselect click once with the left button into the waveform. If the "
 "waveform has keyboard focus, you can press <key>Escape</key>."
 msgstr ""
+"Hautatzeko, egin klik behin ezkerreko botoiarekin uhin forman. Uhin-formak "
+"teklatuaren fokua badu, <key>Esc</key> saka dezakezu."
 
 #. (itstool) path: info/desc
 #: ../help/C/timestamps.page:6
 msgid "Set and go to timestamps"
-msgstr ""
+msgstr "Ezarri eta joan denbora-zigiluetara"
 
 #. (itstool) path: page/title
 #: ../help/C/timestamps.page:14
@@ -377,7 +441,7 @@ msgstr "Denbora-markak"
 #. (itstool) path: page/p
 #: ../help/C/timestamps.page:16
 msgid "Timestamps help you to navigate in your transcription."
-msgstr ""
+msgstr "Denbora-zigiluak transkripzioan nabigatzen laguntzen dizu."
 
 #. (itstool) path: note/p
 #: ../help/C/timestamps.page:19
@@ -385,6 +449,8 @@ msgid ""
 "Timestamps can look like this: #03:45.2#. You can select them with or "
 "without the number signs."
 msgstr ""
+"Denbora-zigiluak honelakoak izan daitezke: #03:45.2#. Zenbaki zeinuekin edo "
+"gabe hauta ditzakezu."
 
 #. (itstool) path: page/p
 #: ../help/C/timestamps.page:22
@@ -392,11 +458,13 @@ msgid ""
 "<app>Parlatype</app> can produce different timestamp formats, they can be "
 "set in the Preferences dialog."
 msgstr ""
+"<app>Parlatype</app>k denbora-zigilu formatu desberdinak sor ditzake, "
+"Hobespenak elkarrizketa-koadroan ezar daitezke."
 
 #. (itstool) path: section/title
 #: ../help/C/timestamps.page:25
 msgid "Drag and drop"
-msgstr ""
+msgstr "Arrastatu eta jaregin"
 
 #. (itstool) path: section/p
 #: ../help/C/timestamps.page:27
@@ -406,11 +474,15 @@ msgid ""
 "also possible the other way round: Drag the time label from <app>Parlatype</"
 "app> to a word processor and drop it there to insert it."
 msgstr ""
+"Testu-prozesadorean denbora-zigilua hautatzen baduzu, arrastatu eta jaregin "
+"dezakezu <app>Parlatype</app> leihoan eta posizio horretara joango da. "
+"Alderantziz ere posible da: arrastatu denbora-etiketa <app>Parlatype</app> "
+"testu-prozesadore batera eta jaregin hor txertatzeko."
 
 #. (itstool) path: section/title
 #: ../help/C/timestamps.page:31
 msgid "Using the clipboard"
-msgstr ""
+msgstr "Arbela erabiliz"
 
 #. (itstool) path: section/p
 #: ../help/C/timestamps.page:33
@@ -418,6 +490,8 @@ msgid ""
 "Clicking on the menu button that is showing the current time you can "
 "<gui>Copy Time to Clipboard</gui> or <gui>Go to Time in Clipboard</gui>."
 msgstr ""
+"Uneko ordua erakusten ari den menuko botoian klik eginez <gui>Ordua arbelean "
+"kopiatu</gui> edo <gui>Arbelean ordura joan</gui> dezakezu."
 
 #. (itstool) path: section/p
 #: ../help/C/timestamps.page:35
@@ -428,6 +502,11 @@ msgid ""
 "to the clipboard. Changing to the word processor you can insert now the "
 "timestamp in your transcription."
 msgstr ""
+"Hau laster-teklekin ere egin daiteke. Lehenik eta behin, ziurtatu "
+"<app>Parlatype</app> leihoak aktibo dagoela. "
+"<keyseq><key>Ctrl</key><key>c</key></keyseq> tekla-sekuentziarekin uneko "
+"denbora-zigilua arbelean kopiatzen da. Testu-prozesadorera aldatuz gero, "
+"denbora-zigilua txerta dezakezu transkripzioan."
 
 #. (itstool) path: section/p
 #: ../help/C/timestamps.page:36
@@ -436,6 +515,9 @@ msgid ""
 "the clipboard. Once you have changed focus to <app>Parlatype</app> press "
 "<keyseq><key>Ctrl</key><key>v</key></keyseq>."
 msgstr ""
+"Denbora-zigiluaren posizio batera joateko, kopiatu testu-prozesadoreko "
+"denbora-zigilua arbelean. Leiho aktiboa <app>Parlatype</app>ra aldatu "
+"ondoren, sakatu <keyseq><key>Ctrl</key><key>v</key></keyseq>."
 
 #~ msgid "Preferences"
 #~ msgstr "Hobespenak"
