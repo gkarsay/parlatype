@@ -25,4 +25,4 @@ G_DECLARE_FINAL_TYPE (PtAsrDialog, pt_asr_dialog, PT, ASR_DIALOG, AdwPreferences
 void         pt_asr_dialog_set_config (PtAsrDialog *self,
                                        PtConfig    *config);
 
-PtAsrDialog *pt_asr_dialog_new        (GtkWindow   *parent);
+PtAsrDialog *pt_asr_dialog_new        (void);

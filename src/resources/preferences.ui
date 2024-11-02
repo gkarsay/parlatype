@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk" version="4.0"/>
-  <template class="PtPreferencesDialog" parent="AdwPreferencesWindow">
-    <property name="default-width">800</property>
-    <property name="default-height">600</property>
+  <template class="PtPreferencesDialog" parent="AdwPreferencesDialog">
     <property name="title" translatable="yes">Preferences</property>
     <child>
       <object class="AdwPreferencesPage">

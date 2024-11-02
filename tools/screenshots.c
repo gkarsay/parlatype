@@ -374,16 +374,16 @@ take_screenshots (GtkApplication *app,
 
   PtPreferencesDialog *dlg;
 
-  dlg = pt_preferences_dialog_new (GTK_WINDOW (win));
+  dlg = pt_preferences_dialog_new ();
   paintable = gtk_widget_paintable_new (GTK_WIDGET (dlg));
-  gtk_window_present (GTK_WINDOW (dlg));
+  adw_dialog_present (ADW_DIALOG (dlg), GTK_WIDGET (win));
   g_signal_connect (paintable, "invalidate-contents",
                     G_CALLBACK (save_paintable), "asr-setup-initial.png");
   adw_preferences_dialog_set_visible_page_name (ADW_PREFERENCES_DIALOG (dlg),
                                                 "asr_page");
   g_main_loop_run (loop);
 
-  gtk_window_close (GTK_WINDOW (dlg));
+  adw_dialog_close (ADW_DIALOG (dlg));
   g_object_unref (paintable);
 
   /* Preferences Dialog, asr page with models ------------------------------- */
@@ -403,24 +403,24 @@ take_screenshots (GtkApplication *app,
   GSettings *editor = _pt_window_get_settings (win);
   g_settings_set_string (editor, "asr-config", config_name);
 
-  dlg = pt_preferences_dialog_new (GTK_WINDOW (win));
+  dlg = pt_preferences_dialog_new ();
   paintable = gtk_widget_paintable_new (GTK_WIDGET (dlg));
   g_signal_connect (dlg, "configs-updated",
                     G_CALLBACK (save_paintable_after_config_update), paintable);
   adw_preferences_dialog_set_visible_page_name (ADW_PREFERENCES_DIALOG (dlg),
                                                 "asr_page");
-  gtk_window_present (GTK_WINDOW (dlg));
+  adw_dialog_present (ADW_DIALOG (dlg), GTK_WIDGET (win));
   g_main_loop_run (loop);
 
-  gtk_window_destroy (GTK_WINDOW (dlg));
+  adw_dialog_close (ADW_DIALOG (dlg));
   g_object_unref (paintable);
 
   /* ASR Model dialog ------------------------------------------------------- */
 
   /* show dialog with config */
   PtAsrDialog *asr_dlg;
-  asr_dlg = pt_asr_dialog_new (GTK_WINDOW (win));
-  gtk_window_present (GTK_WINDOW (asr_dlg));
+  asr_dlg = pt_asr_dialog_new ();
+  adw_dialog_present (ADW_DIALOG (asr_dlg), GTK_WIDGET (win));
   paintable = gtk_widget_paintable_new (GTK_WIDGET (asr_dlg));
   g_signal_connect (paintable, "invalidate-contents",
                     G_CALLBACK (save_paintable), "asr-setup-details.png");

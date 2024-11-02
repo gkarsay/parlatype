@@ -68,7 +68,7 @@ name_row_apply_cb (GtkEditable *editable,
 
   if (g_strcmp0 (new_name, old_name) != 0)
     {
-      gtk_window_set_title (GTK_WINDOW (self), new_name);
+      adw_dialog_set_title (ADW_DIALOG (self), new_name);
       pt_config_set_name (self->config, new_name);
     }
 
@@ -210,7 +210,7 @@ pt_asr_dialog_set_config (PtAsrDialog *self,
   update_status_row (self);
 
   name = pt_config_get_name (config);
-  gtk_window_set_title (GTK_WINDOW (self), name);
+  adw_dialog_set_title (ADW_DIALOG (self), name);
   gtk_editable_set_text (GTK_EDITABLE (self->name_row), name);
   g_signal_connect (self->name_row, "apply",
                     G_CALLBACK (name_row_apply_cb), self);
@@ -422,7 +422,7 @@ pt_asr_dialog_class_init (PtAsrDialogClass *klass)
 }
 
 PtAsrDialog *
-pt_asr_dialog_new (GtkWindow *parent)
+pt_asr_dialog_new (void)
 {
-  return g_object_new (PT_TYPE_ASR_DIALOG, "transient-for", parent, NULL);
+  return g_object_new (PT_TYPE_ASR_DIALOG, NULL);
 }

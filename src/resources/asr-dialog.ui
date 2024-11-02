@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk" version="4.0"/>
-  <template class="PtAsrDialog" parent="AdwPreferencesWindow">
-    <property name="default-width">600</property>
+  <template class="PtAsrDialog" parent="AdwPreferencesDialog">
     <property name="search-enabled">false</property>
     <child>
       <object class="AdwPreferencesPage" id="page">

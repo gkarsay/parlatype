@@ -136,10 +136,10 @@ prefs_cb (GSimpleAction *action,
           GVariant      *parameter,
           gpointer       user_data)
 {
-  PtApp     *app = PT_APP (user_data);
-  GtkWindow *win;
-  win = gtk_application_get_active_window (GTK_APPLICATION (app));
-  pt_show_preferences_dialog (win);
+  GtkApplication      *app = GTK_APPLICATION (user_data);
+  GtkWindow           *parent = gtk_application_get_active_window (app);
+  PtPreferencesDialog *dlg = pt_preferences_dialog_new ();
+  adw_dialog_present (ADW_DIALOG (dlg), GTK_WIDGET (parent));
 }
 
 static void
@@ -278,8 +278,10 @@ get_debug_info (GtkApplication *app)
 static void
 about_cb (GSimpleAction *action,
           GVariant      *parameter,
-          gpointer       app)
+          gpointer       user_data)
 {
+  GtkApplication *app = GTK_APPLICATION (user_data);
+  GtkWindow      *parent = gtk_application_get_active_window (app);
   AdwAboutDialog *about = ADW_ABOUT_DIALOG (adw_about_dialog_new ());
   gchar          *debug_info = get_debug_info (app);
 
@@ -322,8 +324,7 @@ about_cb (GSimpleAction *action,
   adw_about_dialog_set_version (about, PACKAGE_VERSION);
   adw_about_dialog_set_website (about, PACKAGE_URL);
 
-  gtk_window_set_transient_for (GTK_WINDOW (about), gtk_application_get_active_window (app));
-  gtk_window_present (GTK_WINDOW (about));
+  adw_dialog_present (ADW_DIALOG (about), GTK_WIDGET (parent));
 
   g_free (debug_info);
 }

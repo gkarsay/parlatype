@@ -31,11 +31,9 @@
 #define EXAMPLE_TIME_SHORT 471123
 #define EXAMPLE_TIME_LONG 4071123
 
-static GtkWidget *preferences_dialog = NULL;
-
 struct _PtPreferencesDialog
 {
-  AdwPreferencesWindow parent;
+  AdwPreferencesDialog parent;
 
   GSettings    *editor;
   PtPlayer     *player;
@@ -214,10 +212,10 @@ asr_row_activated (AdwActionRow *row,
   PtConfig            *config;
 
   config = pt_config_row_get_config (PT_CONFIG_ROW (row));
-  PtAsrDialog *asr_dlg = pt_asr_dialog_new (GTK_WINDOW (self));
+  PtAsrDialog *asr_dlg = pt_asr_dialog_new ();
   pt_asr_dialog_set_config (asr_dlg, config);
   g_signal_connect (asr_dlg, "destroy", G_CALLBACK (asr_dialog_destroy_cb), self);
-  gtk_window_present (GTK_WINDOW (asr_dlg));
+  adw_dialog_present (ADW_DIALOG (asr_dlg), GTK_WIDGET (self));
 }
 
 static gboolean
@@ -738,42 +736,8 @@ pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtPreferencesDialog, initial_copy_button);
 }
 
-static void
-prefs_destroy_cb (GtkWidget *widget,
-                  gpointer   user_data)
-{
-  preferences_dialog = NULL;
-}
-
-void
-pt_show_preferences_dialog (GtkWindow *parent)
-{
-  if (preferences_dialog == NULL)
-    {
-
-      preferences_dialog = GTK_WIDGET (g_object_new (PT_TYPE_PREFERENCES_DIALOG,
-                                                     NULL));
-      g_signal_connect (preferences_dialog,
-                        "destroy",
-                        G_CALLBACK (prefs_destroy_cb),
-                        NULL);
-    }
-
-  if (parent != gtk_window_get_transient_for (GTK_WINDOW (preferences_dialog)))
-    {
-      gtk_window_set_transient_for (GTK_WINDOW (preferences_dialog), GTK_WINDOW (parent));
-      gtk_window_set_modal (GTK_WINDOW (preferences_dialog), FALSE);
-      gtk_window_set_destroy_with_parent (GTK_WINDOW (preferences_dialog), TRUE);
-    }
-
-  gtk_window_present (GTK_WINDOW (preferences_dialog));
-}
-
 PtPreferencesDialog *
-pt_preferences_dialog_new (GtkWindow *parent)
+pt_preferences_dialog_new (void)
 {
-  return g_object_new (
-      PT_TYPE_PREFERENCES_DIALOG,
-      "transient-for", parent,
-      NULL);
+  return g_object_new (PT_TYPE_PREFERENCES_DIALOG, NULL);
 }
