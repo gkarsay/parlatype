@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk+" version="3.10"/>
+  <requires lib="gtk" version="4.0"/>
   <requires lib="parlatype" version="0.0"/>
   <object class="GtkAdjustment" id="seek_adj">
     <property name="lower">-3</property>
