@@ -11,7 +11,7 @@ progressbar > trough {
   border: transparent;
 }
 
-window > grid {
+toolbarview > grid {
   padding: 6px;
 }
 

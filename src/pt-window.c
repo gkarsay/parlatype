@@ -31,7 +31,7 @@
 
 struct _PtWindow
 {
-  GtkApplicationWindow parent;
+  AdwApplicationWindow parent;
   PtPlayer            *player;
   GtkWidget           *waveviewer;
   GSettings           *editor;
@@ -73,7 +73,7 @@ struct _PtWindow
   gdouble speed;
 };
 
-G_DEFINE_TYPE (PtWindow, pt_window, GTK_TYPE_APPLICATION_WINDOW)
+G_DEFINE_TYPE (PtWindow, pt_window, ADW_TYPE_APPLICATION_WINDOW)
 
 static void play_button_toggled_cb (GtkToggleButton *button, PtWindow *self);
 
