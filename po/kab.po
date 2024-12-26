@@ -8,16 +8,17 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-13 21:21+0200\n"
-"PO-Revision-Date: 2018-06-04 12:45+0000\n"
-"Last-Translator: Belkacem Mohammed <belkacem77@gmail.com>\n"
-"Language-Team: Kabyle <kab@li.org>\n"
+"PO-Revision-Date: 2024-12-27 17:08+0000\n"
+"Last-Translator: ButterflyOfFire <boffire@users.noreply.hosted.weblate.org>\n"
+"Language-Team: Kabyle <https://hosted.weblate.org/projects/parlatype/"
+"parlatype/kab/>\n"
 "Language: kab\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.10-dev\n"
 "X-Launchpad-Export-Date: 2020-05-08 11:32+0000\n"
-"X-Generator: Launchpad (build fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398)\n"
 
 #: data/parlatype.desktop.in:4 data/parlatype.metainfo.xml.in:8
 #: src/pt-app.c:196 src/resources/window.ui:30
@@ -44,11 +45,11 @@ msgstr ""
 
 #: data/parlatype.metainfo.xml.in:19
 msgid "Main window"
-msgstr ""
+msgstr "Asfaylu agejdan"
 
 #: data/parlatype.metainfo.xml.in:28
 msgid "Gabor Karsay"
-msgstr ""
+msgstr "Gabor Karsay"
 
 #: data/parlatype.metainfo.xml.in:47
 msgid "Website moved to www.parlatype.xyz."
@@ -108,7 +109,7 @@ msgstr ""
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:80
 msgid "Switched to Weblate for translations."
-msgstr ""
+msgstr "Nuɣal ɣer Weblate i tsuqilt."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:87 data/parlatype.metainfo.xml.in:116
@@ -295,14 +296,10 @@ msgid "Open Audio File"
 msgstr "Ldi afaylu ameslaw"
 
 #: src/pt-app.c:115
-#, fuzzy
-#| msgid "Audio files"
 msgid "Audio Files"
 msgstr "Ifuyla imeslawen"
 
 #: src/pt-app.c:116 src/pt-preferences.c:536
-#, fuzzy
-#| msgid "All files"
 msgid "All Files"
 msgstr "Akk ifuyla"
 
@@ -318,7 +315,8 @@ msgstr ""
 msgid "translator-credits"
 msgstr ""
 "Launchpad Contributions:\n"
-"  Belkacem Mohammed https://launchpad.net/~belkacem77"
+" Belkacem Mohammed https://launchpad.net/~belkacem77\n"
+"ButterflyOfFire"
 
 #: src/pt-app.c:344
 #, c-format
@@ -330,7 +328,7 @@ msgstr ""
 #. Translators: Fallback label for a download location
 #: src/pt-asr-dialog.c:99
 msgid "Link"
-msgstr ""
+msgstr "Aseɣwen"
 
 #. Not using title case here, this is more a status than a title.
 #: src/pt-asr-dialog.c:115
@@ -348,7 +346,7 @@ msgstr ""
 
 #: src/pt-asr-dialog.c:126 src/pt-asr-dialog.c:133
 msgid "Activate"
-msgstr ""
+msgstr "Rmed"
 
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:131
@@ -366,7 +364,7 @@ msgstr ""
 
 #: src/pt-asr-dialog.c:222
 msgid "Language"
-msgstr ""
+msgstr "Tutlayt"
 
 #: src/pt-asr-dialog.c:226
 msgid "CMU Pocketsphinx"
@@ -387,15 +385,15 @@ msgstr ""
 
 #: src/pt-asr-dialog.c:241
 msgid "License"
-msgstr ""
+msgstr "Turagt"
 
 #: src/pt-asr-dialog.c:249
 msgid "Instructions"
-msgstr ""
+msgstr "Tinaḍin"
 
 #: src/pt-asr-dialog.c:258 src/pt-asr-dialog.c:269
 msgid "Download"
-msgstr ""
+msgstr "Zdem"
 
 #. Translators: %s is replaced with the name of a configuration
 #: src/pt-asr-dialog.c:314
@@ -406,7 +404,7 @@ msgstr ""
 #: src/pt-asr-dialog.c:322 src/pt-preferences.c:248 src/pt-preferences.c:418
 #: src/pt-preferences.c:453 src/pt-window.c:86
 msgid "Error"
-msgstr ""
+msgstr "Anezri"
 
 #. Translators: %s is replaced with the name of a configuration
 #: src/pt-asr-dialog.c:373
@@ -456,7 +454,7 @@ msgstr ""
 
 #: src/pt-prefs-install-row.c:54
 msgid "Installed"
-msgstr ""
+msgstr "Yettwasbedd"
 
 #: src/pt-prefs-install-row.c:59
 msgid "Not Installed"
@@ -490,7 +488,7 @@ msgstr[1] ""
 
 #: src/pt-window.c:434
 msgid "Pause"
-msgstr ""
+msgstr "Seṛǧu"
 
 #: src/pt-window.c:439
 #, c-format
@@ -523,7 +521,7 @@ msgstr ""
 
 #: src/resources/asr-dialog.ui:29
 msgid "Installation"
-msgstr ""
+msgstr "Asbeddi"
 
 #: src/resources/asr-dialog.ui:30
 msgid "How to install this language model."
@@ -531,7 +529,7 @@ msgstr ""
 
 #: src/resources/asr-dialog.ui:33
 msgid "General Information"
-msgstr ""
+msgstr "Talɣut tamatut"
 
 #: src/resources/asr-dialog.ui:36
 msgid "Display Name"
@@ -543,7 +541,7 @@ msgstr ""
 
 #: src/resources/asr-dialog.ui:48
 msgid "Delete"
-msgstr ""
+msgstr "Kkes"
 
 #: src/resources/editor-theme-selector.ui:22
 msgid "Follow System Style"
@@ -571,7 +569,7 @@ msgstr ""
 
 #: src/resources/goto-dialog.ui:10 src/resources/window.ui:262
 msgid "Go to…"
-msgstr ""
+msgstr "Ddu ɣer…"
 
 #: src/resources/goto-dialog.ui:20
 msgid "Go to position:"
@@ -583,11 +581,11 @@ msgstr "_Sefsex"
 
 #: src/resources/goto-dialog.ui:60
 msgid "_OK"
-msgstr ""
+msgstr "IH (_O)"
 
 #: src/resources/help-overlay.ui:13
 msgid "General"
-msgstr ""
+msgstr "Amatu"
 
 #: src/resources/help-overlay.ui:18
 msgid "Open a media file"
@@ -599,7 +597,7 @@ msgstr ""
 
 #: src/resources/help-overlay.ui:32
 msgid "Quit"
-msgstr ""
+msgstr "Ffeɣ"
 
 #: src/resources/help-overlay.ui:40 src/resources/preferences.ui:11
 msgid "Waveform"
@@ -639,11 +637,11 @@ msgstr ""
 
 #: src/resources/help-overlay.ui:102 src/resources/window.ui:243
 msgid "Help"
-msgstr ""
+msgstr "Tallalt"
 
 #: src/resources/help-overlay.ui:107
 msgid "Show help"
-msgstr ""
+msgstr "Sken-d tallalt"
 
 #: src/resources/help-overlay.ui:114
 msgid "Show keyboard shortcuts"
@@ -651,7 +649,7 @@ msgstr ""
 
 #: src/resources/preferences.ui:7 src/resources/window.ui:235
 msgid "Preferences"
-msgstr ""
+msgstr "Imenyafen"
 
 #: src/resources/preferences.ui:15
 msgid "Display"
@@ -686,10 +684,8 @@ msgid "Moving Cursor"
 msgstr ""
 
 #: src/resources/preferences.ui:76
-#, fuzzy
-#| msgid "Audio files"
 msgid "Audio Controls"
-msgstr "Ifuyla imeslawen"
+msgstr "Isenqaden n umeslaw"
 
 #: src/resources/preferences.ui:80
 msgid "Pause and Skip Buttons"
@@ -751,7 +747,7 @@ msgstr ""
 
 #: src/resources/preferences.ui:158
 msgid "Precision"
-msgstr ""
+msgstr "Tiseddi"
 
 #: src/resources/preferences.ui:162
 msgid "Full Seconds"
@@ -783,7 +779,7 @@ msgstr ""
 
 #: src/resources/preferences.ui:189
 msgid "None"
-msgstr ""
+msgstr "Ula yiwen"
 
 #: src/resources/preferences.ui:190
 msgid "#Number Signs#"
@@ -845,7 +841,7 @@ msgstr ""
 
 #: src/resources/window.ui:171
 msgid "Speed:"
-msgstr ""
+msgstr "Arured:"
 
 #: src/resources/window.ui:203
 msgid "Volume"
@@ -853,11 +849,11 @@ msgstr ""
 
 #: src/resources/window.ui:239
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "Inegzumen n unasiw (_K)"
 
 #: src/resources/window.ui:247
 msgid "About Parlatype"
-msgstr ""
+msgstr "Ɣef Parlatype"
 
 #: src/resources/window.ui:254
 msgid "Copy Time to Clipboard"
