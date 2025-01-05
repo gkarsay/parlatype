@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Parlatype 3.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-13 21:21+0200\n"
-"PO-Revision-Date: 2024-07-30 12:09+0000\n"
-"Last-Translator: Kaan Çetin <cetinkaan895@hotmail.com>\n"
+"PO-Revision-Date: 2025-01-06 08:01+0000\n"
+"Last-Translator: Ümit Solmz <usnetv@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/parlatype/"
 "parlatype/tr/>\n"
 "Language: tr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.7-dev\n"
+"X-Generator: Weblate 5.10-dev\n"
 
 #: data/parlatype.desktop.in:4 data/parlatype.metainfo.xml.in:8
 #: src/pt-app.c:196 src/resources/window.ui:30
@@ -54,7 +54,7 @@ msgstr "Gabor Karsay"
 
 #: data/parlatype.metainfo.xml.in:47
 msgid "Website moved to www.parlatype.xyz."
-msgstr "Sitemiz www.parlatype.xyz domainine taşındı."
+msgstr "Web sitesimiz www.parlatype.xyz adresine taşındı."
 
 #: data/parlatype.metainfo.xml.in:48
 msgid "App ID changed accordingly."
@@ -71,28 +71,30 @@ msgstr "Birçok dil için çeviri güncellemeleri."
 msgid ""
 "Follow GNOME human interface guidelines throughout the app using libadwaita."
 msgstr ""
+"Uygulama boyunca GNOME insan arayüzü yönergelerini libadwaita kullanarak "
+"takip edin."
 
 #: data/parlatype.metainfo.xml.in:57
 msgid "Add a theme selector (borrowed from GNOME Text Editor)."
-msgstr ""
+msgstr "Bir tema seçici ekleyin (GNOME Metin Düzenleyici'den ödünç alınmış)."
 
 #: data/parlatype.metainfo.xml.in:58
 msgid "Fix F10 shortcut to toggle main menu."
-msgstr ""
+msgstr "F10 kısayolunu ana menüyü açıp kapatacak şekilde düzeltin."
 
 #: data/parlatype.metainfo.xml.in:59
 msgid ""
 "Remove support for Mozilla DeepSpeech because the project is discontinued."
-msgstr ""
+msgstr "Mozilla DeepSpeech desteğini kaldırın çünkü proje durdurulmuştur."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:67
-#, fuzzy
-#| msgid "Translation updates for several languages."
 msgid ""
 "This release is switching to GTK 4 and brings translation updates for "
 "several languages."
-msgstr "Birçok dil için çeviri güncellemeleri."
+msgstr ""
+"Bu sürüm, GTK 4'e geçiş yapıyor ve çeşitli diller için çeviri güncellemeleri "
+"içeriyor."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:73
@@ -323,22 +325,16 @@ msgid "Open Audio File"
 msgstr "Ses Dosyası Aç"
 
 #: src/pt-app.c:115
-#, fuzzy
-#| msgid "Audio files"
 msgid "Audio Files"
-msgstr "Ses dosyaları"
+msgstr "Ses Dosyaları"
 
 #: src/pt-app.c:116 src/pt-preferences.c:536
-#, fuzzy
-#| msgid "All files"
 msgid "All Files"
-msgstr "Tüm dosyalar"
+msgstr "Tüm Dosyalar"
 
 #: src/pt-app.c:193
-#, fuzzy
-#| msgid "Including code from other projects:"
 msgid "Code from other projects"
-msgstr "Diğer projelerden gelen kodlar da dahil:"
+msgstr "Diğer projelerden alınan kodlar"
 
 #: src/pt-app.c:197
 msgid "A basic transcription utility"
@@ -348,7 +344,8 @@ msgstr "Basit bir çeviri yazım uygulaması"
 msgid "translator-credits"
 msgstr ""
 "E-Akcaer\n"
-"Sabri Ünal <libreajans@gmail.com>"
+"Sabri Ünal <libreajans@gmail.com>\n"
+"usolmz <usmynetiz@gmail.com>"
 
 #: src/pt-app.c:344
 #, c-format
@@ -362,47 +359,43 @@ msgstr ""
 #. Translators: Fallback label for a download location
 #: src/pt-asr-dialog.c:99
 msgid "Link"
-msgstr ""
+msgstr "Bağlantı"
 
 #. Not using title case here, this is more a status than a title.
 #: src/pt-asr-dialog.c:115
-#, fuzzy
-#| msgid "There is no configuration"
 msgid "This configuration is active."
-msgstr "Yapılandırma yok"
+msgstr "Bu yapılandırma etkindir."
 
 #: src/pt-asr-dialog.c:117
 msgid "Deactivate"
-msgstr ""
+msgstr "Devredışı"
 
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:124
 msgid "Model data is installed."
-msgstr ""
+msgstr "Model verileri yüklenir."
 
 #: src/pt-asr-dialog.c:126 src/pt-asr-dialog.c:133
 msgid "Activate"
-msgstr ""
+msgstr "Etkin"
 
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:131
 msgid "Model data is not installed."
-msgstr ""
+msgstr "Model verileri yüklenmemiş."
 
 #: src/pt-asr-dialog.c:132
 msgid "See next section for details."
-msgstr ""
+msgstr "Ayrıntılar için bir sonraki bölüme bakın."
 
 #. Translators: Configuration will be deleted, but not its data
 #: src/pt-asr-dialog.c:144
 msgid "Model data will be preserved"
-msgstr ""
+msgstr "Model verileri korunacaktır"
 
 #: src/pt-asr-dialog.c:222
-#, fuzzy
-#| msgid "Language:"
 msgid "Language"
-msgstr "Dil:"
+msgstr "Dil"
 
 #: src/pt-asr-dialog.c:226
 msgid "CMU Pocketsphinx"
@@ -411,43 +404,33 @@ msgstr "CMU Pocketsphinx"
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:230
 msgid "Type of Model"
-msgstr ""
+msgstr "Model Türü"
 
 #: src/pt-asr-dialog.c:232
-#, fuzzy
-#| msgid "GStreamer Plugin:"
 msgid "GStreamer Plugin"
-msgstr "GStreamer Eklentisi:"
+msgstr "GStreamer Eklenti"
 
 #: src/pt-asr-dialog.c:236
-#, fuzzy
-#| msgid "Publisher:"
 msgid "Publisher"
-msgstr "Yayıncı:"
+msgstr "Yayımcı"
 
 #: src/pt-asr-dialog.c:241
-#, fuzzy
-#| msgid "License:"
 msgid "License"
-msgstr "Lisans:"
+msgstr "Lisans"
 
 #: src/pt-asr-dialog.c:249
-#, fuzzy
-#| msgid "Instructions:"
 msgid "Instructions"
-msgstr "Yönergeler:"
+msgstr "Talimatlar"
 
 #: src/pt-asr-dialog.c:258 src/pt-asr-dialog.c:269
-#, fuzzy
-#| msgid "Download:"
 msgid "Download"
-msgstr "İndir:"
+msgstr "İndir"
 
 #. Translators: %s is replaced with the name of a configuration
 #: src/pt-asr-dialog.c:314
 #, c-format
 msgid "“%s” has been deleted"
-msgstr ""
+msgstr "“%s” silindi"
 
 #: src/pt-asr-dialog.c:322 src/pt-preferences.c:248 src/pt-preferences.c:418
 #: src/pt-preferences.c:453 src/pt-window.c:86
@@ -458,17 +441,15 @@ msgstr "Hata"
 #: src/pt-asr-dialog.c:373
 #, c-format
 msgid "“%s” has been activated"
-msgstr ""
+msgstr "“%s” etkinleştirildi"
 
 #: src/pt-asr-dialog.c:376
 msgid "Configuration has been deactivated"
-msgstr ""
+msgstr "Yapılandırma devre dışı bırakıldı"
 
 #: src/pt-config-row.c:79
-#, fuzzy
-#| msgid "Installed"
 msgid "Not installed"
-msgstr "Kurulu"
+msgstr "Yüklü değil"
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
@@ -492,57 +473,45 @@ msgstr "Dosya geçerli bir dil modeli yapılandırması değil."
 
 #: src/pt-preferences.c:461
 msgid "There is no plugin installed for this language model."
-msgstr ""
+msgstr "Bu dil modeli için yüklü bir eklenti yok."
 
 #: src/pt-preferences.c:527 src/pt-prefs-install-row.c:136
 msgid "Select Model Folder"
-msgstr ""
+msgstr "Model Klasörünü Seçin"
 
 #: src/pt-preferences.c:535
-#, fuzzy
-#| msgid "Parlatype language model configurations"
 msgid "Parlatype Language Model Configurations"
-msgstr "Parlatype dil modeli yapılandırmaları"
+msgstr "Parlatype Dil Modeli Yapılandırmaları"
 
 #: src/pt-prefs-install-row.c:54
 msgid "Installed"
 msgstr "Kurulu"
 
 #: src/pt-prefs-install-row.c:59
-#, fuzzy
-#| msgid "Installed"
 msgid "Not Installed"
-msgstr "Kurulu"
+msgstr "Yüklü Değil"
 
 #: src/pt-prefs-install-row.c:60
-#, fuzzy
-#| msgid "Download, unzip to a folder and select that folder."
 msgid "Download files and select model folder."
-msgstr "Zip dosyasını indir, klasöre çıkar ve o klasörü seç."
+msgstr "Dosyaları indirin ve model klasörünü seçin."
 
 #: src/pt-prefs-install-row.c:114
 msgid "Model Data Not Found"
-msgstr ""
+msgstr "Model Verileri Bulunamadı"
 
 #: src/pt-prefs-install-row.c:116
-#, fuzzy
-#| msgid "The file is not a valid language model configuration."
 msgid "The chosen folder does not contain data for this configuration."
-msgstr "Dosya geçerli bir dil modeli yapılandırması değil."
+msgstr "Seçilen klasör bu yapılandırma için veri içermiyor."
 
 #: src/pt-window.c:396
-#, fuzzy, c-format
-#| msgid "Jump back 1 second"
-#| msgid_plural "Jump back %d seconds"
+#, c-format
 msgid "Skip back 1 second"
 msgid_plural "Skip back %d seconds"
 msgstr[0] "1 saniye geri atla"
 msgstr[1] "%d saniye geri atla"
 
 #: src/pt-window.c:413
-#, fuzzy, c-format
-#| msgid "Jump forward 1 second"
-#| msgid_plural "Jump forward %d seconds"
+#, c-format
 msgid "Skip forward 1 second"
 msgid_plural "Skip forward %d seconds"
 msgstr[0] "1 saniye ileri atla"
@@ -565,28 +534,21 @@ msgstr "Oynatmaya başla"
 
 #. Translators: %s is replaced with a timestamp
 #: src/pt-window.c:488
-#, fuzzy, c-format
-#| msgid "Go to time in clipboard: %s"
+#, c-format
 msgid "Go to Time in Clipboard: %s"
-msgstr "Panodaki zamana git: %s"
+msgstr "Pano: %s bölümünde Zamana git"
 
 #: src/pt-window.c:490 src/pt-window.c:1172
-#, fuzzy
-#| msgid "Go to time in clipboard"
 msgid "Go to Time in Clipboard"
-msgstr "Panodaki zamana git"
+msgstr "Panoda Zamana Git"
 
 #: src/pt-window.c:1167
-#, fuzzy
-#| msgid "Manual transcription"
 msgid "Manual Transcription"
-msgstr "Elle çeviri yazım"
+msgstr "Elle Çeviriyazımı"
 
 #: src/pt-window.c:1168
-#, fuzzy
-#| msgid "Automatic transcription"
 msgid "Automatic Transcription"
-msgstr "Otomatik çeviri yazım"
+msgstr "Otomatik Çeviriyazımı"
 
 #: src/resources/asr-dialog.ui:29
 msgid "Installation"
@@ -594,51 +556,47 @@ msgstr "Kurulum"
 
 #: src/resources/asr-dialog.ui:30
 msgid "How to install this language model."
-msgstr ""
+msgstr "Bu dil modeli nasıl kurulur."
 
 #: src/resources/asr-dialog.ui:33
 msgid "General Information"
-msgstr ""
+msgstr "Genel Bilgiler"
 
 #: src/resources/asr-dialog.ui:36
-#, fuzzy
-#| msgid "Display Name:"
 msgid "Display Name"
-msgstr "Görünen Ad:"
+msgstr "Görünen Ad"
 
 #: src/resources/asr-dialog.ui:44
-#, fuzzy
-#| msgid "There is no configuration"
 msgid "Delete this Configuration"
-msgstr "Yapılandırma yok"
+msgstr "Bu Yapılandırmayı Sil"
 
 #: src/resources/asr-dialog.ui:48
 msgid "Delete"
-msgstr ""
+msgstr "Sil"
 
 #: src/resources/editor-theme-selector.ui:22
 msgid "Follow System Style"
-msgstr ""
+msgstr "Sistem Stilini Takip Edin"
 
 #: src/resources/editor-theme-selector.ui:24
 msgid "Follow system style"
-msgstr ""
+msgstr "Sistem stilini takip edin"
 
 #: src/resources/editor-theme-selector.ui:39
 msgid "Light Style"
-msgstr ""
+msgstr "Açık Tarz"
 
 #: src/resources/editor-theme-selector.ui:41
 msgid "Light style"
-msgstr ""
+msgstr "Açık tarz"
 
 #: src/resources/editor-theme-selector.ui:57
 msgid "Dark Style"
-msgstr ""
+msgstr "Karanlık Tarz"
 
 #: src/resources/editor-theme-selector.ui:59
 msgid "Dark style"
-msgstr ""
+msgstr "Karanlık tarz"
 
 #: src/resources/goto-dialog.ui:10 src/resources/window.ui:262
 msgid "Go to…"
@@ -665,10 +623,8 @@ msgid "Open a media file"
 msgstr "Ortam dosyası aç"
 
 #: src/resources/help-overlay.ui:25
-#, fuzzy
-#| msgid "Show/hide action menu"
 msgid "Show/hide main menu"
-msgstr "Eylem menüsünü göster/gizle"
+msgstr "Ana menüyü göster/gizle"
 
 #: src/resources/help-overlay.ui:32
 msgid "Quit"
@@ -732,218 +688,175 @@ msgstr "Görüntüleme"
 
 #: src/resources/preferences.ui:16
 msgid "Change appearance of the waveform and cursor movement."
-msgstr ""
+msgstr "Dalga formunun görünümünü ve imleç hareketini değiştirin."
 
 #: src/resources/preferences.ui:19
-#, fuzzy
-#| msgid "Waveform"
 msgid "Waveform Detail"
-msgstr "Ses dalgası"
+msgstr "Dalga Formu Detayı"
 
 #: src/resources/preferences.ui:20
-#, fuzzy
-#| msgid "_Pixels per second:"
 msgid "Vertical lines per second"
-msgstr "Saniye başına _piksel:"
+msgstr "Saniyede dikey çizgiler"
 
 #: src/resources/preferences.ui:53
-#, fuzzy
-#| msgid "Show _time scale"
 msgid "Show Time Scale"
-msgstr "Zaman ölçeğini gös_ter"
+msgstr "Zaman Ölçeğini Göster"
 
 #: src/resources/preferences.ui:58
 msgid "Cursor Mode"
-msgstr ""
+msgstr "İmleç Modu"
 
 #: src/resources/preferences.ui:62
-#, fuzzy
-#| msgid "_Fixed cursor"
 msgid "Fixed Cursor"
-msgstr "_Sabit imleç"
+msgstr "Sabit İmleç"
 
 #: src/resources/preferences.ui:63
-#, fuzzy
-#| msgid "_Moving cursor"
 msgid "Moving Cursor"
-msgstr "_Hareketli imleç"
+msgstr "Hareketli İmleç"
 
 #: src/resources/preferences.ui:76
-#, fuzzy
-#| msgid "Controls"
 msgid "Audio Controls"
-msgstr "Denetimler"
+msgstr "Ses Kontrolleri"
 
 #: src/resources/preferences.ui:80
 msgid "Pause and Skip Buttons"
-msgstr ""
+msgstr "Durdur ve Atla Düğmeleri"
 
 #: src/resources/preferences.ui:81
 msgid "Set amount of time to skip in seconds."
-msgstr ""
+msgstr "Atlanacak süreyi saniye cinsinden ayarlayın."
 
 #: src/resources/preferences.ui:84
 msgid "Rewind on Pause"
-msgstr ""
+msgstr "Duraklatıldığında Geri Sar"
 
 #: src/resources/preferences.ui:85
 msgid "Set to zero to disable this feature"
-msgstr ""
+msgstr "Bu özelliği devre dışı bırakmak için sıfıra ayarlayın"
 
 #: src/resources/preferences.ui:98
 msgid "Skip Backward"
-msgstr ""
+msgstr "Geriye Atla"
 
 #: src/resources/preferences.ui:111
-#, fuzzy
-#| msgid "Jump forward 1 second"
-#| msgid_plural "Jump forward %d seconds"
 msgid "Skip Forward"
-msgstr "1 saniye ileri atla"
+msgstr "İleri Atla"
 
 #: src/resources/preferences.ui:126
 msgid "Play Button"
-msgstr ""
+msgstr "Oynat Düğmesi"
 
 #: src/resources/preferences.ui:127
 msgid "Change behavior of play button."
-msgstr ""
+msgstr "Oynat düğmesinin davranışını değiştirin."
 
 #: src/resources/preferences.ui:130
 msgid "At End of File Replay File"
-msgstr ""
+msgstr "Dosya Sonunda Dosyayı Tekrar Oynat"
 
 #: src/resources/preferences.ui:135
 msgid "At End of Selection Replay Selection"
-msgstr ""
+msgstr "Seçim Sonunda Seçimi Tekrar Oynat"
 
 #: src/resources/preferences.ui:145
 msgid "Timestamps"
 msgstr "Zaman damgaları"
 
 #: src/resources/preferences.ui:149
-#, fuzzy
-#| msgid "Timestamps"
 msgid "Timestamp Format"
-msgstr "Zaman damgaları"
+msgstr "Zaman Damgası Biçimi"
 
 #: src/resources/preferences.ui:150
 msgid ""
 "Customize produced timestamps. Note that all formats can be read, these "
 "settings are applied when timestamps are written."
 msgstr ""
+"Üretilen zaman damgalarını özelleştirin. Tüm biçimlerin okunabileceğini "
+"unutmayın, bu ayarlar zaman damgaları yazıldığında uygulanır."
 
 #: src/resources/preferences.ui:153
-#, fuzzy
-#| msgid "Always show hours and leading zeroes"
 msgid "Always Show Hours and Leading Zeroes"
-msgstr "Her zaman saatleri ve önündeki sıfırları göster"
+msgstr "Her Zaman Saatleri ve Baştaki Sıfırları Göster"
 
 #: src/resources/preferences.ui:158
 msgid "Precision"
 msgstr "Hassasiyet"
 
 #: src/resources/preferences.ui:162
-#, fuzzy
-#| msgid "Full seconds"
 msgid "Full Seconds"
-msgstr "Tam saniyeler"
+msgstr "Tam Saniyeler"
 
 #: src/resources/preferences.ui:163
-#, fuzzy
-#| msgid "10th seconds"
 msgid "10th Seconds"
-msgstr "10. saniye"
+msgstr "10. Saniyeler"
 
 #: src/resources/preferences.ui:164
-#, fuzzy
-#| msgid "100th seconds"
 msgid "100th Seconds"
-msgstr "100. saniye"
+msgstr "100. Saniyeler"
 
 #: src/resources/preferences.ui:172
-#, fuzzy
-#| msgid "Fraction separator:"
 msgid "Fraction Separator"
-msgstr "Kesir ayracı:"
+msgstr "Kesir Ayırıcı"
 
 #: src/resources/preferences.ui:176
-#, fuzzy
-#| msgid ". (point)"
 msgid ". (Point)"
-msgstr ". (nokta)"
+msgstr ". (Nokta)"
 
 #: src/resources/preferences.ui:177
-#, fuzzy
-#| msgid "- (hyphen)"
 msgid "- (Hyphen)"
-msgstr "- (tire)"
+msgstr "- (Tire)"
 
 #: src/resources/preferences.ui:185
-#, fuzzy
-#| msgid "Characters around timestamps"
 msgid "Characters Around Timestamps"
-msgstr "Zaman damgaları çevresindeki simgeler"
+msgstr "Zaman Damgaları Etrafındaki Karakterler"
 
 #: src/resources/preferences.ui:189
 msgid "None"
 msgstr "Hiçbiri"
 
 #: src/resources/preferences.ui:190
-#, fuzzy
-#| msgid "#Number signs#"
 msgid "#Number Signs#"
-msgstr "#Sayı işaretleri#"
+msgstr "#Numara İşaretleri#"
 
 #: src/resources/preferences.ui:191
-#, fuzzy
-#| msgid "(Round brackets)"
 msgid "(Round Brackets)"
-msgstr "(Parantezler)"
+msgstr "(Yuvarlak Parantez)"
 
 #: src/resources/preferences.ui:192
-#, fuzzy
-#| msgid "[Square brackets]"
 msgid "[Square Brackets]"
-msgstr "[Köşeli parantezler]"
+msgstr "[Köşeli Parantezler]"
 
 #: src/resources/preferences.ui:202
 msgid "Preview"
-msgstr ""
+msgstr "Önizleme"
 
 #: src/resources/preferences.ui:211
-#, fuzzy
-#| msgid "Speech recognition"
 msgid "Speech Recognition"
-msgstr "Konuşma tanıma"
+msgstr "Konuşma Tanıma"
 
 #: src/resources/preferences.ui:215
-#, fuzzy
-#| msgid "Language:"
 msgid "Language Models"
-msgstr "Dil:"
+msgstr "Dil Modelleri"
 
 #: src/resources/preferences.ui:216
 msgid ""
 "Inspect configuration details, learn how to install model data, and choose a "
 "configuration for automatic speech recognition."
 msgstr ""
+"Yapılandırma ayrıntılarını inceleyin, model verilerinin nasıl yükleneceğini "
+"öğrenin ve otomatik konuşma tanıma için bir yapılandırma seçin."
 
 #: src/resources/preferences.ui:223
-#, fuzzy
-#| msgid "Import language model configuration"
 msgid "Import configuration from file"
-msgstr "Dil modeli yapılandırmasını içe aktar"
+msgstr "Yapılandırmayı dosyadan içe aktarma"
 
 #: src/resources/preferences.ui:232
-#, fuzzy
-#| msgid "Delete language model configuration?"
 msgid "Copy Initial Set of Configurations"
-msgstr "Dil modeli yapılandırılması silinsin mi?"
+msgstr "İlk Yapılandırma Kümesini Kopyala"
 
 #: src/resources/prefs-install-row.ui:11
 msgid "Choose folder"
-msgstr ""
+msgstr "Klasör seç"
 
 #: src/resources/window.ui:38
 msgid "_Open"
@@ -955,7 +868,7 @@ msgstr "Dosya aç"
 
 #: src/resources/window.ui:52
 msgid "Main Menu"
-msgstr ""
+msgstr "Ana Menü"
 
 #: src/resources/window.ui:125
 msgid "_Play"
@@ -967,7 +880,7 @@ msgstr "Hız:"
 
 #: src/resources/window.ui:203
 msgid "Volume"
-msgstr ""
+msgstr "Ses"
 
 #: src/resources/window.ui:239
 msgid "_Keyboard Shortcuts"
@@ -978,14 +891,10 @@ msgid "About Parlatype"
 msgstr "Parlatype Hakkında"
 
 #: src/resources/window.ui:254
-#, fuzzy
-#| msgid "Copy time to clipboard"
 msgid "Copy Time to Clipboard"
-msgstr "Zamanı panoya kopyala"
+msgstr "Zamanı Panoya Kopyala"
 
 #: src/resources/window.ui:258
-#, fuzzy
-#| msgid "Go to cursor"
 msgid "Go to Cursor"
 msgstr "İmlece git"
 
