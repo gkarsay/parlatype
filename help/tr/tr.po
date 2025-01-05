@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Parlatype 3.1\n"
 "POT-Creation-Date: 2024-05-13 21:21+0200\n"
-"PO-Revision-Date: 2024-07-30 12:09+0000\n"
-"Last-Translator: Kaan Çetin <cetinkaan895@hotmail.com>\n"
+"PO-Revision-Date: 2025-01-06 08:01+0000\n"
+"Last-Translator: Ümit Solmz <usnetv@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/parlatype/"
 "parlatype-help/tr/>\n"
 "Language: tr\n"
@@ -11,12 +11,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.7-dev\n"
+"X-Generator: Weblate 5.10-dev\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr "Eakcaer <eakcaer.54@gmail.com>, 2021."
+msgstr "çevirmen-kredileri"
 
 #. (itstool) path: info/title
 #: ../help/C/index.page:7
@@ -44,13 +44,13 @@ msgid ""
 "<app>Parlatype</app> is an easy to use media player. Its main purpose is to "
 "help you transcribing speech."
 msgstr ""
-"<app>Parlatype</app>kullanımı kolay bir ortam oynatıcısıdır. Esas amacı, "
-"konuşmayı yazıya dönüştürmenize yardımcı olmaktır."
+"<app>Parlatype</app> kullanımı kolay bir medya oynatıcıdır. Ana amacı "
+"konuşmayı yazıya dökmenize yardımcı olmaktır."
 
 #. (itstool) path: page/title
 #: ../help/C/index.page:18
 msgid "<_:media-1/> Parlatype"
-msgstr ""
+msgstr "<_:media-1/> Parlatype"
 
 #. (itstool) path: page/p
 #: ../help/C/index.page:24
@@ -58,8 +58,8 @@ msgid ""
 "For a quick overview have a look at <link xref=\"first-steps\"/>. Other "
 "topics are covered below."
 msgstr ""
-"Hızlı bir gözatma için <link xref=\"first-steps\"/> ilnkine bakın. Diğer "
-"konular aşağıda ele alınmıştır."
+"Hızlı bir genel bakış için <link xref=\"first-steps\"/> sayfasına göz atın. "
+"Diğer konular aşağıda ele alınmıştır."
 
 #. (itstool) path: section/title
 #: ../help/C/index.page:27
@@ -82,6 +82,8 @@ msgid ""
 "You can drop files, file names or timestamps on <app>Parlatype</app>’s "
 "window."
 msgstr ""
+"<app>Parlatype</app> penceresine dosyalar, dosya adları veya zaman damgaları "
+"bırakabilirsiniz."
 
 #. (itstool) path: item/p
 #: ../help/C/drag-and-drop.page:19
@@ -89,6 +91,8 @@ msgid ""
 "Files: Drag and drop a file from a file manager, e.g. <app>Files</app>, on "
 "<app>Parlatype</app> and it will open that file."
 msgstr ""
+"Dosyalar: Bir dosya yöneticisinden, örneğin <app>Dosyalar</app>, bir dosyayı "
+"sürükleyip <app>Parlatype</app> üzerine bırakın; bu işlem dosyayı açacaktır."
 
 #. (itstool) path: item/p
 #: ../help/C/drag-and-drop.page:20
@@ -99,6 +103,11 @@ msgid ""
 "select the name only, <app>Parlatype</app> will look up its full path in the "
 "list of recent files and open it if it can find it in that list."
 msgstr ""
+"Dosya adları: Bir kelime işlemciden, örneğin <app>LibreOffice</app>, bir "
+"dosya adını seçin ve seçili metni <app>Parlatype</app> üzerine bırakın; bu "
+"işlem dosyayı açacaktır. Bu işlem, seçim tam bir yolu içeriyorsa her zaman "
+"çalışır. Sadece adı seçerseniz, <app>Parlatype</app> bu adın tam yolunu son "
+"kullanılan dosyalar listesinde arar ve eğer listede bulabilirse dosyayı açar."
 
 #. (itstool) path: item/p
 #: ../help/C/drag-and-drop.page:21
@@ -107,6 +116,10 @@ msgid ""
 "a timestamp from a word processor, e.g. <app>LibreOffice</app>, drop the "
 "selected text on <app>Parlatype</app> and it will jump to that position."
 msgstr ""
+"Zaman damgaları: Zaman damgalarını <app>Parlatype</app> üzerine sürükleyip "
+"bırakabilirsiniz. Bir kelime işlemciden, örneğin <app>LibreOffice</app>, bir "
+"zaman damgası seçin ve seçili metni <app>Parlatype</app> üzerine bırakın; bu "
+"işlem belirtilen konuma atlamasını sağlar."
 
 #. (itstool) path: info/desc
 #: ../help/C/first-steps.page:7
@@ -126,6 +139,11 @@ msgid ""
 "<app>LibreOffice</app>, too. Launch <app>Parlatype</app> and open an audio "
 "file by clicking on the <gui>Open</gui> button in the upper left corner."
 msgstr ""
+"<app>Parlatype</app>, kaydedilmiş konuşmaları transkribe etmenize veya not "
+"almanıza yardımcı olmak için kullanımı kolay bir ses oynatıcıdır. Ayrıca bir "
+"kelime işlemci, örneğin <app>LibreOffice</app>, çalıştırmanız da gerekir. "
+"<app>Parlatype</app>'ı başlatın ve sol üst köşedeki <gui>Aç</gui> düğmesine "
+"tıklayarak bir ses dosyası açın."
 
 #. (itstool) path: note/p
 #: ../help/C/first-steps.page:20
@@ -140,6 +158,10 @@ msgid ""
 "<app>Parlatype</app> rewinds a few seconds to make it easier to resume. This "
 "can be changed in the Preferences dialog."
 msgstr ""
+"Sol alt köşede, oynatma ve duraklatma arasında geçiş yapan bir <gui>Oynat</"
+"gui> düğmesi ile kontroller vardır. Her duraklattığınızda, <app>Parlatype</"
+"app> devam etmeyi kolaylaştırmak için birkaç saniye geri sarar. Bu, "
+"Tercihler iletişim kutusundan değiştirilebilir."
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:27
@@ -148,6 +170,9 @@ msgid ""
 "lower left corner skip a few seconds back or ahead. The amount of time can "
 "be changed in the Preferences dialog."
 msgstr ""
+"Sol alt köşedeki <gui>Geri atla</gui> ve <gui>İleri atla</gui> düğmeleri "
+"birkaç saniye geriye veya ileriye atlar. Zaman miktarı Tercihler iletişim "
+"kutusundan değiştirilebilir."
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:29
@@ -156,6 +181,10 @@ msgid ""
 "scroll manually by clicking on or dragging the scroll bar or using the "
 "standard keybindings. Automatic scrolling is stopped then."
 msgstr ""
+"Görünüm, imleç her zaman görünür olacak şekilde otomatik olarak kaydırılır. "
+"Kaydırma çubuğuna tıklayarak veya sürükleyerek ya da standart tuş "
+"atamalarını kullanarak manuel olarak kaydırabilirsiniz. Otomatik kaydırma "
+"daha sonra durdurulur."
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:31
@@ -165,6 +194,10 @@ msgid ""
 "Cursor</gui>. Clicking on the <gui>Play</gui> button also turns automatic "
 "scrolling on."
 msgstr ""
+"İmlecin konumuna geri dönmek ve görünümün tekrar otomatik olarak "
+"kaydırılmasını sağlamak için, saati gösteren menü düğmesine ve ardından "
+"<gui>İmlece Git</gui> düğmesine tıklayın. <gui>Oynat</gui> düğmesine "
+"tıklamak da otomatik kaydırmayı açar."
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:33
@@ -172,6 +205,8 @@ msgid ""
 "Clicking in the view with the right mouse button will put the cursor there. "
 "The left mouse button is for <link xref=\"selections\"/>."
 msgstr ""
+"Görünümde farenin sağ tuşu ile tıklandığında imleç oraya getirilir. Sol fare "
+"düğmesi <link xref=\"selections\"/> içindir."
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:35
@@ -181,6 +216,10 @@ msgid ""
 "normal speed, everything lower (down to 0.5) is slower, everything above is "
 "faster."
 msgstr ""
+"Sağ alt köşedeki <gui>Ses</gui> düğmesinin yanındaki <gui>hız skalası</gui> "
+"oynatma hızını ayarlamanızı sağlar. 1 değeri normal hız anlamına gelir, daha "
+"düşük olan her şey (0,5'e kadar) daha yavaş, daha yüksek olan her şey daha "
+"hızlıdır."
 
 #. (itstool) path: info/desc
 #: ../help/C/keyboard-shortcuts.page:6
@@ -239,9 +278,8 @@ msgstr "<keyseq><key>Ctrl</key><key>Space</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:38
-#, fuzzy
 msgid "Go to …"
-msgstr "Şuna git …"
+msgstr "Git …"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:39
@@ -321,7 +359,7 @@ msgstr "<keyseq><key>Ctrl</key><key>q</key></keyseq>"
 #. (itstool) path: p/link
 #: ../help/C/legal.xml:5
 msgid "Creative Commons Attribution-ShareAlike 4.0 International"
-msgstr ""
+msgstr "Atıf-AynıLisanslaPaylaş 4.0 Uluslararası"
 
 #. (itstool) path: license/p
 #: ../help/C/legal.xml:4
@@ -345,6 +383,10 @@ msgid ""
 "<gui>Play</gui>, it will play the selection only. When it is finished and "
 "you press <gui>Play</gui> again, it will loop the selection once."
 msgstr ""
+"Dalga formunun bir parçasını fare ile seçebilirsiniz. Bir dahaki sefere "
+"<gui>Oynat</gui> tuşuna bastığınızda, yalnızca seçimi oynatacaktır. "
+"Tamamlandığında ve <gui> Oynat</gui> düğmesine tekrar bastığınızda, seçimi "
+"bir kez döndürür."
 
 #. (itstool) path: note/p
 #: ../help/C/selections.page:18
@@ -361,6 +403,9 @@ msgid ""
 "<key>Shift</key> key pressed, an already existing selection will be enlarged "
 "to that point."
 msgstr ""
+"Seçimler fare (veya işaretçi aygıtı) ile sol tıklama, fare düğmesini basılı "
+"tutma ve işaretçiyi sürükleme ile yapılabilir. <key>Shift</key> tuşu "
+"basılıyken tıklarsanız, zaten var olan bir seçim o noktaya kadar büyütülür."
 
 #. (itstool) path: page/p
 #: ../help/C/selections.page:22
@@ -374,7 +419,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: ../help/C/timestamps.page:6
 msgid "Set and go to timestamps"
-msgstr ""
+msgstr "Zaman damgalarını ayarla ve git"
 
 #. (itstool) path: page/title
 #: ../help/C/timestamps.page:14
@@ -384,7 +429,7 @@ msgstr "Zaman damgaları"
 #. (itstool) path: page/p
 #: ../help/C/timestamps.page:16
 msgid "Timestamps help you to navigate in your transcription."
-msgstr ""
+msgstr "Zaman damgaları, bilgi aktarmada gezinmenize yardımcı olur."
 
 #. (itstool) path: note/p
 #: ../help/C/timestamps.page:19
@@ -392,6 +437,8 @@ msgid ""
 "Timestamps can look like this: #03:45.2#. You can select them with or "
 "without the number signs."
 msgstr ""
+"Zaman damgaları şu şekilde görünebilir: #03:45.2#. Bunları sayı "
+"işaretleriyle veya sayı işaretleri olmadan seçebilirsiniz."
 
 #. (itstool) path: page/p
 #: ../help/C/timestamps.page:22
@@ -399,11 +446,13 @@ msgid ""
 "<app>Parlatype</app> can produce different timestamp formats, they can be "
 "set in the Preferences dialog."
 msgstr ""
+"<app>Parlatype</app> farklı zaman damgası biçimleri üretebilir, bunlar "
+"Tercihler iletişim kutusunda ayarlanabilir."
 
 #. (itstool) path: section/title
 #: ../help/C/timestamps.page:25
 msgid "Drag and drop"
-msgstr ""
+msgstr "Sürükle ve bırak"
 
 #. (itstool) path: section/p
 #: ../help/C/timestamps.page:27
@@ -413,11 +462,15 @@ msgid ""
 "also possible the other way round: Drag the time label from <app>Parlatype</"
 "app> to a word processor and drop it there to insert it."
 msgstr ""
+"Kelime işlemcide zaman damgasını seçerseniz, <app>Parlatype</app> "
+"penceresine sürükleyip bırakabilirsiniz ve o konuma gider. Bunun tersi de "
+"mümkündür: Zaman etiketini <app>Parlatype</app>'dan bir kelime işlemciye "
+"sürükleyin ve eklemek için oraya bırakın."
 
 #. (itstool) path: section/title
 #: ../help/C/timestamps.page:31
 msgid "Using the clipboard"
-msgstr ""
+msgstr "Panoyu kullanma"
 
 #. (itstool) path: section/p
 #: ../help/C/timestamps.page:33
@@ -425,6 +478,8 @@ msgid ""
 "Clicking on the menu button that is showing the current time you can "
 "<gui>Copy Time to Clipboard</gui> or <gui>Go to Time in Clipboard</gui>."
 msgstr ""
+"Geçerli saati gösteren menü düğmesine tıklayarak <gui>Saati Panoya Kopyala</"
+"gui> veya <gui>Pano'daki Saate Git</gui> yapabilirsiniz."
 
 #. (itstool) path: section/p
 #: ../help/C/timestamps.page:35
@@ -435,6 +490,11 @@ msgid ""
 "to the clipboard. Changing to the word processor you can insert now the "
 "timestamp in your transcription."
 msgstr ""
+"Bu işlem klavye kısayollarıyla da yapılabilir. Öncelikle <app>Parlatype</"
+"app> penceresinin odağı olduğundan emin olun. "
+"<keyseq><key>Ctrl</key><key>c</key></keyseq> tuş dizisi ile geçerli zaman "
+"damgası panoya kopyalanır. Kelime işlemciye geçerek zaman damgasını "
+"transkripsiyonunuza ekleyebilirsiniz."
 
 #. (itstool) path: section/p
 #: ../help/C/timestamps.page:36
@@ -443,6 +503,9 @@ msgid ""
 "the clipboard. Once you have changed focus to <app>Parlatype</app> press "
 "<keyseq><key>Ctrl</key><key>v</key></keyseq>."
 msgstr ""
+"Bir zaman damgası konumuna gitmek için, kelime işlemcideki zaman damgasını "
+"panoya kopyalayın. Odağı <app>Parlatype</app> olarak değiştirdikten sonra "
+"<keyseq><key>Ctrl</key><key>v</key></keyseq> tuşuna basın."
 
 #~ msgid "Preferences"
 #~ msgstr "Tercihler"
