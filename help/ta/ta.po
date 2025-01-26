@@ -170,7 +170,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:26
 msgid "Show help"
-msgstr ""
+msgstr "உதவியைக் காட்டு"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:27
