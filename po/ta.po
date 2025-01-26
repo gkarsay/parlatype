@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-13 21:21+0200\n"
-"PO-Revision-Date: 2025-01-26 04:21+0000\n"
+"PO-Revision-Date: 2025-01-27 05:02+0000\n"
 "Last-Translator: தமிழ்நேரம் <anishprabu.t@gmail.com>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/parlatype/"
 "parlatype/ta/>\n"
@@ -758,136 +758,141 @@ msgstr "தேர்வு மறுதொடக்கம் தேர்வி�
 
 #: src/resources/preferences.ui:145
 msgid "Timestamps"
-msgstr ""
+msgstr "நேர முத்திரைகள்"
 
 #: src/resources/preferences.ui:149
 msgid "Timestamp Format"
-msgstr ""
+msgstr "நேர முத்திரை வடிவம்"
 
 #: src/resources/preferences.ui:150
 msgid ""
 "Customize produced timestamps. Note that all formats can be read, these "
 "settings are applied when timestamps are written."
 msgstr ""
+"தயாரிக்கப்பட்ட நேர முத்திரைகளைத் தனிப்பயனாக்குங்கள். எல்லா வடிவங்களையும் படிக்க முடியும் "
+"என்பதை நினைவில் கொள்க, நேர முத்திரைகள் எழுதப்படும்போது இந்த அமைப்புகள் "
+"பயன்படுத்தப்படுகின்றன."
 
 #: src/resources/preferences.ui:153
 msgid "Always Show Hours and Leading Zeroes"
-msgstr ""
+msgstr "எப்போதும் மணிநேரங்களையும் முன்னணி பூச்சியங்களையும் காட்டுங்கள்"
 
 #: src/resources/preferences.ui:158
 msgid "Precision"
-msgstr ""
+msgstr "துல்லியம்"
 
 #: src/resources/preferences.ui:162
 msgid "Full Seconds"
-msgstr ""
+msgstr "முழு விநாடிகள்"
 
 #: src/resources/preferences.ui:163
 msgid "10th Seconds"
-msgstr ""
+msgstr "10 வது வினாடிகள்"
 
 #: src/resources/preferences.ui:164
 msgid "100th Seconds"
-msgstr ""
+msgstr "100 வது வினாடிகள்"
 
 #: src/resources/preferences.ui:172
 msgid "Fraction Separator"
-msgstr ""
+msgstr "பின்னம் பிரிப்பான்"
 
 #: src/resources/preferences.ui:176
 msgid ". (Point)"
-msgstr ""
+msgstr ". (புள்ளி)"
 
 #: src/resources/preferences.ui:177
 msgid "- (Hyphen)"
-msgstr ""
+msgstr "- (ஐபன்)"
 
 #: src/resources/preferences.ui:185
 msgid "Characters Around Timestamps"
-msgstr ""
+msgstr "நேர முத்திரைகளைச் சுற்றியுள்ள எழுத்துக்கள்"
 
 #: src/resources/preferences.ui:189
 msgid "None"
-msgstr ""
+msgstr "எதுவுமில்லை"
 
 #: src/resources/preferences.ui:190
 msgid "#Number Signs#"
-msgstr ""
+msgstr "#எண் அறிகுறிகள்#"
 
 #: src/resources/preferences.ui:191
 msgid "(Round Brackets)"
-msgstr ""
+msgstr "(சுற்று அடைப்புக்குறிப்புகள்)"
 
 #: src/resources/preferences.ui:192
 msgid "[Square Brackets]"
-msgstr ""
+msgstr "[சதுர அடைப்புக்குறிப்புகள்]"
 
 #: src/resources/preferences.ui:202
 msgid "Preview"
-msgstr ""
+msgstr "முன்னோட்டம்"
 
 #: src/resources/preferences.ui:211
 msgid "Speech Recognition"
-msgstr ""
+msgstr "பேச்சு ஏற்பு"
 
 #: src/resources/preferences.ui:215
 msgid "Language Models"
-msgstr ""
+msgstr "மொழி மாதிரிகள்"
 
 #: src/resources/preferences.ui:216
 msgid ""
 "Inspect configuration details, learn how to install model data, and choose a "
 "configuration for automatic speech recognition."
 msgstr ""
+"உள்ளமைவு விவரங்களை ஆய்வு செய்யுங்கள், மாதிரி தரவை எவ்வாறு நிறுவுவது என்பதை அறிந்து, "
+"தானியங்கி பேச்சு அங்கீகாரத்திற்கான உள்ளமைவைத் தேர்வுசெய்க."
 
 #: src/resources/preferences.ui:223
 msgid "Import configuration from file"
-msgstr ""
+msgstr "கோப்பிலிருந்து உள்ளமைவை இறக்குமதி செய்யுங்கள்"
 
 #: src/resources/preferences.ui:232
 msgid "Copy Initial Set of Configurations"
-msgstr ""
+msgstr "ஆரம்ப உள்ளமைவுகளின் ஆரம்ப தொகுப்பை நகலெடுக்கவும்"
 
 #: src/resources/prefs-install-row.ui:11
 msgid "Choose folder"
-msgstr ""
+msgstr "கோப்புறையைத் தேர்வுசெய்க"
 
 #: src/resources/window.ui:38
 msgid "_Open"
-msgstr ""
+msgstr "_OPEN"
 
 #: src/resources/window.ui:41
 msgid "Open a file"
-msgstr ""
+msgstr "ஒரு கோப்பைத் திறக்கவும்"
 
 #: src/resources/window.ui:52
 msgid "Main Menu"
-msgstr ""
+msgstr "பட்டியல் விளையாடுங்கள்"
 
 #: src/resources/window.ui:125
 msgid "_Play"
-msgstr ""
+msgstr "_ பிளே"
 
 #: src/resources/window.ui:171
 msgid "Speed:"
-msgstr ""
+msgstr "வேகம்:"
 
 #: src/resources/window.ui:203
 msgid "Volume"
-msgstr ""
+msgstr "தொகுதி"
 
 #: src/resources/window.ui:239
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "விசைப்பலகை குறுக்குவழிகள்"
 
 #: src/resources/window.ui:247
 msgid "About Parlatype"
-msgstr ""
+msgstr "பார்லாடைப் பற்றி"
 
 #: src/resources/window.ui:254
 msgid "Copy Time to Clipboard"
-msgstr ""
+msgstr "இடைநிலைப்பலகைக்கு நேரத்தை நகலெடுக்கவும்"
 
 #: src/resources/window.ui:258
 msgid "Go to Cursor"
-msgstr ""
+msgstr "கர்சருக்குச் செல்லுங்கள்"
