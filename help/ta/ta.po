@@ -270,7 +270,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:66
 msgid "Quit"
-msgstr ""
+msgstr "வெளியேறு"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:67
