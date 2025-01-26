@@ -260,7 +260,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:62
 msgid "Zoom out"
-msgstr ""
+msgstr "சிறிதாக்கு"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:63
