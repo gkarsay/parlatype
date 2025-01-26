@@ -638,7 +638,7 @@ msgstr "விளையாடு/இடைநிறுத்தம்"
 
 #: src/resources/help-overlay.ui:52 src/resources/window.ui:99
 msgid "Skip backward"
-msgstr ""
+msgstr "பின்தங்கிய நிலையில் தவிர்க்கவும்"
 
 #: src/resources/help-overlay.ui:59 src/resources/window.ui:144
 msgid "Skip forward"
