@@ -190,7 +190,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:34
 msgid "Play/Pause"
-msgstr ""
+msgstr "விளையாடு/இடைநிறுத்தம்"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:35
