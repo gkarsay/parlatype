@@ -646,7 +646,7 @@ msgstr "முன்னோக்கி செல்லுங்கள்"
 
 #: src/resources/help-overlay.ui:66
 msgid "Zoom in"
-msgstr ""
+msgstr "பெரிதாக்கு"
 
 #: src/resources/help-overlay.ui:73
 msgid "Zoom out"
