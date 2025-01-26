@@ -626,11 +626,11 @@ msgstr "முதன்மையான மெனுவைக் காட்ட�
 
 #: src/resources/help-overlay.ui:32
 msgid "Quit"
-msgstr ""
+msgstr "வெளியேறு"
 
 #: src/resources/help-overlay.ui:40 src/resources/preferences.ui:11
 msgid "Waveform"
-msgstr ""
+msgstr "அலைவடிவம், அலைப்படம்"
 
 #: src/resources/help-overlay.ui:45
 msgid "Play/Pause"
