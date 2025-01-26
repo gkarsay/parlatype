@@ -8,78 +8,86 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-13 21:21+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2025-01-26 04:21+0000\n"
+"Last-Translator: தமிழ்நேரம் <anishprabu.t@gmail.com>\n"
+"Language-Team: Tamil <https://hosted.weblate.org/projects/parlatype/"
+"parlatype/ta/>\n"
 "Language: ta\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.10-dev\n"
 
 #: data/parlatype.desktop.in:4 data/parlatype.metainfo.xml.in:8
 #: src/pt-app.c:196 src/resources/window.ui:30
 msgid "Parlatype"
-msgstr ""
+msgstr "பரிதி"
 
 #: data/parlatype.desktop.in:5
 msgid "Transcription utility"
-msgstr ""
+msgstr "படியெடுத்தல் பயன்பாடு"
 
 #: data/parlatype.desktop.in:6
 msgid "Transcription;"
-msgstr ""
+msgstr "படியெடுத்தல்;"
 
 #: data/parlatype.metainfo.xml.in:9
 msgid "Media player for transcription"
-msgstr ""
+msgstr "டிரான்ச்கிரிப்சனுக்கான மீடியா பிளேயர்"
 
 #: data/parlatype.metainfo.xml.in:12
 msgid ""
 "Parlatype is an easy to use media player. Its main purpose is to help you "
 "transcribing speech."
 msgstr ""
+"பார்லாடைப் என்பது மீடியா பிளேயரைப் பயன்படுத்த எளிதானது. அதன் முக்கிய நோக்கம் பேச்சை "
+"படியெடுக்க உங்களுக்கு உதவுவதாகும்."
 
 #: data/parlatype.metainfo.xml.in:19
 msgid "Main window"
-msgstr ""
+msgstr "முதன்மை சாளரம்"
 
 #: data/parlatype.metainfo.xml.in:28
 msgid "Gabor Karsay"
-msgstr ""
+msgstr "கபோர் கார்சே"
 
 #: data/parlatype.metainfo.xml.in:47
 msgid "Website moved to www.parlatype.xyz."
-msgstr ""
+msgstr "வலைத்தளம் www.parlatype.xyz க்கு மாற்றப்பட்டது."
 
 #: data/parlatype.metainfo.xml.in:48
 msgid "App ID changed accordingly."
-msgstr ""
+msgstr "பயன்பாட்டு ஐடி அதற்கேற்ப மாற்றப்பட்டது."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:49 data/parlatype.metainfo.xml.in:60
 #: data/parlatype.metainfo.xml.in:81 data/parlatype.metainfo.xml.in:93
 #: data/parlatype.metainfo.xml.in:109
 msgid "Translation updates for several languages."
-msgstr ""
+msgstr "பல மொழிகளுக்கான மொழிபெயர்ப்பு புதுப்பிப்புகள்."
 
 #: data/parlatype.metainfo.xml.in:56
 msgid ""
 "Follow GNOME human interface guidelines throughout the app using libadwaita."
 msgstr ""
+"லிபாட்வைட்டாவைப் பயன்படுத்தி பயன்பாடு முழுவதும் க்னோம் மனித இடைமுக வழிகாட்டுதல்களைப் "
+"பின்பற்றவும்."
 
 #: data/parlatype.metainfo.xml.in:57
 msgid "Add a theme selector (borrowed from GNOME Text Editor)."
 msgstr ""
+"கருப்பொருள் தேர்வாளரைச் சேர்க்கவும் (க்னோம் உரை திருத்தியிலிருந்து கடன் வாங்கப்பட்டது)."
 
 #: data/parlatype.metainfo.xml.in:58
 msgid "Fix F10 shortcut to toggle main menu."
-msgstr ""
+msgstr "முதன்மையான மெனுவை மாற்ற F10 குறுக்குவழியை சரிசெய்யவும்."
 
 #: data/parlatype.metainfo.xml.in:59
 msgid ""
 "Remove support for Mozilla DeepSpeech because the project is discontinued."
 msgstr ""
+"மொசில்லா டீப்ச்பீச்சிற்கான ஆதரவை அகற்று, ஏனெனில் திட்டம் நிறுத்தப்பட்டது."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:67
@@ -87,46 +95,49 @@ msgid ""
 "This release is switching to GTK 4 and brings translation updates for "
 "several languages."
 msgstr ""
+"இந்த வெளியீடு சி.டி.கே 4 க்கு மாறுகிறது மற்றும் பல மொழிகளுக்கான மொழிபெயர்ப்பு "
+"புதுப்பிப்புகளைக் கொண்டுவருகிறது."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:73
 msgid "This is a minor release with a new feature."
-msgstr ""
+msgstr "இது ஒரு புதிய அம்சத்துடன் கூடிய சிறிய வெளியீடு."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:76
 msgid "Added MPRIS interface."
-msgstr ""
+msgstr "MPRIS இடைமுகம் சேர்க்கப்பட்டது."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:78
 msgid "Smaller bug fixes."
-msgstr ""
+msgstr "சிறிய பிழை திருத்தங்கள்."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:80
 msgid "Switched to Weblate for translations."
-msgstr ""
+msgstr "மொழிபெயர்ப்புகளுக்காக வெப்லேட்டுக்கு மாறியது."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:87 data/parlatype.metainfo.xml.in:116
 msgid "This is a major release with new features."
-msgstr ""
+msgstr "இது புதிய அம்சங்களுடன் ஒரு பெரிய வெளியீடு."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:90
 msgid "Support for Mozilla DeepSpeech."
-msgstr ""
+msgstr "மொசில்லா டீப்ச்பீச்சிற்கான உதவி."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:92
 msgid "New configuration system for Automatic Speech Recognition."
-msgstr ""
+msgstr "தானியங்கி பேச்சு அங்கீகாரத்திற்கான புதிய உள்ளமைவு அமைப்பு."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:100
 msgid "This is a minor release with bug fixes and minor new features."
 msgstr ""
+"பிழை திருத்தங்கள் மற்றும் சிறிய புதிய அம்சங்களுடன் இது ஒரு சிறிய வெளியீடு."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:103
@@ -134,6 +145,8 @@ msgid ""
 "Mute/unmute volume by clicking on the volume icon with the pointer’s "
 "secondary button (usually right mouse button)."
 msgstr ""
+"சுட்டிக்காட்டி இரண்டாம் நிலை பொத்தானைக் கொண்டு (பொதுவாக வலது சுட்டி பொத்தானை) தொகுதி "
+"ஐகானைக் சொடுக்கு செய்வதன் மூலம் முடக்கு/அசைவது."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:105
@@ -141,26 +154,29 @@ msgid ""
 "With Pulseaudio Parlatype doesn’t change the system volume anymore, just its "
 "own application specific volume."
 msgstr ""
+"பல்சியுடியோ பார்லாடைப் மூலம் கணினி அளவை இனி மாற்றாது, அதன் சொந்த பயன்பாட்டு குறிப்பிட்ட "
+"தொகுதி."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:107
 msgid "The initial volume level is picked up from Pulseaudio."
-msgstr ""
+msgstr "ஆரம்ப தொகுதி நிலை பல்சியுடியோவிலிருந்து எடுக்கப்படுகிறது."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:119
 msgid "Waveform is loaded on-the-fly, there is no blocking progress dialog."
 msgstr ""
+"அலைவடிவம் பறக்கும்போது ஏற்றப்படுகிறது, தடுப்பு முன்னேற்ற உரையாடல் இல்லை."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:121
 msgid "Waveform can be changed continuously instead of in discrete steps."
-msgstr ""
+msgstr "தனித்துவமான படிகளுக்கு பதிலாக அலைவடிவத்தை தொடர்ந்து மாற்றலாம்."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:128
 msgid "This is a minor release."
-msgstr ""
+msgstr "இது ஒரு சிறிய வெளியீடு."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:131
@@ -168,16 +184,19 @@ msgid ""
 "Update time label only if time has changed. This is a performance increase, "
 "cursor movement should be smoother on slower systems."
 msgstr ""
+"நேரம் மாறியிருந்தால் மட்டுமே நேர லேபிளைப் புதுப்பிக்கவும். இது ஒரு செயல்திறன் அதிகரிப்பு"
+", கர்சர் இயக்கம் மெதுவான அமைப்புகளில் மென்மையாக இருக்க வேண்டும்."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:133
 msgid "Translation updates for Hungarian, Lithuanian and Spanish"
 msgstr ""
+"அங்கேரிய, லிதுவேனியன் மற்றும் ச்பானிச் மொழிகளுக்கான மொழிபெயர்ப்பு புதுப்பிப்புகள்"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:140
 msgid "This is a minor release with some changes."
-msgstr ""
+msgstr "சில மாற்றங்களுடன் இது ஒரு சிறிய வெளியீடு."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:143
@@ -185,11 +204,13 @@ msgid ""
 "Automatic speech recognition (ASR) is now disabled by default and it’s only "
 "shown, if Parlatype is launched with the new parameter \\\"--with-asr\\\""
 msgstr ""
+"தானியங்கி பேச்சு ஏற்பு (ASR) இப்போது இயல்பாகவே முடக்கப்பட்டுள்ளது, மேலும் புதிய "
+"அளவுருவுடன் பார்லாடைப் தொடங்கப்பட்டால் மட்டுமே அது காட்டப்பட்டுள்ளது-\\ \""
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:145
 msgid "Fix internationalization: Some translations were not shown"
-msgstr ""
+msgstr "சரிசெய்தல் சர்வதேசமயமாக்கல்: சில மொழிபெயர்ப்புகள் காட்டப்படவில்லை"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:147
@@ -197,26 +218,28 @@ msgid ""
 "Translation updates for Arabic, British English, Czech, Dutch, German, "
 "Polish and Spanish"
 msgstr ""
+"அரபு, பிரிட்டிச் ஆங்கிலம், செக், டச்சு, செர்மன், போலந்து மற்றும் ச்பானிச் மொழிகளுக்கான "
+"மொழிபெயர்ப்பு புதுப்பிப்புகள்"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:154
 msgid "This is a major release with some new features."
-msgstr ""
+msgstr "சில புதிய அம்சங்களுடன் இது ஒரு பெரிய வெளியீடு."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:157
 msgid "Automatic speech recognition with CMU Sphinx"
-msgstr ""
+msgstr "CMU சூரரிமாச்சிலை உடன் தானியங்கி பேச்சு ஏற்பு"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:159
 msgid "Design changes, including removal of application menu"
-msgstr ""
+msgstr "பயன்பாட்டு மெனுவை அகற்றுவது உட்பட வடிவமைப்பு மாற்றங்கள்"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:161
 msgid "Custom timestamps"
-msgstr ""
+msgstr "தனிப்பயன் நேர முத்திரைகள்"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:163
@@ -224,41 +247,47 @@ msgid ""
 "Translation updates for Brazilian Portuguese, British English, Czech, "
 "German, Japanese, Lithuanian and Polish"
 msgstr ""
+"பிரேசிலிய போர்த்துகீசியம், பிரிட்டிச் ஆங்கிலம், செக், செர்மன், சப்பானிய, லிதுவேனியன் மற்றும்"
+" போலந்து மொழிகளுக்கான மொழிபெயர்ப்பு புதுப்பிப்புகள்"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:170
 msgid "This is a minor maintenance release."
-msgstr ""
+msgstr "இது ஒரு சிறிய பராமரிப்பு வெளியீடு."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:173
 msgid "Animate scrolling when using keybindings"
-msgstr ""
+msgstr "கீபிண்டிங்சைப் பயன்படுத்தும் போது ச்க்ரோலிங் உயிரூட்டவும்"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:175
 msgid "Change desktop entry category to Audio/Video instead of Utilities"
 msgstr ""
+"பயன்பாடுகளுக்கு பதிலாக டெச்க்டாப் நுழைவு வகையை ஆடியோ/வீடியோவாக மாற்றவும்"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:177
 msgid "Translation updates for French"
-msgstr ""
+msgstr "பிரஞ்சு மொழிபெயர்ப்பு புதுப்பிப்புகள்"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:184
 msgid "This release contains a number of bug fixes and minor improvements."
 msgstr ""
+"இந்த வெளியீட்டில் பல பிழைத் திருத்தங்கள் மற்றும் சிறிய மேம்பாடுகள் உள்ளன."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:187
 msgid "Progress Dialog has now a countdown timer (estimated time left)"
 msgstr ""
+"முன்னேற்ற உரையாடல் இப்போது ஒரு கவுண்டவுன் நேரங்குறிகருவியைக் கொண்டுள்ளது (மதிப்பிடப்பட்ட "
+"நேரம் மீதமுள்ளது)"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:189
 msgid "Increase max. possible speed to 2.0"
-msgstr ""
+msgstr "அதிகரிப்பு அதிகபட்சம். 2.0 ஆக சாத்தியமான விரைவு"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:191
@@ -266,16 +295,18 @@ msgid ""
 "New keyboard shortcuts for Play/Pause (Ctrl + Space), Jump back (Ctrl + "
 "Left), Jump forward (Ctrl + Right)"
 msgstr ""
+"விளையாட்டு/இடைநிறுத்தத்திற்கான புதிய விசைப்பலகை குறுக்குவழிகள் (Ctrl + space), "
+"பின்னால் செல்லவும் (CTRL + இடது), முன்னோக்கி செல்லவும் (Ctrl + வலது)"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:193
 msgid "Scrolling now also possible with vertical scrollbar"
-msgstr ""
+msgstr "செங்குத்து சுருள் மூலம் இப்போது ச்க்ரோலிங் சாத்தியமாகும்"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:195
 msgid "Various fixes for waveform and cursor display"
-msgstr ""
+msgstr "அலைவடிவம் மற்றும் கர்சர் காட்சிக்கு பல்வேறு திருத்தங்கள்"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:197
@@ -283,34 +314,36 @@ msgid ""
 "Translation updates for Arabic, British English, Catalan, German, Finnish, "
 "French, Japanese, Lithuanian, Polish, Spanish and Swedish"
 msgstr ""
+"அரபு, பிரிட்டிச் ஆங்கிலம், கற்றலான், செர்மன், பின்னிச், பிரஞ்சு, சப்பானிய, லிதுவேனியன், "
+"போலந்து, ச்பானிச் மற்றும் ச்வீடிச் மொழிகளுக்கான மொழிபெயர்ப்பு புதுப்பிப்புகள்"
 
 #: src/pt-app.c:47
 msgid "Show the application’s version"
-msgstr ""
+msgstr "பயன்பாட்டின் பதிப்பைக் காட்டு"
 
 #: src/pt-app.c:93
 msgid "Open Audio File"
-msgstr ""
+msgstr "ஆடியோ கோப்பைத் திறக்கவும்"
 
 #: src/pt-app.c:115
 msgid "Audio Files"
-msgstr ""
+msgstr "ஆடியோ கோப்புகள்"
 
 #: src/pt-app.c:116 src/pt-preferences.c:536
 msgid "All Files"
-msgstr ""
+msgstr "அனைத்து கோப்புகள்"
 
 #: src/pt-app.c:193
 msgid "Code from other projects"
-msgstr ""
+msgstr "பிற திட்டங்களிலிருந்து குறியீடு"
 
 #: src/pt-app.c:197
 msgid "A basic transcription utility"
-msgstr ""
+msgstr "ஒரு அடிப்படை டிரான்ச்கிரிப்சன் பயன்பாடு"
 
 #: src/pt-app.c:203
 msgid "translator-credits"
-msgstr ""
+msgstr "மொழிபெயர்ப்பாளர்-வரவு"
 
 #: src/pt-app.c:344
 #, c-format
@@ -318,101 +351,103 @@ msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
 "ignored.\n"
 msgstr ""
+"எச்சரிக்கை: பார்லாடைப் ஒரு நேரத்தில் ஒரு கோப்பை மட்டுமே கையாளுகிறது. மற்ற கோப்புகள் "
+"புறக்கணிக்கப்படுகின்றன.\n"
 
 #. Translators: Fallback label for a download location
 #: src/pt-asr-dialog.c:99
 msgid "Link"
-msgstr ""
+msgstr "இணைப்பு"
 
 #. Not using title case here, this is more a status than a title.
 #: src/pt-asr-dialog.c:115
 msgid "This configuration is active."
-msgstr ""
+msgstr "இந்த உள்ளமைவு செயலில் உள்ளது."
 
 #: src/pt-asr-dialog.c:117
 msgid "Deactivate"
-msgstr ""
+msgstr "செயலிழக்கச் செய்யுங்கள்"
 
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:124
 msgid "Model data is installed."
-msgstr ""
+msgstr "மாதிரி தரவு நிறுவப்பட்டுள்ளது."
 
 #: src/pt-asr-dialog.c:126 src/pt-asr-dialog.c:133
 msgid "Activate"
-msgstr ""
+msgstr "செயல்படுத்து"
 
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:131
 msgid "Model data is not installed."
-msgstr ""
+msgstr "மாதிரி தரவு நிறுவப்படவில்லை."
 
 #: src/pt-asr-dialog.c:132
 msgid "See next section for details."
-msgstr ""
+msgstr "விவரங்களுக்கு அடுத்த பகுதியைப் பார்க்கவும்."
 
 #. Translators: Configuration will be deleted, but not its data
 #: src/pt-asr-dialog.c:144
 msgid "Model data will be preserved"
-msgstr ""
+msgstr "மாதிரி தரவு பாதுகாக்கப்படும்"
 
 #: src/pt-asr-dialog.c:222
 msgid "Language"
-msgstr ""
+msgstr "மொழி"
 
 #: src/pt-asr-dialog.c:226
 msgid "CMU Pocketsphinx"
-msgstr ""
+msgstr "CMU Pocketsphinx"
 
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:230
 msgid "Type of Model"
-msgstr ""
+msgstr "மாதிரி வகை"
 
 #: src/pt-asr-dialog.c:232
 msgid "GStreamer Plugin"
-msgstr ""
+msgstr "சிச்ட்ரீமர் சொருகி"
 
 #: src/pt-asr-dialog.c:236
 msgid "Publisher"
-msgstr ""
+msgstr "வெளியீட்டாளர்"
 
 #: src/pt-asr-dialog.c:241
 msgid "License"
-msgstr ""
+msgstr "உரிமம்"
 
 #: src/pt-asr-dialog.c:249
 msgid "Instructions"
-msgstr ""
+msgstr "வழிமுறைகள்"
 
 #: src/pt-asr-dialog.c:258 src/pt-asr-dialog.c:269
 msgid "Download"
-msgstr ""
+msgstr "பதிவிறக்கம்"
 
 #. Translators: %s is replaced with the name of a configuration
 #: src/pt-asr-dialog.c:314
 #, c-format
 msgid "“%s” has been deleted"
-msgstr ""
+msgstr "“%s” நீக்கப்பட்டது"
 
 #: src/pt-asr-dialog.c:322 src/pt-preferences.c:248 src/pt-preferences.c:418
 #: src/pt-preferences.c:453 src/pt-window.c:86
 msgid "Error"
-msgstr ""
+msgstr "பிழை"
 
 #. Translators: %s is replaced with the name of a configuration
 #: src/pt-asr-dialog.c:373
 #, c-format
 msgid "“%s” has been activated"
-msgstr ""
+msgstr "“%s” செயல்படுத்தப்பட்டுள்ளது"
 
 #: src/pt-asr-dialog.c:376
 msgid "Configuration has been deactivated"
-msgstr ""
+msgstr "உள்ளமைவு செயலிழக்கப்பட்டது"
 
 #: src/pt-config-row.c:79
 msgid "Not installed"
-msgstr ""
+msgstr "நிறுவப்படவில்லை"
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
@@ -422,172 +457,172 @@ msgstr ""
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
-msgstr ""
+msgstr "%d:%02 டி:%02 டி"
 
 #: src/pt-goto-dialog.c:87
 msgid "second"
 msgid_plural "seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "இரண்டாவது"
+msgstr[1] "நொடிகள்"
 
 #: src/pt-preferences.c:457
 msgid "The file is not a valid language model configuration."
-msgstr ""
+msgstr "கோப்பு சரியான மொழி மாதிரி உள்ளமைவு அல்ல."
 
 #: src/pt-preferences.c:461
 msgid "There is no plugin installed for this language model."
-msgstr ""
+msgstr "இந்த மொழி மாதிரிக்கு சொருகி நிறுவப்படவில்லை."
 
 #: src/pt-preferences.c:527 src/pt-prefs-install-row.c:136
 msgid "Select Model Folder"
-msgstr ""
+msgstr "மாதிரி கோப்புறையைத் தேர்ந்தெடுக்கவும்"
 
 #: src/pt-preferences.c:535
 msgid "Parlatype Language Model Configurations"
-msgstr ""
+msgstr "பார்லாடைப் மொழி மாதிரி உள்ளமைவுகள்"
 
 #: src/pt-prefs-install-row.c:54
 msgid "Installed"
-msgstr ""
+msgstr "நிறுவப்பட்டது"
 
 #: src/pt-prefs-install-row.c:59
 msgid "Not Installed"
-msgstr ""
+msgstr "நிறுவப்படவில்லை"
 
 #: src/pt-prefs-install-row.c:60
 msgid "Download files and select model folder."
-msgstr ""
+msgstr "கோப்புகளைப் பதிவிறக்கி மாதிரி கோப்புறையைத் தேர்ந்தெடுக்கவும்."
 
 #: src/pt-prefs-install-row.c:114
 msgid "Model Data Not Found"
-msgstr ""
+msgstr "மாதிரி தரவு கிடைக்கவில்லை"
 
 #: src/pt-prefs-install-row.c:116
 msgid "The chosen folder does not contain data for this configuration."
-msgstr ""
+msgstr "தேர்ந்தெடுக்கப்பட்ட கோப்புறையில் இந்த உள்ளமைவுக்கான தரவு இல்லை."
 
 #: src/pt-window.c:396
 #, c-format
 msgid "Skip back 1 second"
 msgid_plural "Skip back %d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 வினாடியைத் தவிர்க்கவும்"
+msgstr[1] "%d வினாடிகளைத் தவிர்க்கவும்"
 
 #: src/pt-window.c:413
 #, c-format
 msgid "Skip forward 1 second"
 msgid_plural "Skip forward %d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 வினாடியை முன்னோக்கி தவிர்க்கவும்"
+msgstr[1] "%d வினாடிகளை முன்னோக்கி தவிர்க்கவும்"
 
 #: src/pt-window.c:434
 msgid "Pause"
-msgstr ""
+msgstr "இடைநிறுத்தம்"
 
 #: src/pt-window.c:439
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "இடைநிறுத்தப்பட்டு 1 நொடி முன்னாடி"
+msgstr[1] "இடைநிறுத்தப்பட்டு %d விநாடிகளை முன்னெடுக்கவும்"
 
 #: src/pt-window.c:448
 msgid "Start playing"
-msgstr ""
+msgstr "விளையாடத் தொடங்குங்கள்"
 
 #. Translators: %s is replaced with a timestamp
 #: src/pt-window.c:488
 #, c-format
 msgid "Go to Time in Clipboard: %s"
-msgstr ""
+msgstr "கிளிப்போர்டில் நேரத்திற்குச் செல்லுங்கள்: %s"
 
 #: src/pt-window.c:490 src/pt-window.c:1172
 msgid "Go to Time in Clipboard"
-msgstr ""
+msgstr "கிளிப்போர்டில் சரியான நேரத்தில் செல்லுங்கள்"
 
 #: src/pt-window.c:1167
 msgid "Manual Transcription"
-msgstr ""
+msgstr "கையேடு படியெடுத்தல்"
 
 #: src/pt-window.c:1168
 msgid "Automatic Transcription"
-msgstr ""
+msgstr "தானியங்கி படியெடுத்தல்"
 
 #: src/resources/asr-dialog.ui:29
 msgid "Installation"
-msgstr ""
+msgstr "நிறுவல்"
 
 #: src/resources/asr-dialog.ui:30
 msgid "How to install this language model."
-msgstr ""
+msgstr "இந்த மொழி மாதிரியை எவ்வாறு நிறுவுவது."
 
 #: src/resources/asr-dialog.ui:33
 msgid "General Information"
-msgstr ""
+msgstr "பொது செய்தி"
 
 #: src/resources/asr-dialog.ui:36
 msgid "Display Name"
-msgstr ""
+msgstr "காட்சி பெயர்"
 
 #: src/resources/asr-dialog.ui:44
 msgid "Delete this Configuration"
-msgstr ""
+msgstr "இந்த உள்ளமைவை நீக்கு"
 
 #: src/resources/asr-dialog.ui:48
 msgid "Delete"
-msgstr ""
+msgstr "நீக்கு"
 
 #: src/resources/editor-theme-selector.ui:22
 msgid "Follow System Style"
-msgstr ""
+msgstr "கணினி பாணியைப் பின்பற்றுங்கள்"
 
 #: src/resources/editor-theme-selector.ui:24
 msgid "Follow system style"
-msgstr ""
+msgstr "கணினி பாணியைப் பின்பற்றுங்கள்"
 
 #: src/resources/editor-theme-selector.ui:39
 msgid "Light Style"
-msgstr ""
+msgstr "ஒளி நடை"
 
 #: src/resources/editor-theme-selector.ui:41
 msgid "Light style"
-msgstr ""
+msgstr "ஒளி நடை"
 
 #: src/resources/editor-theme-selector.ui:57
 msgid "Dark Style"
-msgstr ""
+msgstr "இருண்ட நடை"
 
 #: src/resources/editor-theme-selector.ui:59
 msgid "Dark style"
-msgstr ""
+msgstr "இருண்ட நடை"
 
 #: src/resources/goto-dialog.ui:10 src/resources/window.ui:262
 msgid "Go to…"
-msgstr ""
+msgstr "செல்லுங்கள்…"
 
 #: src/resources/goto-dialog.ui:20
 msgid "Go to position:"
-msgstr ""
+msgstr "நிலைக்குச் செல்லுங்கள்:"
 
 #: src/resources/goto-dialog.ui:52
 msgid "_Cancel"
-msgstr ""
+msgstr "_CANCEL"
 
 #: src/resources/goto-dialog.ui:60
 msgid "_OK"
-msgstr ""
+msgstr "_Ok"
 
 #: src/resources/help-overlay.ui:13
 msgid "General"
-msgstr ""
+msgstr "பொது"
 
 #: src/resources/help-overlay.ui:18
 msgid "Open a media file"
-msgstr ""
+msgstr "மீடியா கோப்பைத் திறக்கவும்"
 
 #: src/resources/help-overlay.ui:25
 msgid "Show/hide main menu"
-msgstr ""
+msgstr "முதன்மையான மெனுவைக் காட்டு/மறைக்க"
 
 #: src/resources/help-overlay.ui:32
 msgid "Quit"
