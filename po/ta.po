@@ -670,91 +670,91 @@ msgstr "உதவி"
 
 #: src/resources/help-overlay.ui:107
 msgid "Show help"
-msgstr ""
+msgstr "உதவியைக் காட்டு"
 
 #: src/resources/help-overlay.ui:114
 msgid "Show keyboard shortcuts"
-msgstr ""
+msgstr "விசைப்பலகை குறுக்குவழிகளைக் காட்டு"
 
 #: src/resources/preferences.ui:7 src/resources/window.ui:235
 msgid "Preferences"
-msgstr ""
+msgstr "விருப்பத்தேர்வுகள்"
 
 #: src/resources/preferences.ui:15
 msgid "Display"
-msgstr ""
+msgstr "காட்சி"
 
 #: src/resources/preferences.ui:16
 msgid "Change appearance of the waveform and cursor movement."
-msgstr ""
+msgstr "அலைவடிவம் மற்றும் கர்சர் இயக்கத்தின் தோற்றத்தை மாற்றவும்."
 
 #: src/resources/preferences.ui:19
 msgid "Waveform Detail"
-msgstr ""
+msgstr "அலைவடிவ விவரம்"
 
 #: src/resources/preferences.ui:20
 msgid "Vertical lines per second"
-msgstr ""
+msgstr "நொடிக்கு செங்குத்து கோடுகள்"
 
 #: src/resources/preferences.ui:53
 msgid "Show Time Scale"
-msgstr ""
+msgstr "நேர அளவைக் காட்டு"
 
 #: src/resources/preferences.ui:58
 msgid "Cursor Mode"
-msgstr ""
+msgstr "கர்சர் பயன்முறை"
 
 #: src/resources/preferences.ui:62
 msgid "Fixed Cursor"
-msgstr ""
+msgstr "நிலையான கர்சர்"
 
 #: src/resources/preferences.ui:63
 msgid "Moving Cursor"
-msgstr ""
+msgstr "நகரும் கர்சர்"
 
 #: src/resources/preferences.ui:76
 msgid "Audio Controls"
-msgstr ""
+msgstr "ஆடியோ கட்டுப்பாடுகள்"
 
 #: src/resources/preferences.ui:80
 msgid "Pause and Skip Buttons"
-msgstr ""
+msgstr "இடைநிறுத்தப்பட்டு பொத்தான்களைத் தவிர்க்கவும்"
 
 #: src/resources/preferences.ui:81
 msgid "Set amount of time to skip in seconds."
-msgstr ""
+msgstr "விநாடிகளில் தவிர்க்க நேரத்தை அமைக்கவும்."
 
 #: src/resources/preferences.ui:84
 msgid "Rewind on Pause"
-msgstr ""
+msgstr "இடைநிறுத்தத்தில் முன்னாடி"
 
 #: src/resources/preferences.ui:85
 msgid "Set to zero to disable this feature"
-msgstr ""
+msgstr "இந்த அம்சத்தை முடக்க பூச்சியமாக அமைக்கவும்"
 
 #: src/resources/preferences.ui:98
 msgid "Skip Backward"
-msgstr ""
+msgstr "பின்தங்கிய நிலையில் தவிர்க்கவும்"
 
 #: src/resources/preferences.ui:111
 msgid "Skip Forward"
-msgstr ""
+msgstr "முன்னோக்கி செல்லுங்கள்"
 
 #: src/resources/preferences.ui:126
 msgid "Play Button"
-msgstr ""
+msgstr "ப்ளே பொத்தானை இயக்கவும்"
 
 #: src/resources/preferences.ui:127
 msgid "Change behavior of play button."
-msgstr ""
+msgstr "பிளே பொத்தானின் நடத்தை மாற்றவும்."
 
 #: src/resources/preferences.ui:130
 msgid "At End of File Replay File"
-msgstr ""
+msgstr "கோப்பு மறுதொடக்கம் கோப்பின் முடிவில்"
 
 #: src/resources/preferences.ui:135
 msgid "At End of Selection Replay Selection"
-msgstr ""
+msgstr "தேர்வு மறுதொடக்கம் தேர்வின் முடிவில்"
 
 #: src/resources/preferences.ui:145
 msgid "Timestamps"
