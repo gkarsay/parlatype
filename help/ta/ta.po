@@ -220,7 +220,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:46
 msgid "Skip forward"
-msgstr ""
+msgstr "முன்னோக்கி செல்லுங்கள்"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:47
