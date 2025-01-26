@@ -642,7 +642,7 @@ msgstr "பின்தங்கிய நிலையில் தவிர்�
 
 #: src/resources/help-overlay.ui:59 src/resources/window.ui:144
 msgid "Skip forward"
-msgstr ""
+msgstr "முன்னோக்கி செல்லுங்கள்"
 
 #: src/resources/help-overlay.ui:66
 msgid "Zoom in"
