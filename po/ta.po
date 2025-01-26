@@ -650,23 +650,23 @@ msgstr "பெரிதாக்கு"
 
 #: src/resources/help-overlay.ui:73
 msgid "Zoom out"
-msgstr ""
+msgstr "சிறிதாக்கு"
 
 #: src/resources/help-overlay.ui:80
 msgid "Open “Go to” dialog"
-msgstr ""
+msgstr "“செல்லுங்கள்” உரையாடலைத் திறக்கவும்"
 
 #: src/resources/help-overlay.ui:87
 msgid "Copy timestamp to clipboard"
-msgstr ""
+msgstr "இடைநிலைப்பலகைக்கு நேர முத்திரையை நகலெடுக்கவும்"
 
 #: src/resources/help-overlay.ui:94
 msgid "Go to timestamp in clipboard"
-msgstr ""
+msgstr "கிளிப்போர்டில் நேர முத்திரைக்குச் செல்லுங்கள்"
 
 #: src/resources/help-overlay.ui:102 src/resources/window.ui:243
 msgid "Help"
-msgstr ""
+msgstr "உதவி"
 
 #: src/resources/help-overlay.ui:107
 msgid "Show help"
