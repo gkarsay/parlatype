@@ -250,7 +250,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:58
 msgid "Zoom in"
-msgstr ""
+msgstr "பெரிதாக்கு"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:59
