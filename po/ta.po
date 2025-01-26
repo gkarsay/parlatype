@@ -634,7 +634,7 @@ msgstr "அலைவடிவம், அலைப்படம்"
 
 #: src/resources/help-overlay.ui:45
 msgid "Play/Pause"
-msgstr ""
+msgstr "விளையாடு/இடைநிறுத்தம்"
 
 #: src/resources/help-overlay.ui:52 src/resources/window.ui:99
 msgid "Skip backward"
