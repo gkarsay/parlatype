@@ -210,7 +210,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:42
 msgid "Skip backward"
-msgstr ""
+msgstr "பின்தங்கிய நிலையில் தவிர்க்கவும்"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:43
