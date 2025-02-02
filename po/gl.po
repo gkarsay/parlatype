@@ -8,78 +8,86 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-13 21:21+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2025-02-03 17:01+0000\n"
+"Last-Translator: Xosé Calvo <xosecalvo@gmail.com>\n"
+"Language-Team: Galician <https://hosted.weblate.org/projects/parlatype/"
+"parlatype/gl/>\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.10-dev\n"
 
 #: data/parlatype.desktop.in:4 data/parlatype.metainfo.xml.in:8
 #: src/pt-app.c:196 src/resources/window.ui:30
 msgid "Parlatype"
-msgstr ""
+msgstr "Parlatype"
 
 #: data/parlatype.desktop.in:5
 msgid "Transcription utility"
-msgstr ""
+msgstr "Utilidade de transcrición"
 
 #: data/parlatype.desktop.in:6
 msgid "Transcription;"
-msgstr ""
+msgstr "Transcrición;"
 
 #: data/parlatype.metainfo.xml.in:9
 msgid "Media player for transcription"
-msgstr ""
+msgstr "Reprodutor para transcrición"
 
 #: data/parlatype.metainfo.xml.in:12
 msgid ""
 "Parlatype is an easy to use media player. Its main purpose is to help you "
 "transcribing speech."
 msgstr ""
+"Parlatype é un reprodutor multimedia doado de usar. O seu propósito "
+"principal é axudar a transcribir a fala."
 
 #: data/parlatype.metainfo.xml.in:19
 msgid "Main window"
-msgstr ""
+msgstr "Xanela principal"
 
 #: data/parlatype.metainfo.xml.in:28
 msgid "Gabor Karsay"
-msgstr ""
+msgstr "Gabor Karsay"
 
 #: data/parlatype.metainfo.xml.in:47
 msgid "Website moved to www.parlatype.xyz."
-msgstr ""
+msgstr "O sitio web foi trasladado a www.parlatype.xyz."
 
 #: data/parlatype.metainfo.xml.in:48
 msgid "App ID changed accordingly."
-msgstr ""
+msgstr "ID da app cambiado en consecuencia."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:49 data/parlatype.metainfo.xml.in:60
 #: data/parlatype.metainfo.xml.in:81 data/parlatype.metainfo.xml.in:93
 #: data/parlatype.metainfo.xml.in:109
 msgid "Translation updates for several languages."
-msgstr ""
+msgstr "Actualizacións da tradución a varios idiomas."
 
 #: data/parlatype.metainfo.xml.in:56
 msgid ""
 "Follow GNOME human interface guidelines throughout the app using libadwaita."
 msgstr ""
+"Seguir as directrices de interface humana de GNOME en toda a app empregando "
+"libadwaita."
 
 #: data/parlatype.metainfo.xml.in:57
 msgid "Add a theme selector (borrowed from GNOME Text Editor)."
-msgstr ""
+msgstr "Engadir un selector de tema (tomado do Editor de Texto de GNOME)."
 
 #: data/parlatype.metainfo.xml.in:58
 msgid "Fix F10 shortcut to toggle main menu."
-msgstr ""
+msgstr "Arranxar o atallo F10 para alternar o menú principal."
 
 #: data/parlatype.metainfo.xml.in:59
 msgid ""
 "Remove support for Mozilla DeepSpeech because the project is discontinued."
 msgstr ""
+"Retirar conformidade co DeepSpeech de Mozilla porque o proxecto de ter "
+"continuidade."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:67
@@ -87,46 +95,50 @@ msgid ""
 "This release is switching to GTK 4 and brings translation updates for "
 "several languages."
 msgstr ""
+"Esta edición está en transición a GTK 4 e inclúe actualizacións da tradución "
+"a varios idiomas."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:73
 msgid "This is a minor release with a new feature."
-msgstr ""
+msgstr "Esta é unha edición menor cunha característica nova."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:76
 msgid "Added MPRIS interface."
-msgstr ""
+msgstr "Engadida interface para MPRIS."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:78
 msgid "Smaller bug fixes."
-msgstr ""
+msgstr "Arranxos de erros menores."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:80
 msgid "Switched to Weblate for translations."
-msgstr ""
+msgstr "Pasouse a Weblate para as traducións."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:87 data/parlatype.metainfo.xml.in:116
 msgid "This is a major release with new features."
-msgstr ""
+msgstr "Esta é unha edición importante con características novas."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:90
 msgid "Support for Mozilla DeepSpeech."
-msgstr ""
+msgstr "Compatibilidade co DeepSpeech de Mozilla."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:92
 msgid "New configuration system for Automatic Speech Recognition."
-msgstr ""
+msgstr "Sistema de configuración novo para Recoñecemento Automático da Fala."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:100
 msgid "This is a minor release with bug fixes and minor new features."
 msgstr ""
+"Esta é unha edición menor con arranxos de erros e características novas "
+"menores."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:103
@@ -141,26 +153,30 @@ msgid ""
 "With Pulseaudio Parlatype doesn’t change the system volume anymore, just its "
 "own application specific volume."
 msgstr ""
+"Con Pulseaudio, Parlatype non cambia máis o volume do sistema, só o volume "
+"específico da aplicación."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:107
 msgid "The initial volume level is picked up from Pulseaudio."
-msgstr ""
+msgstr "O nivel inicial do volume é tomado do Pulseaudio."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:119
 msgid "Waveform is loaded on-the-fly, there is no blocking progress dialog."
 msgstr ""
+"Waveform cárgase en tempo real, non hai caixas de diálogo bloqueando o "
+"progreso."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:121
 msgid "Waveform can be changed continuously instead of in discrete steps."
-msgstr ""
+msgstr "Waveforme pódese cambiar continuamente no canto de en pasos discretos."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:128
 msgid "This is a minor release."
-msgstr ""
+msgstr "Esta é unha edición menor."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:131
@@ -168,16 +184,19 @@ msgid ""
 "Update time label only if time has changed. This is a performance increase, "
 "cursor movement should be smoother on slower systems."
 msgstr ""
+"Actualizar etiqueta de tempo só se cambiou o tempo. É un incremento no "
+"rendemento; o movemento do cursor debería ser máis suave en sistemas máis "
+"lentos."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:133
 msgid "Translation updates for Hungarian, Lithuanian and Spanish"
-msgstr ""
+msgstr "Actualizacións da tradución a húngaro, lituano e español"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:140
 msgid "This is a minor release with some changes."
-msgstr ""
+msgstr "Esta é unha edición menor con varios cambios."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:143
@@ -185,11 +204,14 @@ msgid ""
 "Automatic speech recognition (ASR) is now disabled by default and it’s only "
 "shown, if Parlatype is launched with the new parameter \\\"--with-asr\\\""
 msgstr ""
+"O recoñecemento automático da fala (ASR) está arestora desactivado por "
+"omisión e só se mostra cando Parlatype se inicia co novo parámetro \\"
+"\"--with-asr\\\""
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:145
 msgid "Fix internationalization: Some translations were not shown"
-msgstr ""
+msgstr "Arranxar internacionalización: Algunhas traducións non aparecían"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:147
@@ -197,26 +219,28 @@ msgid ""
 "Translation updates for Arabic, British English, Czech, Dutch, German, "
 "Polish and Spanish"
 msgstr ""
+"Actualización da tradución a árabe, inglés británico, checo, holandés, "
+"alemán, polaco e español"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:154
 msgid "This is a major release with some new features."
-msgstr ""
+msgstr "Esta é unha edición importante con características novas."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:157
 msgid "Automatic speech recognition with CMU Sphinx"
-msgstr ""
+msgstr "Recoñecemento automático da fala con CMU Sphinx"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:159
 msgid "Design changes, including removal of application menu"
-msgstr ""
+msgstr "Cambios de deseño, incluída a retirada do menú da aplicación"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:161
 msgid "Custom timestamps"
-msgstr ""
+msgstr "Marcas temporais personalizadas"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:163
@@ -224,6 +248,8 @@ msgid ""
 "Translation updates for Brazilian Portuguese, British English, Czech, "
 "German, Japanese, Lithuanian and Polish"
 msgstr ""
+"Actualización das traducións a portugués do brasil, inglés británico, checo, "
+"alemán, xaponés, lituano e polaco"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:170
@@ -286,27 +312,27 @@ msgstr ""
 
 #: src/pt-app.c:47
 msgid "Show the application’s version"
-msgstr ""
+msgstr "Mostrar a versión da aplicación"
 
 #: src/pt-app.c:93
 msgid "Open Audio File"
-msgstr ""
+msgstr "Abrir ficheiro de son"
 
 #: src/pt-app.c:115
 msgid "Audio Files"
-msgstr ""
+msgstr "Ficheiros de son"
 
 #: src/pt-app.c:116 src/pt-preferences.c:536
 msgid "All Files"
-msgstr ""
+msgstr "Todos os ficheiros"
 
 #: src/pt-app.c:193
 msgid "Code from other projects"
-msgstr ""
+msgstr "Código doutros proxectos"
 
 #: src/pt-app.c:197
 msgid "A basic transcription utility"
-msgstr ""
+msgstr "Unha utilidade de transcrición básica"
 
 #: src/pt-app.c:203
 msgid "translator-credits"
@@ -318,47 +344,49 @@ msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
 "ignored.\n"
 msgstr ""
+"Advertencia: Parlatype traballa con só un ficheiro de cada vez. Os demais "
+"ficheiros son ignorados.\n"
 
 #. Translators: Fallback label for a download location
 #: src/pt-asr-dialog.c:99
 msgid "Link"
-msgstr ""
+msgstr "Ligazón"
 
 #. Not using title case here, this is more a status than a title.
 #: src/pt-asr-dialog.c:115
 msgid "This configuration is active."
-msgstr ""
+msgstr "Esta configuración está activa."
 
 #: src/pt-asr-dialog.c:117
 msgid "Deactivate"
-msgstr ""
+msgstr "Desactivar"
 
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:124
 msgid "Model data is installed."
-msgstr ""
+msgstr "Os datos do modelo están instalados."
 
 #: src/pt-asr-dialog.c:126 src/pt-asr-dialog.c:133
 msgid "Activate"
-msgstr ""
+msgstr "Activar"
 
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:131
 msgid "Model data is not installed."
-msgstr ""
+msgstr "Os datos do modelo non están instalados."
 
 #: src/pt-asr-dialog.c:132
 msgid "See next section for details."
-msgstr ""
+msgstr "Vexa a sección seguinte para máis detalles."
 
 #. Translators: Configuration will be deleted, but not its data
 #: src/pt-asr-dialog.c:144
 msgid "Model data will be preserved"
-msgstr ""
+msgstr "Os datos do modelo serán conservados"
 
 #: src/pt-asr-dialog.c:222
 msgid "Language"
-msgstr ""
+msgstr "Idioma"
 
 #: src/pt-asr-dialog.c:226
 msgid "CMU Pocketsphinx"
@@ -367,11 +395,11 @@ msgstr ""
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:230
 msgid "Type of Model"
-msgstr ""
+msgstr "Tipo de modelo"
 
 #: src/pt-asr-dialog.c:232
 msgid "GStreamer Plugin"
-msgstr ""
+msgstr "Engadido do GStreamer"
 
 #: src/pt-asr-dialog.c:236
 msgid "Publisher"
@@ -379,40 +407,40 @@ msgstr ""
 
 #: src/pt-asr-dialog.c:241
 msgid "License"
-msgstr ""
+msgstr "Licenza"
 
 #: src/pt-asr-dialog.c:249
 msgid "Instructions"
-msgstr ""
+msgstr "Instrucións"
 
 #: src/pt-asr-dialog.c:258 src/pt-asr-dialog.c:269
 msgid "Download"
-msgstr ""
+msgstr "Descargar"
 
 #. Translators: %s is replaced with the name of a configuration
 #: src/pt-asr-dialog.c:314
 #, c-format
 msgid "“%s” has been deleted"
-msgstr ""
+msgstr "Non se eliminou «%s»"
 
 #: src/pt-asr-dialog.c:322 src/pt-preferences.c:248 src/pt-preferences.c:418
 #: src/pt-preferences.c:453 src/pt-window.c:86
 msgid "Error"
-msgstr ""
+msgstr "Erro"
 
 #. Translators: %s is replaced with the name of a configuration
 #: src/pt-asr-dialog.c:373
 #, c-format
 msgid "“%s” has been activated"
-msgstr ""
+msgstr "Activouse «%s»"
 
 #: src/pt-asr-dialog.c:376
 msgid "Configuration has been deactivated"
-msgstr ""
+msgstr "Desactivouse a configuración"
 
 #: src/pt-config-row.c:79
 msgid "Not installed"
-msgstr ""
+msgstr "Non instalado"
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
@@ -422,108 +450,108 @@ msgstr ""
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
-msgstr ""
+msgstr "%d:%02d:%02d"
 
 #: src/pt-goto-dialog.c:87
 msgid "second"
 msgid_plural "seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "segundo"
+msgstr[1] "segundos"
 
 #: src/pt-preferences.c:457
 msgid "The file is not a valid language model configuration."
-msgstr ""
+msgstr "O ficheiro non é unha configuración de modelo de idioma válida."
 
 #: src/pt-preferences.c:461
 msgid "There is no plugin installed for this language model."
-msgstr ""
+msgstr "Non hai ningún engadido instalado para este modelo de idioma."
 
 #: src/pt-preferences.c:527 src/pt-prefs-install-row.c:136
 msgid "Select Model Folder"
-msgstr ""
+msgstr "Seleccionar cartafol do modelo"
 
 #: src/pt-preferences.c:535
 msgid "Parlatype Language Model Configurations"
-msgstr ""
+msgstr "Configuracións dos modelos de idioma de Parlatype"
 
 #: src/pt-prefs-install-row.c:54
 msgid "Installed"
-msgstr ""
+msgstr "Instalado"
 
 #: src/pt-prefs-install-row.c:59
 msgid "Not Installed"
-msgstr ""
+msgstr "Non instalado"
 
 #: src/pt-prefs-install-row.c:60
 msgid "Download files and select model folder."
-msgstr ""
+msgstr "Descargar ficheiros e seleccionar cartafol do modelo."
 
 #: src/pt-prefs-install-row.c:114
 msgid "Model Data Not Found"
-msgstr ""
+msgstr "Datos do modelo non atopados"
 
 #: src/pt-prefs-install-row.c:116
 msgid "The chosen folder does not contain data for this configuration."
-msgstr ""
+msgstr "O cartafol escollido non contén datos para esta configuración."
 
 #: src/pt-window.c:396
 #, c-format
 msgid "Skip back 1 second"
 msgid_plural "Skip back %d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Recuar 1 segundo"
+msgstr[1] "Recuar %d segundos"
 
 #: src/pt-window.c:413
 #, c-format
 msgid "Skip forward 1 second"
 msgid_plural "Skip forward %d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Adiantar 1 segundo"
+msgstr[1] "Adiantar %d segundos"
 
 #: src/pt-window.c:434
 msgid "Pause"
-msgstr ""
+msgstr "Pausar"
 
 #: src/pt-window.c:439
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Pausar e recuar 1 segundo"
+msgstr[1] "Pausar e recuar %d segundos"
 
 #: src/pt-window.c:448
 msgid "Start playing"
-msgstr ""
+msgstr "Comezar a reproducir"
 
 #. Translators: %s is replaced with a timestamp
 #: src/pt-window.c:488
 #, c-format
 msgid "Go to Time in Clipboard: %s"
-msgstr ""
+msgstr "Ir a tempo no portapapeis: %s"
 
 #: src/pt-window.c:490 src/pt-window.c:1172
 msgid "Go to Time in Clipboard"
-msgstr ""
+msgstr "Ir a tempo no portapapeis"
 
 #: src/pt-window.c:1167
 msgid "Manual Transcription"
-msgstr ""
+msgstr "Transcrición manual"
 
 #: src/pt-window.c:1168
 msgid "Automatic Transcription"
-msgstr ""
+msgstr "Transcrición automática"
 
 #: src/resources/asr-dialog.ui:29
 msgid "Installation"
-msgstr ""
+msgstr "Instalación"
 
 #: src/resources/asr-dialog.ui:30
 msgid "How to install this language model."
-msgstr ""
+msgstr "Como instalar este modelo de idioma."
 
 #: src/resources/asr-dialog.ui:33
 msgid "General Information"
-msgstr ""
+msgstr "Información xeral"
 
 #: src/resources/asr-dialog.ui:36
 msgid "Display Name"
@@ -531,155 +559,155 @@ msgstr ""
 
 #: src/resources/asr-dialog.ui:44
 msgid "Delete this Configuration"
-msgstr ""
+msgstr "Eliminar esta configuración"
 
 #: src/resources/asr-dialog.ui:48
 msgid "Delete"
-msgstr ""
+msgstr "Eliminar"
 
 #: src/resources/editor-theme-selector.ui:22
 msgid "Follow System Style"
-msgstr ""
+msgstr "Seguir estilo do sistema"
 
 #: src/resources/editor-theme-selector.ui:24
 msgid "Follow system style"
-msgstr ""
+msgstr "Seguir estilo do sistema"
 
 #: src/resources/editor-theme-selector.ui:39
 msgid "Light Style"
-msgstr ""
+msgstr "Estilo claro"
 
 #: src/resources/editor-theme-selector.ui:41
 msgid "Light style"
-msgstr ""
+msgstr "Estilo claro"
 
 #: src/resources/editor-theme-selector.ui:57
 msgid "Dark Style"
-msgstr ""
+msgstr "Estilo escuro"
 
 #: src/resources/editor-theme-selector.ui:59
 msgid "Dark style"
-msgstr ""
+msgstr "Estilo escuro"
 
 #: src/resources/goto-dialog.ui:10 src/resources/window.ui:262
 msgid "Go to…"
-msgstr ""
+msgstr "Ir para…"
 
 #: src/resources/goto-dialog.ui:20
 msgid "Go to position:"
-msgstr ""
+msgstr "Ir á posición:"
 
 #: src/resources/goto-dialog.ui:52
 msgid "_Cancel"
-msgstr ""
+msgstr "_Cancelar"
 
 #: src/resources/goto-dialog.ui:60
 msgid "_OK"
-msgstr ""
+msgstr "_Aceptar"
 
 #: src/resources/help-overlay.ui:13
 msgid "General"
-msgstr ""
+msgstr "Xeral"
 
 #: src/resources/help-overlay.ui:18
 msgid "Open a media file"
-msgstr ""
+msgstr "Abrir un ficheiro multimedia"
 
 #: src/resources/help-overlay.ui:25
 msgid "Show/hide main menu"
-msgstr ""
+msgstr "Mostrar/Agochar menú principal"
 
 #: src/resources/help-overlay.ui:32
 msgid "Quit"
-msgstr ""
+msgstr "Saír"
 
 #: src/resources/help-overlay.ui:40 src/resources/preferences.ui:11
 msgid "Waveform"
-msgstr ""
+msgstr "Forma de onda"
 
 #: src/resources/help-overlay.ui:45
 msgid "Play/Pause"
-msgstr ""
+msgstr "Reproducir/Pausar"
 
 #: src/resources/help-overlay.ui:52 src/resources/window.ui:99
 msgid "Skip backward"
-msgstr ""
+msgstr "Recuar"
 
 #: src/resources/help-overlay.ui:59 src/resources/window.ui:144
 msgid "Skip forward"
-msgstr ""
+msgstr "Adiantar"
 
 #: src/resources/help-overlay.ui:66
 msgid "Zoom in"
-msgstr ""
+msgstr "Ampliar"
 
 #: src/resources/help-overlay.ui:73
 msgid "Zoom out"
-msgstr ""
+msgstr "Reducir"
 
 #: src/resources/help-overlay.ui:80
 msgid "Open “Go to” dialog"
-msgstr ""
+msgstr "Abrir caixa de diálogo «Ir para»"
 
 #: src/resources/help-overlay.ui:87
 msgid "Copy timestamp to clipboard"
-msgstr ""
+msgstr "Copiar marca de tempo ao portapapeis"
 
 #: src/resources/help-overlay.ui:94
 msgid "Go to timestamp in clipboard"
-msgstr ""
+msgstr "Ir a marca de tempo no portapapeis"
 
 #: src/resources/help-overlay.ui:102 src/resources/window.ui:243
 msgid "Help"
-msgstr ""
+msgstr "Axuda"
 
 #: src/resources/help-overlay.ui:107
 msgid "Show help"
-msgstr ""
+msgstr "Mostrar axuda"
 
 #: src/resources/help-overlay.ui:114
 msgid "Show keyboard shortcuts"
-msgstr ""
+msgstr "Mostrar atallos do teclado"
 
 #: src/resources/preferences.ui:7 src/resources/window.ui:235
 msgid "Preferences"
-msgstr ""
+msgstr "Preferencias"
 
 #: src/resources/preferences.ui:15
 msgid "Display"
-msgstr ""
+msgstr "Mostrar"
 
 #: src/resources/preferences.ui:16
 msgid "Change appearance of the waveform and cursor movement."
-msgstr ""
+msgstr "Cambiar aparencia da forma de onda e do movemento do cursor."
 
 #: src/resources/preferences.ui:19
 msgid "Waveform Detail"
-msgstr ""
+msgstr "Detalle da forma de onda"
 
 #: src/resources/preferences.ui:20
 msgid "Vertical lines per second"
-msgstr ""
+msgstr "Liñas verticais por segundo"
 
 #: src/resources/preferences.ui:53
 msgid "Show Time Scale"
-msgstr ""
+msgstr "Mostrar escala temporal"
 
 #: src/resources/preferences.ui:58
 msgid "Cursor Mode"
-msgstr ""
+msgstr "Modo do cursor"
 
 #: src/resources/preferences.ui:62
 msgid "Fixed Cursor"
-msgstr ""
+msgstr "Cursor fixo"
 
 #: src/resources/preferences.ui:63
 msgid "Moving Cursor"
-msgstr ""
+msgstr "Cursor en movemento"
 
 #: src/resources/preferences.ui:76
 msgid "Audio Controls"
-msgstr ""
+msgstr "Controles de son"
 
 #: src/resources/preferences.ui:80
 msgid "Pause and Skip Buttons"
@@ -793,11 +821,11 @@ msgstr ""
 
 #: src/resources/preferences.ui:211
 msgid "Speech Recognition"
-msgstr ""
+msgstr "Recoñecemento da fala"
 
 #: src/resources/preferences.ui:215
 msgid "Language Models"
-msgstr ""
+msgstr "Modelos de idioma"
 
 #: src/resources/preferences.ui:216
 msgid ""
@@ -815,39 +843,39 @@ msgstr ""
 
 #: src/resources/prefs-install-row.ui:11
 msgid "Choose folder"
-msgstr ""
+msgstr "Escoller cartafol"
 
 #: src/resources/window.ui:38
 msgid "_Open"
-msgstr ""
+msgstr "_Abrir"
 
 #: src/resources/window.ui:41
 msgid "Open a file"
-msgstr ""
+msgstr "Abrir un ficheiro"
 
 #: src/resources/window.ui:52
 msgid "Main Menu"
-msgstr ""
+msgstr "Menú principal"
 
 #: src/resources/window.ui:125
 msgid "_Play"
-msgstr ""
+msgstr "_Reproducir"
 
 #: src/resources/window.ui:171
 msgid "Speed:"
-msgstr ""
+msgstr "Velocidade:"
 
 #: src/resources/window.ui:203
 msgid "Volume"
-msgstr ""
+msgstr "Volume"
 
 #: src/resources/window.ui:239
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "_Atallos do teclado"
 
 #: src/resources/window.ui:247
 msgid "About Parlatype"
-msgstr ""
+msgstr "Sobre o Parlatype"
 
 #: src/resources/window.ui:254
 msgid "Copy Time to Clipboard"
