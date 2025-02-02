@@ -1,0 +1,370 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2024-05-13 21:21+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: gl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
+msgctxt "_"
+msgid "translator-credits"
+msgstr ""
+
+#. (itstool) path: info/title
+#: ../help/C/index.page:7
+msgctxt "text"
+msgid "Parlatype"
+msgstr ""
+
+#. (itstool) path: info/title
+#: ../help/C/index.page:8
+msgctxt "link"
+msgid "Parlatype"
+msgstr ""
+
+#. (itstool) path: credit/name
+#: ../help/C/index.page:10
+#: ../help/C/drag-and-drop.page:8
+#: ../help/C/first-steps.page:9
+#: ../help/C/keyboard-shortcuts.page:8
+#: ../help/C/selections.page:8
+#: ../help/C/timestamps.page:8
+msgid "Gabor Karsay"
+msgstr ""
+
+#. (itstool) path: info/desc
+#. (itstool) path: page/p
+#: ../help/C/index.page:14
+#: ../help/C/index.page:23
+msgid "<app>Parlatype</app> is an easy to use media player. Its main purpose is to help you transcribing speech."
+msgstr ""
+
+#. (itstool) path: page/title
+#: ../help/C/index.page:18
+msgid "<_:media-1/> Parlatype"
+msgstr ""
+
+#. (itstool) path: page/p
+#: ../help/C/index.page:24
+msgid "For a quick overview have a look at <link xref=\"first-steps\"/>. Other topics are covered below."
+msgstr ""
+
+#. (itstool) path: section/title
+#: ../help/C/index.page:27
+msgid "Help topics"
+msgstr ""
+
+#. (itstool) path: info/desc
+#: ../help/C/drag-and-drop.page:6
+msgid "Drop files, file names or timestamps on Parlatype"
+msgstr ""
+
+#. (itstool) path: page/title
+#: ../help/C/drag-and-drop.page:14
+msgid "Drag and Drop"
+msgstr ""
+
+#. (itstool) path: page/p
+#: ../help/C/drag-and-drop.page:16
+msgid "You can drop files, file names or timestamps on <app>Parlatype</app>’s window."
+msgstr ""
+
+#. (itstool) path: item/p
+#: ../help/C/drag-and-drop.page:19
+msgid "Files: Drag and drop a file from a file manager, e.g. <app>Files</app>, on <app>Parlatype</app> and it will open that file."
+msgstr ""
+
+#. (itstool) path: item/p
+#: ../help/C/drag-and-drop.page:20
+msgid "File names: Select a file name from a word processor, e.g. <app>LibreOffice</app>, drop the selected text on <app>Parlatype</app> and it will open that file. This will always work if the selection contains a full path. If you select the name only, <app>Parlatype</app> will look up its full path in the list of recent files and open it if it can find it in that list."
+msgstr ""
+
+#. (itstool) path: item/p
+#: ../help/C/drag-and-drop.page:21
+msgid "Timestamps: You can drag and drop timestamps to <app>Parlatype</app>. Select a timestamp from a word processor, e.g. <app>LibreOffice</app>, drop the selected text on <app>Parlatype</app> and it will jump to that position."
+msgstr ""
+
+#. (itstool) path: info/desc
+#: ../help/C/first-steps.page:7
+msgid "First steps with Parlatype"
+msgstr ""
+
+#. (itstool) path: page/title
+#: ../help/C/first-steps.page:15
+msgid "First Steps With Parlatype"
+msgstr ""
+
+#. (itstool) path: page/p
+#: ../help/C/first-steps.page:17
+msgid "<app>Parlatype</app> is an easy to use audio player to help you transcribing or annotating recorded speech. You need to run a word processor, e.g. <app>LibreOffice</app>, too. Launch <app>Parlatype</app> and open an audio file by clicking on the <gui>Open</gui> button in the upper left corner."
+msgstr ""
+
+#. (itstool) path: note/p
+#: ../help/C/first-steps.page:20
+msgid "You can also drag and drop a file on <app>Parlatype</app>."
+msgstr ""
+
+#. (itstool) path: page/p
+#: ../help/C/first-steps.page:23
+msgid "In the lower left corner there are the controls with a <gui>Play</gui> button which toggles between play and pause. Whenever you pause, <app>Parlatype</app> rewinds a few seconds to make it easier to resume. This can be changed in the Preferences dialog."
+msgstr ""
+
+#. (itstool) path: page/p
+#: ../help/C/first-steps.page:27
+msgid "The buttons <gui>Skip backward</gui> and <gui>Skip forward</gui> in the lower left corner skip a few seconds back or ahead. The amount of time can be changed in the Preferences dialog."
+msgstr ""
+
+#. (itstool) path: page/p
+#: ../help/C/first-steps.page:29
+msgid "The view scrolls automatically so that the cursor is always visible. You can scroll manually by clicking on or dragging the scroll bar or using the standard keybindings. Automatic scrolling is stopped then."
+msgstr ""
+
+#. (itstool) path: page/p
+#: ../help/C/first-steps.page:31
+msgid "To get back to the cursor’s position and let the view scroll automatically again, click on the menu button showing the time and then on <gui>Go to Cursor</gui>. Clicking on the <gui>Play</gui> button also turns automatic scrolling on."
+msgstr ""
+
+#. (itstool) path: page/p
+#: ../help/C/first-steps.page:33
+msgid "Clicking in the view with the right mouse button will put the cursor there. The left mouse button is for <link xref=\"selections\"/>."
+msgstr ""
+
+#. (itstool) path: page/p
+#: ../help/C/first-steps.page:35
+msgid "The <gui>speed scale</gui> next to the <gui>Volume</gui> button in the lower right corner lets you adjust the speed of playback. A value of 1 means normal speed, everything lower (down to 0.5) is slower, everything above is faster."
+msgstr ""
+
+#. (itstool) path: info/desc
+#: ../help/C/keyboard-shortcuts.page:6
+msgid "Standard keyboard shortcuts in Parlatype"
+msgstr ""
+
+#. (itstool) path: page/title
+#: ../help/C/keyboard-shortcuts.page:14
+msgid "Keyboard Shortcuts"
+msgstr ""
+
+#. (itstool) path: table/title
+#: ../help/C/keyboard-shortcuts.page:17
+msgid "Standard Shortcut keys"
+msgstr ""
+
+#. (itstool) path: td/p
+#: ../help/C/keyboard-shortcuts.page:20
+msgid "To Do This"
+msgstr ""
+
+#. (itstool) path: td/p
+#: ../help/C/keyboard-shortcuts.page:21
+msgid "Press This"
+msgstr ""
+
+#. (itstool) path: td/p
+#: ../help/C/keyboard-shortcuts.page:26
+msgid "Show help"
+msgstr ""
+
+#. (itstool) path: td/p
+#: ../help/C/keyboard-shortcuts.page:27
+msgid "<key>F1</key>"
+msgstr ""
+
+#. (itstool) path: td/p
+#: ../help/C/keyboard-shortcuts.page:30
+msgid "Open file"
+msgstr ""
+
+#. (itstool) path: td/p
+#: ../help/C/keyboard-shortcuts.page:31
+msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
+msgstr ""
+
+#. (itstool) path: td/p
+#: ../help/C/keyboard-shortcuts.page:34
+msgid "Play/Pause"
+msgstr ""
+
+#. (itstool) path: td/p
+#: ../help/C/keyboard-shortcuts.page:35
+msgid "<keyseq><key>Ctrl</key><key>Space</key></keyseq>"
+msgstr ""
+
+#. (itstool) path: td/p
+#: ../help/C/keyboard-shortcuts.page:38
+msgid "Go to …"
+msgstr ""
+
+#. (itstool) path: td/p
+#: ../help/C/keyboard-shortcuts.page:39
+msgid "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
+msgstr ""
+
+#. (itstool) path: td/p
+#: ../help/C/keyboard-shortcuts.page:42
+msgid "Skip backward"
+msgstr ""
+
+#. (itstool) path: td/p
+#: ../help/C/keyboard-shortcuts.page:43
+msgid "<keyseq><key>Ctrl</key><key>a</key></keyseq>"
+msgstr ""
+
+#. (itstool) path: td/p
+#: ../help/C/keyboard-shortcuts.page:46
+msgid "Skip forward"
+msgstr ""
+
+#. (itstool) path: td/p
+#: ../help/C/keyboard-shortcuts.page:47
+msgid "<keyseq><key>Ctrl</key><key>s</key></keyseq>"
+msgstr ""
+
+#. (itstool) path: td/p
+#: ../help/C/keyboard-shortcuts.page:50
+msgid "Copy timestamp"
+msgstr ""
+
+#. (itstool) path: td/p
+#: ../help/C/keyboard-shortcuts.page:51
+msgid "<keyseq><key>Ctrl</key><key>c</key></keyseq>"
+msgstr ""
+
+#. (itstool) path: td/p
+#: ../help/C/keyboard-shortcuts.page:54
+msgid "Insert timestamp"
+msgstr ""
+
+#. (itstool) path: td/p
+#: ../help/C/keyboard-shortcuts.page:55
+msgid "<keyseq><key>Ctrl</key><key>v</key></keyseq>"
+msgstr ""
+
+#. (itstool) path: td/p
+#: ../help/C/keyboard-shortcuts.page:58
+msgid "Zoom in"
+msgstr ""
+
+#. (itstool) path: td/p
+#: ../help/C/keyboard-shortcuts.page:59
+msgid "<keyseq><key>Ctrl</key><key>+</key></keyseq>"
+msgstr ""
+
+#. (itstool) path: td/p
+#: ../help/C/keyboard-shortcuts.page:62
+msgid "Zoom out"
+msgstr ""
+
+#. (itstool) path: td/p
+#: ../help/C/keyboard-shortcuts.page:63
+msgid "<keyseq><key>Ctrl</key><key>-</key></keyseq>"
+msgstr ""
+
+#. (itstool) path: td/p
+#: ../help/C/keyboard-shortcuts.page:66
+msgid "Quit"
+msgstr ""
+
+#. (itstool) path: td/p
+#: ../help/C/keyboard-shortcuts.page:67
+msgid "<keyseq><key>Ctrl</key><key>q</key></keyseq>"
+msgstr ""
+
+#. (itstool) path: p/link
+#: ../help/C/legal.xml:5
+msgid "Creative Commons Attribution-ShareAlike 4.0 International"
+msgstr ""
+
+#. (itstool) path: license/p
+#: ../help/C/legal.xml:4
+msgid "This work is licensed under a <_:link-1/> license."
+msgstr ""
+
+#. (itstool) path: info/desc
+#: ../help/C/selections.page:6
+msgid "How to play and repeat a selection"
+msgstr ""
+
+#. (itstool) path: page/title
+#: ../help/C/selections.page:14
+msgid "Selections"
+msgstr ""
+
+#. (itstool) path: page/p
+#: ../help/C/selections.page:16
+msgid "You can select a piece of the waveform with the mouse. Next time you press <gui>Play</gui>, it will play the selection only. When it is finished and you press <gui>Play</gui> again, it will loop the selection once."
+msgstr ""
+
+#. (itstool) path: note/p
+#: ../help/C/selections.page:18
+msgid "When in selection mode, you can not exit the selection anymore until you deselect it."
+msgstr ""
+
+#. (itstool) path: page/p
+#: ../help/C/selections.page:20
+msgid "Selections can be made with the mouse (or pointer device) with a left click, holding the mouse button and dragging the pointer. If you click with <key>Shift</key> key pressed, an already existing selection will be enlarged to that point."
+msgstr ""
+
+#. (itstool) path: page/p
+#: ../help/C/selections.page:22
+msgid "To deselect click once with the left button into the waveform. If the waveform has keyboard focus, you can press <key>Escape</key>."
+msgstr ""
+
+#. (itstool) path: info/desc
+#: ../help/C/timestamps.page:6
+msgid "Set and go to timestamps"
+msgstr ""
+
+#. (itstool) path: page/title
+#: ../help/C/timestamps.page:14
+msgid "Timestamps"
+msgstr ""
+
+#. (itstool) path: page/p
+#: ../help/C/timestamps.page:16
+msgid "Timestamps help you to navigate in your transcription."
+msgstr ""
+
+#. (itstool) path: note/p
+#: ../help/C/timestamps.page:19
+msgid "Timestamps can look like this: #03:45.2#. You can select them with or without the number signs."
+msgstr ""
+
+#. (itstool) path: page/p
+#: ../help/C/timestamps.page:22
+msgid "<app>Parlatype</app> can produce different timestamp formats, they can be set in the Preferences dialog."
+msgstr ""
+
+#. (itstool) path: section/title
+#: ../help/C/timestamps.page:25
+msgid "Drag and drop"
+msgstr ""
+
+#. (itstool) path: section/p
+#: ../help/C/timestamps.page:27
+msgid "If you select the timestamp in the word processor, you can drag and drop it on the <app>Parlatype</app> window and it will go to that position. This is also possible the other way round: Drag the time label from <app>Parlatype</app> to a word processor and drop it there to insert it."
+msgstr ""
+
+#. (itstool) path: section/title
+#: ../help/C/timestamps.page:31
+msgid "Using the clipboard"
+msgstr ""
+
+#. (itstool) path: section/p
+#: ../help/C/timestamps.page:33
+msgid "Clicking on the menu button that is showing the current time you can <gui>Copy Time to Clipboard</gui> or <gui>Go to Time in Clipboard</gui>."
+msgstr ""
+
+#. (itstool) path: section/p
+#: ../help/C/timestamps.page:35
+msgid "This can also be done with keyboard shortcuts. First make sure, the <app>Parlatype</app> window has focus. With the key sequence <keyseq><key>Ctrl</key><key>c</key></keyseq> the current timestamp is copied to the clipboard. Changing to the word processor you can insert now the timestamp in your transcription."
+msgstr ""
+
+#. (itstool) path: section/p
+#: ../help/C/timestamps.page:36
+msgid "To go to a timestamp position, copy the timestamp in the word processor to the clipboard. Once you have changed focus to <app>Parlatype</app> press <keyseq><key>Ctrl</key><key>v</key></keyseq>."
+msgstr ""
