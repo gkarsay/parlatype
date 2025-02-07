@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Parlatype 3.1\n"
 "POT-Creation-Date: 2024-05-13 21:21+0200\n"
-"PO-Revision-Date: 2024-11-02 23:00+0000\n"
-"Last-Translator: Alex Gabilondo <alexgabi@disroot.org>\n"
+"PO-Revision-Date: 2025-02-08 05:01+0000\n"
+"Last-Translator: Alexander Gabilondo <alexgabi@openmailbox.org>\n"
 "Language-Team: Basque <https://hosted.weblate.org/projects/parlatype/"
 "parlatype-help/eu/>\n"
 "Language: eu\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8.2\n"
+"X-Generator: Weblate 5.10-dev\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -20,14 +20,12 @@ msgstr "Launchpad Contributions:  Alexander Gabilondo"
 
 #. (itstool) path: info/title
 #: ../help/C/index.page:7
-#, fuzzy
 msgctxt "text"
 msgid "Parlatype"
 msgstr "Parlatype"
 
 #. (itstool) path: info/title
 #: ../help/C/index.page:8
-#, fuzzy
 msgctxt "link"
 msgid "Parlatype"
 msgstr "Parlatype"
@@ -51,7 +49,6 @@ msgstr ""
 
 #. (itstool) path: page/title
 #: ../help/C/index.page:18
-#, fuzzy
 msgid "<_:media-1/> Parlatype"
 msgstr "<_:media-1/> Parlatype"
 
@@ -268,7 +265,6 @@ msgstr "Ireki fitxategia"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:31
-#, fuzzy
 msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
 
@@ -289,7 +285,6 @@ msgstr "Joan…"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:39
-#, fuzzy
 msgid "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
 
@@ -300,7 +295,6 @@ msgstr "Saltatu atzera"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:43
-#, fuzzy
 msgid "<keyseq><key>Ctrl</key><key>a</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>a</key></keyseq>"
 
@@ -321,7 +315,6 @@ msgstr "Kopiatu denbora-zigilua"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:51
-#, fuzzy
 msgid "<keyseq><key>Ctrl</key><key>c</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>c</key></keyseq>"
 
