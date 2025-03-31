@@ -8,15 +8,17 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: https://github.com/gkarsay/parlatype/issues\n"
 "POT-Creation-Date: 2024-05-13 21:21+0200\n"
-"PO-Revision-Date: 2018-06-04 13:21+0000\n"
-"Last-Translator: Bruno Barreto <brunoafbarreto@gmail.com>\n"
-"Language-Team: Portuguese <pt@li.org>\n"
+"PO-Revision-Date: 2025-04-01 02:56+0000\n"
+"Last-Translator: Marco Prado <marcoafprado@gmail.com>\n"
+"Language-Team: Portuguese <https://hosted.weblate.org/projects/parlatype/"
+"parlatype-help/pt/>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.11-dev\n"
 "X-Launchpad-Export-Date: 2020-05-08 11:32+0000\n"
-"X-Generator: Launchpad (build fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398)\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -29,20 +31,20 @@ msgstr ""
 #: ../help/C/index.page:7
 msgctxt "text"
 msgid "Parlatype"
-msgstr ""
+msgstr "Parlatype"
 
 #. (itstool) path: info/title
 #: ../help/C/index.page:8
 msgctxt "link"
 msgid "Parlatype"
-msgstr ""
+msgstr "Parlatype"
 
 #. (itstool) path: credit/name
 #: ../help/C/index.page:10 ../help/C/drag-and-drop.page:8
 #: ../help/C/first-steps.page:9 ../help/C/keyboard-shortcuts.page:8
 #: ../help/C/selections.page:8 ../help/C/timestamps.page:8
 msgid "Gabor Karsay"
-msgstr ""
+msgstr "Gabor Karsay"
 
 #. (itstool) path: info/desc
 #. (itstool) path: page/p
@@ -51,6 +53,8 @@ msgid ""
 "<app>Parlatype</app> is an easy to use media player. Its main purpose is to "
 "help you transcribing speech."
 msgstr ""
+"<app>Parlatype</app> é um reprodutor de mídia fácil de usar. Seu intuito é "
+"auxiliar na transcrição de fala."
 
 #. (itstool) path: page/title
 #: ../help/C/index.page:18
