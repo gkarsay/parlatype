@@ -18,6 +18,7 @@
 
 #include "pt-asr-dialog.h"
 
+#include "pt-preferences.h"
 #include "pt-prefs-info-row.h"
 #include "pt-prefs-install-row.h"
 
@@ -295,6 +296,35 @@ pt_asr_dialog_set_config (PtAsrDialog *self,
 }
 
 static void
+add_toast_to_preferences_dialog (PtAsrDialog *self, AdwToast *toast)
+{
+  AdwApplicationWindow *win;
+  AdwPreferencesDialog *dialog;
+  GListModel           *dialogs;
+  int                   position = 0;
+
+  win = ADW_APPLICATION_WINDOW (gtk_widget_get_root (GTK_WIDGET (self)));
+  dialogs = adw_application_window_get_dialogs (win);
+
+  while (true)
+    {
+      dialog = g_list_model_get_item (dialogs, position);
+      if (dialog == NULL)
+        break;
+      if (PT_IS_PREFERENCES_DIALOG (dialog))
+        {
+          adw_preferences_dialog_add_toast (ADW_PREFERENCES_DIALOG (dialog), toast);
+          g_object_unref (dialog);
+          break;
+        }
+      g_object_unref (dialog);
+      position++;
+    }
+
+  g_object_unref (dialogs);
+}
+
+static void
 file_delete_finished (GObject      *source_object,
                       GAsyncResult *res,
                       gpointer      user_data)
@@ -303,23 +333,21 @@ file_delete_finished (GObject      *source_object,
   GFile          *file = G_FILE (source_object);
   GError         *error = NULL;
   GtkAlertDialog *err_dialog;
-  GtkWindow      *parent = GTK_WINDOW (self);
 
   if (g_file_delete_finish (file, res, &error))
     {
       g_settings_set_string (self->editor, "asr-config", "");
       /* Translators: %s is replaced with the name of a configuration */
-      AdwToast  *toast = adw_toast_new_format (_ ("“%s” has been deleted"),
-                                               pt_config_get_name (self->config));
-      GtkWindow *parent = gtk_window_get_transient_for (GTK_WINDOW (self));
-      adw_preferences_dialog_add_toast (ADW_PREFERENCES_DIALOG (parent), toast);
-      gtk_window_close (GTK_WINDOW (self));
+      AdwToast *toast = adw_toast_new_format (_ ("“%s” has been deleted"),
+                                              pt_config_get_name (self->config));
+      add_toast_to_preferences_dialog (self, toast);
+      adw_dialog_close (ADW_DIALOG (self));
     }
   else
     {
       err_dialog = gtk_alert_dialog_new (_ ("Error"));
       gtk_alert_dialog_set_detail (err_dialog, error->message);
-      gtk_alert_dialog_show (err_dialog, parent);
+      gtk_alert_dialog_show (err_dialog, GTK_WINDOW (gtk_widget_get_root (GTK_WIDGET (self))));
       g_object_unref (err_dialog);
       g_error_free (error);
     }
@@ -372,9 +400,8 @@ activate_button_clicked_cb (GtkButton *button,
                                               pt_config_get_name (self->config));
       if (self->active)
         adw_toast_set_title (toast, _ ("Configuration has been deactivated"));
-      GtkWindow *parent = gtk_window_get_transient_for (GTK_WINDOW (self));
-      adw_preferences_dialog_add_toast (ADW_PREFERENCES_DIALOG (parent), toast);
-      gtk_window_close (GTK_WINDOW (self));
+      add_toast_to_preferences_dialog (self, toast);
+      adw_dialog_close (ADW_DIALOG (self));
     }
 
   g_free (path);
