@@ -20,9 +20,6 @@ if with_asr
     'figures/asr-setup-details.png',
     'figures/asr-switch-to-asr.png',
     # GNOME icons
-    'figures/action-unavailable-symbolic.svg',
-    'figures/emblem-system-symbolic.svg',
-    'figures/folder-download-symbolic.svg',
     'figures/object-select-symbolic.svg',
   ]
   sources += [
