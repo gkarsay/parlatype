@@ -31,6 +31,7 @@ static GMainLoop *loop;
 static GMainLoop *other_loop;
 static char      *arg_output_dir = NULL;
 static char      *output_dir = NULL;
+static gboolean   save_node = FALSE;
 static char      *mp3_example_uri;
 
 static const GOptionEntry test_args[] = {
@@ -38,6 +39,10 @@ static const GOptionEntry test_args[] = {
     G_OPTION_FLAG_NONE,
     G_OPTION_ARG_FILENAME, &arg_output_dir,
     "Directory to save image files to", "DIR" },
+  { "save-node", 's',
+    G_OPTION_FLAG_NONE,
+    G_OPTION_ARG_NONE, &save_node,
+    "Save render node", NULL },
   { NULL }
 };
 
@@ -269,8 +274,25 @@ save_paintable (GdkPaintable *paintable,
   gtk_snapshot_translate (snapshot, &GRAPHENE_POINT_INIT (x, y));
   gdk_paintable_snapshot (paintable, snapshot, bounds.size.width, bounds.size.height);
 
-  /* Get node, shadow is a GskClipNode */
+  /* Get node, save it */
   node = gtk_snapshot_free_to_node (snapshot);
+  if (save_node)
+    {
+      GError *error = NULL;
+      char   *dataname = g_strdup (filename);
+      char   *ext = g_strrstr (dataname, ".png");
+      g_strlcpy (ext, ".dat", sizeof (ext));
+      char *node_full_filename = g_build_filename (output_dir, dataname, NULL);
+      if (!gsk_render_node_write_to_file (node, node_full_filename, &error))
+        {
+          g_printerr ("Error writing node to %s: %s\n", node_full_filename, error->message);
+          g_clear_error (&error);
+        }
+      g_free (node_full_filename);
+      g_free (dataname);
+    }
+
+  /* Shadow is a GskClipNode, we need its child */
   if (gsk_render_node_get_node_type (node) == GSK_CLIP_NODE)
     {
       original_node = g_steal_pointer (&node);
