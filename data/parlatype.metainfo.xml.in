@@ -46,11 +46,23 @@
   </suggests>
 
   <releases>
+    <release version="4.3" date="2025-07-01">
+      <description>
+        <ul>
+          <li>Support for PocketSphinx 5.</li>
+          <li>MPRIS interface provides album, artist, title</li>
+          <li>Translation updates for several languages.</li>
+        </ul>
+      </description>
+    </release>
     <release version="4.2" date="2024-06-02">
       <description>
         <ul>
+          <!-- Translators: This has very low priority, it's the description for an old release. -->
           <li>Website moved to www.parlatype.xyz.</li>
+          <!-- Translators: This has very low priority, it's the description for an old release. -->
           <li>App ID changed accordingly.</li>
+          <!-- Translators: This has very low priority, it's the description for an old release. -->
           <li>Translation updates for several languages.</li>
         </ul>
       </description>
@@ -58,10 +70,15 @@
     <release version="4.1" date="2024-04-02">
       <description>
         <ul>
+          <!-- Translators: This has very low priority, it's the description for an old release. -->
           <li>Follow GNOME human interface guidelines throughout the app using libadwaita.</li>
+          <!-- Translators: This has very low priority, it's the description for an old release. -->
           <li>Add a theme selector (borrowed from GNOME Text Editor).</li>
+          <!-- Translators: This has very low priority, it's the description for an old release. -->
           <li>Fix F10 shortcut to toggle main menu.</li>
+          <!-- Translators: This has very low priority, it's the description for an old release. -->
           <li>Remove support for Mozilla DeepSpeech because the project is discontinued.</li>
+          <!-- Translators: This has very low priority, it's the description for an old release. -->
           <li>Translation updates for several languages.</li>
         </ul>
       </description>

@@ -1,3 +1,29 @@
+Overview of Changes in Parlatype 4.3 – 2025-07-01
+=================================================
+
+* New: added support for PocketSphinx 5
+* New: debug info in About dialog
+* New: MPRIS interface provides album, artist, title
+* More usage of libadwaita
+* Several fixes
+
+* New or updated translations via Weblate:
+  - Basque: Alexander Gabilondo
+  - Basque: Alex Gabilondo
+  - Esperanto: phlostically
+  - Finnish: Jiri Grönroos
+  - Finnish: Ricky Tigg
+  - Galician: Xosé Calvo
+  - Hindi: Scrambled777
+  - Kabyle: ButterflyOfFire
+  - Lithuanian: Moo
+  - Portuguese: Marco Prado
+  - Tamil: தமிழ்நேரம்
+  - Turkish: Kaan Çetin
+  - Turkish: Sabri Ünal
+  - Turkish: Ümit Solmz
+
+
 Overview of Changes in Parlatype 4.2 – 2024-06-02
 =================================================
 
