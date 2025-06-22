@@ -8,7 +8,11 @@ if [ "${MESON_SOURCE_ROOT}" == "" ]; then
   exit 1
 fi
 
+# There have been problems with standard renderer gl (empty images)
+export GSK_RENDERER=vulkan
+
 CONFIG=~/.config/parlatype
+SCREENSHOT_TOOL="${MESON_BUILD_ROOT}"/tools/pt-screenshots
 
 # prepare config
 mkdir -p "$CONFIG"/backup
@@ -25,17 +29,23 @@ touch "${MESON_BUILD_ROOT}"/tools/parlatype/cmusphinx-cont-voxforge-de-r20171217
 cd "${MESON_SOURCE_ROOT}"/help || exit 1
 
 # C (english) is not in LINGUAS
-LANGUAGE=C "${MESON_BUILD_ROOT}"/tools/pt-screenshots --output C/figures
+echo "Language: C"
+if ! LANGUAGE=C "$SCREENSHOT_TOOL" --output C/figures; then
+  echo "Aborting on error"
+  exit 1
+fi
 
 # Iterate over all languages
 while read -r lang
 do
   # Skip lines starting with "#" or " "
-  if [[ ${lang:0:1} != "#" && ${lang:0:1} != " " ]]
-  then
-    rm "$CONFIG"/*.asr
-    LANGUAGE="$lang" "${MESON_BUILD_ROOT}"/tools/pt-screenshots --output "$lang"/figures
+  if [[ ${lang:0:1} = "#" || ${lang:0:1} = " " ]]; then
+    continue
   fi
+
+  rm -f "$CONFIG"/*.asr
+  echo "Language: $lang"
+  LANGUAGE="$lang" "$SCREENSHOT_TOOL" --output "$lang"/figures
 done < LINGUAS
 
 rm "$CONFIG"/*.asr
