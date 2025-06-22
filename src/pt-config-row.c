@@ -96,7 +96,7 @@ pt_config_row_set_active (PtConfigRow *self,
                             obj_properties[PROP_ACTIVE]);
 
   gtk_image_set_from_icon_name (GTK_IMAGE (self->active_image),
-                                active ? "emblem-ok-symbolic" : NULL);
+                                active ? "object-select-symbolic" : NULL);
 
   /* The NULL image seems to be recognised by screen readers and needs a label.
    * Therefore the image has the role "presentation" and its meaning is

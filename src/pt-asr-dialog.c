@@ -116,7 +116,7 @@ update_status_row (PtAsrDialog *self)
       title = _ ("This configuration is active.");
       subtitle = NULL;
       button_label = _ ("Deactivate");
-      active_image = gtk_image_new_from_icon_name ("emblem-ok-symbolic");
+      active_image = gtk_image_new_from_icon_name ("object-select-symbolic");
       adw_action_row_add_prefix (ADW_ACTION_ROW (self->status_row), active_image);
     }
   else if (self->installed)
