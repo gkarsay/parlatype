@@ -166,7 +166,7 @@ copy_asr_configs (void)
 #endif
 
 static gboolean
-quit_when_idle (gpointer loop)
+quit_loop (gpointer loop)
 {
   g_main_loop_quit (loop);
 
@@ -177,52 +177,47 @@ static void
 save_paintable (GdkPaintable *paintable,
                 gpointer      user_data)
 {
-  char          *filename = user_data;
-  char          *full_filename;
-  GdkTexture    *texture = NULL;
-  GtkSnapshot   *snapshot;
-  GskRenderNode *node;
-  GskRenderer   *renderer;
-  GtkWidget     *widget;
-  GtkNative     *native;
-  gint           width, height;
-  gboolean       popover;
+  char           *filename = user_data;
+  char           *full_filename;
+  GdkTexture     *texture = NULL;
+  GtkSnapshot    *snapshot;
+  GskRenderNode  *node;
+  GskRenderer    *renderer;
+  GtkWidget      *widget, *parent;
+  GtkNative      *native;
+  gint            x, y, width, height;
+  graphene_rect_t bounds;
 
-  GskShadow      backdrop_shadow = { .color = { 0, 0, 0, .alpha = 0.30 }, .dx = 0, .dy = 1, .radius = 1 };
   GskRenderNode *original_node;
   g_signal_handlers_disconnect_by_func (paintable, save_paintable, user_data);
 
   widget = gtk_widget_paintable_get_widget (GTK_WIDGET_PAINTABLE (paintable));
+  parent = GTK_WIDGET (gtk_widget_get_root (widget));
   native = gtk_widget_get_native (widget);
-  popover = GTK_IS_POPOVER (widget);
+
   snapshot = gtk_snapshot_new ();
 
-  if (popover)
+  if (GTK_IS_POPOVER (widget))
     {
-      /* Snapshot parent window */
-      GtkWidget    *parent;
-      GdkPaintable *paintable_parent;
-      GtkNative    *native_parent;
-      gint          parent_width, parent_height;
+      /* Snapshot parent first */
+      g_assert (gtk_widget_compute_bounds (parent, parent, &bounds));
+
+      GdkSurface   *surface;
+      double        transform_x, transform_y;
+      GdkPaintable *paintable_parent = gtk_widget_paintable_new (parent);
       GdkSurface   *surface_from, *surface_to;
-      double        xp, yp, xp_offset, yp_offset;
+      GtkNative    *native_parent;
+      double        xp, yp;
 
-      /* wait for parent window */
-      parent = GTK_WIDGET (gtk_widget_get_root (widget));
-      paintable_parent = gtk_widget_paintable_new (parent);
-      g_signal_connect_swapped (paintable_parent, "invalidate-contents",
-                                G_CALLBACK (g_main_loop_quit), other_loop);
-      g_main_loop_run (other_loop);
+      surface = gtk_native_get_surface (GTK_NATIVE (parent));
+      gtk_native_get_surface_transform (GTK_NATIVE (parent),
+                                        &transform_x, &transform_y);
+      x = floor (transform_x);
+      y = floor (transform_y);
+      width = gdk_surface_get_width (surface);
+      height = gdk_surface_get_height (surface);
 
-      parent_width = gdk_paintable_get_intrinsic_width (paintable_parent);
-      parent_height = gdk_paintable_get_intrinsic_height (paintable_parent);
-      gdk_paintable_snapshot (paintable_parent,
-                              snapshot,
-                              parent_width,
-                              parent_height);
-
-      gtk_snapshot_push_shadow (snapshot, &backdrop_shadow, 1);
-      gtk_snapshot_pop (snapshot);
+      gdk_paintable_snapshot (paintable_parent, snapshot, bounds.size.width, bounds.size.height);
 
       /* Get border, looks clumsy, but I don't know better */
       GskRenderNode *parent_node = gtk_snapshot_free_to_node (snapshot);
@@ -232,37 +227,47 @@ save_paintable (GdkPaintable *paintable,
       snapshot = gtk_snapshot_new ();
       gtk_snapshot_append_node (snapshot, parent_node);
 
-      /* There is some kind of offset between surface and widget coordinates */
-      native_parent = gtk_widget_get_native (parent);
-      gtk_native_get_surface_transform (native_parent, &xp_offset, &yp_offset);
-
       /* Get coordinates of popover, take offset into account */
+      native_parent = gtk_widget_get_native (parent);
       surface_from = gtk_native_get_surface (native);
       surface_to = gtk_native_get_surface (native_parent);
       gdk_surface_translate_coordinates (surface_from, surface_to, &xp, &yp);
-      xp -= xp_offset;
-      yp -= yp_offset;
+      xp -= transform_x;
+      yp -= transform_y;
 
       /* Change offset of snapshot to the place where the popover should be */
       gtk_snapshot_translate (snapshot, &GRAPHENE_POINT_INIT (xp, yp));
+    }
 
-      /* now wait for popover */
-      g_signal_connect_swapped (paintable, "invalidate-contents",
-                                G_CALLBACK (g_main_loop_quit), other_loop);
+  if (GTK_IS_NATIVE (widget))
+    {
+      g_assert (gtk_widget_compute_bounds (widget, widget, &bounds));
+
+      GdkSurface *surface;
+      double      transform_x, transform_y;
+
+      surface = gtk_native_get_surface (GTK_NATIVE (widget));
+      gtk_native_get_surface_transform (GTK_NATIVE (widget),
+                                        &transform_x, &transform_y);
+      x = floor (transform_x);
+      y = floor (transform_y);
+      width = gdk_surface_get_width (surface);
+      height = gdk_surface_get_height (surface);
+    }
+  else
+    {
+      g_assert (gtk_widget_compute_bounds (widget, parent, &bounds));
+
+      x = gtk_widget_get_margin_start (widget);
+      y = gtk_widget_get_margin_top (widget);
+      width = bounds.size.width + x + gtk_widget_get_margin_end (widget);
+      height = bounds.size.height + y + gtk_widget_get_margin_bottom (widget);
+      g_timeout_add (300, quit_loop, other_loop);
       g_main_loop_run (other_loop);
     }
 
-  /* snapshot widget (might be a popover) */
-  width = gdk_paintable_get_intrinsic_width (paintable);
-  height = gdk_paintable_get_intrinsic_height (paintable);
-  gdk_paintable_snapshot (paintable,
-                          snapshot,
-                          width,
-                          height);
-
-  /* Add backdrop shadow */
-  gtk_snapshot_push_shadow (snapshot, &backdrop_shadow, 1);
-  gtk_snapshot_pop (snapshot);
+  gtk_snapshot_translate (snapshot, &GRAPHENE_POINT_INIT (x, y));
+  gdk_paintable_snapshot (paintable, snapshot, bounds.size.width, bounds.size.height);
 
   /* Get node, shadow is a GskClipNode */
   node = gtk_snapshot_free_to_node (snapshot);
@@ -275,7 +280,11 @@ save_paintable (GdkPaintable *paintable,
 
   /* Render and save screenshot */
   renderer = gtk_native_get_renderer (native);
-  texture = gsk_renderer_render_texture (renderer, node, NULL);
+
+  if (GTK_IS_POPOVER (widget))
+    texture = gsk_renderer_render_texture (renderer, node, NULL);
+  else
+    texture = gsk_renderer_render_texture (renderer, node, &GRAPHENE_RECT_INIT (0, 0, width, height));
 
   full_filename = g_build_filename (output_dir, filename, NULL);
   g_print ("save screenshot: %s\n", full_filename);
@@ -285,7 +294,7 @@ save_paintable (GdkPaintable *paintable,
   g_object_unref (texture);
   gsk_render_node_unref (node);
 
-  g_idle_add (quit_when_idle, loop);
+  g_idle_add (quit_loop, loop);
 }
 
 static void
@@ -296,7 +305,7 @@ waveviewer_load_progress (GtkWidget *waveviewer,
   if (fraction == 1)
     {
       g_signal_handlers_disconnect_by_func (waveviewer, waveviewer_load_progress, user_data);
-      g_idle_add (quit_when_idle, loop);
+      g_idle_add (quit_loop, loop);
     }
 }
 
@@ -333,6 +342,14 @@ take_screenshots (GtkApplication *app,
 
   g_object_unref (file);
   g_free (filename);
+
+  g_object_set (gtk_settings_get_default (),
+                "gtk-enable-animations", FALSE,
+                "gtk-font-name", "Cantarell 11",
+                "gtk-icon-theme-name", "Adwaita",
+                "gtk-decoration-layout", ":close",
+                "gtk-hint-font-metrics", TRUE,
+                NULL);
 
   windows = gtk_application_get_windows (app);
   win = PT_WINDOW (windows->data);
@@ -374,6 +391,7 @@ take_screenshots (GtkApplication *app,
 
   PtPreferencesDialog *dlg;
 
+  gtk_window_set_default_size (GTK_WINDOW (win), 1000, 2000);
   dlg = pt_preferences_dialog_new ();
   paintable = gtk_widget_paintable_new (GTK_WIDGET (dlg));
   adw_dialog_present (ADW_DIALOG (dlg), GTK_WIDGET (win));
@@ -420,15 +438,19 @@ take_screenshots (GtkApplication *app,
   /* show dialog with config */
   PtAsrDialog *asr_dlg;
   asr_dlg = pt_asr_dialog_new ();
-  adw_dialog_present (ADW_DIALOG (asr_dlg), GTK_WIDGET (win));
   paintable = gtk_widget_paintable_new (GTK_WIDGET (asr_dlg));
   g_signal_connect (paintable, "invalidate-contents",
                     G_CALLBACK (save_paintable), "asr-setup-details.png");
   pt_asr_dialog_set_config (asr_dlg, config);
+  adw_dialog_present (ADW_DIALOG (asr_dlg), GTK_WIDGET (win));
   g_main_loop_run (loop);
-  gtk_window_destroy (GTK_WINDOW (asr_dlg));
+  adw_dialog_close (ADW_DIALOG (asr_dlg));
 
   /* Main window with primary menu ------------------------------------------ */
+
+  gtk_window_set_default_size (GTK_WINDOW (win), 600, 350);
+  g_timeout_add (300, quit_loop, loop);
+  g_main_loop_run (loop);
 
   GtkWidget  *menu_button = _pt_window_get_primary_menu_button (win);
   GtkPopover *popover = gtk_menu_button_get_popover (GTK_MENU_BUTTON (menu_button));
@@ -467,6 +489,10 @@ main (int argc, char *argv[])
 
   if (!parse_command_line (&argc, &argv))
     return 1;
+
+  g_setenv ("ADW_DEBUG_COLOR_SCHEME", "default", TRUE);
+  g_setenv ("ADW_DEBUG_HIGH_CONTRAST", "0", TRUE);
+  g_setenv ("ADW_DEBUG_ACCENT_COLOR", "blue", TRUE);
 
   PtApp *app;
   int    app_status;

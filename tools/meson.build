@@ -1,9 +1,11 @@
+math = compiler.find_library('m', required: false)
+
 screenshots = executable('pt-screenshots',
   [ gresources, 'screenshots.c' ],
   link_with: parlatype_applib_static,
   include_directories : conf_inc,
   install: false,
-  dependencies: parlatype_deps,
+  dependencies: [ parlatype_deps, math ],
   c_args: [
     '-DPT_SOURCE_DIR="@0@"'.format(meson.project_source_root()),
     '-DPT_BUILD_DIR="@0@"'.format(meson.project_build_root()),
