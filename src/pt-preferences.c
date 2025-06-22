@@ -64,6 +64,8 @@ struct _PtPreferencesDialog
   GPtrArray *config_rows;
   gchar     *active_config_path;
   GtkWidget *initial_copy_button;
+
+  ulong handler_id;
 };
 
 G_DEFINE_FINAL_TYPE (PtPreferencesDialog, pt_preferences_dialog, ADW_TYPE_PREFERENCES_DIALOG)
@@ -96,6 +98,7 @@ settings_changed_cb (GSettings *settings,
                      gpointer   user_data)
 {
   PtPreferencesDialog *self = PT_PREFERENCES_DIALOG (user_data);
+
   if (g_str_has_prefix (key, "timestamp"))
     {
       update_timestamp_page (self);
@@ -652,7 +655,7 @@ pt_preferences_dialog_init (PtPreferencesDialog *self)
       set_delimiter_mapping,
       NULL, NULL);
 
-  g_signal_connect (
+  self->handler_id = g_signal_connect (
       self->editor, "changed",
       G_CALLBACK (settings_changed_cb),
       self);
@@ -678,9 +681,14 @@ pt_preferences_dialog_dispose (GObject *object)
 {
   PtPreferencesDialog *self = PT_PREFERENCES_DIALOG (object);
 
+  /* Disconnect early because of race condition in screenshot tool */
+  g_clear_signal_handler (&self->handler_id, self->editor);
+
+  gtk_widget_unparent (GTK_WIDGET (self));
   g_clear_object (&self->editor);
   g_clear_object (&self->player);
-  g_ptr_array_free (self->config_rows, TRUE);
+  if (self->config_rows)
+    g_ptr_array_free (self->config_rows, TRUE);
   g_clear_object (&self->list);
 
   g_free (self->active_config_path);
