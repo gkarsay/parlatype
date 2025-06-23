@@ -108,12 +108,6 @@ GitHub Issues:
 
 Homepage:
 - Publish release notes in News, can be more verbose
-- maint/copy-reference-to-web
-- maint/copy-help-to-web
-- Commit and push changes
 
 Packaging:
- - Ping other packagers
- - Flathub packaging
- - Debian packaging
- - Ubuntu/Launchpad packaging
+- Flathub packaging
