@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: libparlatype7\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-13 21:21+0200\n"
-"PO-Revision-Date: 2025-01-27 05:02+0000\n"
+"PO-Revision-Date: 2025-06-24 17:01+0000\n"
 "Last-Translator: தமிழ்நேரம் <anishprabu.t@gmail.com>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/parlatype/"
 "libparlatype/ta/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10-dev\n"
+"X-Generator: Weblate 5.13-dev\n"
 
 #. Translators: %s is replaced with the plugins name
 #: libparlatype/src/gst/gst-helpers.c:44 libparlatype/src/gst/gst-helpers.c:51
@@ -52,7 +52,7 @@ msgstr "“%s” அளவுருவுக்கான மதிப்பு �
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
-msgstr "%d:%02 டி:%02 டி"
+msgstr "%d:%02d:%02d"
 
 #. Translators: This is a time format, like "2:05:30.1" for 2
 #. hours, 5 minutes, 30 seconds, and 1 tenthsecond. You may
@@ -72,7 +72,7 @@ msgstr "%d:%02d:%02d.%d"
 #, c-format
 msgctxt "long time format, 2 digits"
 msgid "%d:%02d:%02d.%02d"
-msgstr "%d:%02 டி:%02 டி.%02 டி"
+msgstr "%d:%02d:%02d.%02d"
 
 #. Translators: This is a time format, like "05:30" for
 #. 5 minutes, and 30 seconds. You may change ":" to
@@ -82,7 +82,7 @@ msgstr "%d:%02 டி:%02 டி.%02 டி"
 #, c-format
 msgctxt "short time format"
 msgid "%02d:%02d"
-msgstr "%02 டி:%02 டி"
+msgstr "%02d:%02d"
 
 #. Translators: This is a time format, like "05:30.1" for
 #. 5 minutes, 30 seconds, and 1 tenthsecond. You may change
@@ -92,7 +92,7 @@ msgstr "%02 டி:%02 டி"
 #, c-format
 msgctxt "short time format, 1 digit"
 msgid "%02d:%02d.%d"
-msgstr "%02 டி:%02 டி.%d"
+msgstr "%02d:%02d.%d"
 
 #. Translators: This is a time format, like "05:30.12" for
 #. 5 minutes, 30 seconds, and 12 hundrethseconds. You may change
@@ -102,7 +102,7 @@ msgstr "%02 டி:%02 டி.%d"
 #, c-format
 msgctxt "short time format, 2 digits"
 msgid "%02d:%02d.%02d"
-msgstr "%02 டி:%02 டி.%02 டி"
+msgstr "%02d:%02d.%02d"
 
 #. Translators: This is a time format, like "5:30" for
 #. 5 minutes, and 30 seconds. You may change ":" to
@@ -113,7 +113,7 @@ msgstr "%02 டி:%02 டி.%02 டி"
 #, c-format
 msgctxt "shortest time format"
 msgid "%d:%02d"
-msgstr "%d:%02 டி"
+msgstr "%d:%02d"
 
 #. Translators: This is a time format, like "05:30.1" for
 #. 5 minutes, 30 seconds, and 1 tenthsecond. You may change
@@ -133,7 +133,7 @@ msgstr "%d:%02d.%d"
 #, c-format
 msgctxt "shortest time format, 2 digits"
 msgid "%d:%02d.%02d"
-msgstr "%d:%02 டி.%02 டி"
+msgstr "%d:%02d.%02d"
 
 #: libparlatype/src/pt-waveloader.c:532
 msgid "Waveloader has outstanding operation."
