@@ -1,6 +1,6 @@
 [Model]
 Version=1.0
-Name=Pocketsphinx 5.0.3
+Name=Pocketsphinx 5
 Plugin=parlasphinx
 BaseFolder=/app/share/pocketsphinx/model/en-us
 Language=en

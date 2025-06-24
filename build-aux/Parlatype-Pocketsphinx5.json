@@ -30,8 +30,8 @@
             "sources" : [
                 {
                     "type" : "archive",
-                    "url" : "https://github.com/cmusphinx/pocketsphinx/archive/refs/tags/v5.0.3.zip",
-                    "sha256" : "30083fa98f4195e31d127e5b0af326f8deaf9252d6afc3abfd896f3bcc52c864"
+                    "url" : "https://github.com/cmusphinx/pocketsphinx/archive/refs/tags/v5.0.4.tar.gz",
+                    "sha256" : "9acd63cfdc76bbc85b7b6c6610b7a9cf30c79d5b36a31de7dc2f969e962653d7"
                 }
             ],
             "cleanup" : [
@@ -48,12 +48,12 @@
             "sources" : [
                 {
                     "type" : "git",
-                    "branch" : "pocketsphinx5",
+                    "branch" : "main",
                     "path" : "../"
                 },
                 {
                     "type" : "file",
-                    "path" : "data/asr/en.sphinx.pocketsphinx5.0.3.asr"
+                    "path" : "data/asr/en.sphinx.pocketsphinx5.asr"
                 }
             ]
         }
