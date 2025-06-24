@@ -129,8 +129,7 @@ folder_button_clicked_cb (GtkButton *widget,
   GFile             *initial_folder;
 
   if (!self->parent_window)
-    self->parent_window = GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (self),
-                                                               PT_TYPE_ASR_DIALOG));
+    self->parent_window = GTK_WINDOW (gtk_widget_get_root (GTK_WIDGET (self)));
   dialog = gtk_file_dialog_new ();
   gtk_file_dialog_set_modal (dialog, TRUE);
   gtk_file_dialog_set_title (dialog, _ ("Select Model Folder"));

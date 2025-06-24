@@ -38,6 +38,7 @@ struct _PtPreferencesDialog
   GSettings    *editor;
   PtPlayer     *player;
   PtConfigList *list;
+  GtkWindow    *parent_window;
 
   /* Waveform page */
   GtkWidget *pps_scale;
@@ -248,7 +249,7 @@ copy_asr_configs_result (GObject      *source_object,
       GtkAlertDialog *err_dialog;
       err_dialog = gtk_alert_dialog_new (_ ("Error"));
       gtk_alert_dialog_set_detail (err_dialog, error->message);
-      gtk_alert_dialog_show (err_dialog, GTK_WINDOW (self));
+      gtk_alert_dialog_show (err_dialog, self->parent_window);
       g_object_unref (err_dialog);
       g_error_free (error);
     }
@@ -405,7 +406,6 @@ import_copy_ready_cb (GObject      *source_object,
   GFile               *file = G_FILE (source_object);
   GError              *error = NULL;
   gboolean             success;
-  GtkWindow           *parent = GTK_WINDOW (self);
   GtkAlertDialog      *err_dialog;
 
   success = g_file_copy_finish (file, res, &error);
@@ -418,7 +418,7 @@ import_copy_ready_cb (GObject      *source_object,
     {
       err_dialog = gtk_alert_dialog_new (_ ("Error"));
       gtk_alert_dialog_set_detail (err_dialog, error->message);
-      gtk_alert_dialog_show (err_dialog, parent);
+      gtk_alert_dialog_show (err_dialog, self->parent_window);
       g_object_unref (err_dialog);
       g_error_free (error);
     }
@@ -432,7 +432,6 @@ dialog_open_cb (GObject      *source,
   PtPreferencesDialog *self = PT_PREFERENCES_DIALOG (user_data);
   GFile               *file;
   PtConfig            *config;
-  GtkWindow           *parent = GTK_WINDOW (self);
   GtkAlertDialog      *err_dialog;
   GFile               *dest_folder;
   gchar               *dest_folder_path;
@@ -464,7 +463,7 @@ dialog_open_cb (GObject      *source,
 
       gtk_alert_dialog_set_detail (err_dialog, message);
 
-      gtk_alert_dialog_show (err_dialog, parent);
+      gtk_alert_dialog_show (err_dialog, self->parent_window);
       g_object_unref (err_dialog);
       g_object_unref (config);
       return;
@@ -516,7 +515,6 @@ import_button_clicked_cb (GtkButton *button,
 {
   PtPreferencesDialog *self = PT_PREFERENCES_DIALOG (user_data);
   GtkFileDialog       *dialog;
-  GtkWindow           *parent = GTK_WINDOW (self);
   const char          *home_path;
   GFile               *initial_folder;
   GListStore          *filters;
@@ -542,7 +540,7 @@ import_button_clicked_cb (GtkButton *button,
   g_list_store_append (filters, filter_all);
   gtk_file_dialog_set_filters (dialog, G_LIST_MODEL (filters));
 
-  gtk_file_dialog_open (dialog, parent,
+  gtk_file_dialog_open (dialog, self->parent_window,
                         NULL, /* cancellable */
                         dialog_open_cb,
                         self);
@@ -556,6 +554,7 @@ pt_preferences_dialog_init (PtPreferencesDialog *self)
 {
   self->editor = g_settings_new (APP_ID);
   self->player = pt_player_new ();
+  self->parent_window = GTK_WINDOW (gtk_widget_get_root (GTK_WIDGET (self)));
 
   gtk_widget_init_template (GTK_WIDGET (self));
 
