@@ -5,7 +5,7 @@ Plugin=parlasphinx
 BaseFolder=/app/share/pocketsphinx/model/en-us
 Language=en
 Howto=Already preinstalled
-URL1=https://github.com/cmusphinx/pocketsphinx/tree/master/model/en-us
+URL1=https://github.com/cmusphinx/pocketsphinx/tree/main/model/en-us
 License=
 Publisher=Alpha Cephei Inc.
 
