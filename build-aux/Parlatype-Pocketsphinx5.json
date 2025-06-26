@@ -53,7 +53,8 @@
                 },
                 {
                     "type" : "file",
-                    "path" : "data/asr/en.sphinx.pocketsphinx5.asr"
+                    "path" : "data/asr/en.sphinx.pocketsphinx5.asr",
+                    "dest" : "data/asr"
                 }
             ]
         }
