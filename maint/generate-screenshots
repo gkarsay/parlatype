@@ -8,6 +8,12 @@ if [ "${MESON_SOURCE_ROOT}" == "" ]; then
   exit 1
 fi
 
+if ! command -v mogrify >/dev/null 2>&1
+then
+    echo "Script needs mogrify (part of ImageMagick)"
+    exit 1
+fi
+
 # There have been problems with standard renderer gl (empty images)
 export GSK_RENDERER=vulkan
 
@@ -46,6 +52,8 @@ do
   rm -f "$CONFIG"/*.asr
   echo "Language: $lang"
   LANGUAGE="$lang" "$SCREENSHOT_TOOL" --output "$lang"/figures
+  # Crop images (especially from AdwPreferencesDialogs) with ImageMagick
+  mogrify -trim +repage "$lang"/figures/*.png
 done < LINGUAS
 
 rm "$CONFIG"/*.asr
