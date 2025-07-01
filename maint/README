@@ -39,7 +39,7 @@ https://blogs.gnome.org/shaunm/files/2012/01/mallardcheatsheet.png
 
 
 Testing
-=======
+========
 
 - Run test suite:
   ninja test
@@ -71,7 +71,7 @@ meson test --gdb testname
 
 
 Release
-=======
+========
 
 Update help screenshots:
 ninja generate-screenshots
