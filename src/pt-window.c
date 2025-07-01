@@ -141,11 +141,11 @@ insert_timestamp (GSimpleAction *action,
 
 static void
 goto_dialog_response_cb (GtkDialog *dlg,
-                         gint       response_id,
+                         int        response_id,
                          gpointer   user_data)
 {
   PtWindow *self = PT_WINDOW (user_data);
-  gint      pos;
+  int       pos;
 
   if (response_id == GTK_RESPONSE_OK)
     {
@@ -218,9 +218,9 @@ play (GSimpleAction *action,
 
 static void
 set_zoom (GSettings *editor,
-          gint       step)
+          int        step)
 {
-  gint pps;
+  int pps;
 
   pps = g_settings_get_int (editor, "pps");
   if ((step > 0 && pps >= 200) || (step < 0 && pps <= 25))
@@ -389,7 +389,7 @@ static void
 change_jump_back_tooltip (PtWindow *self)
 {
   gchar *back;
-  gint   seconds;
+  int    seconds;
 
   seconds = pt_player_get_back (self->player) / 1000;
   back = g_strdup_printf (
@@ -406,7 +406,7 @@ static void
 change_jump_forward_tooltip (PtWindow *self)
 {
   gchar *forward;
-  gint   seconds;
+  int    seconds;
 
   seconds = pt_player_get_forward (self->player) / 1000;
   forward = g_strdup_printf (
@@ -423,7 +423,7 @@ static void
 change_play_button_tooltip (PtWindow *self)
 {
   gchar   *play;
-  gint     pause;
+  int      pause;
   gboolean free_me = FALSE;
 
   pause = pt_player_get_pause (self->player) / 1000;
@@ -464,7 +464,7 @@ update_insert_action_sensitivity_cb (GdkClipboard *clip,
   gchar    *timestamp = NULL;
   gboolean  result = FALSE;
   GAction  *action;
-  gint      pos;
+  int       pos;
   gchar    *label;
 
   text = gdk_clipboard_read_text_finish (clip, res, NULL);
@@ -656,7 +656,7 @@ pt_window_open_file (PtWindow *self,
   g_return_if_fail (uri != NULL);
 
   gchar *current_uri;
-  gint   cmp = 1;
+  int    cmp = 1;
 
   /* Don't reload already loaded waveform */
   current_uri = pt_player_get_uri (self->player);
@@ -852,7 +852,7 @@ map_seconds_to_milliseconds (GValue   *value,
                              gpointer  data)
 {
   /* Settings store seconds, PtPlayer wants milliseconds */
-  gint new;
+  int new;
   new = g_variant_get_int32 (variant);
   new = new * 1000;
   g_value_set_int (value, new);
@@ -864,7 +864,7 @@ map_milliseconds_to_seconds (const GValue       *value,
                              const GVariantType *type,
                              gpointer            data)
 {
-  gint new;
+  int new;
   new = g_value_get_int (value);
   new = new / 1000;
   return g_variant_new_int32 (new);
@@ -1030,7 +1030,7 @@ volume_button_event_cb (GtkEventControllerLegacy *ctrl,
 
 static gboolean
 volume_button_press_event (GtkGestureClick *gesture,
-                           gint             n_press,
+                           int              n_press,
                            gdouble          x,
                            gdouble          y,
                            gpointer         user_data)
@@ -1304,8 +1304,7 @@ static void
 pt_window_dispose (GObject *object)
 {
   PtWindow *self = PT_WINDOW (object);
-  gint      x;
-  gint      y;
+  int       x, y;
 
   /* Save window size */
   if (self->editor)

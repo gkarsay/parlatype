@@ -454,7 +454,7 @@ pt_app_activate (GApplication *application)
 static void
 pt_app_open (GApplication *app,
              GFile       **files,
-             gint          n_files,
+             int           n_files,
              const gchar  *hint)
 {
   GtkWindow *win;
@@ -473,7 +473,7 @@ pt_app_open (GApplication *app,
   g_free (uri);
 }
 
-static gint
+static int
 pt_app_handle_local_options (GApplication *application,
                              GVariantDict *options)
 {

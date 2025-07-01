@@ -160,7 +160,7 @@ get_delimiter_mapping (GValue   *value,
                        gpointer  data)
 {
   const gchar *sep = g_variant_get_string (variant, NULL);
-  gint         drop_down_position;
+  int          drop_down_position;
   if (g_strcmp0 (sep, "None") == 0)
     drop_down_position = 0;
   else if (g_strcmp0 (sep, "#") == 0)

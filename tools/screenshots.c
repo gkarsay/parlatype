@@ -190,7 +190,7 @@ save_paintable (GdkPaintable *paintable,
   GskRenderer    *renderer;
   GtkWidget      *widget, *parent;
   GtkNative      *native;
-  gint            x, y, width, height;
+  int             x, y, width, height;
   graphene_rect_t bounds;
 
   GskRenderNode *original_node;

@@ -33,15 +33,15 @@ struct _PtGotoDialog
 
   GtkWidget *spin;
   GtkWidget *seconds_label;
-  gint       max;
+  int        max;
 };
 
 G_DEFINE_TYPE (PtGotoDialog, pt_goto_dialog, GTK_TYPE_DIALOG)
 
-static gint
+static int
 string_to_time (const char *time_string)
 {
-  gint sec, min, hour, args;
+  int sec, min, hour, args;
 
   /* Translators: This is a time format, like "2:05:30" for 2
      hours, 5 minutes, and 30 seconds. You may change ":" to
@@ -77,10 +77,10 @@ value_changed_cb (GtkSpinButton *spin,
 {
   PtGotoDialog  *self = (PtGotoDialog *) data;
   GtkAdjustment *adj;
-  gint           value;
+  int            value;
 
   adj = gtk_spin_button_get_adjustment (spin);
-  value = (gint) gtk_adjustment_get_value (adj);
+  value = (int) gtk_adjustment_get_value (adj);
 
   gtk_label_set_label (
       GTK_LABEL (self->seconds_label),
@@ -106,7 +106,7 @@ output_cb (GtkSpinButton *spin,
   return TRUE;
 }
 
-static gint
+static int
 input_cb (GtkSpinButton *self,
           gdouble       *new_value,
           gpointer       user_data)
@@ -160,7 +160,7 @@ pt_goto_dialog_class_init (PtGotoDialogClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtGotoDialog, seconds_label);
 }
 
-gint
+int
 pt_goto_dialog_get_pos (PtGotoDialog *self)
 {
   return gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (self->spin));
@@ -168,14 +168,14 @@ pt_goto_dialog_get_pos (PtGotoDialog *self)
 
 void
 pt_goto_dialog_set_pos (PtGotoDialog *self,
-                        gint          seconds)
+                        int           seconds)
 {
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (self->spin), (gdouble) seconds);
 }
 
 void
 pt_goto_dialog_set_max (PtGotoDialog *self,
-                        gint          seconds)
+                        int           seconds)
 {
   gchar *time_string;
   guint  width;
