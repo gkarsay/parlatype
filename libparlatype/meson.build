@@ -3,7 +3,7 @@
 # http://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html
 
 libparlatype_current = 7
-libparlatype_revision = 2
+libparlatype_revision = 3
 libparlatype_age = 0
 libparlatype_current_minus_age = libparlatype_current - libparlatype_age
 
