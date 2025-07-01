@@ -92,7 +92,6 @@ Release commit:
 - Tag commit "v1.x.x"
 
 Test distribution:
-# this will fail with PermissionError: https://github.com/mesonbuild/meson/issues/7034
 ninja dist
 
 Create tarball and sign it:
