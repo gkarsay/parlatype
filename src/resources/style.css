@@ -19,6 +19,11 @@ main_box {
   padding: 12px;
 }
 
+paned separator {
+  background: lightgrey;
+  padding: 4px;
+}
+
 /* EditorThemeSelector */
 themeselector {
   margin: 9px;
