@@ -44,6 +44,11 @@
       <summary>Window’s height</summary>
       <description>Window’s height.</description>
     </key>
+    <key name="separator" type="i">
+      <default>100</default>
+      <summary>Separator’s position</summary>
+      <description>Separator’s position</description>
+    </key>
     <key name="show-ruler" type="b">
       <default>true</default>
       <summary>Show ruler</summary>

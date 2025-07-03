@@ -60,6 +60,7 @@ struct _PtWindow
   GMenuItem  *go_to_timestamp;
   GtkWidget  *speed_scale;
 
+  GtkWidget     *paned;
   GtkWidget     *text_view;
   GtkTextBuffer *text_buffer;
 
@@ -1000,6 +1001,9 @@ setup_settings (PtWindow *self)
   gtk_window_set_default_size (GTK_WINDOW (self),
                                g_settings_get_int (self->editor, "width"),
                                g_settings_get_int (self->editor, "height"));
+
+  gtk_paned_set_position (GTK_PANED (self->paned),
+                          g_settings_get_int (self->editor, "separator"));
 }
 
 static void
@@ -1349,12 +1353,13 @@ pt_window_dispose (GObject *object)
   PtWindow *self = PT_WINDOW (object);
   int       x, y;
 
-  /* Save window size */
+  /* Save window size and separator position */
   if (self->editor)
     {
       gtk_window_get_default_size (GTK_WINDOW (self), &x, &y);
       g_settings_set_int (self->editor, "width", x);
       g_settings_set_int (self->editor, "height", y);
+      g_settings_set_int (self->editor, "separator", gtk_paned_get_position (GTK_PANED (self->paned)));
     }
 
   g_clear_signal_handler (&self->clip_handler_id, self->clip);
@@ -1401,6 +1406,7 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtWindow, button_jump_forward);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, volumebutton);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, speed_scale);
+  gtk_widget_class_bind_template_child (widget_class, PtWindow, paned);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, text_view);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, primary_menu);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, secondary_menu);

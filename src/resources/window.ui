@@ -47,7 +47,7 @@
           </object>
         </child>
         <property name="content">
-          <object class="GtkPaned">
+          <object class="GtkPaned" id="paned">
             <property name="orientation">vertical</property>
               <child>
               <object class="GtkBox">
