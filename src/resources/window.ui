@@ -76,6 +76,8 @@
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkBox" id="controls_box">
+                        <property name="valign">baseline-center</property>
+                        <property name="spacing">6</property>
                         <child>
                           <object class="GtkButton" id="button_jump_back">
                             <property name="sensitive">0</property>
@@ -83,42 +85,23 @@
                             <property name="receives_default">1</property>
                             <property name="halign">start</property>
                             <property name="action_name">win.jump-back</property>
-                            <child>
-                              <object class="GtkImage" id="icon_seek_back1">
-                                <property name="icon_name">media-skip-backward-symbolic</property>
-                                <accessibility>
-                                  <property name="label" translatable="yes">Skip backward</property>
-                                </accessibility>
-                              </object>
-                            </child>
+                            <property name="icon_name">media-skip-backward-symbolic</property>
+                            <accessibility>
+                              <property name="label" translatable="yes">Skip backward</property>
+                            </accessibility>
+                            <style><class name="circular"/></style>
                           </object>
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="button_play">
                             <property name="can_focus">1</property>
                             <property name="receives_default">1</property>
-                            <property name="use_underline">1</property>
                             <signal name="toggled" handler="play_button_toggled_cb" swapped="no"/>
+                            <property name="icon_name">media-playback-start-symbolic</property>
                             <accessibility>
-                              <relation name="labelled-by">play_label</relation>
+                              <property name="label" translatable="yes">Play</property>
                             </accessibility>
-                            <child>
-                              <object class="GtkBox" id="internal_button_box">
-                                <property name="spacing">2</property>
-                                <child>
-                                  <object class="GtkImage" id="play_icon">
-                                    <property name="icon_name">media-playback-start-symbolic</property>
-                                    <property name="accessible-role">presentation</property>
-                                  </object>
-                                </child>
-                                <child>
-                                  <object class="GtkLabel" id="play_label">
-                                    <property name="label" translatable="yes">_Play</property>
-                                    <property name="use_underline">1</property>
-                                  </object>
-                                </child>
-                              </object>
-                            </child>
+                            <style><class name="circular"/></style>
                           </object>
                         </child>
                         <child>
@@ -128,19 +111,13 @@
                             <property name="receives_default">1</property>
                             <property name="halign">start</property>
                             <property name="action_name">win.jump-forward</property>
-                            <child>
-                              <object class="GtkImage" id="icon_seek_forward1">
-                                <property name="icon_name">media-skip-forward-symbolic</property>
-                                <accessibility>
-                                  <property name="label" translatable="yes">Skip forward</property>
-                                </accessibility>
-                              </object>
-                            </child>
+                            <property name="icon_name">media-skip-forward-symbolic</property>
+                            <accessibility>
+                              <property name="label" translatable="yes">Skip forward</property>
+                            </accessibility>
+                            <style><class name="circular"/></style>
                           </object>
                         </child>
-                        <style>
-                          <class name="linked"/>
-                        </style>
                       </object>
                     </child>
                     <child>
