@@ -50,29 +50,18 @@
           <object class="GtkPaned" id="paned">
             <property name="orientation">vertical</property>
               <child>
-              <object class="GtkBox">
+              <object class="GtkBox"> <!-- paned top child -->
                 <property name="css-name">main_box</property>
-                <property name="orientation">vertical</property>
+                <property name="orientation">horizontal</property>
+                <property name="margin-start">6</property>
+                <property name="margin-end">6</property>
                 <property name="spacing">6</property>
                 <child>
-                  <object class="GtkBox">
-                    <property name="orientation">vertical</property>
-                    <child>
-                      <object class="PtWaveviewer" id="waveviewer">
-                        <property name="can_focus">True</property>
-                        <property name="hexpand">True</property>
-                        <property name="vexpand">True</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkProgressBar" id="progress">
-                        <property name="accessible-role">presentation</property>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-                <child>
                   <object class="GtkBox" id="controls_row_box">
+                    <property name="orientation">vertical</property>
+                    <property name="halign">start</property>
+                    <property name="hexpand_set">1</property>
+                    <property name="valign">end</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkBox" id="controls_box">
@@ -183,6 +172,23 @@ audio-volume-medium-symbolic</property>
                       </object>
                    </child>
                   </object>
+                </child> <!-- controls column box -->
+                <child>
+                  <object class="GtkBox" id="waveviewer_box">
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <object class="PtWaveviewer" id="waveviewer">
+                        <property name="can_focus">True</property>
+                        <property name="hexpand">True</property>
+                        <property name="vexpand">True</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkProgressBar" id="progress">
+                        <property name="accessible-role">presentation</property>
+                      </object>
+                    </child>
+                  </object> <!-- waveviewer_box -->
                 </child>
               </object>
             </child>
