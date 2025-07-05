@@ -59,7 +59,6 @@ struct _PtWindow
   GStrv       vol_icons;
   GtkGesture *vol_event;
   GMenuItem  *go_to_timestamp;
-  GtkWidget  *speed_scale;
   GtkWidget  *playback_rate_button;
 
   GtkWidget     *paned;
@@ -621,7 +620,6 @@ pt_window_ready_to_play (PtWindow *self,
   gtk_widget_set_sensitive (self->button_play, state);
   gtk_widget_set_sensitive (self->button_jump_back, state);
   gtk_widget_set_sensitive (self->button_jump_forward, state);
-  gtk_widget_set_sensitive (self->speed_scale, state);
   gtk_widget_set_sensitive (self->volumebutton, state);
 
   if (state)
@@ -778,16 +776,10 @@ pt_window_direction_changed (GtkWidget       *widget,
    * mirrored. Undo automatic mirroring for those elements. */
 
   PtWindow *self = PT_WINDOW (widget);
-  GtkScale *speed_scale = GTK_SCALE (self->speed_scale);
 
   gtk_widget_set_direction (self->button_jump_back, GTK_TEXT_DIR_LTR);
   gtk_widget_set_direction (self->button_jump_forward, GTK_TEXT_DIR_LTR);
   gtk_widget_set_direction (self->controls_box, GTK_TEXT_DIR_LTR);
-
-  if (previous_direction == GTK_TEXT_DIR_LTR)
-    gtk_scale_set_value_pos (speed_scale, GTK_POS_LEFT);
-  else
-    gtk_scale_set_value_pos (speed_scale, GTK_POS_RIGHT);
 }
 
 static void
@@ -1121,13 +1113,6 @@ setup_player (PtWindow *self)
                     G_CALLBACK (player_play_toggled_cb),
                     self);
 
-  GtkAdjustment *speed_adjustment;
-  speed_adjustment = gtk_range_get_adjustment (GTK_RANGE (self->speed_scale));
-  g_object_bind_property (
-      speed_adjustment, "value",
-      self->player, "speed",
-      G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
-
   GtkAdjustment *rate_adjustment;
   rate_adjustment = pt_playback_rate_button_get_adjustment (PT_PLAYBACK_RATE_BUTTON (self->playback_rate_button));
   g_object_bind_property (
@@ -1415,7 +1400,6 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtWindow, button_jump_back);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, button_jump_forward);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, volumebutton);
-  gtk_widget_class_bind_template_child (widget_class, PtWindow, speed_scale);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, playback_rate_button);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, paned);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, text_view);
