@@ -182,7 +182,7 @@ audio-volume-medium-symbolic</property>
             <child>
               <object class="GtkScrolledWindow">
                 <child>
-                  <object class="GtkTextView" id="text_view">
+                  <object class="PtTextView" id="text_view">
                     <property name="can_focus">True</property>
                     <property name="hexpand">True</property>
                     <property name="vexpand">True</property>

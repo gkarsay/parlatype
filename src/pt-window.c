@@ -22,6 +22,7 @@
 #include "pt-app.h"
 #include "pt-goto-dialog.h"
 #include "pt-playback-rate-button.h"
+#include "pt-text-view.h"
 #include "pt-window-dnd.h"
 #include "pt-window-private.h"
 
@@ -61,9 +62,8 @@ struct _PtWindow
   GMenuItem  *go_to_timestamp;
   GtkWidget  *playback_rate_button;
 
-  GtkWidget     *paned;
-  GtkWidget     *text_view;
-  GtkTextBuffer *text_buffer;
+  GtkWidget *paned;
+  GtkWidget *text_view;
 
   GMenuModel *primary_menu;
   GMenuModel *secondary_menu;
@@ -149,33 +149,9 @@ insert_timestamp (GSimpleAction *action,
                   GVariant      *parameter,
                   gpointer       user_data)
 {
-  PtWindow      *self = PT_WINDOW (user_data);
-  GtkTextBuffer *buffer = self->text_buffer;
-  GtkTextIter    iter, start, end;
-  gchar         *timestamp;
+  PtWindow *self = PT_WINDOW (user_data);
 
-  timestamp = pt_player_get_timestamp (self->player);
-  if (timestamp == NULL)
-    return;
-
-  gtk_text_buffer_get_iter_at_mark (buffer, &iter,
-                                    gtk_text_buffer_get_insert (buffer));
-  GtkTextTagTable *table;
-  table = gtk_text_buffer_get_tag_table (buffer);
-  GtkTextTag *tag;
-  tag = gtk_text_tag_table_lookup (table, "timestamp");
-  start = end = iter;
-  if (gtk_text_iter_backward_to_tag_toggle (&start, tag) &&
-      gtk_text_iter_forward_to_tag_toggle (&end, tag))
-    {
-      gchar *gototime;
-      gototime = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
-      g_print ("%s\n", gototime);
-      if (pt_player_goto_timestamp (self->player, gototime))
-        return;
-    }
-
-  gtk_text_buffer_insert_with_tags_by_name (buffer, &iter, timestamp, -1, "timestamp", NULL);
+  pt_text_view_insert_timestamp (PT_TEXT_VIEW (self->text_view));
 }
 
 static void
@@ -1298,14 +1274,10 @@ static void
 pt_window_init (PtWindow *self)
 {
   g_type_ensure (PT_TYPE_PLAYBACK_RATE_BUTTON);
+  g_type_ensure (PT_TYPE_TEXT_VIEW);
   gtk_widget_init_template (GTK_WIDGET (self));
 
   self->editor = g_settings_new (APP_ID);
-  self->text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (self->text_view));
-  gtk_text_buffer_create_tag (self->text_buffer, "timestamp",
-                              "family", "monospace",
-                              "background", "yellow",
-                              NULL);
 
   setup_player (self);
   setup_accels_actions_menus (self);
@@ -1313,6 +1285,7 @@ pt_window_init (PtWindow *self)
   setup_volume (self);
   pt_window_setup_dnd (self); /* this is in pt_window_dnd.c */
 
+  pt_text_view_set_player (PT_TEXT_VIEW (self->text_view), self->player);
   self->recent = gtk_recent_manager_get_default ();
   self->timer = 0;
   self->last_time = 0;
