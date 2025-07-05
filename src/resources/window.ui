@@ -2,12 +2,6 @@
 <interface>
   <requires lib="gtk" version="4.0"/>
   <requires lib="parlatype" version="0.0"/>
-  <object class="GtkAdjustment" id="vol_adj">
-    <property name="upper">1</property>
-    <property name="value">1</property>
-    <property name="step_increment">0.10000000000000001</property>
-    <property name="page_increment">0.10000000000000001</property>
-  </object>
   <template class="PtWindow" parent="AdwApplicationWindow">
     <property name="title" translatable="yes">Parlatype</property>
     <property name="default_height">200</property>
@@ -74,7 +68,14 @@
                             <property name="halign">end</property>
                             <property name="orientation">vertical</property>
                             <property name="value">1</property>
-                            <property name="adjustment">vol_adj</property>
+                            <property name="adjustment">
+                              <object class="GtkAdjustment">
+                                <property name="upper">1</property>
+                                <property name="value">1</property>
+                                <property name="step_increment">0.10000000000000001</property>
+                                <property name="page_increment">0.10000000000000001</property>
+                              </object>
+                            </property>
                             <property name="icons">audio-volume-muted-symbolic
 audio-volume-high-symbolic
 audio-volume-low-symbolic
