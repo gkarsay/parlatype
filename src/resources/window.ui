@@ -57,8 +57,63 @@
                     <property name="hexpand_set">1</property>
                     <property name="valign">end</property>
                     <property name="spacing">6</property>
+                    <property name="margin-bottom">6</property>
+                    <child>
+                      <object class="GtkBox"> <!-- playback rate and volume buttons -->
+                        <property name="halign">center</property>
+                        <property name="spacing">6</property>
+                        <child>
+                          <object class="PtPlaybackRateButton" id="playback_rate_button">
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkVolumeButton" id="volumebutton">
+                            <property name="can_focus">1</property>
+                            <property name="focus_on_click">0</property>
+                            <property name="receives_default">1</property>
+                            <property name="has_tooltip">1</property>
+                            <property name="halign">end</property>
+                            <property name="orientation">vertical</property>
+                            <property name="value">1</property>
+                            <property name="adjustment">vol_adj</property>
+                            <property name="icons">audio-volume-muted-symbolic
+audio-volume-high-symbolic
+audio-volume-low-symbolic
+audio-volume-medium-symbolic</property>
+                            <accessibility>
+                              <property name="label" translatable="yes">Volume</property>
+                            </accessibility>
+                            <child internal-child="plus_button">
+                              <object class="GtkButton" id="volumebutton-plus_button">
+                                <property name="can_focus">1</property>
+                              </object>
+                            </child>
+                            <child internal-child="minus_button">
+                              <object class="GtkButton" id="volumebutton-minus_button">
+                                <property name="can_focus">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child> <!-- volume button -->
+                      </object>
+                    </child> <!-- playback rate and volume buttons -->
+                    <child>
+                      <object class="GtkMenuButton" id="pos_menu_button">
+                        <property name="menu-model">secondary_menu</property>
+                        <property name="halign">center</property>
+                        <property name="hexpand">1</property>
+                        <property name="hexpand-set">1</property>
+                        <property name="can_focus">1</property>
+                        <property name="receives_default">1</property>
+                        <property name="direction">up</property>
+                        <style>
+                          <class name="timebutton" />
+                        </style>
+                      </object>
+                    </child> <!-- time button -->
                     <child>
                       <object class="GtkBox" id="controls_box">
+                        <property name="halign">center</property>
                         <property name="valign">baseline-center</property>
                         <property name="spacing">6</property>
                         <child>
@@ -102,56 +157,9 @@
                           </object>
                         </child>
                       </object>
-                    </child>
-                    <child>
-                      <object class="GtkMenuButton" id="pos_menu_button">
-                        <property name="menu-model">secondary_menu</property>
-                        <property name="halign">end</property>
-                        <property name="hexpand">1</property>
-                        <property name="hexpand-set">1</property>
-                        <property name="can_focus">1</property>
-                        <property name="receives_default">1</property>
-                        <property name="direction">up</property>
-                        <style>
-                          <class name="timebutton" />
-                        </style>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="PtPlaybackRateButton" id="playback_rate_button">
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkVolumeButton" id="volumebutton">
-                        <property name="can_focus">1</property>
-                        <property name="focus_on_click">0</property>
-                        <property name="receives_default">1</property>
-                        <property name="has_tooltip">1</property>
-                        <property name="halign">end</property>
-                        <property name="orientation">vertical</property>
-                        <property name="value">1</property>
-                        <property name="adjustment">vol_adj</property>
-                        <property name="icons">audio-volume-muted-symbolic
-audio-volume-high-symbolic
-audio-volume-low-symbolic
-audio-volume-medium-symbolic</property>
-                        <accessibility>
-                          <property name="label" translatable="yes">Volume</property>
-                        </accessibility>
-                        <child internal-child="plus_button">
-                          <object class="GtkButton" id="volumebutton-plus_button">
-                            <property name="can_focus">1</property>
-                          </object>
-                        </child>
-                        <child internal-child="minus_button">
-                          <object class="GtkButton" id="volumebutton-minus_button">
-                            <property name="can_focus">1</property>
-                          </object>
-                        </child>
-                      </object>
-                   </child>
+                    </child> <!-- controls box -->
                   </object>
-                </child> <!-- controls column box -->
+                </child> <!-- controls row box -->
                 <child>
                   <object class="GtkBox" id="waveviewer_box">
                     <property name="orientation">vertical</property>
