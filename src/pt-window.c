@@ -21,6 +21,7 @@
 #include "editor-theme-selector-private.h"
 #include "pt-app.h"
 #include "pt-goto-dialog.h"
+#include "pt-playback-rate-button.h"
 #include "pt-window-dnd.h"
 #include "pt-window-private.h"
 
@@ -59,6 +60,7 @@ struct _PtWindow
   GtkGesture *vol_event;
   GMenuItem  *go_to_timestamp;
   GtkWidget  *speed_scale;
+  GtkWidget  *playback_rate_button;
 
   GtkWidget     *paned;
   GtkWidget     *text_view;
@@ -1125,6 +1127,13 @@ setup_player (PtWindow *self)
       speed_adjustment, "value",
       self->player, "speed",
       G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+
+  GtkAdjustment *rate_adjustment;
+  rate_adjustment = pt_playback_rate_button_get_adjustment (PT_PLAYBACK_RATE_BUTTON (self->playback_rate_button));
+  g_object_bind_property (
+      rate_adjustment, "value",
+      self->player, "speed",
+      G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
 }
 
 static void
@@ -1303,6 +1312,7 @@ pt_window_constructed (GObject *object)
 static void
 pt_window_init (PtWindow *self)
 {
+  g_type_ensure (PT_TYPE_PLAYBACK_RATE_BUTTON);
   gtk_widget_init_template (GTK_WIDGET (self));
 
   self->editor = g_settings_new (APP_ID);
@@ -1406,6 +1416,7 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtWindow, button_jump_forward);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, volumebutton);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, speed_scale);
+  gtk_widget_class_bind_template_child (widget_class, PtWindow, playback_rate_button);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, paned);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, text_view);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, primary_menu);

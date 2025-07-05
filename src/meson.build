@@ -15,6 +15,7 @@ parlatype_sources = [
   'pt-dbus-service.c',
   'pt-goto-dialog.c',
   'pt-mpris.c',
+  'pt-playback-rate-button.c',
   'pt-preferences.c',
   'pt-prefs-info-row.c',
   'pt-prefs-install-row.c',
@@ -22,10 +23,13 @@ parlatype_sources = [
   'pt-window-dnd.c',
 ]
 
+math = compiler.find_library('m', required: false)
+
 parlatype_deps = [
   config_h,
   gtk,
   libadwaita,
+  math,
 ]
 
 # Static library for tools

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PtPlaybackRateButton" parent="AdwBin">
+    <child>
+      <object class="GtkMenuButton">
+        <child>
+          <object class="GtkBox">
+            <property name="spacing">6</property>
+            <child>
+              <object class="GtkImage">
+                <property name="icon_name">speedometer-symbolic</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label">
+                <property name="label" translatable="yes">× 1.0</property>
+              </object>
+            </child>
+          </object>
+        </child> <!-- box with icon and label -->
+        <property name="popover">
+          <object class="GtkPopover" id="rate_popover">
+            <child>
+              <object class="GtkBox">
+                <property name="margin-start">4</property>
+                <property name="margin-end">4</property>
+                <property name="margin-top">4</property>
+                <property name="margin-bottom">4</property>
+                <property name="spacing">6</property>
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkScale">
+                    <property name="height-request">200</property>
+                    <property name="vexpand">1</property>
+                    <property name="orientation">vertical</property>
+                    <property name="inverted">1</property>
+                    <marks>
+                      <mark value="0.5" position="bottom"></mark>
+                      <mark value="1" position="bottom"></mark>
+                      <mark value="2" position="bottom"></mark>
+                      <mark value="3" position="bottom"></mark>
+                    </marks>
+                    <property name="adjustment">
+                      <object class="GtkAdjustment" id="adjustment">
+                        <signal name="value-changed" handler="adjustment_value_changed_cb" swapped="no"/>
+                        <property name="lower">0.5</property>
+                        <property name="upper">3</property>
+                        <property name="value">1</property>
+                        <property name="step_increment">0.1</property>
+                        <property name="page_increment">0.5</property>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </property> <!-- popover -->
+        <style>
+          <class name="flat"/>
+          <class name="numeric"/>
+        </style>
+      </object>
+    </child> <!-- menu button -->
+  </template>
+</interface>

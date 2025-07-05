@@ -1,6 +1,6 @@
 /* Common style for PtApp */
 
-menubutton {
+.timebutton {
   font-family: monospace;
   font-size: 150%;
   font-weight: 600;

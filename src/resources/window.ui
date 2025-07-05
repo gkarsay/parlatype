@@ -118,6 +118,13 @@
                         <property name="can_focus">1</property>
                         <property name="receives_default">1</property>
                         <property name="direction">up</property>
+                        <style>
+                          <class name="timebutton" />
+                        </style>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="PtPlaybackRateButton" id="playback_rate_button">
                       </object>
                     </child>
                     <child>
