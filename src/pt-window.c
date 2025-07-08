@@ -23,6 +23,7 @@
 #include "pt-goto-dialog.h"
 #include "pt-playback-rate-button.h"
 #include "pt-text-view.h"
+#include "pt-volume-button.h"
 #include "pt-window-dnd.h"
 #include "pt-window-private.h"
 
@@ -50,17 +51,15 @@ struct _PtWindow
   GtkWidget *button_open;
 
   /* Main window widgets */
-  GtkWidget  *controls_row_box;
-  GtkWidget  *controls_box;
-  GtkWidget  *progress;
-  GtkWidget  *button_play;
-  GtkWidget  *button_jump_back;
-  GtkWidget  *button_jump_forward;
-  GtkWidget  *volumebutton;
-  GStrv       vol_icons;
-  GtkGesture *vol_event;
-  GMenuItem  *go_to_timestamp;
-  GtkWidget  *playback_rate_button;
+  GtkWidget *controls_row_box;
+  GtkWidget *controls_box;
+  GtkWidget *progress;
+  GtkWidget *button_play;
+  GtkWidget *button_jump_back;
+  GtkWidget *button_jump_forward;
+  GtkWidget *volume_button;
+  GMenuItem *go_to_timestamp;
+  GtkWidget *playback_rate_button;
 
   GtkWidget *paned;
   GtkWidget *text_view;
@@ -596,7 +595,7 @@ pt_window_ready_to_play (PtWindow *self,
   gtk_widget_set_sensitive (self->button_play, state);
   gtk_widget_set_sensitive (self->button_jump_back, state);
   gtk_widget_set_sensitive (self->button_jump_forward, state);
-  gtk_widget_set_sensitive (self->volumebutton, state);
+  gtk_widget_set_sensitive (self->volume_button, state);
 
   if (state)
     {
@@ -977,94 +976,6 @@ setup_settings (PtWindow *self)
 }
 
 static void
-volume_button_update_mute (GObject    *gobject,
-                           GParamSpec *pspec,
-                           gpointer    user_data)
-{
-  /* Switch icons of volume button depending on mute state.
-   * If muted, only the mute icon is shown (volume can still be adjusted).
-   * In normal state restore original icon set. */
-
-  PtWindow       *self = PT_WINDOW (user_data);
-  GtkScaleButton *volumebutton = GTK_SCALE_BUTTON (self->volumebutton);
-  const gchar    *mute_icon[] = { (gchar *) self->vol_icons[0], NULL };
-
-  if (pt_player_get_mute (self->player))
-    {
-      gtk_scale_button_set_icons (volumebutton, mute_icon);
-    }
-  else
-    {
-      gtk_scale_button_set_icons (volumebutton, (const gchar **) self->vol_icons);
-    }
-}
-
-static void
-volume_button_update_volume (GObject    *gobject,
-                             GParamSpec *pspec,
-                             gpointer    user_data)
-{
-  PtWindow       *self = PT_WINDOW (user_data);
-  GtkScaleButton *volumebutton = GTK_SCALE_BUTTON (self->volumebutton);
-  gdouble         volume = pt_player_get_volume (self->player);
-
-  gtk_scale_button_set_value (volumebutton, volume);
-}
-
-static gboolean
-volume_button_value_changed_cb (GtkWidget *volumebutton,
-                                gdouble    value,
-                                gpointer   user_data)
-{
-  PtWindow *self = PT_WINDOW (user_data);
-  pt_player_set_volume (self->player, value);
-  return FALSE;
-}
-
-static gboolean
-volume_button_event_cb (GtkEventControllerLegacy *ctrl,
-                        GdkEvent                 *event,
-                        gpointer                  user_data)
-{
-  /* This is for pulseaudiosink in paused state. It doesn't notify of
-   * volume/mute changes. Update values when user is interacting with
-   * the volume button. */
-
-  PtWindow  *self = PT_WINDOW (user_data);
-  GtkWidget *volumebutton;
-
-  volumebutton = gtk_event_controller_get_widget (GTK_EVENT_CONTROLLER (ctrl));
-  gtk_scale_button_set_value (GTK_SCALE_BUTTON (volumebutton),
-                              pt_player_get_volume (self->player));
-  volume_button_update_mute (NULL, NULL, self);
-  return FALSE;
-}
-
-static gboolean
-volume_button_press_event (GtkGestureClick *gesture,
-                           int              n_press,
-                           gdouble          x,
-                           gdouble          y,
-                           gpointer         user_data)
-{
-  /* Switch mute state on click with secondary button */
-
-  PtWindow *self = PT_WINDOW (user_data);
-  guint     button;
-  gboolean  current_mute;
-
-  button = gtk_gesture_single_get_current_button (GTK_GESTURE_SINGLE (gesture));
-
-  if (n_press == 1 && button == GDK_BUTTON_SECONDARY)
-    {
-      current_mute = pt_player_get_mute (self->player);
-      pt_player_set_mute (self->player, !current_mute);
-      return TRUE;
-    }
-  return FALSE;
-}
-
-static void
 setup_player (PtWindow *self)
 {
   self->player = pt_player_new ();
@@ -1095,63 +1006,6 @@ setup_player (PtWindow *self)
       rate_adjustment, "value",
       self->player, "speed",
       G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
-}
-
-static void
-setup_volume (PtWindow *self)
-{
-  /* Connect to volumebutton's "value-changed" signal and to PtPlayer's
-   * "notify:volume" signal instead of binding the 2 properties. On
-   * startup there is no external Pulseaudio volume yet and the binding
-   * would impose our default volume on Pulseaudio. Instead we want to
-   * pick up Pulseaudio's volume. That is Parlatype/application specific
-   * and it even remembers the last value. The first external volume
-   * signal is sent after a file was opened successfully, until then our
-   * volume button is insensitive. */
-  g_signal_connect (self->volumebutton,
-                    "value-changed",
-                    G_CALLBACK (volume_button_value_changed_cb),
-                    self);
-
-  GtkEventController *v_event;
-  v_event = gtk_event_controller_legacy_new ();
-  g_signal_connect (v_event,
-                    "event",
-                    G_CALLBACK (volume_button_event_cb),
-                    self);
-  gtk_widget_add_controller (self->volumebutton,
-                             GTK_EVENT_CONTROLLER (v_event));
-
-  /* Get complete icon set of volume button to change it depending on
-   * mute state. */
-  g_object_get (self->volumebutton,
-                "icons", &self->vol_icons, NULL);
-
-  g_signal_connect (self->player,
-                    "notify::mute",
-                    G_CALLBACK (volume_button_update_mute),
-                    self);
-
-  g_signal_connect (self->player,
-                    "notify::volume",
-                    G_CALLBACK (volume_button_update_volume),
-                    self);
-
-  /* Switch mute state on mouse click with secondary button */
-  GtkGesture *vol_event;
-  vol_event = gtk_gesture_click_new ();
-  gtk_gesture_single_set_exclusive (
-      GTK_GESTURE_SINGLE (vol_event), TRUE);
-  gtk_gesture_single_set_button (
-      GTK_GESTURE_SINGLE (vol_event), 0);
-  gtk_event_controller_set_propagation_phase (
-      GTK_EVENT_CONTROLLER (vol_event), GTK_PHASE_CAPTURE);
-  g_signal_connect (vol_event,
-                    "pressed",
-                    G_CALLBACK (volume_button_press_event),
-                    self);
-  gtk_widget_add_controller (self->volumebutton,
-                             GTK_EVENT_CONTROLLER (vol_event));
 }
 
 static void
@@ -1275,6 +1129,7 @@ pt_window_init (PtWindow *self)
 {
   g_type_ensure (PT_TYPE_PLAYBACK_RATE_BUTTON);
   g_type_ensure (PT_TYPE_TEXT_VIEW);
+  g_type_ensure (PT_TYPE_VOLUME_BUTTON);
   gtk_widget_init_template (GTK_WIDGET (self));
 
   self->editor = g_settings_new (APP_ID);
@@ -1282,9 +1137,9 @@ pt_window_init (PtWindow *self)
   setup_player (self);
   setup_accels_actions_menus (self);
   setup_settings (self);
-  setup_volume (self);
   pt_window_setup_dnd (self); /* this is in pt_window_dnd.c */
 
+  pt_volume_button_set_player (PT_VOLUME_BUTTON (self->volume_button), self->player);
   pt_text_view_set_player (PT_TEXT_VIEW (self->text_view), self->player);
   self->recent = gtk_recent_manager_get_default ();
   self->timer = 0;
@@ -1336,15 +1191,10 @@ pt_window_dispose (GObject *object)
   g_clear_object (&self->player);
   g_clear_object (&self->asr_config);
   g_clear_object (&self->go_to_timestamp);
-  g_clear_object (&self->vol_event);
   g_clear_object (&self->asr_menu);
   g_clear_object (&self->asr_menu_item1);
   g_clear_object (&self->asr_menu_item2);
-  if (self->vol_icons)
-    {
-      g_strfreev (self->vol_icons);
-      self->vol_icons = NULL;
-    }
+
   gtk_widget_dispose_template (GTK_WIDGET (self), PT_TYPE_WINDOW);
 
   G_OBJECT_CLASS (pt_window_parent_class)->dispose (object);
@@ -1372,7 +1222,7 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtWindow, button_play);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, button_jump_back);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, button_jump_forward);
-  gtk_widget_class_bind_template_child (widget_class, PtWindow, volumebutton);
+  gtk_widget_class_bind_template_child (widget_class, PtWindow, volume_button);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, playback_rate_button);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, paned);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, text_view);
