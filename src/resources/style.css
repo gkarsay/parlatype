@@ -6,13 +6,25 @@
   font-weight: 600;
 }
 
+audio_controls {
+  margin-bottom: 12px;
+  padding: 6px;
+}
+
+waveviewer {
+}
+
+waveviewer scrolledwindow trough {
+  margin-top: 2px;
+  margin-bottom: 6px;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
 progressbar > trough {
   background: transparent;
   border: transparent;
-}
-
-main_box {
-  padding: 6px;
+  margin-top: -10px;
 }
 
 .ptdialog > box {
@@ -21,7 +33,11 @@ main_box {
 
 paned separator {
   background: lightgrey;
-  padding: 4px;
+  padding: 2px;
+}
+
+textview {
+  padding: 12px;
 }
 
 /* EditorThemeSelector */

@@ -51,7 +51,6 @@ struct _PtWindow
   GtkWidget *button_open;
 
   /* Main window widgets */
-  GtkWidget *controls_row_box;
   GtkWidget *controls_box;
   GtkWidget *progress;
   GtkWidget *button_play;
@@ -1217,7 +1216,6 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtWindow, pos_menu_button);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, button_open);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, progress);
-  gtk_widget_class_bind_template_child (widget_class, PtWindow, controls_row_box);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, controls_box);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, button_play);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, button_jump_back);
