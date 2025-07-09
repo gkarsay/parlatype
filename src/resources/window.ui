@@ -8,7 +8,8 @@
   <child>
     <object class="AdwBreakpoint">
       <condition>max-width: 400sp</condition>
-      <setter object="split_view" property="collapsed">True</setter>
+      <setter object="audio_split_view" property="collapsed">True</setter>
+      <setter object="text_split_view" property="collapsed">True</setter>
     </object>
   </child>
     <property name="content">
@@ -48,7 +49,7 @@
                 <property name="orientation">horizontal</property>
                 <property name="spacing">6</property>
                 <child>
-                  <object class="AdwOverlaySplitView" id="split_view">
+                  <object class="AdwOverlaySplitView" id="audio_split_view">
                     <property name="sidebar">
                       <object class="GtkBox">
                         <property name="css-name">audio_controls</property>
@@ -157,15 +158,23 @@
                 </object>
               </child> <!-- paned top child    -->
               <child>  <!-- paned bottom child -->
-                <object class="GtkScrolledWindow">
-                  <child>
-                    <object class="PtTextView" id="text_view">
-                      <property name="can_focus">True</property>
-                      <property name="hexpand">True</property>
-                      <property name="vexpand">True</property>
+                <object class="AdwOverlaySplitView" id="text_split_view">
+                  <property name="sidebar">
+                    <object class="GtkBox">
                     </object>
-                  </child>
-              </object>
+                  </property>
+                  <property name="content">
+                    <object class="GtkScrolledWindow">
+                      <child>
+                        <object class="PtTextView" id="text_view">
+                          <property name="can_focus">True</property>
+                          <property name="hexpand">True</property>
+                          <property name="vexpand">True</property>
+                        </object>
+                      </child>
+                    </object>
+                  </property>
+                </object>
             </child> <!-- child of paned -->
           </object> <!-- paned -->
         </property>  <!-- content -->
