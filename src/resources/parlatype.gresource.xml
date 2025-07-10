@@ -16,6 +16,7 @@
     <file preprocess="xml-stripblanks">icons/scalable/actions/play-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/speedometer-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/sound-wave-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/view-sidebar-start-symbolic.svg</file>
   </gresource>
   <gresource prefix="/xyz/parlatype/Parlatype/gtk">
     <file preprocess="xml-stripblanks">help-overlay.ui</file>
