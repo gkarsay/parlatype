@@ -163,27 +163,27 @@
                     </property> <!-- content -->
                   </object> <!-- split view -->
                 </child>
-                </object>
-              </child> <!-- paned top child    -->
-              <child>  <!-- paned bottom child -->
-                <object class="AdwOverlaySplitView" id="text_split_view">
-                  <property name="show-sidebar" bind-source="show_sidebar_button" bind-property="active" bind-flags="sync-create|bidirectional"/>
-                  <property name="sidebar">
-                    <object class="GtkBox">
-                    </object>
-                  </property>
-                  <property name="content">
-                    <object class="GtkScrolledWindow">
-                      <child>
-                        <object class="PtTextView" id="text_view">
-                          <property name="can_focus">True</property>
-                          <property name="hexpand">True</property>
-                          <property name="vexpand">True</property>
-                        </object>
-                      </child>
-                    </object>
-                  </property>
-                </object>
+              </object>
+            </child> <!-- paned top child    -->
+            <child>  <!-- paned bottom child -->
+              <object class="AdwOverlaySplitView" id="text_split_view">
+                <property name="show-sidebar" bind-source="show_sidebar_button" bind-property="active" bind-flags="sync-create|bidirectional"/>
+                <property name="sidebar">
+                  <object class="GtkBox">
+                  </object>
+                </property>
+                <property name="content">
+                  <object class="GtkScrolledWindow">
+                    <child>
+                      <object class="PtTextView" id="text_view">
+                        <property name="can_focus">True</property>
+                        <property name="hexpand">True</property>
+                        <property name="vexpand">True</property>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+              </object>
             </child> <!-- child of paned -->
           </object> <!-- paned -->
         </property>  <!-- content -->
