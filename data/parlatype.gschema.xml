@@ -95,6 +95,12 @@
       <summary>ID of active ASR configuration</summary>
       <description>ID of active ASR configuration</description>
     </key>
+    <key name="font-size" type="i">
+      <range min="8" max="40"/>
+      <default>11</default>
+      <summary>Font size</summary>
+      <description>Font size for text viewer.</description>
+    </key>
     <key name="style-variant" type="s">
       <choices>
         <choice value="follow"/>

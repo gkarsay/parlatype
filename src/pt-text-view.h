@@ -24,7 +24,6 @@ G_DECLARE_FINAL_TYPE (PtTextView, pt_text_view, PT, TEXT_VIEW, GtkTextView)
 
 void           pt_text_view_insert_timestamp (PtTextView *self);
 
-void           pt_text_view_set_player       (PtTextView *self,
-                                              PtPlayer   *player);
+void           pt_text_view_connect          (PtTextView *self);
 
 PtTextView    *pt_text_view_new              (void);

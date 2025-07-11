@@ -1142,7 +1142,7 @@ pt_window_init (PtWindow *self)
   pt_window_setup_dnd (self); /* this is in pt_window_dnd.c */
 
   pt_volume_button_set_player (PT_VOLUME_BUTTON (self->volume_button), self->player);
-  pt_text_view_set_player (PT_TEXT_VIEW (self->text_view), self->player);
+  pt_text_view_connect (PT_TEXT_VIEW (self->text_view));
   self->recent = gtk_recent_manager_get_default ();
   self->timer = 0;
   self->last_time = 0;

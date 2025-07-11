@@ -18,6 +18,8 @@
 
 #include "pt-text-view.h"
 
+#include "pt-window-private.h"
+
 #define DEFAULT_FONT_SIZE 12
 
 struct _PtTextView
@@ -29,7 +31,8 @@ struct _PtTextView
   GtkCssProvider *css_provider;
   int             font_size;
 
-  PtPlayer *player;
+  PtPlayer  *player;
+  GSettings *settings;
 };
 
 G_DEFINE_FINAL_TYPE (PtTextView, pt_text_view, GTK_TYPE_TEXT_VIEW)
@@ -112,6 +115,7 @@ pt_text_view_zoom (PtTextView *self,
       self->font_size = new_size;
     }
 
+  g_settings_set_int (self->settings, "font-size", self->font_size);
   pt_text_view_update_css (self);
 }
 
@@ -262,10 +266,13 @@ pt_text_view_insert_timestamp (PtTextView *self)
 }
 
 void
-pt_text_view_set_player (PtTextView *self,
-                         PtPlayer   *player)
+pt_text_view_connect (PtTextView *self)
 {
-  self->player = player;
+  PtWindow *win = PT_WINDOW (gtk_widget_get_root (GTK_WIDGET (self)));
+  self->player = _pt_window_get_player (win);
+  self->settings = _pt_window_get_settings (win);
+  self->font_size = g_settings_get_int (self->settings, "font-size");
+  pt_text_view_update_css (self);
 }
 
 static void
