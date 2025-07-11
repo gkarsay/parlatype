@@ -24,7 +24,6 @@ waveviewer scrolledwindow trough {
 progressbar > trough {
   background: transparent;
   border: transparent;
-  margin-top: -10px;
 }
 
 .ptdialog > box {

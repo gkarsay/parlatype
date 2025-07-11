@@ -144,8 +144,7 @@
                       </object> <!-- audio_controls -->
                     </property> <!-- sidebar -->
                     <property name="content">
-                      <object class="GtkBox" id="waveviewer_box">
-                        <property name="orientation">vertical</property>
+                      <object class="GtkOverlay">
                         <child>
                           <object class="PtWaveviewer" id="waveviewer">
                             <property name="css-name">waveviewer</property>
@@ -154,8 +153,9 @@
                             <property name="vexpand">True</property>
                           </object>
                         </child>
-                        <child>
+                        <child type="overlay">
                           <object class="GtkProgressBar" id="progress">
+                            <property name="valign">end</property>
                             <property name="accessible-role">presentation</property>
                           </object>
                         </child>
