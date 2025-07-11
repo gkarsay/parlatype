@@ -47,10 +47,8 @@ struct _PtWindow
   GdkClipboard *clip;
   gulong        clip_handler_id;
 
-  /* Headerbar widgets */
-  GtkWidget *button_open;
-
   /* Main window widgets */
+  GtkWidget *waveviewer_stack;
   GtkWidget *controls_box;
   GtkWidget *progress;
   GtkWidget *button_play;
@@ -598,7 +596,6 @@ pt_window_ready_to_play (PtWindow *self,
 
   if (state)
     {
-      gtk_widget_remove_css_class (self->button_open, "suggested-action");
       display_name = pt_player_get_filename (self->player);
       if (display_name)
         {
@@ -668,8 +665,9 @@ pt_window_open_file (PtWindow *self,
 {
   g_return_if_fail (uri != NULL);
 
-  gchar *current_uri;
-  int    cmp = 1;
+  gchar    *current_uri;
+  int       cmp = 1;
+  GtkStack *stack = GTK_STACK (self->waveviewer_stack);
 
   /* Don't reload already loaded waveform */
   current_uri = pt_player_get_uri (self->player);
@@ -681,9 +679,14 @@ pt_window_open_file (PtWindow *self,
   if (cmp == 0)
     return;
 
+  gtk_stack_set_visible_child (stack, gtk_stack_get_child_by_name (stack, "waveviewer"));
   pt_window_ready_to_play (self, FALSE);
   if (!pt_player_open_uri (self->player, uri))
-    return;
+    {
+      gtk_stack_set_visible_child (stack, gtk_stack_get_child_by_name (stack, "empty"));
+      return;
+    }
+
   pt_window_ready_to_play (self, TRUE);
   pt_waveviewer_load_wave_async (PT_WAVEVIEWER (self->waveviewer),
                                  uri,
@@ -1214,7 +1217,6 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtWindow, waveviewer);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, primary_menu_button);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, pos_menu_button);
-  gtk_widget_class_bind_template_child (widget_class, PtWindow, button_open);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, progress);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, controls_box);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, button_play);
@@ -1226,6 +1228,7 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtWindow, text_view);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, primary_menu);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, secondary_menu);
+  gtk_widget_class_bind_template_child (widget_class, PtWindow, waveviewer_stack);
 }
 
 PtWindow *

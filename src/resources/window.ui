@@ -24,19 +24,6 @@
                 <property name="active">True</property>
               </object>
             </child>
-            <child>
-              <object class="GtkButton" id="button_open">
-                <property name="label" translatable="yes">_Open</property>
-                <property name="can_focus">1</property>
-                <property name="receives_default">1</property>
-                <property name="tooltip_text" translatable="yes">Open a file</property>
-                <property name="action_name">app.open</property>
-                <property name="use_underline">1</property>
-                <style>
-                  <class name="suggested-action"/>
-                </style>
-              </object>
-            </child>
             <child type="end">
               <object class="GtkMenuButton" id="primary_menu_button">
                 <property name="menu-model">primary_menu</property>
@@ -144,23 +131,58 @@
                       </object> <!-- audio_controls -->
                     </property> <!-- sidebar -->
                     <property name="content">
-                      <object class="GtkOverlay">
+                      <object class="GtkStack" id="waveviewer_stack">
                         <child>
-                          <object class="PtWaveviewer" id="waveviewer">
-                            <property name="css-name">waveviewer</property>
-                            <property name="can_focus">True</property>
-                            <property name="hexpand">True</property>
-                            <property name="vexpand">True</property>
-                          </object>
+                          <object class="GtkStackPage">
+                            <property name="name">empty</property>
+                            <property name="child">
+                              <object class="AdwStatusPage">
+                                <property name="title">Audio File</property>
+                                <property name="description">Drag in or open an audio file.</property>
+                                  <child>
+                                    <object class="GtkButton">
+                                      <property name="label" translatable="yes">_Open</property>
+                                      <property name="halign">center</property>
+                                      <property name="can_focus">1</property>
+                                      <property name="receives_default">1</property>
+                                      <property name="tooltip_text" translatable="yes">Open a file</property>
+                                      <property name="action_name">app.open</property>
+                                      <property name="use_underline">1</property>
+                                      <style>
+                                        <class name="suggested-action"/>
+                                        <class name="pill"/>
+                                      </style>
+                                    </object>
+                                  </child>
+                              </object>  <!-- status page -->
+                            </property>
+                          </object> <!-- stack page empty -->
                         </child>
-                        <child type="overlay">
-                          <object class="GtkProgressBar" id="progress">
-                            <property name="valign">end</property>
-                            <property name="accessible-role">presentation</property>
-                          </object>
+                        <child>
+                          <object class="GtkStackPage">
+                            <property name="name">waveviewer</property>
+                            <property name="child">
+                              <object class="GtkOverlay">
+                                <child>
+                                  <object class="PtWaveviewer" id="waveviewer">
+                                    <property name="css-name">waveviewer</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="hexpand">True</property>
+                                    <property name="vexpand">True</property>
+                                  </object>
+                                </child>
+                                <child type="overlay">
+                                  <object class="GtkProgressBar" id="progress">
+                                    <property name="valign">end</property>
+                                    <property name="accessible-role">presentation</property>
+                                  </object>
+                                </child>
+                              </object> <!-- waveviewer_overlay -->
+                            </property>
+                          </object> <!-- stack page -->
                         </child>
-                      </object> <!-- waveviewer_box -->
-                    </property> <!-- content -->
+                      </object> <!-- stack -->
+                    </property> <!-- split view content -->
                   </object> <!-- split view -->
                 </child>
               </object>
