@@ -199,8 +199,9 @@
                     <child>
                       <object class="PtTextView" id="text_view">
                         <property name="can_focus">True</property>
-                        <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
+                        <property name="halign">start</property>
+                        <property name="width-request">400</property>
                       </object>
                     </child>
                   </object>

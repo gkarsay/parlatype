@@ -98,6 +98,26 @@ pt_text_view_update_css (PtTextView *self)
                                self->font_size);
   gtk_css_provider_load_from_string (self->css_provider, css);
   g_free (css);
+
+  /* Update width to be roughly 80 latin n characters.
+   * This is not pixel perfect, size request and actual size can differ. */
+
+  GString       *width_string;
+  PangoLayout   *layout;
+  PangoRectangle rect;
+
+  width_string = g_string_new ("");
+  for (int i = 0; i < 84; i++)
+    {
+      g_string_append (width_string, "n");
+    }
+
+  layout = gtk_widget_create_pango_layout (GTK_WIDGET (self), width_string->str);
+  pango_layout_get_pixel_extents (layout, &rect, NULL);
+  gtk_widget_set_size_request (GTK_WIDGET (self), rect.width, -1);
+
+  g_string_free (width_string, TRUE);
+  g_object_unref (layout);
 }
 
 static void
