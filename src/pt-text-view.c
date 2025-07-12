@@ -20,16 +20,15 @@
 
 #include "pt-window-private.h"
 
-#define DEFAULT_FONT_SIZE 12
-
 struct _PtTextView
 {
   GtkTextView parent;
 
-  GtkTextBuffer  *buffer;
-  GtkTextTag     *timestamp_tag;
-  GtkCssProvider *css_provider;
-  int             font_size;
+  GtkTextBuffer        *buffer;
+  GtkTextTag           *timestamp_tag;
+  GtkCssProvider       *css_provider;
+  int                   font_size;
+  PangoFontDescription *font_desc;
 
   PtPlayer  *player;
   GSettings *settings;
@@ -94,7 +93,9 @@ key_pressed (GtkEventController *controller,
 static void
 pt_text_view_update_css (PtTextView *self)
 {
-  char *css = g_strdup_printf ("textview {font-size: %dpt;}", self->font_size);
+  char *css = g_strdup_printf ("textview {font-family: %s; font-size: %dpt;}",
+                               pango_font_description_get_family (self->font_desc),
+                               self->font_size);
   gtk_css_provider_load_from_string (self->css_provider, css);
   g_free (css);
 }
@@ -105,18 +106,33 @@ pt_text_view_zoom (PtTextView *self,
 {
   if (amount == 0)
     {
-      self->font_size = DEFAULT_FONT_SIZE;
-    }
-  else
-    {
-      int new_size = self->font_size + amount;
-      if (new_size < 8 || new_size > 40)
-        return;
-      self->font_size = new_size;
+      g_settings_reset (self->settings, "font-size");
+      self->font_size = g_settings_get_int (self->settings, "font-size");
+      pt_text_view_update_css (self);
+      return;
     }
 
-  g_settings_set_int (self->settings, "font-size", self->font_size);
-  pt_text_view_update_css (self);
+  int new_size = self->font_size + amount;
+
+  /* Check for supported range */
+  gboolean            in_range;
+  GSettingsSchema    *schema;
+  GSettingsSchemaKey *key;
+  GVariant           *value = g_variant_new ("i", new_size);
+
+  g_object_get (self->settings, "settings-schema", &schema, NULL);
+  key = g_settings_schema_get_key (schema, "font-size");
+  in_range = g_settings_schema_key_range_check (key, value);
+
+  g_settings_schema_unref (schema);
+  g_settings_schema_key_unref (key);
+  g_variant_unref (value);
+
+  if (in_range && g_settings_set_int (self->settings, "font-size", new_size))
+    {
+      self->font_size = new_size;
+      pt_text_view_update_css (self);
+    }
 }
 
 static void
@@ -265,6 +281,17 @@ pt_text_view_insert_timestamp (PtTextView *self)
   gtk_text_buffer_insert_with_tags_by_name (self->buffer, &iter, timestamp, -1, "timestamp", NULL);
 }
 
+static void
+on_notify_document_font_name_cb (PtTextView      *self,
+                                 GParamSpec      *pspec,
+                                 AdwStyleManager *style_manager)
+{
+  const gchar *font = adw_style_manager_get_document_font_name (style_manager);
+  g_clear_pointer (&self->font_desc, pango_font_description_free);
+  self->font_desc = pango_font_description_from_string (font);
+  pt_text_view_update_css (self);
+}
+
 void
 pt_text_view_connect (PtTextView *self)
 {
@@ -281,6 +308,7 @@ pt_text_view_dispose (GObject *object)
   PtTextView *self = PT_TEXT_VIEW (object);
 
   g_clear_object (&self->css_provider);
+  g_clear_pointer (&self->font_desc, pango_font_description_free);
 
   G_OBJECT_CLASS (pt_text_view_parent_class)->dispose (object);
 }
@@ -324,10 +352,17 @@ pt_text_view_init (PtTextView *self)
   GdkDisplay *display = gdk_display_get_default ();
   gtk_style_context_add_provider_for_display (display, GTK_STYLE_PROVIDER (self->css_provider),
                                               GTK_STYLE_PROVIDER_PRIORITY_SETTINGS);
-  self->font_size = DEFAULT_FONT_SIZE;
-  pt_text_view_update_css (self);
 
   gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (self), GTK_WRAP_WORD);
+
+  AdwStyleManager *style_manager = adw_style_manager_get_default ();
+  const gchar     *font = adw_style_manager_get_document_font_name (style_manager);
+  self->font_desc = pango_font_description_from_string (font);
+  g_signal_connect_object (style_manager,
+                           "notify::document-font-name",
+                           G_CALLBACK (on_notify_document_font_name_cb),
+                           self,
+                           G_CONNECT_SWAPPED);
 }
 
 static void
