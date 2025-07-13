@@ -140,12 +140,12 @@ goto_timestamp_from_clipboard (GtkWidget  *widget,
       self);
 }
 
-void
-insert_timestamp (GSimpleAction *action,
-                  GVariant      *parameter,
-                  gpointer       user_data)
+static void
+insert_timestamp (GtkWidget  *widget,
+                  const char *action_name,
+                  GVariant   *param)
 {
-  PtWindow *self = PT_WINDOW (user_data);
+  PtWindow *self = PT_WINDOW (widget);
 
   pt_text_view_insert_timestamp (PT_TEXT_VIEW (self->text_view));
 }
@@ -168,12 +168,12 @@ goto_dialog_response_cb (GtkDialog *dlg,
   gtk_window_destroy (GTK_WINDOW (dlg));
 }
 
-void
-goto_position (GSimpleAction *action,
-               GVariant      *parameter,
-               gpointer       user_data)
+static void
+goto_position (GtkWidget  *widget,
+               const char *action_name,
+               GVariant   *param)
 {
-  PtWindow *self = PT_WINDOW (user_data);
+  PtWindow *self = PT_WINDOW (widget);
 
   PtGotoDialog *dlg;
 
@@ -187,42 +187,42 @@ goto_position (GSimpleAction *action,
   gtk_window_present (GTK_WINDOW (dlg));
 }
 
-void
-goto_cursor (GSimpleAction *action,
-             GVariant      *parameter,
-             gpointer       user_data)
+static void
+goto_cursor (GtkWidget  *widget,
+             const char *action_name,
+             GVariant   *param)
 {
-  PtWindow *self = PT_WINDOW (user_data);
+  PtWindow *self = PT_WINDOW (widget);
 
   pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (self->waveviewer), TRUE);
 }
 
-void
-jump_back (GSimpleAction *action,
-           GVariant      *parameter,
-           gpointer       user_data)
+static void
+jump_back (GtkWidget  *widget,
+           const char *action_name,
+           GVariant   *param)
 {
-  PtWindow *self = PT_WINDOW (user_data);
+  PtWindow *self = PT_WINDOW (widget);
 
   pt_player_jump_back (self->player);
 }
 
-void
-jump_forward (GSimpleAction *action,
-              GVariant      *parameter,
-              gpointer       user_data)
+static void
+jump_forward (GtkWidget  *widget,
+              const char *action_name,
+              GVariant   *param)
 {
-  PtWindow *self = PT_WINDOW (user_data);
+  PtWindow *self = PT_WINDOW (widget);
 
   pt_player_jump_forward (self->player);
 }
 
-void
-play (GSimpleAction *action,
-      GVariant      *parameter,
-      gpointer       user_data)
+static void
+play (GtkWidget  *widget,
+      const char *action_name,
+      GVariant   *param)
 {
-  PtWindow *self = PT_WINDOW (user_data);
+  PtWindow *self = PT_WINDOW (widget);
 
   pt_player_play_pause (self->player);
 }
@@ -322,14 +322,8 @@ change_mode (GSimpleAction *action,
 
 const GActionEntry win_actions[] = {
   { "mode", NULL, "s", "'playback'", change_mode },
-  { "insert-timestamp", insert_timestamp, NULL, NULL, NULL },
-  { "goto", goto_position, NULL, NULL, NULL },
-  { "goto-cursor", goto_cursor, NULL, NULL, NULL },
   { "zoom-in", zoom_in, NULL, NULL, NULL },
   { "zoom-out", zoom_out, NULL, NULL, NULL },
-  { "jump-back", jump_back, NULL, NULL, NULL },
-  { "jump-forward", jump_forward, NULL, NULL, NULL },
-  { "play", play, NULL, NULL, NULL }
 };
 
 static void
@@ -526,12 +520,10 @@ update_goto_cursor_action_sensitivity (GObject    *gobject,
 {
   PtWaveviewer *viewer = PT_WAVEVIEWER (gobject);
   PtWindow     *self = PT_WINDOW (user_data);
-  GAction      *action;
   gboolean      follow;
 
-  action = g_action_map_lookup_action (G_ACTION_MAP (self), "goto-cursor");
   follow = pt_waveviewer_get_follow_cursor (viewer);
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), !follow);
+  gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.goto-cursor", !follow);
 }
 
 static void
@@ -544,6 +536,11 @@ enable_win_actions (PtWindow *self,
   action = g_action_map_lookup_action (G_ACTION_MAP (self), "mode");
   g_simple_action_set_enabled (G_SIMPLE_ACTION (action), TRUE);
 
+  gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.jump-back", state);
+  gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.jump-forward", state);
+  gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.play", state);
+
+  gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.insert-timestamp", state);
   gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.copy-timestamp-to-clipboard", state);
 
   /* always disable on request, enable only conditionally */
@@ -556,12 +553,10 @@ enable_win_actions (PtWindow *self,
       update_insert_action_sensitivity (self->clip, self);
     }
 
-  action = g_action_map_lookup_action (G_ACTION_MAP (self), "goto");
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
+  gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.goto", state);
 
   /* always insensitive: either there is no waveform or we are already at cursor position */
-  action = g_action_map_lookup_action (G_ACTION_MAP (self), "goto-cursor");
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), FALSE);
+  gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.goto-cursor", FALSE);
 
   action = g_action_map_lookup_action (G_ACTION_MAP (self), "zoom-in");
   g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
@@ -584,8 +579,6 @@ pt_window_ready_to_play (PtWindow *self,
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->button_play), FALSE);
 
   gtk_widget_set_sensitive (self->button_play, state);
-  gtk_widget_set_sensitive (self->button_jump_back, state);
-  gtk_widget_set_sensitive (self->button_jump_forward, state);
   gtk_widget_set_sensitive (self->volume_button, state);
 
   if (state)
@@ -1226,9 +1219,20 @@ pt_window_class_init (PtWindowClass *klass)
 
   gtk_widget_class_install_action (widget_class, "win.copy-timestamp-to-clipboard", NULL, copy_timestamp_to_clipboard);
   gtk_widget_class_install_action (widget_class, "win.goto-timestamp-from-clipboard", NULL, goto_timestamp_from_clipboard);
+  gtk_widget_class_install_action (widget_class, "win.goto", NULL, goto_position);
+  gtk_widget_class_install_action (widget_class, "win.goto-cursor", NULL, goto_cursor);
+  gtk_widget_class_install_action (widget_class, "win.insert-timestamp", NULL, insert_timestamp);
+  gtk_widget_class_install_action (widget_class, "win.jump-back", NULL, jump_back);
+  gtk_widget_class_install_action (widget_class, "win.jump-forward", NULL, jump_forward);
+  gtk_widget_class_install_action (widget_class, "win.play", NULL, play);
 
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_c, GDK_CONTROL_MASK | GDK_SHIFT_MASK, "win.copy-timestamp-to-clipboard", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_v, GDK_CONTROL_MASK | GDK_SHIFT_MASK, "win.goto-timestamp-from-clipboard", NULL);
+  gtk_widget_class_add_binding_action (widget_class, GDK_KEY_g, GDK_CONTROL_MASK, "win.goto", NULL);
+  gtk_widget_class_add_binding_action (widget_class, GDK_KEY_a, GDK_CONTROL_MASK, "win.jump-back", NULL);
+  gtk_widget_class_add_binding_action (widget_class, GDK_KEY_s, GDK_CONTROL_MASK, "win.jump-forward", NULL);
+  gtk_widget_class_add_binding_action (widget_class, GDK_KEY_space, GDK_CONTROL_MASK, "win.play", NULL);
+  gtk_widget_class_add_binding_action (widget_class, GDK_KEY_t, GDK_CONTROL_MASK, "win.insert-timestamp", NULL);
 }
 
 PtWindow *
