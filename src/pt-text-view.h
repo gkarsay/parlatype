@@ -26,4 +26,10 @@ void           pt_text_view_insert_timestamp (PtTextView *self);
 
 void           pt_text_view_connect          (PtTextView *self);
 
+void           pt_text_view_save             (PtTextView *self,
+                                              GFile      *file);
+
+void           pt_text_view_load             (PtTextView *self,
+                                              GFile      *file);
+
 PtTextView    *pt_text_view_new              (void);

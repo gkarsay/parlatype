@@ -192,6 +192,22 @@
                 <property name="show-sidebar" bind-source="show_sidebar_button" bind-property="active" bind-flags="sync-create|bidirectional"/>
                 <property name="sidebar">
                   <object class="GtkBox">
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">6</property>
+                    <property name="halign">center</property>
+                    <property name="margin-top">12</property>
+                    <child>
+                      <object class="GtkButton">
+                        <property name="label">Serialize</property>
+                        <property name="action_name">win.serialize</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton">
+                        <property name="label">Deserialize</property>
+                        <property name="action_name">win.deserialize</property>
+                      </object>
+                    </child>
                   </object>
                 </property>
                 <property name="content">

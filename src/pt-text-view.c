@@ -18,6 +18,8 @@
 
 #include "pt-text-view.h"
 
+#include "pt-file-loader.h"
+#include "pt-file-saver.h"
 #include "pt-text-buffer.h"
 #include "pt-window-private.h"
 
@@ -430,6 +432,34 @@ pt_text_view_paste_clipboard (GtkTextView *text_view)
 
   pt_text_buffer_paste_clipboard (self->buffer,
                                   clipboard);
+}
+
+void
+pt_text_view_save (PtTextView *self,
+                   GFile      *file)
+{
+  GFile       *test_file;
+  PtFileSaver *saver;
+
+  g_print ("%s\n", __func__);
+
+  test_file = g_file_new_for_path ("/home/gabor/parlatype-test.xml");
+  saver = pt_file_saver_new (self->buffer, test_file);
+  pt_file_saver_save (saver);
+}
+
+void
+pt_text_view_load (PtTextView *self,
+                   GFile      *file)
+{
+  GFile        *test_file;
+  PtFileLoader *loader;
+
+  g_print ("%s\n", __func__);
+
+  test_file = g_file_new_for_path ("/home/gabor/parlatype-test.xml");
+  loader = pt_file_loader_new (self->buffer, test_file);
+  pt_file_loader_load (loader);
 }
 
 static void

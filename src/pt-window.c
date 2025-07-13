@@ -333,6 +333,26 @@ change_mode (GSimpleAction *action,
     g_simple_action_set_state (action, state);
 }
 
+void
+serialize (GtkWidget  *widget,
+           const char *action_name,
+           GVariant   *param)
+{
+  PtWindow *self = PT_WINDOW (widget);
+
+  pt_text_view_save (PT_TEXT_VIEW (self->text_view), NULL);
+}
+
+void
+deserialize (GtkWidget  *widget,
+             const char *action_name,
+             GVariant   *param)
+{
+  PtWindow *self = PT_WINDOW (widget);
+
+  pt_text_view_load (PT_TEXT_VIEW (self->text_view), NULL);
+}
+
 const GActionEntry win_actions[] = {
   { "mode", NULL, "s", "'playback'", change_mode },
 };
@@ -1237,6 +1257,8 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_install_action (widget_class, "win.zoom-in", NULL, zoom_in);
   gtk_widget_class_install_action (widget_class, "win.zoom-out", NULL, zoom_out);
   gtk_widget_class_install_action (widget_class, "win.zoom-default", NULL, zoom_default);
+  gtk_widget_class_install_action (widget_class, "win.serialize", NULL, serialize);
+  gtk_widget_class_install_action (widget_class, "win.deserialize", NULL, deserialize);
 
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_c, GDK_CONTROL_MASK | GDK_SHIFT_MASK, "win.copy-timestamp-to-clipboard", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_v, GDK_CONTROL_MASK | GDK_SHIFT_MASK, "win.goto-timestamp-from-clipboard", NULL);
