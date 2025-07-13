@@ -376,8 +376,6 @@ pt_app_startup (GApplication *app)
 
   const gchar *quit_accels[2] = { "<Primary>Q", NULL };
   const gchar *open_accels[2] = { "<Primary>O", NULL };
-  const gchar *copy_accels[2] = { "<Primary>C", NULL };
-  const gchar *insert_accels[2] = { "<Primary>V", NULL };
   const gchar *goto_accels[2] = { "<Primary>G", NULL };
   const gchar *help_accels[2] = { "F1", NULL };
   const gchar *zoom_in_accels[3] = { "<Primary>plus", "<Primary>KP_Add", NULL };
@@ -392,12 +390,6 @@ pt_app_startup (GApplication *app)
 
   gtk_application_set_accels_for_action (GTK_APPLICATION (self),
                                          "app.open", open_accels);
-
-  gtk_application_set_accels_for_action (GTK_APPLICATION (self),
-                                         "win.copy", copy_accels);
-
-  gtk_application_set_accels_for_action (GTK_APPLICATION (self),
-                                         "win.insert", insert_accels);
 
   gtk_application_set_accels_for_action (GTK_APPLICATION (self),
                                          "win.goto", goto_accels);

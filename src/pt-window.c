@@ -90,12 +90,12 @@ pt_error_message (PtWindow *parent,
   g_object_unref (dialog);
 }
 
-void
-copy_timestamp (GSimpleAction *action,
-                GVariant      *parameter,
-                gpointer       user_data)
+static void
+copy_timestamp_to_clipboard (GtkWidget  *widget,
+                             const char *action_name,
+                             GVariant   *param)
 {
-  PtWindow    *self = PT_WINDOW (user_data);
+  PtWindow    *self = PT_WINDOW (widget);
   const gchar *timestamp = NULL;
 
   timestamp = pt_player_get_timestamp (self->player);
@@ -126,12 +126,12 @@ clip_text_cb (GdkClipboard *clip,
   g_free (timestamp);
 }
 
-void
-apply_timestamp (GSimpleAction *action,
-                 GVariant      *parameter,
-                 gpointer       user_data)
+static void
+goto_timestamp_from_clipboard (GtkWidget  *widget,
+                               const char *action_name,
+                               GVariant   *param)
 {
-  PtWindow *self = PT_WINDOW (user_data);
+  PtWindow *self = PT_WINDOW (widget);
 
   gdk_clipboard_read_text_async (
       self->clip,
@@ -322,8 +322,6 @@ change_mode (GSimpleAction *action,
 
 const GActionEntry win_actions[] = {
   { "mode", NULL, "s", "'playback'", change_mode },
-  { "copy", copy_timestamp, NULL, NULL, NULL },
-  { "apply", apply_timestamp, NULL, NULL, NULL },
   { "insert-timestamp", insert_timestamp, NULL, NULL, NULL },
   { "goto", goto_position, NULL, NULL, NULL },
   { "goto-cursor", goto_cursor, NULL, NULL, NULL },
@@ -475,7 +473,6 @@ update_insert_action_sensitivity_cb (GdkClipboard *clip,
   gchar    *text;
   gchar    *timestamp = NULL;
   gboolean  result = FALSE;
-  GAction  *action;
   int       pos;
   gchar    *label;
 
@@ -506,8 +503,7 @@ update_insert_action_sensitivity_cb (GdkClipboard *clip,
   g_menu_insert_item (G_MENU (self->secondary_menu), 1, self->go_to_timestamp);
   g_free (label);
 
-  action = g_action_map_lookup_action (G_ACTION_MAP (self), "apply");
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), result);
+  gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.goto-timestamp-from-clipboard", result);
 }
 
 static void
@@ -548,14 +544,12 @@ enable_win_actions (PtWindow *self,
   action = g_action_map_lookup_action (G_ACTION_MAP (self), "mode");
   g_simple_action_set_enabled (G_SIMPLE_ACTION (action), TRUE);
 
-  action = g_action_map_lookup_action (G_ACTION_MAP (self), "copy");
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
+  gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.copy-timestamp-to-clipboard", state);
 
   /* always disable on request, enable only conditionally */
   if (!state)
     {
-      action = g_action_map_lookup_action (G_ACTION_MAP (self), "apply");
-      g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
+      gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.goto-timestamp-from-clipboard", state);
     }
   else
     {
@@ -1037,7 +1031,7 @@ setup_accels_actions_menus (PtWindow *self)
   g_menu_append_item (self->asr_menu, self->asr_menu_item1);
   g_menu_append_item (self->asr_menu, self->asr_menu_item2);
 
-  self->go_to_timestamp = g_menu_item_new (_ ("Go to Time in Clipboard"), "win.insert");
+  self->go_to_timestamp = g_menu_item_new (_ ("Go to Time in Clipboard"), "win.goto-timestamp-from-clipboard");
   g_menu_insert_item (G_MENU (self->secondary_menu), 1, self->go_to_timestamp);
 }
 
@@ -1229,6 +1223,12 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtWindow, primary_menu);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, secondary_menu);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, waveviewer_stack);
+
+  gtk_widget_class_install_action (widget_class, "win.copy-timestamp-to-clipboard", NULL, copy_timestamp_to_clipboard);
+  gtk_widget_class_install_action (widget_class, "win.goto-timestamp-from-clipboard", NULL, goto_timestamp_from_clipboard);
+
+  gtk_widget_class_add_binding_action (widget_class, GDK_KEY_c, GDK_CONTROL_MASK | GDK_SHIFT_MASK, "win.copy-timestamp-to-clipboard", NULL);
+  gtk_widget_class_add_binding_action (widget_class, GDK_KEY_v, GDK_CONTROL_MASK | GDK_SHIFT_MASK, "win.goto-timestamp-from-clipboard", NULL);
 }
 
 PtWindow *
