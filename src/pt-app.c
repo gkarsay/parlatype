@@ -377,8 +377,6 @@ pt_app_startup (GApplication *app)
   const gchar *quit_accels[2] = { "<Primary>Q", NULL };
   const gchar *open_accels[2] = { "<Primary>O", NULL };
   const gchar *help_accels[2] = { "F1", NULL };
-  const gchar *zoom_in_accels[3] = { "<Primary>plus", "<Primary>KP_Add", NULL };
-  const gchar *zoom_out_accels[3] = { "<Primary>minus", "<Primary>KP_Subtract", NULL };
 
   gtk_application_set_accels_for_action (GTK_APPLICATION (self),
                                          "app.quit", quit_accels);
@@ -388,12 +386,6 @@ pt_app_startup (GApplication *app)
 
   gtk_application_set_accels_for_action (GTK_APPLICATION (self),
                                          "app.help", help_accels);
-
-  gtk_application_set_accels_for_action (GTK_APPLICATION (self),
-                                         "win.zoom-in", zoom_in_accels);
-
-  gtk_application_set_accels_for_action (GTK_APPLICATION (self),
-                                         "win.zoom-out", zoom_out_accels);
 
   style_manager = adw_style_manager_get_default ();
   g_settings_bind_with_mapping (self->settings, "style-variant",

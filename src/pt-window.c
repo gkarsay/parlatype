@@ -232,30 +232,43 @@ set_zoom (GSettings *editor,
           int        step)
 {
   int pps;
+  int new_pps;
 
   pps = g_settings_get_int (editor, "pps");
   if ((step > 0 && pps >= 200) || (step < 0 && pps <= 25))
     return;
 
-  g_settings_set_int (editor, "pps", CLAMP (pps + step, 25, 200));
+  new_pps = (step == 0) ? 100 : CLAMP (pps + step, 25, 200);
+
+  g_settings_set_int (editor, "pps", new_pps);
 }
 
-void
-zoom_in (GSimpleAction *action,
-         GVariant      *parameter,
-         gpointer       user_data)
+static void
+zoom_in (GtkWidget  *widget,
+         const char *action_name,
+         GVariant   *param)
 {
-  PtWindow *self = PT_WINDOW (user_data);
+  PtWindow *self = PT_WINDOW (widget);
+
   set_zoom (self->editor, 25);
 }
 
-void
-zoom_out (GSimpleAction *action,
-          GVariant      *parameter,
-          gpointer       user_data)
+static void
+zoom_out (GtkWidget  *widget,
+          const char *action_name,
+          GVariant   *param)
 {
-  PtWindow *self = PT_WINDOW (user_data);
+  PtWindow *self = PT_WINDOW (widget);
   set_zoom (self->editor, -25);
+}
+
+static void
+zoom_default (GtkWidget  *widget,
+              const char *action_name,
+              GVariant   *param)
+{
+  PtWindow *self = PT_WINDOW (widget);
+  set_zoom (self->editor, 0);
 }
 
 static gboolean
@@ -322,8 +335,6 @@ change_mode (GSimpleAction *action,
 
 const GActionEntry win_actions[] = {
   { "mode", NULL, "s", "'playback'", change_mode },
-  { "zoom-in", zoom_in, NULL, NULL, NULL },
-  { "zoom-out", zoom_out, NULL, NULL, NULL },
 };
 
 static void
@@ -558,11 +569,9 @@ enable_win_actions (PtWindow *self,
   /* always insensitive: either there is no waveform or we are already at cursor position */
   gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.goto-cursor", FALSE);
 
-  action = g_action_map_lookup_action (G_ACTION_MAP (self), "zoom-in");
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
-
-  action = g_action_map_lookup_action (G_ACTION_MAP (self), "zoom-out");
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
+  gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.zoom-in", state);
+  gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.zoom-out", state);
+  gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.zoom-default", state);
 }
 
 static void
@@ -1225,6 +1234,9 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_install_action (widget_class, "win.jump-back", NULL, jump_back);
   gtk_widget_class_install_action (widget_class, "win.jump-forward", NULL, jump_forward);
   gtk_widget_class_install_action (widget_class, "win.play", NULL, play);
+  gtk_widget_class_install_action (widget_class, "win.zoom-in", NULL, zoom_in);
+  gtk_widget_class_install_action (widget_class, "win.zoom-out", NULL, zoom_out);
+  gtk_widget_class_install_action (widget_class, "win.zoom-default", NULL, zoom_default);
 
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_c, GDK_CONTROL_MASK | GDK_SHIFT_MASK, "win.copy-timestamp-to-clipboard", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_v, GDK_CONTROL_MASK | GDK_SHIFT_MASK, "win.goto-timestamp-from-clipboard", NULL);
@@ -1233,6 +1245,11 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_s, GDK_CONTROL_MASK, "win.jump-forward", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_space, GDK_CONTROL_MASK, "win.play", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_t, GDK_CONTROL_MASK, "win.insert-timestamp", NULL);
+  gtk_widget_class_add_binding_action (widget_class, GDK_KEY_plus, GDK_CONTROL_MASK, "win.zoom-in", NULL);
+  gtk_widget_class_add_binding_action (widget_class, GDK_KEY_KP_Add, GDK_CONTROL_MASK, "win.zoom-in", NULL);
+  gtk_widget_class_add_binding_action (widget_class, GDK_KEY_minus, GDK_CONTROL_MASK, "win.zoom-out", NULL);
+  gtk_widget_class_add_binding_action (widget_class, GDK_KEY_KP_Subtract, GDK_CONTROL_MASK, "win.zoom-out", NULL);
+  gtk_widget_class_add_binding_action (widget_class, GDK_KEY_0, GDK_CONTROL_MASK, "win.zoom-default", NULL);
 }
 
 PtWindow *
