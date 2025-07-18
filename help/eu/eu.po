@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Parlatype 3.1\n"
 "POT-Creation-Date: 2024-05-13 21:21+0200\n"
-"PO-Revision-Date: 2025-02-08 05:01+0000\n"
+"PO-Revision-Date: 2025-07-19 22:02+0000\n"
 "Last-Translator: Alexander Gabilondo <alexgabi@openmailbox.org>\n"
 "Language-Team: Basque <https://hosted.weblate.org/projects/parlatype/"
 "parlatype-help/eu/>\n"
@@ -11,12 +11,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10-dev\n"
+"X-Generator: Weblate 5.13-dev\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr "Launchpad Contributions:  Alexander Gabilondo"
+msgstr "Launchpad Contributions: Alexander Gabilondo"
 
 #. (itstool) path: info/title
 #: ../help/C/index.page:7
