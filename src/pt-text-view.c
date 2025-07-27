@@ -18,13 +18,14 @@
 
 #include "pt-text-view.h"
 
+#include "pt-text-buffer.h"
 #include "pt-window-private.h"
 
 struct _PtTextView
 {
   GtkTextView parent;
 
-  GtkTextBuffer        *buffer;
+  PtTextBuffer         *buffer;
   GtkTextTag           *timestamp_tag;
   GtkCssProvider       *css_provider;
   int                   font_size;
@@ -47,7 +48,7 @@ get_timestamp_at_iter (PtTextView *self,
   if (gtk_text_iter_backward_to_tag_toggle (&start, self->timestamp_tag) &&
       gtk_text_iter_forward_to_tag_toggle (&end, self->timestamp_tag))
     {
-      timestamp = gtk_text_buffer_get_text (self->buffer, &start, &end, FALSE);
+      timestamp = gtk_text_buffer_get_text (GTK_TEXT_BUFFER (self->buffer), &start, &end, FALSE);
     }
 
   return timestamp;
@@ -72,15 +73,59 @@ key_pressed (GtkEventController *controller,
              GdkModifierType     modifiers,
              PtTextView         *self)
 {
-  GtkTextIter iter;
+  GtkTextIter         iter;
+  GtkTextChildAnchor *anchor;
+  guint               out_len;
+
+  gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER (self->buffer), &iter,
+                                    gtk_text_buffer_get_insert (GTK_TEXT_BUFFER (self->buffer)));
 
   switch (keyval)
     {
-    case GDK_KEY_Return:
-    case GDK_KEY_KP_Enter:
-      gtk_text_buffer_get_iter_at_mark (self->buffer, &iter,
-                                        gtk_text_buffer_get_insert (self->buffer));
-      goto_timestamp_at_iter (self, iter);
+    case GDK_KEY_Left:
+      g_print ("left\n");
+      gtk_text_iter_backward_char (&iter);
+      anchor = gtk_text_iter_get_child_anchor (&iter);
+      if (anchor != NULL && gtk_text_view_get_cursor_visible (GTK_TEXT_VIEW (self)))
+        {
+          g_print ("anchor\n");
+          gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (self), FALSE);
+          gtk_text_view_set_editable (GTK_TEXT_VIEW (self), FALSE);
+          GtkWidget **list = gtk_text_child_anchor_get_widgets (anchor, &out_len);
+          gtk_widget_grab_focus (list[0]);
+        }
+      else
+        {
+          if (!gtk_text_view_get_cursor_visible (GTK_TEXT_VIEW (self)))
+            {
+              gtk_widget_grab_focus (GTK_WIDGET (self));
+              gtk_text_view_set_editable (GTK_TEXT_VIEW (self), TRUE);
+              gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (self), TRUE);
+            }
+        }
+      break;
+    case GDK_KEY_Right:
+      g_print ("right\n");
+      anchor = gtk_text_iter_get_child_anchor (&iter);
+      g_print ("anchor : %s\n", (anchor == NULL) ? "no" : "yes");
+      g_print ("visible: %s\n", (gtk_text_view_get_cursor_visible (GTK_TEXT_VIEW (self))) ? "yes" : "no");
+      if (anchor != NULL && gtk_text_view_get_cursor_visible (GTK_TEXT_VIEW (self)))
+        {
+          g_print ("anchor\n");
+          gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (self), FALSE);
+          gtk_text_view_set_editable (GTK_TEXT_VIEW (self), FALSE);
+          GtkWidget **list = gtk_text_child_anchor_get_widgets (anchor, &out_len);
+          gtk_widget_grab_focus (list[0]);
+        }
+      else
+        {
+          if (!gtk_text_view_get_cursor_visible (GTK_TEXT_VIEW (self)))
+            {
+              gtk_widget_grab_focus (GTK_WIDGET (self));
+              gtk_text_view_set_editable (GTK_TEXT_VIEW (self), TRUE);
+              gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (self), TRUE);
+            }
+        }
       break;
 
     default:
@@ -277,14 +322,25 @@ css_parsing_error (GtkCssProvider *self,
   g_printerr ("CSS error: %s\n", error->message);
 }
 
+static void
+timestamp_clicked (GtkButton *button,
+                   gpointer   user_data)
+{
+  PtTextView *self = PT_TEXT_VIEW (user_data);
+  char       *timestamp = g_strdup (gtk_button_get_label (button));
+  pt_player_goto_timestamp (self->player, timestamp);
+  g_free (timestamp);
+}
+
 void
 pt_text_view_insert_timestamp (PtTextView *self)
 {
-  GtkTextIter iter;
-  char       *timestamp;
+  GtkTextChildAnchor *anchor;
+  GtkTextIter         iter;
+  char               *timestamp;
 
-  gtk_text_buffer_get_iter_at_mark (self->buffer, &iter,
-                                    gtk_text_buffer_get_insert (self->buffer));
+  gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER (self->buffer), &iter,
+                                    gtk_text_buffer_get_insert (GTK_TEXT_BUFFER (self->buffer)));
 
   /* Don't insert into existing timestamp */
   timestamp = get_timestamp_at_iter (self, iter);
@@ -298,7 +354,14 @@ pt_text_view_insert_timestamp (PtTextView *self)
   if (timestamp == NULL)
     return;
 
-  gtk_text_buffer_insert_with_tags_by_name (self->buffer, &iter, timestamp, -1, "timestamp", NULL);
+  anchor = gtk_text_child_anchor_new ();
+  gtk_text_buffer_insert_child_anchor (GTK_TEXT_BUFFER (self->buffer), &iter, anchor);
+  GtkWidget *child = gtk_button_new_with_label (timestamp);
+  gtk_text_view_add_child_at_anchor (GTK_TEXT_VIEW (self), child, anchor);
+  g_signal_connect (child, "clicked", G_CALLBACK (timestamp_clicked), self);
+  gtk_text_buffer_insert_with_tags_by_name (GTK_TEXT_BUFFER (self->buffer), &iter, timestamp, -1, "widget", NULL);
+
+  g_free (timestamp);
 }
 
 static void
@@ -336,25 +399,31 @@ pt_text_view_dispose (GObject *object)
 static void
 pt_text_view_init (PtTextView *self)
 {
-  self->buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (self));
+  self->buffer = pt_text_buffer_new ();
+  gtk_text_view_set_buffer (GTK_TEXT_VIEW (self), GTK_TEXT_BUFFER (self->buffer));
 
   /* Create timestamp tag */
-  gtk_text_buffer_create_tag (self->buffer, "timestamp",
+  gtk_text_buffer_create_tag (GTK_TEXT_BUFFER (self->buffer), "timestamp",
                               "family", "monospace",
                               "background", "yellow",
                               "editable", false,
                               NULL);
-  GtkTextTagTable *tag_table = gtk_text_buffer_get_tag_table (self->buffer);
+  GtkTextTagTable *tag_table = gtk_text_buffer_get_tag_table (GTK_TEXT_BUFFER (self->buffer));
   self->timestamp_tag = gtk_text_tag_table_lookup (tag_table, "timestamp");
+
+  /* experimental */
+  gtk_text_buffer_create_tag (GTK_TEXT_BUFFER (self->buffer), "widget",
+                              "invisible", TRUE,
+                              NULL);
 
   /* Controllers */
   GtkEventController *controller = gtk_event_controller_key_new ();
   g_signal_connect (controller, "key-pressed", G_CALLBACK (key_pressed), self);
   gtk_widget_add_controller (GTK_WIDGET (self), controller);
 
-  controller = GTK_EVENT_CONTROLLER (gtk_gesture_click_new ());
+  /*controller = GTK_EVENT_CONTROLLER (gtk_gesture_click_new ());
   g_signal_connect (controller, "released", G_CALLBACK (released_cb), self);
-  gtk_widget_add_controller (GTK_WIDGET (self), controller);
+  gtk_widget_add_controller (GTK_WIDGET (self), controller);*/
 
   controller = gtk_event_controller_motion_new ();
   g_signal_connect (controller, "motion", G_CALLBACK (motion_cb), self);

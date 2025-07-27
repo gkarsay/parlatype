@@ -19,6 +19,8 @@ parlatype_sources = [
   'pt-preferences.c',
   'pt-prefs-info-row.c',
   'pt-prefs-install-row.c',
+  'pt-text-buffer.c',
+  'pt-text-buffer-content.c',
   'pt-text-view.c',
   'pt-volume-button.c',
   'pt-window.c',
