@@ -138,8 +138,10 @@ key_pressed (GtkEventController *controller,
 static void
 pt_text_view_update_css (PtTextView *self)
 {
-  char *css = g_strdup_printf ("textview {font-family: %s; font-size: %dpt;}",
+  char *css = g_strdup_printf ("textview {font-family: %s; font-size: %dpt;} "
+                               "textview button {font-size: calc(%dpt * 0.8); padding: 0.3em; margin-bottom: -0.3em; margin-left: 0.5em; margin-right: 0.5em;}",
                                pango_font_description_get_family (self->font_desc),
+                               self->font_size,
                                self->font_size);
   gtk_css_provider_load_from_string (self->css_provider, css);
   g_free (css);
@@ -359,7 +361,6 @@ pt_text_view_insert_timestamp (PtTextView *self)
   GtkWidget *child = gtk_button_new_with_label (timestamp);
   gtk_text_view_add_child_at_anchor (GTK_TEXT_VIEW (self), child, anchor);
   g_signal_connect (child, "clicked", G_CALLBACK (timestamp_clicked), self);
-  gtk_text_buffer_insert_with_tags_by_name (GTK_TEXT_BUFFER (self->buffer), &iter, timestamp, -1, "widget", NULL);
 
   g_free (timestamp);
 }
@@ -386,6 +387,39 @@ pt_text_view_connect (PtTextView *self)
 }
 
 static void
+pt_text_view_copy_clipboard (GtkTextView *text_view)
+{
+  g_print ("%s\n", __func__);
+  GdkClipboard *clipboard = gtk_widget_get_clipboard (GTK_WIDGET (text_view));
+  PtTextView   *self = PT_TEXT_VIEW (text_view);
+
+  pt_text_buffer_copy_clipboard (self->buffer, clipboard);
+}
+
+static void
+pt_text_view_cut_clipboard (GtkTextView *text_view)
+{
+  g_print ("%s\n", __func__);
+  GdkClipboard *clipboard = gtk_widget_get_clipboard (GTK_WIDGET (text_view));
+  PtTextView   *self = PT_TEXT_VIEW (text_view);
+
+  pt_text_buffer_cut_clipboard (self->buffer, clipboard, TRUE);
+}
+
+static void
+pt_text_view_paste_clipboard (GtkTextView *text_view)
+{
+  g_print ("%s\n", __func__);
+  GdkClipboard *clipboard = gtk_widget_get_clipboard (GTK_WIDGET (text_view));
+  PtTextView   *self = PT_TEXT_VIEW (text_view);
+
+  /*text_view->priv->scroll_after_paste = TRUE;*/
+
+  pt_text_buffer_paste_clipboard (self->buffer,
+                                  clipboard);
+}
+
+static void
 pt_text_view_dispose (GObject *object)
 {
   PtTextView *self = PT_TEXT_VIEW (object);
@@ -399,7 +433,7 @@ pt_text_view_dispose (GObject *object)
 static void
 pt_text_view_init (PtTextView *self)
 {
-  self->buffer = pt_text_buffer_new ();
+  self->buffer = pt_text_buffer_new (NULL);
   gtk_text_view_set_buffer (GTK_TEXT_VIEW (self), GTK_TEXT_BUFFER (self->buffer));
 
   /* Create timestamp tag */
@@ -457,10 +491,14 @@ pt_text_view_init (PtTextView *self)
 static void
 pt_text_view_class_init (PtTextViewClass *klass)
 {
-  GObjectClass   *object_class = G_OBJECT_CLASS (klass);
-  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
+  GObjectClass     *object_class = G_OBJECT_CLASS (klass);
+  GtkWidgetClass   *widget_class = GTK_WIDGET_CLASS (klass);
+  GtkTextViewClass *text_view_class = GTK_TEXT_VIEW_CLASS (klass);
 
   object_class->dispose = pt_text_view_dispose;
+  text_view_class->copy_clipboard = pt_text_view_copy_clipboard;
+  text_view_class->cut_clipboard = pt_text_view_cut_clipboard;
+  text_view_class->paste_clipboard = pt_text_view_paste_clipboard;
 
   gtk_widget_class_install_action (widget_class, "view.zoom-in", NULL, pt_text_view_action_zoom);
   gtk_widget_class_install_action (widget_class, "view.zoom-out", NULL, pt_text_view_action_zoom);

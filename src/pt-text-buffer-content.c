@@ -30,6 +30,7 @@ G_DEFINE_TYPE (PtTextBufferContent, pt_text_buffer_content, GDK_TYPE_CONTENT_PRO
 static GdkContentFormats *
 pt_text_buffer_content_ref_formats (GdkContentProvider *provider)
 {
+  g_print ("%s\n", __func__);
   PtTextBufferContent *content = PT_TEXT_BUFFER_CONTENT (provider);
 
   if (content->text_buffer)
@@ -43,6 +44,7 @@ pt_text_buffer_content_get_value (GdkContentProvider *provider,
                                   GValue             *value,
                                   GError            **error)
 {
+  g_print ("%s\n", __func__);
   PtTextBufferContent *content = PT_TEXT_BUFFER_CONTENT (provider);
 
   if (G_VALUE_HOLDS (value, PT_TYPE_TEXT_BUFFER) &&
@@ -59,6 +61,7 @@ static void
 pt_text_buffer_content_detach (GdkContentProvider *provider,
                                GdkClipboard       *clipboard)
 {
+  g_print ("%s\n", __func__);
   PtTextBufferContent *content = PT_TEXT_BUFFER_CONTENT (provider);
   GtkTextIter          insert;
   GtkTextIter          selection_bound;
@@ -96,6 +99,7 @@ pt_text_buffer_content_init (PtTextBufferContent *content)
 GdkContentProvider *
 pt_text_buffer_content_new (PtTextBuffer *buffer)
 {
+  g_print ("%s\n", __func__);
   PtTextBufferContent *content;
 
   content = g_object_new (PT_TYPE_TEXT_BUFFER_CONTENT, NULL);

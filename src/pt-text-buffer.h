@@ -21,4 +21,21 @@
 #define PT_TYPE_TEXT_BUFFER (pt_text_buffer_get_type ())
 G_DECLARE_FINAL_TYPE (PtTextBuffer, pt_text_buffer, PT, TEXT_BUFFER, GtkTextBuffer)
 
-PtTextBuffer *pt_text_buffer_new (void);
+#define PT_TEXT_UNKNOWN_CHAR 0xFFFC
+
+void             pt_text_buffer_insert_range    (PtTextBuffer      *buffer,
+                                                 GtkTextIter       *iter,
+                                                 const GtkTextIter *start,
+                                                 const GtkTextIter *end);
+
+void             pt_text_buffer_copy_clipboard  (PtTextBuffer *buffer,
+                                                 GdkClipboard *clipboard);
+
+void             pt_text_buffer_cut_clipboard   (PtTextBuffer *buffer,
+                                                 GdkClipboard *clipboard,
+                                                 gboolean      default_editable);
+
+void             pt_text_buffer_paste_clipboard (PtTextBuffer *buffer,
+                                                 GdkClipboard *clipboard);
+
+PtTextBuffer    *pt_text_buffer_new             (GtkTextTagTable *tag_table);
