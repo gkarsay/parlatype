@@ -5,7 +5,17 @@ gresources = gnome.compile_resources(
   c_name: '_pt',
 )
 
+marshalers = gnome.genmarshal(
+  'pt-marshalers',
+  sources: 'ptmarshalers.list',
+  prefix: '_pt_cclosure_marshal',
+  valist_marshallers: true,
+)
+
+marshal_h = marshalers[1]
+
 parlatype_sources = [
+  marshalers,
   'editor-theme-selector.c',
   'pt-app.c',
   'pt-asr-dialog.c',

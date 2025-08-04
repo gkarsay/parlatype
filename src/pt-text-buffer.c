@@ -22,10 +22,22 @@
 
 #include "pt-text-buffer.h"
 
+#include "parlatype/parlatype.h"
+#include "pt-marshalers.h"
+
 struct _PtTextBuffer
 {
   GtkTextBuffer parent;
+  PtPlayer     *player;
 };
+
+enum
+{
+  INSERT_TIMESTAMP_BUTTON,
+  LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL] = { 0 };
 
 typedef struct _ClipboardRequest ClipboardRequest;
 
@@ -50,7 +62,7 @@ static gboolean
 possibly_not_text (gunichar ch,
                    gpointer user_data)
 {
-  return ch == PT_TEXT_UNKNOWN_CHAR;
+  return ch == PT_TEXT_UNKNOWN_CHAR || ch == PT_TEXT_TIMESTAMP_DELIMITER;
 }
 
 static void
@@ -186,7 +198,6 @@ insert_range_untagged (GtkTextBuffer     *buffer,
   GtkTextIter         range_end;
   GtkTextIter         start, end;
   GtkTextChildAnchor *anchor;
-  gboolean            emit_anchor = FALSE;
   guint               out_len;
   Range              *r;
 
@@ -237,7 +248,6 @@ insert_range_untagged (GtkTextBuffer     *buffer,
               else if (anchor)
                 {
                   /* Replace anchored timestamp button with timestamp as text */
-                  // GtkTextChildAnchor* anchor_copy;
                   GtkWidget **widgets;
                   const char *timestamp;
 
@@ -245,10 +255,6 @@ insert_range_untagged (GtkTextBuffer     *buffer,
                                   &range_end,
                                   &end);
 
-                  // gtktextbtree.c:1308: Same child anchor can't be inserted twice
-                  // gtk_text_buffer_insert_child_anchor (buffer, iter, anchor);
-                  // anchor_copy = gtk_text_buffer_create_child_anchor (buffer, iter);
-                  emit_anchor = TRUE;
                   widgets = gtk_text_child_anchor_get_widgets (anchor, &out_len);
                   timestamp = gtk_button_get_label (GTK_BUTTON (widgets[0]));
                   g_print ("replacing timestamp button with %s\n", timestamp);
@@ -272,6 +278,45 @@ insert_range_untagged (GtkTextBuffer     *buffer,
                   g_assert (gtk_text_iter_compare (&range_end, &end) <= 0);
                 }
             }
+          else if (gtk_text_iter_get_char (&range_end) == PT_TEXT_TIMESTAMP_DELIMITER)
+            {
+              char               *maybe_timestamp;
+              GtkTextChildAnchor *new_anchor;
+
+              gtk_text_iter_forward_find_char (&range_end,
+                                               possibly_not_text, NULL,
+                                               &end);
+
+              g_assert (gtk_text_iter_compare (&range_end, &end) <= 0);
+              if (gtk_text_iter_get_char (&range_end) == PT_TEXT_TIMESTAMP_DELIMITER)
+                {
+                  gtk_text_iter_forward_char (&range_end);
+                  maybe_timestamp = gtk_text_iter_get_text (&range_start, &range_end);
+                  if (pt_player_string_is_timestamp (PT_TEXT_BUFFER (buffer)->player, maybe_timestamp, FALSE))
+                    {
+                      g_print ("%s is a timestamp\n", maybe_timestamp);
+                      r = save_range (&range_start,
+                                      &range_end,
+                                      &end);
+                      new_anchor = gtk_text_buffer_create_child_anchor (buffer, iter);
+                      g_signal_emit (buffer, signals[INSERT_TIMESTAMP_BUTTON], 0, new_anchor, maybe_timestamp);
+                      restore_range (r);
+                      r = NULL;
+
+                      range_start = range_end;
+                    }
+                  else
+                    {
+                      g_print ("%s is NOT a timestamp\n", maybe_timestamp);
+                      gtk_text_iter_backward_char (&range_end);
+                    }
+                  g_free (maybe_timestamp);
+                }
+              else
+                {
+                  range_start = range_end;
+                }
+            }
           else
             {
               /* Text segment starts here, so forward search to
@@ -290,18 +335,6 @@ insert_range_untagged (GtkTextBuffer     *buffer,
                           &range_end,
                           &end);
 
-          /*g_print ("emit_anchor == %s\n", emit_anchor ? "TRUE" : "FALSE");
-          if (emit_anchor)
-            {
-              emit_anchor = FALSE;
-              g_print ("emit anchor signal\n");
-              GtkWidget **widgets;
-              widgets = gtk_text_child_anchor_get_widgets (anchor, &out_len);
-              g_print ("out len: %d\n", out_len);
-              if (GTK_IS_BUTTON (widgets[0]))
-                g_print ("Hooray!\n");
-            }*/
-          // g_print ("insert text range\n");
           insert_text_range (buffer,
                              iter,
                              &range_start,
@@ -883,18 +916,41 @@ pt_text_buffer_register_serializers (void)
 }
 
 static void
-pt_text_buffer_class_init (PtTextBufferClass *class)
+pt_text_buffer_dispose (GObject *object)
 {
-  /*GObjectClass   *object_class = G_OBJECT_CLASS (klass);
-  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
+  PtTextBuffer *self = PT_TEXT_BUFFER (object);
 
-  object_class->dispose = pt_text_buffer_dispose;*/
-  pt_text_buffer_register_serializers ();
+  g_clear_object (&self->player);
+
+  G_OBJECT_CLASS (pt_text_buffer_parent_class)->dispose (object);
 }
 
 static void
-pt_text_buffer_init (PtTextBuffer *content)
+pt_text_buffer_class_init (PtTextBufferClass *klass)
 {
+  GObjectClass *object_class = G_OBJECT_CLASS (klass);
+  // GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
+
+  object_class->dispose = pt_text_buffer_dispose;
+  pt_text_buffer_register_serializers ();
+
+  signals[INSERT_TIMESTAMP_BUTTON] =
+      g_signal_new ("insert-timestamp-button",
+                    G_OBJECT_CLASS_TYPE (object_class),
+                    G_SIGNAL_RUN_LAST,
+                    0,
+                    NULL, NULL,
+                    _pt_cclosure_marshal_VOID__BOXED_STRING,
+                    G_TYPE_NONE,
+                    2,
+                    GTK_TYPE_TEXT_CHILD_ANCHOR,
+                    G_TYPE_STRING);
+}
+
+static void
+pt_text_buffer_init (PtTextBuffer *self)
+{
+  self->player = pt_player_new ();
 }
 
 PtTextBuffer *

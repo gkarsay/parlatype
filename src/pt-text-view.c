@@ -386,6 +386,19 @@ pt_text_view_connect (PtTextView *self)
   pt_text_view_update_css (self);
 }
 
+void
+insert_timestamp_button_cb (PtTextBuffer       *buffer,
+                            GtkTextChildAnchor *anchor,
+                            char               *timestamp,
+                            gpointer            user_data)
+{
+  g_print ("callback!\n");
+  PtTextView *self = PT_TEXT_VIEW (user_data);
+  GtkWidget  *child = gtk_button_new_with_label (timestamp);
+  gtk_text_view_add_child_at_anchor (GTK_TEXT_VIEW (self), child, anchor);
+  g_signal_connect (child, "clicked", G_CALLBACK (timestamp_clicked), self);
+}
+
 static void
 pt_text_view_copy_clipboard (GtkTextView *text_view)
 {
@@ -435,6 +448,7 @@ pt_text_view_init (PtTextView *self)
 {
   self->buffer = pt_text_buffer_new (NULL);
   gtk_text_view_set_buffer (GTK_TEXT_VIEW (self), GTK_TEXT_BUFFER (self->buffer));
+  g_signal_connect (self->buffer, "insert-timestamp-button", G_CALLBACK (insert_timestamp_button_cb), self);
 
   /* Create timestamp tag */
   gtk_text_buffer_create_tag (GTK_TEXT_BUFFER (self->buffer), "timestamp",
