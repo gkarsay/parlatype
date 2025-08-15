@@ -56,18 +56,6 @@ get_timestamp_at_iter (PtTextView *self,
   return timestamp;
 }
 
-static void
-goto_timestamp_at_iter (PtTextView *self,
-                        GtkTextIter iter)
-{
-  char *timestamp = get_timestamp_at_iter (self, iter);
-  if (timestamp != NULL)
-    {
-      pt_player_goto_timestamp (self->player, timestamp);
-      g_free (timestamp);
-    }
-}
-
 static gboolean
 key_pressed (GtkEventController *controller,
              guint               keyval,
@@ -85,12 +73,10 @@ key_pressed (GtkEventController *controller,
   switch (keyval)
     {
     case GDK_KEY_Left:
-      g_print ("left\n");
       gtk_text_iter_backward_char (&iter);
       anchor = gtk_text_iter_get_child_anchor (&iter);
       if (anchor != NULL && gtk_text_view_get_cursor_visible (GTK_TEXT_VIEW (self)))
         {
-          g_print ("anchor\n");
           gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (self), FALSE);
           gtk_text_view_set_editable (GTK_TEXT_VIEW (self), FALSE);
           GtkWidget **list = gtk_text_child_anchor_get_widgets (anchor, &out_len);
@@ -107,13 +93,9 @@ key_pressed (GtkEventController *controller,
         }
       break;
     case GDK_KEY_Right:
-      g_print ("right\n");
       anchor = gtk_text_iter_get_child_anchor (&iter);
-      g_print ("anchor : %s\n", (anchor == NULL) ? "no" : "yes");
-      g_print ("visible: %s\n", (gtk_text_view_get_cursor_visible (GTK_TEXT_VIEW (self))) ? "yes" : "no");
       if (anchor != NULL && gtk_text_view_get_cursor_visible (GTK_TEXT_VIEW (self)))
         {
-          g_print ("anchor\n");
           gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (self), FALSE);
           gtk_text_view_set_editable (GTK_TEXT_VIEW (self), FALSE);
           GtkWidget **list = gtk_text_child_anchor_get_widgets (anchor, &out_len);
@@ -219,29 +201,6 @@ pt_text_view_action_zoom (GtkWidget  *widget,
     pt_text_view_zoom (self, 0);
   else
     g_assert_not_reached ();
-}
-
-static void
-released_cb (GtkGestureClick *gesture,
-             guint            n_press,
-             double           x,
-             double           y,
-             PtTextView      *self)
-{
-  GtkTextIter iter;
-  int         tx, ty;
-
-  if (gtk_gesture_single_get_button (GTK_GESTURE_SINGLE (gesture)) > 1)
-    return;
-
-  gtk_text_view_window_to_buffer_coords (GTK_TEXT_VIEW (self),
-                                         GTK_TEXT_WINDOW_WIDGET,
-                                         x, y, &tx, &ty);
-
-  if (gtk_text_view_get_iter_at_location (GTK_TEXT_VIEW (self), &iter, tx, ty))
-    {
-      goto_timestamp_at_iter (self, iter);
-    }
 }
 
 static gboolean hovering_over_link = FALSE;
@@ -394,7 +353,6 @@ insert_timestamp_button_cb (GObject            *object,
                             char               *timestamp,
                             gpointer            user_data)
 {
-  g_print ("callback!\n");
   PtTextView *self = PT_TEXT_VIEW (user_data);
   GtkWidget  *child = gtk_button_new_with_label (timestamp);
   gtk_text_view_add_child_at_anchor (GTK_TEXT_VIEW (self), child, anchor);
@@ -404,7 +362,6 @@ insert_timestamp_button_cb (GObject            *object,
 static void
 pt_text_view_copy_clipboard (GtkTextView *text_view)
 {
-  g_print ("%s\n", __func__);
   GdkClipboard *clipboard = gtk_widget_get_clipboard (GTK_WIDGET (text_view));
   PtTextView   *self = PT_TEXT_VIEW (text_view);
 
@@ -414,7 +371,6 @@ pt_text_view_copy_clipboard (GtkTextView *text_view)
 static void
 pt_text_view_cut_clipboard (GtkTextView *text_view)
 {
-  g_print ("%s\n", __func__);
   GdkClipboard *clipboard = gtk_widget_get_clipboard (GTK_WIDGET (text_view));
   PtTextView   *self = PT_TEXT_VIEW (text_view);
 
@@ -424,7 +380,6 @@ pt_text_view_cut_clipboard (GtkTextView *text_view)
 static void
 pt_text_view_paste_clipboard (GtkTextView *text_view)
 {
-  g_print ("%s\n", __func__);
   GdkClipboard *clipboard = gtk_widget_get_clipboard (GTK_WIDGET (text_view));
   PtTextView   *self = PT_TEXT_VIEW (text_view);
 
@@ -441,8 +396,6 @@ pt_text_view_save (PtTextView *self,
   GFile       *test_file;
   PtFileSaver *saver;
 
-  g_print ("%s\n", __func__);
-
   test_file = g_file_new_for_path ("/home/gabor/parlatype-test.xml");
   saver = pt_file_saver_new (self->buffer, test_file);
   pt_file_saver_save (saver);
@@ -455,8 +408,6 @@ pt_text_view_load (PtTextView *self,
   GFile        *test_file;
   PtFileLoader *loader;
   gulong        handler_id;
-
-  g_print ("%s\n", __func__);
 
   test_file = g_file_new_for_path ("/home/gabor/parlatype-test.xml");
   loader = pt_file_loader_new (self->buffer, test_file);
@@ -501,10 +452,6 @@ pt_text_view_init (PtTextView *self)
   GtkEventController *controller = gtk_event_controller_key_new ();
   g_signal_connect (controller, "key-pressed", G_CALLBACK (key_pressed), self);
   gtk_widget_add_controller (GTK_WIDGET (self), controller);
-
-  /*controller = GTK_EVENT_CONTROLLER (gtk_gesture_click_new ());
-  g_signal_connect (controller, "released", G_CALLBACK (released_cb), self);
-  gtk_widget_add_controller (GTK_WIDGET (self), controller);*/
 
   controller = gtk_event_controller_motion_new ();
   g_signal_connect (controller, "motion", G_CALLBACK (motion_cb), self);
