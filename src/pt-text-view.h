@@ -22,6 +22,12 @@
 #define PT_TYPE_TEXT_VIEW (pt_text_view_get_type ())
 G_DECLARE_FINAL_TYPE (PtTextView, pt_text_view, PT, TEXT_VIEW, GtkTextView)
 
+
+gboolean       pt_text_view_get_timestamps_visible (PtTextView *self);
+
+void           pt_text_view_set_timestamps_visible (PtTextView *self,
+                                                    gboolean    visible);
+
 void           pt_text_view_insert_timestamp (PtTextView *self);
 
 void           pt_text_view_connect          (PtTextView *self);

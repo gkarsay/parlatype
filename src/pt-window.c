@@ -57,6 +57,7 @@ struct _PtWindow
   GtkWidget *volume_button;
   GMenuItem *go_to_timestamp;
   GtkWidget *playback_rate_button;
+  GtkWidget *timestamp_switch;
 
   GtkWidget *paned;
   GtkWidget *text_view;
@@ -1157,6 +1158,11 @@ pt_window_init (PtWindow *self)
   setup_settings (self);
   pt_window_setup_dnd (self); /* this is in pt_window_dnd.c */
 
+  g_object_bind_property (
+      self->text_view, "timestamps-visible",
+      self->timestamp_switch, "active",
+      G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+
   pt_volume_button_set_player (PT_VOLUME_BUTTON (self->volume_button), self->player);
   pt_text_view_connect (PT_TEXT_VIEW (self->text_view));
   self->recent = gtk_recent_manager_get_default ();
@@ -1229,7 +1235,9 @@ pt_window_class_init (PtWindowClass *klass)
   widget_class->direction_changed = pt_window_direction_changed;
 
   gtk_widget_class_set_template_from_resource (widget_class, "/xyz/parlatype/Parlatype/window.ui");
+
   gtk_widget_class_bind_template_callback (widget_class, play_button_toggled_cb);
+
   gtk_widget_class_bind_template_child (widget_class, PtWindow, waveviewer);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, primary_menu_button);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, pos_menu_button);
@@ -1245,6 +1253,7 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtWindow, primary_menu);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, secondary_menu);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, waveviewer_stack);
+  gtk_widget_class_bind_template_child (widget_class, PtWindow, timestamp_switch);
 
   gtk_widget_class_install_action (widget_class, "win.copy-timestamp-to-clipboard", NULL, copy_timestamp_to_clipboard);
   gtk_widget_class_install_action (widget_class, "win.goto-timestamp-from-clipboard", NULL, goto_timestamp_from_clipboard);

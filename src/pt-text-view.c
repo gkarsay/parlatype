@@ -28,32 +28,33 @@ struct _PtTextView
   GtkTextView parent;
 
   PtTextBuffer         *buffer;
-  GtkTextTag           *timestamp_tag;
   GtkCssProvider       *css_provider;
   int                   font_size;
   PangoFontDescription *font_desc;
 
   PtPlayer  *player;
   GSettings *settings;
+
+  GQueue   timestamps;
+  gboolean timestamps_visible;
+};
+
+enum
+{
+  PROP_0,
+  PROP_TIMESTAMPS_VISIBLE,
+  N_PROPS
 };
 
 G_DEFINE_FINAL_TYPE (PtTextView, pt_text_view, GTK_TYPE_TEXT_VIEW)
 
-static char *
-get_timestamp_at_iter (PtTextView *self,
-                       GtkTextIter iter)
+static GParamSpec *properties[N_PROPS];
+
+static gboolean
+possible_anchor (gunichar ch,
+                 gpointer user_data)
 {
-  GtkTextIter start, end;
-  char       *timestamp = NULL;
-
-  start = end = iter;
-  if (gtk_text_iter_backward_to_tag_toggle (&start, self->timestamp_tag) &&
-      gtk_text_iter_forward_to_tag_toggle (&end, self->timestamp_tag))
-    {
-      timestamp = gtk_text_buffer_get_text (GTK_TEXT_BUFFER (self->buffer), &start, &end, FALSE);
-    }
-
-  return timestamp;
+  return ch == PT_TEXT_UNKNOWN_CHAR;
 }
 
 static gboolean
@@ -203,7 +204,35 @@ pt_text_view_action_zoom (GtkWidget  *widget,
     g_assert_not_reached ();
 }
 
-static gboolean hovering_over_link = FALSE;
+gboolean
+pt_text_view_get_timestamps_visible (PtTextView *self)
+{
+  g_return_val_if_fail (PT_IS_TEXT_VIEW (self), FALSE);
+
+  return self->timestamps_visible;
+}
+
+void
+pt_text_view_set_timestamps_visible (PtTextView *self,
+                                     gboolean    visible)
+{
+  g_return_if_fail (PT_IS_TEXT_VIEW (self));
+
+  if (self->timestamps_visible == visible)
+    return;
+
+  self->timestamps_visible = visible;
+
+  for (const GList *list = self->timestamps.head; list; list = list->next)
+    {
+      GtkWidget *child = list->data;
+      gtk_widget_set_visible (child, visible);
+    }
+
+  g_object_notify_by_pspec (G_OBJECT (self), properties[PROP_TIMESTAMPS_VISIBLE]);
+}
+
+/*static gboolean hovering_over_link = FALSE;
 
 static void
 set_cursor_if_appropriate (PtTextView *self,
@@ -255,7 +284,7 @@ motion_cb (GtkEventControllerMotion *controller,
                                          x, y, &tx, &ty);
 
   set_cursor_if_appropriate (self, tx, ty);
-}
+}*/
 
 static gboolean
 on_scroll_scrolled_cb (GtkEventControllerScroll *scroll,
@@ -295,6 +324,61 @@ timestamp_clicked (GtkButton *button,
   g_free (timestamp);
 }
 
+static void
+delete_range_cb (GtkTextBuffer     *buffer,
+                 const GtkTextIter *start,
+                 const GtkTextIter *end,
+                 gpointer           user_data)
+{
+  /* If user deletes something, check if there are Timestamps in the range
+   * and remove them from GQUeue self->timestamps. */
+
+  PtTextView         *self = PT_TEXT_VIEW (user_data);
+  GtkTextIter         search = *start;
+  GtkTextChildAnchor *anchor;
+  GtkWidget         **widgets;
+  guint               out_len;
+  gboolean            check_me;
+
+  check_me = gtk_text_iter_get_char (&search) == PT_TEXT_UNKNOWN_CHAR;
+
+  do
+    {
+      if (check_me)
+        {
+          anchor = gtk_text_iter_get_child_anchor (&search);
+          if (anchor != NULL)
+            {
+              widgets = gtk_text_child_anchor_get_widgets (anchor, &out_len);
+              g_assert (out_len == 1);
+              GList *link = g_queue_find (&self->timestamps, widgets[0]);
+              g_assert (link != NULL);
+              g_queue_delete_link (&self->timestamps, link);
+              g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                                "MESSAGE", "timestamp removed, total: %d", g_queue_get_length (&self->timestamps));
+            }
+        }
+      check_me = TRUE;
+    }
+  while (gtk_text_iter_forward_find_char (&search, possible_anchor, NULL, end));
+}
+
+static void
+insert_timestamp_button_cb (GObject            *object,
+                            GtkTextChildAnchor *anchor,
+                            char               *timestamp,
+                            gpointer            user_data)
+{
+  PtTextView *self = PT_TEXT_VIEW (user_data);
+  GtkWidget  *child = gtk_button_new_with_label (timestamp);
+  gtk_widget_set_visible (child, self->timestamps_visible);
+  gtk_text_view_add_child_at_anchor (GTK_TEXT_VIEW (self), child, anchor);
+  g_signal_connect (child, "clicked", G_CALLBACK (timestamp_clicked), self);
+  g_queue_push_head (&self->timestamps, child);
+  g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                    "MESSAGE", "timestamp added, total: %d", g_queue_get_length (&self->timestamps));
+}
+
 void
 pt_text_view_insert_timestamp (PtTextView *self)
 {
@@ -305,23 +389,15 @@ pt_text_view_insert_timestamp (PtTextView *self)
   gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER (self->buffer), &iter,
                                     gtk_text_buffer_get_insert (GTK_TEXT_BUFFER (self->buffer)));
 
-  /* Don't insert into existing timestamp */
-  timestamp = get_timestamp_at_iter (self, iter);
-  if (timestamp != NULL)
-    {
-      g_free (timestamp);
-      return;
-    }
-
   timestamp = pt_player_get_timestamp (self->player);
   if (timestamp == NULL)
     return;
 
+  /* Create a new anchor, never add more than one widget to an anchor */
   anchor = gtk_text_child_anchor_new ();
   gtk_text_buffer_insert_child_anchor (GTK_TEXT_BUFFER (self->buffer), &iter, anchor);
-  GtkWidget *child = gtk_button_new_with_label (timestamp);
-  gtk_text_view_add_child_at_anchor (GTK_TEXT_VIEW (self), child, anchor);
-  g_signal_connect (child, "clicked", G_CALLBACK (timestamp_clicked), self);
+
+  insert_timestamp_button_cb (NULL, anchor, timestamp, self);
 
   g_free (timestamp);
 }
@@ -345,18 +421,6 @@ pt_text_view_connect (PtTextView *self)
   self->settings = _pt_window_get_settings (win);
   self->font_size = g_settings_get_int (self->settings, "font-size");
   pt_text_view_update_css (self);
-}
-
-void
-insert_timestamp_button_cb (GObject            *object,
-                            GtkTextChildAnchor *anchor,
-                            char               *timestamp,
-                            gpointer            user_data)
-{
-  PtTextView *self = PT_TEXT_VIEW (user_data);
-  GtkWidget  *child = gtk_button_new_with_label (timestamp);
-  gtk_text_view_add_child_at_anchor (GTK_TEXT_VIEW (self), child, anchor);
-  g_signal_connect (child, "clicked", G_CALLBACK (timestamp_clicked), self);
 }
 
 static void
@@ -417,12 +481,53 @@ pt_text_view_load (PtTextView *self,
 }
 
 static void
+pt_text_view_set_property (GObject      *object,
+                           guint         prop_id,
+                           const GValue *value,
+                           GParamSpec   *pspec)
+{
+  PtTextView *self = PT_TEXT_VIEW (object);
+
+  switch (prop_id)
+    {
+    case PROP_TIMESTAMPS_VISIBLE:
+      pt_text_view_set_timestamps_visible (self, g_value_get_boolean (value));
+      break;
+
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+      break;
+    }
+}
+
+static void
+pt_text_view_get_property (GObject    *object,
+                           guint       prop_id,
+                           GValue     *value,
+                           GParamSpec *pspec)
+{
+  PtTextView *self = PT_TEXT_VIEW (object);
+
+  switch (prop_id)
+    {
+    case PROP_TIMESTAMPS_VISIBLE:
+      g_value_set_boolean (value, self->timestamps_visible);
+      break;
+
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+      break;
+    }
+}
+
+static void
 pt_text_view_dispose (GObject *object)
 {
   PtTextView *self = PT_TEXT_VIEW (object);
 
   g_clear_object (&self->css_provider);
   g_clear_pointer (&self->font_desc, pango_font_description_free);
+  g_queue_clear (&self->timestamps);
 
   G_OBJECT_CLASS (pt_text_view_parent_class)->dispose (object);
 }
@@ -433,29 +538,16 @@ pt_text_view_init (PtTextView *self)
   self->buffer = pt_text_buffer_new (NULL);
   gtk_text_view_set_buffer (GTK_TEXT_VIEW (self), GTK_TEXT_BUFFER (self->buffer));
   g_signal_connect (self->buffer, "insert-timestamp-button", G_CALLBACK (insert_timestamp_button_cb), self);
-
-  /* Create timestamp tag */
-  gtk_text_buffer_create_tag (GTK_TEXT_BUFFER (self->buffer), "timestamp",
-                              "family", "monospace",
-                              "background", "yellow",
-                              "editable", false,
-                              NULL);
-  GtkTextTagTable *tag_table = gtk_text_buffer_get_tag_table (GTK_TEXT_BUFFER (self->buffer));
-  self->timestamp_tag = gtk_text_tag_table_lookup (tag_table, "timestamp");
-
-  /* experimental */
-  gtk_text_buffer_create_tag (GTK_TEXT_BUFFER (self->buffer), "widget",
-                              "invisible", TRUE,
-                              NULL);
+  g_signal_connect (self->buffer, "delete-range", G_CALLBACK (delete_range_cb), self);
 
   /* Controllers */
   GtkEventController *controller = gtk_event_controller_key_new ();
   g_signal_connect (controller, "key-pressed", G_CALLBACK (key_pressed), self);
   gtk_widget_add_controller (GTK_WIDGET (self), controller);
 
-  controller = gtk_event_controller_motion_new ();
+  /*controller = gtk_event_controller_motion_new ();
   g_signal_connect (controller, "motion", G_CALLBACK (motion_cb), self);
-  gtk_widget_add_controller (GTK_WIDGET (self), controller);
+  gtk_widget_add_controller (GTK_WIDGET (self), controller);*/
 
   controller = gtk_event_controller_scroll_new (GTK_EVENT_CONTROLLER_SCROLL_VERTICAL);
   gtk_event_controller_set_propagation_phase (controller, GTK_PHASE_CAPTURE);
@@ -489,7 +581,10 @@ pt_text_view_class_init (PtTextViewClass *klass)
   GtkWidgetClass   *widget_class = GTK_WIDGET_CLASS (klass);
   GtkTextViewClass *text_view_class = GTK_TEXT_VIEW_CLASS (klass);
 
+  object_class->get_property = pt_text_view_get_property;
+  object_class->set_property = pt_text_view_set_property;
   object_class->dispose = pt_text_view_dispose;
+
   text_view_class->copy_clipboard = pt_text_view_copy_clipboard;
   text_view_class->cut_clipboard = pt_text_view_cut_clipboard;
   text_view_class->paste_clipboard = pt_text_view_paste_clipboard;
@@ -503,6 +598,13 @@ pt_text_view_class_init (PtTextViewClass *klass)
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_minus, GDK_CONTROL_MASK, "view.zoom-out", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_KP_Subtract, GDK_CONTROL_MASK, "view.zoom-out", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_0, GDK_CONTROL_MASK, "view.zoom-default", NULL);
+
+  properties[PROP_TIMESTAMPS_VISIBLE] =
+      g_param_spec_boolean ("timestamps-visible", NULL, NULL,
+                            TRUE,
+                            G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
+
+  g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 PtTextView *

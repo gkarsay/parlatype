@@ -208,6 +208,11 @@
                         <property name="action_name">win.deserialize</property>
                       </object>
                     </child>
+                    <child>
+                      <object class="GtkSwitch" id="timestamp_switch">
+                        <property name="halign">center</property>
+                      </object>
+                    </child>
                   </object>
                 </property>
                 <property name="content">
