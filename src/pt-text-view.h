@@ -23,42 +23,47 @@
 G_DECLARE_FINAL_TYPE (PtTextView, pt_text_view, PT, TEXT_VIEW, GtkTextView)
 
 
-gboolean       pt_text_view_get_timestamps_visible (PtTextView *self);
+gboolean       pt_text_view_get_timestamps_visible (PtTextView        *self);
 
-void           pt_text_view_set_timestamps_visible (PtTextView *self,
-                                                    gboolean    visible);
+void           pt_text_view_set_timestamps_visible (PtTextView        *self,
+                                                    gboolean           visible);
 
-const GFile   *pt_text_view_get_audio_file   (PtTextView *self);
+const GFile   *pt_text_view_get_text_file          (PtTextView         *self);
 
-void           pt_text_view_set_audio_file   (PtTextView *self,
-                                              GFile      *file);
+void           pt_text_view_set_text_file          (PtTextView         *self,
+                                                    GFile              *file);
 
-void           pt_text_view_insert_timestamp (PtTextView *self);
+const GFile   *pt_text_view_get_audio_file         (PtTextView         *self);
 
-void           pt_text_view_connect          (PtTextView *self);
+void           pt_text_view_set_audio_file         (PtTextView         *self,
+                                                    GFile              *file);
 
-gboolean       pt_text_view_save_finish (PtTextView   *self,
-                                         GAsyncResult *result,
-                                         GError      **error);
+void           pt_text_view_insert_timestamp       (PtTextView         *self);
 
-void           pt_text_view_save_async (PtTextView         *self,
-                                        GFile              *file,
-                                        GCancellable       *cancellable,
-                                        GAsyncReadyCallback callback,
-                                        gpointer            user_data);
+void           pt_text_view_connect                (PtTextView         *self);
+
+gboolean       pt_text_view_save_finish            (PtTextView         *self,
+                                                    GAsyncResult       *result,
+                                                    GError            **error);
+
+void           pt_text_view_save_async             (PtTextView         *self,
+                                                    GFile              *file,
+                                                    GCancellable       *cancellable,
+                                                    GAsyncReadyCallback callback,
+                                                    gpointer            user_data);
 /*
-gboolean       pt_text_view_load_finish (PtTextView   *self,
-                                         GAsyncResult *result,
-                                         GError      **error);
+gboolean       pt_text_view_load_finish            (PtTextView         *self,
+                                                    GAsyncResult       *result,
+                                                    GError            **error);
 
-void           pt_text_view_load_async (PtTextView         *self,
-                                        GFile              *file,
-                                        GCancellable       *cancellable,
-                                        GAsyncReadyCallback callback,
-                                        gpointer            user_data);
+void           pt_text_view_load_async             (PtTextView         *self,
+                                                    GFile              *file,
+                                                    GCancellable       *cancellable,
+                                                    GAsyncReadyCallback callback,
+                                                    gpointer            user_data);
 */
-gboolean       pt_text_view_load (PtTextView         *self,
-                                  GFile *file,
-                                  GError **error);
+gboolean       pt_text_view_load                   (PtTextView         *self,
+                                                    GFile              *file,
+                                                    GError            **error);
 
 PtTextView    *pt_text_view_new              (void);

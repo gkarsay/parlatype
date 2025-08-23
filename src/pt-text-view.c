@@ -38,21 +38,17 @@ struct _PtTextView
   PtPlayer  *player;
   GSettings *settings;
 
+  GFile *text;
   GFile *audio;
 
   GQueue   timestamps;
   gboolean timestamps_visible;
 };
 
-typedef struct
-{
-  gulong handler_id;
-  GFile *file;
-} Load;
-
 enum
 {
   PROP_0,
+  PROP_TEXT_FILE,
   PROP_AUDIO_FILE,
   PROP_TIMESTAMPS_VISIBLE,
   N_PROPS
@@ -324,7 +320,7 @@ on_scroll_scrolled_cb (GtkEventControllerScroll *scroll,
   return FALSE;
 }
 
-void
+static void
 css_parsing_error (GtkCssProvider *self,
                    GtkCssSection  *section,
                    GError         *error,
@@ -406,6 +402,8 @@ pt_text_view_insert_timestamp (PtTextView *self)
   GtkTextIter         iter;
   char               *timestamp;
 
+  g_return_if_fail (PT_IS_TEXT_VIEW (self));
+
   gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER (self->buffer), &iter,
                                     gtk_text_buffer_get_insert (GTK_TEXT_BUFFER (self->buffer)));
 
@@ -436,6 +434,8 @@ on_notify_document_font_name_cb (PtTextView      *self,
 void
 pt_text_view_connect (PtTextView *self)
 {
+  g_return_if_fail (PT_IS_TEXT_VIEW (self));
+
   PtWindow *win = PT_WINDOW (gtk_widget_get_root (GTK_WIDGET (self)));
   self->player = _pt_window_get_player (win);
   self->settings = _pt_window_get_settings (win);
@@ -581,6 +581,37 @@ pt_text_view_set_audio_file (PtTextView *self,
   g_object_notify_by_pspec (G_OBJECT (self), properties[PROP_AUDIO_FILE]);
 }
 
+const GFile *
+pt_text_view_get_text_file (PtTextView *self)
+{
+  g_return_val_if_fail (PT_IS_TEXT_VIEW (self), NULL);
+
+  return self->text;
+}
+
+void
+pt_text_view_set_text_file (PtTextView *self,
+                            GFile      *file)
+{
+  g_return_if_fail (PT_IS_TEXT_VIEW (self));
+  g_return_if_fail (G_IS_FILE (file) || file == NULL);
+
+  if (file == NULL && self->text == NULL)
+    return;
+
+  if (file != NULL &&
+      self->text != NULL &&
+      g_file_equal (file, self->text))
+    return;
+
+  g_clear_object (&self->text);
+
+  if (file != NULL)
+    self->text = g_object_ref (file);
+
+  g_object_notify_by_pspec (G_OBJECT (self), properties[PROP_TEXT_FILE]);
+}
+
 static void
 pt_text_view_set_property (GObject      *object,
                            guint         prop_id,
@@ -591,6 +622,10 @@ pt_text_view_set_property (GObject      *object,
 
   switch (prop_id)
     {
+    case PROP_TEXT_FILE:
+      pt_text_view_set_text_file (self, g_value_get_object (value));
+      break;
+
     case PROP_AUDIO_FILE:
       pt_text_view_set_audio_file (self, g_value_get_object (value));
       break;
@@ -615,6 +650,10 @@ pt_text_view_get_property (GObject    *object,
 
   switch (prop_id)
     {
+    case PROP_TEXT_FILE:
+      g_value_set_object (value, self->text);
+      break;
+
     case PROP_AUDIO_FILE:
       g_value_set_object (value, self->audio);
       break;
@@ -638,6 +677,7 @@ pt_text_view_dispose (GObject *object)
   g_clear_pointer (&self->font_desc, pango_font_description_free);
   g_queue_clear (&self->timestamps);
   g_clear_object (&self->audio);
+  g_clear_object (&self->text);
 
   G_OBJECT_CLASS (pt_text_view_parent_class)->dispose (object);
 }
@@ -708,6 +748,11 @@ pt_text_view_class_init (PtTextViewClass *klass)
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_minus, GDK_CONTROL_MASK, "view.zoom-out", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_KP_Subtract, GDK_CONTROL_MASK, "view.zoom-out", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_0, GDK_CONTROL_MASK, "view.zoom-default", NULL);
+
+  properties[PROP_TEXT_FILE] =
+      g_param_spec_object ("text", NULL, NULL,
+                           G_TYPE_FILE,
+                           G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
   properties[PROP_AUDIO_FILE] =
       g_param_spec_object ("audio", NULL, NULL,
