@@ -62,7 +62,7 @@ libxml     = dependency('libxml-2.0')
 
 # tools are not shipped in tarball, check if directory exists
 fs = import('fs')
-build_tools = fs.is_dir('tools')
+build_tools = fs.is_dir('tools') and get_option('tools')
 
 subdir('libparlatype')
 subdir('data')
@@ -87,6 +87,7 @@ endif
 summary({
   'gtk-doc'            : gtk_doc,
   'gir'                : gir,
+  'tools'              : build_tools,
   'pocketsphinx-legacy': with_pocketsphinx_legacy,
   'pocketsphinx'       : with_pocketsphinx,
   }, section: 'Configuration',
