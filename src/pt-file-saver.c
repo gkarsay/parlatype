@@ -14,6 +14,8 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#define G_LOG_DOMAIN "pt-file-saver"
+
 #include "config.h"
 
 #include "pt-file-saver.h"

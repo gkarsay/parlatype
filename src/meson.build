@@ -60,9 +60,6 @@ if build_tools
     include_directories: conf_inc,
     link_with: libparlatype,
     dependencies: parlatype_deps,
-    c_args: [
-      '-DG_LOG_DOMAIN="libparlatype"',
-    ],
   )
 endif
 
@@ -72,5 +69,4 @@ executable('parlatype',
            include_directories : conf_inc,
            install: true,
            dependencies: parlatype_deps,
-           c_args: ['-DG_LOG_DOMAIN="parlatype"' ],
 )

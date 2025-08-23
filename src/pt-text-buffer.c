@@ -18,6 +18,8 @@
 
 /* Includes lots of duplicated code from gtktextbuffer.c */
 
+#define G_LOG_DOMAIN "pt-text-buffer"
+
 #include "config.h"
 
 #include "pt-text-buffer.h"
