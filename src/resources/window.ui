@@ -146,7 +146,7 @@
                                       <property name="can_focus">1</property>
                                       <property name="receives_default">1</property>
                                       <property name="tooltip_text" translatable="yes">Open a file</property>
-                                      <property name="action_name">app.open</property>
+                                      <property name="action_name">app.open-audio</property>
                                       <property name="use_underline">1</property>
                                       <style>
                                         <class name="suggested-action"/>
@@ -198,13 +198,13 @@
                     <property name="margin-top">12</property>
                     <child>
                       <object class="GtkButton">
-                        <property name="label">Serialize</property>
+                        <property name="label">Save testfile</property>
                         <property name="action_name">win.serialize</property>
                       </object>
                     </child>
                     <child>
                       <object class="GtkButton">
-                        <property name="label">Deserialize</property>
+                        <property name="label">Load testfile</property>
                         <property name="action_name">win.deserialize</property>
                       </object>
                     </child>
@@ -242,8 +242,12 @@
     </section>
     <section>
       <item>
-        <attribute name="label" translatable="yes">_Open</attribute>
-        <attribute name="action">app.open</attribute>
+        <attribute name="label" translatable="yes">Open Document</attribute>
+        <attribute name="action">app.open-text</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Associate Audio</attribute>
+        <attribute name="action">app.open-audio</attribute>
       </item>
     </section>
     <section>

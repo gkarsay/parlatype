@@ -402,6 +402,22 @@ deserialize (GtkWidget  *widget,
     }
 }
 
+void
+pt_window_load_document (PtWindow *self,
+                         GFile    *file)
+{
+  GError *error = NULL;
+
+  g_return_if_fail (PT_IS_WINDOW (self));
+  g_return_if_fail (G_IS_FILE (file));
+
+  if (!pt_text_view_load (PT_TEXT_VIEW (self->text_view), file, &error))
+    {
+      pt_error_message (self, error->message);
+      g_error_free (error);
+    }
+}
+
 const GActionEntry win_actions[] = {
   { "mode", NULL, "s", "'playback'", change_mode },
 };

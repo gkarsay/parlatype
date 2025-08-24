@@ -59,9 +59,9 @@ static GOptionEntry options[] = {
 };
 
 static void
-dialog_open_cb (GObject      *source,
-                GAsyncResult *result,
-                gpointer      user_data)
+dialog_open_audio_cb (GObject      *source,
+                      GAsyncResult *result,
+                      gpointer      user_data)
 {
   PtWindow *win = PT_WINDOW (user_data);
   GFile    *file;
@@ -69,7 +69,7 @@ dialog_open_cb (GObject      *source,
 
   file = gtk_file_dialog_open_finish (GTK_FILE_DIALOG (source), result, NULL);
 
-  if (!file)
+  if (file == NULL)
     return;
 
   uri = g_file_get_uri (file);
@@ -80,6 +80,23 @@ dialog_open_cb (GObject      *source,
       pt_window_open_file (win, uri);
       g_free (uri);
     }
+}
+
+static void
+dialog_open_text_cb (GObject      *source,
+                     GAsyncResult *result,
+                     gpointer      user_data)
+{
+  PtWindow *win = PT_WINDOW (user_data);
+  GFile    *file;
+
+  file = gtk_file_dialog_open_finish (GTK_FILE_DIALOG (source), result, NULL);
+
+  if (file == NULL)
+    return;
+
+  pt_window_load_document (win, file);
+  g_object_unref (file);
 }
 
 static GListModel *
@@ -109,7 +126,8 @@ pt_file_filters_new (int first_filter_type, ...)
           gtk_file_filter_add_mime_type (filter, "audio/*");
           break;
         case PT_FILTER_TEXT:
-          /* not implemented yet */
+          gtk_file_filter_set_name (filter, _ ("Parlatype Files"));
+          gtk_file_filter_add_pattern (filter, "*.pt");
           break;
 
         default:
@@ -132,17 +150,34 @@ open_cb (GSimpleAction *action,
          gpointer       user_data)
 {
   PtApp         *self = PT_APP (user_data);
+  const char    *action_name;
   GtkFileDialog *dialog;
   GtkWindow     *parent;
   const char    *home_path;
   gchar         *current_uri = NULL;
   GFile         *current_file, *initial_folder;
   GListModel    *filters;
+  gboolean       audio;
 
   dialog = gtk_file_dialog_new ();
   gtk_file_dialog_set_modal (dialog, TRUE);
-  gtk_file_dialog_set_title (dialog, _ ("Open Audio File"));
   parent = gtk_application_get_active_window (GTK_APPLICATION (self));
+
+  action_name = g_action_get_name (G_ACTION (action));
+  audio = (g_strcmp0 (action_name, "open-audio") == 0);
+
+  if (audio)
+    {
+      gtk_file_dialog_set_title (dialog, _ ("Open Audio File"));
+      filters = pt_file_filters_new (PT_FILTER_AUDIO, PT_FILTER_ALL, 0);
+    }
+  else
+    {
+      gtk_file_dialog_set_title (dialog, _ ("Open Parlatype File"));
+      filters = pt_file_filters_new (PT_FILTER_TEXT, PT_FILTER_ALL, 0);
+    }
+
+  gtk_file_dialog_set_filters (dialog, filters);
 
   /* Set current folder to the folder with the currently open file
      or to user’s home directory */
@@ -161,13 +196,20 @@ open_cb (GSimpleAction *action,
     }
   gtk_file_dialog_set_initial_folder (dialog, initial_folder);
 
-  filters = pt_file_filters_new (PT_FILTER_AUDIO, PT_FILTER_ALL, 0);
-  gtk_file_dialog_set_filters (dialog, filters);
-
-  gtk_file_dialog_open (dialog, parent,
-                        NULL, /* cancellable */
-                        dialog_open_cb,
-                        parent);
+  if (audio)
+    {
+      gtk_file_dialog_open (dialog, parent,
+                            NULL, /* cancellable */
+                            dialog_open_audio_cb,
+                            parent);
+    }
+  else
+    {
+      gtk_file_dialog_open (dialog, parent,
+                            NULL,
+                            dialog_open_text_cb,
+                            parent);
+    }
 
   g_object_unref (initial_folder);
   g_object_unref (dialog);
@@ -380,7 +422,8 @@ quit_cb (GSimpleAction *action,
 }
 
 const GActionEntry app_actions[] = {
-  { "open", open_cb, NULL, NULL, NULL },
+  { "open-audio", open_cb, NULL, NULL, NULL },
+  { "open-text", open_cb, NULL, NULL, NULL },
   { "prefs", prefs_cb, NULL, NULL, NULL },
   { "help", help_cb, NULL, NULL, NULL },
   { "about", about_cb, NULL, NULL, NULL },

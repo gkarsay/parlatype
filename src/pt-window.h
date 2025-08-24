@@ -27,6 +27,9 @@ struct _PtWindowClass
   GtkApplicationWindowClass parent_class;
 };
 
+void      pt_window_load_document (PtWindow *self,
+                                   GFile    *file);
+
 void      pt_window_open_file (PtWindow    *self,
                                gchar       *uri);
 
