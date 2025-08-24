@@ -39,6 +39,14 @@ struct _PtApp
 
 G_DEFINE_TYPE (PtApp, pt_app, ADW_TYPE_APPLICATION);
 
+enum
+{
+  PT_FILTER_NONE,
+  PT_FILTER_ALL,
+  PT_FILTER_AUDIO,
+  PT_FILTER_TEXT
+};
+
 static GOptionEntry options[] = {
   { "version",
     'v',
@@ -74,6 +82,50 @@ dialog_open_cb (GObject      *source,
     }
 }
 
+static GListModel *
+pt_file_filters_new (int first_filter_type, ...)
+{
+  GListStore *result;
+  int         filter_type;
+  va_list     args;
+
+  result = g_list_store_new (GTK_TYPE_FILE_FILTER);
+
+  va_start (args, first_filter_type);
+
+  filter_type = first_filter_type;
+  while (filter_type != PT_FILTER_NONE)
+    {
+      GtkFileFilter *filter = gtk_file_filter_new ();
+
+      switch (filter_type)
+        {
+        case PT_FILTER_ALL:
+          gtk_file_filter_set_name (filter, _ ("All Files"));
+          gtk_file_filter_add_pattern (filter, "*");
+          break;
+        case PT_FILTER_AUDIO:
+          gtk_file_filter_set_name (filter, _ ("Audio Files"));
+          gtk_file_filter_add_mime_type (filter, "audio/*");
+          break;
+        case PT_FILTER_TEXT:
+          /* not implemented yet */
+          break;
+
+        default:
+          g_assert_not_reached ();
+        }
+
+      g_list_store_append (result, filter);
+
+      filter_type = va_arg (args, int);
+    }
+
+  va_end (args);
+
+  return G_LIST_MODEL (result);
+}
+
 static void
 open_cb (GSimpleAction *action,
          GVariant      *parameter,
@@ -85,9 +137,7 @@ open_cb (GSimpleAction *action,
   const char    *home_path;
   gchar         *current_uri = NULL;
   GFile         *current_file, *initial_folder;
-  GtkFileFilter *filter_audio;
-  GtkFileFilter *filter_all;
-  GListStore    *filters;
+  GListModel    *filters;
 
   dialog = gtk_file_dialog_new ();
   gtk_file_dialog_set_modal (dialog, TRUE);
@@ -111,16 +161,8 @@ open_cb (GSimpleAction *action,
     }
   gtk_file_dialog_set_initial_folder (dialog, initial_folder);
 
-  filter_audio = gtk_file_filter_new ();
-  filter_all = gtk_file_filter_new ();
-  gtk_file_filter_set_name (filter_audio, _ ("Audio Files"));
-  gtk_file_filter_set_name (filter_all, _ ("All Files"));
-  gtk_file_filter_add_mime_type (filter_audio, "audio/*");
-  gtk_file_filter_add_pattern (filter_all, "*");
-  filters = g_list_store_new (GTK_TYPE_FILE_FILTER);
-  g_list_store_append (filters, filter_audio);
-  g_list_store_append (filters, filter_all);
-  gtk_file_dialog_set_filters (dialog, G_LIST_MODEL (filters));
+  filters = pt_file_filters_new (PT_FILTER_AUDIO, PT_FILTER_ALL, 0);
+  gtk_file_dialog_set_filters (dialog, filters);
 
   gtk_file_dialog_open (dialog, parent,
                         NULL, /* cancellable */
