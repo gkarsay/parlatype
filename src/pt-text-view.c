@@ -480,6 +480,8 @@ pt_text_view_save_cb (GObject      *source_object,
 {
   PtFileSaver *saver = PT_FILE_SAVER (source_object);
   GTask       *task = user_data;
+  PtTextView  *self;
+  GFile       *file;
   GError      *error = NULL;
 
   if (!pt_file_saver_save_finish (saver, res, &error))
@@ -488,6 +490,9 @@ pt_text_view_save_cb (GObject      *source_object,
       return;
     }
 
+  g_object_get (saver, "view", &self, "file", &file, NULL);
+
+  pt_text_view_set_text_file (self, file);
   g_task_return_boolean (task, TRUE);
 }
 
@@ -519,6 +524,7 @@ pt_text_view_save_async (PtTextView         *self,
   task = g_task_new (self, cancellable, callback, user_data);
 
   saver = pt_file_saver_new (self, file);
+
   pt_file_saver_save_async (saver,
                             G_PRIORITY_DEFAULT,
                             NULL,
@@ -546,6 +552,11 @@ pt_text_view_load (PtTextView *self,
 
   g_signal_handler_disconnect (loader, handler_id);
   g_object_unref (loader);
+
+  if (success)
+    {
+      pt_text_view_set_text_file (self, file);
+    }
 
   return success;
 }

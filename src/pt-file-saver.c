@@ -434,9 +434,7 @@ pt_file_saver_set_property (GObject      *object,
 
     case PROP_FILE:
       g_assert (self->file == NULL);
-      self->file = g_value_get_object (value);
-      g_object_add_weak_pointer (G_OBJECT (self->file),
-                                 (gpointer *) &self->file);
+      self->file = g_value_dup_object (value);
       break;
 
     default:
@@ -479,7 +477,7 @@ pt_file_saver_dispose (GObject *object)
       g_object_remove_weak_pointer (G_OBJECT (self->view),
                                     (gpointer *) &self->view);
 
-      self->buffer = NULL;
+      self->view = NULL;
     }
 
   if (self->buffer != NULL)
@@ -490,13 +488,7 @@ pt_file_saver_dispose (GObject *object)
       self->buffer = NULL;
     }
 
-  if (self->file != NULL)
-    {
-      g_object_remove_weak_pointer (G_OBJECT (self->file),
-                                    (gpointer *) &self->file);
-
-      self->file = NULL;
-    }
+  g_clear_object (&self->file);
 
   G_OBJECT_CLASS (pt_file_saver_parent_class)->dispose (object);
 }

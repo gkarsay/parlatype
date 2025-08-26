@@ -252,6 +252,16 @@
     </section>
     <section>
       <item>
+        <attribute name="label" translatable="yes">Save</attribute>
+        <attribute name="action">win.save</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Save as</attribute>
+        <attribute name="action">win.save-as</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
         <attribute name="label" translatable="yes">Preferences</attribute>
         <attribute name="action">app.prefs</attribute>
       </item>

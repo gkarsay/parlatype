@@ -21,6 +21,7 @@
 #include "pt-dbus-service.h"
 #include "pt-mpris.h"
 #include "pt-preferences.h"
+#include "pt-utils.h"
 #include "pt-window-private.h"
 #include "pt-window.h"
 
@@ -38,14 +39,6 @@ struct _PtApp
 };
 
 G_DEFINE_TYPE (PtApp, pt_app, ADW_TYPE_APPLICATION);
-
-enum
-{
-  PT_FILTER_NONE,
-  PT_FILTER_ALL,
-  PT_FILTER_AUDIO,
-  PT_FILTER_TEXT
-};
 
 static GOptionEntry options[] = {
   { "version",
@@ -99,51 +92,6 @@ dialog_open_text_cb (GObject      *source,
   g_object_unref (file);
 }
 
-static GListModel *
-pt_file_filters_new (int first_filter_type, ...)
-{
-  GListStore *result;
-  int         filter_type;
-  va_list     args;
-
-  result = g_list_store_new (GTK_TYPE_FILE_FILTER);
-
-  va_start (args, first_filter_type);
-
-  filter_type = first_filter_type;
-  while (filter_type != PT_FILTER_NONE)
-    {
-      GtkFileFilter *filter = gtk_file_filter_new ();
-
-      switch (filter_type)
-        {
-        case PT_FILTER_ALL:
-          gtk_file_filter_set_name (filter, _ ("All Files"));
-          gtk_file_filter_add_pattern (filter, "*");
-          break;
-        case PT_FILTER_AUDIO:
-          gtk_file_filter_set_name (filter, _ ("Audio Files"));
-          gtk_file_filter_add_mime_type (filter, "audio/*");
-          break;
-        case PT_FILTER_TEXT:
-          gtk_file_filter_set_name (filter, _ ("Parlatype Files"));
-          gtk_file_filter_add_pattern (filter, "*.pt");
-          break;
-
-        default:
-          g_assert_not_reached ();
-        }
-
-      g_list_store_append (result, filter);
-
-      filter_type = va_arg (args, int);
-    }
-
-  va_end (args);
-
-  return G_LIST_MODEL (result);
-}
-
 static void
 open_cb (GSimpleAction *action,
          GVariant      *parameter,
@@ -174,7 +122,7 @@ open_cb (GSimpleAction *action,
   else
     {
       gtk_file_dialog_set_title (dialog, _ ("Open Parlatype File"));
-      filters = pt_file_filters_new (PT_FILTER_TEXT, PT_FILTER_ALL, 0);
+      filters = pt_file_filters_new (PT_FILTER_TEXT, PT_FILTER_OPEN_DOCUMENT, PT_FILTER_ALL, 0);
     }
 
   gtk_file_dialog_set_filters (dialog, filters);

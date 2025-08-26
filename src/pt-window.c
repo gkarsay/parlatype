@@ -23,6 +23,7 @@
 #include "pt-goto-dialog.h"
 #include "pt-playback-rate-button.h"
 #include "pt-text-view.h"
+#include "pt-utils.h"
 #include "pt-volume-button.h"
 #include "pt-window-dnd.h"
 #include "pt-window-private.h"
@@ -367,6 +368,79 @@ serialize (GtkWidget  *widget,
                            self);
 }
 
+void
+pt_window_save (PtWindow *self,
+                GFile    *file)
+{
+  g_return_if_fail (PT_IS_WINDOW (self));
+  g_return_if_fail (G_IS_FILE (file) || file == NULL);
+
+  if (file == NULL)
+    {
+      file = (void *) pt_text_view_get_text_file (PT_TEXT_VIEW (self->text_view));
+    }
+
+  if (file == NULL)
+    {
+      pt_window_save_as (self);
+      return;
+    }
+
+  pt_text_view_save_async (PT_TEXT_VIEW (self->text_view),
+                           file,
+                           NULL,
+                           save_cb,
+                           self);
+}
+
+static void
+dialog_save_as_cb (GObject      *source,
+                   GAsyncResult *result,
+                   gpointer      user_data)
+{
+  PtWindow *win = PT_WINDOW (user_data);
+  GFile    *file;
+
+  file = gtk_file_dialog_save_finish (GTK_FILE_DIALOG (source), result, NULL);
+
+  if (file == NULL)
+    return;
+
+  pt_window_save (win, file);
+  g_object_unref (file);
+}
+
+void
+pt_window_save_as (PtWindow *self)
+{
+  GtkFileDialog *dialog;
+  const char    *home_path;
+  GFile         *initial_folder;
+  GListModel    *filters;
+
+  g_return_if_fail (PT_IS_WINDOW (self));
+
+  dialog = gtk_file_dialog_new ();
+  gtk_file_dialog_set_modal (dialog, TRUE);
+
+  gtk_file_dialog_set_title (dialog, _ ("Save as"));
+  filters = pt_file_filters_new (PT_FILTER_TEXT, PT_FILTER_OPEN_DOCUMENT, PT_FILTER_ALL, 0);
+
+  gtk_file_dialog_set_filters (dialog, filters);
+
+  home_path = g_get_home_dir ();
+  initial_folder = g_file_new_for_path (home_path);
+  gtk_file_dialog_set_initial_folder (dialog, initial_folder);
+
+  gtk_file_dialog_save (dialog, GTK_WINDOW (self),
+                        NULL,
+                        dialog_save_as_cb,
+                        self);
+
+  g_object_unref (initial_folder);
+  g_object_unref (dialog);
+}
+
 /*static void
 load_cb (GObject      *source_object,
          GAsyncResult *res,
@@ -416,6 +490,21 @@ pt_window_load_document (PtWindow *self,
       pt_error_message (self, error->message);
       g_error_free (error);
     }
+}
+
+void
+pt_window_save_action (GtkWidget  *widget,
+                       const char *action_name,
+                       GVariant   *param)
+{
+  PtWindow *self = PT_WINDOW (widget);
+
+  if (g_strcmp0 (action_name, "win.save") == 0)
+    pt_window_save (self, NULL);
+  else if (g_strcmp0 (action_name, "win.save-as") == 0)
+    pt_window_save_as (self);
+  else
+    g_assert_not_reached ();
 }
 
 const GActionEntry win_actions[] = {
@@ -1352,6 +1441,8 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_install_action (widget_class, "win.jump-back", NULL, jump_back);
   gtk_widget_class_install_action (widget_class, "win.jump-forward", NULL, jump_forward);
   gtk_widget_class_install_action (widget_class, "win.play", NULL, play);
+  gtk_widget_class_install_action (widget_class, "win.save", NULL, pt_window_save_action);
+  gtk_widget_class_install_action (widget_class, "win.save-as", NULL, pt_window_save_action);
   gtk_widget_class_install_action (widget_class, "win.zoom-in", NULL, zoom_in);
   gtk_widget_class_install_action (widget_class, "win.zoom-out", NULL, zoom_out);
   gtk_widget_class_install_action (widget_class, "win.zoom-default", NULL, zoom_default);
@@ -1361,9 +1452,11 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_c, GDK_CONTROL_MASK | GDK_SHIFT_MASK, "win.copy-timestamp-to-clipboard", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_v, GDK_CONTROL_MASK | GDK_SHIFT_MASK, "win.goto-timestamp-from-clipboard", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_g, GDK_CONTROL_MASK, "win.goto", NULL);
-  gtk_widget_class_add_binding_action (widget_class, GDK_KEY_a, GDK_CONTROL_MASK, "win.jump-back", NULL);
-  gtk_widget_class_add_binding_action (widget_class, GDK_KEY_s, GDK_CONTROL_MASK, "win.jump-forward", NULL);
+  // gtk_widget_class_add_binding_action (widget_class, GDK_KEY_a, GDK_CONTROL_MASK, "win.jump-back", NULL);
+  // gtk_widget_class_add_binding_action (widget_class, GDK_KEY_s, GDK_CONTROL_MASK, "win.jump-forward", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_space, GDK_CONTROL_MASK, "win.play", NULL);
+  gtk_widget_class_add_binding_action (widget_class, GDK_KEY_s, GDK_CONTROL_MASK, "win.save", NULL);
+  gtk_widget_class_add_binding_action (widget_class, GDK_KEY_s, GDK_CONTROL_MASK | GDK_SHIFT_MASK, "win.save-as", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_t, GDK_CONTROL_MASK, "win.insert-timestamp", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_plus, GDK_CONTROL_MASK, "win.zoom-in", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_KP_Add, GDK_CONTROL_MASK, "win.zoom-in", NULL);
