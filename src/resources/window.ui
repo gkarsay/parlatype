@@ -3,7 +3,6 @@
   <requires lib="gtk" version="4.0"/>
   <requires lib="parlatype" version="0.0"/>
   <template class="PtWindow" parent="AdwApplicationWindow">
-    <property name="title" translatable="yes">Parlatype</property>
     <property name="default_height">200</property>
   <child>
     <object class="AdwBreakpoint">
@@ -15,8 +14,7 @@
     <property name="content">
       <object class="AdwToolbarView">
         <child type="top">
-          <object class="GtkHeaderBar" id="headerbar">
-            <property name="show-title-buttons">1</property>
+          <object class="AdwHeaderBar" id="headerbar">
             <child type="start">
               <object class="GtkToggleButton" id="show_sidebar_button">
                 <property name="icon-name">view-sidebar-start-symbolic</property>
@@ -24,6 +22,40 @@
                 <property name="active">True</property>
               </object>
             </child>
+            <child type="title">
+              <object class="GtkBox">
+                <property name="hexpand">true</property>
+                <property name="valign">center</property>
+                <property name="orientation">vertical</property>
+                <property name="margin-start">12</property>
+                <property name="margin-end">12</property>
+                <child>
+                  <object class="GtkCenterBox">
+                    <property name="hexpand">true</property>
+                    <child type="start">
+                      <object class="GtkLabel" id="is_modified">
+                        <property name="halign">end</property>
+                        <property name="hexpand">true</property>
+                        <property name="label">•</property>
+                        <property name="margin-end">6</property>
+                        <property name="visible">false</property>
+                      </object>
+                    </child>
+                    <child type="center">
+                      <object class="GtkLabel" id="title">
+                        <property name="ellipsize">end</property>
+                        <property name="width-chars">3</property>
+                        <property name="label">Parlatype</property>
+                        <attributes>
+                          <attribute name="weight" value="bold"/>
+                        </attributes>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+
             <child type="end">
               <object class="GtkMenuButton" id="primary_menu_button">
                 <property name="menu-model">primary_menu</property>

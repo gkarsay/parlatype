@@ -372,6 +372,7 @@ pt_file_loader_load (PtFileLoader *self,
 
   gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER (self->buffer), &begin);
   gtk_text_buffer_select_range (GTK_TEXT_BUFFER (self->buffer), &begin, &begin);
+  gtk_text_buffer_set_modified (GTK_TEXT_BUFFER (self->buffer), FALSE);
 
   return TRUE;
 }

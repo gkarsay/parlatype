@@ -51,6 +51,7 @@ enum
   PROP_TEXT_FILE,
   PROP_AUDIO_FILE,
   PROP_TIMESTAMPS_VISIBLE,
+  PROP_IS_MODIFIED,
   N_PROPS
 };
 
@@ -395,6 +396,13 @@ insert_timestamp_button_cb (GObject            *object,
                     "MESSAGE", "timestamp added, total: %d", g_queue_get_length (&self->timestamps));
 }
 
+static void
+modified_changed_cb (GtkTextBuffer *buffer,
+                     PtTextView    *self)
+{
+  g_object_notify_by_pspec (G_OBJECT (self), properties[PROP_IS_MODIFIED]);
+}
+
 void
 pt_text_view_insert_timestamp (PtTextView *self)
 {
@@ -623,6 +631,14 @@ pt_text_view_set_text_file (PtTextView *self,
   g_object_notify_by_pspec (G_OBJECT (self), properties[PROP_TEXT_FILE]);
 }
 
+gboolean
+pt_text_view_get_is_modified (PtTextView *self)
+{
+  g_return_val_if_fail (PT_IS_TEXT_VIEW (self), FALSE);
+
+  return gtk_text_buffer_get_modified (GTK_TEXT_BUFFER (self->buffer));
+}
+
 static void
 pt_text_view_set_property (GObject      *object,
                            guint         prop_id,
@@ -673,6 +689,10 @@ pt_text_view_get_property (GObject    *object,
       g_value_set_boolean (value, self->timestamps_visible);
       break;
 
+    case PROP_IS_MODIFIED:
+      g_value_set_boolean (value, pt_text_view_get_is_modified (self));
+      break;
+
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
@@ -700,6 +720,7 @@ pt_text_view_init (PtTextView *self)
   gtk_text_view_set_buffer (GTK_TEXT_VIEW (self), GTK_TEXT_BUFFER (self->buffer));
   g_signal_connect (self->buffer, "insert-timestamp-button", G_CALLBACK (insert_timestamp_button_cb), self);
   g_signal_connect (self->buffer, "delete-range", G_CALLBACK (delete_range_cb), self);
+  g_signal_connect (self->buffer, "modified-changed", G_CALLBACK (modified_changed_cb), self);
 
   /* Controllers */
   GtkEventController *controller = gtk_event_controller_key_new ();
@@ -774,6 +795,11 @@ pt_text_view_class_init (PtTextViewClass *klass)
       g_param_spec_boolean ("timestamps-visible", NULL, NULL,
                             TRUE,
                             G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
+
+  properties[PROP_IS_MODIFIED] =
+      g_param_spec_boolean ("is-modified", NULL, NULL,
+                            FALSE,
+                            G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, N_PROPS, properties);
 }

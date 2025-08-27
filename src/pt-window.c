@@ -39,6 +39,8 @@ struct _PtWindow
   PtPlayer            *player;
   GtkWidget           *waveviewer;
   GSettings           *editor;
+  GtkLabel            *title;
+  GtkLabel            *is_modified;
   GtkWidget           *primary_menu_button;
   GtkWidget           *pos_menu_button;
 
@@ -769,7 +771,7 @@ pt_window_ready_to_play (PtWindow *self,
       display_name = pt_player_get_filename (self->player);
       if (display_name)
         {
-          gtk_window_set_title (GTK_WINDOW (self), display_name);
+          gtk_label_set_text (self->title, display_name);
           g_free (display_name);
         }
 
@@ -790,7 +792,7 @@ pt_window_ready_to_play (PtWindow *self,
   else
     {
       gtk_menu_button_set_label (GTK_MENU_BUTTON (self->pos_menu_button), "00:00.0");
-      gtk_window_set_title (GTK_WINDOW (self), "Parlatype");
+      gtk_label_set_text (self->title, _ ("Parlatype"));
       gtk_widget_set_tooltip_text (self->button_jump_back, NULL);
       gtk_widget_set_tooltip_text (self->button_jump_forward, NULL);
       remove_timer (self);
@@ -1339,6 +1341,11 @@ pt_window_init (PtWindow *self)
       self->timestamp_switch, "active",
       G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
 
+  g_object_bind_property (
+      self->text_view, "is-modified",
+      self->is_modified, "visible",
+      G_BINDING_DEFAULT);
+
   g_signal_connect (self->text_view, "notify::audio", G_CALLBACK (audio_file_cb), self);
 
   pt_volume_button_set_player (PT_VOLUME_BUTTON (self->volume_button), self->player);
@@ -1424,10 +1431,12 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtWindow, button_play);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, button_jump_back);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, button_jump_forward);
+  gtk_widget_class_bind_template_child (widget_class, PtWindow, is_modified);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, volume_button);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, playback_rate_button);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, paned);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, text_view);
+  gtk_widget_class_bind_template_child (widget_class, PtWindow, title);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, primary_menu);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, secondary_menu);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, waveviewer_stack);
