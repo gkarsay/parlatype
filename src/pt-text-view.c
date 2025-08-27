@@ -132,9 +132,9 @@ key_pressed (GtkEventController *controller,
 static void
 pt_text_view_update_css (PtTextView *self)
 {
-  char *css = g_strdup_printf ("textview        {font-family: %s; "
+  char *css = g_strdup_printf ("pt_textview        {font-family: %s; "
                                "font-size: %dpt;} "
-                               "textview button {font-size: calc(%dpt * 0.6); "
+                               "pt_textview button {font-size: calc(%dpt * 0.6); "
                                "line-height: 0; "
                                "padding: 0; "
                                "margin-top: 0; "
@@ -780,6 +780,8 @@ pt_text_view_class_init (PtTextViewClass *klass)
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_minus, GDK_CONTROL_MASK, "view.zoom-out", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_KP_Subtract, GDK_CONTROL_MASK, "view.zoom-out", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_0, GDK_CONTROL_MASK, "view.zoom-default", NULL);
+
+  gtk_widget_class_set_css_name (widget_class, "pt_textview");
 
   properties[PROP_TEXT_FILE] =
       g_param_spec_object ("text", NULL, NULL,

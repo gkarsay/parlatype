@@ -35,11 +35,11 @@ paned separator {
   padding: 2px;
 }
 
-textview {
+pt_textview {
   padding: 12px;
 }
 
-textview button {
+pt_textview button {
 
 }
 
