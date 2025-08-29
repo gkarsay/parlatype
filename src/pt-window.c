@@ -22,6 +22,7 @@
 #include "pt-app.h"
 #include "pt-goto-dialog.h"
 #include "pt-playback-rate-button.h"
+#include "pt-save-changes-dialog.h"
 #include "pt-text-view.h"
 #include "pt-utils.h"
 #include "pt-volume-button.h"
@@ -361,7 +362,7 @@ serialize (GtkWidget  *widget,
   PtWindow *self = PT_WINDOW (widget);
   GFile    *file;
 
-  file = g_file_new_for_path ("/home/gabor/parlatype-test.xml");
+  file = g_file_new_for_path ("/home/gabor/parlatype-test.pt");
 
   pt_text_view_save_async (PT_TEXT_VIEW (self->text_view),
                            file,
@@ -469,7 +470,7 @@ deserialize (GtkWidget  *widget,
 
   GFile *file;
 
-  file = g_file_new_for_path ("/home/gabor/parlatype-test.xml");
+  file = g_file_new_for_path ("/home/gabor/parlatype-test.pt");
 
   if (!pt_text_view_load (PT_TEXT_VIEW (self->text_view), file, &error))
     {
@@ -1279,6 +1280,46 @@ f10_ctrl_cb (GtkEventControllerKey *self,
 }
 
 static void
+pt_window_confirm_cb (GObject      *object,
+                      GAsyncResult *result,
+                      gpointer      user_data)
+{
+  PtWindow *self = PT_WINDOW (user_data);
+  GError   *error = NULL;
+
+  if (pt_save_changes_dialog_run_finish (result, &error))
+    {
+      /* TODO cancel cancellable */
+      gtk_window_destroy (GTK_WINDOW (self));
+    }
+  else
+    {
+      pt_error_message (self, error->message);
+      g_error_free (error);
+    }
+}
+
+static gboolean
+pt_window_close_request (GtkWindow *window)
+{
+  PtWindow *self = PT_WINDOW (window);
+
+  if (pt_text_view_get_is_modified (PT_TEXT_VIEW (self->text_view)))
+    {
+      pt_save_changes_dialog_run_async (GTK_WINDOW (self),
+                                        PT_TEXT_VIEW (self->text_view),
+                                        NULL,
+                                        pt_window_confirm_cb,
+                                        self);
+      return TRUE;
+    }
+
+  /* TODO cancel cancellable */
+
+  return GTK_WINDOW_CLASS (pt_window_parent_class)->close_request (window);
+}
+
+static void
 pt_window_constructed (GObject *object)
 {
   PtWindow           *self = PT_WINDOW (object);
@@ -1414,10 +1455,12 @@ pt_window_class_init (PtWindowClass *klass)
 {
   GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
+  GtkWindowClass *window_class = GTK_WINDOW_CLASS (klass);
 
   gobject_class->constructed = pt_window_constructed;
   gobject_class->dispose = pt_window_dispose;
   widget_class->direction_changed = pt_window_direction_changed;
+  window_class->close_request = pt_window_close_request;
 
   gtk_widget_class_set_template_from_resource (widget_class, "/xyz/parlatype/Parlatype/window.ui");
 

@@ -31,6 +31,7 @@ parlatype_sources = [
   'pt-preferences.c',
   'pt-prefs-info-row.c',
   'pt-prefs-install-row.c',
+  'pt-save-changes-dialog.c',
   'pt-text-buffer.c',
   'pt-text-buffer-content.c',
   'pt-text-buffer-input-stream.c',
