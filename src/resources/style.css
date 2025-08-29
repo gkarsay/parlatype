@@ -40,7 +40,7 @@ pt_textview {
 }
 
 pt_textview button {
-
+  min-height: 0;
 }
 
 /* EditorThemeSelector */
