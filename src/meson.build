@@ -72,3 +72,29 @@ executable('parlatype',
            install: true,
            dependencies: parlatype_deps,
 )
+
+tests = [
+  { 'name': 'save-and-reload' },
+]
+
+foreach t: tests
+  test_name = t.get('name')
+
+  exe = executable(
+    test_name, [ parlatype_sources, 'tests/@0@.c'.format(test_name) ],
+    install: false,
+    dependencies: parlatype_deps,
+    link_with: libparlatype,
+    include_directories : conf_inc,
+  )
+
+  test(
+    test_name, exe,
+    args: [ '--tap', '-k' ],
+    env: [
+      'G_TEST_SRCDIR=@0@'.format(meson.current_source_dir()),
+      'G_TEST_BUILDDIR=@0@'.format(meson.current_build_dir()),
+      'LANGUAGE=C',
+    ],
+  )
+endforeach
