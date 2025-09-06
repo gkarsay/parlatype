@@ -136,7 +136,7 @@
                               <object class="GtkToggleButton" id="button_play">
                                 <property name="can_focus">1</property>
                                 <property name="receives_default">1</property>
-                                <signal name="toggled" handler="play_button_toggled_cb" swapped="no"/>
+                                <property name="action_name">win.play</property>
                                 <property name="icon_name">media-playback-start-symbolic</property>
                                 <accessibility>
                                   <property name="label" translatable="yes">Play</property>
@@ -232,7 +232,6 @@
                       <object class="GtkToggleButton">
                         <property name="label">Transcribe</property>
                         <property name="action-name">win.transcribe</property>
-                        <!--<property name="action-target">'EXAMPLE'</property>-->
                       </object>
                     </child>
                     <child>

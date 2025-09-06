@@ -78,8 +78,6 @@ struct _PtWindow
 
 G_DEFINE_TYPE (PtWindow, pt_window, ADW_TYPE_APPLICATION_WINDOW)
 
-static void play_button_toggled_cb (GtkToggleButton *button, PtWindow *self);
-
 static void
 pt_error_message (PtWindow *parent,
                   gchar    *message)
@@ -220,11 +218,11 @@ jump_forward (GtkWidget  *widget,
 }
 
 static void
-play_action (GtkWidget  *widget,
-             const char *action_name,
-             GVariant   *param)
+pt_window_play_action (GSimpleAction *action,
+                       GVariant      *state,
+                       gpointer       user_data)
 {
-  PtWindow *self = PT_WINDOW (widget);
+  PtWindow *self = PT_WINDOW (user_data);
 
   pt_player_play_pause (self->player);
 }
@@ -486,6 +484,7 @@ pt_window_save_action (GtkWidget  *widget,
 
 const GActionEntry win_actions[] = {
   { "transcribe", pt_window_transcribe_action, NULL, "false", NULL },
+  { "play", pt_window_play_action, NULL, "false", NULL },
 };
 
 static void
@@ -588,12 +587,17 @@ change_jump_forward_tooltip (PtWindow *self)
 static void
 change_play_button_tooltip (PtWindow *self)
 {
-  gchar   *play;
-  int      pause;
-  gboolean free_me = FALSE;
+  gchar    *play;
+  int       pause;
+  gboolean  free_me = FALSE;
+  GAction  *action;
+  GVariant *state;
+
+  action = g_action_map_lookup_action (G_ACTION_MAP (self), "play");
+  state = g_action_get_state (action);
 
   pause = pt_player_get_pause (self->player) / 1000;
-  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->button_play)))
+  if (g_variant_get_boolean (state))
     {
       if (pause == 0)
         {
@@ -730,9 +734,7 @@ pt_window_ready_to_play (PtWindow *self,
   gchar *display_name = NULL;
 
   enable_win_actions (self, state);
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->button_play), FALSE);
 
-  gtk_widget_set_sensitive (self->button_play, state);
   gtk_widget_set_sensitive (self->volume_button, state);
 
   if (state)
@@ -842,10 +844,26 @@ pt_window_open_file (PtWindow *self,
 }
 
 static void
-update_play_after_toggle (PtWindow        *self,
-                          GtkToggleButton *button)
+player_state_changed_cb (PtPlayer   *player,
+                         GParamSpec *param,
+                         PtWindow   *self)
 {
-  if (gtk_toggle_button_get_active (button))
+  PtStateType player_state;
+  GAction    *action;
+  GVariant   *action_state;
+  gboolean    playing;
+  gboolean    ready;
+
+  player_state = pt_player_get_state (player);
+  action = g_action_map_lookup_action (G_ACTION_MAP (self), "play");
+
+  ready = player_state >= PT_STATE_PAUSED;
+  playing = player_state == PT_STATE_PLAYING;
+  action_state = g_variant_new_boolean (playing);
+  g_action_change_state (action, action_state);
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), ready);
+
+  if (playing)
     {
       update_time (self);
       pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (self->waveviewer), TRUE);
@@ -855,40 +873,12 @@ update_play_after_toggle (PtWindow        *self,
 }
 
 static void
-player_play_toggled_cb (PtPlayer *player,
-                        PtWindow *self)
-{
-  GtkToggleButton *play;
-  play = GTK_TOGGLE_BUTTON (self->button_play);
-
-  /* Player changed play/pause; toggle GUI button and block signals */
-  g_signal_handlers_block_by_func (play, play_button_toggled_cb, self);
-  gtk_toggle_button_set_active (play, !gtk_toggle_button_get_active (play));
-  g_signal_handlers_unblock_by_func (play, play_button_toggled_cb, self);
-
-  update_play_after_toggle (self, play);
-}
-
-static void
-play_button_toggled_cb (GtkToggleButton *button,
-                        PtWindow        *self)
-{
-  /* GUI button toggled, block signals from PtPlayer */
-  g_signal_handlers_block_by_func (self->player, player_play_toggled_cb, self);
-  pt_player_play_pause (self->player);
-  g_signal_handlers_unblock_by_func (self->player, player_play_toggled_cb, self);
-
-  update_play_after_toggle (self, button);
-}
-
-static void
 player_end_of_stream_cb (PtPlayer *player,
                          PtWindow *self)
 {
   /* Pause player without jumping back, this will also toggle the
    * Play button */
   pt_player_pause (self->player);
-  change_play_button_tooltip (self);
 }
 
 static void
@@ -1114,8 +1104,8 @@ setup_player (PtWindow *self)
                     self);
 
   g_signal_connect (self->player,
-                    "play-toggled",
-                    G_CALLBACK (player_play_toggled_cb),
+                    "notify::state",
+                    G_CALLBACK (player_state_changed_cb),
                     self);
 
   GtkAdjustment *rate_adjustment;
@@ -1145,6 +1135,8 @@ setup_accels_actions_menus (PtWindow *self)
                                    self);
 
   enable_win_actions (self, FALSE);
+  action = g_action_map_lookup_action (G_ACTION_MAP (self), "play");
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), FALSE);
 
   self->go_to_timestamp = g_menu_item_new (_ ("Go to Time in Clipboard"), "win.goto-timestamp-from-clipboard");
   g_menu_insert_item (G_MENU (self->secondary_menu), 1, self->go_to_timestamp);
@@ -1392,8 +1384,6 @@ pt_window_class_init (PtWindowClass *klass)
 
   gtk_widget_class_set_template_from_resource (widget_class, "/xyz/parlatype/Parlatype/window.ui");
 
-  gtk_widget_class_bind_template_callback (widget_class, play_button_toggled_cb);
-
   gtk_widget_class_bind_template_child (widget_class, PtWindow, waveviewer);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, primary_menu_button);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, pos_menu_button);
@@ -1419,7 +1409,6 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_install_action (widget_class, "win.insert-timestamp", NULL, insert_timestamp);
   gtk_widget_class_install_action (widget_class, "win.jump-back", NULL, jump_back);
   gtk_widget_class_install_action (widget_class, "win.jump-forward", NULL, jump_forward);
-  gtk_widget_class_install_action (widget_class, "win.play", NULL, play_action);
   gtk_widget_class_install_action (widget_class, "win.save", NULL, pt_window_save_action);
   gtk_widget_class_install_action (widget_class, "win.save-as", NULL, pt_window_save_action);
   gtk_widget_class_install_action (widget_class, "win.zoom-in", NULL, zoom_in);
