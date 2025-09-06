@@ -64,8 +64,6 @@ struct _PtWindow
   GtkWidget *paned;
   GtkWidget *text_view;
 
-  GMenuModel *secondary_menu;
-
   gint64   last_time; // last time to compare if it changed
   gboolean player_ready;
 
@@ -1272,7 +1270,6 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtWindow, paned);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, text_view);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, title);
-  gtk_widget_class_bind_template_child (widget_class, PtWindow, secondary_menu);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, waveviewer_stack);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, timestamp_switch);
 
