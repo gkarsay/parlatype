@@ -66,7 +66,8 @@ struct _PtWindow
 
   GMenuModel *secondary_menu;
 
-  gint64 last_time; // last time to compare if it changed
+  gint64   last_time; // last time to compare if it changed
+  gboolean player_ready;
 
   guint   timer;
   gdouble speed;
@@ -583,9 +584,16 @@ update_goto_cursor_action_sensitivity (GObject    *gobject,
 }
 
 static void
-enable_win_actions (PtWindow *self,
-                    gboolean  state)
+pt_window_ready_to_play (PtWindow *self,
+                         gboolean  state)
 {
+  /* Set up widget sensitivity/visibility, actions, labels, window title
+     and timer according to the state of PtPlayer (ready to play or not).
+     Reset tooltips for insensitive widgets. */
+
+  gchar   *display_name = NULL;
+  GAction *action;
+
   gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.jump-back", state);
   gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.jump-forward", state);
   gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.play", state);
@@ -597,19 +605,12 @@ enable_win_actions (PtWindow *self,
 
   /* always insensitive: either there is no waveform or we are already at cursor position */
   gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.goto-cursor", FALSE);
-}
 
-static void
-pt_window_ready_to_play (PtWindow *self,
-                         gboolean  state)
-{
-  /* Set up widget sensitivity/visibility, actions, labels, window title
-     and timer according to the state of PtPlayer (ready to play or not).
-     Reset tooltips for insensitive widgets. */
+  action = g_action_map_lookup_action (G_ACTION_MAP (self), "play");
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
 
-  gchar *display_name = NULL;
-
-  enable_win_actions (self, state);
+  action = g_action_map_lookup_action (G_ACTION_MAP (self), "transcribe");
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
 
   gtk_widget_set_sensitive (self->volume_button, state);
 
@@ -651,7 +652,6 @@ player_error_cb (PtPlayer *player,
                  GError   *error,
                  PtWindow *self)
 {
-  pt_window_ready_to_play (self, FALSE);
   pt_error_message (self, error->message);
 }
 
@@ -700,7 +700,6 @@ pt_window_open_file (PtWindow *self,
     return;
 
   gtk_stack_set_visible_child (stack, gtk_stack_get_child_by_name (stack, "waveviewer"));
-  pt_window_ready_to_play (self, FALSE);
   if (!pt_player_open_uri (self->player, uri))
     {
       gtk_stack_set_visible_child (stack, gtk_stack_get_child_by_name (stack, "empty"));
@@ -711,7 +710,6 @@ pt_window_open_file (PtWindow *self,
   pt_text_view_set_audio_file (PT_TEXT_VIEW (self->text_view), audio_file);
   g_object_unref (audio_file);
 
-  pt_window_ready_to_play (self, TRUE);
   pt_waveviewer_load_wave_async (PT_WAVEVIEWER (self->waveviewer),
                                  uri,
                                  NULL,
@@ -738,7 +736,11 @@ player_state_changed_cb (PtPlayer   *player,
   action_state = g_variant_new_boolean (playing);
   g_action_change_state (action, action_state);
 
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), ready);
+  if (ready != self->player_ready)
+    {
+      pt_window_ready_to_play (self, ready);
+      self->player_ready = ready;
+    }
 
   if (playing)
     {
@@ -1010,10 +1012,6 @@ setup_accels_actions_menus (PtWindow *self)
                                    win_actions,
                                    G_N_ELEMENTS (win_actions),
                                    self);
-
-  enable_win_actions (self, FALSE);
-  action = g_action_map_lookup_action (G_ACTION_MAP (self), "play");
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), FALSE);
 }
 
 static void
@@ -1173,6 +1171,7 @@ pt_window_init (PtWindow *self)
   setup_accels_actions_menus (self);
   setup_settings (self);
   pt_window_setup_dnd (self); /* this is in pt_window_dnd.c */
+  pt_window_ready_to_play (self, FALSE);
 
   g_object_bind_property (
       self->text_view, "timestamps-visible",
@@ -1191,6 +1190,7 @@ pt_window_init (PtWindow *self)
   self->recent = gtk_recent_manager_get_default ();
   self->timer = 0;
   self->last_time = 0;
+  self->player_ready = FALSE;
 
   /* Used e.g. by Xfce */
   gtk_window_set_default_icon_name (APP_ID);
@@ -1198,8 +1198,6 @@ pt_window_init (PtWindow *self)
   /* Prepare layout if we have initially RTL */
   if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
     pt_window_direction_changed (GTK_WIDGET (self), GTK_TEXT_DIR_LTR);
-
-  pt_window_ready_to_play (self, FALSE);
 
   g_signal_connect (self->waveviewer,
                     "notify::follow-cursor",
