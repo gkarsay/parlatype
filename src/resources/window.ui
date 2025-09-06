@@ -319,10 +319,6 @@
   </menu>
   <menu id="secondary_menu">
       <item>
-        <attribute name="label" translatable="yes">Copy Time to Clipboard</attribute>
-        <attribute name="action">win.copy-timestamp-to-clipboard</attribute>
-      </item>
-      <item>
         <attribute name="label" translatable="yes">Go to Cursor</attribute>
         <attribute name="action">win.goto-cursor</attribute>
       </item>
