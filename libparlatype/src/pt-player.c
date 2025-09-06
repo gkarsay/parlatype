@@ -2289,6 +2289,15 @@ pt_player_get_media_info (PtPlayer *self)
   return priv->info;
 }
 
+PtStateType
+pt_player_get_state (PtPlayer *self)
+{
+  g_return_val_if_fail (PT_IS_PLAYER (self), 0);
+  PtPlayerPrivate *priv = pt_player_get_instance_private (self);
+
+  return priv->app_state;
+}
+
 static void
 pt_player_constructed (GObject *object)
 {
