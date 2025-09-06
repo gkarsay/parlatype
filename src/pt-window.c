@@ -248,11 +248,16 @@ pt_window_transcribe_action (GSimpleAction *action,
                              GVariant      *state,
                              gpointer       user_data)
 {
+  PtWindow *self = PT_WINDOW (user_data);
   GVariant *old_state, *new_state;
+  GAction  *play_action;
 
   old_state = g_action_get_state (G_ACTION (action));
   new_state = g_variant_new_boolean (!g_variant_get_boolean (old_state));
   g_action_change_state (G_ACTION (action), new_state);
+
+  play_action = g_action_map_lookup_action (G_ACTION_MAP (self), "play");
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (play_action), g_variant_get_boolean (old_state));
 
   g_print ("%s\n", g_variant_get_boolean (new_state) ? "transcribing" : "stopped transcribing");
 }
@@ -610,7 +615,7 @@ pt_window_ready_to_play (PtWindow *self,
   g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
 
   action = g_action_map_lookup_action (G_ACTION_MAP (self), "transcribe");
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state && self->asr_config != NULL);
 
   gtk_widget_set_sensitive (self->volume_button, state);
 
@@ -723,23 +728,24 @@ player_state_changed_cb (PtPlayer   *player,
                          PtWindow   *self)
 {
   PtStateType player_state;
-  GAction    *action;
+  GAction    *play_action, *transcribe_action;
   GVariant   *action_state;
   gboolean    playing;
   gboolean    ready;
 
   player_state = pt_player_get_state (player);
-  action = g_action_map_lookup_action (G_ACTION_MAP (self), "play");
+  play_action = g_action_map_lookup_action (G_ACTION_MAP (self), "play");
 
   ready = player_state >= PT_STATE_PAUSED;
   playing = player_state == PT_STATE_PLAYING;
   action_state = g_variant_new_boolean (playing);
-  g_action_change_state (action, action_state);
+  g_action_change_state (play_action, action_state);
 
   if (ready != self->player_ready)
     {
       pt_window_ready_to_play (self, ready);
       self->player_ready = ready;
+      return;
     }
 
   if (playing)
@@ -747,6 +753,9 @@ player_state_changed_cb (PtPlayer   *player,
       update_time (self);
       pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (self->waveviewer), TRUE);
     }
+
+  transcribe_action = g_action_map_lookup_action (G_ACTION_MAP (self), "transcribe");
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (transcribe_action), !playing && self->asr_config != NULL);
 
   change_play_button_tooltip (self);
 }
