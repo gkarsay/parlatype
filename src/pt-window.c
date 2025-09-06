@@ -14,6 +14,8 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#define G_LOG_DOMAIN "pt-window"
+
 #include "config.h"
 
 #include "pt-window.h"
@@ -66,12 +68,7 @@ struct _PtWindow
   GtkWidget *paned;
   GtkWidget *text_view;
 
-  GMenuModel *primary_menu;
   GMenuModel *secondary_menu;
-  GMenu      *asr_menu;
-  GMenuItem  *asr_menu_item1;
-  GMenuItem  *asr_menu_item2;
-  gboolean    asr;
 
   gint64 last_time; // last time to compare if it changed
 
@@ -223,9 +220,9 @@ jump_forward (GtkWidget  *widget,
 }
 
 static void
-play (GtkWidget  *widget,
-      const char *action_name,
-      GVariant   *param)
+play_action (GtkWidget  *widget,
+             const char *action_name,
+             GVariant   *param)
 {
   PtWindow *self = PT_WINDOW (widget);
 
@@ -276,7 +273,7 @@ zoom_default (GtkWidget  *widget,
   set_zoom (self->editor, 0);
 }
 
-static gboolean
+/*static gboolean
 setup_asr (PtWindow *self)
 {
   GError  *error = NULL;
@@ -299,43 +296,20 @@ static void
 set_mode_playback (PtWindow *self)
 {
   pt_player_set_mode (self->player, PT_MODE_PLAYBACK);
-}
+}*/
 
 void
-change_mode (GSimpleAction *action,
-             GVariant      *state,
-             gpointer       user_data)
+pt_window_transcribe_action (GSimpleAction *action,
+                             GVariant      *state,
+                             gpointer       user_data)
 {
-  PtWindow    *self = PT_WINDOW (user_data);
-  const gchar *mode;
-  gboolean     success = TRUE;
+  GVariant *old_state, *new_state;
 
-  /* Work around synchronisation issues in PtPlayer in playing state */
-  pt_player_pause (self->player);
+  old_state = g_action_get_state (G_ACTION (action));
+  new_state = g_variant_new_boolean (!g_variant_get_boolean (old_state));
+  g_action_change_state (G_ACTION (action), new_state);
 
-  mode = g_variant_get_string (state, NULL);
-  if (g_strcmp0 (mode, "playback") == 0)
-    {
-      set_mode_playback (self);
-    }
-  else if (g_strcmp0 (mode, "asr") == 0)
-    {
-      if (self->asr_config != NULL)
-        {
-          success = setup_asr (self);
-        }
-      else
-        {
-          return;
-        }
-    }
-  else
-    {
-      g_assert_not_reached ();
-    }
-
-  if (success)
-    g_simple_action_set_state (action, state);
+  g_print ("%s\n", g_variant_get_boolean (new_state) ? "transcribing" : "stopped transcribing");
 }
 
 static void
@@ -511,7 +485,7 @@ pt_window_save_action (GtkWidget  *widget,
 }
 
 const GActionEntry win_actions[] = {
-  { "mode", NULL, "s", "'playback'", change_mode },
+  { "transcribe", pt_window_transcribe_action, NULL, "false", NULL },
 };
 
 static void
@@ -718,12 +692,6 @@ static void
 enable_win_actions (PtWindow *self,
                     gboolean  state)
 {
-  GAction *action;
-
-  /* always active */
-  action = g_action_map_lookup_action (G_ACTION_MAP (self), "mode");
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), TRUE);
-
   gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.jump-back", state);
   gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.jump-forward", state);
   gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.play", state);
@@ -937,71 +905,42 @@ pt_window_direction_changed (GtkWidget       *widget,
   gtk_widget_set_direction (self->controls_box, GTK_TEXT_DIR_LTR);
 }
 
+/*
+ * Called on startup and on config file changes
+ */
 static void
 set_asr_config (PtWindow *self)
 {
-  GFile       *asr_file;
-  gchar       *asr_path;
-  GAction     *action;
-  GVariant    *variant;
-  const gchar *mode;
+  GFile   *asr_file;
+  gchar   *asr_path;
+  GAction *action;
+  gboolean enable;
 
-  /* called when config file changed (and on startup);
-   * get rid of old config object first */
+  action = g_action_map_lookup_action (G_ACTION_MAP (self), "transcribe");
+
+  /* Clear old config object and recreate with new config file */
   if (self->asr_config)
     g_clear_object (&self->asr_config);
 
-  /* get new config object */
   asr_path = g_settings_get_string (self->editor, "asr-config");
   asr_file = g_file_new_for_path (asr_path);
   self->asr_config = pt_config_new (asr_file);
   g_object_unref (asr_file);
 
-  /* get current mode */
-  action = g_action_map_lookup_action (G_ACTION_MAP (self), "mode");
-  variant = g_action_get_state (action);
-  mode = g_variant_get_string (variant, NULL);
+  enable = pt_config_is_valid (self->asr_config) &&
+           pt_player_config_is_loadable (self->player, self->asr_config) &&
+           pt_config_is_installed (self->asr_config);
 
-  /* not valid: clear object, remove menu, change to playback mode */
-  if (!pt_config_is_valid (self->asr_config) ||
-      !pt_player_config_is_loadable (self->player, self->asr_config) ||
-      !pt_config_is_installed (self->asr_config))
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), enable);
+  g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                    "MESSAGE", "asr %s, config path: »%s«", enable ? "enabled" : "disabled", asr_path);
+
+  if (!enable)
     {
       g_clear_object (&self->asr_config);
-      if (self->asr)
-        {
-          g_menu_remove (G_MENU (self->primary_menu), 1);
-          self->asr = FALSE;
-        }
-      if (g_strcmp0 (mode, "asr") == 0)
-        {
-          set_mode_playback (self);
-        }
-      g_variant_unref (variant);
-      g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
-                        "MESSAGE", "asr deactivated, config path: »%s«", asr_path);
-      g_free (asr_path);
-      return;
     }
 
-  /* valid: add menu, setup ASR plugin */
-  if (!self->asr)
-    {
-      g_menu_insert_section (G_MENU (self->primary_menu),
-                             1,    /* position = after theme selector */
-                             NULL, /* label */
-                             G_MENU_MODEL (self->asr_menu));
-      self->asr = TRUE;
-    }
-
-  if (g_strcmp0 (mode, "asr") == 0)
-    setup_asr (self);
-
-  g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
-                    "MESSAGE", "asr activated, config path: »%s«", asr_path);
   g_free (asr_path);
-
-  g_variant_unref (variant);
 }
 
 static void
@@ -1130,7 +1069,6 @@ setup_settings (PtWindow *self)
       self->player, "timestamp-fraction-sep",
       G_SETTINGS_BIND_GET);
 
-  self->asr = FALSE;
   set_asr_config (self);
 
   /* connect to tooltip changer */
@@ -1207,13 +1145,6 @@ setup_accels_actions_menus (PtWindow *self)
                                    self);
 
   enable_win_actions (self, FALSE);
-
-  /* Setup menus */
-  self->asr_menu = g_menu_new ();
-  self->asr_menu_item1 = g_menu_item_new (_ ("Manual Transcription"), "win.mode::playback");
-  self->asr_menu_item2 = g_menu_item_new (_ ("Automatic Transcription"), "win.mode::asr");
-  g_menu_append_item (self->asr_menu, self->asr_menu_item1);
-  g_menu_append_item (self->asr_menu, self->asr_menu_item2);
 
   self->go_to_timestamp = g_menu_item_new (_ ("Go to Time in Clipboard"), "win.goto-timestamp-from-clipboard");
   g_menu_insert_item (G_MENU (self->secondary_menu), 1, self->go_to_timestamp);
@@ -1441,9 +1372,6 @@ pt_window_dispose (GObject *object)
   g_clear_object (&self->player);
   g_clear_object (&self->asr_config);
   g_clear_object (&self->go_to_timestamp);
-  g_clear_object (&self->asr_menu);
-  g_clear_object (&self->asr_menu_item1);
-  g_clear_object (&self->asr_menu_item2);
 
   gtk_widget_dispose_template (GTK_WIDGET (self), PT_TYPE_WINDOW);
 
@@ -1480,7 +1408,6 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtWindow, paned);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, text_view);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, title);
-  gtk_widget_class_bind_template_child (widget_class, PtWindow, primary_menu);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, secondary_menu);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, waveviewer_stack);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, timestamp_switch);
@@ -1492,7 +1419,7 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_install_action (widget_class, "win.insert-timestamp", NULL, insert_timestamp);
   gtk_widget_class_install_action (widget_class, "win.jump-back", NULL, jump_back);
   gtk_widget_class_install_action (widget_class, "win.jump-forward", NULL, jump_forward);
-  gtk_widget_class_install_action (widget_class, "win.play", NULL, play);
+  gtk_widget_class_install_action (widget_class, "win.play", NULL, play_action);
   gtk_widget_class_install_action (widget_class, "win.save", NULL, pt_window_save_action);
   gtk_widget_class_install_action (widget_class, "win.save-as", NULL, pt_window_save_action);
   gtk_widget_class_install_action (widget_class, "win.zoom-in", NULL, zoom_in);

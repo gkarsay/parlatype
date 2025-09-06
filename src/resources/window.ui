@@ -229,6 +229,13 @@
                     <property name="halign">center</property>
                     <property name="margin-top">12</property>
                     <child>
+                      <object class="GtkToggleButton">
+                        <property name="label">Transcribe</property>
+                        <property name="action-name">win.transcribe</property>
+                        <!--<property name="action-target">'EXAMPLE'</property>-->
+                      </object>
+                    </child>
+                    <child>
                       <object class="GtkButton">
                         <property name="label">Save testfile</property>
                         <property name="action_name">win.serialize</property>
