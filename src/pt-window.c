@@ -216,7 +216,7 @@ zoom_default (GtkWidget  *widget,
   set_zoom (self->editor, 0);
 }
 
-/*static gboolean
+static gboolean
 setup_asr (PtWindow *self)
 {
   GError  *error = NULL;
@@ -239,7 +239,7 @@ static void
 set_mode_playback (PtWindow *self)
 {
   pt_player_set_mode (self->player, PT_MODE_PLAYBACK);
-}*/
+}
 
 void
 pt_window_transcribe_action (GSimpleAction *action,
@@ -249,15 +249,31 @@ pt_window_transcribe_action (GSimpleAction *action,
   PtWindow *self = PT_WINDOW (user_data);
   GVariant *old_state, *new_state;
   GAction  *play_action;
+  gboolean  transcribe;
 
   old_state = g_action_get_state (G_ACTION (action));
-  new_state = g_variant_new_boolean (!g_variant_get_boolean (old_state));
-  g_action_change_state (G_ACTION (action), new_state);
+  transcribe = !g_variant_get_boolean (old_state);
+  new_state = g_variant_new_boolean (transcribe);
 
   play_action = g_action_map_lookup_action (G_ACTION_MAP (self), "play");
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (play_action), g_variant_get_boolean (old_state));
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (play_action), !transcribe);
 
-  g_print ("%s\n", g_variant_get_boolean (new_state) ? "transcribing" : "stopped transcribing");
+  g_print ("%s\n", transcribe ? "transcribing" : "stopped transcribing");
+
+  if (transcribe)
+    {
+      if (setup_asr (self))
+        {
+          pt_player_play (self->player);
+          g_action_change_state (G_ACTION (action), new_state);
+        }
+    }
+  else
+    {
+      pt_player_pause (self->player);
+      set_mode_playback (self);
+      g_action_change_state (G_ACTION (action), new_state);
+    }
 }
 
 static void
@@ -726,12 +742,14 @@ player_state_changed_cb (PtPlayer   *player,
                          PtWindow   *self)
 {
   PtStateType player_state;
+  PtModeType  player_mode;
   GAction    *play_action, *transcribe_action;
   GVariant   *action_state;
   gboolean    playing;
   gboolean    ready;
 
   player_state = pt_player_get_state (player);
+  player_mode = pt_player_get_mode (player);
   play_action = g_action_map_lookup_action (G_ACTION_MAP (self), "play");
 
   ready = player_state >= PT_STATE_PAUSED;
@@ -752,8 +770,11 @@ player_state_changed_cb (PtPlayer   *player,
       pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (self->waveviewer), TRUE);
     }
 
-  transcribe_action = g_action_map_lookup_action (G_ACTION_MAP (self), "transcribe");
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (transcribe_action), !playing && self->asr_config != NULL);
+  /*if (player_mode != PT_MODE_ASR)
+    {
+      transcribe_action = g_action_map_lookup_action (G_ACTION_MAP (self), "transcribe");
+      g_simple_action_set_enabled (G_SIMPLE_ACTION (transcribe_action), !playing && self->asr_config != NULL);
+    }*/
 
   change_play_button_tooltip (self);
 }
