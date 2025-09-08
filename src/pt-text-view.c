@@ -43,6 +43,8 @@ struct _PtTextView
 
   GQueue   timestamps;
   gboolean timestamps_visible;
+
+  gboolean hypothesis;
 };
 
 enum
@@ -218,6 +220,36 @@ pt_text_view_action_zoom (GtkWidget  *widget,
     pt_text_view_zoom (self, 0);
   else
     g_assert_not_reached ();
+}
+
+void
+pt_text_view_insert_asr_hypothesis (PtTextView *self,
+                                    char       *hypothesis)
+{
+  g_return_if_fail (PT_IS_TEXT_VIEW (self));
+
+  if (self->hypothesis)
+    {
+      gtk_text_buffer_undo (GTK_TEXT_BUFFER (self->buffer));
+    }
+
+  gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (self->buffer), hypothesis, -1);
+  self->hypothesis = TRUE;
+}
+
+void
+pt_text_view_insert_asr_final (PtTextView *self,
+                               char       *final)
+{
+  g_return_if_fail (PT_IS_TEXT_VIEW (self));
+
+  if (self->hypothesis)
+    {
+      gtk_text_buffer_undo (GTK_TEXT_BUFFER (self->buffer));
+    }
+
+  gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (self->buffer), final, -1);
+  self->hypothesis = FALSE;
 }
 
 gboolean
@@ -721,6 +753,8 @@ pt_text_view_init (PtTextView *self)
   g_signal_connect (self->buffer, "insert-timestamp-button", G_CALLBACK (insert_timestamp_button_cb), self);
   g_signal_connect (self->buffer, "delete-range", G_CALLBACK (delete_range_cb), self);
   g_signal_connect (self->buffer, "modified-changed", G_CALLBACK (modified_changed_cb), self);
+
+  self->hypothesis = FALSE;
 
   /* Controllers */
   GtkEventController *controller = gtk_event_controller_key_new ();

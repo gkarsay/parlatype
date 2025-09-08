@@ -23,6 +23,12 @@
 G_DECLARE_FINAL_TYPE (PtTextView, pt_text_view, PT, TEXT_VIEW, GtkTextView)
 
 
+void           pt_text_view_insert_asr_hypothesis  (PtTextView        *self,
+                                                    char              *hypothesis);
+
+void           pt_text_view_insert_asr_final       (PtTextView        *self,
+                                                    char              *final);
+
 gboolean       pt_text_view_get_is_modified        (PtTextView        *self);
 
 gboolean       pt_text_view_get_timestamps_visible (PtTextView        *self);

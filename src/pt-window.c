@@ -216,6 +216,28 @@ zoom_default (GtkWidget  *widget,
   set_zoom (self->editor, 0);
 }
 
+static void
+player_asr_hypothesis_cb (PtPlayer *player,
+                          gchar    *word,
+                          gpointer  user_data)
+{
+  PtWindow *self = PT_WINDOW (user_data);
+  g_print ("%s\n", __func__);
+
+  pt_text_view_insert_asr_hypothesis (PT_TEXT_VIEW (self->text_view), word);
+}
+
+static void
+player_asr_final_cb (PtPlayer *player,
+                     gchar    *word,
+                     gpointer  user_data)
+{
+  PtWindow *self = PT_WINDOW (user_data);
+  g_print ("%s\n", __func__);
+
+  pt_text_view_insert_asr_final (PT_TEXT_VIEW (self->text_view), word);
+}
+
 static gboolean
 setup_asr (PtWindow *self)
 {
@@ -1013,6 +1035,16 @@ setup_player (PtWindow *self)
   g_signal_connect (self->player,
                     "notify::state",
                     G_CALLBACK (player_state_changed_cb),
+                    self);
+
+  g_signal_connect (self->player,
+                    "asr-final",
+                    G_CALLBACK (player_asr_final_cb),
+                    self);
+
+  g_signal_connect (self->player,
+                    "asr-hypothesis",
+                    G_CALLBACK (player_asr_hypothesis_cb),
                     self);
 
   GtkAdjustment *rate_adjustment;
