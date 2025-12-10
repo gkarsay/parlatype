@@ -22,16 +22,6 @@
 #define GST_TYPE_PT_AUDIO_ASR_BIN (gst_pt_audio_asr_bin_get_type ())
 G_DECLARE_FINAL_TYPE (GstPtAudioAsrBin, gst_pt_audio_asr_bin, GST, PT_AUDIO_ASR_BIN, GstBin)
 
-gboolean gst_pt_audio_asr_bin_is_configured        (GstPtAudioAsrBin   *self);
-
-gboolean gst_pt_audio_asr_bin_configure_asr_finish (GstPtAudioAsrBin   *self,
-                                                    GAsyncResult       *result,
-                                                    GError            **error);
-
-void     gst_pt_audio_asr_bin_configure_asr_async  (GstPtAudioAsrBin   *self,
-                                                    PtConfig           *config,
-                                                    GCancellable       *cancellable,
-                                                    GAsyncReadyCallback callback,
-                                                    gpointer            user_data);
+GstElement *gst_pt_audio_asr_bin_get_appsink (GstPtAudioAsrBin *self);
 
 gboolean gst_pt_audio_asr_bin_register             (void);

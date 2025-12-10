@@ -23,6 +23,8 @@
 #include "pt-config.h"
 #include "pt-media-info.h"
 #include "pt-waveviewer.h"
+#include "pt-text-view.h"
+#include "../../src/pt-text-view.h"
 
 G_BEGIN_DECLS
 
@@ -181,6 +183,7 @@ PtModeType   pt_player_get_mode                 (PtPlayer       *self);
 
 gboolean     pt_player_configure_asr            (PtPlayer       *self,
                                                  PtConfig       *config,
+                                                 PtTextView     *text_view,
                                                  GError        **error);
 
 gboolean     pt_player_config_is_loadable       (PtPlayer       *self,

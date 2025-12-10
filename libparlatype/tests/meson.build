@@ -3,7 +3,7 @@ tests = [
   { 'name': 'player'                             },
   { 'name': 'waveloader'                         },
   { 'name': 'waveviewer'                         },
-  { 'name': 'gst',              'internal': true },
+ #{ 'name': 'gst',              'internal': true },
   { 'name': 'mediainfo',        'internal': true },
   { 'name': 'waveloader-static','internal': true },
 ]

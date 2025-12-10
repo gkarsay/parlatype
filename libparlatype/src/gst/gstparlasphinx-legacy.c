@@ -1,4 +1,4 @@
-/* -*- c-basic-offset: 4; indent-tabs-mode: nil -*- */
+/* -*- c-basic-offset: 2; indent-tabs-mode: nil -*- */
 /* ====================================================================
  * Copyright (c) 2014 Alpha Cephei Inc.
  * Copyright (c) 2007 Carnegie Mellon University.  All rights
@@ -39,64 +39,17 @@
  * with Parlatype.
  */
 
-/**
- * element-pocketsphix
- *
- * The element runs the speech recognition on incoming audio buffers and
- * generates an element messages named <classname>&quot;pocketsphinx&quot;</classname>
- * for each hypothesis and one for the final result. The message's structure
- * contains these fields:
- *
- * <itemizedlist>
- * <listitem>
- *   <para>
- *   #GstClockTime
- *   <classname>&quot;timestamp&quot;</classname>:
- *   the timestamp of the buffer that triggered the message.
- *   </para>
- * </listitem>
- * <listitem>
- *   <para>
- *   #gboolean
- *   <classname>&quot;final&quot;</classname>:
- *   %FALSE for intermediate messages.
- *   </para>
- * </listitem>
- * <listitem>
- *   <para>
- *   #gin32
- *   <classname>&quot;confidence&quot;</classname>:
- *   posterior probability (confidence) of the result in log domain
- *   </para>
- * </listitem>
- * <listitem>
- *   <para>
- *   #gchar
- *   <classname>&quot;hypothesis&quot;</classname>:
- *   the recognized text
- *   </para>
- * </listitem>
- * </itemizedlist>
- *
- * <refsect2>
- * <title>Example pipeline</title>
- * |[
- * gst-launch-1.0 -m autoaudiosrc ! audioconvert ! audioresample ! pocketsphinx ! fakesink
- * ]|
- * </refsect2>
- */
 
 #include "config.h"
 
 #include "gstparlasphinx-legacy.h"
 
-#include <gst/gst.h>
+//#include <gst/gst.h>
 #include <sphinxbase/err.h>
 #include <sphinxbase/strfuncs.h>
 #include <string.h>
-
-GST_DEBUG_CATEGORY_STATIC (parlasphinx_debug);
-#define GST_CAT_DEFAULT parlasphinx_debug
+#include <gst/audio/audio.h>
+#include <gst/app/gstappsink.h>
 
 static void
 gst_parlasphinx_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
@@ -104,17 +57,6 @@ gst_parlasphinx_set_property (GObject *object, guint prop_id, const GValue *valu
 static void
 gst_parlasphinx_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
 
-static GstStateChangeReturn
-gst_parlasphinx_change_state (GstElement *element, GstStateChange transition);
-
-static GstFlowReturn
-gst_parlasphinx_chain (GstPad *pad, GstObject *parent, GstBuffer *buffer);
-
-static gboolean
-gst_parlasphinx_event (GstPad *pad, GstObject *parent, GstEvent *event);
-
-static void
-gst_parlasphinx_finalize_utt (GstParlasphinx *self);
 
 static void
 gst_parlasphinx_finalize (GObject *gobject);
@@ -155,24 +97,6 @@ static char *default_argv[] = {
 };
 static const int default_argc = sizeof (default_argv) / sizeof (default_argv[0]);
 
-static GstStaticPadTemplate sink_factory =
-    GST_STATIC_PAD_TEMPLATE ("sink",
-                             GST_PAD_SINK,
-                             GST_PAD_ALWAYS,
-                             GST_STATIC_CAPS ("audio/x-raw, "
-                                              "format = (string) { S16LE }, "
-                                              "channels = (int) 1, "
-                                              "rate = (int) 16000"));
-
-static GstStaticPadTemplate src_factory =
-    GST_STATIC_PAD_TEMPLATE ("src",
-                             GST_PAD_SRC,
-                             GST_PAD_ALWAYS,
-                             GST_STATIC_CAPS ("audio/x-raw, "
-                                              "format = (string) { S16LE }, "
-                                              "channels = (int) 1, "
-                                              "rate = (int) 16000"));
-
 /*
  * Boxing of ps_decoder_t.
  */
@@ -194,9 +118,10 @@ ps_decoder_get_type (void)
 
 struct _GstParlasphinx
 {
-  GstElement element;
+  GObject parent_instance;
 
-  GstPad *sinkpad, *srcpad;
+  GstElement *appsink;
+  PtTextView *text_view;
 
   ps_decoder_t *ps;
   cmd_ln_t     *config;
@@ -207,25 +132,83 @@ struct _GstParlasphinx
   gboolean listening_started;
   gint     uttno;
 
-  GstClock    *clock;
-  GstClockTime last_result_time; /* Absolute time of last partial result. */
+  //GstClock    *clock;
+  //GstClockTime last_result_time; /* Absolute time of last partial result. */
   char        *last_result;      /* String of last partial result. */
 
-  GstSegment segment;
   gboolean   eos;
 };
 
-G_DEFINE_TYPE (GstParlasphinx, gst_parlasphinx, GST_TYPE_ELEMENT);
+G_DEFINE_TYPE (GstParlasphinx, gst_parlasphinx, G_TYPE_OBJECT);
+
+static GstFlowReturn
+new_sample_cb (GstAppSink *sink,
+               gpointer    user_data)
+{
+  GstParlasphinx *self = GST_PARLASPHINX(user_data);
+  GstSample           *sample = gst_app_sink_pull_sample (sink);
+  GstBuffer           *buffer = gst_sample_get_buffer (sample);
+  GstMapInfo           map;
+  if (!gst_buffer_map (buffer, &map, GST_MAP_READ))
+    {
+      gst_sample_unref (sample);
+      return GST_FLOW_ERROR;
+    };
+  /* One sample is 2 bytes (16 bit signed integer), see caps in
+   * setup_pipeline(). The buffer contains several samples, the number
+   * of elements/samples is map.size / sample size. */
+  //g_array_append_vals (priv->hires, map.data, map.size / 2);
+  gst_buffer_unmap (buffer, &map);
+  gst_sample_unref (sample);
+
+  pt_text_view_insert_asr_final (self->text_view, "*");
+
+  return GST_FLOW_OK;
+}
+
+
+void
+gst_parlasphinx_set_appsink (GstParlasphinx *self,
+                             GstElement     *appsink)
+{
+  g_return_if_fail (GST_IS_PARLASPHINX (self));
+  g_return_if_fail (GST_IS_ELEMENT (appsink));
+
+  if (self->appsink != NULL)
+    return;
+
+  /*GstCaps *caps;
+
+  caps = gst_caps_new_simple ("audio/x-raw",
+                              "format", G_TYPE_STRING, GST_AUDIO_NE (S16LE),
+                              "channels", G_TYPE_INT, 1,
+                              "rate", G_TYPE_INT, 16000, NULL);*/
+
+  self->appsink = appsink;
+  //gst_app_sink_set_caps (GST_APP_SINK (appsink), caps);
+  g_object_set (self->appsink, "emit-signals", TRUE, "sync", FALSE, NULL);
+  g_signal_connect (self->appsink, "new-sample", G_CALLBACK (new_sample_cb), self);
+}
+
+void
+gst_parlasphinx_set_textview (GstParlasphinx *self,
+                              PtTextView     *text_view)
+{
+  g_return_if_fail (GST_IS_PARLASPHINX (self));
+  g_return_if_fail (PT_IS_TEXT_VIEW (text_view));
+
+  if (self->text_view != NULL)
+    return;
+
+  self->text_view = text_view;
+}
 
 static void
 gst_parlasphinx_class_init (GstParlasphinxClass *klass)
 {
   GObjectClass    *gobject_class;
-  GstElementClass *element_class;
-  ;
 
   gobject_class = (GObjectClass *) klass;
-  element_class = (GstElementClass *) klass;
 
   gobject_class->set_property = gst_parlasphinx_set_property;
   gobject_class->get_property = gst_parlasphinx_get_property;
@@ -328,18 +311,6 @@ gst_parlasphinx_class_init (GstParlasphinxClass *klass)
                                                        "The underlying decoder",
                                                        PS_DECODER_TYPE,
                                                        G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
-
-  GST_DEBUG_CATEGORY_INIT (parlasphinx_debug, "pocketsphinx", 0,
-                           "Automatic Speech Recognition");
-
-  element_class->change_state = gst_parlasphinx_change_state;
-
-  gst_element_class_add_pad_template (element_class,
-                                      gst_static_pad_template_get (&sink_factory));
-  gst_element_class_add_pad_template (element_class,
-                                      gst_static_pad_template_get (&src_factory));
-
-  gst_element_class_set_static_metadata (element_class, "PocketSphinx", "Filter/Audio", "Convert speech to text", "CMUSphinx-devel <cmusphinx-devel@lists.sourceforge.net>");
 }
 
 static void
@@ -600,91 +571,12 @@ gst_parlasphinx_finalize (GObject *gobject)
 static void
 gst_parlasphinx_init (GstParlasphinx *self)
 {
-  self->sinkpad =
-      gst_pad_new_from_static_template (&sink_factory, "sink");
-  self->srcpad =
-      gst_pad_new_from_static_template (&src_factory, "src");
-
   /* Parse default command-line options. */
   self->config = cmd_ln_parse_r (NULL, ps_args (), default_argc, default_argv, FALSE);
   ps_default_search_args (self->config);
-
-  /* Set up pads. */
-  gst_element_add_pad (GST_ELEMENT (self), self->sinkpad);
-  gst_pad_set_chain_function (self->sinkpad, gst_parlasphinx_chain);
-  gst_pad_set_event_function (self->sinkpad, gst_parlasphinx_event);
-  gst_pad_use_fixed_caps (self->sinkpad);
-
-  gst_element_add_pad (GST_ELEMENT (self), self->srcpad);
-  gst_pad_use_fixed_caps (self->srcpad);
-
-  /* Initialize time. */
-  self->last_result_time = 0;
-  self->last_result = NULL;
 }
 
-static GstStateChangeReturn
-gst_parlasphinx_change_state (GstElement *element, GstStateChange transition)
-{
-  GstParlasphinx      *self = GST_PARLASPHINX (element);
-  GstStateChangeReturn ret;
-  GstEvent            *seek = NULL;
-  GstSegment          *seg = NULL;
-  gboolean             success;
-
-  /* handle upward state changes */
-  switch (transition)
-    {
-    case GST_STATE_CHANGE_NULL_TO_READY:
-      self->ps = ps_init (self->config);
-      if (self->ps == NULL)
-        {
-          GST_ELEMENT_ERROR (GST_ELEMENT (self), LIBRARY, INIT,
-                             ("Failed to initialize PocketSphinx"),
-                             ("Failed to initialize PocketSphinx"));
-          return GST_STATE_CHANGE_FAILURE;
-        }
-      break;
-    case GST_STATE_CHANGE_PAUSED_TO_PLAYING:
-      self->clock = gst_element_get_clock (GST_ELEMENT (self));
-    default:
-      break;
-    }
-
-  ret = GST_ELEMENT_CLASS (gst_parlasphinx_parent_class)->change_state (element, transition);
-
-  /* handle downward state changes */
-  switch (transition)
-    {
-    case GST_STATE_CHANGE_PLAYING_TO_PAUSED:
-      g_clear_object (&self->clock);
-      if (self->eos)
-        break;
-      // gst_parlasphinx_finalize_utt(self); // crash in pocketsphinx
-      /* Work around a problem with unknown cause:
-       * When changing to paused position queries return the running
-       * time instead of stream time */
-      seg = &self->segment;
-      if (seg->position > seg->stop)
-        seg->position = seg->stop;
-      seek = gst_event_new_seek (1.0, GST_FORMAT_TIME,
-                                 GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE,
-                                 GST_SEEK_TYPE_SET, seg->position,
-                                 GST_SEEK_TYPE_NONE, -1);
-      success = gst_pad_push_event (self->sinkpad, seek);
-      GST_DEBUG_OBJECT (self, "pushed segment event: %s", success ? "yes" : "no");
-      break;
-    case GST_STATE_CHANGE_READY_TO_NULL:
-      ps_free (self->ps);
-      self->ps = NULL;
-    default:
-      break;
-    }
-
-  return ret;
-}
-
-static void
+/*static void
 gst_parlasphinx_post_message (GstParlasphinx *self, gboolean final, GstClockTime timestamp, gint32 prob, const gchar *hyp)
 {
   GstStructure *s = gst_structure_new ("pocketsphinx",
@@ -694,8 +586,9 @@ gst_parlasphinx_post_message (GstParlasphinx *self, gboolean final, GstClockTime
                                        "hypothesis", G_TYPE_STRING, hyp, NULL);
 
   gst_element_post_message (GST_ELEMENT (self), gst_message_new_element (GST_OBJECT (self), s));
-}
+}*/
 
+#if 0
 static GstFlowReturn
 gst_parlasphinx_chain (GstPad *pad, GstObject *parent, GstBuffer *buffer)
 {
@@ -707,7 +600,8 @@ gst_parlasphinx_chain (GstPad *pad, GstObject *parent, GstBuffer *buffer)
   self = GST_PARLASPHINX (parent);
 
   if (GST_STATE (GST_ELEMENT (self)) != GST_STATE_PLAYING)
-    return gst_pad_push (self->srcpad, buffer);
+    return GST_FLOW_OK;
+    // return gst_pad_push (self->srcpad, buffer);
 
   /* Track current position */
   position = GST_BUFFER_TIMESTAMP (buffer);
@@ -766,7 +660,8 @@ gst_parlasphinx_chain (GstPad *pad, GstObject *parent, GstBuffer *buffer)
         }
     }
 
-  return gst_pad_push (self->srcpad, buffer);
+  // return gst_pad_push (self->srcpad, buffer);
+  return GST_FLOW_OK;
 }
 
 static void
@@ -783,9 +678,9 @@ gst_parlasphinx_finalize_utt (GstParlasphinx *self)
   self->listening_started = FALSE;
   hyp = ps_get_hyp (self->ps, &score);
 
-  if (hyp)
+  /*if (hyp)
     gst_parlasphinx_post_message (self, TRUE, GST_CLOCK_TIME_NONE,
-                                  ps_get_prob (self->ps), hyp);
+                                  ps_get_prob (self->ps), hyp);*/
 
   if (self->latdir)
     {
@@ -801,76 +696,11 @@ gst_parlasphinx_finalize_utt (GstParlasphinx *self)
       ckd_free (latfile);
     }
 }
+#endif
 
-static gboolean
-gst_parlasphinx_event (GstPad *pad, GstObject *parent, GstEvent *event)
+GstParlasphinx *
+gst_parlasphinx_new (void)
 {
-  GstParlasphinx *self;
-
-  self = GST_PARLASPHINX (parent);
-  self->eos = FALSE;
-
-  switch (event->type)
-    {
-    case GST_EVENT_EOS:
-      {
-        gst_parlasphinx_finalize_utt (self);
-        self->eos = TRUE;
-        return gst_pad_event_default (pad, parent, event);
-      }
-    case GST_EVENT_SEGMENT:
-      /* keep current segment, used for tracking current position */
-      gst_event_copy_segment (event, &self->segment);
-      /* fall through */
-    default:
-      return gst_pad_event_default (pad, parent, event);
-    }
+  return g_object_new (GST_TYPE_PARLASPHINX, NULL);
 }
 
-static void
-gst_parlasphinx_log (void *user_data, err_lvl_t lvl, const char *fmt, ...)
-{
-  static const int gst_level[ERR_MAX] = { GST_LEVEL_DEBUG, GST_LEVEL_INFO,
-                                          GST_LEVEL_INFO, GST_LEVEL_WARNING, GST_LEVEL_ERROR, GST_LEVEL_ERROR };
-
-  va_list ap;
-  va_start (ap, fmt);
-  gst_debug_log_valist (parlasphinx_debug, gst_level[lvl], "", "", 0, NULL, fmt, ap);
-  va_end (ap);
-}
-
-static gboolean
-plugin_init (GstPlugin *plugin)
-{
-
-  err_set_callback (gst_parlasphinx_log, NULL);
-
-  if (!gst_element_register (plugin, "parlasphinx",
-                             GST_RANK_NONE, GST_TYPE_PARLASPHINX))
-    return FALSE;
-  return TRUE;
-}
-
-/**
- * gst_parlasphinx_register:
- *
- * Registers a plugin holding our single element to use privately in this
- * library.
- *
- * Return value: TRUE if successful, otherwise FALSE
- */
-gboolean
-gst_parlasphinx_register (void)
-{
-  return gst_plugin_register_static (
-      GST_VERSION_MAJOR,
-      GST_VERSION_MINOR,
-      "parlasphinx",
-      "Parlasphinx plugin",
-      plugin_init,
-      PACKAGE_VERSION,
-      "BSD",
-      "libparlatype",
-      "Parlatype",
-      PACKAGE_URL);
-}

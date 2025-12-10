@@ -68,7 +68,9 @@ struct _PtPlayerPrivate
   gulong               stream_notify_id;
 
   PtPositionManager *pos_mgr;
-  GHashTable        *plugins;
+
+  GObject *asr_plugin;
+  gboolean is_configured;
 
   PtStateType app_state;
   GstState    current_state;
@@ -215,7 +217,7 @@ pt_player_seek_internal_locked (PtPlayer *self)
 
   if (!ret)
     {
-      g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+      g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
                         "MESSAGE", "Failed to seek to %" GST_TIME_FORMAT,
                         GST_TIME_ARGS (position));
     }
@@ -780,7 +782,7 @@ pt_player_play (PtPlayer *self)
   gboolean         selection;
   GstState         previous;
 
-  g_print ("%s\n", __func__);
+  g_print ("%s1\n", __func__);
 
   if (!gst_element_query_position (priv->play, GST_FORMAT_TIME, &pos))
     {
@@ -813,7 +815,7 @@ pt_player_play (PtPlayer *self)
       return;
     }
 
-  g_print ("%s\n", __func__);
+  g_print ("%s2\n", __func__);
 
   if (pos == end)
     {
@@ -831,7 +833,7 @@ pt_player_play (PtPlayer *self)
       return;
     }
 
-  g_print ("%s\n", __func__);
+  g_print ("%s3\n", __func__);
   previous = priv->current_state;
   gst_element_set_state (priv->play, GST_STATE_PLAYING);
   if (previous == GST_STATE_PAUSED)
@@ -2165,18 +2167,31 @@ uri_changed (GObject    *object,
 gboolean
 pt_player_configure_asr (PtPlayer *self,
                          PtConfig *config,
+                         PtTextView *text_view,
                          GError  **error)
 {
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
+#if defined HAVE_POCKETSPHINX_LEGACY || defined HAVE_POCKETSPHINX
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
   gboolean         result;
-  GstPtAudioBin   *bin;
+  gchar            *plugin;
 
-  bin = GST_PT_AUDIO_BIN (priv->audio_bin);
-  result = gst_pt_audio_bin_configure_asr (bin, config, error);
+  plugin = pt_config_get_plugin (config);
+  if (g_strcmp0 (plugin, "parlasphinx") == 0)
+    return FALSE;
 
+  if (priv->asr_plugin == NULL)
+    {
+      priv->asr_plugin = G_OBJECT (gst_parlasphinx_new ());
+    }
+  result = pt_config_apply (config,
+                            G_OBJECT (priv->asr_plugin), error);
+  priv->is_configured = result;
   return result;
+#else
+  return FALSE;
+#endif
 }
 
 /**
@@ -2200,39 +2215,18 @@ pt_player_config_is_loadable (PtPlayer *self,
   g_return_val_if_fail (PT_IS_PLAYER (self), FALSE);
   g_return_val_if_fail (PT_IS_CONFIG (config), FALSE);
 
-  PtPlayerPrivate *priv = pt_player_get_instance_private (self);
   gchar           *plugin_name;
-  GstElement      *plugin;
-  gpointer         pointer;
-  gboolean         result;
 
   plugin_name = pt_config_get_plugin (config);
   if (!plugin_name)
     return FALSE;
 
-  if (g_hash_table_contains (priv->plugins, plugin_name))
-    {
-      pointer = g_hash_table_lookup (priv->plugins,
-                                     plugin_name);
-      return GPOINTER_TO_INT (pointer);
-    }
+#if defined HAVE_POCKETSPHINX_LEGACY || defined HAVE_POCKETSPHINX
+  if (g_strcmp0 (plugin_name, "parlasphinx") == 0)
+    return TRUE;
+#endif
 
-  plugin = gst_element_factory_make (plugin_name, NULL);
-
-  if (plugin)
-    {
-      gst_object_unref (plugin);
-      result = TRUE;
-    }
-  else
-    {
-      result = FALSE;
-    }
-
-  g_hash_table_insert (priv->plugins,
-                       g_strdup (plugin_name), GINT_TO_POINTER (result));
-
-  return result;
+  return FALSE;
 }
 
 /**
@@ -2260,6 +2254,12 @@ pt_player_set_mode (PtPlayer  *self,
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
   GstPtAudioBin   *bin = GST_PT_AUDIO_BIN (priv->audio_bin);
   gst_pt_audio_bin_set_mode (bin, type);
+  if (type == PT_MODE_ASR)
+    {
+#if defined HAVE_POCKETSPHINX_LEGACY || defined HAVE_POCKETSPHINX
+      gst_parlasphinx_set_appsink (GST_PARLASPHINX (priv->asr_plugin), gst_pt_audio_bin_get_appsink (bin));
+#endif
+    }
 }
 
 /**
@@ -2353,8 +2353,6 @@ pt_player_dispose (GObject *object)
 
       gst_object_unref (GST_OBJECT (priv->play));
       priv->play = NULL;
-
-      g_hash_table_destroy (priv->plugins);
     }
 
   G_OBJECT_CLASS (pt_player_parent_class)->dispose (object);
@@ -2522,8 +2520,6 @@ pt_player_init (PtPlayer *self)
   priv->timestamp_fixed = FALSE;
   priv->wv = NULL;
   priv->pos_mgr = pt_position_manager_new ();
-  priv->plugins = g_hash_table_new_full (g_str_hash, g_str_equal,
-                                         g_free, NULL);
   g_mutex_init (&priv->lock);
 
   priv->seek_pending = FALSE;
@@ -2540,13 +2536,6 @@ pt_player_init (PtPlayer *self)
     gst_pt_audio_bin_register ();
   else
     gst_object_unref (factory);
-#if defined HAVE_POCKETSPHINX || defined HAVE_POCKETSPHINX_LEGACY
-  factory = gst_element_factory_find ("parlasphinx");
-  if (factory == NULL)
-    gst_parlasphinx_register ();
-  else
-    gst_object_unref (factory);
-#endif
 
   priv->play = _pt_make_element ("playbin3", "play", NULL);
   priv->scaletempo = _pt_make_element ("scaletempo", "tempo", NULL);

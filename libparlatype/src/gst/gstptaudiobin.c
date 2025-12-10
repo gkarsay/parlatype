@@ -184,78 +184,10 @@ change_mode_cb (GstPad          *pad,
   return GST_PAD_PROBE_OK;
 }
 
-typedef struct
-{
-  GAsyncResult *res;
-  GMainLoop    *loop;
-} SyncData;
-
-static void
-quit_loop_cb (GstPtAudioBin *self,
-              GAsyncResult  *res,
-              gpointer       user_data)
-{
-  SyncData *data = user_data;
-  data->res = g_object_ref (res);
-  g_main_loop_quit (data->loop);
-}
-
-gboolean
-gst_pt_audio_bin_configure_asr (GstPtAudioBin *self,
-                                PtConfig      *config,
-                                GError       **error)
-{
-  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
-
-  GstPtAudioAsrBin *bin;
-  GstEvent         *event;
-  SyncData          data;
-  GMainContext     *context;
-  gboolean          result;
-  gboolean          success;
-
-  bin = GST_PT_AUDIO_ASR_BIN (self->asr_bin);
-  context = g_main_context_new ();
-  g_main_context_push_thread_default (context);
-
-  data.loop = g_main_loop_new (context, FALSE);
-  data.res = NULL;
-
-  gst_pt_audio_asr_bin_configure_asr_async (bin, config, NULL, (GAsyncReadyCallback) quit_loop_cb, &data);
-  if (GST_STATE (GST_ELEMENT (self)) == GST_STATE_PAUSED)
-    {
-      /* Pad is blocked and would be stuck in paused. Send a dummy event to unblock pad probe. */
-      event = gst_event_new_custom (GST_EVENT_CUSTOM_DOWNSTREAM_OOB,
-                                    gst_structure_new_empty ("unblock"));
-      result = gst_pad_push_event (self->tee_asr_src, event);
-      GST_DEBUG_OBJECT (self, "Dummy event %s", result ? "sent" : "not sent");
-    }
-  g_main_loop_run (data.loop);
-
-  result = gst_pt_audio_asr_bin_configure_asr_finish (bin, data.res, error);
-  GST_DEBUG_OBJECT (self, "Finished asr configuration");
-  GST_DEBUG_OBJECT (self, "asr state: %s", gst_element_state_get_name (GST_STATE (GST_ELEMENT (bin))));
-
-  if (GST_STATE (GST_ELEMENT (self)) == GST_STATE_PAUSED)
-    {
-      success = gst_pad_send_event (self->tee_sink, gst_event_new_flush_start ());
-      GST_DEBUG_OBJECT (self, "flush-start event %s", success ? "sent" : "not sent");
-      success = gst_pad_send_event (self->tee_sink, gst_event_new_flush_stop (TRUE));
-      GST_DEBUG_OBJECT (self, "flush-stop event %s", success ? "sent" : "not sent");
-    }
-
-  g_main_context_pop_thread_default (context);
-  g_main_context_unref (context);
-  g_main_loop_unref (data.loop);
-  g_object_unref (data.res);
-
-  return result;
-}
-
 PtModeType
 gst_pt_audio_bin_get_mode (GstPtAudioBin *self)
 {
-  return self->mode;
+  return self->pending;
 }
 
 void
@@ -264,7 +196,7 @@ gst_pt_audio_bin_set_mode (GstPtAudioBin *self,
 {
   GstPad *blockpad;
 
-  if (self->mode == new)
+  if (self->pending == new)
     return;
 
   self->pending = new;
@@ -293,14 +225,7 @@ gst_pt_audio_bin_set_mode (GstPtAudioBin *self,
                      GST_PAD_PROBE_TYPE_BLOCKING | GST_PAD_PROBE_TYPE_BLOCK_DOWNSTREAM,
                      change_mode_cb, self, NULL);
 
-  if (GST_STATE (GST_ELEMENT (self)) == GST_STATE_PAUSED)
-    {
-      /* Pad is blocked and would be stuck in paused. Send a dummy event to unblock pad probe. */
-      /*GstEvent *event = gst_event_new_custom (GST_EVENT_CUSTOM_DOWNSTREAM_OOB,
-                                              gst_structure_new_empty ("unblock"));
-      gboolean  result = gst_pad_push_event (self->tee_asr_src, event);
-      GST_DEBUG_OBJECT (self, "Dummy event %s", result ? "sent" : "not sent");*/
-    }
+  /* Pad is blocked. Actual mode switch will happen when going to PLAYING state. */
 }
 
 static void
@@ -319,6 +244,12 @@ unref_element_without_parent (GstElement *element)
       gst_object_unref (parent);
     }
   element = NULL;
+}
+
+GstElement*
+gst_pt_audio_bin_get_appsink (GstPtAudioBin *self)
+{
+  return gst_pt_audio_asr_bin_get_appsink (GST_PT_AUDIO_ASR_BIN (self->asr_bin));
 }
 
 static void

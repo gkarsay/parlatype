@@ -38,18 +38,17 @@
 
 #pragma once
 
-#include <gst/gst.h>
 #include <pocketsphinx.h>
+#include <gio/gio.h>
+#include <gst/gst.h>
+#include "pt-text-view.h"
 
 #define GST_TYPE_PARLASPHINX (gst_parlasphinx_get_type ())
-G_DECLARE_FINAL_TYPE (GstParlasphinx, gst_parlasphinx, GST, PARLASPHINX, GstElement)
+G_DECLARE_FINAL_TYPE (GstParlasphinx, gst_parlasphinx, GST, PARLASPHINX, GObject)
 
-struct _GstParlaSphinxClass
+struct _GstParlasphinxClass
 {
-  GstElementClass parent_class;
-
-  void (*partial_result) (GstElement *element, const gchar *hyp_str);
-  void (*result) (GstElement *element, const gchar *hyp_str);
+  GObjectClass parent_class;
 };
 
 /*
@@ -58,4 +57,11 @@ struct _GstParlaSphinxClass
 #define PS_DECODER_TYPE (ps_decoder_get_type ())
 GType ps_decoder_get_type (void);
 
-gboolean gst_parlasphinx_register (void);
+void            gst_parlasphinx_set_appsink  (GstParlasphinx *self,
+                                              GstElement     *appsink);
+
+void            gst_parlasphinx_set_textview (GstParlasphinx *self,
+                                              PtTextView     *text_view);
+
+GstParlasphinx *gst_parlasphinx_new (void);
+

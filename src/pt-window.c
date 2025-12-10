@@ -247,6 +247,7 @@ setup_asr (PtWindow *self)
   success = pt_player_configure_asr (
       self->player,
       self->asr_config,
+      self->text_view,
       &error);
 
   if (success)
@@ -282,6 +283,7 @@ pt_window_transcribe_action (GSimpleAction *action,
 
   g_print ("%s\n", transcribe ? "transcribing" : "stopped transcribing");
 
+  g_print ("%s: %s\n", __func__, transcribe ? "TRUE" : "FALSE");
   if (transcribe)
     {
       if (setup_asr (self))
@@ -694,6 +696,7 @@ player_error_cb (PtPlayer *player,
                  PtWindow *self)
 {
   pt_error_message (self, error->message);
+  /* TODO when in ASR mode, reset mode and toggle button */
 }
 
 static void
@@ -774,6 +777,9 @@ player_state_changed_cb (PtPlayer   *player,
   player_mode = pt_player_get_mode (player);
   play_action = g_action_map_lookup_action (G_ACTION_MAP (self), "play");
 
+  g_print ("%s: state %d\n", __func__, player_state);
+  g_print ("%s: mode %d\n", __func__, player_mode);
+
   ready = player_state >= PT_STATE_PAUSED;
   playing = player_state == PT_STATE_PLAYING;
   action_state = g_variant_new_boolean (playing);
@@ -792,6 +798,11 @@ player_state_changed_cb (PtPlayer   *player,
       pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (self->waveviewer), TRUE);
     }
 
+  if (player_mode == PT_MODE_ASR && !playing)
+    {
+      transcribe_action = g_action_map_lookup_action (G_ACTION_MAP (self), "transcribe");
+      pt_window_transcribe_action (G_SIMPLE_ACTION (transcribe_action), action_state, self);
+    }
   /*if (player_mode != PT_MODE_ASR)
     {
       transcribe_action = g_action_map_lookup_action (G_ACTION_MAP (self), "transcribe");
