@@ -39,24 +39,22 @@
  * with Parlatype.
  */
 
-
 #include "config.h"
 
 #include "gstparlasphinx-legacy.h"
 
-//#include <gst/gst.h>
+// #include <gst/gst.h>
+#include <gst/app/gstappsink.h>
+#include <gst/audio/audio.h>
 #include <sphinxbase/err.h>
 #include <sphinxbase/strfuncs.h>
 #include <string.h>
-#include <gst/audio/audio.h>
-#include <gst/app/gstappsink.h>
 
 static void
 gst_parlasphinx_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
 
 static void
 gst_parlasphinx_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
-
 
 static void
 gst_parlasphinx_finalize (GObject *gobject);
@@ -132,23 +130,41 @@ struct _GstParlasphinx
   gboolean listening_started;
   gint     uttno;
 
-  //GstClock    *clock;
-  //GstClockTime last_result_time; /* Absolute time of last partial result. */
-  char        *last_result;      /* String of last partial result. */
+  // GstClock    *clock;
+  // GstClockTime last_result_time; /* Absolute time of last partial result. */
+  char *last_result; /* String of last partial result. */
 
-  gboolean   eos;
+  gboolean eos;
+  uint     source_handler;
+  int      counter;
 };
 
 G_DEFINE_TYPE (GstParlasphinx, gst_parlasphinx, G_TYPE_OBJECT);
+
+gboolean
+insert_text_cb (GstParlasphinx *self)
+{
+  pt_text_view_insert_asr_final (self->text_view, " *");
+  self->source_handler = 0;
+  return G_SOURCE_REMOVE;
+}
 
 static GstFlowReturn
 new_sample_cb (GstAppSink *sink,
                gpointer    user_data)
 {
-  GstParlasphinx *self = GST_PARLASPHINX(user_data);
-  GstSample           *sample = gst_app_sink_pull_sample (sink);
-  GstBuffer           *buffer = gst_sample_get_buffer (sample);
-  GstMapInfo           map;
+  GstParlasphinx *self = GST_PARLASPHINX (user_data);
+
+  /*GMainContext *context = g_main_context_get_thread_default ();
+  while (self->source_handler != 0)
+    {
+      g_main_context_iteration (context, FALSE);
+    }*/
+
+  GstSample *sample = gst_app_sink_pull_sample (sink);
+  GstBuffer *buffer = gst_sample_get_buffer (sample);
+  GstMapInfo map;
+
   if (!gst_buffer_map (buffer, &map, GST_MAP_READ))
     {
       gst_sample_unref (sample);
@@ -157,15 +173,19 @@ new_sample_cb (GstAppSink *sink,
   /* One sample is 2 bytes (16 bit signed integer), see caps in
    * setup_pipeline(). The buffer contains several samples, the number
    * of elements/samples is map.size / sample size. */
-  //g_array_append_vals (priv->hires, map.data, map.size / 2);
+  // g_array_append_vals (priv->hires, map.data, map.size / 2);
   gst_buffer_unmap (buffer, &map);
   gst_sample_unref (sample);
 
-  pt_text_view_insert_asr_final (self->text_view, "*");
+  if (self->counter > 100)
+    {
+      self->source_handler = g_idle_add (G_SOURCE_FUNC (insert_text_cb), self);
+      self->counter = 0;
+    }
 
+  self->counter++;
   return GST_FLOW_OK;
 }
-
 
 void
 gst_parlasphinx_set_appsink (GstParlasphinx *self,
@@ -185,7 +205,7 @@ gst_parlasphinx_set_appsink (GstParlasphinx *self,
                               "rate", G_TYPE_INT, 16000, NULL);*/
 
   self->appsink = appsink;
-  //gst_app_sink_set_caps (GST_APP_SINK (appsink), caps);
+  // gst_app_sink_set_caps (GST_APP_SINK (appsink), caps);
   g_object_set (self->appsink, "emit-signals", TRUE, "sync", FALSE, NULL);
   g_signal_connect (self->appsink, "new-sample", G_CALLBACK (new_sample_cb), self);
 }
@@ -206,7 +226,7 @@ gst_parlasphinx_set_textview (GstParlasphinx *self,
 static void
 gst_parlasphinx_class_init (GstParlasphinxClass *klass)
 {
-  GObjectClass    *gobject_class;
+  GObjectClass *gobject_class;
 
   gobject_class = (GObjectClass *) klass;
 
@@ -703,4 +723,3 @@ gst_parlasphinx_new (void)
 {
   return g_object_new (GST_TYPE_PARLASPHINX, NULL);
 }
-

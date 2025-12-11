@@ -14,7 +14,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#define G_LOG_DOMAIN "pt-text-view"
+// #define G_LOG_DOMAIN "pt-text-view"
 
 #include "config.h"
 
@@ -22,9 +22,9 @@
 
 #include "pt-file-loader.h"
 #include "pt-file-saver.h"
+#include "pt-player.h"
 #include "pt-text-buffer.h"
 #include "pt-timestamp-button.h"
-#include "pt-window-private.h"
 
 struct _PtTextView
 {
@@ -471,13 +471,16 @@ on_notify_document_font_name_cb (PtTextView      *self,
 }
 
 void
-pt_text_view_connect (PtTextView *self)
+pt_text_view_connect (PtTextView *self,
+                      PtPlayer   *player,
+                      GSettings  *settings)
 {
   g_return_if_fail (PT_IS_TEXT_VIEW (self));
+  g_return_if_fail (PT_IS_PLAYER (player));
+  g_return_if_fail (G_IS_SETTINGS (settings));
 
-  PtWindow *win = PT_WINDOW (gtk_widget_get_root (GTK_WIDGET (self)));
-  self->player = _pt_window_get_player (win);
-  self->settings = _pt_window_get_settings (win);
+  self->player = player;
+  self->settings = settings;
   self->font_size = g_settings_get_int (self->settings, "font-size");
   pt_text_view_update_css (self);
 }

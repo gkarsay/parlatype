@@ -22,7 +22,7 @@
 #pragma once
 
 #include <gtk/gtk.h>
-#include "pt-text-view.h"
+#include <parlatype.h>
 
 G_BEGIN_DECLS
 

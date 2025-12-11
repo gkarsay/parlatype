@@ -57,7 +57,7 @@ struct _GstPtAudioAsrBin
 
 G_DEFINE_TYPE (GstPtAudioAsrBin, gst_pt_audio_asr_bin, GST_TYPE_BIN);
 
-GstElement*
+GstElement *
 gst_pt_audio_asr_bin_get_appsink (GstPtAudioAsrBin *self)
 {
   return self->appsink;
@@ -75,8 +75,8 @@ gst_pt_audio_asr_bin_init (GstPtAudioAsrBin *self)
   GstElement *audioconvert, *audioresample;
   GstPad     *audioconvert_sink;
 
-  audioconvert  = _pt_make_element ("audioconvert",
-                                    "audioconvert", NULL);
+  audioconvert = _pt_make_element ("audioconvert",
+                                   "audioconvert", NULL);
   audioresample = _pt_make_element ("audioresample",
                                     "audioresample", NULL);
   self->appsink = _pt_make_element ("appsink",

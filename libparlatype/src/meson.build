@@ -17,8 +17,10 @@ marshal_h = marshalers[1]
 # These sources will be introspected
 public_sources = [
   'pt-config.c',
+  'pt-file-saver.c',
   'pt-media-info.c',
   'pt-player.c',
+  'pt-text-view.c',
   'pt-waveloader.c',
   'pt-waveviewer.c',
 ]
@@ -32,8 +34,11 @@ private_sources = [
   'gst/gstptaudiobin.c',
   'gst/gstptaudioasrbin.c',
   'gst/gstptaudioplaybin.c',
+  'pt-file-loader.c',
   'pt-i18n.c',
   'pt-position-manager.c',
+  'pt-text-buffer.c',
+  'pt-timestamp-button.c',
   'pt-waveviewer-cursor.c',
   'pt-waveviewer-ruler.c',
   'pt-waveviewer-scrollbox.c',
@@ -45,8 +50,10 @@ private_sources = [
 public_headers = [
   'parlatype.h',
   'pt-config.h',
+  'pt-file-saver.h',
   'pt-media-info.h',
   'pt-player.h',
+  'pt-text-view.h',
   'pt-waveloader.h',
   'pt-waveviewer.h',
 ]
@@ -79,6 +86,8 @@ libparlatype_deps = [
   gstreamer_app,
   gstreamer_audio,
   math,
+  libadwaita,
+  libxml,
 ]
 
 if with_pocketsphinx_legacy

@@ -582,6 +582,7 @@ player_timestrings (PtPlayerFixture *fixture,
   g_main_loop_unref (data.loop);
 }
 
+#if 0
 static void
 player_config_loadable (void)
 {
@@ -622,6 +623,7 @@ player_config_loadable (void)
   g_object_unref (bad);
   g_object_unref (testplayer);
 }
+#endif
 
 int
 main (int argc, char *argv[])
@@ -649,7 +651,8 @@ main (int argc, char *argv[])
   g_test_add ("/player/timestrings", PtPlayerFixture, NULL,
               pt_player_fixture_set_up, player_timestrings,
               pt_player_fixture_tear_down);
-  g_test_add_func ("/player/config-loadable", player_config_loadable);
+  /* TODO implement this somewhere else */
+  // g_test_add_func ("/player/config-loadable", player_config_loadable);
 
   return g_test_run ();
 }

@@ -192,7 +192,7 @@ gst_pt_audio_bin_get_mode (GstPtAudioBin *self)
 
 void
 gst_pt_audio_bin_set_mode (GstPtAudioBin *self,
-                           PtModeType new)
+                           PtModeType     new)
 {
   GstPad *blockpad;
 
@@ -246,7 +246,7 @@ unref_element_without_parent (GstElement *element)
   element = NULL;
 }
 
-GstElement*
+GstElement *
 gst_pt_audio_bin_get_appsink (GstPtAudioBin *self)
 {
   return gst_pt_audio_asr_bin_get_appsink (GST_PT_AUDIO_ASR_BIN (self->asr_bin));

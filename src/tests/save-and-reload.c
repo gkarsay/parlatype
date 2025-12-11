@@ -16,10 +16,9 @@
 
 #include "config.h"
 
-#include "pt-text-view.h"
-
 #include <glib.h>
 #include <gtk/gtk.h>
+#include <parlatype.h>
 
 #define RESET "reset-text"
 

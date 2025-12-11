@@ -21,6 +21,7 @@
 #include "pt-config.h"
 #include "pt-media-info.h"
 #include "pt-player.h"
+#include "pt-text-view.h"
 #include "pt-waveloader.h"
 #include "pt-waveviewer.h"
 

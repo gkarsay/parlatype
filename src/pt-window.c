@@ -25,7 +25,6 @@
 #include "pt-goto-dialog.h"
 #include "pt-playback-rate-button.h"
 #include "pt-save-changes-dialog.h"
-#include "pt-text-view.h"
 #include "pt-utils.h"
 #include "pt-volume-button.h"
 #include "pt-window-dnd.h"
@@ -242,7 +241,7 @@ static gboolean
 setup_asr (PtWindow *self)
 {
   GError  *error = NULL;
-  gboolean success;
+  gboolean success = TRUE;
 
   success = pt_player_configure_asr (
       self->player,
@@ -1257,7 +1256,9 @@ pt_window_init (PtWindow *self)
   g_signal_connect (self->text_view, "notify::audio", G_CALLBACK (audio_file_cb), self);
 
   pt_volume_button_set_player (PT_VOLUME_BUTTON (self->volume_button), self->player);
-  pt_text_view_connect (PT_TEXT_VIEW (self->text_view));
+  pt_text_view_connect (PT_TEXT_VIEW (self->text_view),
+                        self->player,
+                        self->editor);
   self->recent = gtk_recent_manager_get_default ();
   self->timer = 0;
   self->last_time = 0;

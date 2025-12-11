@@ -18,14 +18,14 @@
 
 /* Includes lots of duplicated code from gtktextbuffer.c */
 
-#define G_LOG_DOMAIN "pt-text-buffer"
+// #define G_LOG_DOMAIN "pt-text-buffer"
 
 #include "config.h"
 
 #include "pt-text-buffer.h"
 
-#include "parlatype/parlatype.h"
 #include "pt-marshalers.h"
+#include "pt-player.h"
 #include "pt-timestamp-button.h"
 
 struct _PtTextBuffer

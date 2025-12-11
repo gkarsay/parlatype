@@ -23,10 +23,7 @@
 #include "pt-config.h"
 #include "pt-media-info.h"
 #include "pt-waveviewer.h"
-#include "pt-text-view.h"
-#include "../../src/pt-text-view.h"
 
-G_BEGIN_DECLS
 
 #define PT_TYPE_PLAYER (pt_player_get_type ())
 G_DECLARE_DERIVABLE_TYPE (PtPlayer, pt_player, PT, PLAYER, GObject)
@@ -183,7 +180,7 @@ PtModeType   pt_player_get_mode                 (PtPlayer       *self);
 
 gboolean     pt_player_configure_asr            (PtPlayer       *self,
                                                  PtConfig       *config,
-                                                 PtTextView     *text_view,
+                                                 GtkWidget      *text_view,
                                                  GError        **error);
 
 gboolean     pt_player_config_is_loadable       (PtPlayer       *self,
@@ -192,5 +189,3 @@ gboolean     pt_player_config_is_loadable       (PtPlayer       *self,
 PtMediaInfo *pt_player_get_media_info           (PtPlayer       *self);
 
 PtPlayer    *pt_player_new                      (void);
-
-G_END_DECLS

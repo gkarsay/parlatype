@@ -41,6 +41,7 @@
 #include "pt-media-info-private.h"
 #include "pt-media-info.h"
 #include "pt-position-manager.h"
+#include "pt-text-view.h"
 #include "pt-waveviewer.h"
 #ifdef HAVE_POCKETSPHINX
 #include "gst/gstparlasphinx.h"
@@ -988,7 +989,7 @@ pt_player_jump_relative (PtPlayer *self,
   if (!gst_element_query_position (priv->play, GST_FORMAT_TIME, &pos))
     return;
 
-  new = pos + GST_MSECOND *milliseconds;
+  new = pos + GST_MSECOND * milliseconds;
   g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                     "MESSAGE", "Jump relative: dur = %" GST_TIME_FORMAT, GST_TIME_ARGS (priv->dur));
   g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
@@ -2165,26 +2166,30 @@ uri_changed (GObject    *object,
  * Since: 3.0
  */
 gboolean
-pt_player_configure_asr (PtPlayer *self,
-                         PtConfig *config,
-                         PtTextView *text_view,
-                         GError  **error)
+pt_player_configure_asr (PtPlayer  *self,
+                         PtConfig  *config,
+                         GtkWidget *text_view,
+                         GError   **error)
 {
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
 #if defined HAVE_POCKETSPHINX_LEGACY || defined HAVE_POCKETSPHINX
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
   gboolean         result;
-  gchar            *plugin;
+  gchar           *plugin;
 
   plugin = pt_config_get_plugin (config);
-  if (g_strcmp0 (plugin, "parlasphinx") == 0)
-    return FALSE;
+  if (g_strcmp0 (plugin, "parlasphinx") != 0)
+    {
+      g_set_error (error, G_FILE_ERROR, G_FILE_ERROR_FAILED, "wrong plugin type");
+      return FALSE;
+    }
 
   if (priv->asr_plugin == NULL)
     {
       priv->asr_plugin = G_OBJECT (gst_parlasphinx_new ());
     }
+  gst_parlasphinx_set_textview (GST_PARLASPHINX (priv->asr_plugin), PT_TEXT_VIEW (text_view));
   result = pt_config_apply (config,
                             G_OBJECT (priv->asr_plugin), error);
   priv->is_configured = result;
@@ -2215,7 +2220,7 @@ pt_player_config_is_loadable (PtPlayer *self,
   g_return_val_if_fail (PT_IS_PLAYER (self), FALSE);
   g_return_val_if_fail (PT_IS_CONFIG (config), FALSE);
 
-  gchar           *plugin_name;
+  gchar *plugin_name;
 
   plugin_name = pt_config_get_plugin (config);
   if (!plugin_name)
