@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-13 21:21+0200\n"
-"PO-Revision-Date: 2024-10-25 13:15+0000\n"
+"PO-Revision-Date: 2025-12-28 19:00+0000\n"
 "Last-Translator: Moo <hazap@hotmail.com>\n"
 "Language-Team: Lithuanian <https://hosted.weblate.org/projects/parlatype/"
 "parlatype/lt/>\n"
@@ -16,9 +16,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && ("
-"n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.8.2-dev\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"(n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Weblate 5.15.1\n"
 "X-Launchpad-Export-Date: 2020-05-08 11:32+0000\n"
 
 #: data/parlatype.desktop.in:4 data/parlatype.metainfo.xml.in:8
@@ -35,10 +35,8 @@ msgid "Transcription;"
 msgstr "Transkripcija;"
 
 #: data/parlatype.metainfo.xml.in:9
-#, fuzzy
-#| msgid "Media player for speech transcription"
 msgid "Media player for transcription"
-msgstr "Šnekos transkripcijos medijos leistuvė"
+msgstr "Transkripcijos medijos leistuvė"
 
 #: data/parlatype.metainfo.xml.in:12
 msgid ""
@@ -62,14 +60,14 @@ msgstr "Internetinė svetainė persikėlė į www.parlatype.xyz."
 
 #: data/parlatype.metainfo.xml.in:48
 msgid "App ID changed accordingly."
-msgstr ""
+msgstr "Programos ID atitinkamai pakeistas."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:49 data/parlatype.metainfo.xml.in:60
 #: data/parlatype.metainfo.xml.in:81 data/parlatype.metainfo.xml.in:93
 #: data/parlatype.metainfo.xml.in:109
 msgid "Translation updates for several languages."
-msgstr ""
+msgstr "Kai kurių kalbų vertimų atnaujinimai."
 
 #: data/parlatype.metainfo.xml.in:56
 msgid ""
