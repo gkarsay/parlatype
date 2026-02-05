@@ -44,3 +44,6 @@ help-online/
 **/po/ChangeLog
 **/po/Makevars.template
 **/po/POTFILES
+
+# GStreamer dot-Files
+*.dot
