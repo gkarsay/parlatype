@@ -21,3 +21,6 @@
 GstElement *_pt_make_element (gchar   *factoryname,
                               gchar   *name,
                               GError **error);
+
+GstPadLinkReturn _pt_pad_link (GstPad *source,
+                               GstPad *sink);
