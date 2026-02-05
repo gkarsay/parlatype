@@ -15,6 +15,7 @@
  */
 
 #define G_LOG_DOMAIN "pt-window"
+#define TEST_FILE "/home/gabor/dev/test-data/parlatype-test.pt"
 
 #include "config.h"
 
@@ -322,7 +323,7 @@ serialize (GtkWidget  *widget,
   PtWindow *self = PT_WINDOW (widget);
   GFile    *file;
 
-  file = g_file_new_for_path ("/home/gabor/parlatype-test.pt");
+  file = g_file_new_for_path (TEST_FILE);
 
   pt_text_view_save_async (PT_TEXT_VIEW (self->text_view),
                            file,
@@ -430,7 +431,7 @@ deserialize (GtkWidget  *widget,
 
   GFile *file;
 
-  file = g_file_new_for_path ("/home/gabor/parlatype-test.pt");
+  file = g_file_new_for_path (TEST_FILE);
 
   if (!pt_text_view_load (PT_TEXT_VIEW (self->text_view), file, &error))
     {
