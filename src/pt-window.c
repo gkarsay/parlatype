@@ -1174,6 +1174,13 @@ static gboolean
 pt_window_close_request (GtkWindow *window)
 {
   PtWindow *self = PT_WINDOW (window);
+  int       x, y;
+
+  /* Save window size and separator position */
+  gtk_window_get_default_size (GTK_WINDOW (self), &x, &y);
+  g_settings_set_int (self->editor, "width", x);
+  g_settings_set_int (self->editor, "height", y);
+  g_settings_set_int (self->editor, "separator", gtk_paned_get_position (GTK_PANED (self->paned)));
 
   if (pt_text_view_get_is_modified (PT_TEXT_VIEW (self->text_view)))
     {
@@ -1293,16 +1300,6 @@ static void
 pt_window_dispose (GObject *object)
 {
   PtWindow *self = PT_WINDOW (object);
-  int       x, y;
-
-  /* Save window size and separator position */
-  if (self->editor)
-    {
-      gtk_window_get_default_size (GTK_WINDOW (self), &x, &y);
-      g_settings_set_int (self->editor, "width", x);
-      g_settings_set_int (self->editor, "height", y);
-      g_settings_set_int (self->editor, "separator", gtk_paned_get_position (GTK_PANED (self->paned)));
-    }
 
   remove_timer (self);
   g_clear_object (&self->editor);
