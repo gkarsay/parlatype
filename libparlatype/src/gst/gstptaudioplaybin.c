@@ -52,6 +52,8 @@ GST_DEBUG_CATEGORY_STATIC (gst_pt_audio_play_bin_debug);
 struct _GstPtAudioPlayBin
 {
   GstBin parent;
+
+  GstElement *audiosink;
 };
 
 G_DEFINE_TYPE (GstPtAudioPlayBin, gst_pt_audio_play_bin, GST_TYPE_BIN);
@@ -75,14 +77,21 @@ have_pulseaudio_server (void)
   return (state != GST_STATE_CHANGE_FAILURE);
 }
 
+GstElement *
+gst_pt_audio_play_bin_get_audiosink (GstPtAudioPlayBin *self)
+{
+  g_return_val_if_fail (GST_IS_PT_AUDIO_PLAY_BIN (self), NULL);
+
+  return self->audiosink;
+}
+
 static void
 gst_pt_audio_play_bin_init (GstPtAudioPlayBin *self)
 {
   /* Create gstreamer elements */
   GstElement *queue;
   GstElement *capsfilter;
-  GstElement *audiosink;
-  gchar      *sink;
+  gchar      *sink_factoryname;
 
   queue = _pt_make_element ("queue", "queue", NULL);
   capsfilter = _pt_make_element ("capsfilter", "audiofilter", NULL);
@@ -92,28 +101,28 @@ gst_pt_audio_play_bin_init (GstPtAudioPlayBin *self)
    * query the sinks properties until then. */
 
   if (have_pulseaudio_server ())
-    sink = "pulsesink";
+    sink_factoryname = "pulsesink";
   else
-    sink = "alsasink";
+    sink_factoryname = "alsasink";
 
-  audiosink = gst_element_factory_make (sink, "audiosink");
-  if (!audiosink)
+  self->audiosink = gst_element_factory_make (sink_factoryname, "audiosink");
+  if (self->audiosink == NULL)
     {
-      sink = "autoaudiosink";
-      audiosink = _pt_make_element (sink, "audiosink", NULL);
+      sink_factoryname = "autoaudiosink";
+      self->audiosink = _pt_make_element (sink_factoryname, "audiosink", NULL);
     }
 
   g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
-                    "MESSAGE", "Audio sink is %s", sink);
+                    "MESSAGE", "Audio sink is %s", sink_factoryname);
 
   g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                     "MESSAGE", "Audio sink implements stream volume: %s",
-                    GST_IS_STREAM_VOLUME (audiosink) ? "yes" : "no");
+                    GST_IS_STREAM_VOLUME (self->audiosink) ? "yes" : "no");
 
   gst_bin_add_many (GST_BIN (self),
-                    queue, capsfilter, audiosink, NULL);
+                    queue, capsfilter, self->audiosink, NULL);
 
-  if (!gst_element_link_many (queue, capsfilter, audiosink, NULL))
+  if (!gst_element_link_many (queue, capsfilter, self->audiosink, NULL))
     {
       g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_CRITICAL,
                         "MESSAGE", "ptaudioplaybin: elements not linked");
