@@ -147,15 +147,11 @@ gchar       *pt_player_get_current_time_string  (PtPlayer       *self,
 gchar       *pt_player_get_duration_time_string (PtPlayer       *self,
                                                  PtPrecisionType precision);
 
-gchar       *pt_player_get_timestamp_for_time   (PtPlayer       *self,
+gchar       *pt_player_export_timestamp         (PtPlayer       *self,
                                                  gint            time,
                                                  gint            duration);
 
 int          pt_player_get_timestamp            (PtPlayer       *self);
-
-gint         pt_player_get_timestamp_position   (PtPlayer       *self,
-                                                 gchar          *timestamp,
-                                                 gboolean        check_duration);
 
 gboolean     pt_player_string_is_timestamp      (PtPlayer       *self,
                                                  gchar          *timestamp,

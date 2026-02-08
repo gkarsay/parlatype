@@ -1576,7 +1576,7 @@ pt_player_get_duration_time_string (PtPlayer       *self,
 }
 
 /**
- * pt_player_get_timestamp_for_time:
+ * pt_player_export_timestamp:
  * @self: a #PtPlayer
  * @time: the time in milliseconds
  * @duration: duration in milliseconds
@@ -1595,9 +1595,9 @@ pt_player_get_duration_time_string (PtPlayer       *self,
  * Since: 1.6
  */
 gchar *
-pt_player_get_timestamp_for_time (PtPlayer *self,
-                                  gint      time,
-                                  gint      duration)
+pt_player_export_timestamp (PtPlayer *self,
+                            gint      time,
+                            gint      duration)
 {
   g_return_val_if_fail (PT_IS_PLAYER (self), NULL);
 
@@ -1718,43 +1718,6 @@ pt_player_get_timestamp (PtPlayer *self)
 }
 
 /**
- * pt_player_get_timestamp_position:
- * @self: a #PtPlayer
- * @timestamp: the timestamp
- * @check_duration: checking the timestamp’s validity also check duration
- *
- * Returns the time in milliseconds represented by the timestamp or -1 for
- * invalid timestamps.
- *
- * Return value: the time in milliseconds represented by the timestamp or -1
- * for invalid timestamps
- *
- * Since: 1.6
- */
-gint
-pt_player_get_timestamp_position (PtPlayer *self,
-                                  gchar    *timestamp,
-                                  gboolean  check_duration)
-{
-  g_return_val_if_fail (PT_IS_PLAYER (self), -1);
-  g_return_val_if_fail (timestamp != NULL, -1);
-
-  PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  gint             result;
-
-  result = pt_timestamp_from_string (timestamp);
-  if (result > 0 && check_duration)
-    {
-      if (GST_MSECOND * (gint64) result > priv->dur)
-        {
-          return -1;
-        }
-    }
-
-  return result;
-}
-
-/**
  * pt_player_string_is_timestamp:
  * @self: a #PtPlayer
  * @timestamp: the string to be checked
@@ -1773,13 +1736,25 @@ pt_player_get_timestamp_position (PtPlayer *self,
  */
 gboolean
 pt_player_string_is_timestamp (PtPlayer *self,
-                               gchar    *timestamp,
+                               gchar    *string,
                                gboolean  check_duration)
 {
   g_return_val_if_fail (PT_IS_PLAYER (self), FALSE);
-  g_return_val_if_fail (timestamp != NULL, FALSE);
+  g_return_val_if_fail (string != NULL, FALSE);
 
-  return (pt_player_get_timestamp_position (self, timestamp, check_duration) != -1);
+  PtPlayerPrivate *priv = pt_player_get_instance_private (self);
+  int              timestamp;
+
+  timestamp = pt_timestamp_from_string (string);
+  if (timestamp > 0 && check_duration)
+    {
+      if (GST_MSECOND * (gint64) timestamp > priv->dur)
+        {
+          timestamp = -1;
+        }
+    }
+
+  return timestamp != -1;
 }
 
 /**

@@ -249,82 +249,82 @@ player_timestamps (PtPlayerFixture *fixture,
 
   /* test for delimiters */
   g_object_set (fixture->testplayer, "timestamp-delimiter", "#", NULL);
-  timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+  timestamp = pt_player_export_timestamp (fixture->testplayer, 0, 1);
   g_assert_cmpstr (timestamp, ==, "#0:00.0#");
   g_free (timestamp);
   g_object_set (fixture->testplayer, "timestamp-delimiter", "(", NULL);
-  timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+  timestamp = pt_player_export_timestamp (fixture->testplayer, 0, 1);
   g_assert_cmpstr (timestamp, ==, "(0:00.0)");
   g_free (timestamp);
   g_object_set (fixture->testplayer, "timestamp-delimiter", "[", NULL);
-  timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+  timestamp = pt_player_export_timestamp (fixture->testplayer, 0, 1);
   g_assert_cmpstr (timestamp, ==, "[0:00.0]");
   g_free (timestamp);
   g_object_set (fixture->testplayer, "timestamp-delimiter", "None", NULL);
-  timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+  timestamp = pt_player_export_timestamp (fixture->testplayer, 0, 1);
   g_assert_cmpstr (timestamp, ==, "0:00.0");
   g_free (timestamp);
   g_object_set (fixture->testplayer, "timestamp-delimiter", "something-else", NULL);
-  timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+  timestamp = pt_player_export_timestamp (fixture->testplayer, 0, 1);
   g_assert_cmpstr (timestamp, ==, "#0:00.0#");
   g_free (timestamp);
   g_object_set (fixture->testplayer, "timestamp-delimiter", NULL, NULL);
-  timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+  timestamp = pt_player_export_timestamp (fixture->testplayer, 0, 1);
   g_assert_cmpstr (timestamp, ==, "#0:00.0#");
   g_free (timestamp);
 
   /* test for fraction separator */
   g_object_set (fixture->testplayer, "timestamp-fraction-sep", ".", NULL);
-  timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+  timestamp = pt_player_export_timestamp (fixture->testplayer, 0, 1);
   g_assert_cmpstr (timestamp, ==, "#0:00.0#");
   g_free (timestamp);
   g_object_set (fixture->testplayer, "timestamp-fraction-sep", "-", NULL);
-  timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+  timestamp = pt_player_export_timestamp (fixture->testplayer, 0, 1);
   g_assert_cmpstr (timestamp, ==, "#0:00-0#");
   g_free (timestamp);
   g_object_set (fixture->testplayer, "timestamp-fraction-sep", "something-else", NULL);
-  timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+  timestamp = pt_player_export_timestamp (fixture->testplayer, 0, 1);
   g_assert_cmpstr (timestamp, ==, "#0:00.0#");
   g_free (timestamp);
   g_object_set (fixture->testplayer, "timestamp-fraction-sep", NULL, NULL);
-  timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+  timestamp = pt_player_export_timestamp (fixture->testplayer, 0, 1);
   g_assert_cmpstr (timestamp, ==, "#0:00.0#");
   g_free (timestamp);
 
-  /* Test all code paths of pt_player_get_timestamp_for_time */
+  /* Test all code paths of pt_player_export_timestamp */
   g_object_set (fixture->testplayer, "timestamp-fixed", TRUE, "timestamp-fraction-sep", ".", NULL);
   g_object_set (fixture->testplayer, "timestamp-precision", PT_PRECISION_SECOND, NULL);
-  timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+  timestamp = pt_player_export_timestamp (fixture->testplayer, 0, 1);
   g_assert_cmpstr (timestamp, ==, "#00:00:00#");
   g_free (timestamp);
   g_object_set (fixture->testplayer, "timestamp-precision", PT_PRECISION_SECOND_10TH, NULL);
-  timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+  timestamp = pt_player_export_timestamp (fixture->testplayer, 0, 1);
   g_assert_cmpstr (timestamp, ==, "#00:00:00.0#");
   g_free (timestamp);
   g_object_set (fixture->testplayer, "timestamp-precision", PT_PRECISION_SECOND_100TH, NULL);
-  timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+  timestamp = pt_player_export_timestamp (fixture->testplayer, 0, 1);
   g_assert_cmpstr (timestamp, ==, "#00:00:00.00#");
   g_free (timestamp);
   g_object_set (fixture->testplayer, "timestamp-fixed", FALSE, NULL);
   g_object_set (fixture->testplayer, "timestamp-precision", PT_PRECISION_SECOND, NULL);
-  timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+  timestamp = pt_player_export_timestamp (fixture->testplayer, 0, 1);
   g_assert_cmpstr (timestamp, ==, "#0:00#");
   g_free (timestamp);
-  timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 3600000);
+  timestamp = pt_player_export_timestamp (fixture->testplayer, 0, 3600000);
   g_assert_cmpstr (timestamp, ==, "#0:00:00#");
   g_free (timestamp);
   g_object_set (fixture->testplayer, "timestamp-precision", PT_PRECISION_SECOND_10TH, NULL);
-  timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+  timestamp = pt_player_export_timestamp (fixture->testplayer, 0, 1);
   g_assert_cmpstr (timestamp, ==, "#0:00.0#");
   g_free (timestamp);
-  timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 3600000);
+  timestamp = pt_player_export_timestamp (fixture->testplayer, 0, 3600000);
   g_assert_cmpstr (timestamp, ==, "#0:00:00.0#");
   g_free (timestamp);
   g_object_set (fixture->testplayer, "timestamp-precision", PT_PRECISION_SECOND_100TH, NULL);
-  timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 1);
+  timestamp = pt_player_export_timestamp (fixture->testplayer, 0, 1);
   g_assert_cmpstr (timestamp, ==, "#0:00.00#");
   g_free (timestamp);
-  timestamp = pt_player_get_timestamp_for_time (fixture->testplayer, 0, 3600000);
+  timestamp = pt_player_export_timestamp (fixture->testplayer, 0, 3600000);
   g_assert_cmpstr (timestamp, ==, "#0:00:00.00#");
   g_free (timestamp);
 
@@ -367,8 +367,6 @@ player_timestamps (PtPlayerFixture *fixture,
   g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#0:01:2#", FALSE));
   /* too big, not valid in the test file */
   g_assert_false (pt_player_string_is_timestamp (fixture->testplayer, "#01:00.0#", TRUE));
-
-  g_assert_cmpint (60200, ==, pt_player_get_timestamp_position (fixture->testplayer, "00:01:00-2", FALSE));
 
   pt_player_jump_to_position (fixture->testplayer, 1000);
   g_main_loop_run (data.loop);
