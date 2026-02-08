@@ -22,6 +22,7 @@
 G_DECLARE_FINAL_TYPE (PtTextBuffer, pt_text_buffer, PT, TEXT_BUFFER, GtkTextBuffer)
 
 #define PT_TEXT_UNKNOWN_CHAR 0xFFFC
+/* timestamp delimiter number sign: # */
 #define PT_TEXT_TIMESTAMP_DELIMITER 0x0023
 
 void             pt_text_buffer_insert_range    (PtTextBuffer      *buffer,

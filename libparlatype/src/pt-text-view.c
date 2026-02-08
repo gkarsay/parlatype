@@ -367,9 +367,8 @@ timestamp_clicked (GtkButton *button,
                    gpointer   user_data)
 {
   PtTextView *self = PT_TEXT_VIEW (user_data);
-  char       *timestamp = g_strdup (pt_timestamp_button_get_timestamp (PT_TIMESTAMP_BUTTON (button)));
+  int         timestamp = pt_timestamp_button_get_timestamp (PT_TIMESTAMP_BUTTON (button));
   pt_player_goto_timestamp (self->player, timestamp);
-  g_free (timestamp);
 }
 
 static void
@@ -414,7 +413,7 @@ delete_range_cb (GtkTextBuffer     *buffer,
 static void
 insert_timestamp_button_cb (GObject            *object,
                             GtkTextChildAnchor *anchor,
-                            char               *timestamp,
+                            int                 timestamp,
                             gpointer            user_data)
 {
   PtTextView *self = PT_TEXT_VIEW (user_data);
@@ -439,7 +438,7 @@ pt_text_view_insert_timestamp (PtTextView *self)
 {
   GtkTextChildAnchor *anchor;
   GtkTextIter         iter;
-  char               *timestamp;
+  int                 timestamp;
 
   g_return_if_fail (PT_IS_TEXT_VIEW (self));
 
@@ -447,7 +446,7 @@ pt_text_view_insert_timestamp (PtTextView *self)
                                     gtk_text_buffer_get_insert (GTK_TEXT_BUFFER (self->buffer)));
 
   timestamp = pt_player_get_timestamp (self->player);
-  if (timestamp == NULL)
+  if (timestamp == -1)
     return;
 
   /* Create a new anchor, never add more than one widget to an anchor */
@@ -455,8 +454,6 @@ pt_text_view_insert_timestamp (PtTextView *self)
   gtk_text_buffer_insert_child_anchor (GTK_TEXT_BUFFER (self->buffer), &iter, anchor);
 
   insert_timestamp_button_cb (NULL, anchor, timestamp, self);
-
-  g_free (timestamp);
 }
 
 static void

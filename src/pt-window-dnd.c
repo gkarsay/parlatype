@@ -121,8 +121,10 @@ handle_dnd_data (PtWindow *win,
                     "MESSAGE", "Received drag and drop: '%s'", data);
 
   PtPlayer *player = _pt_window_get_player (win);
+  int       timestamp;
 
-  if (pt_player_goto_timestamp (player, data))
+  timestamp = pt_timestamp_get_time (data);
+  if (timestamp > 0 && pt_player_goto_timestamp (player, timestamp))
     return TRUE;
 
   if (handle_uri (win, data))

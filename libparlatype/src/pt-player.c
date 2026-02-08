@@ -1699,25 +1699,22 @@ pt_player_get_timestamp_for_time (PtPlayer *self,
  *
  * If the current position can not be determined, NULL is returned.
  *
- * Return value: (transfer full): the timestamp
+ * Return value: the timestamp
  *
  * Since: 1.4
  */
-gchar *
+int
 pt_player_get_timestamp (PtPlayer *self)
 {
-  g_return_val_if_fail (PT_IS_PLAYER (self), NULL);
+  g_return_val_if_fail (PT_IS_PLAYER (self), 0);
 
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
   gint64           time;
-  gint             duration;
 
   if (!gst_element_query_position (priv->play, GST_FORMAT_TIME, &time))
-    return NULL;
+    return -1;
 
-  duration = GST_TIME_AS_MSECONDS (priv->dur);
-
-  return pt_player_get_timestamp_for_time (self, GST_TIME_AS_MSECONDS (time), duration);
+  return GST_TIME_AS_MSECONDS (time);
 }
 
 /**
@@ -1799,19 +1796,19 @@ pt_player_string_is_timestamp (PtPlayer *self,
  */
 gboolean
 pt_player_goto_timestamp (PtPlayer *self,
-                          gchar    *timestamp)
+                          int       timestamp)
 {
   g_return_val_if_fail (PT_IS_PLAYER (self), FALSE);
-  g_return_val_if_fail (timestamp != NULL, FALSE);
+  g_return_val_if_fail (timestamp >= 0, FALSE);
 
-  gint pos;
+  PtPlayerPrivate *priv = pt_player_get_instance_private (self);
 
-  pos = pt_player_get_timestamp_position (self, timestamp, TRUE);
+  if (GST_MSECOND * (gint64) timestamp > priv->dur)
+    {
+      return FALSE;
+    }
 
-  if (pos == -1)
-    return FALSE;
-
-  pt_player_jump_to_position (self, pos);
+  pt_player_jump_to_position (self, timestamp);
   return TRUE;
 }
 

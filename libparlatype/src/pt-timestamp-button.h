@@ -22,6 +22,9 @@
 #define PT_TYPE_TIMESTAMP_BUTTON (pt_timestamp_button_get_type ())
 G_DECLARE_FINAL_TYPE (PtTimestampButton, pt_timestamp_button, PT, TIMESTAMP_BUTTON, GtkButton)
 
-char               *pt_timestamp_button_get_timestamp (PtTimestampButton *self);
+int                 pt_timestamp_button_get_timestamp (PtTimestampButton *self);
 
-GtkWidget          *pt_timestamp_button_new            (char *timestamp);
+void                pt_timestamp_button_set_timestamp (PtTimestampButton *self,
+                                                       int                timestamp);
+
+GtkWidget          *pt_timestamp_button_new           (int                timestamp);

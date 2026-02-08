@@ -254,7 +254,7 @@ process_text_node (xmlTextReaderPtr reader,
       GtkTextChildAnchor *anchor;
       text = xmlTextReaderValue (reader);
       anchor = gtk_text_buffer_create_child_anchor (GTK_TEXT_BUFFER (self->buffer), &self->pos);
-      g_signal_emit (self, signals[INSERT_TIMESTAMP_BUTTON], 0, anchor, CAST_BAD text);
+      g_signal_emit (self, signals[INSERT_TIMESTAMP_BUTTON], 0, anchor, atoi (CAST_BAD (text)));
       self->element = TEXT_P;
       goto out;
     }
@@ -485,7 +485,7 @@ pt_file_loader_class_init (PtFileLoaderClass *klass)
                     G_TYPE_NONE,
                     2,
                     GTK_TYPE_TEXT_CHILD_ANCHOR,
-                    G_TYPE_STRING);
+                    G_TYPE_INT);
 
   properties[PROP_VIEW] =
       g_param_spec_object ("view", NULL, NULL,

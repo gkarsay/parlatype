@@ -18,10 +18,12 @@
 
 #include "pt-timestamp-button.h"
 
+#include "pt-timestamp.h"
+
 struct _PtTimestampButton
 {
   GtkButton parent_instance;
-  char     *timestamp;
+  int       timestamp;
 };
 
 enum
@@ -35,12 +37,30 @@ G_DEFINE_FINAL_TYPE (PtTimestampButton, pt_timestamp_button, GTK_TYPE_BUTTON)
 
 static GParamSpec *properties[N_PROPS];
 
-char *
+int
 pt_timestamp_button_get_timestamp (PtTimestampButton *self)
 {
-  g_return_val_if_fail (PT_IS_TIMESTAMP_BUTTON (self), NULL);
+  g_return_val_if_fail (PT_IS_TIMESTAMP_BUTTON (self), 0);
 
   return self->timestamp;
+}
+
+void
+pt_timestamp_button_set_timestamp (PtTimestampButton *self,
+                                   int                timestamp)
+{
+  g_return_if_fail (PT_IS_TIMESTAMP_BUTTON (self));
+  g_return_if_fail (timestamp >= 0);
+
+  char *label;
+
+  if (timestamp == self->timestamp)
+    return;
+
+  self->timestamp = timestamp;
+  label = pt_timestamp_from_time (self->timestamp, -1, PT_PRECISION_SECOND_10TH);
+  gtk_button_set_label (GTK_BUTTON (self), label);
+  g_free (label);
 }
 
 static void
@@ -54,9 +74,7 @@ pt_timestamp_button_set_property (GObject      *object,
   switch (prop_id)
     {
     case PROP_TIMESTAMP:
-      g_assert (self->timestamp == NULL);
-      self->timestamp = g_value_dup_string (value);
-      // gtk_button_set_label (self->button, self->timestamp);
+      pt_timestamp_button_set_timestamp (self, g_value_get_int (value));
       break;
 
     default:
@@ -76,7 +94,7 @@ pt_timestamp_button_get_property (GObject    *object,
   switch (prop_id)
     {
     case PROP_TIMESTAMP:
-      g_value_set_string (value, self->timestamp);
+      g_value_set_int (value, self->timestamp);
       break;
 
     default:
@@ -86,33 +104,12 @@ pt_timestamp_button_get_property (GObject    *object,
 }
 
 static void
-pt_timestamp_button_dispose (GObject *object)
-{
-  PtTimestampButton *self = PT_TIMESTAMP_BUTTON (object);
-
-  g_free (self->timestamp);
-
-  G_OBJECT_CLASS (pt_timestamp_button_parent_class)->dispose (object);
-}
-
-static void
 pt_timestamp_button_constructed (GObject *object)
 {
   PtTimestampButton *self = PT_TIMESTAMP_BUTTON (object);
   char              *label;
 
-  /* Remove delimiters */
-  if (g_str_has_prefix (self->timestamp, "#") || g_str_has_prefix (self->timestamp, "(") || g_str_has_prefix (self->timestamp, "["))
-    {
-      self->timestamp++;
-      label = g_strdup_printf ("%.*s", (int) strlen (self->timestamp) - 1, self->timestamp);
-      self->timestamp--;
-    }
-  else
-    {
-      label = g_strdup (self->timestamp);
-    }
-
+  label = pt_timestamp_from_time (self->timestamp, -1, PT_PRECISION_SECOND_10TH);
   gtk_button_set_label (GTK_BUTTON (self), label);
   g_free (label);
 
@@ -132,20 +129,19 @@ pt_timestamp_button_class_init (PtTimestampButtonClass *klass)
   object_class->get_property = pt_timestamp_button_get_property;
   object_class->set_property = pt_timestamp_button_set_property;
   object_class->constructed = pt_timestamp_button_constructed;
-  object_class->dispose = pt_timestamp_button_dispose;
 
   properties[PROP_TIMESTAMP] =
-      g_param_spec_string ("timestamp", NULL, NULL,
-                           "n/a",
-                           G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
+      g_param_spec_int ("timestamp", NULL, NULL,
+                        0, G_MAXINT, 0,
+                        G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 GtkWidget *
-pt_timestamp_button_new (char *timestamp)
+pt_timestamp_button_new (int timestamp)
 {
-  g_return_val_if_fail (timestamp != NULL, NULL);
+  g_return_val_if_fail (timestamp >= 0, NULL);
 
   return GTK_WIDGET (g_object_new (PT_TYPE_TIMESTAMP_BUTTON,
                                    "timestamp", timestamp,

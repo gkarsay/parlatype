@@ -249,7 +249,8 @@ insert_range_untagged (GtkTextBuffer     *buffer,
                 {
                   /* Replace anchored timestamp button with timestamp as text */
                   GtkWidget **widgets;
-                  const char *timestamp;
+                  int         timestamp;
+                  char       *timestamp_string;
 
                   r = save_range (&range_start,
                                   &range_end,
@@ -258,7 +259,9 @@ insert_range_untagged (GtkTextBuffer     *buffer,
                   widgets = gtk_text_child_anchor_get_widgets (anchor, &out_len);
                   g_assert (out_len == 1);
                   timestamp = pt_timestamp_button_get_timestamp (PT_TIMESTAMP_BUTTON (widgets[0]));
-                  gtk_text_buffer_insert (buffer, iter, timestamp, -1);
+                  timestamp_string = g_strdup_printf ("#%d#", timestamp);
+                  gtk_text_buffer_insert (buffer, iter, timestamp_string, -1);
+                  g_free (timestamp_string);
 
                   restore_range (r);
                   r = NULL;
@@ -281,6 +284,8 @@ insert_range_untagged (GtkTextBuffer     *buffer,
           else if (gtk_text_iter_get_char (&range_end) == PT_TEXT_TIMESTAMP_DELIMITER)
             {
               char               *maybe_timestamp;
+              char               *without_delimiters;
+              int                 timestamp;
               GtkTextChildAnchor *new_anchor;
 
               gtk_text_iter_forward_find_char (&range_end,
@@ -292,13 +297,18 @@ insert_range_untagged (GtkTextBuffer     *buffer,
                 {
                   gtk_text_iter_forward_char (&range_end);
                   maybe_timestamp = gtk_text_iter_get_text (&range_start, &range_end);
-                  if (pt_player_string_is_timestamp (PT_TEXT_BUFFER (buffer)->player, maybe_timestamp, FALSE))
+                  maybe_timestamp++;
+                  without_delimiters = g_strdup_printf ("%.*s", (int) strlen (maybe_timestamp) - 1, maybe_timestamp);
+                  maybe_timestamp--;
+
+                  timestamp = atoi (without_delimiters);
+                  if (timestamp != 0)
                     {
                       r = save_range (&range_start,
                                       &range_end,
                                       &end);
                       new_anchor = gtk_text_buffer_create_child_anchor (buffer, iter);
-                      g_signal_emit (buffer, signals[INSERT_TIMESTAMP_BUTTON], 0, new_anchor, maybe_timestamp);
+                      g_signal_emit (buffer, signals[INSERT_TIMESTAMP_BUTTON], 0, new_anchor, timestamp);
                       restore_range (r);
                       r = NULL;
 
@@ -309,6 +319,7 @@ insert_range_untagged (GtkTextBuffer     *buffer,
                       gtk_text_iter_backward_char (&range_end);
                     }
                   g_free (maybe_timestamp);
+                  g_free (without_delimiters);
                 }
               else
                 {
@@ -936,7 +947,7 @@ pt_text_buffer_class_init (PtTextBufferClass *klass)
                     G_TYPE_NONE,
                     2,
                     GTK_TYPE_TEXT_CHILD_ANCHOR,
-                    G_TYPE_STRING);
+                    G_TYPE_INT);
 }
 
 static void

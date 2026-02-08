@@ -151,7 +151,7 @@ gchar       *pt_player_get_timestamp_for_time   (PtPlayer       *self,
                                                  gint            time,
                                                  gint            duration);
 
-gchar       *pt_player_get_timestamp            (PtPlayer       *self);
+int          pt_player_get_timestamp            (PtPlayer       *self);
 
 gint         pt_player_get_timestamp_position   (PtPlayer       *self,
                                                  gchar          *timestamp,
@@ -162,7 +162,7 @@ gboolean     pt_player_string_is_timestamp      (PtPlayer       *self,
                                                  gboolean        check_duration);
 
 gboolean     pt_player_goto_timestamp           (PtPlayer       *self,
-                                                 gchar          *timestamp);
+                                                 int             timestamp);
 
 void         pt_player_connect_waveviewer       (PtPlayer       *self,
                                                  PtWaveviewer   *wv);

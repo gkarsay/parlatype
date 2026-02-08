@@ -307,9 +307,11 @@ pt_file_saver_save_thread (GTask        *task,
               if (anchor != NULL)
                 {
                   GtkWidget **widgets;
-                  const char *timestamp;
+                  int         timestamp;
+                  char       *timestamp_string;
                   widgets = gtk_text_child_anchor_get_widgets (anchor, &out_len);
                   timestamp = pt_timestamp_button_get_timestamp (PT_TIMESTAMP_BUTTON (widgets[0]));
+                  timestamp_string = g_strdup_printf ("%d", timestamp);
 
                   rc = add_text (writer, string);
                   LOG_WRITER_ERROR
@@ -322,11 +324,12 @@ pt_file_saver_save_thread (GTask        *task,
                                                     BAD_CAST "pt-timestamp");
                   LOG_WRITER_ERROR
 
-                  rc = xmlTextWriterWriteString (writer, BAD_CAST timestamp);
+                  rc = xmlTextWriterWriteString (writer, BAD_CAST timestamp_string);
                   LOG_WRITER_ERROR
 
                   rc = xmlTextWriterEndElement (writer);
                   LOG_WRITER_ERROR
+                  g_free (timestamp_string);
                 }
             }
           else

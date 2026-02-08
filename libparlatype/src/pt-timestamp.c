@@ -68,7 +68,7 @@ pt_timestamp_from_time (int             time,
   ms = ms % 1000;
 
   /* Short or long format depends on total duration */
-  if (duration >= ONE_HOUR)
+  if (duration >= ONE_HOUR || time >= ONE_HOUR)
     {
       switch (precision)
         {
@@ -177,7 +177,7 @@ pt_timestamp_from_time (int             time,
  *
  * Since: 1.6
  */
-gint
+int
 pt_timestamp_get_time (char *timestamp)
 {
   g_return_val_if_fail (timestamp != NULL, -1);
