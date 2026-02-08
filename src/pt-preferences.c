@@ -30,15 +30,11 @@
 #include <gtk/gtk.h>
 #include <parlatype.h>
 
-#define EXAMPLE_TIME_SHORT 471123
-#define EXAMPLE_TIME_LONG 4071123
-
 struct _PtPreferencesDialog
 {
   AdwPreferencesDialog parent;
 
   GSettings    *editor;
-  PtPlayer     *player;
   PtAsrManager *asr_manager;
   PtConfigList *list;
   GtkWindow    *parent_window;
@@ -60,7 +56,6 @@ struct _PtPreferencesDialog
   GtkWidget *precision_row;
   GtkWidget *separator_row;
   GtkWidget *delimiter_row;
-  GtkWidget *preview_group;
 
   /* ASR page */
   GtkWidget *asr_page;
@@ -75,38 +70,12 @@ struct _PtPreferencesDialog
 G_DEFINE_FINAL_TYPE (PtPreferencesDialog, pt_preferences_dialog, ADW_TYPE_PREFERENCES_DIALOG)
 
 static void
-update_timestamp_page (PtPreferencesDialog *self)
-{
-  gchar *preview1;
-  gchar *preview2;
-  gchar *preview;
-  guint  precision;
-
-  preview1 = pt_player_get_timestamp_for_time (self->player, EXAMPLE_TIME_SHORT, EXAMPLE_TIME_SHORT);
-  preview2 = pt_player_get_timestamp_for_time (self->player, EXAMPLE_TIME_LONG, EXAMPLE_TIME_LONG);
-  preview = g_strdup_printf ("%s\n%s", preview1, preview2);
-  adw_preferences_group_set_description (ADW_PREFERENCES_GROUP (self->preview_group), preview);
-
-  precision = adw_combo_row_get_selected (ADW_COMBO_ROW (self->precision_row));
-  gtk_widget_set_sensitive (self->separator_row,
-                            (precision == 0) ? FALSE : TRUE);
-
-  g_free (preview1);
-  g_free (preview2);
-  g_free (preview);
-}
-
-static void
 settings_changed_cb (GSettings *settings,
                      gchar     *key,
                      gpointer   user_data)
 {
   PtPreferencesDialog *self = PT_PREFERENCES_DIALOG (user_data);
 
-  if (g_str_has_prefix (key, "timestamp"))
-    {
-      update_timestamp_page (self);
-    }
   if (g_str_equal (key, "asr-config"))
     {
       gchar *new_value = g_settings_get_string (settings, key);
@@ -565,7 +534,6 @@ static void
 pt_preferences_dialog_init (PtPreferencesDialog *self)
 {
   self->editor = g_settings_new (APP_ID);
-  self->player = pt_player_new ();
   self->parent_window = GTK_WINDOW (gtk_widget_get_root (GTK_WIDGET (self)));
   // g_assert (self->parent_window != NULL);
 
@@ -619,28 +587,6 @@ pt_preferences_dialog_init (PtPreferencesDialog *self)
       G_SETTINGS_BIND_DEFAULT);
 
   /* Timestamps page */
-  /* Bind settings to our player instance for example timestamps */
-  g_settings_bind (
-      self->editor, "timestamp-precision",
-      self->player, "timestamp-precision",
-      G_SETTINGS_BIND_GET);
-
-  g_settings_bind (
-      self->editor, "timestamp-fixed",
-      self->player, "timestamp-fixed",
-      G_SETTINGS_BIND_GET);
-
-  g_settings_bind (
-      self->editor, "timestamp-delimiter",
-      self->player, "timestamp-delimiter",
-      G_SETTINGS_BIND_GET);
-
-  g_settings_bind (
-      self->editor, "timestamp-fraction-sep",
-      self->player, "timestamp-fraction-sep",
-      G_SETTINGS_BIND_GET);
-
-  /* setup timestamp fields according to settings */
   g_settings_bind (
       self->editor, "timestamp-fixed",
       self->hours_row, "active",
@@ -672,8 +618,6 @@ pt_preferences_dialog_init (PtPreferencesDialog *self)
       G_CALLBACK (settings_changed_cb),
       self);
 
-  update_timestamp_page (self);
-
   /* Load (and show) configurations async.
    * Users won’t notice a delay, however, screenshot tool has to wait for it */
 
@@ -696,7 +640,6 @@ pt_preferences_dialog_dispose (GObject *object)
 
   gtk_widget_unparent (GTK_WIDGET (self));
   g_clear_object (&self->editor);
-  g_clear_object (&self->player);
   if (self->config_rows)
     g_ptr_array_free (self->config_rows, TRUE);
   g_clear_object (&self->list);
@@ -749,7 +692,6 @@ pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtPreferencesDialog, separator_row);
   gtk_widget_class_bind_template_child (widget_class, PtPreferencesDialog, delimiter_row);
   gtk_widget_class_bind_template_child (widget_class, PtPreferencesDialog, asr_page);
-  gtk_widget_class_bind_template_child (widget_class, PtPreferencesDialog, preview_group);
   gtk_widget_class_bind_template_child (widget_class, PtPreferencesDialog, models_group);
   gtk_widget_class_bind_template_child (widget_class, PtPreferencesDialog, initial_copy_button);
 }

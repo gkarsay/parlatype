@@ -195,12 +195,6 @@
             </child>
           </object>
         </child>
-        <child>
-          <object class="AdwPreferencesGroup" id="preview_group">
-            <property name="title" translatable="yes">Preview</property>
-            <property name="description">Example</property>
-          </object>
-        </child>
       </object>
     </child>
     <child>
