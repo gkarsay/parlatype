@@ -18,7 +18,6 @@
 
 #include "pt-app.h"
 
-#include "pt-dbus-service.h"
 #include "pt-mpris.h"
 #include "pt-preferences.h"
 #include "pt-utils.h"
@@ -33,9 +32,8 @@ struct _PtApp
 {
   AdwApplication parent;
 
-  GSettings     *settings;
-  PtMpris       *mpris;
-  PtDbusService *dbus_service;
+  GSettings *settings;
+  PtMpris   *mpris;
 };
 
 G_DEFINE_TYPE (PtApp, pt_app, ADW_TYPE_APPLICATION);
@@ -445,8 +443,6 @@ pt_app_activate (GApplication *application)
       win = pt_window_new (self);
       self->mpris = pt_mpris_new (win);
       pt_mpris_start (self->mpris);
-      self->dbus_service = pt_dbus_service_new (win);
-      pt_dbus_service_start (self->dbus_service);
     }
 
   gtk_window_present (GTK_WINDOW (win));
@@ -492,7 +488,6 @@ pt_app_init (PtApp *self)
 {
   self->settings = g_settings_new ("xyz.parlatype.Parlatype");
   self->mpris = NULL;
-  self->dbus_service = NULL;
   g_application_add_main_option_entries (G_APPLICATION (self), options);
 }
 
@@ -503,7 +498,6 @@ pt_app_dispose (GObject *object)
 
   g_clear_object (&self->settings);
   g_clear_object (&self->mpris);
-  g_clear_object (&self->dbus_service);
 
   G_OBJECT_CLASS (pt_app_parent_class)->dispose (object);
 }

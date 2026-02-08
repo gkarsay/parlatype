@@ -22,7 +22,6 @@ parlatype_sources = [
   'pt-config-list.c',
   'pt-config-row.c',
   'pt-controller.c',
-  'pt-dbus-service.c',
   'pt-goto-dialog.c',
   'pt-mpris.c',
   'pt-playback-rate-button.c',
