@@ -112,6 +112,8 @@ gst_pt_audio_play_bin_init (GstPtAudioPlayBin *self)
       self->audiosink = _pt_make_element (sink_factoryname, "audiosink", NULL);
     }
 
+  g_object_set (self->audiosink, "enable-last-sample", TRUE, NULL);
+
   g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
                     "MESSAGE", "Audio sink is %s", sink_factoryname);
 

@@ -50,6 +50,7 @@
 
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
+#include <gst/base/gstbasesink.h>
 #include <gst/gst.h>
 
 GST_DEBUG_CATEGORY_STATIC (gst_pt_audio_bin_debug);
@@ -76,6 +77,8 @@ struct _GstPtAudioBin
   gboolean asr;
   gfloat   volume;
   gboolean mute;
+
+  GstElement *audiosink;
 };
 
 G_DEFINE_TYPE (GstPtAudioBin, gst_pt_audio_bin, GST_TYPE_BIN);
@@ -94,6 +97,7 @@ change_mode_cb (GstPad          *pad,
   gboolean         success;
 
   // gst_pad_remove_probe (pad, GST_PAD_PROBE_INFO_ID (info));
+  GST_DEBUG_OBJECT (pad, "pad blocked");
 
   /* get element to remove */
   switch (self->pending)
@@ -117,9 +121,13 @@ change_mode_cb (GstPad          *pad,
 
   /* Unlink upstream, i.e. child's sink pad */
   sinkpad = gst_element_get_static_pad (child, "sink");
-  GST_DEBUG_OBJECT (child, "unlinking %s", GST_OBJECT_NAME (child));
+  GST_DEBUG_OBJECT (child, "unlinking");
   success = gst_pad_unlink (pad, sinkpad);
   g_assert (success);
+
+  GstElement *audiosink = gst_pt_audio_play_bin_get_audiosink (GST_PT_AUDIO_PLAY_BIN (self->play_bin));
+  GstSample  *sample = gst_base_sink_get_last_sample (GST_BASE_SINK (audiosink));
+  GST_DEBUG_OBJECT (child, "got last sample: %s", sample == NULL ? "no" : "yes");
 
   /* TODO investigate if flushing necessary */
   /*success = gst_pad_send_event (sinkpad, gst_event_new_flush_start ());
@@ -127,13 +135,13 @@ change_mode_cb (GstPad          *pad,
   success = gst_pad_send_event (sinkpad, gst_event_new_flush_stop (TRUE));
   GST_DEBUG_OBJECT (self, "flush-stop event %s", success ? "sent" : "not sent");*/
   success = gst_pad_send_event (sinkpad, gst_event_new_eos ());
-  GST_DEBUG_OBJECT (self, "eos event %s", success ? "sent" : "not sent");
+  GST_DEBUG_OBJECT (sinkpad, "eos event %s", success ? "sent" : "not sent");
 
   /* set to null or ready */
   gst_element_set_state (child, GST_STATE_NULL);
 
   /* remove from bin, dereferences removed element, we want to keep it */
-  GST_DEBUG ("removing %s from %s", GST_OBJECT_NAME (child), GST_OBJECT_NAME (parent));
+  GST_DEBUG_OBJECT (child, "removing");
   gst_object_ref (child);
   gst_bin_remove (GST_BIN (parent), child);
 
@@ -165,7 +173,7 @@ change_mode_cb (GstPad          *pad,
       return GST_PAD_PROBE_OK;
     }
 
-  GST_DEBUG ("adding %s to %s", GST_OBJECT_NAME (child), GST_OBJECT_NAME (self));
+  GST_DEBUG_OBJECT (child, "adding");
   success = gst_bin_add (GST_BIN (self), child);
   g_assert (success);
   success = gst_element_sync_state_with_parent (child);
@@ -180,11 +188,10 @@ change_mode_cb (GstPad          *pad,
 
   gst_object_unref (sinkpad);
   // gst_object_unref (tee_src);
-  GST_DEBUG_OBJECT (self, "switched mode to %d", self->pending);
+  GST_DEBUG_OBJECT (self, "switched mode to \"%s\"", pt_mode_get_name (self->pending));
   self->mode = self->pending;
-  gst_pad_remove_probe (pad, GST_PAD_PROBE_INFO_ID (info));
 
-  return GST_PAD_PROBE_OK;
+  return GST_PAD_PROBE_REMOVE;
 }
 
 /*static GstPadProbeReturn
@@ -231,8 +238,8 @@ gst_pt_audio_bin_set_mode (GstPtAudioBin *self,
       g_return_if_reached ();
     }
 
-  GST_DEBUG_OBJECT (self, "blocking pad for mode switch from %d to %d",
-                    self->mode, self->pending);
+  GST_DEBUG_OBJECT (self, "blocking pad for mode switch from \"%s\" to \"%s\"",
+                    pt_mode_get_name (self->mode), pt_mode_get_name (self->pending));
 
   gst_pad_add_probe (blockpad,
                      GST_PAD_PROBE_TYPE_BLOCKING | GST_PAD_PROBE_TYPE_BLOCK_DOWNSTREAM,

@@ -511,6 +511,8 @@ pt_config_apply (PtConfig *self,
               return FALSE;
             }
 
+          g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                            "MESSAGE", "pt-config.c: apply config key \"%s\"", keys[k]);
           g_object_set_property (plugin, keys[k], &value);
           g_value_unset (&value);
         }
