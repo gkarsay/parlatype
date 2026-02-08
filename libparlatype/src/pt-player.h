@@ -178,6 +178,8 @@ void         pt_player_set_mode                 (PtPlayer       *self,
 
 PtModeType   pt_player_get_mode                 (PtPlayer       *self);
 
+const char  *pt_mode_get_name                   (PtModeType      mode);
+
 GstElement  *pt_player_get_appsink              (PtPlayer       *self);
 
 PtMediaInfo *pt_player_get_media_info           (PtPlayer       *self);

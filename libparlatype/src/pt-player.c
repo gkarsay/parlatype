@@ -2167,6 +2167,30 @@ pt_player_get_mode (PtPlayer *self)
   return gst_pt_audio_bin_get_mode (bin);
 }
 
+/**
+ * pt_mode_get_name:
+ * @mode: a #PtModeType
+ *
+ * Get the name for debugging purposes.
+ *
+ * Return value: the corresponding mode name
+ *
+ * Since: 3.0
+ */
+const char *
+pt_mode_get_name (PtModeType mode)
+{
+  switch (mode)
+    {
+    case PT_MODE_PLAYBACK:
+      return "play";
+    case PT_MODE_ASR:
+      return "asr";
+    default:
+      return "invalid";
+    }
+}
+
 GstElement *
 pt_player_get_appsink (PtPlayer *self)
 {
