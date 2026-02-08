@@ -23,6 +23,7 @@ public_sources = [
   'pt-media-info.c',
   'pt-player.c',
   'pt-text-view.c',
+  'pt-timestamp.c',
   'pt-waveloader.c',
   'pt-waveviewer.c',
 ]

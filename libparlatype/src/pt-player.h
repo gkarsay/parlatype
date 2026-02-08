@@ -141,10 +141,6 @@ gchar       *pt_player_get_uri                  (PtPlayer       *self);
 
 gchar       *pt_player_get_filename             (PtPlayer       *self);
 
-gchar       *pt_player_get_time_string          (gint            time,
-                                                 gint            duration,
-                                                 PtPrecisionType precision);
-
 gchar       *pt_player_get_current_time_string  (PtPlayer       *self,
                                                  PtPrecisionType precision);
 

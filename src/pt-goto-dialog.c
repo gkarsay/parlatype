@@ -96,7 +96,7 @@ output_cb (GtkSpinButton *spin,
   if (self->max == 0)
     return GTK_INPUT_ERROR;
 
-  text = pt_player_get_time_string (
+  text = pt_timestamp_from_time (
       gtk_spin_button_get_value_as_int (spin) * 1000,
       self->max, 0);
 
@@ -185,7 +185,7 @@ pt_goto_dialog_set_max (PtGotoDialog *self,
 
   /* Set the width of the entry according to the length of the longest string it’ll now accept */
 
-  time_string = pt_player_get_time_string (self->max, self->max, 0);
+  time_string = pt_timestamp_from_time (self->max, self->max, 0);
   width = strlen (time_string);
   g_free (time_string);
 

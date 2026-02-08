@@ -540,45 +540,6 @@ player_timestrings (PtPlayerFixture *fixture,
   g_assert_cmpstr (timestring, ==, "0:09.98");
   g_free (timestring);
 
-  /* check arbitrary time strings, duration < 10 min, no rounding */
-  timestring = pt_player_get_time_string (1560, 10000, PT_PRECISION_SECOND);
-  g_assert_cmpstr (timestring, ==, "0:01");
-  g_free (timestring);
-
-  timestring = pt_player_get_time_string (1560, 10000, PT_PRECISION_SECOND_10TH);
-  g_assert_cmpstr (timestring, ==, "0:01.5");
-  g_free (timestring);
-
-  timestring = pt_player_get_time_string (1560, 10000, PT_PRECISION_SECOND_100TH);
-  g_assert_cmpstr (timestring, ==, "0:01.56");
-  g_free (timestring);
-
-  /* duration >= 10 min */
-  timestring = pt_player_get_time_string (1560, 600000, PT_PRECISION_SECOND);
-  g_assert_cmpstr (timestring, ==, "00:01");
-  g_free (timestring);
-
-  timestring = pt_player_get_time_string (1560, 600000, PT_PRECISION_SECOND_10TH);
-  g_assert_cmpstr (timestring, ==, "00:01.5");
-  g_free (timestring);
-
-  timestring = pt_player_get_time_string (1560, 600000, PT_PRECISION_SECOND_100TH);
-  g_assert_cmpstr (timestring, ==, "00:01.56");
-  g_free (timestring);
-
-  /* duration >= 1 hour */
-  timestring = pt_player_get_time_string (1560, 3600000, PT_PRECISION_SECOND);
-  g_assert_cmpstr (timestring, ==, "0:00:01");
-  g_free (timestring);
-
-  timestring = pt_player_get_time_string (1560, 3600000, PT_PRECISION_SECOND_10TH);
-  g_assert_cmpstr (timestring, ==, "0:00:01.5");
-  g_free (timestring);
-
-  timestring = pt_player_get_time_string (1560, 3600000, PT_PRECISION_SECOND_100TH);
-  g_assert_cmpstr (timestring, ==, "0:00:01.56");
-  g_free (timestring);
-
   g_main_loop_unref (data.loop);
 }
 

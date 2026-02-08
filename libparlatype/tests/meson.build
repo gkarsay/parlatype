@@ -1,6 +1,7 @@
 tests = [
   { 'name': 'config'                             },
   { 'name': 'player'                             },
+  { 'name': 'timestamp'                          },
   { 'name': 'waveloader'                         },
   { 'name': 'waveviewer'                         },
  #{ 'name': 'gst',              'internal': true },
