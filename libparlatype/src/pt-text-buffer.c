@@ -25,13 +25,11 @@
 #include "pt-text-buffer.h"
 
 #include "pt-marshalers.h"
-#include "pt-player.h"
 #include "pt-timestamp-button.h"
 
 struct _PtTextBuffer
 {
   GtkTextBuffer parent;
-  PtPlayer     *player;
 };
 
 enum
@@ -919,22 +917,10 @@ pt_text_buffer_register_serializers (void)
 }
 
 static void
-pt_text_buffer_dispose (GObject *object)
-{
-  PtTextBuffer *self = PT_TEXT_BUFFER (object);
-
-  g_clear_object (&self->player);
-
-  G_OBJECT_CLASS (pt_text_buffer_parent_class)->dispose (object);
-}
-
-static void
 pt_text_buffer_class_init (PtTextBufferClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
-  // GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
-  object_class->dispose = pt_text_buffer_dispose;
   pt_text_buffer_register_serializers ();
 
   signals[INSERT_TIMESTAMP_BUTTON] =
@@ -953,7 +939,6 @@ pt_text_buffer_class_init (PtTextBufferClass *klass)
 static void
 pt_text_buffer_init (PtTextBuffer *self)
 {
-  self->player = pt_player_new ();
 }
 
 PtTextBuffer *
