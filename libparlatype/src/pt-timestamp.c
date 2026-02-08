@@ -35,7 +35,7 @@
 #include <glib/gi18n-lib.h>
 
 /**
- * pt_timestamp_from_time:
+ * pt_timestamp_to_string:
  * @time: time in milliseconds to converse
  * @duration: duration of stream in milliseconds (max time)
  * @precision: a #PtPrecisionType
@@ -49,7 +49,7 @@
  * Since: 1.4
  */
 char *
-pt_timestamp_from_time (int             time,
+pt_timestamp_to_string (int             time,
                         int             duration,
                         PtPrecisionType precision)
 {
@@ -166,7 +166,7 @@ pt_timestamp_from_time (int             time,
 }
 
 /**
- * pt_timestamp_get_time:
+ * pt_timestamp_from_string:
  * @timestamp: a timestamp string
  *
  * Returns the time in milliseconds represented by the timestamp or -1 for
@@ -178,7 +178,7 @@ pt_timestamp_from_time (int             time,
  * Since: 1.6
  */
 int
-pt_timestamp_get_time (char *timestamp)
+pt_timestamp_from_string (char *timestamp)
 {
   g_return_val_if_fail (timestamp != NULL, -1);
 

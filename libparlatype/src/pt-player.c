@@ -1542,7 +1542,7 @@ pt_player_get_current_time_string (PtPlayer       *self,
   if (!gst_element_query_position (priv->play, GST_FORMAT_TIME, &time))
     return NULL;
 
-  return pt_timestamp_from_time (
+  return pt_timestamp_to_string (
       GST_TIME_AS_MSECONDS (time),
       GST_TIME_AS_MSECONDS (priv->dur),
       precision);
@@ -1569,7 +1569,7 @@ pt_player_get_duration_time_string (PtPlayer       *self,
   g_return_val_if_fail (precision < PT_PRECISION_INVALID, NULL);
 
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  return pt_timestamp_from_time (
+  return pt_timestamp_to_string (
       GST_TIME_AS_MSECONDS (priv->dur),
       GST_TIME_AS_MSECONDS (priv->dur),
       precision);
@@ -1742,7 +1742,7 @@ pt_player_get_timestamp_position (PtPlayer *self,
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
   gint             result;
 
-  result = pt_timestamp_get_time (timestamp);
+  result = pt_timestamp_from_string (timestamp);
   if (result > 0 && check_duration)
     {
       if (GST_MSECOND * (gint64) result > priv->dur)

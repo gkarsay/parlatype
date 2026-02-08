@@ -22,41 +22,41 @@ timestamp_from_time (void)
   char *timestring;
 
   /* check arbitrary time strings, duration < 10 min, no rounding */
-  timestring = pt_timestamp_from_time (1560, 10000, PT_PRECISION_SECOND);
+  timestring = pt_timestamp_to_string (1560, 10000, PT_PRECISION_SECOND);
   g_assert_cmpstr (timestring, ==, "0:01");
   g_free (timestring);
 
-  timestring = pt_timestamp_from_time (1560, 10000, PT_PRECISION_SECOND_10TH);
+  timestring = pt_timestamp_to_string (1560, 10000, PT_PRECISION_SECOND_10TH);
   g_assert_cmpstr (timestring, ==, "0:01.5");
   g_free (timestring);
 
-  timestring = pt_timestamp_from_time (1560, 10000, PT_PRECISION_SECOND_100TH);
+  timestring = pt_timestamp_to_string (1560, 10000, PT_PRECISION_SECOND_100TH);
   g_assert_cmpstr (timestring, ==, "0:01.56");
   g_free (timestring);
 
   /* duration >= 10 min */
-  timestring = pt_timestamp_from_time (1560, 600000, PT_PRECISION_SECOND);
+  timestring = pt_timestamp_to_string (1560, 600000, PT_PRECISION_SECOND);
   g_assert_cmpstr (timestring, ==, "00:01");
   g_free (timestring);
 
-  timestring = pt_timestamp_from_time (1560, 600000, PT_PRECISION_SECOND_10TH);
+  timestring = pt_timestamp_to_string (1560, 600000, PT_PRECISION_SECOND_10TH);
   g_assert_cmpstr (timestring, ==, "00:01.5");
   g_free (timestring);
 
-  timestring = pt_timestamp_from_time (1560, 600000, PT_PRECISION_SECOND_100TH);
+  timestring = pt_timestamp_to_string (1560, 600000, PT_PRECISION_SECOND_100TH);
   g_assert_cmpstr (timestring, ==, "00:01.56");
   g_free (timestring);
 
   /* duration >= 1 hour */
-  timestring = pt_timestamp_from_time (1560, 3600000, PT_PRECISION_SECOND);
+  timestring = pt_timestamp_to_string (1560, 3600000, PT_PRECISION_SECOND);
   g_assert_cmpstr (timestring, ==, "0:00:01");
   g_free (timestring);
 
-  timestring = pt_timestamp_from_time (1560, 3600000, PT_PRECISION_SECOND_10TH);
+  timestring = pt_timestamp_to_string (1560, 3600000, PT_PRECISION_SECOND_10TH);
   g_assert_cmpstr (timestring, ==, "0:00:01.5");
   g_free (timestring);
 
-  timestring = pt_timestamp_from_time (1560, 3600000, PT_PRECISION_SECOND_100TH);
+  timestring = pt_timestamp_to_string (1560, 3600000, PT_PRECISION_SECOND_100TH);
   g_assert_cmpstr (timestring, ==, "0:00:01.56");
   g_free (timestring);
 }

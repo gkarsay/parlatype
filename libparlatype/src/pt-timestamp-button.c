@@ -58,7 +58,7 @@ pt_timestamp_button_set_timestamp (PtTimestampButton *self,
     return;
 
   self->timestamp = timestamp;
-  label = pt_timestamp_from_time (self->timestamp, -1, PT_PRECISION_SECOND_10TH);
+  label = pt_timestamp_to_string (self->timestamp, -1, PT_PRECISION_SECOND_10TH);
   gtk_button_set_label (GTK_BUTTON (self), label);
   g_free (label);
 }
@@ -104,19 +104,6 @@ pt_timestamp_button_get_property (GObject    *object,
 }
 
 static void
-pt_timestamp_button_constructed (GObject *object)
-{
-  PtTimestampButton *self = PT_TIMESTAMP_BUTTON (object);
-  char              *label;
-
-  label = pt_timestamp_from_time (self->timestamp, -1, PT_PRECISION_SECOND_10TH);
-  gtk_button_set_label (GTK_BUTTON (self), label);
-  g_free (label);
-
-  G_OBJECT_CLASS (pt_timestamp_button_parent_class)->constructed (object);
-}
-
-static void
 pt_timestamp_button_init (PtTimestampButton *self)
 {
 }
@@ -128,7 +115,6 @@ pt_timestamp_button_class_init (PtTimestampButtonClass *klass)
 
   object_class->get_property = pt_timestamp_button_get_property;
   object_class->set_property = pt_timestamp_button_set_property;
-  object_class->constructed = pt_timestamp_button_constructed;
 
   properties[PROP_TIMESTAMP] =
       g_param_spec_int ("timestamp", NULL, NULL,

@@ -241,8 +241,7 @@ player_timestamps (PtPlayerFixture *fixture,
                    gconstpointer    user_data)
 {
   gchar   *timestamp = NULL;
-  gchar   *timestamp2;
-  gboolean valid;
+  int      time;
   LoopData data;
 
   data.loop = g_main_loop_new (g_main_context_default (), FALSE);
@@ -374,27 +373,15 @@ player_timestamps (PtPlayerFixture *fixture,
   pt_player_jump_to_position (fixture->testplayer, 1000);
   g_main_loop_run (data.loop);
 
-  timestamp = pt_player_get_timestamp (fixture->testplayer);
-  g_assert_nonnull (timestamp);
-
-  valid = pt_player_string_is_timestamp (fixture->testplayer, timestamp, TRUE);
-  g_assert_true (valid);
+  time = pt_player_get_timestamp (fixture->testplayer);
+  g_assert_cmpint (time, ==, 1000);
 
   pt_player_jump_to_position (fixture->testplayer, 0);
   g_main_loop_run (data.loop);
 
-  timestamp2 = pt_player_get_timestamp (fixture->testplayer);
-  g_assert_cmpstr (timestamp, !=, timestamp2);
-  g_free (timestamp2);
+  time = pt_player_get_timestamp (fixture->testplayer);
+  g_assert_cmpint (time, ==, 0);
 
-  pt_player_goto_timestamp (fixture->testplayer, timestamp);
-  g_main_loop_run (data.loop);
-
-  timestamp2 = pt_player_get_timestamp (fixture->testplayer);
-  g_assert_cmpstr (timestamp, ==, timestamp2);
-
-  g_free (timestamp);
-  g_free (timestamp2);
   g_main_loop_unref (data.loop);
 }
 

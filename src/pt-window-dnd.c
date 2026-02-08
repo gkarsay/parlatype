@@ -123,7 +123,7 @@ handle_dnd_data (PtWindow *win,
   PtPlayer *player = _pt_window_get_player (win);
   int       timestamp;
 
-  timestamp = pt_timestamp_get_time (data);
+  timestamp = pt_timestamp_from_string (data);
   if (timestamp > 0 && pt_player_goto_timestamp (player, timestamp))
     return TRUE;
 

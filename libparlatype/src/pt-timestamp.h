@@ -22,8 +22,8 @@
 
 #include "pt-player.h"
 
-char        *pt_timestamp_from_time             (int            time,
-                                                 int            duration,
+char        *pt_timestamp_to_string             (int             time,
+                                                 int             duration,
                                                  PtPrecisionType precision);
 
-gint         pt_timestamp_get_time              (char           *timestamp);
+gint         pt_timestamp_from_string           (char           *timestamp);
