@@ -1164,7 +1164,11 @@ pt_window_confirm_cb (GObject      *object,
     }
   else
     {
-      pt_error_message (self, error->message);
+      /* show error messages except user cancelled operation */
+      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+        {
+          pt_error_message (self, error->message);
+        }
       g_error_free (error);
     }
 }
