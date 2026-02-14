@@ -2014,26 +2014,6 @@ pt_player_get_state (PtPlayer *self)
 }
 
 static void
-pt_player_constructed (GObject *object)
-{
-  PtPlayer        *self = PT_PLAYER (object);
-  PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-
-  /* This is responsible for syncing system volume with Parlatype volume.
-     Syncing is done only in Play state */
-  g_signal_connect (G_OBJECT (priv->play),
-                    "notify::volume", G_CALLBACK (vol_changed), self);
-  g_signal_connect (G_OBJECT (priv->play),
-                    "notify::mute", G_CALLBACK (mute_changed), self);
-
-  /* Forward current-uri changes */
-  g_signal_connect (G_OBJECT (priv->play),
-                    "notify::current-uri", G_CALLBACK (uri_changed), self);
-
-  G_OBJECT_CLASS (pt_player_parent_class)->constructed (object);
-}
-
-static void
 pt_player_dispose (GObject *object)
 {
   PtPlayer        *self = PT_PLAYER (object);
@@ -2215,6 +2195,35 @@ pt_player_get_property (GObject    *object,
 }
 
 static void
+pt_player_constructed (GObject *object)
+{
+  PtPlayer        *self = PT_PLAYER (object);
+  PtPlayerPrivate *priv = pt_player_get_instance_private (self);
+
+  /* Setup pipeline */
+  priv->play = _pt_make_element ("playbin3", "play", NULL);
+  priv->scaletempo = _pt_make_element ("scaletempo", "tempo", NULL);
+  priv->audio_bin = _pt_make_element ("ptaudiobin", "audiobin", NULL);
+
+  g_object_set (G_OBJECT (priv->play),
+                "audio-filter", priv->scaletempo,
+                "audio-sink", priv->audio_bin, NULL);
+
+  /* This is responsible for syncing system volume with Parlatype volume.
+     Syncing is done only in Play state */
+  g_signal_connect (G_OBJECT (priv->play),
+                    "notify::volume", G_CALLBACK (vol_changed), self);
+  g_signal_connect (G_OBJECT (priv->play),
+                    "notify::mute", G_CALLBACK (mute_changed), self);
+
+  /* Forward current-uri changes */
+  g_signal_connect (G_OBJECT (priv->play),
+                    "notify::current-uri", G_CALLBACK (uri_changed), self);
+
+  G_OBJECT_CLASS (pt_player_parent_class)->constructed (object);
+}
+
+static void
 pt_player_init (PtPlayer *self)
 {
   PtPlayerPrivate   *priv = pt_player_get_instance_private (self);
@@ -2241,16 +2250,9 @@ pt_player_init (PtPlayer *self)
   else
     gst_object_unref (factory);
 
-  priv->play = _pt_make_element ("playbin3", "play", NULL);
-  priv->scaletempo = _pt_make_element ("scaletempo", "tempo", NULL);
-  priv->audio_bin = _pt_make_element ("ptaudiobin", "audiobin", NULL);
-
-  g_object_set (G_OBJECT (priv->play),
-                "audio-filter", priv->scaletempo,
-                "audio-sink", priv->audio_bin, NULL);
-
   priv->current_state = GST_STATE_NULL;
   priv->target_state = GST_STATE_NULL;
+  priv->speed = 1.0;
   priv->info = _pt_media_info_new ();
 }
 

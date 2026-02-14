@@ -86,19 +86,20 @@ gst_pt_audio_play_bin_get_audiosink (GstPtAudioPlayBin *self)
 }
 
 static void
-gst_pt_audio_play_bin_init (GstPtAudioPlayBin *self)
+gst_pt_audio_play_bin_constructed (GObject *object)
 {
-  /* Create gstreamer elements */
-  GstElement *queue;
-  GstElement *capsfilter;
-  gchar      *sink_factoryname;
+  GstPtAudioPlayBin *self = GST_PT_AUDIO_PLAY_BIN (object);
+  GstElement        *queue;
+  GstElement        *capsfilter;
+  gchar             *sink_factoryname;
 
+  /* Create gstreamer elements */
   queue = _pt_make_element ("queue", "queue", NULL);
   capsfilter = _pt_make_element ("capsfilter", "audiofilter", NULL);
 
   /* Choose an audiosink ourselves instead of relying on autoaudiosink.
-   * It will be a fakesink until the first stream is loaded, so we can't
-   * query the sinks properties until then. */
+   * autoaudiosink is a fakesink until the first stream is loaded, so
+   * we can't query the sink's properties until then. */
 
   if (have_pulseaudio_server ())
     sink_factoryname = "pulsesink";
@@ -138,8 +139,14 @@ gst_pt_audio_play_bin_init (GstPtAudioPlayBin *self)
 }
 
 static void
+gst_pt_audio_play_bin_init (GstPtAudioPlayBin *self)
+{
+}
+
+static void
 gst_pt_audio_play_bin_class_init (GstPtAudioPlayBinClass *klass)
 {
+  G_OBJECT_CLASS (klass)->constructed = gst_pt_audio_play_bin_constructed;
 }
 
 static gboolean

@@ -290,13 +290,11 @@ gst_pt_audio_bin_dispose (GObject *object)
 }
 
 static void
-gst_pt_audio_bin_init (GstPtAudioBin *self)
+gst_pt_audio_bin_constructed (GObject *object)
 {
-  GstPad *tee_sink;
-  GstPad *play_sink;
-
-  gst_pt_audio_play_bin_register ();
-  gst_pt_audio_asr_bin_register ();
+  GstPtAudioBin *self = GST_PT_AUDIO_BIN (object);
+  GstPad        *tee_sink;
+  GstPad        *play_sink;
 
   self->tee = _pt_make_element ("tee", "tee", NULL);
   self->play_bin = _pt_make_element ("ptaudioplaybin", "play-audiobin", NULL);
@@ -328,8 +326,16 @@ gst_pt_audio_bin_init (GstPtAudioBin *self)
 }
 
 static void
+gst_pt_audio_bin_init (GstPtAudioBin *self)
+{
+  gst_pt_audio_play_bin_register ();
+  gst_pt_audio_asr_bin_register ();
+}
+
+static void
 gst_pt_audio_bin_class_init (GstPtAudioBinClass *klass)
 {
+  G_OBJECT_CLASS (klass)->constructed = gst_pt_audio_bin_constructed;
   G_OBJECT_CLASS (klass)->dispose = gst_pt_audio_bin_dispose;
 }
 
