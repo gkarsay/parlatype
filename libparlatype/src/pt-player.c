@@ -25,6 +25,23 @@
  * Then you have to open a file with pt_player_open_uri().
  *
  * The internal time unit in PtPlayer are milliseconds.
+ *
+ * The internal GStreamer pipeline looks like this, only GstAppSink is directly exposed:
+ * ```
+ * .----------------.  .---------------------------------.
+ * | playbin3       |  | pt_audio_bin                    |
+ * |                |  | .------.  .-------------------. |
+ * | filter:        |  | | tee  |  | pt_audio_play_bin | |
+ * | scaletempo     ----->      --->                   | |
+ * '----------------'  | |      |  | sink: pulsesink   | |
+ *                     | |      |  '-------------------' |
+ *                     | |      |  .-------------------. |
+ *                     | |      |  | pt_audio_asr_bin  | |
+ *                     | |      --->                   | |
+ *                     | |      |  | sink: gstappsink  | |
+ *                     | '------'  '-------------------' |
+ *                     '---------------------------------'
+ * ```
  */
 
 #define GETTEXT_PACKAGE GETTEXT_LIB
@@ -422,7 +439,7 @@ bus_call (GstBus     *bus,
     case GST_MESSAGE_EOS:
       g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG, "MESSAGE", "EOS");
       /* Sometimes the current position is not exactly at the end which looks like
-       * a premature EOS or makes the cursor disappear.*/
+       * playback stopped too early or makes the cursor disappear.*/
       gst_element_query_position (priv->play, GST_FORMAT_TIME, &pos);
       stop = GST_CLOCK_TIME_IS_VALID (priv->segend) ? (gint64) priv->segend : priv->dur;
       if (pos != stop)
