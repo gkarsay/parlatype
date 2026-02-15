@@ -8,17 +8,17 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-13 21:21+0200\n"
-"PO-Revision-Date: 2020-05-15 13:52+0000\n"
-"Last-Translator: Shinichirou Yamada <yamada_strong_yamada_nice_64bit@yahoo."
-"co.jp>\n"
-"Language-Team: Japanese <ja@li.org>\n"
+"PO-Revision-Date: 2026-02-16 03:09+0000\n"
+"Last-Translator: akinobu nishi <at0onsleeping@gmail.com>\n"
+"Language-Team: Japanese <https://hosted.weblate.org/projects/parlatype/"
+"parlatype/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.16-dev\n"
 "X-Launchpad-Export-Date: 2020-05-31 16:44+0000\n"
-"X-Generator: Launchpad (build 275d46a24253e557e4403d52832837e4bfa425b6)\n"
 
 #: data/parlatype.desktop.in:4 data/parlatype.metainfo.xml.in:8
 #: src/pt-app.c:196 src/resources/window.ui:30
@@ -70,7 +70,7 @@ msgstr ""
 #: data/parlatype.metainfo.xml.in:81 data/parlatype.metainfo.xml.in:93
 #: data/parlatype.metainfo.xml.in:109
 msgid "Translation updates for several languages."
-msgstr ""
+msgstr "いくつかの言語のための翻訳を更新。"
 
 #: data/parlatype.metainfo.xml.in:56
 msgid ""
@@ -117,7 +117,7 @@ msgstr ""
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:80
 msgid "Switched to Weblate for translations."
-msgstr ""
+msgstr "翻訳のためにWeblateへ切り替えた。"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:87 data/parlatype.metainfo.xml.in:116
