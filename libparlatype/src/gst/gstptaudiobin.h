@@ -25,7 +25,7 @@ G_DECLARE_FINAL_TYPE (GstPtAudioBin, gst_pt_audio_bin, GST, PT_AUDIO_BIN, GstBin
 
 PtModeType  gst_pt_audio_bin_get_mode        (GstPtAudioBin *self);
 
-void        gst_pt_audio_bin_set_mode        (GstPtAudioBin *self,
+gboolean    gst_pt_audio_bin_set_mode        (GstPtAudioBin *self,
                                               PtModeType     mode);
 
 GstElement *gst_pt_audio_bin_get_appsink     (GstPtAudioBin *self);

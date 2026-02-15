@@ -555,9 +555,9 @@ bus_call (GstBus     *bus,
         /* Error is returned. Log the message here at level DEBUG,
            as higher levels will abort tests. */
 
-        g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+        g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_CRITICAL,
                           "MESSAGE", "Error from element %s: %s", GST_OBJECT_NAME (msg->src), error->message);
-        g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+        g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_CRITICAL,
                           "MESSAGE", "Debugging info: %s", (debug) ? debug : "none");
         g_free (debug);
 
@@ -752,6 +752,18 @@ pt_player_get_pause (PtPlayer *self)
   return priv->pause;
 }
 
+void
+pt_player_play_real (PtPlayer *self)
+{
+  PtPlayerPrivate *priv = pt_player_get_instance_private (self);
+  GstState         previous;
+
+  previous = priv->current_state;
+  gst_element_set_state (priv->play, GST_STATE_PLAYING);
+  if (previous == GST_STATE_PAUSED)
+    g_signal_emit_by_name (self, "play-toggled");
+}
+
 /**
  * pt_player_play:
  * @self: a #PtPlayer
@@ -775,18 +787,16 @@ pt_player_play (PtPlayer *self)
   gint64           pos;
   gint64           start, end;
   gboolean         selection;
-  GstState         previous;
 
+  g_print ("%s\n", __func__);
+  priv->target_state = GST_STATE_PLAYING;
   if (!gst_element_query_position (priv->play, GST_FORMAT_TIME, &pos))
     {
-      g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+      g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                         "MESSAGE", "pt_player_play: gst_element_query_position failed");
-      // pos = priv->play->start_time;
-      // g_print ("pos: %" GST_TIME_FORMAT, GST_TIME_ARGS (pos));
-      // return;
+      pt_player_play_real (self);
+      return;
     }
-
-  priv->target_state = GST_STATE_PLAYING;
 
   if (GST_CLOCK_TIME_IS_VALID (priv->segend))
     {
@@ -823,11 +833,7 @@ pt_player_play (PtPlayer *self)
       /* Change to playing state will be performed on state change in bus_call() */
       return;
     }
-
-  previous = priv->current_state;
-  gst_element_set_state (priv->play, GST_STATE_PLAYING);
-  if (previous == GST_STATE_PAUSED)
-    g_signal_emit_by_name (self, "play-toggled");
+  pt_player_play_real (self);
 }
 
 /**
@@ -1904,15 +1910,28 @@ uri_changed (GObject    *object,
  * To get the results in ASR mode, connect to the #PtPlayer::asr-hypothesis and/or
  * #PtPlayer::asr-final signal. Start recognition with pt_player_play().
  *
- * Since: 3.0
+ * Returns: True on success.
+ *
+ * Since: 5.0
  */
-void
+gboolean
 pt_player_set_mode (PtPlayer  *self,
-                    PtModeType type)
+                    PtModeType mode)
 {
+  g_return_val_if_fail (PT_IS_PLAYER (self), FALSE);
+
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
   GstPtAudioBin   *bin = GST_PT_AUDIO_BIN (priv->audio_bin);
-  gst_pt_audio_bin_set_mode (bin, type);
+  gint64           pos = 0;
+
+  gst_element_query_position (priv->play, GST_FORMAT_TIME, &pos);
+
+  if (!gst_pt_audio_bin_set_mode (bin, mode))
+    {
+      return FALSE;
+    }
+  pt_player_seek (self, pos);
+  return TRUE;
 }
 
 /**
@@ -2011,6 +2030,32 @@ pt_player_get_state (PtPlayer *self)
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
 
   return priv->app_state;
+}
+
+/**
+ * pt_state_get_name:
+ * @state: a #PtStateType
+ *
+ * Get the name for debugging purposes.
+ *
+ * Returns: the corresponding state name
+ *
+ * Since: 5.0
+ */
+const char *
+pt_state_get_name (PtStateType state)
+{
+  switch (state)
+    {
+    case PT_STATE_STOPPED:
+      return "stopped";
+    case PT_STATE_PAUSED:
+      return "paused";
+    case PT_STATE_PLAYING:
+      return "playing";
+    default:
+      return "invalid";
+    }
 }
 
 static void

@@ -253,10 +253,12 @@ activate_cb (PtAsrManager *asr_manager,
       return;
     }
 
-  pt_player_set_mode (self->player, PT_MODE_ASR);
-  pt_player_play (self->player);
-  action = g_action_map_lookup_action (G_ACTION_MAP (self), "transcribe");
-  g_action_change_state (G_ACTION (action), g_variant_new_boolean (TRUE));
+  if (pt_player_set_mode (self->player, PT_MODE_ASR))
+    {
+      pt_player_play (self->player);
+      action = g_action_map_lookup_action (G_ACTION_MAP (self), "transcribe");
+      g_action_change_state (G_ACTION (action), g_variant_new_boolean (TRUE));
+    }
 }
 
 static void
@@ -775,8 +777,8 @@ player_state_changed_cb (PtPlayer   *player,
   player_mode = pt_player_get_mode (player);
   play_action = g_action_map_lookup_action (G_ACTION_MAP (self), "play");
 
-  // g_print ("%s: state %d\n", __func__, player_state);
-  // g_print ("%s: mode %d\n", __func__, player_mode);
+  g_print ("%s: state %s\n", __func__, pt_state_get_name (player_state));
+  g_print ("%s: mode %s\n", __func__, pt_mode_get_name (player_mode));
 
   ready = player_state >= PT_STATE_PAUSED;
   playing = player_state == PT_STATE_PLAYING;
@@ -801,11 +803,11 @@ player_state_changed_cb (PtPlayer   *player,
       transcribe_action = g_action_map_lookup_action (G_ACTION_MAP (self), "transcribe");
       pt_window_transcribe_action (G_SIMPLE_ACTION (transcribe_action), action_state, self);
     }
-  /*if (player_mode != PT_MODE_ASR)
+  if (player_mode != PT_MODE_ASR)
     {
       transcribe_action = g_action_map_lookup_action (G_ACTION_MAP (self), "transcribe");
       g_simple_action_set_enabled (G_SIMPLE_ACTION (transcribe_action), !playing && self->asr_config != NULL);
-    }*/
+    }
 
   change_play_button_tooltip (self);
 }
@@ -1025,7 +1027,6 @@ static void
 setup_player (PtWindow *self)
 {
   self->player = pt_player_new ();
-  pt_player_set_mode (self->player, PT_MODE_PLAYBACK);
 
   pt_player_connect_waveviewer (
       self->player,

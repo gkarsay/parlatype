@@ -15,19 +15,19 @@
  */
 
 /**
- * gstptaudioplaybin
+ * gstptaudioplaybin:
  * Child bin (GstBin) for parent PtAudioBin.
  *
  * This bin is an audio sink for normal playback.
- *
- *  .----------------------------------.
- *  | pt_audio_play_bin                |
- *  | .-------------.   .------------. |
- *  | | capsfilter  |   | audiosink  | |
- *  -->             ---->            | |
- *  | '-------------'   '------------' |
- *  '----------------------------------'
- *
+ * ```
+ *  .----------------------------------------------.
+ *  | pt_audio_play_bin                            |
+ *  | .-----------.  .------------.  .-----------. |
+ *  | | queue     |  | capsfilter |  | pulsesink | |
+ *  -->           --->            --->           | |
+ *  | '-----------'  '------------'  '-----------' |
+ *  '----------------------------------------------'
+ * ```
  * audiosink is chosen at runtime.
  */
 

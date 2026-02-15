@@ -15,19 +15,19 @@
  */
 
 /**
- * gstptaudioasrbin
+ * gstptaudioasrbin:
  * Child bin (GstBin) for parent PtAudioBin.
  *
  * This bin is for Automatic Speech Recognition (ASR).
- *
+ * ```
  *  .-------------------------------------------------------.
  *  | pt_audio_asr_bin                                      |
- *  | .---------.   .----------.   .---------.   .--------. |
- *  | | audio-  |   | audio-   |   | caps-   |   | app-   | |
- *  --> convert ----> resample ----> filter  ----> sink   | |
- *  | '---------'   '----------'   '---------'   '--------' |
+ *  | .---------.   .---------.   .----------.   .--------. |
+ *  | | queue   |   | audio-  |   | audio-   |   | app-   | |
+ *  -->         ----> convert ----> resample ----> sink   | |
+ *  | '---------'   '---------'   '----------'   '--------' |
  *  '-------------------------------------------------------'
- *
+ * ```
  */
 
 #define GETTEXT_PACKAGE GETTEXT_LIB

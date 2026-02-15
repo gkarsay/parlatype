@@ -165,7 +165,9 @@ void         pt_player_connect_waveviewer       (PtPlayer       *self,
 
 PtStateType  pt_player_get_state                (PtPlayer       *self);
 
-void         pt_player_set_mode                 (PtPlayer       *self,
+const char  *pt_state_get_name                  (PtStateType     state);
+
+gboolean     pt_player_set_mode                 (PtPlayer       *self,
                                                  PtModeType      type);
 
 PtModeType   pt_player_get_mode                 (PtPlayer       *self);

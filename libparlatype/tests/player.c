@@ -147,43 +147,51 @@ player_open_fail (void)
 
   player = pt_player_new ();
 
-  /* Fails to open "foo" */
-  data.loop = g_main_loop_new (g_main_context_default (), FALSE);
-  data.domain = GST_RESOURCE_ERROR;
-  data.code = GST_RESOURCE_ERROR_NOT_FOUND;
-  g_signal_connect (player, "error", G_CALLBACK (error_cb), &data);
-  success = pt_player_open_uri (player, "foo");
-  g_main_loop_run (data.loop);
-  g_assert_false (success);
+  /* Code emits a message at log level "critical" which makes tests fail.
+   * Therefore using g_test_subprocess() which captures stderr. */
+  if (g_test_subprocess ())
+    {
+      /* Fails to open "foo" */
+      data.loop = g_main_loop_new (g_main_context_default (), FALSE);
+      data.domain = GST_RESOURCE_ERROR;
+      data.code = GST_RESOURCE_ERROR_NOT_FOUND;
+      g_signal_connect (player, "error", G_CALLBACK (error_cb), &data);
+      success = pt_player_open_uri (player, "foo");
+      g_main_loop_run (data.loop);
+      g_assert_false (success);
 
-  /* Fails to open a valid path, not existing file.
-   * Error domain and code unchanged. */
-  path = g_test_build_filename (G_TEST_DIST, "data", "foo", NULL);
-  file = g_file_new_for_path (path);
-  uri = g_file_get_uri (file);
-  success = pt_player_open_uri (player, uri);
-  g_main_loop_run (data.loop);
-  g_assert_false (success);
+      /* Fails to open a valid path, not existing file.
+       * Error domain and code unchanged. */
+      path = g_test_build_filename (G_TEST_DIST, "data", "foo", NULL);
+      file = g_file_new_for_path (path);
+      uri = g_file_get_uri (file);
+      success = pt_player_open_uri (player, uri);
+      g_main_loop_run (data.loop);
+      g_assert_false (success);
 
-  g_object_unref (file);
-  g_free (path);
-  g_free (uri);
+      g_object_unref (file);
+      g_free (path);
+      g_free (uri);
 
-  /* Fails to open an existing file of wrong type */
-  data.domain = GST_STREAM_ERROR;
-  data.code = GST_STREAM_ERROR_WRONG_TYPE;
-  path = g_test_build_filename (G_TEST_DIST, "data", "README", NULL);
-  file = g_file_new_for_path (path);
-  uri = g_file_get_uri (file);
-  success = pt_player_open_uri (player, uri);
-  g_main_loop_run (data.loop);
-  g_assert_false (success);
+      /* Fails to open an existing file of wrong type */
+      data.domain = GST_STREAM_ERROR;
+      data.code = GST_STREAM_ERROR_WRONG_TYPE;
+      path = g_test_build_filename (G_TEST_DIST, "data", "README", NULL);
+      file = g_file_new_for_path (path);
+      uri = g_file_get_uri (file);
+      success = pt_player_open_uri (player, uri);
+      g_main_loop_run (data.loop);
+      g_assert_false (success);
 
-  g_object_unref (file);
-  g_free (path);
-  g_free (uri);
-  g_main_loop_unref (data.loop);
-  g_object_unref (player);
+      g_object_unref (file);
+      g_free (path);
+      g_free (uri);
+      g_main_loop_unref (data.loop);
+      g_object_unref (player);
+    }
+
+  g_test_trap_subprocess (NULL, 0, G_TEST_SUBPROCESS_DEFAULT);
+  g_test_trap_assert_stderr ("*CRITICAL*");
 }
 
 static void
