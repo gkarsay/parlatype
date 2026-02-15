@@ -19,6 +19,7 @@ parlatype_sources = [
   'editor-theme-selector.c',
   'pt-app.c',
   'pt-asr-dialog.c',
+  'pt-audio-controls.c',
   'pt-config-list.c',
   'pt-config-row.c',
   'pt-controller.c',

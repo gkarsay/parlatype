@@ -23,11 +23,10 @@
 
 #include "editor-theme-selector-private.h"
 #include "pt-app.h"
+#include "pt-audio-controls.h"
 #include "pt-goto-dialog.h"
-#include "pt-playback-rate-button.h"
 #include "pt-save-changes-dialog.h"
 #include "pt-utils.h"
-#include "pt-volume-button.h"
 #include "pt-window-dnd.h"
 #include "pt-window-private.h"
 
@@ -38,14 +37,13 @@
 
 struct _PtWindow
 {
-  AdwApplicationWindow parent;
+  AdwApplicationWindow parent_instance;
   PtPlayer            *player;
   GtkWidget           *waveviewer;
   GSettings           *editor;
   GtkLabel            *title;
   GtkLabel            *is_modified;
   GtkWidget           *primary_menu_button;
-  GtkWidget           *pos_menu_button;
 
   PtAsrManager     *asr_manager;
   GtkRecentManager *recent;
@@ -53,13 +51,8 @@ struct _PtWindow
 
   /* Main window widgets */
   GtkWidget *waveviewer_stack;
-  GtkWidget *controls_box;
+  GtkWidget *audio_controls;
   GtkWidget *progress;
-  GtkWidget *button_play;
-  GtkWidget *button_jump_back;
-  GtkWidget *button_jump_forward;
-  GtkWidget *volume_button;
-  GtkWidget *playback_rate_button;
   GtkWidget *timestamp_switch;
 
   GtkWidget *paned;
@@ -141,36 +134,6 @@ goto_cursor (GtkWidget  *widget,
   PtWindow *self = PT_WINDOW (widget);
 
   pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (self->waveviewer), TRUE);
-}
-
-static void
-jump_back (GtkWidget  *widget,
-           const char *action_name,
-           GVariant   *param)
-{
-  PtWindow *self = PT_WINDOW (widget);
-
-  pt_player_jump_back (self->player);
-}
-
-static void
-jump_forward (GtkWidget  *widget,
-              const char *action_name,
-              GVariant   *param)
-{
-  PtWindow *self = PT_WINDOW (widget);
-
-  pt_player_jump_forward (self->player);
-}
-
-static void
-pt_window_play_action (GSimpleAction *action,
-                       GVariant      *state,
-                       gpointer       user_data)
-{
-  PtWindow *self = PT_WINDOW (user_data);
-
-  pt_player_play_pause (self->player);
 }
 
 static void
@@ -474,7 +437,6 @@ pt_window_save_action (GtkWidget  *widget,
 
 const GActionEntry win_actions[] = {
   { "transcribe", pt_window_transcribe_action, NULL, "false", NULL },
-  { "play", pt_window_play_action, NULL, "false", NULL },
 };
 
 static void
@@ -498,7 +460,7 @@ update_time (PtWindow *self)
       if (text == NULL)
         return;
 
-      gtk_menu_button_set_label (GTK_MENU_BUTTON (self->pos_menu_button), text);
+      pt_audio_controls_set_time_label (PT_AUDIO_CONTROLS (self->audio_controls), text);
       g_free (text);
       self->last_time = time / 100;
     }
@@ -541,79 +503,6 @@ remove_timer (PtWindow *self)
 }
 
 static void
-change_jump_back_tooltip (PtWindow *self)
-{
-  gchar *back;
-  int    seconds;
-
-  seconds = pt_player_get_back (self->player) / 1000;
-  back = g_strdup_printf (
-      ngettext ("Skip back 1 second",
-                "Skip back %d seconds",
-                seconds),
-      seconds);
-
-  gtk_widget_set_tooltip_text (self->button_jump_back, back);
-  g_free (back);
-}
-
-static void
-change_jump_forward_tooltip (PtWindow *self)
-{
-  gchar *forward;
-  int    seconds;
-
-  seconds = pt_player_get_forward (self->player) / 1000;
-  forward = g_strdup_printf (
-      ngettext ("Skip forward 1 second",
-                "Skip forward %d seconds",
-                seconds),
-      seconds);
-
-  gtk_widget_set_tooltip_text (self->button_jump_forward, forward);
-  g_free (forward);
-}
-
-static void
-change_play_button_tooltip (PtWindow *self)
-{
-  gchar    *play;
-  int       pause;
-  gboolean  free_me = FALSE;
-  GAction  *action;
-  GVariant *state;
-
-  action = g_action_map_lookup_action (G_ACTION_MAP (self), "play");
-  state = g_action_get_state (action);
-
-  pause = pt_player_get_pause (self->player) / 1000;
-  if (g_variant_get_boolean (state))
-    {
-      if (pause == 0)
-        {
-          play = _ ("Pause");
-        }
-      else
-        {
-          play = g_strdup_printf (
-              ngettext ("Pause and rewind 1 second",
-                        "Pause and rewind %d seconds",
-                        pause),
-              pause);
-          free_me = TRUE;
-        }
-    }
-  else
-    {
-      play = _ ("Start playing");
-    }
-
-  gtk_widget_set_tooltip_text (self->button_play, play);
-  if (free_me)
-    g_free (play);
-}
-
-static void
 update_goto_cursor_action_sensitivity (GObject    *gobject,
                                        GParamSpec *pspec,
                                        gpointer    user_data)
@@ -637,9 +526,6 @@ pt_window_ready_to_play (PtWindow *self,
   gchar   *display_name = NULL;
   GAction *action;
 
-  gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.jump-back", state);
-  gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.jump-forward", state);
-  gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.play", state);
   gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.insert-timestamp", state);
   gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.goto", state);
   gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.zoom-in", state);
@@ -649,13 +535,8 @@ pt_window_ready_to_play (PtWindow *self,
   /* always insensitive: either there is no waveform or we are already at cursor position */
   gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.goto-cursor", FALSE);
 
-  action = g_action_map_lookup_action (G_ACTION_MAP (self), "play");
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state);
-
   action = g_action_map_lookup_action (G_ACTION_MAP (self), "transcribe");
   g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state && self->asr_config != NULL);
-
-  gtk_widget_set_sensitive (self->volume_button, state);
 
   if (state)
     {
@@ -674,18 +555,13 @@ pt_window_ready_to_play (PtWindow *self,
           g_free (uri);
         }
 
-      change_play_button_tooltip (self);
-      change_jump_back_tooltip (self);
-      change_jump_forward_tooltip (self);
       pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (self->waveviewer), TRUE);
       add_timer (self);
     }
   else
     {
-      gtk_menu_button_set_label (GTK_MENU_BUTTON (self->pos_menu_button), "00:00.0");
+      pt_audio_controls_set_time_label (PT_AUDIO_CONTROLS (self->audio_controls), NULL);
       gtk_label_set_text (self->title, _ ("Parlatype"));
-      gtk_widget_set_tooltip_text (self->button_jump_back, NULL);
-      gtk_widget_set_tooltip_text (self->button_jump_forward, NULL);
       remove_timer (self);
     }
 }
@@ -768,14 +644,13 @@ player_state_changed_cb (PtPlayer   *player,
 {
   PtStateType player_state;
   PtModeType  player_mode;
-  GAction    *play_action, *transcribe_action;
+  GAction    *transcribe_action;
   GVariant   *action_state;
   gboolean    playing;
   gboolean    ready;
 
   player_state = pt_player_get_state (player);
   player_mode = pt_player_get_mode (player);
-  play_action = g_action_map_lookup_action (G_ACTION_MAP (self), "play");
 
   g_print ("%s: state %s\n", __func__, pt_state_get_name (player_state));
   g_print ("%s: mode %s\n", __func__, pt_mode_get_name (player_mode));
@@ -783,7 +658,6 @@ player_state_changed_cb (PtPlayer   *player,
   ready = player_state >= PT_STATE_PAUSED;
   playing = player_state == PT_STATE_PLAYING;
   action_state = g_variant_new_boolean (playing);
-  g_action_change_state (play_action, action_state);
 
   if (ready != self->player_ready)
     {
@@ -808,8 +682,6 @@ player_state_changed_cb (PtPlayer   *player,
       transcribe_action = g_action_map_lookup_action (G_ACTION_MAP (self), "transcribe");
       g_simple_action_set_enabled (G_SIMPLE_ACTION (transcribe_action), !playing && self->asr_config != NULL);
     }
-
-  change_play_button_tooltip (self);
 }
 
 static void
@@ -819,20 +691,6 @@ player_end_of_stream_cb (PtPlayer *player,
   /* Pause player without jumping back, this will also toggle the
    * Play button */
   pt_player_pause (self->player);
-}
-
-static void
-pt_window_direction_changed (GtkWidget       *widget,
-                             GtkTextDirection previous_direction)
-{
-  /* In RTL layouts playback control elements are *not* supposed to be
-   * mirrored. Undo automatic mirroring for those elements. */
-
-  PtWindow *self = PT_WINDOW (widget);
-
-  gtk_widget_set_direction (self->button_jump_back, GTK_TEXT_DIR_LTR);
-  gtk_widget_set_direction (self->button_jump_forward, GTK_TEXT_DIR_LTR);
-  gtk_widget_set_direction (self->controls_box, GTK_TEXT_DIR_LTR);
 }
 
 /*
@@ -878,24 +736,6 @@ settings_changed_cb (GSettings *settings,
                      gchar     *key,
                      PtWindow  *self)
 {
-  if (g_strcmp0 (key, "rewind-on-pause") == 0)
-    {
-      change_play_button_tooltip (self);
-      return;
-    }
-
-  if (g_strcmp0 (key, "jump-back") == 0)
-    {
-      change_jump_back_tooltip (self);
-      return;
-    }
-
-  if (g_strcmp0 (key, "jump-forward") == 0)
-    {
-      change_jump_forward_tooltip (self);
-      return;
-    }
-
   if (g_strcmp0 (key, "asr-config") == 0)
     {
       set_asr_config (self);
@@ -1001,8 +841,6 @@ setup_settings (PtWindow *self)
 
   set_asr_config (self);
 
-  /* connect to tooltip changer */
-
   g_signal_connect (
       self->editor, "changed",
       G_CALLBACK (settings_changed_cb),
@@ -1056,13 +894,6 @@ setup_player (PtWindow *self)
                     "asr-hypothesis",
                     G_CALLBACK (player_asr_hypothesis_cb),
                     self);
-
-  GtkAdjustment *rate_adjustment;
-  rate_adjustment = pt_playback_rate_button_get_adjustment (PT_PLAYBACK_RATE_BUTTON (self->playback_rate_button));
-  g_object_bind_property (
-      rate_adjustment, "value",
-      self->player, "speed",
-      G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
 }
 
 static void
@@ -1247,13 +1078,12 @@ audio_file_cb (PtTextView *text_view,
 static void
 pt_window_init (PtWindow *self)
 {
-  g_type_ensure (PT_TYPE_PLAYBACK_RATE_BUTTON);
   g_type_ensure (PT_TYPE_TEXT_VIEW);
-  g_type_ensure (PT_TYPE_VOLUME_BUTTON);
   gtk_widget_init_template (GTK_WIDGET (self));
 
   self->editor = g_settings_new (APP_ID);
   setup_player (self);
+  pt_audio_controls_set_player (PT_AUDIO_CONTROLS (self->audio_controls), self->player);
   pt_text_view_connect (PT_TEXT_VIEW (self->text_view),
                         self->player,
                         self->editor);
@@ -1276,7 +1106,6 @@ pt_window_init (PtWindow *self)
 
   g_signal_connect (self->text_view, "notify::audio", G_CALLBACK (audio_file_cb), self);
 
-  pt_volume_button_set_player (PT_VOLUME_BUTTON (self->volume_button), self->player);
   self->recent = gtk_recent_manager_get_default ();
   self->timer = 0;
   self->last_time = 0;
@@ -1284,10 +1113,6 @@ pt_window_init (PtWindow *self)
 
   /* Used e.g. by Xfce */
   gtk_window_set_default_icon_name (APP_ID);
-
-  /* Prepare layout if we have initially RTL */
-  if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
-    pt_window_direction_changed (GTK_WIDGET (self), GTK_TEXT_DIR_LTR);
 
   g_signal_connect (self->waveviewer,
                     "notify::follow-cursor",
@@ -1325,22 +1150,15 @@ pt_window_class_init (PtWindowClass *klass)
 
   gobject_class->constructed = pt_window_constructed;
   gobject_class->dispose = pt_window_dispose;
-  widget_class->direction_changed = pt_window_direction_changed;
   window_class->close_request = pt_window_close_request;
 
   gtk_widget_class_set_template_from_resource (widget_class, "/xyz/parlatype/Parlatype/window.ui");
 
   gtk_widget_class_bind_template_child (widget_class, PtWindow, waveviewer);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, primary_menu_button);
-  gtk_widget_class_bind_template_child (widget_class, PtWindow, pos_menu_button);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, progress);
-  gtk_widget_class_bind_template_child (widget_class, PtWindow, controls_box);
-  gtk_widget_class_bind_template_child (widget_class, PtWindow, button_play);
-  gtk_widget_class_bind_template_child (widget_class, PtWindow, button_jump_back);
-  gtk_widget_class_bind_template_child (widget_class, PtWindow, button_jump_forward);
+  gtk_widget_class_bind_template_child (widget_class, PtWindow, audio_controls);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, is_modified);
-  gtk_widget_class_bind_template_child (widget_class, PtWindow, volume_button);
-  gtk_widget_class_bind_template_child (widget_class, PtWindow, playback_rate_button);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, paned);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, text_view);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, title);
@@ -1350,8 +1168,6 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_install_action (widget_class, "win.goto", NULL, goto_position);
   gtk_widget_class_install_action (widget_class, "win.goto-cursor", NULL, goto_cursor);
   gtk_widget_class_install_action (widget_class, "win.insert-timestamp", NULL, insert_timestamp);
-  gtk_widget_class_install_action (widget_class, "win.jump-back", NULL, jump_back);
-  gtk_widget_class_install_action (widget_class, "win.jump-forward", NULL, jump_forward);
   gtk_widget_class_install_action (widget_class, "win.save", NULL, pt_window_save_action);
   gtk_widget_class_install_action (widget_class, "win.save-as", NULL, pt_window_save_action);
   gtk_widget_class_install_action (widget_class, "win.zoom-in", NULL, zoom_in);
@@ -1361,9 +1177,6 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_install_action (widget_class, "win.deserialize", NULL, deserialize);
 
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_g, GDK_CONTROL_MASK, "win.goto", NULL);
-  // gtk_widget_class_add_binding_action (widget_class, GDK_KEY_a, GDK_CONTROL_MASK, "win.jump-back", NULL);
-  // gtk_widget_class_add_binding_action (widget_class, GDK_KEY_s, GDK_CONTROL_MASK, "win.jump-forward", NULL);
-  gtk_widget_class_add_binding_action (widget_class, GDK_KEY_space, GDK_CONTROL_MASK, "win.play", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_s, GDK_CONTROL_MASK, "win.save", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_s, GDK_CONTROL_MASK | GDK_SHIFT_MASK, "win.save-as", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_t, GDK_CONTROL_MASK, "win.insert-timestamp", NULL);

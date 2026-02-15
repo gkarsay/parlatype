@@ -78,89 +78,7 @@
                   <object class="AdwOverlaySplitView" id="audio_split_view">
                     <property name="show-sidebar" bind-source="show_sidebar_button" bind-property="active" bind-flags="sync-create|bidirectional"/>
                     <property name="sidebar">
-                      <object class="GtkBox">
-                        <property name="css-name">audio_controls</property>
-                        <property name="orientation">vertical</property>
-                        <property name="halign">center</property>
-                        <property name="hexpand_set">1</property>
-                        <property name="valign">end</property>
-                        <property name="spacing">6</property>
-                        <child>
-                          <object class="GtkBox"> <!-- playback rate and volume buttons -->
-                            <property name="halign">center</property>
-                            <property name="spacing">6</property>
-                            <child>
-                              <object class="PtPlaybackRateButton" id="playback_rate_button">
-                              </object>
-                            </child>
-                            <child>
-                              <object class="PtVolumeButton" id="volume_button">
-                              </object>
-                            </child>
-                          </object>
-                        </child> <!-- playback rate and volume buttons -->
-                        <child>
-                          <object class="GtkMenuButton" id="pos_menu_button">
-                            <property name="menu-model">secondary_menu</property>
-                            <property name="halign">center</property>
-                            <property name="hexpand">1</property>
-                            <property name="hexpand-set">1</property>
-                            <property name="can_focus">1</property>
-                            <property name="receives_default">1</property>
-                            <property name="direction">up</property>
-                            <style>
-                              <class name="timebutton" />
-                            </style>
-                          </object>
-                        </child> <!-- time button -->
-                        <child>
-                          <object class="GtkBox" id="controls_box">
-                            <property name="halign">center</property>
-                            <property name="valign">baseline-center</property>
-                            <property name="spacing">6</property>
-                            <child>
-                              <object class="GtkButton" id="button_jump_back">
-                                <property name="sensitive">0</property>
-                                <property name="can_focus">1</property>
-                                <property name="receives_default">1</property>
-                                <property name="halign">start</property>
-                                <property name="action_name">win.jump-back</property>
-                                <property name="icon_name">media-skip-backward-symbolic</property>
-                                <accessibility>
-                                  <property name="label" translatable="yes">Skip backward</property>
-                                </accessibility>
-                                <style><class name="circular"/></style>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkToggleButton" id="button_play">
-                                <property name="can_focus">1</property>
-                                <property name="receives_default">1</property>
-                                <property name="action_name">win.play</property>
-                                <property name="icon_name">media-playback-start-symbolic</property>
-                                <accessibility>
-                                  <property name="label" translatable="yes">Play</property>
-                                </accessibility>
-                                <style><class name="circular"/></style>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkButton" id="button_jump_forward">
-                                <property name="sensitive">0</property>
-                                <property name="can_focus">1</property>
-                                <property name="receives_default">1</property>
-                                <property name="halign">start</property>
-                                <property name="action_name">win.jump-forward</property>
-                                <property name="icon_name">media-skip-forward-symbolic</property>
-                                <accessibility>
-                                  <property name="label" translatable="yes">Skip forward</property>
-                                </accessibility>
-                                <style><class name="circular"/></style>
-                              </object>
-                            </child>
-                          </object>
-                        </child> <!-- controls box -->
-                      </object> <!-- audio_controls -->
+                      <object class="PtAudioControls" id="audio_controls"/>
                     </property> <!-- sidebar -->
                     <property name="content">
                       <object class="GtkStack" id="waveviewer_stack">
@@ -316,15 +234,5 @@
         <attribute name="action">app.about</attribute>
       </item>
     </section>
-  </menu>
-  <menu id="secondary_menu">
-      <item>
-        <attribute name="label" translatable="yes">Go to Cursor</attribute>
-        <attribute name="action">win.goto-cursor</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">Go to…</attribute>
-        <attribute name="action">win.goto</attribute>
-      </item>
   </menu>
 </interface>

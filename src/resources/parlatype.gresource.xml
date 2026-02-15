@@ -2,6 +2,7 @@
 <gresources>
   <gresource prefix="/xyz/parlatype/Parlatype">
     <file preprocess="xml-stripblanks">asr-dialog.ui</file>
+    <file preprocess="xml-stripblanks">audio-controls.ui</file>
     <file preprocess="xml-stripblanks">config-row.ui</file>
     <file preprocess="xml-stripblanks">editor-theme-selector.ui</file>
     <file preprocess="xml-stripblanks">goto-dialog.ui</file>
