@@ -214,12 +214,14 @@ player_notify_state_cb (PtPlayer   *player,
   state = pt_player_get_state (self->player);
   gtk_widget_set_sensitive (self->volume_button, state >= PT_STATE_PAUSED);
 
+  g_print ("%s: state %s\n", __func__, pt_state_get_name (state));
+
   gtk_widget_action_set_enabled (GTK_WIDGET (self), "audio.jump-back", state >= PT_STATE_PAUSED);
   gtk_widget_action_set_enabled (GTK_WIDGET (self), "audio.jump-forward", state >= PT_STATE_PAUSED);
 
   play_action = g_action_map_lookup_action (G_ACTION_MAP (self->actions), "play");
   g_assert (G_IS_SIMPLE_ACTION (play_action));
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (play_action), state >= PT_STATE_PAUSED);
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (play_action), state == PT_STATE_PAUSED || state == PT_STATE_PLAYING);
   action_state = g_variant_new_boolean (state == PT_STATE_PLAYING);
   g_action_change_state (play_action, action_state);
 }

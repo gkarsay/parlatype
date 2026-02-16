@@ -354,6 +354,8 @@ pt_player_get_state_name (PtStateType state)
       return "paused";
     case PT_STATE_PLAYING:
       return "playing";
+    case PT_STATE_TRANSCRIBING:
+      return "transcribing";
     case PT_STATE_INVALID:
       return NULL;
     default:
@@ -474,6 +476,14 @@ bus_call (GstBus     *bus,
           break;
         GstState old_state, new_state, pending_state;
         gst_message_parse_state_changed (msg, &old_state, &new_state, &pending_state);
+        g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                          "MESSAGE", "state changed, old state: %s", gst_state_get_name (old_state));
+        g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                          "MESSAGE", "state changed, new state: %s", gst_state_get_name (new_state));
+        g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                          "MESSAGE", "state changed, pending state: %s", gst_state_get_name (pending_state));
+        g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                          "MESSAGE", "state changed, seek pending: %s", priv->seek_pending ? "yes" : "no");
 
         priv->current_state = new_state;
 
@@ -535,8 +545,12 @@ bus_call (GstBus     *bus,
 
         if (new_state == GST_STATE_PLAYING && pending_state == GST_STATE_VOID_PENDING)
           {
-            if (!priv->seek_pending)
-              change_app_state (self, PT_STATE_PLAYING);
+            PtStateType state = PT_STATE_PLAYING;
+            if (pt_player_get_mode (self) == PT_MODE_ASR)
+              {
+                state = PT_STATE_TRANSCRIBING;
+              }
+            change_app_state (self, state);
           }
         if (new_state == GST_STATE_READY &&
             old_state > GST_STATE_READY)
@@ -2053,6 +2067,8 @@ pt_state_get_name (PtStateType state)
       return "paused";
     case PT_STATE_PLAYING:
       return "playing";
+    case PT_STATE_TRANSCRIBING:
+      return "transcribing";
     default:
       return "invalid";
     }

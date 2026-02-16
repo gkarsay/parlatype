@@ -630,9 +630,11 @@ static void
 state_changed_cb (GObject *object, GParamSpec *pspec, PtMpris *self)
 {
   PtPlayer   *player = pt_controller_get_player (PT_CONTROLLER (self));
-  PtStateType state;
+  PtStateType state = pt_player_get_state (player);
 
-  g_object_get (player, "state", &state, NULL);
+  if (state == PT_STATE_TRANSCRIBING)
+    return;
+
   add_player_property_change (self, "PlaybackStatus",
                               get_playback_status (self));
   add_player_property_change (self, "CanPlay",

@@ -237,15 +237,11 @@ pt_window_transcribe_action (GSimpleAction *action,
 {
   PtWindow *self = PT_WINDOW (user_data);
   GVariant *old_state, *new_state;
-  GAction  *play_action;
   gboolean  transcribe;
 
   old_state = g_action_get_state (G_ACTION (action));
   transcribe = !g_variant_get_boolean (old_state);
   new_state = g_variant_new_boolean (transcribe);
-
-  play_action = g_action_map_lookup_action (G_ACTION_MAP (self), "play");
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (play_action), !transcribe);
 
   if (transcribe)
     {
@@ -516,57 +512,6 @@ update_goto_cursor_action_sensitivity (GObject    *gobject,
 }
 
 static void
-pt_window_ready_to_play (PtWindow *self,
-                         gboolean  state)
-{
-  /* Set up widget sensitivity/visibility, actions, labels, window title
-     and timer according to the state of PtPlayer (ready to play or not).
-     Reset tooltips for insensitive widgets. */
-
-  gchar   *display_name = NULL;
-  GAction *action;
-
-  gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.insert-timestamp", state);
-  gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.goto", state);
-  gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.zoom-in", state);
-  gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.zoom-out", state);
-  gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.zoom-default", state);
-
-  /* always insensitive: either there is no waveform or we are already at cursor position */
-  gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.goto-cursor", FALSE);
-
-  action = g_action_map_lookup_action (G_ACTION_MAP (self), "transcribe");
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state && self->asr_config != NULL);
-
-  if (state)
-    {
-      display_name = pt_player_get_filename (self->player);
-      if (display_name)
-        {
-          gtk_label_set_text (self->title, display_name);
-          g_free (display_name);
-        }
-
-      gchar *uri = NULL;
-      uri = pt_player_get_uri (self->player);
-      if (uri)
-        {
-          gtk_recent_manager_add_item (self->recent, uri);
-          g_free (uri);
-        }
-
-      pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (self->waveviewer), TRUE);
-      add_timer (self);
-    }
-  else
-    {
-      pt_audio_controls_set_time_label (PT_AUDIO_CONTROLS (self->audio_controls), NULL);
-      gtk_label_set_text (self->title, _ ("Parlatype"));
-      remove_timer (self);
-    }
-}
-
-static void
 player_error_cb (PtPlayer *player,
                  GError   *error,
                  PtWindow *self)
@@ -638,6 +583,48 @@ pt_window_open_file (PtWindow *self,
 }
 
 static void
+pt_window_ready_to_play (PtWindow *self,
+                         gboolean  state)
+{
+  /* Set up widget sensitivity/visibility, actions, labels, window title
+     and timer according to the state of PtPlayer (ready to play or not).
+     Reset tooltips for insensitive widgets. */
+
+  gchar   *display_name = NULL;
+  GAction *action;
+
+  action = g_action_map_lookup_action (G_ACTION_MAP (self), "transcribe");
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state && self->asr_config != NULL);
+
+  if (state)
+    {
+      display_name = pt_player_get_filename (self->player);
+      if (display_name)
+        {
+          gtk_label_set_text (self->title, display_name);
+          g_free (display_name);
+        }
+
+      gchar *uri = NULL;
+      uri = pt_player_get_uri (self->player);
+      if (uri)
+        {
+          gtk_recent_manager_add_item (self->recent, uri);
+          g_free (uri);
+        }
+
+      pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (self->waveviewer), TRUE);
+      add_timer (self);
+    }
+  else
+    {
+      pt_audio_controls_set_time_label (PT_AUDIO_CONTROLS (self->audio_controls), NULL);
+      gtk_label_set_text (self->title, _ ("Parlatype"));
+      remove_timer (self);
+    }
+}
+
+static void
 player_state_changed_cb (PtPlayer   *player,
                          GParamSpec *param,
                          PtWindow   *self)
@@ -650,14 +637,20 @@ player_state_changed_cb (PtPlayer   *player,
   gboolean    ready;
 
   player_state = pt_player_get_state (player);
-  player_mode = pt_player_get_mode (player);
-
   g_print ("%s: state %s\n", __func__, pt_state_get_name (player_state));
-  g_print ("%s: mode %s\n", __func__, pt_mode_get_name (player_mode));
 
   ready = player_state >= PT_STATE_PAUSED;
   playing = player_state == PT_STATE_PLAYING;
   action_state = g_variant_new_boolean (playing);
+
+  gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.insert-timestamp", ready);
+  gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.goto", ready);
+  gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.zoom-in", ready);
+  gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.zoom-out", ready);
+  gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.zoom-default", ready);
+
+  /* always insensitive: either there is no waveform or we are already at cursor position */
+  gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.goto-cursor", FALSE);
 
   if (ready != self->player_ready)
     {
