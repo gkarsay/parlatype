@@ -58,8 +58,7 @@ struct _PtWindow
   GtkWidget *paned;
   GtkWidget *text_view;
 
-  gint64   last_time; // last time to compare if it changed
-  gboolean player_ready;
+  gint64 last_time; // last time to compare if it changed
 
   guint   timer;
   gdouble speed;
@@ -583,81 +582,50 @@ pt_window_open_file (PtWindow *self,
 }
 
 static void
-pt_window_ready_to_play (PtWindow *self,
-                         gboolean  state)
-{
-  /* Set up widget sensitivity/visibility, actions, labels, window title
-     and timer according to the state of PtPlayer (ready to play or not).
-     Reset tooltips for insensitive widgets. */
-
-  GAction *action;
-
-  action = g_action_map_lookup_action (G_ACTION_MAP (self), "transcribe");
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), state && self->asr_config != NULL);
-
-  if (state)
-    {
-      pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (self->waveviewer), TRUE);
-      add_timer (self);
-    }
-  else
-    {
-      pt_audio_controls_set_time_label (PT_AUDIO_CONTROLS (self->audio_controls), NULL);
-      remove_timer (self);
-    }
-}
-
-static void
 player_state_changed_cb (PtPlayer   *player,
                          GParamSpec *param,
                          PtWindow   *self)
 {
   PtStateType player_state;
-  PtModeType  player_mode;
   GAction    *transcribe_action;
+  gboolean    ready, playing, transcribing;
   GVariant   *action_state;
-  gboolean    playing;
-  gboolean    ready;
 
   player_state = pt_player_get_state (player);
-  g_print ("%s: state %s\n", __func__, pt_state_get_name (player_state));
+  g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                    "MESSAGE", "player state changed: %s", pt_state_get_name (player_state));
 
   ready = player_state >= PT_STATE_PAUSED;
   playing = player_state == PT_STATE_PLAYING;
-  action_state = g_variant_new_boolean (playing);
+  transcribing = player_state == PT_STATE_TRANSCRIBING;
 
   gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.insert-timestamp", ready);
   gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.goto", ready);
   gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.zoom-in", ready);
   gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.zoom-out", ready);
   gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.zoom-default", ready);
-
   /* always insensitive: either there is no waveform or we are already at cursor position */
   gtk_widget_action_set_enabled (GTK_WIDGET (self), "win.goto-cursor", FALSE);
 
-  if (ready != self->player_ready)
-    {
-      pt_window_ready_to_play (self, ready);
-      self->player_ready = ready;
-      return;
-    }
+  transcribe_action = g_action_map_lookup_action (G_ACTION_MAP (self), "transcribe");
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (transcribe_action),
+                               ready && !playing && self->asr_config != NULL);
+  action_state = g_variant_new_boolean (transcribing);
+  g_action_change_state (transcribe_action, action_state);
 
-  if (playing)
+  if (ready)
     {
-      update_time (self);
       pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (self->waveviewer), TRUE);
+      if (self->timer == 0)
+        {
+          add_timer (self);
+        }
     }
-
-  /*if (player_mode == PT_MODE_ASR && !playing)
+  else
     {
-      transcribe_action = g_action_map_lookup_action (G_ACTION_MAP (self), "transcribe");
-      pt_window_transcribe_action (G_SIMPLE_ACTION (transcribe_action), action_state, self);
+      pt_audio_controls_set_time_label (PT_AUDIO_CONTROLS (self->audio_controls), NULL);
+      remove_timer (self);
     }
-  if (player_mode != PT_MODE_ASR)
-    {
-      transcribe_action = g_action_map_lookup_action (G_ACTION_MAP (self), "transcribe");
-      g_simple_action_set_enabled (G_SIMPLE_ACTION (transcribe_action), !playing && self->asr_config != NULL);
-    }*/
 }
 
 static void
@@ -1116,7 +1084,7 @@ pt_window_init (PtWindow *self)
   setup_accels_actions_menus (self);
   setup_settings (self);
   pt_window_setup_dnd (self); /* this is in pt_window_dnd.c */
-  pt_window_ready_to_play (self, FALSE);
+  player_state_changed_cb (self->player, NULL, self);
 
   g_object_bind_property (
       self->text_view, "timestamps-visible",
@@ -1133,7 +1101,6 @@ pt_window_init (PtWindow *self)
   self->recent = gtk_recent_manager_get_default ();
   self->timer = 0;
   self->last_time = 0;
-  self->player_ready = FALSE;
 
   /* Used e.g. by Xfce */
   gtk_window_set_default_icon_name (APP_ID);
