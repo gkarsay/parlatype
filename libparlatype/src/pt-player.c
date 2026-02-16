@@ -688,6 +688,9 @@ pt_player_open_uri (PtPlayer *self,
                              GST_CLOCK_TIME_NONE) == GST_STATE_CHANGE_FAILURE)
     return FALSE;
 
+  g_object_notify_by_pspec (G_OBJECT (self),
+                            obj_properties[PROP_CURRENT_URI]);
+
   gint64 dur = 0;
   gst_element_query_duration (priv->play, GST_FORMAT_TIME, &dur);
   priv->dur = dur;

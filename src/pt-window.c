@@ -590,7 +590,6 @@ pt_window_ready_to_play (PtWindow *self,
      and timer according to the state of PtPlayer (ready to play or not).
      Reset tooltips for insensitive widgets. */
 
-  gchar   *display_name = NULL;
   GAction *action;
 
   action = g_action_map_lookup_action (G_ACTION_MAP (self), "transcribe");
@@ -598,28 +597,12 @@ pt_window_ready_to_play (PtWindow *self,
 
   if (state)
     {
-      display_name = pt_player_get_filename (self->player);
-      if (display_name)
-        {
-          gtk_label_set_text (self->title, display_name);
-          g_free (display_name);
-        }
-
-      gchar *uri = NULL;
-      uri = pt_player_get_uri (self->player);
-      if (uri)
-        {
-          gtk_recent_manager_add_item (self->recent, uri);
-          g_free (uri);
-        }
-
       pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (self->waveviewer), TRUE);
       add_timer (self);
     }
   else
     {
       pt_audio_controls_set_time_label (PT_AUDIO_CONTROLS (self->audio_controls), NULL);
-      gtk_label_set_text (self->title, _ ("Parlatype"));
       remove_timer (self);
     }
 }
@@ -665,7 +648,7 @@ player_state_changed_cb (PtPlayer   *player,
       pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (self->waveviewer), TRUE);
     }
 
-  if (player_mode == PT_MODE_ASR && !playing)
+  /*if (player_mode == PT_MODE_ASR && !playing)
     {
       transcribe_action = g_action_map_lookup_action (G_ACTION_MAP (self), "transcribe");
       pt_window_transcribe_action (G_SIMPLE_ACTION (transcribe_action), action_state, self);
@@ -674,7 +657,7 @@ player_state_changed_cb (PtPlayer   *player,
     {
       transcribe_action = g_action_map_lookup_action (G_ACTION_MAP (self), "transcribe");
       g_simple_action_set_enabled (G_SIMPLE_ACTION (transcribe_action), !playing && self->asr_config != NULL);
-    }
+    }*/
 }
 
 static void
@@ -684,6 +667,33 @@ player_end_of_stream_cb (PtPlayer *player,
   /* Pause player without jumping back, this will also toggle the
    * Play button */
   pt_player_pause (self->player);
+}
+
+static void
+player_uri_changed_cb (PtPlayer   *player,
+                       GParamSpec *pspec,
+                       PtWindow   *self)
+{
+  char *uri = NULL;
+  char *display_name;
+
+  display_name = pt_player_get_filename (self->player);
+  if (display_name)
+    {
+      gtk_label_set_text (self->title, display_name);
+      g_free (display_name);
+    }
+  else
+    {
+      gtk_label_set_text (self->title, _ ("Parlatype"));
+    }
+
+  uri = pt_player_get_uri (self->player);
+  if (uri)
+    {
+      gtk_recent_manager_add_item (self->recent, uri);
+      g_free (uri);
+    }
 }
 
 /*
@@ -879,6 +889,11 @@ setup_player (PtWindow *self)
                     self);
 
   g_signal_connect (self->player,
+                    "notify::current-uri",
+                    G_CALLBACK (player_uri_changed_cb),
+                    self);
+
+  g_signal_connect (self->player,
                     "asr-final",
                     G_CALLBACK (player_asr_final_cb),
                     self);
@@ -1026,6 +1041,22 @@ pt_window_close_request (GtkWindow *window)
 }
 
 static void
+pt_window_dispose (GObject *object)
+{
+  PtWindow *self = PT_WINDOW (object);
+
+  remove_timer (self);
+  g_clear_object (&self->editor);
+  g_clear_object (&self->player);
+  g_clear_object (&self->asr_manager);
+  g_clear_object (&self->asr_config);
+
+  gtk_widget_dispose_template (GTK_WIDGET (self), PT_TYPE_WINDOW);
+
+  G_OBJECT_CLASS (pt_window_parent_class)->dispose (object);
+}
+
+static void
 pt_window_constructed (GObject *object)
 {
   PtWindow           *self = PT_WINDOW (object);
@@ -1116,22 +1147,6 @@ pt_window_init (PtWindow *self)
                     "load-progress",
                     G_CALLBACK (progressbar_cb),
                     GTK_PROGRESS_BAR (self->progress));
-}
-
-static void
-pt_window_dispose (GObject *object)
-{
-  PtWindow *self = PT_WINDOW (object);
-
-  remove_timer (self);
-  g_clear_object (&self->editor);
-  g_clear_object (&self->player);
-  g_clear_object (&self->asr_manager);
-  g_clear_object (&self->asr_config);
-
-  gtk_widget_dispose_template (GTK_WIDGET (self), PT_TYPE_WINDOW);
-
-  G_OBJECT_CLASS (pt_window_parent_class)->dispose (object);
 }
 
 static void
