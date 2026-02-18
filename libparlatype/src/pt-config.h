@@ -25,12 +25,8 @@
 G_BEGIN_DECLS
 
 #define PT_TYPE_CONFIG (pt_config_get_type ())
-G_DECLARE_DERIVABLE_TYPE (PtConfig, pt_config, PT, CONFIG, GObject)
+G_DECLARE_FINAL_TYPE (PtConfig, pt_config, PT, CONFIG, GObject)
 
-struct _PtConfigClass
-{
-  GObjectClass parent_class;
-};
 
 /**
  * PT_ERROR:
