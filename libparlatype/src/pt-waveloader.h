@@ -25,12 +25,8 @@
 G_BEGIN_DECLS
 
 #define PT_TYPE_WAVELOADER (pt_waveloader_get_type ())
-G_DECLARE_DERIVABLE_TYPE (PtWaveloader, pt_waveloader, PT, WAVELOADER, GObject)
+G_DECLARE_FINAL_TYPE (PtWaveloader, pt_waveloader, PT, WAVELOADER, GObject)
 
-struct _PtWaveloaderClass
-{
-  GObjectClass parent_class;
-};
 
 gboolean      pt_waveloader_load_finish   (PtWaveloader       *self,
                                            GAsyncResult       *result,
