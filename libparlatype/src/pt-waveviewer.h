@@ -25,12 +25,8 @@
 G_BEGIN_DECLS
 
 #define PT_TYPE_WAVEVIEWER (pt_waveviewer_get_type ())
-G_DECLARE_DERIVABLE_TYPE (PtWaveviewer, pt_waveviewer, PT, WAVEVIEWER, GtkWidget)
+G_DECLARE_FINAL_TYPE (PtWaveviewer, pt_waveviewer, PT, WAVEVIEWER, GtkWidget)
 
-struct _PtWaveviewerClass
-{
-  GtkWidgetClass klass;
-};
 
 gboolean   pt_waveviewer_get_follow_cursor (PtWaveviewer       *self);
 

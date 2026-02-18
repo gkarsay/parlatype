@@ -56,9 +56,10 @@
 #define PPS_MIN 25
 #define PPS_MAX 200
 
-typedef struct _PtWaveviewerPrivate PtWaveviewerPrivate;
-struct _PtWaveviewerPrivate
+struct _PtWaveviewer
 {
+  GtkWidget parent_instance;
+
   /* Wavedata */
   PtWaveloader *loader;
   GArray       *peaks;
@@ -133,17 +134,16 @@ static GParamSpec *obj_properties[N_PROPERTIES];
 static guint       signals[LAST_SIGNAL] = { 0 };
 static void        pt_waveviewer_set_pps (PtWaveviewer *self, int pps);
 
-G_DEFINE_TYPE_WITH_PRIVATE (PtWaveviewer, pt_waveviewer, GTK_TYPE_WIDGET);
+G_DEFINE_FINAL_TYPE (PtWaveviewer, pt_waveviewer, GTK_TYPE_WIDGET);
 
 static gint64
 time_to_pixel (PtWaveviewer *self,
                gint64        ms)
 {
   /* Convert a time in 1/1000 seconds to the closest pixel in the drawing area */
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  gint64               result;
+  gint64 result;
 
-  result = ms * priv->px_per_sec;
+  result = ms * self->px_per_sec;
   result = result / 1000;
 
   return result;
@@ -154,11 +154,10 @@ pixel_to_time (PtWaveviewer *self,
                gint64        pixel)
 {
   /* Convert a position in the drawing area to time in milliseconds */
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  gint64               result;
+  gint64 result;
 
   result = pixel * 1000;
-  result = result / priv->px_per_sec;
+  result = result / self->px_per_sec;
 
   return result;
 }
@@ -166,32 +165,31 @@ pixel_to_time (PtWaveviewer *self,
 static void
 scroll_to_cursor (PtWaveviewer *self)
 {
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  gint                 cursor_pos;
-  gint                 first_visible;
-  gint                 last_visible;
-  gint                 page_width;
-  gint                 offset;
+  gint cursor_pos;
+  gint first_visible;
+  gint last_visible;
+  gint page_width;
+  gint offset;
 
-  cursor_pos = time_to_pixel (self, priv->playback_cursor);
-  first_visible = (gint) gtk_adjustment_get_value (priv->adj);
-  page_width = (gint) gtk_adjustment_get_page_size (priv->adj);
+  cursor_pos = time_to_pixel (self, self->playback_cursor);
+  first_visible = (gint) gtk_adjustment_get_value (self->adj);
+  page_width = (gint) gtk_adjustment_get_page_size (self->adj);
   last_visible = first_visible + page_width;
 
   /* Fixed cursor: always scroll,
      non-fixed cursor: only scroll if cursor is not visible */
 
-  if (priv->fixed_cursor)
+  if (self->fixed_cursor)
     {
       offset = page_width * CURSOR_POSITION;
-      gtk_adjustment_set_value (priv->adj, cursor_pos - offset);
+      gtk_adjustment_set_value (self->adj, cursor_pos - offset);
     }
   else
     {
       if (cursor_pos < first_visible || cursor_pos > last_visible)
         {
           /* cursor visible far left */
-          gtk_adjustment_set_value (priv->adj, cursor_pos);
+          gtk_adjustment_set_value (self->adj, cursor_pos);
         }
     }
 }
@@ -199,13 +197,12 @@ scroll_to_cursor (PtWaveviewer *self)
 static void
 render_cursor (PtWaveviewer *self)
 {
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  PtWaveviewerCursor  *cursor;
-  gint                 offset, pixel;
+  PtWaveviewerCursor *cursor;
+  gint                offset, pixel;
 
-  cursor = PT_WAVEVIEWER_CURSOR (priv->cursor);
-  offset = gtk_adjustment_get_value (priv->adj);
-  pixel = time_to_pixel (self, priv->playback_cursor);
+  cursor = PT_WAVEVIEWER_CURSOR (self->cursor);
+  offset = gtk_adjustment_get_value (self->adj);
+  pixel = time_to_pixel (self, self->playback_cursor);
 
   pt_waveviewer_cursor_render (cursor, pixel - offset);
 }
@@ -213,15 +210,14 @@ render_cursor (PtWaveviewer *self)
 static gint64
 calculate_duration (PtWaveviewer *self)
 {
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  gint64               result;
-  gint64               samples;
-  gint                 one_pixel;
+  gint64 result;
+  gint64 samples;
+  gint   one_pixel;
 
-  one_pixel = 1000 / priv->px_per_sec;
-  samples = priv->peaks_size / 2;
-  result = samples / priv->px_per_sec * 1000; /* = full seconds */
-  result += (samples % priv->px_per_sec) * one_pixel;
+  one_pixel = 1000 / self->px_per_sec;
+  samples = self->peaks_size / 2;
+  result = samples / self->px_per_sec * 1000; /* = full seconds */
+  result += (samples % self->px_per_sec) * one_pixel;
 
   return result;
 }
@@ -233,18 +229,17 @@ add_subtract_time (PtWaveviewer *self,
 {
   /* add time to the cursor’s time so that the cursor is moved x pixels */
 
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  gint64               result;
-  gint                 one_pixel;
+  gint64 result;
+  gint   one_pixel;
 
-  one_pixel = 1000 / priv->px_per_sec;
-  result = priv->playback_cursor + pixel * one_pixel;
+  one_pixel = 1000 / self->px_per_sec;
+  result = self->playback_cursor + pixel * one_pixel;
 
   /* Return result in range */
-  if (stay_in_selection && priv->has_selection)
-    return CLAMP (result, priv->sel_start, priv->sel_end);
+  if (stay_in_selection && self->has_selection)
+    return CLAMP (result, self->sel_start, self->sel_end);
   else
-    return CLAMP (result, 0, priv->duration);
+    return CLAMP (result, 0, self->duration);
 }
 
 static void
@@ -253,16 +248,14 @@ update_selection (PtWaveviewer *self)
   /* Check if drag positions are different from selection.
      If yes, set new selection and emit signals. */
 
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-
   /* Is anything selected at all? */
-  if (priv->drag_fixed_pos == priv->drag_moving_pos)
+  if (self->drag_fixed_pos == self->drag_moving_pos)
     {
-      priv->sel_start = 0;
-      priv->sel_end = 0;
-      if (priv->has_selection)
+      self->sel_start = 0;
+      self->sel_end = 0;
+      if (self->has_selection)
         {
-          priv->has_selection = FALSE;
+          self->has_selection = FALSE;
           g_object_notify_by_pspec (G_OBJECT (self),
                                     obj_properties[PROP_HAS_SELECTION]);
           g_signal_emit_by_name (self, "selection-changed");
@@ -271,29 +264,29 @@ update_selection (PtWaveviewer *self)
     }
 
   /* Sort start/end, check for changes, update selection */
-  if (priv->drag_fixed_pos < priv->drag_moving_pos)
+  if (self->drag_fixed_pos < self->drag_moving_pos)
     {
-      if (priv->sel_start == priv->drag_fixed_pos && priv->sel_end == priv->drag_moving_pos)
+      if (self->sel_start == self->drag_fixed_pos && self->sel_end == self->drag_moving_pos)
         {
           return;
         }
-      priv->sel_start = priv->drag_fixed_pos;
-      priv->sel_end = priv->drag_moving_pos;
+      self->sel_start = self->drag_fixed_pos;
+      self->sel_end = self->drag_moving_pos;
     }
   else
     {
-      if (priv->sel_start == priv->drag_moving_pos && priv->sel_end == priv->drag_fixed_pos)
+      if (self->sel_start == self->drag_moving_pos && self->sel_end == self->drag_fixed_pos)
         {
           return;
         }
-      priv->sel_start = priv->drag_moving_pos;
-      priv->sel_end = priv->drag_fixed_pos;
+      self->sel_start = self->drag_moving_pos;
+      self->sel_end = self->drag_fixed_pos;
     }
 
   /* Update has-selection property */
-  if (!priv->has_selection)
+  if (!self->has_selection)
     {
-      priv->has_selection = TRUE;
+      self->has_selection = TRUE;
       g_object_notify_by_pspec (G_OBJECT (self),
                                 obj_properties[PROP_HAS_SELECTION]);
     }
@@ -308,10 +301,9 @@ pt_waveviewer_key_press_event (GtkEventControllerKey *ctrl,
                                GdkModifierType        state,
                                gpointer               user_data)
 {
-  PtWaveviewer        *self = PT_WAVEVIEWER (user_data);
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
+  PtWaveviewer *self = PT_WAVEVIEWER (user_data);
 
-  if (priv->peaks->len == 0)
+  if (self->peaks->len == 0)
     return FALSE;
 
   /* no modifier pressed */
@@ -320,9 +312,9 @@ pt_waveviewer_key_press_event (GtkEventControllerKey *ctrl,
       switch (keyval)
         {
         case GDK_KEY_Escape:
-          priv->drag_fixed_pos = priv->drag_moving_pos = 0;
-          gtk_widget_set_cursor (GTK_WIDGET (priv->cursor), NULL);
-          pt_waveviewer_selection_set (PT_WAVEVIEWER_SELECTION (priv->selection), 0, 0);
+          self->drag_fixed_pos = self->drag_moving_pos = 0;
+          gtk_widget_set_cursor (GTK_WIDGET (self->cursor), NULL);
+          pt_waveviewer_selection_set (PT_WAVEVIEWER_SELECTION (self->selection), 0, 0);
           update_selection (self);
           return TRUE;
         case GDK_KEY_space:
@@ -341,16 +333,16 @@ pt_waveviewer_key_press_event (GtkEventControllerKey *ctrl,
           g_signal_emit_by_name (self, "cursor-changed", add_subtract_time (self, 20, TRUE));
           return TRUE;
         case GDK_KEY_Home:
-          if (priv->has_selection)
-            g_signal_emit_by_name (self, "cursor-changed", priv->sel_start);
+          if (self->has_selection)
+            g_signal_emit_by_name (self, "cursor-changed", self->sel_start);
           else
             g_signal_emit_by_name (self, "cursor-changed", 0);
           return TRUE;
         case GDK_KEY_End:
-          if (priv->has_selection)
-            g_signal_emit_by_name (self, "cursor-changed", priv->sel_end);
+          if (self->has_selection)
+            g_signal_emit_by_name (self, "cursor-changed", self->sel_end);
           else
-            g_signal_emit_by_name (self, "cursor-changed", priv->duration);
+            g_signal_emit_by_name (self, "cursor-changed", self->duration);
           return TRUE;
         default:
           return FALSE;
@@ -386,7 +378,7 @@ pt_waveviewer_key_press_event (GtkEventControllerKey *ctrl,
         }
 
       gboolean ret;
-      g_signal_emit_by_name (priv->scrolled_window, "scroll-child", scroll, TRUE, &ret);
+      g_signal_emit_by_name (self->scrolled_window, "scroll-child", scroll, TRUE, &ret);
       pt_waveviewer_set_follow_cursor (self, FALSE);
       return TRUE;
     }
@@ -411,37 +403,36 @@ pt_waveviewer_button_press_event (GtkGestureClick *gesture,
                                   gdouble          y,
                                   gpointer         user_data)
 {
-  PtWaveviewer        *self = PT_WAVEVIEWER (user_data);
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  GdkModifierType      state;
-  guint                button;
-  gint64               pos; /* clicked sample’s position in milliseconds */
+  PtWaveviewer   *self = PT_WAVEVIEWER (user_data);
+  GdkModifierType state;
+  guint           button;
+  gint64          pos; /* clicked sample’s position in milliseconds */
 
-  if (priv->peaks == NULL || priv->peaks->len == 0)
+  if (self->peaks == NULL || self->peaks->len == 0)
     return FALSE;
 
   state = gtk_event_controller_get_current_event_state (GTK_EVENT_CONTROLLER (gesture));
   button = gtk_gesture_single_get_current_button (GTK_GESTURE_SINGLE (gesture));
-  pos = pixel_to_time (self, (gint) x + gtk_adjustment_get_value (priv->adj));
+  pos = pixel_to_time (self, (gint) x + gtk_adjustment_get_value (self->adj));
 
   /* Single left click with Shift pressed and existing selection: change selection */
   if (n_press == 1 &&
       button == GDK_BUTTON_PRIMARY &&
       (state & ALL_ACCELS_MASK) == GDK_SHIFT_MASK &&
-      priv->sel_start != priv->sel_end)
+      self->sel_start != self->sel_end)
     {
       /* Change selection: move the end that is closer to the clicked pixel.
        * This can make the selection larger or smaller. */
-      pos = CLAMP (pos, 0, priv->duration);
-      if (ABS (priv->drag_fixed_pos - pos) < ABS (priv->drag_moving_pos - pos))
-        priv->drag_fixed_pos = pos;
+      pos = CLAMP (pos, 0, self->duration);
+      if (ABS (self->drag_fixed_pos - pos) < ABS (self->drag_moving_pos - pos))
+        self->drag_fixed_pos = pos;
       else
-        priv->drag_moving_pos = pos;
+        self->drag_moving_pos = pos;
 
-      gtk_widget_set_cursor (GTK_WIDGET (priv->cursor), priv->arrows);
-      pt_waveviewer_selection_set (PT_WAVEVIEWER_SELECTION (priv->selection),
-                                   time_to_pixel (self, priv->drag_fixed_pos),
-                                   time_to_pixel (self, priv->drag_moving_pos));
+      gtk_widget_set_cursor (GTK_WIDGET (self->cursor), self->arrows);
+      pt_waveviewer_selection_set (PT_WAVEVIEWER_SELECTION (self->selection),
+                                   time_to_pixel (self, self->drag_fixed_pos),
+                                   time_to_pixel (self, self->drag_moving_pos));
       update_selection (self);
       gtk_widget_grab_focus (GTK_WIDGET (self));
       return TRUE;
@@ -464,9 +455,8 @@ pt_waveviewer_scroll_event (GtkEventControllerScroll *ctrl,
                             gdouble                   delta_y,
                             gpointer                  user_data)
 {
-  PtWaveviewer        *self = PT_WAVEVIEWER (user_data);
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  GdkModifierType      state;
+  PtWaveviewer   *self = PT_WAVEVIEWER (user_data);
+  GdkModifierType state;
 
   state = gtk_event_controller_get_current_event_state (GTK_EVENT_CONTROLLER (ctrl));
 
@@ -481,7 +471,7 @@ pt_waveviewer_scroll_event (GtkEventControllerScroll *ctrl,
         scroll = GTK_SCROLL_STEP_FORWARD;
       if (scroll != GTK_SCROLL_NONE)
         {
-          g_signal_emit_by_name (priv->scrolled_window, "scroll-child", scroll, TRUE, &ret);
+          g_signal_emit_by_name (self->scrolled_window, "scroll-child", scroll, TRUE, &ret);
           pt_waveviewer_set_follow_cursor (self, FALSE);
           return TRUE;
         }
@@ -491,12 +481,12 @@ pt_waveviewer_scroll_event (GtkEventControllerScroll *ctrl,
     {
       if (delta_y < 0 || delta_x < 0)
         {
-          pt_waveviewer_set_pps (self, priv->pps - 10);
+          pt_waveviewer_set_pps (self, self->pps - 10);
           return TRUE;
         }
       if (delta_y > 0 || delta_x > 0)
         {
-          pt_waveviewer_set_pps (self, priv->pps + 10);
+          pt_waveviewer_set_pps (self, self->pps + 10);
           return TRUE;
         }
     }
@@ -510,30 +500,29 @@ pt_waveviewer_motion_event (GtkEventControllerMotion *ctrl,
                             gdouble                   y,
                             gpointer                  user_data)
 {
-  PtWaveviewer        *self = PT_WAVEVIEWER (user_data);
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  gboolean             have_selection, currently_dragging;
-  gdouble              real_x;
+  PtWaveviewer *self = PT_WAVEVIEWER (user_data);
+  gboolean      have_selection, currently_dragging;
+  gdouble       real_x;
 
-  if (priv->peaks == NULL || priv->peaks->len == 0)
+  if (self->peaks == NULL || self->peaks->len == 0)
     return;
 
-  have_selection = (priv->sel_start != priv->sel_end);
-  currently_dragging = (priv->drag_start_x >= 0);
-  real_x = x + gtk_adjustment_get_value (priv->adj);
+  have_selection = (self->sel_start != self->sel_end);
+  currently_dragging = (self->drag_start_x >= 0);
+  real_x = x + gtk_adjustment_get_value (self->adj);
 
   if (!have_selection || currently_dragging)
     return;
 
   /* Change pointer cursor over selection border. */
-  if (pointer_in_range (self, real_x, priv->sel_start) ||
-      pointer_in_range (self, real_x, priv->sel_end))
+  if (pointer_in_range (self, real_x, self->sel_start) ||
+      pointer_in_range (self, real_x, self->sel_end))
     {
-      gtk_widget_set_cursor (GTK_WIDGET (priv->cursor), priv->arrows);
+      gtk_widget_set_cursor (GTK_WIDGET (self->cursor), self->arrows);
     }
   else
     {
-      gtk_widget_set_cursor (GTK_WIDGET (priv->cursor), NULL);
+      gtk_widget_set_cursor (GTK_WIDGET (self->cursor), NULL);
     }
 }
 
@@ -543,38 +532,37 @@ pt_waveviewer_drag_begin (GtkGestureDrag *ctrl,
                           gdouble         start_y,
                           gpointer        user_data)
 {
-  PtWaveviewer        *self = PT_WAVEVIEWER (user_data);
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  gint64               pos; /* clicked sample’s position in milliseconds */
-  gdouble              x;
+  PtWaveviewer *self = PT_WAVEVIEWER (user_data);
+  gint64        pos; /* clicked sample’s position in milliseconds */
+  gdouble       x;
 
-  if (priv->peaks == NULL || priv->peaks->len == 0)
+  if (self->peaks == NULL || self->peaks->len == 0)
     return;
 
   /* Set position as start and end point for a new selection. */
-  priv->drag_start_0 = gtk_adjustment_get_value (priv->adj);
-  priv->drag_start_x = start_x;
-  x = priv->drag_start_0 + priv->drag_start_x;
-  pos = CLAMP (pixel_to_time (self, x), 0, priv->duration);
-  priv->drag_fixed_pos = priv->drag_moving_pos = pos;
+  self->drag_start_0 = gtk_adjustment_get_value (self->adj);
+  self->drag_start_x = start_x;
+  x = self->drag_start_0 + self->drag_start_x;
+  pos = CLAMP (pixel_to_time (self, x), 0, self->duration);
+  self->drag_fixed_pos = self->drag_moving_pos = pos;
 
   /* if over selection border: snap to selection border, changing selection */
-  if (pointer_in_range (self, x, priv->sel_start))
+  if (pointer_in_range (self, x, self->sel_start))
     {
-      priv->drag_moving_pos = priv->sel_start;
-      priv->drag_fixed_pos = priv->sel_end;
+      self->drag_moving_pos = self->sel_start;
+      self->drag_fixed_pos = self->sel_end;
     }
-  else if (pointer_in_range (self, x, priv->sel_end))
+  else if (pointer_in_range (self, x, self->sel_end))
     {
-      priv->drag_moving_pos = priv->sel_end;
-      priv->drag_fixed_pos = priv->sel_start;
+      self->drag_moving_pos = self->sel_end;
+      self->drag_fixed_pos = self->sel_start;
     }
 
-  gtk_widget_set_cursor (GTK_WIDGET (priv->cursor), priv->arrows);
+  gtk_widget_set_cursor (GTK_WIDGET (self->cursor), self->arrows);
   gtk_widget_grab_focus (GTK_WIDGET (self));
-  pt_waveviewer_selection_set (PT_WAVEVIEWER_SELECTION (priv->selection),
-                               time_to_pixel (self, priv->drag_fixed_pos),
-                               time_to_pixel (self, priv->drag_moving_pos));
+  pt_waveviewer_selection_set (PT_WAVEVIEWER_SELECTION (self->selection),
+                               time_to_pixel (self, self->drag_fixed_pos),
+                               time_to_pixel (self, self->drag_moving_pos));
 }
 
 static void
@@ -583,19 +571,18 @@ pt_waveviewer_drag_update (GtkGestureDrag *ctrl,
                            gdouble         offset_y,
                            gpointer        user_data)
 {
-  PtWaveviewer        *self = PT_WAVEVIEWER (user_data);
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  gint64               pixel;
+  PtWaveviewer *self = PT_WAVEVIEWER (user_data);
+  gint64        pixel;
 
-  if (priv->peaks == NULL || priv->peaks->len == 0)
+  if (self->peaks == NULL || self->peaks->len == 0)
     return;
 
-  pixel = gtk_adjustment_get_value (priv->adj) + priv->drag_start_x + offset_x;
-  priv->drag_moving_pos = CLAMP (pixel_to_time (self, pixel), 0, priv->duration);
+  pixel = gtk_adjustment_get_value (self->adj) + self->drag_start_x + offset_x;
+  self->drag_moving_pos = CLAMP (pixel_to_time (self, pixel), 0, self->duration);
 
-  pt_waveviewer_selection_set (PT_WAVEVIEWER_SELECTION (priv->selection),
-                               time_to_pixel (self, priv->drag_fixed_pos),
-                               time_to_pixel (self, priv->drag_moving_pos));
+  pt_waveviewer_selection_set (PT_WAVEVIEWER_SELECTION (self->selection),
+                               time_to_pixel (self, self->drag_fixed_pos),
+                               time_to_pixel (self, self->drag_moving_pos));
 }
 
 static void
@@ -604,19 +591,18 @@ pt_waveviewer_drag_end (GtkGestureDrag *ctrl,
                         gdouble         offset_y,
                         gpointer        user_data)
 {
-  PtWaveviewer        *self = PT_WAVEVIEWER (user_data);
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
+  PtWaveviewer *self = PT_WAVEVIEWER (user_data);
 
-  if (priv->peaks == NULL || priv->peaks->len == 0)
+  if (self->peaks == NULL || self->peaks->len == 0)
     return;
 
   /* Serves as in-drag-indicator. */
-  priv->drag_start_x = -1;
+  self->drag_start_x = -1;
 
   update_selection (self);
 
-  if (priv->sel_start == priv->sel_end)
-    gtk_widget_set_cursor (GTK_WIDGET (priv->cursor), NULL);
+  if (self->sel_start == self->sel_end)
+    gtk_widget_set_cursor (GTK_WIDGET (self->cursor), NULL);
 }
 
 static gboolean
@@ -654,15 +640,14 @@ static gboolean
 pt_waveviewer_focus (GtkWidget       *widget,
                      GtkDirectionType direction)
 {
-  PtWaveviewer        *self = PT_WAVEVIEWER (widget);
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
+  PtWaveviewer *self = PT_WAVEVIEWER (widget);
 
   /* See API reference for gtk_widget_child_focus ():
      If moving into @direction would move focus outside of widget: return FALSE;
      If moving into @direction would steps into or stays inside widget: return TRUE */
 
   /* Don’t focus if empty */
-  if (priv->peaks == NULL || priv->peaks->len == 0)
+  if (self->peaks == NULL || self->peaks->len == 0)
     return FALSE;
 
   if (gtk_widget_is_focus (widget))
@@ -691,8 +676,7 @@ pt_waveviewer_get_follow_cursor (PtWaveviewer *self)
 {
   g_return_val_if_fail (PT_IS_WAVEVIEWER (self), FALSE);
 
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  return priv->follow_cursor;
+  return self->follow_cursor;
 }
 
 /**
@@ -710,13 +694,12 @@ pt_waveviewer_set_follow_cursor (PtWaveviewer *self,
 {
   g_return_if_fail (PT_IS_WAVEVIEWER (self));
 
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  if (priv->follow_cursor == follow)
+  if (self->follow_cursor == follow)
     return;
 
-  priv->follow_cursor = follow;
+  self->follow_cursor = follow;
 
-  if (follow && priv->peaks)
+  if (follow && self->peaks)
     scroll_to_cursor (self);
 
   g_object_notify_by_pspec (G_OBJECT (self),
@@ -726,12 +709,11 @@ pt_waveviewer_set_follow_cursor (PtWaveviewer *self,
 static gboolean
 cursor_is_visible (PtWaveviewer *self)
 {
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  gint                 cursor_pos, left, right;
+  gint cursor_pos, left, right;
 
-  cursor_pos = time_to_pixel (self, priv->playback_cursor);
-  left = (gint) gtk_adjustment_get_value (priv->adj);
-  right = left + (gint) gtk_adjustment_get_page_size (priv->adj);
+  cursor_pos = time_to_pixel (self, self->playback_cursor);
+  left = (gint) gtk_adjustment_get_value (self->adj);
+  right = left + (gint) gtk_adjustment_get_page_size (self->adj);
 
   return (left <= cursor_pos && cursor_pos <= right);
 }
@@ -743,44 +725,41 @@ get_anchor_point (PtWaveviewer *self)
      middle of view. The anchor point is relative to the view.
      Get time of that anchor point = zoom_time. */
 
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  gint                 left;
+  gint left;
 
-  left = (gint) gtk_adjustment_get_value (priv->adj);
+  left = (gint) gtk_adjustment_get_value (self->adj);
   if (cursor_is_visible (self))
     {
-      priv->zoom_time = priv->playback_cursor;
-      priv->zoom_pos = time_to_pixel (self, priv->playback_cursor) - left;
+      self->zoom_time = self->playback_cursor;
+      self->zoom_pos = time_to_pixel (self, self->playback_cursor) - left;
     }
   else
     {
-      priv->zoom_pos = (gint) gtk_adjustment_get_page_size (priv->adj) / 2;
-      priv->zoom_time = pixel_to_time (self, priv->zoom_pos + left);
+      self->zoom_pos = (gint) gtk_adjustment_get_page_size (self->adj) / 2;
+      self->zoom_time = pixel_to_time (self, self->zoom_pos + left);
     }
 }
 
 static void
 reset_selection (PtWaveviewer *self)
 {
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-
-  if (priv->has_selection == FALSE)
+  if (self->has_selection == FALSE)
     return;
 
   g_object_freeze_notify (G_OBJECT (self));
 
-  priv->has_selection = FALSE;
+  self->has_selection = FALSE;
   g_object_notify_by_pspec (G_OBJECT (self),
                             obj_properties[PROP_HAS_SELECTION]);
 
-  if (priv->sel_start > 0)
+  if (self->sel_start > 0)
     {
-      priv->sel_start = 0;
+      self->sel_start = 0;
       g_object_notify_by_pspec (G_OBJECT (self),
                                 obj_properties[PROP_SELECTION_START]);
     }
 
-  priv->sel_end = 0;
+  self->sel_end = 0;
   g_object_notify_by_pspec (G_OBJECT (self),
                             obj_properties[PROP_SELECTION_END]);
 
@@ -791,58 +770,56 @@ static void
 array_size_changed_cb (PtWaveloader *loader,
                        gpointer      user_data)
 {
-  PtWaveviewer        *self = PT_WAVEVIEWER (user_data);
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  gint                 width;
+  PtWaveviewer *self = PT_WAVEVIEWER (user_data);
+  gint          width;
 
-  if (priv->peaks == NULL || priv->peaks->len == 0)
+  if (self->peaks == NULL || self->peaks->len == 0)
     {
-      priv->peaks_size = 0;
-      priv->px_per_sec = 0;
-      priv->duration = 0;
+      self->peaks_size = 0;
+      self->px_per_sec = 0;
+      self->duration = 0;
       pt_waveviewer_selection_set (
-          PT_WAVEVIEWER_SELECTION (priv->selection),
+          PT_WAVEVIEWER_SELECTION (self->selection),
           0, 0);
       pt_waveviewer_cursor_render (
-          PT_WAVEVIEWER_CURSOR (priv->cursor),
+          PT_WAVEVIEWER_CURSOR (self->cursor),
           -1);
     }
   else
     {
-      priv->peaks_size = priv->peaks->len;
-      priv->px_per_sec = priv->pps;
-      priv->duration = calculate_duration (self);
+      self->peaks_size = self->peaks->len;
+      self->px_per_sec = self->pps;
+      self->duration = calculate_duration (self);
     }
 
-  width = priv->peaks_size / 2;
-  pt_waveviewer_scrollbox_set (PT_WAVEVIEWER_SCROLLBOX (priv->scrollbox), width);
+  width = self->peaks_size / 2;
+  pt_waveviewer_scrollbox_set (PT_WAVEVIEWER_SCROLLBOX (self->scrollbox), width);
 
   pt_waveviewer_ruler_set_ruler (
-      PT_WAVEVIEWER_RULER (priv->ruler),
-      priv->peaks_size / 2,
-      priv->px_per_sec,
-      priv->duration);
+      PT_WAVEVIEWER_RULER (self->ruler),
+      self->peaks_size / 2,
+      self->px_per_sec,
+      self->duration);
 }
 
 static void
 pt_waveviewer_set_pps (PtWaveviewer *self,
                        int           pps)
 {
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  GError              *error = NULL;
+  GError *error = NULL;
 
   pps = CLAMP (pps, PPS_MIN, PPS_MAX);
 
-  if (priv->pps == pps)
+  if (self->pps == pps)
     return;
 
-  priv->pps = pps;
+  self->pps = pps;
 
-  if (priv->peaks->len == 0)
+  if (self->peaks->len == 0)
     return;
 
   get_anchor_point (self);
-  if (!pt_waveloader_resize (priv->loader, priv->pps, &error))
+  if (!pt_waveloader_resize (self->loader, self->pps, &error))
     {
       g_print ("%s\n", error->message);
       g_clear_error (&error);
@@ -850,15 +827,15 @@ pt_waveviewer_set_pps (PtWaveviewer *self,
     }
 
   array_size_changed_cb (NULL, self);
-  gtk_adjustment_set_value (priv->adj,
-                            time_to_pixel (self, priv->zoom_time) - priv->zoom_pos);
-  gtk_widget_queue_draw (priv->waveform);
+  gtk_adjustment_set_value (self->adj,
+                            time_to_pixel (self, self->zoom_time) - self->zoom_pos);
+  gtk_widget_queue_draw (self->waveform);
   render_cursor (self);
-  if (priv->has_selection)
+  if (self->has_selection)
     {
-      pt_waveviewer_selection_set (PT_WAVEVIEWER_SELECTION (priv->selection),
-                                   time_to_pixel (self, priv->sel_start),
-                                   time_to_pixel (self, priv->sel_end));
+      pt_waveviewer_selection_set (PT_WAVEVIEWER_SELECTION (self->selection),
+                                   time_to_pixel (self, self->sel_start),
+                                   time_to_pixel (self, self->sel_end));
     }
 
   g_object_notify_by_pspec (G_OBJECT (self),
@@ -878,22 +855,21 @@ load_cb (PtWaveloader *loader,
          GAsyncResult *res,
          gpointer     *data)
 {
-  GTask               *task = (GTask *) data;
-  PtWaveviewer        *self = g_task_get_source_object (task);
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  GError              *error = NULL;
+  GTask        *task = (GTask *) data;
+  PtWaveviewer *self = g_task_get_source_object (task);
+  GError       *error = NULL;
 
-  if (priv->tick_handler != 0)
+  if (self->tick_handler != 0)
     {
-      gtk_widget_remove_tick_callback (priv->waveform,
-                                       priv->tick_handler);
-      priv->tick_handler = 0;
+      gtk_widget_remove_tick_callback (self->waveform,
+                                       self->tick_handler);
+      self->tick_handler = 0;
     }
 
   if (pt_waveloader_load_finish (loader, res, &error))
     {
       array_size_changed_cb (NULL, self);
-      gtk_widget_queue_draw (priv->waveform);
+      gtk_widget_queue_draw (self->waveform);
       render_cursor (self);
       g_task_return_boolean (task, TRUE);
     }
@@ -962,8 +938,7 @@ pt_waveviewer_load_wave_async (PtWaveviewer       *self,
   g_return_if_fail (PT_IS_WAVEVIEWER (self));
   g_return_if_fail (uri != NULL);
 
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  GTask               *task;
+  GTask *task;
   /* TODO think about doing this here or just returning error from waveloader.
    * this is meant for "nicer" error messages, requires translation
   GFile  *file;
@@ -1007,18 +982,18 @@ pt_waveviewer_load_wave_async (PtWaveviewer       *self,
 
   reset_selection (self);
 
-  g_object_set (priv->loader, "uri", uri, NULL);
-  priv->px_per_sec = priv->pps;
-  if (priv->tick_handler == 0)
+  g_object_set (self->loader, "uri", uri, NULL);
+  self->px_per_sec = self->pps;
+  if (self->tick_handler == 0)
     {
-      priv->tick_handler =
+      self->tick_handler =
           gtk_widget_add_tick_callback (
-              priv->waveform,
+              self->waveform,
               (GtkTickCallback) update_waveform_cb,
               self, NULL);
     }
-  pt_waveloader_load_async (priv->loader,
-                            priv->pps,
+  pt_waveloader_load_async (self->loader,
+                            self->pps,
                             cancel,
                             (GAsyncReadyCallback) load_cb,
                             task);
@@ -1027,16 +1002,15 @@ pt_waveviewer_load_wave_async (PtWaveviewer       *self,
 static void
 pt_waveviewer_finalize (GObject *object)
 {
-  PtWaveviewer        *self = PT_WAVEVIEWER (object);
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
+  PtWaveviewer *self = PT_WAVEVIEWER (object);
 
-  g_clear_object (&priv->arrows);
-  g_clear_object (&priv->loader);
-  if (priv->tick_handler != 0)
+  g_clear_object (&self->arrows);
+  g_clear_object (&self->loader);
+  if (self->tick_handler != 0)
     {
-      gtk_widget_remove_tick_callback (priv->waveform,
-                                       priv->tick_handler);
-      priv->tick_handler = 0;
+      gtk_widget_remove_tick_callback (self->waveform,
+                                       self->tick_handler);
+      self->tick_handler = 0;
     }
 
   G_OBJECT_CLASS (pt_waveviewer_parent_class)->finalize (object);
@@ -1058,34 +1032,33 @@ pt_waveviewer_get_property (GObject    *object,
                             GValue     *value,
                             GParamSpec *pspec)
 {
-  PtWaveviewer        *self = PT_WAVEVIEWER (object);
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
+  PtWaveviewer *self = PT_WAVEVIEWER (object);
 
   switch (property_id)
     {
     case PROP_PLAYBACK_CURSOR:
-      g_value_set_int64 (value, priv->playback_cursor);
+      g_value_set_int64 (value, self->playback_cursor);
       break;
     case PROP_FOLLOW_CURSOR:
-      g_value_set_boolean (value, priv->follow_cursor);
+      g_value_set_boolean (value, self->follow_cursor);
       break;
     case PROP_FIXED_CURSOR:
-      g_value_set_boolean (value, priv->fixed_cursor);
+      g_value_set_boolean (value, self->fixed_cursor);
       break;
     case PROP_SHOW_RULER:
-      g_value_set_boolean (value, priv->show_ruler);
+      g_value_set_boolean (value, self->show_ruler);
       break;
     case PROP_HAS_SELECTION:
-      g_value_set_boolean (value, priv->has_selection);
+      g_value_set_boolean (value, self->has_selection);
       break;
     case PROP_SELECTION_START:
-      g_value_set_int64 (value, priv->sel_start);
+      g_value_set_int64 (value, self->sel_start);
       break;
     case PROP_SELECTION_END:
-      g_value_set_int64 (value, priv->sel_end);
+      g_value_set_int64 (value, self->sel_end);
       break;
     case PROP_PPS:
-      g_value_set_int (value, priv->pps);
+      g_value_set_int (value, self->pps);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1099,22 +1072,21 @@ pt_waveviewer_set_property (GObject      *object,
                             const GValue *value,
                             GParamSpec   *pspec)
 {
-  PtWaveviewer        *self = PT_WAVEVIEWER (object);
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
+  PtWaveviewer *self = PT_WAVEVIEWER (object);
 
   switch (property_id)
     {
     case PROP_PLAYBACK_CURSOR:
       /* ignore if cursor’s value didn’t change */
-      if (priv->playback_cursor == g_value_get_int64 (value))
+      if (self->playback_cursor == g_value_get_int64 (value))
         break;
-      priv->playback_cursor = g_value_get_int64 (value);
+      self->playback_cursor = g_value_get_int64 (value);
 
       /* ignore if we’re not realized yet, widget is in construction */
       if (!gtk_widget_get_realized (GTK_WIDGET (self)))
         break;
 
-      if (priv->follow_cursor)
+      if (self->follow_cursor)
         scroll_to_cursor (self);
 
       render_cursor (self);
@@ -1123,12 +1095,12 @@ pt_waveviewer_set_property (GObject      *object,
       pt_waveviewer_set_follow_cursor (self, g_value_get_boolean (value));
       break;
     case PROP_FIXED_CURSOR:
-      priv->fixed_cursor = g_value_get_boolean (value);
+      self->fixed_cursor = g_value_get_boolean (value);
       break;
     case PROP_SHOW_RULER:
-      priv->show_ruler = g_value_get_boolean (value);
-      gtk_revealer_set_reveal_child (GTK_REVEALER (priv->revealer),
-                                     priv->show_ruler);
+      self->show_ruler = g_value_get_boolean (value);
+      gtk_revealer_set_reveal_child (GTK_REVEALER (self->revealer),
+                                     self->show_ruler);
       break;
     case PROP_PPS:
       pt_waveviewer_set_pps (self, g_value_get_int (value));
@@ -1151,18 +1123,17 @@ adjustment_value_changed_cb (GtkAdjustment *adjustment,
 static void
 pt_waveviewer_constructed (GObject *object)
 {
-  PtWaveviewer        *self = PT_WAVEVIEWER (object);
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-  GtkScrolledWindow   *scrolled_window = GTK_SCROLLED_WINDOW (priv->scrolled_window);
-  GtkWidget           *scrollbar;
-  GtkGesture          *scrollbar_button_handler;
-  GtkEventController  *scrollbar_scroll_handler;
+  PtWaveviewer       *self = PT_WAVEVIEWER (object);
+  GtkScrolledWindow  *scrolled_window = GTK_SCROLLED_WINDOW (self->scrolled_window);
+  GtkWidget          *scrollbar;
+  GtkGesture         *scrollbar_button_handler;
+  GtkEventController *scrollbar_scroll_handler;
 
   /* Get Adjustment and Scrollbar from ScrolledWindow and connect signals */
 
-  priv->adj = gtk_scrolled_window_get_hadjustment (scrolled_window);
+  self->adj = gtk_scrolled_window_get_hadjustment (scrolled_window);
 
-  g_signal_connect (priv->adj,
+  g_signal_connect (self->adj,
                     "value_changed",
                     G_CALLBACK (adjustment_value_changed_cb),
                     self);
@@ -1205,8 +1176,6 @@ get_resize_cursor (void)
 static void
 pt_waveviewer_init (PtWaveviewer *self)
 {
-  PtWaveviewerPrivate *priv = pt_waveviewer_get_instance_private (self);
-
   g_type_ensure (PT_TYPE_WAVEVIEWER_SCROLLBOX);
   g_type_ensure (PT_TYPE_WAVEVIEWER_RULER);
   g_type_ensure (PT_TYPE_WAVEVIEWER_WAVEFORM);
@@ -1218,25 +1187,25 @@ pt_waveviewer_init (PtWaveviewer *self)
   GtkCssProvider *provider;
   GFile          *css_file;
 
-  priv->peaks_size = 0;
-  priv->duration = 0;
-  priv->playback_cursor = 0;
-  priv->follow_cursor = TRUE;
-  priv->sel_start = 0;
-  priv->sel_end = 0;
-  priv->drag_start_x = -1;
-  priv->zoom_time = 0;
-  priv->zoom_pos = 0;
-  priv->arrows = get_resize_cursor ();
-  priv->loader = pt_waveloader_new (NULL);
-  priv->peaks = pt_waveloader_get_data (priv->loader);
-  priv->tick_handler = 0;
+  self->peaks_size = 0;
+  self->duration = 0;
+  self->playback_cursor = 0;
+  self->follow_cursor = TRUE;
+  self->sel_start = 0;
+  self->sel_end = 0;
+  self->drag_start_x = -1;
+  self->zoom_time = 0;
+  self->zoom_pos = 0;
+  self->arrows = get_resize_cursor ();
+  self->loader = pt_waveloader_new (NULL);
+  self->peaks = pt_waveloader_get_data (self->loader);
+  self->tick_handler = 0;
 
   gtk_widget_set_focusable (GTK_WIDGET (self), TRUE);
 
   pt_waveviewer_waveform_set (
-      PT_WAVEVIEWER_WAVEFORM (priv->waveform),
-      priv->peaks);
+      PT_WAVEVIEWER_WAVEFORM (self->waveform),
+      self->peaks);
 
   css_file = g_file_new_for_uri ("resource:///xyz/parlatype/libparlatype/pt-waveviewer.css");
   provider = gtk_css_provider_new ();
@@ -1250,37 +1219,37 @@ pt_waveviewer_init (PtWaveviewer *self)
   g_object_unref (provider);
 
   /* Setup event handling */
-  priv->button = gtk_gesture_click_new ();
-  gtk_gesture_single_set_exclusive (GTK_GESTURE_SINGLE (priv->button), TRUE);
-  gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (priv->button), 0);
-  gtk_event_controller_set_propagation_phase (GTK_EVENT_CONTROLLER (priv->button), GTK_PHASE_CAPTURE);
-  g_signal_connect (priv->button,
+  self->button = gtk_gesture_click_new ();
+  gtk_gesture_single_set_exclusive (GTK_GESTURE_SINGLE (self->button), TRUE);
+  gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (self->button), 0);
+  gtk_event_controller_set_propagation_phase (GTK_EVENT_CONTROLLER (self->button), GTK_PHASE_CAPTURE);
+  g_signal_connect (self->button,
                     "pressed",
                     G_CALLBACK (pt_waveviewer_button_press_event),
                     self);
-  gtk_widget_add_controller (priv->scrollbox, GTK_EVENT_CONTROLLER (priv->button));
+  gtk_widget_add_controller (self->scrollbox, GTK_EVENT_CONTROLLER (self->button));
 
-  priv->motion_ctrl = gtk_event_controller_motion_new ();
-  g_signal_connect (priv->motion_ctrl,
+  self->motion_ctrl = gtk_event_controller_motion_new ();
+  g_signal_connect (self->motion_ctrl,
                     "motion",
                     G_CALLBACK (pt_waveviewer_motion_event),
                     self);
-  gtk_widget_add_controller (GTK_WIDGET (priv->cursor), priv->motion_ctrl);
+  gtk_widget_add_controller (GTK_WIDGET (self->cursor), self->motion_ctrl);
 
-  priv->scroll_ctrl = gtk_event_controller_scroll_new (GTK_EVENT_CONTROLLER_SCROLL_HORIZONTAL | GTK_EVENT_CONTROLLER_SCROLL_VERTICAL);
-  gtk_event_controller_set_propagation_phase (GTK_EVENT_CONTROLLER (priv->scroll_ctrl), GTK_PHASE_CAPTURE);
-  g_signal_connect (priv->scroll_ctrl,
+  self->scroll_ctrl = gtk_event_controller_scroll_new (GTK_EVENT_CONTROLLER_SCROLL_HORIZONTAL | GTK_EVENT_CONTROLLER_SCROLL_VERTICAL);
+  gtk_event_controller_set_propagation_phase (GTK_EVENT_CONTROLLER (self->scroll_ctrl), GTK_PHASE_CAPTURE);
+  g_signal_connect (self->scroll_ctrl,
                     "scroll",
                     G_CALLBACK (pt_waveviewer_scroll_event),
                     self);
-  gtk_widget_add_controller (GTK_WIDGET (self), priv->scroll_ctrl);
+  gtk_widget_add_controller (GTK_WIDGET (self), self->scroll_ctrl);
 
-  priv->key_ctrl = gtk_event_controller_key_new ();
-  g_signal_connect (priv->key_ctrl,
+  self->key_ctrl = gtk_event_controller_key_new ();
+  g_signal_connect (self->key_ctrl,
                     "key-pressed",
                     G_CALLBACK (pt_waveviewer_key_press_event),
                     self);
-  gtk_widget_add_controller (GTK_WIDGET (self), priv->key_ctrl);
+  gtk_widget_add_controller (GTK_WIDGET (self), self->key_ctrl);
 
   GtkGesture *drag = gtk_gesture_drag_new ();
   gtk_event_controller_set_propagation_phase (GTK_EVENT_CONTROLLER (drag), GTK_PHASE_CAPTURE);
@@ -1296,14 +1265,14 @@ pt_waveviewer_init (PtWaveviewer *self)
                     "drag-end",
                     G_CALLBACK (pt_waveviewer_drag_end),
                     self);
-  gtk_widget_add_controller (GTK_WIDGET (priv->overlay), GTK_EVENT_CONTROLLER (drag));
+  gtk_widget_add_controller (GTK_WIDGET (self->overlay), GTK_EVENT_CONTROLLER (drag));
 
-  g_signal_connect (priv->loader,
+  g_signal_connect (self->loader,
                     "progress",
                     G_CALLBACK (propagate_progress_cb),
                     self);
 
-  g_signal_connect (priv->loader,
+  g_signal_connect (self->loader,
                     "array-size-changed",
                     G_CALLBACK (array_size_changed_cb),
                     self);
@@ -1324,14 +1293,14 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
   widget_class->focus = pt_waveviewer_focus;
 
   gtk_widget_class_set_template_from_resource (widget_class, "/xyz/parlatype/libparlatype/pt-waveviewer.ui");
-  gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, scrolled_window);
-  gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, scrollbox);
-  gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, revealer);
-  gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, ruler);
-  gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, overlay);
-  gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, waveform);
-  gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, selection);
-  gtk_widget_class_bind_template_child_private (widget_class, PtWaveviewer, cursor);
+  gtk_widget_class_bind_template_child (widget_class, PtWaveviewer, scrolled_window);
+  gtk_widget_class_bind_template_child (widget_class, PtWaveviewer, scrollbox);
+  gtk_widget_class_bind_template_child (widget_class, PtWaveviewer, revealer);
+  gtk_widget_class_bind_template_child (widget_class, PtWaveviewer, ruler);
+  gtk_widget_class_bind_template_child (widget_class, PtWaveviewer, overlay);
+  gtk_widget_class_bind_template_child (widget_class, PtWaveviewer, waveform);
+  gtk_widget_class_bind_template_child (widget_class, PtWaveviewer, selection);
+  gtk_widget_class_bind_template_child (widget_class, PtWaveviewer, cursor);
 
   gtk_widget_class_set_layout_manager_type (widget_class, GTK_TYPE_BIN_LAYOUT);
 
