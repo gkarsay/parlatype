@@ -26,12 +26,7 @@
 
 
 #define PT_TYPE_PLAYER (pt_player_get_type ())
-G_DECLARE_DERIVABLE_TYPE (PtPlayer, pt_player, PT, PLAYER, GObject)
-
-struct _PtPlayerClass
-{
-  GObjectClass parent_class;
-};
+G_DECLARE_FINAL_TYPE (PtPlayer, pt_player, PT, PLAYER, GObject)
 
 /**
  * PtStateType:
