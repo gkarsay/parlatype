@@ -31,3 +31,4 @@ option(
 
 option('plugin_dummy', type: 'boolean', value: false, description: 'Dummy ASR plugin for testing')
 option('plugin_pocketsphinx', type: 'boolean', value: false, description: 'ASR plugin using pocketsphinx 5')
+option('plugin_whisper', type: 'boolean', value: false, description: 'ASR plugin using whisper.cpp')

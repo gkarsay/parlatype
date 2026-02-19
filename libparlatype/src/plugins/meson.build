@@ -21,6 +21,7 @@ endif
 
 subdir('dummy')
 subdir('pocketsphinx')
+subdir('whisper')
 
 plugins = static_library('plugins', plugins_sources,
            dependencies: plugins_deps,
