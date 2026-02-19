@@ -114,7 +114,7 @@ update_status_row (PtAsrDialog *self)
     {
       /* Not using title case here, this is more a status than a title. */
       title = _ ("This configuration is active.");
-      subtitle = NULL;
+      subtitle = "";
       button_label = _ ("Deactivate");
       active_image = gtk_image_new_from_icon_name ("object-select-symbolic");
       adw_action_row_add_prefix (ADW_ACTION_ROW (self->status_row), active_image);
@@ -123,7 +123,7 @@ update_status_row (PtAsrDialog *self)
     {
       /* Translators: Model is a language model */
       title = _ ("Model data is installed.");
-      subtitle = NULL;
+      subtitle = "";
       button_label = _ ("Activate");
     }
   else
