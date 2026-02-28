@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2024-05-13 21:21+0200\n"
-"PO-Revision-Date: 2026-02-24 14:09+0000\n"
+"PO-Revision-Date: 2026-03-01 15:09+0000\n"
 "Last-Translator: தமிழ்நேரம் <tamilneram247@gmail.com>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/parlatype/"
 "parlatype-help/ta/>\n"
@@ -95,21 +95,19 @@ msgstr ""
 #: ../help/C/drag-and-drop.page:20
 msgid "File names: Select a file name from a word processor, e.g. <app>LibreOffice</app>, drop the selected text on <app>Parlatype</app> and it will open that file. This will always work if the selection contains a full path. If you select the name only, <app>Parlatype</app> will look up its full path in the list of recent files and open it if it can find it in that list."
 msgstr ""
-"கோப்புப் பெயர்கள்: ஒரு சொல் செயலியிலிருந்து கோப்பு பெயரைத் தேர்ந்தெடுக்கவும், எ.கா. "
-"<app>லிப்ரேஃபிச் </app>, தேர்ந்தெடுக்கப்பட்ட உரையை <app>பார்லாடைப் </app> இல் விடுங்கள், "
-"அது அந்தக் கோப்பைத் திறக்கும். தேர்வில் முழு பாதை இருந்தால் இது எப்போதும் செயல்படும். நீங்கள் "
-"பெயரை மட்டும் தேர்ந்தெடுத்தால், <app> பார்லாடைப் </app> அதன் முழு பாதையையும் அண்மைக் கால "
-"கோப்புகளின் பட்டியலில் பார்த்து, அதை அந்தப் பட்டியலில் கண்டுபிடிக்க முடிந்தால் அதைத் "
-"திறக்கும்."
+"கோப்புப் பெயர்கள்: ஒரு சொல் செயலியிலிருந்து கோப்பு பெயரைத் தேர்ந்தெடுக்கவும், எ.கா. <app>"
+"லிப்ரேஃபிச்</app>, தேர்ந்தெடுக்கப்பட்ட உரையை <app>பார்லாடைப்</app> இல் விடுங்கள், அது அந்தக் "
+"கோப்பைத் திறக்கும். தேர்வில் முழு பாதை இருந்தால் இது எப்போதும் செயல்படும். நீங்கள் பெயரை "
+"மட்டும் தேர்ந்தெடுத்தால், <app>பார்லாடைப்</app> அதன் முழு பாதையையும் அண்மைக் கால கோப்புகளின் "
+"பட்டியலில் பார்த்து, அதை அந்தப் பட்டியலில் கண்டுபிடிக்க முடிந்தால் அதைத் திறக்கும்."
 
 #. (itstool) path: item/p
 #: ../help/C/drag-and-drop.page:21
 msgid "Timestamps: You can drag and drop timestamps to <app>Parlatype</app>. Select a timestamp from a word processor, e.g. <app>LibreOffice</app>, drop the selected text on <app>Parlatype</app> and it will jump to that position."
 msgstr ""
-"நேர முத்திரைகள்: நீங்கள் நேர முத்திரைகளை <app> பார்லாடைப் </app> க்கு இழுத்து விடலாம். "
-"ஒரு சொல் செயலியிலிருந்து நேர முத்திரையைத் தேர்ந்தெடுக்கவும், எ.கா.<app>லிப்ரேஃபிச் </"
-"app>, தேர்ந்தெடுக்கப்பட்ட உரையை <app>பார்லாடைப் </app> இல் விடுங்கள், அது அந்த நிலைக்குச் "
-"செல்லும்."
+"நேர முத்திரைகள்: நீங்கள் நேர முத்திரைகளை <app>பார்லாடைப்</app> க்கு இழுத்து விடலாம். ஒரு "
+"சொல் செயலியிலிருந்து நேர முத்திரையைத் தேர்ந்தெடுக்கவும், எ.கா.<app>லிப்ரேஃபிச்</app>, "
+"தேர்ந்தெடுக்கப்பட்ட உரையை <app>பார்லாடைப்</app> இல் விடுங்கள், அது அந்த நிலைக்குச் செல்லும்."
 
 #. (itstool) path: info/desc
 #: ../help/C/first-steps.page:7
@@ -125,32 +123,32 @@ msgstr "பார்லாடைப் கொண்டு முதல் பட
 #: ../help/C/first-steps.page:17
 msgid "<app>Parlatype</app> is an easy to use audio player to help you transcribing or annotating recorded speech. You need to run a word processor, e.g. <app>LibreOffice</app>, too. Launch <app>Parlatype</app> and open an audio file by clicking on the <gui>Open</gui> button in the upper left corner."
 msgstr ""
-"<app> பார்லாடைப் </app> பதிவுசெய்யப்பட்ட பேச்சைப் படியெடுக்க அல்லது சிறுகுறிப்பு செய்ய "
+"<app>பார்லாடைப்</app> பதிவுசெய்யப்பட்ட பேச்சைப் படியெடுக்க அல்லது சிறுகுறிப்பு செய்ய "
 "உங்களுக்கு உதவ ஆடியோ பிளேயரைப் பயன்படுத்த எளிதானது. நீங்கள் ஒரு சொல் செயலியை இயக்க "
-"வேண்டும், எ.கா. <app>லிப்ரேஃபிச் </app>, கூட. <app> parlatype </app> ஐத் தொடங்கி, "
-"மேல் இடது மூலையில் உள்ள <gui> திறந்த </gui> பொத்தானைக் சொடுக்கு செய்வதன் மூலம் ஆடியோ "
-"கோப்பைத் திறக்கவும்."
+"வேண்டும், எ.கா. <app>லிப்ரேஃபிச் </app>, கூட. <app>பார்லாடைப்</app> ஐத் தொடங்கி, மேல் "
+"இடது மூலையில் உள்ள <gui>திற</gui> பொத்தானைக் சொடுக்கு செய்வதன் மூலம் ஆடியோ கோப்பைத் "
+"திறக்கவும்."
 
 #. (itstool) path: note/p
 #: ../help/C/first-steps.page:20
 msgid "You can also drag and drop a file on <app>Parlatype</app>."
-msgstr "<app> பார்லாடைப் </app> இல் ஒரு கோப்பை இழுத்து விடலாம்."
+msgstr "<app>பார்லாடைப்</app> இல் ஒரு கோப்பை இழுத்து விடலாம்."
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:23
 msgid "In the lower left corner there are the controls with a <gui>Play</gui> button which toggles between play and pause. Whenever you pause, <app>Parlatype</app> rewinds a few seconds to make it easier to resume. This can be changed in the Preferences dialog."
 msgstr ""
-"கீழ் இடது மூலையில் ஒரு <gui> ப்ளே </gui> பொத்தானைக் கொண்ட கட்டுப்பாடுகள் உள்ளன, இது "
-"நாடகத்திற்கும் இடைநிறுத்தத்திற்கும் இடையில் மாறுகிறது. நீங்கள் இடைநிறுத்தும்போதெல்லாம், "
-"<app> பார்லாடைப் </app> மீண்டும் தொடங்குவதை எளிதாக்க சில வினாடிகள் முன்னாடி. "
-"விருப்பத்தேர்வுகள் உரையாடலில் இதை மாற்றலாம்."
+"கீழ் இடது மூலையில் ஒரு <gui>ப்ளே</gui> பொத்தானைக் கொண்ட கட்டுப்பாடுகள் உள்ளன, இது "
+"நாடகத்திற்கும் இடைநிறுத்தத்திற்கும் இடையில் மாறுகிறது. நீங்கள் இடைநிறுத்தும்போதெல்லாம், <app>"
+"பார்லாடைப்</app> மீண்டும் தொடங்குவதை எளிதாக்க சில வினாடிகள் முன்னாடி. விருப்பத்தேர்வுகள் "
+"உரையாடலில் இதை மாற்றலாம்."
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:27
 msgid "The buttons <gui>Skip backward</gui> and <gui>Skip forward</gui> in the lower left corner skip a few seconds back or ahead. The amount of time can be changed in the Preferences dialog."
 msgstr ""
-"பொத்தான்கள் <gui> பின்தங்கிய </gui> மற்றும் <gui> முன்னோக்கி தவிர்க்கவும் </gui> கீழ் இடது "
-"மூலையில் சில வினாடிகளுக்கு பின்னால் அல்லது முன்னால் தவிர்க்கவும். விருப்பத்தேர்வுகள் "
+"பொத்தான்கள் <gui>பின்னோக்கி தவிர்</gui> மற்றும் <gui>முன்னோக்கி தவிர்</gui> கீழ் இடது "
+"மூலையில் சில வினாடிகளுக்குப் பின்னால் அல்லது முன்னால் தவிர்க்கவும். விருப்பத்தேர்வுகள் "
 "உரையாடலில் நேரத்தின் அளவை மாற்றலாம்."
 
 #. (itstool) path: page/p
