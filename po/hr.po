@@ -8,79 +8,85 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-13 21:21+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2026-03-22 11:09+0000\n"
+"Last-Translator: Milo Ivir <mail@milotype.de>\n"
+"Language-Team: Croatian <https://hosted.weblate.org/projects/parlatype/"
+"parlatype/hr/>\n"
 "Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Weblate 5.17-dev\n"
 
 #: data/parlatype.desktop.in:4 data/parlatype.metainfo.xml.in:8
 #: src/pt-app.c:196 src/resources/window.ui:30
 msgid "Parlatype"
-msgstr ""
+msgstr "Parlatype"
 
 #: data/parlatype.desktop.in:5
 msgid "Transcription utility"
-msgstr ""
+msgstr "Uslužni program za transkripciju"
 
 #: data/parlatype.desktop.in:6
 msgid "Transcription;"
-msgstr ""
+msgstr "Transkripcija;"
 
 #: data/parlatype.metainfo.xml.in:9
 msgid "Media player for transcription"
-msgstr ""
+msgstr "Media player za transkripciju"
 
 #: data/parlatype.metainfo.xml.in:12
 msgid ""
 "Parlatype is an easy to use media player. Its main purpose is to help you "
 "transcribing speech."
 msgstr ""
+"Parlatype je jednostavan media player. Njegova je glavna svrha pomoći pri "
+"transkripciji govora."
 
 #: data/parlatype.metainfo.xml.in:19
 msgid "Main window"
-msgstr ""
+msgstr "Glavni prozor"
 
 #: data/parlatype.metainfo.xml.in:28
 msgid "Gabor Karsay"
-msgstr ""
+msgstr "Gabor Karsay"
 
 #: data/parlatype.metainfo.xml.in:47
 msgid "Website moved to www.parlatype.xyz."
-msgstr ""
+msgstr "Web-stranica je premještena na www.parlatype.xyz."
 
 #: data/parlatype.metainfo.xml.in:48
 msgid "App ID changed accordingly."
-msgstr ""
+msgstr "App ID se promijenio u skladu s tim."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:49 data/parlatype.metainfo.xml.in:60
 #: data/parlatype.metainfo.xml.in:81 data/parlatype.metainfo.xml.in:93
 #: data/parlatype.metainfo.xml.in:109
 msgid "Translation updates for several languages."
-msgstr ""
+msgstr "Aktualizirani prijevodi za nekoliko jezika."
 
 #: data/parlatype.metainfo.xml.in:56
 msgid ""
 "Follow GNOME human interface guidelines throughout the app using libadwaita."
 msgstr ""
+"Slijedi GNOME smjernice za ljudsko sučelje kroz cijelu aplikaciju koristeći "
+"libadwaita."
 
 #: data/parlatype.metainfo.xml.in:57
 msgid "Add a theme selector (borrowed from GNOME Text Editor)."
-msgstr ""
+msgstr "Dodan selektor teme (posuđen iz GNOME Text Editora)."
 
 #: data/parlatype.metainfo.xml.in:58
 msgid "Fix F10 shortcut to toggle main menu."
-msgstr ""
+msgstr "Ispravljen prečac F10 za uključivanje/isključivanje glavnog izbornika."
 
 #: data/parlatype.metainfo.xml.in:59
 msgid ""
 "Remove support for Mozilla DeepSpeech because the project is discontinued."
-msgstr ""
+msgstr "Uklonjena podrška za Mozilla DeepSpeech jer je projekt obustavljen."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:67
@@ -88,46 +94,48 @@ msgid ""
 "This release is switching to GTK 4 and brings translation updates for "
 "several languages."
 msgstr ""
+"Ovo izdanje prelazi na GTK 4 i sadržava aktulizirane prijevode za nekoliko "
+"jezika."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:73
 msgid "This is a minor release with a new feature."
-msgstr ""
+msgstr "Ovo je manje izdanje s novom funkcijom."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:76
 msgid "Added MPRIS interface."
-msgstr ""
+msgstr "Dodano je MPRIS sučelje."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:78
 msgid "Smaller bug fixes."
-msgstr ""
+msgstr "Ispravci manjih grešaka."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:80
 msgid "Switched to Weblate for translations."
-msgstr ""
+msgstr "Prijelaz na prevodilačku platformu „Weblate“."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:87 data/parlatype.metainfo.xml.in:116
 msgid "This is a major release with new features."
-msgstr ""
+msgstr "Ovo je glavno izdanje s novim funkcijama."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:90
 msgid "Support for Mozilla DeepSpeech."
-msgstr ""
+msgstr "Podrška za Mozilla DeepSpeech."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:92
 msgid "New configuration system for Automatic Speech Recognition."
-msgstr ""
+msgstr "Novi konfiguracijski sustav za automatsko prepoznavanje govora."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:100
 msgid "This is a minor release with bug fixes and minor new features."
-msgstr ""
+msgstr "Ovo je manje izdanje s ispracima grešaka i nekih novih funkcija."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:103
@@ -135,6 +143,8 @@ msgid ""
 "Mute/unmute volume by clicking on the volume icon with the pointer’s "
 "secondary button (usually right mouse button)."
 msgstr ""
+"Isključi ili uključi zvuk klikom na ikonu glasnoće sekundarnim gumbom "
+"kursora (obično desni gumb miša)."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:105
@@ -142,26 +152,31 @@ msgid ""
 "With Pulseaudio Parlatype doesn’t change the system volume anymore, just its "
 "own application specific volume."
 msgstr ""
+"Uz PulseAudio, Parlatype više ne mijenja glasnoću sustava, već samo "
+"specifičnu glasnoću vlastite aplikacije."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:107
 msgid "The initial volume level is picked up from Pulseaudio."
-msgstr ""
+msgstr "Početna razina glasnoće se preuzima od Pulseaudio."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:119
 msgid "Waveform is loaded on-the-fly, there is no blocking progress dialog."
 msgstr ""
+"Valni oblik zvuka se učitava odmah, bez blokirajućeg dijaloga za napredak."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:121
 msgid "Waveform can be changed continuously instead of in discrete steps."
 msgstr ""
+"Valni oblik zvuka se može mijenjati kontinuirano umjesto u diskretnim "
+"koracima."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:128
 msgid "This is a minor release."
-msgstr ""
+msgstr "Ovo je manje izdanje."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:131
@@ -169,16 +184,19 @@ msgid ""
 "Update time label only if time has changed. This is a performance increase, "
 "cursor movement should be smoother on slower systems."
 msgstr ""
+"Aktualiziraj oznaku vremena samo ako se je vrijeme promijenilo. Ovo je "
+"poboljšanje performanse, kretanje kursora trebalo bi biti glađe na sporijim "
+"sustavima."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:133
 msgid "Translation updates for Hungarian, Lithuanian and Spanish"
-msgstr ""
+msgstr "Aktualizirani prijevodi za mađarski, litvanski i španjolski"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:140
 msgid "This is a minor release with some changes."
-msgstr ""
+msgstr "Ovo je manje izdanje s nekim promjenama."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:143
@@ -186,11 +204,14 @@ msgid ""
 "Automatic speech recognition (ASR) is now disabled by default and it’s only "
 "shown, if Parlatype is launched with the new parameter \\\"--with-asr\\\""
 msgstr ""
+"Automatsko prepoznavanje govora (ASR) je sada standardno deaktivirano i "
+"prikazuje se samo ako se Parlatype pokrene s novim parametrom \\\"--with-"
+"asr\\\""
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:145
 msgid "Fix internationalization: Some translations were not shown"
-msgstr ""
+msgstr "Ispravak internacionalizacije: Neki prijevodi se nisu prikazivali"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:147
@@ -198,26 +219,28 @@ msgid ""
 "Translation updates for Arabic, British English, Czech, Dutch, German, "
 "Polish and Spanish"
 msgstr ""
+"Aktualizirani prijevodi za arapski, britanski engleski, češki, nizozemski, "
+"njemački, poljski i španjolski"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:154
 msgid "This is a major release with some new features."
-msgstr ""
+msgstr "Ovo je glavno izdanje s nekim novim funkcijama."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:157
 msgid "Automatic speech recognition with CMU Sphinx"
-msgstr ""
+msgstr "Automatsko prepoznavanje govora sa CMU Sphinx"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:159
 msgid "Design changes, including removal of application menu"
-msgstr ""
+msgstr "Promjene u dizajnu, uključujući uklanjanje izbornika aplikacije"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:161
 msgid "Custom timestamps"
-msgstr ""
+msgstr "Prilagođene vremenske oznake"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:163
@@ -225,41 +248,47 @@ msgid ""
 "Translation updates for Brazilian Portuguese, British English, Czech, "
 "German, Japanese, Lithuanian and Polish"
 msgstr ""
+"Aktualizirani prijevodi za brazilski portugalski, britanski engleski, češki, "
+"njemački, japanski, litavski i poljski"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:170
 msgid "This is a minor maintenance release."
-msgstr ""
+msgstr "Ovo je manje izdanje održavanja."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:173
 msgid "Animate scrolling when using keybindings"
-msgstr ""
+msgstr "Animira pomicanje prilikom korištenja tipkovničkih prečaca"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:175
 msgid "Change desktop entry category to Audio/Video instead of Utilities"
 msgstr ""
+"Promijenjena kategorija unosa na radnoj površini u Audio/Video umjesto "
+"Utilities"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:177
 msgid "Translation updates for French"
-msgstr ""
+msgstr "Aktualiziran prijevod za francuski"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:184
 msgid "This release contains a number of bug fixes and minor improvements."
-msgstr ""
+msgstr "Ovo izdanje sadrži niz ispravaka grešaka i poneka poboljšanja."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:187
 msgid "Progress Dialog has now a countdown timer (estimated time left)"
 msgstr ""
+"Dijalog „Napredak“ sada sadrži timer za odbrojavanje (procijenjeno preostalo "
+"vrijeme)"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:189
 msgid "Increase max. possible speed to 2.0"
-msgstr ""
+msgstr "Maksimalna moguća brzina povećana na 2.0"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:191
@@ -267,16 +296,18 @@ msgid ""
 "New keyboard shortcuts for Play/Pause (Ctrl + Space), Jump back (Ctrl + "
 "Left), Jump forward (Ctrl + Right)"
 msgstr ""
+"Novi tipkovni prečaci za „Pokreni/Zaustavi“ (Ctrl + razmaknica), „Skoči "
+"natrag“ (Ctrl + strelica lijevo), „Skoči naprijed“ (Ctrl + strelica desno)"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:193
 msgid "Scrolling now also possible with vertical scrollbar"
-msgstr ""
+msgstr "Pomicanje je sada moguće i s okomitom trakom za pomicanje"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:195
 msgid "Various fixes for waveform and cursor display"
-msgstr ""
+msgstr "Razni ispravci za prikaz valnog oblika zvuka i kursora"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:197
@@ -284,34 +315,37 @@ msgid ""
 "Translation updates for Arabic, British English, Catalan, German, Finnish, "
 "French, Japanese, Lithuanian, Polish, Spanish and Swedish"
 msgstr ""
+"Aktualizirani prijevodi za arapski, britanski engleski, katalonski, "
+"njemački, finski, francuski, japanski, litvanski, poljski, španjolski i "
+"švedski"
 
 #: src/pt-app.c:47
 msgid "Show the application’s version"
-msgstr ""
+msgstr "Prikaži verziju aplikacije"
 
 #: src/pt-app.c:93
 msgid "Open Audio File"
-msgstr ""
+msgstr "Otvori audio datoteku"
 
 #: src/pt-app.c:115
 msgid "Audio Files"
-msgstr ""
+msgstr "Audio datoteke"
 
 #: src/pt-app.c:116 src/pt-preferences.c:536
 msgid "All Files"
-msgstr ""
+msgstr "Sve datoteke"
 
 #: src/pt-app.c:193
 msgid "Code from other projects"
-msgstr ""
+msgstr "Kod iz drugih projekata"
 
 #: src/pt-app.c:197
 msgid "A basic transcription utility"
-msgstr ""
+msgstr "Osnovni alat za transkripciju"
 
 #: src/pt-app.c:203
 msgid "translator-credits"
-msgstr ""
+msgstr "Milo Ivir <mail@milotype.de>"
 
 #: src/pt-app.c:344
 #, c-format
@@ -319,101 +353,103 @@ msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
 "ignored.\n"
 msgstr ""
+"Upozorenje: Parlatype obrađuje datoteke samo pojedinačno. Ostale datoteke se "
+"zanemaruju.\n"
 
 #. Translators: Fallback label for a download location
 #: src/pt-asr-dialog.c:99
 msgid "Link"
-msgstr ""
+msgstr "Poveznica"
 
 #. Not using title case here, this is more a status than a title.
 #: src/pt-asr-dialog.c:115
 msgid "This configuration is active."
-msgstr ""
+msgstr "Ova je konfiguracija aktivna."
 
 #: src/pt-asr-dialog.c:117
 msgid "Deactivate"
-msgstr ""
+msgstr "Deaktiviraj"
 
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:124
 msgid "Model data is installed."
-msgstr ""
+msgstr "Podaci modela su instalirani."
 
 #: src/pt-asr-dialog.c:126 src/pt-asr-dialog.c:133
 msgid "Activate"
-msgstr ""
+msgstr "Aktiviraj"
 
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:131
 msgid "Model data is not installed."
-msgstr ""
+msgstr "Podaci modela nisu instalirani."
 
 #: src/pt-asr-dialog.c:132
 msgid "See next section for details."
-msgstr ""
+msgstr "Pogledaj sljedeći odjeljak za detalje."
 
 #. Translators: Configuration will be deleted, but not its data
 #: src/pt-asr-dialog.c:144
 msgid "Model data will be preserved"
-msgstr ""
+msgstr "Podaci modela će se sačuvati"
 
 #: src/pt-asr-dialog.c:222
 msgid "Language"
-msgstr ""
+msgstr "Jezik"
 
 #: src/pt-asr-dialog.c:226
 msgid "CMU Pocketsphinx"
-msgstr ""
+msgstr "CMU Pocketsphinx"
 
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:230
 msgid "Type of Model"
-msgstr ""
+msgstr "Vrsta modela"
 
 #: src/pt-asr-dialog.c:232
 msgid "GStreamer Plugin"
-msgstr ""
+msgstr "GStreamer dodatak"
 
 #: src/pt-asr-dialog.c:236
 msgid "Publisher"
-msgstr ""
+msgstr "Izdavač"
 
 #: src/pt-asr-dialog.c:241
 msgid "License"
-msgstr ""
+msgstr "Licenca"
 
 #: src/pt-asr-dialog.c:249
 msgid "Instructions"
-msgstr ""
+msgstr "Upute"
 
 #: src/pt-asr-dialog.c:258 src/pt-asr-dialog.c:269
 msgid "Download"
-msgstr ""
+msgstr "Preuzmi"
 
 #. Translators: %s is replaced with the name of a configuration
 #: src/pt-asr-dialog.c:314
 #, c-format
 msgid "“%s” has been deleted"
-msgstr ""
+msgstr "„%s“ je izbrisano"
 
 #: src/pt-asr-dialog.c:322 src/pt-preferences.c:248 src/pt-preferences.c:418
 #: src/pt-preferences.c:453 src/pt-window.c:86
 msgid "Error"
-msgstr ""
+msgstr "Greška"
 
 #. Translators: %s is replaced with the name of a configuration
 #: src/pt-asr-dialog.c:373
 #, c-format
 msgid "“%s” has been activated"
-msgstr ""
+msgstr "„%s“ je deaktivirano"
 
 #: src/pt-asr-dialog.c:376
 msgid "Configuration has been deactivated"
-msgstr ""
+msgstr "Konfiguracija je deaktivirana"
 
 #: src/pt-config-row.c:79
 msgid "Not installed"
-msgstr ""
+msgstr "Nije instaliran0"
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
@@ -423,437 +459,445 @@ msgstr ""
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
-msgstr ""
+msgstr "%d:%02d:%02d"
 
 #: src/pt-goto-dialog.c:87
 msgid "second"
 msgid_plural "seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "sekunda"
+msgstr[1] "sekunde"
+msgstr[2] "sekundi"
 
 #: src/pt-preferences.c:457
 msgid "The file is not a valid language model configuration."
-msgstr ""
+msgstr "Datoteka nije valjana konfiguracija jezičnog modela."
 
 #: src/pt-preferences.c:461
 msgid "There is no plugin installed for this language model."
-msgstr ""
+msgstr "Za ovaj jezični model nije instaliran nijedan dodatak."
 
 #: src/pt-preferences.c:527 src/pt-prefs-install-row.c:136
 msgid "Select Model Folder"
-msgstr ""
+msgstr "Odaberi mapu modela"
 
 #: src/pt-preferences.c:535
 msgid "Parlatype Language Model Configurations"
-msgstr ""
+msgstr "Parlatype konfiguracije jezičnih modela"
 
 #: src/pt-prefs-install-row.c:54
 msgid "Installed"
-msgstr ""
+msgstr "Instalirano"
 
 #: src/pt-prefs-install-row.c:59
 msgid "Not Installed"
-msgstr ""
+msgstr "Nije instalirano"
 
 #: src/pt-prefs-install-row.c:60
 msgid "Download files and select model folder."
-msgstr ""
+msgstr "Preuzmi datoteke i odaberi mapu modela."
 
 #: src/pt-prefs-install-row.c:114
 msgid "Model Data Not Found"
-msgstr ""
+msgstr "Podaci modela nisu pronađeni"
 
 #: src/pt-prefs-install-row.c:116
 msgid "The chosen folder does not contain data for this configuration."
-msgstr ""
+msgstr "Odabrana mapa ne sadrži podatke za ovu konfiguraciju."
 
 #: src/pt-window.c:396
 #, c-format
 msgid "Skip back 1 second"
 msgid_plural "Skip back %d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Skoči 1 sekundu natrag"
+msgstr[1] "Skoči %d sekunde natrag"
+msgstr[2] "Skoči %d sekundi natrag"
 
 #: src/pt-window.c:413
 #, c-format
 msgid "Skip forward 1 second"
 msgid_plural "Skip forward %d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Skoči 1 sekundu naprijed"
+msgstr[1] "Skoči %d sekunde naprijed"
+msgstr[2] "Skoči %d sekundi naprijed"
 
 #: src/pt-window.c:434
 msgid "Pause"
-msgstr ""
+msgstr "Zaustavi"
 
 #: src/pt-window.c:439
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Zaustavi i premotaj 1 sekundu natrag"
+msgstr[1] "Zaustavi i premotaj %d sekunde natrag"
+msgstr[2] "Zaustavi i premotaj %d sekundi natrag"
 
 #: src/pt-window.c:448
 msgid "Start playing"
-msgstr ""
+msgstr "Pokreni snimku"
 
 #. Translators: %s is replaced with a timestamp
 #: src/pt-window.c:488
 #, c-format
 msgid "Go to Time in Clipboard: %s"
-msgstr ""
+msgstr "Idi na vrijeme u međuspremniku: %s"
 
 #: src/pt-window.c:490 src/pt-window.c:1172
 msgid "Go to Time in Clipboard"
-msgstr ""
+msgstr "Idi na vrijeme u međuspremniku"
 
 #: src/pt-window.c:1167
 msgid "Manual Transcription"
-msgstr ""
+msgstr "Ručna transkripcija"
 
 #: src/pt-window.c:1168
 msgid "Automatic Transcription"
-msgstr ""
+msgstr "Automatska transkripcija"
 
 #: src/resources/asr-dialog.ui:29
 msgid "Installation"
-msgstr ""
+msgstr "Instalacija"
 
 #: src/resources/asr-dialog.ui:30
 msgid "How to install this language model."
-msgstr ""
+msgstr "Kako instalirati ovaj jezični model."
 
 #: src/resources/asr-dialog.ui:33
 msgid "General Information"
-msgstr ""
+msgstr "Opće informacije"
 
 #: src/resources/asr-dialog.ui:36
 msgid "Display Name"
-msgstr ""
+msgstr "Prikazano ime"
 
 #: src/resources/asr-dialog.ui:44
 msgid "Delete this Configuration"
-msgstr ""
+msgstr "Izbriši ovu konfiguraciju"
 
 #: src/resources/asr-dialog.ui:48
 msgid "Delete"
-msgstr ""
+msgstr "Izbriši"
 
 #: src/resources/editor-theme-selector.ui:22
 msgid "Follow System Style"
-msgstr ""
+msgstr "Slijedi stil sustava"
 
 #: src/resources/editor-theme-selector.ui:24
 msgid "Follow system style"
-msgstr ""
+msgstr "Slijedi stil sustava"
 
 #: src/resources/editor-theme-selector.ui:39
 msgid "Light Style"
-msgstr ""
+msgstr "Svijetli stil"
 
 #: src/resources/editor-theme-selector.ui:41
 msgid "Light style"
-msgstr ""
+msgstr "Svijetli stil"
 
 #: src/resources/editor-theme-selector.ui:57
 msgid "Dark Style"
-msgstr ""
+msgstr "Tamni stil"
 
 #: src/resources/editor-theme-selector.ui:59
 msgid "Dark style"
-msgstr ""
+msgstr "Tamni stil"
 
 #: src/resources/goto-dialog.ui:10 src/resources/window.ui:262
 msgid "Go to…"
-msgstr ""
+msgstr "Idi na …"
 
 #: src/resources/goto-dialog.ui:20
 msgid "Go to position:"
-msgstr ""
+msgstr "Idi na poziciju:"
 
 #: src/resources/goto-dialog.ui:52
 msgid "_Cancel"
-msgstr ""
+msgstr "_Odustani"
 
 #: src/resources/goto-dialog.ui:60
 msgid "_OK"
-msgstr ""
+msgstr "_U redu"
 
 #: src/resources/help-overlay.ui:13
 msgid "General"
-msgstr ""
+msgstr "Opće"
 
 #: src/resources/help-overlay.ui:18
 msgid "Open a media file"
-msgstr ""
+msgstr "Otvori medijsku datoteku"
 
 #: src/resources/help-overlay.ui:25
 msgid "Show/hide main menu"
-msgstr ""
+msgstr "Prikaži/sakrij glavni izbornik"
 
 #: src/resources/help-overlay.ui:32
 msgid "Quit"
-msgstr ""
+msgstr "Zatvori aplikaciju"
 
 #: src/resources/help-overlay.ui:40 src/resources/preferences.ui:11
 msgid "Waveform"
-msgstr ""
+msgstr "Valni oblik zvuka"
 
 #: src/resources/help-overlay.ui:45
 msgid "Play/Pause"
-msgstr ""
+msgstr "Pokreni/Zaustavi"
 
 #: src/resources/help-overlay.ui:52 src/resources/window.ui:99
 msgid "Skip backward"
-msgstr ""
+msgstr "Skoči natrag"
 
 #: src/resources/help-overlay.ui:59 src/resources/window.ui:144
 msgid "Skip forward"
-msgstr ""
+msgstr "Skoči naprijed"
 
 #: src/resources/help-overlay.ui:66
 msgid "Zoom in"
-msgstr ""
+msgstr "Uvećaj prikaz"
 
 #: src/resources/help-overlay.ui:73
 msgid "Zoom out"
-msgstr ""
+msgstr "Umanji prikaz"
 
 #: src/resources/help-overlay.ui:80
 msgid "Open “Go to” dialog"
-msgstr ""
+msgstr "Otvori dijalog „Idi na“"
 
 #: src/resources/help-overlay.ui:87
 msgid "Copy timestamp to clipboard"
-msgstr ""
+msgstr "Kopiraj vremensku oznaku u međuspremnik"
 
 #: src/resources/help-overlay.ui:94
 msgid "Go to timestamp in clipboard"
-msgstr ""
+msgstr "Idi na vremensku oznaku u međuspremniku"
 
 #: src/resources/help-overlay.ui:102 src/resources/window.ui:243
 msgid "Help"
-msgstr ""
+msgstr "Pomoć"
 
 #: src/resources/help-overlay.ui:107
 msgid "Show help"
-msgstr ""
+msgstr "Prikaži pomoć"
 
 #: src/resources/help-overlay.ui:114
 msgid "Show keyboard shortcuts"
-msgstr ""
+msgstr "Prikaži tipkovne prečace"
 
 #: src/resources/preferences.ui:7 src/resources/window.ui:235
 msgid "Preferences"
-msgstr ""
+msgstr "Postavke"
 
 #: src/resources/preferences.ui:15
 msgid "Display"
-msgstr ""
+msgstr "Prikaz"
 
 #: src/resources/preferences.ui:16
 msgid "Change appearance of the waveform and cursor movement."
-msgstr ""
+msgstr "Promijeni izgled valnog oblika zvuka i kretanje kursora."
 
 #: src/resources/preferences.ui:19
 msgid "Waveform Detail"
-msgstr ""
+msgstr "Detalji valnog oblika zvuka"
 
 #: src/resources/preferences.ui:20
 msgid "Vertical lines per second"
-msgstr ""
+msgstr "Okomite linije u sekundi"
 
 #: src/resources/preferences.ui:53
 msgid "Show Time Scale"
-msgstr ""
+msgstr "Prikaži vremenska skalu"
 
 #: src/resources/preferences.ui:58
 msgid "Cursor Mode"
-msgstr ""
+msgstr "Modus kursora"
 
 #: src/resources/preferences.ui:62
 msgid "Fixed Cursor"
-msgstr ""
+msgstr "Fiksni kursor"
 
 #: src/resources/preferences.ui:63
 msgid "Moving Cursor"
-msgstr ""
+msgstr "Pomični kursor"
 
 #: src/resources/preferences.ui:76
 msgid "Audio Controls"
-msgstr ""
+msgstr "Audio kontrole"
 
 #: src/resources/preferences.ui:80
 msgid "Pause and Skip Buttons"
-msgstr ""
+msgstr "Gumbovi za pauzu i preskakanje"
 
 #: src/resources/preferences.ui:81
 msgid "Set amount of time to skip in seconds."
-msgstr ""
+msgstr "Postavi vrijeme preskakanja u sekundama."
 
 #: src/resources/preferences.ui:84
 msgid "Rewind on Pause"
-msgstr ""
+msgstr "Premotaj natrag pri pauzi"
 
 #: src/resources/preferences.ui:85
 msgid "Set to zero to disable this feature"
-msgstr ""
+msgstr "Postavi na nulu za eadkiviranje ove funkcije"
 
 #: src/resources/preferences.ui:98
 msgid "Skip Backward"
-msgstr ""
+msgstr "Skoči natrag"
 
 #: src/resources/preferences.ui:111
 msgid "Skip Forward"
-msgstr ""
+msgstr "Skoči naprijed"
 
 #: src/resources/preferences.ui:126
 msgid "Play Button"
-msgstr ""
+msgstr "Gumb za pokretanje"
 
 #: src/resources/preferences.ui:127
 msgid "Change behavior of play button."
-msgstr ""
+msgstr "Promijeni ponašanje gumba za pokretanje."
 
 #: src/resources/preferences.ui:130
 msgid "At End of File Replay File"
-msgstr ""
+msgstr "Na kraju datoteke ponovi izvođenje datoteke"
 
 #: src/resources/preferences.ui:135
 msgid "At End of Selection Replay Selection"
-msgstr ""
+msgstr "Na kraju odabira ponovi izvođenje odabira"
 
 #: src/resources/preferences.ui:145
 msgid "Timestamps"
-msgstr ""
+msgstr "Vremenske oznake"
 
 #: src/resources/preferences.ui:149
 msgid "Timestamp Format"
-msgstr ""
+msgstr "Format vremenske oznake"
 
 #: src/resources/preferences.ui:150
 msgid ""
 "Customize produced timestamps. Note that all formats can be read, these "
 "settings are applied when timestamps are written."
 msgstr ""
+"Prilagodi izrađene vremenske oznake. Napomena: svi formati se mogu čitati, a "
+"ove se postavke primjenjuju prilikom zapisivanja vremenskih oznaka."
 
 #: src/resources/preferences.ui:153
 msgid "Always Show Hours and Leading Zeroes"
-msgstr ""
+msgstr "Uvijek prikaži vrijeme i vodeće nule"
 
 #: src/resources/preferences.ui:158
 msgid "Precision"
-msgstr ""
+msgstr "Točnost"
 
 #: src/resources/preferences.ui:162
 msgid "Full Seconds"
-msgstr ""
+msgstr "Pune sekunde"
 
 #: src/resources/preferences.ui:163
 msgid "10th Seconds"
-msgstr ""
+msgstr "Desetinke sekunde"
 
 #: src/resources/preferences.ui:164
 msgid "100th Seconds"
-msgstr ""
+msgstr "Stotinke sekunde"
 
 #: src/resources/preferences.ui:172
 msgid "Fraction Separator"
-msgstr ""
+msgstr "Razlomački znak"
 
 #: src/resources/preferences.ui:176
 msgid ". (Point)"
-msgstr ""
+msgstr ". (točka)"
 
 #: src/resources/preferences.ui:177
 msgid "- (Hyphen)"
-msgstr ""
+msgstr "- (crtica)"
 
 #: src/resources/preferences.ui:185
 msgid "Characters Around Timestamps"
-msgstr ""
+msgstr "Znakovi oko vremenskih oznaka"
 
 #: src/resources/preferences.ui:189
 msgid "None"
-msgstr ""
+msgstr "Bez"
 
 #: src/resources/preferences.ui:190
 msgid "#Number Signs#"
-msgstr ""
+msgstr "#Znakovi broja#"
 
 #: src/resources/preferences.ui:191
 msgid "(Round Brackets)"
-msgstr ""
+msgstr "(Oble zagrade)"
 
 #: src/resources/preferences.ui:192
 msgid "[Square Brackets]"
-msgstr ""
+msgstr "[Uglate zagrade]"
 
 #: src/resources/preferences.ui:202
 msgid "Preview"
-msgstr ""
+msgstr "Pregled"
 
 #: src/resources/preferences.ui:211
 msgid "Speech Recognition"
-msgstr ""
+msgstr "Prepoznavanje govora"
 
 #: src/resources/preferences.ui:215
 msgid "Language Models"
-msgstr ""
+msgstr "Jezični modeli"
 
 #: src/resources/preferences.ui:216
 msgid ""
 "Inspect configuration details, learn how to install model data, and choose a "
 "configuration for automatic speech recognition."
 msgstr ""
+"Pregledaj detalje konfiguracije, nauči kako instalirati podatke modela i "
+"odaberi konfiguraciju za automatsko prepoznavanje govora."
 
 #: src/resources/preferences.ui:223
 msgid "Import configuration from file"
-msgstr ""
+msgstr "Uvezi konfiguraciju iz datoteke"
 
 #: src/resources/preferences.ui:232
 msgid "Copy Initial Set of Configurations"
-msgstr ""
+msgstr "Kopiraj početni skup konfiguracija"
 
 #: src/resources/prefs-install-row.ui:11
 msgid "Choose folder"
-msgstr ""
+msgstr "Odaberi mapu"
 
 #: src/resources/window.ui:38
 msgid "_Open"
-msgstr ""
+msgstr "_Otvori"
 
 #: src/resources/window.ui:41
 msgid "Open a file"
-msgstr ""
+msgstr "Otvori datoteku"
 
 #: src/resources/window.ui:52
 msgid "Main Menu"
-msgstr ""
+msgstr "Glavni izbornik"
 
 #: src/resources/window.ui:125
 msgid "_Play"
-msgstr ""
+msgstr "_Reproduciraj"
 
 #: src/resources/window.ui:171
 msgid "Speed:"
-msgstr ""
+msgstr "Brzina:"
 
 #: src/resources/window.ui:203
 msgid "Volume"
-msgstr ""
+msgstr "Glasnoća"
 
 #: src/resources/window.ui:239
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "_Tipkovni prečaci"
 
 #: src/resources/window.ui:247
 msgid "About Parlatype"
-msgstr ""
+msgstr "O aplikaciji Parlatype"
 
 #: src/resources/window.ui:254
 msgid "Copy Time to Clipboard"
-msgstr ""
+msgstr "Kopiraj vrijeme u međuspremnik"
 
 #: src/resources/window.ui:258
 msgid "Go to Cursor"
-msgstr ""
+msgstr "Idi na kursor"
