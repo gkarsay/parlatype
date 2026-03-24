@@ -8,16 +8,17 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-13 21:21+0200\n"
-"PO-Revision-Date: 2020-03-09 16:24+0000\n"
-"Last-Translator: Gabor Karsay <gabor.karsay@gmx.at>\n"
-"Language-Team: Catalan <ca@li.org>\n"
+"PO-Revision-Date: 2026-03-25 10:09+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
+"Language-Team: Catalan <https://hosted.weblate.org/projects/parlatype/"
+"parlatype/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.17-dev\n"
 "X-Launchpad-Export-Date: 2020-05-08 11:32+0000\n"
-"X-Generator: Launchpad (build fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398)\n"
 
 #: data/parlatype.desktop.in:4 data/parlatype.metainfo.xml.in:8
 #: src/pt-app.c:196 src/resources/window.ui:30
@@ -33,10 +34,8 @@ msgid "Transcription;"
 msgstr "Transcripció;"
 
 #: data/parlatype.metainfo.xml.in:9
-#, fuzzy
-#| msgid "Transcription;"
 msgid "Media player for transcription"
-msgstr "Transcripció;"
+msgstr "Reproductor multimèdia per a transcripcions"
 
 #: data/parlatype.metainfo.xml.in:12
 msgid ""
@@ -48,7 +47,7 @@ msgstr ""
 
 #: data/parlatype.metainfo.xml.in:19
 msgid "Main window"
-msgstr ""
+msgstr "Finestra principal"
 
 #: data/parlatype.metainfo.xml.in:28
 msgid "Gabor Karsay"
@@ -292,29 +291,23 @@ msgstr ""
 
 #: src/pt-app.c:47
 msgid "Show the application’s version"
-msgstr ""
+msgstr "Mostra la versió de l’aplicació"
 
 #: src/pt-app.c:93
 msgid "Open Audio File"
-msgstr "Obre Fitxer d'Àudio"
+msgstr "Obre un fitxer d’àudio"
 
 #: src/pt-app.c:115
-#, fuzzy
-#| msgid "Audio files"
 msgid "Audio Files"
-msgstr "Fitxers d'àudio"
+msgstr "Fitxers d’àudio"
 
 #: src/pt-app.c:116 src/pt-preferences.c:536
-#, fuzzy
-#| msgid "All files"
 msgid "All Files"
 msgstr "Tots els fitxers"
 
 #: src/pt-app.c:193
-#, fuzzy
-#| msgid "Including code from other projects:"
 msgid "Code from other projects"
-msgstr "Inclou codi d'altres projectes:"
+msgstr "Codi d’altres projectes"
 
 #: src/pt-app.c:197
 msgid "A basic transcription utility"
@@ -358,7 +351,7 @@ msgstr ""
 
 #: src/pt-asr-dialog.c:126 src/pt-asr-dialog.c:133
 msgid "Activate"
-msgstr ""
+msgstr "Activa"
 
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:131
@@ -385,11 +378,11 @@ msgstr ""
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:230
 msgid "Type of Model"
-msgstr ""
+msgstr "Tipus de model"
 
 #: src/pt-asr-dialog.c:232
 msgid "GStreamer Plugin"
-msgstr ""
+msgstr "Connector del GStreamer"
 
 #: src/pt-asr-dialog.c:236
 msgid "Publisher"
@@ -397,36 +390,36 @@ msgstr ""
 
 #: src/pt-asr-dialog.c:241
 msgid "License"
-msgstr ""
+msgstr "Llicència"
 
 #: src/pt-asr-dialog.c:249
 msgid "Instructions"
-msgstr ""
+msgstr "Instruccions"
 
 #: src/pt-asr-dialog.c:258 src/pt-asr-dialog.c:269
 msgid "Download"
-msgstr ""
+msgstr "Baixa"
 
 #. Translators: %s is replaced with the name of a configuration
 #: src/pt-asr-dialog.c:314
 #, c-format
 msgid "“%s” has been deleted"
-msgstr ""
+msgstr "S’ha suprimit «%s»"
 
 #: src/pt-asr-dialog.c:322 src/pt-preferences.c:248 src/pt-preferences.c:418
 #: src/pt-preferences.c:453 src/pt-window.c:86
 msgid "Error"
-msgstr ""
+msgstr "Error"
 
 #. Translators: %s is replaced with the name of a configuration
 #: src/pt-asr-dialog.c:373
 #, c-format
 msgid "“%s” has been activated"
-msgstr ""
+msgstr "S’ha activat «%s»"
 
 #: src/pt-asr-dialog.c:376
 msgid "Configuration has been deactivated"
-msgstr ""
+msgstr "S’ha desactivat la configuració"
 
 #: src/pt-config-row.c:79
 msgid "Not installed"
@@ -528,20 +521,16 @@ msgid "Go to Time in Clipboard"
 msgstr ""
 
 #: src/pt-window.c:1167
-#, fuzzy
-#| msgid "Transcription;"
 msgid "Manual Transcription"
-msgstr "Transcripció;"
+msgstr "Transcripció manual"
 
 #: src/pt-window.c:1168
-#, fuzzy
-#| msgid "Transcription;"
 msgid "Automatic Transcription"
-msgstr "Transcripció;"
+msgstr "Transcripció automàtica"
 
 #: src/resources/asr-dialog.ui:29
 msgid "Installation"
-msgstr ""
+msgstr "Instal·lació"
 
 #: src/resources/asr-dialog.ui:30
 msgid "How to install this language model."
@@ -549,7 +538,7 @@ msgstr ""
 
 #: src/resources/asr-dialog.ui:33
 msgid "General Information"
-msgstr ""
+msgstr "Informació general"
 
 #: src/resources/asr-dialog.ui:36
 #, fuzzy
@@ -562,7 +551,7 @@ msgstr ""
 
 #: src/resources/asr-dialog.ui:48
 msgid "Delete"
-msgstr ""
+msgstr "Suprimeix"
 
 #: src/resources/editor-theme-selector.ui:22
 msgid "Follow System Style"
@@ -602,11 +591,11 @@ msgstr "_Cancel·la"
 
 #: src/resources/goto-dialog.ui:60
 msgid "_OK"
-msgstr "_D'acord"
+msgstr "_D’acord"
 
 #: src/resources/help-overlay.ui:13
 msgid "General"
-msgstr ""
+msgstr "General"
 
 #: src/resources/help-overlay.ui:18
 msgid "Open a media file"
@@ -626,7 +615,7 @@ msgstr "Forma d'ona"
 
 #: src/resources/help-overlay.ui:45
 msgid "Play/Pause"
-msgstr ""
+msgstr "Reprodueix o posa en pausa"
 
 #: src/resources/help-overlay.ui:52 src/resources/window.ui:99
 #, fuzzy
