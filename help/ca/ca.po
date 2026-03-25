@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Parlatype 3.0\n"
 "POT-Creation-Date: 2024-05-13 21:21+0200\n"
-"PO-Revision-Date: 2026-03-25 10:09+0000\n"
+"PO-Revision-Date: 2026-03-26 11:09+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/parlatype/"
 "parlatype-help/ca/>\n"
@@ -35,7 +35,7 @@ msgstr "Parlatype"
 #: ../help/C/first-steps.page:9 ../help/C/keyboard-shortcuts.page:8
 #: ../help/C/selections.page:8 ../help/C/timestamps.page:8
 msgid "Gabor Karsay"
-msgstr ""
+msgstr "Gabor Karsay"
 
 #. (itstool) path: info/desc
 #. (itstool) path: page/p
@@ -44,11 +44,13 @@ msgid ""
 "<app>Parlatype</app> is an easy to use media player. Its main purpose is to "
 "help you transcribing speech."
 msgstr ""
+"El <app>Parlatype</app> és un reproductor multimèdia fàcil d’usar. El seu "
+"objectiu principal és ajudar-vos a transcriure el llenguatge parlat."
 
 #. (itstool) path: page/title
 #: ../help/C/index.page:18
 msgid "<_:media-1/> Parlatype"
-msgstr ""
+msgstr "<_:media-1/> Parlatype"
 
 #. (itstool) path: page/p
 #: ../help/C/index.page:24
@@ -60,7 +62,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: ../help/C/index.page:27
 msgid "Help topics"
-msgstr ""
+msgstr "Temes d’ajuda"
 
 #. (itstool) path: info/desc
 #: ../help/C/drag-and-drop.page:6
@@ -186,12 +188,12 @@ msgstr ""
 #. (itstool) path: page/title
 #: ../help/C/keyboard-shortcuts.page:14
 msgid "Keyboard Shortcuts"
-msgstr ""
+msgstr "Dreceres de teclat"
 
 #. (itstool) path: table/title
 #: ../help/C/keyboard-shortcuts.page:17
 msgid "Standard Shortcut keys"
-msgstr ""
+msgstr "Dreceres de teclat estàndard"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:20
@@ -206,7 +208,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:26
 msgid "Show help"
-msgstr ""
+msgstr "Mostra l’ajuda"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:27
@@ -246,7 +248,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:42
 msgid "Skip backward"
-msgstr ""
+msgstr "Torna enrere"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:43
@@ -256,7 +258,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:46
 msgid "Skip forward"
-msgstr ""
+msgstr "Avança"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:47
@@ -286,7 +288,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:58
 msgid "Zoom in"
-msgstr ""
+msgstr "Apropa"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:59
@@ -296,7 +298,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:62
 msgid "Zoom out"
-msgstr ""
+msgstr "Allunya"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:63
@@ -306,7 +308,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:66
 msgid "Quit"
-msgstr ""
+msgstr "Surt"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:67
@@ -326,12 +328,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: ../help/C/selections.page:6
 msgid "How to play and repeat a selection"
-msgstr ""
+msgstr "Com reproduir i repetir una selecció"
 
 #. (itstool) path: page/title
 #: ../help/C/selections.page:14
 msgid "Selections"
-msgstr ""
+msgstr "Seleccions"
 
 #. (itstool) path: page/p
 #: ../help/C/selections.page:16
