@@ -14,6 +14,8 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#define G_LOG_DOMAIN "pt-config-list"
+
 #include "config.h"
 
 #include "pt-config-list.h"
@@ -25,7 +27,7 @@ struct _PtConfigList
   GListStore       *store;         /* actual config store              */
   GFile            *config_folder; /* user’s config folder             */
   GtkDirectoryList *file_list;     /* lists config files               */
-  PtPlayer         *player;        /* determines if config is loadable */
+  PtAsrManager     *asr_manager;   /* determines if config is loadable */
   GSettings        *editor;        /* gets active config               */
   gchar            *active_path;   /* active config’s file path        */
   gchar            *env_lang;      /* user’s locale for sorting        */
@@ -172,7 +174,7 @@ file_list_items_changed_cb (GListModel *list,
       if (g_str_has_suffix (path, ".asr"))
         {
           config = pt_config_new (file);
-          if (pt_config_is_valid (config) && pt_player_config_is_loadable (self->player, config))
+          if (pt_config_is_valid (config) && pt_asr_manager_plugin_is_available (self->asr_manager, config))
             {
               g_list_store_append (self->store, config);
               g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
@@ -358,17 +360,17 @@ pt_config_list_class_init (PtConfigListClass *klass)
 }
 
 static void
-pt_config_list_set_player (PtConfigList *self,
-                           PtPlayer     *player)
+pt_config_list_set_asr_manager (PtConfigList *self,
+                                PtAsrManager *asr_manager)
 {
-  self->player = player;
+  self->asr_manager = asr_manager;
 }
 
 PtConfigList *
-pt_config_list_new (PtPlayer *player)
+pt_config_list_new (PtAsrManager *asr_manager)
 {
   PtConfigList *self = g_object_new (PT_TYPE_CONFIG_LIST, NULL);
-  pt_config_list_set_player (self, player);
+  pt_config_list_set_asr_manager (self, asr_manager);
   pt_config_list_load (self);
   return self;
 }

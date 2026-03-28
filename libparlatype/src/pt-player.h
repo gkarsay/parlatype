@@ -20,9 +20,9 @@
 #error "Only <parlatype.h> can be included directly."
 #endif
 
-#include "pt-config.h"
 #include "pt-media-info.h"
 #include "pt-waveviewer.h"
+#include <gst/gst.h>
 
 
 #define PT_TYPE_PLAYER (pt_player_get_type ())
@@ -178,14 +178,11 @@ void         pt_player_set_mode                 (PtPlayer       *self,
 
 PtModeType   pt_player_get_mode                 (PtPlayer       *self);
 
-gboolean     pt_player_configure_asr            (PtPlayer       *self,
-                                                 PtConfig       *config,
-                                                 GtkWidget      *text_view,
-                                                 GError        **error);
+GstElement  *pt_player_get_appsink              (PtPlayer       *self);
 
-gboolean     pt_player_config_is_loadable       (PtPlayer       *self,
-                                                 PtConfig       *config);
+GstElement  *pt_player_get_capsfilter           (PtPlayer       *self);
 
 PtMediaInfo *pt_player_get_media_info           (PtPlayer       *self);
 
 PtPlayer    *pt_player_new                      (void);
+

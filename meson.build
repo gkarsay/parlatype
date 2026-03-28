@@ -8,13 +8,6 @@ project('parlatype', 'c',
 app_id = 'xyz.parlatype.Parlatype'
 version = meson.project_version()
 
-with_pocketsphinx_legacy = get_option('pocketsphinx-legacy')
-with_pocketsphinx = get_option('pocketsphinx')
-with_asr = with_pocketsphinx_legacy or with_pocketsphinx
-if with_pocketsphinx_legacy and with_pocketsphinx
-  error('Options pocketsphinx-legacy and pocketsphinx can’t be used together')
-endif
-
 prefix     = get_option('prefix')
 bindir     = join_paths(prefix, get_option('bindir'))
 libdir     = join_paths(prefix, get_option('libdir'))
@@ -39,7 +32,7 @@ conf.set_quoted('PACKAGE_NAME', meson.project_name())
 conf.set_quoted('PACKAGE_URL', 'https://www.parlatype.xyz')
 conf.set_quoted('APP_ID', app_id)
 conf.set_quoted('ASR_DIR', join_paths(datadir, meson.project_name(), 'asr'))
-conf.set('HAVE_ASR', with_asr)
+conf.set('HAVE_ASR', true)
 conf_input = configure_file(output: 'config.h.in', configuration: conf)
 conf_inc = include_directories('.', 'libparlatype/src', 'src')
 
@@ -59,6 +52,7 @@ gtk        = dependency('gtk4',         version: '>= 4.14')
 glib       = dependency('glib-2.0',     version: '>= 2.76')
 libadwaita = dependency('libadwaita-1', version: '>= 1.5')
 libxml     = dependency('libxml-2.0')
+libpeas    = dependency('libpeas-2', version: '>= 1.99.0')
 
 # tools are not shipped in tarball, check if directory exists
 fs = import('fs')
@@ -88,7 +82,5 @@ summary({
   'gtk-doc'            : gtk_doc,
   'gir'                : gir,
   'tools'              : build_tools,
-  'pocketsphinx-legacy': with_pocketsphinx_legacy,
-  'pocketsphinx'       : with_pocketsphinx,
   }, section: 'Configuration',
 )

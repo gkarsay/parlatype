@@ -20,13 +20,13 @@
  *
  * This bin is for Automatic Speech Recognition (ASR).
  *
- *  .-----------------------------------------.
- *  | pt_audio_asr_bin                        |
- *  | .---------.   .----------.   .--------. |
- *  | | audio-  |   | audio-   |   | app-   | |
- *  --> convert ----> resample ----> sink   | |
- *  | '---------'   '----------'   '--------' |
- *  '-----------------------------------------'
+ *  .-------------------------------------------------------.
+ *  | pt_audio_asr_bin                                      |
+ *  | .---------.   .----------.   .---------.   .--------. |
+ *  | | audio-  |   | audio-   |   | caps-   |   | app-   | |
+ *  --> convert ----> resample ----> filter  ----> sink   | |
+ *  | '---------'   '----------'   '---------'   '--------' |
+ *  '-------------------------------------------------------'
  *
  */
 
@@ -53,6 +53,7 @@ struct _GstPtAudioAsrBin
   GstBin parent;
 
   GstElement *appsink;
+  GstElement *capsfilter;
 };
 
 G_DEFINE_TYPE (GstPtAudioAsrBin, gst_pt_audio_asr_bin, GST_TYPE_BIN);
@@ -61,6 +62,12 @@ GstElement *
 gst_pt_audio_asr_bin_get_appsink (GstPtAudioAsrBin *self)
 {
   return self->appsink;
+}
+
+GstElement *
+gst_pt_audio_asr_bin_get_capsfilter (GstPtAudioAsrBin *self)
+{
+  return self->capsfilter;
 }
 
 static void
@@ -79,12 +86,14 @@ gst_pt_audio_asr_bin_init (GstPtAudioAsrBin *self)
                                    "audioconvert", NULL);
   audioresample = _pt_make_element ("audioresample",
                                     "audioresample", NULL);
+  self->capsfilter = _pt_make_element ("capsfilter",
+                                       "capsfilter", NULL);
   self->appsink = _pt_make_element ("appsink",
                                     "appsink", NULL);
 
   /* create audio output */
-  gst_bin_add_many (GST_BIN (self), audioconvert, audioresample, self->appsink, NULL);
-  gst_element_link_many (audioconvert, audioresample, self->appsink, NULL);
+  gst_bin_add_many (GST_BIN (self), audioconvert, audioresample, self->capsfilter, self->appsink, NULL);
+  gst_element_link_many (audioconvert, audioresample, self->capsfilter, self->appsink, NULL);
 
   /* create ghost pad for audiosink */
   audioconvert_sink = gst_element_get_static_pad (audioconvert, "sink");

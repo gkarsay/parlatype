@@ -43,17 +43,11 @@
 #include "pt-position-manager.h"
 #include "pt-text-view.h"
 #include "pt-waveviewer.h"
-#ifdef HAVE_POCKETSPHINX
-#include "gst/gstparlasphinx.h"
-#endif
-#ifdef HAVE_POCKETSPHINX_LEGACY
-#include "gst/gstparlasphinx-legacy.h"
-#endif
 
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
 #include <gst/audio/streamvolume.h>
-#include <gst/gst.h>
+//#include <gst/gst.h>
 
 typedef struct _PtPlayerPrivate PtPlayerPrivate;
 struct _PtPlayerPrivate
@@ -555,25 +549,6 @@ bus_call (GstBus     *bus,
         pt_player_clear (self);
         break;
       }
-
-    case GST_MESSAGE_ELEMENT:
-      if (g_strcmp0 (GST_MESSAGE_SRC_NAME (msg), "parlasphinx") == 0)
-        {
-          const GstStructure *st = gst_message_get_structure (msg);
-          if (g_value_get_boolean (gst_structure_get_value (st, "final")))
-            {
-              g_signal_emit_by_name (self, "asr-final",
-                                     g_value_get_string (
-                                         gst_structure_get_value (st, "hypothesis")));
-            }
-          else
-            {
-              g_signal_emit_by_name (self, "asr-hypothesis",
-                                     g_value_get_string (
-                                         gst_structure_get_value (st, "hypothesis")));
-            }
-        }
-      break;
 
     case GST_MESSAGE_STREAMS_SELECTED:;
       GstStreamCollection *collection = NULL;
@@ -2151,90 +2126,6 @@ uri_changed (GObject    *object,
 }
 
 /**
- * pt_player_configure_asr:
- * @self: a #PtPlayer
- * @config: a #PtConfig
- * @error: (nullable): return location for an error, or NULL
- *
- * Configure ASR setup with a #PtConfig instance. This is necessary before
- * switching into #PT_MODE_ASR the first time. The configuration remains if
- * you switch to normal playback and back to ASR again. Subsequently it can
- * be changed in both modes.
- *
- * Return value: TRUE on success, otherwise FALSE
- *
- * Since: 3.0
- */
-gboolean
-pt_player_configure_asr (PtPlayer  *self,
-                         PtConfig  *config,
-                         GtkWidget *text_view,
-                         GError   **error)
-{
-  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
-
-#if defined HAVE_POCKETSPHINX_LEGACY || defined HAVE_POCKETSPHINX
-  PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  gboolean         result;
-  gchar           *plugin;
-
-  plugin = pt_config_get_plugin (config);
-  if (g_strcmp0 (plugin, "parlasphinx") != 0)
-    {
-      g_set_error (error, G_FILE_ERROR, G_FILE_ERROR_FAILED, "wrong plugin type");
-      return FALSE;
-    }
-
-  if (priv->asr_plugin == NULL)
-    {
-      priv->asr_plugin = G_OBJECT (gst_parlasphinx_new ());
-    }
-  gst_parlasphinx_set_textview (GST_PARLASPHINX (priv->asr_plugin), PT_TEXT_VIEW (text_view));
-  result = pt_config_apply (config,
-                            G_OBJECT (priv->asr_plugin), error);
-  priv->is_configured = result;
-  return result;
-#else
-  return FALSE;
-#endif
-}
-
-/**
- * pt_player_config_is_loadable:
- * @self: a #PtPlayer
- * @config: a #PtConfig
- *
- * Checks if #PtPlayer is able to load the GStreamer plugin used by @config
- * without actually loading it. It does not guarantee that the plugin is
- * functional, merely that it is either a private plugin of PtPlayer itself
- * or an installed external plugin.
- *
- * Return value: TRUE on success, otherwise FALSE
- *
- * Since: 3.0
- */
-gboolean
-pt_player_config_is_loadable (PtPlayer *self,
-                              PtConfig *config)
-{
-  g_return_val_if_fail (PT_IS_PLAYER (self), FALSE);
-  g_return_val_if_fail (PT_IS_CONFIG (config), FALSE);
-
-  gchar *plugin_name;
-
-  plugin_name = pt_config_get_plugin (config);
-  if (!plugin_name)
-    return FALSE;
-
-#if defined HAVE_POCKETSPHINX_LEGACY || defined HAVE_POCKETSPHINX
-  if (g_strcmp0 (plugin_name, "parlasphinx") == 0)
-    return TRUE;
-#endif
-
-  return FALSE;
-}
-
-/**
  * pt_player_set_mode:
  * @self: a #PtPlayer
  * @type: the desired output mode
@@ -2259,12 +2150,6 @@ pt_player_set_mode (PtPlayer  *self,
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
   GstPtAudioBin   *bin = GST_PT_AUDIO_BIN (priv->audio_bin);
   gst_pt_audio_bin_set_mode (bin, type);
-  if (type == PT_MODE_ASR)
-    {
-#if defined HAVE_POCKETSPHINX_LEGACY || defined HAVE_POCKETSPHINX
-      gst_parlasphinx_set_appsink (GST_PARLASPHINX (priv->asr_plugin), gst_pt_audio_bin_get_appsink (bin));
-#endif
-    }
 }
 
 /**
@@ -2283,6 +2168,24 @@ pt_player_get_mode (PtPlayer *self)
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
   GstPtAudioBin   *bin = GST_PT_AUDIO_BIN (priv->audio_bin);
   return gst_pt_audio_bin_get_mode (bin);
+}
+
+GstElement*
+pt_player_get_appsink (PtPlayer *self)
+{
+  g_return_val_if_fail (PT_IS_PLAYER (self), NULL);
+
+  PtPlayerPrivate *priv = pt_player_get_instance_private (self);
+  return gst_pt_audio_bin_get_appsink (GST_PT_AUDIO_BIN (priv->audio_bin));
+}
+
+GstElement*
+pt_player_get_capsfilter (PtPlayer *self)
+{
+  g_return_val_if_fail (PT_IS_PLAYER (self), NULL);
+
+  PtPlayerPrivate *priv = pt_player_get_instance_private (self);
+  return gst_pt_audio_bin_get_capsfilter (GST_PT_AUDIO_BIN (priv->audio_bin));
 }
 
 /**
@@ -2915,3 +2818,4 @@ pt_player_new (void)
   _pt_i18n_init ();
   return g_object_new (PT_TYPE_PLAYER, NULL);
 }
+

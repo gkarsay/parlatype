@@ -175,6 +175,7 @@ change_mode_cb (GstPad          *pad,
 
   sinkpad = gst_element_get_static_pad (child, "sink");
   r = gst_pad_link (tee_src, sinkpad);
+  g_print ("link r = %d\n", r);
   g_assert (r == GST_PAD_LINK_OK);
 
   gst_object_unref (sinkpad);
@@ -200,11 +201,6 @@ gst_pt_audio_bin_set_mode (GstPtAudioBin *self,
     return;
 
   self->pending = new;
-
-  /*if (self->pending == PT_MODE_ASR &&
-      !GST_PT_AUDIO_ASR_BIN (self->asr_bin)->is_configured)
-    return;*/
-  /* FIXME return FALSE, error */
 
   switch (self->pending)
     {
@@ -250,6 +246,12 @@ GstElement *
 gst_pt_audio_bin_get_appsink (GstPtAudioBin *self)
 {
   return gst_pt_audio_asr_bin_get_appsink (GST_PT_AUDIO_ASR_BIN (self->asr_bin));
+}
+
+GstElement *
+gst_pt_audio_bin_get_capsfilter (GstPtAudioBin *self)
+{
+  return gst_pt_audio_asr_bin_get_capsfilter (GST_PT_AUDIO_ASR_BIN (self->asr_bin));
 }
 
 static void

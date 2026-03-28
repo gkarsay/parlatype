@@ -18,6 +18,8 @@
 
 #define __PARLATYPE_H_INSIDE__
 
+#include "pt-asr-manager.h"
+#include "pt-asr-iface.h"
 #include "pt-config.h"
 #include "pt-media-info.h"
 #include "pt-player.h"

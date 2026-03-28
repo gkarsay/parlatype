@@ -37,7 +37,7 @@ foreach t: tests
   if t.get('internal', false)
     dep = libparlatype_static_dep
   else
-    dep = libparlatype_dep
+    dep = libparlatype_static_dep
   endif
 
   exe = executable(

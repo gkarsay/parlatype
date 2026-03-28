@@ -23,6 +23,8 @@
 #include "pt-config-list.h"
 #include "pt-config-row.h"
 #include "pt-prefs-info-row.h"
+#include "pt-window.h"
+#include "pt-window-private.h"
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
@@ -37,6 +39,7 @@ struct _PtPreferencesDialog
 
   GSettings    *editor;
   PtPlayer     *player;
+  PtAsrManager *asr_manager;
   PtConfigList *list;
   GtkWindow    *parent_window;
 
@@ -448,7 +451,7 @@ dialog_open_cb (GObject      *source,
 
   config = pt_config_new (file);
 
-  if (!pt_config_is_valid (config) || !pt_player_config_is_loadable (self->player, config))
+  if (!pt_config_is_valid (config) || !pt_asr_manager_plugin_is_available (self->asr_manager, config))
     {
       err_dialog = gtk_alert_dialog_new (_ ("Error"));
       gchar *message;
@@ -550,11 +553,21 @@ import_button_clicked_cb (GtkButton *button,
 }
 
 static void
+pt_preferences_dialog_set_window (PtPreferencesDialog *self,
+                                  PtWindow            *win)
+{
+  self->asr_manager = _pt_window_get_asr_manager (win);
+  self->list = pt_config_list_new (self->asr_manager);
+  g_signal_connect (self->list, "items-changed", G_CALLBACK (items_changed_cb), self);
+}
+
+static void
 pt_preferences_dialog_init (PtPreferencesDialog *self)
 {
   self->editor = g_settings_new (APP_ID);
   self->player = pt_player_new ();
   self->parent_window = GTK_WINDOW (gtk_widget_get_root (GTK_WIDGET (self)));
+  //g_assert (self->parent_window != NULL);
 
   gtk_widget_init_template (GTK_WIDGET (self));
 
@@ -665,8 +678,6 @@ pt_preferences_dialog_init (PtPreferencesDialog *self)
    * Users won’t notice a delay, however, screenshot tool has to wait for it */
 
   self->config_rows = g_ptr_array_new ();
-  self->list = pt_config_list_new (self->player);
-  g_signal_connect (self->list, "items-changed", G_CALLBACK (items_changed_cb), self);
   self->active_config_path = g_settings_get_string (self->editor, "asr-config");
 
 #ifndef HAVE_ASR
@@ -744,7 +755,9 @@ pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
 }
 
 PtPreferencesDialog *
-pt_preferences_dialog_new (void)
+pt_preferences_dialog_new (PtWindow *win)
 {
-  return g_object_new (PT_TYPE_PREFERENCES_DIALOG, NULL);
+  PtPreferencesDialog *dlg = g_object_new (PT_TYPE_PREFERENCES_DIALOG, NULL);
+  pt_preferences_dialog_set_window (dlg, win);
+  return dlg;
 }

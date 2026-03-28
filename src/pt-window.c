@@ -46,6 +46,7 @@ struct _PtWindow
   GtkWidget           *primary_menu_button;
   GtkWidget           *pos_menu_button;
 
+  PtAsrManager     *asr_manager;
   GtkRecentManager *recent;
   PtConfig         *asr_config;
 
@@ -243,11 +244,9 @@ setup_asr (PtWindow *self)
   GError  *error = NULL;
   gboolean success = TRUE;
 
-  success = pt_player_configure_asr (
-      self->player,
-      self->asr_config,
-      self->text_view,
-      &error);
+  success = pt_asr_manager_configure_plugin (self->asr_manager,
+                                             self->asr_config,
+                                             &error);
 
   if (success)
     pt_player_set_mode (self->player, PT_MODE_ASR);
@@ -857,7 +856,7 @@ set_asr_config (PtWindow *self)
   g_object_unref (asr_file);
 
   enable = pt_config_is_valid (self->asr_config) &&
-           pt_player_config_is_loadable (self->player, self->asr_config) &&
+           pt_asr_manager_plugin_is_available (self->asr_manager, self->asr_config) &&
            pt_config_is_installed (self->asr_config);
 
   g_simple_action_set_enabled (G_SIMPLE_ACTION (action), enable);
@@ -1102,6 +1101,12 @@ _pt_window_get_player (PtWindow *self)
   return self->player;
 }
 
+PtAsrManager *
+_pt_window_get_asr_manager (PtWindow *self)
+{
+  return self->asr_manager;
+}
+
 GtkRecentManager *
 _pt_window_get_recent_manager (PtWindow *self)
 {
@@ -1236,8 +1241,12 @@ pt_window_init (PtWindow *self)
   gtk_widget_init_template (GTK_WIDGET (self));
 
   self->editor = g_settings_new (APP_ID);
-
   setup_player (self);
+  pt_text_view_connect (PT_TEXT_VIEW (self->text_view),
+                        self->player,
+                        self->editor);
+  self->asr_manager = pt_asr_manager_new (self->player, PT_TEXT_VIEW (self->text_view));
+
   setup_accels_actions_menus (self);
   setup_settings (self);
   pt_window_setup_dnd (self); /* this is in pt_window_dnd.c */
@@ -1256,9 +1265,6 @@ pt_window_init (PtWindow *self)
   g_signal_connect (self->text_view, "notify::audio", G_CALLBACK (audio_file_cb), self);
 
   pt_volume_button_set_player (PT_VOLUME_BUTTON (self->volume_button), self->player);
-  pt_text_view_connect (PT_TEXT_VIEW (self->text_view),
-                        self->player,
-                        self->editor);
   self->recent = gtk_recent_manager_get_default ();
   self->timer = 0;
   self->last_time = 0;
@@ -1300,6 +1306,7 @@ pt_window_dispose (GObject *object)
   remove_timer (self);
   g_clear_object (&self->editor);
   g_clear_object (&self->player);
+  g_clear_object (&self->asr_manager);
   g_clear_object (&self->asr_config);
 
   gtk_widget_dispose_template (GTK_WIDGET (self), PT_TYPE_WINDOW);

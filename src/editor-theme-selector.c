@@ -18,7 +18,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-//#define G_LOG_DOMAIN "editor-theme-selector"
+#define G_LOG_DOMAIN "editor-theme-selector"
 
 #include "config.h"
 

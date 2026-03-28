@@ -2,7 +2,7 @@ gresources = gnome.compile_resources(
   'pt-lib-resources',
   'resources/libparlatype.gresource.xml',
   source_dir: 'resources',
-  c_name: '_pt',
+  c_name: '_pt_lib',
 )
 
 marshalers = gnome.genmarshal(
@@ -16,6 +16,8 @@ marshal_h = marshalers[1]
 
 # These sources will be introspected
 public_sources = [
+  'pt-asr-manager.c',
+  'pt-asr-iface.c',
   'pt-config.c',
   'pt-file-saver.c',
   'pt-media-info.c',
@@ -49,6 +51,8 @@ private_sources = [
 # These headers will be installed
 public_headers = [
   'parlatype.h',
+  'pt-asr-manager.h',
+  'pt-asr-iface.h',
   'pt-config.h',
   'pt-file-saver.h',
   'pt-media-info.h',
@@ -88,47 +92,17 @@ libparlatype_deps = [
   math,
   libadwaita,
   libxml,
+  libpeas,
 ]
-
-if with_pocketsphinx_legacy
-  private_sources += 'gst/gstparlasphinx-legacy.c'
-  sphinxbase   = dependency('sphinxbase')
-  pocketsphinx = dependency('pocketsphinx')
-  libparlatype_deps += [sphinxbase, pocketsphinx]
-endif
-
-if with_pocketsphinx
-  private_sources += 'gst/gstparlasphinx.c'
-  pocketsphinx = dependency('pocketsphinx', version: '>= 5.0')
-  libparlatype_deps += [pocketsphinx]
-endif
 
 install_headers(public_headers, subdir: 'parlatype')
 
-# Static library only for internal tests
+# Static library
 libparlatype_static = static_library(
   'parlatype-static',
   sources: [ public_sources, private_sources ],
   include_directories: libconf_inc,
   dependencies: libparlatype_deps,
-  c_args: [
-    '-DPARLATYPE_COMPILATION',
-    '-DG_LOG_DOMAIN="libparlatype"',
-  ],
-)
-
-# Shared library with mapfile for visible/hidden symbols
-mapfile = 'libparlatype.map'
-vflag = '-Wl,--version-script,@0@/@1@'.format(meson.current_source_dir(), mapfile)
-libparlatype = shared_library(
-  'parlatype',
-  version: libparlatype_version,
-  dependencies: libparlatype_deps,
-  include_directories: libconf_inc,
-  link_whole: libparlatype_static,
-  link_args: vflag,
-  link_depends: mapfile,
-  install: true,
   c_args: [
     '-DPARLATYPE_COMPILATION',
     '-DG_LOG_DOMAIN="libparlatype"',
@@ -141,28 +115,7 @@ libparlatype_static_dep = declare_dependency(
   dependencies: libparlatype_deps,
 )
 
-libparlatype_dep = declare_dependency(
-  link_with: libparlatype,
-  include_directories: libconf_inc,
-  dependencies: libparlatype_deps,
-)
-
 pkg = import('pkgconfig')
-
-pkg.generate(
-  libparlatype,
-  filebase: meson.project_name(),
-  name: meson.project_name(),
-  description: 'libparlatype, core support for parlatype',
-  version: meson.project_version(),
-  subdirs: meson.project_name(),
-  requires: [
-    'gtk4',
-  ],
-  requires_private: [
-    'gstreamer-1.0',
-  ],
-)
 
 gir = get_option('gir')
 
@@ -189,3 +142,5 @@ if gir
     extra_args: gir_args,
   )
 endif
+
+subdir('plugins')

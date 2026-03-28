@@ -15,7 +15,7 @@ marshalers = gnome.genmarshal(
 marshal_h = marshalers[1]
 
 parlatype_sources = [
-  marshalers,
+  #marshalers,
   'editor-theme-selector.c',
   'pt-app.c',
   'pt-asr-dialog.c',
@@ -46,6 +46,7 @@ parlatype_deps = [
   libadwaita,
   libxml,
   math,
+  gstreamer,
 ]
 
 # Static library for tools
@@ -61,10 +62,11 @@ endif
 
 executable('parlatype',
            [ gresources, parlatype_sources, 'main.c' ],
-           link_with: libparlatype,
+           link_whole: [ libparlatype_static, plugins ],
            include_directories : conf_inc,
            install: true,
            dependencies: parlatype_deps,
+           export_dynamic: true,
 )
 
 tests = [
@@ -78,7 +80,7 @@ foreach t: tests
     test_name, [ parlatype_sources, 'tests/@0@.c'.format(test_name) ],
     install: false,
     dependencies: parlatype_deps,
-    link_with: libparlatype,
+    link_with: libparlatype_static,
     include_directories : conf_inc,
   )
 

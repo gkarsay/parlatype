@@ -17,8 +17,9 @@
 #pragma once
 
 #include <adwaita.h>
+#include "pt-window.h"
 
 #define PT_TYPE_PREFERENCES_DIALOG (pt_preferences_dialog_get_type ())
 G_DECLARE_FINAL_TYPE (PtPreferencesDialog, pt_preferences_dialog, PT, PREFERENCES_DIALOG, AdwPreferencesDialog)
 
-PtPreferencesDialog *pt_preferences_dialog_new  (void);
+PtPreferencesDialog *pt_preferences_dialog_new (PtWindow *win);

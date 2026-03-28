@@ -27,4 +27,4 @@ void          pt_config_list_refresh    (PtConfigList *self);
 
 void          pt_config_list_sort       (PtConfigList *self);
 
-PtConfigList *pt_config_list_new        (PtPlayer     *player);
+PtConfigList *pt_config_list_new        (PtAsrManager *asr_manager);

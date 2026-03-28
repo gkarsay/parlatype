@@ -170,7 +170,7 @@ prefs_cb (GSimpleAction *action,
 {
   GtkApplication      *app = GTK_APPLICATION (user_data);
   GtkWindow           *parent = gtk_application_get_active_window (app);
-  PtPreferencesDialog *dlg = pt_preferences_dialog_new ();
+  PtPreferencesDialog *dlg = pt_preferences_dialog_new (PT_WINDOW (parent));
   adw_dialog_present (ADW_DIALOG (dlg), GTK_WIDGET (parent));
 }
 
