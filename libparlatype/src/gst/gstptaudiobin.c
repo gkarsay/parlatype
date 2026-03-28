@@ -21,24 +21,21 @@
  * An audio bin that can be connected to a playbin element via playbin's
  * audio-filter property. It supports normal playback and silent ASR output
  * using an ASR plugin.
- * .---------------------------------.
- * | pt_audio_bin                    |
- * | .------.  .-------------------. |
- * | | tee  |  | pt_audio_play_bin | |
- * -->      --->                   | |
- * | |      |  |                   | |
- * | |      |  '-------------------' |
- * | |      |  .-------------------. |
- * | |      |  | pt_audio_asr_bin  | |
- * | |      --->                   | |
- * | |      |  |                   | |
- * | '------'  '-------------------' |
- * '---------------------------------'
-
-Note 1: It doesn’t work if play_audio_play_bin or pt_audio_asr_bin are added to
-        pt_audio_bin but are not linked! Either link it or remove it from bin!
-
-*/
+ *
+ * .---------------------------------------------.
+ * | pt_audio_bin                                |
+ * | .------.  .--------.  .-------------------. |
+ * | | tee  |  |        |  | pt_audio_play_bin | |
+ * -->      --->        --->                   | |
+ * | |      |  | multi- |  |                   | |
+ * | |      |  | queue  |  '-------------------' |
+ * | |      |  |        |  .-------------------. |
+ * | |      |  |        |  | pt_audio_asr_bin  | |
+ * | |      --->        --->                   | |
+ * | |      |  |        |  |                   | |
+ * | '------'  '--------'  '-------------------' |
+ * '---------------------------------------------'
+ */
 
 #define GETTEXT_PACKAGE GETTEXT_LIB
 
@@ -71,6 +68,9 @@ struct _GstPtAudioBin
   GstPad     *tee_sink;
   GstPad     *tee_play_src;
   GstPad     *tee_asr_src;
+  GstElement *queue;
+  GstPad     *queue_src_play;
+  GstPad     *queue_src_asr;
 
   /* properties */
   gboolean player;
@@ -92,6 +92,7 @@ change_mode_cb (GstPad          *pad,
   GstPad          *tee_src;
   GstObject       *parent;
   GstPadLinkReturn r;
+  gboolean         success;
 
   gst_pad_remove_probe (pad, GST_PAD_PROBE_INFO_ID (info));
 
@@ -118,9 +119,14 @@ change_mode_cb (GstPad          *pad,
   /* Unlink upstream, i.e. child's sink pad */
   sinkpad = gst_element_get_static_pad (child, "sink");
   GST_DEBUG_OBJECT (child, "unlinking %s", GST_OBJECT_NAME (child));
-  gst_pad_unlink (pad, sinkpad);
+  success = gst_pad_unlink (pad, sinkpad);
+  g_assert (success);
 
   /* TODO investigate if flushing necessary */
+  success = gst_pad_send_event (sinkpad, gst_event_new_flush_start ());
+  GST_DEBUG_OBJECT (self, "flush-start event %s", success ? "sent" : "not sent");
+  success = gst_pad_send_event (sinkpad, gst_event_new_flush_stop (TRUE));
+  GST_DEBUG_OBJECT (self, "flush-stop event %s", success ? "sent" : "not sent");
 
   /* set to null or ready */
   gst_element_set_state (child, GST_STATE_NULL);
@@ -160,8 +166,12 @@ change_mode_cb (GstPad          *pad,
 
   GST_DEBUG_OBJECT (child, "adding %s to %s",
                     GST_OBJECT_NAME (child), GST_OBJECT_NAME (self));
-  gst_bin_add (GST_BIN (self), child);
-  gst_element_sync_state_with_parent (child);
+  success = gst_bin_add (GST_BIN (self), child);
+  g_assert (success);
+  success = gst_element_sync_state_with_parent (child);
+  g_assert (success);
+  success = gst_bin_sync_children_states (GST_BIN (child));
+  g_assert (success);
 
   sinkpad = gst_element_get_static_pad (child, "sink");
   r = gst_pad_link (tee_src, sinkpad);
@@ -286,10 +296,10 @@ gst_pt_audio_bin_set_mode (GstPtAudioBin *self,
   if (GST_STATE (GST_ELEMENT (self)) == GST_STATE_PAUSED)
     {
       /* Pad is blocked and would be stuck in paused. Send a dummy event to unblock pad probe. */
-      GstEvent *event = gst_event_new_custom (GST_EVENT_CUSTOM_DOWNSTREAM_OOB,
+      /*GstEvent *event = gst_event_new_custom (GST_EVENT_CUSTOM_DOWNSTREAM_OOB,
                                               gst_structure_new_empty ("unblock"));
       gboolean  result = gst_pad_push_event (self->tee_asr_src, event);
-      GST_DEBUG_OBJECT (self, "Dummy event %s", result ? "sent" : "not sent");
+      GST_DEBUG_OBJECT (self, "Dummy event %s", result ? "sent" : "not sent");*/
     }
 }
 
@@ -332,7 +342,12 @@ static void
 gst_pt_audio_bin_init (GstPtAudioBin *self)
 {
   GstElement *tee;
-  GstPad     *play_sink;
+  // GstPad     *tee_sink;
+  GstPad *tee_src1;
+  GstPad *tee_src2;
+  GstPad *queue_sink1;
+  GstPad *queue_sink2;
+  GstPad *play_sink;
 
   gst_pt_audio_play_bin_register ();
   gst_pt_audio_asr_bin_register ();
@@ -340,13 +355,25 @@ gst_pt_audio_bin_init (GstPtAudioBin *self)
   tee = _pt_make_element ("tee", "tee", NULL);
   self->play_bin = _pt_make_element ("ptaudioplaybin", "play-audiobin", NULL);
   self->asr_bin = _pt_make_element ("ptaudioasrbin", "asr-audiobin", NULL);
+  self->queue = _pt_make_element ("multiqueue", "multiqueue", NULL);
 
-  gst_bin_add_many (GST_BIN (self), tee, self->play_bin, NULL);
+  gst_bin_add_many (GST_BIN (self), tee, self->queue, self->play_bin, NULL);
 
+  /* Pads */
   self->tee_sink = gst_element_get_static_pad (tee, "sink");
+  tee_src1 = gst_element_request_pad_simple (tee, "src_%u");
+  tee_src2 = gst_element_request_pad_simple (tee, "src_%u");
+  queue_sink1 = gst_element_request_pad_simple (self->queue, "sink_1");
+  queue_sink2 = gst_element_request_pad_simple (self->queue, "sink_2");
+  self->queue_src_play = gst_element_get_static_pad (self->queue, "src_1");
+  self->queue_src_asr = gst_element_get_static_pad (self->queue, "src_2");
   self->tee_play_src = gst_element_request_pad_simple (tee, "src_%u");
   self->tee_asr_src = gst_element_request_pad_simple (tee, "src_%u");
   play_sink = gst_element_get_static_pad (self->play_bin, "sink");
+
+  /* link tee with multiqueue */
+  gst_pad_link (tee_src1, queue_sink1);
+  gst_pad_link (tee_src2, queue_sink2);
 
   /* link play bin with tee */
   gst_pad_link (self->tee_play_src, play_sink);

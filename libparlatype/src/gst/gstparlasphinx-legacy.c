@@ -207,8 +207,9 @@ struct _GstParlasphinx
   gboolean listening_started;
   gint     uttno;
 
-  GstClockTime last_result_time; /**< Timestamp of last partial result. */
-  char        *last_result;      /**< String of last partial result. */
+  GstClock    *clock;
+  GstClockTime last_result_time; /* Absolute time of last partial result. */
+  char        *last_result;      /* String of last partial result. */
 
   GstSegment segment;
   gboolean   eos;
@@ -644,6 +645,8 @@ gst_parlasphinx_change_state (GstElement *element, GstStateChange transition)
           return GST_STATE_CHANGE_FAILURE;
         }
       break;
+    case GST_STATE_CHANGE_PAUSED_TO_PLAYING:
+      self->clock = gst_element_get_clock (GST_ELEMENT (self));
     default:
       break;
     }
@@ -654,6 +657,7 @@ gst_parlasphinx_change_state (GstElement *element, GstStateChange transition)
   switch (transition)
     {
     case GST_STATE_CHANGE_PLAYING_TO_PAUSED:
+      g_clear_object (&self->clock);
       if (self->eos)
         break;
       // gst_parlasphinx_finalize_utt(self); // crash in pocketsphinx
@@ -742,15 +746,14 @@ gst_parlasphinx_chain (GstPad *pad, GstObject *parent, GstBuffer *buffer)
       gst_parlasphinx_finalize_utt (self);
     }
   else if (self->last_result_time == 0
-           /* Get a partial result every now and then, see if it is different. */
-           /* Check every 100 milliseconds. */
-           || (GST_BUFFER_TIMESTAMP (buffer) - self->last_result_time) > GST_MSECOND * 500)
+           /* Get a partial result every second, see if it is different. */
+           || (gst_clock_get_time (self->clock) - self->last_result_time) > GST_SECOND)
     {
       int32       score;
       char const *hyp;
 
       hyp = ps_get_hyp (self->ps, &score);
-      self->last_result_time = GST_BUFFER_TIMESTAMP (buffer);
+      self->last_result_time = gst_clock_get_time (self->clock);
       if (hyp && strlen (hyp) > 0)
         {
           if (self->last_result == NULL || 0 != strcmp (self->last_result, hyp))

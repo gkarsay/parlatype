@@ -228,13 +228,13 @@ pt_text_view_insert_asr_hypothesis (PtTextView *self,
 {
   g_return_if_fail (PT_IS_TEXT_VIEW (self));
 
-  if (self->hypothesis)
+  if (!g_atomic_int_compare_and_exchange (&self->hypothesis, FALSE, TRUE))
     {
+      g_print ("%s\n", __func__);
       gtk_text_buffer_undo (GTK_TEXT_BUFFER (self->buffer));
     }
 
   gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (self->buffer), hypothesis, -1);
-  self->hypothesis = TRUE;
 }
 
 void
@@ -243,13 +243,12 @@ pt_text_view_insert_asr_final (PtTextView *self,
 {
   g_return_if_fail (PT_IS_TEXT_VIEW (self));
 
-  if (self->hypothesis)
+  if (g_atomic_int_compare_and_exchange (&self->hypothesis, TRUE, FALSE))
     {
       gtk_text_buffer_undo (GTK_TEXT_BUFFER (self->buffer));
     }
 
   gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (self->buffer), final, -1);
-  self->hypothesis = FALSE;
 }
 
 gboolean

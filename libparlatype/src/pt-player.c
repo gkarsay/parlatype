@@ -780,8 +780,16 @@ pt_player_play (PtPlayer *self)
   gboolean         selection;
   GstState         previous;
 
+  g_print ("%s\n", __func__);
+
   if (!gst_element_query_position (priv->play, GST_FORMAT_TIME, &pos))
-    return;
+    {
+      g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+                        "MESSAGE", "pt_player_play: gst_element_query_position failed");
+      // pos = priv->play->start_time;
+      // g_print ("pos: %" GST_TIME_FORMAT, GST_TIME_ARGS (pos));
+      // return;
+    }
 
   priv->target_state = GST_STATE_PLAYING;
 
@@ -805,6 +813,8 @@ pt_player_play (PtPlayer *self)
       return;
     }
 
+  g_print ("%s\n", __func__);
+
   if (pos == end)
     {
       if ((selection && priv->repeat_selection) || (!selection && priv->repeat_all))
@@ -821,6 +831,7 @@ pt_player_play (PtPlayer *self)
       return;
     }
 
+  g_print ("%s\n", __func__);
   previous = priv->current_state;
   gst_element_set_state (priv->play, GST_STATE_PLAYING);
   if (previous == GST_STATE_PAUSED)
