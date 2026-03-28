@@ -223,7 +223,6 @@ player_asr_hypothesis_cb (PtPlayer *player,
                           gpointer  user_data)
 {
   PtWindow *self = PT_WINDOW (user_data);
-  // g_print ("%s\n", __func__);
 
   pt_text_view_insert_asr_hypothesis (PT_TEXT_VIEW (self->text_view), word);
 }
@@ -234,27 +233,30 @@ player_asr_final_cb (PtPlayer *player,
                      gpointer  user_data)
 {
   PtWindow *self = PT_WINDOW (user_data);
-  // g_print ("%s\n", __func__);
 
   pt_text_view_insert_asr_final (PT_TEXT_VIEW (self->text_view), word);
 }
 
-static gboolean
-setup_asr (PtWindow *self)
+static void
+activate_cb (PtAsrManager *asr_manager,
+             GAsyncResult *res,
+             gpointer     *data)
 {
-  GError  *error = NULL;
-  gboolean success = TRUE;
+  PtWindow *self = (PtWindow *) data;
+  GError   *error = NULL;
+  GAction  *action;
 
-  success = pt_asr_manager_configure_plugin (self->asr_manager,
-                                             self->asr_config,
-                                             &error);
+  if (!pt_asr_manager_activate_finish (asr_manager, res, &error))
+    {
+      pt_error_message (self, error->message);
+      g_error_free (error);
+      return;
+    }
 
-  if (success)
-    pt_player_set_mode (self->player, PT_MODE_ASR);
-  else
-    pt_error_message (self, error->message);
-
-  return success;
+  pt_player_set_mode (self->player, PT_MODE_ASR);
+  pt_player_play (self->player);
+  action = g_action_map_lookup_action (G_ACTION_MAP (self), "transcribe");
+  g_action_change_state (G_ACTION (action), g_variant_new_boolean (TRUE));
 }
 
 static void
@@ -280,16 +282,13 @@ pt_window_transcribe_action (GSimpleAction *action,
   play_action = g_action_map_lookup_action (G_ACTION_MAP (self), "play");
   g_simple_action_set_enabled (G_SIMPLE_ACTION (play_action), !transcribe);
 
-  // g_print ("%s\n", transcribe ? "transcribing" : "stopped transcribing");
-
-  // g_print ("%s: %s\n", __func__, transcribe ? "TRUE" : "FALSE");
   if (transcribe)
     {
-      if (setup_asr (self))
-        {
-          pt_player_play (self->player);
-          g_action_change_state (G_ACTION (action), new_state);
-        }
+      pt_asr_manager_activate_async (self->asr_manager,
+                                     self->asr_config,
+                                     NULL,
+                                     (GAsyncReadyCallback) activate_cb,
+                                     self);
     }
   else
     {
