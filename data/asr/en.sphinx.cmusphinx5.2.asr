@@ -1,7 +1,7 @@
 [Model]
 Version=1.0
 Name=CMUSphinx 5.2
-Plugin=parlasphinx
+Plugin=pocketsphinx
 BaseFolder=
 Language=en
 Howto=Download and unzip
