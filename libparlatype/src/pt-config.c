@@ -18,9 +18,8 @@
 
 #include "config.h"
 
-#include "pt-config.h"
-
 #include "contrib/gnome-languages.h"
+#include "pt-config.h"
 
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
@@ -673,39 +672,59 @@ static gboolean
 is_valid (PtConfig *self)
 {
   PtConfigPrivate *priv = pt_config_get_instance_private (self);
-  gchar           *groups[] = { "Model", "Files", NULL };
-  gchar           *model_keys[] = { "Name", "Plugin", "BaseFolder", "Language", NULL };
-  gchar           *mandatory[] = { "Name", "Plugin", "Language", NULL };
-  gchar          **parameters = NULL;
+  char            *groups[] = { "Model", "Files", NULL };
+  char            *model_keys[] = { "Name", "Plugin", "BaseFolder", "Language", NULL };
+  char            *mandatory[] = { "Name", "Plugin", "Language", NULL };
+  char           **parameters = NULL;
   gboolean         valid = TRUE;
   int              i;
 
   for (i = 0; groups[i] != NULL; i++)
     {
       if (!g_key_file_has_group (priv->keyfile, groups[i]))
-        return FALSE;
+        {
+          g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                            "MESSAGE", "Config is missing group \"%s\" in %s", groups[i], priv->path);
+          return FALSE;
+        }
     }
 
   if (!pt_config_version_is_valid (self))
-    return FALSE;
+    {
+      g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                        "MESSAGE", "Config version not valid in %s", priv->path);
+      return FALSE;
+    }
 
   for (i = 0; model_keys[i] != NULL; i++)
     {
       if (!g_key_file_has_key (priv->keyfile, "Model", model_keys[i], NULL))
-        return FALSE;
+        {
+          g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                            "MESSAGE", "Config is missing key \"%s\" in %s", model_keys[i], priv->path);
+          return FALSE;
+        }
     }
 
   for (i = 0; mandatory[i] != NULL; i++)
     {
       if (key_is_empty (self, mandatory[i]))
-        return FALSE;
+        {
+          g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                            "MESSAGE", "Config key \"%s\" is empty in %s", model_keys[i], priv->path);
+          return FALSE;
+        }
     }
 
   parameters = g_key_file_get_keys (priv->keyfile, "Files",
                                     NULL, NULL);
 
   if (!parameters || parameters[0] == NULL)
-    return FALSE;
+    {
+      g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                        "MESSAGE", "Config is missing parameters in group \"Files\" in %s", priv->path);
+      return FALSE;
+    }
 
   g_strfreev (parameters);
   return valid;
@@ -725,7 +744,7 @@ pt_config_verify_install (PtConfig *self)
   if (!g_file_test (priv->base_folder, G_FILE_TEST_IS_DIR | G_FILE_TEST_EXISTS))
     {
       g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
-                        "MESSAGE", "Base folder \"%s\" not found", priv->base_folder);
+                        "MESSAGE", "Base folder \"%s\" not found for %s", priv->base_folder, priv->path);
       return FALSE;
     }
 
@@ -841,6 +860,26 @@ pt_config_get_file (PtConfig *self)
   g_return_val_if_fail (priv->is_valid, NULL);
 
   return priv->file;
+}
+
+/**
+ * pt_config_get_path:
+ * @self: a configuration instance
+ *
+ * The path where the configuration is stored.
+ *
+ * Return value: (transfer none): the path or the string "(null)"
+ *
+ * Since: 3.0
+ */
+char *
+pt_config_get_path (PtConfig *self)
+{
+  g_return_val_if_fail (PT_IS_CONFIG (self), NULL);
+
+  PtConfigPrivate *priv = pt_config_get_instance_private (self);
+
+  return priv->path == NULL ? "(null)" : priv->path;
 }
 
 /**
@@ -1033,3 +1072,4 @@ pt_config_new (GFile *file)
                        "file", file,
                        NULL);
 }
+

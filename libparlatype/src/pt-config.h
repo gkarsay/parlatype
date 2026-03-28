@@ -42,6 +42,7 @@ struct _PtConfigClass
 
 /**
  * PtError:
+ * @PT_ERROR_PLUGIN_NOT_FOUND: The plugin doesn’t exist.
  * @PT_ERROR_PLUGIN_MISSING_PROPERTY: The plugin doesn’t have a property.
  * @PT_ERROR_PLUGIN_NOT_WRITABLE: The plugin’s property is not writable.
  * @PT_ERROR_PLUGIN_WRONG_VALUE: The value is not valid for the property.
@@ -50,6 +51,7 @@ struct _PtConfigClass
  */
 typedef enum
 {
+  PT_ERROR_PLUGIN_NOT_FOUND,
   PT_ERROR_PLUGIN_MISSING_PROPERTY,
   PT_ERROR_PLUGIN_NOT_WRITABLE,
   PT_ERROR_PLUGIN_WRONG_VALUE,
@@ -80,6 +82,8 @@ GFile    *pt_config_get_file        (PtConfig *self);
 
 void      pt_config_set_file        (PtConfig *self,
                                      GFile    *file);
+
+char     *pt_config_get_path        (PtConfig *self);
 
 gboolean  pt_config_apply           (PtConfig *self,
                                      GObject  *plugin,
