@@ -74,8 +74,6 @@ private_headers = [
   'gnome-languages.h',
   # in gst/
   'gst-helpers.h',
-  'gstparlasphinx-legacy.h',
-  'gstparlasphinx.h',
   'gstptaudiobin.h',
   'gstptaudioasrbin.h',
   'gstptaudioplaybin.h',

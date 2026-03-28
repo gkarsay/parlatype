@@ -14,7 +14,6 @@ with_pocketsphinx = get_option('plugin_pocketsphinx')
 with_asr = with_pocketsphinx
 
 if with_pocketsphinx
-  private_sources += 'gst/gstparlasphinx.c'
   pocketsphinx = dependency('pocketsphinx', version: '>= 5.0')
   libparlatype_deps += [pocketsphinx]
 endif

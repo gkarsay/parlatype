@@ -11,18 +11,6 @@ option(
   description: 'Install GObject Introspection data, requires gobject-introspection'
 )
 option(
-  'pocketsphinx-legacy',
-  type: 'boolean',
-  value: false,
-  description: 'Compile with ASR, requires PocketSphinx 5prealpha'
-)
-option(
-  'pocketsphinx',
-  type: 'boolean',
-  value: false,
-  description: 'Compile with ASR, requires PocketSphinx 5'
-)
-option(
   'tools',
   type: 'boolean',
   value: false,
