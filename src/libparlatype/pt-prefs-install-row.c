@@ -14,6 +14,12 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * PtPrefsInstallRow:
+ *
+ * A row for installation status of a config.
+ */
+
 #include "config.h"
 
 #include "pt-prefs-install-row.h"
@@ -148,6 +154,14 @@ folder_button_clicked_cb (GtkButton *widget,
   g_object_unref (initial_folder);
 }
 
+/**
+ * pt_prefs_install_row_get_installed:
+ * @self: a `PtPrefsInstallRow`
+ *
+ * Whether the config is installed or not.
+ *
+ * Returns: true if installed.
+ */
 gboolean
 pt_prefs_install_row_get_installed (PtPrefsInstallRow *self)
 {
@@ -241,11 +255,21 @@ pt_prefs_install_row_class_init (PtPrefsInstallRowClass *klass)
   object_class->get_property = pt_prefs_install_row_get_property;
   object_class->set_property = pt_prefs_install_row_set_property;
 
+  /**
+   * PtPrefsInstallRow:config:
+   *
+   * The underlying `PtConfig`.
+   */
   props[PROP_CONFIG] =
       g_param_spec_object ("config", NULL, NULL,
                            PT_TYPE_CONFIG,
                            G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
+  /**
+   * PtPrefsInstallRow:installed:
+   *
+   * Whether the underlying `PtConfig` is installed.
+   */
   props[PROP_INSTALLED] =
       g_param_spec_boolean ("installed", NULL, NULL,
                             FALSE,
@@ -257,6 +281,14 @@ pt_prefs_install_row_class_init (PtPrefsInstallRowClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, folder_button_clicked_cb);
 }
 
+/**
+ * pt_prefs_install_row_new:
+ * @config: a `PtConfig`
+ *
+ * Constructor for `PtPrefsInstallRow`.
+ *
+ * Returns: a newly created widget.
+ */
 GtkWidget *
 pt_prefs_install_row_new (PtConfig *config)
 {

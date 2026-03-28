@@ -1,6 +1,6 @@
 subdir('icons')
 
-if with_asr
+if get_option('plugin_pocketsphinx') or get_option('plugin_whisper')
   install_subdir(
     'asr',
     install_dir: join_paths(datadir, meson.project_name())

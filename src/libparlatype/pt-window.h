@@ -22,10 +22,6 @@
 #define PT_TYPE_WINDOW (pt_window_get_type ())
 G_DECLARE_FINAL_TYPE (PtWindow, pt_window, PT, WINDOW, AdwApplicationWindow)
 
-struct _PtWindowClass
-{
-  GtkApplicationWindowClass parent_class;
-};
 
 void      pt_window_save (PtWindow *self,
                           GFile    *file);

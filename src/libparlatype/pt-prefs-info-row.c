@@ -14,6 +14,14 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * PtPrefsInfoRow:
+ *
+ * Single row for representing information.
+ *
+ * It has only an informational label and a descriptive label (title).
+ */
+
 #include "config.h"
 
 #include "pt-prefs-info-row.h"
@@ -27,6 +35,13 @@ struct _PtPrefsInfoRow
 
 G_DEFINE_FINAL_TYPE (PtPrefsInfoRow, pt_prefs_info_row, ADW_TYPE_ACTION_ROW)
 
+/**
+ * pt_prefs_info_row_set_title:
+ * @self: a `PtPrefsInfoRow`
+ * @title: a descriptive title
+ *
+ * Set the title or category for a value, e.g. "Language" for the value "English".
+ */
 void
 pt_prefs_info_row_set_title (PtPrefsInfoRow *self,
                              gchar          *title)
@@ -34,6 +49,13 @@ pt_prefs_info_row_set_title (PtPrefsInfoRow *self,
   adw_preferences_row_set_title (ADW_PREFERENCES_ROW (self), title);
 }
 
+/**
+ * pt_prefs_info_row_set_info:
+ * @self: a `PtPrefsInfoRow`
+ * @info: some value
+ *
+ * Set the value for this row, e.g. "English" for the category "Language".
+ */
 void
 pt_prefs_info_row_set_info (PtPrefsInfoRow *self,
                             gchar          *info)
@@ -69,6 +91,15 @@ pt_prefs_info_row_class_init (PtPrefsInfoRowClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtPrefsInfoRow, info_label);
 }
 
+/**
+ * pt_prefs_info_row_new:
+ * @title: descriptive title
+ * @info: an informational value
+ *
+ * Constructor for `PtPrefsInfoRow`.
+ *
+ * Returns: a newly created `PtPrefsInfoRow`.
+ */
 PtPrefsInfoRow *
 pt_prefs_info_row_new (gchar *title,
                        gchar *info)

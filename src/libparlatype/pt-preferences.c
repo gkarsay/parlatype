@@ -14,6 +14,12 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * PtPreferencesDialog:
+ *
+ * Preferences dialog.
+ */
+
 #include "config.h"
 
 #include "pt-preferences.h"
@@ -696,6 +702,14 @@ pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtPreferencesDialog, initial_copy_button);
 }
 
+/**
+ * pt_preferences_dialog_new:
+ * @win: parent window
+ *
+ * Constructor für preferences dialog.
+ *
+ * Returns: a newly created `PtPreferencesDialog`.
+ */
 PtPreferencesDialog *
 pt_preferences_dialog_new (PtWindow *win)
 {

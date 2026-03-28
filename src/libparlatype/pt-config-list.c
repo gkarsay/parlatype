@@ -14,6 +14,19 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * PtConfigList:
+ *
+ * List of configurations.
+ *
+ * Configurations are saved as *.asr files, usually in ~/.configs/parlatype.
+ * PtConfigList reads all those files, converts them to `PtConfig`s and sorts
+ * them. It does not monitor the config folder nor the individual files.
+ *
+ * It doesn't implement GListModel correctly: the "changed-items" signal doesn't
+ * report the true number of changed elements.
+ */
+
 #define G_LOG_DOMAIN "pt-config-list"
 
 #include "config.h"
@@ -284,6 +297,15 @@ pt_config_list_load (PtConfigList *self)
                                self);
 }
 
+/**
+ * pt_config_list_get_folder:
+ * @self: a `PtConfigList`
+ *
+ * Returns the folder where the user's configurations are saved.
+ * Usually that is ~/.configs/parlatype
+ *
+ * Returns: (transfer none): a folder as `GFile`
+ */
 GFile *
 pt_config_list_get_folder (PtConfigList *self)
 {
@@ -292,6 +314,12 @@ pt_config_list_get_folder (PtConfigList *self)
   return self->config_folder;
 }
 
+/**
+ * pt_config_list_refresh:
+ * @self: a `PtConfigList`
+ *
+ * Rebuilds the list and emits an "items-changed" signal.
+ */
 void
 pt_config_list_refresh (PtConfigList *self)
 {
@@ -305,6 +333,12 @@ pt_config_list_refresh (PtConfigList *self)
   create_file_list (self);
 }
 
+/**
+ * pt_config_list_sort:
+ * @self: a PtConfigList
+ *
+ * Sorts the list and emits an "items-changed" signal.
+ */
 void
 pt_config_list_sort (PtConfigList *self)
 {
@@ -373,6 +407,14 @@ pt_config_list_set_asr_manager (PtConfigList *self,
   self->asr_manager = asr_manager;
 }
 
+/**
+ * pt_config_list_new:
+ * @asr_manager: a `PtAsrManager`
+ *
+ * A list of configurations.
+ *
+ * Returns: a newly created PtConfigList, already populated and sorted
+ */
 PtConfigList *
 pt_config_list_new (PtAsrManager *asr_manager)
 {

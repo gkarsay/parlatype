@@ -1,2 +1,2 @@
 *.h
-src/editor-theme-selector.c
+src/libparlatype/editor-theme-selector.c

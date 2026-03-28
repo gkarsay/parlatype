@@ -14,6 +14,12 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * PtApp:
+ *
+ * Base application class.
+ */
+
 #include "config.h"
 
 #include "pt-app.h"
@@ -25,6 +31,7 @@
 #include "pt-window.h"
 
 #include <adwaita.h>
+#include <girepository/girepository.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 
@@ -488,6 +495,8 @@ pt_app_init (PtApp *self)
 {
   self->settings = g_settings_new ("xyz.parlatype.Parlatype");
   self->mpris = NULL;
+  GOptionGroup *gir_group = gi_repository_get_option_group ();
+  g_application_add_option_group (G_APPLICATION (self), g_steal_pointer (&gir_group));
   g_application_add_main_option_entries (G_APPLICATION (self), options);
 }
 
@@ -515,6 +524,13 @@ pt_app_class_init (PtAppClass *klass)
   gapp_class->handle_local_options = pt_app_handle_local_options;
 }
 
+/**
+ * pt_app_new:
+ *
+ * Returns the base application class for Parlatype.
+ *
+ * Returns: a newly created `PtApp`.
+ */
 PtApp *
 pt_app_new (void)
 {

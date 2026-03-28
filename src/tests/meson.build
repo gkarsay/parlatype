@@ -1,6 +1,7 @@
 tests = [
   { 'name': 'config'                             },
   { 'name': 'player'                             },
+  { 'name': 'save-and-reload'                    },
   { 'name': 'timestamp'                          },
   { 'name': 'waveloader'                         },
   { 'name': 'waveviewer'                         },
@@ -14,7 +15,7 @@ test_data = [
 ]
 
 extra_sources = [
-  gresources,
+  libparlatype_resources,
   'mock-plugin.c',
   'mock-plugin.h',
 ]

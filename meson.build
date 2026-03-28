@@ -7,6 +7,10 @@ project('parlatype', 'c',
 
 app_id = 'xyz.parlatype.Parlatype'
 version = meson.project_version()
+version_split = version.split('.')
+MAJOR_VERSION = version_split[0]
+MINOR_VERSION = version_split[1]
+libparlatype_api_version = '@0@'.format(MAJOR_VERSION)
 
 prefix     = get_option('prefix')
 bindir     = join_paths(prefix, get_option('bindir'))
@@ -26,6 +30,23 @@ add_project_arguments('-DLOCALEDIR="@0@"'.format(localedir),
 
 gettext_package = 'parlatype'
 
+gnome   = import('gnome')
+i18n    = import('i18n')
+
+# Checks for libraries.
+gtk             = dependency('gtk4', version: '>= 4.14')
+glib            = dependency('glib-2.0', version: '>= 2.76')
+libadwaita      = dependency('libadwaita-1', version: '>= 1.5')
+libxml          = dependency('libxml-2.0')
+libpeas         = dependency('libpeas-2', version: '>= 1.99.0')
+girepository    = dependency('girepository-2.0', version: '>= 2.80')
+gstreamer       = dependency('gstreamer-1.0', version : '>= 1.6.3')
+gstreamer_app   = dependency('gstreamer-app-1.0')
+gstreamer_audio = dependency('gstreamer-audio-1.0')
+iso_codes       = dependency('iso-codes')
+iso_codes_prefix = iso_codes.get_variable(pkgconfig: 'prefix')
+math = compiler.find_library('m', required: false)
+
 conf = configuration_data()
 conf.set_quoted('PACKAGE_VERSION', '@VCS_TAG@')
 conf.set_quoted('PACKAGE_NAME', meson.project_name())
@@ -33,8 +54,9 @@ conf.set_quoted('PACKAGE_URL', 'https://www.parlatype.xyz')
 conf.set_quoted('APP_ID', app_id)
 conf.set_quoted('ASR_DIR', join_paths(datadir, meson.project_name(), 'asr'))
 conf.set('HAVE_ASR', true)
+conf.set_quoted('GETTEXT_LIB', 'libparlatype7')
+conf.set_quoted('ISO_CODES_PREFIX', iso_codes_prefix)
 conf_input = configure_file(output: 'config.h.in', configuration: conf)
-conf_inc = include_directories('.', 'libparlatype/src', 'src')
 
 config_h = declare_dependency(
   sources: vcs_tag(
@@ -44,26 +66,15 @@ config_h = declare_dependency(
   )
 )
 
-gnome   = import('gnome')
-i18n    = import('i18n')
-
-# Checks for libraries.
-gtk        = dependency('gtk4',         version: '>= 4.14')
-glib       = dependency('glib-2.0',     version: '>= 2.76')
-libadwaita = dependency('libadwaita-1', version: '>= 1.5')
-libxml     = dependency('libxml-2.0')
-libpeas    = dependency('libpeas-2', version: '>= 1.99.0')
-
 # tools are not shipped in tarball, check if directory exists
 fs = import('fs')
-build_tools = fs.is_dir('tools') and get_option('tools')
+build_tools = get_option('tools') and fs.is_dir('tools')
 
-subdir('libparlatype')
 subdir('data')
-subdir('docs')
-subdir('help')
+#subdir('help')
 subdir('po')
 subdir('src')
+subdir('docs') # after src, needs gir
 
 if build_tools
   subdir('tools')

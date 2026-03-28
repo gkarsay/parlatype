@@ -34,6 +34,7 @@
 
 #include "pt-file-saver.h"
 
+#include "pt-text-buffer.h"
 #include "pt-timestamp-button.h"
 
 #include <glib/gi18n.h>

@@ -14,6 +14,12 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * PtAudioControls:
+ *
+ * A bin with audio controls.
+ */
+
 #include "config.h"
 
 #include "pt-audio-controls.h"
@@ -226,6 +232,14 @@ player_notify_state_cb (PtPlayer   *player,
   g_action_change_state (play_action, action_state);
 }
 
+/**
+ * pt_audio_controls_set_time_label:
+ * @self: the controls bin
+ * @label: text for the time label (nullable)
+ *
+ * Sets the time label. There are no checks on the format or content of
+ * the time label. If @label is NULL, it is set to "00:00.0".
+ */
 void
 pt_audio_controls_set_time_label (PtAudioControls *self,
                                   char            *label)
@@ -240,6 +254,15 @@ pt_audio_controls_set_time_label (PtAudioControls *self,
   gtk_menu_button_set_label (GTK_MENU_BUTTON (self->pos_menu_button), label);
 }
 
+/**
+ * pt_audio_controls_set_player:
+ * @self: the controls bin
+ * @player: a `PtPlayer`
+ *
+ * The widgets will use @player to control playback and react to the various
+ * states of @player. An exception is the time label which has to be updated
+ * manually.
+ */
 void
 pt_audio_controls_set_player (PtAudioControls *self,
                               PtPlayer        *player)
@@ -336,6 +359,13 @@ pt_audio_controls_class_init (PtAudioControlsClass *klass)
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_space, GDK_CONTROL_MASK, "audio.play", NULL);
 }
 
+/**
+ * pt_audio_controls_new:
+ *
+ * Returns a new bin with audio controls.
+ *
+ * Returns: a newly created `PtAudioControls`.
+ */
 PtAudioControls *
 pt_audio_controls_new (void)
 {

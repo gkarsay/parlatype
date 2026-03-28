@@ -20,6 +20,15 @@
 
 #include <glib/gi18n.h>
 
+/**
+ * pt_file_filters_new:
+ * @first_filter_type: a PtFilter
+ * @...: other PtFilters, ended with NULL
+ *
+ * Variadic method to create file filters.
+ *
+ * Returns: (transfer full): a G_LIST_MODEL
+ */
 GListModel *
 pt_file_filters_new (int first_filter_type, ...)
 {

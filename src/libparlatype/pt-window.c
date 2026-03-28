@@ -14,6 +14,15 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * PtWindow:
+ *
+ * Main window for Parlatype.
+ *
+ * Parlatype is designed as a single window application, mainly to keep
+ * things simple.
+ */
+
 #define G_LOG_DOMAIN "pt-window"
 #define TEST_FILE "/home/gabor/dev/test-data/parlatype-test.pt"
 
@@ -291,6 +300,15 @@ serialize (GtkWidget  *widget,
                            self);
 }
 
+/**
+ * pt_window_save:
+ * @file: a file to save to (nullable)
+ *
+ * Save editor's content to a text file.
+ * If the file is NULL, the currently open text file will be used.
+ * If the file is NULL and there is no open text file, a dialog
+ * will be shown to choose a file.
+ */
 void
 pt_window_save (PtWindow *self,
                 GFile    *file)
@@ -333,6 +351,12 @@ dialog_save_as_cb (GObject      *source,
   g_object_unref (file);
 }
 
+/**
+ * pt_window_save_as:
+ * @self: a `PtWindow`
+ *
+ * A dialog to save a text file.
+ */
 void
 pt_window_save_as (PtWindow *self)
 {
@@ -398,6 +422,14 @@ deserialize (GtkWidget  *widget,
       g_error_free (error);
     }
 }
+
+/**
+ * pt_window_load_document:
+ * @self: a `PtWindow`
+ * @file: a Parlatype document
+ *
+ * Loads a Parlatype text document.
+ */
 
 void
 pt_window_load_document (PtWindow *self,
@@ -536,12 +568,27 @@ open_cb (PtWaveviewer *viewer,
     }
 }
 
+/**
+ * pt_window_get_uri:
+ * @self: a `PtWindow`
+ *
+ * Get the current audio file.
+ *
+ * Returns: URI of the currently open audio file.
+ */
 gchar *
 pt_window_get_uri (PtWindow *self)
 {
   return pt_player_get_uri (self->player);
 }
 
+/**
+ * pt_window_open_file:
+ * @self: a `PtWindow`
+ * @uri: URI of an audio file
+ *
+ * Opens a local audio file, that means the URI must start with `file:///`.
+ */
 void
 pt_window_open_file (PtWindow *self,
                      gchar    *uri)
@@ -1162,6 +1209,14 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_0, GDK_CONTROL_MASK, "win.zoom-default", NULL);
 }
 
+/**
+ * pt_window_new:
+ * @app: the application
+ *
+ * Constructor for `PtWindow`.
+ *
+ * Returns: a newly created `PtWindow`.
+ */
 PtWindow *
 pt_window_new (PtApp *app)
 {

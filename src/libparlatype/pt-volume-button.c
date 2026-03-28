@@ -14,6 +14,12 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * PtVolumeButton:
+ *
+ * Controls volume of playback.
+ */
+
 #include "config.h"
 
 #include "pt-volume-button.h"
@@ -116,6 +122,14 @@ button_press_event (GtkGestureClick *gesture,
   return FALSE;
 }
 
+/**
+ * pt_volume_button_set_player:
+ * @self: a `PtVolumeButton`
+ * @player: a `PtPlayer`
+ *
+ * Set the player that will be controlled by the button
+ * and that emits signals to the button.
+ */
 void
 pt_volume_button_set_player (PtVolumeButton *self,
                              PtPlayer       *player)
@@ -210,6 +224,13 @@ pt_volume_button_class_init (PtVolumeButtonClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtVolumeButton, button);
 }
 
+/**
+ * pt_volume_button_new:
+ *
+ * Constructor for `PtVolumeButton`.
+ *
+ * Returns: a newly created `PtVolumeButton`.
+ */
 PtVolumeButton *
 pt_volume_button_new (void)
 {

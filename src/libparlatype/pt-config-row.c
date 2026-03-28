@@ -17,7 +17,7 @@
 /**
  * PtConfigRow:
  *
- * Short description
+ * An action row representing a config.
  */
 
 #include "config.h"
@@ -48,18 +48,42 @@ static GParamSpec *obj_properties[N_PROPERTIES];
 
 G_DEFINE_FINAL_TYPE (PtConfigRow, pt_config_row, ADW_TYPE_ACTION_ROW)
 
+/**
+ * pt_config_row_is_installed:
+ * self: a `PtConfigRow`
+ *
+ * Whether the configuration is installed.
+ *
+ * Returns: true if installed.
+ */
 gboolean
 pt_config_row_is_installed (PtConfigRow *self)
 {
   return self->installed;
 }
 
+/**
+ * pt_config_row_get_active:
+ * self: a `PtConfigRow`
+ *
+ * Whether the configuration is active.
+ *
+ * Returns: true if active.
+ */
 gboolean
 pt_config_row_get_active (PtConfigRow *self)
 {
   return self->active;
 }
 
+/**
+ * pt_config_row_get_config:
+ * self: a `PtConfigRow`
+ *
+ * Each row is representing a config.
+ *
+ * Returns: (transfer none): the `PtConfig`.
+ */
 PtConfig *
 pt_config_row_get_config (PtConfigRow *self)
 {
@@ -78,6 +102,13 @@ set_status_label (PtConfigRow *self)
   gtk_label_set_label (label, status);
 }
 
+/**
+ * pt_config_row_set_active:
+ * @self: a `PtConfigRow`
+ * @active: activate or deactivate
+ *
+ * Activate or deactivate the config represented by this row.
+ */
 void
 pt_config_row_set_active (PtConfigRow *self,
                           gboolean     active)
@@ -136,6 +167,14 @@ pt_config_row_constructed (GObject *object)
   set_status_label (self);
 }
 
+/**
+ * pt_config_row_set_config:
+ * @self: a `PtConfigRow`
+ * @config: a `PtConfig`
+ *
+ * Set the config represented by the row. An existing config
+ * will be replaced.
+ */
 void
 pt_config_row_set_config (PtConfigRow *self,
                           PtConfig    *config)
@@ -272,10 +311,9 @@ pt_config_row_class_init (PtConfigRowClass *klass)
 
 /**
  * pt_config_row_new:
- * @row_file: path to the file with the settings
+ * @config: configuration data
  *
- * Returns a new PtConfigRow instance for the given file. If the file
- * doesn’t exist, it will be created.
+ * Returns a new PtConfigRow instance for the config.
  *
  * After use g_object_unref() it.
  *

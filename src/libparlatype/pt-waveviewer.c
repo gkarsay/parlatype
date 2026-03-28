@@ -1207,7 +1207,7 @@ pt_waveviewer_init (PtWaveviewer *self)
       PT_WAVEVIEWER_WAVEFORM (self->waveform),
       self->peaks);
 
-  css_file = g_file_new_for_uri ("resource:///xyz/parlatype/libparlatype/pt-waveviewer.css");
+  css_file = g_file_new_for_uri ("resource:///xyz/parlatype/Parlatype/pt-waveviewer.css");
   provider = gtk_css_provider_new ();
   gtk_css_provider_load_from_file (provider, css_file);
   gtk_style_context_add_provider_for_display (
@@ -1292,7 +1292,7 @@ pt_waveviewer_class_init (PtWaveviewerClass *klass)
 
   widget_class->focus = pt_waveviewer_focus;
 
-  gtk_widget_class_set_template_from_resource (widget_class, "/xyz/parlatype/libparlatype/pt-waveviewer.ui");
+  gtk_widget_class_set_template_from_resource (widget_class, "/xyz/parlatype/Parlatype/pt-waveviewer.ui");
   gtk_widget_class_bind_template_child (widget_class, PtWaveviewer, scrolled_window);
   gtk_widget_class_bind_template_child (widget_class, PtWaveviewer, scrollbox);
   gtk_widget_class_bind_template_child (widget_class, PtWaveviewer, revealer);

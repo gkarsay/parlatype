@@ -14,6 +14,12 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * PtPlaybackRateButton:
+ *
+ * Controls playback rate.
+ */
+
 #include "config.h"
 
 #include "pt-playback-rate-button.h"
@@ -29,6 +35,17 @@ struct _PtPlaybackRateButton
 
 G_DEFINE_FINAL_TYPE (PtPlaybackRateButton, pt_playback_rate_button, ADW_TYPE_BIN)
 
+/**
+ * pt_playback_rate_button_get_adjustment:
+ * @self: a `PtPlaybackRateButton`
+ *
+ * Returns an adjustment to read or write playback rate.
+ *
+ * The value 1.0 represents normal playback rate, the lower bound
+ * is 0.5, the higher bound is 3.0.
+ *
+ * Returns: (transfer none): a `GtkAdjustment`
+ */
 GtkAdjustment *
 pt_playback_rate_button_get_adjustment (PtPlaybackRateButton *self)
 {
@@ -78,6 +95,13 @@ pt_playback_rate_button_class_init (PtPlaybackRateButtonClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtPlaybackRateButton, label);
 }
 
+/**
+ * pt_playback_rate_button_new:
+ *
+ * Constructor for `PtPlaybackRateButton`.
+ *
+ * Returns: a newly created `PtPlaybackRateButton`.
+ */
 PtPlaybackRateButton *
 pt_playback_rate_button_new (void)
 {

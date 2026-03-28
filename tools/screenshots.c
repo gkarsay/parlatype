@@ -414,7 +414,7 @@ take_screenshots (GtkApplication *app,
   PtPreferencesDialog *dlg;
 
   gtk_window_set_default_size (GTK_WINDOW (win), 1000, 2000);
-  dlg = pt_preferences_dialog_new ();
+  dlg = pt_preferences_dialog_new (win);
   paintable = gtk_widget_paintable_new (GTK_WIDGET (dlg));
   adw_dialog_present (ADW_DIALOG (dlg), GTK_WIDGET (win));
   g_signal_connect (paintable, "invalidate-contents",
@@ -443,7 +443,7 @@ take_screenshots (GtkApplication *app,
   GSettings *editor = _pt_window_get_settings (win);
   g_settings_set_string (editor, "asr-config", config_name);
 
-  dlg = pt_preferences_dialog_new ();
+  dlg = pt_preferences_dialog_new (win);
   paintable = gtk_widget_paintable_new (GTK_WIDGET (dlg));
   g_signal_connect (dlg, "configs-updated",
                     G_CALLBACK (save_paintable_after_config_update), paintable);

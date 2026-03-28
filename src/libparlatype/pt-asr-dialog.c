@@ -14,6 +14,15 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * PtAsrDialog:
+ *
+ * A dialog for a single ASR configuration.
+ *
+ * It presents most fields of a `PtConfig`, some of them can be changed, and
+ * allows for activating, deactivating or deleting this config.
+ */
+
 #include "config.h"
 
 #include "pt-asr-dialog.h"
@@ -181,6 +190,15 @@ add_info_row (PtAsrDialog *self,
   adw_preferences_group_add (ADW_PREFERENCES_GROUP (self->info_group), row);
 }
 
+/**
+ * pt_asr_dialog_set_config:
+ * @self: a `PtAsrDialog`
+ * @config: a `PtConfig`
+ *
+ * Populates the dialog with data from config.
+ *
+ * This is not intended to called more than once.
+ */
 void
 pt_asr_dialog_set_config (PtAsrDialog *self,
                           PtConfig    *config)
@@ -448,6 +466,13 @@ pt_asr_dialog_class_init (PtAsrDialogClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtAsrDialog, activate_button);
 }
 
+/**
+ * pt_asr_dialog_new:
+ *
+ * Returns a new dialog. Next set a config with pt_asr_dialog_set_config().
+ *
+ * Returns: a newly created `PtAsrDialog`.
+ */
 PtAsrDialog *
 pt_asr_dialog_new (void)
 {
