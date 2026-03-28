@@ -30,6 +30,4 @@ void        gst_pt_audio_bin_set_mode        (GstPtAudioBin *self,
 
 GstElement *gst_pt_audio_bin_get_appsink     (GstPtAudioBin *self);
 
-GstElement *gst_pt_audio_bin_get_capsfilter  (GstPtAudioBin *self);
-
 gboolean    gst_pt_audio_bin_register        (void);

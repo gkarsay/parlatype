@@ -760,8 +760,6 @@ pt_player_play (PtPlayer *self)
   gboolean         selection;
   GstState         previous;
 
-  g_print ("%s1\n", __func__);
-
   if (!gst_element_query_position (priv->play, GST_FORMAT_TIME, &pos))
     {
       g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
@@ -793,8 +791,6 @@ pt_player_play (PtPlayer *self)
       return;
     }
 
-  g_print ("%s2\n", __func__);
-
   if (pos == end)
     {
       if ((selection && priv->repeat_selection) || (!selection && priv->repeat_all))
@@ -811,7 +807,6 @@ pt_player_play (PtPlayer *self)
       return;
     }
 
-  g_print ("%s3\n", __func__);
   previous = priv->current_state;
   gst_element_set_state (priv->play, GST_STATE_PLAYING);
   if (previous == GST_STATE_PAUSED)
@@ -2179,15 +2174,6 @@ pt_player_get_appsink (PtPlayer *self)
 
   PtPlayerPrivate *priv = pt_player_get_instance_private (self);
   return gst_pt_audio_bin_get_appsink (GST_PT_AUDIO_BIN (priv->audio_bin));
-}
-
-GstElement *
-pt_player_get_capsfilter (PtPlayer *self)
-{
-  g_return_val_if_fail (PT_IS_PLAYER (self), NULL);
-
-  PtPlayerPrivate *priv = pt_player_get_instance_private (self);
-  return gst_pt_audio_bin_get_capsfilter (GST_PT_AUDIO_BIN (priv->audio_bin));
 }
 
 /**

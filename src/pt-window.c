@@ -223,7 +223,7 @@ player_asr_hypothesis_cb (PtPlayer *player,
                           gpointer  user_data)
 {
   PtWindow *self = PT_WINDOW (user_data);
-  g_print ("%s\n", __func__);
+  // g_print ("%s\n", __func__);
 
   pt_text_view_insert_asr_hypothesis (PT_TEXT_VIEW (self->text_view), word);
 }
@@ -234,7 +234,7 @@ player_asr_final_cb (PtPlayer *player,
                      gpointer  user_data)
 {
   PtWindow *self = PT_WINDOW (user_data);
-  g_print ("%s\n", __func__);
+  // g_print ("%s\n", __func__);
 
   pt_text_view_insert_asr_final (PT_TEXT_VIEW (self->text_view), word);
 }
@@ -280,9 +280,9 @@ pt_window_transcribe_action (GSimpleAction *action,
   play_action = g_action_map_lookup_action (G_ACTION_MAP (self), "play");
   g_simple_action_set_enabled (G_SIMPLE_ACTION (play_action), !transcribe);
 
-  g_print ("%s\n", transcribe ? "transcribing" : "stopped transcribing");
+  // g_print ("%s\n", transcribe ? "transcribing" : "stopped transcribing");
 
-  g_print ("%s: %s\n", __func__, transcribe ? "TRUE" : "FALSE");
+  // g_print ("%s: %s\n", __func__, transcribe ? "TRUE" : "FALSE");
   if (transcribe)
     {
       if (setup_asr (self))
@@ -776,8 +776,8 @@ player_state_changed_cb (PtPlayer   *player,
   player_mode = pt_player_get_mode (player);
   play_action = g_action_map_lookup_action (G_ACTION_MAP (self), "play");
 
-  g_print ("%s: state %d\n", __func__, player_state);
-  g_print ("%s: mode %d\n", __func__, player_mode);
+  // g_print ("%s: state %d\n", __func__, player_state);
+  // g_print ("%s: mode %d\n", __func__, player_mode);
 
   ready = player_state >= PT_STATE_PAUSED;
   playing = player_state == PT_STATE_PLAYING;

@@ -180,8 +180,6 @@ PtModeType   pt_player_get_mode                 (PtPlayer       *self);
 
 GstElement  *pt_player_get_appsink              (PtPlayer       *self);
 
-GstElement  *pt_player_get_capsfilter           (PtPlayer       *self);
-
 PtMediaInfo *pt_player_get_media_info           (PtPlayer       *self);
 
 PtPlayer    *pt_player_new                      (void);

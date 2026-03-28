@@ -54,7 +54,6 @@ struct _GstPtAudioAsrBin
   GstBin parent;
 
   GstElement *appsink;
-  GstElement *capsfilter;
 };
 
 G_DEFINE_TYPE (GstPtAudioAsrBin, gst_pt_audio_asr_bin, GST_TYPE_BIN);
@@ -63,12 +62,6 @@ GstElement *
 gst_pt_audio_asr_bin_get_appsink (GstPtAudioAsrBin *self)
 {
   return self->appsink;
-}
-
-GstElement *
-gst_pt_audio_asr_bin_get_capsfilter (GstPtAudioAsrBin *self)
-{
-  return self->capsfilter;
 }
 
 static void
@@ -90,25 +83,15 @@ gst_pt_audio_asr_bin_init (GstPtAudioAsrBin *self)
                                    "audioconvert", NULL);
   audioresample = _pt_make_element ("audioresample",
                                     "audioresample", NULL);
-  self->capsfilter = _pt_make_element ("capsfilter",
-                                       "capsfilter", NULL);
   self->appsink = _pt_make_element ("appsink",
                                     "appsink", NULL);
 
-  GstCaps *caps;
-  caps = gst_caps_new_simple ("audio/x-raw",
-                              "format", G_TYPE_STRING, GST_AUDIO_NE (S16),
-                              "channels", G_TYPE_INT, 1,
-                              "rate", G_TYPE_INT, 16000, NULL);
-  g_object_set (self->appsink, "caps", caps, NULL);
-  gst_caps_unref (caps);
-
-  g_object_set (queue, "leaky", 2, NULL);
+  // g_object_set (queue, "leaky", 2, NULL);
   g_object_set (self->appsink, "emit-signals", TRUE, "sync", FALSE, NULL);
 
   /* create audio output */
-  gst_bin_add_many (GST_BIN (self), queue, audioconvert, audioresample, self->capsfilter, self->appsink, NULL);
-  if (!gst_element_link_many (queue, audioconvert, audioresample, self->capsfilter, self->appsink, NULL))
+  gst_bin_add_many (GST_BIN (self), queue, audioconvert, audioresample, self->appsink, NULL);
+  if (!gst_element_link_many (queue, audioconvert, audioresample, self->appsink, NULL))
     {
       g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_CRITICAL,
                         "MESSAGE", "ptaudioasrbin: elements not linked");
