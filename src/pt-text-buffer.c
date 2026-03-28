@@ -98,9 +98,6 @@ insert_text_range (GtkTextBuffer     *buffer,
   char *text;
 
   text = gtk_text_iter_get_text (orig_start, orig_end);
-
-  g_print ("insert text range: »%s«\n", text);
-
   gtk_text_buffer_emit_insert (buffer, iter, text, -1);
 
   g_free (text);
@@ -259,7 +256,6 @@ insert_range_untagged (GtkTextBuffer     *buffer,
                   widgets = gtk_text_child_anchor_get_widgets (anchor, &out_len);
                   g_assert (out_len == 1);
                   timestamp = pt_timestamp_button_get_timestamp (PT_TIMESTAMP_BUTTON (widgets[0]));
-                  g_print ("replacing timestamp button with %s\n", timestamp);
                   gtk_text_buffer_insert (buffer, iter, timestamp, -1);
 
                   restore_range (r);
@@ -296,7 +292,6 @@ insert_range_untagged (GtkTextBuffer     *buffer,
                   maybe_timestamp = gtk_text_iter_get_text (&range_start, &range_end);
                   if (pt_player_string_is_timestamp (PT_TEXT_BUFFER (buffer)->player, maybe_timestamp, FALSE))
                     {
-                      g_print ("%s is a timestamp\n", maybe_timestamp);
                       r = save_range (&range_start,
                                       &range_end,
                                       &end);
@@ -309,7 +304,6 @@ insert_range_untagged (GtkTextBuffer     *buffer,
                     }
                   else
                     {
-                      g_print ("%s is NOT a timestamp\n", maybe_timestamp);
                       gtk_text_iter_backward_char (&range_end);
                     }
                   g_free (maybe_timestamp);
@@ -725,7 +719,6 @@ pt_text_buffer_paste_clipboard_finish (GObject      *source,
                                        GAsyncResult *result,
                                        gpointer      data)
 {
-  g_print ("%s\n", __func__);
   GdkClipboard     *clipboard = GDK_CLIPBOARD (source);
   ClipboardRequest *request_data = data;
   PtTextBuffer     *src_buffer;
@@ -782,7 +775,6 @@ pt_text_buffer_deserialize_text_plain_finish (GObject      *source,
                                               GAsyncResult *result,
                                               gpointer      deserializer)
 {
-  g_print ("%s\n", __func__);
   GOutputStream *stream = G_OUTPUT_STREAM (source);
   GtkTextBuffer *buffer;
   GtkTextIter    start, end;
@@ -822,7 +814,6 @@ pt_text_buffer_deserialize_text_plain_finish (GObject      *source,
 static void
 pt_text_buffer_deserialize_text_plain (GdkContentDeserializer *deserializer)
 {
-  g_print ("%s\n", __func__);
   GOutputStream     *output, *filter;
   GCharsetConverter *converter;
   PtTextBuffer      *buffer;
@@ -861,7 +852,6 @@ pt_text_buffer_serialize_text_plain_finish (GObject      *source,
                                             GAsyncResult *result,
                                             gpointer      serializer)
 {
-  g_print ("%s\n", __func__);
   GOutputStream *stream = G_OUTPUT_STREAM (source);
   GError        *error = NULL;
 
@@ -874,7 +864,6 @@ pt_text_buffer_serialize_text_plain_finish (GObject      *source,
 static void
 pt_text_buffer_serialize_text_plain (GdkContentSerializer *serializer)
 {
-  g_print ("%s\n", __func__);
   PtTextBuffer *buffer;
   GtkTextIter   start, end;
   char         *str;
@@ -889,7 +878,7 @@ pt_text_buffer_serialize_text_plain (GdkContentSerializer *serializer)
     {
       str = g_strdup ("");
     }
-  g_print ("str: '%s'\n", str);
+
   gdk_content_serializer_set_task_data (serializer, str, g_free);
 
   g_output_stream_write_all_async (gdk_content_serializer_get_output_stream (serializer),
@@ -904,7 +893,6 @@ pt_text_buffer_serialize_text_plain (GdkContentSerializer *serializer)
 static void
 pt_text_buffer_register_serializers (void)
 {
-  g_print ("%s\n", __func__);
   gdk_content_register_deserializer ("text/plain;charset=utf-8",
                                      PT_TYPE_TEXT_BUFFER,
                                      pt_text_buffer_deserialize_text_plain,

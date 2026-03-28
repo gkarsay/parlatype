@@ -36,13 +36,22 @@ struct _PtTextView
   PtPlayer  *player;
   GSettings *settings;
 
+  GFile *audio;
+
   GQueue   timestamps;
   gboolean timestamps_visible;
 };
 
+typedef struct
+{
+  gulong handler_id;
+  GFile *file;
+} Load;
+
 enum
 {
   PROP_0,
+  PROP_AUDIO_FILE,
   PROP_TIMESTAMPS_VISIBLE,
   N_PROPS
 };
@@ -124,8 +133,15 @@ key_pressed (GtkEventController *controller,
 static void
 pt_text_view_update_css (PtTextView *self)
 {
-  char *css = g_strdup_printf ("textview {font-family: %s; font-size: %dpt;} "
-                               "textview button {font-size: calc(%dpt * 0.8); padding: 0.3em; margin-bottom: -0.3em; margin-left: 0.5em; margin-right: 0.5em;}",
+  char *css = g_strdup_printf ("textview        {font-family: %s; "
+                               "font-size: %dpt;} "
+                               "textview button {font-size: calc(%dpt * 0.6); "
+                               "line-height: 0; "
+                               "padding: 0; "
+                               "margin-top: 0; "
+                               "margin-bottom: 0; "
+                               "margin-left: 0.5em; "
+                               "margin-right: 0.5em;}",
                                pango_font_description_get_family (self->font_desc),
                                self->font_size,
                                self->font_size);
@@ -312,7 +328,8 @@ css_parsing_error (GtkCssProvider *self,
                    GError         *error,
                    gpointer        user_data)
 {
-  g_printerr ("CSS error: %s\n", error->message);
+  g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_CRITICAL,
+                    "MESSAGE", "CSS error: %s\n", error->message);
 }
 
 static void
@@ -454,31 +471,112 @@ pt_text_view_paste_clipboard (GtkTextView *text_view)
                                   clipboard);
 }
 
-void
-pt_text_view_save (PtTextView *self,
-                   GFile      *file)
+static void
+pt_text_view_save_cb (GObject      *source_object,
+                      GAsyncResult *res,
+                      gpointer      user_data)
 {
-  GFile       *test_file;
-  PtFileSaver *saver;
+  PtFileSaver *saver = PT_FILE_SAVER (source_object);
+  GTask       *task = user_data;
+  GError      *error = NULL;
 
-  test_file = g_file_new_for_path ("/home/gabor/parlatype-test.xml");
-  saver = pt_file_saver_new (self->buffer, test_file);
-  pt_file_saver_save (saver);
+  if (!pt_file_saver_save_finish (saver, res, &error))
+    {
+      g_task_return_error (task, g_steal_pointer (&error));
+      return;
+    }
+
+  g_task_return_boolean (task, TRUE);
+}
+
+gboolean
+pt_text_view_save_finish (PtTextView   *self,
+                          GAsyncResult *result,
+                          GError      **error)
+{
+  g_return_val_if_fail (PT_IS_TEXT_VIEW (self), FALSE);
+  g_return_val_if_fail (G_IS_TASK (result), FALSE);
+
+  return g_task_propagate_boolean (G_TASK (result), error);
 }
 
 void
-pt_text_view_load (PtTextView *self,
-                   GFile      *file)
+pt_text_view_save_async (PtTextView         *self,
+                         GFile              *file,
+                         GCancellable       *cancellable,
+                         GAsyncReadyCallback callback,
+                         gpointer            user_data)
 {
-  GFile        *test_file;
+  PtFileSaver *saver;
+  GTask       *task;
+
+  g_return_if_fail (PT_IS_TEXT_VIEW (self));
+  g_return_if_fail (G_IS_FILE (file));
+  g_return_if_fail (G_IS_CANCELLABLE (cancellable) || cancellable == NULL);
+
+  task = g_task_new (self, cancellable, callback, user_data);
+
+  saver = pt_file_saver_new (self, file);
+  pt_file_saver_save_async (saver,
+                            G_PRIORITY_DEFAULT,
+                            NULL,
+                            pt_text_view_save_cb,
+                            g_steal_pointer (&task));
+}
+
+gboolean
+pt_text_view_load (PtTextView *self,
+                   GFile      *file,
+                   GError    **error)
+{
   PtFileLoader *loader;
   gulong        handler_id;
+  gboolean      success;
 
-  test_file = g_file_new_for_path ("/home/gabor/parlatype-test.xml");
-  loader = pt_file_loader_new (self->buffer, test_file);
+  g_return_val_if_fail (PT_IS_TEXT_VIEW (self), FALSE);
+  g_return_val_if_fail (G_IS_FILE (file), FALSE);
+  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+  loader = pt_file_loader_new (self, file);
   handler_id = g_signal_connect (loader, "insert-timestamp-button", G_CALLBACK (insert_timestamp_button_cb), self);
-  pt_file_loader_load (loader);
+
+  success = pt_file_loader_load (loader, error);
+
   g_signal_handler_disconnect (loader, handler_id);
+  g_object_unref (loader);
+
+  return success;
+}
+
+const GFile *
+pt_text_view_get_audio_file (PtTextView *self)
+{
+  g_return_val_if_fail (PT_IS_TEXT_VIEW (self), NULL);
+
+  return self->audio;
+}
+
+void
+pt_text_view_set_audio_file (PtTextView *self,
+                             GFile      *file)
+{
+  g_return_if_fail (PT_IS_TEXT_VIEW (self));
+  g_return_if_fail (G_IS_FILE (file) || file == NULL);
+
+  if (file == NULL && self->audio == NULL)
+    return;
+
+  if (file != NULL &&
+      self->audio != NULL &&
+      g_file_equal (file, self->audio))
+    return;
+
+  g_clear_object (&self->audio);
+
+  if (file != NULL)
+    self->audio = g_object_ref (file);
+
+  g_object_notify_by_pspec (G_OBJECT (self), properties[PROP_AUDIO_FILE]);
 }
 
 static void
@@ -491,6 +589,10 @@ pt_text_view_set_property (GObject      *object,
 
   switch (prop_id)
     {
+    case PROP_AUDIO_FILE:
+      pt_text_view_set_audio_file (self, g_value_get_object (value));
+      break;
+
     case PROP_TIMESTAMPS_VISIBLE:
       pt_text_view_set_timestamps_visible (self, g_value_get_boolean (value));
       break;
@@ -511,6 +613,10 @@ pt_text_view_get_property (GObject    *object,
 
   switch (prop_id)
     {
+    case PROP_AUDIO_FILE:
+      g_value_set_object (value, self->audio);
+      break;
+
     case PROP_TIMESTAMPS_VISIBLE:
       g_value_set_boolean (value, self->timestamps_visible);
       break;
@@ -529,6 +635,7 @@ pt_text_view_dispose (GObject *object)
   g_clear_object (&self->css_provider);
   g_clear_pointer (&self->font_desc, pango_font_description_free);
   g_queue_clear (&self->timestamps);
+  g_clear_object (&self->audio);
 
   G_OBJECT_CLASS (pt_text_view_parent_class)->dispose (object);
 }
@@ -599,6 +706,11 @@ pt_text_view_class_init (PtTextViewClass *klass)
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_minus, GDK_CONTROL_MASK, "view.zoom-out", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_KP_Subtract, GDK_CONTROL_MASK, "view.zoom-out", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_0, GDK_CONTROL_MASK, "view.zoom-default", NULL);
+
+  properties[PROP_AUDIO_FILE] =
+      g_param_spec_object ("audio", NULL, NULL,
+                           G_TYPE_FILE,
+                           G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
   properties[PROP_TIMESTAMPS_VISIBLE] =
       g_param_spec_boolean ("timestamps-visible", NULL, NULL,

@@ -334,15 +334,54 @@ change_mode (GSimpleAction *action,
     g_simple_action_set_state (action, state);
 }
 
+static void
+save_cb (GObject      *source_object,
+         GAsyncResult *res,
+         gpointer      user_data)
+{
+  PtWindow   *self = PT_WINDOW (user_data);
+  PtTextView *text_view = PT_TEXT_VIEW (source_object);
+  GError     *error = NULL;
+
+  if (!pt_text_view_save_finish (text_view, res, &error))
+    {
+      pt_error_message (self, error->message);
+      g_error_free (error);
+    }
+}
+
 void
 serialize (GtkWidget  *widget,
            const char *action_name,
            GVariant   *param)
 {
   PtWindow *self = PT_WINDOW (widget);
+  GFile    *file;
 
-  pt_text_view_save (PT_TEXT_VIEW (self->text_view), NULL);
+  file = g_file_new_for_path ("/home/gabor/parlatype-test.xml");
+
+  pt_text_view_save_async (PT_TEXT_VIEW (self->text_view),
+                           file,
+                           NULL,
+                           save_cb,
+                           self);
 }
+
+/*static void
+load_cb (GObject      *source_object,
+         GAsyncResult *res,
+         gpointer      user_data)
+{
+  PtWindow   *self = PT_WINDOW (user_data);
+  PtTextView *text_view = PT_TEXT_VIEW (source_object);
+  GError     *error = NULL;
+
+  if (!pt_text_view_load_finish (text_view, res, &error))
+    {
+      pt_error_message (self, error->message);
+      g_error_free (error);
+    }
+}*/
 
 void
 deserialize (GtkWidget  *widget,
@@ -350,8 +389,17 @@ deserialize (GtkWidget  *widget,
              GVariant   *param)
 {
   PtWindow *self = PT_WINDOW (widget);
+  GError   *error = NULL;
 
-  pt_text_view_load (PT_TEXT_VIEW (self->text_view), NULL);
+  GFile *file;
+
+  file = g_file_new_for_path ("/home/gabor/parlatype-test.xml");
+
+  if (!pt_text_view_load (PT_TEXT_VIEW (self->text_view), file, &error))
+    {
+      pt_error_message (self, error->message);
+      g_error_free (error);
+    }
 }
 
 const GActionEntry win_actions[] = {
@@ -683,6 +731,7 @@ pt_window_open_file (PtWindow *self,
   g_return_if_fail (uri != NULL);
 
   gchar    *current_uri;
+  GFile    *audio_file;
   int       cmp = 1;
   GtkStack *stack = GTK_STACK (self->waveviewer_stack);
 
@@ -703,6 +752,10 @@ pt_window_open_file (PtWindow *self,
       gtk_stack_set_visible_child (stack, gtk_stack_get_child_by_name (stack, "empty"));
       return;
     }
+
+  audio_file = g_file_new_for_uri (uri);
+  pt_text_view_set_audio_file (PT_TEXT_VIEW (self->text_view), audio_file);
+  g_object_unref (audio_file);
 
   pt_window_ready_to_play (self, TRUE);
   pt_waveviewer_load_wave_async (PT_WAVEVIEWER (self->waveviewer),
@@ -1144,6 +1197,24 @@ pt_window_constructed (GObject *object)
 }
 
 static void
+audio_file_cb (PtTextView *text_view,
+               GParamSpec *pspec,
+               gpointer    user_data)
+{
+  PtWindow    *self = PT_WINDOW (user_data);
+  const GFile *audio_file;
+  char        *uri;
+
+  audio_file = pt_text_view_get_audio_file (text_view);
+  if (audio_file == NULL)
+    return;
+
+  uri = g_file_get_uri ((void *) audio_file);
+  pt_window_open_file (self, uri);
+  g_free (uri);
+}
+
+static void
 pt_window_init (PtWindow *self)
 {
   g_type_ensure (PT_TYPE_PLAYBACK_RATE_BUTTON);
@@ -1162,6 +1233,8 @@ pt_window_init (PtWindow *self)
       self->text_view, "timestamps-visible",
       self->timestamp_switch, "active",
       G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+
+  g_signal_connect (self->text_view, "notify::audio", G_CALLBACK (audio_file_cb), self);
 
   pt_volume_button_set_player (PT_VOLUME_BUTTON (self->volume_button), self->player);
   pt_text_view_connect (PT_TEXT_VIEW (self->text_view));
