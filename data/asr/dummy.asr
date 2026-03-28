@@ -1,0 +1,13 @@
+[Model]
+Version=1.0
+Name=Dummy Plugin
+Plugin=dummy
+BaseFolder=
+Language=de
+Howto=
+URL1=
+License=
+Publisher=
+
+[Files]
+config_file=dummy.asr
