@@ -18,6 +18,8 @@
 
 #include "pt-file-saver.h"
 
+#include "pt-timestamp-button.h"
+
 #include <glib/gi18n.h>
 #include <libxml/xmlwriter.h>
 
@@ -305,7 +307,7 @@ pt_file_saver_save_thread (GTask        *task,
                   GtkWidget **widgets;
                   const char *timestamp;
                   widgets = gtk_text_child_anchor_get_widgets (anchor, &out_len);
-                  timestamp = gtk_button_get_label (GTK_BUTTON (widgets[0]));
+                  timestamp = pt_timestamp_button_get_timestamp (PT_TIMESTAMP_BUTTON (widgets[0]));
 
                   rc = add_text (writer, string);
                   LOG_WRITER_ERROR

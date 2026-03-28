@@ -21,6 +21,7 @@
 #include "pt-file-loader.h"
 #include "pt-file-saver.h"
 #include "pt-text-buffer.h"
+#include "pt-timestamp-button.h"
 #include "pt-window-private.h"
 
 struct _PtTextView
@@ -319,7 +320,7 @@ timestamp_clicked (GtkButton *button,
                    gpointer   user_data)
 {
   PtTextView *self = PT_TEXT_VIEW (user_data);
-  char       *timestamp = g_strdup (gtk_button_get_label (button));
+  char       *timestamp = g_strdup (pt_timestamp_button_get_timestamp (PT_TIMESTAMP_BUTTON (button)));
   pt_player_goto_timestamp (self->player, timestamp);
   g_free (timestamp);
 }
@@ -370,7 +371,7 @@ insert_timestamp_button_cb (GObject            *object,
                             gpointer            user_data)
 {
   PtTextView *self = PT_TEXT_VIEW (user_data);
-  GtkWidget  *child = gtk_button_new_with_label (timestamp);
+  GtkWidget  *child = pt_timestamp_button_new (timestamp);
   gtk_widget_set_visible (child, self->timestamps_visible);
   gtk_text_view_add_child_at_anchor (GTK_TEXT_VIEW (self), child, anchor);
   g_signal_connect (child, "clicked", G_CALLBACK (timestamp_clicked), self);

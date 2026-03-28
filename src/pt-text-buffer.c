@@ -24,6 +24,7 @@
 
 #include "parlatype/parlatype.h"
 #include "pt-marshalers.h"
+#include "pt-timestamp-button.h"
 
 struct _PtTextBuffer
 {
@@ -256,7 +257,8 @@ insert_range_untagged (GtkTextBuffer     *buffer,
                                   &end);
 
                   widgets = gtk_text_child_anchor_get_widgets (anchor, &out_len);
-                  timestamp = gtk_button_get_label (GTK_BUTTON (widgets[0]));
+                  g_assert (out_len == 1);
+                  timestamp = pt_timestamp_button_get_timestamp (PT_TIMESTAMP_BUTTON (widgets[0]));
                   g_print ("replacing timestamp button with %s\n", timestamp);
                   gtk_text_buffer_insert (buffer, iter, timestamp, -1);
 
