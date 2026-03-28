@@ -17,11 +17,9 @@
  */
 
 /**
- * SECTION: pt-timestamp
- * @short_description: Timestamp utilities
- * @stability: Stable
- * @include: parlatype/parlatype.h
+ * PtTimestamp:
  *
+ * Timestamp utilities
  */
 
 #define GETTEXT_PACKAGE GETTEXT_LIB

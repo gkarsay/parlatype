@@ -79,7 +79,7 @@ if (prefix != '/usr')
 endif
 
 summary({
-  'gtk-doc'            : gtk_doc,
+  'docs'               : get_option('docs'),
   'gir'                : gir,
   'tools'              : build_tools,
   }, section: 'Configuration',

@@ -15,9 +15,9 @@
  */
 
 /**
- * SECTION: pt-media-info
- * @short_description: Provides metadata for the current track
- * @include: parlatype/parlatype.h
+ * PtMediaInfo:
+ *
+ * Provides metadata for the current track
  *
  * A read-only object that is owned by #PtPlayer and provides metadata
  * for the currently playing track, like title or artist.

@@ -14,6 +14,26 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * PtConfig:
+ *
+ * Configuration for ASR plugins
+ *
+ * A PtConfig represents a configuration for a GStreamer ASR plugin.
+ * Configuration files are written in .ini-like style. Each file holds one
+ * configuration that is used to instantiate a PtConfig.
+ *
+ * Its main use is to be applied to a GStreamer plugin.
+ *
+ * PtConfig is used for reading configurations in, not for writing them.
+ * To add your own configuration, edit it yourself. Learn more about the file
+ * format in the description of #GKeyFile in general and in
+ * pt_config_is_valid() in particular.
+ *
+ * To delete a configuration, get its #PtConfig:file property, delete the file
+ * and unref the config object.
+ */
+
 #define GETTEXT_PACKAGE GETTEXT_LIB
 
 #include "config.h"
@@ -55,23 +75,11 @@ static gboolean    pt_config_verify_install (PtConfig *self);
 G_DEFINE_TYPE_WITH_PRIVATE (PtConfig, pt_config, G_TYPE_OBJECT)
 
 /**
- * SECTION: pt-config
- * @short_description: Configuration for ASR plugins
- * @include: parlatype/parlatype.h
+ * pt_error_quark:
  *
- * A PtConfig represents a configuration for a GStreamer ASR plugin.
- * Configuration files are written in .ini-like style. Each file holds one
- * configuration that is used to instantiate a PtConfig.
+ * Registers an error quark for Parlatype.
  *
- * Its main use is to be applied to a GStreamer plugin.
- *
- * PtConfig is used for reading configurations in, not for writing them.
- * To add your own configuration, edit it yourself. Learn more about the file
- * format in the description of #GKeyFile in general and in
- * pt_config_is_valid() in particular.
- *
- * To delete a configuration, get its #PtConfig:file property, delete the file
- * and unref the config object.
+ * Returns: the error quark
  */
 
 GQuark

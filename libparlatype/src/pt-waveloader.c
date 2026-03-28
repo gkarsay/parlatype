@@ -18,10 +18,9 @@
  */
 
 /**
- * SECTION: pt-waveloader
- * @short_description: Loads the waveform for a given file.
- * @stability: Stable
- * @include: parlatype/parlatype.h
+ * PtWaveloader:
+ *
+ * Loads the waveform for a given file.
  *
  * An object to load waveform data from an audio file. The raw data can be
  * used by a widget to visually represent a waveform.

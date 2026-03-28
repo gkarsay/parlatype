@@ -19,11 +19,15 @@ public_sources = [
   'pt-asr-manager.c',
   'pt-asr-iface.c',
   'pt-config.c',
+  'pt-file-loader.c',
   'pt-file-saver.c',
   'pt-media-info.c',
   'pt-player.c',
+  'pt-position-manager.c',
+  'pt-text-buffer.c',
   'pt-text-view.c',
   'pt-timestamp.c',
+  'pt-timestamp-button.c',
   'pt-waveloader.c',
   'pt-waveviewer.c',
 ]
@@ -37,11 +41,7 @@ private_sources = [
   'gst/gstptaudiobin.c',
   'gst/gstptaudioasrbin.c',
   'gst/gstptaudioplaybin.c',
-  'pt-file-loader.c',
   'pt-i18n.c',
-  'pt-position-manager.c',
-  'pt-text-buffer.c',
-  'pt-timestamp-button.c',
   'pt-waveviewer-cursor.c',
   'pt-waveviewer-ruler.c',
   'pt-waveviewer-scrollbox.c',
@@ -55,15 +55,20 @@ public_headers = [
   'pt-asr-manager.h',
   'pt-asr-iface.h',
   'pt-config.h',
+  'pt-file-loader.h',
   'pt-file-saver.h',
   'pt-media-info.h',
   'pt-player.h',
+  'pt-position-manager.h',
+  'pt-text-buffer.h',
   'pt-text-view.h',
+  'pt-timestamp.h',
+  'pt-timestamp-button.h',
   'pt-waveloader.h',
   'pt-waveviewer.h',
 ]
 
-# These headers are to be ignored by gtk-doc
+# These headers are to be ignored by gi-docgen
 private_headers = [
   # in contrib/
   'gnome-languages.h',
@@ -77,7 +82,6 @@ private_headers = [
   # in ./
   'pt-i18n.h',
   'pt-media-info-private.h',
-  'pt-position-manager.h',
   'pt-waveviewer-cursor.h',
   'pt-waveviewer-ruler.h',
   'pt-waveviewer-scrollbox.h',
@@ -132,13 +136,13 @@ if gir
     '--quiet',
   ]
 
-  gnome.generate_gir(libparlatype,
+  libparlatype_gir = gnome.generate_gir(libparlatype_static,
     sources: introspection_sources,
     nsversion: libparlatype_api_version,
-    namespace: 'Parlatype',
+    namespace: 'Pt',
     symbol_prefix: 'pt_',
     identifier_prefix: 'Pt',
-    includes: ['GObject-2.0', 'Gtk-4.0'],
+    includes: ['GObject-2.0', 'Gtk-4.0', 'Gst-1.0'],
     install: true,
     extra_args: gir_args,
   )

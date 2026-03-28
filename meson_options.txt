@@ -1,8 +1,8 @@
 option(
-  'gtk-doc',
+  'docs',
   type: 'boolean',
   value: false,
-  description: 'Install library reference, requires gtk-doc'
+  description: 'Install library reference, requires gi-docgen'
 )
 option(
   'gir',

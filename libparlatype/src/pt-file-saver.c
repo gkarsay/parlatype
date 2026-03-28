@@ -14,6 +14,20 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * PtFileSaver:
+ *
+ * Saves text files.
+ *
+ * PtFileSaver reads the contents of a PtTextBuffer and saves them to an XML file using libxml.
+ *
+ * The produced file follows OpenDocument standards for "flat files" where all data is in
+ * a single document.
+ *
+ * It should be readable with LibreOffice but it doesn't claim or aspire full compliance with
+ * the OpenDocument standards.
+ */
+
 // #define G_LOG_DOMAIN "pt-file-saver"
 
 #include "config.h"
@@ -372,6 +386,15 @@ pt_file_saver_save_thread (GTask        *task,
   g_task_return_boolean (task, TRUE);
 }
 
+/**
+ * pt_file_saver_save_finish:
+ * @self: a `PtFileSaver`
+ * @result: a `GAsyncResult`
+ * @error:
+ *
+ * Finishes the [method@Pt.FileSaver.save_async] call.
+ * Returns: True on success.
+ */
 gboolean
 pt_file_saver_save_finish (PtFileSaver  *self,
                            GAsyncResult *result,
@@ -394,6 +417,16 @@ pt_file_saver_save_finish (PtFileSaver  *self,
   return ok;
 }
 
+/**
+ * pt_file_saver_save_async:
+ * @self: a `PtFileSaver`
+ * @io_priority: The I/O priority of the request. E.g. `G_PRIORITY_LOW`, `G_PRIORITY_DEFAULT` or `G_PRIORITY_HIGH`.
+ * @cancellable: A `GCancellable` to cancel the operation.
+ * @callback: A callback to call when the operation is complete.
+ * @user_data: Data to pass to `callback`.
+ *
+ * Starts the save operation.
+ */
 void
 pt_file_saver_save_async (PtFileSaver        *self,
                           gint                io_priority,
@@ -505,11 +538,21 @@ pt_file_saver_class_init (PtFileSaverClass *klass)
   object_class->set_property = pt_file_saver_set_property;
   object_class->dispose = pt_file_saver_dispose;
 
+  /**
+   * PtFileSaver:view:
+   *
+   * The view with the contents to be saved.
+   */
   properties[PROP_VIEW] =
       g_param_spec_object ("view", NULL, NULL,
                            PT_TYPE_TEXT_VIEW,
                            G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
+  /**
+   * PtFileSaver:file:
+   *
+   * The text file to save to. An existing file will be overwritten.
+   */
   properties[PROP_FILE] =
       g_param_spec_object ("file", NULL, NULL,
                            G_TYPE_FILE,
@@ -523,6 +566,17 @@ pt_file_saver_init (PtFileSaver *self)
 {
 }
 
+/**
+ * pt_file_saver_new:
+ * @view: view with contents to save
+ * @file: file destination
+ *
+ * Creates a new `PtFileSaver` instance.
+ *
+ * Use [method@Pt.FileSaver.save_async] to actually save the file.
+ *
+ * Returns: a newly created `PtFileSaver`.
+ */
 PtFileSaver *
 pt_file_saver_new (PtTextView *view, GFile *file)
 {

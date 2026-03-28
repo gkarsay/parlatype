@@ -14,6 +14,12 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * PtTextView:
+ *
+ * Widget to display text.
+ */
+
 // #define G_LOG_DOMAIN "pt-text-view"
 
 #include "config.h"
@@ -222,6 +228,15 @@ pt_text_view_action_zoom (GtkWidget  *widget,
     g_assert_not_reached ();
 }
 
+/**
+ * pt_text_view_insert_asr_hypothesis:
+ * @self: a `PtTextView`
+ * @hypothesis: a string with a preliminary result from speech recognition
+ *
+ * If the last insert was an hypothesis, it will replaced with the new hypothesis or
+ * eventually with a final result.
+ */
+
 void
 pt_text_view_insert_asr_hypothesis (PtTextView *self,
                                     char       *hypothesis)
@@ -237,6 +252,13 @@ pt_text_view_insert_asr_hypothesis (PtTextView *self,
   gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (self->buffer), hypothesis, -1);
 }
 
+/**
+ * pt_text_view_insert_asr_final:
+ * @self: a `PtTextView`
+ * @final: a final result from speech recognition
+ *
+ * Inserts text at the current position.
+ */
 void
 pt_text_view_insert_asr_final (PtTextView *self,
                                char       *final)
@@ -251,6 +273,14 @@ pt_text_view_insert_asr_final (PtTextView *self,
   gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (self->buffer), final, -1);
 }
 
+/**
+ * pt_text_view_get_timestamps_visible:
+ * @self: a `PtTextView`
+ *
+ * Retrieve visibility of timestamp buttons.
+ *
+ * Returns: Whether timestamp buttons are visible or hidden.
+ */
 gboolean
 pt_text_view_get_timestamps_visible (PtTextView *self)
 {
@@ -259,6 +289,13 @@ pt_text_view_get_timestamps_visible (PtTextView *self)
   return self->timestamps_visible;
 }
 
+/**
+ * pt_text_view_set_timestamps_visible:
+ * @self: a `PtTextView`
+ * @visible: whether timestamp buttons should be visible
+ *
+ * Sets or unsets the visibility of all timestamp buttons in the view.
+ */
 void
 pt_text_view_set_timestamps_visible (PtTextView *self,
                                      gboolean    visible)
@@ -433,6 +470,12 @@ modified_changed_cb (GtkTextBuffer *buffer,
   g_object_notify_by_pspec (G_OBJECT (self), properties[PROP_IS_MODIFIED]);
 }
 
+/**
+ * pt_text_view_insert_timestamp:
+ * @self: a `PtTextView`
+ *
+ * Inserts a `PtTimestampButton` at the current position for the current time.
+ */
 void
 pt_text_view_insert_timestamp (PtTextView *self)
 {
@@ -467,6 +510,15 @@ on_notify_document_font_name_cb (PtTextView      *self,
   pt_text_view_update_css (self);
 }
 
+/**
+ * pt_text_view_connect:
+ * @self: a `PtTextView`
+ * @player: a PtPlayer
+ * @settings: a GSettings instance
+ *
+ * The player is used to jump to timestamp positions,
+ * the settings are needed for the font size.
+ */
 void
 pt_text_view_connect (PtTextView *self,
                       PtPlayer   *player,
@@ -535,6 +587,16 @@ pt_text_view_save_cb (GObject      *source_object,
   g_task_return_boolean (task, TRUE);
 }
 
+/**
+ * pt_text_view_save_finish:
+ * @self: a `PtTextView`
+ * @result: a `GAsyncResult`
+ * @error:
+ *
+ * Finishes the [method@Pt.TextView.save_async] call.
+ *
+ * Returns: True on success.
+ */
 gboolean
 pt_text_view_save_finish (PtTextView   *self,
                           GAsyncResult *result,
@@ -546,6 +608,16 @@ pt_text_view_save_finish (PtTextView   *self,
   return g_task_propagate_boolean (G_TASK (result), error);
 }
 
+/**
+ * pt_text_view_save_async:
+ * @self: a `PtTextView`
+ * @file: the file to save to
+ * @cancellable: A `GCancellable` to cancel the operation.
+ * @callback: A callback to call when the operation is complete.
+ * @user_data: Data to pass to `callback`.
+ *
+ * Saves the contents of the view to a file.
+ */
 void
 pt_text_view_save_async (PtTextView         *self,
                          GFile              *file,
@@ -571,6 +643,16 @@ pt_text_view_save_async (PtTextView         *self,
                             g_steal_pointer (&task));
 }
 
+/**
+ * pt_text_view_load:
+ * @self: a `PtTextView`
+ * @file: the text file to load
+ * @error:
+ *
+ * Loads the contents of a text file into the view.
+ *
+ * Returns: True on success.
+ */
 gboolean
 pt_text_view_load (PtTextView *self,
                    GFile      *file,
@@ -600,6 +682,14 @@ pt_text_view_load (PtTextView *self,
   return success;
 }
 
+/**
+ * pt_text_view_get_audio_file:
+ * @self: a `PtTextView`
+ *
+ * Retrieve the audio file.
+ *
+ * Returns: The audio file associated with the view.
+ */
 const GFile *
 pt_text_view_get_audio_file (PtTextView *self)
 {
@@ -608,6 +698,13 @@ pt_text_view_get_audio_file (PtTextView *self)
   return self->audio;
 }
 
+/**
+ * pt_text_view_set_audio_file:
+ * @self: a `PtTextView`
+ * @file: an audio file linked to the view or %NULL
+ *
+ * Sets the audio file linked with the view.
+ */
 void
 pt_text_view_set_audio_file (PtTextView *self,
                              GFile      *file)
@@ -631,6 +728,14 @@ pt_text_view_set_audio_file (PtTextView *self,
   g_object_notify_by_pspec (G_OBJECT (self), properties[PROP_AUDIO_FILE]);
 }
 
+/**
+ * pt_text_view_get_text_file:
+ * @self: a `PtTextView`
+ *
+ * Retrieves the associated text file.
+ *
+ * Returns: The text file used for saving the view.
+ */
 const GFile *
 pt_text_view_get_text_file (PtTextView *self)
 {
@@ -639,6 +744,13 @@ pt_text_view_get_text_file (PtTextView *self)
   return self->text;
 }
 
+/**
+ * pt_text_view_set_text_file:
+ * @self: a `PtTextView`
+ * @file: the text file representing the views content or %NULL
+ *
+ * Set whether the view is associated with a text file.
+ */
 void
 pt_text_view_set_text_file (PtTextView *self,
                             GFile      *file)
@@ -662,6 +774,14 @@ pt_text_view_set_text_file (PtTextView *self,
   g_object_notify_by_pspec (G_OBJECT (self), properties[PROP_TEXT_FILE]);
 }
 
+/**
+ * pt_text_view_get_is_modified:
+ * @self: a `PtTextView`
+ *
+ * Retrieves whether the view was modified.
+ *
+ * Returns: %TRUE if the text view was modified since it was saved the last time.
+ */
 gboolean
 pt_text_view_get_is_modified (PtTextView *self)
 {
@@ -816,21 +936,42 @@ pt_text_view_class_init (PtTextViewClass *klass)
 
   gtk_widget_class_set_css_name (widget_class, "pt_textview");
 
+  /**
+   * PtTextView:text:
+   *
+   * #GFile of the text document that was loaded and is saved to or %NULL if there is none.
+   */
   properties[PROP_TEXT_FILE] =
       g_param_spec_object ("text", NULL, NULL,
                            G_TYPE_FILE,
                            G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
+  /**
+   * PtTextView:audio:
+   *
+   * #GFile of the audio file that is currently loaded.
+   */
   properties[PROP_AUDIO_FILE] =
       g_param_spec_object ("audio", NULL, NULL,
                            G_TYPE_FILE,
                            G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
+  /**
+   * PtTextView:timestamps-visible:
+   *
+   * If true, timestamps are shown in the view, if false, they are hidden.
+   */
   properties[PROP_TIMESTAMPS_VISIBLE] =
       g_param_spec_boolean ("timestamps-visible", NULL, NULL,
                             TRUE,
                             G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
+  /**
+   * PtTextView:is-modified:
+   *
+   * Whether the text was modified. If true, the saved document and the current text are not
+   * identical.
+   */
   properties[PROP_IS_MODIFIED] =
       g_param_spec_boolean ("is-modified", NULL, NULL,
                             FALSE,
@@ -839,6 +980,13 @@ pt_text_view_class_init (PtTextViewClass *klass)
   g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
+/**
+ * pt_text_view_new:
+ *
+ * Creates a new `PtTextView`.
+ *
+ * Returns: a newly created `PtTextView`.
+ */
 PtTextView *
 pt_text_view_new (void)
 {

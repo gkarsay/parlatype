@@ -14,6 +14,12 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * PtTimestampButton:
+ *
+ * Widget to show timestamps and to navigate to their position.
+ */
+
 #include "config.h"
 
 #include "pt-timestamp-button.h"
@@ -37,6 +43,14 @@ G_DEFINE_FINAL_TYPE (PtTimestampButton, pt_timestamp_button, GTK_TYPE_BUTTON)
 
 static GParamSpec *properties[N_PROPS];
 
+/**
+ * pt_timestamp_button_get_timestamp:
+ * @self: a `PtTimeStampButton`
+ *
+ * Returns the associated timestamp. Use this value to go this position.
+ *
+ * Returns: a timestamp
+ */
 int
 pt_timestamp_button_get_timestamp (PtTimestampButton *self)
 {
@@ -45,6 +59,13 @@ pt_timestamp_button_get_timestamp (PtTimestampButton *self)
   return self->timestamp;
 }
 
+/**
+ * pt_timestamp_button_set_timestamp:
+ * @self: a `PtTimeStampButton`
+ * @timestamp: a timestamp
+ *
+ * Set a timestamp on the button.
+ */
 void
 pt_timestamp_button_set_timestamp (PtTimestampButton *self,
                                    int                timestamp)
@@ -116,6 +137,11 @@ pt_timestamp_button_class_init (PtTimestampButtonClass *klass)
   object_class->get_property = pt_timestamp_button_get_property;
   object_class->set_property = pt_timestamp_button_set_property;
 
+  /**
+   * PtTimestampButton:timestamp:
+   *
+   * Timestamp associated with the button. It's string representation is used for the label.
+   */
   properties[PROP_TIMESTAMP] =
       g_param_spec_int ("timestamp", NULL, NULL,
                         0, G_MAXINT, 0,
@@ -124,6 +150,15 @@ pt_timestamp_button_class_init (PtTimestampButtonClass *klass)
   g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
+/**
+ * pt_timestamp_button_new:
+ * @timestamp: a timestamp
+ *
+ * Returns a new PtTimestampButton associated with a timestamp.
+ * The string representation of the timestamp is used for the label of the button.
+ *
+ * Return value: (transfer full): a new a `PtTimeStampButton`
+ */
 GtkWidget *
 pt_timestamp_button_new (int timestamp)
 {

@@ -21,8 +21,22 @@
 #define PT_TYPE_TEXT_BUFFER (pt_text_buffer_get_type ())
 G_DECLARE_FINAL_TYPE (PtTextBuffer, pt_text_buffer, PT, TEXT_BUFFER, GtkTextBuffer)
 
+/**
+ * PT_TEXT_UNKNOWN_CHAR:
+ *
+ * Copied from GtkTextBuffer
+ *
+ * This is used as an insertion point for paintables or child anchors.
+ */
 #define PT_TEXT_UNKNOWN_CHAR 0xFFFC
-/* timestamp delimiter number sign: # */
+
+/**
+ * PT_TEXT_TIMESTAMP_DELIMITER:
+ *
+ * Number sign `#` encloses timestamps in an untagged buffer
+ *
+ * Numbers between number signs are interpreted as timestamps.
+ */
 #define PT_TEXT_TIMESTAMP_DELIMITER 0x0023
 
 void             pt_text_buffer_insert_range    (PtTextBuffer      *buffer,

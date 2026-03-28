@@ -16,7 +16,14 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* Includes lots of duplicated code from gtktextbuffer.c */
+/**
+ * PtTextBuffer:
+ *
+ * Holds text for display in a PtTextView.
+ *
+ * This file includes a lot of duplicated code from gtktextbuffer.c to do some
+ * things in a slightly different way.
+ */
 
 // #define G_LOG_DOMAIN "pt-text-buffer"
 
@@ -494,8 +501,8 @@ gtk_text_buffer_real_insert_range (GtkTextBuffer     *buffer,
 }
 
 /**
- * gtk_text_buffer_insert_range:
- * @buffer: a `GtkTextBuffer`
+ * pt_text_buffer_insert_range:
+ * @buffer: a `PtTextBuffer`
  * @iter: a position in @buffer
  * @start: a position in a `GtkTextBuffer`
  * @end: another position in the same buffer as @start
@@ -606,6 +613,16 @@ cut_or_copy (GtkTextBuffer *buffer,
     }
 }
 
+/**
+ * pt_text_buffer_cut_clipboard:
+ * @buffer: a #PtTextBuffer
+ * @clipboard: The GdkClipboard object to cut to.
+ * @default_editable: Default editability of the buffer.
+ *
+ * Cuts or copies text to the clipboard. This is mostly a copy from gtk_text_buffer.c.
+ * The difference is that if a GtkTextChildAnchor is found with a PtTimestampButton anchored,
+ * the button is serialized as an integer (timestamp) enclosed by number signs, e.g. `#1000#`.
+ */
 void
 pt_text_buffer_cut_clipboard (PtTextBuffer *buffer,
                               GdkClipboard *clipboard,
@@ -616,6 +633,13 @@ pt_text_buffer_cut_clipboard (PtTextBuffer *buffer,
   gtk_text_buffer_end_user_action (GTK_TEXT_BUFFER (buffer));
 }
 
+/**
+ * pt_text_buffer_copy_clipboard:
+ * @buffer: a #PtTextBuffer
+ * @clipboard: The GdkClipboard object to copy to.
+ *
+ * See [method@TextBuffer.cut_clipboard].
+ */
 void
 pt_text_buffer_copy_clipboard (PtTextBuffer *buffer,
                                GdkClipboard *clipboard)
@@ -747,6 +771,15 @@ pt_text_buffer_paste_clipboard_finish (GObject      *source,
                        &start, &end);
 }
 
+/**
+ * pt_text_buffer_paste_clipboard:
+ * @buffer: a #PtTextBuffer
+ * @clipboard: The GdkClipboard to paste from.
+ *
+ * Pastes text from a clipboard. This is mostly a copy from gtk_text_buffer.c.
+ * The difference is that an integer enclosed by number signs (like `#1000`) is deserialized
+ * as a PtTimestampButton.
+ */
 void
 pt_text_buffer_paste_clipboard (PtTextBuffer *buffer,
                                 GdkClipboard *clipboard)
@@ -923,6 +956,15 @@ pt_text_buffer_class_init (PtTextBufferClass *klass)
 
   pt_text_buffer_register_serializers ();
 
+  /**
+   * PtTextBuffer::insert-timestamp-button:
+   * @self: the PtTextBuffer emitting the signal
+   * @anchor: GtkTextChildAnchor
+   * @timestamp: a timestamp (int)
+   *
+   * Emitted if there is a timestamp. Widgets cannot be inserted in a buffer, but
+   * in a text view, which is the only widget observing this signal.
+   */
   signals[INSERT_TIMESTAMP_BUTTON] =
       g_signal_new ("insert-timestamp-button",
                     G_OBJECT_CLASS_TYPE (object_class),
@@ -941,6 +983,14 @@ pt_text_buffer_init (PtTextBuffer *self)
 {
 }
 
+/**
+ * pt_text_buffer_new:
+ * @tag_table: a `GtkTextTagTable` or `NULL`
+ *
+ * Creates a new `PtTextBuffer`.
+ *
+ * Returns: The newly created `PtTextBuffer`.
+ */
 PtTextBuffer *
 pt_text_buffer_new (GtkTextTagTable *tag_table)
 {

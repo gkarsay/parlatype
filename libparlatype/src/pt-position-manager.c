@@ -15,7 +15,8 @@
  */
 
 /**
- * pt-position-manager
+ * PtPositionManager:
+ *
  * Saves and loads last playback position for a file.
  *
  * The current implementation is using g_file_set_attribute() from GIO, which
@@ -104,7 +105,7 @@ pt_position_manager_save (PtPositionManager *self,
  * not logged and other "hard" failures are logged at warning level.
  *
  * Return value: Position in milliseconds or zero on failure.
- * */
+ */
 gint64
 pt_position_manager_load (PtPositionManager *self,
                           GFile             *file)
@@ -158,6 +159,13 @@ pt_position_manager_class_init (PtPositionManagerClass *klass)
 {
 }
 
+/**
+ * pt_position_manager_new:
+ *
+ * Creates a new `PtPositionManager`.
+ *
+ * Returns: the newly created `PtPositionManager`.
+ */
 PtPositionManager *
 pt_position_manager_new (void)
 {

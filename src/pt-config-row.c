@@ -14,6 +14,12 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * PtConfigRow:
+ *
+ * Short description
+ */
+
 #include "config.h"
 
 #include "pt-config-row.h"
@@ -41,15 +47,6 @@ enum
 static GParamSpec *obj_properties[N_PROPERTIES];
 
 G_DEFINE_FINAL_TYPE (PtConfigRow, pt_config_row, ADW_TYPE_ACTION_ROW)
-
-/**
- * SECTION: pt-config-row
- * @short_description:
- * @stability: Unstable
- * @include: parlatype/pt-config-row.h
- *
- * TODO
- */
 
 gboolean
 pt_config_row_is_installed (PtConfigRow *self)

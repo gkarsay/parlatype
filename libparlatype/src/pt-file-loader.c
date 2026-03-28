@@ -14,6 +14,14 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * PtFileLoader:
+ *
+ * Loads text files.
+ *
+ * PtFileLoader reads the contents of an XML file using libxml and inserts them into a PtTextBuffer.
+ */
+
 // #define G_LOG_DOMAIN "pt-file-loader"
 
 #include "config.h"
@@ -294,6 +302,16 @@ process_node (xmlTextReaderPtr reader,
     }
 }
 
+/**
+ * pt_file_loader_load:
+ * @self: a `PtFileLoader`
+ * @error:
+ *
+ * Starts the actual loading. An async variant of this call didn't work well
+ * and was removed.
+ *
+ * Returns: True on success
+ */
 gboolean
 pt_file_loader_load (PtFileLoader *self,
                      GError      **error)
@@ -475,6 +493,14 @@ pt_file_loader_class_init (PtFileLoaderClass *klass)
   object_class->set_property = pt_file_loader_set_property;
   object_class->dispose = pt_file_loader_dispose;
 
+  /**
+   * PtFileLoader::insert-timestamp-button:
+   * @self: the `PtFileLoader` emitting the signal
+   * @anchor: GtkTextChildAnchor
+   * @timestamp: a timestamp (int)
+   *
+   * Signal to insert a timestamp button in the view.
+   */
   signals[INSERT_TIMESTAMP_BUTTON] =
       g_signal_new ("insert-timestamp-button",
                     G_OBJECT_CLASS_TYPE (object_class),
@@ -487,11 +513,21 @@ pt_file_loader_class_init (PtFileLoaderClass *klass)
                     GTK_TYPE_TEXT_CHILD_ANCHOR,
                     G_TYPE_INT);
 
+  /**
+   * PtFileLoader:view:
+   *
+   * The view where contents are loaded to.
+   */
   properties[PROP_VIEW] =
       g_param_spec_object ("view", NULL, NULL,
                            PT_TYPE_TEXT_VIEW,
                            G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
+  /**
+   * PtFileLoader:file:
+   *
+   * A text file in Parlatype format.
+   */
   properties[PROP_FILE] =
       g_param_spec_object ("file", NULL, NULL,
                            G_TYPE_FILE,
@@ -505,6 +541,14 @@ pt_file_loader_init (PtFileLoader *self)
 {
 }
 
+/**
+ * pt_file_loader_new:
+ * @view: the view where to insert file contents
+ * @file: a text file
+ *
+ * Creates a new `PtFileLoader`. Use [method@Pt.FileLoader.load] to actually save the file.
+ * Returns: a newly created `PtFileLoader`
+ */
 PtFileLoader *
 pt_file_loader_new (PtTextView *view,
                     GFile      *file)

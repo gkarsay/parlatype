@@ -17,10 +17,9 @@
  */
 
 /**
- * SECTION: pt-player
- * @short_description: The GStreamer backend for Parlatype.
- * @stability: Stable
- * @include: parlatype/parlatype.h
+ * PtPlayer:
+ *
+ * GStreamer backend for Parlatype.
  *
  * PtPlayer is the GStreamer backend for Parlatype. Construct it with #pt_player_new().
  * Then you have to open a file with pt_player_open_uri().
@@ -1941,6 +1940,16 @@ pt_mode_get_name (PtModeType mode)
     }
 }
 
+/**
+ * pt_player_get_appsink:
+ * @self: a `PtPlayer`
+ *
+ * Get a reference on the internal `GstAppSink` element to grab raw audio data.
+ *
+ * Link to GStreamer documentation: [GstAppSink](https://gstreamer.freedesktop.org/documentation/applib/gstappsink.html?gi-language=c)
+ *
+ * Returns: (transfer none): a `GstAppSink`
+ */
 GstElement *
 pt_player_get_appsink (PtPlayer *self)
 {
@@ -1970,6 +1979,14 @@ pt_player_get_media_info (PtPlayer *self)
   return priv->info;
 }
 
+/**
+ * pt_player_get_state:
+ * @self: a `PtPlayer`
+ *
+ * Get the player's current state.
+ *
+ * Returns: an enum indicating the current state.
+ */
 PtStateType
 pt_player_get_state (PtPlayer *self)
 {
