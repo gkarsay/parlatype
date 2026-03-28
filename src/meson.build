@@ -36,6 +36,7 @@ parlatype_sources = [
   'pt-text-buffer-input-stream.c',
   'pt-text-buffer-output-stream.c',
   'pt-text-view.c',
+  'pt-timestamp-button.c',
   'pt-volume-button.c',
   'pt-window.c',
   'pt-window-dnd.c',

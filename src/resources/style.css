@@ -39,6 +39,10 @@ textview {
   padding: 12px;
 }
 
+textview button {
+
+}
+
 /* EditorThemeSelector */
 themeselector {
   margin: 9px;
