@@ -79,10 +79,12 @@ static void
 gst_pt_audio_play_bin_init (GstPtAudioPlayBin *self)
 {
   /* Create gstreamer elements */
+  GstElement *queue;
   GstElement *capsfilter;
   GstElement *audiosink;
   gchar      *sink;
 
+  queue = _pt_make_element ("queue", "queue", NULL);
   capsfilter = _pt_make_element ("capsfilter", "audiofilter", NULL);
 
   /* Choose an audiosink ourselves instead of relying on autoaudiosink.
@@ -109,11 +111,16 @@ gst_pt_audio_play_bin_init (GstPtAudioPlayBin *self)
                     GST_IS_STREAM_VOLUME (audiosink) ? "yes" : "no");
 
   gst_bin_add_many (GST_BIN (self),
-                    capsfilter, audiosink, NULL);
-  gst_element_link_many (capsfilter, audiosink, NULL);
+                    queue, capsfilter, audiosink, NULL);
+
+  if (!gst_element_link_many (queue, capsfilter, audiosink, NULL))
+    {
+      g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_CRITICAL,
+                        "MESSAGE", "ptaudioplaybin: elements not linked");
+    }
 
   /* create ghost pad for audiosink */
-  GstPad *audiopad = gst_element_get_static_pad (capsfilter, "sink");
+  GstPad *audiopad = gst_element_get_static_pad (queue, "sink");
   gst_element_add_pad (GST_ELEMENT (self),
                        gst_ghost_pad_new ("sink", audiopad));
   gst_object_unref (GST_OBJECT (audiopad));

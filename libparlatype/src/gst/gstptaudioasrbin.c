@@ -41,6 +41,7 @@
 
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
+#include <gst/audio/audio.h>
 #include <gst/gst.h>
 
 GST_DEBUG_CATEGORY_STATIC (gst_pt_audio_asr_bin_debug);
@@ -80,8 +81,11 @@ static void
 gst_pt_audio_asr_bin_init (GstPtAudioAsrBin *self)
 {
   GstElement *audioconvert, *audioresample;
-  GstPad     *audioconvert_sink;
+  GstElement *queue;
+  GstPad     *queue_sink;
 
+  queue = _pt_make_element ("queue",
+                            "queue", NULL);
   audioconvert = _pt_make_element ("audioconvert",
                                    "audioconvert", NULL);
   audioresample = _pt_make_element ("audioresample",
@@ -91,15 +95,30 @@ gst_pt_audio_asr_bin_init (GstPtAudioAsrBin *self)
   self->appsink = _pt_make_element ("appsink",
                                     "appsink", NULL);
 
+  GstCaps *caps;
+  caps = gst_caps_new_simple ("audio/x-raw",
+                              "format", G_TYPE_STRING, GST_AUDIO_NE (S16),
+                              "channels", G_TYPE_INT, 1,
+                              "rate", G_TYPE_INT, 16000, NULL);
+  g_object_set (self->appsink, "caps", caps, NULL);
+  gst_caps_unref (caps);
+
+  g_object_set (queue, "leaky", 2, NULL);
+  g_object_set (self->appsink, "emit-signals", TRUE, "sync", FALSE, NULL);
+
   /* create audio output */
-  gst_bin_add_many (GST_BIN (self), audioconvert, audioresample, self->capsfilter, self->appsink, NULL);
-  gst_element_link_many (audioconvert, audioresample, self->capsfilter, self->appsink, NULL);
+  gst_bin_add_many (GST_BIN (self), queue, audioconvert, audioresample, self->capsfilter, self->appsink, NULL);
+  if (!gst_element_link_many (queue, audioconvert, audioresample, self->capsfilter, self->appsink, NULL))
+    {
+      g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_CRITICAL,
+                        "MESSAGE", "ptaudioasrbin: elements not linked");
+    }
 
   /* create ghost pad for audiosink */
-  audioconvert_sink = gst_element_get_static_pad (audioconvert, "sink");
+  queue_sink = gst_element_get_static_pad (queue, "sink");
   gst_element_add_pad (GST_ELEMENT (self),
-                       gst_ghost_pad_new ("sink", audioconvert_sink));
-  gst_object_unref (GST_OBJECT (audioconvert_sink));
+                       gst_ghost_pad_new ("sink", queue_sink));
+  gst_object_unref (GST_OBJECT (queue_sink));
 }
 
 static void

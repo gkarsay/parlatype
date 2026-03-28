@@ -23,8 +23,8 @@
 #include "pt-config-list.h"
 #include "pt-config-row.h"
 #include "pt-prefs-info-row.h"
-#include "pt-window.h"
 #include "pt-window-private.h"
+#include "pt-window.h"
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
@@ -567,7 +567,7 @@ pt_preferences_dialog_init (PtPreferencesDialog *self)
   self->editor = g_settings_new (APP_ID);
   self->player = pt_player_new ();
   self->parent_window = GTK_WINDOW (gtk_widget_get_root (GTK_WIDGET (self)));
-  //g_assert (self->parent_window != NULL);
+  // g_assert (self->parent_window != NULL);
 
   gtk_widget_init_template (GTK_WIDGET (self));
 

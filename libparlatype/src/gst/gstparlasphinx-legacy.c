@@ -310,10 +310,10 @@ gst_parlasphinx_class_init (GstParlasphinxClass *klass)
                                                         -1, 1, 7e-29,
                                                         G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   gp_object_class_install_property (gobject_class, PROP_DSRATIO,
-                                   g_param_spec_int ("dsratio", "Frame downsampling ratio",
-                                                     "Evaluate acoustic model every N frames",
-                                                     1, 10, 1,
-                                                     G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+                                    g_param_spec_int ("dsratio", "Frame downsampling ratio",
+                                                      "Evaluate acoustic model every N frames",
+                                                      1, 10, 1,
+                                                      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
   /* Could be changed on runtime when ps is already initialized */
   g_object_class_install_property (gobject_class, PROP_LM_NAME,

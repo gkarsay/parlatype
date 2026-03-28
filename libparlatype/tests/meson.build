@@ -13,6 +13,7 @@ test_data = [
 ]
 
 extra_sources = [
+  gresources,
   'mock-plugin.c',
   'mock-plugin.h',
 ]

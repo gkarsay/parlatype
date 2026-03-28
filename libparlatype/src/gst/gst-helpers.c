@@ -65,11 +65,11 @@ _pt_pad_link (GstPad *source,
   if (ret == GST_PAD_LINK_OK)
     return ret;
 
-  char *srcname = gst_pad_get_name (source);
-  char *sinkname = gst_pad_get_name (sink);
+  char      *srcname = gst_pad_get_name (source);
+  char      *sinkname = gst_pad_get_name (sink);
   GstObject *srcparent = gst_pad_get_parent (source);
   GstObject *sinkparent = gst_pad_get_parent (sink);
-  GstState srcparent_state, sinkparent_state;
+  GstState   srcparent_state, sinkparent_state;
   gst_element_get_state (GST_ELEMENT (srcparent), &srcparent_state, NULL, 0);
   gst_element_get_state (GST_ELEMENT (sinkparent), &sinkparent_state, NULL, 0);
   GstCaps *srccaps_current = gst_pad_get_current_caps (source);

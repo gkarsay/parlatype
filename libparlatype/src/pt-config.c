@@ -18,8 +18,9 @@
 
 #include "config.h"
 
-#include "contrib/gnome-languages.h"
 #include "pt-config.h"
+
+#include "contrib/gnome-languages.h"
 
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
@@ -1072,4 +1073,3 @@ pt_config_new (GFile *file)
                        "file", file,
                        NULL);
 }
-

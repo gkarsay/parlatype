@@ -47,7 +47,7 @@
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
 #include <gst/audio/streamvolume.h>
-//#include <gst/gst.h>
+// #include <gst/gst.h>
 
 typedef struct _PtPlayerPrivate PtPlayerPrivate;
 struct _PtPlayerPrivate
@@ -543,6 +543,8 @@ bus_call (GstBus     *bus,
         g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                           "MESSAGE", "Debugging info: %s", (debug) ? debug : "none");
         g_free (debug);
+
+        gst_debug_bin_to_dot_file_with_ts (GST_BIN (priv->play), GST_DEBUG_GRAPH_SHOW_ALL, "player-error");
 
         g_signal_emit_by_name (self, "error", error);
         g_error_free (error);
@@ -2170,7 +2172,7 @@ pt_player_get_mode (PtPlayer *self)
   return gst_pt_audio_bin_get_mode (bin);
 }
 
-GstElement*
+GstElement *
 pt_player_get_appsink (PtPlayer *self)
 {
   g_return_val_if_fail (PT_IS_PLAYER (self), NULL);
@@ -2179,7 +2181,7 @@ pt_player_get_appsink (PtPlayer *self)
   return gst_pt_audio_bin_get_appsink (GST_PT_AUDIO_BIN (priv->audio_bin));
 }
 
-GstElement*
+GstElement *
 pt_player_get_capsfilter (PtPlayer *self)
 {
   g_return_val_if_fail (PT_IS_PLAYER (self), NULL);
@@ -2818,4 +2820,3 @@ pt_player_new (void)
   _pt_i18n_init ();
   return g_object_new (PT_TYPE_PLAYER, NULL);
 }
-

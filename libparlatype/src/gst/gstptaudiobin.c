@@ -63,12 +63,11 @@ struct _GstPtAudioBin
   PtModeType mode;
   PtModeType pending;
 
+  GstElement *tee;
   GstElement *play_bin;
   GstElement *asr_bin;
-  GstPad     *tee_sink;
   GstPad     *tee_play_src;
   GstPad     *tee_asr_src;
-  GstElement *queue;
   GstPad     *queue_src_play;
   GstPad     *queue_src_asr;
 
@@ -94,7 +93,7 @@ change_mode_cb (GstPad          *pad,
   GstPadLinkReturn r;
   gboolean         success;
 
-  gst_pad_remove_probe (pad, GST_PAD_PROBE_INFO_ID (info));
+  // gst_pad_remove_probe (pad, GST_PAD_PROBE_INFO_ID (info));
 
   /* get element to remove */
   switch (self->pending)
@@ -123,16 +122,18 @@ change_mode_cb (GstPad          *pad,
   g_assert (success);
 
   /* TODO investigate if flushing necessary */
-  success = gst_pad_send_event (sinkpad, gst_event_new_flush_start ());
+  /*success = gst_pad_send_event (sinkpad, gst_event_new_flush_start ());
   GST_DEBUG_OBJECT (self, "flush-start event %s", success ? "sent" : "not sent");
   success = gst_pad_send_event (sinkpad, gst_event_new_flush_stop (TRUE));
-  GST_DEBUG_OBJECT (self, "flush-stop event %s", success ? "sent" : "not sent");
+  GST_DEBUG_OBJECT (self, "flush-stop event %s", success ? "sent" : "not sent");*/
+  success = gst_pad_send_event (sinkpad, gst_event_new_eos ());
+  GST_DEBUG_OBJECT (self, "eos event %s", success ? "sent" : "not sent");
 
   /* set to null or ready */
   gst_element_set_state (child, GST_STATE_NULL);
 
   /* remove from bin, dereferences removed element, we want to keep it */
-  GST_DEBUG_OBJECT (child, "removing %s from %s", GST_OBJECT_NAME (child), GST_OBJECT_NAME (parent));
+  GST_DEBUG ("removing %s from %s", GST_OBJECT_NAME (child), GST_OBJECT_NAME (parent));
   gst_object_ref (child);
   gst_bin_remove (GST_BIN (parent), child);
 
@@ -144,10 +145,22 @@ change_mode_cb (GstPad          *pad,
     {
     case (PT_MODE_PLAYBACK):
       child = self->play_bin;
+      gst_object_unref (self->tee_asr_src);
+      self->tee_asr_src = NULL;
+      if (self->tee_play_src == NULL)
+        {
+          self->tee_play_src = gst_element_request_pad_simple (self->tee, "src_%u");
+        }
       tee_src = self->tee_play_src;
       break;
     case (PT_MODE_ASR):
       child = self->asr_bin;
+      gst_object_unref (self->tee_play_src);
+      self->tee_play_src = NULL;
+      if (self->tee_asr_src == NULL)
+        {
+          self->tee_asr_src = gst_element_request_pad_simple (self->tee, "src_%u");
+        }
       tee_src = self->tee_asr_src;
       break;
     default:
@@ -164,8 +177,7 @@ change_mode_cb (GstPad          *pad,
       return GST_PAD_PROBE_OK;
     }
 
-  GST_DEBUG_OBJECT (child, "adding %s to %s",
-                    GST_OBJECT_NAME (child), GST_OBJECT_NAME (self));
+  GST_DEBUG ("adding %s to %s", GST_OBJECT_NAME (child), GST_OBJECT_NAME (self));
   success = gst_bin_add (GST_BIN (self), child);
   g_assert (success);
   success = gst_element_sync_state_with_parent (child);
@@ -174,20 +186,37 @@ change_mode_cb (GstPad          *pad,
   g_assert (success);
 
   sinkpad = gst_element_get_static_pad (child, "sink");
-  r = gst_pad_link (tee_src, sinkpad);
-  g_print ("link r = %d\n", r);
+  // tee_src = gst_element_request_pad_simple (self->tee, "src_%u");
+
+  r = _pt_pad_link (tee_src, sinkpad);
   g_assert (r == GST_PAD_LINK_OK);
 
   gst_object_unref (sinkpad);
+  gst_object_unref (tee_src);
   GST_DEBUG_OBJECT (self, "switched mode to %d", self->pending);
   self->mode = self->pending;
+  gst_pad_remove_probe (pad, GST_PAD_PROBE_INFO_ID (info));
 
+  return GST_PAD_PROBE_OK;
+}
+
+static GstPadProbeReturn
+block_probe_cb (GstPad          *pad,
+                GstPadProbeInfo *info,
+                gpointer         user_data)
+{
+  g_print ("pad %s:%s blocked!\n", GST_DEBUG_PAD_NAME (pad));
+  g_assert ((info->type & GST_PAD_PROBE_TYPE_BUFFER) ==
+            GST_PAD_PROBE_TYPE_BUFFER);
+  /* FIXME: this doesn't work: gst_buffer_replace ((GstBuffer **) &info->data, NULL); */
   return GST_PAD_PROBE_OK;
 }
 
 PtModeType
 gst_pt_audio_bin_get_mode (GstPtAudioBin *self)
 {
+  g_return_val_if_fail (GST_IS_PT_AUDIO_BIN (self), PT_MODE_INVALID);
+
   return self->pending;
 }
 
@@ -197,8 +226,12 @@ gst_pt_audio_bin_set_mode (GstPtAudioBin *self,
 {
   GstPad *blockpad;
 
+  g_return_if_fail (GST_IS_PT_AUDIO_BIN (self));
+
   if (self->pending == new)
     return;
+
+  return;
 
   self->pending = new;
 
@@ -274,49 +307,42 @@ gst_pt_audio_bin_dispose (GObject *object)
 static void
 gst_pt_audio_bin_init (GstPtAudioBin *self)
 {
-  GstElement *tee;
-  // GstPad     *tee_sink;
-  GstPad *tee_src1;
-  GstPad *tee_src2;
-  GstPad *queue_sink1;
-  GstPad *queue_sink2;
-  GstPad *play_sink;
+  GstPad *tee_sink;
+  GstPad *play_sink, *asr_sink;
 
   gst_pt_audio_play_bin_register ();
   gst_pt_audio_asr_bin_register ();
 
-  tee = _pt_make_element ("tee", "tee", NULL);
+  self->tee = _pt_make_element ("tee", "tee", NULL);
   self->play_bin = _pt_make_element ("ptaudioplaybin", "play-audiobin", NULL);
   self->asr_bin = _pt_make_element ("ptaudioasrbin", "asr-audiobin", NULL);
-  self->queue = _pt_make_element ("multiqueue", "multiqueue", NULL);
 
-  gst_bin_add_many (GST_BIN (self), tee, self->queue, self->play_bin, NULL);
+  gst_bin_add_many (GST_BIN (self), self->tee, self->play_bin, self->asr_bin, NULL);
 
-  /* Pads */
-  self->tee_sink = gst_element_get_static_pad (tee, "sink");
-  tee_src1 = gst_element_request_pad_simple (tee, "src_%u");
-  tee_src2 = gst_element_request_pad_simple (tee, "src_%u");
-  queue_sink1 = gst_element_request_pad_simple (self->queue, "sink_1");
-  queue_sink2 = gst_element_request_pad_simple (self->queue, "sink_2");
-  self->queue_src_play = gst_element_get_static_pad (self->queue, "src_1");
-  self->queue_src_asr = gst_element_get_static_pad (self->queue, "src_2");
-  self->tee_play_src = gst_element_request_pad_simple (tee, "src_%u");
-  self->tee_asr_src = gst_element_request_pad_simple (tee, "src_%u");
+  /* Play branch */
+  self->tee_play_src = gst_element_request_pad_simple (self->tee, "src_1");
   play_sink = gst_element_get_static_pad (self->play_bin, "sink");
+  _pt_pad_link (self->tee_play_src, play_sink);
 
-  /* link tee with multiqueue */
-  gst_pad_link (tee_src1, queue_sink1);
-  gst_pad_link (tee_src2, queue_sink2);
+  /* ASR branch */
+  self->tee_asr_src = gst_element_request_pad_simple (self->tee, "src_2");
+  asr_sink = gst_element_get_static_pad (self->asr_bin, "sink");
+  _pt_pad_link (self->tee_asr_src, asr_sink);
 
-  /* link play bin with tee */
-  gst_pad_link (self->tee_play_src, play_sink);
+  /*g_object_set (self->tee, "allow-not-linked", TRUE, NULL);
+  gst_pad_add_probe (self->tee_asr_src,
+                     GST_PAD_PROBE_TYPE_BLOCK | GST_PAD_PROBE_TYPE_BUFFER,
+                     block_probe_cb, self, NULL);*/
   self->mode = PT_MODE_PLAYBACK;
 
   /* create ghost pad for audiosink */
+  tee_sink = gst_element_get_static_pad (self->tee, "sink");
   gst_element_add_pad (GST_ELEMENT (self),
-                       gst_ghost_pad_new ("sink", self->tee_sink));
+                       gst_ghost_pad_new ("sink", tee_sink));
+  gst_object_unref (tee_sink);
 
   gst_object_unref (GST_OBJECT (play_sink));
+  gst_object_unref (GST_OBJECT (asr_sink));
 }
 
 static void
