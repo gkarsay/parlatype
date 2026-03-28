@@ -389,7 +389,7 @@ pt_text_view_connect (PtTextView *self)
 }
 
 void
-insert_timestamp_button_cb (PtTextBuffer       *buffer,
+insert_timestamp_button_cb (GObject            *object,
                             GtkTextChildAnchor *anchor,
                             char               *timestamp,
                             gpointer            user_data)
@@ -454,12 +454,15 @@ pt_text_view_load (PtTextView *self,
 {
   GFile        *test_file;
   PtFileLoader *loader;
+  gulong        handler_id;
 
   g_print ("%s\n", __func__);
 
   test_file = g_file_new_for_path ("/home/gabor/parlatype-test.xml");
   loader = pt_file_loader_new (self->buffer, test_file);
+  handler_id = g_signal_connect (loader, "insert-timestamp-button", G_CALLBACK (insert_timestamp_button_cb), self);
   pt_file_loader_load (loader);
+  g_signal_handler_disconnect (loader, handler_id);
 }
 
 static void
