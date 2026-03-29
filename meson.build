@@ -58,6 +58,7 @@ i18n    = import('i18n')
 gtk        = dependency('gtk4',         version: '>= 4.14')
 glib       = dependency('glib-2.0',     version: '>= 2.76')
 libadwaita = dependency('libadwaita-1', version: '>= 1.5')
+libxml     = dependency('libxml-2.0')
 
 # tools are not shipped in tarball, check if directory exists
 fs = import('fs')

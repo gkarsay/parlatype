@@ -23,6 +23,7 @@ parlatype_sources = [
   'pt-config-row.c',
   'pt-controller.c',
   'pt-dbus-service.c',
+  'pt-file-saver.c',
   'pt-goto-dialog.c',
   'pt-mpris.c',
   'pt-playback-rate-button.c',
@@ -31,6 +32,7 @@ parlatype_sources = [
   'pt-prefs-install-row.c',
   'pt-text-buffer.c',
   'pt-text-buffer-content.c',
+  'pt-text-buffer-input-stream.c',
   'pt-text-view.c',
   'pt-volume-button.c',
   'pt-window.c',
@@ -43,6 +45,7 @@ parlatype_deps = [
   config_h,
   gtk,
   libadwaita,
+  libxml,
   math,
 ]
 
