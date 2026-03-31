@@ -460,11 +460,11 @@ bus_call (GstBus     *bus,
         GstState old_state, new_state, pending_state;
         gst_message_parse_state_changed (msg, &old_state, &new_state, &pending_state);
         g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
-                          "MESSAGE", "state changed, old state: %s", gst_state_get_name (old_state));
+                          "MESSAGE", "state changed, old state: %s", gst_element_state_get_name (old_state));
         g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
-                          "MESSAGE", "state changed, new state: %s", gst_state_get_name (new_state));
+                          "MESSAGE", "state changed, new state: %s", gst_element_state_get_name (new_state));
         g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
-                          "MESSAGE", "state changed, pending state: %s", gst_state_get_name (pending_state));
+                          "MESSAGE", "state changed, pending state: %s", gst_element_state_get_name (pending_state));
         g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                           "MESSAGE", "state changed, seek pending: %s", self->seek_pending ? "yes" : "no");
 
