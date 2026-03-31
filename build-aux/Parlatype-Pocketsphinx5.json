@@ -1,7 +1,7 @@
 {
     "app-id" : "xyz.parlatype.Parlatype",
     "runtime" : "org.gnome.Platform",
-    "runtime-version" : "48",
+    "runtime-version" : "50",
     "sdk" : "org.gnome.Sdk",
     "command" : "parlatype",
     "finish-args" : [
@@ -39,10 +39,25 @@
             ]
         },
         {
+            "name" : "libpeas",
+            "buildsystem" : "meson",
+            "config-opts" : [
+                "-Dlua51=false",
+                "-Dpython3=false"
+            ],
+            "sources" : [
+                {
+                    "type" : "archive",
+                    "url" : "https://gitlab.gnome.org/GNOME/libpeas/-/archive/2.2.1/libpeas-2.2.1.tar.gz",
+                    "sha256" : "b15f94e165013870f2da2ebb8e77448d8c6b4c8075b74078280e12fbba961f9d"
+                }
+            ]
+        },
+        {
             "name" : "parlatype",
             "buildsystem" : "meson",
             "config-opts" : [
-                "-Dpocketsphinx=true"
+                "-Dplugin_pocketsphinx=true"
             ],
             "sources" : [
                 {
