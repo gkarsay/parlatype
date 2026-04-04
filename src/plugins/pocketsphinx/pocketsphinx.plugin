@@ -6,3 +6,4 @@ Description=
 Embedded=ptp_pocketsphinx_register_types
 Module=pocketsphinx
 Name=Pocketsphinx
+X-Category=asr

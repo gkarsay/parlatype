@@ -6,3 +6,4 @@ Description=
 Embedded=ptp_whisper_register_types
 Module=whisper
 Name=Whisper
+X-Category=asr

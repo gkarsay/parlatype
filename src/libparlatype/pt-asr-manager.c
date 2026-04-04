@@ -24,6 +24,8 @@
  * Since: 5.0
  */
 
+#define G_LOG_DOMAIN "pt-asr-manager"
+
 #include "config.h"
 
 #include "pt-asr-manager.h"
@@ -346,17 +348,22 @@ pt_asr_manager_init (PtAsrManager *self)
                                "resource:///plugins");
   peas_engine_rescan_plugins (self->engine);
   n_items = g_list_model_get_n_items (G_LIST_MODEL (self->engine));
-  self->have_asr = n_items > 0;
+  self->have_asr = FALSE;
 
-  if (!g_log_writer_default_would_drop (G_LOG_LEVEL_INFO, G_LOG_DOMAIN))
+  for (uint i = 0; i < n_items; i++)
     {
-      for (uint i = 0; i < n_items; i++)
+      PeasPluginInfo *plugin_info = g_list_model_get_item (G_LIST_MODEL (self->engine), i);
+      const char     *module_name = peas_plugin_info_get_module_name (plugin_info);
+      const char     *category = peas_plugin_info_get_external_data (plugin_info, "Category");
+      g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
+                        "MESSAGE", "Found plugin %s in category %s", module_name, category);
+
+      if (!self->have_asr && g_strcmp0 (category, "asr") == 0)
         {
-          PeasPluginInfo *plugin_info = g_list_model_get_item (G_LIST_MODEL (self->engine), i);
-          g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
-                            "MESSAGE", "Found ASR plugin %s", peas_plugin_info_get_module_name (plugin_info));
-          g_object_unref (plugin_info);
+          self->have_asr = TRUE;
         }
+
+      g_object_unref (plugin_info);
     }
 }
 
