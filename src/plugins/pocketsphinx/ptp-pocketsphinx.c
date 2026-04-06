@@ -61,7 +61,7 @@ enum
 };
 
 static GParamSpec *obj_properties[N_PROPERTIES];
-static void        pt_asr_iface_init (PtAsrIfaceInterface *iface);
+static void        pt_speech_recognizer_init (PtSpeechRecognizerInterface *iface);
 
 /*
  * Boxing of ps_decoder_t.
@@ -82,7 +82,7 @@ ps_decoder_get_type (void)
   return ps_decoder_type;
 }
 
-G_DEFINE_FINAL_TYPE_WITH_CODE (PtpPocketsphinx, ptp_pocketsphinx, G_TYPE_OBJECT, G_IMPLEMENT_INTERFACE (PT_TYPE_ASR_IFACE, pt_asr_iface_init))
+G_DEFINE_FINAL_TYPE_WITH_CODE (PtpPocketsphinx, ptp_pocketsphinx, G_TYPE_OBJECT, G_IMPLEMENT_INTERFACE (PT_TYPE_SPEECH_RECOGNIZER, pt_speech_recognizer_init))
 
 static gboolean
 insert_text_cb (PtpPocketsphinx *self)
@@ -189,15 +189,15 @@ new_sample_cb (GstAppSink *sink,
 }
 
 static void
-ptp_pocketsphinx_load (PtAsrIface *pt_asr_iface,
-                       PtPlayer   *player,
-                       PtTextView *text_view)
+ptp_pocketsphinx_load (PtSpeechRecognizer *pt_speech_recognizer,
+                       PtPlayer           *player,
+                       PtTextView         *text_view)
 {
-  g_return_if_fail (PT_IS_ASR_IFACE (pt_asr_iface));
+  g_return_if_fail (PT_IS_SPEECH_RECOGNIZER (pt_speech_recognizer));
   g_return_if_fail (PT_IS_PLAYER (player));
   g_return_if_fail (PT_IS_TEXT_VIEW (text_view));
 
-  PtpPocketsphinx *self = PTP_POCKETSPHINX (pt_asr_iface);
+  PtpPocketsphinx *self = PTP_POCKETSPHINX (pt_speech_recognizer);
   GstCaps         *caps;
 
   self->player = player;
@@ -217,12 +217,12 @@ ptp_pocketsphinx_load (PtAsrIface *pt_asr_iface,
 }
 
 static void
-ptp_pocketsphinx_unload (PtAsrIface *self)
+ptp_pocketsphinx_unload (PtSpeechRecognizer *self)
 {
 }
 
 static void
-pt_asr_iface_init (PtAsrIfaceInterface *iface)
+pt_speech_recognizer_init (PtSpeechRecognizerInterface *iface)
 {
   iface->load = ptp_pocketsphinx_load;
   iface->unload = ptp_pocketsphinx_unload;

@@ -26,9 +26,9 @@ enum
 };
 
 static GParamSpec *obj_properties[N_PROPERTIES];
-static void        pt_asr_iface_init (PtAsrIfaceInterface *iface);
+static void        pt_speech_recognizer_init (PtSpeechRecognizerInterface *iface);
 
-G_DEFINE_FINAL_TYPE_WITH_CODE (DummyGreeter, dummy_greeter, G_TYPE_OBJECT, G_IMPLEMENT_INTERFACE (PT_TYPE_ASR_IFACE, pt_asr_iface_init))
+G_DEFINE_FINAL_TYPE_WITH_CODE (DummyGreeter, dummy_greeter, G_TYPE_OBJECT, G_IMPLEMENT_INTERFACE (PT_TYPE_SPEECH_RECOGNIZER, pt_speech_recognizer_init))
 
 static gboolean
 insert_text_cb (DummyGreeter *self)
@@ -77,15 +77,15 @@ new_sample_cb (GstAppSink *sink,
 }
 
 static void
-dummy_greeter_load (PtAsrIface *pt_asr_iface,
-                    PtPlayer   *player,
-                    PtTextView *text_view)
+dummy_greeter_load (PtSpeechRecognizer *pt_speech_recognizer,
+                    PtPlayer           *player,
+                    PtTextView         *text_view)
 {
-  g_return_if_fail (PT_IS_ASR_IFACE (pt_asr_iface));
+  g_return_if_fail (PT_IS_SPEECH_RECOGNIZER (pt_speech_recognizer));
   g_return_if_fail (PT_IS_PLAYER (player));
   g_return_if_fail (PT_IS_TEXT_VIEW (text_view));
 
-  DummyGreeter *self = DUMMY_GREETER (pt_asr_iface);
+  DummyGreeter *self = DUMMY_GREETER (pt_speech_recognizer);
   self->player = player;
   self->text_view = text_view;
   self->appsink = pt_player_get_appsink (self->player);
@@ -99,12 +99,12 @@ dummy_greeter_load (PtAsrIface *pt_asr_iface,
 }
 
 static void
-dummy_greeter_unload (PtAsrIface *self)
+dummy_greeter_unload (PtSpeechRecognizer *self)
 {
 }
 
 static void
-pt_asr_iface_init (PtAsrIfaceInterface *iface)
+pt_speech_recognizer_init (PtSpeechRecognizerInterface *iface)
 {
   iface->load = dummy_greeter_load;
   iface->unload = dummy_greeter_unload;

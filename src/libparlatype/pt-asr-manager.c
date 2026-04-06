@@ -30,7 +30,7 @@
 
 #include "pt-asr-manager.h"
 
-#include "pt-asr-iface.h"
+#include "pt-speech-recognizer.h"
 
 #include <gio/gio.h>
 #include <libpeas.h>
@@ -61,10 +61,10 @@ static GParamSpec *obj_properties[N_PROPERTIES];
 G_DEFINE_TYPE (PtAsrManager, pt_asr_manager, G_TYPE_OBJECT)
 
 static void
-on_extension_added (PeasExtensionSet *set,
-                    PeasPluginInfo   *info,
-                    PtAsrIface       *plugin,
-                    gpointer          user_data)
+on_extension_added (PeasExtensionSet   *set,
+                    PeasPluginInfo     *info,
+                    PtSpeechRecognizer *plugin,
+                    gpointer            user_data)
 {
   PtAsrManager *self = PT_ASR_MANAGER (user_data);
   GError       *error = NULL;
@@ -82,16 +82,16 @@ on_extension_added (PeasExtensionSet *set,
       return;
     }
 
-  pt_asr_iface_load (plugin, self->player, self->text_view);
+  pt_speech_recognizer_load (plugin);
   g_task_return_boolean (task, TRUE);
 }
 
 static void
-on_extension_removed (PeasExtensionSet *set,
-                      PeasPluginInfo   *info,
-                      PtAsrIface       *plugin)
+on_extension_removed (PeasExtensionSet   *set,
+                      PeasPluginInfo     *info,
+                      PtSpeechRecognizer *plugin)
 {
-  pt_asr_iface_unload (plugin);
+  pt_speech_recognizer_unload (plugin);
 }
 
 /**
@@ -322,9 +322,9 @@ pt_asr_manager_constructed (GObject *object)
   PtAsrManager *self = PT_ASR_MANAGER (object);
 
   self->extension_set = peas_extension_set_new (self->engine,
-                                                PT_TYPE_ASR_IFACE,
-                                                /*"player", self->player,
-                                                "textview", self->text_view,*/
+                                                PT_TYPE_SPEECH_RECOGNIZER,
+                                                "player", self->player,
+                                                "textview", self->text_view,
                                                 NULL);
   peas_extension_set_foreach (self->extension_set,
                               (PeasExtensionSetForeachFunc) on_extension_added,

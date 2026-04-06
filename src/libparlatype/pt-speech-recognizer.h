@@ -26,24 +26,20 @@
 
 G_BEGIN_DECLS
 
-#define PT_TYPE_ASR_IFACE (pt_asr_iface_get_type ())
-G_DECLARE_INTERFACE (PtAsrIface, pt_asr_iface, PT, ASR_IFACE, GObject)
+#define PT_TYPE_SPEECH_RECOGNIZER (pt_speech_recognizer_get_type ())
+G_DECLARE_INTERFACE (PtSpeechRecognizer, pt_speech_recognizer, PT, SPEECH_RECOGNIZER, GObject)
 
-struct _PtAsrIfaceInterface
+struct _PtSpeechRecognizerInterface
 {
   GTypeInterface parent;
 
-  void (*load)   (PtAsrIface *self,
-                  PtPlayer   *player,
-                  PtTextView *text_view);
-  void (*unload) (PtAsrIface *self);
+  void (*load)   (PtSpeechRecognizer *self);
+  void (*unload) (PtSpeechRecognizer *self);
 
 };
 
-void pt_asr_iface_load   (PtAsrIface *self,
-                          PtPlayer   *player,
-                          PtTextView *text_view);
+void pt_speech_recognizer_load   (PtSpeechRecognizer *self);
 
-void pt_asr_iface_unload (PtAsrIface *self);
+void pt_speech_recognizer_unload (PtSpeechRecognizer *self);
 
 G_END_DECLS

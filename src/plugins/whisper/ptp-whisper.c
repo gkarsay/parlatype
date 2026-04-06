@@ -39,15 +39,17 @@ struct _PtpWhisper
 
 enum
 {
-  PROP_LANGUAGE = 1,
+  PROP_PLAYER = 1,
+  PROP_TEXT_VIEW,
+  PROP_LANGUAGE,
   PROP_SPEECH_MODEL,
   N_PROPERTIES
 };
 
 static GParamSpec *obj_properties[N_PROPERTIES];
-static void        pt_asr_iface_init (PtAsrIfaceInterface *iface);
+static void        pt_asr_iface_init (PtSpeechRecognizerInterface *iface);
 
-G_DEFINE_FINAL_TYPE_WITH_CODE (PtpWhisper, ptp_whisper, G_TYPE_OBJECT, G_IMPLEMENT_INTERFACE (PT_TYPE_ASR_IFACE, pt_asr_iface_init))
+G_DEFINE_FINAL_TYPE_WITH_CODE (PtpWhisper, ptp_whisper, G_TYPE_OBJECT, G_IMPLEMENT_INTERFACE (PT_TYPE_SPEECH_RECOGNIZER, pt_asr_iface_init))
 
 static gboolean
 ptp_whisper_load_model (PtpWhisper *self)
@@ -63,7 +65,7 @@ ptp_whisper_load_model (PtpWhisper *self)
     return FALSE;
 
   self->wparams = whisper_full_default_params (WHISPER_SAMPLING_GREEDY);
-  self->wparams.language = "de";
+  self->wparams.language = "en";
   g_print ("multilingual: %s\n", whisper_is_multilingual (self->whisper_ctx) ? "yes" : "no");
   return TRUE;
 }
@@ -72,6 +74,7 @@ static gboolean
 insert_text_cb (PtpWhisper *self)
 {
   pt_text_view_insert_asr_final (self->text_view, self->result);
+  g_clear_pointer (&self->result, g_free);
   self->source_handler = 0;
   return G_SOURCE_REMOVE;
 }
@@ -89,7 +92,7 @@ ptp_whisper_finalize_utt (PtpWhisper *self)
   for (int i = 0; i < n_segments; ++i)
     {
       const char *text = whisper_full_get_segment_text (self->whisper_ctx, i);
-      self->result = text;
+      self->result = g_strdup (text);
       self->source_handler = g_idle_add (G_SOURCE_FUNC (insert_text_cb), self);
     }
 }
@@ -133,7 +136,7 @@ new_sample_cb (GstAppSink *sink,
           const char *text = whisper_full_get_segment_text (self->whisper_ctx, i);
           if (strlen (text) > 0)
             {
-              self->result = text;
+              self->result = g_strdup (text);
               self->source_handler = g_idle_add (G_SOURCE_FUNC (insert_text_cb), self);
             }
           g_print ("text: %s", text);
@@ -154,19 +157,14 @@ new_sample_cb (GstAppSink *sink,
 }
 
 static void
-ptp_whisper_load (PtAsrIface *pt_asr_iface,
-                  PtPlayer   *player,
-                  PtTextView *text_view)
+ptp_whisper_load (PtSpeechRecognizer *pt_asr_iface)
 {
-  g_return_if_fail (PT_IS_ASR_IFACE (pt_asr_iface));
-  g_return_if_fail (PT_IS_PLAYER (player));
-  g_return_if_fail (PT_IS_TEXT_VIEW (text_view));
+  g_return_if_fail (PT_IS_SPEECH_RECOGNIZER (pt_asr_iface));
 
   PtpWhisper *self = PTP_WHISPER (pt_asr_iface);
   GstCaps    *caps;
 
-  self->player = player;
-  self->text_view = text_view;
+  g_object_get (pt_asr_iface, "player", &self->player, "textview", &self->text_view, NULL);
   self->appsink = pt_player_get_appsink (self->player);
   caps = gst_caps_new_simple ("audio/x-raw",
                               "format", G_TYPE_STRING, GST_AUDIO_NE (S16),
@@ -183,12 +181,12 @@ ptp_whisper_load (PtAsrIface *pt_asr_iface,
 }
 
 static void
-ptp_whisper_unload (PtAsrIface *self)
+ptp_whisper_unload (PtSpeechRecognizer *self)
 {
 }
 
 static void
-pt_asr_iface_init (PtAsrIfaceInterface *iface)
+pt_asr_iface_init (PtSpeechRecognizerInterface *iface)
 {
   iface->load = ptp_whisper_load;
   iface->unload = ptp_whisper_unload;
@@ -204,6 +202,12 @@ ptp_whisper_set_property (GObject      *object,
 
   switch (property_id)
     {
+    case PROP_PLAYER:
+      self->player = g_value_get_object (value);
+      break;
+    case PROP_TEXT_VIEW:
+      self->text_view = g_value_get_object (value);
+      break;
     case PROP_LANGUAGE:
       g_free (self->speech_model_path);
       self->language = g_value_dup_string (value);
@@ -228,6 +232,12 @@ ptp_whisper_get_property (GObject    *object,
 
   switch (property_id)
     {
+    case PROP_PLAYER:
+      g_value_set_object (value, self->player);
+      break;
+    case PROP_TEXT_VIEW:
+      g_value_set_object (value, self->text_view);
+      break;
     case PROP_LANGUAGE:
       g_value_set_string (value, self->language);
       break;
@@ -269,6 +279,18 @@ ptp_whisper_class_init (PtpWhisperClass *klass)
   G_OBJECT_CLASS (klass)->set_property = ptp_whisper_set_property;
   G_OBJECT_CLASS (klass)->get_property = ptp_whisper_get_property;
   G_OBJECT_CLASS (klass)->finalize = ptp_whisper_finalize;
+
+  obj_properties[PROP_PLAYER] =
+      g_param_spec_object (
+          "player", NULL, NULL,
+          PT_TYPE_PLAYER,
+          G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
+
+  obj_properties[PROP_TEXT_VIEW] =
+      g_param_spec_object (
+          "textview", NULL, NULL,
+          PT_TYPE_TEXT_VIEW,
+          G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
   obj_properties[PROP_LANGUAGE] =
       g_param_spec_string (
