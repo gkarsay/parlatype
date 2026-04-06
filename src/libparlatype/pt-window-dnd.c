@@ -120,7 +120,7 @@ handle_dnd_data (PtWindow *win,
   g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                     "MESSAGE", "Received drag and drop: '%s'", data);
 
-  PtPlayer *player = _pt_window_get_player (win);
+  PtPlayer *player = pt_window_get_player (win);
   int       timestamp;
 
   timestamp = pt_timestamp_from_string (data);

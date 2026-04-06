@@ -48,7 +48,7 @@ PtPlayer *
 pt_controller_get_player (PtController *self)
 {
   PtControllerPrivate *priv = pt_controller_get_instance_private (self);
-  return _pt_window_get_player (priv->win);
+  return pt_window_get_player (priv->win);
 }
 
 static void

@@ -41,7 +41,6 @@
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
-#include <parlatype.h>
 #include <stdlib.h> /* exit() */
 
 struct _PtWindow
@@ -73,7 +72,16 @@ struct _PtWindow
   gdouble speed;
 };
 
+enum
+{
+  PROP_0,
+  PROP_PLAYER,
+  N_PROPS
+};
+
 G_DEFINE_TYPE (PtWindow, pt_window, ADW_TYPE_APPLICATION_WINDOW)
+
+static GParamSpec *properties[N_PROPS];
 
 static void
 pt_error_message (PtWindow *parent,
@@ -950,8 +958,16 @@ progressbar_cb (PtWaveviewer *viewer,
   gtk_progress_bar_set_fraction (progressbar, fraction);
 }
 
+/**
+ * pt_window_get_player:
+ * @self: a PtWindow
+ *
+ * Returns the player in use.
+ *
+ * Returns: (transfer none): a `PtPlayer`
+ */
 PtPlayer *
-_pt_window_get_player (PtWindow *self)
+pt_window_get_player (PtWindow *self)
 {
   return self->player;
 }
@@ -1072,6 +1088,26 @@ pt_window_dispose (GObject *object)
 }
 
 static void
+pt_window_get_property (GObject    *object,
+                        guint       prop_id,
+                        GValue     *value,
+                        GParamSpec *pspec)
+{
+  PtWindow *self = PT_WINDOW (object);
+
+  switch (prop_id)
+    {
+    case PROP_PLAYER:
+      g_value_set_object (value, self->player);
+      break;
+
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+      break;
+    }
+}
+
+static void
 pt_window_constructed (GObject *object)
 {
   PtWindow           *self = PT_WINDOW (object);
@@ -1166,12 +1202,13 @@ pt_window_init (PtWindow *self)
 static void
 pt_window_class_init (PtWindowClass *klass)
 {
-  GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
+  GObjectClass   *object_class = G_OBJECT_CLASS (klass);
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
   GtkWindowClass *window_class = GTK_WINDOW_CLASS (klass);
 
-  gobject_class->constructed = pt_window_constructed;
-  gobject_class->dispose = pt_window_dispose;
+  object_class->get_property = pt_window_get_property;
+  object_class->constructed = pt_window_constructed;
+  object_class->dispose = pt_window_dispose;
   window_class->close_request = pt_window_close_request;
 
   gtk_widget_class_set_template_from_resource (widget_class, "/xyz/parlatype/Parlatype/window.ui");
@@ -1207,6 +1244,18 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_minus, GDK_CONTROL_MASK, "win.zoom-out", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_KP_Subtract, GDK_CONTROL_MASK, "win.zoom-out", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_0, GDK_CONTROL_MASK, "win.zoom-default", NULL);
+
+  /**
+   * PtWindow:player:
+   *
+   * Player in use.
+   */
+  properties[PROP_PLAYER] =
+      g_param_spec_object ("player", NULL, NULL,
+                           PT_TYPE_PLAYER,
+                           G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+
+  g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 /**

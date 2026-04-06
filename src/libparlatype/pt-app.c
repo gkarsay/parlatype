@@ -237,7 +237,7 @@ get_debug_info (GtkApplication *app)
   gchar       *gst_tags;
 
   win = PT_WINDOW (gtk_application_get_active_window (app));
-  player = _pt_window_get_player (win);
+  player = pt_window_get_player (win);
 
   g_string_append (str, "[version]\n");
 

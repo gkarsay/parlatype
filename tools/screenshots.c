@@ -376,7 +376,7 @@ take_screenshots (GtkApplication *app,
   windows = gtk_application_get_windows (app);
   win = PT_WINDOW (windows->data);
   waveviewer = _pt_window_get_waveviewer (win);
-  player = _pt_window_get_player (win);
+  player = pt_window_get_player (win);
 
   /* Main window ------------------------------------------------------------ */
 

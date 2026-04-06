@@ -17,23 +17,26 @@
 #pragma once
 
 #include "pt-app.h"
+#include "parlatype.h"
 #include <gtk/gtk.h>
 
 #define PT_TYPE_WINDOW (pt_window_get_type ())
 G_DECLARE_FINAL_TYPE (PtWindow, pt_window, PT, WINDOW, AdwApplicationWindow)
 
 
-void      pt_window_save (PtWindow *self,
-                          GFile    *file);
+void      pt_window_save          (PtWindow    *self,
+                                   GFile       *file);
 
-void      pt_window_save_as (PtWindow *self);
+void      pt_window_save_as       (PtWindow    *self);
 
-void      pt_window_load_document (PtWindow *self,
-                                   GFile    *file);
+void      pt_window_load_document (PtWindow    *self,
+                                   GFile       *file);
 
-void      pt_window_open_file (PtWindow    *self,
-                               gchar       *uri);
+void      pt_window_open_file     (PtWindow    *self,
+                                   gchar       *uri);
 
-gchar    *pt_window_get_uri   (PtWindow    *self);
+gchar    *pt_window_get_uri       (PtWindow    *self);
 
-PtWindow *pt_window_new       (PtApp       *app);
+PtPlayer *pt_window_get_player    (PtWindow    *self);
+
+PtWindow *pt_window_new           (PtApp       *app);

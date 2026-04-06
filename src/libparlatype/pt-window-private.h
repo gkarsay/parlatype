@@ -20,8 +20,6 @@
 
 #include <parlatype.h>
 
-PtPlayer         *_pt_window_get_player              (PtWindow *self);
-
 PtAsrManager     *_pt_window_get_asr_manager         (PtWindow *self);
 
 GtkWidget        *_pt_window_get_waveviewer          (PtWindow *self);
