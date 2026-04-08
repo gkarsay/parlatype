@@ -220,8 +220,6 @@ player_notify_state_cb (PtPlayer   *player,
   state = pt_player_get_state (self->player);
   gtk_widget_set_sensitive (self->volume_button, state >= PT_STATE_PAUSED);
 
-  g_print ("%s: state %s\n", __func__, pt_state_get_name (state));
-
   gtk_widget_action_set_enabled (GTK_WIDGET (self), "audio.jump-back", state >= PT_STATE_PAUSED);
   gtk_widget_action_set_enabled (GTK_WIDGET (self), "audio.jump-forward", state >= PT_STATE_PAUSED);
 

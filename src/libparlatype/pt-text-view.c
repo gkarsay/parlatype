@@ -245,7 +245,6 @@ pt_text_view_insert_asr_hypothesis (PtTextView *self,
 
   if (!g_atomic_int_compare_and_exchange (&self->hypothesis, FALSE, TRUE))
     {
-      g_print ("%s\n", __func__);
       gtk_text_buffer_undo (GTK_TEXT_BUFFER (self->buffer));
     }
 

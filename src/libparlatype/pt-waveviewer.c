@@ -32,6 +32,8 @@
  * make selections and so on.
  */
 
+#define G_LOG_DOMAIN "pt-waveviewer"
+
 #define GETTEXT_PACKAGE GETTEXT_LIB
 
 #include "config.h"
@@ -821,7 +823,8 @@ pt_waveviewer_set_pps (PtWaveviewer *self,
   get_anchor_point (self);
   if (!pt_waveloader_resize (self->loader, self->pps, &error))
     {
-      g_print ("%s\n", error->message);
+      g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_ERROR,
+                        "MESSAGE", "%s", error->message);
       g_clear_error (&error);
       return;
     }

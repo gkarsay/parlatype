@@ -212,8 +212,6 @@ ptp_pocketsphinx_load (PtSpeechRecognizer *pt_speech_recognizer,
 
   g_signal_connect (self->appsink, "new-sample", G_CALLBACK (new_sample_cb), self);
   g_signal_connect (self->appsink, "eos", G_CALLBACK (eos_cb), self);
-
-  g_print ("%s\n", __func__);
 }
 
 static void

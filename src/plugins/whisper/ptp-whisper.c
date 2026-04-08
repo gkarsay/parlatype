@@ -1,3 +1,5 @@
+#define G_LOG_DOMAIN "ptp-whisper"
+
 #include "config.h"
 
 #include "ptp-whisper.h"
@@ -66,7 +68,8 @@ ptp_whisper_load_model (PtpWhisper *self)
 
   self->wparams = whisper_full_default_params (WHISPER_SAMPLING_GREEDY);
   self->wparams.language = "en";
-  g_print ("multilingual: %s\n", whisper_is_multilingual (self->whisper_ctx) ? "yes" : "no");
+  g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                    "MESSAGE", "model is multilingual: %s", whisper_is_multilingual (self->whisper_ctx) ? "yes" : "no");
   return TRUE;
 }
 
@@ -84,11 +87,13 @@ ptp_whisper_finalize_utt (PtpWhisper *self)
 {
   if (whisper_full_parallel (self->whisper_ctx, self->wparams, self->buffer, self->buffer_index, 1) != 0)
     {
-      g_print ("failed to process audio\n");
+      g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_ERROR,
+                        "MESSAGE", "failed to process audio");
       return;
     }
   const int n_segments = whisper_full_n_segments (self->whisper_ctx);
-  g_print ("segments: %d\n", n_segments);
+  g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                    "MESSAGE", "processing %d segments", n_segments);
   for (int i = 0; i < n_segments; ++i)
     {
       const char *text = whisper_full_get_segment_text (self->whisper_ctx, i);
@@ -126,11 +131,13 @@ new_sample_cb (GstAppSink *sink,
     {
       if (whisper_full (self->whisper_ctx, self->wparams, self->buffer, self->buffer_index) != 0)
         {
-          g_print ("failed to process audio\n");
+          g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_ERROR,
+                            "MESSAGE", "failed to process audio");
           return GST_FLOW_ERROR;
         }
       const int n_segments = whisper_full_n_segments (self->whisper_ctx);
-      g_print ("segments: %d\n", n_segments);
+      g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                        "MESSAGE", "processing %d segments", n_segments);
       for (int i = 0; i < n_segments; ++i)
         {
           const char *text = whisper_full_get_segment_text (self->whisper_ctx, i);
@@ -139,7 +146,6 @@ new_sample_cb (GstAppSink *sink,
               self->result = g_strdup (text);
               self->source_handler = g_idle_add (G_SOURCE_FUNC (insert_text_cb), self);
             }
-          g_print ("text: %s", text);
         }
       self->buffer_index = 0;
     }
@@ -177,7 +183,6 @@ ptp_whisper_load (PtSpeechRecognizer *pt_asr_iface)
   g_signal_connect (self->appsink, "eos", G_CALLBACK (eos_cb), self);
 
   ptp_whisper_load_model (self);
-  g_print ("%s\n", __func__);
 }
 
 static void
