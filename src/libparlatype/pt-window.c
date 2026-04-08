@@ -36,11 +36,13 @@
 #include "pt-goto-dialog.h"
 #include "pt-save-changes-dialog.h"
 #include "pt-utils.h"
+#include "pt-window-addin.h"
 #include "pt-window-dnd.h"
 #include "pt-window-private.h"
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
+#include <libpeas.h>
 #include <stdlib.h> /* exit() */
 
 struct _PtWindow
@@ -53,6 +55,7 @@ struct _PtWindow
   GtkLabel            *is_modified;
   GtkWidget           *primary_menu_button;
 
+  PeasExtensionSet *addins;
   PtAsrManager     *asr_manager;
   GtkRecentManager *recent;
   PtConfig         *asr_config;
@@ -1072,11 +1075,35 @@ pt_window_close_request (GtkWindow *window)
 }
 
 static void
+on_extension_added (PeasExtensionSet *set,
+                    PeasPluginInfo   *info,
+                    PtWindowAddin    *plugin,
+                    gpointer          user_data)
+{
+  PtWindow *self = PT_WINDOW (user_data);
+  g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                    "MESSAGE", "Added PtWindowAddin extension for plugin %s", peas_plugin_info_get_module_name (info));
+  pt_window_addin_load (plugin, self);
+}
+
+static void
+on_extension_removed (PeasExtensionSet *set,
+                      PeasPluginInfo   *info,
+                      PtWindowAddin    *plugin,
+                      gpointer          user_data)
+{
+  g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                    "MESSAGE", "Removed PtWindowAddin extension for plugin %s", peas_plugin_info_get_module_name (info));
+  pt_window_addin_unload (plugin);
+}
+
+static void
 pt_window_dispose (GObject *object)
 {
   PtWindow *self = PT_WINDOW (object);
 
   remove_timer (self);
+  g_clear_object (&self->addins);
   g_clear_object (&self->editor);
   g_clear_object (&self->player);
   g_clear_object (&self->asr_manager);
@@ -1130,6 +1157,16 @@ pt_window_constructed (GObject *object)
   g_signal_connect (f10_ctrl, "key-pressed",
                     G_CALLBACK (f10_ctrl_cb), button);
   gtk_widget_add_controller (GTK_WIDGET (popover), f10_ctrl);
+
+  PeasEngine *engine = peas_engine_get_default ();
+  self->addins = peas_extension_set_new (engine, PT_TYPE_WINDOW_ADDIN, NULL);
+  peas_extension_set_foreach (self->addins,
+                              (PeasExtensionSetForeachFunc) on_extension_added,
+                              self);
+  g_signal_connect (self->addins, "extension-added",
+                    G_CALLBACK (on_extension_added), self);
+  g_signal_connect (self->addins, "extension-removed",
+                    G_CALLBACK (on_extension_removed), self);
 }
 
 static void

@@ -27,6 +27,7 @@ libparlatype_public_headers = [
   'pt-waveloader.h',
   'pt-waveviewer.h',
   'pt-window.h',
+  'pt-window-addin.h',
 ]
 
 # These headers are to be ignored by gi-docgen
@@ -40,12 +41,9 @@ libparlatype_private_headers = [
   'gst/gstptaudioplaybin.h',
   # in ./
   'editor-theme-selector-private.h',
-  'mpris-spec.h',
-  'pt-controller.h',
   'pt-goto-dialog.h',
   'pt-i18n.h',
   'pt-media-info-private.h',
-  'pt-mpris.h',
   'pt-save-changes-dialog.h',
   'pt-waveviewer-cursor.h',
   'pt-waveviewer-ruler.h',
@@ -67,7 +65,6 @@ libparlatype_public_sources = [
   'pt-config.c',
   'pt-config-list.c',
   'pt-config-row.c',
-  'pt-controller.c',
   'pt-file-loader.c',
   'pt-file-saver.c',
   'pt-media-info.c',
@@ -87,6 +84,7 @@ libparlatype_public_sources = [
   'pt-waveloader.c',
   'pt-waveviewer.c',
   'pt-window.c',
+  'pt-window-addin.c',
 ]
 
 # These are private and not for introspection
@@ -99,7 +97,6 @@ libparlatype_private_sources = [
   'editor-theme-selector.c',
   'pt-goto-dialog.c',
   'pt-i18n.c',
-  'pt-mpris.c',
   'pt-save-changes-dialog.c',
   'pt-waveviewer-cursor.c',
   'pt-waveviewer-ruler.c',

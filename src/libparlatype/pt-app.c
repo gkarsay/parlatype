@@ -20,11 +20,12 @@
  * Base application class.
  */
 
+#define G_LOG_DOMAIN "pt-app"
+
 #include "config.h"
 
 #include "pt-app.h"
 
-#include "pt-mpris.h"
 #include "pt-preferences.h"
 #include "pt-utils.h"
 #include "pt-window-private.h"
@@ -34,13 +35,13 @@
 #include <girepository/girepository.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
+#include <libpeas.h>
 
 struct _PtApp
 {
   AdwApplication parent;
 
   GSettings *settings;
-  PtMpris   *mpris;
 };
 
 G_DEFINE_TYPE (PtApp, pt_app, ADW_TYPE_APPLICATION);
@@ -401,6 +402,43 @@ style_variant_to_color_scheme (GValue   *value,
 }
 
 static void
+pt_app_load_builtin_plugins (PtApp *app)
+{
+  PeasEngine *engine;
+  uint        n_items;
+
+  engine = peas_engine_get_default ();
+  peas_engine_add_search_path (engine,
+                               "resource:///plugins",
+                               "resource:///plugins");
+  peas_engine_rescan_plugins (engine);
+  n_items = g_list_model_get_n_items (G_LIST_MODEL (engine));
+
+  for (uint i = 0; i < n_items; i++)
+    {
+      PeasPluginInfo *plugin_info = g_list_model_get_item (G_LIST_MODEL (engine), i);
+      const char     *module_name = peas_plugin_info_get_module_name (plugin_info);
+      const char     *category = peas_plugin_info_get_external_data (plugin_info, "Category");
+      gboolean        asr = (g_strcmp0 (category, "asr") == 0);
+      g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
+                        "MESSAGE", "Found plugin %s in category %s", module_name, category);
+      if (!asr &&
+          !peas_plugin_info_is_loaded (plugin_info) &&
+          peas_plugin_info_is_builtin (plugin_info))
+        {
+          if (peas_engine_load_plugin (engine, plugin_info))
+            {
+              g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_INFO,
+                                "MESSAGE", "Loaded plugin %s", module_name);
+            }
+        }
+
+      g_object_unref (plugin_info);
+    }
+  g_object_unref (engine);
+}
+
+static void
 pt_app_startup (GApplication *app)
 {
   G_APPLICATION_CLASS (pt_app_parent_class)->startup (app);
@@ -448,8 +486,7 @@ pt_app_activate (GApplication *application)
   else
     {
       win = pt_window_new (self);
-      self->mpris = pt_mpris_new (win);
-      pt_mpris_start (self->mpris);
+      pt_app_load_builtin_plugins (self);
     }
 
   gtk_window_present (GTK_WINDOW (win));
@@ -494,7 +531,6 @@ static void
 pt_app_init (PtApp *self)
 {
   self->settings = g_settings_new ("xyz.parlatype.Parlatype");
-  self->mpris = NULL;
   GOptionGroup *gir_group = gi_repository_get_option_group ();
   g_application_add_option_group (G_APPLICATION (self), g_steal_pointer (&gir_group));
   g_application_add_main_option_entries (G_APPLICATION (self), options);
@@ -506,7 +542,6 @@ pt_app_dispose (GObject *object)
   PtApp *self = PT_APP (object);
 
   g_clear_object (&self->settings);
-  g_clear_object (&self->mpris);
 
   G_OBJECT_CLASS (pt_app_parent_class)->dispose (object);
 }

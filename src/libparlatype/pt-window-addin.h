@@ -1,4 +1,4 @@
-/* Copyright 2021 Gabor Karsay <gabor.karsay@gmx.at>
+/* Copyright 2026 Gabor Karsay <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -16,11 +16,27 @@
 
 #pragma once
 
-#include "pt-controller.h"
+#include <gio/gio.h>
+#include "pt-window.h"
 
-#define PT_TYPE_MPRIS (pt_mpris_get_type ())
-G_DECLARE_FINAL_TYPE (PtMpris, pt_mpris, PT, MPRIS, PtController)
+G_BEGIN_DECLS
 
-void     pt_mpris_start (PtMpris  *self);
+#define PT_TYPE_WINDOW_ADDIN (pt_window_addin_get_type ())
+G_DECLARE_INTERFACE (PtWindowAddin, pt_window_addin, PT, WINDOW_ADDIN, GObject)
 
-PtMpris *pt_mpris_new   (PtWindow *win);
+struct _PtWindowAddinInterface
+{
+  GTypeInterface parent_interface;
+
+  void (*load)   (PtWindowAddin *self,
+                  PtWindow      *window);
+  void (*unload) (PtWindowAddin *self);
+
+};
+
+void pt_window_addin_load   (PtWindowAddin *self,
+                             PtWindow      *window);
+
+void pt_window_addin_unload (PtWindowAddin *self);
+
+G_END_DECLS

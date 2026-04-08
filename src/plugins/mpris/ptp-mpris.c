@@ -20,18 +20,22 @@
 
 #include "config.h"
 
-#include "pt-mpris.h"
+#include "ptp-mpris.h"
 
 #include "mpris-spec.h"
+#include "pt-window-addin.h"
 #include "pt-window.h"
 
 #include <parlatype.h>
 
 #define ENTRY_OBJECT_PATH_PREFIX "/org/mpris/MediaPlayer2/Track/"
 
-struct _PtMpris
+struct _PtpMpris
 {
-  PtController parent;
+  GObject parent_instance;
+
+  PtWindow *window;
+  PtPlayer *player;
 
   GDBusConnection *connection;
   GDBusNodeInfo   *node_info;
@@ -44,10 +48,12 @@ struct _PtMpris
   GMutex      lock;
 };
 
-G_DEFINE_TYPE (PtMpris, pt_mpris, PT_TYPE_CONTROLLER)
+static void pt_window_addin_iface_init (PtWindowAddinInterface *iface);
+
+G_DEFINE_FINAL_TYPE_WITH_CODE (PtpMpris, ptp_mpris, G_TYPE_OBJECT, G_IMPLEMENT_INTERFACE (PT_TYPE_WINDOW_ADDIN, pt_window_addin_iface_init))
 
 static void
-emit_property_changes (PtMpris *self, GHashTable *changes, const char *interface)
+emit_property_changes (PtpMpris *self, GHashTable *changes, const char *interface)
 {
   GError          *error = NULL;
   GVariantBuilder *properties;
@@ -98,7 +104,7 @@ emit_property_changes (PtMpris *self, GHashTable *changes, const char *interface
 }
 
 static gboolean
-emit_properties_idle (PtMpris *self)
+emit_properties_idle (PtpMpris *self)
 {
   /* Protect hash table from concurrent access. */
   g_mutex_lock (&self->lock);
@@ -115,7 +121,7 @@ emit_properties_idle (PtMpris *self)
 }
 
 static void
-add_player_property_change (PtMpris    *self,
+add_player_property_change (PtpMpris   *self,
                             const char *property,
                             GVariant   *value)
 {
@@ -142,10 +148,8 @@ handle_root_method_call (GDBusConnection       *connection,
                          const char            *method_name,
                          GVariant              *parameters,
                          GDBusMethodInvocation *invocation,
-                         PtMpris               *self)
+                         PtpMpris              *self)
 {
-  PtWindow *window = pt_controller_get_window (PT_CONTROLLER (self));
-
   if (g_strcmp0 (object_path, MPRIS_OBJECT_NAME) != 0 ||
       g_strcmp0 (interface_name, MPRIS_ROOT_INTERFACE) != 0)
     {
@@ -160,12 +164,12 @@ handle_root_method_call (GDBusConnection       *connection,
 
   if (g_strcmp0 (method_name, "Raise") == 0)
     {
-      gtk_window_present (GTK_WINDOW (window));
+      gtk_window_present (GTK_WINDOW (self->window));
       g_dbus_method_invocation_return_value (invocation, NULL);
     }
   else if (g_strcmp0 (method_name, "Quit") == 0)
     {
-      gtk_window_destroy (GTK_WINDOW (window));
+      gtk_window_destroy (GTK_WINDOW (self->window));
       g_dbus_method_invocation_return_value (invocation, NULL);
     }
   else
@@ -186,7 +190,7 @@ get_root_property (GDBusConnection *connection,
                    const char      *interface_name,
                    const char      *property_name,
                    GError         **error,
-                   PtMpris         *self)
+                   PtpMpris        *self)
 {
   if (g_strcmp0 (object_path, MPRIS_OBJECT_NAME) != 0 ||
       g_strcmp0 (interface_name, MPRIS_ROOT_INTERFACE) != 0)
@@ -281,7 +285,7 @@ handle_result (GDBusMethodInvocation *invocation, gboolean ret, GError *error)
 }
 
 static void
-build_track_metadata (PtMpris         *self,
+build_track_metadata (PtpMpris        *self,
                       GVariantBuilder *builder,
                       PtPlayer        *player)
 {
@@ -333,12 +337,11 @@ handle_player_method_call (GDBusConnection       *connection,
                            const char            *method_name,
                            GVariant              *parameters,
                            GDBusMethodInvocation *invocation,
-                           PtMpris               *self)
+                           PtpMpris              *self)
 
 {
-  PtPlayer *player = pt_controller_get_player (PT_CONTROLLER (self));
-  GError   *error = NULL;
-  gboolean  ret;
+  GError  *error = NULL;
+  gboolean ret;
 
   if (g_strcmp0 (object_path, MPRIS_OBJECT_NAME) != 0 ||
       g_strcmp0 (interface_name, MPRIS_PLAYER_INTERFACE) != 0)
@@ -364,30 +367,30 @@ handle_player_method_call (GDBusConnection       *connection,
     }
   else if (g_strcmp0 (method_name, "Pause") == 0)
     {
-      pt_player_pause (player);
+      pt_player_pause (self->player);
       handle_result (invocation, TRUE, error);
     }
   else if (g_strcmp0 (method_name, "PlayPause") == 0)
     {
-      pt_player_play_pause (player);
+      pt_player_play_pause (self->player);
       handle_result (invocation, TRUE, error);
     }
   else if (g_strcmp0 (method_name, "Stop") == 0)
     {
-      pt_player_pause (player);
-      pt_player_jump_to_position (player, 0);
+      pt_player_pause (self->player);
+      pt_player_jump_to_position (self->player, 0);
       handle_result (invocation, TRUE, NULL);
     }
   else if (g_strcmp0 (method_name, "Play") == 0)
     {
-      pt_player_play (player);
+      pt_player_play (self->player);
       handle_result (invocation, TRUE, error);
     }
   else if (g_strcmp0 (method_name, "Seek") == 0)
     {
       gint64 offset;
       g_variant_get (parameters, "(x)", &offset);
-      pt_player_jump_relative (player, offset / 1000);
+      pt_player_jump_relative (self->player, offset / 1000);
       g_dbus_method_invocation_return_value (invocation, NULL);
     }
   else if (g_strcmp0 (method_name, "SetPosition") == 0)
@@ -413,7 +416,7 @@ handle_player_method_call (GDBusConnection       *connection,
           return;
         }
 
-      pt_player_jump_to_position (player, position / 1000);
+      pt_player_jump_to_position (self->player, position / 1000);
       handle_result (invocation, TRUE, NULL);
     }
   else if (g_strcmp0 (method_name, "OpenUri") == 0)
@@ -421,7 +424,7 @@ handle_player_method_call (GDBusConnection       *connection,
       char *uri;
 
       g_variant_get (parameters, "(&s)", &uri);
-      ret = pt_player_open_uri (player, uri);
+      ret = pt_player_open_uri (self->player, uri);
       handle_result (invocation, ret, NULL);
     }
   else
@@ -436,12 +439,11 @@ handle_player_method_call (GDBusConnection       *connection,
 }
 
 static GVariant *
-get_playback_status (PtMpris *self)
+get_playback_status (PtpMpris *self)
 {
-  PtPlayer   *player = pt_controller_get_player (PT_CONTROLLER (self));
   PtStateType state;
 
-  g_object_get (player, "state", &state, NULL);
+  g_object_get (self->player, "state", &state, NULL);
 
   switch (state)
     {
@@ -463,9 +465,8 @@ get_player_property (GDBusConnection *connection,
                      const char      *interface_name,
                      const char      *property_name,
                      GError         **error,
-                     PtMpris         *self)
+                     PtpMpris        *self)
 {
-  PtPlayer   *player = pt_controller_get_player (PT_CONTROLLER (self));
   PtStateType state;
 
   if (g_strcmp0 (object_path, MPRIS_OBJECT_NAME) != 0 ||
@@ -486,7 +487,7 @@ get_player_property (GDBusConnection *connection,
     }
   else if (g_strcmp0 (property_name, "Rate") == 0)
     {
-      return g_variant_new_double (pt_player_get_speed (player));
+      return g_variant_new_double (pt_player_get_speed (self->player));
     }
   else if (g_strcmp0 (property_name, "Metadata") == 0)
     {
@@ -494,19 +495,19 @@ get_player_property (GDBusConnection *connection,
       GVariant        *v;
 
       builder = g_variant_builder_new (G_VARIANT_TYPE ("a{sv}"));
-      build_track_metadata (self, builder, player);
+      build_track_metadata (self, builder, self->player);
       v = g_variant_builder_end (builder);
       g_variant_builder_unref (builder);
       return v;
     }
   else if (g_strcmp0 (property_name, "Volume") == 0)
     {
-      return g_variant_new_double (pt_player_get_volume (player));
+      return g_variant_new_double (pt_player_get_volume (self->player));
     }
   else if (g_strcmp0 (property_name, "Position") == 0)
     {
       gint64 t;
-      t = pt_player_get_position (player);
+      t = pt_player_get_position (self->player);
       if (t != -1)
         {
           return g_variant_new_int64 ((gint64) t * 1000);
@@ -540,7 +541,7 @@ get_player_property (GDBusConnection *connection,
     }
   else if (g_strcmp0 (property_name, "CanPlay") == 0)
     {
-      g_object_get (player, "state", &state, NULL);
+      g_object_get (self->player, "state", &state, NULL);
       if (state == PT_STATE_STOPPED)
         return g_variant_new_boolean (FALSE);
       else
@@ -548,7 +549,7 @@ get_player_property (GDBusConnection *connection,
     }
   else if (g_strcmp0 (property_name, "CanPause") == 0)
     {
-      g_object_get (player, "state", &state, NULL);
+      g_object_get (self->player, "state", &state, NULL);
       if (state == PT_STATE_STOPPED)
         return g_variant_new_boolean (FALSE);
       else
@@ -556,7 +557,7 @@ get_player_property (GDBusConnection *connection,
     }
   else if (g_strcmp0 (property_name, "CanSeek") == 0)
     {
-      g_object_get (player, "state", &state, NULL);
+      g_object_get (self->player, "state", &state, NULL);
       if (state == PT_STATE_STOPPED)
         return g_variant_new_boolean (FALSE);
       else
@@ -584,10 +585,8 @@ set_player_property (GDBusConnection *connection,
                      const char      *property_name,
                      GVariant        *value,
                      GError         **error,
-                     PtMpris         *self)
+                     PtpMpris        *self)
 {
-  PtPlayer *player = pt_controller_get_player (PT_CONTROLLER (self));
-
   if (g_strcmp0 (object_path, MPRIS_OBJECT_NAME) != 0 ||
       g_strcmp0 (interface_name, MPRIS_PLAYER_INTERFACE) != 0)
     {
@@ -602,12 +601,12 @@ set_player_property (GDBusConnection *connection,
 
   if (g_strcmp0 (property_name, "Rate") == 0)
     {
-      pt_player_set_speed (player, g_variant_get_double (value));
+      pt_player_set_speed (self->player, g_variant_get_double (value));
       return TRUE;
     }
   else if (g_strcmp0 (property_name, "Volume") == 0)
     {
-      pt_player_set_volume (player, g_variant_get_double (value));
+      pt_player_set_volume (self->player, g_variant_get_double (value));
       return TRUE;
     }
 
@@ -627,10 +626,9 @@ static const GDBusInterfaceVTable player_vtable = {
 };
 
 static void
-state_changed_cb (GObject *object, GParamSpec *pspec, PtMpris *self)
+state_changed_cb (GObject *object, GParamSpec *pspec, PtpMpris *self)
 {
-  PtPlayer   *player = pt_controller_get_player (PT_CONTROLLER (self));
-  PtStateType state = pt_player_get_state (player);
+  PtStateType state = pt_player_get_state (self->player);
 
   if (state == PT_STATE_TRANSCRIBING)
     return;
@@ -644,65 +642,65 @@ state_changed_cb (GObject *object, GParamSpec *pspec, PtMpris *self)
 }
 
 static void
-speed_changed_cb (GObject *object, GParamSpec *pspec, PtMpris *self)
+speed_changed_cb (GObject *object, GParamSpec *pspec, PtpMpris *self)
 {
-  PtPlayer *player = pt_controller_get_player (PT_CONTROLLER (self));
   add_player_property_change (self, "Rate",
-                              g_variant_new_double (pt_player_get_speed (player)));
+                              g_variant_new_double (pt_player_get_speed (self->player)));
 }
 
 static void
-volume_changed_cb (GObject *object, GParamSpec *pspec, PtMpris *self)
+volume_changed_cb (GObject *object, GParamSpec *pspec, PtpMpris *self)
 {
-  PtPlayer *player = pt_controller_get_player (PT_CONTROLLER (self));
   add_player_property_change (self, "Volume",
-                              g_variant_new_double (pt_player_get_volume (player)));
+                              g_variant_new_double (pt_player_get_volume (self->player)));
 }
 
 static void
-metadata_property_change (PtMpris *self)
+metadata_property_change (PtpMpris *self)
 {
-  PtPlayer        *player = pt_controller_get_player (PT_CONTROLLER (self));
   GVariantBuilder *builder;
 
   builder = g_variant_builder_new (G_VARIANT_TYPE ("a{sv}"));
-  build_track_metadata (self, builder, player);
+  build_track_metadata (self, builder, self->player);
   add_player_property_change (self, "Metadata",
                               g_variant_builder_end (builder));
   g_variant_builder_unref (builder);
 }
 
 static void
-uri_changed_cb (GObject *object, GParamSpec *pspec, PtMpris *self)
+uri_changed_cb (GObject *object, GParamSpec *pspec, PtpMpris *self)
 {
   metadata_property_change (self);
 }
 
 static void
-media_info_changed_cb (GObject *object, PtMpris *self)
+media_info_changed_cb (GObject *object, PtpMpris *self)
 {
   metadata_property_change (self);
 }
 
 static void
-name_acquired_cb (GDBusConnection *connection, const char *name, PtMpris *self)
+name_acquired_cb (GDBusConnection *connection, const char *name, PtpMpris *self)
 {
   g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                     "MESSAGE", "successfully acquired dbus name %s", name);
 }
 
 static void
-name_lost_cb (GDBusConnection *connection, const char *name, PtMpris *self)
+name_lost_cb (GDBusConnection *connection, const char *name, PtpMpris *self)
 {
   g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                     "MESSAGE", "lost dbus name %s", name);
 }
 
-void
-pt_mpris_start (PtMpris *self)
+static void
+ptp_mpris_load (PtWindowAddin *addin,
+                PtWindow      *window)
 {
-  PtPlayer           *player = pt_controller_get_player (PT_CONTROLLER (self));
-  PtMediaInfo        *info = pt_player_get_media_info (player);
+  PtpMpris *self = PTP_MPRIS (addin);
+  self->window = window;
+  self->player = pt_window_get_player (self->window);
+  PtMediaInfo        *info = pt_player_get_media_info (self->player);
   GDBusInterfaceInfo *ifaceinfo;
   GError             *error = NULL;
 
@@ -755,22 +753,22 @@ pt_mpris_start (PtMpris *self)
       g_error_free (error);
     }
 
-  g_signal_connect_object (player,
+  g_signal_connect_object (self->player,
                            "notify::volume",
                            G_CALLBACK (volume_changed_cb),
                            self, 0);
 
-  g_signal_connect_object (player,
+  g_signal_connect_object (self->player,
                            "notify::state",
                            G_CALLBACK (state_changed_cb),
                            self, 0);
 
-  g_signal_connect_object (player,
+  g_signal_connect_object (self->player,
                            "notify::speed",
                            G_CALLBACK (speed_changed_cb),
                            self, 0);
 
-  g_signal_connect_object (player,
+  g_signal_connect_object (self->player,
                            "notify::current-uri",
                            G_CALLBACK (uri_changed_cb),
                            self, 0);
@@ -791,11 +789,10 @@ pt_mpris_start (PtMpris *self)
 }
 
 static void
-pt_mpris_dispose (GObject *object)
+ptp_mpris_dispose (GObject *object)
 {
-  PtMpris     *self = PT_MPRIS (object);
-  PtPlayer    *player = pt_controller_get_player (PT_CONTROLLER (self));
-  PtMediaInfo *info = pt_player_get_media_info (player);
+  PtpMpris    *self = PTP_MPRIS (object);
+  PtMediaInfo *info = pt_player_get_media_info (self->player);
 
   g_mutex_clear (&self->lock);
   g_clear_handle_id (&self->property_emit_id, g_source_remove);
@@ -810,23 +807,23 @@ pt_mpris_dispose (GObject *object)
       self->player_id = 0;
     }
 
-  g_signal_handlers_disconnect_by_func (player,
+  g_signal_handlers_disconnect_by_func (self->player,
                                         G_CALLBACK (volume_changed_cb),
                                         self);
 
-  g_signal_handlers_disconnect_by_func (player,
+  g_signal_handlers_disconnect_by_func (self->player,
                                         G_CALLBACK (state_changed_cb),
                                         self);
 
-  g_signal_handlers_disconnect_by_func (player,
+  g_signal_handlers_disconnect_by_func (self->player,
                                         G_CALLBACK (speed_changed_cb),
                                         self);
 
-  g_signal_handlers_disconnect_by_func (player,
+  g_signal_handlers_disconnect_by_func (self->player,
                                         G_CALLBACK (uri_changed_cb),
                                         self);
 
-  g_signal_handlers_disconnect_by_func (player,
+  g_signal_handlers_disconnect_by_func (self->player,
                                         G_CALLBACK (uri_changed_cb),
                                         self);
 
@@ -834,23 +831,24 @@ pt_mpris_dispose (GObject *object)
                                         G_CALLBACK (media_info_changed_cb),
                                         self);
 
-  G_OBJECT_CLASS (pt_mpris_parent_class)->dispose (object);
+  G_OBJECT_CLASS (ptp_mpris_parent_class)->dispose (object);
 }
 
 static void
-pt_mpris_init (PtMpris *self)
+pt_window_addin_iface_init (PtWindowAddinInterface *iface)
+{
+  iface->load = ptp_mpris_load;
+  // iface->unload = ptp_mpris_unload;
+}
+
+static void
+ptp_mpris_init (PtpMpris *self)
 {
   g_mutex_init (&self->lock);
 }
 
 static void
-pt_mpris_class_init (PtMprisClass *klass)
+ptp_mpris_class_init (PtpMprisClass *klass)
 {
-  G_OBJECT_CLASS (klass)->dispose = pt_mpris_dispose;
-}
-
-PtMpris *
-pt_mpris_new (PtWindow *win)
-{
-  return g_object_new (PT_TYPE_MPRIS, "win", win, NULL);
+  G_OBJECT_CLASS (klass)->dispose = ptp_mpris_dispose;
 }

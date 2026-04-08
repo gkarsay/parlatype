@@ -1,4 +1,4 @@
-/* Copyright 2019 Gabor Karsay <gabor.karsay@gmx.at>
+/* Copyright 2021 Gabor Karsay <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -16,19 +16,8 @@
 
 #pragma once
 
+#include <glib-object.h>
 #include "pt-window.h"
-#include <parlatype.h>
 
-#define PT_TYPE_CONTROLLER (pt_controller_get_type ())
-G_DECLARE_DERIVABLE_TYPE (PtController, pt_controller, PT, CONTROLLER, GObject)
-
-struct _PtControllerClass
-{
-  GObjectClass parent_class;
-};
-
-PtWindow     *pt_controller_get_window (PtController *self);
-
-PtPlayer     *pt_controller_get_player (PtController *self);
-
-PtController *pt_controller_new        (PtWindow     *win);
+#define PTP_TYPE_MPRIS (ptp_mpris_get_type ())
+G_DECLARE_FINAL_TYPE (PtpMpris, ptp_mpris, PTP, MPRIS, GObject)

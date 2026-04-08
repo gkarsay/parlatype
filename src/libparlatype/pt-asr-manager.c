@@ -261,7 +261,6 @@ pt_asr_manager_dispose (GObject *object)
     }
   g_clear_object (&self->extension_set);
   g_clear_object (&self->plugin);
-  g_clear_object (&self->engine);
   g_clear_object (&self->config);
   g_clear_object (&self->player);
   g_clear_object (&self->text_view);

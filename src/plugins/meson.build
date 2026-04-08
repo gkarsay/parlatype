@@ -11,6 +11,7 @@ plugins_deps = [
 ]
 
 subdir('dummy')
+subdir('mpris')
 subdir('pocketsphinx')
 subdir('whisper')
 
