@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="xyz.parlatype.Parlatype.test-buttons" path="/xyz/parlatype/parlatype/test-buttons/">
+    <key type="s" name="test-file"><default>"path"</default></key>
+  </schema>
+</schemalist>

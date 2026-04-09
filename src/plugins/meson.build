@@ -13,6 +13,7 @@ plugins_deps = [
 subdir('dummy')
 subdir('mpris')
 subdir('pocketsphinx')
+subdir('test-buttons')
 subdir('whisper')
 
 plugins = static_library('plugins', plugins_sources,

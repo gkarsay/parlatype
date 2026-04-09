@@ -24,19 +24,21 @@
 G_DECLARE_FINAL_TYPE (PtWindow, pt_window, PT, WINDOW, AdwApplicationWindow)
 
 
-void      pt_window_save          (PtWindow    *self,
-                                   GFile       *file);
+void       pt_window_save             (PtWindow    *self,
+                                       GFile       *file);
 
-void      pt_window_save_as       (PtWindow    *self);
+void       pt_window_save_as          (PtWindow    *self);
 
-void      pt_window_load_document (PtWindow    *self,
-                                   GFile       *file);
+void       pt_window_load_document    (PtWindow    *self,
+                                       GFile       *file);
 
-void      pt_window_open_file     (PtWindow    *self,
-                                   gchar       *uri);
+void       pt_window_open_file        (PtWindow    *self,
+                                       gchar       *uri);
 
-gchar    *pt_window_get_uri       (PtWindow    *self);
+gchar     *pt_window_get_uri          (PtWindow    *self);
 
-PtPlayer *pt_window_get_player    (PtWindow    *self);
+PtPlayer  *pt_window_get_player       (PtWindow    *self);
 
-PtWindow *pt_window_new           (PtApp       *app);
+GtkWidget *pt_window_get_doc_controls (PtWindow    *self);
+
+PtWindow  *pt_window_new              (PtApp       *app);

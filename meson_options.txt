@@ -18,6 +18,7 @@ option(
 )
 
 option('plugin_mpris', type: 'boolean', value: true, description: 'MPRIS controls')
+option('plugin_test_buttons', type: 'boolean', value: false, description: 'Test buttons')
 
 option('plugin_dummy', type: 'boolean', value: false, description: 'Dummy ASR plugin for testing')
 option('plugin_pocketsphinx', type: 'boolean', value: false, description: 'ASR plugin using pocketsphinx 5')

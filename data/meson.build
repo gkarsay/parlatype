@@ -49,7 +49,7 @@ endif
 install_data(
   'parlatype.gschema.xml',
   rename: app_id + '.gschema.xml',
-  install_dir: join_paths(datadir, 'glib-2.0', 'schemas')
+  install_dir: schema_dir
 )
 
 service_conf = configuration_data()

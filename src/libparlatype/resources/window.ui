@@ -141,7 +141,7 @@
               <object class="AdwOverlaySplitView" id="text_split_view">
                 <property name="show-sidebar" bind-source="show_sidebar_button" bind-property="active" bind-flags="sync-create|bidirectional"/>
                 <property name="sidebar">
-                  <object class="GtkBox">
+                  <object class="GtkBox" id="doc_controls">
                     <property name="orientation">vertical</property>
                     <property name="spacing">6</property>
                     <property name="halign">center</property>
@@ -150,18 +150,6 @@
                       <object class="GtkToggleButton">
                         <property name="label">Transcribe</property>
                         <property name="action-name">win.transcribe</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkButton">
-                        <property name="label">Save testfile</property>
-                        <property name="action_name">win.serialize</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkButton">
-                        <property name="label">Load testfile</property>
-                        <property name="action_name">win.deserialize</property>
                       </object>
                     </child>
                     <child>

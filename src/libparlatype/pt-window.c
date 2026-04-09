@@ -24,7 +24,6 @@
  */
 
 #define G_LOG_DOMAIN "pt-window"
-#define TEST_FILE "/home/gabor/dev/test-data/parlatype-test.pt"
 
 #include "config.h"
 
@@ -63,6 +62,7 @@ struct _PtWindow
   /* Main window widgets */
   GtkWidget *waveviewer_stack;
   GtkWidget *audio_controls;
+  GtkWidget *doc_controls;
   GtkWidget *progress;
   GtkWidget *timestamp_switch;
 
@@ -79,6 +79,7 @@ enum
 {
   PROP_0,
   PROP_PLAYER,
+  PROP_DOC_CONTROLS,
   N_PROPS
 };
 
@@ -294,23 +295,6 @@ save_cb (GObject      *source_object,
     }
 }
 
-void
-serialize (GtkWidget  *widget,
-           const char *action_name,
-           GVariant   *param)
-{
-  PtWindow *self = PT_WINDOW (widget);
-  GFile    *file;
-
-  file = g_file_new_for_path (TEST_FILE);
-
-  pt_text_view_save_async (PT_TEXT_VIEW (self->text_view),
-                           file,
-                           NULL,
-                           save_cb,
-                           self);
-}
-
 /**
  * pt_window_save:
  * @file: a file to save to (nullable)
@@ -414,25 +398,6 @@ load_cb (GObject      *source_object,
       g_error_free (error);
     }
 }*/
-
-void
-deserialize (GtkWidget  *widget,
-             const char *action_name,
-             GVariant   *param)
-{
-  PtWindow *self = PT_WINDOW (widget);
-  GError   *error = NULL;
-
-  GFile *file;
-
-  file = g_file_new_for_path (TEST_FILE);
-
-  if (!pt_text_view_load (PT_TEXT_VIEW (self->text_view), file, &error))
-    {
-      pt_error_message (self, error->message);
-      g_error_free (error);
-    }
-}
 
 /**
  * pt_window_load_document:
@@ -975,6 +940,20 @@ pt_window_get_player (PtWindow *self)
   return self->player;
 }
 
+/**
+ * pt_window_get_doc_controls:
+ * @self: a PtWindow
+ *
+ * Returns a `GtkBox` with widgets to control the document area.
+ *
+ * Returns: (transfer none): document control box
+ */
+GtkWidget *
+pt_window_get_doc_controls (PtWindow *self)
+{
+  return self->doc_controls;
+}
+
 PtAsrManager *
 _pt_window_get_asr_manager (PtWindow *self)
 {
@@ -1128,6 +1107,10 @@ pt_window_get_property (GObject    *object,
       g_value_set_object (value, self->player);
       break;
 
+    case PROP_DOC_CONTROLS:
+      g_value_set_object (value, self->doc_controls);
+      break;
+
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
@@ -1254,6 +1237,7 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtWindow, primary_menu_button);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, progress);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, audio_controls);
+  gtk_widget_class_bind_template_child (widget_class, PtWindow, doc_controls);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, is_modified);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, paned);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, text_view);
@@ -1269,8 +1253,6 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_install_action (widget_class, "win.zoom-in", NULL, zoom_in);
   gtk_widget_class_install_action (widget_class, "win.zoom-out", NULL, zoom_out);
   gtk_widget_class_install_action (widget_class, "win.zoom-default", NULL, zoom_default);
-  gtk_widget_class_install_action (widget_class, "win.serialize", NULL, serialize);
-  gtk_widget_class_install_action (widget_class, "win.deserialize", NULL, deserialize);
 
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_g, GDK_CONTROL_MASK, "win.goto", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_s, GDK_CONTROL_MASK, "win.save", NULL);
@@ -1290,6 +1272,16 @@ pt_window_class_init (PtWindowClass *klass)
   properties[PROP_PLAYER] =
       g_param_spec_object ("player", NULL, NULL,
                            PT_TYPE_PLAYER,
+                           G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+
+  /**
+   * PtWindow:doc_controls:
+   *
+   * Box with controls for document area.
+   */
+  properties[PROP_DOC_CONTROLS] =
+      g_param_spec_object ("doc-controls", NULL, NULL,
+                           GTK_TYPE_WIDGET,
                            G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, N_PROPS, properties);

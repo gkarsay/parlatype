@@ -1,0 +1,8 @@
+[Plugin]
+Module=test-buttons
+Name=Test Buttons
+Description=Provides buttons for quick access of test files
+Authors=Gabor Karsay
+Copyright=2026 Gabor Karsay
+Builtin=true
+Embedded=ptp_test_buttons_register_types

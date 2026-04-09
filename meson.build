@@ -17,6 +17,7 @@ bindir     = join_paths(prefix, get_option('bindir'))
 libdir     = join_paths(prefix, get_option('libdir'))
 datadir    = join_paths(prefix, get_option('datadir'))
 pkgdatadir = join_paths(datadir, meson.project_name())
+schema_dir = join_paths(datadir, 'glib-2.0', 'schemas')
 localedir  = join_paths(prefix, get_option('localedir'))
 
 compiler = meson.get_compiler('c')
