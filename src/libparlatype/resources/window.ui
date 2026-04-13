@@ -167,8 +167,16 @@
                         <property name="halign">center</property>
                         <property name="margin-top">12</property>
                         <child>
-                          <object class="GtkSwitch" id="timestamp_switch">
-                            <property name="halign">center</property>
+                          <object class="GtkListBox">
+                            <style>
+                              <class name="navigation-sidebar"/>
+                            </style>
+                            <child>
+                              <object class="AdwSwitchRow" id="timestamp_switch">
+                                <property name="title" translatable="yes">Show Timestamps</property>
+                                <property name="halign">center</property>
+                              </object>
+                            </child>
                           </object>
                         </child>
                       </object>
