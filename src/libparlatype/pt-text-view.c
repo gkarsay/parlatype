@@ -20,7 +20,7 @@
  * Widget to display text.
  */
 
-// #define G_LOG_DOMAIN "pt-text-view"
+#define G_LOG_DOMAIN "pt-text-view"
 
 #include "config.h"
 
@@ -488,6 +488,8 @@ pt_text_view_insert_timestamp (PtTextView *self)
                                     gtk_text_buffer_get_insert (GTK_TEXT_BUFFER (self->buffer)));
 
   timestamp = pt_player_get_timestamp (self->player);
+  g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                    "MESSAGE", "timestamp to insert: %d", timestamp);
   if (timestamp == -1)
     return;
 

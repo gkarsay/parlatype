@@ -20,6 +20,8 @@
  * Widget to show timestamps and to navigate to their position.
  */
 
+#define G_LOG_DOMAIN "pt-timestamp-button"
+
 #include "config.h"
 
 #include "pt-timestamp-button.h"
@@ -75,11 +77,10 @@ pt_timestamp_button_set_timestamp (PtTimestampButton *self,
 
   char *label;
 
-  if (timestamp == self->timestamp)
-    return;
-
   self->timestamp = timestamp;
   label = pt_timestamp_to_string (self->timestamp, -1, PT_PRECISION_SECOND_10TH);
+  g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                    "MESSAGE", "label: »%s«", label);
   gtk_button_set_label (GTK_BUTTON (self), label);
   g_free (label);
 }
