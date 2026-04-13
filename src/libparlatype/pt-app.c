@@ -226,16 +226,17 @@ get_os_info (void)
 static char *
 get_debug_info (GtkApplication *app)
 {
-  GString     *str = g_string_new (NULL);
-  GtkSettings *gtk_settings = gtk_settings_get_default ();
-  gchar       *theme_name;
-  gchar       *os_info;
-  PtWindow    *win;
-  PtPlayer    *player;
-  PtMediaInfo *info;
-  gchar       *uri;
-  gchar       *gst_caps;
-  gchar       *gst_tags;
+  GString      *str = g_string_new (NULL);
+  GtkSettings  *gtk_settings = gtk_settings_get_default ();
+  gchar        *theme_name;
+  gchar        *os_info;
+  PtWindow     *win;
+  PtPlayer     *player;
+  PtAsrManager *asr_manager;
+  PtMediaInfo  *info;
+  gchar        *uri;
+  gchar        *gst_caps;
+  gchar        *gst_tags;
 
   win = PT_WINDOW (gtk_application_get_active_window (app));
   player = pt_window_get_player (win);
@@ -303,12 +304,14 @@ get_debug_info (GtkApplication *app)
       g_free (gst_tags);
     }
 
-#ifdef HAVE_ASR
-  g_string_append (str, "\n[automatic speech recognition]\n");
-  gchar *asr_path = g_settings_get_string (PT_APP (app)->settings, "asr-config");
-  g_string_append_printf (str, "asr-config: %s\n", asr_path);
-  g_free (asr_path);
-#endif
+  asr_manager = pt_window_get_asr_manager (win);
+  if (pt_asr_manager_have_asr (asr_manager))
+    {
+      g_string_append (str, "\n[automatic speech recognition]\n");
+      gchar *asr_path = g_settings_get_string (PT_APP (app)->settings, "asr-config");
+      g_string_append_printf (str, "asr-config: %s\n", asr_path);
+      g_free (asr_path);
+    }
 
   return g_string_free_and_steal (str);
 }

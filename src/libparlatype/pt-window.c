@@ -63,6 +63,7 @@ struct _PtWindow
   GtkWidget *waveviewer_stack;
   GtkWidget *audio_controls;
   GtkWidget *doc_controls;
+  GtkWidget *asr_controls;
   GtkWidget *progress;
   GtkWidget *timestamp_switch;
 
@@ -955,7 +956,7 @@ pt_window_get_doc_controls (PtWindow *self)
 }
 
 PtAsrManager *
-_pt_window_get_asr_manager (PtWindow *self)
+pt_window_get_asr_manager (PtWindow *self)
 {
   return self->asr_manager;
 }
@@ -1183,6 +1184,10 @@ pt_window_init (PtWindow *self)
                         self->player,
                         self->editor);
   self->asr_manager = pt_asr_manager_new (self->player, PT_TEXT_VIEW (self->text_view));
+  if (!pt_asr_manager_have_asr (self->asr_manager))
+    {
+      gtk_widget_set_visible (self->asr_controls, FALSE);
+    }
 
   setup_accels_actions_menus (self);
   setup_settings (self);
@@ -1237,6 +1242,7 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtWindow, primary_menu_button);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, progress);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, audio_controls);
+  gtk_widget_class_bind_template_child (widget_class, PtWindow, asr_controls);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, doc_controls);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, is_modified);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, paned);

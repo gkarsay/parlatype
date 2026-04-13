@@ -20,8 +20,6 @@
 
 #include <parlatype.h>
 
-PtAsrManager     *_pt_window_get_asr_manager         (PtWindow *self);
-
 GtkWidget        *_pt_window_get_waveviewer          (PtWindow *self);
 
 GtkRecentManager *_pt_window_get_recent_manager      (PtWindow *self);

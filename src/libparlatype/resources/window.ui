@@ -141,20 +141,36 @@
               <object class="AdwOverlaySplitView" id="text_split_view">
                 <property name="show-sidebar" bind-source="show_sidebar_button" bind-property="active" bind-flags="sync-create|bidirectional"/>
                 <property name="sidebar">
-                  <object class="GtkBox" id="doc_controls">
+                  <object class="GtkBox">
                     <property name="orientation">vertical</property>
                     <property name="spacing">6</property>
                     <property name="halign">center</property>
                     <property name="margin-top">12</property>
                     <child>
-                      <object class="GtkToggleButton">
-                        <property name="label">Transcribe</property>
-                        <property name="action-name">win.transcribe</property>
+                      <object class="GtkBox" id="asr_controls">
+                        <property name="orientation">vertical</property>
+                        <property name="spacing">6</property>
+                        <property name="halign">center</property>
+                        <property name="margin-top">12</property>
+                        <child>
+                          <object class="GtkToggleButton">
+                            <property name="label">Transcribe</property>
+                            <property name="action-name">win.transcribe</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
                     <child>
-                      <object class="GtkSwitch" id="timestamp_switch">
+                      <object class="GtkBox" id="doc_controls">
+                        <property name="orientation">vertical</property>
+                        <property name="spacing">6</property>
                         <property name="halign">center</property>
+                        <property name="margin-top">12</property>
+                        <child>
+                          <object class="GtkSwitch" id="timestamp_switch">
+                            <property name="halign">center</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
                   </object>

@@ -531,7 +531,20 @@ static void
 pt_preferences_dialog_set_window (PtPreferencesDialog *self,
                                   PtWindow            *win)
 {
-  self->asr_manager = _pt_window_get_asr_manager (win);
+  self->asr_manager = pt_window_get_asr_manager (win);
+
+  if (!pt_asr_manager_have_asr (self->asr_manager))
+    {
+      adw_preferences_dialog_remove (ADW_PREFERENCES_DIALOG (self),
+                                     ADW_PREFERENCES_PAGE (self->asr_page));
+      return;
+    }
+
+  /* Load (and show) configurations async.
+   * Users won’t notice a delay, however, screenshot tool has to wait for items-changed signal. */
+
+  self->config_rows = g_ptr_array_new ();
+  self->active_config_path = g_settings_get_string (self->editor, "asr-config");
   self->list = pt_config_list_new (self->asr_manager);
   g_signal_connect (self->list, "items-changed", G_CALLBACK (items_changed_cb), self);
 }
@@ -541,7 +554,6 @@ pt_preferences_dialog_init (PtPreferencesDialog *self)
 {
   self->editor = g_settings_new (APP_ID);
   self->parent_window = GTK_WINDOW (gtk_widget_get_root (GTK_WIDGET (self)));
-  // g_assert (self->parent_window != NULL);
 
   gtk_widget_init_template (GTK_WIDGET (self));
 
@@ -623,17 +635,6 @@ pt_preferences_dialog_init (PtPreferencesDialog *self)
       self->editor, "changed",
       G_CALLBACK (settings_changed_cb),
       self);
-
-  /* Load (and show) configurations async.
-   * Users won’t notice a delay, however, screenshot tool has to wait for it */
-
-  self->config_rows = g_ptr_array_new ();
-  self->active_config_path = g_settings_get_string (self->editor, "asr-config");
-
-#ifndef HAVE_ASR
-  adw_preferences_dialog_remove (ADW_PREFERENCES_DIALOG (self),
-                                 ADW_PREFERENCES_PAGE (self->asr_page));
-#endif
 }
 
 static void
