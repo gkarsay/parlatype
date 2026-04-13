@@ -12,9 +12,6 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * pt-test_buttons.c is taken from rhythmbox/plugins/test_buttons/rb-test_buttons-plugin.c
- * and slightly adapted for Parlatype.
  */
 
 #define G_LOG_DOMAIN "ptp-test-buttons"
