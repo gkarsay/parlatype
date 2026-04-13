@@ -443,7 +443,7 @@ delete_range_cb (GtkTextBuffer     *buffer,
         }
       check_me = TRUE;
     }
-  while (gtk_text_iter_forward_find_char (&search, possible_anchor, NULL, end));
+  while (gtk_text_iter_forward_find_char (&search, possible_anchor, NULL, end) && !gtk_text_iter_equal (&search, end));
 }
 
 static void
