@@ -1,9 +1,26 @@
+/* Copyright 2026 Gabor Karsay <gabor.karsay@gmx.at>
+ *
+ * This program is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #define G_LOG_DOMAIN "ptp-whisper"
 
 #include "config.h"
 
 #include "ptp-whisper.h"
 
+#include "contrib/gnome-languages.h"
 #include "parlatype.h"
 
 #include <gst/app/gstappsink.h>
@@ -39,6 +56,12 @@ struct _PtpWhisper
   uint  source_handler;
 };
 
+typedef struct
+{
+  PtpWhisper *self;
+  const char *text;
+} TextData;
+
 enum
 {
   PROP_PLAYER = 1,
@@ -67,19 +90,51 @@ ptp_whisper_load_model (PtpWhisper *self)
     return FALSE;
 
   self->wparams = whisper_full_default_params (WHISPER_SAMPLING_GREEDY);
-  self->wparams.language = "en";
+  self->wparams.language = "de";
   g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                     "MESSAGE", "model is multilingual: %s", whisper_is_multilingual (self->whisper_ctx) ? "yes" : "no");
+  g_print ("languages1: %d\n", whisper_lang_max_id ());
+  g_print ("languages2: %d\n", whisper_n_vocab (self->whisper_ctx) - 51765 - (whisper_is_multilingual (self->whisper_ctx) ? 1 : 0));
+  for (int i = 0; i <= whisper_lang_max_id (); i++)
+    {
+      g_print ("%d: %s - %s\n", i, whisper_lang_str (i), gnome_get_language_from_locale (whisper_lang_str (i), NULL));
+    }
+
+  GtkStringList *lang_list = gtk_string_list_new (NULL);
+  for (int i = 0; i <= whisper_lang_max_id (); i++)
+    {
+      gtk_string_list_take (lang_list, gnome_get_language_from_locale (whisper_lang_str (i), NULL));
+    }
+
   return TRUE;
 }
 
 static gboolean
-insert_text_cb (PtpWhisper *self)
+insert_text_cb (TextData *data)
 {
-  pt_text_view_insert_asr_final (self->text_view, self->result);
-  g_clear_pointer (&self->result, g_free);
-  self->source_handler = 0;
+  pt_text_view_insert_asr_final (data->self->text_view, (void *) data->text);
+  g_slice_free (TextData, data);
   return G_SOURCE_REMOVE;
+}
+
+static void
+ptp_whisper_get_segment_text (PtpWhisper *self)
+{
+  const int n_segments = whisper_full_n_segments (self->whisper_ctx);
+  g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                    "MESSAGE", "processing %d segments", n_segments);
+  for (int i = 0; i < n_segments; ++i)
+    {
+      const char *text = whisper_full_get_segment_text (self->whisper_ctx, i);
+      if (text == NULL || strlen (text) == 0)
+        {
+          continue;
+        }
+      TextData *data = g_new (TextData, 1);
+      data->self = self;
+      data->text = text;
+      self->source_handler = g_idle_add (G_SOURCE_FUNC (insert_text_cb), data);
+    }
 }
 
 static void
@@ -91,23 +146,7 @@ ptp_whisper_finalize_utt (PtpWhisper *self)
                         "MESSAGE", "failed to process audio");
       return;
     }
-  const int n_segments = whisper_full_n_segments (self->whisper_ctx);
-  g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
-                    "MESSAGE", "processing %d segments", n_segments);
-  for (int i = 0; i < n_segments; ++i)
-    {
-      const char *text = whisper_full_get_segment_text (self->whisper_ctx, i);
-      self->result = g_strdup (text);
-      self->source_handler = g_idle_add (G_SOURCE_FUNC (insert_text_cb), self);
-    }
-}
-
-static void
-eos_cb (GstAppSink *sink,
-        gpointer    user_data)
-{
-  PtpWhisper *self = PTP_WHISPER (user_data);
-  ptp_whisper_finalize_utt (self);
+  ptp_whisper_get_segment_text (self);
 }
 
 static GstFlowReturn
@@ -135,18 +174,7 @@ new_sample_cb (GstAppSink *sink,
                             "MESSAGE", "failed to process audio");
           return GST_FLOW_ERROR;
         }
-      const int n_segments = whisper_full_n_segments (self->whisper_ctx);
-      g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
-                        "MESSAGE", "processing %d segments", n_segments);
-      for (int i = 0; i < n_segments; ++i)
-        {
-          const char *text = whisper_full_get_segment_text (self->whisper_ctx, i);
-          if (strlen (text) > 0)
-            {
-              self->result = g_strdup (text);
-              self->source_handler = g_idle_add (G_SOURCE_FUNC (insert_text_cb), self);
-            }
-        }
+      ptp_whisper_get_segment_text (self);
       self->buffer_index = 0;
     }
   for (uint i = 0; i < info.size / sizeof (gint16); i++)
@@ -160,6 +188,17 @@ new_sample_cb (GstAppSink *sink,
   gst_sample_unref (sample);
 
   return GST_FLOW_OK;
+}
+
+static void
+eos_cb (GstAppSink *sink,
+        gpointer    user_data)
+{
+  PtpWhisper *self = PTP_WHISPER (user_data);
+  ptp_whisper_finalize_utt (self);
+
+  g_signal_handlers_disconnect_by_func (self->appsink, G_CALLBACK (new_sample_cb), self);
+  g_signal_handlers_disconnect_by_func (self->appsink, G_CALLBACK (eos_cb), self);
 }
 
 static void

@@ -955,6 +955,20 @@ pt_window_get_doc_controls (PtWindow *self)
   return self->doc_controls;
 }
 
+/**
+ * pt_window_get_asr_controls:
+ * @self: a PtWindow
+ *
+ * Returns a `GtkBox` with widgets to control the asr area.
+ *
+ * Returns: (transfer none): asr control box
+ */
+GtkWidget *
+pt_window_get_asr_controls (PtWindow *self)
+{
+  return self->asr_controls;
+}
+
 PtAsrManager *
 pt_window_get_asr_manager (PtWindow *self)
 {
