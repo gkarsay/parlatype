@@ -33,13 +33,25 @@ struct _PtSpeechRecognizerInterface
 {
   GTypeInterface parent;
 
-  void (*load)   (PtSpeechRecognizer *self);
+  void (*load)   (PtSpeechRecognizer *self,
+                  PtPlayer           *player,
+                  PtTextView         *text_view,
+                  GtkWidget          *asr_controls);
   void (*unload) (PtSpeechRecognizer *self);
+  void (*start)  (PtSpeechRecognizer *self);
+  void (*stop)   (PtSpeechRecognizer *self);
 
 };
 
-void pt_speech_recognizer_load   (PtSpeechRecognizer *self);
+void pt_speech_recognizer_load    (PtSpeechRecognizer *self,
+                                   PtPlayer           *player,
+                                   PtTextView         *text_view,
+                                   GtkWidget          *asr_controls);
 
-void pt_speech_recognizer_unload (PtSpeechRecognizer *self);
+void pt_speech_recognizer_unload  (PtSpeechRecognizer *self);
+
+void pt_speech_recognizer_start   (PtSpeechRecognizer *self);
+
+void pt_speech_recognizer_stop    (PtSpeechRecognizer *self);
 
 G_END_DECLS

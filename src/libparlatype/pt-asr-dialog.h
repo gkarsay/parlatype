@@ -22,7 +22,10 @@
 #define PT_TYPE_ASR_DIALOG (pt_asr_dialog_get_type ())
 G_DECLARE_FINAL_TYPE (PtAsrDialog, pt_asr_dialog, PT, ASR_DIALOG, AdwPreferencesDialog)
 
-void         pt_asr_dialog_set_config (PtAsrDialog *self,
-                                       PtConfig    *config);
+void         pt_asr_dialog_set_asr_manager (PtAsrDialog  *self,
+                                            PtAsrManager *asr_manager);
 
-PtAsrDialog *pt_asr_dialog_new        (void);
+void         pt_asr_dialog_set_config      (PtAsrDialog *self,
+                                            PtConfig    *config);
+
+PtAsrDialog *pt_asr_dialog_new             (void);

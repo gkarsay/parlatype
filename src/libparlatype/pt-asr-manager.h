@@ -31,12 +31,15 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE (PtAsrManager, pt_asr_manager, PT, ASR_MANAGER, GObject)
 
 
-gboolean      pt_asr_manager_activate_finish        (PtAsrManager       *self,
+void          pt_asr_manager_start_transcribing     (PtAsrManager       *self);
+
+void          pt_asr_manager_stop_transcribing      (PtAsrManager       *self);
+
+gboolean      pt_asr_manager_load_plugin_finish     (PtAsrManager       *self,
                                                      GAsyncResult       *result,
                                                      GError            **error);
 
-void          pt_asr_manager_activate_async         (PtAsrManager       *self,
-                                                     PtConfig           *config,
+void          pt_asr_manager_load_plugin_async      (PtAsrManager       *self,
                                                      GCancellable       *cancellable,
                                                      GAsyncReadyCallback callback,
                                                      gpointer            user_data);
@@ -44,9 +47,17 @@ void          pt_asr_manager_activate_async         (PtAsrManager       *self,
 gboolean      pt_asr_manager_plugin_is_available    (PtAsrManager       *self,
                                                      PtConfig           *config);
 
+PtConfig     *pt_asr_manager_get_config             (PtAsrManager       *self);
+
+gboolean      pt_asr_manager_set_config             (PtAsrManager       *self,
+                                                     PtConfig           *config);
+
+gboolean      pt_asr_manager_have_config            (PtAsrManager       *self);
+
 gboolean      pt_asr_manager_have_asr               (PtAsrManager       *self);
 
 PtAsrManager *pt_asr_manager_new                    (PtPlayer           *player,
-                                                     PtTextView         *text_view);
+                                                     PtTextView         *text_view,
+                                                     GtkWidget          *asr_controls);
 
 G_END_DECLS

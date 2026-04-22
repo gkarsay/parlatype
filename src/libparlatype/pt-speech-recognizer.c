@@ -30,42 +30,29 @@ static void
 pt_speech_recognizer_default_init (PtSpeechRecognizerInterface *iface)
 {
   /**
-   * PtSpeechRecognizer:player
+   * PtSpeechRecognizer:busy
    *
-   * Player to get audio from.
+   * Whether the recognizer is currently working.
    */
   g_object_interface_install_property (iface,
-                                       g_param_spec_object ("player",
-                                                            "Player",
-                                                            "Player",
-                                                            PT_TYPE_PLAYER,
-                                                            G_PARAM_READWRITE |
-                                                                G_PARAM_CONSTRUCT_ONLY |
-                                                                G_PARAM_STATIC_STRINGS));
-
-  /**
-   * PtSpeechRecognizer:textview
-   *
-   * Text view to write results to.
-   */
-  g_object_interface_install_property (iface,
-                                       g_param_spec_object ("textview",
-                                                            "Textview",
-                                                            "Textview",
-                                                            PT_TYPE_TEXT_VIEW,
-                                                            G_PARAM_READWRITE |
-                                                                G_PARAM_CONSTRUCT_ONLY |
-                                                                G_PARAM_STATIC_STRINGS));
+                                       g_param_spec_boolean ("busy",
+                                                             "Busy",
+                                                             "Busy",
+                                                             FALSE,
+                                                             G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 }
 
 /**
  * pt_speech_recognizer_load:
- * @self: a #PtSpeechRecognizer
+ * @self: an #PtSpeechRecognizer
  *
- * ASR plugins should prepare for speech recognition here
+ * Plugins should undo starting here.
  */
 void
-pt_speech_recognizer_load (PtSpeechRecognizer *self)
+pt_speech_recognizer_load (PtSpeechRecognizer *self,
+                           PtPlayer           *player,
+                           PtTextView         *text_view,
+                           GtkWidget          *asr_controls)
 {
   PtSpeechRecognizerInterface *iface;
 
@@ -74,14 +61,51 @@ pt_speech_recognizer_load (PtSpeechRecognizer *self)
   iface = PT_SPEECH_RECOGNIZER_GET_IFACE (self);
   g_return_if_fail (iface->load != NULL);
 
-  iface->load (self);
+  iface->load (self, player, text_view, asr_controls);
+}
+/**
+ * pt_speech_recognizer_start:
+ * @self: a #PtSpeechRecognizer
+ *
+ * ASR plugins should prepare for speech recognition here
+ */
+void
+pt_speech_recognizer_start (PtSpeechRecognizer *self)
+{
+  PtSpeechRecognizerInterface *iface;
+
+  g_return_if_fail (PT_IS_SPEECH_RECOGNIZER (self));
+
+  iface = PT_SPEECH_RECOGNIZER_GET_IFACE (self);
+  g_return_if_fail (iface->start != NULL);
+
+  iface->start (self);
+}
+
+/**
+ * pt_speech_recognizer_stop:
+ * @self: an #PtSpeechRecognizer
+ *
+ * Plugins should undo starting here.
+ */
+void
+pt_speech_recognizer_stop (PtSpeechRecognizer *self)
+{
+  PtSpeechRecognizerInterface *iface;
+
+  g_return_if_fail (PT_IS_SPEECH_RECOGNIZER (self));
+
+  iface = PT_SPEECH_RECOGNIZER_GET_IFACE (self);
+  g_return_if_fail (iface->stop != NULL);
+
+  iface->stop (self);
 }
 
 /**
  * pt_speech_recognizer_unload:
  * @self: an #PtSpeechRecognizer
  *
- * Plugins should undo loading here.
+ * Plugins should undo starting here.
  */
 void
 pt_speech_recognizer_unload (PtSpeechRecognizer *self)

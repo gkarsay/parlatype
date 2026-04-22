@@ -476,21 +476,18 @@ modified_changed_cb (GtkTextBuffer *buffer,
  * Inserts a `PtTimestampButton` at the current position for the current time.
  */
 void
-pt_text_view_insert_timestamp (PtTextView *self)
+pt_text_view_insert_timestamp (PtTextView *self,
+                               int         timestamp)
 {
   GtkTextChildAnchor *anchor;
   GtkTextIter         iter;
-  int                 timestamp;
 
   g_return_if_fail (PT_IS_TEXT_VIEW (self));
 
   gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER (self->buffer), &iter,
                                     gtk_text_buffer_get_insert (GTK_TEXT_BUFFER (self->buffer)));
 
-  timestamp = pt_player_get_timestamp (self->player);
-  g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
-                    "MESSAGE", "timestamp to insert: %d", timestamp);
-  if (timestamp == -1)
+  if (timestamp < 0)
     return;
 
   /* Create a new anchor, never add more than one widget to an anchor */
@@ -498,6 +495,28 @@ pt_text_view_insert_timestamp (PtTextView *self)
   gtk_text_buffer_insert_child_anchor (GTK_TEXT_BUFFER (self->buffer), &iter, anchor);
 
   insert_timestamp_button_cb (NULL, anchor, timestamp, self);
+}
+
+/**
+ * pt_text_view_insert_current_timestamp:
+ * @self: a `PtTextView`
+ *
+ * Inserts a `PtTimestampButton` at the current position for the current time.
+ */
+void
+pt_text_view_insert_current_timestamp (PtTextView *self)
+{
+  int timestamp;
+
+  g_return_if_fail (PT_IS_TEXT_VIEW (self));
+
+  timestamp = pt_player_get_timestamp (self->player);
+  g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                    "MESSAGE", "timestamp to insert: %d", timestamp);
+  if (timestamp == -1)
+    return;
+
+  pt_text_view_insert_timestamp (self, timestamp);
 }
 
 static void

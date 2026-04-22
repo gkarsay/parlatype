@@ -31,6 +31,7 @@
 
 #include "editor-theme-selector-private.h"
 #include "pt-app.h"
+#include "pt-asr-manager.h"
 #include "pt-audio-controls.h"
 #include "pt-goto-dialog.h"
 #include "pt-save-changes-dialog.h"
@@ -57,7 +58,6 @@ struct _PtWindow
   PeasExtensionSet *addins;
   PtAsrManager     *asr_manager;
   GtkRecentManager *recent;
-  PtConfig         *asr_config;
 
   /* Main window widgets */
   GtkWidget *waveviewer_stack;
@@ -107,7 +107,7 @@ insert_timestamp (GtkWidget  *widget,
 {
   PtWindow *self = PT_WINDOW (widget);
 
-  pt_text_view_insert_timestamp (PT_TEXT_VIEW (self->text_view));
+  pt_text_view_insert_current_timestamp (PT_TEXT_VIEW (self->text_view));
 }
 
 static void
@@ -201,56 +201,6 @@ zoom_default (GtkWidget  *widget,
   set_zoom (self->editor, 0);
 }
 
-static void
-player_asr_hypothesis_cb (PtPlayer *player,
-                          gchar    *word,
-                          gpointer  user_data)
-{
-  PtWindow *self = PT_WINDOW (user_data);
-
-  pt_text_view_insert_asr_hypothesis (PT_TEXT_VIEW (self->text_view), word);
-}
-
-static void
-player_asr_final_cb (PtPlayer *player,
-                     gchar    *word,
-                     gpointer  user_data)
-{
-  PtWindow *self = PT_WINDOW (user_data);
-
-  pt_text_view_insert_asr_final (PT_TEXT_VIEW (self->text_view), word);
-}
-
-static void
-activate_cb (PtAsrManager *asr_manager,
-             GAsyncResult *res,
-             gpointer     *data)
-{
-  PtWindow *self = (PtWindow *) data;
-  GError   *error = NULL;
-  GAction  *action;
-
-  if (!pt_asr_manager_activate_finish (asr_manager, res, &error))
-    {
-      pt_error_message (self, error->message);
-      g_error_free (error);
-      return;
-    }
-
-  if (pt_player_set_mode (self->player, PT_MODE_ASR))
-    {
-      pt_player_play (self->player);
-      action = g_action_map_lookup_action (G_ACTION_MAP (self), "transcribe");
-      g_action_change_state (G_ACTION (action), g_variant_new_boolean (TRUE));
-    }
-}
-
-static void
-set_mode_playback (PtWindow *self)
-{
-  pt_player_set_mode (self->player, PT_MODE_PLAYBACK);
-}
-
 void
 pt_window_transcribe_action (GSimpleAction *action,
                              GVariant      *state,
@@ -266,18 +216,14 @@ pt_window_transcribe_action (GSimpleAction *action,
 
   if (transcribe)
     {
-      pt_asr_manager_activate_async (self->asr_manager,
-                                     self->asr_config,
-                                     NULL,
-                                     (GAsyncReadyCallback) activate_cb,
-                                     self);
+      pt_asr_manager_start_transcribing (self->asr_manager);
     }
   else
     {
-      pt_player_pause (self->player);
-      set_mode_playback (self);
-      g_action_change_state (G_ACTION (action), new_state);
+      pt_asr_manager_stop_transcribing (self->asr_manager);
     }
+
+  g_action_change_state (G_ACTION (action), new_state);
 }
 
 static void
@@ -633,7 +579,7 @@ player_state_changed_cb (PtPlayer   *player,
 
   transcribe_action = g_action_map_lookup_action (G_ACTION_MAP (self), "transcribe");
   g_simple_action_set_enabled (G_SIMPLE_ACTION (transcribe_action),
-                               ready && !playing && self->asr_config != NULL);
+                               ready && !playing && pt_asr_manager_have_config (self->asr_manager));
   action_state = g_variant_new_boolean (transcribing);
   g_action_change_state (transcribe_action, action_state);
 
@@ -685,56 +631,6 @@ player_uri_changed_cb (PtPlayer   *player,
     {
       gtk_recent_manager_add_item (self->recent, uri);
       g_free (uri);
-    }
-}
-
-/*
- * Called on startup and on config file changes
- */
-static void
-set_asr_config (PtWindow *self)
-{
-  GFile   *asr_file;
-  gchar   *asr_path;
-  GAction *action;
-  gboolean enable;
-
-  action = g_action_map_lookup_action (G_ACTION_MAP (self), "transcribe");
-
-  /* Clear old config object and recreate with new config file */
-  if (self->asr_config)
-    g_clear_object (&self->asr_config);
-
-  asr_path = g_settings_get_string (self->editor, "asr-config");
-  asr_file = g_file_new_for_path (asr_path);
-  self->asr_config = pt_config_new (asr_file);
-  g_object_unref (asr_file);
-
-  enable = pt_config_is_valid (self->asr_config) &&
-           pt_asr_manager_plugin_is_available (self->asr_manager, self->asr_config) &&
-           pt_config_is_installed (self->asr_config);
-
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), enable);
-  g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
-                    "MESSAGE", "asr %s, config path: »%s«", enable ? "enabled" : "disabled", asr_path);
-
-  if (!enable)
-    {
-      g_clear_object (&self->asr_config);
-    }
-
-  g_free (asr_path);
-}
-
-static void
-settings_changed_cb (GSettings *settings,
-                     gchar     *key,
-                     PtWindow  *self)
-{
-  if (g_strcmp0 (key, "asr-config") == 0)
-    {
-      set_asr_config (self);
-      return;
     }
 }
 
@@ -834,13 +730,6 @@ setup_settings (PtWindow *self)
       self->player, "timestamp-fraction-sep",
       G_SETTINGS_BIND_GET);
 
-  set_asr_config (self);
-
-  g_signal_connect (
-      self->editor, "changed",
-      G_CALLBACK (settings_changed_cb),
-      self);
-
   /* Default speed
      Other solutions would be
      - Automatically save last known speed in GSettings
@@ -884,16 +773,6 @@ setup_player (PtWindow *self)
                     "notify::current-uri",
                     G_CALLBACK (player_uri_changed_cb),
                     self);
-
-  g_signal_connect (self->player,
-                    "asr-final",
-                    G_CALLBACK (player_asr_final_cb),
-                    self);
-
-  g_signal_connect (self->player,
-                    "asr-hypothesis",
-                    G_CALLBACK (player_asr_hypothesis_cb),
-                    self);
 }
 
 static void
@@ -913,6 +792,12 @@ setup_accels_actions_menus (PtWindow *self)
                                    win_actions,
                                    G_N_ELEMENTS (win_actions),
                                    self);
+
+  GAction *transcribe_action = g_action_map_lookup_action (G_ACTION_MAP (self), "transcribe");
+  g_object_bind_property (
+      self->asr_manager, "have-config",
+      transcribe_action, "enabled",
+      G_BINDING_DEFAULT);
 }
 
 static void
@@ -973,6 +858,12 @@ PtAsrManager *
 pt_window_get_asr_manager (PtWindow *self)
 {
   return self->asr_manager;
+}
+
+PtTextView *
+pt_window_get_text_view (PtWindow *self)
+{
+  return PT_TEXT_VIEW (self->text_view);
 }
 
 GtkRecentManager *
@@ -1101,7 +992,6 @@ pt_window_dispose (GObject *object)
   g_clear_object (&self->editor);
   g_clear_object (&self->player);
   g_clear_object (&self->asr_manager);
-  g_clear_object (&self->asr_config);
 
   gtk_widget_dispose_template (GTK_WIDGET (self), PT_TYPE_WINDOW);
 
@@ -1197,7 +1087,7 @@ pt_window_init (PtWindow *self)
   pt_text_view_connect (PT_TEXT_VIEW (self->text_view),
                         self->player,
                         self->editor);
-  self->asr_manager = pt_asr_manager_new (self->player, PT_TEXT_VIEW (self->text_view));
+  self->asr_manager = pt_asr_manager_new (self->player, PT_TEXT_VIEW (self->text_view), self->asr_controls);
   if (!pt_asr_manager_have_asr (self->asr_manager))
     {
       gtk_widget_set_visible (self->asr_controls, FALSE);

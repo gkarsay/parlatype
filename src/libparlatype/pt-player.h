@@ -88,6 +88,8 @@ gint         pt_player_get_pause                (PtPlayer       *self);
 
 void         pt_player_play                     (PtPlayer       *self);
 
+//void         pt_player_transcribe               (PtPlayer       *self);
+
 void         pt_player_play_pause               (PtPlayer       *self);
 
 void         pt_player_set_selection            (PtPlayer       *self,

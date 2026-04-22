@@ -39,8 +39,9 @@ struct _PtAsrDialog
 {
   AdwPreferencesDialog parent;
 
-  PtConfig  *config;
-  GSettings *editor;
+  PtConfig     *config;
+  GSettings    *editor;
+  PtAsrManager *asr_manager;
 
   GtkWidget *page;
   GtkWidget *status_row;
@@ -188,6 +189,16 @@ add_info_row (PtAsrDialog *self,
   adw_action_row_set_subtitle (ADW_ACTION_ROW (row), subtitle);
   gtk_widget_add_css_class (row, "property");
   adw_preferences_group_add (ADW_PREFERENCES_GROUP (self->info_group), row);
+}
+
+void
+pt_asr_dialog_set_asr_manager (PtAsrDialog  *self,
+                               PtAsrManager *asr_manager)
+{
+  g_return_if_fail (PT_IS_ASR_DIALOG (self));
+  g_return_if_fail (PT_IS_ASR_MANAGER (asr_manager));
+
+  self->asr_manager = asr_manager;
 }
 
 /**
@@ -391,25 +402,11 @@ activate_button_clicked_cb (GtkButton *button,
                             gpointer   user_data)
 {
   PtAsrDialog *self = PT_ASR_DIALOG (user_data);
-  GFile       *config_file;
-  gchar       *path;
   gboolean     success;
 
   /* Depending on self->active this is either an "Activate" or a "Deactivate" button. */
 
-  if (self->active)
-    {
-      path = g_strdup ("");
-    }
-  else
-    {
-      if (!pt_config_is_installed (self->config))
-        return;
-      config_file = pt_config_get_file (self->config);
-      path = g_file_get_path (config_file);
-    }
-
-  success = g_settings_set_string (self->editor, "asr-config", path);
+  success = pt_asr_manager_set_config (self->asr_manager, self->active ? NULL : self->config);
 
   if (success)
     {
@@ -421,8 +418,6 @@ activate_button_clicked_cb (GtkButton *button,
       add_toast_to_preferences_dialog (self, toast);
       adw_dialog_close (ADW_DIALOG (self));
     }
-
-  g_free (path);
 }
 
 static void

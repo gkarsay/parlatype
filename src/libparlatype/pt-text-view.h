@@ -52,7 +52,10 @@ const GFile   *pt_text_view_get_audio_file         (PtTextView         *self);
 void           pt_text_view_set_audio_file         (PtTextView         *self,
                                                     GFile              *file);
 
-void           pt_text_view_insert_timestamp       (PtTextView         *self);
+void           pt_text_view_insert_timestamp       (PtTextView         *self,
+                                                    int                 timestamp);
+
+void           pt_text_view_insert_current_timestamp (PtTextView         *self);
 
 void           pt_text_view_connect                (PtTextView         *self,
                                                     PtPlayer           *player,

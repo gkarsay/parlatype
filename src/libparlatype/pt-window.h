@@ -45,4 +45,6 @@ GtkWidget     *pt_window_get_asr_controls  (PtWindow    *self);
 
 GtkWidget     *pt_window_get_doc_controls  (PtWindow    *self);
 
+PtTextView    *pt_window_get_text_view     (PtWindow    *self);
+
 PtWindow      *pt_window_new               (PtApp       *app);

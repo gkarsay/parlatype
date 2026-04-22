@@ -22,6 +22,7 @@
 
 #include "contrib/gnome-languages.h"
 #include "parlatype.h"
+#include "pt-window-addin.h"
 
 #include <gst/app/gstappsink.h>
 #include <gst/audio/audio.h>
@@ -34,6 +35,7 @@ struct _PtpWhisper
   PtPlayer   *player;
   PtTextView *text_view;
   GstElement *appsink;
+  GtkWidget  *asr_controls;
 
   /* Whisper */
   struct whisper_context    *whisper_ctx;
@@ -42,6 +44,14 @@ struct _PtpWhisper
   gchar                     *language;
   float                     *buffer;
   uint                       buffer_index;
+
+  gboolean multilingual_model;
+  gboolean model_loaded;
+  gboolean busy;
+  gulong   sample_handler, eos_handler;
+
+  GtkWidget *prefs_box;
+  GtkWidget *lang_switcher;
 
   /* Voice Activity Detection (VAD) */
   gint    quiet_bufs;
@@ -64,17 +74,18 @@ typedef struct
 
 enum
 {
-  PROP_PLAYER = 1,
-  PROP_TEXT_VIEW,
+  PROP_PROP_0,
   PROP_LANGUAGE,
   PROP_SPEECH_MODEL,
+  PROP_MULTILINGUAL_MODEL,
+  PROP_BUSY,
   N_PROPERTIES
 };
 
 static GParamSpec *obj_properties[N_PROPERTIES];
-static void        pt_asr_iface_init (PtSpeechRecognizerInterface *iface);
+static void        pt_speech_recognizer_iface_init (PtSpeechRecognizerInterface *iface);
 
-G_DEFINE_FINAL_TYPE_WITH_CODE (PtpWhisper, ptp_whisper, G_TYPE_OBJECT, G_IMPLEMENT_INTERFACE (PT_TYPE_SPEECH_RECOGNIZER, pt_asr_iface_init))
+G_DEFINE_FINAL_TYPE_WITH_CODE (PtpWhisper, ptp_whisper, G_TYPE_OBJECT, G_IMPLEMENT_INTERFACE (PT_TYPE_SPEECH_RECOGNIZER, pt_speech_recognizer_iface_init))
 
 static gboolean
 ptp_whisper_load_model (PtpWhisper *self)
@@ -90,21 +101,10 @@ ptp_whisper_load_model (PtpWhisper *self)
     return FALSE;
 
   self->wparams = whisper_full_default_params (WHISPER_SAMPLING_GREEDY);
-  self->wparams.language = "de";
+
+  self->wparams.language = whisper_lang_str (adw_combo_row_get_selected (ADW_COMBO_ROW (self->lang_switcher)));
   g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                     "MESSAGE", "model is multilingual: %s", whisper_is_multilingual (self->whisper_ctx) ? "yes" : "no");
-  g_print ("languages1: %d\n", whisper_lang_max_id ());
-  g_print ("languages2: %d\n", whisper_n_vocab (self->whisper_ctx) - 51765 - (whisper_is_multilingual (self->whisper_ctx) ? 1 : 0));
-  for (int i = 0; i <= whisper_lang_max_id (); i++)
-    {
-      g_print ("%d: %s - %s\n", i, whisper_lang_str (i), gnome_get_language_from_locale (whisper_lang_str (i), NULL));
-    }
-
-  GtkStringList *lang_list = gtk_string_list_new (NULL);
-  for (int i = 0; i <= whisper_lang_max_id (); i++)
-    {
-      gtk_string_list_take (lang_list, gnome_get_language_from_locale (whisper_lang_str (i), NULL));
-    }
 
   return TRUE;
 }
@@ -130,6 +130,9 @@ ptp_whisper_get_segment_text (PtpWhisper *self)
         {
           continue;
         }
+      int64_t t0 = whisper_full_get_segment_t0 (self->whisper_ctx, i);
+      g_print ("%d - %s\n", (int) t0, text);
+      // pt_text_view_insert_timestamp (self->text_view, (int)t0 * 10);
       TextData *data = g_new (TextData, 1);
       data->self = self;
       data->text = text;
@@ -191,25 +194,60 @@ new_sample_cb (GstAppSink *sink,
 }
 
 static void
+ptp_whisper_stop (PtSpeechRecognizer *recognizer)
+{
+  PtpWhisper *self = PTP_WHISPER (recognizer);
+
+  g_clear_signal_handler (&self->sample_handler, self->appsink);
+  g_clear_signal_handler (&self->eos_handler, self->appsink);
+
+  self->busy = FALSE;
+  g_object_notify_by_pspec (G_OBJECT (self),
+                            obj_properties[PROP_BUSY]);
+}
+
+static void
 eos_cb (GstAppSink *sink,
         gpointer    user_data)
 {
   PtpWhisper *self = PTP_WHISPER (user_data);
   ptp_whisper_finalize_utt (self);
-
-  g_signal_handlers_disconnect_by_func (self->appsink, G_CALLBACK (new_sample_cb), self);
-  g_signal_handlers_disconnect_by_func (self->appsink, G_CALLBACK (eos_cb), self);
+  ptp_whisper_stop (PT_SPEECH_RECOGNIZER (self));
 }
 
 static void
-ptp_whisper_load (PtSpeechRecognizer *pt_asr_iface)
+ptp_whisper_start (PtSpeechRecognizer *recognizer)
 {
-  g_return_if_fail (PT_IS_SPEECH_RECOGNIZER (pt_asr_iface));
+  PtpWhisper *self = PTP_WHISPER (recognizer);
 
-  PtpWhisper *self = PTP_WHISPER (pt_asr_iface);
+  self->busy = TRUE;
+  g_object_notify_by_pspec (G_OBJECT (self),
+                            obj_properties[PROP_BUSY]);
+
+  if (!self->model_loaded)
+    {
+      ptp_whisper_load_model (self);
+      self->model_loaded = TRUE;
+    }
+
+  self->sample_handler = g_signal_connect (self->appsink, "new-sample", G_CALLBACK (new_sample_cb), self);
+  self->eos_handler = g_signal_connect (self->appsink, "eos", G_CALLBACK (eos_cb), self);
+}
+
+static void
+ptp_whisper_load (PtSpeechRecognizer *recognizer,
+                  PtPlayer           *player,
+                  PtTextView         *text_view,
+                  GtkWidget          *asr_controls)
+{
+  g_return_if_fail (PT_IS_SPEECH_RECOGNIZER (recognizer));
+
+  PtpWhisper *self = PTP_WHISPER (recognizer);
   GstCaps    *caps;
 
-  g_object_get (pt_asr_iface, "player", &self->player, "textview", &self->text_view, NULL);
+  self->player = player;
+  self->text_view = text_view;
+  self->asr_controls = asr_controls;
   self->appsink = pt_player_get_appsink (self->player);
   caps = gst_caps_new_simple ("audio/x-raw",
                               "format", G_TYPE_STRING, GST_AUDIO_NE (S16),
@@ -218,22 +256,56 @@ ptp_whisper_load (PtSpeechRecognizer *pt_asr_iface)
   g_object_set (self->appsink, "caps", caps, NULL);
   gst_caps_unref (caps);
 
-  g_signal_connect (self->appsink, "new-sample", G_CALLBACK (new_sample_cb), self);
-  g_signal_connect (self->appsink, "eos", G_CALLBACK (eos_cb), self);
+  if (self->multilingual_model)
+    {
+      self->prefs_box = gtk_list_box_new ();
+      gtk_widget_add_css_class (self->prefs_box, "navigation-sidebar");
+      self->lang_switcher = adw_combo_row_new ();
+      adw_preferences_row_set_title (ADW_PREFERENCES_ROW (self->lang_switcher), "Language");
+      gtk_list_box_append (GTK_LIST_BOX (self->prefs_box), self->lang_switcher);
+      gtk_box_append (GTK_BOX (self->asr_controls), self->prefs_box);
 
-  ptp_whisper_load_model (self);
+      GtkStringList *lang_list = gtk_string_list_new (NULL);
+      for (int i = 0; i <= whisper_lang_max_id (); i++)
+        {
+          char *lang = gnome_get_language_from_locale (whisper_lang_str (i), NULL);
+          if (lang == NULL)
+            {
+              /* Get english string if there is no translation available */
+              lang = g_strdup (whisper_lang_str_full (i));
+            }
+          gtk_string_list_take (lang_list, lang);
+        }
+      adw_combo_row_set_model (ADW_COMBO_ROW (self->lang_switcher), G_LIST_MODEL (lang_list));
+    }
+
+  g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                    "MESSAGE", "plugin whisper loaded");
 }
 
 static void
-ptp_whisper_unload (PtSpeechRecognizer *self)
+ptp_whisper_unload (PtSpeechRecognizer *recognizer)
 {
+  PtpWhisper *self = PTP_WHISPER (recognizer);
+
+  g_return_if_fail (PT_IS_SPEECH_RECOGNIZER (recognizer));
+
+  if (self->prefs_box)
+    {
+      gtk_box_remove (GTK_BOX (self->asr_controls), self->prefs_box);
+    }
+
+  g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                    "MESSAGE", "plugin whisper unloaded");
 }
 
 static void
-pt_asr_iface_init (PtSpeechRecognizerInterface *iface)
+pt_speech_recognizer_iface_init (PtSpeechRecognizerInterface *iface)
 {
   iface->load = ptp_whisper_load;
   iface->unload = ptp_whisper_unload;
+  iface->start = ptp_whisper_start;
+  iface->stop = ptp_whisper_stop;
 }
 
 static void
@@ -246,12 +318,6 @@ ptp_whisper_set_property (GObject      *object,
 
   switch (property_id)
     {
-    case PROP_PLAYER:
-      self->player = g_value_get_object (value);
-      break;
-    case PROP_TEXT_VIEW:
-      self->text_view = g_value_get_object (value);
-      break;
     case PROP_LANGUAGE:
       g_free (self->speech_model_path);
       self->language = g_value_dup_string (value);
@@ -259,6 +325,9 @@ ptp_whisper_set_property (GObject      *object,
     case PROP_SPEECH_MODEL:
       g_free (self->speech_model_path);
       self->speech_model_path = g_value_dup_string (value);
+      break;
+    case PROP_MULTILINGUAL_MODEL:
+      self->multilingual_model = g_value_get_boolean (value);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -276,17 +345,17 @@ ptp_whisper_get_property (GObject    *object,
 
   switch (property_id)
     {
-    case PROP_PLAYER:
-      g_value_set_object (value, self->player);
-      break;
-    case PROP_TEXT_VIEW:
-      g_value_set_object (value, self->text_view);
-      break;
     case PROP_LANGUAGE:
       g_value_set_string (value, self->language);
       break;
     case PROP_SPEECH_MODEL:
       g_value_set_string (value, self->speech_model_path);
+      break;
+    case PROP_MULTILINGUAL_MODEL:
+      g_value_set_boolean (value, self->multilingual_model);
+      break;
+    case PROP_BUSY:
+      g_value_set_boolean (value, self->busy);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -310,6 +379,8 @@ static void
 ptp_whisper_init (PtpWhisper *self)
 {
   self->in_speech = FALSE;
+  self->model_loaded = FALSE;
+  self->busy = FALSE;
   self->silence_time = 0;
   self->last_result_time = GST_CLOCK_TIME_NONE;
   self->buffer = g_new0 (float, 160000);
@@ -324,18 +395,6 @@ ptp_whisper_class_init (PtpWhisperClass *klass)
   G_OBJECT_CLASS (klass)->get_property = ptp_whisper_get_property;
   G_OBJECT_CLASS (klass)->finalize = ptp_whisper_finalize;
 
-  obj_properties[PROP_PLAYER] =
-      g_param_spec_object (
-          "player", NULL, NULL,
-          PT_TYPE_PLAYER,
-          G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
-
-  obj_properties[PROP_TEXT_VIEW] =
-      g_param_spec_object (
-          "textview", NULL, NULL,
-          PT_TYPE_TEXT_VIEW,
-          G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
-
   obj_properties[PROP_LANGUAGE] =
       g_param_spec_string (
           "language", NULL, NULL, NULL,
@@ -344,6 +403,16 @@ ptp_whisper_class_init (PtpWhisperClass *klass)
   obj_properties[PROP_SPEECH_MODEL] =
       g_param_spec_string (
           "speech-model", NULL, NULL, NULL,
+          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
+  obj_properties[PROP_MULTILINGUAL_MODEL] =
+      g_param_spec_boolean (
+          "multilingual-model", NULL, NULL, FALSE,
+          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
+  obj_properties[PROP_BUSY] =
+      g_param_spec_boolean (
+          "busy", NULL, NULL, FALSE,
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (

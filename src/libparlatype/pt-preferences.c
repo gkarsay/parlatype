@@ -195,6 +195,7 @@ asr_row_activated (AdwActionRow *row,
 
   config = pt_config_row_get_config (PT_CONFIG_ROW (row));
   PtAsrDialog *asr_dlg = pt_asr_dialog_new ();
+  pt_asr_dialog_set_asr_manager (asr_dlg, self->asr_manager);
   pt_asr_dialog_set_config (asr_dlg, config);
   g_signal_connect (asr_dlg, "destroy", G_CALLBACK (asr_dialog_destroy_cb), self);
   adw_dialog_present (ADW_DIALOG (asr_dlg), GTK_WIDGET (self));
