@@ -41,6 +41,8 @@
 #include "pt-config.h"
 
 #include "contrib/gnome-languages.h"
+#include "pt-downloader.h"
+#include "pt-speech-recognizer.h"
 
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
@@ -56,7 +58,10 @@ struct _PtConfig
   gchar    *lang_name;
   gchar    *lang_code;
   gchar    *plugin;
+  gchar    *downloader;
   gchar    *base_folder;
+  int       major_version;
+  int       minor_version;
   gboolean  is_valid;
   gboolean  is_installed;
 };
@@ -119,6 +124,10 @@ pt_config_get_value (PtConfig *self,
   GError *error = NULL;
   GValue  result = G_VALUE_INIT;
 
+  g_assert (g_strcmp0 (group, "Files") == 0 ||
+            g_strcmp0 (group, "Parameters") == 0 ||
+            g_strcmp0 (group, "Download") == 0);
+
   if (g_strcmp0 (group, "Files") == 0)
     {
       g_value_init (&result, G_TYPE_STRING);
@@ -138,34 +147,29 @@ pt_config_get_value (PtConfig *self,
         {
         case (G_TYPE_STRING):
           g_value_init (&result, G_TYPE_STRING);
-          gchar *string = g_key_file_get_string (self->keyfile,
-                                                 "Parameters", key, &error);
+          gchar *string = g_key_file_get_string (self->keyfile, group, key, &error);
           g_value_set_string (&result, string);
           g_free (string);
           break;
         case (G_TYPE_UINT):
         case (G_TYPE_INT):
           g_value_init (&result, G_TYPE_INT);
-          gint integer = g_key_file_get_integer (self->keyfile,
-                                                 "Parameters", key, &error);
+          gint integer = g_key_file_get_integer (self->keyfile, group, key, &error);
           g_value_set_int (&result, integer);
           break;
         case (G_TYPE_FLOAT):
           g_value_init (&result, G_TYPE_FLOAT);
-          gfloat floaty = g_key_file_get_double (self->keyfile,
-                                                 "Parameters", key, &error);
+          gfloat floaty = g_key_file_get_double (self->keyfile, group, key, &error);
           g_value_set_float (&result, floaty);
           break;
         case (G_TYPE_DOUBLE):
           g_value_init (&result, G_TYPE_DOUBLE);
-          gdouble doubly = g_key_file_get_double (self->keyfile,
-                                                  "Parameters", key, &error);
+          gdouble doubly = g_key_file_get_double (self->keyfile, group, key, &error);
           g_value_set_double (&result, doubly);
           break;
         case (G_TYPE_BOOLEAN):
           g_value_init (&result, G_TYPE_BOOLEAN);
-          gboolean boolean = g_key_file_get_boolean (self->keyfile,
-                                                     "Parameters", key, &error);
+          gboolean boolean = g_key_file_get_boolean (self->keyfile, group, key, &error);
           g_value_set_boolean (&result, boolean);
           break;
         default:
@@ -226,7 +230,7 @@ pt_config_set_string (PtConfig *self,
  *
  * The human-visible name to identify a configuration.
  *
- * Return value: (transfer none): the configuration’s name as a string
+ * Returns: (transfer none): the configuration’s name as a string
  *
  * Since: 3.0
  */
@@ -248,7 +252,7 @@ pt_config_get_name (PtConfig *self)
  * Sets the human-visible name of a configuration. It doesn’t have to be
  * unique. This saves the new name immediately to the configuration file.
  *
- * Return value: TRUE on success, otherwise FALSE
+ * Returns: TRUE on success, otherwise FALSE
  *
  * Since: 3.0
  */
@@ -280,7 +284,7 @@ pt_config_set_name (PtConfig *self,
  *
  * Sets the configuration’s base folder.
  *
- * Return value: TRUE on success, otherwise FALSE
+ * Returns: TRUE on success, otherwise FALSE
  *
  * Since: 3.0
  */
@@ -320,7 +324,7 @@ pt_config_set_base_folder (PtConfig *self,
  * returning NULL is an invalid configuration, check #PtConfig:is-valid for
  * that.
  *
- * Return value: (transfer none): the configuaration’s base folder as a string or NULL
+ * Returns: (transfer none): the configuaration’s base folder as a string or NULL
  *
  * Since: 3.0
  */
@@ -340,7 +344,7 @@ pt_config_get_base_folder (PtConfig *self)
  * Gets the name of the GStreamer plugin the configuration is intended for.
  * It has to be exactly the string GStreamer uses to instantiate the plugin.
  *
- * Return value: the plugin’s name as a string
+ * Returns: the plugin’s name as a string
  *
  * Since: 3.0
  */
@@ -354,6 +358,25 @@ pt_config_get_plugin (PtConfig *self)
 }
 
 /**
+ * pt_config_get_downloader:
+ * @self: a configuration instance
+ *
+ * Gets the name of the downloader plugin.
+ *
+ * Returns: (nullable): the plugin’s name as a string
+ *
+ * Since: 5.0
+ */
+gchar *
+pt_config_get_downloader (PtConfig *self)
+{
+  g_return_val_if_fail (PT_IS_CONFIG (self), NULL);
+  g_return_val_if_fail (self->is_valid, NULL);
+
+  return self->downloader;
+}
+
+/**
  * pt_config_get_lang_code:
  * @self: a configuration instance
  *
@@ -361,7 +384,7 @@ pt_config_get_plugin (PtConfig *self)
  * (2 letters) if available, otherwise ISO 639-2 (3 letters).
  * An asterisk indicates a multilingual model.
  *
- * Return value: (transfer none): the language code as a string
+ * Returns: (transfer none): the language code as a string
  *
  * Since: 3.0
  */
@@ -380,7 +403,7 @@ pt_config_get_lang_code (PtConfig *self)
  *
  * Gets the localized name of the language the model was made for.
  *
- * Return value: (transfer none): the language code as a string
+ * Returns: (transfer none): the language code as a string
  *
  * Since: 3.0
  */
@@ -401,7 +424,7 @@ pt_config_get_lang_name (PtConfig *self)
  * Get other optional keys in the [Model] group. All keys are assumed to be
  * strings. If the key is not set, NULL is returned.
  *
- * Return value: (transfer full): the key’s value as a string or NULL
+ * Returns: (transfer full): the key’s value as a string or NULL
  *
  * Since: 3.0
  */
@@ -415,33 +438,84 @@ pt_config_get_key (PtConfig *self,
   return pt_config_get_string (self, "Model", key);
 }
 
-/**
- * pt_config_apply:
- * @self: a configuration instance
- * @plugin: the GStreamer ASR plugin
- * @error: (nullable): return location for an error, or NULL
- *
- * Applies a configuration to a GStreamer plugin.
- *
- * Return value: TRUE on success, FALSE if a parameter could not be set
- *
- * Since: 3.0
- */
-gboolean
-pt_config_apply (PtConfig *self,
-                 GObject  *plugin,
-                 GError  **error)
+static gboolean
+pt_config_set_property_on_object (PtConfig *self,
+                                  GObject  *object,
+                                  char     *config_group,
+                                  char     *property_name,
+                                  GError  **error)
 {
-  g_return_val_if_fail (PT_IS_CONFIG (self), FALSE);
-  g_return_val_if_fail (G_IS_OBJECT (plugin), FALSE);
-  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
-  g_return_val_if_fail (self->is_valid, FALSE);
-
-  gchar     **keys = NULL;
   GParamSpec *spec;
   GType       type;
   GValue      value;
-  gchar      *groups[] = { "Parameters", "Files", NULL };
+
+  spec = g_object_class_find_property (G_OBJECT_GET_CLASS (object), property_name);
+  if (!spec)
+    {
+      g_set_error (error,
+                   PT_ERROR,
+                   PT_ERROR_PLUGIN_MISSING_PROPERTY,
+                   /* Translators: %s is replaced with the parameter’s name */
+                   _ ("Plugin doesn’t have a parameter “%s”."), property_name);
+      return FALSE;
+    }
+
+  if ((spec->flags & G_PARAM_WRITABLE) == 0)
+    {
+      g_set_error (error,
+                   PT_ERROR,
+                   PT_ERROR_PLUGIN_NOT_WRITABLE,
+                   /* Translators: %s is replaced with the parameter’s name */
+                   _ ("Parameter “%s” is not writable."), property_name);
+      return FALSE;
+    }
+
+  type = G_PARAM_SPEC_VALUE_TYPE (spec);
+  value = pt_config_get_value (self, config_group, property_name, type);
+
+  if (g_param_value_validate (spec, &value))
+    {
+      /* TRUE == modifying value was necessary == value is not valid */
+      g_set_error (error,
+                   PT_ERROR,
+                   PT_ERROR_PLUGIN_WRONG_VALUE,
+                   /* Translators: %s is replaced with the parameter’s name */
+                   _ ("Value for parameter “%s” is not valid."), property_name);
+      g_value_unset (&value);
+      return FALSE;
+    }
+
+  g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                    "MESSAGE", "pt-config.c: apply config key \"%s\"", property_name);
+  g_object_set_property (object, property_name, &value);
+  g_value_unset (&value);
+  return TRUE;
+}
+
+/**
+ * pt_config_configure_plugin:
+ * @self: a configuration instance
+ * @plugin: the ASR plugin
+ * @error: (nullable): return location for an error, or NULL
+ *
+ * Applies a configuration to a plugin.
+ *
+ * Returns: TRUE on success, FALSE if a parameter could not be set
+ *
+ * Since: 5.0
+ */
+gboolean
+pt_config_configure_plugin (PtConfig *self,
+                            GObject  *plugin,
+                            GError  **error)
+{
+  g_return_val_if_fail (PT_IS_CONFIG (self), FALSE);
+  g_return_val_if_fail (PT_IS_SPEECH_RECOGNIZER (plugin), FALSE);
+  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+  g_return_val_if_fail (self->is_valid, FALSE);
+
+  gchar  *groups[] = { "Parameters", "Files", NULL };
+  gchar **keys = NULL;
 
   g_object_freeze_notify (plugin);
 
@@ -455,62 +529,91 @@ pt_config_apply (PtConfig *self,
                                   NULL, NULL);
 
       /* "Parameters" is optional */
-      if (!keys)
+      if (g == 0 && keys == NULL)
         continue;
+
+      /* Config without "Files is not valid */
+      g_assert (keys != NULL);
 
       for (int k = 0; keys[k] != NULL; k++)
         {
-          spec = g_object_class_find_property (G_OBJECT_GET_CLASS (plugin), keys[k]);
-          if (!spec)
+          if (!pt_config_set_property_on_object (self, plugin, groups[g], keys[k], error))
             {
-              g_set_error (error,
-                           PT_ERROR,
-                           PT_ERROR_PLUGIN_MISSING_PROPERTY,
-                           /* Translators: %s is replaced with the parameter’s name */
-                           _ ("Plugin doesn’t have a parameter “%s”."), keys[k]);
               g_strfreev (keys);
               g_object_thaw_notify (plugin);
               return FALSE;
             }
-          if ((spec->flags & G_PARAM_WRITABLE) == 0)
-            {
-              g_set_error (error,
-                           PT_ERROR,
-                           PT_ERROR_PLUGIN_NOT_WRITABLE,
-                           /* Translators: %s is replaced with the parameter’s name */
-                           _ ("Parameter “%s” is not writable."), keys[k]);
-              g_strfreev (keys);
-              g_object_thaw_notify (plugin);
-              return FALSE;
-            }
-
-          type = G_PARAM_SPEC_VALUE_TYPE (spec);
-          value = pt_config_get_value (self, groups[g], keys[k], type);
-
-          if (g_param_value_validate (spec, &value))
-            {
-              /* TRUE == modifying value was necessary == value is not valid */
-              g_set_error (error,
-                           PT_ERROR,
-                           PT_ERROR_PLUGIN_WRONG_VALUE,
-                           /* Translators: %s is replaced with the parameter’s name */
-                           _ ("Value for parameter “%s” is not valid."), keys[k]);
-              g_strfreev (keys);
-              g_value_unset (&value);
-              g_object_thaw_notify (plugin);
-              return FALSE;
-            }
-
-          g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
-                            "MESSAGE", "pt-config.c: apply config key \"%s\"", keys[k]);
-          g_object_set_property (plugin, keys[k], &value);
-          g_value_unset (&value);
         }
 
       g_strfreev (keys);
     }
 
   g_object_thaw_notify (plugin);
+
+  return TRUE;
+}
+
+/**
+ * pt_config_configure_downloader:
+ * @self: a configuration instance
+ * @downloader: the downloader plugin
+ * @error: (nullable): return location for an error, or NULL
+ *
+ * Applies a configuration to a downloader plugin.
+ *
+ * Returns: TRUE on success, FALSE if a parameter could not be set
+ *
+ * Since: 5.0
+ */
+gboolean
+pt_config_configure_downloader (PtConfig *self,
+                                GObject  *downloader,
+                                GError  **error)
+{
+  g_return_val_if_fail (PT_IS_CONFIG (self), FALSE);
+  g_return_val_if_fail (PT_IS_DOWNLOADER (downloader), FALSE);
+  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+  g_return_val_if_fail (self->is_valid, FALSE);
+
+  char **keys = NULL;
+  char  *basename;
+  char **basename_split;
+
+  g_object_freeze_notify (downloader);
+
+  /* Config ID is taken from filename which is supposed to be unique, without extension.
+   * Model data is downloaded into a folder called like the config ID. */
+
+  basename = g_file_get_basename (self->file);
+  basename_split = g_strsplit (basename, ".asr", 1);
+
+  g_object_set (downloader, "config-id", basename_split[0], NULL);
+  g_strfreev (basename_split);
+  g_free (basename);
+
+  /* Iterate over all keys in "Download" group, get the properties’
+   * type and set the properties. */
+
+  keys = g_key_file_get_keys (self->keyfile, "Download",
+                              NULL, NULL);
+
+  for (int k = 0; keys[k] != NULL; k++)
+    {
+      /* Omit "Plugin" key */
+      if (g_strcmp0 (keys[k], "Plugin") == 0)
+        continue;
+
+      if (!pt_config_set_property_on_object (self, downloader, "Download", keys[k], error))
+        {
+          g_strfreev (keys);
+          g_object_thaw_notify (downloader);
+          return FALSE;
+        }
+    }
+
+  g_strfreev (keys);
+
+  g_object_thaw_notify (downloader);
 
   return TRUE;
 }
@@ -532,43 +635,49 @@ key_is_empty (PtConfig *self,
   return result;
 }
 
-static gboolean
-pt_config_version_is_valid (PtConfig *self)
+static void
+pt_config_parse_version (PtConfig *self)
 {
-  gchar   *version;
-  gchar  **version_split;
-  gint64   major;
-  gboolean success;
+  gchar  *version;
+  gchar **version_split;
+  gint64  major, minor;
+
+  self->major_version = -1;
+  self->minor_version = -1;
 
   version = pt_config_get_string (self, "Model", "Version");
-  if (!version || g_strcmp0 (version, "") == 0)
+  if (version == NULL || g_strcmp0 (version, "") == 0)
     {
       g_free (version);
-      return FALSE;
+      return;
     }
 
   version_split = g_strsplit (version, ".", 2);
-  success = g_ascii_string_to_signed (version_split[0],
-                                      10, 1, 1, /* base, min, max */
-                                      &major, NULL);
+  if (version_split[0] == NULL || version_split[1] == NULL)
+    {
+      g_free (version);
+      g_strfreev (version_split);
+      return;
+    }
+
+  if (g_ascii_string_to_signed (version_split[0], 10, 1, G_MAXINT, &major, NULL) &&
+      g_ascii_string_to_signed (version_split[1], 10, 0, G_MAXINT, &minor, NULL))
+    {
+      self->major_version = (int) major;
+      self->minor_version = (int) minor;
+    }
+
   g_free (version);
-  if (!success)
-    {
-      g_strfreev (version_split);
-      return FALSE;
-    }
-
-  if (!version_split[1])
-    {
-      g_strfreev (version_split);
-      return FALSE;
-    }
-
-  success = g_ascii_string_to_signed (version_split[1],
-                                      10, 0, G_MAXINT,
-                                      NULL, NULL);
   g_strfreev (version_split);
-  return success;
+}
+
+static gboolean
+pt_config_version_is_valid (PtConfig *self)
+{
+  if (self->major_version == 0)
+    pt_config_parse_version (self);
+
+  return self->major_version >= 1 && self->major_version <= 2;
 }
 
 /**
@@ -578,7 +687,7 @@ pt_config_version_is_valid (PtConfig *self)
  * Checks whether the model is installed, that means the base folder exists
  * and all files listed in the configuration are located inside the base folder.
  *
- * Return value: TRUE for an installed model, otherwise FALSE
+ * Returns: TRUE for an installed model, otherwise FALSE
  *
  * Since: 3.0
  */
@@ -645,7 +754,7 @@ pt_config_is_installed (PtConfig *self)
  * </para></listitem>
  *</itemizedlist>
  *
- * Return value: TRUE for a formally valid configuration, otherwise FALSE
+ * Returns: TRUE for a formally valid configuration, otherwise FALSE
  *
  * Since: 3.0
  */
@@ -829,6 +938,9 @@ setup_config (PtConfig *self)
   if (!self->lang_name)
     self->lang_name = g_strdup (self->lang_code);
   self->is_installed = pt_config_verify_install (self);
+
+  if (self->major_version == 2)
+    self->downloader = pt_config_get_string (self, "Download", "Plugin");
 }
 
 /**
@@ -837,7 +949,7 @@ setup_config (PtConfig *self)
  *
  * The #GFile that storing the configuration.
  *
- * Return value: (transfer none): the file this object is based on
+ * Returns: (transfer none): the file this object is based on
  *
  * Since: 3.0
  */
@@ -856,7 +968,7 @@ pt_config_get_file (PtConfig *self)
  *
  * The path where the configuration is stored.
  *
- * Return value: (transfer none): the path or the string "(null)"
+ * Returns: (transfer none): the path or the string "(null)"
  *
  * Since: 3.0
  */
@@ -1038,7 +1150,7 @@ pt_config_class_init (PtConfigClass *klass)
  *
  * After use g_object_unref() it.
  *
- * Return value: (transfer full): a new #PtConfig
+ * Returns: (transfer full): a new #PtConfig
  *
  * Since: 3.0
  */

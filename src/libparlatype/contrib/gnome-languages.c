@@ -52,7 +52,7 @@ static GHashTable *gnome_territories_map;
  * [language[_country][.codeset][@modifier]]. See
  * http://en.wikipedia.org/wiki/Locale.
  *
- * Return value: %TRUE if parsing was successful.
+ * Returns: %TRUE if parsing was successful.
  *
  * Since: 3.8
  */
@@ -656,7 +656,7 @@ territories_init (void)
  * Gets the language description for @locale. If @translation is
  * provided the returned string is translated accordingly.
  *
- * Return value: (transfer full): the language description. Caller
+ * Returns: (transfer full): the language description. Caller
  * takes ownership.
  *
  * Since: 3.8

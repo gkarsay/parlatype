@@ -19,6 +19,33 @@
                 </child>
               </object>
             </child>
+            <child>
+              <object class="AdwActionRow" id="download_row">
+                <child type="prefix">
+                  <object class="GtkButton" id="cancel_button">
+                    <property name="label">Cancel</property>
+                    <property name="valign">3</property>
+                    <property name="halign">3</property>
+                  </object>
+                </child>
+                <child type="suffix">
+                  <object class="GtkButton" id="download_button">
+                    <property name="label">Download</property>
+                    <property name="sensitive">false</property>
+                    <property name="valign">3</property>
+                    <property name="halign">3</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwPreferencesRow">
+                <child>
+                  <object class="GtkProgressBar" id="progress_bar">
+                  </object>
+                </child>
+              </object>
+            </child>
           </object>
         </child>
       </object>

@@ -30,6 +30,7 @@
 
 #include "pt-asr-manager.h"
 
+#include "pt-downloader.h"
 #include "pt-speech-recognizer.h"
 #include "pt-window.h"
 
@@ -93,7 +94,7 @@ on_extension_added (PeasExtensionSet   *set,
 
   self->plugin_info = info;
   self->plugin = plugin;
-  if (!pt_config_apply (self->config, G_OBJECT (plugin), &error))
+  if (!pt_config_configure_plugin (self->config, G_OBJECT (plugin), &error))
     {
       g_task_return_error (task, error);
       return;
@@ -103,6 +104,12 @@ on_extension_added (PeasExtensionSet   *set,
   g_task_return_boolean (task, TRUE);
 }
 
+/**
+ * pt_asr_manager_stop_transcribing:
+ * @self: a `PtAsrManager`
+ *
+ * Stop transcribing.
+ */
 void
 pt_asr_manager_stop_transcribing (PtAsrManager *self)
 {
@@ -114,6 +121,12 @@ pt_asr_manager_stop_transcribing (PtAsrManager *self)
   pt_speech_recognizer_stop (PT_SPEECH_RECOGNIZER (self->plugin));
 }
 
+/**
+ * pt_asr_manager_start_transcribing:
+ * @self: a `PtAsrManager`
+ *
+ * Start transcribing.
+ */
 void
 pt_asr_manager_start_transcribing (PtAsrManager *self)
 {
@@ -128,12 +141,12 @@ pt_asr_manager_start_transcribing (PtAsrManager *self)
 }
 
 /**
- * pt_asr_manager_activate_finish:
+ * pt_asr_manager_load_plugin_finish:
  * @self: a `PtAsrManager`
  * @result: a `GAsyncResult`
  * @error:
  *
- * Finishes the [method@Pt.AsrManager.activate_async] call.
+ * Finishes the [method@Pt.AsrManager.load_plugin_async] call.
  * Returns: True on success.
  */
 gboolean
@@ -161,9 +174,8 @@ pt_asr_manager_unload_plugin (PtAsrManager *self)
 }
 
 /**
- * pt_asr_manager_activate_async:
+ * pt_asr_manager_load_plugin_async:
  * @self: a `PtAsrManager`
- * @config: a `PtConfig`
  * @cancellable: A `GCancellable` to cancel the operation.
  * @callback: A callback to call when the operation is complete.
  * @user_data: Data to pass to `callback`.
@@ -267,6 +279,14 @@ pt_asr_manager_plugin_is_available (PtAsrManager *self,
   return success;
 }
 
+/**
+ * pt_asr_manager_get_config:
+ * @self: a `PtAsrManager`
+ *
+ * Returns the currently selected config.
+ *
+ * Returns: (transfer none): the currently selected config.
+ */
 PtConfig *
 pt_asr_manager_get_config (PtAsrManager *self)
 {
@@ -275,6 +295,17 @@ pt_asr_manager_get_config (PtAsrManager *self)
   return self->config;
 }
 
+/**
+ * pt_asr_manager_set_config:
+ * @self: a `PtAsrManager`
+ * @config: (nullable): a PtConfig
+ *
+ * - Sets the current config or unsets it with NULL.
+ * - Loads or unload the corresponding plugin.
+ * - Persists choice in settings.
+ *
+ * Returns: TRUE for success.
+ */
 gboolean
 pt_asr_manager_set_config (PtAsrManager *self,
                            PtConfig     *config)
@@ -356,7 +387,7 @@ pt_asr_manager_have_config (PtAsrManager *self)
 }
 
 static void
-pt_asr_manager_load_config (PtAsrManager *self)
+pt_asr_manager_load_config_from_settings (PtAsrManager *self)
 {
   GFile    *asr_file;
   gchar    *asr_path;
@@ -497,6 +528,10 @@ pt_asr_manager_init (PtAsrManager *self)
   peas_engine_add_search_path (self->engine,
                                "resource:///plugins",
                                "resource:///plugins");
+  peas_engine_add_search_path (self->engine,
+                               LIBDIR "/parlatype/plugins",
+                               LIBDIR "/parlatype/plugins");
+  peas_engine_enable_loader (self->engine, "python");
   peas_engine_rescan_plugins (self->engine);
   n_items = g_list_model_get_n_items (G_LIST_MODEL (self->engine));
   self->have_asr = FALSE;
@@ -517,7 +552,7 @@ pt_asr_manager_init (PtAsrManager *self)
       g_object_unref (plugin_info);
     }
 
-  pt_asr_manager_load_config (self);
+  pt_asr_manager_load_config_from_settings (self);
 }
 
 static void

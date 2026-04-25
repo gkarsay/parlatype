@@ -259,7 +259,7 @@ apply (void)
   g_free (testpath);
 
   plugin = pt_mock_plugin_new ();
-  success = pt_config_apply (config, G_OBJECT (plugin), &error);
+  success = pt_config_configure_plugin (config, G_OBJECT (plugin), &error);
   g_assert_true (success);
   g_assert_no_error (error);
 
@@ -289,7 +289,7 @@ apply (void)
   g_object_unref (testfile);
   g_free (testpath);
 
-  success = pt_config_apply (config, G_OBJECT (plugin), &error);
+  success = pt_config_configure_plugin (config, G_OBJECT (plugin), &error);
   g_assert_false (success);
   g_assert_error (error, PT_ERROR, PT_ERROR_PLUGIN_MISSING_PROPERTY);
   g_clear_error (&error);
@@ -302,7 +302,7 @@ apply (void)
   g_object_unref (testfile);
   g_free (testpath);
 
-  success = pt_config_apply (config, G_OBJECT (plugin), &error);
+  success = pt_config_configure_plugin (config, G_OBJECT (plugin), &error);
   g_assert_false (success);
   g_assert_error (error, PT_ERROR, PT_ERROR_PLUGIN_NOT_WRITABLE);
   g_clear_error (&error);
@@ -315,7 +315,7 @@ apply (void)
   g_object_unref (testfile);
   g_free (testpath);
 
-  success = pt_config_apply (config, G_OBJECT (plugin), &error);
+  success = pt_config_configure_plugin (config, G_OBJECT (plugin), &error);
   g_assert_false (success);
   g_assert_error (error, PT_ERROR, PT_ERROR_PLUGIN_WRONG_VALUE);
   g_clear_error (&error);
@@ -328,8 +328,6 @@ int
 main (int argc, char *argv[])
 {
   g_test_init (&argc, &argv, NULL);
-  gst_init (NULL, NULL);
-  pt_mock_plugin_register ();
 
   g_test_add_func ("/config/construct", construct);
   g_test_add_func ("/config/main_methods", main_methods);

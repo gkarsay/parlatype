@@ -59,7 +59,7 @@ G_DEFINE_TYPE (PtMediaInfo, pt_media_info, G_TYPE_OBJECT)
  *
  * Gets the album’s name.
  *
- * Return value: (transfer none) (nullable): the album’s name or NULL.
+ * Returns: (transfer none) (nullable): the album’s name or NULL.
  *
  * Since: 4.3
  */
@@ -77,7 +77,7 @@ pt_media_info_get_album (PtMediaInfo *self)
  *
  * Gets the track’s artists.
  *
- * Return value: (transfer none) (nullable): the tracks’s artists as a NULL-terminated array or NULL.
+ * Returns: (transfer none) (nullable): the tracks’s artists as a NULL-terminated array or NULL.
  *
  * Since: 4.3
  */
@@ -95,7 +95,7 @@ pt_media_info_get_artist (PtMediaInfo *self)
  *
  * Gets the track’s title.
  *
- * Return value: (transfer none) (nullable): the track’s title or NULL.
+ * Returns: (transfer none) (nullable): the track’s title or NULL.
  *
  * Since: 4.3
  */
@@ -176,7 +176,7 @@ build_tag_string (const GstTagList *list,
  * even those without a getter method in PtMediaInfo. This is meant
  * for debug purposes.
 
- * Return value: (transfer full): multiline string with all tags or NULL.
+ * Returns: (transfer full): multiline string with all tags or NULL.
  * After use free with g_free().
  *
  * Since: 4.3
@@ -229,7 +229,7 @@ build_caps_string (GstCapsFeatures *features,
  * even those without a getter method in PtMediaInfo. This is meant
  * for debug purposes.
 
- * Return value: (transfer full): multiline string with all caps or NULL.
+ * Returns: (transfer full): multiline string with all caps or NULL.
  * After use free with g_free().
  *
  * Since: 4.3

@@ -669,7 +669,7 @@ pt_waveviewer_focus (GtkWidget       *widget,
  *
  * Get follow-cursor option.
  *
- * Return value: TRUE if cursor is followed, else FALSE
+ * Returns: TRUE if cursor is followed, else FALSE
  *
  * Since: 1.5
  */
@@ -894,7 +894,7 @@ load_cb (PtWaveloader *loader,
  * Gives the result of the async load operation. A cancelled operation results
  * in an error, too.
  *
- * Return value: TRUE if successful, or FALSE with error set
+ * Returns: TRUE if successful, or FALSE with error set
  *
  * Since: 2.0
  */

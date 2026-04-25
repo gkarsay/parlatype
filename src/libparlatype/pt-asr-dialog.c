@@ -27,12 +27,14 @@
 
 #include "pt-asr-dialog.h"
 
+#include "pt-downloader.h"
 #include "pt-preferences.h"
 #include "pt-prefs-info-row.h"
 #include "pt-prefs-install-row.h"
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
+#include <libpeas.h>
 #include <parlatype.h>
 
 struct _PtAsrDialog
@@ -43,14 +45,19 @@ struct _PtAsrDialog
   GSettings    *editor;
   PtAsrManager *asr_manager;
 
-  GtkWidget *page;
-  GtkWidget *status_row;
-  GtkWidget *name_row;
-  GtkWidget *info_group;
-  GtkWidget *install_group;
-  GtkWidget *delete_group;
-  GtkWidget *delete_row;
-  GtkWidget *activate_button;
+  GtkWidget    *page;
+  GtkWidget    *status_row;
+  GtkWidget    *name_row;
+  GtkWidget    *info_group;
+  GtkWidget    *install_group;
+  GtkWidget    *delete_group;
+  GtkWidget    *delete_row;
+  GtkWidget    *activate_button;
+  GtkWidget    *download_row;
+  GtkWidget    *download_button;
+  GtkWidget    *cancel_button;
+  GtkWidget    *progress_bar;
+  GCancellable *cancel;
 
   gboolean active;
   gboolean installed;
@@ -113,6 +120,22 @@ pt_download_button_new (gchar *link)
 }
 
 static void
+update_download_row (PtAsrDialog *self)
+{
+  if (self->installed)
+    {
+      gtk_widget_set_sensitive (self->download_button, FALSE);
+    }
+  else
+    {
+      if (pt_config_get_downloader (self->config) != NULL)
+        {
+          gtk_widget_set_sensitive (self->download_button, TRUE);
+        }
+    }
+}
+
+static void
 update_status_row (PtAsrDialog *self)
 {
   gchar     *title;
@@ -155,6 +178,8 @@ update_status_row (PtAsrDialog *self)
                                  _ ("Model data will be preserved"));
   else
     adw_action_row_set_subtitle (ADW_ACTION_ROW (self->delete_row), NULL);
+
+  update_download_row (self);
 }
 
 static void
@@ -191,6 +216,13 @@ add_info_row (PtAsrDialog *self,
   adw_preferences_group_add (ADW_PREFERENCES_GROUP (self->info_group), row);
 }
 
+/**
+ * pt_asr_dialog_set_asr_manager:
+ * @self: a `PtAsrDialog`
+ * @asr_manager: a `PtAsrManager`
+ *
+ * Needs to be set before operating on configs.
+ */
 void
 pt_asr_dialog_set_asr_manager (PtAsrDialog  *self,
                                PtAsrManager *asr_manager)
@@ -421,6 +453,65 @@ activate_button_clicked_cb (GtkButton *button,
 }
 
 static void
+cancel_button_clicked_cb (GtkButton *button,
+                          gpointer   user_data)
+{
+  PtAsrDialog *self = PT_ASR_DIALOG (user_data);
+  g_cancellable_cancel (self->cancel);
+}
+
+static void
+download_cb (GObject      *source_object,
+             GAsyncResult *res,
+             gpointer      user_data)
+{
+  PtAsrDialog    *self = PT_ASR_DIALOG (user_data);
+  GError         *error = NULL;
+  GtkAlertDialog *err_dialog;
+
+  if (!pt_downloader_download_finish (PT_DOWNLOADER (source_object), res, &error))
+    {
+      err_dialog = gtk_alert_dialog_new (_ ("Error"));
+      gtk_alert_dialog_set_detail (err_dialog, error->message);
+      gtk_alert_dialog_show (err_dialog, GTK_WINDOW (gtk_widget_get_root (GTK_WIDGET (self))));
+      g_object_unref (err_dialog);
+      g_error_free (error);
+    }
+}
+
+static void
+progress_cb (GObject *object,
+             double   progress,
+             gpointer user_data)
+{
+  PtAsrDialog *self = PT_ASR_DIALOG (user_data);
+  gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (self->progress_bar), progress);
+}
+
+static void
+download_button_clicked_cb (GtkButton *button,
+                            gpointer   user_data)
+{
+  PtAsrDialog    *self = PT_ASR_DIALOG (user_data);
+  PeasEngine     *engine;
+  PeasPluginInfo *info;
+  char           *downloader;
+
+  engine = peas_engine_get_default ();
+  downloader = pt_config_get_downloader (self->config);
+  if (downloader == NULL)
+    return;
+
+  info = peas_engine_get_plugin_info (engine, downloader);
+  peas_engine_load_plugin (engine, info);
+  GObject *extension = peas_engine_create_extension (engine, info, PT_TYPE_DOWNLOADER, NULL);
+  pt_config_configure_downloader (self->config, extension, NULL);
+  self->cancel = g_cancellable_new ();
+  pt_downloader_download_async (PT_DOWNLOADER (extension), self->cancel, download_cb, self);
+  g_signal_connect (extension, "progress", G_CALLBACK (progress_cb), self);
+}
+
+static void
 pt_asr_dialog_dispose (GObject *object)
 {
   PtAsrDialog *self = PT_ASR_DIALOG (object);
@@ -439,6 +530,10 @@ pt_asr_dialog_init (PtAsrDialog *self)
   self->editor = g_settings_new (APP_ID);
   g_signal_connect (self->activate_button, "clicked",
                     G_CALLBACK (activate_button_clicked_cb), self);
+  g_signal_connect (self->download_button, "clicked",
+                    G_CALLBACK (download_button_clicked_cb), self);
+  g_signal_connect (self->cancel_button, "clicked",
+                    G_CALLBACK (cancel_button_clicked_cb), self);
 }
 
 static void
@@ -459,6 +554,10 @@ pt_asr_dialog_class_init (PtAsrDialogClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtAsrDialog, delete_group);
   gtk_widget_class_bind_template_child (widget_class, PtAsrDialog, delete_row);
   gtk_widget_class_bind_template_child (widget_class, PtAsrDialog, activate_button);
+  gtk_widget_class_bind_template_child (widget_class, PtAsrDialog, download_row);
+  gtk_widget_class_bind_template_child (widget_class, PtAsrDialog, download_button);
+  gtk_widget_class_bind_template_child (widget_class, PtAsrDialog, cancel_button);
+  gtk_widget_class_bind_template_child (widget_class, PtAsrDialog, progress_bar);
 }
 
 /**

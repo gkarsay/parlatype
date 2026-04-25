@@ -18,25 +18,27 @@
 
 #include "mock-plugin.h"
 
+#include "parlatype.h"
+
 #include <gio/gio.h>
 
 struct _PtMockPlugin
 {
-  GstElement parent;
-  GstPad    *sinkpad;
-  GstPad    *srcpad;
-  gchar     *prop_file;
-  gchar     *prop_string;
-  gint       prop_int;
-  gfloat     prop_float;
-  gdouble    prop_double;
-  gboolean   prop_bool;
-  gboolean   prop_not_writable;
+  GObject  parent_instance;
+  gchar   *prop_file;
+  gchar   *prop_string;
+  gint     prop_int;
+  gfloat   prop_float;
+  gdouble  prop_double;
+  gboolean prop_bool;
+  gboolean prop_not_writable;
 };
 
 enum
 {
-  PROP_FILE = 1,
+  PROP_0,
+  PROP_BUSY,
+  PROP_FILE,
   PROP_STRING,
   PROP_INT,
   PROP_FLOAT,
@@ -47,53 +49,9 @@ enum
 };
 
 static GParamSpec *obj_properties[N_PROPERTIES];
+static void        pt_speech_recognizer_iface_init (PtSpeechRecognizerInterface *iface);
 
-static GstStaticPadTemplate sink_factory =
-    GST_STATIC_PAD_TEMPLATE (
-        "sink",
-        GST_PAD_SINK,
-        GST_PAD_ALWAYS,
-        GST_STATIC_CAPS ("audio/x-raw,format=S16LE,rate=16000,channels=1"));
-
-static GstStaticPadTemplate src_factory =
-    GST_STATIC_PAD_TEMPLATE (
-        "src",
-        GST_PAD_SRC,
-        GST_PAD_ALWAYS,
-        GST_STATIC_CAPS ("audio/x-raw,format=S16LE,rate=16000,channels=1"));
-
-G_DEFINE_TYPE (PtMockPlugin, pt_mock_plugin, GST_TYPE_ELEMENT)
-
-static gboolean
-pt_mock_plugin_event (GstPad    *pad,
-                      GstObject *parent,
-                      GstEvent  *event)
-{
-  return gst_pad_event_default (pad, parent, event);
-}
-
-static GstFlowReturn
-pt_mock_plugin_chain (GstPad    *pad,
-                      GstObject *parent,
-                      GstBuffer *buf)
-{
-  PtMockPlugin *self = PT_MOCK_PLUGIN (parent);
-
-  return gst_pad_push (self->srcpad, buf);
-}
-static void
-pt_mock_plugin_init (PtMockPlugin *self)
-{
-  self->sinkpad = gst_pad_new_from_static_template (&sink_factory, "sink");
-  GST_PAD_SET_PROXY_CAPS (self->sinkpad);
-  gst_pad_set_chain_function (self->sinkpad, pt_mock_plugin_chain);
-  gst_pad_set_event_function (self->sinkpad, pt_mock_plugin_event);
-  gst_element_add_pad (GST_ELEMENT (self), self->sinkpad);
-
-  self->srcpad = gst_pad_new_from_static_template (&src_factory, "src");
-  GST_PAD_SET_PROXY_CAPS (self->srcpad);
-  gst_element_add_pad (GST_ELEMENT (self), self->srcpad);
-}
+G_DEFINE_FINAL_TYPE_WITH_CODE (PtMockPlugin, pt_mock_plugin, G_TYPE_OBJECT, G_IMPLEMENT_INTERFACE (PT_TYPE_SPEECH_RECOGNIZER, pt_speech_recognizer_iface_init))
 
 static void
 pt_mock_plugin_finalize (GObject *object)
@@ -155,6 +113,9 @@ pt_mock_plugin_get_property (GObject    *object,
 
   switch (property_id)
     {
+    case PROP_BUSY:
+      g_value_set_boolean (value, FALSE);
+      break;
     case PROP_FILE:
       g_value_set_string (value, self->prop_file);
       break;
@@ -183,15 +144,29 @@ pt_mock_plugin_get_property (GObject    *object,
 }
 
 static void
+pt_speech_recognizer_iface_init (PtSpeechRecognizerInterface *iface)
+{
+}
+
+static void
+pt_mock_plugin_init (PtMockPlugin *self)
+{
+}
+
+static void
 pt_mock_plugin_class_init (PtMockPluginClass *klass)
 {
-  GObjectClass    *object_class = (GObjectClass *) klass;
-  GstElementClass *element_class = (GstElementClass *) klass;
-  ;
+  GObjectClass *object_class = (GObjectClass *) klass;
 
   object_class->set_property = pt_mock_plugin_set_property;
   object_class->get_property = pt_mock_plugin_get_property;
   object_class->finalize = pt_mock_plugin_finalize;
+
+  obj_properties[PROP_BUSY] =
+      g_param_spec_boolean (
+          "busy", NULL, NULL,
+          FALSE,
+          G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
   obj_properties[PROP_FILE] =
       g_param_spec_string (
@@ -239,47 +214,6 @@ pt_mock_plugin_class_init (PtMockPluginClass *klass)
       G_OBJECT_CLASS (klass),
       N_PROPERTIES,
       obj_properties);
-
-  gst_element_class_add_pad_template (
-      element_class,
-      gst_static_pad_template_get (&src_factory));
-  gst_element_class_add_pad_template (
-      element_class,
-      gst_static_pad_template_get (&sink_factory));
-
-  gst_element_class_set_static_metadata (
-      element_class,
-      "Parlatype Mock Plugin",
-      "Filter/Audio",
-      "Just for testing",
-      "Gabor Karsay <gabor.karsay@gmx.at>");
-}
-
-static gboolean
-plugin_init (GstPlugin *plugin)
-{
-  if (!gst_element_register (plugin,
-                             "ptmockplugin",
-                             GST_RANK_NONE,
-                             PT_TYPE_MOCK_PLUGIN))
-    return FALSE;
-  return TRUE;
-}
-
-gboolean
-pt_mock_plugin_register (void)
-{
-  return gst_plugin_register_static (
-      GST_VERSION_MAJOR,
-      GST_VERSION_MINOR,
-      "ptmockplugin",
-      "Parlatype Mock Plugin for testing",
-      plugin_init,
-      "1.0",
-      "LGPL",
-      "libparlatype",
-      "Parlatype",
-      PACKAGE_URL);
 }
 
 PtMockPlugin *

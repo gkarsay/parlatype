@@ -276,7 +276,7 @@ plugin_init (GstPlugin *plugin)
  * Registers a plugin holding our single element to use privately in this
  * library.
  *
- * Return value: TRUE if successful, otherwise FALSE
+ * Returns: TRUE if successful, otherwise FALSE
  */
 gboolean
 gst_pt_audio_bin_register (void)

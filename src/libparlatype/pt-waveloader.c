@@ -446,7 +446,7 @@ bus_handler (GstBus     *bus,
  * Gives the result of the async load operation. A cancelled operation results
  * in an error, too.
  *
- * Return value: TRUE if successful, or FALSE with error set
+ * Returns: TRUE if successful, or FALSE with error set
  *
  * Since: 1.4
  */
@@ -553,7 +553,7 @@ pt_waveloader_load_async (PtWaveloader       *self,
  * Returns the duration of stream. As the whole stream is scanned, this is
  * supposed to be an exact duration, not an estimate.
  *
- * Return value: duration in nanoseconds as used by GStreamer
+ * Returns: duration in nanoseconds as used by GStreamer
  *
  * Since: 1.4
  */
@@ -572,7 +572,7 @@ pt_waveloader_get_duration (PtWaveloader *self)
  * Gives the result of the async resize operation. A cancelled operation results
  * in an error, too.
  *
- * Return value: TRUE if successful, or FALSE with error set
+ * Returns: TRUE if successful, or FALSE with error set
  *
  * Since: 2.0
  */
@@ -738,7 +738,7 @@ quit_loop_cb (PtWaveloader *self,
  *
  * Sync version of #pt_waveloader_resize_async.
  *
- * Return value: TRUE if successful, or FALSE with error set
+ * Returns: TRUE if successful, or FALSE with error set
  *
  * Since: 2.0
  */
@@ -788,7 +788,7 @@ pt_waveloader_resize (PtWaveloader *self,
  *
  * Don't modify the data.
  *
- * Return value: (element-type float) (transfer none): a #GArray with wave data
+ * Returns: (element-type float) (transfer none): a #GArray with wave data
  *
  * Since: 2.0
  */
@@ -954,7 +954,7 @@ pt_waveloader_class_init (PtWaveloaderClass *klass)
  *
  * After use g_object_unref() it.
  *
- * Return value: (transfer full): a new #PtWaveloader
+ * Returns: (transfer full): a new #PtWaveloader
  *
  * Since: 1.4
  */

@@ -39,14 +39,18 @@ pt_speech_recognizer_default_init (PtSpeechRecognizerInterface *iface)
                                                              "Busy",
                                                              "Busy",
                                                              FALSE,
-                                                             G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+                                                             G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
 }
 
 /**
  * pt_speech_recognizer_load:
  * @self: an #PtSpeechRecognizer
+ * @player: the player for audio input
+ * @text_view: the text view for textual output
+ * @asr_controls: widget area
  *
- * Plugins should undo starting here.
+ * Plugins should load here. They may add widgets for their
+ * options but should not do expensive model loading.
  */
 void
 pt_speech_recognizer_load (PtSpeechRecognizer *self,
@@ -67,7 +71,8 @@ pt_speech_recognizer_load (PtSpeechRecognizer *self,
  * pt_speech_recognizer_start:
  * @self: a #PtSpeechRecognizer
  *
- * ASR plugins should prepare for speech recognition here
+ * ASR plugins should prepare for speech recognition here,
+ * including expensive operations.
  */
 void
 pt_speech_recognizer_start (PtSpeechRecognizer *self)
@@ -86,7 +91,7 @@ pt_speech_recognizer_start (PtSpeechRecognizer *self)
  * pt_speech_recognizer_stop:
  * @self: an #PtSpeechRecognizer
  *
- * Plugins should undo starting here.
+ * Plugins should stop the recognizing process. Models may stay loaded.
  */
 void
 pt_speech_recognizer_stop (PtSpeechRecognizer *self)
@@ -105,7 +110,7 @@ pt_speech_recognizer_stop (PtSpeechRecognizer *self)
  * pt_speech_recognizer_unload:
  * @self: an #PtSpeechRecognizer
  *
- * Plugins should undo starting here.
+ * Plugins should reset everything done in load.
  */
 void
 pt_speech_recognizer_unload (PtSpeechRecognizer *self)

@@ -635,7 +635,7 @@ bus_call (GstBus     *bus,
  * This operation blocks until it is finished. It returns TRUE on success or
  * FALSE on error. Errors are emitted async via #PtPlayer::error signal.
  *
- * Return value: TRUE if successful, otherwise FALSE
+ * Returns: TRUE if successful, otherwise FALSE
  *
  * Since: 2.0
  */
@@ -737,7 +737,7 @@ pt_player_pause_and_rewind (PtPlayer *self)
  *
  * Returns the value of #PtPlayer:pause.
  *
- * Return value: time to rewind on pause in milliseconds
+ * Returns: time to rewind on pause in milliseconds
  *
  * Since: 1.6
  */
@@ -931,7 +931,7 @@ pt_player_clear_selection (PtPlayer *self)
  *
  * Returns whether there is currently a selection set or not.
  *
- * Return value: TRUE if there is a selection
+ * Returns: TRUE if there is a selection
  *
  * Since: 4.0
  */
@@ -1035,7 +1035,7 @@ pt_player_jump_forward (PtPlayer *self)
  *
  * Returns the value of #PtPlayer:back.
  *
- * Return value: time to jump back in milliseconds
+ * Returns: time to jump back in milliseconds
  *
  * Since: 1.6
  */
@@ -1053,7 +1053,7 @@ pt_player_get_back (PtPlayer *self)
  *
  * Returns the value of #PtPlayer:forward.
  *
- * Return value: time to jump forward in milliseconds
+ * Returns: time to jump forward in milliseconds
  *
  * Since: 1.6
  */
@@ -1117,7 +1117,7 @@ pt_player_jump_to_position (PtPlayer *self,
  *
  * Returns current playback speed.
  *
- * Return value: playback speed
+ * Returns: playback speed
  *
  * Since: 3.1
  */
@@ -1197,7 +1197,7 @@ pt_player_set_speed (PtPlayer *self,
  *
  * Gets the volume on a scale between 0 and 1.
  *
- * Return value: the current volume
+ * Returns: the current volume
  *
  * Since: 2.1
  */
@@ -1259,7 +1259,7 @@ pt_player_set_volume (PtPlayer *self,
  *
  * Get mute state of the audio stream.
 
- * Return value: TRUE for muted state, FALSE for normal state
+ * Returns: TRUE for muted state, FALSE for normal state
  *
  * Since: 2.1
  */
@@ -1306,7 +1306,7 @@ pt_player_set_mute (PtPlayer *self,
  *
  * Returns the current position in stream.
  *
- * Return value: position in milliseconds or -1 on failure
+ * Returns: position in milliseconds or -1 on failure
  *
  * Since: 1.5
  */
@@ -1329,7 +1329,7 @@ pt_player_get_position (PtPlayer *self)
  *
  * Returns the duration of stream.
  *
- * Return value: duration in milliseconds
+ * Returns: duration in milliseconds
  *
  * Since: 1.5
  */
@@ -1439,7 +1439,7 @@ pt_player_connect_waveviewer (PtPlayer     *self,
  *
  * Returns the URI of the currently open file or NULL if it can’t be determined.
  *
- * Return value: (transfer full): the uri
+ * Returns: (transfer full): the uri
  *
  * Since: 1.4
  */
@@ -1460,7 +1460,7 @@ pt_player_get_uri (PtPlayer *self)
  *
  * Returns the display name of the currently open file or NULL if it can’t be determined.
  *
- * Return value: (transfer full): the file name
+ * Returns: (transfer full): the file name
  *
  * Since: 1.4
  */
@@ -1524,7 +1524,7 @@ pt_player_get_filename (PtPlayer *self)
  *
  * If the current position can not be determined, NULL is returned.
  *
- * Return value: (transfer full): the time string
+ * Returns: (transfer full): the time string
  *
  * Since: 1.4
  */
@@ -1555,7 +1555,7 @@ pt_player_get_current_time_string (PtPlayer       *self,
  *
  * If the duration can not be determined, NULL is returned.
  *
- * Return value: (transfer full): the time string
+ * Returns: (transfer full): the time string
  *
  * Since: 1.4
  */
@@ -1587,7 +1587,7 @@ pt_player_get_duration_time_string (PtPlayer       *self,
  * #PtPlayer:timestamp-precision, #PtPlayer:timestamp-fixed,
  * #PtPlayer:timestamp-fraction-sep and #PtPlayer:timestamp-delimiter.
  *
- * Return value: (transfer full): the timestamp
+ * Returns: (transfer full): the timestamp
  *
  * Since: 1.6
  */
@@ -1695,7 +1695,7 @@ pt_player_export_timestamp (PtPlayer *self,
  *
  * If the current position can not be determined, NULL is returned.
  *
- * Return value: the timestamp
+ * Returns: the timestamp
  *
  * Since: 1.4
  */
@@ -1725,7 +1725,7 @@ pt_player_get_timestamp (PtPlayer *self)
  * See also pt_player_goto_timestamp() if you want to go to the timestamp’s
  * position immediately after.
  *
- * Return value: TRUE if the timestamp is valid, FALSE if not
+ * Returns: TRUE if the timestamp is valid, FALSE if not
  *
  * Since: 1.4
  */
@@ -1759,7 +1759,7 @@ pt_player_string_is_timestamp (PtPlayer *self,
  * Goes to the position of the timestamp. Returns false, if it’s not a
  * valid timestamp.
  *
- * Return value: TRUE on success, FALSE if the timestamp is not valid
+ * Returns: TRUE on success, FALSE if the timestamp is not valid
  *
  * Since: 1.4
  */
@@ -1901,7 +1901,7 @@ pt_player_set_mode (PtPlayer  *self,
  *
  * Get current output mode.
  *
- * Return value: the current mode
+ * Returns: the current mode
  *
  * Since: 3.0
  */
@@ -1921,7 +1921,7 @@ pt_player_get_mode (PtPlayer *self)
  *
  * Get the name for debugging purposes.
  *
- * Return value: the corresponding mode name
+ * Returns: the corresponding mode name
  *
  * Since: 3.0
  */
@@ -1964,7 +1964,7 @@ pt_player_get_appsink (PtPlayer *self)
  * Get the player’s #PtMediaInfo object to query the current
  * track’s metadata.
  *
- * Return value: (transfer none): the player’s #PtMediaInfo object
+ * Returns: (transfer none): the player’s #PtMediaInfo object
  *
  * Since: 4.3
  */
@@ -2607,7 +2607,7 @@ pt_player_class_init (PtPlayerClass *klass)
  *
  * After use g_object_unref() it.
  *
- * Return value: (transfer full): a new pt_player
+ * Returns: (transfer full): a new pt_player
  *
  * Since: 1.6
  */

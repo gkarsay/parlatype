@@ -1,5 +1,5 @@
 [Model]
-Version=1.0
+Version=2.0
 Name=Whisper Base Model
 Plugin=whisper
 BaseFolder=
@@ -9,7 +9,14 @@ URL1=https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base-q5_1.bi
 Publisher=ggerganov
 License=
 
+[Download]
+Plugin=whisper_downloader
+url=https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base-q5_1.bin
+sha256=422f1ae452ade6f30a004d7e5c6a43195e4433bc370bf23fac9cc591f01a8898
+size=59707625
+
 [Files]
 speech-model=ggml-base-q5_1.bin
 
 [Parameters]
+multilingual-model=true

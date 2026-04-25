@@ -51,6 +51,7 @@ pt_window_addin_default_init (PtWindowAddinInterface *iface)
 /**
  * pt_window_addin_load:
  * @self: a #PtWindowAddin
+ * @window: a handle on the window
  *
  * Plugins should start their work here.
  */

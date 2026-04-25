@@ -158,7 +158,7 @@ pt_timestamp_button_class_init (PtTimestampButtonClass *klass)
  * Returns a new PtTimestampButton associated with a timestamp.
  * The string representation of the timestamp is used for the label of the button.
  *
- * Return value: (transfer full): a new a `PtTimeStampButton`
+ * Returns: (transfer full): a new a `PtTimeStampButton`
  */
 GtkWidget *
 pt_timestamp_button_new (int timestamp)

@@ -55,40 +55,46 @@ typedef enum
 
 GQuark pt_error_quark (void);
 
-gchar    *pt_config_get_name        (PtConfig *self);
+gchar    *pt_config_get_name             (PtConfig *self);
 
-gboolean  pt_config_set_name        (PtConfig *self,
-                                     gchar    *name);
+gboolean  pt_config_set_name             (PtConfig *self,
+                                          gchar    *name);
 
-gchar    *pt_config_get_base_folder (PtConfig *self);
+gchar    *pt_config_get_base_folder      (PtConfig *self);
 
-gboolean  pt_config_set_base_folder (PtConfig *self,
-                                     gchar    *name);
+gboolean  pt_config_set_base_folder      (PtConfig *self,
+                                          gchar    *name);
 
-gchar    *pt_config_get_plugin      (PtConfig *self);
+gchar    *pt_config_get_plugin           (PtConfig *self);
 
-gchar    *pt_config_get_lang_code   (PtConfig *self);
+gchar    *pt_config_get_downloader       (PtConfig *self);
 
-gchar    *pt_config_get_lang_name   (PtConfig *self);
+gchar    *pt_config_get_lang_code        (PtConfig *self);
 
-gchar    *pt_config_get_key         (PtConfig *self,
-                                     gchar    *key);
+gchar    *pt_config_get_lang_name        (PtConfig *self);
 
-GFile    *pt_config_get_file        (PtConfig *self);
+gchar    *pt_config_get_key              (PtConfig *self,
+                                          gchar    *key);
 
-void      pt_config_set_file        (PtConfig *self,
-                                     GFile    *file);
+GFile    *pt_config_get_file             (PtConfig *self);
 
-char     *pt_config_get_path        (PtConfig *self);
+void      pt_config_set_file             (PtConfig *self,
+                                          GFile    *file);
 
-gboolean  pt_config_apply           (PtConfig *self,
-                                     GObject  *plugin,
-                                     GError  **error);
+char     *pt_config_get_path             (PtConfig *self);
 
-gboolean  pt_config_is_valid        (PtConfig *self);
+gboolean  pt_config_configure_plugin     (PtConfig *self,
+                                          GObject  *plugin,
+                                          GError  **error);
 
-gboolean  pt_config_is_installed    (PtConfig *self);
+gboolean  pt_config_configure_downloader (PtConfig *self,
+                                          GObject  *downloader,
+                                          GError  **error);
 
-PtConfig *pt_config_new             (GFile *file);
+gboolean  pt_config_is_valid             (PtConfig *self);
+
+gboolean  pt_config_is_installed         (PtConfig *self);
+
+PtConfig *pt_config_new                  (GFile *file);
 
 G_END_DECLS

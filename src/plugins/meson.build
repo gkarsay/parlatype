@@ -15,6 +15,7 @@ subdir('mpris')
 subdir('pocketsphinx')
 subdir('test-buttons')
 subdir('whisper')
+subdir('whisper_downloader')
 
 plugins = static_library('plugins', plugins_sources,
            dependencies: plugins_deps,

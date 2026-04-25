@@ -854,12 +854,28 @@ pt_window_get_asr_controls (PtWindow *self)
   return self->asr_controls;
 }
 
+/**
+ * pt_window_get_asr_manager:
+ * @self: a PtWindow
+ *
+ * Returns the window's `PtAsrManager`.
+ *
+ * Returns: (transfer none): asr manager
+ */
 PtAsrManager *
 pt_window_get_asr_manager (PtWindow *self)
 {
   return self->asr_manager;
 }
 
+/**
+ * pt_window_get_text_view:
+ * @self: a PtWindow
+ *
+ * Returns the window's `PtTextViewGtkBox`.
+ *
+ * Returns: (transfer none): text view
+ */
 PtTextView *
 pt_window_get_text_view (PtWindow *self)
 {
@@ -1185,7 +1201,7 @@ pt_window_class_init (PtWindowClass *klass)
                            G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
   /**
-   * PtWindow:doc_controls:
+   * PtWindow:doc-controls:
    *
    * Box with controls for document area.
    */

@@ -53,7 +53,8 @@
             "name" : "parlatype",
             "buildsystem" : "meson",
             "config-opts" : [
-                "-Dplugin_whisper=true"
+                "-Dplugin_whisper=true",
+                "-Dplugin_whisper_downloader=true"
             ],
             "sources" : [
                 {

@@ -104,7 +104,7 @@ pt_position_manager_save (PtPositionManager *self,
  * Success is logged at info level, "soft" failure (no position saved) is
  * not logged and other "hard" failures are logged at warning level.
  *
- * Return value: Position in milliseconds or zero on failure.
+ * Returns: Position in milliseconds or zero on failure.
  */
 gint64
 pt_position_manager_load (PtPositionManager *self,

@@ -472,8 +472,9 @@ modified_changed_cb (GtkTextBuffer *buffer,
 /**
  * pt_text_view_insert_timestamp:
  * @self: a `PtTextView`
+ * @timestamp: timestamp
  *
- * Inserts a `PtTimestampButton` at the current position for the current time.
+ * Inserts a `PtTimestampButton` at the current position for the given timestamp.
  */
 void
 pt_text_view_insert_timestamp (PtTextView *self,

@@ -42,7 +42,7 @@
  * determined by @duration, e.g. if duration is long format, it returns a string
  * in long format, too.
  *
- * Return value: (transfer full): the time string
+ * Returns: (transfer full): the time string
  *
  * Since: 1.4
  */
@@ -170,7 +170,7 @@ pt_timestamp_to_string (int             time,
  * Returns the time in milliseconds represented by the timestamp or -1 for
  * invalid timestamps.
  *
- * Return value: the time in milliseconds represented by the timestamp or -1
+ * Returns: the time in milliseconds represented by the timestamp or -1
  * for invalid timestamps
  *
  * Since: 1.6

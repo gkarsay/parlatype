@@ -16,11 +16,9 @@
 
 #pragma once
 
-#include <gst/gst.h>
+#include <glib-object.h>
 
 #define PT_TYPE_MOCK_PLUGIN (pt_mock_plugin_get_type ())
-G_DECLARE_FINAL_TYPE (PtMockPlugin, pt_mock_plugin, PT, MOCK_PLUGIN, GstElement)
-
-gboolean      pt_mock_plugin_register (void);
+G_DECLARE_FINAL_TYPE (PtMockPlugin, pt_mock_plugin, PT, MOCK_PLUGIN, GObject)
 
 PtMockPlugin *pt_mock_plugin_new      (void);

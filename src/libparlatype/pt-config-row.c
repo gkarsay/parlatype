@@ -317,7 +317,7 @@ pt_config_row_class_init (PtConfigRowClass *klass)
  *
  * After use g_object_unref() it.
  *
- * Return value: (transfer full): a new #PtConfigRow
+ * Returns: (transfer full): a new #PtConfigRow
  */
 PtConfigRow *
 pt_config_row_new (PtConfig *config)

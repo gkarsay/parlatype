@@ -1,0 +1,8 @@
+[Plugin]
+Authors=Gabor Karsay
+Copyright=
+Description=Downloader for Whisper models
+Loader=python
+Module=whisper_downloader
+Name=Whisper Downloader
+X-Category=downloader
