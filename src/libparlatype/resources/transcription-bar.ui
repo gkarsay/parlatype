@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface domain="libadwaita">
+  <requires lib="gtk" version="4.0" />
+  <template class="PtTranscriptionBar" parent="GtkWidget">
+    <!--<accessibility>
+      <relation name="labelled-by">title</relation>
+    </accessibility>-->
+    <child>
+      <object class="GtkRevealer" id="revealer">
+        <property name="transition-type">slide-down</property>
+        <property name="child">
+          <object class="GtkCenterBox" id="box">
+            <property name="hexpand">True</property>
+            <child type="center">
+              <object class="GtkBox" id="tool_box">
+                <property name="orientation">horizontal</property>
+                <style>
+                  <class name="linked"/>
+                </style>
+                <child>
+                  <object class="GtkButton" id="model_button">
+                    <property name="label">My chosen model</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton">
+                    <property name="icon-name">play-symbolic</property>
+                    <property name="action-name">win.transcribe</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkSeparator"/>
+                </child>
+                <child>
+                  <object class="GtkMenuButton">
+                    <property name="menu-model">transcription_menu</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="end">
+              <object class="GtkButton" id="close_button">
+                <property name="icon-name">window-close-symbolic</property>
+                <property name="valign">center</property>
+                <property name="visible">True</property>
+                <signal name="clicked" handler="close_button_clicked" swapped="yes" />
+                <style>
+                  <class name="close"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+  </template>
+  <menu id="transcription_menu">
+    <item>
+      <attribute name="label" translatable="yes">Select Model</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">Manage Models</attribute>
+      <attribute name="action">win.show-asr-dialog</attribute>
+    </item>
+  </menu>
+</interface>

@@ -184,13 +184,26 @@
                   </object>
                 </property>
                 <property name="content">
-                  <object class="GtkScrolledWindow">
+                  <object class="GtkBox">
+                    <property name="orientation">vertical</property>
+                    <!--<property name="spacing">6</property>
+                    <property name="halign">center</property>
+                    <property name="margin-top">12</property>-->
                     <child>
-                      <object class="PtTextView" id="text_view">
-                        <property name="can_focus">True</property>
-                        <property name="vexpand">True</property>
-                        <property name="halign">start</property>
-                        <property name="width-request">400</property>
+                      <object class="PtTranscriptionBar" id="transcription_bar">
+                        <property name="hexpand">True</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkScrolledWindow">
+                        <child>
+                          <object class="PtTextView" id="text_view">
+                            <property name="can_focus">True</property>
+                            <property name="vexpand">True</property>
+                            <property name="halign">start</property>
+                            <property name="width-request">400</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
                   </object>
@@ -224,8 +237,14 @@
         <attribute name="action">win.save</attribute>
       </item>
       <item>
-        <attribute name="label" translatable="yes">Save as</attribute>
+        <attribute name="label" translatable="yes">Save as…</attribute>
         <attribute name="action">win.save-as</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Transcribe…</attribute>
+        <attribute name="action">win.show-transcription-bar</attribute>
       </item>
     </section>
     <section>

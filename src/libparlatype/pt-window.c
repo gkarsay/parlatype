@@ -35,6 +35,7 @@
 #include "pt-audio-controls.h"
 #include "pt-goto-dialog.h"
 #include "pt-save-changes-dialog.h"
+#include "pt-transcription-bar.h"
 #include "pt-utils.h"
 #include "pt-window-addin.h"
 #include "pt-window-dnd.h"
@@ -66,9 +67,9 @@ struct _PtWindow
   GtkWidget *asr_controls;
   GtkWidget *progress;
   GtkWidget *timestamp_switch;
-
   GtkWidget *paned;
   GtkWidget *text_view;
+  GtkWidget *transcription_bar;
 
   gint64 last_time; // last time to compare if it changed
 
@@ -155,6 +156,16 @@ goto_cursor (GtkWidget  *widget,
   PtWindow *self = PT_WINDOW (widget);
 
   pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (self->waveviewer), TRUE);
+}
+
+static void
+pt_window_show_transcription_bar (GtkWidget  *widget,
+                                  const char *action_name,
+                                  GVariant   *param)
+{
+  PtWindow *self = PT_WINDOW (widget);
+
+  pt_transcription_bar_set_revealed (PT_TRANSCRIPTION_BAR (self->transcription_bar), TRUE);
 }
 
 static void
@@ -1175,6 +1186,7 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtWindow, title);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, waveviewer_stack);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, timestamp_switch);
+  gtk_widget_class_bind_template_child (widget_class, PtWindow, transcription_bar);
 
   gtk_widget_class_install_action (widget_class, "win.goto", NULL, goto_position);
   gtk_widget_class_install_action (widget_class, "win.goto-cursor", NULL, goto_cursor);
@@ -1184,6 +1196,7 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_install_action (widget_class, "win.zoom-in", NULL, zoom_in);
   gtk_widget_class_install_action (widget_class, "win.zoom-out", NULL, zoom_out);
   gtk_widget_class_install_action (widget_class, "win.zoom-default", NULL, zoom_default);
+  gtk_widget_class_install_action (widget_class, "win.show-transcription-bar", NULL, pt_window_show_transcription_bar);
 
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_g, GDK_CONTROL_MASK, "win.goto", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_s, GDK_CONTROL_MASK, "win.save", NULL);
@@ -1194,6 +1207,7 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_minus, GDK_CONTROL_MASK, "win.zoom-out", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_KP_Subtract, GDK_CONTROL_MASK, "win.zoom-out", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_0, GDK_CONTROL_MASK, "win.zoom-default", NULL);
+  gtk_widget_class_add_binding_action (widget_class, GDK_KEY_r, GDK_CONTROL_MASK, "win.show-transcription-bar", NULL);
 
   /**
    * PtWindow:player:
