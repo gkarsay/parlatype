@@ -1120,6 +1120,11 @@ pt_window_init (PtWindow *self)
       G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
 
   g_object_bind_property (
+      self->text_view, "has-timestamps",
+      self->timestamp_switch, "sensitive",
+      G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
+
+  g_object_bind_property (
       self->text_view, "is-modified",
       self->is_modified, "visible",
       G_BINDING_DEFAULT);

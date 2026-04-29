@@ -58,6 +58,7 @@ enum
   PROP_0,
   PROP_TEXT_FILE,
   PROP_AUDIO_FILE,
+  PROP_HAS_TIMESTAMPS,
   PROP_TIMESTAMPS_VISIBLE,
   PROP_IS_MODIFIED,
   N_PROPS
@@ -437,6 +438,10 @@ delete_range_cb (GtkTextBuffer     *buffer,
               GList *link = g_queue_find (&self->timestamps, widgets[0]);
               g_assert (link != NULL);
               g_queue_delete_link (&self->timestamps, link);
+              if (g_queue_get_length (&self->timestamps) == 0)
+                {
+                  g_object_notify_by_pspec (G_OBJECT (self), properties[PROP_HAS_TIMESTAMPS]);
+                }
               g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                                 "MESSAGE", "timestamp removed, total: %d", g_queue_get_length (&self->timestamps));
             }
@@ -460,6 +465,10 @@ insert_timestamp_button_cb (GObject            *object,
   g_queue_push_head (&self->timestamps, child);
   g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                     "MESSAGE", "timestamp added, total: %d", g_queue_get_length (&self->timestamps));
+  if (g_queue_get_length (&self->timestamps) == 1)
+    {
+      g_object_notify_by_pspec (G_OBJECT (self), properties[PROP_HAS_TIMESTAMPS]);
+    }
 }
 
 static void
@@ -857,6 +866,10 @@ pt_text_view_get_property (GObject    *object,
       g_value_set_object (value, self->audio);
       break;
 
+    case PROP_HAS_TIMESTAMPS:
+      g_value_set_boolean (value, g_queue_get_length (&self->timestamps) > 0);
+      break;
+
     case PROP_TIMESTAMPS_VISIBLE:
       g_value_set_boolean (value, self->timestamps_visible);
       break;
@@ -976,6 +989,16 @@ pt_text_view_class_init (PtTextViewClass *klass)
       g_param_spec_object ("audio", NULL, NULL,
                            G_TYPE_FILE,
                            G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
+
+  /**
+   * PtTextView:has-timestamps:
+   *
+   * If true, there is at least one timestamp in the view.
+   */
+  properties[PROP_HAS_TIMESTAMPS] =
+      g_param_spec_boolean ("has-timestamps", NULL, NULL,
+                            TRUE,
+                            G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
   /**
    * PtTextView:timestamps-visible:
