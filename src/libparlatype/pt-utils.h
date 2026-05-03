@@ -29,4 +29,6 @@ enum
 };
 
 
-GListModel *pt_file_filters_new (int first_filter_type, ...);
+GListModel *pt_file_filters_new     (int first_filter_type, ...);
+
+char       *pt_utils_pretty_download_size (int size);

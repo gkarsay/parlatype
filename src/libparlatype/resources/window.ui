@@ -190,6 +190,11 @@
                     <property name="halign">center</property>
                     <property name="margin-top">12</property>-->
                     <child>
+                      <object class="PtDownloadBar" id="download_bar">
+                        <property name="hexpand">True</property>
+                      </object>
+                    </child>
+                    <child>
                       <object class="PtTranscriptionBar" id="transcription_bar">
                         <property name="hexpand">True</property>
                       </object>

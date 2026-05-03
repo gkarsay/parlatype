@@ -68,7 +68,7 @@ main_methods (void)
   testfile = g_file_new_for_path (testpath);
   config = pt_config_new (testfile);
 
-  gchar   *name, *plugin, *base, *lang_code, *lang_name, *other;
+  gchar   *id, *name, *plugin, *base, *lang_code, *lang_name, *other;
   gboolean installed, success;
 
   name = pt_config_get_name (config);
@@ -103,6 +103,9 @@ main_methods (void)
   g_assert_true (success);
   base = pt_config_get_base_folder (config);
   g_assert_cmpstr (base, ==, "/home/me/model");
+
+  id = pt_config_get_id (config);
+  g_assert_cmpstr (id, ==, "config-test");
 
   lang_code = pt_config_get_lang_code (config);
   g_assert_cmpstr (lang_code, ==, "de");
@@ -324,6 +327,44 @@ apply (void)
   g_object_unref (plugin);
 }
 
+static void
+get_download_size (void)
+{
+  PtConfig *config;
+  GFile    *testfile;
+  gchar    *testpath;
+
+  testpath = g_test_build_filename (G_TEST_DIST, "data", "config-with-download-size.asr", NULL);
+  testfile = g_file_new_for_path (testpath);
+  config = pt_config_new (testfile);
+
+  int size = pt_config_get_download_size (config);
+  g_assert_cmpint (size, ==, 42);
+
+  g_object_unref (config);
+  g_object_unref (testfile);
+  g_free (testpath);
+}
+
+static void
+no_download_size (void)
+{
+  PtConfig *config;
+  GFile    *testfile;
+  gchar    *testpath;
+
+  testpath = g_test_build_filename (G_TEST_DIST, "data", "config-test.asr", NULL);
+  testfile = g_file_new_for_path (testpath);
+  config = pt_config_new (testfile);
+
+  int size = pt_config_get_download_size (config);
+  g_assert_cmpint (size, ==, 0);
+
+  g_object_unref (config);
+  g_object_unref (testfile);
+  g_free (testpath);
+}
+
 int
 main (int argc, char *argv[])
 {
@@ -335,6 +376,8 @@ main (int argc, char *argv[])
   g_test_add_func ("/config/crafted_valid", crafted_valid);
   g_test_add_func ("/config/dist_valid", dist_valid);
   g_test_add_func ("/config/apply", apply);
+  g_test_add_func ("/config/get_download_size", get_download_size);
+  g_test_add_func ("/config/no_download_size", no_download_size);
   gtk_init ();
 
   return g_test_run ();

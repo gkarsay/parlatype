@@ -19,16 +19,13 @@ class WhisperDownloader(GObject.Object, Pt.Downloader):
     url: str = GObject.Property(type=str)
     sha256: str = GObject.Property(type=str)
     size: int = GObject.Property(type=int)
+    current: int = GObject.Property(type=int)
 
     dest_folder: str
     dest: str
     cancellable: Gio.Cancellable
     last_progress: float = 0.0
 
-    @GObject.Signal(name="progress",
-                    flags=GObject.SignalFlags.RUN_LAST,
-                    return_type=float,
-                    arg_types=(float,))
     def progress(self, *args):
         pass
 
@@ -36,13 +33,19 @@ class WhisperDownloader(GObject.Object, Pt.Downloader):
         if Gio.Cancellable.is_cancelled(self.cancellable):
             return 1
 
-        p = download_done / self.size;
-        if p > self.last_progress:
-            self.last_progress = p
-            self.emit("progress", p)
+        if download_done - self.current > 1000:
+            self.current = download_done;
+
         return 0
 
-    def download(self, task, other_self, data, cancellable):
+    def download(self, task, other_self, user_data, cancellable):
+        '''
+        print("self: ", self)
+        print("task: ", task)
+        print("other_self: ", other_self)
+        print("data: ", user_data)
+        print("cancellable: ", cancellable)
+        '''
 
         # http://pycurl.io/docs/latest/quickstart.html
         try:
@@ -71,7 +74,13 @@ class WhisperDownloader(GObject.Object, Pt.Downloader):
         return result.propagate_boolean()
 
     def do_download_async(self, cancellable, callback, userdata):
-        folder_name = os.path.splitext(self.config_id)[0]
+        '''
+        print("download_async: self: ", self)
+        print("download_async: cancellable: ", cancellable)
+        print("download_async: callback: ", callback)
+        print("download_async: userdata: ", userdata)
+        '''
+        folder_name = self.config_id
         datadir = GLib.get_user_data_dir()
         file_name = os.path.basename(urlparse(self.url).path)
         self.dest_folder = os.path.join(datadir, 'parlatype', folder_name)
@@ -79,10 +88,12 @@ class WhisperDownloader(GObject.Object, Pt.Downloader):
             os.mkdir(self.dest_folder)
         self.dest = os.path.join(self.dest_folder, file_name)
 
+        '''
         print("downloading " + self.url)
         print("saving to " + self.dest)
         print("checksum " + self.sha256)
         print("size {}".format(self.size))
+        '''
 
         self.cancellable = cancellable
         task = Gio.Task.new(self, cancellable, callback)

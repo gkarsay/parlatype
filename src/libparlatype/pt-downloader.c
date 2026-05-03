@@ -60,7 +60,7 @@ pt_downloader_download_finish (PtDownloader *self,
  * pt_downloader_download_async:
  * @self: a #PtDownloader
  * @cancellable: a cancellable
- * @callback: a callback
+ * @callback: (scope async) (closure): a callback
  * @user_data: user data
  *
  * Starts the download operation. All parameters must have been set before

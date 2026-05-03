@@ -77,3 +77,26 @@ pt_file_filters_new (int first_filter_type, ...)
 
   return G_LIST_MODEL (result);
 }
+
+/**
+ * pt_utils_pretty_download_size:
+ * @size: a size in bytes
+ *
+ * Rounds bytes to full KB, MB or GB.
+ *
+ * Returns: (transfer full): a size string
+ */
+char *
+pt_utils_pretty_download_size (int size)
+{
+  if (size < 1024)
+    return g_strdup_printf ("%d Bytes", size);
+
+  if (size < 1024 * 1024)
+    return g_strdup_printf ("%d KB", size / 1024);
+
+  if (size < 1024 * 1024 * 1024)
+    return g_strdup_printf ("%d MB", size / 1024 / 1024);
+
+  return g_strdup_printf ("%d GB", size / 1024 / 1024 / 1024);
+}

@@ -51,6 +51,7 @@ struct _PtConfig
 {
   GObject parent_instance;
 
+  gchar    *id;
   gchar    *path;
   GFile    *file;
   GKeyFile *keyfile;
@@ -173,7 +174,7 @@ pt_config_get_value (PtConfig *self,
           g_value_set_boolean (&result, boolean);
           break;
         default:
-          g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+          g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                             "MESSAGE", "G_TYPE \"%s\" not handled", g_type_name (type));
           g_assert_not_reached ();
         }
@@ -181,7 +182,7 @@ pt_config_get_value (PtConfig *self,
 
   if (error)
     {
-      g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING,
+      g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                         "MESSAGE", "Keyfile value \"%s\" not retrieved: %s",
                         key, error->message);
       g_error_free (error);
@@ -225,6 +226,38 @@ pt_config_set_string (PtConfig *self,
 }
 
 /**
+ * pt_config_get_id:
+ * @self: a configuration instance
+ *
+ * The id is the filename without the extension `.asr`.
+ *
+ * Returns: (transfer none): the configuration’s id as a string
+ *
+ * Since: 5.0
+ */
+gchar *
+pt_config_get_id (PtConfig *self)
+{
+  int length;
+
+  g_return_val_if_fail (PT_IS_CONFIG (self), NULL);
+  g_return_val_if_fail (self->is_valid, NULL);
+
+  if (self->id != NULL)
+    return self->id;
+
+  self->id = g_file_get_basename (self->file);
+  g_assert (g_str_has_suffix (self->id, ".asr"));
+
+  length = strlen (self->id);
+  g_assert (length > 4);
+
+  self->id[length - 4] = '\0';
+
+  return self->id;
+}
+
+/**
  * pt_config_get_name:
  * @self: a configuration instance
  *
@@ -238,7 +271,6 @@ gchar *
 pt_config_get_name (PtConfig *self)
 {
   g_return_val_if_fail (PT_IS_CONFIG (self), NULL);
-
   g_return_val_if_fail (self->is_valid, NULL);
 
   return self->name;
@@ -261,7 +293,6 @@ pt_config_set_name (PtConfig *self,
                     gchar    *name)
 {
   g_return_val_if_fail (PT_IS_CONFIG (self), FALSE);
-
   g_return_val_if_fail (self->is_valid, FALSE);
 
   if (g_strcmp0 (self->name, name) == 0)
@@ -374,6 +405,26 @@ pt_config_get_downloader (PtConfig *self)
   g_return_val_if_fail (self->is_valid, NULL);
 
   return self->downloader;
+}
+
+/**
+ * pt_config_get_download_size:
+ * @self: a configuration instance
+ *
+ * Gets the name of the downloader plugin.
+ *
+ * Returns: download size in bytes or 0 if not available
+ *
+ * Since: 5.0
+ */
+int
+pt_config_get_download_size (PtConfig *self)
+{
+  g_return_val_if_fail (PT_IS_CONFIG (self), 0);
+  g_return_val_if_fail (self->is_valid, 0);
+
+  GValue value = pt_config_get_value (self, "Download", "size", G_TYPE_INT);
+  return g_value_get_int (&value);
 }
 
 /**
@@ -576,20 +627,15 @@ pt_config_configure_downloader (PtConfig *self,
   g_return_val_if_fail (self->is_valid, FALSE);
 
   char **keys = NULL;
-  char  *basename;
-  char **basename_split;
+  char  *id;
 
   g_object_freeze_notify (downloader);
 
   /* Config ID is taken from filename which is supposed to be unique, without extension.
    * Model data is downloaded into a folder called like the config ID. */
 
-  basename = g_file_get_basename (self->file);
-  basename_split = g_strsplit (basename, ".asr", 1);
-
-  g_object_set (downloader, "config-id", basename_split[0], NULL);
-  g_strfreev (basename_split);
-  g_free (basename);
+  id = pt_config_get_id (self);
+  g_object_set (downloader, "config-id", id, NULL);
 
   /* Iterate over all keys in "Download" group, get the properties’
    * type and set the properties. */
@@ -616,6 +662,28 @@ pt_config_configure_downloader (PtConfig *self,
   g_object_thaw_notify (downloader);
 
   return TRUE;
+}
+
+/**
+ * pt_config_equal:
+ * @config1: (not nullable): the first config to compare
+ * @config2: (not nullable): the second config to compare
+ *
+ * Compares to configs for equality by comparing equality of their file representation.
+ *
+ * Returns: True if the two configs are equal.
+ *
+ * Since: 5.0
+ */
+gboolean
+pt_config_equal (PtConfig *config1,
+                 PtConfig *config2)
+{
+  g_return_val_if_fail (PT_IS_CONFIG (config1), FALSE);
+  g_return_val_if_fail (PT_IS_CONFIG (config2), FALSE);
+
+  return g_file_equal (pt_config_get_file (config1),
+                       pt_config_get_file (config2));
 }
 
 static gboolean

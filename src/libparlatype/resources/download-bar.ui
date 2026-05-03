@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface domain="libadwaita">
+  <requires lib="gtk" version="4.0" />
+  <template class="PtDownloadBar" parent="GtkWidget">
+    <!--<accessibility>
+      <relation name="labelled-by">title</relation>
+    </accessibility>-->
+    <style>
+      <class name="toolbar"/>
+    </style>
+    <child>
+      <object class="GtkRevealer" id="revealer">
+        <property name="transition-type">slide-down</property>
+        <property name="child">
+          <object class="GtkCenterBox" id="box">
+            <property name="hexpand">True</property>
+            <child type="start">
+              <object class="GtkLabel" id="start_label">
+              </object>
+            </child>
+            <child type="center">
+              <object class="GtkProgressBar" id="progress_bar">
+                <property name="orientation">horizontal</property>
+                <property name="hexpand">true</property>
+              </object>
+            </child>
+            <child type="end">
+              <object class="GtkButton" id="cancel_button">
+                <property name="label" translatable="yes">Cancel</property>
+                <property name="valign">center</property>
+                <property name="visible">True</property>
+                <signal name="clicked" handler="cancel_button_clicked" swapped="yes" />
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+  </template>
+</interface>

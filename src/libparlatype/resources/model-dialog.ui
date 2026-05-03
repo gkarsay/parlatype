@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <template class="PtModelDialog" parent="AdwWindow">
+    <property name="title">Title</property>
+    <property name="default-width">800</property>
+    <property name="default-height">720</property>
+    <child>
+      <object class="AdwBreakpoint">
+        <condition>max-width: 400sp</condition>
+        <setter object="split_view" property="collapsed">True</setter>
+        <setter object="sidebar" property="mode">page</setter>
+      </object>
+    </child>
+    <property name="content">
+      <object class="AdwToolbarView">
+        <property name="content">
+          <object class="AdwNavigationSplitView" id="split_view">
+            <property name="min-sidebar-width">220</property>
+            <property name="sidebar">
+              <object class="AdwNavigationPage">
+                <property name="title">There's a warning if not set</property>
+                <property name="child">
+                  <object class="AdwToolbarView">
+                    <property name="content">
+                      <object class="AdwSidebar" id="sidebar">
+                        <signal name="activated" handler="sidebar_activated_cb" swapped="yes"/>
+                        <child>
+                          <object class="AdwSidebarSection">
+                            <child>
+                              <object class="AdwSidebarItem">
+                                <property name="title" translatable="yes">Help</property>
+                                <property name="icon-name">help-about-symbolic</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwSidebarSection" id="installed_section">
+                            <property name="title">Installed Models</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwSidebarSection" id="uninstalled_section">
+                            <property name="title">Not installed Models</property>
+                          </object>
+                        </child>
+                      </object>
+                    </property>
+                  </object>
+                </property>
+              </object>
+            </property>
+          </object>
+        </property>
+      </object>
+    </property>
+  </template>
+</interface>

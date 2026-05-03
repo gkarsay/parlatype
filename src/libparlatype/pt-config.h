@@ -55,6 +55,8 @@ typedef enum
 
 GQuark pt_error_quark (void);
 
+gchar    *pt_config_get_id               (PtConfig *self);
+
 gchar    *pt_config_get_name             (PtConfig *self);
 
 gboolean  pt_config_set_name             (PtConfig *self,
@@ -68,6 +70,8 @@ gboolean  pt_config_set_base_folder      (PtConfig *self,
 gchar    *pt_config_get_plugin           (PtConfig *self);
 
 gchar    *pt_config_get_downloader       (PtConfig *self);
+
+int       pt_config_get_download_size    (PtConfig *self);
 
 gchar    *pt_config_get_lang_code        (PtConfig *self);
 
@@ -94,6 +98,9 @@ gboolean  pt_config_configure_downloader (PtConfig *self,
 gboolean  pt_config_is_valid             (PtConfig *self);
 
 gboolean  pt_config_is_installed         (PtConfig *self);
+
+gboolean  pt_config_equal                (PtConfig *config1,
+                                          PtConfig *config2);
 
 PtConfig *pt_config_new                  (GFile *file);
 

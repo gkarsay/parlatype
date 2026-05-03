@@ -1,0 +1,19 @@
+[Model]
+Version=2.0
+Name=Test Model
+Plugin=unknown-plugin
+BaseFolder=/home/me/model
+Language=de
+URL=
+
+[Download]
+size=42
+
+[Files]
+File=subdir/test.dict
+Folder=subdir/subdir
+
+[Parameters]
+Number=42
+String=Some String
+Boolean=true

@@ -33,7 +33,9 @@
 #include "pt-app.h"
 #include "pt-asr-manager.h"
 #include "pt-audio-controls.h"
+#include "pt-download-manager.h"
 #include "pt-goto-dialog.h"
+#include "pt-model-dialog.h"
 #include "pt-save-changes-dialog.h"
 #include "pt-transcription-bar.h"
 #include "pt-utils.h"
@@ -56,9 +58,11 @@ struct _PtWindow
   GtkLabel            *is_modified;
   GtkWidget           *primary_menu_button;
 
-  PeasExtensionSet *addins;
-  PtAsrManager     *asr_manager;
-  GtkRecentManager *recent;
+  PeasExtensionSet  *addins;
+  PtAsrManager      *asr_manager;
+  GtkRecentManager  *recent;
+  PtDownloadManager *download_manager;
+  PtModelDialog     *model_dialog;
 
   /* Main window widgets */
   GtkWidget *waveviewer_stack;
@@ -70,6 +74,7 @@ struct _PtWindow
   GtkWidget *paned;
   GtkWidget *text_view;
   GtkWidget *transcription_bar;
+  GtkWidget *download_bar;
 
   gint64 last_time; // last time to compare if it changed
 
@@ -166,6 +171,19 @@ pt_window_show_transcription_bar (GtkWidget  *widget,
   PtWindow *self = PT_WINDOW (widget);
 
   pt_transcription_bar_set_revealed (PT_TRANSCRIPTION_BAR (self->transcription_bar), TRUE);
+}
+
+static void
+pt_window_show_asr_dialog (GtkWidget  *widget,
+                           const char *action_name,
+                           GVariant   *param)
+{
+  PtWindow *self = PT_WINDOW (widget);
+
+  if (!PT_IS_MODEL_DIALOG (self->model_dialog))
+    self->model_dialog = pt_model_dialog_new (self->asr_manager, self->download_manager);
+
+  gtk_window_present (GTK_WINDOW (self->model_dialog));
 }
 
 static void
@@ -1114,6 +1132,7 @@ pt_window_init (PtWindow *self)
   pt_text_view_connect (PT_TEXT_VIEW (self->text_view),
                         self->player,
                         self->editor);
+  self->download_manager = pt_download_manager_new (PT_DOWNLOAD_BAR (self->download_bar));
   self->asr_manager = pt_asr_manager_new (self->player, PT_TEXT_VIEW (self->text_view), self->asr_controls);
   if (!pt_asr_manager_have_asr (self->asr_manager))
     {
@@ -1187,6 +1206,7 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtWindow, waveviewer_stack);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, timestamp_switch);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, transcription_bar);
+  gtk_widget_class_bind_template_child (widget_class, PtWindow, download_bar);
 
   gtk_widget_class_install_action (widget_class, "win.goto", NULL, goto_position);
   gtk_widget_class_install_action (widget_class, "win.goto-cursor", NULL, goto_cursor);
@@ -1197,6 +1217,7 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_install_action (widget_class, "win.zoom-out", NULL, zoom_out);
   gtk_widget_class_install_action (widget_class, "win.zoom-default", NULL, zoom_default);
   gtk_widget_class_install_action (widget_class, "win.show-transcription-bar", NULL, pt_window_show_transcription_bar);
+  gtk_widget_class_install_action (widget_class, "win.show-asr-dialog", NULL, pt_window_show_asr_dialog);
 
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_g, GDK_CONTROL_MASK, "win.goto", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_s, GDK_CONTROL_MASK, "win.save", NULL);

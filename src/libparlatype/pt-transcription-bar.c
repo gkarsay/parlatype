@@ -270,6 +270,8 @@ pt_transcription_bar_class_init (PtTranscriptionBarClass *klass)
           "revealed", NULL, NULL,
           TRUE,
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+
+  g_object_class_install_properties (object_class, N_PROPERTIES, obj_properties);
 }
 
 /**
