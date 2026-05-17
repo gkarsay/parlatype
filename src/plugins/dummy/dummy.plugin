@@ -1,9 +1,0 @@
-[Plugin]
-Authors=
-Builtin=true
-Copyright=
-Description=
-Embedded=pt_dummy_greeter_register_types
-Module=dummy
-Name=dummy
-X-Category=asr

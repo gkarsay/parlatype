@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include "pt-config-list.h"
 #include "parlatype.h"
 #include <gtk/gtk.h>
 
@@ -24,16 +25,16 @@ G_BEGIN_DECLS
 #define PT_TYPE_TRANSCRIPTION_BAR (pt_transcription_bar_get_type ())
 G_DECLARE_FINAL_TYPE (PtTranscriptionBar, pt_transcription_bar, PT, TRANSCRIPTION_BAR, GtkWidget)
 
-gboolean            pt_transcription_bar_get_revealed  (PtTranscriptionBar *self);
+gboolean            pt_transcription_bar_get_revealed    (PtTranscriptionBar *self);
 
-void                pt_transcription_bar_set_revealed  (PtTranscriptionBar *self,
-                                                        gboolean            revealed);
+void                pt_transcription_bar_set_revealed    (PtTranscriptionBar *self,
+                                                          gboolean            revealed);
 
-PtConfig           *pt_transcription_bar_get_config    (PtTranscriptionBar *self);
+GtkWidget          *pt_transcription_bar_get_options_box (PtTranscriptionBar *self);
 
-void                pt_transcription_bar_set_config    (PtTranscriptionBar *self,
-                                                        PtConfig           *config);
+void                pt_transcription_bar_set_config_list (PtTranscriptionBar *self,
+                                                          PtConfigList       *config_list);
 
-PtTranscriptionBar *pt_transcription_bar_new           (void);
+PtTranscriptionBar *pt_transcription_bar_new             (void);
 
 G_END_DECLS

@@ -18,11 +18,10 @@
 
 #include <adwaita.h>
 #include <parlatype.h>
-#include "pt-download-manager.h"
+#include "pt-config-list.h"
 
 #define PT_TYPE_CONFIG_VIEW (pt_config_view_get_type ())
 G_DECLARE_FINAL_TYPE (PtConfigView, pt_config_view, PT, CONFIG_VIEW, AdwBin)
 
 PtConfigView  *pt_config_view_new  (PtConfig          *config,
-                                    PtAsrManager      *asr_manager,
-                                    PtDownloadManager *download_manager);
+                                    PtConfigList      *config_list);

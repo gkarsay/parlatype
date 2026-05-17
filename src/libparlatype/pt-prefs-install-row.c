@@ -24,8 +24,6 @@
 
 #include "pt-prefs-install-row.h"
 
-#include "pt-asr-dialog.h"
-
 #include <glib/gi18n.h>
 
 struct _PtPrefsInstallRow
@@ -36,6 +34,8 @@ struct _PtPrefsInstallRow
   gboolean   installed;
   gchar     *current_path;
   GtkWindow *parent_window;
+
+  gulong conn_id;
 };
 
 enum
@@ -50,15 +50,22 @@ static GParamSpec *props[N_PROPERTIES];
 G_DEFINE_FINAL_TYPE (PtPrefsInstallRow, pt_prefs_install_row, ADW_TYPE_ACTION_ROW)
 
 static void
-update_row (PtPrefsInstallRow *self,
-            gchar             *folder)
+is_installed_cb (PtConfig   *config,
+                 GParamSpec *spec,
+                 gpointer    user_data)
 {
+  PtPrefsInstallRow *self = PT_PREFS_INSTALL_ROW (user_data);
+
   gchar *title, *subtitle;
+
+  g_free (self->current_path);
+  self->current_path = g_strdup (pt_config_get_base_folder (self->config));
+  self->installed = self->current_path && self->current_path[0] && pt_config_is_installed (self->config);
 
   if (self->installed)
     {
       title = _ ("Installed");
-      subtitle = folder;
+      subtitle = self->current_path;
     }
   else
     {
@@ -107,7 +114,7 @@ dialog_open_cb (GObject      *source,
           self->installed = TRUE;
           g_object_notify_by_pspec (G_OBJECT (self), props[PROP_INSTALLED]);
         }
-      update_row (self, path);
+      is_installed_cb (self->config, NULL, self);
     }
 
   if (!installed)
@@ -183,6 +190,8 @@ pt_prefs_install_row_dispose (GObject *object)
 {
   PtPrefsInstallRow *self = PT_PREFS_INSTALL_ROW (object);
 
+  g_clear_signal_handler (&self->conn_id, self->config);
+  g_clear_object (&self->config);
   gtk_widget_dispose_template (GTK_WIDGET (self), PT_TYPE_PREFS_INSTALL_ROW);
 
   G_OBJECT_CLASS (pt_prefs_install_row_parent_class)->dispose (object);
@@ -193,10 +202,9 @@ pt_prefs_install_row_constructed (GObject *object)
 {
   PtPrefsInstallRow *self = PT_PREFS_INSTALL_ROW (object);
 
-  self->current_path = g_strdup (pt_config_get_base_folder (self->config));
-  self->installed = self->current_path && self->current_path[0] && pt_config_is_installed (self->config);
-
-  update_row (self, self->current_path);
+  self->conn_id = g_signal_connect (self->config, "notify::is-installed",
+                                    G_CALLBACK (is_installed_cb), self);
+  is_installed_cb (self->config, NULL, self);
 }
 
 static void
@@ -229,7 +237,7 @@ pt_prefs_install_row_set_property (GObject      *object,
   switch (property_id)
     {
     case PROP_CONFIG:
-      self->config = g_value_get_object (value);
+      self->config = g_value_dup_object (value);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);

@@ -41,8 +41,6 @@ PtPlayer      *pt_window_get_player        (PtWindow    *self);
 
 PtAsrManager  *pt_window_get_asr_manager   (PtWindow    *self);
 
-GtkWidget     *pt_window_get_asr_controls  (PtWindow    *self);
-
 GtkWidget     *pt_window_get_doc_controls  (PtWindow    *self);
 
 PtTextView    *pt_window_get_text_view     (PtWindow    *self);

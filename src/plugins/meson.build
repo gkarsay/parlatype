@@ -10,7 +10,7 @@ plugins_deps = [
   libparlatype_static_dep,
 ]
 
-subdir('dummy')
+subdir('fake_downloader')
 subdir('mpris')
 subdir('pocketsphinx')
 subdir('test-buttons')

@@ -21,6 +21,7 @@
 #endif
 
 #include <gio/gio.h>
+#include "pt-download.h"
 
 G_BEGIN_DECLS
 
@@ -98,6 +99,15 @@ gboolean  pt_config_configure_downloader (PtConfig *self,
 gboolean  pt_config_is_valid             (PtConfig *self);
 
 gboolean  pt_config_is_installed         (PtConfig *self);
+
+gboolean  pt_config_is_active            (PtConfig *self);
+
+gboolean  pt_config_is_downloadable      (PtConfig *self);
+
+PtDownload *pt_config_get_download       (PtConfig *self);
+
+PtDownload *pt_config_create_download    (PtConfig *self,
+                                          GError   *error);
 
 gboolean  pt_config_equal                (PtConfig *config1,
                                           PtConfig *config2);

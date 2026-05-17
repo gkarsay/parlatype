@@ -1,4 +1,4 @@
-/* Copyright 2023 Gabor Karsay <gabor.karsay@gmx.at>
+/* Copyright 2026 Gabor Karsay <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -16,16 +16,6 @@
 
 #pragma once
 
-#include <adwaita.h>
+#include <gtk/gtk.h>
 
-#define PT_TYPE_PREFS_INFO_ROW (pt_prefs_info_row_get_type ())
-G_DECLARE_FINAL_TYPE (PtPrefsInfoRow, pt_prefs_info_row, PT, PREFS_INFO_ROW, AdwActionRow)
-
-void            pt_prefs_info_row_set_title (PtPrefsInfoRow *self,
-                                             gchar          *title);
-
-void            pt_prefs_info_row_set_info  (PtPrefsInfoRow *self,
-                                             gchar          *info);
-
-PtPrefsInfoRow *pt_prefs_info_row_new       (gchar          *title,
-                                             gchar          *info);
+void        _pt_utils_detect_upgrade       (GSettings *settings);

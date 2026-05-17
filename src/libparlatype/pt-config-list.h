@@ -18,8 +18,16 @@
 
 #include <parlatype.h>
 
+G_BEGIN_DECLS
+
 #define PT_TYPE_CONFIG_LIST (pt_config_list_get_type ())
 G_DECLARE_FINAL_TYPE (PtConfigList, pt_config_list, PT, CONFIG_LIST, GObject)
+
+
+PtConfig     *pt_config_list_get_active (PtConfigList *self);
+
+gboolean      pt_config_list_set_active (PtConfigList *self,
+                                         PtConfig     *config);
 
 GFile        *pt_config_list_get_folder (PtConfigList *self);
 
@@ -27,4 +35,6 @@ void          pt_config_list_refresh    (PtConfigList *self);
 
 void          pt_config_list_sort       (PtConfigList *self);
 
-PtConfigList *pt_config_list_new        (PtAsrManager *asr_manager);
+PtConfigList *pt_config_list_new        (PtAsrManager      *asr_manager);
+
+G_END_DECLS

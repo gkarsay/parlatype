@@ -35,29 +35,21 @@ void          pt_asr_manager_start_transcribing     (PtAsrManager       *self);
 
 void          pt_asr_manager_stop_transcribing      (PtAsrManager       *self);
 
-gboolean      pt_asr_manager_load_plugin_finish     (PtAsrManager       *self,
-                                                     GAsyncResult       *result,
-                                                     GError            **error);
+void          pt_asr_manager_unload_plugin          (PtAsrManager       *self);
 
-void          pt_asr_manager_load_plugin_async      (PtAsrManager       *self,
-                                                     GCancellable       *cancellable,
-                                                     GAsyncReadyCallback callback,
-                                                     gpointer            user_data);
+gboolean      pt_asr_manager_load_plugin            (PtAsrManager       *self,
+                                                     PtConfig           *config,
+                                                     GError            **error);
 
 gboolean      pt_asr_manager_plugin_is_available    (PtAsrManager       *self,
                                                      PtConfig           *config);
 
-PtConfig     *pt_asr_manager_get_config             (PtAsrManager       *self);
-
-gboolean      pt_asr_manager_set_config             (PtAsrManager       *self,
-                                                     PtConfig           *config);
-
-gboolean      pt_asr_manager_have_config            (PtAsrManager       *self);
+gboolean      pt_asr_manager_plugin_loaded          (PtAsrManager       *self);
 
 gboolean      pt_asr_manager_have_asr               (PtAsrManager       *self);
 
 PtAsrManager *pt_asr_manager_new                    (PtPlayer           *player,
                                                      PtTextView         *text_view,
-                                                     GtkWidget          *asr_controls);
+                                                     GtkWidget          *options_box);
 
 G_END_DECLS

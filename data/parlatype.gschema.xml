@@ -111,5 +111,15 @@
       <summary>Style Variant</summary>
       <description>Use the light or dark variant of the GTK theme.</description>
     </key>
+    <key name="major-version" type="i">
+      <default>0</default>
+      <summary>Major version of Parlatype</summary>
+      <description>Used to detect upgrades.</description>
+    </key>
+    <key name="minor-version" type="i">
+      <default>0</default>
+      <summary>Minor version of Parlatype</summary>
+      <description>Used to detect upgrades.</description>
+    </key>
   </schema>
 </schemalist>

@@ -189,9 +189,24 @@ new_sample_cb (GstAppSink *sink,
 }
 
 static void
+ptp_pocketsphinx_stop (PtSpeechRecognizer *recognizer)
+{
+}
+
+static void
+ptp_pocketsphinx_start (PtSpeechRecognizer *recognizer)
+{
+  PtpPocketsphinx *self = PTP_POCKETSPHINX (recognizer);
+
+  g_signal_connect (self->appsink, "new-sample", G_CALLBACK (new_sample_cb), self);
+  g_signal_connect (self->appsink, "eos", G_CALLBACK (eos_cb), self);
+}
+
+static void
 ptp_pocketsphinx_load (PtSpeechRecognizer *pt_speech_recognizer,
                        PtPlayer           *player,
-                       PtTextView         *text_view)
+                       PtTextView         *text_view,
+                       GtkWidget          *options_box)
 {
   g_return_if_fail (PT_IS_SPEECH_RECOGNIZER (pt_speech_recognizer));
   g_return_if_fail (PT_IS_PLAYER (player));
@@ -209,9 +224,6 @@ ptp_pocketsphinx_load (PtSpeechRecognizer *pt_speech_recognizer,
                               "rate", G_TYPE_INT, 16000, NULL);
   g_object_set (self->appsink, "caps", caps, NULL);
   gst_caps_unref (caps);
-
-  g_signal_connect (self->appsink, "new-sample", G_CALLBACK (new_sample_cb), self);
-  g_signal_connect (self->appsink, "eos", G_CALLBACK (eos_cb), self);
 }
 
 static void
@@ -224,6 +236,8 @@ pt_speech_recognizer_init (PtSpeechRecognizerInterface *iface)
 {
   iface->load = ptp_pocketsphinx_load;
   iface->unload = ptp_pocketsphinx_unload;
+  iface->start = ptp_pocketsphinx_start;
+  iface->stop = ptp_pocketsphinx_stop;
 }
 
 static void

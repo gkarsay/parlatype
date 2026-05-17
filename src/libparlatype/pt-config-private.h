@@ -1,4 +1,4 @@
-/* Copyright 2021 Gabor Karsay <gabor.karsay@gmx.at>
+/* Copyright 2026 Gabor Karsay <gabor.karsay@gmx.at>
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published
@@ -16,16 +16,14 @@
 
 #pragma once
 
-#include <adwaita.h>
-#include <parlatype.h>
+#include <pt-config.h>
 
-#define PT_TYPE_ASR_DIALOG (pt_asr_dialog_get_type ())
-G_DECLARE_FINAL_TYPE (PtAsrDialog, pt_asr_dialog, PT, ASR_DIALOG, AdwPreferencesDialog)
+G_BEGIN_DECLS
 
-void         pt_asr_dialog_set_asr_manager (PtAsrDialog  *self,
-                                            PtAsrManager *asr_manager);
+gboolean  _pt_config_set_active          (PtConfig *self,
+                                          gboolean  active);
 
-void         pt_asr_dialog_set_config      (PtAsrDialog *self,
-                                            PtConfig    *config);
+gboolean  _pt_config_set_downloadable    (PtConfig *self,
+                                          gboolean  downloadable);
 
-PtAsrDialog *pt_asr_dialog_new             (void);
+G_END_DECLS

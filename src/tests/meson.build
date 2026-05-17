@@ -3,6 +3,7 @@ tests = [
   { 'name': 'player'                             },
   { 'name': 'save-and-reload'                    },
   { 'name': 'timestamp'                          },
+  { 'name': 'utils'                              },
   { 'name': 'waveloader'                         },
   { 'name': 'waveviewer'                         },
  #{ 'name': 'gst',              'internal': true },

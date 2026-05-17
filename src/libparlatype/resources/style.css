@@ -30,11 +30,6 @@ progressbar > trough {
   padding: 12px;
 }
 
-paned separator {
-  background: lightgrey;
-  padding: 2px;
-}
-
 pt_textview {
   padding: 12px;
 }
@@ -42,6 +37,29 @@ pt_textview {
 pt_textview button {
   min-height: 0;
 }
+
+/* Download Row */
+row grid {
+  margin-left: 12px;
+  margin-right: 12px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  border-spacing: 6px;
+}
+
+row grid button {
+  margin-left: 6px;
+}
+
+.expander row {
+  border: 0;
+}
+
+.nested {
+  border-top: 1px solid var(--card-shade-color);
+  background-color: inherit;
+}
+
 
 /* EditorThemeSelector */
 themeselector {

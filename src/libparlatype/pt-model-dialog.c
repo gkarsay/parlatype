@@ -39,29 +39,48 @@ struct _PtModelDialog
 {
   AdwWindow parent_instance;
 
-  PtConfig          *config;
-  GSettings         *editor;
-  PtAsrManager      *asr_manager;
-  PtDownloadManager *download_manager;
-  PtConfigList      *list;
+  PtConfigList *config_list;
 
-  AdwSidebar             *sidebar;
   AdwNavigationSplitView *split_view;
-  GtkWidget              *installed_section;
-  GtkWidget              *uninstalled_section;
+  AdwSidebar             *sidebar;
+  AdwSidebarSection      *installed_section;
+  AdwSidebarSection      *uninstalled_section;
+
+  gulong list_handler;
+  gulong download_handler;
 };
 
 enum
 {
   PROP_0,
-  PROP_ASR_MANAGER,
-  PROP_DOWNLOAD_MANAGER,
+  PROP_CONFIG_LIST,
   N_PROPERTIES
 };
 
 static GParamSpec *obj_properties[N_PROPERTIES];
 
 G_DEFINE_FINAL_TYPE (PtModelDialog, pt_model_dialog, ADW_TYPE_WINDOW)
+
+static void
+installed_cb (PtConfigItem *item,
+              GParamSpec   *pspec,
+              gpointer      user_data)
+{
+  PtModelDialog *self = PT_MODEL_DIALOG (user_data);
+  if (pt_config_item_is_installed (item))
+    {
+      adw_sidebar_section_remove (self->uninstalled_section, ADW_SIDEBAR_ITEM (item));
+      adw_sidebar_section_append (self->installed_section, ADW_SIDEBAR_ITEM (g_object_ref (item)));
+      GListModel *items = adw_sidebar_section_get_items (self->installed_section);
+      guint       last_installed_item = g_list_model_get_n_items (items); // item 0 is overview
+      adw_sidebar_set_selected (self->sidebar, last_installed_item);
+      g_object_unref (items);
+    }
+  /* FIXME update selection in toolbar, too.
+   * Would work with refresh, but deletes all configs.
+   * Problematic e.g. if there are several downloads ongoing */
+  // pt_config_list_refresh (self->config_list);
+}
 
 static void
 items_changed_cb (GListModel *list,
@@ -74,25 +93,22 @@ items_changed_cb (GListModel *list,
    * This signal means that everything might have changed. */
 
   PtModelDialog *self = PT_MODEL_DIALOG (user_data);
-  guint          n_configs = g_list_model_get_n_items (G_LIST_MODEL (self->list));
+  guint          n_configs = g_list_model_get_n_items (G_LIST_MODEL (self->config_list));
   PtConfig      *config;
-  PtConfig      *active_config;
-  gboolean       has_config;
 
-  active_config = pt_asr_manager_get_config (self->asr_manager);
-  has_config = active_config != NULL;
+  adw_sidebar_section_remove_all (self->installed_section);
+  adw_sidebar_section_remove_all (self->uninstalled_section);
 
   for (uint i = 0; i < n_configs; i++)
     {
-      config = g_list_model_get_item (G_LIST_MODEL (self->list), i);
+      config = g_list_model_get_item (G_LIST_MODEL (self->config_list), i);
 
       PtConfigItem *item = pt_config_item_new (config);
-      if (has_config && pt_config_equal (config, active_config))
-        pt_config_item_set_active (item, TRUE);
 
-      AdwSidebarSection *section = pt_config_is_installed (config) ? ADW_SIDEBAR_SECTION (self->installed_section) : ADW_SIDEBAR_SECTION (self->uninstalled_section);
+      AdwSidebarSection *section = pt_config_is_installed (config) ? self->installed_section : self->uninstalled_section;
       adw_sidebar_section_append (section, ADW_SIDEBAR_ITEM (item));
 
+      g_signal_connect (item, "notify::installed", G_CALLBACK (installed_cb), self);
       g_object_unref (config);
     }
 }
@@ -102,14 +118,6 @@ update_content (PtModelDialog *self)
 {
   AdwSidebarItem *item = adw_sidebar_get_selected_item (self->sidebar);
   PtConfig       *config;
-  /*GType type;
-  GtkWidget *child;
-  const char *title;
-
-  if (self->active_item == item)
-    return;
-
-  self->active_item = item;*/
 
   if (item == NULL || !PT_IS_CONFIG_ITEM (item))
     {
@@ -123,18 +131,9 @@ update_content (PtModelDialog *self)
     }
 
   config = pt_config_item_get_config (PT_CONFIG_ITEM (item));
-  PtConfigView *child = pt_config_view_new (config, self->asr_manager, self->download_manager);
+  PtConfigView *child = pt_config_view_new (config, self->config_list);
   adw_navigation_split_view_set_content (self->split_view,
                                          adw_navigation_page_new (GTK_WIDGET (child), "Title"));
-
-  /*g_assert (ADW_IS_DEMO_SIDEBAR_ITEM (item));
-
-  type = adw_demo_sidebar_item_get_page_type (ADW_DEMO_SIDEBAR_ITEM (item));
-  child = g_object_new (type, NULL);
-  title = adw_sidebar_item_get_title (item);
-
-  adw_navigation_split_view_set_content (self->split_view,
-                                         adw_navigation_page_new (child, title));*/
 }
 
 static void
@@ -155,11 +154,8 @@ pt_model_dialog_set_property (GObject      *object,
 
   switch (property_id)
     {
-    case PROP_ASR_MANAGER:
-      self->asr_manager = g_value_get_object (value);
-      break;
-    case PROP_DOWNLOAD_MANAGER:
-      self->download_manager = g_value_get_object (value);
+    case PROP_CONFIG_LIST:
+      self->config_list = g_value_get_object (value);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -172,6 +168,7 @@ pt_model_dialog_dispose (GObject *object)
 {
   PtModelDialog *self = PT_MODEL_DIALOG (object);
 
+  g_clear_signal_handler (&self->list_handler, self->config_list);
   gtk_widget_dispose_template (GTK_WIDGET (self), PT_TYPE_MODEL_DIALOG);
 
   G_OBJECT_CLASS (pt_model_dialog_parent_class)->dispose (object);
@@ -182,8 +179,8 @@ pt_model_dialog_constructed (GObject *object)
 {
   PtModelDialog *self = PT_MODEL_DIALOG (object);
 
-  self->list = pt_config_list_new (self->asr_manager);
-  g_signal_connect (self->list, "items-changed", G_CALLBACK (items_changed_cb), self);
+  items_changed_cb (G_LIST_MODEL (self->config_list), 0, 1, 0, self);
+  self->list_handler = g_signal_connect (self->config_list, "items-changed", G_CALLBACK (items_changed_cb), self);
 
   G_OBJECT_CLASS (pt_model_dialog_parent_class)->constructed (object);
 }
@@ -217,21 +214,10 @@ pt_model_dialog_class_init (PtModelDialogClass *klass)
    *
    * A reference on a PtPlayer is needed, so that ASR plugins get audio input.
    */
-  obj_properties[PROP_ASR_MANAGER] =
+  obj_properties[PROP_CONFIG_LIST] =
       g_param_spec_object (
-          "asr-manager", NULL, NULL,
-          PT_TYPE_ASR_MANAGER,
-          G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
-
-  /**
-   * PtModelDialog:download-manager:
-   *
-   * A reference on a PtPlayer is needed, so that ASR plugins get audio input.
-   */
-  obj_properties[PROP_DOWNLOAD_MANAGER] =
-      g_param_spec_object (
-          "download-manager", NULL, NULL,
-          PT_TYPE_DOWNLOAD_MANAGER,
+          "config-list", NULL, NULL,
+          PT_TYPE_CONFIG_LIST,
           G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (
@@ -242,19 +228,16 @@ pt_model_dialog_class_init (PtModelDialogClass *klass)
 
 /**
  * pt_model_dialog_new:
- * @asr_manager: xxx
- * @download_manager: xxx
+ * @config_list: list of configs
  *
- * Returns a new dialog. Next set a config with pt_model_dialog_set_config().
+ * Returns a new dialog.
  *
  * Returns: a newly created `PtModelDialog`.
  */
 PtModelDialog *
-pt_model_dialog_new (PtAsrManager      *asr_manager,
-                     PtDownloadManager *download_manager)
+pt_model_dialog_new (PtConfigList *config_list)
 {
   return g_object_new (PT_TYPE_MODEL_DIALOG,
-                       "asr-manager", asr_manager,
-                       "download-manager", download_manager,
+                       "config-list", config_list,
                        NULL);
 }

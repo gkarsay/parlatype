@@ -41,6 +41,7 @@
 #include "pt-config.h"
 
 #include "contrib/gnome-languages.h"
+#include "pt-download.h"
 #include "pt-downloader.h"
 #include "pt-speech-recognizer.h"
 
@@ -51,20 +52,30 @@ struct _PtConfig
 {
   GObject parent_instance;
 
+  /* Immutable properties */
   gchar    *id;
   gchar    *path;
   GFile    *file;
   GKeyFile *keyfile;
-  gchar    *name;
   gchar    *lang_name;
   gchar    *lang_code;
   gchar    *plugin;
   gchar    *downloader;
-  gchar    *base_folder;
   int       major_version;
   int       minor_version;
   gboolean  is_valid;
-  gboolean  is_installed;
+
+  /* Directly changeable by user */
+  gchar *name;
+  gchar *base_folder;
+
+  /* Indirectly changeable by user */
+  gboolean    is_installed;
+  PtDownload *download;
+
+  /* Set externally */
+  gboolean active;
+  gboolean downloadable;
 };
 
 enum
@@ -72,12 +83,23 @@ enum
   PROP_FILE = 1,
   PROP_IS_VALID,
   PROP_IS_INSTALLED,
+  PROP_ACTIVE,
+  PROP_DOWNLOADABLE,
   PROP_NAME,
   N_PROPERTIES
 };
 
 static GParamSpec *obj_properties[N_PROPERTIES];
-static gboolean    pt_config_verify_install (PtConfig *self);
+
+enum
+{
+  SIGNAL_DOWNLOAD_FINISHED,
+  LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL];
+
+static gboolean pt_config_verify_install (PtConfig *self);
 
 G_DEFINE_FINAL_TYPE (PtConfig, pt_config, G_TYPE_OBJECT)
 
@@ -664,10 +686,85 @@ pt_config_configure_downloader (PtConfig *self,
   return TRUE;
 }
 
+void
+download_finished_cb (PtDownload *download,
+                      GError     *error,
+                      gpointer    user_data)
+{
+  PtConfig *self = PT_CONFIG (user_data);
+  char     *install_folder;
+
+  /* Propagate signal to PtConfigList -> PtWindow.
+   * PtWindow will present it to user itself or forward to PtModelDialog. */
+  g_signal_emit (self, signals[SIGNAL_DOWNLOAD_FINISHED], 0, error);
+
+  if (error == NULL)
+    {
+      install_folder = g_build_path (G_DIR_SEPARATOR_S,
+                                     g_get_user_data_dir (),
+                                     "parlatype",
+                                     pt_config_get_id (self),
+                                     NULL);
+
+      pt_config_set_base_folder (self, install_folder);
+      g_free (install_folder);
+    }
+
+  g_clear_object (&self->download);
+}
+
+/**
+ * pt_config_get_download:
+ * @self: self
+ *
+ * Gets download object or NULL.
+ *
+ * Returns: (transfer none): (nullable): download object
+ *
+ * Since: 5.0
+ */
+PtDownload *
+pt_config_get_download (PtConfig *self)
+{
+  g_return_val_if_fail (PT_IS_CONFIG (self), NULL);
+
+  return self->download;
+}
+
+/**
+ * pt_config_create_download:
+ * @self: self
+ * @error: error location
+ *
+ * Creates a download object.
+ *
+ * Returns: (transfer none): download object or NULL and an error.
+ *
+ * Since: 5.0
+ */
+PtDownload *
+pt_config_create_download (PtConfig *self,
+                           GError   *error)
+{
+  PtDownloader *downloader;
+
+  g_return_val_if_fail (PT_IS_CONFIG (self), NULL);
+  g_return_val_if_fail (self->download == NULL, NULL);
+
+  self->download = pt_download_new (self->name, self->downloader);
+  downloader = pt_download_get_downloader (self->download);
+  pt_config_configure_downloader (self, G_OBJECT (downloader), &error);
+  if (error != NULL)
+    return NULL;
+
+  g_signal_connect (self->download, "finished", G_CALLBACK (download_finished_cb), self);
+  return self->download;
+}
+
 /**
  * pt_config_equal:
- * @config1: (not nullable): the first config to compare
- * @config2: (not nullable): the second config to compare
+ * @config1: the first config to compare
+ * @config2: the second config to compare
  *
  * Compares to configs for equality by comparing equality of their file representation.
  *
@@ -679,8 +776,8 @@ gboolean
 pt_config_equal (PtConfig *config1,
                  PtConfig *config2)
 {
-  g_return_val_if_fail (PT_IS_CONFIG (config1), FALSE);
-  g_return_val_if_fail (PT_IS_CONFIG (config2), FALSE);
+  if (config1 == NULL || config2 == NULL)
+    return FALSE;
 
   return g_file_equal (pt_config_get_file (config1),
                        pt_config_get_file (config2));
@@ -766,6 +863,74 @@ pt_config_is_installed (PtConfig *self)
   g_return_val_if_fail (self->is_valid, FALSE);
 
   return self->is_installed;
+}
+
+/**
+ * pt_config_is_active:
+ * @self: a configuration instance
+ *
+ * Checks whether the model is active.
+ *
+ * Returns: TRUE for an active config, otherwise FALSE
+ *
+ * Since: 5.0
+ */
+gboolean
+pt_config_is_active (PtConfig *self)
+{
+  g_return_val_if_fail (PT_IS_CONFIG (self), FALSE);
+  g_return_val_if_fail (self->is_valid, FALSE);
+
+  return self->active;
+}
+
+void
+_pt_config_set_active (PtConfig *self,
+                       gboolean  active)
+{
+  g_return_if_fail (PT_IS_CONFIG (self));
+  g_return_if_fail (self->is_valid);
+
+  if (self->active == active)
+    return;
+
+  self->active = active;
+  g_object_notify_by_pspec (G_OBJECT (self),
+                            obj_properties[PROP_ACTIVE]);
+}
+
+/**
+ * pt_config_is_downloadable:
+ * @self: a configuration instance
+ *
+ * Checks whether the model is active.
+ *
+ * Returns: TRUE for an active config, otherwise FALSE
+ *
+ * Since: 5.0
+ */
+gboolean
+pt_config_is_downloadable (PtConfig *self)
+{
+  g_return_val_if_fail (PT_IS_CONFIG (self), FALSE);
+  g_return_val_if_fail (self->is_valid, FALSE);
+
+  return self->downloadable;
+}
+
+void
+_pt_config_set_downloadable (PtConfig *self,
+                             gboolean  downloadable)
+{
+  g_return_if_fail (PT_IS_CONFIG (self));
+  g_return_if_fail (self->is_valid);
+
+  if (self->downloadable == downloadable)
+    return;
+
+  self->downloadable = downloadable;
+  g_object_notify_by_pspec (G_OBJECT (self),
+                            obj_properties[PROP_DOWNLOADABLE]);
 }
 
 /**
@@ -1130,6 +1295,12 @@ pt_config_get_property (GObject    *object,
     case PROP_IS_INSTALLED:
       g_value_set_boolean (value, self->is_installed);
       break;
+    case PROP_ACTIVE:
+      g_value_set_boolean (value, self->active);
+      break;
+    case PROP_DOWNLOADABLE:
+      g_value_set_boolean (value, self->downloadable);
+      break;
     case PROP_NAME:
       g_value_set_string (value, self->name);
       break;
@@ -1146,6 +1317,24 @@ pt_config_class_init (PtConfigClass *klass)
   G_OBJECT_CLASS (klass)->get_property = pt_config_get_property;
   G_OBJECT_CLASS (klass)->dispose = pt_config_dispose;
   G_OBJECT_CLASS (klass)->finalize = pt_config_finalize;
+
+  /**
+   * PtConfig::download-finished:
+   * @self: the instance emitting the signal
+   * @error: a GError or NULL
+   *
+   * The #PtDownload::finished signal is emitted after download success or failure.
+   * In case of failure, there is en error set; in case of success the error is NULL.
+   */
+  signals[SIGNAL_DOWNLOAD_FINISHED] = g_signal_new ("download-finished",
+                                                    PT_TYPE_CONFIG,
+                                                    G_SIGNAL_RUN_LAST,
+                                                    0,
+                                                    NULL,
+                                                    NULL,
+                                                    g_cclosure_marshal_VOID__BOXED,
+                                                    G_TYPE_NONE,
+                                                    1, G_TYPE_ERROR);
 
   /**
    * PtConfig:file:
@@ -1182,6 +1371,29 @@ pt_config_class_init (PtConfigClass *klass)
   obj_properties[PROP_IS_INSTALLED] =
       g_param_spec_boolean (
           "is-installed", NULL, NULL,
+          FALSE,
+          G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+
+  /**
+   * PtConfig:active:
+   *
+   * Indicates whether this is the currently active config.
+   */
+  obj_properties[PROP_ACTIVE] =
+      g_param_spec_boolean (
+          "active", NULL, NULL,
+          FALSE,
+          G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+
+  /**
+   * PtConfig:downloadable:
+   *
+   * A config is downloadable, if it’s not installed, has a plugin
+   * in the [Download] section and the plugin is available.
+   */
+  obj_properties[PROP_DOWNLOADABLE] =
+      g_param_spec_boolean (
+          "downloadable", NULL, NULL,
           FALSE,
           G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 

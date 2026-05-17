@@ -40,6 +40,7 @@ enum
 {
   PROP_CONFIG = 1,
   PROP_ACTIVE,
+  PROP_INSTALLED,
   N_PROPERTIES
 };
 
@@ -128,7 +129,13 @@ config_is_installed_cb (PtConfig   *config,
                         gpointer    user_data)
 {
   PtConfigItem *self = PT_CONFIG_ITEM (user_data);
-  self->installed = pt_config_is_installed (config);
+  gboolean      installed = pt_config_is_installed (config);
+
+  if (self->installed == installed)
+    return;
+
+  self->installed = installed;
+  g_object_notify_by_pspec (G_OBJECT (self), obj_properties[PROP_INSTALLED]);
 }
 
 static void
@@ -223,6 +230,9 @@ pt_config_item_get_property (GObject    *object,
     case PROP_ACTIVE:
       g_value_set_boolean (value, self->active);
       break;
+    case PROP_INSTALLED:
+      g_value_set_boolean (value, self->installed);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
       break;
@@ -267,6 +277,17 @@ pt_config_item_class_init (PtConfigItemClass *klass)
           "active", NULL, NULL,
           FALSE,
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
+  /**
+   * PtConfigItem:installed:
+   *
+   * Whether model data is installed.
+   */
+  obj_properties[PROP_INSTALLED] =
+      g_param_spec_boolean (
+          "installed", NULL, NULL,
+          FALSE,
+          G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (
       G_OBJECT_CLASS (klass),

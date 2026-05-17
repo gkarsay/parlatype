@@ -35,7 +35,7 @@ struct _PtpWhisper
   PtPlayer   *player;
   PtTextView *text_view;
   GstElement *appsink;
-  GtkWidget  *asr_controls;
+  GtkWidget  *options_box;
 
   /* Whisper */
   struct whisper_context    *whisper_ctx;
@@ -50,7 +50,6 @@ struct _PtpWhisper
   gboolean busy;
   gulong   sample_handler, eos_handler;
 
-  GtkWidget *prefs_box;
   GtkWidget *lang_switcher;
 
   /* Voice Activity Detection (VAD) */
@@ -101,10 +100,6 @@ ptp_whisper_load_model (PtpWhisper *self)
     return FALSE;
 
   self->wparams = whisper_full_default_params (WHISPER_SAMPLING_GREEDY);
-
-  self->wparams.language = whisper_lang_str (adw_combo_row_get_selected (ADW_COMBO_ROW (self->lang_switcher)));
-  g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
-                    "MESSAGE", "model is multilingual: %s", whisper_is_multilingual (self->whisper_ctx) ? "yes" : "no");
 
   return TRUE;
 }
@@ -220,25 +215,32 @@ ptp_whisper_start (PtSpeechRecognizer *recognizer)
 {
   PtpWhisper *self = PTP_WHISPER (recognizer);
 
-  self->busy = TRUE;
-  g_object_notify_by_pspec (G_OBJECT (self),
-                            obj_properties[PROP_BUSY]);
-
   if (!self->model_loaded)
     {
-      ptp_whisper_load_model (self);
-      self->model_loaded = TRUE;
+      self->model_loaded = ptp_whisper_load_model (self);
+      if (!self->model_loaded)
+        {
+          g_printerr ("Model not loaded!\n");
+          return;
+        }
     }
+
+  if (self->multilingual_model)
+    self->wparams.language = whisper_lang_str (adw_combo_row_get_selected (ADW_COMBO_ROW (self->lang_switcher)));
 
   self->sample_handler = g_signal_connect (self->appsink, "new-sample", G_CALLBACK (new_sample_cb), self);
   self->eos_handler = g_signal_connect (self->appsink, "eos", G_CALLBACK (eos_cb), self);
+
+  self->busy = TRUE;
+  g_object_notify_by_pspec (G_OBJECT (self),
+                            obj_properties[PROP_BUSY]);
 }
 
 static void
 ptp_whisper_load (PtSpeechRecognizer *recognizer,
                   PtPlayer           *player,
                   PtTextView         *text_view,
-                  GtkWidget          *asr_controls)
+                  GtkWidget          *options_box)
 {
   g_return_if_fail (PT_IS_SPEECH_RECOGNIZER (recognizer));
 
@@ -247,7 +249,7 @@ ptp_whisper_load (PtSpeechRecognizer *recognizer,
 
   self->player = player;
   self->text_view = text_view;
-  self->asr_controls = asr_controls;
+  self->options_box = options_box;
   self->appsink = pt_player_get_appsink (self->player);
   caps = gst_caps_new_simple ("audio/x-raw",
                               "format", G_TYPE_STRING, GST_AUDIO_NE (S16),
@@ -258,12 +260,9 @@ ptp_whisper_load (PtSpeechRecognizer *recognizer,
 
   if (self->multilingual_model)
     {
-      self->prefs_box = gtk_list_box_new ();
-      gtk_widget_add_css_class (self->prefs_box, "navigation-sidebar");
       self->lang_switcher = adw_combo_row_new ();
       adw_preferences_row_set_title (ADW_PREFERENCES_ROW (self->lang_switcher), "Language");
-      gtk_list_box_append (GTK_LIST_BOX (self->prefs_box), self->lang_switcher);
-      gtk_box_append (GTK_BOX (self->asr_controls), self->prefs_box);
+      gtk_list_box_append (GTK_LIST_BOX (self->options_box), self->lang_switcher);
 
       GtkStringList *lang_list = gtk_string_list_new (NULL);
       for (int i = 0; i <= whisper_lang_max_id (); i++)
@@ -290,10 +289,7 @@ ptp_whisper_unload (PtSpeechRecognizer *recognizer)
 
   g_return_if_fail (PT_IS_SPEECH_RECOGNIZER (recognizer));
 
-  if (self->prefs_box)
-    {
-      gtk_box_remove (GTK_BOX (self->asr_controls), self->prefs_box);
-    }
+  gtk_list_box_remove_all (GTK_LIST_BOX (self->options_box));
 
   g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
                     "MESSAGE", "plugin whisper unloaded");

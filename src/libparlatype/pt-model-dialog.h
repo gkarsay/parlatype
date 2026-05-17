@@ -16,12 +16,10 @@
 
 #pragma once
 
-#include "pt-download-manager.h"
+#include "pt-config-list.h"
 #include <adwaita.h>
-#include <parlatype.h>
 
 #define PT_TYPE_MODEL_DIALOG (pt_model_dialog_get_type ())
 G_DECLARE_FINAL_TYPE (PtModelDialog, pt_model_dialog, PT, MODEL_DIALOG, AdwWindow)
 
-PtModelDialog   *pt_model_dialog_new              (PtAsrManager      *asr_manager,
-                                                   PtDownloadManager *download_manager);
+PtModelDialog   *pt_model_dialog_new               (PtConfigList      *config_list);

@@ -29,6 +29,17 @@ enum
 };
 
 
-GListModel *pt_file_filters_new     (int first_filter_type, ...);
+GListModel *pt_file_filters_new           (int first_filter_type, ...);
 
 char       *pt_utils_pretty_download_size (int size);
+
+gboolean    pt_utils_upgraded             (void);
+
+gboolean    pt_utils_copy_configs_finish  (GAsyncResult       *result,
+                                           GError            **error);
+
+void        pt_utils_copy_configs_async   (char               *source_folder,
+                                           char               *destination_folder,
+                                           GCancellable       *cancellable,
+                                           GAsyncReadyCallback callback,
+                                           gpointer            user_data);

@@ -33,7 +33,7 @@
 #include "pt-app.h"
 #include "pt-asr-manager.h"
 #include "pt-audio-controls.h"
-#include "pt-download-manager.h"
+#include "pt-config-list.h"
 #include "pt-goto-dialog.h"
 #include "pt-model-dialog.h"
 #include "pt-save-changes-dialog.h"
@@ -58,26 +58,25 @@ struct _PtWindow
   GtkLabel            *is_modified;
   GtkWidget           *primary_menu_button;
 
-  PeasExtensionSet  *addins;
-  PtAsrManager      *asr_manager;
-  GtkRecentManager  *recent;
-  PtDownloadManager *download_manager;
-  PtModelDialog     *model_dialog;
+  PeasExtensionSet *addins;
+  PtConfigList     *config_list;
+  PtAsrManager     *asr_manager;
+  GtkRecentManager *recent;
+  PtModelDialog    *model_dialog;
 
   /* Main window widgets */
-  GtkWidget *waveviewer_stack;
-  GtkWidget *audio_controls;
-  GtkWidget *doc_controls;
-  GtkWidget *asr_controls;
-  GtkWidget *progress;
-  GtkWidget *timestamp_switch;
-  GtkWidget *paned;
-  GtkWidget *text_view;
-  GtkWidget *transcription_bar;
-  GtkWidget *download_bar;
+  GtkWidget          *waveviewer_stack;
+  GtkWidget          *audio_controls;
+  GtkWidget          *doc_controls;
+  GtkWidget          *progress;
+  GtkWidget          *timestamp_switch;
+  GtkWidget          *paned;
+  GtkWidget          *text_view;
+  PtTranscriptionBar *transcription_bar;
 
   gint64 last_time; // last time to compare if it changed
 
+  gulong  list_handler;
   guint   timer;
   gdouble speed;
 };
@@ -170,18 +169,18 @@ pt_window_show_transcription_bar (GtkWidget  *widget,
 {
   PtWindow *self = PT_WINDOW (widget);
 
-  pt_transcription_bar_set_revealed (PT_TRANSCRIPTION_BAR (self->transcription_bar), TRUE);
+  pt_transcription_bar_set_revealed (self->transcription_bar, TRUE);
 }
 
 static void
-pt_window_show_asr_dialog (GtkWidget  *widget,
-                           const char *action_name,
-                           GVariant   *param)
+pt_window_show_model_dialog (GtkWidget  *widget,
+                             const char *action_name,
+                             GVariant   *param)
 {
   PtWindow *self = PT_WINDOW (widget);
 
   if (!PT_IS_MODEL_DIALOG (self->model_dialog))
-    self->model_dialog = pt_model_dialog_new (self->asr_manager, self->download_manager);
+    self->model_dialog = pt_model_dialog_new (self->config_list);
 
   gtk_window_present (GTK_WINDOW (self->model_dialog));
 }
@@ -495,20 +494,45 @@ update_goto_cursor_action_sensitivity (GObject    *gobject,
 }
 
 static void
-player_error_cb (PtPlayer *player,
-                 GError   *error,
-                 PtWindow *self)
+error_cb (GObject  *source,
+          GError   *error,
+          PtWindow *self)
 {
   pt_error_message (self, error->message);
   /* TODO when in ASR mode, reset mode and toggle button */
 }
 
 static void
+download_finished_cb (PtConfigList *config_list,
+                      GError       *error,
+                      char         *config_name,
+                      gpointer      user_data)
+{
+  PtWindow       *self = PT_WINDOW (user_data);
+  GtkAlertDialog *dialog;
+  GtkWindow      *parent = GTK_WINDOW (self);
+  gboolean        prefer_dialog;
+
+  if (error == NULL || g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+    return;
+
+  prefer_dialog = GTK_IS_WIDGET (self->model_dialog) && gtk_widget_get_mapped (GTK_WIDGET (self->model_dialog));
+
+  if (prefer_dialog)
+    parent = GTK_WINDOW (self->model_dialog);
+
+  dialog = gtk_alert_dialog_new (_ ("Error Downloading »%s«"), config_name);
+  gtk_alert_dialog_set_detail (dialog, error->message);
+  gtk_alert_dialog_show (dialog, parent);
+  g_object_unref (dialog);
+}
+
+static void
 open_cb (PtWaveviewer *viewer,
          GAsyncResult *res,
-         gpointer     *data)
+         gpointer      user_data)
 {
-  PtWindow *self = (PtWindow *) data;
+  PtWindow *self = PT_WINDOW (user_data);
   GError   *error = NULL;
 
   if (!pt_waveviewer_load_wave_finish (viewer, res, &error))
@@ -608,7 +632,7 @@ player_state_changed_cb (PtPlayer   *player,
 
   transcribe_action = g_action_map_lookup_action (G_ACTION_MAP (self), "transcribe");
   g_simple_action_set_enabled (G_SIMPLE_ACTION (transcribe_action),
-                               ready && !playing && pt_asr_manager_have_config (self->asr_manager));
+                               ready && !playing && pt_asr_manager_plugin_loaded (self->asr_manager));
   action_state = g_variant_new_boolean (transcribing);
   g_action_change_state (transcribe_action, action_state);
 
@@ -790,7 +814,7 @@ setup_player (PtWindow *self)
 
   g_signal_connect (self->player,
                     "error",
-                    G_CALLBACK (player_error_cb),
+                    G_CALLBACK (error_cb),
                     self);
 
   g_signal_connect (self->player,
@@ -824,7 +848,7 @@ setup_accels_actions_menus (PtWindow *self)
 
   GAction *transcribe_action = g_action_map_lookup_action (G_ACTION_MAP (self), "transcribe");
   g_object_bind_property (
-      self->asr_manager, "have-config",
+      self->asr_manager, "plugin-loaded",
       transcribe_action, "enabled",
       G_BINDING_DEFAULT);
 }
@@ -867,20 +891,6 @@ GtkWidget *
 pt_window_get_doc_controls (PtWindow *self)
 {
   return self->doc_controls;
-}
-
-/**
- * pt_window_get_asr_controls:
- * @self: a PtWindow
- *
- * Returns a `GtkBox` with widgets to control the asr area.
- *
- * Returns: (transfer none): asr control box
- */
-GtkWidget *
-pt_window_get_asr_controls (PtWindow *self)
-{
-  return self->asr_controls;
 }
 
 /**
@@ -1121,6 +1131,18 @@ audio_file_cb (PtTextView *text_view,
 }
 
 static void
+config_list_changed (GListModel *list,
+                     guint       position, /* bogus */
+                     guint       added,    /* bogus */
+                     guint       removed,  /* bogus */
+                     gpointer    user_data)
+{
+  PtWindow *self = PT_WINDOW (user_data);
+  pt_transcription_bar_set_config_list (self->transcription_bar, self->config_list);
+  g_clear_signal_handler (&self->list_handler, list);
+}
+
+static void
 pt_window_init (PtWindow *self)
 {
   g_type_ensure (PT_TYPE_TEXT_VIEW);
@@ -1132,12 +1154,13 @@ pt_window_init (PtWindow *self)
   pt_text_view_connect (PT_TEXT_VIEW (self->text_view),
                         self->player,
                         self->editor);
-  self->download_manager = pt_download_manager_new (PT_DOWNLOAD_BAR (self->download_bar));
-  self->asr_manager = pt_asr_manager_new (self->player, PT_TEXT_VIEW (self->text_view), self->asr_controls);
-  if (!pt_asr_manager_have_asr (self->asr_manager))
-    {
-      gtk_widget_set_visible (self->asr_controls, FALSE);
-    }
+  self->asr_manager = pt_asr_manager_new (self->player, PT_TEXT_VIEW (self->text_view),
+                                          pt_transcription_bar_get_options_box (self->transcription_bar));
+  self->config_list = pt_config_list_new (self->asr_manager);
+  /* FIXME 3 list_handlers */
+  self->list_handler = g_signal_connect (self->config_list, "items-changed", G_CALLBACK (config_list_changed), self);
+  self->list_handler = g_signal_connect (self->config_list, "error", G_CALLBACK (error_cb), self);
+  g_signal_connect (self->config_list, "download-finished", G_CALLBACK (download_finished_cb), self);
 
   setup_accels_actions_menus (self);
   setup_settings (self);
@@ -1197,7 +1220,6 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtWindow, primary_menu_button);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, progress);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, audio_controls);
-  gtk_widget_class_bind_template_child (widget_class, PtWindow, asr_controls);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, doc_controls);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, is_modified);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, paned);
@@ -1206,7 +1228,6 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtWindow, waveviewer_stack);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, timestamp_switch);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, transcription_bar);
-  gtk_widget_class_bind_template_child (widget_class, PtWindow, download_bar);
 
   gtk_widget_class_install_action (widget_class, "win.goto", NULL, goto_position);
   gtk_widget_class_install_action (widget_class, "win.goto-cursor", NULL, goto_cursor);
@@ -1217,7 +1238,7 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_install_action (widget_class, "win.zoom-out", NULL, zoom_out);
   gtk_widget_class_install_action (widget_class, "win.zoom-default", NULL, zoom_default);
   gtk_widget_class_install_action (widget_class, "win.show-transcription-bar", NULL, pt_window_show_transcription_bar);
-  gtk_widget_class_install_action (widget_class, "win.show-asr-dialog", NULL, pt_window_show_asr_dialog);
+  gtk_widget_class_install_action (widget_class, "win.show-model-dialog", NULL, pt_window_show_model_dialog);
 
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_g, GDK_CONTROL_MASK, "win.goto", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_s, GDK_CONTROL_MASK, "win.save", NULL);

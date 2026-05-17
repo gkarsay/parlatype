@@ -27,6 +27,7 @@
 #include "pt-app.h"
 
 #include "pt-preferences.h"
+#include "pt-utils-private.h"
 #include "pt-utils.h"
 #include "pt-window-private.h"
 #include "pt-window.h"
@@ -176,7 +177,7 @@ prefs_cb (GSimpleAction *action,
 {
   GtkApplication      *app = GTK_APPLICATION (user_data);
   GtkWindow           *parent = gtk_application_get_active_window (app);
-  PtPreferencesDialog *dlg = pt_preferences_dialog_new (PT_WINDOW (parent));
+  PtPreferencesDialog *dlg = pt_preferences_dialog_new ();
   adw_dialog_present (ADW_DIALOG (dlg), GTK_WIDGET (parent));
 }
 
@@ -472,6 +473,8 @@ pt_app_startup (GApplication *app)
                                 G_SETTINGS_BIND_GET,
                                 style_variant_to_color_scheme,
                                 NULL, NULL, NULL);
+
+  _pt_utils_detect_upgrade (self->settings);
 }
 
 static void

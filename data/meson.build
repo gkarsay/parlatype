@@ -1,12 +1,5 @@
 subdir('icons')
 
-if get_option('plugin_pocketsphinx') or get_option('plugin_whisper')
-  install_subdir(
-    'asr',
-    install_dir: join_paths(datadir, meson.project_name())
-  )
-endif
-
 desktop_file = app_id + '.desktop'
 i18n.merge_file(
   input: 'parlatype.desktop.in',

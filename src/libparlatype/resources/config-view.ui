@@ -21,33 +21,16 @@
                     <property name="orientation">vertical</property>
                     <property name="spacing">12</property>
                     <child>
-                      <object class="AdwPreferencesGroup">
+                      <object class="GtkRevealer" id="download_revealer">
+                        <property name="reveal-child">True</property>
+                        <property name="transition-type">swing-up</property>
+                        <property name="transition-duration">500</property>
                         <child>
-                          <object class="AdwActionRow" id="status_row">
-                            <child type="suffix">
-                              <object class="GtkButton" id="activate_button">
-                                <signal name="clicked" handler="activate_button_clicked_cb" swapped="yes" />
-                                <property name="label">Activate</property>
-                                <property name="sensitive">false</property>
-                                <property name="valign">3</property>
-                                <property name="halign">3</property>
-                              </object>
-                            </child>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="AdwActionRow" id="download_row">
-                            <property name="title" translatable="yes">Download Model</property>
-                            <child type="suffix">
-                              <object class="GtkButton" id="download_button">
-                                <signal name="clicked" handler="download_button_clicked_cb" swapped="no" />
-                                <property name="label">Download</property>
-                                <property name="sensitive">true</property>
-                                <property name="valign">3</property>
-                                <property name="halign">3</property>
-                                <style>
-                                  <class name="suggested-action"/>
-                                </style>
+                          <object class="AdwPreferencesGroup" id="download_group">
+                            <child>
+                              <object class="PtDownloadRow" id="download_row">
+                                <signal name="cancelled" handler="progress_row_cancelled_cb" swapped="yes" />
+                                <signal name="start-download" handler="start_download_cb" swapped="yes" />
                               </object>
                             </child>
                           </object>
@@ -86,26 +69,6 @@
                       <object class="AdwPreferencesGroup" id="install_group">
                         <property name="title" translatable="yes">Installation</property>
                         <property name="description" translatable="yes">How to install this language model.</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="AdwPreferencesGroup" id="delete_group">
-                        <child>
-                          <object class="AdwActionRow" id="delete_row">
-                            <property name="title" translatable="yes">Delete this Configuration</property>
-                            <child type="suffix">
-                              <object class="GtkButton">
-                                <signal name="clicked" handler="delete_button_clicked_cb" swapped="no" />
-                                <property name="label" translatable="yes">Delete</property>
-                                <property name="halign">3</property>
-                                <property name="valign">3</property>
-                                <style>
-                                  <class name="destructive-action"/>
-                                </style>
-                              </object>
-                            </child>
-                          </object>
-                        </child>
                       </object>
                     </child>
                   </object>

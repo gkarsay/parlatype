@@ -9,39 +9,46 @@
       <object class="GtkRevealer" id="revealer">
         <property name="transition-type">slide-down</property>
         <property name="child">
-          <object class="GtkCenterBox" id="box">
+          <object class="GtkBox" id="box">
             <property name="hexpand">True</property>
-            <child type="center">
-              <object class="GtkBox" id="tool_box">
-                <property name="orientation">horizontal</property>
-                <style>
-                  <class name="linked"/>
-                </style>
+            <property name="spacing">12</property>
+            <child>
+              <object class="GtkDropDown" id="model_selector"/>
+            </child>
+            <child>
+              <object class="AdwSplitButton" id="transcribe_button">
+                <property name="icon-name">play-symbolic</property>
+                <property name="action-name">win.transcribe</property>
                 <child>
-                  <object class="GtkButton" id="model_button">
-                    <property name="label">My chosen model</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkButton">
-                    <property name="icon-name">play-symbolic</property>
-                    <property name="action-name">win.transcribe</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkSeparator"/>
-                </child>
-                <child>
-                  <object class="GtkMenuButton">
-                    <property name="menu-model">transcription_menu</property>
+                  <object class="GtkPopover">
+                    <child>
+                      <object class="GtkListBox" id="options_box">
+                        <style>
+                          <class name="navigation-sidebar"/>
+                        </style>
+                        <child type="placeholder">
+                          <object class="GtkLabel">
+                            <property name="label">No options available</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
                   </object>
                 </child>
               </object>
             </child>
-            <child type="end">
+            <child>
+              <object class="GtkButton">
+                <property name="icon-name">chat-message-new-symbolic</property>
+                <property name="action-name">win.show-model-dialog</property>
+              </object>
+            </child>
+            <child>
               <object class="GtkButton" id="close_button">
                 <property name="icon-name">window-close-symbolic</property>
                 <property name="valign">center</property>
+                <property name="hexpand">True</property>
+                <property name="halign">end</property>
                 <property name="visible">True</property>
                 <signal name="clicked" handler="close_button_clicked" swapped="yes" />
                 <style>
@@ -54,13 +61,4 @@
       </object>
     </child>
   </template>
-  <menu id="transcription_menu">
-    <item>
-      <attribute name="label" translatable="yes">Select Model</attribute>
-    </item>
-    <item>
-      <attribute name="label" translatable="yes">Manage Models</attribute>
-      <attribute name="action">win.show-asr-dialog</attribute>
-    </item>
-  </menu>
 </interface>

@@ -17,9 +17,14 @@
 /**
  * PtTranscriptionBar:
  *
- * Manages things.
+ * Presents widgets for automatic transcription.
  *
- * Still in development.
+ * `PtTranscriptionBar` has a revealer and contains widgets related to automatic transcription.
+ *
+ * - A drop-down to select a model (presenting installed models)
+ * - A split-button to start/stop automatic transcription. Its menu is populated with options for transcription supported by the plugin used.
+ * - A button to access the model dialog.
+ * - A button to close the bar.
  *
  * Since: 5.0
  */
@@ -30,18 +35,25 @@
 
 #include "pt-transcription-bar.h"
 
+#include "pt-config-list.h"
+#include "pt-config-private.h"
+#include "pt-config.h"
+
 #include <glib/gi18n.h>
 
 struct _PtTranscriptionBar
 {
   GtkWidget parent_instance;
 
-  GtkWidget *revealer;
-  GtkWidget *box;
-  GtkWidget *model_button;
-  GtkWidget *close_button;
+  GtkWidget   *revealer;
+  GtkWidget   *box;
+  GtkDropDown *model_selector;
+  GtkWidget   *transcribe_button;
+  GtkWidget   *options_box;
 
-  PtConfig *config;
+  PtConfigList       *config_list;
+  GtkFilterListModel *filtered_list;
+  PtConfig           *config;
 };
 
 enum
@@ -59,9 +71,9 @@ G_DEFINE_FINAL_TYPE (PtTranscriptionBar, pt_transcription_bar, GTK_TYPE_WIDGET)
  * pt_transcription_bar_get_revealed:
  * @self: a transcription bar
  *
- * Gets if a banner is revealed
+ * Gets whether the bar is revealed.
  *
- * Returns: Whether a banner is revealed
+ * Returns: True for a revealed bar.
  *
  * Since: 5.0
  */
@@ -75,10 +87,10 @@ pt_transcription_bar_get_revealed (PtTranscriptionBar *self)
 
 /**
  * pt_transcription_bar_set_revealed:
- * @self: a banner
- * @revealed: whether a banner should be revealed
+ * @self: a transcription bar
+ * @revealed: reveal status
  *
- * Sets whether a banner should be revealed
+ * Sets whether the transcription bar should be revealed (shown) or not.
  *
  * Since: 5.0
  */
@@ -97,51 +109,82 @@ pt_transcription_bar_set_revealed (PtTranscriptionBar *self,
 }
 
 /**
- * pt_transcription_bar_get_config:
+ * pt_transcription_bar_get_options_box:
  * @self: a transcription bar
  *
- * Gets the active config.
+ * Gets options box, where plugins can insert options.
  *
- * Returns: (transfer none): a `PtConfig`
+ * Returns: (transfer none): an options box.
  *
  * Since: 5.0
  */
-PtConfig *
-pt_transcription_bar_get_config (PtTranscriptionBar *self)
+GtkWidget *
+pt_transcription_bar_get_options_box (PtTranscriptionBar *self)
 {
-  g_return_val_if_fail (PT_IS_TRANSCRIPTION_BAR (self), FALSE);
+  g_return_val_if_fail (PT_IS_TRANSCRIPTION_BAR (self), NULL);
 
-  return self->config;
+  return self->options_box;
+}
+
+static void
+model_selector_changed (GtkDropDown *drop_down,
+                        GParamSpec  *pspec,
+                        gpointer     user_data)
+{
+  PtTranscriptionBar *self = PT_TRANSCRIPTION_BAR (user_data);
+
+  guint selected = gtk_drop_down_get_selected (drop_down);
+  if (selected == GTK_INVALID_LIST_POSITION)
+    return;
+
+  for (guint i = 0; i < g_list_model_get_n_items (G_LIST_MODEL (self->filtered_list)); i++)
+    {
+      PtConfig *item = g_list_model_get_item (G_LIST_MODEL (self->filtered_list), i);
+      _pt_config_set_active (item, i == selected);
+      if (i == selected)
+        pt_config_list_set_active (self->config_list, item);
+    }
 }
 
 /**
- * pt_transcription_bar_set_config:
+ * pt_transcription_bar_set_config_list:
  * @self: a transcription bar
- * @config: a config
+ * @config_list: a config list.
  *
- * Sets the active config.
+ * Sets the active config list that is used in the drop-down to present available models.
  *
  * Since: 5.0
  */
 void
-pt_transcription_bar_set_config (PtTranscriptionBar *self,
-                                 PtConfig           *config)
+pt_transcription_bar_set_config_list (PtTranscriptionBar *self,
+                                      PtConfigList       *config_list)
 {
   g_return_if_fail (PT_IS_TRANSCRIPTION_BAR (self));
-  g_return_if_fail (PT_IS_CONFIG (config) || config == NULL);
+  g_return_if_fail (PT_IS_CONFIG_LIST (config_list));
+  g_return_if_fail (self->config_list == NULL);
 
-  if (self->config == config)
-    return;
+  /* Create filtered  model for installed models only */
+  GtkExpression *filter_expr = gtk_property_expression_new (PT_TYPE_CONFIG, NULL, "is-installed");
+  GtkBoolFilter *filter = gtk_bool_filter_new (filter_expr);
+  self->config_list = config_list;
+  self->filtered_list = gtk_filter_list_model_new (G_LIST_MODEL (config_list), GTK_FILTER (filter));
+  gtk_filter_list_model_set_watch_items (self->filtered_list, TRUE);
 
-  if (self->config == NULL)
+  GtkExpression *expression = gtk_property_expression_new (PT_TYPE_CONFIG, NULL, "name");
+  gtk_drop_down_set_expression (self->model_selector, expression);
+  gtk_drop_down_set_enable_search (self->model_selector, FALSE);
+  gtk_drop_down_set_model (self->model_selector, G_LIST_MODEL (self->filtered_list));
+  g_signal_connect (self->model_selector, "notify::selected", G_CALLBACK (model_selector_changed), self);
+
+  /* Select active item */
+  for (guint i = 0; i < g_list_model_get_n_items (G_LIST_MODEL (self->filtered_list)); i++)
     {
-      gtk_button_set_label (GTK_BUTTON (self->model_button), _ ("Choose Model"));
-      g_clear_object (&self->config);
-    }
-  else
-    {
-      gtk_button_set_label (GTK_BUTTON (self->model_button), pt_config_get_name (config));
-      self->config = g_object_ref (config);
+      PtConfig *item = g_list_model_get_item (G_LIST_MODEL (self->filtered_list), i);
+      if (pt_config_is_active (item))
+        {
+          gtk_drop_down_set_selected (self->model_selector, i);
+          break;
+        }
     }
 }
 
@@ -177,6 +220,7 @@ pt_transcription_bar_dispose (GObject *object)
   PtTranscriptionBar *self = PT_TRANSCRIPTION_BAR (object);
 
   gtk_widget_dispose_template (GTK_WIDGET (self), PT_TYPE_TRANSCRIPTION_BAR);
+  g_clear_object (&self->filtered_list);
 
   G_OBJECT_CLASS (pt_transcription_bar_parent_class)->dispose (object);
 }
@@ -220,14 +264,6 @@ pt_transcription_bar_get_property (GObject    *object,
 }
 
 static void
-pt_transcription_bar_constructed (GObject *object)
-{
-  // PtTranscriptionBar *self = PT_TRANSCRIPTION_BAR (object);
-
-  G_OBJECT_CLASS (pt_transcription_bar_parent_class)->constructed (object);
-}
-
-static void
 pt_transcription_bar_init (PtTranscriptionBar *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
@@ -241,7 +277,6 @@ pt_transcription_bar_class_init (PtTranscriptionBarClass *klass)
 
   object_class->set_property = pt_transcription_bar_set_property;
   object_class->get_property = pt_transcription_bar_get_property;
-  object_class->constructed = pt_transcription_bar_constructed;
   object_class->dispose = pt_transcription_bar_dispose;
 
   widget_class->compute_expand = pt_transcription_bar_compute_expand;
@@ -250,8 +285,9 @@ pt_transcription_bar_class_init (PtTranscriptionBarClass *klass)
 
   gtk_widget_class_bind_template_child (widget_class, PtTranscriptionBar, box);
   gtk_widget_class_bind_template_child (widget_class, PtTranscriptionBar, revealer);
-  gtk_widget_class_bind_template_child (widget_class, PtTranscriptionBar, model_button);
-  gtk_widget_class_bind_template_child (widget_class, PtTranscriptionBar, close_button);
+  gtk_widget_class_bind_template_child (widget_class, PtTranscriptionBar, model_selector);
+  gtk_widget_class_bind_template_child (widget_class, PtTranscriptionBar, transcribe_button);
+  gtk_widget_class_bind_template_child (widget_class, PtTranscriptionBar, options_box);
 
   gtk_widget_class_bind_template_callback (widget_class, close_button_clicked);
 
@@ -263,7 +299,7 @@ pt_transcription_bar_class_init (PtTranscriptionBarClass *klass)
   /**
    * PtTranscriptionBar:revealed:
    *
-   * Describe me.
+   * Whether the bar is revealed (shown) or not.
    */
   obj_properties[PROP_REVEALED] =
       g_param_spec_boolean (

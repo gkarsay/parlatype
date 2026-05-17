@@ -1,0 +1,22 @@
+[Model]
+Version=2.0
+Name=Fake OK 60 sec
+Plugin=whisper
+BaseFolder=
+Language=de
+URL1=https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base.en-q5_1.bin
+Publisher=Gabor Karsay
+License=
+
+[Download]
+Plugin=fake_downloader
+url=https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base.en-q5_1.bin
+size=59721011
+delay-per-percent=0.6
+fail-at-percent=101
+
+[Files]
+speech-model=ggml-base.en-q5_1.bin
+
+[Parameters]
+multilingual-model=false

@@ -1,0 +1,8 @@
+[Plugin]
+Authors=Gabor Karsay
+Copyright=
+Description=Fake Downloader for Testing
+Loader=python
+Module=fake_downloader
+Name=Fake Downloader
+X-Category=downloader

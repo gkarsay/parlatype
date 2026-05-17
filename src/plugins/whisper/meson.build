@@ -16,4 +16,9 @@ plugin_whisper_resources = gnome.compile_resources(
 
 plugins_sources += plugin_whisper_resources
 
+install_subdir(
+  'asr',
+  install_dir: join_paths(datadir, meson.project_name())
+)
+
 endif

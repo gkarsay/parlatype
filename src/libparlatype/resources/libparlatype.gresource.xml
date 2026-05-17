@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/xyz/parlatype/Parlatype">
-    <file preprocess="xml-stripblanks">asr-dialog.ui</file>
     <file preprocess="xml-stripblanks">audio-controls.ui</file>
-    <file preprocess="xml-stripblanks">config-row.ui</file>
     <file preprocess="xml-stripblanks">config-view.ui</file>
-    <file preprocess="xml-stripblanks">download-bar.ui</file>
+    <file preprocess="xml-stripblanks">download-row.ui</file>
     <file preprocess="xml-stripblanks">editor-theme-selector.ui</file>
     <file preprocess="xml-stripblanks">goto-dialog.ui</file>
     <file preprocess="xml-stripblanks">model-dialog.ui</file>
     <file preprocess="xml-stripblanks">playback-rate-button.ui</file>
     <file preprocess="xml-stripblanks">preferences.ui</file>
-    <file preprocess="xml-stripblanks">prefs-info-row.ui</file>
     <file preprocess="xml-stripblanks">prefs-install-row.ui</file>
     <file preprocess="xml-stripblanks">transcription-bar.ui</file>
     <file preprocess="xml-stripblanks">pt-waveviewer.ui</file>

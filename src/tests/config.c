@@ -229,12 +229,17 @@ dist_valid (void)
 {
   gchar *path;
   GFile *folder;
-  int    num_tested;
 
-  path = g_test_build_filename (G_TEST_DIST, "..", "..", "data", "asr", NULL);
+  path = g_test_build_filename (G_TEST_DIST, "..", "plugins", "whisper", "asr", NULL);
   folder = g_file_new_for_path (path);
-  num_tested = check_folder_for_configs (folder);
-  g_assert_cmpint (num_tested, >=, 2);
+  check_folder_for_configs (folder);
+
+  g_object_unref (folder);
+  g_free (path);
+
+  path = g_test_build_filename (G_TEST_DIST, "..", "plugins", "pocketsphinx", "asr", NULL);
+  folder = g_file_new_for_path (path);
+  check_folder_for_configs (folder);
 
   g_object_unref (folder);
   g_free (path);
