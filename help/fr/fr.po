@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2024-05-13 21:21+0200\n"
-"PO-Revision-Date: 2022-05-11 23:17+0000\n"
-"Last-Translator: Mathieu B. <mathieu.bousquet2@gmail.com>\n"
+"PO-Revision-Date: 2026-05-23 22:11+0000\n"
+"Last-Translator: phylaine MacKendal <phylaine@mailo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/parlatype/"
 "parlatype-help/fr/>\n"
 "Language: fr\n"
@@ -17,16 +17,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.12.1\n"
+"X-Generator: Weblate 2026.6.dev0\n"
 "X-Launchpad-Export-Date: 2020-06-18 10:32+0000\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr ""
-"Launchpad Contributions:\n"
-"  Gabor Karsay https://launchpad.net/~gabor-karsay\n"
-"  Jean-Marc https://launchpad.net/~m-balthazar"
+msgstr "Contributeurs"
 
 #. (itstool) path: info/title
 #: ../help/C/index.page:7
@@ -141,8 +138,6 @@ msgstr "Premiers pas avec Parlatype"
 
 #. (itstool) path: page/title
 #: ../help/C/first-steps.page:15
-#, fuzzy
-#| msgid "First steps with Parlatype"
 msgid "First Steps With Parlatype"
 msgstr "Premiers pas avec Parlatype"
 
@@ -169,38 +164,27 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:23
-#, fuzzy
-#| msgid ""
-#| "In the lower left corner there are the controls with a <gui>Play</gui> "
-#| "button which toggles between play and pause. Whenever you pause, "
-#| "<app>Parlatype</app> rewinds a few seconds to make it easier to resume. "
-#| "This can be changed in the <link xref=\"preferences\"/>."
 msgid ""
 "In the lower left corner there are the controls with a <gui>Play</gui> "
 "button which toggles between play and pause. Whenever you pause, "
 "<app>Parlatype</app> rewinds a few seconds to make it easier to resume. This "
 "can be changed in the Preferences dialog."
 msgstr ""
-"Dans le coin inférieur gauche se trouvent les commandes avec un bouton "
-"<gui>Lecture</gui> qui bascule entre lecture et pause. À chaque pause, "
-"<app>Parlatype</app> rembobine de quelques secondes pour faciliter la "
-"reprise. Cela peut être modifié dans les <link xref=\"Préférences\"/>."
+"Dans le coin inférieur gauche se trouvent les commandes avec un bouton <gui>"
+"Lecture</gui> qui bascule entre lecture et pause. À chaque pause, <app>"
+"Parlatype</app> rembobine de quelques secondes pour faciliter la reprise. "
+"Cela peut être modifié dans les fenêtres de préférences."
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:27
-#, fuzzy
-#| msgid ""
-#| "The buttons <gui>Jump back</gui> and <gui>Jump forward</gui> in the lower "
-#| "left corner skip a few seconds back or ahead. The amount of time can be "
-#| "changed in the <link xref=\"preferences\"/>."
 msgid ""
 "The buttons <gui>Skip backward</gui> and <gui>Skip forward</gui> in the "
 "lower left corner skip a few seconds back or ahead. The amount of time can "
 "be changed in the Preferences dialog."
 msgstr ""
-"Les boutons <gui>Saut arrière</gui> et <gui>Saut avant</gui> dans le coin "
-"inférieur gauche permettent des sauts de quelques secondes en arrière ou en "
-"avant. La durée peut être modifiée dans les <link xref=\"Préférences\"/>."
+"Les boutons <gui>Reculer</gui> et <gui>Avancer</gui> dans le coin inférieur "
+"gauche permettent des sauts de quelques secondes en arrière ou en avant. La "
+"durée peut être modifiée dans les fenêtres des préférences."
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:29
@@ -216,47 +200,28 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:31
-#, fuzzy
-#| msgid ""
-#| "To get back to the cursor’s position and let the view scroll "
-#| "automatically again, click on the menu button showing the time and then "
-#| "on <gui>Go to cursor</gui>. Clicking on the <gui>Play</gui> button also "
-#| "turns automatic scrolling on."
 msgid ""
 "To get back to the cursor’s position and let the view scroll automatically "
 "again, click on the menu button showing the time and then on <gui>Go to "
 "Cursor</gui>. Clicking on the <gui>Play</gui> button also turns automatic "
 "scrolling on."
 msgstr ""
-"Pour revenir à la position du curseur et laisser la vue défiler à nouveau "
+"Pour revenir à la position du curseur et laisser la vue défiler de nouveau "
 "automatiquement, cliquez sur le bouton de menu indiquant le temps, puis sur "
 "<gui>Aller au curseur</gui>. Cliquer sur le bouton <gui>Lecture</gui> active "
 "également le défilement automatique."
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:33
-#, fuzzy
-#| msgid ""
-#| "Clicking in the view with the right mouse button will put the cursor "
-#| "there, also holding the right mouse button pressed and moving it. The "
-#| "left mouse button is for <link xref=\"selections\"/>."
 msgid ""
 "Clicking in the view with the right mouse button will put the cursor there. "
 "The left mouse button is for <link xref=\"selections\"/>."
 msgstr ""
 "Cliquez dans la vue avec le bouton droit de la souris pour y placer le "
-"curseur, tout en maintenant le bouton droit de la souris enfoncé et en le "
-"déplaçant. Le bouton gauche de la souris est pour <link xref=\"Sélections\"/"
-">."
+"curseur. Le bouton gauche de la souris est pour <link xref=\"sélections\"/>."
 
 #. (itstool) path: page/p
 #: ../help/C/first-steps.page:35
-#, fuzzy
-#| msgid ""
-#| "The <gui>speed scale</gui> next to the <gui>volume</gui> button in the "
-#| "lower right corner lets you adjust the speed of playback. A value of 1 "
-#| "means normal speed, everything lower (down to 0.5) is slower, everything "
-#| "above is faster."
 msgid ""
 "The <gui>speed scale</gui> next to the <gui>Volume</gui> button in the lower "
 "right corner lets you adjust the speed of playback. A value of 1 means "
@@ -275,8 +240,6 @@ msgstr "Raccourcis clavier standard dans Parlatype"
 
 #. (itstool) path: page/title
 #: ../help/C/keyboard-shortcuts.page:14
-#, fuzzy
-#| msgid "Keyboard shortcuts"
 msgid "Keyboard Shortcuts"
 msgstr "Raccourcis clavier"
 
@@ -338,28 +301,22 @@ msgstr "<keyseq><key>Ctrl</key><key>g</key></keyseq>"
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:42
 msgid "Skip backward"
-msgstr ""
+msgstr "Revenir en arrière"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:43
-#, fuzzy
-#| msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>a</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>a</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:46
-#, fuzzy
-#| msgid "Jump forward"
 msgid "Skip forward"
 msgstr "Avancer"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:47
-#, fuzzy
-#| msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>s</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>s</key></keyseq>"
 
 #. (itstool) path: td/p
 #: ../help/C/keyboard-shortcuts.page:50
@@ -500,16 +457,12 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: ../help/C/timestamps.page:22
-#, fuzzy
-#| msgid ""
-#| "<app>Parlatype</app> can produce different timestamp formats, they can be "
-#| "set in <link xref=\"preferences#timestamps\"/>."
 msgid ""
 "<app>Parlatype</app> can produce different timestamp formats, they can be "
 "set in the Preferences dialog."
 msgstr ""
 "<app>Parlatype</app> peut produire différents formats d'horodatage, ils "
-"peuvent être définis dans <link xref=\"preferences#timestamps\"/>."
+"peuvent être définis dans les fenêtres des préférences."
 
 #. (itstool) path: section/title
 #: ../help/C/timestamps.page:25
@@ -537,10 +490,6 @@ msgstr "Utilisation du presse-papier"
 
 #. (itstool) path: section/p
 #: ../help/C/timestamps.page:33
-#, fuzzy
-#| msgid ""
-#| "Clicking on the menu button that is showing the current time you can "
-#| "<gui>Copy time to clipboard</gui> or <gui>Go to time in clipboard</gui>."
 msgid ""
 "Clicking on the menu button that is showing the current time you can "
 "<gui>Copy Time to Clipboard</gui> or <gui>Go to Time in Clipboard</gui>."
