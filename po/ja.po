@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-13 21:21+0200\n"
-"PO-Revision-Date: 2026-02-16 03:09+0000\n"
+"PO-Revision-Date: 2026-06-22 05:01+0000\n"
 "Last-Translator: akinobu nishi <at0onsleeping@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/parlatype/"
 "parlatype/ja/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16-dev\n"
+"X-Generator: Weblate 2026.7.dev0\n"
 "X-Launchpad-Export-Date: 2020-05-31 16:44+0000\n"
 
 #: data/parlatype.desktop.in:4 data/parlatype.metainfo.xml.in:8
@@ -51,7 +51,7 @@ msgstr ""
 
 #: data/parlatype.metainfo.xml.in:19
 msgid "Main window"
-msgstr ""
+msgstr "メイン ウィンドウ"
 
 #: data/parlatype.metainfo.xml.in:28
 msgid "Gabor Karsay"
@@ -59,7 +59,7 @@ msgstr "Gabor Karsay"
 
 #: data/parlatype.metainfo.xml.in:47
 msgid "Website moved to www.parlatype.xyz."
-msgstr ""
+msgstr "ウェブサイトはwww.parlatype.xyzに移動されました。"
 
 #: data/parlatype.metainfo.xml.in:48
 msgid "App ID changed accordingly."
@@ -112,7 +112,7 @@ msgstr ""
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:78
 msgid "Smaller bug fixes."
-msgstr ""
+msgstr "軽微なバグの修正。"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:80
