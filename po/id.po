@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-13 21:21+0200\n"
-"PO-Revision-Date: 2022-01-05 01:55+0000\n"
-"Last-Translator: Reza Almanda <rezaalmanda27@gmail.com>\n"
+"PO-Revision-Date: 2026-08-26 02:51+0000\n"
+"Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/parlatype/"
 "parlatype/id/>\n"
 "Language: id\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.10.1\n"
+"X-Generator: Weblate 2026.9.dev0\n"
 "X-Launchpad-Export-Date: 2020-05-08 11:32+0000\n"
 
 #: data/parlatype.desktop.in:4 data/parlatype.metainfo.xml.in:8
@@ -34,10 +34,8 @@ msgid "Transcription;"
 msgstr "Transkripsi;"
 
 #: data/parlatype.metainfo.xml.in:9
-#, fuzzy
-#| msgid "Media player for speech transcription"
 msgid "Media player for transcription"
-msgstr "Pemutar media untuk transkripsi ucapan"
+msgstr "Pemutar media untuk transkripsi"
 
 #: data/parlatype.metainfo.xml.in:12
 msgid ""
@@ -49,7 +47,7 @@ msgstr ""
 
 #: data/parlatype.metainfo.xml.in:19
 msgid "Main window"
-msgstr ""
+msgstr "Jendela utama"
 
 #: data/parlatype.metainfo.xml.in:28
 msgid "Gabor Karsay"
@@ -57,11 +55,11 @@ msgstr "Gabor Karsay"
 
 #: data/parlatype.metainfo.xml.in:47
 msgid "Website moved to www.parlatype.xyz."
-msgstr ""
+msgstr "Situs web dipindahkan ke www.parlatype.xyz."
 
 #: data/parlatype.metainfo.xml.in:48
 msgid "App ID changed accordingly."
-msgstr ""
+msgstr "ID Aplikasi diubah sesuai."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:49 data/parlatype.metainfo.xml.in:60
@@ -74,72 +72,72 @@ msgstr "Pembaruan terjemahan beberapa bahasa."
 msgid ""
 "Follow GNOME human interface guidelines throughout the app using libadwaita."
 msgstr ""
+"Mengikuti pedoman antarmuka manusia GNOME di seluruh aplikasi menggunakan "
+"libadwaita."
 
 #: data/parlatype.metainfo.xml.in:57
 msgid "Add a theme selector (borrowed from GNOME Text Editor)."
-msgstr ""
+msgstr "Menambahkan pemilih tema (diambil dari GNOME Text Editor)."
 
 #: data/parlatype.metainfo.xml.in:58
 msgid "Fix F10 shortcut to toggle main menu."
-msgstr ""
+msgstr "Memperbaiki pintasan F10 untuk beralih menu utama."
 
 #: data/parlatype.metainfo.xml.in:59
 msgid ""
 "Remove support for Mozilla DeepSpeech because the project is discontinued."
 msgstr ""
+"Menghapus dukungan untuk Mozilla DeepSpeech karena proyek tersebut telah "
+"dihentikan."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:67
-#, fuzzy
-#| msgid "Translation updates for several languages."
 msgid ""
 "This release is switching to GTK 4 and brings translation updates for "
 "several languages."
-msgstr "Pembaruan terjemahan beberapa bahasa."
+msgstr ""
+"Rilis ini beralih ke GTK 4 dan membawa pembaruan terjemahan untuk beberapa "
+"bahasa."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:73
-#, fuzzy
-#| msgid "This is a major release with new features."
 msgid "This is a minor release with a new feature."
-msgstr "Rilis besar dengan fitur baru."
+msgstr "Ini adalah rilis minor dengan fitur baru."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:76
 msgid "Added MPRIS interface."
-msgstr ""
+msgstr "Menambahkan antarmuka MPRIS."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:78
 msgid "Smaller bug fixes."
-msgstr ""
+msgstr "Perbaikan bug yang lebih kecil."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:80
 msgid "Switched to Weblate for translations."
-msgstr ""
+msgstr "Beralih ke Weblate untuk terjemahan."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:87 data/parlatype.metainfo.xml.in:116
 msgid "This is a major release with new features."
-msgstr "Rilis besar dengan fitur baru."
+msgstr "Ini adalah rilis utama dengan fitur-fitur baru."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:90
-#, fuzzy
-#| msgid "Mozilla DeepSpeech"
 msgid "Support for Mozilla DeepSpeech."
-msgstr "Mozilla DeepSpeech"
+msgstr "Dukungan untuk Mozilla DeepSpeech."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:92
 msgid "New configuration system for Automatic Speech Recognition."
-msgstr ""
+msgstr "Sistem konfigurasi baru untuk Pengenalan Ucapan Otomatis."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:100
 msgid "This is a minor release with bug fixes and minor new features."
-msgstr ""
+msgstr "Ini adalah rilis minor dengan perbaikan bug dan fitur baru minor."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:103
@@ -147,6 +145,8 @@ msgid ""
 "Mute/unmute volume by clicking on the volume icon with the pointer’s "
 "secondary button (usually right mouse button)."
 msgstr ""
+"Bisukan/aktifkan volume dengan mengklik ikon volume menggunakan tombol "
+"sekunder pointer (biasanya tombol kanan mouse)."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:105
@@ -154,11 +154,13 @@ msgid ""
 "With Pulseaudio Parlatype doesn’t change the system volume anymore, just its "
 "own application specific volume."
 msgstr ""
+"Dengan Pulseaudio, Parlatype tidak lagi mengubah volume sistem, hanya volume "
+"spesifik aplikasinya sendiri."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:107
 msgid "The initial volume level is picked up from Pulseaudio."
-msgstr ""
+msgstr "Tingkat volume awal diambil dari Pulseaudio."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:119
@@ -182,6 +184,8 @@ msgid ""
 "Update time label only if time has changed. This is a performance increase, "
 "cursor movement should be smoother on slower systems."
 msgstr ""
+"Perbarui label waktu hanya jika waktu telah berubah. Ini adalah peningkatan "
+"kinerja, pergerakan kursor akan lebih halus pada sistem yang lebih lambat."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:133
@@ -191,7 +195,7 @@ msgstr "Pembaruan terjemahan hungaria, lithuania dan spanyol"
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:140
 msgid "This is a minor release with some changes."
-msgstr ""
+msgstr "Ini adalah rilis minor dengan beberapa perubahan."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:143
@@ -199,11 +203,14 @@ msgid ""
 "Automatic speech recognition (ASR) is now disabled by default and it’s only "
 "shown, if Parlatype is launched with the new parameter \\\"--with-asr\\\""
 msgstr ""
+"Pengenalan ucapan otomatis (ASR) sekarang dinonaktifkan secara bawaan dan "
+"hanya ditampilkan jika Parlatype diluncurkan dengan parameter baru \"--with-"
+"asr\""
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:145
 msgid "Fix internationalization: Some translations were not shown"
-msgstr ""
+msgstr "Memperbaiki internasionalisasi: Beberapa terjemahan tidak ditampilkan"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:147
@@ -211,21 +218,23 @@ msgid ""
 "Translation updates for Arabic, British English, Czech, Dutch, German, "
 "Polish and Spanish"
 msgstr ""
+"Pembaruan terjemahan untuk bahasa Arab, Inggris Britania, Ceko, Belanda, "
+"Jerman, Polandia, dan Spanyol"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:154
 msgid "This is a major release with some new features."
-msgstr ""
+msgstr "Ini adalah rilis utama dengan beberapa fitur baru."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:157
 msgid "Automatic speech recognition with CMU Sphinx"
-msgstr ""
+msgstr "Pengenalan ucapan otomatis dengan CMU Sphinx"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:159
 msgid "Design changes, including removal of application menu"
-msgstr ""
+msgstr "Perubahan desain, termasuk penghapusan menu aplikasi"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:161
@@ -249,12 +258,12 @@ msgstr "Ini adalah rilis pemeliharaan kecil."
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:173
 msgid "Animate scrolling when using keybindings"
-msgstr ""
+msgstr "Animasi pengguliran saat menggunakan pintasan keyboard"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:175
 msgid "Change desktop entry category to Audio/Video instead of Utilities"
-msgstr ""
+msgstr "Mengubah kategori entri desktop menjadi Audio/Video alih-alih Utilitas"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:177
@@ -264,17 +273,19 @@ msgstr "Pembaruan terjemahan perancis"
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:184
 msgid "This release contains a number of bug fixes and minor improvements."
-msgstr ""
+msgstr "Rilis ini berisi sejumlah perbaikan bug dan perbaikan minor."
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:187
 msgid "Progress Dialog has now a countdown timer (estimated time left)"
 msgstr ""
+"Dialog Progres sekarang memiliki penghitung waktu mundur (perkiraan waktu "
+"tersisa)"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:189
 msgid "Increase max. possible speed to 2.0"
-msgstr ""
+msgstr "Tingkatkan kecepatan maksimum yang mungkin menjadi 2.0"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:191
@@ -282,16 +293,18 @@ msgid ""
 "New keyboard shortcuts for Play/Pause (Ctrl + Space), Jump back (Ctrl + "
 "Left), Jump forward (Ctrl + Right)"
 msgstr ""
+"Pintasan keyboard baru untuk Putar/Jeda (Ctrl + Spasi), Lompat mundur (Ctrl "
+"+ Kiri), Lompat maju (Ctrl + Kanan)"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:193
 msgid "Scrolling now also possible with vertical scrollbar"
-msgstr ""
+msgstr "Pengguliran sekarang juga memungkinkan dengan bilah gulir vertikal"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:195
 msgid "Various fixes for waveform and cursor display"
-msgstr ""
+msgstr "Berbagai perbaikan untuk tampilan gelombang dan kursor"
 
 #. Translators: This has very low priority, it's the description for an old release.
 #: data/parlatype.metainfo.xml.in:197
@@ -308,25 +321,19 @@ msgstr "Tampilkan versi aplikasi"
 
 #: src/pt-app.c:93
 msgid "Open Audio File"
-msgstr "Buka Berkas Audio"
+msgstr "Buka File Audio"
 
 #: src/pt-app.c:115
-#, fuzzy
-#| msgid "Audio files"
 msgid "Audio Files"
-msgstr "Berkas audio"
+msgstr "File Audio"
 
 #: src/pt-app.c:116 src/pt-preferences.c:536
-#, fuzzy
-#| msgid "All files"
 msgid "All Files"
-msgstr "Semua berkas"
+msgstr "Semua File"
 
 #: src/pt-app.c:193
-#, fuzzy
-#| msgid "Including code from other projects:"
 msgid "Code from other projects"
-msgstr "Termasuk kode dari proyek lain:"
+msgstr "Kode dari proyek lain"
 
 #: src/pt-app.c:197
 msgid "A basic transcription utility"
@@ -337,7 +344,8 @@ msgid "translator-credits"
 msgstr ""
 "Launchpad Contributions:\n"
 "Ari Setyo Wibowo https://launchpad.net/~ari-el-uno\n"
-"Reza Almanda https://github.com/rezaalmanda"
+"Reza Almanda https://github.com/rezaalmanda\n"
+"Arif Budiman arifpedia@gmail.com"
 
 #: src/pt-app.c:344
 #, c-format
@@ -351,47 +359,43 @@ msgstr ""
 #. Translators: Fallback label for a download location
 #: src/pt-asr-dialog.c:99
 msgid "Link"
-msgstr ""
+msgstr "Tautan"
 
 #. Not using title case here, this is more a status than a title.
 #: src/pt-asr-dialog.c:115
-#, fuzzy
-#| msgid "There is no configuration"
 msgid "This configuration is active."
-msgstr "Tidak ada konfigurasi"
+msgstr "Konfigurasi ini aktif."
 
 #: src/pt-asr-dialog.c:117
 msgid "Deactivate"
-msgstr ""
+msgstr "Nonaktifkan"
 
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:124
 msgid "Model data is installed."
-msgstr ""
+msgstr "Data model terinstal."
 
 #: src/pt-asr-dialog.c:126 src/pt-asr-dialog.c:133
 msgid "Activate"
-msgstr ""
+msgstr "Aktifkan"
 
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:131
 msgid "Model data is not installed."
-msgstr ""
+msgstr "Data model tidak terinstal."
 
 #: src/pt-asr-dialog.c:132
 msgid "See next section for details."
-msgstr ""
+msgstr "Lihat bagian berikutnya untuk detail."
 
 #. Translators: Configuration will be deleted, but not its data
 #: src/pt-asr-dialog.c:144
 msgid "Model data will be preserved"
-msgstr ""
+msgstr "Data model akan dipertahankan"
 
 #: src/pt-asr-dialog.c:222
-#, fuzzy
-#| msgid "Language:"
 msgid "Language"
-msgstr "Bahasa:"
+msgstr "Bahasa"
 
 #: src/pt-asr-dialog.c:226
 msgid "CMU Pocketsphinx"
@@ -400,64 +404,52 @@ msgstr "CMU Pocketsphinx"
 #. Translators: Model is a language model
 #: src/pt-asr-dialog.c:230
 msgid "Type of Model"
-msgstr ""
+msgstr "Jenis Model"
 
 #: src/pt-asr-dialog.c:232
-#, fuzzy
-#| msgid "GStreamer Plugin:"
 msgid "GStreamer Plugin"
-msgstr "GStreamer Plugin:"
+msgstr "Plugin GStreamer"
 
 #: src/pt-asr-dialog.c:236
-#, fuzzy
-#| msgid "Publisher:"
 msgid "Publisher"
-msgstr "Penerbit:"
+msgstr "Penerbit"
 
 #: src/pt-asr-dialog.c:241
-#, fuzzy
-#| msgid "License:"
 msgid "License"
-msgstr "Lisensi:"
+msgstr "Lisensi"
 
 #: src/pt-asr-dialog.c:249
-#, fuzzy
-#| msgid "Instructions:"
 msgid "Instructions"
-msgstr "Instruksi:"
+msgstr "Instruksi"
 
 #: src/pt-asr-dialog.c:258 src/pt-asr-dialog.c:269
-#, fuzzy
-#| msgid "Download:"
 msgid "Download"
-msgstr "Unduh:"
+msgstr "Unduh"
 
 #. Translators: %s is replaced with the name of a configuration
 #: src/pt-asr-dialog.c:314
 #, c-format
 msgid "“%s” has been deleted"
-msgstr ""
+msgstr "\"%s\" telah dihapus"
 
 #: src/pt-asr-dialog.c:322 src/pt-preferences.c:248 src/pt-preferences.c:418
 #: src/pt-preferences.c:453 src/pt-window.c:86
 msgid "Error"
-msgstr ""
+msgstr "Kesalahan"
 
 #. Translators: %s is replaced with the name of a configuration
 #: src/pt-asr-dialog.c:373
 #, c-format
 msgid "“%s” has been activated"
-msgstr ""
+msgstr "\"%s\" telah diaktifkan"
 
 #: src/pt-asr-dialog.c:376
 msgid "Configuration has been deactivated"
-msgstr ""
+msgstr "Konfigurasi telah dinonaktifkan"
 
 #: src/pt-config-row.c:79
-#, fuzzy
-#| msgid "Installed"
 msgid "Not installed"
-msgstr "Dipasang"
+msgstr "Tidak terinstal"
 
 #. Translators: This is a time format, like "2:05:30" for 2
 #. hours, 5 minutes, and 30 seconds. You may change ":" to
@@ -476,58 +468,48 @@ msgstr[0] "detik"
 
 #: src/pt-preferences.c:457
 msgid "The file is not a valid language model configuration."
-msgstr ""
+msgstr "File ini bukan konfigurasi model bahasa yang valid."
 
 #: src/pt-preferences.c:461
 msgid "There is no plugin installed for this language model."
-msgstr ""
+msgstr "Tidak ada plugin yang terinstal untuk model bahasa ini."
 
 #: src/pt-preferences.c:527 src/pt-prefs-install-row.c:136
 msgid "Select Model Folder"
-msgstr ""
+msgstr "Pilih Folder Model"
 
 #: src/pt-preferences.c:535
-#, fuzzy
-#| msgid "Import a language model configuration"
 msgid "Parlatype Language Model Configurations"
-msgstr "Impor konfigurasi model bahasa"
+msgstr "Konfigurasi Model Bahasa Parlatype"
 
 #: src/pt-prefs-install-row.c:54
 msgid "Installed"
-msgstr "Dipasang"
+msgstr "Terinstal"
 
 #: src/pt-prefs-install-row.c:59
-#, fuzzy
-#| msgid "Installed"
 msgid "Not Installed"
-msgstr "Dipasang"
+msgstr "Tidak Terinstal"
 
 #: src/pt-prefs-install-row.c:60
-#, fuzzy
-#| msgid "Download, unzip to a folder and select that folder."
 msgid "Download files and select model folder."
-msgstr "Unduh, unzip folder dan pilih folder tersebut."
+msgstr "Unduh file dan pilih folder model."
 
 #: src/pt-prefs-install-row.c:114
 msgid "Model Data Not Found"
-msgstr ""
+msgstr "Data Model Tidak Ditemukan"
 
 #: src/pt-prefs-install-row.c:116
 msgid "The chosen folder does not contain data for this configuration."
-msgstr ""
+msgstr "Folder yang dipilih tidak berisi data untuk konfigurasi ini."
 
 #: src/pt-window.c:396
-#, fuzzy, c-format
-#| msgid "Jump back 1 second"
-#| msgid_plural "Jump back %d seconds"
+#, c-format
 msgid "Skip back 1 second"
 msgid_plural "Skip back %d seconds"
 msgstr[0] "Lompat mundur %d detik"
 
 #: src/pt-window.c:413
-#, fuzzy, c-format
-#| msgid "Jump forward 1 second"
-#| msgid_plural "Jump forward %d seconds"
+#, c-format
 msgid "Skip forward 1 second"
 msgid_plural "Skip forward %d seconds"
 msgstr[0] "Lompat maju %d detik"
@@ -550,23 +532,19 @@ msgstr "Mulai memutar"
 #: src/pt-window.c:488
 #, c-format
 msgid "Go to Time in Clipboard: %s"
-msgstr ""
+msgstr "Buka Waktu di Papan Klip: %s"
 
 #: src/pt-window.c:490 src/pt-window.c:1172
 msgid "Go to Time in Clipboard"
-msgstr ""
+msgstr "Buka Waktu di Papan Klip"
 
 #: src/pt-window.c:1167
-#, fuzzy
-#| msgid "Manual transcription"
 msgid "Manual Transcription"
-msgstr "Transkripsi manual"
+msgstr "Transkripsi Manual"
 
 #: src/pt-window.c:1168
-#, fuzzy
-#| msgid "Automatic transcription"
 msgid "Automatic Transcription"
-msgstr "Transkripsi otomatis"
+msgstr "Transkripsi Otomatis"
 
 #: src/resources/asr-dialog.ui:29
 msgid "Installation"
@@ -574,51 +552,47 @@ msgstr "Instalasi"
 
 #: src/resources/asr-dialog.ui:30
 msgid "How to install this language model."
-msgstr ""
+msgstr "Cara menginstal model bahasa ini."
 
 #: src/resources/asr-dialog.ui:33
 msgid "General Information"
-msgstr ""
+msgstr "Informasi Umum"
 
 #: src/resources/asr-dialog.ui:36
-#, fuzzy
-#| msgid "Display Name:"
 msgid "Display Name"
-msgstr "Nama Tampilan:"
+msgstr "Nama Tampilan"
 
 #: src/resources/asr-dialog.ui:44
-#, fuzzy
-#| msgid "There is no configuration"
 msgid "Delete this Configuration"
-msgstr "Tidak ada konfigurasi"
+msgstr "Hapus Konfigurasi ini"
 
 #: src/resources/asr-dialog.ui:48
 msgid "Delete"
-msgstr ""
+msgstr "Hapus"
 
 #: src/resources/editor-theme-selector.ui:22
 msgid "Follow System Style"
-msgstr ""
+msgstr "Ikuti Gaya Sistem"
 
 #: src/resources/editor-theme-selector.ui:24
 msgid "Follow system style"
-msgstr ""
+msgstr "Ikuti gaya sistem"
 
 #: src/resources/editor-theme-selector.ui:39
 msgid "Light Style"
-msgstr ""
+msgstr "Gaya Terang"
 
 #: src/resources/editor-theme-selector.ui:41
 msgid "Light style"
-msgstr ""
+msgstr "Gaya terang"
 
 #: src/resources/editor-theme-selector.ui:57
 msgid "Dark Style"
-msgstr ""
+msgstr "Gaya Gelap"
 
 #: src/resources/editor-theme-selector.ui:59
 msgid "Dark style"
-msgstr ""
+msgstr "Gaya gelap"
 
 #: src/resources/goto-dialog.ui:10 src/resources/window.ui:262
 msgid "Go to…"
@@ -645,10 +619,8 @@ msgid "Open a media file"
 msgstr "Buka file media"
 
 #: src/resources/help-overlay.ui:25
-#, fuzzy
-#| msgid "Show/hide action menu"
 msgid "Show/hide main menu"
-msgstr "Tampil/sembunyikan menu aksi"
+msgstr "Tampilkan/sembunyikan menu utama"
 
 #: src/resources/help-overlay.ui:32
 msgid "Quit"
@@ -660,21 +632,15 @@ msgstr "Gelombang"
 
 #: src/resources/help-overlay.ui:45
 msgid "Play/Pause"
-msgstr "Mulai/Jeda"
+msgstr "Putar/Jeda"
 
 #: src/resources/help-overlay.ui:52 src/resources/window.ui:99
-#, fuzzy
-#| msgid "Jump back 1 second"
-#| msgid_plural "Jump back %d seconds"
 msgid "Skip backward"
-msgstr "Lompat mundur %d detik"
+msgstr "Lompat mundur"
 
 #: src/resources/help-overlay.ui:59 src/resources/window.ui:144
-#, fuzzy
-#| msgid "Jump forward 1 second"
-#| msgid_plural "Jump forward %d seconds"
 msgid "Skip forward"
-msgstr "Lompat maju %d detik"
+msgstr "Lompat maju"
 
 #: src/resources/help-overlay.ui:66
 msgid "Zoom in"
@@ -686,15 +652,15 @@ msgstr "Perkecil"
 
 #: src/resources/help-overlay.ui:80
 msgid "Open “Go to” dialog"
-msgstr ""
+msgstr "Buka dialog \"Buka ke\""
 
 #: src/resources/help-overlay.ui:87
 msgid "Copy timestamp to clipboard"
-msgstr ""
+msgstr "Salin stempel waktu ke papan klip"
 
 #: src/resources/help-overlay.ui:94
 msgid "Go to timestamp in clipboard"
-msgstr ""
+msgstr "Buka stempel waktu di papan klip"
 
 #: src/resources/help-overlay.ui:102 src/resources/window.ui:243
 msgid "Help"
@@ -718,148 +684,127 @@ msgstr "Tampilan"
 
 #: src/resources/preferences.ui:16
 msgid "Change appearance of the waveform and cursor movement."
-msgstr ""
+msgstr "Ubah tampilan gelombang dan pergerakan kursor."
 
 #: src/resources/preferences.ui:19
-#, fuzzy
-#| msgid "Waveform"
 msgid "Waveform Detail"
-msgstr "Gelombang"
+msgstr "Detail Gelombang"
 
 #: src/resources/preferences.ui:20
-#, fuzzy
-#| msgid "_Pixels per second:"
 msgid "Vertical lines per second"
-msgstr "_Pixels per detik:"
+msgstr "Garis vertikal per detik"
 
 #: src/resources/preferences.ui:53
-#, fuzzy
-#| msgid "Show _time scale"
 msgid "Show Time Scale"
-msgstr "Tampilkan _skala waktu"
+msgstr "Tampilkan Skala Waktu"
 
 #: src/resources/preferences.ui:58
 msgid "Cursor Mode"
-msgstr ""
+msgstr "Mode Kursor"
 
 #: src/resources/preferences.ui:62
-#, fuzzy
-#| msgid "_Fixed cursor"
 msgid "Fixed Cursor"
-msgstr "Kursor _Tetap"
+msgstr "Kursor Tetap"
 
 #: src/resources/preferences.ui:63
-#, fuzzy
-#| msgid "_Moving cursor"
 msgid "Moving Cursor"
-msgstr "_Kursor bergerak"
+msgstr "Kursor Bergerak"
 
 #: src/resources/preferences.ui:76
-#, fuzzy
-#| msgid "Controls"
 msgid "Audio Controls"
-msgstr "Kendali"
+msgstr "Kontrol Audio"
 
 #: src/resources/preferences.ui:80
 msgid "Pause and Skip Buttons"
-msgstr ""
+msgstr "Tombol Jeda dan Lompat"
 
 #: src/resources/preferences.ui:81
 msgid "Set amount of time to skip in seconds."
-msgstr ""
+msgstr "Atur jumlah waktu untuk dilompati dalam detik."
 
 #: src/resources/preferences.ui:84
 msgid "Rewind on Pause"
-msgstr ""
+msgstr "Putar Ulang saat Jeda"
 
 #: src/resources/preferences.ui:85
 msgid "Set to zero to disable this feature"
-msgstr ""
+msgstr "Atur ke nol untuk menonaktifkan fitur ini"
 
 #: src/resources/preferences.ui:98
 msgid "Skip Backward"
-msgstr ""
+msgstr "Lompat Mundur"
 
 #: src/resources/preferences.ui:111
-#, fuzzy
-#| msgid "Jump forward 1 second"
-#| msgid_plural "Jump forward %d seconds"
 msgid "Skip Forward"
-msgstr "Lompat maju %d detik"
+msgstr "Lompat Maju"
 
 #: src/resources/preferences.ui:126
 msgid "Play Button"
-msgstr ""
+msgstr "Tombol Putar"
 
 #: src/resources/preferences.ui:127
 msgid "Change behavior of play button."
-msgstr ""
+msgstr "Ubah perilaku tombol putar."
 
 #: src/resources/preferences.ui:130
 msgid "At End of File Replay File"
-msgstr ""
+msgstr "Di Akhir File Putar Ulang File"
 
 #: src/resources/preferences.ui:135
 msgid "At End of Selection Replay Selection"
-msgstr ""
+msgstr "Di Akhir Seleksi Putar Ulang Seleksi"
 
 #: src/resources/preferences.ui:145
-#, fuzzy
-#| msgid "Custom timestamps"
 msgid "Timestamps"
-msgstr "Stempel waktu kustom"
+msgstr "Stempel Waktu"
 
 #: src/resources/preferences.ui:149
 msgid "Timestamp Format"
-msgstr ""
+msgstr "Format Stempel Waktu"
 
 #: src/resources/preferences.ui:150
 msgid ""
 "Customize produced timestamps. Note that all formats can be read, these "
 "settings are applied when timestamps are written."
 msgstr ""
+"Sesuaikan stempel waktu yang dihasilkan. Perhatikan bahwa semua format dapat "
+"dibaca, pengaturan ini diterapkan saat stempel waktu ditulis."
 
 #: src/resources/preferences.ui:153
 msgid "Always Show Hours and Leading Zeroes"
-msgstr ""
+msgstr "Selalu Tampilkan Jam dan Nol Awal"
 
 #: src/resources/preferences.ui:158
 msgid "Precision"
 msgstr "Presisi"
 
 #: src/resources/preferences.ui:162
-#, fuzzy
-#| msgid "Full seconds"
 msgid "Full Seconds"
-msgstr "Detik penuh"
+msgstr "Detik Penuh"
 
 #: src/resources/preferences.ui:163
-#, fuzzy
-#| msgid "10th seconds"
 msgid "10th Seconds"
-msgstr "Detik ke-10"
+msgstr "Persepuluh Detik"
 
 #: src/resources/preferences.ui:164
-#, fuzzy
-#| msgid "100th seconds"
 msgid "100th Seconds"
-msgstr "Detik ke-100"
+msgstr "Perseratus Detik"
 
 #: src/resources/preferences.ui:172
 msgid "Fraction Separator"
-msgstr ""
+msgstr "Pemisah Fraksi"
 
 #: src/resources/preferences.ui:176
 msgid ". (Point)"
-msgstr ""
+msgstr ". (Titik)"
 
 #: src/resources/preferences.ui:177
 msgid "- (Hyphen)"
-msgstr ""
+msgstr "- (Tanda Hubung)"
 
 #: src/resources/preferences.ui:185
 msgid "Characters Around Timestamps"
-msgstr ""
+msgstr "Karakter di Sekitar Stempel Waktu"
 
 #: src/resources/preferences.ui:189
 msgid "None"
@@ -867,51 +812,47 @@ msgstr "Kosong"
 
 #: src/resources/preferences.ui:190
 msgid "#Number Signs#"
-msgstr ""
+msgstr "#Tanda Nomor#"
 
 #: src/resources/preferences.ui:191
 msgid "(Round Brackets)"
-msgstr ""
+msgstr "(Tanda Kurung)"
 
 #: src/resources/preferences.ui:192
 msgid "[Square Brackets]"
-msgstr ""
+msgstr "[Tanda Kurung Siku]"
 
 #: src/resources/preferences.ui:202
 msgid "Preview"
-msgstr ""
+msgstr "Pratinjau"
 
 #: src/resources/preferences.ui:211
 msgid "Speech Recognition"
-msgstr ""
+msgstr "Pengenalan Ucapan"
 
 #: src/resources/preferences.ui:215
-#, fuzzy
-#| msgid "Language:"
 msgid "Language Models"
-msgstr "Bahasa:"
+msgstr "Model Bahasa"
 
 #: src/resources/preferences.ui:216
 msgid ""
 "Inspect configuration details, learn how to install model data, and choose a "
 "configuration for automatic speech recognition."
 msgstr ""
+"Periksa detail konfigurasi, pelajari cara menginstal data model, dan pilih "
+"konfigurasi untuk pengenalan ucapan otomatis."
 
 #: src/resources/preferences.ui:223
-#, fuzzy
-#| msgid "There is no configuration"
 msgid "Import configuration from file"
-msgstr "Tidak ada konfigurasi"
+msgstr "Impor konfigurasi dari file"
 
 #: src/resources/preferences.ui:232
-#, fuzzy
-#| msgid "There is no configuration"
 msgid "Copy Initial Set of Configurations"
-msgstr "Tidak ada konfigurasi"
+msgstr "Salin Set Awal Konfigurasi"
 
 #: src/resources/prefs-install-row.ui:11
 msgid "Choose folder"
-msgstr ""
+msgstr "Pilih folder"
 
 #: src/resources/window.ui:38
 msgid "_Open"
@@ -923,7 +864,7 @@ msgstr "Buka berkas"
 
 #: src/resources/window.ui:52
 msgid "Main Menu"
-msgstr ""
+msgstr "Menu Utama"
 
 #: src/resources/window.ui:125
 msgid "_Play"
@@ -935,7 +876,7 @@ msgstr "Kecepatan:"
 
 #: src/resources/window.ui:203
 msgid "Volume"
-msgstr ""
+msgstr "Volume"
 
 #: src/resources/window.ui:239
 msgid "_Keyboard Shortcuts"
@@ -947,13 +888,11 @@ msgstr "Tentang Parlatype"
 
 #: src/resources/window.ui:254
 msgid "Copy Time to Clipboard"
-msgstr ""
+msgstr "Salin Waktu ke Papan Klip"
 
 #: src/resources/window.ui:258
-#, fuzzy
-#| msgid "Go to cursor"
 msgid "Go to Cursor"
-msgstr "Pergi ke kursor"
+msgstr "Buka ke Kursor"
 
 #, c-format
 #~ msgid "Error opening help: %s"
