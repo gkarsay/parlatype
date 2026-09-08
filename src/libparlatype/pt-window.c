@@ -763,26 +763,6 @@ setup_settings (PtWindow *self)
       self->waveviewer, "fixed-cursor",
       G_SETTINGS_BIND_GET);
 
-  g_settings_bind (
-      self->editor, "timestamp-precision",
-      self->player, "timestamp-precision",
-      G_SETTINGS_BIND_GET);
-
-  g_settings_bind (
-      self->editor, "timestamp-fixed",
-      self->player, "timestamp-fixed",
-      G_SETTINGS_BIND_GET);
-
-  g_settings_bind (
-      self->editor, "timestamp-delimiter",
-      self->player, "timestamp-delimiter",
-      G_SETTINGS_BIND_GET);
-
-  g_settings_bind (
-      self->editor, "timestamp-fraction-sep",
-      self->player, "timestamp-fraction-sep",
-      G_SETTINGS_BIND_GET);
-
   /* Default speed
      Other solutions would be
      - Automatically save last known speed in GSettings

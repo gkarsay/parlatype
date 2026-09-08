@@ -51,12 +51,6 @@ struct _PtPreferencesDialog
   GtkWidget *repeat_all_row;
   GtkWidget *repeat_selection_row;
 
-  /* Timestamps page */
-  GtkWidget *hours_row;
-  GtkWidget *precision_row;
-  GtkWidget *separator_row;
-  GtkWidget *delimiter_row;
-
   ulong handler_id;
 };
 
@@ -81,69 +75,6 @@ set_cursor_mapping (const GValue       *value,
 {
   gboolean fixed = (g_value_get_uint (value) == 0);
   return g_variant_new_boolean (fixed);
-}
-
-static gboolean
-get_separator_mapping (GValue   *value,
-                       GVariant *variant,
-                       gpointer  data)
-{
-  const gchar *sep = g_variant_get_string (variant, NULL);
-  guint        drop_down_position = (g_strcmp0 (sep, ".") == 0) ? 0 : 1;
-  g_value_set_uint (value, drop_down_position);
-  return TRUE;
-}
-
-static GVariant *
-set_separator_mapping (const GValue       *value,
-                       const GVariantType *type,
-                       gpointer            data)
-{
-  guint  drop_down_position = g_value_get_uint (value);
-  gchar *sep = (drop_down_position == 0) ? "." : "-";
-  return g_variant_new_string (sep);
-}
-
-static gboolean
-get_delimiter_mapping (GValue   *value,
-                       GVariant *variant,
-                       gpointer  data)
-{
-  const gchar *sep = g_variant_get_string (variant, NULL);
-  int          drop_down_position;
-  if (g_strcmp0 (sep, "None") == 0)
-    drop_down_position = 0;
-  else if (g_strcmp0 (sep, "#") == 0)
-    drop_down_position = 1;
-  else if (g_strcmp0 (sep, "(") == 0)
-    drop_down_position = 2;
-  else if (g_strcmp0 (sep, "[") == 0)
-    drop_down_position = 3;
-  else
-    return FALSE;
-
-  g_value_set_uint (value, drop_down_position);
-  return TRUE;
-}
-
-static GVariant *
-set_delimiter_mapping (const GValue       *value,
-                       const GVariantType *type,
-                       gpointer            data)
-{
-  guint  drop_down_position = g_value_get_uint (value);
-  gchar *sep = NULL;
-
-  if (drop_down_position == 0)
-    sep = "None";
-  else if (drop_down_position == 1)
-    sep = "#";
-  else if (drop_down_position == 2)
-    sep = "(";
-  else if (drop_down_position == 3)
-    sep = "[";
-
-  return g_variant_new_string (sep);
 }
 
 static void
@@ -200,33 +131,6 @@ pt_preferences_dialog_init (PtPreferencesDialog *self)
       self->settings, "repeat-selection",
       self->repeat_selection_row, "active",
       G_SETTINGS_BIND_DEFAULT);
-
-  /* Timestamps page */
-  g_settings_bind (
-      self->settings, "timestamp-fixed",
-      self->hours_row, "active",
-      G_SETTINGS_BIND_DEFAULT);
-
-  g_settings_bind (
-      self->settings, "timestamp-precision",
-      self->precision_row, "selected",
-      G_SETTINGS_BIND_DEFAULT);
-
-  g_settings_bind_with_mapping (
-      self->settings, "timestamp-fraction-sep",
-      self->separator_row, "selected",
-      G_SETTINGS_BIND_DEFAULT,
-      get_separator_mapping,
-      set_separator_mapping,
-      NULL, NULL);
-
-  g_settings_bind_with_mapping (
-      self->settings, "timestamp-delimiter",
-      self->delimiter_row, "selected",
-      G_SETTINGS_BIND_DEFAULT,
-      get_delimiter_mapping,
-      set_delimiter_mapping,
-      NULL, NULL);
 }
 
 static void
@@ -262,10 +166,6 @@ pt_preferences_dialog_class_init (PtPreferencesDialogClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtPreferencesDialog, forward_row);
   gtk_widget_class_bind_template_child (widget_class, PtPreferencesDialog, repeat_all_row);
   gtk_widget_class_bind_template_child (widget_class, PtPreferencesDialog, repeat_selection_row);
-  gtk_widget_class_bind_template_child (widget_class, PtPreferencesDialog, hours_row);
-  gtk_widget_class_bind_template_child (widget_class, PtPreferencesDialog, precision_row);
-  gtk_widget_class_bind_template_child (widget_class, PtPreferencesDialog, separator_row);
-  gtk_widget_class_bind_template_child (widget_class, PtPreferencesDialog, delimiter_row);
 }
 
 /**

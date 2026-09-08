@@ -59,37 +59,6 @@
       <summary>Fixed cursor</summary>
       <description>Fixed cursor.</description>
     </key>
-    <key name="timestamp-precision" type="i">
-      <range min="0" max="2"/>
-      <default>1</default>
-      <summary>Timestamp precision</summary>
-      <description>Timestamp precision.</description>
-    </key>
-    <key name="timestamp-fixed" type="b">
-      <default>false</default>
-      <summary>Timestamp fixed digits</summary>
-      <description>Timestamp fixed digits.</description>
-    </key>
-    <key name="timestamp-delimiter" type="s">
-      <choices>
-        <choice value="None"/>
-        <choice value="#"/>
-        <choice value="("/>
-        <choice value="["/>
-      </choices>
-      <default>"#"</default>
-      <summary>Timestamp delimiter</summary>
-      <description>Timestamp delimiter.</description>
-    </key>
-    <key name="timestamp-fraction-sep" type="s">
-      <choices>
-        <choice value="."/>
-        <choice value="-"/>
-      </choices>
-      <default>"."</default>
-      <summary>Timestamp fraction separator</summary>
-      <description>Timestamp fraction separator.</description>
-    </key>
     <key name="asr-config" type="s">
       <default>"none"</default>
       <summary>ID of active ASR configuration</summary>
