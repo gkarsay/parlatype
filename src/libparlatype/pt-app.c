@@ -181,24 +181,6 @@ prefs_cb (GSimpleAction *action,
   adw_dialog_present (ADW_DIALOG (dlg), GTK_WIDGET (parent));
 }
 
-static void
-help_cb (GSimpleAction *action,
-         GVariant      *parameter,
-         gpointer       user_data)
-{
-  PtApp          *self = PT_APP (user_data);
-  GtkUriLauncher *launcher;
-  GtkWindow      *win;
-  gchar          *uri;
-
-  uri = g_strdup_printf ("help:%s", APP_ID);
-  launcher = gtk_uri_launcher_new (uri);
-  win = gtk_application_get_active_window (GTK_APPLICATION (self));
-  gtk_uri_launcher_launch (launcher, win, NULL, NULL, NULL);
-  g_free (uri);
-  g_object_unref (launcher);
-}
-
 static gchar *
 get_os_info (void)
 {
@@ -383,7 +365,6 @@ const GActionEntry app_actions[] = {
   { "open-audio", open_cb, NULL, NULL, NULL },
   { "open-text", open_cb, NULL, NULL, NULL },
   { "prefs", prefs_cb, NULL, NULL, NULL },
-  { "help", help_cb, NULL, NULL, NULL },
   { "about", about_cb, NULL, NULL, NULL },
   { "quit", quit_cb, NULL, NULL, NULL }
 };
@@ -456,16 +437,12 @@ pt_app_startup (GApplication *app)
 
   const gchar *quit_accels[2] = { "<Primary>Q", NULL };
   const gchar *open_accels[2] = { "<Primary>O", NULL };
-  const gchar *help_accels[2] = { "F1", NULL };
 
   gtk_application_set_accels_for_action (GTK_APPLICATION (self),
                                          "app.quit", quit_accels);
 
   gtk_application_set_accels_for_action (GTK_APPLICATION (self),
                                          "app.open", open_accels);
-
-  gtk_application_set_accels_for_action (GTK_APPLICATION (self),
-                                         "app.help", help_accels);
 
   style_manager = adw_style_manager_get_default ();
   g_settings_bind_with_mapping (self->settings, "style-variant",

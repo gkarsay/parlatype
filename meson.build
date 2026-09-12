@@ -78,7 +78,6 @@ fs = import('fs')
 build_tools = get_option('tools') and fs.is_dir('tools')
 
 subdir('data')
-#subdir('help')
 subdir('po')
 subdir('src')
 subdir('docs') # after src, needs gir

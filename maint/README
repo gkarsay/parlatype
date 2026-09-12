@@ -3,13 +3,12 @@ Notes to myself about various maintainer tasks
 Translations
 ============
 
-There are 3 translation templates (lib, app, help).
+There are 2 translation templates (lib, app).
 Update templates:
 
 cd build
 ninja libparlatype7-pot        # Update after soname change
 ninja parlatype-pot
-ninja help-xyz.parlatype.Parlatype-pot
 
 Workflow for translations:
 1) Update pot files locally
