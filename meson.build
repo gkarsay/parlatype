@@ -40,7 +40,7 @@ i18n    = import('i18n')
 # Checks for libraries.
 gtk             = dependency('gtk4', version: '>= 4.14')
 glib            = dependency('glib-2.0', version: '>= 2.76')
-libadwaita      = dependency('libadwaita-1', version: '>= 1.5')
+libadwaita      = dependency('libadwaita-1', version: '>= 1.7')
 libxml          = dependency('libxml-2.0')
 libpeas         = dependency('libpeas-2', version: '>= 1.99.0')
 girepository    = dependency('girepository-2.0', version: '>= 2.80')

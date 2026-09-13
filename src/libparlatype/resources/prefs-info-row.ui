@@ -7,7 +7,7 @@
         <property name="valign">center</property>
         <property name="ellipsize">end</property>
         <style>
-          <class name="dim-label"/>
+          <class name="dimmed"/>
         </style>
       </object>
     </child>

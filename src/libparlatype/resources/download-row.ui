@@ -52,7 +52,7 @@
                                 <property name="label">Download amount</property>
                                 <property name="halign">1</property>
                                 <style>
-                                  <class name="dim-label"/>
+                                  <class name="dimmed"/>
                                 </style>
                                 <layout>
                                   <property name="column">0</property>
@@ -75,7 +75,7 @@
                                 <property name="label">Download speed</property>
                                 <property name="halign">1</property>
                                 <style>
-                                  <class name="dim-label"/>
+                                  <class name="dimmed"/>
                                 </style>
                                 <layout>
                                   <property name="column">0</property>
