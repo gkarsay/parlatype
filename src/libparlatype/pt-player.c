@@ -53,7 +53,6 @@
 #include "gst/gst-helpers.h"
 #include "gst/gstptaudiobin.h"
 #include "pt-config.h"
-#include "pt-i18n.h"
 #include "pt-media-info-private.h"
 #include "pt-media-info.h"
 #include "pt-position-manager.h"
@@ -2614,6 +2613,5 @@ pt_player_class_init (PtPlayerClass *klass)
 PtPlayer *
 pt_player_new (void)
 {
-  _pt_i18n_init ();
   return g_object_new (PT_TYPE_PLAYER, NULL);
 }

@@ -32,8 +32,6 @@
 
 #include "pt-waveloader.h"
 
-#include "pt-i18n.h"
-
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
 #include <gst/app/gstappsink.h>
@@ -961,7 +959,6 @@ pt_waveloader_class_init (PtWaveloaderClass *klass)
 PtWaveloader *
 pt_waveloader_new (gchar *uri)
 {
-  _pt_i18n_init ();
   return g_object_new (PT_TYPE_WAVELOADER,
                        "uri", uri,
                        NULL);
