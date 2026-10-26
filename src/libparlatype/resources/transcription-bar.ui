@@ -28,7 +28,7 @@
                         </style>
                         <child type="placeholder">
                           <object class="GtkLabel">
-                            <property name="label">No options available</property>
+                            <property name="label" translatable="yes">No options available</property>
                           </object>
                         </child>
                       </object>

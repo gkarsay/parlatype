@@ -37,12 +37,12 @@
                         </child>
                         <child>
                           <object class="AdwSidebarSection" id="installed_section">
-                            <property name="title">Installed Models</property>
+                            <property name="title" translatable="yes">Installed Models</property>
                           </object>
                         </child>
                         <child>
                           <object class="AdwSidebarSection" id="uninstalled_section">
-                            <property name="title">Not installed Models</property>
+                            <property name="title" translatable="yes">Not installed Models</property>
                           </object>
                         </child>
                       </object>

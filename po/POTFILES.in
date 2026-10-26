@@ -14,6 +14,7 @@ src/libparlatype/resources/model-dialog.ui
 src/libparlatype/resources/playback-rate-button.ui
 src/libparlatype/resources/preferences.ui
 src/libparlatype/resources/prefs-install-row.ui
+src/libparlatype/resources/transcription-bar.ui
 src/libparlatype/resources/window.ui
 src/libparlatype/pt-app.c
 src/libparlatype/pt-asr-manager.c

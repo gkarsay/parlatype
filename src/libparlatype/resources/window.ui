@@ -87,8 +87,8 @@
                             <property name="name">empty</property>
                             <property name="child">
                               <object class="AdwStatusPage">
-                                <property name="title">Audio File</property>
-                                <property name="description">Drag in or open an audio file.</property>
+                                <property name="title" translatable="yes">Audio File</property>
+                                <property name="description" translatable="yes">Drag in or open an audio file.</property>
                                   <child>
                                     <object class="GtkButton">
                                       <property name="label" translatable="yes">_Open</property>
