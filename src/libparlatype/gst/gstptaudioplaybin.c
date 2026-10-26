@@ -31,8 +31,6 @@
  * audiosink is chosen at runtime.
  */
 
-#define GETTEXT_PACKAGE GETTEXT_LIB
-
 #include "config.h"
 
 #include "gstptaudioplaybin.h"
@@ -40,7 +38,6 @@
 #include "gst-helpers.h"
 
 #include <gio/gio.h>
-#include <glib/gi18n-lib.h>
 #include <gst/audio/streamvolume.h>
 #include <gst/gst.h>
 

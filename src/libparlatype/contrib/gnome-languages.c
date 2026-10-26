@@ -20,14 +20,12 @@
  *              Ray Strode <rstrode@redhat.com>
  */
 
-#define GETTEXT_PACKAGE GETTEXT_LIB
-
 #include "config.h"
 
 #include "gnome-languages.h"
 
 #include <glib.h>
-#include <glib/gi18n-lib.h>
+#include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
 #define ISO_CODES_DATADIR ISO_CODES_PREFIX "/share/xml/iso-codes"
@@ -593,8 +591,8 @@ languages_init (void)
   if (gnome_languages_map)
     return;
 
-  bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
-  bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+  bindtextdomain (PACKAGE_NAME, LOCALEDIR);
+  bind_textdomain_codeset (PACKAGE_NAME, "UTF-8");
 
   gnome_languages_map = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 

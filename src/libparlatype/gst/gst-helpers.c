@@ -14,14 +14,12 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#define GETTEXT_PACKAGE GETTEXT_LIB
-
 #include "config.h"
 
 #include "gst-helpers.h"
 
 #include <gio/gio.h>
-#include <glib/gi18n-lib.h>
+#include <glib/gi18n.h>
 #include <gst/gst.h>
 
 GstElement *

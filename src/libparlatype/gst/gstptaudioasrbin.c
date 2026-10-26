@@ -30,8 +30,6 @@
  * ```
  */
 
-#define GETTEXT_PACKAGE GETTEXT_LIB
-
 #include "config.h"
 
 #include "gstptaudioasrbin.h"
@@ -40,7 +38,6 @@
 #include "pt-config.h"
 
 #include <gio/gio.h>
-#include <glib/gi18n-lib.h>
 #include <gst/audio/audio.h>
 #include <gst/gst.h>
 

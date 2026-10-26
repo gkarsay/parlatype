@@ -22,7 +22,6 @@
  * Timestamp utilities
  */
 
-#define GETTEXT_PACKAGE GETTEXT_LIB
 #define ONE_HOUR 3600000
 #define TEN_MINUTES 600000
 
@@ -30,7 +29,7 @@
 
 #include "pt-timestamp.h"
 
-#include <glib/gi18n-lib.h>
+#include <glib/gi18n.h>
 
 /**
  * pt_timestamp_to_string:

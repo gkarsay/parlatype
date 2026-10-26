@@ -44,8 +44,6 @@
  * ```
  */
 
-#define GETTEXT_PACKAGE GETTEXT_LIB
-
 #include "config.h"
 
 #include "pt-player.h"
@@ -61,7 +59,7 @@
 #include "pt-waveviewer.h"
 
 #include <gio/gio.h>
-#include <glib/gi18n-lib.h>
+#include <glib/gi18n.h>
 #include <gst/audio/streamvolume.h>
 
 struct _PtPlayer

@@ -34,8 +34,6 @@
 
 #define G_LOG_DOMAIN "pt-waveviewer"
 
-#define GETTEXT_PACKAGE GETTEXT_LIB
-
 #include "config.h"
 
 #include "pt-waveviewer.h"
@@ -48,7 +46,7 @@
 #include "pt-waveviewer-selection.h"
 #include "pt-waveviewer-waveform.h"
 
-#include <glib/gi18n-lib.h>
+#include <glib/gi18n.h>
 #include <math.h> /* fabs */
 #include <string.h>
 

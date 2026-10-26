@@ -61,7 +61,6 @@ conf.set_quoted('LIBDIR', libdir)
 conf.set('HAVE_ASR', true)
 conf.set('PT_MAJOR_VERSION', MAJOR_VERSION)
 conf.set('PT_MINOR_VERSION', MINOR_VERSION)
-conf.set_quoted('GETTEXT_LIB', 'libparlatype7')
 conf.set_quoted('ISO_CODES_PREFIX', iso_codes_prefix)
 conf_input = configure_file(output: 'config.h.in', configuration: conf)
 

@@ -26,14 +26,12 @@
  * used by a widget to visually represent a waveform.
  */
 
-#define GETTEXT_PACKAGE GETTEXT_LIB
-
 #include "config.h"
 
 #include "pt-waveloader.h"
 
 #include <gio/gio.h>
-#include <glib/gi18n-lib.h>
+#include <glib/gi18n.h>
 #include <gst/app/gstappsink.h>
 #include <gst/audio/audio.h>
 #include <gst/gst.h>

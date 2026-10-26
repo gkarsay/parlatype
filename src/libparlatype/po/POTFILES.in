@@ -1,8 +1,0 @@
-# List of source files which contain translatable strings.
-
-libparlatype/src/gst/gst-helpers.c
-libparlatype/src/pt-config.c
-libparlatype/src/pt-player.c
-libparlatype/src/pt-waveloader.c
-libparlatype/src/pt-waveviewer.c
-libparlatype/src/pt-waveviewer-ruler.c

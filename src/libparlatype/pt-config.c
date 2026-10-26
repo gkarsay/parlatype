@@ -34,8 +34,6 @@
  * and unref the config object.
  */
 
-#define GETTEXT_PACKAGE GETTEXT_LIB
-
 #include "config.h"
 
 #include "pt-config.h"
@@ -46,7 +44,7 @@
 #include "pt-speech-recognizer.h"
 
 #include <gio/gio.h>
-#include <glib/gi18n-lib.h>
+#include <glib/gi18n.h>
 
 struct _PtConfig
 {

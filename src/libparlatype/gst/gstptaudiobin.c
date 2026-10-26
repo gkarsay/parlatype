@@ -39,8 +39,6 @@
  * ```
  */
 
-#define GETTEXT_PACKAGE GETTEXT_LIB
-
 #include "config.h"
 
 #include "gstptaudiobin.h"
@@ -51,7 +49,6 @@
 #include "pt-config.h"
 
 #include <gio/gio.h>
-#include <glib/gi18n-lib.h>
 #include <gst/base/gstbasesink.h>
 #include <gst/gst.h>
 

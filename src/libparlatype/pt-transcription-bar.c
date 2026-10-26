@@ -39,8 +39,6 @@
 #include "pt-config-private.h"
 #include "pt-config.h"
 
-#include <glib/gi18n.h>
-
 struct _PtTranscriptionBar
 {
   GtkWidget parent_instance;

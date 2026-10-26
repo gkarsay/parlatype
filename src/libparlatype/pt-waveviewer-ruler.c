@@ -41,15 +41,13 @@
  * The widget has a GTK_STYLE_CLASS_MARK and a name "ruler".
  */
 
-#define GETTEXT_PACKAGE GETTEXT_LIB
-
 #include "config.h"
 
 #include "pt-waveviewer-ruler.h"
 
 #include "pt-waveviewer.h"
 
-#include <glib/gi18n-lib.h>
+#include <glib/gi18n.h>
 
 #define PRIMARY_MARK_HEIGHT 8
 #define SECONDARY_MARK_HEIGHT 4
