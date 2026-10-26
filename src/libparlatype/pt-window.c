@@ -516,6 +516,8 @@ download_finished_cb (PtConfigList *config_list,
   if (error == NULL || g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
     return;
 
+  /* Model dialog may have been closed by user and download continued in background.
+   * If dialog is still there, present error message there, otherwise in main window. */
   prefer_dialog = GTK_IS_WIDGET (self->model_dialog) && gtk_widget_get_mapped (GTK_WIDGET (self->model_dialog));
 
   if (prefer_dialog)

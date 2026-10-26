@@ -20,7 +20,8 @@
  * A dialog for a single ASR configuration.
  *
  * It presents most fields of a `PtConfig`, some of them can be changed, and
- * allows for activating, deactivating or deleting this config.
+ * allows for downloading, activating, deactivating, renaming this config and
+ * inspecting and changing its installation folder.
  */
 
 #include "config.h"
@@ -66,6 +67,7 @@ struct _PtConfigView
   gulong    conn_id_downloader;
   gulong    conn_id_download;
   gulong    conn_id_config;
+  GSource  *progress_source;
 };
 
 enum
@@ -225,13 +227,10 @@ get_remaining_time (guint64 content_length,
     }
 }
 
-static void
-downloader_progress_cb (PtDownloader *downloader,
-                        GParamSpec   *spec,
-                        gpointer      user_data)
+static gboolean
+update_download_progress (gpointer user_data)
 {
-  PtConfigView *self = PT_CONFIG_VIEW (user_data);
-
+  PtConfigView  *self = PT_CONFIG_VIEW (user_data);
   PtDownloadRow *row = PT_DOWNLOAD_ROW (self->download_row);
   int            received_bytes;
   float          progress;
@@ -240,7 +239,7 @@ downloader_progress_cb (PtDownloader *downloader,
   char          *progress_label;
   char          *remaining_label;
 
-  g_object_get (downloader, "current", &received_bytes, NULL);
+  g_object_get (self->downloader, "current", &received_bytes, NULL);
   progress = received_bytes / (float) self->download_total;
   pt_download_row_set_progress_bar (row, progress);
 
@@ -258,6 +257,29 @@ downloader_progress_cb (PtDownloader *downloader,
   g_free (remaining_label);
   g_free (total);
   g_free (received);
+
+  g_source_destroy (self->progress_source);
+  g_source_unref (self->progress_source);
+  self->progress_source = NULL;
+
+  return G_SOURCE_REMOVE;
+}
+
+static void
+downloader_progress_cb (PtDownloader *downloader,
+                        GParamSpec   *spec,
+                        gpointer      user_data)
+{
+  PtConfigView *self = PT_CONFIG_VIEW (user_data);
+
+  /* Skip this update, if source is currently dispatched */
+  if (self->progress_source != NULL)
+    return;
+
+  self->progress_source = g_idle_source_new ();
+  g_source_set_callback (self->progress_source, (GSourceFunc) update_download_progress, self, NULL);
+  g_source_set_static_name (self->progress_source, "progress-update-source");
+  g_source_attach (self->progress_source, NULL);
 }
 
 static void
@@ -267,7 +289,9 @@ download_finished_cb (PtDownload *download,
 {
   PtConfigView *self = PT_CONFIG_VIEW (user_data);
 
+  g_clear_signal_handler (&self->conn_id_downloader, self->downloader);
   g_clear_signal_handler (&self->conn_id_download, self->download);
+  g_clear_object (&self->download);
 
   if (error != NULL)
     {
@@ -289,7 +313,9 @@ connect_download (PtConfigView *self)
 static void
 start_download_cb (PtConfigView *self)
 {
-  self->download = pt_config_create_download (self->config, NULL);
+  g_return_if_fail (self->download == NULL);
+
+  self->download = g_object_ref (pt_config_create_download (self->config, NULL));
   connect_download (self);
   pt_download_start (self->download);
   pt_download_row_set_revealed (PT_DOWNLOAD_ROW (self->download_row), TRUE);
@@ -299,8 +325,10 @@ static void
 progress_row_cancelled_cb (PtConfigView *self,
                            GtkWidget    *download_row)
 {
-  pt_download_cancel (self->download);
+  g_return_if_fail (self->download != NULL && PT_IS_DOWNLOAD (self->download));
+
   g_clear_signal_handler (&self->conn_id_downloader, self->downloader);
+  pt_download_cancel (self->download);
 }
 
 static void
@@ -333,7 +361,11 @@ pt_config_view_dispose (GObject *object)
 
   g_clear_signal_handler (&self->conn_id_config, self->config);
   g_clear_signal_handler (&self->conn_id_downloader, self->downloader);
-  g_clear_signal_handler (&self->conn_id_download, self->download);
+  if (self->download != NULL)
+    {
+      g_clear_signal_handler (&self->conn_id_download, self->download);
+      g_clear_object (&self->download);
+    }
   g_binding_unbind (self->binding1);
   g_binding_unbind (self->binding2);
   g_clear_object (&self->config);
@@ -368,9 +400,13 @@ pt_config_view_constructed (GObject *object)
       g_free (size_string);
     }
 
+  /* There might be a download already going on */
   self->download = pt_config_get_download (self->config);
   if (self->download != NULL)
-    connect_download (self);
+    {
+      g_object_ref (self->download);
+      connect_download (self);
+    }
 
   name = pt_config_get_name (self->config);
   gtk_editable_set_text (GTK_EDITABLE (self->name_row), name);

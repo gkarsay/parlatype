@@ -693,7 +693,8 @@ download_finished_cb (PtDownload *download,
   char     *install_folder;
 
   /* Propagate signal to PtConfigList -> PtWindow.
-   * PtWindow will present it to user itself or forward to PtModelDialog. */
+   * PtWindow will present it to user itself, if user already closed PtConfigView.
+   * If PtConfigView is still open, PtWindow will forward the message. */
   g_signal_emit (self, signals[SIGNAL_DOWNLOAD_FINISHED], 0, error);
 
   if (error == NULL)
