@@ -1,7 +1,6 @@
 # List of source files which contain translatable strings.
 
 data/parlatype.desktop.in
-data/parlatype.metainfo.xml.in
 src/libparlatype/gst/gst-helpers.c
 src/libparlatype/resources/audio-controls.ui
 src/libparlatype/resources/config-overview.ui
