@@ -18,7 +18,7 @@
             <child type="start">
               <object class="GtkToggleButton" id="show_sidebar_button">
                 <property name="icon-name">view-sidebar-start-symbolic</property>
-                <property name="tooltip-text" translatable="yes">Toggle Sidebar</property>
+                <property name="tooltip-text" translatable="yes" comments="Tooltip for a button which toggles a sidebar">Toggle Sidebar</property>
                 <property name="active">True</property>
               </object>
             </child>
@@ -59,7 +59,7 @@
             <child type="end">
               <object class="GtkMenuButton" id="primary_menu_button">
                 <property name="menu-model">primary_menu</property>
-                <property name="tooltip-text" translatable="yes">Main Menu</property>
+                <property name="tooltip-text" translatable="yes" comments="Tooltip for a button showing the main menu">Main Menu</property>
                 <property name="primary">True</property>
                 <property name="direction">none</property>
               </object>

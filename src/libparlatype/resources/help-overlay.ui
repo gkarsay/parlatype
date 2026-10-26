@@ -80,33 +80,12 @@
                 <property name="title" translatable="yes">Open “Go to” dialog</property>
               </object>
             </child>
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="visible">1</property>
-                <property name="accelerator">&lt;ctrl&gt;C</property>
-                <property name="title" translatable="yes">Copy timestamp to clipboard</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="visible">1</property>
-                <property name="accelerator">&lt;ctrl&gt;V</property>
-                <property name="title" translatable="yes">Go to timestamp in clipboard</property>
-              </object>
-            </child>
           </object>
         </child>
         <child>
           <object class="GtkShortcutsGroup">
             <property name="visible">1</property>
             <property name="title" translatable="yes">Help</property>
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="visible">1</property>
-                <property name="accelerator">F1</property>
-                <property name="title" translatable="yes">Show help</property>
-              </object>
-            </child>
             <child>
               <object class="GtkShortcutsShortcut">
                 <property name="visible">1</property>

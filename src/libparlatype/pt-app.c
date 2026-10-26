@@ -123,11 +123,13 @@ open_cb (GSimpleAction *action,
 
   if (audio)
     {
+      /* Translators: title of a file dialog which opens audio files */
       gtk_file_dialog_set_title (dialog, _ ("Open Audio File"));
       filters = pt_file_filters_new (PT_FILTER_AUDIO, PT_FILTER_ALL, 0);
     }
   else
     {
+      /* Translators: title of a file dialog which opens files known by Parlatype */
       gtk_file_dialog_set_title (dialog, _ ("Open Parlatype File"));
       filters = pt_file_filters_new (PT_FILTER_TEXT, PT_FILTER_OPEN_DOCUMENT, PT_FILTER_ALL, 0);
     }

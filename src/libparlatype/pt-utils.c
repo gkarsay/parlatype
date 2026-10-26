@@ -50,19 +50,23 @@ pt_file_filters_new (int first_filter_type, ...)
       switch (filter_type)
         {
         case PT_FILTER_ALL:
+          /* Translators: label for a file filter showing all files */
           gtk_file_filter_set_name (filter, _ ("All Files"));
           gtk_file_filter_add_pattern (filter, "*");
           break;
         case PT_FILTER_AUDIO:
+          /* Translators: label for a file filter showing only audio files */
           gtk_file_filter_set_name (filter, _ ("Audio Files"));
           gtk_file_filter_add_mime_type (filter, "audio/*");
           break;
         case PT_FILTER_TEXT:
+          /* Translators: label for a file filter showing only Parlatype’ own files (extension .pt) */
           gtk_file_filter_set_name (filter, _ ("Parlatype Files"));
           gtk_file_filter_add_pattern (filter, "*.pt");
           break;
         case PT_FILTER_OPEN_DOCUMENT:
-          gtk_file_filter_set_name (filter, _ ("Open Document Flat Files"));
+          /* Translators: label for a file filter showing only this kind of documents, available in LibreOffice file dialogs */
+          gtk_file_filter_set_name (filter, _ ("Flat XML ODF Text Documents"));
           gtk_file_filter_add_mime_type (filter, "application/vnd.oasis.opendocument.text-flat-xml");
           break;
 
@@ -93,6 +97,7 @@ char *
 pt_utils_pretty_download_size (int size)
 {
   if (size <= 0)
+    /* Translators: unknown download size */
     return g_strdup (_ ("Unknown"));
 
   if (size < 1000)

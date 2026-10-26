@@ -51,7 +51,7 @@
                 <property name="action_name">audio.jump-back</property>
                 <property name="icon_name">media-skip-backward-symbolic</property>
                 <accessibility>
-                  <property name="label" translatable="yes">Skip backward</property>
+                  <property name="label" translatable="yes" comments="Button accessibility label">Skip backward</property>
                 </accessibility>
                 <style><class name="circular"/></style>
               </object>
@@ -63,7 +63,7 @@
                 <property name="action_name">audio.play</property>
                 <property name="icon_name">media-playback-start-symbolic</property>
                 <accessibility>
-                  <property name="label" translatable="yes">Play</property>
+                  <property name="label" translatable="yes" comments="Button accessibility label">Play</property>
                 </accessibility>
                 <style><class name="circular"/></style>
               </object>
@@ -77,7 +77,7 @@
                 <property name="action_name">audio.jump-forward</property>
                 <property name="icon_name">media-skip-forward-symbolic</property>
                 <accessibility>
-                  <property name="label" translatable="yes">Skip forward</property>
+                  <property name="label" translatable="yes" comments="Button accessibility label">Skip forward</property>
                 </accessibility>
                 <style><class name="circular"/></style>
               </object>

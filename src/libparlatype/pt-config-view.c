@@ -202,6 +202,7 @@ get_remaining_time (guint64 content_length,
   guint seconds = remaining_time;
   if (seconds < 60)
     {
+      /* Remaining time to download an item in seconds */
       return g_strdup_printf (ngettext ("%d second left",
                                         "%d seconds left", seconds),
                               seconds);
@@ -209,36 +210,17 @@ get_remaining_time (guint64 content_length,
   else if (seconds < (60 * 60))
     {
       seconds /= 60;
+      /* Remaining time to download an item in minutes */
       return g_strdup_printf (ngettext ("%d minute left",
                                         "%d minutes left", seconds),
                               seconds);
     }
-  else if (seconds < (60 * 60 * 24))
-    {
-      seconds /= 60 * 60;
-      return g_strdup_printf (ngettext ("%d hour left",
-                                        "%d hours left", seconds),
-                              seconds);
-    }
-  else if (seconds < (60 * 60 * 24 * 7))
-    {
-      seconds /= 60 * 60 * 24;
-      return g_strdup_printf (ngettext ("%d day left",
-                                        "%d days left", seconds),
-                              seconds);
-    }
-  else if (seconds < (60 * 60 * 24 * 30))
-    {
-      seconds /= 60 * 60 * 24 * 7;
-      return g_strdup_printf (ngettext ("%d week left",
-                                        "%d weeks left", seconds),
-                              seconds);
-    }
   else
     {
-      seconds /= 60 * 60 * 24 * 30;
-      return g_strdup_printf (ngettext ("%d month left",
-                                        "%d months left", seconds),
+      seconds /= 60 * 60;
+      /* Remaining time to download an item in hours */
+      return g_strdup_printf (ngettext ("%d hour left",
+                                        "%d hours left", seconds),
                               seconds);
     }
 }

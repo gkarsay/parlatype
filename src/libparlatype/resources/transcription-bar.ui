@@ -28,7 +28,7 @@
                         </style>
                         <child type="placeholder">
                           <object class="GtkLabel">
-                            <property name="label" translatable="yes">No options available</property>
+                            <property name="label" translatable="yes" comments="This plugin is not configurable, it has no options">No options available</property>
                           </object>
                         </child>
                       </object>

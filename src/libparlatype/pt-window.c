@@ -521,6 +521,7 @@ download_finished_cb (PtConfigList *config_list,
   if (prefer_dialog)
     parent = GTK_WINDOW (self->model_dialog);
 
+  /* Translators: Title of an error message while downloading an item. %s is replaced with the item’s name. */
   dialog = gtk_alert_dialog_new (_ ("Error Downloading »%s«"), config_name);
   gtk_alert_dialog_set_detail (dialog, error->message);
   gtk_alert_dialog_show (dialog, parent);

@@ -2,6 +2,7 @@
 Version=1.0
 Name=Parlatype
 Comment=Transcription utility
+# Translators: keyword for desktop entry, semicolon must be preserved right after the keyword
 Keywords=Transcription;
 Exec=parlatype %U
 Icon=xyz.parlatype.Parlatype

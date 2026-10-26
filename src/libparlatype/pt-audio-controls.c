@@ -72,6 +72,7 @@ update_jump_back_tooltip (PtAudioControls *self)
     {
       seconds = pt_player_get_back (self->player) / 1000;
       tooltip = g_strdup_printf (
+          /* Translators: tooltip for a button */
           ngettext ("Skip back 1 second",
                     "Skip back %d seconds",
                     seconds),
@@ -92,6 +93,7 @@ update_jump_forward_tooltip (PtAudioControls *self)
     {
       seconds = pt_player_get_forward (self->player) / 1000;
       tooltip = g_strdup_printf (
+          /* Translators: tooltip for a button */
           ngettext ("Skip forward 1 second",
                     "Skip forward %d seconds",
                     seconds),
@@ -116,6 +118,7 @@ update_play_button_tooltip (PtAudioControls *self)
     {
       if (state == PT_STATE_PAUSED)
         {
+          /* Translators: tooltip for play button */
           tooltip = _ ("Start playing");
         }
       if (state == PT_STATE_PLAYING)
@@ -123,11 +126,13 @@ update_play_button_tooltip (PtAudioControls *self)
           pause = pt_player_get_pause (self->player) / 1000;
           if (pause == 0)
             {
+              /* Translators: tooltip for pause button */
               tooltip = _ ("Pause");
             }
           else
             {
               tooltip = g_strdup_printf (
+                  /* Translators: tooltip for pause button */
                   ngettext ("Pause and rewind 1 second",
                             "Pause and rewind %d seconds",
                             pause),

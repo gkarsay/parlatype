@@ -13,7 +13,7 @@
             </child>
             <child>
               <object class="GtkLabel" id="label">
-                <property name="label" translatable="yes">× 1.0</property>
+                <property name="label">× 1.0</property>
               </object>
             </child>
           </object>
