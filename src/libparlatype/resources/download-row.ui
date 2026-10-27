@@ -53,6 +53,7 @@
                                 <property name="halign">1</property>
                                 <style>
                                   <class name="dimmed"/>
+                                  <class name="monospace"/>
                                 </style>
                                 <layout>
                                   <property name="column">0</property>
