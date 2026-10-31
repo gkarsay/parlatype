@@ -22,6 +22,20 @@
     ],
     "modules" : [
         {
+            "name": "python3-pycurl",
+            "buildsystem": "simple",
+            "build-commands": [
+                "pip3 install --verbose --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} \"pycurl\" --no-build-isolation"
+            ],
+            "sources": [
+                {
+                    "type": "file",
+                    "url": "https://files.pythonhosted.org/packages/a6/b3/93b9b8b4ed45f4700b3f9fc40b5daf189e0badd71d0839a6ad09cefa2245/pycurl-7.49.0.tar.gz",
+                    "sha256": "d4327da9dea72768f942f831bbaa5a64adca4d7c89f3141da7a833d3c600ab90"
+                }
+            ]
+        },
+        {
             "name" : "whisper.cpp",
             "buildsystem" : "cmake",
             "config-opts" : [],
