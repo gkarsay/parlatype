@@ -67,6 +67,7 @@
             "name" : "parlatype",
             "buildsystem" : "meson",
             "config-opts" : [
+                "-Dgir=true",
                 "-Dplugin_whisper=true",
                 "-Dplugin_whisper_downloader=true"
             ],
