@@ -313,9 +313,24 @@ connect_download (PtConfigView *self)
 static void
 start_download_cb (PtConfigView *self)
 {
+  GError *error = NULL;
   g_return_if_fail (self->download == NULL);
 
-  self->download = g_object_ref (pt_config_create_download (self->config, NULL));
+  self->download = pt_config_create_download (self->config, &error);
+  if (error != NULL)
+    {
+      GtkAlertDialog *dialog;
+      GtkWindow      *parent = GTK_WINDOW (gtk_widget_get_root (GTK_WIDGET (self)));
+      dialog = gtk_alert_dialog_new (_ ("Error"));
+      gtk_alert_dialog_set_detail (dialog, error->message);
+      gtk_alert_dialog_show (dialog, parent);
+      g_object_unref (dialog);
+      g_error_free (error);
+      self->download = NULL;
+      return;
+    }
+
+  g_object_ref (self->download);
   connect_download (self);
   pt_download_start (self->download);
   pt_download_row_set_revealed (PT_DOWNLOAD_ROW (self->download_row), TRUE);

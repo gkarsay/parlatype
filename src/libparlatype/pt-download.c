@@ -145,6 +145,8 @@ pt_download_start (PtDownload *self)
  *
  * Returns the plugin instance doing the actual download.
  *
+ * In case of error during plugin loading this returns NULL.
+ *
  * Returns: (transfer none): plugin instance.
  *
  * Since: 5.0
@@ -153,6 +155,11 @@ PtDownloader *
 pt_download_get_downloader (PtDownload *self)
 {
   g_return_val_if_fail (PT_IS_DOWNLOAD (self), NULL);
+
+  if (!peas_plugin_info_is_loaded (self->plugin_info))
+    {
+      return NULL;
+    }
 
   return self->downloader;
 }
@@ -164,7 +171,11 @@ pt_download_dispose (GObject *object)
 
   peas_engine_unload_plugin (self->engine, self->plugin_info);
   g_clear_object (&self->cancellable);
-  g_timer_destroy (self->timer);
+  if (self->timer != NULL)
+    {
+      g_timer_destroy (self->timer);
+      self->timer = NULL;
+    }
   g_free (self->display_name);
   g_free (self->plugin_name);
 

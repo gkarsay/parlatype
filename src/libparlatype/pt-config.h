@@ -49,6 +49,7 @@ G_DECLARE_FINAL_TYPE (PtConfig, pt_config, PT, CONFIG, GObject)
 typedef enum
 {
   PT_ERROR_PLUGIN_NOT_FOUND,
+  PT_ERROR_PLUGIN_NOT_LOADABLE,
   PT_ERROR_PLUGIN_MISSING_PROPERTY,
   PT_ERROR_PLUGIN_NOT_WRITABLE,
   PT_ERROR_PLUGIN_WRONG_VALUE,
@@ -107,7 +108,7 @@ gboolean  pt_config_is_downloadable      (PtConfig *self);
 PtDownload *pt_config_get_download       (PtConfig *self);
 
 PtDownload *pt_config_create_download    (PtConfig *self,
-                                          GError   *error);
+                                          GError  **error);
 
 gboolean  pt_config_equal                (PtConfig *config1,
                                           PtConfig *config2);

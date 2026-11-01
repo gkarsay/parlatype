@@ -743,18 +743,33 @@ pt_config_get_download (PtConfig *self)
  */
 PtDownload *
 pt_config_create_download (PtConfig *self,
-                           GError   *error)
+                           GError  **error)
 {
-  PtDownloader *downloader;
+  PtDownloader *downloader = NULL;
 
   g_return_val_if_fail (PT_IS_CONFIG (self), NULL);
   g_return_val_if_fail (self->download == NULL, NULL);
+  g_return_val_if_fail (error == NULL || *error == NULL, NULL);
 
   self->download = pt_download_new (self->name, self->downloader);
   downloader = pt_download_get_downloader (self->download);
-  pt_config_configure_downloader (self, G_OBJECT (downloader), &error);
-  if (error != NULL)
-    return NULL;
+  if (downloader == NULL)
+    {
+      g_set_error (error,
+                   PT_ERROR,
+                   PT_ERROR_PLUGIN_NOT_LOADABLE,
+                   /* Translators: %s is replaced with the plugin’s name */
+                   _ ("The plugin “%s” could not be loaded."), self->downloader);
+      g_clear_object (&self->download);
+      return NULL;
+    }
+
+  pt_config_configure_downloader (self, G_OBJECT (downloader), error);
+  if (*error != NULL)
+    {
+      g_clear_object (&self->download);
+      return NULL;
+    }
 
   g_signal_connect (self->download, "finished", G_CALLBACK (download_finished_cb), self);
   return self->download;
