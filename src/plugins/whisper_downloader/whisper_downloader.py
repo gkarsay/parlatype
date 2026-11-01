@@ -83,6 +83,9 @@ class WhisperDownloader(GObject.Object, Pt.Downloader):
         folder_name = self.config_id
         datadir = GLib.get_user_data_dir()
         file_name = os.path.basename(urlparse(self.url).path)
+        self.dest_folder = os.path.join(datadir, 'parlatype')
+        if not os.path.exists(self.dest_folder):
+            os.mkdir(self.dest_folder)
         self.dest_folder = os.path.join(datadir, 'parlatype', folder_name)
         if not os.path.exists(self.dest_folder):
             os.mkdir(self.dest_folder)
