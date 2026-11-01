@@ -74,14 +74,18 @@ download_cb (GObject      *source_object,
              GAsyncResult *res,
              gpointer      user_data)
 {
-  // PtDownload *self = PT_DOWNLOAD (user_data);
   PtDownload *self = g_object_get_data (source_object, "self");
   g_assert (PT_IS_DOWNLOAD (self));
   GError *error = NULL;
 
   pt_downloader_download_finish (PT_DOWNLOADER (source_object), res, &error);
   g_signal_emit (self, signals[SIGNAL_FINISHED], 0, error);
-  g_timer_stop (self->timer);
+  /* Guard race condition in dispose */
+  if (self->timer != NULL)
+    {
+      g_timer_destroy (self->timer);
+      self->timer = NULL;
+    }
 }
 
 /**
@@ -98,7 +102,7 @@ guint64
 pt_download_get_elapsed_time (PtDownload *self)
 {
   g_return_val_if_fail (PT_IS_DOWNLOAD (self), 0);
-  // g_return_val_if_fail (G_IS_TIMER (self->timer), 0);
+  g_return_val_if_fail (self->timer != NULL, 0);
 
   return (guint64) g_timer_elapsed (self->timer, NULL);
 }
