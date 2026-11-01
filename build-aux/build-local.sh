@@ -5,7 +5,7 @@ rm -rf _build ; mkdir _build
 rm -rf _repo ; mkdir _repo
 
 STATE_DIR=~/.cache/parlatype/flatpak-builder
-BRANCH=dev/libpeas
+BRANCH=pt5
 MANIFEST=Parlatype-Whisper1.8.4.json
 
 flatpak-builder \

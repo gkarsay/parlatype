@@ -74,7 +74,7 @@
             "sources" : [
                 {
                     "type" : "git",
-                    "branch" : "dev/libpeas",
+                    "branch" : "pt5",
                     "path" : "../"
                 }
             ]
