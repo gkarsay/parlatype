@@ -68,6 +68,8 @@ struct _PtConfigView
   gulong    conn_id_download;
   gulong    conn_id_config;
   GSource  *progress_source;
+
+  gboolean in_disposal;
 };
 
 enum
@@ -234,25 +236,36 @@ update_download_progress (gpointer user_data)
   PtDownloadRow *row = PT_DOWNLOAD_ROW (self->download_row);
   int            received_bytes;
   float          progress;
-  char          *received;
-  char          *total;
-  char          *progress_label;
-  char          *remaining_label;
+  char          *received = NULL;
+  char          *total = NULL;
+  char          *progress_label = NULL;
+  char          *remaining_label = NULL;
 
+  if (self->in_disposal)
+    goto out;
   g_object_get (self->downloader, "current", &received_bytes, NULL);
   progress = received_bytes / (float) self->download_total;
+  if (self->in_disposal)
+    goto out;
   pt_download_row_set_progress_bar (row, progress);
 
   received = g_format_size (received_bytes);
   total = g_format_size (self->download_total);
   progress_label = g_strdup_printf ("%s / %s", received, total);
+  if (self->in_disposal)
+    goto out;
   pt_download_row_set_progress_label (row, progress_label);
 
+  if (self->in_disposal)
+    goto out;
   remaining_label = get_remaining_time (self->download_total,
                                         received_bytes,
                                         pt_download_get_elapsed_time (self->download));
+  if (self->in_disposal)
+    goto out;
   pt_download_row_set_remaining_label (row, remaining_label);
 
+out:
   g_free (progress_label);
   g_free (remaining_label);
   g_free (total);
@@ -273,7 +286,7 @@ downloader_progress_cb (PtDownloader *downloader,
   PtConfigView *self = PT_CONFIG_VIEW (user_data);
 
   /* Skip this update, if source is currently dispatched */
-  if (self->progress_source != NULL)
+  if (self->progress_source != NULL || self->in_disposal)
     return;
 
   self->progress_source = g_idle_source_new ();
@@ -374,8 +387,9 @@ pt_config_view_dispose (GObject *object)
 {
   PtConfigView *self = PT_CONFIG_VIEW (object);
 
-  g_clear_signal_handler (&self->conn_id_config, self->config);
+  self->in_disposal = TRUE;
   g_clear_signal_handler (&self->conn_id_downloader, self->downloader);
+  g_clear_signal_handler (&self->conn_id_config, self->config);
   if (self->download != NULL)
     {
       g_clear_signal_handler (&self->conn_id_download, self->download);
@@ -421,6 +435,7 @@ pt_config_view_constructed (GObject *object)
     {
       g_object_ref (self->download);
       connect_download (self);
+      pt_download_row_set_revealed (PT_DOWNLOAD_ROW (self->download_row), TRUE);
     }
 
   name = pt_config_get_name (self->config);
@@ -480,6 +495,7 @@ static void
 pt_config_view_init (PtConfigView *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
+  self->in_disposal = FALSE;
 }
 
 static void
