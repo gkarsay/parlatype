@@ -10,7 +10,8 @@
         "--socket=fallback-x11",
         "--socket=wayland",
         "--socket=pulseaudio",
-        "--filesystem=home:ro"
+        "--filesystem=home:ro",
+        "--share=network"
     ],
     "cleanup" : [
         "*.la",
