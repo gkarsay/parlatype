@@ -45,7 +45,6 @@ if gir
 
   parlatype_gir_extr_args = [
     '-DPARLATYPE_COMPILATION',
-    '--quiet',
   ]
 
 parlatype_pkg_requires = [
@@ -73,6 +72,11 @@ parlatype_pkg_requires = [
 #     requires: parlatype_pkg_requires,
 #)
 
+# For some reason we need a compiled gschema, append to XDG_DATA_DIRS
+env = environment()
+uninstalled_schema = join_paths(meson.project_build_root(), 'data')
+env.append('XDG_DATA_DIRS',uninstalled_schema)
+
 libparlatype_gir = gnome.generate_gir(parlatype,
               sources: parlatype_generated_headers +
                        parlatype_generated_sources +
@@ -86,6 +90,7 @@ libparlatype_gir = gnome.generate_gir(parlatype,
                header: parlatype_main_headers,
               install: true,
            extra_args: parlatype_gir_extr_args,
+                  env: env,
   )
 endif
 
