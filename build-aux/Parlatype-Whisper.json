@@ -43,8 +43,8 @@
             "sources" : [
                 {
                     "type" : "archive",
-                    "url" : "https://github.com/ggml-org/whisper.cpp/archive/refs/tags/v1.8.4.tar.gz",
-                    "sha256" : "b26f30e52c095ccb75da40b168437736605eb280de57381887bf9e2b65f31e66"
+                    "url" : "https://github.com/ggml-org/whisper.cpp/archive/refs/tags/v1.9.5.tar.gz",
+                    "sha256" : "ff1a9053feb509ff9d7729703355541ae9690073a6b1c40eb692c962e0dc1720"
                 }
             ],
             "cleanup" : []
