@@ -196,6 +196,8 @@ ptp_whisper_stop (PtSpeechRecognizer *recognizer)
   g_clear_signal_handler (&self->sample_handler, self->appsink);
   g_clear_signal_handler (&self->eos_handler, self->appsink);
 
+  self->buffer_index = 0;
+
   self->busy = FALSE;
   g_object_notify_by_pspec (G_OBJECT (self),
                             obj_properties[PROP_BUSY]);
