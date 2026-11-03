@@ -431,6 +431,7 @@ bus_call (GstBus     *bus,
                             GST_TIME_AS_MSECONDS (stop - pos));
           pt_player_seek (self, stop);
         }
+      pt_player_set_mode (self, PT_MODE_PLAYBACK);
       g_signal_emit_by_name (self, "end-of-stream");
       break;
 
@@ -1881,6 +1882,9 @@ pt_player_set_mode (PtPlayer  *self,
   gint64         pos = 0;
 
   g_return_val_if_fail (PT_IS_PLAYER (self), FALSE);
+
+  if (pt_player_get_mode (self) == mode)
+    return TRUE;
 
   gst_element_query_position (self->play, GST_FORMAT_TIME, &pos);
 
