@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-26 16:38+0100\n"
+"POT-Creation-Date: 2026-11-03 21:12+0100\n"
 "PO-Revision-Date: 2026-10-26 16:39+0100\n"
 "Last-Translator: Gabor Karsay <gabor.karsay@gmx.at>\n"
 "Language-Team: Deutsch\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Launchpad-Export-Date: 2020-05-31 16:44+0000\n"
 
 #: data/parlatype.desktop.in:3 src/libparlatype/pt-app.c:341
-#: src/libparlatype/pt-window.c:680
+#: src/libparlatype/pt-window.c:682
 msgid "Parlatype"
 msgstr "Parlatype"
 
@@ -292,6 +292,7 @@ msgstr "Keine Optionen verfügbar"
 msgid "Toggle Sidebar"
 msgstr "Seitenleiste ein-/ausklappen"
 
+#. Tooltip for a button showing the main menu
 #: src/libparlatype/resources/window.ui:62
 msgid "Main Menu"
 msgstr "Hauptmenü"
@@ -437,17 +438,23 @@ msgstr "Parameter »%s« ist nicht änderbar."
 msgid "Value for parameter “%s” is not valid."
 msgstr "Der Wert ist für den Parameter »%s« nicht gültig."
 
-#: src/libparlatype/pt-config.c:1166
+#. Translators: %s is replaced with the plugin’s name
+#: src/libparlatype/pt-config.c:762
+#, c-format
+msgid "The plugin “%s” could not be loaded."
+msgstr ""
+
+#: src/libparlatype/pt-config.c:1182
 msgid "Multilingual"
 msgstr "Mehrsprachig"
 
 #. Translators: Fallback label for a download location
-#: src/libparlatype/pt-config-view.c:131
+#: src/libparlatype/pt-config-view.c:135
 msgid "Link"
 msgstr "Link"
 
 #. Remaining time to download an item in seconds
-#: src/libparlatype/pt-config-view.c:206
+#: src/libparlatype/pt-config-view.c:210
 #, c-format
 msgid "%d second left"
 msgid_plural "%d seconds left"
@@ -455,7 +462,7 @@ msgstr[0] "%d Sekunde verbleibend"
 msgstr[1] "%d Sekunden verbleibend"
 
 #. Remaining time to download an item in minutes
-#: src/libparlatype/pt-config-view.c:214
+#: src/libparlatype/pt-config-view.c:218
 #, c-format
 msgid "%d minute left"
 msgid_plural "%d minutes left"
@@ -463,22 +470,26 @@ msgstr[0] "%d Minute verbleibend"
 msgstr[1] "%d Minuten verbleibend"
 
 #. Remaining time to download an item in hours
-#: src/libparlatype/pt-config-view.c:222
+#: src/libparlatype/pt-config-view.c:226
 #, c-format
 msgid "%d hour left"
 msgid_plural "%d hours left"
 msgstr[0] "%d Stunde verbleibend"
 msgstr[1] "%d Stunden verbleibend"
 
-#: src/libparlatype/pt-config-view.c:387
+#: src/libparlatype/pt-config-view.c:337 src/libparlatype/pt-window.c:102
+msgid "Error"
+msgstr "Fehler"
+
+#: src/libparlatype/pt-config-view.c:453
 msgid "Publisher"
 msgstr "Herausgeber"
 
-#: src/libparlatype/pt-config-view.c:392
+#: src/libparlatype/pt-config-view.c:458
 msgid "License"
 msgstr "Lizenz"
 
-#: src/libparlatype/pt-config-view.c:401 src/libparlatype/pt-config-view.c:412
+#: src/libparlatype/pt-config-view.c:467 src/libparlatype/pt-config-view.c:478
 msgid "Download"
 msgstr "Download"
 
@@ -711,12 +722,8 @@ msgstr "URI nicht gültig: %s"
 msgid "File not found: %s"
 msgstr "Datei nicht gefunden: %s"
 
-#: src/libparlatype/pt-window.c:102
-msgid "Error"
-msgstr "Fehler"
-
 #. Translators: Title of an error message while downloading an item. %s is replaced with the item’s name.
-#: src/libparlatype/pt-window.c:525
+#: src/libparlatype/pt-window.c:527
 #, c-format
 msgid "Error Downloading »%s«"
 msgstr "Fehler beim Downloaden von »%s«"

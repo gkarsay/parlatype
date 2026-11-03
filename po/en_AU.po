@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-13 21:21+0200\n"
+"POT-Creation-Date: 2026-11-03 21:12+0100\n"
 "PO-Revision-Date: 2020-05-31 17:39+0000\n"
 "Last-Translator: Jared Norris <jarednorris@ubuntu.com>\n"
 "Language-Team: English (Australia) <en_AU@li.org>\n"
@@ -19,340 +19,384 @@ msgstr ""
 "X-Launchpad-Export-Date: 2020-06-18 10:32+0000\n"
 "X-Generator: Launchpad (build 1cbd0aa39df153c901321817f9b57cf3f232b507)\n"
 
-#: data/parlatype.desktop.in:4 data/parlatype.metainfo.xml.in:8
-#: src/pt-app.c:196 src/resources/window.ui:30
+#: data/parlatype.desktop.in:3 src/libparlatype/pt-app.c:341
+#: src/libparlatype/pt-window.c:682
 msgid "Parlatype"
 msgstr "Parlatype"
 
-#: data/parlatype.desktop.in:5
+#: data/parlatype.desktop.in:4
 msgid "Transcription utility"
 msgstr "Transcription utility"
 
+#. Translators: keyword for desktop entry, semicolon must be preserved right after the keyword
 #: data/parlatype.desktop.in:6
 msgid "Transcription;"
 msgstr "Transcription;"
 
-#: data/parlatype.metainfo.xml.in:9
+#. Translators: %s is replaced with the plugins name
+#: src/libparlatype/gst/gst-helpers.c:42 src/libparlatype/gst/gst-helpers.c:49
+#, c-format
+msgid "Failed to load plugin “%s”."
+msgstr "Failed to load plugin “%s”."
+
+#. Button accessibility label
+#: src/libparlatype/resources/audio-controls.ui:54
+#: src/libparlatype/resources/help-overlay.ui:52
 #, fuzzy
-#| msgid "Media player for speech transcription"
-msgid "Media player for transcription"
-msgstr "Media player for speech transcription"
+msgid "Skip backward"
+msgstr "Jump back 1 second"
 
-#: data/parlatype.metainfo.xml.in:12
-msgid ""
-"Parlatype is an easy to use media player. Its main purpose is to help you "
-"transcribing speech."
-msgstr ""
-"Parlatype is an easy to use media player. Its main purpose is to help you "
-"transcribing speech."
-
-#: data/parlatype.metainfo.xml.in:19
-msgid "Main window"
-msgstr ""
-
-#: data/parlatype.metainfo.xml.in:28
-msgid "Gabor Karsay"
-msgstr "Gabor Karsay"
-
-#: data/parlatype.metainfo.xml.in:47
-msgid "Website moved to www.parlatype.xyz."
-msgstr ""
-
-#: data/parlatype.metainfo.xml.in:48
-msgid "App ID changed accordingly."
-msgstr ""
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:49 data/parlatype.metainfo.xml.in:60
-#: data/parlatype.metainfo.xml.in:81 data/parlatype.metainfo.xml.in:93
-#: data/parlatype.metainfo.xml.in:109
-msgid "Translation updates for several languages."
-msgstr "Translation updates for several languages."
-
-#: data/parlatype.metainfo.xml.in:56
-msgid ""
-"Follow GNOME human interface guidelines throughout the app using libadwaita."
-msgstr ""
-
-#: data/parlatype.metainfo.xml.in:57
-msgid "Add a theme selector (borrowed from GNOME Text Editor)."
-msgstr ""
-
-#: data/parlatype.metainfo.xml.in:58
-msgid "Fix F10 shortcut to toggle main menu."
-msgstr ""
-
-#: data/parlatype.metainfo.xml.in:59
-msgid ""
-"Remove support for Mozilla DeepSpeech because the project is discontinued."
-msgstr ""
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:67
+#. Button accessibility label
+#: src/libparlatype/resources/audio-controls.ui:66
 #, fuzzy
-#| msgid "Translation updates for several languages."
-msgid ""
-"This release is switching to GTK 4 and brings translation updates for "
-"several languages."
-msgstr "Translation updates for several languages."
+msgid "Play"
+msgstr "_Play"
 
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:73
+#. Button accessibility label
+#: src/libparlatype/resources/audio-controls.ui:80
+#: src/libparlatype/resources/help-overlay.ui:59
 #, fuzzy
-#| msgid "This is a major release with new features."
-msgid "This is a minor release with a new feature."
-msgstr "This is a major release with new features."
+msgid "Skip forward"
+msgstr "Jump forward"
 
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:76
-msgid "Added MPRIS interface."
-msgstr ""
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:78
-msgid "Smaller bug fixes."
-msgstr ""
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:80
-msgid "Switched to Weblate for translations."
-msgstr ""
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:87 data/parlatype.metainfo.xml.in:116
-msgid "This is a major release with new features."
-msgstr "This is a major release with new features."
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:90
-msgid "Support for Mozilla DeepSpeech."
-msgstr ""
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:92
+#: src/libparlatype/resources/audio-controls.ui:92
 #, fuzzy
-#| msgid "Select output for automatic speech recognition"
-msgid "New configuration system for Automatic Speech Recognition."
-msgstr "Select output for automatic speech recognition"
+msgid "Go to Cursor"
+msgstr "Go to cursor"
 
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:100
-msgid "This is a minor release with bug fixes and minor new features."
-msgstr "This is a minor release with bug fixes and minor new features."
+#: src/libparlatype/resources/audio-controls.ui:96
+#: src/libparlatype/resources/goto-dialog.ui:10
+msgid "Go to…"
+msgstr "Go to…"
 
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:103
-msgid ""
-"Mute/unmute volume by clicking on the volume icon with the pointer’s "
-"secondary button (usually right mouse button)."
-msgstr ""
-"Mute/unmute volume by clicking on the volume icon with the pointer’s "
-"secondary button (usually right mouse button)."
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:105
-msgid ""
-"With Pulseaudio Parlatype doesn’t change the system volume anymore, just its "
-"own application specific volume."
-msgstr ""
-"With Pulseaudio Parlatype doesn’t change the system volume anymore, just its "
-"own application specific volume."
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:107
-msgid "The initial volume level is picked up from Pulseaudio."
-msgstr "The initial volume level is picked up from Pulseaudio."
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:119
-msgid "Waveform is loaded on-the-fly, there is no blocking progress dialog."
-msgstr "Waveform is loaded on-the-fly, there is no blocking progress dialogue."
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:121
-msgid "Waveform can be changed continuously instead of in discrete steps."
-msgstr "Waveform can be changed continuously instead of in discrete steps."
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:128
-msgid "This is a minor release."
-msgstr "This is a minor release."
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:131
-msgid ""
-"Update time label only if time has changed. This is a performance increase, "
-"cursor movement should be smoother on slower systems."
-msgstr ""
-"Update time label only if time has changed. This is a performance increase, "
-"cursor movement should be smoother on slower systems."
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:133
-msgid "Translation updates for Hungarian, Lithuanian and Spanish"
-msgstr "Translation updates for Hungarian, Lithuanian and Spanish"
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:140
-msgid "This is a minor release with some changes."
-msgstr "This is a minor release with some changes."
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:143
+#: src/libparlatype/resources/config-overview.ui:37
+#: src/libparlatype/resources/download-row.ui:19
 #, fuzzy
-#| msgid ""
-#| "Automatic speech recognition (ASR) is now disabled by default and it’s "
-#| "only shown, if parlatype is launched with the new parameter --with-asr"
-msgid ""
-"Automatic speech recognition (ASR) is now disabled by default and it’s only "
-"shown, if Parlatype is launched with the new parameter \\\"--with-asr\\\""
+msgid "Download Model"
+msgstr "Download model"
+
+#: src/libparlatype/resources/config-overview.ui:55
+#: src/libparlatype/resources/config-view.ui:42
+msgid "General Information"
 msgstr ""
-"Automatic speech recognition (ASR) is now disabled by default and it’s only "
-"shown, if parlatype is launched with the new parameter --with-asr"
 
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:145
-msgid "Fix internationalization: Some translations were not shown"
-msgstr "Fix internationalisation: Some translations were not shown"
+#: src/libparlatype/resources/config-overview.ui:59
+#: src/libparlatype/resources/config-view.ui:46
+#, fuzzy
+msgid "Display Name"
+msgstr "Display"
 
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:147
-msgid ""
-"Translation updates for Arabic, British English, Czech, Dutch, German, "
-"Polish and Spanish"
+#: src/libparlatype/resources/config-overview.ui:67
+#: src/libparlatype/resources/config-view.ui:70
+msgid "Installation"
 msgstr ""
-"Translation updates for Arabic, British English, Czech, Dutch, German, "
-"Polish and Spanish"
 
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:154
-msgid "This is a major release with some new features."
-msgstr "This is a major release with some new features."
+#: src/libparlatype/resources/config-overview.ui:68
+#: src/libparlatype/resources/config-view.ui:71
+#, fuzzy
+msgid "How to install this language model."
+msgstr "Select language model"
 
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:157
-msgid "Automatic speech recognition with CMU Sphinx"
-msgstr "Automatic speech recognition with CMU Sphinx"
+#: src/libparlatype/resources/config-overview.ui:75
+#, fuzzy
+msgid "Delete this Configuration"
+msgstr "Deleting configuration"
 
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:159
-msgid "Design changes, including removal of application menu"
-msgstr "Design changes, including removal of application menu"
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:161
-msgid "Custom timestamps"
-msgstr "Custom timestamps"
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:163
-msgid ""
-"Translation updates for Brazilian Portuguese, British English, Czech, "
-"German, Japanese, Lithuanian and Polish"
+#: src/libparlatype/resources/config-overview.ui:79
+msgid "Delete"
 msgstr ""
-"Translation updates for Brazilian Portuguese, British English, Czech, "
-"German, Japanese, Lithuanian and Polish"
 
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:170
-msgid "This is a minor maintenance release."
-msgstr "This is a minor maintenance release."
+#: src/libparlatype/resources/config-view.ui:52
+#, fuzzy
+msgid "Language"
+msgstr "Language model:"
 
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:173
-msgid "Animate scrolling when using keybindings"
-msgstr "Animate scrolling when using keybindings"
+#: src/libparlatype/resources/config-view.ui:60
+#, fuzzy
+msgid "Parlatype Plugin"
+msgstr "Parlatype"
 
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:175
-msgid "Change desktop entry category to Audio/Video instead of Utilities"
-msgstr "Change desktop entry category to Audio/Video instead of Utilities"
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:177
-msgid "Translation updates for French"
-msgstr "Translation updates for French"
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:184
-msgid "This release contains a number of bug fixes and minor improvements."
-msgstr "This release contains a number of bug fixes and minor improvements."
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:187
-msgid "Progress Dialog has now a countdown timer (estimated time left)"
-msgstr "Progress Dialogue has now a countdown timer (estimated time left)"
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:189
-msgid "Increase max. possible speed to 2.0"
-msgstr "Increase max. possible speed to 2.0"
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:191
-msgid ""
-"New keyboard shortcuts for Play/Pause (Ctrl + Space), Jump back (Ctrl + "
-"Left), Jump forward (Ctrl + Right)"
+#: src/libparlatype/resources/editor-theme-selector.ui:22
+msgid "Follow System Style"
 msgstr ""
-"New keyboard shortcuts for Play/Pause (Ctrl + Space), Jump back (Ctrl + "
-"Left), Jump forward (Ctrl + Right)"
 
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:193
-msgid "Scrolling now also possible with vertical scrollbar"
-msgstr "Scrolling now also possible with vertical scrollbar"
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:195
-msgid "Various fixes for waveform and cursor display"
-msgstr "Various fixes for waveform and cursor display"
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:197
-msgid ""
-"Translation updates for Arabic, British English, Catalan, German, Finnish, "
-"French, Japanese, Lithuanian, Polish, Spanish and Swedish"
+#: src/libparlatype/resources/editor-theme-selector.ui:24
+msgid "Follow system style"
 msgstr ""
-"Translation updates for Arabic, British English, Catalan, German, Finnish, "
-"French, Japanese, Lithuanian, Polish, Spanish and Swedish"
 
-#: src/pt-app.c:47
+#: src/libparlatype/resources/editor-theme-selector.ui:39
+msgid "Light Style"
+msgstr ""
+
+#: src/libparlatype/resources/editor-theme-selector.ui:41
+msgid "Light style"
+msgstr ""
+
+#: src/libparlatype/resources/editor-theme-selector.ui:57
+msgid "Dark Style"
+msgstr ""
+
+#: src/libparlatype/resources/editor-theme-selector.ui:59
+msgid "Dark style"
+msgstr ""
+
+#: src/libparlatype/resources/goto-dialog.ui:20
+msgid "Go to position:"
+msgstr "Go to position:"
+
+#: src/libparlatype/resources/goto-dialog.ui:52
+#: src/libparlatype/pt-save-changes-dialog.c:165
+msgid "_Cancel"
+msgstr "_Cancel"
+
+#: src/libparlatype/resources/goto-dialog.ui:60
+msgid "_OK"
+msgstr "_OK"
+
+#: src/libparlatype/resources/help-overlay.ui:13
+msgid "General"
+msgstr "General"
+
+#: src/libparlatype/resources/help-overlay.ui:18
+msgid "Open a media file"
+msgstr "Open a media file"
+
+#: src/libparlatype/resources/help-overlay.ui:25
+#, fuzzy
+msgid "Show/hide main menu"
+msgstr "Show/hide action menu"
+
+#: src/libparlatype/resources/help-overlay.ui:32
+msgid "Quit"
+msgstr "Quit"
+
+#: src/libparlatype/resources/help-overlay.ui:40
+#: src/libparlatype/resources/preferences.ui:9
+msgid "Waveform"
+msgstr "Waveform"
+
+#: src/libparlatype/resources/help-overlay.ui:45
+msgid "Play/Pause"
+msgstr "Play/Pause"
+
+#: src/libparlatype/resources/help-overlay.ui:66
+msgid "Zoom in"
+msgstr "Zoom in"
+
+#: src/libparlatype/resources/help-overlay.ui:73
+msgid "Zoom out"
+msgstr "Zoom out"
+
+#: src/libparlatype/resources/help-overlay.ui:80
+msgid "Open “Go to” dialog"
+msgstr "Open “Go to” dialogue"
+
+#: src/libparlatype/resources/help-overlay.ui:88
+#: src/libparlatype/resources/model-dialog.ui:32
+msgid "Help"
+msgstr "Help"
+
+#: src/libparlatype/resources/help-overlay.ui:93
+msgid "Show keyboard shortcuts"
+msgstr "Show keyboard shortcuts"
+
+#: src/libparlatype/resources/model-dialog.ui:40
+#, fuzzy
+msgid "Installed Models"
+msgstr "Language model:"
+
+#: src/libparlatype/resources/model-dialog.ui:45
+msgid "Not installed Models"
+msgstr ""
+
+#: src/libparlatype/resources/preferences.ui:5
+#: src/libparlatype/resources/window.ui:235
+msgid "Preferences"
+msgstr "Preferences"
+
+#: src/libparlatype/resources/preferences.ui:13
+msgid "Display"
+msgstr "Display"
+
+#: src/libparlatype/resources/preferences.ui:14
+msgid "Change appearance of the waveform and cursor movement."
+msgstr ""
+
+#: src/libparlatype/resources/preferences.ui:17
+#, fuzzy
+msgid "Waveform Detail"
+msgstr "Waveform"
+
+#: src/libparlatype/resources/preferences.ui:18
+#, fuzzy
+msgid "Vertical lines per second"
+msgstr "_Pixels per second:"
+
+#: src/libparlatype/resources/preferences.ui:51
+#, fuzzy
+msgid "Show Time Scale"
+msgstr "Show _time scale"
+
+#: src/libparlatype/resources/preferences.ui:56
+msgid "Cursor Mode"
+msgstr ""
+
+#: src/libparlatype/resources/preferences.ui:60
+#, fuzzy
+msgid "Fixed Cursor"
+msgstr "_Fixed cursor"
+
+#: src/libparlatype/resources/preferences.ui:61
+#, fuzzy
+msgid "Moving Cursor"
+msgstr "_Moving cursor"
+
+#: src/libparlatype/resources/preferences.ui:74
+#, fuzzy
+msgid "Audio Controls"
+msgstr "Controls"
+
+#: src/libparlatype/resources/preferences.ui:78
+msgid "Pause and Skip Buttons"
+msgstr ""
+
+#: src/libparlatype/resources/preferences.ui:79
+msgid "Set amount of time to skip in seconds."
+msgstr ""
+
+#: src/libparlatype/resources/preferences.ui:82
+msgid "Rewind on Pause"
+msgstr ""
+
+#: src/libparlatype/resources/preferences.ui:83
+msgid "Set to zero to disable this feature"
+msgstr ""
+
+#: src/libparlatype/resources/preferences.ui:96
+msgid "Skip Backward"
+msgstr ""
+
+#: src/libparlatype/resources/preferences.ui:109
+#, fuzzy
+msgid "Skip Forward"
+msgstr "Jump forward 1 second"
+
+#: src/libparlatype/resources/preferences.ui:124
+msgid "Play Button"
+msgstr ""
+
+#: src/libparlatype/resources/preferences.ui:125
+msgid "Change behavior of play button."
+msgstr ""
+
+#: src/libparlatype/resources/preferences.ui:128
+msgid "At End of File Replay File"
+msgstr ""
+
+#: src/libparlatype/resources/preferences.ui:133
+msgid "At End of Selection Replay Selection"
+msgstr ""
+
+#: src/libparlatype/resources/prefs-install-row.ui:11
+msgid "Choose folder"
+msgstr ""
+
+#. This plugin is not configurable, it has no options
+#: src/libparlatype/resources/transcription-bar.ui:31
+msgid "No options available"
+msgstr ""
+
+#. Tooltip for a button which toggles a sidebar
+#: src/libparlatype/resources/window.ui:21
+msgid "Toggle Sidebar"
+msgstr ""
+
+#. Tooltip for a button showing the main menu
+#: src/libparlatype/resources/window.ui:62
+msgid "Main Menu"
+msgstr ""
+
+#: src/libparlatype/resources/window.ui:90
+#, fuzzy
+msgid "Audio File"
+msgstr "Audio files"
+
+#: src/libparlatype/resources/window.ui:91
+msgid "Drag in or open an audio file."
+msgstr ""
+
+#: src/libparlatype/resources/window.ui:94
+msgid "_Open"
+msgstr "_Open"
+
+#: src/libparlatype/resources/window.ui:98
+msgid "Open a file"
+msgstr "Open a file"
+
+#: src/libparlatype/resources/window.ui:162
+#, fuzzy
+msgid "Show Timestamps"
+msgstr "Timestamps"
+
+#: src/libparlatype/resources/window.ui:209
+msgid "Open Document"
+msgstr ""
+
+#: src/libparlatype/resources/window.ui:213
+msgid "Associate Audio"
+msgstr ""
+
+#: src/libparlatype/resources/window.ui:219
+msgid "Save"
+msgstr ""
+
+#: src/libparlatype/resources/window.ui:223
+msgid "Save as…"
+msgstr ""
+
+#: src/libparlatype/resources/window.ui:229
+msgid "Transcribe…"
+msgstr ""
+
+#: src/libparlatype/resources/window.ui:239
+msgid "_Keyboard Shortcuts"
+msgstr "_Keyboard Shortcuts"
+
+#: src/libparlatype/resources/window.ui:243
+msgid "About Parlatype"
+msgstr "About Parlatype"
+
+#: src/libparlatype/pt-app.c:56
 msgid "Show the application’s version"
 msgstr "Show the application’s version"
 
-#: src/pt-app.c:93
+#. Translators: title of a file dialog which opens audio files
+#: src/libparlatype/pt-app.c:127
 msgid "Open Audio File"
 msgstr "Open Audio File"
 
-#: src/pt-app.c:115
+#. Translators: title of a file dialog which opens files known by Parlatype
+#: src/libparlatype/pt-app.c:133
 #, fuzzy
-#| msgid "Audio files"
-msgid "Audio Files"
-msgstr "Audio files"
+msgid "Open Parlatype File"
+msgstr "Open a file"
 
-#: src/pt-app.c:116 src/pt-preferences.c:536
+#: src/libparlatype/pt-app.c:338
 #, fuzzy
-#| msgid "All files"
-msgid "All Files"
-msgstr "All files"
-
-#: src/pt-app.c:193
-#, fuzzy
-#| msgid "Including code from other projects:"
 msgid "Code from other projects"
 msgstr "Including code from other projects:"
 
-#: src/pt-app.c:197
+#: src/libparlatype/pt-app.c:342
 msgid "A basic transcription utility"
 msgstr "A basic transcription utility"
 
-#: src/pt-app.c:203
+#: src/libparlatype/pt-app.c:349
 msgid "translator-credits"
 msgstr ""
 "Launchpad Contributions:\n"
 "  Jared Norris https://launchpad.net/~jarednorris"
 
-#: src/pt-app.c:344
+#: src/libparlatype/pt-app.c:491
 #, c-format
 msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
@@ -361,652 +405,206 @@ msgstr ""
 "Warning: Parlatype handles only one file at a time. The other files are "
 "ignored.\n"
 
-#. Translators: Fallback label for a download location
-#: src/pt-asr-dialog.c:99
-msgid "Link"
-msgstr ""
-
-#. Not using title case here, this is more a status than a title.
-#: src/pt-asr-dialog.c:115
-#, fuzzy
-#| msgid "There is no configuration"
-msgid "This configuration is active."
-msgstr "There is no configuration"
-
-#: src/pt-asr-dialog.c:117
-msgid "Deactivate"
-msgstr ""
-
-#. Translators: Model is a language model
-#: src/pt-asr-dialog.c:124
-msgid "Model data is installed."
-msgstr ""
-
-#: src/pt-asr-dialog.c:126 src/pt-asr-dialog.c:133
-msgid "Activate"
-msgstr ""
-
-#. Translators: Model is a language model
-#: src/pt-asr-dialog.c:131
-msgid "Model data is not installed."
-msgstr ""
-
-#: src/pt-asr-dialog.c:132
-msgid "See next section for details."
-msgstr ""
-
-#. Translators: Configuration will be deleted, but not its data
-#: src/pt-asr-dialog.c:144
-msgid "Model data will be preserved"
-msgstr ""
-
-#: src/pt-asr-dialog.c:222
-#, fuzzy
-msgid "Language"
-msgstr "Language model:"
-
-#: src/pt-asr-dialog.c:226
-msgid "CMU Pocketsphinx"
-msgstr ""
-
-#. Translators: Model is a language model
-#: src/pt-asr-dialog.c:230
-msgid "Type of Model"
-msgstr ""
-
-#: src/pt-asr-dialog.c:232
-msgid "GStreamer Plugin"
-msgstr ""
-
-#: src/pt-asr-dialog.c:236
-msgid "Publisher"
-msgstr ""
-
-#: src/pt-asr-dialog.c:241
-msgid "License"
-msgstr ""
-
-#: src/pt-asr-dialog.c:249
-msgid "Instructions"
-msgstr ""
-
-#: src/pt-asr-dialog.c:258 src/pt-asr-dialog.c:269
-#, fuzzy
-msgid "Download"
-msgstr "Download model"
-
-#. Translators: %s is replaced with the name of a configuration
-#: src/pt-asr-dialog.c:314
-#, c-format
-msgid "“%s” has been deleted"
-msgstr ""
-
-#: src/pt-asr-dialog.c:322 src/pt-preferences.c:248 src/pt-preferences.c:418
-#: src/pt-preferences.c:453 src/pt-window.c:86
-msgid "Error"
-msgstr ""
-
-#. Translators: %s is replaced with the name of a configuration
-#: src/pt-asr-dialog.c:373
-#, c-format
-msgid "“%s” has been activated"
-msgstr ""
-
-#: src/pt-asr-dialog.c:376
-msgid "Configuration has been deactivated"
-msgstr ""
-
-#: src/pt-config-row.c:79
-msgid "Not installed"
-msgstr ""
-
-#. Translators: This is a time format, like "2:05:30" for 2
-#. hours, 5 minutes, and 30 seconds. You may change ":" to
-#. the separator that your locale uses or use "%Id" instead
-#. of "%d" if your locale uses localized digits.
-#: src/pt-goto-dialog.c:50
-#, c-format
-msgctxt "long time format"
-msgid "%d:%02d:%02d"
-msgstr "%d:%02d:%02d"
-
-#: src/pt-goto-dialog.c:87
-msgid "second"
-msgid_plural "seconds"
-msgstr[0] "second"
-msgstr[1] "seconds"
-
-#: src/pt-preferences.c:457
-#, fuzzy
-msgid "The file is not a valid language model configuration."
-msgstr "The folder contains several language models."
-
-#: src/pt-preferences.c:461
-msgid "There is no plugin installed for this language model."
-msgstr ""
-
-#: src/pt-preferences.c:527 src/pt-prefs-install-row.c:136
-#, fuzzy
-#| msgid "Select acoustic model folder"
-msgid "Select Model Folder"
-msgstr "Select acoustic model folder"
-
-#: src/pt-preferences.c:535
-#, fuzzy
-msgid "Parlatype Language Model Configurations"
-msgstr "Language model"
-
-#: src/pt-prefs-install-row.c:54
-msgid "Installed"
-msgstr ""
-
-#: src/pt-prefs-install-row.c:59
-msgid "Not Installed"
-msgstr ""
-
-#: src/pt-prefs-install-row.c:60
-msgid "Download files and select model folder."
-msgstr ""
-
-#: src/pt-prefs-install-row.c:114
-msgid "Model Data Not Found"
-msgstr ""
-
-#: src/pt-prefs-install-row.c:116
-#, fuzzy
-msgid "The chosen folder does not contain data for this configuration."
-msgstr "The folder contains several language models."
-
-#: src/pt-window.c:396
+#. Translators: tooltip for a button
+#: src/libparlatype/pt-audio-controls.c:76
 #, fuzzy, c-format
-#| msgid "Jump back 1 second"
-#| msgid_plural "Jump back %d seconds"
 msgid "Skip back 1 second"
 msgid_plural "Skip back %d seconds"
 msgstr[0] "Jump back 1 second"
 msgstr[1] "Jump back %d seconds"
 
-#: src/pt-window.c:413
+#. Translators: tooltip for a button
+#: src/libparlatype/pt-audio-controls.c:97
 #, fuzzy, c-format
-#| msgid "Jump forward 1 second"
-#| msgid_plural "Jump forward %d seconds"
 msgid "Skip forward 1 second"
 msgid_plural "Skip forward %d seconds"
 msgstr[0] "Jump forward 1 second"
 msgstr[1] "Jump forward %d seconds"
 
-#: src/pt-window.c:434
+#. Translators: tooltip for play button
+#: src/libparlatype/pt-audio-controls.c:122
+msgid "Start playing"
+msgstr "Start playing"
+
+#. Translators: tooltip for pause button
+#: src/libparlatype/pt-audio-controls.c:130
 msgid "Pause"
 msgstr "Pause"
 
-#: src/pt-window.c:439
+#. Translators: tooltip for pause button
+#: src/libparlatype/pt-audio-controls.c:136
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
 msgstr[0] "Pause and rewind 1 second"
 msgstr[1] "Pause and rewind %d seconds"
 
-#: src/pt-window.c:448
-msgid "Start playing"
-msgstr "Start playing"
-
-#. Translators: %s is replaced with a timestamp
-#: src/pt-window.c:488
-#, fuzzy, c-format
-#| msgid "Go to time in clipboard: %s"
-msgid "Go to Time in Clipboard: %s"
-msgstr "Go to time in clipboard: %s"
-
-#: src/pt-window.c:490 src/pt-window.c:1172
-#, fuzzy
-#| msgid "Go to time in clipboard"
-msgid "Go to Time in Clipboard"
-msgstr "Go to time in clipboard"
-
-#: src/pt-window.c:1167
-#, fuzzy
-#| msgid "Manual transcription"
-msgid "Manual Transcription"
-msgstr "Manual transcription"
-
-#: src/pt-window.c:1168
-#, fuzzy
-#| msgid "Automatic transcription"
-msgid "Automatic Transcription"
-msgstr "Automatic transcription"
-
-#: src/resources/asr-dialog.ui:29
-msgid "Installation"
-msgstr ""
-
-#: src/resources/asr-dialog.ui:30
-#, fuzzy
-#| msgid "Select language model"
-msgid "How to install this language model."
-msgstr "Select language model"
-
-#: src/resources/asr-dialog.ui:33
-msgid "General Information"
-msgstr ""
-
-#: src/resources/asr-dialog.ui:36
-#, fuzzy
-msgid "Display Name"
-msgstr "Display"
-
-#: src/resources/asr-dialog.ui:44
-#, fuzzy
-msgid "Delete this Configuration"
-msgstr "Deleting configuration"
-
-#: src/resources/asr-dialog.ui:48
-msgid "Delete"
-msgstr ""
-
-#: src/resources/editor-theme-selector.ui:22
-msgid "Follow System Style"
-msgstr ""
-
-#: src/resources/editor-theme-selector.ui:24
-msgid "Follow system style"
-msgstr ""
-
-#: src/resources/editor-theme-selector.ui:39
-msgid "Light Style"
-msgstr ""
-
-#: src/resources/editor-theme-selector.ui:41
-msgid "Light style"
-msgstr ""
-
-#: src/resources/editor-theme-selector.ui:57
-msgid "Dark Style"
-msgstr ""
-
-#: src/resources/editor-theme-selector.ui:59
-msgid "Dark style"
-msgstr ""
-
-#: src/resources/goto-dialog.ui:10 src/resources/window.ui:262
-msgid "Go to…"
-msgstr "Go to…"
-
-#: src/resources/goto-dialog.ui:20
-msgid "Go to position:"
-msgstr "Go to position:"
-
-#: src/resources/goto-dialog.ui:52
-msgid "_Cancel"
-msgstr "_Cancel"
-
-#: src/resources/goto-dialog.ui:60
-msgid "_OK"
-msgstr "_OK"
-
-#: src/resources/help-overlay.ui:13
-msgid "General"
-msgstr "General"
-
-#: src/resources/help-overlay.ui:18
-msgid "Open a media file"
-msgstr "Open a media file"
-
-#: src/resources/help-overlay.ui:25
-#, fuzzy
-#| msgid "Show/hide action menu"
-msgid "Show/hide main menu"
-msgstr "Show/hide action menu"
-
-#: src/resources/help-overlay.ui:32
-msgid "Quit"
-msgstr "Quit"
-
-#: src/resources/help-overlay.ui:40 src/resources/preferences.ui:11
-msgid "Waveform"
-msgstr "Waveform"
-
-#: src/resources/help-overlay.ui:45
-msgid "Play/Pause"
-msgstr "Play/Pause"
-
-#: src/resources/help-overlay.ui:52 src/resources/window.ui:99
-#, fuzzy
-#| msgid "Jump back 1 second"
-#| msgid_plural "Jump back %d seconds"
-msgid "Skip backward"
-msgstr "Jump back 1 second"
-
-#: src/resources/help-overlay.ui:59 src/resources/window.ui:144
-#, fuzzy
-#| msgid "Jump forward"
-msgid "Skip forward"
-msgstr "Jump forward"
-
-#: src/resources/help-overlay.ui:66
-msgid "Zoom in"
-msgstr "Zoom in"
-
-#: src/resources/help-overlay.ui:73
-msgid "Zoom out"
-msgstr "Zoom out"
-
-#: src/resources/help-overlay.ui:80
-msgid "Open “Go to” dialog"
-msgstr "Open “Go to” dialogue"
-
-#: src/resources/help-overlay.ui:87
-msgid "Copy timestamp to clipboard"
-msgstr "Copy timestamp to clipboard"
-
-#: src/resources/help-overlay.ui:94
-msgid "Go to timestamp in clipboard"
-msgstr "Go to timestamp in clipboard"
-
-#: src/resources/help-overlay.ui:102 src/resources/window.ui:243
-msgid "Help"
-msgstr "Help"
-
-#: src/resources/help-overlay.ui:107
-msgid "Show help"
-msgstr "Show help"
-
-#: src/resources/help-overlay.ui:114
-msgid "Show keyboard shortcuts"
-msgstr "Show keyboard shortcuts"
-
-#: src/resources/preferences.ui:7 src/resources/window.ui:235
-msgid "Preferences"
-msgstr "Preferences"
-
-#: src/resources/preferences.ui:15
-msgid "Display"
-msgstr "Display"
-
-#: src/resources/preferences.ui:16
-msgid "Change appearance of the waveform and cursor movement."
-msgstr ""
-
-#: src/resources/preferences.ui:19
-#, fuzzy
-#| msgid "Waveform"
-msgid "Waveform Detail"
-msgstr "Waveform"
-
-#: src/resources/preferences.ui:20
-#, fuzzy
-#| msgid "_Pixels per second:"
-msgid "Vertical lines per second"
-msgstr "_Pixels per second:"
-
-#: src/resources/preferences.ui:53
-#, fuzzy
-#| msgid "Show _time scale"
-msgid "Show Time Scale"
-msgstr "Show _time scale"
-
-#: src/resources/preferences.ui:58
-msgid "Cursor Mode"
-msgstr ""
-
-#: src/resources/preferences.ui:62
-#, fuzzy
-#| msgid "_Fixed cursor"
-msgid "Fixed Cursor"
-msgstr "_Fixed cursor"
-
-#: src/resources/preferences.ui:63
-#, fuzzy
-#| msgid "_Moving cursor"
-msgid "Moving Cursor"
-msgstr "_Moving cursor"
-
-#: src/resources/preferences.ui:76
-#, fuzzy
-#| msgid "Controls"
-msgid "Audio Controls"
-msgstr "Controls"
-
-#: src/resources/preferences.ui:80
-msgid "Pause and Skip Buttons"
-msgstr ""
-
-#: src/resources/preferences.ui:81
-msgid "Set amount of time to skip in seconds."
-msgstr ""
-
-#: src/resources/preferences.ui:84
-msgid "Rewind on Pause"
-msgstr ""
-
-#: src/resources/preferences.ui:85
-msgid "Set to zero to disable this feature"
-msgstr ""
-
-#: src/resources/preferences.ui:98
-msgid "Skip Backward"
-msgstr ""
-
-#: src/resources/preferences.ui:111
-#, fuzzy
-#| msgid "Jump forward 1 second"
-#| msgid_plural "Jump forward %d seconds"
-msgid "Skip Forward"
-msgstr "Jump forward 1 second"
-
-#: src/resources/preferences.ui:126
-msgid "Play Button"
-msgstr ""
-
-#: src/resources/preferences.ui:127
-msgid "Change behavior of play button."
-msgstr ""
-
-#: src/resources/preferences.ui:130
-msgid "At End of File Replay File"
-msgstr ""
-
-#: src/resources/preferences.ui:135
-msgid "At End of Selection Replay Selection"
-msgstr ""
-
-#: src/resources/preferences.ui:145
-msgid "Timestamps"
-msgstr "Timestamps"
-
-#: src/resources/preferences.ui:149
-#, fuzzy
-#| msgid "Timestamps"
-msgid "Timestamp Format"
-msgstr "Timestamps"
-
-#: src/resources/preferences.ui:150
-msgid ""
-"Customize produced timestamps. Note that all formats can be read, these "
-"settings are applied when timestamps are written."
-msgstr ""
-
-#: src/resources/preferences.ui:153
-#, fuzzy
-#| msgid "Always show hours and leading zeroes"
-msgid "Always Show Hours and Leading Zeroes"
-msgstr "Always show hours and leading zeroes"
-
-#: src/resources/preferences.ui:158
-msgid "Precision"
-msgstr "Precision"
-
-#: src/resources/preferences.ui:162
-#, fuzzy
-#| msgid "Full seconds"
-msgid "Full Seconds"
-msgstr "Full seconds"
-
-#: src/resources/preferences.ui:163
-#, fuzzy
-#| msgid "10th seconds"
-msgid "10th Seconds"
-msgstr "10th seconds"
-
-#: src/resources/preferences.ui:164
-#, fuzzy
-#| msgid "100th seconds"
-msgid "100th Seconds"
-msgstr "100th seconds"
-
-#: src/resources/preferences.ui:172
-#, fuzzy
-#| msgid "Fraction separator:"
-msgid "Fraction Separator"
-msgstr "Fraction separator:"
-
-#: src/resources/preferences.ui:176
-#, fuzzy
-#| msgid ". (point)"
-msgid ". (Point)"
-msgstr ". (point)"
-
-#: src/resources/preferences.ui:177
-#, fuzzy
-#| msgid "- (hyphen)"
-msgid "- (Hyphen)"
-msgstr "- (hyphen)"
-
-#: src/resources/preferences.ui:185
-#, fuzzy
-#| msgid "Characters around timestamps"
-msgid "Characters Around Timestamps"
-msgstr "Characters around timestamps"
-
-#: src/resources/preferences.ui:189
-msgid "None"
-msgstr "None"
-
-#: src/resources/preferences.ui:190
-#, fuzzy
-#| msgid "#Number signs#"
-msgid "#Number Signs#"
-msgstr "#Number signs#"
-
-#: src/resources/preferences.ui:191
-#, fuzzy
-#| msgid "(Round brackets)"
-msgid "(Round Brackets)"
-msgstr "(Round brackets)"
-
-#: src/resources/preferences.ui:192
-#, fuzzy
-#| msgid "[Square brackets]"
-msgid "[Square Brackets]"
-msgstr "[Square brackets]"
-
-#: src/resources/preferences.ui:202
-msgid "Preview"
-msgstr ""
-
-#: src/resources/preferences.ui:211
-#, fuzzy
-#| msgid "Speech recognition"
-msgid "Speech Recognition"
-msgstr "Speech recognition"
-
-#: src/resources/preferences.ui:215
-#, fuzzy
-msgid "Language Models"
-msgstr "Language model:"
-
-#: src/resources/preferences.ui:216
-msgid ""
-"Inspect configuration details, learn how to install model data, and choose a "
-"configuration for automatic speech recognition."
-msgstr ""
-
-#: src/resources/preferences.ui:223
-#, fuzzy
-msgid "Import configuration from file"
-msgstr "There is no configuration"
-
-#: src/resources/preferences.ui:232
-#, fuzzy
-msgid "Copy Initial Set of Configurations"
-msgstr "Deleting configuration"
-
-#: src/resources/prefs-install-row.ui:11
-msgid "Choose folder"
-msgstr ""
-
-#: src/resources/window.ui:38
-msgid "_Open"
-msgstr "_Open"
-
-#: src/resources/window.ui:41
-msgid "Open a file"
-msgstr "Open a file"
-
-#: src/resources/window.ui:52
-msgid "Main Menu"
-msgstr ""
-
-#: src/resources/window.ui:125
-msgid "_Play"
-msgstr "_Play"
-
-#: src/resources/window.ui:171
-msgid "Speed:"
-msgstr "Speed:"
-
-#: src/resources/window.ui:203
-msgid "Volume"
-msgstr ""
-
-#: src/resources/window.ui:239
-msgid "_Keyboard Shortcuts"
-msgstr "_Keyboard Shortcuts"
-
-#: src/resources/window.ui:247
-msgid "About Parlatype"
-msgstr "About Parlatype"
-
-#: src/resources/window.ui:254
-#, fuzzy
-#| msgid "Copy time to clipboard"
-msgid "Copy Time to Clipboard"
-msgstr "Copy time to clipboard"
-
-#: src/resources/window.ui:258
-#, fuzzy
-#| msgid "Go to cursor"
-msgid "Go to Cursor"
-msgstr "Go to cursor"
-
-#. Translators: %s is replaced with the plugins name
-#: libparlatype/src/gst/gst-helpers.c:44 libparlatype/src/gst/gst-helpers.c:51
-#, c-format
-msgid "Failed to load plugin “%s”."
-msgstr "Failed to load plugin “%s”."
-
 #. Translators: %s is replaced with the parameter’s name
-#: libparlatype/src/pt-config.c:480
+#: src/libparlatype/pt-config.c:530
 #, c-format
 msgid "Plugin doesn’t have a parameter “%s”."
 msgstr ""
 
 #. Translators: %s is replaced with the parameter’s name
-#: libparlatype/src/pt-config.c:491
+#: src/libparlatype/pt-config.c:540
 #, c-format
 msgid "Parameter “%s” is not writable."
 msgstr ""
 
 #. Translators: %s is replaced with the parameter’s name
-#: libparlatype/src/pt-config.c:507
+#: src/libparlatype/pt-config.c:554
 #, c-format
 msgid "Value for parameter “%s” is not valid."
+msgstr ""
+
+#. Translators: %s is replaced with the plugin’s name
+#: src/libparlatype/pt-config.c:762
+#, c-format
+msgid "The plugin “%s” could not be loaded."
+msgstr ""
+
+#: src/libparlatype/pt-config.c:1182
+msgid "Multilingual"
+msgstr ""
+
+#. Translators: Fallback label for a download location
+#: src/libparlatype/pt-config-view.c:135
+msgid "Link"
+msgstr ""
+
+#. Remaining time to download an item in seconds
+#: src/libparlatype/pt-config-view.c:210
+#, fuzzy, c-format
+msgid "%d second left"
+msgid_plural "%d seconds left"
+msgstr[0] "second"
+msgstr[1] "seconds"
+
+#. Remaining time to download an item in minutes
+#: src/libparlatype/pt-config-view.c:218
+#, c-format
+msgid "%d minute left"
+msgid_plural "%d minutes left"
+msgstr[0] ""
+msgstr[1] ""
+
+#. Remaining time to download an item in hours
+#: src/libparlatype/pt-config-view.c:226
+#, c-format
+msgid "%d hour left"
+msgid_plural "%d hours left"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/libparlatype/pt-config-view.c:337 src/libparlatype/pt-window.c:102
+msgid "Error"
+msgstr ""
+
+#: src/libparlatype/pt-config-view.c:453
+msgid "Publisher"
+msgstr ""
+
+#: src/libparlatype/pt-config-view.c:458
+msgid "License"
+msgstr ""
+
+#: src/libparlatype/pt-config-view.c:467 src/libparlatype/pt-config-view.c:478
+#, fuzzy
+msgid "Download"
+msgstr "Download model"
+
+#: src/libparlatype/pt-file-loader.c:331
+#, c-format
+msgid "Not a regular file"
+msgstr ""
+
+#: src/libparlatype/pt-file-loader.c:343
+#, fuzzy, c-format
+msgid "Error opening file"
+msgstr "Error opening help: %s"
+
+#: src/libparlatype/pt-file-loader.c:387
+#, fuzzy, c-format
+msgid "Error reading file"
+msgstr "Error opening help: %s"
+
+#. We don’t have meaningful error messages and fail on every error.
+#: src/libparlatype/pt-file-saver.c:53
+msgid "Error saving document."
+msgstr ""
+
+#. Translators: This is a time format, like "2:05:30" for 2
+#. hours, 5 minutes, and 30 seconds. You may change ":" to
+#. the separator that your locale uses or use "%Id" instead
+#. of "%d" if your locale uses localized digits.
+#: src/libparlatype/pt-goto-dialog.c:50 src/libparlatype/pt-timestamp.c:77
+#: src/libparlatype/pt-waveviewer-ruler.c:173
+#: src/libparlatype/pt-waveviewer-ruler.c:222
+#, c-format
+msgctxt "long time format"
+msgid "%d:%02d:%02d"
+msgstr "%d:%02d:%02d"
+
+#: src/libparlatype/pt-goto-dialog.c:87
+msgid "second"
+msgid_plural "seconds"
+msgstr[0] "second"
+msgstr[1] "seconds"
+
+#: src/libparlatype/pt-prefs-install-row.c:67
+msgid "Installed"
+msgstr ""
+
+#: src/libparlatype/pt-prefs-install-row.c:72
+msgid "Not Installed"
+msgstr ""
+
+#: src/libparlatype/pt-prefs-install-row.c:73
+msgid "Download files and select model folder."
+msgstr ""
+
+#: src/libparlatype/pt-prefs-install-row.c:127
+msgid "Model Data Not Found"
+msgstr ""
+
+#: src/libparlatype/pt-prefs-install-row.c:129
+#, fuzzy
+msgid "The chosen folder does not contain data for this configuration."
+msgstr "The folder contains several language models."
+
+#: src/libparlatype/pt-prefs-install-row.c:148
+#, fuzzy
+msgid "Select Model Folder"
+msgstr "Select acoustic model folder"
+
+#: src/libparlatype/pt-save-changes-dialog.c:100
+#: src/libparlatype/pt-window.c:343
+msgid "Save as"
+msgstr ""
+
+#: src/libparlatype/pt-save-changes-dialog.c:160
+msgid "Save Changes?"
+msgstr ""
+
+#: src/libparlatype/pt-save-changes-dialog.c:161
+msgid ""
+"Open documents contain unsaved changes. Changes which are not saved will be "
+"permanently lost."
+msgstr ""
+
+#: src/libparlatype/pt-save-changes-dialog.c:166
+msgid "_Discard"
+msgstr ""
+
+#: src/libparlatype/pt-save-changes-dialog.c:167
+msgid "_Save"
 msgstr ""
 
 #. Translators: This is a time format, like "2:05:30.1" for 2
 #. hours, 5 minutes, 30 seconds, and 1 tenthsecond. You may
 #. change ":" or "." to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: libparlatype/src/pt-player.c:1520
+#: src/libparlatype/pt-timestamp.c:84
 #, c-format
 msgctxt "long time format, 1 digit"
 msgid "%d:%02d:%02d.%d"
@@ -1016,7 +614,7 @@ msgstr "%d:%02d:%02d.%d"
 #. hours, 5 minutes, 30 seconds, and 12 hundrethseconds. You may
 #. change ":" or "." to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: libparlatype/src/pt-player.c:1527
+#: src/libparlatype/pt-timestamp.c:91
 #, c-format
 msgctxt "long time format, 2 digits"
 msgid "%d:%02d:%02d.%02d"
@@ -1026,7 +624,7 @@ msgstr "%d:%02d:%02d.%02d"
 #. 5 minutes, and 30 seconds. You may change ":" to
 #. the separator that your locale uses or use "%I02d" instead
 #. of "%02d" if your locale uses localized digits.
-#: libparlatype/src/pt-player.c:1546
+#: src/libparlatype/pt-timestamp.c:110
 #, c-format
 msgctxt "short time format"
 msgid "%02d:%02d"
@@ -1036,7 +634,7 @@ msgstr "%02d:%02d"
 #. 5 minutes, 30 seconds, and 1 tenthsecond. You may change
 #. ":" or "." to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: libparlatype/src/pt-player.c:1553
+#: src/libparlatype/pt-timestamp.c:117
 #, c-format
 msgctxt "short time format, 1 digit"
 msgid "%02d:%02d.%d"
@@ -1046,7 +644,7 @@ msgstr "%02d:%02d.%d"
 #. 5 minutes, 30 seconds, and 12 hundrethseconds. You may change
 #. ":" or "." to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: libparlatype/src/pt-player.c:1560
+#: src/libparlatype/pt-timestamp.c:124
 #, c-format
 msgctxt "short time format, 2 digits"
 msgid "%02d:%02d.%02d"
@@ -1056,8 +654,9 @@ msgstr "%02d:%02d.%02d"
 #. 5 minutes, and 30 seconds. You may change ":" to
 #. the separator that your locale uses or use "%Id" instead
 #. of "%d" if your locale uses localized digits.
-#: libparlatype/src/pt-player.c:1576 libparlatype/src/pt-waveviewer-ruler.c:182
-#: libparlatype/src/pt-waveviewer-ruler.c:244
+#: src/libparlatype/pt-timestamp.c:140
+#: src/libparlatype/pt-waveviewer-ruler.c:180
+#: src/libparlatype/pt-waveviewer-ruler.c:224
 #, c-format
 msgctxt "shortest time format"
 msgid "%d:%02d"
@@ -1067,7 +666,7 @@ msgstr "%d:%02d"
 #. 5 minutes, 30 seconds, and 1 tenthsecond. You may change
 #. ":" or "." to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: libparlatype/src/pt-player.c:1583
+#: src/libparlatype/pt-timestamp.c:147
 #, c-format
 msgctxt "shortest time format, 1 digit"
 msgid "%d:%02d.%d"
@@ -1077,31 +676,372 @@ msgstr "%d:%02d.%d"
 #. 5 minutes, 30 seconds, and 12 hundrethseconds. You may change
 #. ":" or "." to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: libparlatype/src/pt-player.c:1590
+#: src/libparlatype/pt-timestamp.c:154
 #, c-format
 msgctxt "shortest time format, 2 digits"
 msgid "%d:%02d.%02d"
 msgstr "%d:%02d.%02d"
 
-#: libparlatype/src/pt-waveloader.c:532
+#. Translators: label for a file filter showing all files
+#: src/libparlatype/pt-utils.c:54
+#, fuzzy
+msgid "All Files"
+msgstr "All files"
+
+#. Translators: label for a file filter showing only audio files
+#: src/libparlatype/pt-utils.c:59
+#, fuzzy
+msgid "Audio Files"
+msgstr "Audio files"
+
+#. Translators: label for a file filter showing only Parlatype’ own files (extension .pt)
+#: src/libparlatype/pt-utils.c:64
+#, fuzzy
+msgid "Parlatype Files"
+msgstr "Parlatype"
+
+#. Translators: label for a file filter showing only this kind of documents, available in LibreOffice file dialogs
+#: src/libparlatype/pt-utils.c:69
+msgid "Flat XML ODF Text Documents"
+msgstr ""
+
+#. Translators: unknown download size
+#: src/libparlatype/pt-utils.c:101
+msgid "Unknown"
+msgstr ""
+
+#: src/libparlatype/pt-utils.c:107
+#, c-format
+msgid "%d KB"
+msgstr ""
+
+#: src/libparlatype/pt-utils.c:110
+#, c-format
+msgid "%d MB"
+msgstr ""
+
+#: src/libparlatype/pt-utils.c:112
+#, c-format
+msgid "%.1f GB"
+msgstr ""
+
+#: src/libparlatype/pt-waveloader.c:512
 msgid "Waveloader has outstanding operation."
 msgstr "Waveloader has outstanding operation."
 
-#: libparlatype/src/pt-waveloader.c:548
+#: src/libparlatype/pt-waveloader.c:528
 msgid "Failed to setup GStreamer pipeline."
 msgstr "Failed to setup GStreamer pipeline."
 
 #. Translators: %s is a detailed error message.
-#: libparlatype/src/pt-waveviewer.c:970
+#: src/libparlatype/pt-waveviewer.c:961
 #, c-format
 msgid "URI not valid: %s"
 msgstr "URI not valid: %s"
 
 #. Translators: %s is a detailed error message.
-#: libparlatype/src/pt-waveviewer.c:982
+#: src/libparlatype/pt-waveviewer.c:973
 #, c-format
 msgid "File not found: %s"
 msgstr "File not found: %s"
+
+#. Translators: Title of an error message while downloading an item. %s is replaced with the item’s name.
+#: src/libparlatype/pt-window.c:527
+#, fuzzy, c-format
+msgid "Error Downloading »%s«"
+msgstr "Error opening help: %s"
+
+#, fuzzy
+#~| msgid "Media player for speech transcription"
+#~ msgid "Media player for transcription"
+#~ msgstr "Media player for speech transcription"
+
+#~ msgid ""
+#~ "Parlatype is an easy to use media player. Its main purpose is to help you "
+#~ "transcribing speech."
+#~ msgstr ""
+#~ "Parlatype is an easy to use media player. Its main purpose is to help you "
+#~ "transcribing speech."
+
+#~ msgid "Gabor Karsay"
+#~ msgstr "Gabor Karsay"
+
+#~ msgid "Translation updates for several languages."
+#~ msgstr "Translation updates for several languages."
+
+#, fuzzy
+#~| msgid "Translation updates for several languages."
+#~ msgid ""
+#~ "This release is switching to GTK 4 and brings translation updates for "
+#~ "several languages."
+#~ msgstr "Translation updates for several languages."
+
+#, fuzzy
+#~| msgid "This is a major release with new features."
+#~ msgid "This is a minor release with a new feature."
+#~ msgstr "This is a major release with new features."
+
+#~ msgid "This is a major release with new features."
+#~ msgstr "This is a major release with new features."
+
+#, fuzzy
+#~| msgid "Select output for automatic speech recognition"
+#~ msgid "New configuration system for Automatic Speech Recognition."
+#~ msgstr "Select output for automatic speech recognition"
+
+#~ msgid "This is a minor release with bug fixes and minor new features."
+#~ msgstr "This is a minor release with bug fixes and minor new features."
+
+#~ msgid ""
+#~ "Mute/unmute volume by clicking on the volume icon with the pointer’s "
+#~ "secondary button (usually right mouse button)."
+#~ msgstr ""
+#~ "Mute/unmute volume by clicking on the volume icon with the pointer’s "
+#~ "secondary button (usually right mouse button)."
+
+#~ msgid ""
+#~ "With Pulseaudio Parlatype doesn’t change the system volume anymore, just "
+#~ "its own application specific volume."
+#~ msgstr ""
+#~ "With Pulseaudio Parlatype doesn’t change the system volume anymore, just "
+#~ "its own application specific volume."
+
+#~ msgid "The initial volume level is picked up from Pulseaudio."
+#~ msgstr "The initial volume level is picked up from Pulseaudio."
+
+#~ msgid "Waveform is loaded on-the-fly, there is no blocking progress dialog."
+#~ msgstr ""
+#~ "Waveform is loaded on-the-fly, there is no blocking progress dialogue."
+
+#~ msgid "Waveform can be changed continuously instead of in discrete steps."
+#~ msgstr "Waveform can be changed continuously instead of in discrete steps."
+
+#~ msgid "This is a minor release."
+#~ msgstr "This is a minor release."
+
+#~ msgid ""
+#~ "Update time label only if time has changed. This is a performance "
+#~ "increase, cursor movement should be smoother on slower systems."
+#~ msgstr ""
+#~ "Update time label only if time has changed. This is a performance "
+#~ "increase, cursor movement should be smoother on slower systems."
+
+#~ msgid "Translation updates for Hungarian, Lithuanian and Spanish"
+#~ msgstr "Translation updates for Hungarian, Lithuanian and Spanish"
+
+#~ msgid "This is a minor release with some changes."
+#~ msgstr "This is a minor release with some changes."
+
+#, fuzzy
+#~| msgid ""
+#~| "Automatic speech recognition (ASR) is now disabled by default and it’s "
+#~| "only shown, if parlatype is launched with the new parameter --with-asr"
+#~ msgid ""
+#~ "Automatic speech recognition (ASR) is now disabled by default and it’s "
+#~ "only shown, if Parlatype is launched with the new parameter \\\"--with-"
+#~ "asr\\\""
+#~ msgstr ""
+#~ "Automatic speech recognition (ASR) is now disabled by default and it’s "
+#~ "only shown, if parlatype is launched with the new parameter --with-asr"
+
+#~ msgid "Fix internationalization: Some translations were not shown"
+#~ msgstr "Fix internationalisation: Some translations were not shown"
+
+#~ msgid ""
+#~ "Translation updates for Arabic, British English, Czech, Dutch, German, "
+#~ "Polish and Spanish"
+#~ msgstr ""
+#~ "Translation updates for Arabic, British English, Czech, Dutch, German, "
+#~ "Polish and Spanish"
+
+#~ msgid "This is a major release with some new features."
+#~ msgstr "This is a major release with some new features."
+
+#~ msgid "Automatic speech recognition with CMU Sphinx"
+#~ msgstr "Automatic speech recognition with CMU Sphinx"
+
+#~ msgid "Design changes, including removal of application menu"
+#~ msgstr "Design changes, including removal of application menu"
+
+#~ msgid "Custom timestamps"
+#~ msgstr "Custom timestamps"
+
+#~ msgid ""
+#~ "Translation updates for Brazilian Portuguese, British English, Czech, "
+#~ "German, Japanese, Lithuanian and Polish"
+#~ msgstr ""
+#~ "Translation updates for Brazilian Portuguese, British English, Czech, "
+#~ "German, Japanese, Lithuanian and Polish"
+
+#~ msgid "This is a minor maintenance release."
+#~ msgstr "This is a minor maintenance release."
+
+#~ msgid "Animate scrolling when using keybindings"
+#~ msgstr "Animate scrolling when using keybindings"
+
+#~ msgid "Change desktop entry category to Audio/Video instead of Utilities"
+#~ msgstr "Change desktop entry category to Audio/Video instead of Utilities"
+
+#~ msgid "Translation updates for French"
+#~ msgstr "Translation updates for French"
+
+#~ msgid "This release contains a number of bug fixes and minor improvements."
+#~ msgstr "This release contains a number of bug fixes and minor improvements."
+
+#~ msgid "Progress Dialog has now a countdown timer (estimated time left)"
+#~ msgstr "Progress Dialogue has now a countdown timer (estimated time left)"
+
+#~ msgid "Increase max. possible speed to 2.0"
+#~ msgstr "Increase max. possible speed to 2.0"
+
+#~ msgid ""
+#~ "New keyboard shortcuts for Play/Pause (Ctrl + Space), Jump back (Ctrl + "
+#~ "Left), Jump forward (Ctrl + Right)"
+#~ msgstr ""
+#~ "New keyboard shortcuts for Play/Pause (Ctrl + Space), Jump back (Ctrl + "
+#~ "Left), Jump forward (Ctrl + Right)"
+
+#~ msgid "Scrolling now also possible with vertical scrollbar"
+#~ msgstr "Scrolling now also possible with vertical scrollbar"
+
+#~ msgid "Various fixes for waveform and cursor display"
+#~ msgstr "Various fixes for waveform and cursor display"
+
+#~ msgid ""
+#~ "Translation updates for Arabic, British English, Catalan, German, "
+#~ "Finnish, French, Japanese, Lithuanian, Polish, Spanish and Swedish"
+#~ msgstr ""
+#~ "Translation updates for Arabic, British English, Catalan, German, "
+#~ "Finnish, French, Japanese, Lithuanian, Polish, Spanish and Swedish"
+
+#, fuzzy
+#~| msgid "There is no configuration"
+#~ msgid "This configuration is active."
+#~ msgstr "There is no configuration"
+
+#, fuzzy
+#~ msgid "The file is not a valid language model configuration."
+#~ msgstr "The folder contains several language models."
+
+#, fuzzy
+#~ msgid "Parlatype Language Model Configurations"
+#~ msgstr "Language model"
+
+#, fuzzy, c-format
+#~| msgid "Go to time in clipboard: %s"
+#~ msgid "Go to Time in Clipboard: %s"
+#~ msgstr "Go to time in clipboard: %s"
+
+#, fuzzy
+#~| msgid "Go to time in clipboard"
+#~ msgid "Go to Time in Clipboard"
+#~ msgstr "Go to time in clipboard"
+
+#, fuzzy
+#~| msgid "Manual transcription"
+#~ msgid "Manual Transcription"
+#~ msgstr "Manual transcription"
+
+#, fuzzy
+#~| msgid "Automatic transcription"
+#~ msgid "Automatic Transcription"
+#~ msgstr "Automatic transcription"
+
+#~ msgid "Copy timestamp to clipboard"
+#~ msgstr "Copy timestamp to clipboard"
+
+#~ msgid "Go to timestamp in clipboard"
+#~ msgstr "Go to timestamp in clipboard"
+
+#~ msgid "Show help"
+#~ msgstr "Show help"
+
+#, fuzzy
+#~| msgid "Timestamps"
+#~ msgid "Timestamp Format"
+#~ msgstr "Timestamps"
+
+#, fuzzy
+#~| msgid "Always show hours and leading zeroes"
+#~ msgid "Always Show Hours and Leading Zeroes"
+#~ msgstr "Always show hours and leading zeroes"
+
+#~ msgid "Precision"
+#~ msgstr "Precision"
+
+#, fuzzy
+#~| msgid "Full seconds"
+#~ msgid "Full Seconds"
+#~ msgstr "Full seconds"
+
+#, fuzzy
+#~| msgid "10th seconds"
+#~ msgid "10th Seconds"
+#~ msgstr "10th seconds"
+
+#, fuzzy
+#~| msgid "100th seconds"
+#~ msgid "100th Seconds"
+#~ msgstr "100th seconds"
+
+#, fuzzy
+#~| msgid "Fraction separator:"
+#~ msgid "Fraction Separator"
+#~ msgstr "Fraction separator:"
+
+#, fuzzy
+#~| msgid ". (point)"
+#~ msgid ". (Point)"
+#~ msgstr ". (point)"
+
+#, fuzzy
+#~| msgid "- (hyphen)"
+#~ msgid "- (Hyphen)"
+#~ msgstr "- (hyphen)"
+
+#, fuzzy
+#~| msgid "Characters around timestamps"
+#~ msgid "Characters Around Timestamps"
+#~ msgstr "Characters around timestamps"
+
+#~ msgid "None"
+#~ msgstr "None"
+
+#, fuzzy
+#~| msgid "#Number signs#"
+#~ msgid "#Number Signs#"
+#~ msgstr "#Number signs#"
+
+#, fuzzy
+#~| msgid "(Round brackets)"
+#~ msgid "(Round Brackets)"
+#~ msgstr "(Round brackets)"
+
+#, fuzzy
+#~| msgid "[Square brackets]"
+#~ msgid "[Square Brackets]"
+#~ msgstr "[Square brackets]"
+
+#, fuzzy
+#~| msgid "Speech recognition"
+#~ msgid "Speech Recognition"
+#~ msgstr "Speech recognition"
+
+#, fuzzy
+#~ msgid "Import configuration from file"
+#~ msgstr "There is no configuration"
+
+#, fuzzy
+#~ msgid "Copy Initial Set of Configurations"
+#~ msgstr "Deleting configuration"
+
+#~ msgid "Speed:"
+#~ msgstr "Speed:"
+
+#, fuzzy
+#~| msgid "Copy time to clipboard"
+#~ msgid "Copy Time to Clipboard"
+#~ msgstr "Copy time to clipboard"
 
 #~ msgid "Follow cursor"
 #~ msgstr "Follow cursor"
@@ -1127,10 +1067,6 @@ msgstr "File not found: %s"
 
 #~ msgid "Jump back"
 #~ msgstr "Jump back"
-
-#, c-format
-#~ msgid "Error opening help: %s"
-#~ msgstr "Error opening help: %s"
 
 #, fuzzy
 #~ msgid "Delete language model configuration?"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: parlatype 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-13 21:21+0200\n"
+"POT-Creation-Date: 2026-11-03 21:12+0100\n"
 "PO-Revision-Date: 2026-03-26 11:09+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/parlatype/"
@@ -20,300 +20,367 @@ msgstr ""
 "X-Generator: Weblate 5.17-dev\n"
 "X-Launchpad-Export-Date: 2020-05-08 11:32+0000\n"
 
-#: data/parlatype.desktop.in:4 data/parlatype.metainfo.xml.in:8
-#: src/pt-app.c:196 src/resources/window.ui:30
+#: data/parlatype.desktop.in:3 src/libparlatype/pt-app.c:341
+#: src/libparlatype/pt-window.c:682
 msgid "Parlatype"
 msgstr "Parlatype"
 
-#: data/parlatype.desktop.in:5
+#: data/parlatype.desktop.in:4
 msgid "Transcription utility"
 msgstr "Utilitat de transcripció"
 
+#. Translators: keyword for desktop entry, semicolon must be preserved right after the keyword
 #: data/parlatype.desktop.in:6
 msgid "Transcription;"
 msgstr "Transcripció;"
 
-#: data/parlatype.metainfo.xml.in:9
-msgid "Media player for transcription"
-msgstr "Reproductor multimèdia per a transcripcions"
+#. Translators: %s is replaced with the plugins name
+#: src/libparlatype/gst/gst-helpers.c:42 src/libparlatype/gst/gst-helpers.c:49
+#, c-format
+msgid "Failed to load plugin “%s”."
+msgstr "No s’ha pogut carregar el connector «%s»."
 
-#: data/parlatype.metainfo.xml.in:12
-msgid ""
-"Parlatype is an easy to use media player. Its main purpose is to help you "
-"transcribing speech."
-msgstr ""
-"Parlatype és un reproductor de mitjans fàcil d'usar. El seu principal "
-"propòsit és ajudar a transcriure discursos."
+#. Button accessibility label
+#: src/libparlatype/resources/audio-controls.ui:54
+#: src/libparlatype/resources/help-overlay.ui:52
+msgid "Skip backward"
+msgstr "Torna enrere"
 
-#: data/parlatype.metainfo.xml.in:19
-msgid "Main window"
-msgstr "Finestra principal"
+#. Button accessibility label
+#: src/libparlatype/resources/audio-controls.ui:66
+#, fuzzy
+msgid "Play"
+msgstr "_Reprodueix"
 
-#: data/parlatype.metainfo.xml.in:28
-msgid "Gabor Karsay"
-msgstr "Gabor Karsay"
+#. Button accessibility label
+#: src/libparlatype/resources/audio-controls.ui:80
+#: src/libparlatype/resources/help-overlay.ui:59
+msgid "Skip forward"
+msgstr "Avança"
 
-#: data/parlatype.metainfo.xml.in:47
-msgid "Website moved to www.parlatype.xyz."
-msgstr ""
-
-#: data/parlatype.metainfo.xml.in:48
-msgid "App ID changed accordingly."
-msgstr ""
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:49 data/parlatype.metainfo.xml.in:60
-#: data/parlatype.metainfo.xml.in:81 data/parlatype.metainfo.xml.in:93
-#: data/parlatype.metainfo.xml.in:109
-msgid "Translation updates for several languages."
+#: src/libparlatype/resources/audio-controls.ui:92
+msgid "Go to Cursor"
 msgstr ""
 
-#: data/parlatype.metainfo.xml.in:56
-msgid ""
-"Follow GNOME human interface guidelines throughout the app using libadwaita."
+#: src/libparlatype/resources/audio-controls.ui:96
+#: src/libparlatype/resources/goto-dialog.ui:10
+msgid "Go to…"
+msgstr "Ves a…"
+
+#: src/libparlatype/resources/config-overview.ui:37
+#: src/libparlatype/resources/download-row.ui:19
+#, fuzzy
+msgid "Download Model"
+msgstr "Baixa"
+
+#: src/libparlatype/resources/config-overview.ui:55
+#: src/libparlatype/resources/config-view.ui:42
+msgid "General Information"
+msgstr "Informació general"
+
+#: src/libparlatype/resources/config-overview.ui:59
+#: src/libparlatype/resources/config-view.ui:46
+#, fuzzy
+msgid "Display Name"
+msgstr "Visualitza"
+
+#: src/libparlatype/resources/config-overview.ui:67
+#: src/libparlatype/resources/config-view.ui:70
+msgid "Installation"
+msgstr "Instal·lació"
+
+#: src/libparlatype/resources/config-overview.ui:68
+#: src/libparlatype/resources/config-view.ui:71
+msgid "How to install this language model."
+msgstr "Com instal·lar aquest model de llenguatge."
+
+#: src/libparlatype/resources/config-overview.ui:75
+msgid "Delete this Configuration"
+msgstr "Suprimeix aquesta configuració"
+
+#: src/libparlatype/resources/config-overview.ui:79
+msgid "Delete"
+msgstr "Suprimeix"
+
+#: src/libparlatype/resources/config-view.ui:52
+msgid "Language"
+msgstr "Llenguatge"
+
+#: src/libparlatype/resources/config-view.ui:60
+#, fuzzy
+msgid "Parlatype Plugin"
+msgstr "Parlatype"
+
+#: src/libparlatype/resources/editor-theme-selector.ui:22
+msgid "Follow System Style"
+msgstr "Segueix l’estil del sistema"
+
+#: src/libparlatype/resources/editor-theme-selector.ui:24
+msgid "Follow system style"
+msgstr "Segueix l’estil del sistema"
+
+#: src/libparlatype/resources/editor-theme-selector.ui:39
+msgid "Light Style"
+msgstr "Estil clar"
+
+#: src/libparlatype/resources/editor-theme-selector.ui:41
+msgid "Light style"
+msgstr "Estil clar"
+
+#: src/libparlatype/resources/editor-theme-selector.ui:57
+msgid "Dark Style"
+msgstr "Estil fosc"
+
+#: src/libparlatype/resources/editor-theme-selector.ui:59
+msgid "Dark style"
+msgstr "Estil fosc"
+
+#: src/libparlatype/resources/goto-dialog.ui:20
+msgid "Go to position:"
+msgstr "Anar a la posició:"
+
+#: src/libparlatype/resources/goto-dialog.ui:52
+#: src/libparlatype/pt-save-changes-dialog.c:165
+msgid "_Cancel"
+msgstr "_Cancel·la"
+
+#: src/libparlatype/resources/goto-dialog.ui:60
+msgid "_OK"
+msgstr "_D’acord"
+
+#: src/libparlatype/resources/help-overlay.ui:13
+msgid "General"
+msgstr "General"
+
+#: src/libparlatype/resources/help-overlay.ui:18
+msgid "Open a media file"
+msgstr "Obre un fitxer multimèdia"
+
+#: src/libparlatype/resources/help-overlay.ui:25
+msgid "Show/hide main menu"
+msgstr "Mostra o amaga el menú principal"
+
+#: src/libparlatype/resources/help-overlay.ui:32
+msgid "Quit"
+msgstr "Surt"
+
+#: src/libparlatype/resources/help-overlay.ui:40
+#: src/libparlatype/resources/preferences.ui:9
+msgid "Waveform"
+msgstr "Forma d'ona"
+
+#: src/libparlatype/resources/help-overlay.ui:45
+msgid "Play/Pause"
+msgstr "Reprodueix o posa en pausa"
+
+#: src/libparlatype/resources/help-overlay.ui:66
+msgid "Zoom in"
+msgstr "Apropa"
+
+#: src/libparlatype/resources/help-overlay.ui:73
+msgid "Zoom out"
+msgstr "Allunya"
+
+#: src/libparlatype/resources/help-overlay.ui:80
+msgid "Open “Go to” dialog"
+msgstr "Obre el diàleg «Ves a»"
+
+#: src/libparlatype/resources/help-overlay.ui:88
+#: src/libparlatype/resources/model-dialog.ui:32
+msgid "Help"
+msgstr "Ajuda"
+
+#: src/libparlatype/resources/help-overlay.ui:93
+msgid "Show keyboard shortcuts"
+msgstr "Mostra les dreceres de teclat"
+
+#: src/libparlatype/resources/model-dialog.ui:40
+#, fuzzy
+msgid "Installed Models"
+msgstr "Instal·lat"
+
+#: src/libparlatype/resources/model-dialog.ui:45
+#, fuzzy
+msgid "Not installed Models"
+msgstr "No instal·lat"
+
+#: src/libparlatype/resources/preferences.ui:5
+#: src/libparlatype/resources/window.ui:235
+msgid "Preferences"
+msgstr "Preferències"
+
+#: src/libparlatype/resources/preferences.ui:13
+msgid "Display"
+msgstr "Visualitza"
+
+#: src/libparlatype/resources/preferences.ui:14
+msgid "Change appearance of the waveform and cursor movement."
 msgstr ""
 
-#: data/parlatype.metainfo.xml.in:57
-msgid "Add a theme selector (borrowed from GNOME Text Editor)."
+#: src/libparlatype/resources/preferences.ui:17
+#, fuzzy
+msgid "Waveform Detail"
+msgstr "Forma d'ona"
+
+#: src/libparlatype/resources/preferences.ui:18
+#, fuzzy
+msgid "Vertical lines per second"
+msgstr "_Píxels per segon:"
+
+#: src/libparlatype/resources/preferences.ui:51
+msgid "Show Time Scale"
+msgstr "Mostra l’escala de temps"
+
+#: src/libparlatype/resources/preferences.ui:56
+msgid "Cursor Mode"
+msgstr "Mode del cursor"
+
+#: src/libparlatype/resources/preferences.ui:60
+#, fuzzy
+msgid "Fixed Cursor"
+msgstr "Cursor _fixe"
+
+#: src/libparlatype/resources/preferences.ui:61
+msgid "Moving Cursor"
+msgstr "Cursor mòbil"
+
+#: src/libparlatype/resources/preferences.ui:74
+msgid "Audio Controls"
+msgstr "Controls d’àudio"
+
+#: src/libparlatype/resources/preferences.ui:78
+msgid "Pause and Skip Buttons"
 msgstr ""
 
-#: data/parlatype.metainfo.xml.in:58
-msgid "Fix F10 shortcut to toggle main menu."
+#: src/libparlatype/resources/preferences.ui:79
+msgid "Set amount of time to skip in seconds."
 msgstr ""
 
-#: data/parlatype.metainfo.xml.in:59
-msgid ""
-"Remove support for Mozilla DeepSpeech because the project is discontinued."
+#: src/libparlatype/resources/preferences.ui:82
+msgid "Rewind on Pause"
 msgstr ""
 
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:67
-msgid ""
-"This release is switching to GTK 4 and brings translation updates for "
-"several languages."
+#: src/libparlatype/resources/preferences.ui:83
+msgid "Set to zero to disable this feature"
+msgstr "Definiu zero per a desactivar aquesta funció"
+
+#: src/libparlatype/resources/preferences.ui:96
+msgid "Skip Backward"
+msgstr "Torna enrere"
+
+#: src/libparlatype/resources/preferences.ui:109
+msgid "Skip Forward"
+msgstr "Avança"
+
+#: src/libparlatype/resources/preferences.ui:124
+msgid "Play Button"
+msgstr "Botó Reprodueix"
+
+#: src/libparlatype/resources/preferences.ui:125
+msgid "Change behavior of play button."
+msgstr "Canvieu el comportament del botó Reprodueix."
+
+#: src/libparlatype/resources/preferences.ui:128
+msgid "At End of File Replay File"
 msgstr ""
 
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:73
-msgid "This is a minor release with a new feature."
+#: src/libparlatype/resources/preferences.ui:133
+msgid "At End of Selection Replay Selection"
 msgstr ""
 
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:76
-msgid "Added MPRIS interface."
+#: src/libparlatype/resources/prefs-install-row.ui:11
+msgid "Choose folder"
+msgstr "Trieu una carpeta"
+
+#. This plugin is not configurable, it has no options
+#: src/libparlatype/resources/transcription-bar.ui:31
+msgid "No options available"
 msgstr ""
 
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:78
-msgid "Smaller bug fixes."
+#. Tooltip for a button which toggles a sidebar
+#: src/libparlatype/resources/window.ui:21
+msgid "Toggle Sidebar"
 msgstr ""
 
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:80
-msgid "Switched to Weblate for translations."
+#. Tooltip for a button showing the main menu
+#: src/libparlatype/resources/window.ui:62
+msgid "Main Menu"
+msgstr "Menú principal"
+
+#: src/libparlatype/resources/window.ui:90
+#, fuzzy
+msgid "Audio File"
+msgstr "Fitxers d’àudio"
+
+#: src/libparlatype/resources/window.ui:91
+msgid "Drag in or open an audio file."
 msgstr ""
 
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:87 data/parlatype.metainfo.xml.in:116
-msgid "This is a major release with new features."
+#: src/libparlatype/resources/window.ui:94
+msgid "_Open"
+msgstr "_Obre"
+
+#: src/libparlatype/resources/window.ui:98
+msgid "Open a file"
+msgstr "Obre un fitxer"
+
+#: src/libparlatype/resources/window.ui:162
+#, fuzzy
+msgid "Show Timestamps"
+msgstr "Mostra l’escala de temps"
+
+#: src/libparlatype/resources/window.ui:209
+msgid "Open Document"
 msgstr ""
 
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:90
-msgid "Support for Mozilla DeepSpeech."
+#: src/libparlatype/resources/window.ui:213
+msgid "Associate Audio"
 msgstr ""
 
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:92
-msgid "New configuration system for Automatic Speech Recognition."
-msgstr "Nou sistema de configuració per al reconeixement de veu automàtìc."
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:100
-msgid "This is a minor release with bug fixes and minor new features."
+#: src/libparlatype/resources/window.ui:219
+msgid "Save"
 msgstr ""
 
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:103
-msgid ""
-"Mute/unmute volume by clicking on the volume icon with the pointer’s "
-"secondary button (usually right mouse button)."
+#: src/libparlatype/resources/window.ui:223
+msgid "Save as…"
 msgstr ""
 
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:105
-msgid ""
-"With Pulseaudio Parlatype doesn’t change the system volume anymore, just its "
-"own application specific volume."
+#: src/libparlatype/resources/window.ui:229
+msgid "Transcribe…"
 msgstr ""
 
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:107
-msgid "The initial volume level is picked up from Pulseaudio."
-msgstr ""
+#: src/libparlatype/resources/window.ui:239
+msgid "_Keyboard Shortcuts"
+msgstr "_Dreceres del teclat"
 
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:119
-msgid "Waveform is loaded on-the-fly, there is no blocking progress dialog."
-msgstr ""
+#: src/libparlatype/resources/window.ui:243
+msgid "About Parlatype"
+msgstr "Quant al Parlatype"
 
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:121
-msgid "Waveform can be changed continuously instead of in discrete steps."
-msgstr ""
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:128
-msgid "This is a minor release."
-msgstr ""
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:131
-msgid ""
-"Update time label only if time has changed. This is a performance increase, "
-"cursor movement should be smoother on slower systems."
-msgstr ""
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:133
-msgid "Translation updates for Hungarian, Lithuanian and Spanish"
-msgstr ""
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:140
-msgid "This is a minor release with some changes."
-msgstr ""
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:143
-msgid ""
-"Automatic speech recognition (ASR) is now disabled by default and it’s only "
-"shown, if Parlatype is launched with the new parameter \\\"--with-asr\\\""
-msgstr ""
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:145
-msgid "Fix internationalization: Some translations were not shown"
-msgstr ""
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:147
-msgid ""
-"Translation updates for Arabic, British English, Czech, Dutch, German, "
-"Polish and Spanish"
-msgstr ""
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:154
-msgid "This is a major release with some new features."
-msgstr ""
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:157
-msgid "Automatic speech recognition with CMU Sphinx"
-msgstr "Reconeixement de veu automàtic amb el CMU Sphinx"
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:159
-msgid "Design changes, including removal of application menu"
-msgstr ""
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:161
-msgid "Custom timestamps"
-msgstr ""
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:163
-msgid ""
-"Translation updates for Brazilian Portuguese, British English, Czech, "
-"German, Japanese, Lithuanian and Polish"
-msgstr ""
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:170
-msgid "This is a minor maintenance release."
-msgstr ""
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:173
-msgid "Animate scrolling when using keybindings"
-msgstr ""
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:175
-msgid "Change desktop entry category to Audio/Video instead of Utilities"
-msgstr ""
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:177
-msgid "Translation updates for French"
-msgstr ""
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:184
-msgid "This release contains a number of bug fixes and minor improvements."
-msgstr ""
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:187
-msgid "Progress Dialog has now a countdown timer (estimated time left)"
-msgstr ""
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:189
-msgid "Increase max. possible speed to 2.0"
-msgstr ""
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:191
-msgid ""
-"New keyboard shortcuts for Play/Pause (Ctrl + Space), Jump back (Ctrl + "
-"Left), Jump forward (Ctrl + Right)"
-msgstr ""
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:193
-msgid "Scrolling now also possible with vertical scrollbar"
-msgstr ""
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:195
-msgid "Various fixes for waveform and cursor display"
-msgstr ""
-
-#. Translators: This has very low priority, it's the description for an old release.
-#: data/parlatype.metainfo.xml.in:197
-msgid ""
-"Translation updates for Arabic, British English, Catalan, German, Finnish, "
-"French, Japanese, Lithuanian, Polish, Spanish and Swedish"
-msgstr ""
-
-#: src/pt-app.c:47
+#: src/libparlatype/pt-app.c:56
 msgid "Show the application’s version"
 msgstr "Mostra la versió de l’aplicació"
 
-#: src/pt-app.c:93
+#. Translators: title of a file dialog which opens audio files
+#: src/libparlatype/pt-app.c:127
 msgid "Open Audio File"
 msgstr "Obre un fitxer d’àudio"
 
-#: src/pt-app.c:115
-msgid "Audio Files"
-msgstr "Fitxers d’àudio"
+#. Translators: title of a file dialog which opens files known by Parlatype
+#: src/libparlatype/pt-app.c:133
+#, fuzzy
+msgid "Open Parlatype File"
+msgstr "Obre un fitxer"
 
-#: src/pt-app.c:116 src/pt-preferences.c:536
-msgid "All Files"
-msgstr "Tots els fitxers"
-
-#: src/pt-app.c:193
+#: src/libparlatype/pt-app.c:338
 msgid "Code from other projects"
 msgstr "Codi d’altres projectes"
 
-#: src/pt-app.c:197
+#: src/libparlatype/pt-app.c:342
 msgid "A basic transcription utility"
 msgstr "Una utilitat bàsica de transcripció"
 
-#: src/pt-app.c:203
+#: src/libparlatype/pt-app.c:349
 msgid "translator-credits"
 msgstr ""
 "Launchpad Contributions:\n"
@@ -321,7 +388,7 @@ msgstr ""
 "  Gabor Karsay https://launchpad.net/~gabor-karsay\n"
 "  VPablo https://launchpad.net/~villumar"
 
-#: src/pt-app.c:344
+#: src/libparlatype/pt-app.c:491
 #, c-format
 msgid ""
 "Warning: Parlatype handles only one file at a time. The other files are "
@@ -330,582 +397,203 @@ msgstr ""
 "Advertència: Parlatype fa servir només un fitxer alhora. Els altres fitxers "
 "s'ignoraran.\n"
 
-#. Translators: Fallback label for a download location
-#: src/pt-asr-dialog.c:99
-msgid "Link"
-msgstr "Enllaç"
-
-#. Not using title case here, this is more a status than a title.
-#: src/pt-asr-dialog.c:115
-msgid "This configuration is active."
-msgstr "Aquesta configuració està activada."
-
-#: src/pt-asr-dialog.c:117
-msgid "Deactivate"
-msgstr "Desactiva"
-
-#. Translators: Model is a language model
-#: src/pt-asr-dialog.c:124
-msgid "Model data is installed."
-msgstr "Les dades del model estan instal·lades."
-
-#: src/pt-asr-dialog.c:126 src/pt-asr-dialog.c:133
-msgid "Activate"
-msgstr "Activa"
-
-#. Translators: Model is a language model
-#: src/pt-asr-dialog.c:131
-msgid "Model data is not installed."
-msgstr "Les dades del model no estan instal·lades."
-
-#: src/pt-asr-dialog.c:132
-msgid "See next section for details."
-msgstr "Vegeu la secció següent per a més detalls."
-
-#. Translators: Configuration will be deleted, but not its data
-#: src/pt-asr-dialog.c:144
-msgid "Model data will be preserved"
-msgstr ""
-
-#: src/pt-asr-dialog.c:222
-msgid "Language"
-msgstr "Llenguatge"
-
-#: src/pt-asr-dialog.c:226
-msgid "CMU Pocketsphinx"
-msgstr ""
-
-#. Translators: Model is a language model
-#: src/pt-asr-dialog.c:230
-msgid "Type of Model"
-msgstr "Tipus de model"
-
-#: src/pt-asr-dialog.c:232
-msgid "GStreamer Plugin"
-msgstr "Connector del GStreamer"
-
-#: src/pt-asr-dialog.c:236
-msgid "Publisher"
-msgstr ""
-
-#: src/pt-asr-dialog.c:241
-msgid "License"
-msgstr "Llicència"
-
-#: src/pt-asr-dialog.c:249
-msgid "Instructions"
-msgstr "Instruccions"
-
-#: src/pt-asr-dialog.c:258 src/pt-asr-dialog.c:269
-msgid "Download"
-msgstr "Baixa"
-
-#. Translators: %s is replaced with the name of a configuration
-#: src/pt-asr-dialog.c:314
-#, c-format
-msgid "“%s” has been deleted"
-msgstr "S’ha suprimit «%s»"
-
-#: src/pt-asr-dialog.c:322 src/pt-preferences.c:248 src/pt-preferences.c:418
-#: src/pt-preferences.c:453 src/pt-window.c:86
-msgid "Error"
-msgstr "Error"
-
-#. Translators: %s is replaced with the name of a configuration
-#: src/pt-asr-dialog.c:373
-#, c-format
-msgid "“%s” has been activated"
-msgstr "S’ha activat «%s»"
-
-#: src/pt-asr-dialog.c:376
-msgid "Configuration has been deactivated"
-msgstr "S’ha desactivat la configuració"
-
-#: src/pt-config-row.c:79
-msgid "Not installed"
-msgstr "No instal·lat"
-
-#. Translators: This is a time format, like "2:05:30" for 2
-#. hours, 5 minutes, and 30 seconds. You may change ":" to
-#. the separator that your locale uses or use "%Id" instead
-#. of "%d" if your locale uses localized digits.
-#: src/pt-goto-dialog.c:50
-#, c-format
-msgctxt "long time format"
-msgid "%d:%02d:%02d"
-msgstr "%d:%02d:%02d"
-
-#: src/pt-goto-dialog.c:87
-msgid "second"
-msgid_plural "seconds"
-msgstr[0] "segon"
-msgstr[1] "segons"
-
-#: src/pt-preferences.c:457
-msgid "The file is not a valid language model configuration."
-msgstr "Aquest fitxer no és una configuració de model de llenguatge vàlida."
-
-#: src/pt-preferences.c:461
-msgid "There is no plugin installed for this language model."
-msgstr "No hi ha cap connector instal·lat per a aquest model de llenguatge."
-
-#: src/pt-preferences.c:527 src/pt-prefs-install-row.c:136
-msgid "Select Model Folder"
-msgstr "Seleccioneu la carpeta del model"
-
-#: src/pt-preferences.c:535
-msgid "Parlatype Language Model Configurations"
-msgstr "Configuracions de models de llenguatge del Parlatype"
-
-#: src/pt-prefs-install-row.c:54
-msgid "Installed"
-msgstr "Instal·lat"
-
-#: src/pt-prefs-install-row.c:59
-msgid "Not Installed"
-msgstr "No instal·lat"
-
-#: src/pt-prefs-install-row.c:60
-msgid "Download files and select model folder."
-msgstr "Baixeu els fitxers i seleccioneu la carpeta del model."
-
-#: src/pt-prefs-install-row.c:114
-msgid "Model Data Not Found"
-msgstr "No s’han trobat les dades del model"
-
-#: src/pt-prefs-install-row.c:116
-msgid "The chosen folder does not contain data for this configuration."
-msgstr "La carpeta triada no conté dades per a aquesta configuració."
-
-#: src/pt-window.c:396
+#. Translators: tooltip for a button
+#: src/libparlatype/pt-audio-controls.c:76
 #, c-format
 msgid "Skip back 1 second"
 msgid_plural "Skip back %d seconds"
 msgstr[0] "Torna 1 segon enrere"
 msgstr[1] "Torna %d segons enrere"
 
-#: src/pt-window.c:413
+#. Translators: tooltip for a button
+#: src/libparlatype/pt-audio-controls.c:97
 #, c-format
 msgid "Skip forward 1 second"
 msgid_plural "Skip forward %d seconds"
 msgstr[0] "Avança 1 segon"
 msgstr[1] "Avança %d segons"
 
-#: src/pt-window.c:434
+#. Translators: tooltip for play button
+#: src/libparlatype/pt-audio-controls.c:122
+msgid "Start playing"
+msgstr "Inicia la reproducció"
+
+#. Translators: tooltip for pause button
+#: src/libparlatype/pt-audio-controls.c:130
 msgid "Pause"
 msgstr "Pausa"
 
-#: src/pt-window.c:439
+#. Translators: tooltip for pause button
+#: src/libparlatype/pt-audio-controls.c:136
 #, c-format
 msgid "Pause and rewind 1 second"
 msgid_plural "Pause and rewind %d seconds"
 msgstr[0] "Pausa i torna 1 segon enrere"
 msgstr[1] "Pausa i torna %d segons enrere"
 
-#: src/pt-window.c:448
-msgid "Start playing"
-msgstr "Inicia la reproducció"
-
-#. Translators: %s is replaced with a timestamp
-#: src/pt-window.c:488
-#, c-format
-msgid "Go to Time in Clipboard: %s"
-msgstr ""
-
-#: src/pt-window.c:490 src/pt-window.c:1172
-msgid "Go to Time in Clipboard"
-msgstr ""
-
-#: src/pt-window.c:1167
-msgid "Manual Transcription"
-msgstr "Transcripció manual"
-
-#: src/pt-window.c:1168
-msgid "Automatic Transcription"
-msgstr "Transcripció automàtica"
-
-#: src/resources/asr-dialog.ui:29
-msgid "Installation"
-msgstr "Instal·lació"
-
-#: src/resources/asr-dialog.ui:30
-msgid "How to install this language model."
-msgstr "Com instal·lar aquest model de llenguatge."
-
-#: src/resources/asr-dialog.ui:33
-msgid "General Information"
-msgstr "Informació general"
-
-#: src/resources/asr-dialog.ui:36
-#, fuzzy
-msgid "Display Name"
-msgstr "Visualitza"
-
-#: src/resources/asr-dialog.ui:44
-msgid "Delete this Configuration"
-msgstr "Suprimeix aquesta configuració"
-
-#: src/resources/asr-dialog.ui:48
-msgid "Delete"
-msgstr "Suprimeix"
-
-#: src/resources/editor-theme-selector.ui:22
-msgid "Follow System Style"
-msgstr "Segueix l’estil del sistema"
-
-#: src/resources/editor-theme-selector.ui:24
-msgid "Follow system style"
-msgstr "Segueix l’estil del sistema"
-
-#: src/resources/editor-theme-selector.ui:39
-msgid "Light Style"
-msgstr "Estil clar"
-
-#: src/resources/editor-theme-selector.ui:41
-msgid "Light style"
-msgstr "Estil clar"
-
-#: src/resources/editor-theme-selector.ui:57
-msgid "Dark Style"
-msgstr "Estil fosc"
-
-#: src/resources/editor-theme-selector.ui:59
-msgid "Dark style"
-msgstr "Estil fosc"
-
-#: src/resources/goto-dialog.ui:10 src/resources/window.ui:262
-msgid "Go to…"
-msgstr "Ves a…"
-
-#: src/resources/goto-dialog.ui:20
-msgid "Go to position:"
-msgstr "Anar a la posició:"
-
-#: src/resources/goto-dialog.ui:52
-msgid "_Cancel"
-msgstr "_Cancel·la"
-
-#: src/resources/goto-dialog.ui:60
-msgid "_OK"
-msgstr "_D’acord"
-
-#: src/resources/help-overlay.ui:13
-msgid "General"
-msgstr "General"
-
-#: src/resources/help-overlay.ui:18
-msgid "Open a media file"
-msgstr "Obre un fitxer multimèdia"
-
-#: src/resources/help-overlay.ui:25
-msgid "Show/hide main menu"
-msgstr "Mostra o amaga el menú principal"
-
-#: src/resources/help-overlay.ui:32
-msgid "Quit"
-msgstr "Surt"
-
-#: src/resources/help-overlay.ui:40 src/resources/preferences.ui:11
-msgid "Waveform"
-msgstr "Forma d'ona"
-
-#: src/resources/help-overlay.ui:45
-msgid "Play/Pause"
-msgstr "Reprodueix o posa en pausa"
-
-#: src/resources/help-overlay.ui:52 src/resources/window.ui:99
-msgid "Skip backward"
-msgstr "Torna enrere"
-
-#: src/resources/help-overlay.ui:59 src/resources/window.ui:144
-msgid "Skip forward"
-msgstr "Avança"
-
-#: src/resources/help-overlay.ui:66
-msgid "Zoom in"
-msgstr "Apropa"
-
-#: src/resources/help-overlay.ui:73
-msgid "Zoom out"
-msgstr "Allunya"
-
-#: src/resources/help-overlay.ui:80
-msgid "Open “Go to” dialog"
-msgstr "Obre el diàleg «Ves a»"
-
-#: src/resources/help-overlay.ui:87
-msgid "Copy timestamp to clipboard"
-msgstr ""
-
-#: src/resources/help-overlay.ui:94
-msgid "Go to timestamp in clipboard"
-msgstr ""
-
-#: src/resources/help-overlay.ui:102 src/resources/window.ui:243
-msgid "Help"
-msgstr "Ajuda"
-
-#: src/resources/help-overlay.ui:107
-msgid "Show help"
-msgstr "Mostra l’ajuda"
-
-#: src/resources/help-overlay.ui:114
-msgid "Show keyboard shortcuts"
-msgstr "Mostra les dreceres de teclat"
-
-#: src/resources/preferences.ui:7 src/resources/window.ui:235
-msgid "Preferences"
-msgstr "Preferències"
-
-#: src/resources/preferences.ui:15
-msgid "Display"
-msgstr "Visualitza"
-
-#: src/resources/preferences.ui:16
-msgid "Change appearance of the waveform and cursor movement."
-msgstr ""
-
-#: src/resources/preferences.ui:19
-#, fuzzy
-#| msgid "Waveform"
-msgid "Waveform Detail"
-msgstr "Forma d'ona"
-
-#: src/resources/preferences.ui:20
-#, fuzzy
-#| msgid "_Pixels per second:"
-msgid "Vertical lines per second"
-msgstr "_Píxels per segon:"
-
-#: src/resources/preferences.ui:53
-msgid "Show Time Scale"
-msgstr "Mostra l’escala de temps"
-
-#: src/resources/preferences.ui:58
-msgid "Cursor Mode"
-msgstr "Mode del cursor"
-
-#: src/resources/preferences.ui:62
-#, fuzzy
-#| msgid "_Fixed cursor"
-msgid "Fixed Cursor"
-msgstr "Cursor _fixe"
-
-#: src/resources/preferences.ui:63
-msgid "Moving Cursor"
-msgstr "Cursor mòbil"
-
-#: src/resources/preferences.ui:76
-msgid "Audio Controls"
-msgstr "Controls d’àudio"
-
-#: src/resources/preferences.ui:80
-msgid "Pause and Skip Buttons"
-msgstr ""
-
-#: src/resources/preferences.ui:81
-msgid "Set amount of time to skip in seconds."
-msgstr ""
-
-#: src/resources/preferences.ui:84
-msgid "Rewind on Pause"
-msgstr ""
-
-#: src/resources/preferences.ui:85
-msgid "Set to zero to disable this feature"
-msgstr "Definiu zero per a desactivar aquesta funció"
-
-#: src/resources/preferences.ui:98
-msgid "Skip Backward"
-msgstr "Torna enrere"
-
-#: src/resources/preferences.ui:111
-msgid "Skip Forward"
-msgstr "Avança"
-
-#: src/resources/preferences.ui:126
-msgid "Play Button"
-msgstr "Botó Reprodueix"
-
-#: src/resources/preferences.ui:127
-msgid "Change behavior of play button."
-msgstr "Canvieu el comportament del botó Reprodueix."
-
-#: src/resources/preferences.ui:130
-msgid "At End of File Replay File"
-msgstr ""
-
-#: src/resources/preferences.ui:135
-msgid "At End of Selection Replay Selection"
-msgstr ""
-
-#: src/resources/preferences.ui:145
-msgid "Timestamps"
-msgstr ""
-
-#: src/resources/preferences.ui:149
-msgid "Timestamp Format"
-msgstr ""
-
-#: src/resources/preferences.ui:150
-msgid ""
-"Customize produced timestamps. Note that all formats can be read, these "
-"settings are applied when timestamps are written."
-msgstr ""
-
-#: src/resources/preferences.ui:153
-msgid "Always Show Hours and Leading Zeroes"
-msgstr ""
-
-#: src/resources/preferences.ui:158
-msgid "Precision"
-msgstr "Precisió"
-
-#: src/resources/preferences.ui:162
-msgid "Full Seconds"
-msgstr "Segons complets"
-
-#: src/resources/preferences.ui:163
-msgid "10th Seconds"
-msgstr "Dècimes de segon"
-
-#: src/resources/preferences.ui:164
-msgid "100th Seconds"
-msgstr "Centèsimes de segon"
-
-#: src/resources/preferences.ui:172
-msgid "Fraction Separator"
-msgstr "Separador fraccionari"
-
-#: src/resources/preferences.ui:176
-msgid ". (Point)"
-msgstr ". (punt)"
-
-#: src/resources/preferences.ui:177
-msgid "- (Hyphen)"
-msgstr "- (guionet)"
-
-#: src/resources/preferences.ui:185
-msgid "Characters Around Timestamps"
-msgstr ""
-
-#: src/resources/preferences.ui:189
-msgid "None"
-msgstr "Cap"
-
-#: src/resources/preferences.ui:190
-msgid "#Number Signs#"
-msgstr ""
-
-#: src/resources/preferences.ui:191
-msgid "(Round Brackets)"
-msgstr ""
-
-#: src/resources/preferences.ui:192
-msgid "[Square Brackets]"
-msgstr ""
-
-#: src/resources/preferences.ui:202
-msgid "Preview"
-msgstr "Previsualització"
-
-#: src/resources/preferences.ui:211
-msgid "Speech Recognition"
-msgstr "Reconeixement de veu"
-
-#: src/resources/preferences.ui:215
-msgid "Language Models"
-msgstr "Models de llenguatge"
-
-#: src/resources/preferences.ui:216
-msgid ""
-"Inspect configuration details, learn how to install model data, and choose a "
-"configuration for automatic speech recognition."
-msgstr ""
-"Inspeccioneu els detalls de la configuració, apreneu com instal·lar dades "
-"del model i trieu una configuració per al reconeixement de veu automàtic."
-
-#: src/resources/preferences.ui:223
-msgid "Import configuration from file"
-msgstr "Importa la configuració des d’un fitxer"
-
-#: src/resources/preferences.ui:232
-msgid "Copy Initial Set of Configurations"
-msgstr ""
-
-#: src/resources/prefs-install-row.ui:11
-msgid "Choose folder"
-msgstr "Trieu una carpeta"
-
-#: src/resources/window.ui:38
-msgid "_Open"
-msgstr "_Obre"
-
-#: src/resources/window.ui:41
-msgid "Open a file"
-msgstr "Obre un fitxer"
-
-#: src/resources/window.ui:52
-msgid "Main Menu"
-msgstr "Menú principal"
-
-#: src/resources/window.ui:125
-msgid "_Play"
-msgstr "_Reprodueix"
-
-#: src/resources/window.ui:171
-msgid "Speed:"
-msgstr "Velocitat:"
-
-#: src/resources/window.ui:203
-msgid "Volume"
-msgstr "Volum"
-
-#: src/resources/window.ui:239
-msgid "_Keyboard Shortcuts"
-msgstr "_Dreceres del teclat"
-
-#: src/resources/window.ui:247
-msgid "About Parlatype"
-msgstr "Quant al Parlatype"
-
-#: src/resources/window.ui:254
-msgid "Copy Time to Clipboard"
-msgstr ""
-
-#: src/resources/window.ui:258
-msgid "Go to Cursor"
-msgstr ""
-
-#. Translators: %s is replaced with the plugins name
-#: libparlatype/src/gst/gst-helpers.c:44 libparlatype/src/gst/gst-helpers.c:51
-#, c-format
-msgid "Failed to load plugin “%s”."
-msgstr "No s’ha pogut carregar el connector «%s»."
-
 #. Translators: %s is replaced with the parameter’s name
-#: libparlatype/src/pt-config.c:480
+#: src/libparlatype/pt-config.c:530
 #, c-format
 msgid "Plugin doesn’t have a parameter “%s”."
 msgstr "El connector no té cap paràmetre «%s»."
 
 #. Translators: %s is replaced with the parameter’s name
-#: libparlatype/src/pt-config.c:491
+#: src/libparlatype/pt-config.c:540
 #, c-format
 msgid "Parameter “%s” is not writable."
 msgstr "No es pot escriure al paràmetre «%s»."
 
 #. Translators: %s is replaced with the parameter’s name
-#: libparlatype/src/pt-config.c:507
+#: src/libparlatype/pt-config.c:554
 #, c-format
 msgid "Value for parameter “%s” is not valid."
 msgstr "El valor del paràmetre «%s» no es vàlid."
+
+#. Translators: %s is replaced with the plugin’s name
+#: src/libparlatype/pt-config.c:762
+#, c-format
+msgid "The plugin “%s” could not be loaded."
+msgstr ""
+
+#: src/libparlatype/pt-config.c:1182
+msgid "Multilingual"
+msgstr ""
+
+#. Translators: Fallback label for a download location
+#: src/libparlatype/pt-config-view.c:135
+msgid "Link"
+msgstr "Enllaç"
+
+#. Remaining time to download an item in seconds
+#: src/libparlatype/pt-config-view.c:210
+#, fuzzy, c-format
+msgid "%d second left"
+msgid_plural "%d seconds left"
+msgstr[0] "segon"
+msgstr[1] "segons"
+
+#. Remaining time to download an item in minutes
+#: src/libparlatype/pt-config-view.c:218
+#, c-format
+msgid "%d minute left"
+msgid_plural "%d minutes left"
+msgstr[0] ""
+msgstr[1] ""
+
+#. Remaining time to download an item in hours
+#: src/libparlatype/pt-config-view.c:226
+#, c-format
+msgid "%d hour left"
+msgid_plural "%d hours left"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/libparlatype/pt-config-view.c:337 src/libparlatype/pt-window.c:102
+msgid "Error"
+msgstr "Error"
+
+#: src/libparlatype/pt-config-view.c:453
+msgid "Publisher"
+msgstr ""
+
+#: src/libparlatype/pt-config-view.c:458
+msgid "License"
+msgstr "Llicència"
+
+#: src/libparlatype/pt-config-view.c:467 src/libparlatype/pt-config-view.c:478
+msgid "Download"
+msgstr "Baixa"
+
+#: src/libparlatype/pt-file-loader.c:331
+#, c-format
+msgid "Not a regular file"
+msgstr ""
+
+#: src/libparlatype/pt-file-loader.c:343
+#, fuzzy, c-format
+msgid "Error opening file"
+msgstr "Error obrint ajuda: %s"
+
+#: src/libparlatype/pt-file-loader.c:387
+#, fuzzy, c-format
+msgid "Error reading file"
+msgstr "Error obrint ajuda: %s"
+
+#. We don’t have meaningful error messages and fail on every error.
+#: src/libparlatype/pt-file-saver.c:53
+msgid "Error saving document."
+msgstr ""
+
+#. Translators: This is a time format, like "2:05:30" for 2
+#. hours, 5 minutes, and 30 seconds. You may change ":" to
+#. the separator that your locale uses or use "%Id" instead
+#. of "%d" if your locale uses localized digits.
+#: src/libparlatype/pt-goto-dialog.c:50 src/libparlatype/pt-timestamp.c:77
+#: src/libparlatype/pt-waveviewer-ruler.c:173
+#: src/libparlatype/pt-waveviewer-ruler.c:222
+#, c-format
+msgctxt "long time format"
+msgid "%d:%02d:%02d"
+msgstr "%d:%02d:%02d"
+
+#: src/libparlatype/pt-goto-dialog.c:87
+msgid "second"
+msgid_plural "seconds"
+msgstr[0] "segon"
+msgstr[1] "segons"
+
+#: src/libparlatype/pt-prefs-install-row.c:67
+msgid "Installed"
+msgstr "Instal·lat"
+
+#: src/libparlatype/pt-prefs-install-row.c:72
+msgid "Not Installed"
+msgstr "No instal·lat"
+
+#: src/libparlatype/pt-prefs-install-row.c:73
+msgid "Download files and select model folder."
+msgstr "Baixeu els fitxers i seleccioneu la carpeta del model."
+
+#: src/libparlatype/pt-prefs-install-row.c:127
+msgid "Model Data Not Found"
+msgstr "No s’han trobat les dades del model"
+
+#: src/libparlatype/pt-prefs-install-row.c:129
+msgid "The chosen folder does not contain data for this configuration."
+msgstr "La carpeta triada no conté dades per a aquesta configuració."
+
+#: src/libparlatype/pt-prefs-install-row.c:148
+msgid "Select Model Folder"
+msgstr "Seleccioneu la carpeta del model"
+
+#: src/libparlatype/pt-save-changes-dialog.c:100
+#: src/libparlatype/pt-window.c:343
+msgid "Save as"
+msgstr ""
+
+#: src/libparlatype/pt-save-changes-dialog.c:160
+msgid "Save Changes?"
+msgstr ""
+
+#: src/libparlatype/pt-save-changes-dialog.c:161
+msgid ""
+"Open documents contain unsaved changes. Changes which are not saved will be "
+"permanently lost."
+msgstr ""
+
+#: src/libparlatype/pt-save-changes-dialog.c:166
+msgid "_Discard"
+msgstr ""
+
+#: src/libparlatype/pt-save-changes-dialog.c:167
+msgid "_Save"
+msgstr ""
 
 #. Translators: This is a time format, like "2:05:30.1" for 2
 #. hours, 5 minutes, 30 seconds, and 1 tenthsecond. You may
 #. change ":" or "." to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: libparlatype/src/pt-player.c:1520
+#: src/libparlatype/pt-timestamp.c:84
 #, c-format
 msgctxt "long time format, 1 digit"
 msgid "%d:%02d:%02d.%d"
@@ -915,7 +603,7 @@ msgstr "%d:%02d:%02d.%d"
 #. hours, 5 minutes, 30 seconds, and 12 hundrethseconds. You may
 #. change ":" or "." to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: libparlatype/src/pt-player.c:1527
+#: src/libparlatype/pt-timestamp.c:91
 #, c-format
 msgctxt "long time format, 2 digits"
 msgid "%d:%02d:%02d.%02d"
@@ -925,7 +613,7 @@ msgstr "%d:%02d:%02d.%02d"
 #. 5 minutes, and 30 seconds. You may change ":" to
 #. the separator that your locale uses or use "%I02d" instead
 #. of "%02d" if your locale uses localized digits.
-#: libparlatype/src/pt-player.c:1546
+#: src/libparlatype/pt-timestamp.c:110
 #, c-format
 msgctxt "short time format"
 msgid "%02d:%02d"
@@ -935,7 +623,7 @@ msgstr "%02d:%02d"
 #. 5 minutes, 30 seconds, and 1 tenthsecond. You may change
 #. ":" or "." to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: libparlatype/src/pt-player.c:1553
+#: src/libparlatype/pt-timestamp.c:117
 #, c-format
 msgctxt "short time format, 1 digit"
 msgid "%02d:%02d.%d"
@@ -945,7 +633,7 @@ msgstr "%02d:%02d.%d"
 #. 5 minutes, 30 seconds, and 12 hundrethseconds. You may change
 #. ":" or "." to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: libparlatype/src/pt-player.c:1560
+#: src/libparlatype/pt-timestamp.c:124
 #, c-format
 msgctxt "short time format, 2 digits"
 msgid "%02d:%02d.%02d"
@@ -955,8 +643,9 @@ msgstr "%02d:%02d.%02d"
 #. 5 minutes, and 30 seconds. You may change ":" to
 #. the separator that your locale uses or use "%Id" instead
 #. of "%d" if your locale uses localized digits.
-#: libparlatype/src/pt-player.c:1576 libparlatype/src/pt-waveviewer-ruler.c:182
-#: libparlatype/src/pt-waveviewer-ruler.c:244
+#: src/libparlatype/pt-timestamp.c:140
+#: src/libparlatype/pt-waveviewer-ruler.c:180
+#: src/libparlatype/pt-waveviewer-ruler.c:224
 #, c-format
 msgctxt "shortest time format"
 msgid "%d:%02d"
@@ -966,7 +655,7 @@ msgstr "%d:%02d"
 #. 5 minutes, 30 seconds, and 1 tenthsecond. You may change
 #. ":" or "." to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: libparlatype/src/pt-player.c:1583
+#: src/libparlatype/pt-timestamp.c:147
 #, c-format
 msgctxt "shortest time format, 1 digit"
 msgid "%d:%02d.%d"
@@ -976,31 +665,205 @@ msgstr "%d:%02d.%d"
 #. 5 minutes, 30 seconds, and 12 hundrethseconds. You may change
 #. ":" or "." to the separator that your locale uses or
 #. use "%Id" instead of "%d" if your locale uses localized digits.
-#: libparlatype/src/pt-player.c:1590
+#: src/libparlatype/pt-timestamp.c:154
 #, c-format
 msgctxt "shortest time format, 2 digits"
 msgid "%d:%02d.%02d"
 msgstr "%d:%02d.%02d"
 
-#: libparlatype/src/pt-waveloader.c:532
+#. Translators: label for a file filter showing all files
+#: src/libparlatype/pt-utils.c:54
+msgid "All Files"
+msgstr "Tots els fitxers"
+
+#. Translators: label for a file filter showing only audio files
+#: src/libparlatype/pt-utils.c:59
+msgid "Audio Files"
+msgstr "Fitxers d’àudio"
+
+#. Translators: label for a file filter showing only Parlatype’ own files (extension .pt)
+#: src/libparlatype/pt-utils.c:64
+#, fuzzy
+msgid "Parlatype Files"
+msgstr "Parlatype"
+
+#. Translators: label for a file filter showing only this kind of documents, available in LibreOffice file dialogs
+#: src/libparlatype/pt-utils.c:69
+msgid "Flat XML ODF Text Documents"
+msgstr ""
+
+#. Translators: unknown download size
+#: src/libparlatype/pt-utils.c:101
+msgid "Unknown"
+msgstr ""
+
+#: src/libparlatype/pt-utils.c:107
+#, c-format
+msgid "%d KB"
+msgstr ""
+
+#: src/libparlatype/pt-utils.c:110
+#, c-format
+msgid "%d MB"
+msgstr ""
+
+#: src/libparlatype/pt-utils.c:112
+#, c-format
+msgid "%.1f GB"
+msgstr ""
+
+#: src/libparlatype/pt-waveloader.c:512
 msgid "Waveloader has outstanding operation."
 msgstr "El Waveloader té operacions pendents."
 
-#: libparlatype/src/pt-waveloader.c:548
+#: src/libparlatype/pt-waveloader.c:528
 msgid "Failed to setup GStreamer pipeline."
 msgstr "Ha fallat la configuració de la canonada GStreamer."
 
 #. Translators: %s is a detailed error message.
-#: libparlatype/src/pt-waveviewer.c:970
+#: src/libparlatype/pt-waveviewer.c:961
 #, c-format
 msgid "URI not valid: %s"
 msgstr "L’URI no és vàlid: %s"
 
 #. Translators: %s is a detailed error message.
-#: libparlatype/src/pt-waveviewer.c:982
+#: src/libparlatype/pt-waveviewer.c:973
 #, c-format
 msgid "File not found: %s"
 msgstr "No s’ha trobat el fitxer: %s"
+
+#. Translators: Title of an error message while downloading an item. %s is replaced with the item’s name.
+#: src/libparlatype/pt-window.c:527
+#, fuzzy, c-format
+msgid "Error Downloading »%s«"
+msgstr "Error obrint ajuda: %s"
+
+#~ msgid "Media player for transcription"
+#~ msgstr "Reproductor multimèdia per a transcripcions"
+
+#~ msgid ""
+#~ "Parlatype is an easy to use media player. Its main purpose is to help you "
+#~ "transcribing speech."
+#~ msgstr ""
+#~ "Parlatype és un reproductor de mitjans fàcil d'usar. El seu principal "
+#~ "propòsit és ajudar a transcriure discursos."
+
+#~ msgid "Main window"
+#~ msgstr "Finestra principal"
+
+#~ msgid "Gabor Karsay"
+#~ msgstr "Gabor Karsay"
+
+#~ msgid "New configuration system for Automatic Speech Recognition."
+#~ msgstr "Nou sistema de configuració per al reconeixement de veu automàtìc."
+
+#~ msgid "Automatic speech recognition with CMU Sphinx"
+#~ msgstr "Reconeixement de veu automàtic amb el CMU Sphinx"
+
+#~ msgid "This configuration is active."
+#~ msgstr "Aquesta configuració està activada."
+
+#~ msgid "Deactivate"
+#~ msgstr "Desactiva"
+
+#~ msgid "Model data is installed."
+#~ msgstr "Les dades del model estan instal·lades."
+
+#~ msgid "Activate"
+#~ msgstr "Activa"
+
+#~ msgid "Model data is not installed."
+#~ msgstr "Les dades del model no estan instal·lades."
+
+#~ msgid "See next section for details."
+#~ msgstr "Vegeu la secció següent per a més detalls."
+
+#~ msgid "Type of Model"
+#~ msgstr "Tipus de model"
+
+#~ msgid "GStreamer Plugin"
+#~ msgstr "Connector del GStreamer"
+
+#~ msgid "Instructions"
+#~ msgstr "Instruccions"
+
+#, c-format
+#~ msgid "“%s” has been deleted"
+#~ msgstr "S’ha suprimit «%s»"
+
+#, c-format
+#~ msgid "“%s” has been activated"
+#~ msgstr "S’ha activat «%s»"
+
+#~ msgid "Configuration has been deactivated"
+#~ msgstr "S’ha desactivat la configuració"
+
+#~ msgid "The file is not a valid language model configuration."
+#~ msgstr "Aquest fitxer no és una configuració de model de llenguatge vàlida."
+
+#~ msgid "There is no plugin installed for this language model."
+#~ msgstr "No hi ha cap connector instal·lat per a aquest model de llenguatge."
+
+#~ msgid "Parlatype Language Model Configurations"
+#~ msgstr "Configuracions de models de llenguatge del Parlatype"
+
+#~ msgid "Manual Transcription"
+#~ msgstr "Transcripció manual"
+
+#~ msgid "Automatic Transcription"
+#~ msgstr "Transcripció automàtica"
+
+#~ msgid "Show help"
+#~ msgstr "Mostra l’ajuda"
+
+#~ msgid "Precision"
+#~ msgstr "Precisió"
+
+#~ msgid "Full Seconds"
+#~ msgstr "Segons complets"
+
+#~ msgid "10th Seconds"
+#~ msgstr "Dècimes de segon"
+
+#~ msgid "100th Seconds"
+#~ msgstr "Centèsimes de segon"
+
+#~ msgid "Fraction Separator"
+#~ msgstr "Separador fraccionari"
+
+#~ msgid ". (Point)"
+#~ msgstr ". (punt)"
+
+#~ msgid "- (Hyphen)"
+#~ msgstr "- (guionet)"
+
+#~ msgid "None"
+#~ msgstr "Cap"
+
+#~ msgid "Preview"
+#~ msgstr "Previsualització"
+
+#~ msgid "Speech Recognition"
+#~ msgstr "Reconeixement de veu"
+
+#~ msgid "Language Models"
+#~ msgstr "Models de llenguatge"
+
+#~ msgid ""
+#~ "Inspect configuration details, learn how to install model data, and "
+#~ "choose a configuration for automatic speech recognition."
+#~ msgstr ""
+#~ "Inspeccioneu els detalls de la configuració, apreneu com instal·lar dades "
+#~ "del model i trieu una configuració per al reconeixement de veu automàtic."
+
+#~ msgid "Import configuration from file"
+#~ msgstr "Importa la configuració des d’un fitxer"
+
+#~ msgid "Speed:"
+#~ msgstr "Velocitat:"
+
+#~ msgid "Volume"
+#~ msgstr "Volum"
 
 #~ msgid "Follow cursor"
 #~ msgstr "Segueix el cursor"
@@ -1023,10 +886,6 @@ msgstr "No s’ha trobat el fitxer: %s"
 
 #~ msgid "Show the time scale with time marks"
 #~ msgstr "Mostra la escala de temps amb marques"
-
-#, c-format
-#~ msgid "Error opening help: %s"
-#~ msgstr "Error obrint ajuda: %s"
 
 #~ msgid "Parlatype Preferences"
 #~ msgstr "Preferències de Parlatype"
