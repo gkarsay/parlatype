@@ -36,9 +36,6 @@ Parlatype can be controlled with the “Play” button from your multimedia keyb
 ### Footpedals
 This subsection documents how to get various footpedals to play nicely with Parlatype. Go to the [footpedals](footpedals/footpedals.md) section for details.
 
-## Start on top
-Parlatype can start on top of other windows. If you are working with a maximized text application, you can still see the Parlatype window.
-
 ## Help pages
 Parlatype is easy to use nevertheless everything is documented in the help pages. You can see the [English help online](help-online/index.html).
 
