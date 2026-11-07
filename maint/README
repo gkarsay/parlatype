@@ -69,13 +69,11 @@ Update data/screenshot.png, if necessary,
   see https://www.freedesktop.org/software/appstream/docs/chap-Quickstart.html
 
 Update copyright year in about box in src/pt-app.c
+Update NEWS (release notes)
+Update data/parlatype.metainfo.xml.in (short release notes)
 
 Release commit:
 - Update version in meson.build
-- Update README.md dependencies (and package names) if necessary
-- Update library so version in libparlatype/meson.build
-- Update NEWS (release notes)
-- Update data/parlatype.metainfo.xml.in (short release notes)
 - Commit message "v1.x.x", next line "New major/minor/bugfix release"
 - Tag commit "v1.x.x"
 

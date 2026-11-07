@@ -1,3 +1,30 @@
+Overview of Changes in Parlatype 4.90 – 2026-11-07
+==================================================
+
+* New: many bugs, this is an alpha preview of Parlatype 5.0
+* New: user interface with text editor
+* New: file loading and saving in a format similar to OpenDocument
+* New: whisper.cpp support
+* New: downloader for language models
+* New: plugin system using libpeas 2.0
+* Removed: support for LibreOffice extension
+* Removed: help pages
+* Removed: timestamp options
+* Removed: separate public library
+
+* New or updated translations via Weblate:
+  - Basque: Alexander Gabilondo
+  - Catalan: Adolfo Jayme Barrientos
+  - Croatian: Milo Ivir
+  - French: phylaine MacKendal
+  - German: Gabor Karsay
+  - Indonesian: Arif Budiman
+  - Japanese: akinobu nishi
+  - Lithuanian: Moo
+  - Tamil: Kevin Demon
+  - Tamil: தமிழ்நேரம்
+
+
 Overview of Changes in Parlatype 4.3 – 2025-07-01
 =================================================
 

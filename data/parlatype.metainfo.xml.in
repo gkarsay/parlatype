@@ -39,18 +39,28 @@
   </provides>
 
   <translation type="gettext">parlatype</translation>
-  <translation type="gettext">libparlatype</translation>
-
-  <suggests>
-    <id>libreoffice-writer.desktop</id>
-  </suggests>
 
   <releases>
+    <release version="4.90" date="2026-11-07">
+      <description>
+        <p>This is an alpha preview of Parlatype 5.0.</p>
+        <ul>
+          <li>New user interface with text editor.</li>
+          <li>File loading and saving in a format similar to OpenDocument.</li>
+          <li>Speech recognition with whisper.cpp supported.</li>
+          <li>Downloader for Whisper models.</li>
+          <li>Removed: support for LibreOffice extension.</li>
+          <li>Removed: help pages.</li>
+          <li>Removed: timestamp options.</li>
+          <li>Translation updates for several languages.</li>
+        </ul>
+      </description>
+    </release>
     <release version="4.3" date="2025-07-01">
       <description>
         <ul>
           <li>Support for PocketSphinx 5.</li>
-          <li>MPRIS interface provides album, artist, title</li>
+          <li>MPRIS interface provides album, artist, title.</li>
           <li>Translation updates for several languages.</li>
         </ul>
       </description>
