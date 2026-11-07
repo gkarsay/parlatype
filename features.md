@@ -36,9 +36,6 @@ Parlatype can be controlled with the “Play” button from your multimedia keyb
 ### Footpedals
 This subsection documents how to get various footpedals to play nicely with Parlatype. Go to the [footpedals](footpedals/footpedals.md) section for details.
 
-## Help pages
-Parlatype is easy to use nevertheless everything is documented in the help pages. You can see the [English help online](help-online/index.html).
-
 ## International
 The user interface is fully translatable, any help in translations is welcome!
 
