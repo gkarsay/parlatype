@@ -7,8 +7,7 @@
 #include <gst/app/gstappsink.h>
 #include <gst/audio/audio.h>
 #include <pocketsphinx.h>
-#include <sphinxbase/err.h>
-#include <sphinxbase/strfuncs.h>
+#include <pocketsphinx/err.h>
 
 struct _PtpPocketsphinx
 {
@@ -28,12 +27,20 @@ struct _PtpPocketsphinx
   gboolean listening_started;
   gint     uttno;
 
-  char *last_result; /* String of last partial result. */
-  char *result;
+  gint64 last_result_time;
+  char  *last_result; /* String of last partial result. */
+  char  *result;
 
   uint source_handler;
   int  counter;
 };
+
+typedef struct
+{
+  PtpPocketsphinx *self;
+  const char      *text;
+  gboolean         final;
+} TextData;
 
 enum
 {
@@ -85,10 +92,18 @@ ps_decoder_get_type (void)
 G_DEFINE_FINAL_TYPE_WITH_CODE (PtpPocketsphinx, ptp_pocketsphinx, G_TYPE_OBJECT, G_IMPLEMENT_INTERFACE (PT_TYPE_SPEECH_RECOGNIZER, pt_speech_recognizer_init))
 
 static gboolean
-insert_text_cb (PtpPocketsphinx *self)
+insert_text_cb (TextData *data)
 {
-  pt_text_view_insert_asr_final (self->text_view, self->result);
-  self->source_handler = 0;
+  if (data->final)
+    {
+      pt_text_view_insert_asr_final (data->self->text_view, (void *) data->text);
+    }
+  else
+    {
+      pt_text_view_insert_asr_hypothesis (data->self->text_view, (void *) data->text);
+    }
+  g_free ((void *) data->text);
+  g_slice_free (TextData, data);
   return G_SOURCE_REMOVE;
 }
 
@@ -108,10 +123,11 @@ ptp_pocketsphinx_finalize_utt (PtpPocketsphinx *self)
 
   if (hyp)
     {
-      self->result = hyp;
-      self->source_handler = g_idle_add (G_SOURCE_FUNC (insert_text_cb), self);
-      /*ptp_pocketsphinx_post_message (self, TRUE, GST_CLOCK_TIME_NONE,
-                                    ps_get_prob (self->ps), hyp);*/
+      TextData *data = g_new (TextData, 1);
+      data->self = self;
+      data->text = g_strdup (hyp);
+      data->final = TRUE;
+      self->source_handler = g_idle_add (G_SOURCE_FUNC (insert_text_cb), data);
     }
 }
 
@@ -165,25 +181,27 @@ new_sample_cb (GstAppSink *sink,
     {
       ptp_pocketsphinx_finalize_utt (self);
     }
-  /*else if (self->last_result_time == 0
-           || (gst_clock_get_time (self->clock) - self->last_result_time) > GST_SECOND)
+  else if (self->last_result_time == 0 || (g_get_monotonic_time () - self->last_result_time) > 1000000)
     {
       int32       score;
       char const *hyp;
 
       hyp = ps_get_hyp (self->ps, &score);
-      self->last_result_time = gst_clock_get_time (self->clock);
+      self->last_result_time = g_get_monotonic_time ();
       if (hyp && strlen (hyp) > 0)
         {
           if (self->last_result == NULL || 0 != strcmp (self->last_result, hyp))
             {
               g_free (self->last_result);
               self->last_result = g_strdup (hyp);
-              ptp_pocketsphinx_post_message (self, FALSE, self->last_result_time,
-                                            ps_get_prob (self->ps), hyp);
+              TextData *data = g_new (TextData, 1);
+              data->self = self;
+              data->text = g_strdup (hyp);
+              data->final = FALSE;
+              self->source_handler = g_idle_add (G_SOURCE_FUNC (insert_text_cb), data);
             }
         }
-    }*/
+    }
 
   return GST_FLOW_OK;
 }
@@ -224,6 +242,9 @@ ptp_pocketsphinx_load (PtSpeechRecognizer *pt_speech_recognizer,
                               "rate", G_TYPE_INT, 16000, NULL);
   g_object_set (self->appsink, "caps", caps, NULL);
   gst_caps_unref (caps);
+
+  g_log_structured (G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                    "MESSAGE", "plugin pocketsphinx loaded");
 }
 
 static void
