@@ -10,15 +10,11 @@
         "--socket=fallback-x11",
         "--socket=wayland",
         "--socket=pulseaudio",
-        "--filesystem=home:ro",
         "--share=network"
     ],
     "cleanup" : [
-        "*.la",
-        "*.a",
         "/include",
         "/lib/pkgconfig",
-        "/libexec",
         "/share/man"
     ],
     "modules" : [
@@ -75,13 +71,10 @@
             "sources" : [
                 {
                     "type" : "git",
-                    "branch" : "pt5",
+                    "branch" : "main",
                     "path" : "../"
                 }
             ]
         }
-    ],
-    "build-options" : {
-        "env" : {        }
-    }
+    ]
 }

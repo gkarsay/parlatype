@@ -1,7 +1,7 @@
 {
     "app-id" : "xyz.parlatype.Parlatype",
     "runtime" : "org.gnome.Platform",
-    "runtime-version" : "50",
+    "runtime-version" : "51",
     "sdk" : "org.gnome.Sdk",
     "command" : "parlatype",
     "finish-args" : [
@@ -10,13 +10,11 @@
         "--socket=fallback-x11",
         "--socket=wayland",
         "--socket=pulseaudio"
+        "--share=network"
     ],
     "cleanup" : [
-        "*.la",
-        "*.a",
         "/include",
         "/lib/pkgconfig",
-        "/libexec",
         "/share/man"
     ],
     "modules" : [
@@ -62,7 +60,7 @@
             "sources" : [
                 {
                     "type" : "git",
-                    "branch" : "pt5",
+                    "branch" : "main",
                     "path" : "../"
                 },
                 {

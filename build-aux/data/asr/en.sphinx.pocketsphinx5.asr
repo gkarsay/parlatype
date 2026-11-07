@@ -1,7 +1,7 @@
 [Model]
 Version=1.0
-Name=Pocketsphinx 5
-Plugin=parlasphinx
+Name=Pocketsphinx
+Plugin=pocketsphinx
 BaseFolder=/app/share/pocketsphinx/model/en-us
 Language=en
 Howto=Already preinstalled

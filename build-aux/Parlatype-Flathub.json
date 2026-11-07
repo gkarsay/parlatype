@@ -1,0 +1,108 @@
+{
+    "app-id" : "xyz.parlatype.Parlatype",
+    "runtime" : "org.gnome.Platform",
+    "runtime-version" : "51",
+    "sdk" : "org.gnome.Sdk",
+    "command" : "parlatype",
+    "finish-args" : [
+        "--device=dri",
+        "--share=ipc",
+        "--socket=fallback-x11",
+        "--socket=wayland",
+        "--socket=pulseaudio",
+        "--share=network"
+    ],
+    "cleanup" : [
+        "/include",
+        "/lib/pkgconfig",
+        "/share/man"
+    ],
+    "modules" : [
+        {
+            "name" : "pocketsphinx",
+            "buildsystem" : "cmake",
+            "config-opts" : [
+                "-DBUILD_SHARED_LIBS=yes"
+            ],
+            "sources" : [
+                {
+                    "type" : "archive",
+                    "url" : "https://github.com/cmusphinx/pocketsphinx/archive/refs/tags/v5.0.4.tar.gz",
+                    "sha256" : "9acd63cfdc76bbc85b7b6c6610b7a9cf30c79d5b36a31de7dc2f969e962653d7"
+                }
+            ],
+            "cleanup" : [
+                "/bin/pocketsphinx_*",
+                "/lib/debug/bin/pocketsphinx_*"
+            ]
+        },
+        {
+            "name": "python3-pycurl",
+            "buildsystem": "simple",
+            "build-commands": [
+                "pip3 install --verbose --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} \"pycurl\" --no-build-isolation"
+            ],
+            "sources": [
+                {
+                    "type": "file",
+                    "url": "https://files.pythonhosted.org/packages/a6/b3/93b9b8b4ed45f4700b3f9fc40b5daf189e0badd71d0839a6ad09cefa2245/pycurl-7.49.0.tar.gz",
+                    "sha256": "d4327da9dea72768f942f831bbaa5a64adca4d7c89f3141da7a833d3c600ab90"
+                }
+            ]
+        },
+        {
+            "name" : "whisper.cpp",
+            "buildsystem" : "cmake",
+            "config-opts" : [],
+            "sources" : [
+                {
+                    "type" : "archive",
+                    "url" : "https://github.com/ggml-org/whisper.cpp/archive/refs/tags/v1.9.5.tar.gz",
+                    "sha256" : "ff1a9053feb509ff9d7729703355541ae9690073a6b1c40eb692c962e0dc1720"
+                }
+            ],
+            "cleanup" : []
+        },
+        {
+            "name" : "libpeas",
+            "buildsystem" : "meson",
+            "config-opts" : [
+                "-Dlua51=false",
+                "-Dpython3=true"
+            ],
+            "sources" : [
+                {
+                    "type" : "archive",
+                    "url" : "https://gitlab.gnome.org/GNOME/libpeas/-/archive/2.2.1/libpeas-2.2.1.tar.gz",
+                    "sha256" : "b15f94e165013870f2da2ebb8e77448d8c6b4c8075b74078280e12fbba961f9d"
+                }
+            ]
+        },
+        {
+            "name" : "parlatype",
+            "buildsystem" : "meson",
+            "config-opts" : [
+                "-Dgir=true",
+                "-Dplugin_whisper=true",
+                "-Dplugin_whisper_downloader=true",
+                "-Dplugin_pocketsphinx=true"
+            ],
+            "sources" : [
+                {
+                    "type" : "git",
+                    "branch" : "main",
+                    "path" : "../"
+                },
+                {
+                    "type" : "file",
+                    "path" : "data/asr/en.sphinx.pocketsphinx5.asr",
+                    "dest" : "src/plugins/pocketsphinx/asr"
+                }
+            ],
+            "cleanup" : [
+                "/share/parlatype/asr/de.sphinx.bartsch.voxforge.asr",
+                "/share/parlatype/asr/en.sphinx.cmusphinx5.2.asr"
+            ]
+        }
+    ]
+}
