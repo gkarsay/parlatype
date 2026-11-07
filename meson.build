@@ -1,5 +1,5 @@
 project('parlatype', 'c',
-        version: '4.3',
+        version: '4.90',
         meson_version: '>= 1.10.0',
         license: 'GPL3+',
         default_options: [ 'warning_level=2', 'werror=false', 'c_std=gnu11', ],
