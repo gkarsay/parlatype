@@ -109,6 +109,9 @@ static gboolean
 plugin_is_available (PtConfigList *self,
                      char         *plugin_name)
 {
+  if (plugin_name == NULL)
+    return FALSE;
+
   PeasPluginInfo *info = peas_engine_get_plugin_info (self->engine, plugin_name);
   return info != NULL && peas_plugin_info_is_available (info, NULL);
 }
