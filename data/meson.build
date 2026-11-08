@@ -39,23 +39,10 @@ if appstream_util.found()
   )
 endif
 
-schema_files = [configure_file(
-   build_subdir: join_paths('glib-2.0','schemas'),
-          input: 'parlatype.gschema.xml',
-         output: app_id + '.gschema.xml',
-           copy: true,
-        install: true,
-    install_dir: schema_dir,
-)]
-
-if (get_option('gir'))
-  gschemas_compiled = custom_target('gschemas.compiled',
-              output: 'gschemas.compiled',
-             command: ['glib-compile-schemas', join_paths(meson.current_build_dir(),'glib-2.0','schemas')],
-    build_by_default: true,
-             install: false,
-  )
-endif
+install_data('parlatype.gschema.xml',
+       rename: app_id + '.gschema.xml',
+  install_dir: schema_dir
+)
 
 service_conf = configuration_data()
 service_conf.set ('app_id', app_id)

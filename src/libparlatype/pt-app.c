@@ -33,7 +33,6 @@
 #include "pt-window.h"
 
 #include <adwaita.h>
-#include <girepository/girepository.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <libpeas.h>
@@ -516,8 +515,6 @@ static void
 pt_app_init (PtApp *self)
 {
   self->settings = g_settings_new ("xyz.parlatype.Parlatype");
-  GOptionGroup *gir_group = gi_repository_get_option_group ();
-  g_application_add_option_group (G_APPLICATION (self), g_steal_pointer (&gir_group));
   g_application_add_main_option_entries (G_APPLICATION (self), options);
 }
 
