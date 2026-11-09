@@ -23,6 +23,7 @@ struct _PtpPocketsphinx
 
   size_t frame_size;
 
+  gboolean busy;
   gboolean speech_started;
   gboolean listening_started;
   gint     uttno;
@@ -64,6 +65,7 @@ enum
   PROP_LATDIR,
   PROP_LM_NAME,
   PROP_DECODER,
+  PROP_BUSY,
   N_PROPERTIES
 };
 
@@ -209,6 +211,11 @@ new_sample_cb (GstAppSink *sink,
 static void
 ptp_pocketsphinx_stop (PtSpeechRecognizer *recognizer)
 {
+  PtpPocketsphinx *self = PTP_POCKETSPHINX (recognizer);
+
+  self->busy = FALSE;
+  g_object_notify_by_pspec (G_OBJECT (self),
+                            obj_properties[PROP_BUSY]);
 }
 
 static void
@@ -218,6 +225,10 @@ ptp_pocketsphinx_start (PtSpeechRecognizer *recognizer)
 
   g_signal_connect (self->appsink, "new-sample", G_CALLBACK (new_sample_cb), self);
   g_signal_connect (self->appsink, "eos", G_CALLBACK (eos_cb), self);
+
+  self->busy = TRUE;
+  g_object_notify_by_pspec (G_OBJECT (self),
+                            obj_properties[PROP_BUSY]);
 }
 
 static void
@@ -495,6 +506,9 @@ ptp_pocketsphinx_get_property (GObject    *object,
     case PROP_DSRATIO:
       g_value_set_int (value, ps_config_int (self->config, "ds"));
       break;
+    case PROP_BUSY:
+      g_value_set_boolean (value, self->busy);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
       break;
@@ -521,6 +535,8 @@ ptp_pocketsphinx_init (PtpPocketsphinx *self)
   ps_default_search_args (self->config);
   self->ps = ps_init (self->config);
   g_assert (self->ps != NULL);
+
+  self->busy = FALSE;
 }
 
 static void
@@ -632,6 +648,11 @@ ptp_pocketsphinx_class_init (PtpPocketsphinxClass *klass)
                           "The underlying decoder",
                           PS_DECODER_TYPE,
                           G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+
+  obj_properties[PROP_BUSY] =
+      g_param_spec_boolean (
+          "busy", NULL, NULL, FALSE,
+          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (
       G_OBJECT_CLASS (klass),
