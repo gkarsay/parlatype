@@ -163,13 +163,15 @@ goto_cursor (GtkWidget  *widget,
 }
 
 static void
-pt_window_show_transcription_bar (GtkWidget  *widget,
-                                  const char *action_name,
-                                  GVariant   *param)
+pt_window_toggle_transcription_bar (GtkWidget  *widget,
+                                    const char *action_name,
+                                    GVariant   *param)
 {
   PtWindow *self = PT_WINDOW (widget);
+  gboolean  revealed;
 
-  pt_transcription_bar_set_revealed (self->transcription_bar, TRUE);
+  revealed = pt_transcription_bar_get_revealed (self->transcription_bar);
+  pt_transcription_bar_set_revealed (self->transcription_bar, !revealed);
 }
 
 static void
@@ -1220,7 +1222,7 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_install_action (widget_class, "win.zoom-in", NULL, zoom_in);
   gtk_widget_class_install_action (widget_class, "win.zoom-out", NULL, zoom_out);
   gtk_widget_class_install_action (widget_class, "win.zoom-default", NULL, zoom_default);
-  gtk_widget_class_install_action (widget_class, "win.show-transcription-bar", NULL, pt_window_show_transcription_bar);
+  gtk_widget_class_install_action (widget_class, "win.toggle-transcription-bar", NULL, pt_window_toggle_transcription_bar);
   gtk_widget_class_install_action (widget_class, "win.show-model-dialog", NULL, pt_window_show_model_dialog);
 
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_g, GDK_CONTROL_MASK, "win.goto", NULL);
@@ -1232,7 +1234,7 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_minus, GDK_CONTROL_MASK, "win.zoom-out", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_KP_Subtract, GDK_CONTROL_MASK, "win.zoom-out", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_0, GDK_CONTROL_MASK, "win.zoom-default", NULL);
-  gtk_widget_class_add_binding_action (widget_class, GDK_KEY_r, GDK_CONTROL_MASK, "win.show-transcription-bar", NULL);
+  gtk_widget_class_add_binding_action (widget_class, GDK_KEY_r, GDK_CONTROL_MASK, "win.toggle-transcription-bar", NULL);
 
   /**
    * PtWindow:player:
