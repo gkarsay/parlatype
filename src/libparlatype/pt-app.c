@@ -443,7 +443,7 @@ pt_app_startup (GApplication *app)
                                          "app.quit", quit_accels);
 
   gtk_application_set_accels_for_action (GTK_APPLICATION (self),
-                                         "app.open", open_accels);
+                                         "app.open-audio", open_accels);
 
   style_manager = adw_style_manager_get_default ();
   g_settings_bind_with_mapping (self->settings, "style-variant",

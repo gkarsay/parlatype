@@ -1,0 +1,140 @@
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.0"/>
+  <object class="AdwShortcutsDialog" id="shortcuts_dialog">
+    <child>
+      <object class="AdwShortcutsSection">
+        <property name="title" translatable="yes">General</property>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes">Open Audio File</property>
+            <property name="action-name">app.open-audio</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes">Save File</property>
+            <property name="accelerator">&lt;Ctrl&gt;s</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes">Save File As</property>
+            <property name="accelerator">&lt;Ctrl&gt;&lt;Shift&gt;s</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes">Show/Hide Sidebar</property>
+            <property name="accelerator">F9</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes">Open/Close Main Menu</property>
+            <property name="accelerator">F10</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes">Quit</property>
+            <property name="action-name">app.quit</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwShortcutsSection">
+        <property name="title" translatable="yes">Audio</property>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes">Play/Pause</property>
+            <property name="accelerator">&lt;Ctrl&gt;space</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes">Jump Back</property>
+            <property name="accelerator">&lt;Ctrl&gt;1</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes">Jump Forward</property>
+            <property name="accelerator">&lt;Ctrl&gt;2</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes">Zoom In</property>
+            <property name="accelerator">&lt;Ctrl&gt;plus</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes">Zoom Out</property>
+            <property name="accelerator">&lt;Ctrl&gt;minus</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes">Zoom to Default</property>
+            <property name="accelerator">&lt;Ctrl&gt;0</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes">Open “Go to” Dialog</property>
+            <property name="accelerator">&lt;Ctrl&gt;G</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwShortcutsSection">
+        <property name="title" translatable="yes">Document</property>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes">Insert Timestamp</property>
+            <property name="accelerator">&lt;Ctrl&gt;T</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes">Show/Hide Transcription Bar</property>
+            <property name="accelerator">&lt;Ctrl&gt;R</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes">Zoom In</property>
+            <property name="accelerator">&lt;Ctrl&gt;plus</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes">Zoom Out</property>
+            <property name="accelerator">&lt;Ctrl&gt;minus</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes">Zoom to Default</property>
+            <property name="accelerator">&lt;Ctrl&gt;0</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwShortcutsSection">
+        <property name="title" translatable="yes">Help</property>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title" translatable="yes">Show Keyboard Shortcuts</property>
+            <property name="action-name">app.shortcuts</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

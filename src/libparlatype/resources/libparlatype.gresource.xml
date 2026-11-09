@@ -10,6 +10,7 @@
     <file preprocess="xml-stripblanks">playback-rate-button.ui</file>
     <file preprocess="xml-stripblanks">preferences.ui</file>
     <file preprocess="xml-stripblanks">prefs-install-row.ui</file>
+    <file preprocess="xml-stripblanks">shortcuts-dialog.ui</file>
     <file preprocess="xml-stripblanks">transcription-bar.ui</file>
     <file preprocess="xml-stripblanks">pt-waveviewer.ui</file>
     <file preprocess="xml-stripblanks">volume-button.ui</file>
@@ -21,8 +22,5 @@
     <file preprocess="xml-stripblanks">icons/scalable/actions/speedometer-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/sound-wave-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/view-sidebar-start-symbolic.svg</file>
-  </gresource>
-  <gresource prefix="/xyz/parlatype/Parlatype/gtk">
-    <file preprocess="xml-stripblanks">help-overlay.ui</file>
   </gresource>
 </gresources>

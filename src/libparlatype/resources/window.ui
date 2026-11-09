@@ -210,7 +210,7 @@
         <attribute name="action">app.open-text</attribute>
       </item>
       <item>
-        <attribute name="label" translatable="yes">Associate Audio</attribute>
+        <attribute name="label" translatable="yes">Open Audio</attribute>
         <attribute name="action">app.open-audio</attribute>
       </item>
     </section>
@@ -237,7 +237,7 @@
       </item>
       <item>
         <attribute name="label" translatable="yes">_Keyboard Shortcuts</attribute>
-        <attribute name="action">win.show-help-overlay</attribute>
+        <attribute name="action">app.shortcuts</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">About Parlatype</attribute>

@@ -8,10 +8,10 @@ src/libparlatype/resources/config-view.ui
 src/libparlatype/resources/download-row.ui
 src/libparlatype/resources/editor-theme-selector.ui
 src/libparlatype/resources/goto-dialog.ui
-src/libparlatype/resources/help-overlay.ui
 src/libparlatype/resources/model-dialog.ui
 src/libparlatype/resources/preferences.ui
 src/libparlatype/resources/prefs-install-row.ui
+src/libparlatype/resources/shortcuts-dialog.ui
 src/libparlatype/resources/transcription-bar.ui
 src/libparlatype/resources/window.ui
 src/libparlatype/pt-app.c
