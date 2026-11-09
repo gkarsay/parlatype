@@ -65,6 +65,7 @@ struct _PtWindow
   PtModelDialog    *model_dialog;
 
   /* Main window widgets */
+  GtkToggleButton    *sidebar_button;
   GtkWidget          *waveviewer_stack;
   GtkWidget          *audio_controls;
   GtkWidget          *doc_controls;
@@ -160,6 +161,18 @@ goto_cursor (GtkWidget  *widget,
   PtWindow *self = PT_WINDOW (widget);
 
   pt_waveviewer_set_follow_cursor (PT_WAVEVIEWER (self->waveviewer), TRUE);
+}
+
+static void
+pt_window_toggle_sidebar (GtkWidget  *widget,
+                          const char *action_name,
+                          GVariant   *param)
+{
+  PtWindow *self = PT_WINDOW (widget);
+  gboolean  active;
+
+  active = gtk_toggle_button_get_active (self->sidebar_button);
+  gtk_toggle_button_set_active (self->sidebar_button, !active);
 }
 
 static void
@@ -1213,6 +1226,7 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtWindow, waveviewer_stack);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, timestamp_switch);
   gtk_widget_class_bind_template_child (widget_class, PtWindow, transcription_bar);
+  gtk_widget_class_bind_template_child (widget_class, PtWindow, sidebar_button);
 
   gtk_widget_class_install_action (widget_class, "win.goto", NULL, goto_position);
   gtk_widget_class_install_action (widget_class, "win.goto-cursor", NULL, goto_cursor);
@@ -1223,6 +1237,7 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_install_action (widget_class, "win.zoom-out", NULL, zoom_out);
   gtk_widget_class_install_action (widget_class, "win.zoom-default", NULL, zoom_default);
   gtk_widget_class_install_action (widget_class, "win.toggle-transcription-bar", NULL, pt_window_toggle_transcription_bar);
+  gtk_widget_class_install_action (widget_class, "win.toggle-sidebar", NULL, pt_window_toggle_sidebar);
   gtk_widget_class_install_action (widget_class, "win.show-model-dialog", NULL, pt_window_show_model_dialog);
 
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_g, GDK_CONTROL_MASK, "win.goto", NULL);
@@ -1235,6 +1250,7 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_KP_Subtract, GDK_CONTROL_MASK, "win.zoom-out", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_0, GDK_CONTROL_MASK, "win.zoom-default", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_r, GDK_CONTROL_MASK, "win.toggle-transcription-bar", NULL);
+  gtk_widget_class_add_binding_action (widget_class, GDK_KEY_F9, 0, "win.toggle-sidebar", NULL);
 
   /**
    * PtWindow:player:

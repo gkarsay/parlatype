@@ -16,7 +16,7 @@
         <child type="top">
           <object class="AdwHeaderBar" id="headerbar">
             <child type="start">
-              <object class="GtkToggleButton" id="show_sidebar_button">
+              <object class="GtkToggleButton" id="sidebar_button">
                 <property name="icon-name">view-sidebar-start-symbolic</property>
                 <property name="tooltip-text" translatable="yes" comments="Tooltip for a button which toggles a sidebar">Toggle Sidebar</property>
                 <property name="active">True</property>
@@ -76,7 +76,7 @@
                 <property name="spacing">6</property>
                 <child>
                   <object class="AdwOverlaySplitView" id="audio_split_view">
-                    <property name="show-sidebar" bind-source="show_sidebar_button" bind-property="active" bind-flags="sync-create|bidirectional"/>
+                    <property name="show-sidebar" bind-source="sidebar_button" bind-property="active" bind-flags="sync-create|bidirectional"/>
                     <property name="sidebar">
                       <object class="PtAudioControls" id="audio_controls"/>
                     </property> <!-- sidebar -->
@@ -139,7 +139,7 @@
             </child> <!-- paned top child    -->
             <child>  <!-- paned bottom child -->
               <object class="AdwOverlaySplitView" id="text_split_view">
-                <property name="show-sidebar" bind-source="show_sidebar_button" bind-property="active" bind-flags="sync-create|bidirectional"/>
+                <property name="show-sidebar" bind-source="sidebar_button" bind-property="active" bind-flags="sync-create|bidirectional"/>
                 <property name="sidebar">
                   <object class="GtkBox">
                     <property name="orientation">vertical</property>
