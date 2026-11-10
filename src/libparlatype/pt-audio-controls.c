@@ -356,10 +356,6 @@ pt_audio_controls_class_init (PtAudioControlsClass *klass)
 
   gtk_widget_class_install_action (widget_class, "audio.jump-back", NULL, pt_audio_controls_jump_back_action);
   gtk_widget_class_install_action (widget_class, "audio.jump-forward", NULL, pt_audio_controls_jump_forward_action);
-
-  gtk_widget_class_add_binding_action (widget_class, GDK_KEY_a, GDK_CONTROL_MASK, "audio.jump-back", NULL);
-  gtk_widget_class_add_binding_action (widget_class, GDK_KEY_s, GDK_CONTROL_MASK, "audio.jump-forward", NULL);
-  gtk_widget_class_add_binding_action (widget_class, GDK_KEY_space, GDK_CONTROL_MASK, "audio.play", NULL);
 }
 
 /**

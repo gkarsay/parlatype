@@ -413,6 +413,36 @@ pt_window_load_document (PtWindow *self,
     }
 }
 
+static void
+pt_window_play_action (GtkWidget  *widget,
+                       const char *action_name,
+                       GVariant   *param)
+{
+  PtWindow *self = PT_WINDOW (widget);
+
+  pt_player_play_pause (self->player);
+}
+
+static void
+pt_window_jump_back_action (GtkWidget  *widget,
+                            const char *action_name,
+                            GVariant   *param)
+{
+  PtWindow *self = PT_WINDOW (widget);
+
+  pt_player_jump_back (self->player);
+}
+
+static void
+pt_window_jump_forward_action (GtkWidget  *widget,
+                               const char *action_name,
+                               GVariant   *param)
+{
+  PtWindow *self = PT_WINDOW (widget);
+
+  pt_player_jump_forward (self->player);
+}
+
 void
 pt_window_save_action (GtkWidget  *widget,
                        const char *action_name,
@@ -1239,6 +1269,9 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_install_action (widget_class, "win.toggle-transcription-bar", NULL, pt_window_toggle_transcription_bar);
   gtk_widget_class_install_action (widget_class, "win.toggle-sidebar", NULL, pt_window_toggle_sidebar);
   gtk_widget_class_install_action (widget_class, "win.show-model-dialog", NULL, pt_window_show_model_dialog);
+  gtk_widget_class_install_action (widget_class, "win.play", NULL, pt_window_play_action);
+  gtk_widget_class_install_action (widget_class, "win.jump-back", NULL, pt_window_jump_back_action);
+  gtk_widget_class_install_action (widget_class, "win.jump-forward", NULL, pt_window_jump_forward_action);
 
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_g, GDK_CONTROL_MASK, "win.goto", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_s, GDK_CONTROL_MASK, "win.save", NULL);
@@ -1251,6 +1284,9 @@ pt_window_class_init (PtWindowClass *klass)
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_0, GDK_CONTROL_MASK, "win.zoom-default", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_r, GDK_CONTROL_MASK, "win.toggle-transcription-bar", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_F9, 0, "win.toggle-sidebar", NULL);
+  gtk_widget_class_add_binding_action (widget_class, GDK_KEY_space, GDK_CONTROL_MASK, "win.play", NULL);
+  gtk_widget_class_add_binding_action (widget_class, GDK_KEY_1, GDK_CONTROL_MASK, "win.jump-back", NULL);
+  gtk_widget_class_add_binding_action (widget_class, GDK_KEY_2, GDK_CONTROL_MASK, "win.jump-forward", NULL);
 
   /**
    * PtWindow:player:
