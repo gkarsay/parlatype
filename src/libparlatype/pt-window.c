@@ -1013,7 +1013,8 @@ pt_window_confirm_cb (GObject      *object,
   else
     {
       /* show error messages except user cancelled operation */
-      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) &&           /* from Save changes dialog */
+          !g_error_matches (error, GTK_DIALOG_ERROR, GTK_DIALOG_ERROR_DISMISSED)) /* from GtkFileDialog */
         {
           pt_error_message (self, error->message);
         }

@@ -73,13 +73,14 @@ file_chooser_cb (GObject      *source,
                  gpointer      user_data)
 {
   SaveRequest *sr = user_data;
+  GError      *error = NULL;
 
-  sr->file = gtk_file_dialog_save_finish (GTK_FILE_DIALOG (source), result, NULL);
+  sr->file = gtk_file_dialog_save_finish (GTK_FILE_DIALOG (source), result, &error);
 
   if (sr->file == NULL)
     {
       GTask *task = g_object_get_data (G_OBJECT (sr->dialog), "TASK");
-      g_task_return_boolean (task, FALSE);
+      g_task_return_error (task, error);
       return;
     }
 
