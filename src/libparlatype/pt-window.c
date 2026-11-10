@@ -345,38 +345,9 @@ dialog_save_as_cb (GObject      *source,
 void
 pt_window_save_as (PtWindow *self)
 {
-  GtkFileDialog *dialog;
-  const char    *home_path;
-  GFile         *initial_folder;
-  const char    *basename;
-  char          *filename;
-  GListModel    *filters;
-
   g_return_if_fail (PT_IS_WINDOW (self));
 
-  dialog = gtk_file_dialog_new ();
-  gtk_file_dialog_set_modal (dialog, TRUE);
-
-  gtk_file_dialog_set_title (dialog, _ ("Save as"));
-  filters = pt_file_filters_new (PT_FILTER_TEXT, PT_FILTER_OPEN_DOCUMENT, PT_FILTER_ALL, 0);
-
-  gtk_file_dialog_set_filters (dialog, filters);
-
-  home_path = g_get_home_dir ();
-  initial_folder = g_file_new_for_path (home_path);
-  gtk_file_dialog_set_initial_folder (dialog, initial_folder);
-  basename = _ ("New Document");
-  filename = g_strdup_printf ("%s.pt", basename);
-  gtk_file_dialog_set_initial_name (dialog, filename);
-
-  gtk_file_dialog_save (dialog, GTK_WINDOW (self),
-                        NULL,
-                        dialog_save_as_cb,
-                        self);
-
-  g_object_unref (initial_folder);
-  g_object_unref (dialog);
-  g_free (filename);
+  pt_utils_save_as (GTK_WINDOW (self), NULL, dialog_save_as_cb, self);
 }
 
 /*static void

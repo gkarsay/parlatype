@@ -95,25 +95,7 @@ pt_save_changes_dialog_save (AdwAlertDialog *dialog,
 
   if (sr->file == NULL)
     {
-      GtkFileDialog *file_chooser = gtk_file_dialog_new ();
-      gtk_file_dialog_set_modal (file_chooser, TRUE);
-
-      gtk_file_dialog_set_title (file_chooser, _ ("Save as"));
-      GListModel *filters = pt_file_filters_new (PT_FILTER_TEXT, PT_FILTER_OPEN_DOCUMENT, PT_FILTER_ALL, 0);
-
-      gtk_file_dialog_set_filters (file_chooser, filters);
-
-      const char *home_path = g_get_home_dir ();
-      GFile      *initial_folder = g_file_new_for_path (home_path);
-      gtk_file_dialog_set_initial_folder (file_chooser, initial_folder);
-
-      gtk_file_dialog_save (file_chooser, sr->parent,
-                            NULL,
-                            file_chooser_cb,
-                            sr);
-
-      g_object_unref (initial_folder);
-      g_object_unref (file_chooser);
+      pt_utils_save_as (sr->parent, NULL, file_chooser_cb, sr);
       return;
     }
 

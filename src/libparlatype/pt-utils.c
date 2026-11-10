@@ -283,3 +283,53 @@ pt_utils_copy_configs_async (char               *source_folder,
   g_task_run_in_thread (task, copy_configs);
   g_object_unref (task);
 }
+
+/**
+ * pt_utils_save_as:
+ * @parent: (transfer none): parent window for dialog
+ * @cancellable: (nullable): a #GCancellable or NULL
+ * @callback: (scope async) (closure user_data): a #GAsyncReadyCallback to call when the operation is complete
+ * @user_data: user_data for @callback
+ *
+ * Creates and runs a dialog for saving a file.
+ */
+void
+pt_utils_save_as (GtkWindow          *parent,
+                  GCancellable       *cancellable,
+                  GAsyncReadyCallback callback,
+                  gpointer            user_data)
+{
+  GtkFileDialog *dialog;
+  const char    *home_path;
+  GFile         *initial_folder;
+  const char    *basename;
+  char          *filename;
+  GListModel    *filters;
+
+  g_return_if_fail (GTK_IS_WINDOW (parent));
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
+
+  dialog = gtk_file_dialog_new ();
+  gtk_file_dialog_set_modal (dialog, TRUE);
+
+  gtk_file_dialog_set_title (dialog, _ ("Save as"));
+  filters = pt_file_filters_new (PT_FILTER_TEXT, PT_FILTER_OPEN_DOCUMENT, PT_FILTER_ALL, 0);
+
+  gtk_file_dialog_set_filters (dialog, filters);
+
+  home_path = g_get_home_dir ();
+  initial_folder = g_file_new_for_path (home_path);
+  gtk_file_dialog_set_initial_folder (dialog, initial_folder);
+  basename = _ ("New Document");
+  filename = g_strdup_printf ("%s.pt", basename);
+  gtk_file_dialog_set_initial_name (dialog, filename);
+
+  gtk_file_dialog_save (dialog, parent,
+                        cancellable,
+                        callback,
+                        user_data);
+
+  g_object_unref (initial_folder);
+  g_object_unref (dialog);
+  g_free (filename);
+}

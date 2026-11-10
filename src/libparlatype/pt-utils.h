@@ -43,3 +43,8 @@ void        pt_utils_copy_configs_async   (char               *source_folder,
                                            GCancellable       *cancellable,
                                            GAsyncReadyCallback callback,
                                            gpointer            user_data);
+
+void        pt_utils_save_as              (GtkWindow           *parent,
+                                           GCancellable        *cancellable,
+                                           GAsyncReadyCallback  callback,
+                                           gpointer             user_data);
