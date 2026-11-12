@@ -1,3 +1,50 @@
+/* Copyright (c) 2014 Alpha Cephei Inc.
+ * Copyright (c) 2007 Carnegie Mellon University.  All rights
+ * reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in
+ *    the documentation and/or other materials provided with the
+ *    distribution.
+ *
+ * This work was supported in part by funding from the Defense Advanced
+ * Research Projects Agency and the National Science Foundation of the
+ * United States of America, and the CMU Sphinx Speech Consortium.
+ *
+ * THIS SOFTWARE IS PROVIDED BY CARNEGIE MELLON UNIVERSITY ``AS IS'' AND
+ * ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL CARNEGIE MELLON UNIVERSITY
+ * NOR ITS EMPLOYEES BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * Based on work of David Huggins-Daines <dhuggins@cs.cmu.edu>
+ * Adapted for Parlatype by Gabor Karsay <gabor.karsay@gmx.at>
+ */
+
+/* This plugin has several issues:
+ * - Utterances seem to be ended only at the very end of a file.
+ * - Thus it produces mostly non-final hypotheses that get longer and longer.
+ * - I failed to implement the endpointer API which might solve those problems.
+ * - Timestamps and probability/confidence are not implemented yet.
+ * - It freezes when stopped and started again.
+ * - Pocketsphinx is not a good choice for general ASR.
+ */
+
+#define G_LOG_DOMAIN "ptp-pocketsphinx"
+
 #include "config.h"
 
 #include "ptp-pocketsphinx.h"
@@ -16,6 +63,7 @@ struct _PtpPocketsphinx
   PtPlayer   *player;
   PtTextView *text_view;
   GstElement *appsink;
+  GstAdapter *adapter;
 
   ps_decoder_t    *ps;
   ps_endpointer_t *ep;
@@ -40,12 +88,14 @@ typedef struct
 {
   PtpPocketsphinx *self;
   const char      *text;
+  gint32           prob;
   gboolean         final;
 } TextData;
 
 enum
 {
-  PROP_HMM_DIR = 1,
+  PROP_0,
+  PROP_HMM_DIR,
   PROP_LM_FILE,
   PROP_LMCTL_FILE,
   PROP_DICT_FILE,
@@ -70,7 +120,13 @@ enum
 };
 
 static GParamSpec *obj_properties[N_PROPERTIES];
-static void        pt_speech_recognizer_init (PtSpeechRecognizerInterface *iface);
+static void        pt_speech_recognizer_iface_init (PtSpeechRecognizerInterface *iface);
+
+static void
+wrap_ps_free (void *ps)
+{
+  (void) ps_free ((ps_decoder_t *) ps);
+}
 
 /*
  * Boxing of ps_decoder_t.
@@ -85,13 +141,13 @@ ps_decoder_get_type (void)
       ps_decoder_type = g_boxed_type_register_static ("PSDecoder",
                                                       /* Conveniently, these should just work. */
                                                       (GBoxedCopyFunc) ps_retain,
-                                                      (GBoxedFreeFunc) ps_free);
+                                                      (GBoxedFreeFunc) wrap_ps_free);
     }
 
   return ps_decoder_type;
 }
 
-G_DEFINE_FINAL_TYPE_WITH_CODE (PtpPocketsphinx, ptp_pocketsphinx, G_TYPE_OBJECT, G_IMPLEMENT_INTERFACE (PT_TYPE_SPEECH_RECOGNIZER, pt_speech_recognizer_init))
+G_DEFINE_FINAL_TYPE_WITH_CODE (PtpPocketsphinx, ptp_pocketsphinx, G_TYPE_OBJECT, G_IMPLEMENT_INTERFACE (PT_TYPE_SPEECH_RECOGNIZER, pt_speech_recognizer_iface_init))
 
 static gboolean
 insert_text_cb (TextData *data)
@@ -128,6 +184,7 @@ ptp_pocketsphinx_finalize_utt (PtpPocketsphinx *self)
       TextData *data = g_new (TextData, 1);
       data->self = self;
       data->text = g_strdup (hyp);
+      data->prob = ps_get_prob (self->ps);
       data->final = TRUE;
       self->source_handler = g_idle_add (G_SOURCE_FUNC (insert_text_cb), data);
     }
@@ -183,7 +240,7 @@ new_sample_cb (GstAppSink *sink,
     {
       ptp_pocketsphinx_finalize_utt (self);
     }
-  else if (self->last_result_time == 0 || (g_get_monotonic_time () - self->last_result_time) > 1000000)
+  else if (self->last_result_time == 0 || (g_get_monotonic_time () - self->last_result_time) > 10000)
     {
       int32       score;
       char const *hyp;
@@ -264,7 +321,7 @@ ptp_pocketsphinx_unload (PtSpeechRecognizer *self)
 }
 
 static void
-pt_speech_recognizer_init (PtSpeechRecognizerInterface *iface)
+pt_speech_recognizer_iface_init (PtSpeechRecognizerInterface *iface)
 {
   iface->load = ptp_pocketsphinx_load;
   iface->unload = ptp_pocketsphinx_unload;
@@ -530,12 +587,18 @@ ptp_pocketsphinx_finalize (GObject *object)
 static void
 ptp_pocketsphinx_init (PtpPocketsphinx *self)
 {
+  self->adapter = gst_adapter_new ();
+
   /* Parse default command-line options. */
   self->config = ps_config_init (NULL);
   ps_default_search_args (self->config);
   self->ps = ps_init (self->config);
   g_assert (self->ps != NULL);
 
+  self->ep = ps_endpointer_init (0, 0.0, 0,
+                                 ps_config_int (self->config, "samprate"), 0);
+  g_assert (self->ep != NULL);
+  self->frame_size = ps_endpointer_frame_size (self->ep) * 2;
   self->busy = FALSE;
 }
 
