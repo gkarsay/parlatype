@@ -227,7 +227,7 @@
     <section>
       <item>
         <attribute name="label" translatable="yes">Transcribe…</attribute>
-        <attribute name="action">win.show-transcription-bar</attribute>
+        <attribute name="action">win.toggle-transcription-bar</attribute>
       </item>
     </section>
     <section>
