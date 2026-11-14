@@ -435,6 +435,36 @@ make_config_dir_cb (GObject      *source_object,
 }
 
 /**
+ * pt_config_list_get_n_installed:
+ * @self: a `PtConfigList`
+ *
+ * Returns the number of installed models.
+ *
+ * Returns: the number of installed models.
+ */
+guint
+pt_config_list_get_n_installed (PtConfigList *self)
+{
+  g_return_val_if_fail (PT_IS_CONFIG_LIST (self), 0);
+
+  guint     n_installed = 0;
+  guint     n_configs = g_list_model_get_n_items (G_LIST_MODEL (self));
+  PtConfig *config;
+
+  for (uint i = 0; i < n_configs; i++)
+    {
+      config = g_list_model_get_item (G_LIST_MODEL (self), i);
+      if (pt_config_is_installed (config))
+        {
+          n_installed++;
+        }
+      g_object_unref (config);
+    }
+
+  return n_installed;
+}
+
+/**
  * pt_config_list_get_active:
  * @self: a `PtConfigList`
  *
