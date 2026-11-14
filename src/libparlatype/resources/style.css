@@ -38,6 +38,11 @@ pt_textview button {
   min-height: 0;
 }
 
+/* ModelDialog */
+.model-page {
+  padding: 0 12px;
+}
+
 /* Download Row */
 row grid {
   margin-left: 12px;

@@ -5,6 +5,7 @@ src/libparlatype/gst/gst-helpers.c
 src/libparlatype/resources/audio-controls.ui
 src/libparlatype/resources/config-overview.ui
 src/libparlatype/resources/config-view.ui
+src/libparlatype/resources/config-view-help.ui
 src/libparlatype/resources/download-row.ui
 src/libparlatype/resources/editor-theme-selector.ui
 src/libparlatype/resources/goto-dialog.ui

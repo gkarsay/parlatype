@@ -50,7 +50,7 @@ struct _PtConfigView
   PtDownloader *downloader;
 
   GtkBox              *page;
-  AdwStatusPage       *status_page;
+  GtkWidget           *title;
   GtkWidget           *name_row;
   AdwActionRow        *language_row;
   AdwActionRow        *plugin_row;
@@ -413,7 +413,7 @@ pt_config_view_constructed (GObject *object)
   AdwPreferencesGroup *group;
 
   self->binding1 = g_object_bind_property (self->config, "name",
-                                           self->status_page, "title",
+                                           self->title, "label",
                                            G_BINDING_SYNC_CREATE);
 
   self->binding2 = g_object_bind_property (self->config, "downloadable",
@@ -495,6 +495,7 @@ static void
 pt_config_view_init (PtConfigView *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
+
   self->in_disposal = FALSE;
 }
 
@@ -510,7 +511,7 @@ pt_config_view_class_init (PtConfigViewClass *klass)
 
   gtk_widget_class_set_template_from_resource (widget_class, "/xyz/parlatype/Parlatype/config-view.ui");
   gtk_widget_class_bind_template_child (widget_class, PtConfigView, page);
-  gtk_widget_class_bind_template_child (widget_class, PtConfigView, status_page);
+  gtk_widget_class_bind_template_child (widget_class, PtConfigView, title);
   gtk_widget_class_bind_template_child (widget_class, PtConfigView, name_row);
   gtk_widget_class_bind_template_child (widget_class, PtConfigView, language_row);
   gtk_widget_class_bind_template_child (widget_class, PtConfigView, plugin_row);

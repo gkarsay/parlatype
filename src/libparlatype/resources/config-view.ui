@@ -11,8 +11,8 @@
           </object>
         </child>
         <property name="content">
-          <object class="AdwStatusPage" id="status_page">
-            <property name="child">
+          <object class="GtkScrolledWindow">
+            <child>
               <object class="AdwClamp">
                 <property name="maximum-size">400</property>
                 <property name="tightening-threshold">300</property>
@@ -20,6 +20,19 @@
                   <object class="GtkBox" id="page">
                     <property name="orientation">vertical</property>
                     <property name="spacing">12</property>
+                    <style>
+                      <class name="model-page"/>
+                    </style>
+                    <child>
+                      <object class="GtkLabel" id="title">
+                        <property name="label">Available Models</property>
+                        <property name="margin-bottom">24</property>
+                        <property name="ellipsize">end</property>
+                        <style>
+                          <class name="title-2"/>
+                        </style>
+                      </object>
+                    </child>
                     <child>
                       <object class="GtkRevealer" id="download_revealer">
                         <property name="reveal-child">True</property>
@@ -74,7 +87,7 @@
                   </object>
                 </property>
               </object>
-            </property>
+            </child>
           </object>
         </property>
       </object>

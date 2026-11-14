@@ -17,10 +17,12 @@
 /**
  * PtModelDialog:
  *
- * A dialog for a single ASR configuration.
+ * A dialog for showing available models.
  *
- * It presents most fields of a `PtConfig`, some of them can be changed, and
- * allows for activating, deactivating or deleting this config.
+ * A sidebar presents available models in two sections: installed and not installed.
+ * Data is pulled from PtConfigList.
+ *
+ * Selecting a model shows details about it.
  */
 
 #include "config.h"
@@ -47,7 +49,6 @@ struct _PtModelDialog
   AdwSidebarSection      *uninstalled_section;
 
   gulong list_handler;
-  gulong download_handler;
 };
 
 enum
@@ -66,20 +67,53 @@ installed_cb (PtConfigItem *item,
               GParamSpec   *pspec,
               gpointer      user_data)
 {
+  /* If a config has been installed, move it from uninstalled section
+   * to installed section.
+   * If it was selected, move selection to new position. */
+
   PtModelDialog *self = PT_MODEL_DIALOG (user_data);
-  if (pt_config_item_is_installed (item))
+  guint          item_index, selected_index;
+  gboolean       selected;
+
+  if (!pt_config_item_is_installed (item))
+    return;
+
+  item_index = adw_sidebar_item_get_index (ADW_SIDEBAR_ITEM (item));
+  selected_index = adw_sidebar_get_selected (self->sidebar);
+  selected = (item_index == selected_index);
+
+  adw_sidebar_section_remove (self->uninstalled_section, ADW_SIDEBAR_ITEM (item));
+  adw_sidebar_section_append (self->installed_section, ADW_SIDEBAR_ITEM (g_object_ref (item)));
+
+  if (selected)
     {
-      adw_sidebar_section_remove (self->uninstalled_section, ADW_SIDEBAR_ITEM (item));
-      adw_sidebar_section_append (self->installed_section, ADW_SIDEBAR_ITEM (g_object_ref (item)));
       GListModel *items = adw_sidebar_section_get_items (self->installed_section);
       guint       last_installed_item = g_list_model_get_n_items (items); // item 0 is overview
       adw_sidebar_set_selected (self->sidebar, last_installed_item);
       g_object_unref (items);
     }
-  /* FIXME update selection in toolbar, too.
-   * Would work with refresh, but deletes all configs.
-   * Problematic e.g. if there are several downloads ongoing */
-  // pt_config_list_refresh (self->config_list);
+}
+
+static void
+pt_model_dialog_set_content (PtModelDialog *self)
+{
+  AdwSidebarItem    *item = adw_sidebar_get_selected_item (self->sidebar);
+  GtkWidget         *content_view;
+  AdwNavigationPage *page;
+
+  if (item == NULL || !PT_IS_CONFIG_ITEM (item))
+    {
+      GtkBuilder *builder = gtk_builder_new_from_resource ("/xyz/parlatype/Parlatype/config-view-help.ui");
+      content_view = GTK_WIDGET (gtk_builder_get_object (builder, "toolbar_view"));
+    }
+  else
+    {
+      PtConfig *config = pt_config_item_get_config (PT_CONFIG_ITEM (item));
+      content_view = GTK_WIDGET (pt_config_view_new (config, self->config_list));
+    }
+
+  page = adw_navigation_page_new (content_view, "Title");
+  adw_navigation_split_view_set_content (self->split_view, page);
 }
 
 static void
@@ -111,36 +145,15 @@ items_changed_cb (GListModel *list,
       g_signal_connect (item, "notify::installed", G_CALLBACK (installed_cb), self);
       g_object_unref (config);
     }
-}
 
-static void
-update_content (PtModelDialog *self)
-{
-  AdwSidebarItem *item = adw_sidebar_get_selected_item (self->sidebar);
-  PtConfig       *config;
-
-  if (item == NULL || !PT_IS_CONFIG_ITEM (item))
-    {
-      GtkWidget *view = adw_toolbar_view_new ();
-      GtkWidget *bar = adw_header_bar_new ();
-      adw_toolbar_view_add_top_bar (ADW_TOOLBAR_VIEW (view), bar);
-      AdwNavigationPage *empty_page = adw_navigation_page_new (view, "Title");
-      adw_navigation_split_view_set_content (self->split_view, empty_page);
-      adw_header_bar_set_show_title (ADW_HEADER_BAR (bar), FALSE);
-      return;
-    }
-
-  config = pt_config_item_get_config (PT_CONFIG_ITEM (item));
-  PtConfigView *child = pt_config_view_new (config, self->config_list);
-  adw_navigation_split_view_set_content (self->split_view,
-                                         adw_navigation_page_new (GTK_WIDGET (child), "Title"));
+  pt_model_dialog_set_content (self);
 }
 
 static void
 sidebar_activated_cb (PtModelDialog *self,
                       guint          index)
 {
-  update_content (self);
+  pt_model_dialog_set_content (self);
   adw_navigation_split_view_set_show_content (self->split_view, TRUE);
 }
 
@@ -189,7 +202,6 @@ static void
 pt_model_dialog_init (PtModelDialog *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
-  update_content (self);
 }
 
 static void
@@ -208,6 +220,7 @@ pt_model_dialog_class_init (PtModelDialogClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PtModelDialog, installed_section);
   gtk_widget_class_bind_template_child (widget_class, PtModelDialog, uninstalled_section);
   gtk_widget_class_bind_template_callback (widget_class, sidebar_activated_cb);
+  gtk_widget_class_add_binding_action (widget_class, GDK_KEY_Escape, GDK_NO_MODIFIER_MASK, "window.close", NULL);
 
   /**
    * PtModelDialog:asr-manager:

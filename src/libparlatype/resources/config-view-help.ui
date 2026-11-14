@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.0"/>
+  <object class="AdwToolbarView" id="toolbar_view">
+    <child type="top">
+      <object class="AdwHeaderBar">
+        <property name="show-title">False</property>
+      </object>
+    </child>
+    <property name="content">
+      <object class="GtkScrolledWindow">
+        <child>
+          <object class="AdwClamp">
+            <property name="orientation">horizontal</property>
+            <property name="maximum-size">400</property>
+            <property name="tightening-threshold">300</property>
+            <property name="child">
+              <object class="GtkBox" id="page">
+                <property name="orientation">vertical</property>
+                <property name="spacing">12</property>
+                <style>
+                  <class name="model-page"/>
+                </style>
+                <child>
+                  <object class="GtkLabel" id="title">
+                    <property name="label">Available Models</property>
+                    <property name="ellipsize">end</property>
+                    <property name="margin-bottom">32</property>
+                    <style>
+                      <class name="title-2"/>
+                    </style>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwPreferencesGroup">
+                    <property name="title" translatable="yes">Download for Local Use</property>
+                    <property name="description" translatable="yes">To transcribe speech you have to download a suitable model first. It is then used locally on your computer, your data is kept private.</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwPreferencesGroup">
+                    <property name="title" translatable="yes">Consider Size</property>
+                    <property name="description" translatable="yes">The bigger the model the more accurate the transcription will be. However, it will need more resources on your computer. Maybe try a smaller model first.</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwPreferencesGroup">
+                    <property name="title" translatable="yes">Consider Language</property>
+                    <property name="description" translatable="yes">There are multilingual models or models for a single language.</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwPreferencesGroup">
+                    <property name="title" translatable="yes">Choose From Sidebar</property>
+                    <property name="description" translatable="yes">Select a suitable model from the list in the left. The model page presents relevant information like download size and supported language.</property>
+                  </object>
+                </child>
+              </object>
+            </property>
+          </object>
+        </child>
+      </object>
+    </property>
+  </object>
+</interface>
